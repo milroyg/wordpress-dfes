@@ -1,0 +1,124 @@
+@charset "UTF-8";
+
+/*
+RTL CSS
+*/
+
+body {
+    direction: rtl;
+    unicode-bidi: embed;
+}
+
+caption,
+th,
+td {
+    text-align: right;
+}
+
+pre,
+code {
+    direction: ltr;
+}
+
+.topbar-left ul li>i,
+.topbar-right ul li>i {
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+.sm,
+.sm ul,
+.sm li {
+    direction: rtl;
+    text-align: right;
+}
+
+.slider-content.text-left {
+    direction: rtl;
+    text-align: right !important;
+}
+
+.about-a-left {
+    float: right;
+    padding-right: 0;
+    position: relative;
+    margin-right: 0;
+    direction: rtl;
+    padding-left: 22px;
+}
+
+.about-a-right {
+    float: right;
+    direction: rtl;
+    margin-right: 25px;
+}
+
+.about-a-left:before {
+    right: auto;
+    left: 0;
+}
+
+.xevso-ft-content ul li a:before {
+    direction: rtl;
+    float: right;
+    margin-left: 10px;
+}
+
+blockquote {
+    text-align: right;
+    direction: rtl;
+}
+
+.xevso-counter {
+    text-align: right;
+    direction: rtl;
+}
+
+.pricing-table-content {
+    direction: rtl;
+    text-align: right;
+}
+
+.pric-footer {
+    direction: rtl;
+    padding-right: 0;
+}
+
+.header-search-area a:after {
+    left: auto;
+    right: 0;
+    direction: rtl;
+}
+
+.flip-box-front {
+    direction: rtl;
+    text-align: right;
+}
+
+.brea-title h2 {
+    direction: rtl;
+    text-align: right;
+}
+
+.widget.widget_categories ul li a,
+.widget.widget_archive ul li a {
+    float: unset;
+    direction: rtl;
+}
+
+.bcn_display {
+    direction: rtl;
+    text-align: right;
+}
+
+.xevso-cm-btns button[type="submit"] {
+    direction: rtl;
+    text-align: right;
+    padding-right: 20px;
+}
+
+.not-found-dec,
+.xevso-error-imgs {
+    direction: rtl;
+    text-align: right;
+}

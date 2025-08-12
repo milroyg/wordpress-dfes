@@ -1,0 +1,2278 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: xevso\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-15 19:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.5.3; wp-5.8.1\n"
+"X-Domain: xevso"
+
+#: inc/theme-and-options/theme-options/header-options.php:179
+#: inc/theme-and-options/theme-options/header-options.php:184
+#: inc/theme-and-options/theme-options/header-options.php:189
+#: inc/theme-and-options/theme-options/header-options.php:194
+#: inc/theme-and-options/theme-options/header-options.php:331
+#: inc/theme-and-options/theme-options/header-options.php:335
+#: inc/theme-and-options/theme-options/header-options.php:339
+#: inc/theme-and-options/theme-options/header-options.php:343
+#: inc/theme-and-options/theme-options/header-options.php:424
+#: inc/theme-and-options/theme-options/header-options.php:575
+#: inc/theme-and-options/theme-options/header-options.php:579
+#: inc/theme-and-options/theme-options/header-options.php:583
+#: inc/theme-and-options/theme-options/header-options.php:587
+#: inc/theme-and-options/theme-options/header-options.php:668
+#: inc/theme-and-options/theme-options/header-options.php:858
+#: inc/theme-and-options/theme-options/header-options.php:862
+#: inc/theme-and-options/theme-options/header-options.php:866
+#: inc/theme-and-options/theme-options/header-options.php:870
+#: inc/theme-and-options/theme-options/header-options.php:967
+#: inc/theme-and-options/theme-options/header-options.php:1120
+#: inc/theme-and-options/theme-options/header-options.php:1124
+#: inc/theme-and-options/theme-options/header-options.php:1128
+#: inc/theme-and-options/theme-options/header-options.php:1132
+#: inc/theme-and-options/theme-options/header-options.php:1269
+#: inc/theme-and-options/theme-options/header-options.php:1337
+msgid "#"
+msgstr ""
+
+#: inc/theme-and-options/project-metabox.php:60
+msgid "$500"
+msgstr ""
+
+#. number of items in the mini cart.
+#: inc/woocommerce.php:240
+#, php-format
+msgid "%d"
+msgid_plural "%d"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/xevso-default-options.php:8
+msgid "&copy; xevso 2021 | Developed by: <a href=\"#\">Themebuzz</a>"
+msgstr ""
+
+#: inc/function/theme-filter.php:43
+msgid "&nbsp;"
+msgstr ""
+
+#: inc/comments-list.php:50
+msgid "(Edit)"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:76
+msgid "+555 6666 77 88"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:92
+msgid "+90 123 45 456"
+msgstr ""
+
+#: inc/template-tags.php:35
+msgid ", "
+msgstr ""
+
+#: inc/theme-and-options/project-metabox.php:53
+msgid "05 August 2019"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:62
+msgid "100%"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:48
+msgid "24"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:90
+msgid "24/ 7 Free Support"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:102
+#: inc/theme-and-options/theme-options/header-options.php:301
+#: inc/theme-and-options/theme-options/header-options.php:545
+#: inc/theme-and-options/theme-options/header-options.php:828
+#: inc/theme-and-options/theme-options/header-options.php:1090
+msgid "8:00 AM - 10:00 PM"
+msgstr ""
+
+#: template-parts/content-none.php:22
+msgid "</a>."
+msgstr ""
+
+#: inc/template-tags.php:49
+msgid "</span>"
+msgstr ""
+
+#: inc/xevso-default-options.php:20
+msgid ""
+"<h2>Oops!</h2><h2> That page can&rsquo;t be found.</h2><p>We Are Really "
+"Sorry But The Page You Requested is Missing.</p>"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:486
+msgid ""
+"<p><span>New York:</span>27 Division St, New York 10002, United States, "
+"Division St, New York </p>"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:490
+msgid ""
+"<p><span>Phone:</span> +990 123 456 78<br>\n"
+"                            <span>Email:</span> info@example.com </p>"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:55
+msgid "A+"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:246
+#: inc/theme-and-options/theme-options/header-options.php:490
+#: inc/theme-and-options/theme-options/header-options.php:768
+#: inc/theme-and-options/theme-options/header-options.php:1036
+#: inc/theme-and-options/theme-options/header-options.php:1403
+msgid "Active Background"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:247
+#: inc/theme-and-options/theme-options/header-options.php:491
+#: inc/theme-and-options/theme-options/header-options.php:769
+#: inc/theme-and-options/theme-options/header-options.php:1037
+#: inc/theme-and-options/theme-options/header-options.php:1404
+msgid "Active Color"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:47
+msgid "Add Age here"
+msgstr ""
+
+#: inc/theme-and-options/post-format/post-audio.php:26
+msgid "Add Audio Link "
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:54
+msgid "Add Blood Group here"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:84
+#: inc/theme-and-options/theme-options/header-options.php:286
+#: inc/theme-and-options/theme-options/header-options.php:530
+#: inc/theme-and-options/theme-options/header-options.php:813
+#: inc/theme-and-options/theme-options/header-options.php:1075
+msgid "Add Content"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:68
+msgid "Add E-mail here"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:99
+#: inc/theme-and-options/theme-options/footer-options.php:271
+msgid "Add Footer Bottom Background Color"
+msgstr ""
+
+#: inc/theme-and-options/post-format/post-gallery.php:26
+msgid "Add Gallery Image"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:465
+msgid "Add info"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:206
+msgid "Add Info for Footer Three"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:35
+msgid "Add Info for Footer Two"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:392
+msgid "Add Items for Footer Four One Number Items"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:459
+msgid "Add Items for Footer Style Four Two Number Items"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:501
+msgid "Add Items for Footer Style Three 3 Number Items"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:36
+#: inc/theme-and-options/theme-options/footer-options.php:207
+msgid "Add New"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:75
+msgid "Add Phone here"
+msgstr ""
+
+#: inc/theme-and-options/post-format/post-audio.php:33
+msgid "Add Post Audio Link here"
+msgstr ""
+
+#: inc/theme-and-options/post-format/post-video.php:33
+msgid "Add Post Video Link here"
+msgstr ""
+
+#: inc/theme-and-options/project-metabox.php:66
+msgid "Add Project video link"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:40
+msgid "Add Team Designation here"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:33
+msgid "Add Team Sort Designation here"
+msgstr ""
+
+#: inc/theme-and-options/post-format/post-video.php:26
+msgid "Add Video Link "
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:476
+msgid "Add Widget Description"
+msgstr ""
+
+#: inc/function/theme-widget.php:12 inc/function/theme-widget.php:21
+#: inc/function/theme-widget.php:31 inc/function/theme-widget.php:42
+#: inc/function/theme-widget.php:53 inc/function/theme-widget.php:64
+#: inc/function/theme-widget.php:75
+msgid "Add widgets here."
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:61
+msgid "Add Work Progress here"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:66
+msgid "Add your Content for Header One Right Side area"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:26
+msgid "Additional Informations "
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:485
+msgid "Address"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:46
+msgid "Age"
+msgstr ""
+
+#: template-parts/content-team.php:33
+msgid "Age :"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/archive-page-options.php:11
+#: inc/theme-and-options/theme-options/search-page-options.php:11
+msgid "Archive Layout"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/archive-page-options.php:5
+msgid "Archive Page"
+msgstr ""
+
+#: inc/theme-and-options/post-format/post-audio.php:32
+msgid "Audio Link"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/error-page-options.php:49
+msgid "Back Home"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:74
+#: inc/theme-and-options/metabox-options.php:102
+#: inc/theme-and-options/theme-options/header-options.php:351
+#: inc/theme-and-options/theme-options/header-options.php:448
+#: inc/theme-and-options/theme-options/header-options.php:595
+#: inc/theme-and-options/theme-options/header-options.php:692
+#: inc/theme-and-options/theme-options/header-options.php:878
+#: inc/theme-and-options/theme-options/header-options.php:991
+#: inc/theme-and-options/theme-options/header-options.php:1148
+#: inc/theme-and-options/theme-options/header-options.php:1361
+msgid "Background Color"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:104
+#: inc/theme-and-options/theme-options/header-options.php:450
+#: inc/theme-and-options/theme-options/header-options.php:694
+#: inc/theme-and-options/theme-options/header-options.php:993
+#: inc/theme-and-options/theme-options/header-options.php:1363
+msgid "Background Hover Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:168
+#: inc/theme-and-options/theme-options/footer-options.php:340
+#: inc/theme-and-options/theme-options/footer-options.php:557
+#: inc/theme-and-options/theme-options/footer-options.php:602
+msgid "Background Image"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/theme-options.php:89
+msgid "Backup Theme Options all Data"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:154
+#: inc/theme-and-options/theme-options/banner-options.php:6
+msgid "Banner / Breadcrumb Area"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:169
+#: inc/theme-and-options/theme-options/banner-options.php:14
+msgid "Banner Background"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:190
+msgid "Banner Custom Title"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/archive-page-options.php:43
+msgid "Banner Static Title Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/blog-page-options.php:34
+#: inc/theme-and-options/theme-options/error-page-options.php:20
+msgid "Banner Title"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:198
+#: inc/theme-and-options/theme-options/archive-page-options.php:51
+#: inc/theme-and-options/theme-options/banner-options.php:34
+msgid "Banner Title Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/banner-options.php:36
+msgid "Banner title color."
+msgstr ""
+
+#. Name of the template
+msgid "Blank Template"
+msgstr ""
+
+#. Name of the template
+msgid "Blank Template for Home page"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/blog-page-options.php:11
+msgid "Blog Layout"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/blog-page-options.php:5
+msgid "Blog Page"
+msgstr ""
+
+#: inc/xevso-default-options.php:38
+msgid "Blog Posts"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:53
+msgid "Blood Group"
+msgstr ""
+
+#: template-parts/content-team.php:36
+msgid "Blood Group :"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/typography-options.php:12
+msgid "Body"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:90
+#: inc/theme-and-options/theme-options/header-options.php:367
+#: inc/theme-and-options/theme-options/header-options.php:611
+#: inc/theme-and-options/theme-options/header-options.php:894
+#: inc/theme-and-options/theme-options/header-options.php:1164
+msgid "border Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/error-page-options.php:47
+msgid "Bottom Text"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:217
+#: inc/theme-and-options/theme-options/banner-options.php:50
+msgid "Breadcrumb Link Color"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:219
+#: inc/theme-and-options/theme-options/banner-options.php:52
+msgid "Breadcrumb Link color"
+msgstr ""
+
+#: inc/plugins-activation.php:40
+msgid "Breadcrumb Navxt"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:207
+#: inc/theme-and-options/metabox-options.php:209
+#: inc/theme-and-options/theme-options/banner-options.php:42
+#: inc/theme-and-options/theme-options/banner-options.php:44
+msgid "Breadcrumb Text Color"
+msgstr ""
+
+#: inc/theme-and-options/project-metabox.php:32
+msgid "Business Agency "
+msgstr ""
+
+#: inc/header/header-five.php:138
+msgid "Canvas Header"
+msgstr ""
+
+#: template-parts/content-project.php:26
+msgid "Category"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:197
+#: inc/theme-and-options/theme-options/footer-options.php:369
+#: inc/theme-and-options/theme-options/footer-options.php:378
+msgid "Choose CopyRight Background Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:188
+#: inc/theme-and-options/theme-options/footer-options.php:360
+#: inc/theme-and-options/theme-options/footer-options.php:577
+#: inc/theme-and-options/theme-options/footer-options.php:622
+msgid "Choose Footer Background Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:102
+#: inc/theme-and-options/theme-options/footer-options.php:112
+#: inc/theme-and-options/theme-options/footer-options.php:274
+#: inc/theme-and-options/theme-options/footer-options.php:284
+msgid "Choose Icon Background Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:122
+#: inc/theme-and-options/theme-options/footer-options.php:131
+#: inc/theme-and-options/theme-options/footer-options.php:294
+#: inc/theme-and-options/theme-options/footer-options.php:303
+msgid "Choose Icon Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:140
+#: inc/theme-and-options/theme-options/footer-options.php:149
+#: inc/theme-and-options/theme-options/footer-options.php:312
+#: inc/theme-and-options/theme-options/footer-options.php:321
+msgid "Choose link Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:111
+msgid "choose your color for Header One Right Section Content"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:222
+#: inc/theme-and-options/theme-options/header-options.php:468
+#: inc/theme-and-options/theme-options/header-options.php:744
+#: inc/theme-and-options/theme-options/header-options.php:1012
+#: inc/theme-and-options/theme-options/header-options.php:1381
+msgid "Choose your color for Menu"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:202
+msgid "Choose your color for Search and Social"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:239
+#: inc/theme-and-options/theme-options/header-options.php:483
+#: inc/theme-and-options/theme-options/header-options.php:761
+#: inc/theme-and-options/theme-options/header-options.php:1029
+#: inc/theme-and-options/theme-options/header-options.php:1396
+msgid "Choose your color for SubMenu"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1277
+msgid "Choose Your Colors For Help Button"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1183
+msgid "Choose Your Header Search Button Background Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1202
+msgid "Choose Your Header Search Button Background Hover Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1193
+msgid "Choose Your Header Search Button icon Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1212
+msgid "Choose Your Header Search Button icon hover Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1221
+msgid "Choose Your Header Search Input Background Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:31
+msgid "Choose Your Header Style For Global"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:75
+#: inc/theme-and-options/metabox-options.php:111
+#: inc/theme-and-options/theme-options/header-options.php:352
+#: inc/theme-and-options/theme-options/header-options.php:596
+#: inc/theme-and-options/theme-options/header-options.php:879
+#: inc/theme-and-options/theme-options/header-options.php:1149
+msgid "Choose Your Header Top Background Color"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:84
+#: inc/theme-and-options/metabox-options.php:99
+#: inc/theme-and-options/theme-options/header-options.php:361
+#: inc/theme-and-options/theme-options/header-options.php:445
+#: inc/theme-and-options/theme-options/header-options.php:605
+#: inc/theme-and-options/theme-options/header-options.php:689
+#: inc/theme-and-options/theme-options/header-options.php:888
+#: inc/theme-and-options/theme-options/header-options.php:988
+#: inc/theme-and-options/theme-options/header-options.php:1158
+#: inc/theme-and-options/theme-options/header-options.php:1358
+msgid "Choose Your Top Header Colors"
+msgstr ""
+
+#: template-parts/content-project.php:19
+msgid "Client"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/theme-options.php:40
+msgid "Code Editor"
+msgstr ""
+
+#: inc/plugins-activation.php:24
+msgid "Codestar Framework"
+msgstr ""
+
+#: comments.php:79
+msgid "Comment"
+msgstr ""
+
+#: template-parts/content.php:80 template-parts/blog/grid-post-item.php:20
+#: template-parts/blog/sidebar-post-item.php:37
+#: template-parts/blog/sidebar-post-item-audio.php:51
+#: template-parts/blog/sidebar-post-item-gallery.php:57
+#: template-parts/blog/sidebar-post-item-video.php:52
+msgid "Comments"
+msgstr ""
+
+#: comments.php:66
+msgid "Comments are closed."
+msgstr ""
+
+#: comments.php:32
+#, php-format
+msgctxt "comments title"
+msgid "No Comment"
+msgid_plural "%1$s Comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:34
+#, php-format
+msgctxt "comments title"
+msgid "One Comment"
+msgid_plural "%1$s Comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/theme-and-options/project-metabox.php:46
+msgid "Complete"
+msgstr ""
+
+#: inc/plugins-activation.php:45
+msgid "Contact Form 7"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:489
+msgid "Contact Info"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:95
+msgid "Contact Us"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:225
+msgid "Container Background Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:117
+msgid "Content Color"
+msgstr ""
+
+#. %s: Name of current post
+#: template-parts/content.php:94
+#, php-format
+msgid "Continue reading %s"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:583
+msgid "Copyright Text"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/theme-options.php:46
+#: inc/theme-and-options/theme-options/theme-options.php:52
+msgid "CSS Editor"
+msgstr ""
+
+#: template-parts/content-project.php:35
+msgid "Date"
+msgstr ""
+
+#: inc/demo.php:5
+msgid "Demo page"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:406
+#: inc/theme-and-options/theme-options/footer-options.php:475
+msgid "Description"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:39
+msgid "Designation"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1255
+msgid "Do You Need Any Help?"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:67
+msgid "E-mail"
+msgstr ""
+
+#: template-parts/content-team.php:43
+msgid "E-mail :"
+msgstr ""
+
+#: inc/template-tags.php:78
+#, php-format
+msgid "Edit <span class=\"screen-reader-text\">%s</span>"
+msgstr ""
+
+#: inc/plugins-activation.php:30
+msgid "Elementor"
+msgstr ""
+
+#: comments.php:76
+msgid "Email"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:296
+#: inc/theme-and-options/theme-options/header-options.php:540
+#: inc/theme-and-options/theme-options/header-options.php:823
+#: inc/theme-and-options/theme-options/header-options.php:1085
+msgid "Email :"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:398
+#: inc/theme-and-options/theme-options/header-options.php:642
+#: inc/theme-and-options/theme-options/header-options.php:941
+#: inc/theme-and-options/theme-options/header-options.php:1311
+msgid "Enable"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/archive-page-options.php:25
+#: inc/theme-and-options/theme-options/archive-page-options.php:34
+msgid "Enable Archive Banner"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:160
+#: inc/theme-and-options/theme-options/footer-options.php:332
+#: inc/theme-and-options/theme-options/footer-options.php:549
+#: inc/theme-and-options/theme-options/footer-options.php:594
+msgid "Enable Background Image"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:161
+#: inc/theme-and-options/theme-options/footer-options.php:333
+#: inc/theme-and-options/theme-options/footer-options.php:550
+#: inc/theme-and-options/theme-options/footer-options.php:595
+msgid "Enable Background Image if You use Background Image"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:160
+#: inc/theme-and-options/theme-options/blog-page-options.php:25
+msgid "Enable Banner"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1298
+msgid "Enable Canvas Sidebar"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/error-page-options.php:11
+msgid "Enable Error Banner"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/error-page-options.php:37
+msgid "Enable Go Back Home Button"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:32
+msgid "Enable Header"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1248
+msgid "Enable Help Button"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:46
+msgid "Enable Logo"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/archive-page-options.php:29
+msgid "Enable or disable archive page banner."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/archive-page-options.php:38
+msgid "Enable or disable archive Pagination."
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:164
+msgid "Enable or disable banner."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/error-page-options.php:40
+msgid "Enable or disable go back home button."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/error-page-options.php:15
+#: inc/theme-and-options/theme-options/search-page-options.php:29
+msgid "Enable or disable search page banner."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/search-page-options.php:77
+msgid "Enable or disable search Pagination."
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:145
+msgid "Enable Pagination"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1140
+msgid "Enable Search"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/search-page-options.php:25
+#: inc/theme-and-options/theme-options/search-page-options.php:73
+msgid "Enable search Banner"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:135
+msgid "Enable Search Icon"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:149
+msgid "Enable Social Icons"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/general-options.php:33
+msgid "Enable SVG"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/general-options.php:34
+msgid "Enable this Option if you need upload SVG"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:33
+#: inc/theme-and-options/metabox-options.php:53
+msgid "Enable this Options if you need"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:52
+#: inc/theme-and-options/theme-options/header-options.php:789
+msgid "Enable Top Header"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/error-page-options.php:4
+msgid "Error 404"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/error-page-options.php:54
+msgid "Error Bottom Image"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:69
+#: inc/theme-and-options/theme-options/header-options.php:97
+#: inc/theme-and-options/theme-options/header-options.php:297
+#: inc/theme-and-options/theme-options/header-options.php:541
+#: inc/theme-and-options/theme-options/header-options.php:824
+#: inc/theme-and-options/theme-options/header-options.php:1086
+msgid "example@example.com"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:415
+#: inc/theme-and-options/theme-options/header-options.php:659
+#: inc/theme-and-options/theme-options/header-options.php:958
+#: inc/theme-and-options/theme-options/header-options.php:1328
+msgid "Extranal"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:94
+#: inc/theme-and-options/team-metabox.php:111
+#: inc/theme-and-options/theme-options/footer-options.php:432
+#: inc/theme-and-options/theme-options/footer-options.php:447
+#: inc/theme-and-options/theme-options/header-options.php:177
+#: inc/theme-and-options/theme-options/header-options.php:330
+#: inc/theme-and-options/theme-options/header-options.php:574
+#: inc/theme-and-options/theme-options/header-options.php:857
+#: inc/theme-and-options/theme-options/header-options.php:1119
+msgid "Facebook"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:185
+#: inc/theme-and-options/theme-options/footer-options.php:357
+#: inc/theme-and-options/theme-options/footer-options.php:574
+#: inc/theme-and-options/theme-options/footer-options.php:619
+msgid "Footer Background Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:666
+msgid "Footer Body Color"
+msgstr ""
+
+#: inc/function/theme-widget.php:73
+#: inc/theme-and-options/metabox-options.php:239
+#: inc/theme-and-options/theme-options/footer-options.php:26
+msgid "Footer Four"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:543
+msgid "Footer Four CSS Option"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:391
+msgid "Footer Four Item One"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:500
+msgid "Footer Four Item Three"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:458
+msgid "Footer Four Item Two"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:385
+msgid "Footer Four Items"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:674
+msgid "Footer Link Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:682
+msgid "Footer Link Hover Color"
+msgstr ""
+
+#: inc/function/theme-setup.php:44
+msgid "Footer Menu"
+msgstr ""
+
+#: inc/function/theme-widget.php:40
+#: inc/theme-and-options/metabox-options.php:236
+#: inc/theme-and-options/theme-options/footer-options.php:23
+msgid "Footer One"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:14
+msgid "Footer Options"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:227
+#: inc/theme-and-options/theme-options/footer-options.php:7
+msgid "Footer Settings"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:233
+msgid "Footer Styles"
+msgstr ""
+
+#: inc/function/theme-widget.php:62
+#: inc/theme-and-options/metabox-options.php:238
+#: inc/theme-and-options/theme-options/footer-options.php:25
+msgid "Footer Three"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:265
+msgid "Footer Three Bottom CSS Option"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:375
+msgid "Footer Three Copyright Background Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:366
+msgid "Footer three Copyright Text Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:326
+msgid "Footer three CSS Option"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:658
+msgid "Footer Title Color"
+msgstr ""
+
+#: inc/function/theme-widget.php:51
+#: inc/theme-and-options/metabox-options.php:237
+#: inc/theme-and-options/theme-options/footer-options.php:24
+msgid "Footer Two"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:93
+msgid "Footer Two Bottom CSS Option"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:194
+msgid "Footer Two Copyright Text Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:154
+msgid "Footer two CSS Option"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:637
+msgid "Footer Widget Columns"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:128
+#: inc/theme-and-options/metabox-single.php:31
+msgid "Full Width"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:747
+#: inc/theme-and-options/theme-options/header-options.php:1015
+msgid "Full Width Bg"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/general-options.php:6
+msgid "General"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:405
+#: inc/theme-and-options/theme-options/header-options.php:649
+#: inc/theme-and-options/theme-options/header-options.php:948
+#: inc/theme-and-options/theme-options/header-options.php:1318
+msgid "Get A quote"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/archive-page-options.php:13
+#: inc/theme-and-options/theme-options/blog-page-options.php:13
+#: inc/theme-and-options/theme-options/search-page-options.php:13
+msgid "Grid Full"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/archive-page-options.php:14
+#: inc/theme-and-options/theme-options/blog-page-options.php:14
+#: inc/theme-and-options/theme-options/search-page-options.php:14
+msgid "Grid With Left Sidebar"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/archive-page-options.php:15
+#: inc/theme-and-options/theme-options/blog-page-options.php:15
+#: inc/theme-and-options/theme-options/search-page-options.php:15
+msgid "Grid With Right Sidebar"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:26
+msgid "Header"
+msgstr ""
+
+#: inc/function/theme-widget.php:19
+msgid "Header Canvas"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:45
+msgid "Header Five"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1051
+msgid "Header five Options"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:44
+msgid "Header Four"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:783
+msgid "Header four Options"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:41
+msgid "Header One"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:59
+msgid "Header One Right Section"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:40
+msgid "Header Options"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:110
+msgid "Header Right Items Colors"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:9
+msgid "Header Settings"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:16
+msgid "Header Style"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:43
+msgid "Header Three"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:506
+msgid "Header Three Options"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:267
+#: inc/theme-and-options/theme-options/header-options.php:511
+#: inc/theme-and-options/theme-options/header-options.php:794
+#: inc/theme-and-options/theme-options/header-options.php:1056
+msgid "Header Top Left"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:308
+#: inc/theme-and-options/theme-options/header-options.php:552
+#: inc/theme-and-options/theme-options/header-options.php:835
+#: inc/theme-and-options/theme-options/header-options.php:1097
+msgid "Header Top Right"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:42
+msgid "Header Two"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:262
+msgid "Header Two Options"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/typography-options.php:89
+msgid "Heading Five"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/typography-options.php:74
+msgid "Heading Four"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/typography-options.php:29
+msgid "Heading One"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/typography-options.php:104
+msgid "Heading Six"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/typography-options.php:59
+msgid "Heading Three"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/typography-options.php:44
+msgid "Heading Two"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1275
+msgid "Help Button Colors"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1254
+msgid "Help label Text"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1241
+msgid "Help Options"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/blog-page-options.php:29
+msgid "Hide / Show Banner."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/blog-page-options.php:47
+#: inc/theme-and-options/theme-options/search-page-options.php:38
+msgid "Hide / Show post author name."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/blog-page-options.php:77
+#: inc/theme-and-options/theme-options/blog-page-options.php:86
+#: inc/theme-and-options/theme-options/search-page-options.php:68
+msgid "Hide / Show post category name."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/blog-page-options.php:67
+#: inc/theme-and-options/theme-options/search-page-options.php:58
+msgid "Hide / Show post comment number."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/blog-page-options.php:57
+#: inc/theme-and-options/theme-options/search-page-options.php:48
+msgid "Hide / Show post date."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/single-post-options.php:15
+msgid "Hide or show author name on post details page."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/single-post-options.php:45
+msgid "Hide or show categories on post details page."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/single-post-options.php:35
+msgid "Hide or show comments number on post details page."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/single-post-options.php:25
+msgid "Hide or show date on post details page."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/single-post-options.php:75
+msgid "Hide or show post author info on post details page."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/single-post-options.php:65
+msgid "Hide or show social share icons on post details page."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/single-post-options.php:55
+msgid "Hide or show tags on post details page."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:244
+#: inc/theme-and-options/theme-options/header-options.php:488
+#: inc/theme-and-options/theme-options/header-options.php:766
+#: inc/theme-and-options/theme-options/header-options.php:1034
+#: inc/theme-and-options/theme-options/header-options.php:1401
+msgid "Hover BG"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:227
+#: inc/theme-and-options/theme-options/header-options.php:472
+#: inc/theme-and-options/theme-options/header-options.php:749
+#: inc/theme-and-options/theme-options/header-options.php:1017
+#: inc/theme-and-options/theme-options/header-options.php:1385
+msgid "Hover Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:245
+#: inc/theme-and-options/theme-options/header-options.php:489
+#: inc/theme-and-options/theme-options/header-options.php:767
+#: inc/theme-and-options/theme-options/header-options.php:1035
+#: inc/theme-and-options/theme-options/header-options.php:1402
+msgid "Hover Text"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:103
+#: inc/theme-and-options/theme-options/header-options.php:449
+#: inc/theme-and-options/theme-options/header-options.php:693
+#: inc/theme-and-options/theme-options/header-options.php:992
+#: inc/theme-and-options/theme-options/header-options.php:1362
+msgid "Hover Text Color"
+msgstr ""
+
+#. Author URI of the theme
+msgid "https://www.templatemonster.com/authors/themepul"
+msgstr ""
+
+#: inc/theme-and-options/project-metabox.php:67
+msgid "https://www.youtube.com/watch?v=u8Egk_j0EbY"
+msgstr ""
+
+#. Name of the theme
+msgid "xevso"
+msgstr ""
+
+#: inc/plugins-activation.php:17
+msgid "xevso Core"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:427
+#: inc/theme-and-options/theme-options/header-options.php:77
+#: inc/theme-and-options/theme-options/header-options.php:167
+msgid "Icon"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:109
+#: inc/theme-and-options/theme-options/footer-options.php:281
+msgid "Icon Background"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:114
+#: inc/theme-and-options/theme-options/header-options.php:205
+msgid "icon Background Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:119
+#: inc/theme-and-options/theme-options/footer-options.php:291
+#: inc/theme-and-options/theme-options/header-options.php:206
+msgid "Icon Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:115
+msgid "icon Color"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:184
+#: inc/theme-and-options/theme-options/banner-options.php:29
+msgid ""
+"If you use gradient background color (Second Color) then background image "
+"will not working. Gradient background priority is higher then background "
+"image"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:192
+msgid ""
+"If you want to use custom title write title here.If you dont, leave it empty."
+msgstr ""
+
+#: inc/demo.php:42
+msgid "Import Demo Data"
+msgstr ""
+
+#: template-parts/blog/grid-post-item.php:29
+#: template-parts/blog/sidebar-post-item.php:46
+#: template-parts/blog/sidebar-post-item-audio.php:60
+#: template-parts/blog/sidebar-post-item-gallery.php:66
+#: template-parts/blog/sidebar-post-item-video.php:61
+msgid "In :"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:126
+#: inc/theme-and-options/theme-options/header-options.php:192
+#: inc/theme-and-options/theme-options/header-options.php:342
+#: inc/theme-and-options/theme-options/header-options.php:586
+#: inc/theme-and-options/theme-options/header-options.php:869
+#: inc/theme-and-options/theme-options/header-options.php:1131
+msgid "Instagram"
+msgstr ""
+
+#: template-parts/content-none.php:42
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/theme-options.php:62
+#: inc/theme-and-options/theme-options/theme-options.php:68
+msgid "Javascript Editor"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:417
+#: inc/theme-and-options/theme-options/footer-options.php:470
+#: inc/theme-and-options/theme-options/header-options.php:72
+#: inc/theme-and-options/theme-options/header-options.php:162
+#: inc/theme-and-options/theme-options/header-options.php:320
+#: inc/theme-and-options/theme-options/header-options.php:564
+#: inc/theme-and-options/theme-options/header-options.php:847
+#: inc/theme-and-options/theme-options/header-options.php:1109
+msgid "Label"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:86
+#: inc/theme-and-options/theme-options/footer-options.php:128
+#: inc/theme-and-options/theme-options/footer-options.php:300
+#: inc/theme-and-options/theme-options/header-options.php:116
+#: inc/theme-and-options/theme-options/header-options.php:363
+#: inc/theme-and-options/theme-options/header-options.php:607
+#: inc/theme-and-options/theme-options/header-options.php:890
+#: inc/theme-and-options/theme-options/header-options.php:1160
+msgid "Label Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1279
+msgid "label Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:279
+#: inc/theme-and-options/theme-options/header-options.php:523
+#: inc/theme-and-options/theme-options/header-options.php:806
+#: inc/theme-and-options/theme-options/header-options.php:1068
+msgid "Lable"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:119
+#: inc/theme-and-options/metabox-options.php:125
+#: inc/theme-and-options/metabox-single.php:23
+#: inc/theme-and-options/metabox-single.php:29
+msgid "Layout"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/theme-options.php:28
+msgid "Layout & Options"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:129
+#: inc/theme-and-options/metabox-single.php:32
+#: inc/theme-and-options/theme-options/archive-page-options.php:16
+#: inc/theme-and-options/theme-options/blog-page-options.php:16
+#: inc/theme-and-options/theme-options/search-page-options.php:16
+msgid "Left Sidebar"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:523
+#: inc/theme-and-options/theme-options/header-options.php:172
+#: inc/theme-and-options/theme-options/header-options.php:325
+#: inc/theme-and-options/theme-options/header-options.php:569
+#: inc/theme-and-options/theme-options/header-options.php:852
+#: inc/theme-and-options/theme-options/header-options.php:1114
+msgid "Link"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:137
+#: inc/theme-and-options/theme-options/footer-options.php:309
+msgid "Link Color"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:88
+#: inc/theme-and-options/theme-options/header-options.php:365
+#: inc/theme-and-options/theme-options/header-options.php:609
+#: inc/theme-and-options/theme-options/header-options.php:892
+#: inc/theme-and-options/theme-options/header-options.php:1162
+msgid "link Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:146
+#: inc/theme-and-options/theme-options/footer-options.php:318
+msgid "Link Hover Color"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:89
+#: inc/theme-and-options/theme-options/header-options.php:366
+#: inc/theme-and-options/theme-options/header-options.php:610
+#: inc/theme-and-options/theme-options/header-options.php:893
+#: inc/theme-and-options/theme-options/header-options.php:1163
+msgid "link Hover Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1261
+msgid "Link Text"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1280
+msgid "Link Text Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1281
+msgid "Link Text Hover Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1268
+msgid "Link URL"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:121
+#: inc/theme-and-options/theme-options/footer-options.php:442
+#: inc/theme-and-options/theme-options/header-options.php:187
+#: inc/theme-and-options/theme-options/header-options.php:338
+#: inc/theme-and-options/theme-options/header-options.php:582
+#: inc/theme-and-options/theme-options/header-options.php:865
+#: inc/theme-and-options/theme-options/header-options.php:1127
+msgid "Linkedin"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:379
+#: inc/theme-and-options/theme-options/header-options.php:623
+#: inc/theme-and-options/theme-options/header-options.php:922
+#: inc/theme-and-options/theme-options/header-options.php:1229
+msgid "Logo Option"
+msgstr ""
+
+#: inc/theme-and-options/project-metabox.php:39
+msgid "Mahi Al Rabbi"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:536
+msgid "Mailchip Link"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:530
+msgid "Mailchip Shortcode"
+msgstr ""
+
+#: inc/function/theme-setup.php:43
+msgid "Main Menu"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:110
+msgid "Menu Background"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:486
+#: inc/theme-and-options/theme-options/header-options.php:764
+#: inc/theme-and-options/theme-options/header-options.php:1032
+#: inc/theme-and-options/theme-options/header-options.php:1399
+msgid "Menu Box BG Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:242
+msgid "menu Box BG Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:215
+#: inc/theme-and-options/theme-options/header-options.php:461
+#: inc/theme-and-options/theme-options/header-options.php:737
+#: inc/theme-and-options/theme-options/header-options.php:1005
+#: inc/theme-and-options/theme-options/header-options.php:1374
+msgid "Menu Color Options"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:221
+#: inc/theme-and-options/theme-options/header-options.php:467
+#: inc/theme-and-options/theme-options/header-options.php:743
+#: inc/theme-and-options/theme-options/header-options.php:1011
+#: inc/theme-and-options/theme-options/header-options.php:1380
+msgid "Menu Colors"
+msgstr ""
+
+#: template-parts/content-team.php:66
+msgid "My history"
+msgstr ""
+
+#: comments.php:75
+msgid "Name"
+msgstr ""
+
+#: template-parts/content.php:103 template-parts/content-page.php:27
+msgid "Next Page"
+msgstr ""
+
+#: page.php:107 single.php:93
+msgid "Next Post"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:162
+#: inc/theme-and-options/theme-options/archive-page-options.php:28
+#: inc/theme-and-options/theme-options/archive-page-options.php:37
+#: inc/theme-and-options/theme-options/blog-page-options.php:28
+#: inc/theme-and-options/theme-options/blog-page-options.php:46
+#: inc/theme-and-options/theme-options/blog-page-options.php:56
+#: inc/theme-and-options/theme-options/blog-page-options.php:66
+#: inc/theme-and-options/theme-options/blog-page-options.php:76
+#: inc/theme-and-options/theme-options/blog-page-options.php:85
+#: inc/theme-and-options/theme-options/error-page-options.php:14
+#: inc/theme-and-options/theme-options/error-page-options.php:39
+#: inc/theme-and-options/theme-options/search-page-options.php:28
+#: inc/theme-and-options/theme-options/search-page-options.php:37
+#: inc/theme-and-options/theme-options/search-page-options.php:47
+#: inc/theme-and-options/theme-options/search-page-options.php:57
+#: inc/theme-and-options/theme-options/search-page-options.php:67
+#: inc/theme-and-options/theme-options/search-page-options.php:76
+#: inc/theme-and-options/theme-options/single-post-options.php:14
+#: inc/theme-and-options/theme-options/single-post-options.php:24
+#: inc/theme-and-options/theme-options/single-post-options.php:34
+#: inc/theme-and-options/theme-options/single-post-options.php:44
+#: inc/theme-and-options/theme-options/single-post-options.php:54
+#: inc/theme-and-options/theme-options/single-post-options.php:64
+#: inc/theme-and-options/theme-options/single-post-options.php:74
+msgid "No"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:226
+#: inc/theme-and-options/theme-options/header-options.php:471
+#: inc/theme-and-options/theme-options/header-options.php:748
+#: inc/theme-and-options/theme-options/header-options.php:1016
+#: inc/theme-and-options/theme-options/header-options.php:1384
+msgid "Normal Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/error-page-options.php:26
+msgid "Not Found Text"
+msgstr ""
+
+#: template-parts/content-none.php:13
+msgid "Nothing Found"
+msgstr ""
+
+#: inc/demo.php:41 inc/plugins-activation.php:35
+msgid "One Click Demo Import"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:300
+#: inc/theme-and-options/theme-options/header-options.php:544
+#: inc/theme-and-options/theme-options/header-options.php:827
+#: inc/theme-and-options/theme-options/header-options.php:1089
+msgid "Open Time :"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:246
+msgid "Padding Top"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:416
+#: inc/theme-and-options/theme-options/header-options.php:660
+#: inc/theme-and-options/theme-options/header-options.php:959
+#: inc/theme-and-options/theme-options/header-options.php:1329
+msgid "Page"
+msgstr ""
+
+#: inc/xevso-default-options.php:39
+msgid "Page Not Found"
+msgstr ""
+
+#: template-parts/content.php:99 template-parts/content-page.php:23
+msgid "Pages:"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:74
+msgid "Phone"
+msgstr ""
+
+#: template-parts/content-team.php:47
+msgid "Phone :"
+msgstr ""
+
+#: inc/theme-and-options/project-metabox.php:38
+msgid "Please Type Project Client Name here"
+msgstr ""
+
+#: inc/theme-and-options/project-metabox.php:52
+msgid "Please Type Project Date here"
+msgstr ""
+
+#: inc/theme-and-options/project-metabox.php:45
+#: inc/theme-and-options/project-metabox.php:59
+msgid "Please Type Project Status here"
+msgstr ""
+
+#: inc/theme-and-options/project-metabox.php:31
+msgid "Please Type Project Title here"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/single-post-options.php:72
+msgid "Post Author Info"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/single-post-options.php:12
+msgid "Post Author Name"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/single-post-options.php:42
+msgid "Post Categories"
+msgstr ""
+
+#: comments.php:133
+msgid "Post Comment"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/single-post-options.php:32
+msgid "Post Comments Number"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/single-post-options.php:22
+msgid "Post Date"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/single-post-options.php:52
+msgid "Post Tags"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/general-options.php:13
+msgid "Preloader"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/general-options.php:19
+msgid "Preloader color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/general-options.php:26
+msgid "Preloader Hover color"
+msgstr ""
+
+#: template-parts/content.php:104 template-parts/content-page.php:28
+msgid "Prev Page"
+msgstr ""
+
+#: page.php:108 single.php:94
+msgid "Prev Post"
+msgstr ""
+
+#: inc/theme-and-options/project-metabox.php:37
+msgid "Project Client"
+msgstr ""
+
+#: inc/theme-and-options/project-metabox.php:51
+msgid "Project Date"
+msgstr ""
+
+#: inc/theme-and-options/project-metabox.php:24
+msgid "Project Information"
+msgstr ""
+
+#: inc/theme-and-options/project-metabox.php:65
+msgid "Project Project video Link"
+msgstr ""
+
+#: inc/theme-and-options/project-metabox.php:44
+msgid "Project Status"
+msgstr ""
+
+#: inc/theme-and-options/project-metabox.php:30
+msgid "Project Title"
+msgstr ""
+
+#: template-parts/content-project.php:16
+msgid "project Title"
+msgstr ""
+
+#: inc/theme-and-options/project-metabox.php:58
+msgid "Project Value"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:706
+msgid "Quote Border"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:97
+#: inc/theme-and-options/theme-options/header-options.php:443
+#: inc/theme-and-options/theme-options/header-options.php:687
+#: inc/theme-and-options/theme-options/header-options.php:986
+#: inc/theme-and-options/theme-options/header-options.php:1356
+msgid "Quote Colors"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:722
+msgid "Quote Hover Border"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:423
+#: inc/theme-and-options/theme-options/header-options.php:667
+#: inc/theme-and-options/theme-options/header-options.php:966
+#: inc/theme-and-options/theme-options/header-options.php:1336
+msgid "Quote Link"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:391
+#: inc/theme-and-options/theme-options/header-options.php:635
+#: inc/theme-and-options/theme-options/header-options.php:934
+#: inc/theme-and-options/theme-options/header-options.php:1304
+msgid "Quote Option"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:404
+#: inc/theme-and-options/theme-options/header-options.php:648
+#: inc/theme-and-options/theme-options/header-options.php:947
+#: inc/theme-and-options/theme-options/header-options.php:1317
+msgid "Quote Text"
+msgstr ""
+
+#: template-parts/blog/grid-post-item.php:34
+#: template-parts/blog/sidebar-post-item.php:51
+#: template-parts/blog/sidebar-post-item-audio.php:65
+#: template-parts/blog/sidebar-post-item-gallery.php:71
+#: template-parts/blog/sidebar-post-item-video.php:66
+msgid "Read More"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:65
+msgid "Right Section Content"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:130
+#: inc/theme-and-options/metabox-single.php:33
+#: inc/theme-and-options/theme-options/archive-page-options.php:17
+#: inc/theme-and-options/theme-options/blog-page-options.php:17
+#: inc/theme-and-options/theme-options/search-page-options.php:17
+msgid "Right Sidebar"
+msgstr ""
+
+#: searchform.php:3 inc/header/header-five.php:34 inc/header/header-one.php:62
+msgid "Search "
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:128
+msgid "Search And Social Settings"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1182
+msgid "Search Button Background"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1201
+msgid "Search Button Background Hover"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1192
+msgid "Search Button Icon"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1211
+msgid "Search Button Icon hover"
+msgstr ""
+
+#: searchform.php:2 searchform.php:3 inc/header/header-five.php:34
+#: inc/header/header-one.php:62
+msgid "Search for:"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:141
+msgid "Search Icon Color"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1220
+msgid "Search input Background"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/search-page-options.php:5
+msgid "Search Page"
+msgstr ""
+
+#. %s: search query.
+#: search.php:23
+#, php-format
+msgid "Search Results for: %s"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1176
+msgid "Search Section CSS"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:432
+#: inc/theme-and-options/theme-options/header-options.php:676
+#: inc/theme-and-options/theme-options/header-options.php:975
+#: inc/theme-and-options/theme-options/header-options.php:1345
+msgid "Select a page"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:39
+#: inc/theme-and-options/metabox-options.php:126
+#: inc/theme-and-options/metabox-options.php:234
+#: inc/theme-and-options/theme-options/footer-options.php:520
+#: inc/theme-and-options/theme-options/header-options.php:412
+#: inc/theme-and-options/theme-options/header-options.php:656
+#: inc/theme-and-options/theme-options/header-options.php:955
+#: inc/theme-and-options/theme-options/header-options.php:1325
+msgid "Select an option"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/banner-options.php:28
+msgid ""
+"Select banner default properties for all page / post. You can override this "
+"settings on individual page / post."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/archive-page-options.php:46
+msgid "Select banner Static title color."
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:201
+#: inc/theme-and-options/theme-options/archive-page-options.php:54
+#: inc/theme-and-options/theme-options/banner-options.php:37
+msgid "Select banner title color."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/archive-page-options.php:20
+#: inc/theme-and-options/theme-options/blog-page-options.php:20
+#: inc/theme-and-options/theme-options/search-page-options.php:20
+msgid "Select blog page layout."
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:221
+#: inc/theme-and-options/theme-options/banner-options.php:53
+msgid "Select breadcrumb link and link hover color."
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:211
+#: inc/theme-and-options/theme-options/banner-options.php:45
+msgid "Select breadcrumb text color."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:667
+msgid "Select Color for Footer Body font"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:675
+msgid "Select Color for Footer Link"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:683
+msgid "Select Color for Footer Link Hover"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:659
+msgid "Select Color for Footer Title"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:653
+msgid "Select Footer Column layout View for widgets."
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:38
+msgid "Select Header Style"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:132
+#: inc/theme-and-options/metabox-single.php:36
+msgid "Select layout"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:411
+#: inc/theme-and-options/theme-options/header-options.php:655
+#: inc/theme-and-options/theme-options/header-options.php:954
+#: inc/theme-and-options/theme-options/header-options.php:1324
+msgid "Select Link Options"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:519
+msgid "Select Options"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:431
+#: inc/theme-and-options/theme-options/header-options.php:675
+#: inc/theme-and-options/theme-options/header-options.php:974
+#: inc/theme-and-options/theme-options/header-options.php:1344
+msgid "Select Page"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:140
+#: inc/theme-and-options/metabox-single.php:44
+msgid "Select sidebar you want to show with this page."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/general-options.php:14
+msgid "Select Site Preloader. Default Enable"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:156
+msgid "Select Social"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:22
+msgid "Select Style"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:241
+#: inc/theme-and-options/theme-options/footer-options.php:29
+msgid "Select Your Footer"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1262
+msgid "Select Your Schedule"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/typography-options.php:23
+msgid "Set body typography."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/typography-options.php:98
+msgid "Set heading five typography."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/typography-options.php:83
+msgid "Set heading four typography."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/typography-options.php:38
+msgid "Set heading one typography."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/typography-options.php:113
+msgid "Set heading six typography."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/typography-options.php:68
+msgid "Set heading three typography."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/typography-options.php:53
+msgid "Set heading two typography."
+msgstr ""
+
+#: template-parts/content.php:118
+msgid "Share :"
+msgstr ""
+
+#: woocommerce/loop/orderby.php:27
+msgid "Shop order"
+msgstr ""
+
+#: inc/function/theme-widget.php:29
+msgid "Shop Widget"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:522
+msgid "Shortcode"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/blog-page-options.php:43
+#: inc/theme-and-options/theme-options/search-page-options.php:34
+msgid "Show Author Name"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/blog-page-options.php:73
+#: inc/theme-and-options/theme-options/search-page-options.php:64
+msgid "Show Category Name"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/blog-page-options.php:63
+#: inc/theme-and-options/theme-options/search-page-options.php:54
+msgid "Show Comment Number"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/blog-page-options.php:82
+msgid "Show Pagination"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/blog-page-options.php:53
+#: inc/theme-and-options/theme-options/search-page-options.php:44
+msgid "Show Post Date"
+msgstr ""
+
+#. %d: total results
+#: woocommerce/loop/result-count.php:31
+#, php-format
+msgid "Showing all %d result"
+msgid_plural "Showing all %d results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: woocommerce/loop/result-count.php:28
+msgid "Showing the single result"
+msgstr ""
+
+#: inc/function/theme-widget.php:10
+#: inc/theme-and-options/metabox-options.php:137
+#: inc/theme-and-options/metabox-single.php:41
+msgid "Sidebar"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:1291
+msgid "Sidebar Canvas Options"
+msgstr ""
+
+#: inc/footer/footer-four.php:55
+msgid "Sign up"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:34
+msgid ""
+"Since joining Zircona in 2009, Tobby May has helped turn the company from a "
+"group of bright technology minds working with startups into a global"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/single-post-options.php:5
+msgid "Single Post / Post Details"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:584
+msgid "Site copyright text"
+msgstr ""
+
+#: header.php:24
+msgid "Skip to content"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:201
+msgid "Social Colors"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:105
+msgid "Social Icon"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:93
+msgid "Social Label"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:88
+#: inc/theme-and-options/theme-options/footer-options.php:412
+msgid "Social Links"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:82
+msgid "Social Links "
+msgstr ""
+
+#: inc/theme-and-options/theme-options/single-post-options.php:62
+msgid "Social Share icons"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:99
+msgid "Social Website"
+msgstr ""
+
+#: template-parts/content-none.php:35
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords."
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:32
+#: inc/theme-and-options/theme-options/footer-options.php:513
+msgid "Sort Description"
+msgstr ""
+
+#: template-parts/content-project.php:24
+msgid "Status"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:238
+#: inc/theme-and-options/theme-options/header-options.php:482
+#: inc/theme-and-options/theme-options/header-options.php:760
+#: inc/theme-and-options/theme-options/header-options.php:1028
+#: inc/theme-and-options/theme-options/header-options.php:1395
+msgid "SubMenu Colors"
+msgstr ""
+
+#: comments.php:78
+msgid "Submit"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:508
+msgid "Subscribe"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:100
+msgid "Sundy - Friday"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:87
+#: inc/theme-and-options/metabox-options.php:101
+#: inc/theme-and-options/theme-options/header-options.php:243
+#: inc/theme-and-options/theme-options/header-options.php:364
+#: inc/theme-and-options/theme-options/header-options.php:447
+#: inc/theme-and-options/theme-options/header-options.php:487
+#: inc/theme-and-options/theme-options/header-options.php:608
+#: inc/theme-and-options/theme-options/header-options.php:691
+#: inc/theme-and-options/theme-options/header-options.php:765
+#: inc/theme-and-options/theme-options/header-options.php:891
+#: inc/theme-and-options/theme-options/header-options.php:990
+#: inc/theme-and-options/theme-options/header-options.php:1033
+#: inc/theme-and-options/theme-options/header-options.php:1161
+#: inc/theme-and-options/theme-options/header-options.php:1360
+#: inc/theme-and-options/theme-options/header-options.php:1400
+msgid "Text Color"
+msgstr ""
+
+#. Author of the theme
+msgid "Themebuzz"
+msgstr ""
+
+#. Description of the theme
+msgid ""
+"Themebuzz team presents absolutely fresh and powerful WordPress theme. It "
+"combines new technologies and functional design that helps to showcase your "
+"content in better way. This WordPress theme is developed with attention to "
+"details, so you can create effective presentation of a website easily. Enjoy "
+"building web pages with our product!"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:247
+msgid "This Filed only for Blank Templae"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:146
+msgid "This Options only for Default page"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:507
+msgid "Title"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:514
+msgid "Today’s discerning consumers have high standards for thei."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:407
+msgid ""
+"Today’s discerning consumers have high standards for their omnichannel "
+"customer experience whether they’re logging."
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:82
+#: inc/theme-and-options/theme-options/header-options.php:359
+#: inc/theme-and-options/theme-options/header-options.php:603
+#: inc/theme-and-options/theme-options/header-options.php:886
+#: inc/theme-and-options/theme-options/header-options.php:1156
+msgid "Top Header Items Colors"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:273
+#: inc/theme-and-options/theme-options/header-options.php:517
+#: inc/theme-and-options/theme-options/header-options.php:800
+#: inc/theme-and-options/theme-options/header-options.php:1062
+msgid "Top header Left"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:314
+#: inc/theme-and-options/theme-options/header-options.php:558
+#: inc/theme-and-options/theme-options/header-options.php:841
+#: inc/theme-and-options/theme-options/header-options.php:1103
+msgid "Top header Right"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:34
+#: inc/theme-and-options/theme-options/footer-options.php:205
+msgid "Top Secton Info"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:116
+#: inc/theme-and-options/theme-options/footer-options.php:437
+#: inc/theme-and-options/theme-options/header-options.php:182
+#: inc/theme-and-options/theme-options/header-options.php:334
+#: inc/theme-and-options/theme-options/header-options.php:578
+#: inc/theme-and-options/theme-options/header-options.php:861
+#: inc/theme-and-options/theme-options/header-options.php:1123
+msgid "Twitter"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/error-page-options.php:21
+#: inc/theme-and-options/theme-options/error-page-options.php:48
+msgid "Type Banner Title Here."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/blog-page-options.php:36
+msgid "Type blog banner title here."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:287
+#: inc/theme-and-options/theme-options/header-options.php:531
+#: inc/theme-and-options/theme-options/header-options.php:814
+#: inc/theme-and-options/theme-options/header-options.php:1076
+msgid "Type Header Left Content."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:85
+msgid "Type Header Right Content."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/error-page-options.php:31
+msgid "Type not found text here."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:585
+msgid "Type site copyright text here."
+msgstr ""
+
+#: inc/theme-and-options/theme-options/typography-options.php:4
+msgid "Typography"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/error-page-options.php:57
+msgid "Upload error page image"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:179
+#: inc/theme-and-options/theme-options/footer-options.php:351
+#: inc/theme-and-options/theme-options/footer-options.php:568
+#: inc/theme-and-options/theme-options/footer-options.php:613
+msgid "Upload Footer Background Image"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/error-page-options.php:56
+msgid "Upload Image"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:398
+msgid "Upload Logo"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:52
+#: inc/theme-and-options/theme-options/header-options.php:385
+#: inc/theme-and-options/theme-options/header-options.php:629
+#: inc/theme-and-options/theme-options/header-options.php:928
+#: inc/theme-and-options/theme-options/header-options.php:1235
+msgid "Upload Site Logo"
+msgstr ""
+
+#: template-parts/content-project.php:38
+msgid "Value"
+msgstr ""
+
+#: inc/theme-and-options/post-format/post-video.php:32
+msgid "Video Link"
+msgstr ""
+
+#: inc/woocommerce.php:235
+msgid "View your shopping cart"
+msgstr ""
+
+#: inc/theme-and-options/team-metabox.php:41
+msgid "Web Developer"
+msgstr ""
+
+#: comments.php:77
+msgid "Website"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:292
+#: inc/theme-and-options/theme-options/header-options.php:536
+#: inc/theme-and-options/theme-options/header-options.php:819
+#: inc/theme-and-options/theme-options/header-options.php:1081
+msgid "Website :"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:422
+msgid "Website Link"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/footer-options.php:631
+msgid "Widget Layout"
+msgstr ""
+
+#. 1: first result 2: last result 3: total results
+#: woocommerce/loop/result-count.php:36
+#, php-format
+msgctxt "with first and last result"
+msgid "Showing %1$d&ndash;%2$d of %3$d result"
+msgid_plural "Showing %1$d&ndash;%2$d of %3$d results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/theme-and-options/team-metabox.php:60
+msgid "Work Progress"
+msgstr ""
+
+#: template-parts/content-team.php:40
+msgid "Work Progress :"
+msgstr ""
+
+#: inc/theme-and-options/theme-options/header-options.php:293
+#: inc/theme-and-options/theme-options/header-options.php:537
+#: inc/theme-and-options/theme-options/header-options.php:820
+#: inc/theme-and-options/theme-options/header-options.php:1082
+msgid "www.example.com"
+msgstr ""
+
+#: inc/theme-and-options/metabox-options.php:161
+#: inc/theme-and-options/theme-options/archive-page-options.php:27
+#: inc/theme-and-options/theme-options/archive-page-options.php:36
+#: inc/theme-and-options/theme-options/blog-page-options.php:27
+#: inc/theme-and-options/theme-options/blog-page-options.php:45
+#: inc/theme-and-options/theme-options/blog-page-options.php:55
+#: inc/theme-and-options/theme-options/blog-page-options.php:65
+#: inc/theme-and-options/theme-options/blog-page-options.php:75
+#: inc/theme-and-options/theme-options/blog-page-options.php:84
+#: inc/theme-and-options/theme-options/error-page-options.php:13
+#: inc/theme-and-options/theme-options/error-page-options.php:38
+#: inc/theme-and-options/theme-options/search-page-options.php:27
+#: inc/theme-and-options/theme-options/search-page-options.php:36
+#: inc/theme-and-options/theme-options/search-page-options.php:46
+#: inc/theme-and-options/theme-options/search-page-options.php:56
+#: inc/theme-and-options/theme-options/search-page-options.php:66
+#: inc/theme-and-options/theme-options/search-page-options.php:75
+#: inc/theme-and-options/theme-options/single-post-options.php:13
+#: inc/theme-and-options/theme-options/single-post-options.php:23
+#: inc/theme-and-options/theme-options/single-post-options.php:33
+#: inc/theme-and-options/theme-options/single-post-options.php:43
+#: inc/theme-and-options/theme-options/single-post-options.php:53
+#: inc/theme-and-options/theme-options/single-post-options.php:63
+#: inc/theme-and-options/theme-options/single-post-options.php:73
+msgid "Yes"
+msgstr ""
+
+#: inc/comments-list.php:32
+msgid "Your comment is awaiting moderation."
+msgstr ""

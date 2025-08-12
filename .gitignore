@@ -1,0 +1,27 @@
+# Ignore uploads & cache
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
+
+# Ignore log files
+*.log
+
+# Ignore OS/system files
+.DS_Store
+Thumbs.db
+
+# Ignore WordPress config (if it contains secrets)
+wp-config.php
+
+# Ignore backup & export files
+*.sql
+*.tar
+*.zip
+*.gz
+*.wpress
+
+# Ignore node_modules if any theme/plugin uses npm
+node_modules/
+
+# Ignore vendor if you don't want dependencies
+vendor/

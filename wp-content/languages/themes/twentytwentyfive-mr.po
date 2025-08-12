@@ -1,0 +1,2450 @@
+# Translation of Themes - Twenty Twenty-Five in Marathi
+# This file is distributed under the same license as the Themes - Twenty Twenty-Five package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2024-12-02 06:25:49+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/4.0.1\n"
+"Language: mr\n"
+"Project-Id-Version: Themes - Twenty Twenty-Five\n"
+
+#. Description of the theme
+#: style.css
+#, gp-priority: high
+msgid "Twenty Twenty-Five emphasizes simplicity and adaptability. It offers flexible design options, supported by a variety of patterns for different page types, such as services and landing pages, making it ideal for building personal blogs, professional portfolios, online magazines, or business websites. Its templates cater to various blog styles, from text-focused to image-heavy layouts. Additionally, it supports international typography and diverse color palettes, ensuring accessibility and customization for users worldwide."
+msgstr "ट्वेंटी ट्वेंटी-फाइव्ह साधेपणा आणि अनुकूलता यावर भर देते. हे विविध पृष्ठ प्रकारांसाठी लवचिक डिझाइन पर्याय प्रदान करते, जसे की सेवा आणि लँडिंग पृष्ठे, ज्यामुळे वैयक्तिक ब्लॉग, व्यावसायिक पोर्टफोलिओ, ऑनलाइन मासिके किंवा व्यवसाय वेबसाइट्ससाठी हे आदर्श ठरते. त्याचे टेम्प्लेट विविध ब्लॉग शैलींसाठी तयार केलेले आहेत, मजकूर-केंद्रित ते प्रतिमांसह समृद्ध लेआउटपर्यंत. याशिवाय, हे आंतरराष्ट्रीय टायपोग्राफी आणि विविध रंग पॅलेट्सना समर्थन देते, वापरकर्त्यांसाठी प्रवेशयोग्यता आणि सानुकूलन सुनिश्चित करते."
+
+#. Theme Name of the theme
+#: style.css patterns/footer-columns.php:66 patterns/footer-newsletter.php:42
+#: patterns/footer.php:75 patterns/page-portfolio-home.php:226
+#, gp-priority: high
+msgid "Twenty Twenty-Five"
+msgstr "ट्वेंटी ट्वेंटी-फाइव्ह"
+
+#: patterns/text-faqs.php:35 patterns/text-faqs.php:51
+#: patterns/text-faqs.php:71 patterns/text-faqs.php:87
+msgctxt "Answer in the FAQs pattern."
+msgid "This exquisite compilation showcases a diverse array of photographs that capture the essence of different eras and cultures, reflecting the unique styles and perspectives of each artist."
+msgstr "ही उत्कृष्ट संकलन विविध काळ आणि संस्कृतींचे सार दर्शविणाऱ्या छायाचित्रांचा समावेश करते, प्रत्येक कलाकाराच्या अद्वितीय शैली आणि दृष्टिकोनाचे प्रतिबिंबित करते."
+
+#: theme.json
+msgctxt "Custom template name"
+msgid "Page No Title"
+msgstr "शीर्षक नसलेले पान"
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Sidebar"
+msgstr "साइडबार"
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Footer Newsletter"
+msgstr "फुटर न्यूजलेटर"
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Footer Columns"
+msgstr "फुटर कॉलम्स"
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Footer"
+msgstr "फूटर"
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Header with large title"
+msgstr "मोठ्या शीर्षकासह हेडर"
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Vertical Header"
+msgstr "उभा हेडर"
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Header"
+msgstr "हेडर"
+
+#: styles/02-noon.json styles/typography/typography-preset-1.json
+msgctxt "Font family name"
+msgid "Beiruti"
+msgstr "बेरुति"
+
+#: styles/05-twilight.json styles/typography/typography-preset-4.json
+msgctxt "Font family name"
+msgid "Roboto Slab"
+msgstr "रोबोटो स्लॅब"
+
+#: styles/04-afternoon.json styles/07-sunrise.json
+#: styles/typography/typography-preset-3.json
+#: styles/typography/typography-preset-6.json
+msgctxt "Font family name"
+msgid "Platypi"
+msgstr "प्लॅटिपी"
+
+#: styles/04-afternoon.json styles/06-morning.json
+#: styles/typography/typography-preset-3.json
+#: styles/typography/typography-preset-5.json
+msgctxt "Font family name"
+msgid "Ysabeau Office"
+msgstr "Ysabeau कार्यालय"
+
+#: styles/08-midnight.json styles/typography/typography-preset-7.json
+msgctxt "Font family name"
+msgid "Fira Sans"
+msgstr "फिरा सॅन्स"
+
+#: styles/03-dusk.json styles/typography/typography-preset-2.json theme.json
+msgctxt "Font family name"
+msgid "Fira Code"
+msgstr "फिरा कोड"
+
+#: styles/03-dusk.json styles/typography/typography-preset-2.json
+msgctxt "Font family name"
+msgid "Vollkorn"
+msgstr "वोल्कॉर्न"
+
+#: styles/02-noon.json styles/06-morning.json styles/07-sunrise.json
+#: styles/08-midnight.json styles/typography/typography-preset-1.json
+#: styles/typography/typography-preset-5.json
+#: styles/typography/typography-preset-6.json
+#: styles/typography/typography-preset-7.json
+msgctxt "Font family name"
+msgid "Literata"
+msgstr "लिटराटा"
+
+#: styles/05-twilight.json styles/typography/typography-preset-4.json
+#: theme.json
+msgctxt "Font family name"
+msgid "Manrope"
+msgstr "मनरूप"
+
+#: theme.json
+msgctxt "Space size name"
+msgid "XX-Large"
+msgstr "XX-लार्ज"
+
+#: theme.json
+msgctxt "Space size name"
+msgid "X-Large"
+msgstr "एक्स-लार्ज"
+
+#: theme.json
+msgctxt "Space size name"
+msgid "Large"
+msgstr "मोठा"
+
+#: theme.json
+msgctxt "Space size name"
+msgid "Regular"
+msgstr "नियमित"
+
+#: theme.json
+msgctxt "Space size name"
+msgid "Small"
+msgstr "लहान"
+
+#: theme.json
+msgctxt "Space size name"
+msgid "X-Small"
+msgstr "एक्स-लहान"
+
+#: theme.json
+msgctxt "Space size name"
+msgid "Tiny"
+msgstr "टिनी"
+
+#: styles/typography/typography-preset-7.json
+msgctxt "Style variation name"
+msgid "Literata & Fira Sans"
+msgstr "लिटराटा & फिरी सॅन्स"
+
+#: styles/typography/typography-preset-6.json
+msgctxt "Style variation name"
+msgid "Platypi & Literata"
+msgstr "Platypi &amp; Literata"
+
+#: styles/typography/typography-preset-5.json
+msgctxt "Style variation name"
+msgid "Literata & Ysabeau Office"
+msgstr "लिटराटा &amp; यसाबो ऑफिस"
+
+#: styles/typography/typography-preset-4.json
+msgctxt "Style variation name"
+msgid "Roboto Slab & Manrope"
+msgstr "रोबोटो स्लॅब & मॅनरोप"
+
+#: styles/typography/typography-preset-3.json
+msgctxt "Style variation name"
+msgid "Platypi & Ysabeau Office"
+msgstr "Platypi &amp; Ysabeau कार्यालय"
+
+#: styles/typography/typography-preset-2.json
+msgctxt "Style variation name"
+msgid "Vollkorn & Fira Code"
+msgstr "वोल्कॉर्न &amp; फिरा कोड"
+
+#: styles/typography/typography-preset-1.json
+msgctxt "Style variation name"
+msgid "Beiruti & Literata"
+msgstr "बेरुती &amp; लिटराटा"
+
+#: styles/sections/section-5.json
+msgctxt "Style variation name"
+msgid "Style 5"
+msgstr "शैली 5"
+
+#: styles/sections/section-4.json
+msgctxt "Style variation name"
+msgid "Style 4"
+msgstr "शैली 4"
+
+#: styles/sections/section-3.json
+msgctxt "Style variation name"
+msgid "Style 3"
+msgstr "शैली 3"
+
+#: styles/sections/section-2.json
+msgctxt "Style variation name"
+msgid "Style 2"
+msgstr "शैली २"
+
+#: styles/sections/section-1.json
+msgctxt "Style variation name"
+msgid "Style 1"
+msgstr "शैली १"
+
+#: styles/blocks/post-terms-1.json
+msgctxt "Style variation name"
+msgid "Pill shaped"
+msgstr "गोळी आकार"
+
+#: styles/blocks/03-annotation.json
+msgctxt "Style variation name"
+msgid "Annotation"
+msgstr "टिप्पणी"
+
+#: styles/blocks/02-subtitle.json
+msgctxt "Style variation name"
+msgid "Subtitle"
+msgstr "उपशीर्षक"
+
+#: styles/blocks/01-display.json
+msgctxt "Style variation name"
+msgid "Display"
+msgstr "प्रदर्शन"
+
+#: styles/08-midnight.json styles/colors/08-midnight.json
+msgctxt "Duotone name"
+msgid "Midnight filter"
+msgstr "मिडनाईट फिल्टर"
+
+#: styles/08-midnight.json styles/colors/08-midnight.json
+msgctxt "Style variation name"
+msgid "Midnight"
+msgstr "मिडनाईट"
+
+#: styles/07-sunrise.json styles/colors/07-sunrise.json
+msgctxt "Style variation name"
+msgid "Sunrise"
+msgstr "सनराईज"
+
+#: styles/06-morning.json styles/colors/06-morning.json
+msgctxt "Style variation name"
+msgid "Morning"
+msgstr "सकाळ"
+
+#: styles/05-twilight.json styles/colors/05-twilight.json
+msgctxt "Style variation name"
+msgid "Twilight"
+msgstr "संधिप्रकाश"
+
+#: styles/04-afternoon.json styles/colors/04-afternoon.json
+msgctxt "Style variation name"
+msgid "Afternoon"
+msgstr "दुपार"
+
+#: styles/03-dusk.json styles/colors/03-dusk.json
+msgctxt "Style variation name"
+msgid "Dusk"
+msgstr "संध्याकाळ"
+
+#: styles/02-noon.json styles/04-afternoon.json styles/05-twilight.json
+#: styles/06-morning.json styles/08-midnight.json
+#: styles/typography/typography-preset-1.json
+#: styles/typography/typography-preset-3.json
+#: styles/typography/typography-preset-4.json
+#: styles/typography/typography-preset-5.json
+#: styles/typography/typography-preset-7.json theme.json
+msgctxt "Font size name"
+msgid "Extra Extra Large"
+msgstr "अत्यंत मोठा"
+
+#: styles/02-noon.json styles/04-afternoon.json styles/05-twilight.json
+#: styles/06-morning.json styles/08-midnight.json
+#: styles/typography/typography-preset-1.json
+#: styles/typography/typography-preset-3.json
+#: styles/typography/typography-preset-4.json
+#: styles/typography/typography-preset-5.json
+#: styles/typography/typography-preset-7.json theme.json
+msgctxt "Font size name"
+msgid "Extra Large"
+msgstr "अधिक मोठा"
+
+#: styles/02-noon.json styles/04-afternoon.json styles/05-twilight.json
+#: styles/06-morning.json styles/08-midnight.json
+#: styles/typography/typography-preset-1.json
+#: styles/typography/typography-preset-3.json
+#: styles/typography/typography-preset-4.json
+#: styles/typography/typography-preset-5.json
+#: styles/typography/typography-preset-7.json theme.json
+msgctxt "Font size name"
+msgid "Large"
+msgstr "मोठा"
+
+#: styles/02-noon.json styles/04-afternoon.json styles/05-twilight.json
+#: styles/06-morning.json styles/08-midnight.json
+#: styles/typography/typography-preset-1.json
+#: styles/typography/typography-preset-3.json
+#: styles/typography/typography-preset-4.json
+#: styles/typography/typography-preset-5.json
+#: styles/typography/typography-preset-7.json theme.json
+msgctxt "Font size name"
+msgid "Medium"
+msgstr "मध्यम"
+
+#: styles/02-noon.json styles/04-afternoon.json styles/05-twilight.json
+#: styles/06-morning.json styles/08-midnight.json
+#: styles/typography/typography-preset-1.json
+#: styles/typography/typography-preset-3.json
+#: styles/typography/typography-preset-4.json
+#: styles/typography/typography-preset-5.json
+#: styles/typography/typography-preset-7.json theme.json
+msgctxt "Font size name"
+msgid "Small"
+msgstr "लहान"
+
+#: styles/02-noon.json styles/colors/02-noon.json
+msgctxt "Style variation name"
+msgid "Noon"
+msgstr "मध्यान्ह"
+
+#: styles/01-evening.json styles/02-noon.json styles/03-dusk.json
+#: styles/04-afternoon.json styles/05-twilight.json styles/06-morning.json
+#: styles/07-sunrise.json styles/08-midnight.json styles/colors/01-evening.json
+#: styles/colors/02-noon.json styles/colors/03-dusk.json
+#: styles/colors/04-afternoon.json styles/colors/05-twilight.json
+#: styles/colors/06-morning.json styles/colors/07-sunrise.json
+#: styles/colors/08-midnight.json theme.json
+msgctxt "Color name"
+msgid "Accent 6"
+msgstr "अ‍ॅक्सेंट ६"
+
+#: styles/01-evening.json styles/02-noon.json styles/03-dusk.json
+#: styles/04-afternoon.json styles/05-twilight.json styles/06-morning.json
+#: styles/07-sunrise.json styles/08-midnight.json styles/colors/01-evening.json
+#: styles/colors/02-noon.json styles/colors/03-dusk.json
+#: styles/colors/04-afternoon.json styles/colors/05-twilight.json
+#: styles/colors/06-morning.json styles/colors/07-sunrise.json
+#: styles/colors/08-midnight.json theme.json
+msgctxt "Color name"
+msgid "Accent 5"
+msgstr "अ‍ॅक्सेंट ५"
+
+#: styles/01-evening.json styles/02-noon.json styles/03-dusk.json
+#: styles/04-afternoon.json styles/05-twilight.json styles/06-morning.json
+#: styles/07-sunrise.json styles/08-midnight.json styles/colors/01-evening.json
+#: styles/colors/02-noon.json styles/colors/03-dusk.json
+#: styles/colors/04-afternoon.json styles/colors/05-twilight.json
+#: styles/colors/06-morning.json styles/colors/07-sunrise.json
+#: styles/colors/08-midnight.json theme.json
+msgctxt "Color name"
+msgid "Accent 4"
+msgstr "अ‍ॅक्सेंट ४"
+
+#: styles/01-evening.json styles/02-noon.json styles/03-dusk.json
+#: styles/04-afternoon.json styles/05-twilight.json styles/06-morning.json
+#: styles/07-sunrise.json styles/08-midnight.json styles/colors/01-evening.json
+#: styles/colors/02-noon.json styles/colors/03-dusk.json
+#: styles/colors/04-afternoon.json styles/colors/05-twilight.json
+#: styles/colors/06-morning.json styles/colors/07-sunrise.json
+#: styles/colors/08-midnight.json theme.json
+msgctxt "Color name"
+msgid "Accent 3"
+msgstr "अ‍ॅक्सेंट ३"
+
+#: styles/01-evening.json styles/02-noon.json styles/03-dusk.json
+#: styles/04-afternoon.json styles/05-twilight.json styles/06-morning.json
+#: styles/07-sunrise.json styles/08-midnight.json styles/colors/01-evening.json
+#: styles/colors/02-noon.json styles/colors/03-dusk.json
+#: styles/colors/04-afternoon.json styles/colors/05-twilight.json
+#: styles/colors/06-morning.json styles/colors/07-sunrise.json
+#: styles/colors/08-midnight.json theme.json
+msgctxt "Color name"
+msgid "Accent 2"
+msgstr "अ‍ॅक्सेंट २"
+
+#: styles/01-evening.json styles/02-noon.json styles/03-dusk.json
+#: styles/04-afternoon.json styles/05-twilight.json styles/06-morning.json
+#: styles/07-sunrise.json styles/08-midnight.json styles/colors/01-evening.json
+#: styles/colors/02-noon.json styles/colors/03-dusk.json
+#: styles/colors/04-afternoon.json styles/colors/05-twilight.json
+#: styles/colors/06-morning.json styles/colors/07-sunrise.json
+#: styles/colors/08-midnight.json theme.json
+msgctxt "Color name"
+msgid "Accent 1"
+msgstr "अ‍ॅक्सेंट १"
+
+#: styles/01-evening.json styles/02-noon.json styles/03-dusk.json
+#: styles/04-afternoon.json styles/05-twilight.json styles/06-morning.json
+#: styles/07-sunrise.json styles/08-midnight.json styles/colors/01-evening.json
+#: styles/colors/02-noon.json styles/colors/03-dusk.json
+#: styles/colors/04-afternoon.json styles/colors/05-twilight.json
+#: styles/colors/06-morning.json styles/colors/07-sunrise.json
+#: styles/colors/08-midnight.json theme.json
+msgctxt "Color name"
+msgid "Contrast"
+msgstr "कॉन्ट्रास्ट"
+
+#: styles/01-evening.json styles/02-noon.json styles/03-dusk.json
+#: styles/04-afternoon.json styles/05-twilight.json styles/06-morning.json
+#: styles/07-sunrise.json styles/08-midnight.json styles/colors/01-evening.json
+#: styles/colors/02-noon.json styles/colors/03-dusk.json
+#: styles/colors/04-afternoon.json styles/colors/05-twilight.json
+#: styles/colors/06-morning.json styles/colors/07-sunrise.json
+#: styles/colors/08-midnight.json theme.json
+msgctxt "Color name"
+msgid "Base"
+msgstr "बेस"
+
+#: styles/01-evening.json styles/colors/01-evening.json
+msgctxt "Style variation name"
+msgid "Evening"
+msgstr "सायंकाळ"
+
+#: patterns/vertical-header.php
+msgctxt "Pattern description"
+msgid "Vertical Header with site title and navigation"
+msgstr "साइट शीर्षक आणि नेव्हिगेशनसह उभा हेडर"
+
+#: patterns/vertical-header.php
+msgctxt "Pattern title"
+msgid "Vertical header"
+msgstr "उभा हेडर"
+
+#: patterns/text-faqs.php:83
+msgctxt "Question in the FAQs pattern."
+msgid "Are signed copies available?"
+msgstr "स्वाक्षरी केलेल्या प्रती उपलब्ध आहेत का?"
+
+#: patterns/text-faqs.php:67
+msgctxt "Question in the FAQs pattern."
+msgid "When will The Stories Book be released?"
+msgstr "द स्टोरीज बुक कधी प्रसिद्ध होणार आहे?"
+
+#: patterns/text-faqs.php:47
+msgctxt "Question in the FAQs pattern."
+msgid "How much does The Stories Book cost?"
+msgstr "द स्टोरीज बुकची किंमत किती आहे?"
+
+#: patterns/text-faqs.php:31
+msgctxt "Question in the FAQs pattern."
+msgid "What is The Stories Book about?"
+msgstr "द स्टोरीज बुक कशाबद्दल आहे?"
+
+#: patterns/text-faqs.php:21
+msgctxt "Heading of the FAQs pattern."
+msgid "Frequently Asked Questions"
+msgstr "वारंवार विचारले जाणारे प्रश्न"
+
+#: patterns/text-faqs.php
+msgctxt "Pattern description"
+msgid "A FAQs section with a FAQ heading and list of questions and answers."
+msgstr "वारंवार विचारले जाणारे प्रश्नांसाठी एक विभाग, ज्यामध्ये शीर्षक आणि टॉगल स्वरूपात प्रश्न-उत्तरे दिलेली आहेत."
+
+#: patterns/text-faqs.php
+msgctxt "Pattern title"
+msgid "FAQs"
+msgstr "प्रश्नोत्तर"
+
+#: patterns/testimonials-large.php:47
+msgctxt "Alt text for testimonial image."
+msgid "Picture of a person typing on a typewriter."
+msgstr "टायपरायटरवर टाइप करत असलेल्या व्यक्तीचे चित्र"
+
+#: patterns/testimonials-large.php:24
+msgctxt "Testimonial heading."
+msgid "What people are saying"
+msgstr "लोक काय म्हणत आहेत"
+
+#: patterns/testimonials-large.php
+msgctxt "Pattern description"
+msgid "A testimonial with a large image on the right."
+msgstr "उजवीकडे मोठ्या प्रतिमेसह एक प्रशंसापत्र"
+
+#: patterns/testimonials-large.php
+msgctxt "Pattern title"
+msgid "Review with large image on right"
+msgstr "उजवीकडे मोठी प्रतिमा असलेले पुनरावलोकन"
+
+#: patterns/testimonials-6-col.php:18
+msgctxt "Testimonial section heading."
+msgid "What people are saying"
+msgstr "लोक काय म्हणत आहेत"
+
+#: patterns/testimonials-6-col.php
+msgctxt "Pattern description"
+msgid "A section with three columns and two rows, each containing a testimonial and citation."
+msgstr "तीन स्तंभ आणि दोन ओळींचा विभाग, ज्यात प्रत्येकामध्ये एक प्रशंसापत्र आणि उद्धरण आहे."
+
+#: patterns/testimonials-6-col.php
+msgctxt "Pattern title"
+msgid "3 column layout with 6 testimonials"
+msgstr "६ प्रशंसापत्रांसह ३ स्तंभ लेआउट"
+
+#: patterns/testimonials-2-col.php:67 patterns/testimonials-6-col.php:34
+#: patterns/testimonials-6-col.php:51 patterns/testimonials-6-col.php:68
+#: patterns/testimonials-6-col.php:89 patterns/testimonials-6-col.php:104
+#: patterns/testimonials-6-col.php:119
+msgctxt "Sample testimonial citation."
+msgid "Otto Reid <br><sub>Springfield, IL</sub>"
+msgstr "ऑट्टो रीड <br><sub>स्प्रिंगफिल्ड, IL</sub>"
+
+#: patterns/testimonials-2-col.php:65 patterns/testimonials-6-col.php:30
+#: patterns/testimonials-6-col.php:47 patterns/testimonials-6-col.php:64
+#: patterns/testimonials-6-col.php:85 patterns/testimonials-6-col.php:101
+#: patterns/testimonials-6-col.php:116
+msgctxt "Sample testimonial."
+msgid "“Amazing quality and care. I love all your products.”"
+msgstr "“अप्रतिम गुणवत्ता आणि काळजी. मला तुमची सर्व उत्पादने आवडतात.”"
+
+#: patterns/testimonials-2-col.php:38 patterns/testimonials-large.php:36
+msgctxt "Sample testimonial citation."
+msgid "Jo Mulligan <br /><sub>Atlanta, GA</sub>"
+msgstr "जो मुलिगन <br /><sub>अटलांटा, GA</sub>"
+
+#: patterns/testimonials-2-col.php:36 patterns/testimonials-large.php:32
+msgctxt "Sample testimonial."
+msgid "“Superb product and customer service!”"
+msgstr "“उत्तम उत्पादन आणि ग्राहक सेवा!”"
+
+#: patterns/testimonials-2-col.php:26 patterns/testimonials-2-col.php:55
+msgctxt "Alt text for testimonial image."
+msgid "Picture of a person"
+msgstr "व्यक्तीचे चित्र"
+
+#: patterns/testimonials-2-col.php
+msgctxt "Pattern description"
+msgid "Two columns with testimonials and avatars."
+msgstr "प्रशंसापत्रे आणि अवतारांसह दोन स्तंभ"
+
+#: patterns/testimonials-2-col.php
+msgctxt "Pattern title"
+msgid "2 columns with avatar"
+msgstr "२ स्तंभ अवतारांसह"
+
+#: patterns/template-single-vertical-header-blog.php
+msgctxt "Pattern title"
+msgid "Right-aligned single post"
+msgstr "उजवीकडे संरेखित एकल पोस्ट"
+
+#: patterns/template-single-text-blog.php
+msgctxt "Pattern title"
+msgid "Text-only blog, single post"
+msgstr "केवळ मजकूर ब्लॉग, एकल पोस्ट"
+
+#: patterns/template-single-photo-blog.php:79
+msgid "Next Photo"
+msgstr "पुढील फोटो"
+
+#: patterns/template-single-photo-blog.php:78
+msgid "Previous Photo"
+msgstr "मागील फोटो"
+
+#: patterns/template-single-photo-blog.php:61
+msgctxt "Prefix before one or more tags. The tags are displayed in a separate block on the next line."
+msgid "Tagged:"
+msgstr "टॅग केलेले:"
+
+#: patterns/template-single-photo-blog.php:53
+msgctxt "Prefix before one or more categories. The categories are displayed in a separate block on the next line."
+msgid "Categories:"
+msgstr "वर्गवारी:"
+
+#: patterns/template-single-photo-blog.php:42
+msgctxt "Prefix before the author name. The post author name is displayed in a separate block on the next line."
+msgid "Posted by"
+msgstr "लेखक:"
+
+#: patterns/template-single-photo-blog.php
+msgctxt "Pattern title"
+msgid "Photo blog single post"
+msgstr "फोटो ब्लॉग एकल पोस्ट"
+
+#: patterns/template-single-offset.php:40
+#: patterns/template-single-photo-blog.php:36
+msgctxt "Prefix before the post date block."
+msgid "Published on"
+msgstr "प्रकाशित केलेले"
+
+#: patterns/template-single-offset.php
+msgctxt "Pattern title"
+msgid "Offset post without featured image"
+msgstr "वैशिष्ट्यपूर्ण प्रतिमेशिवाय ऑफसेट पोस्ट"
+
+#: patterns/template-single-news-blog.php
+msgctxt "Pattern title"
+msgid "News blog single post with sidebar"
+msgstr "साईडबारसह न्यूज ब्लॉग एकल पोस्ट"
+
+#: patterns/template-home-with-sidebar-news-blog.php:88
+#: patterns/template-single-left-aligned-content.php:56
+#: patterns/template-single-news-blog.php:39
+msgctxt "Separator between date and categories."
+msgid "·"
+msgstr "·"
+
+#: patterns/template-single-left-aligned-content.php:31
+msgctxt "Prefix before the author name. The post author name is displayed in a separate block."
+msgid "by"
+msgstr "द्वारे"
+
+#: patterns/template-single-left-aligned-content.php
+msgctxt "Pattern title"
+msgid "Post with left-aligned content"
+msgstr "डावीकडे संरेखित सामग्रीसह पोस्ट"
+
+#: patterns/template-search-vertical-header-blog.php
+msgctxt "Pattern title"
+msgid "Right-aligned blog, search"
+msgstr "उजवीकडे संरेखित ब्लॉग, शोध"
+
+#: patterns/template-search-text-blog.php
+msgctxt "Pattern title"
+msgid "Text-only blog, search"
+msgstr "केवळ मजकूर ब्लॉग, शोध"
+
+#: patterns/template-search-photo-blog.php
+msgctxt "Pattern title"
+msgid "Photo blog search results"
+msgstr "फोटो ब्लॉग शोध परिणाम"
+
+#: patterns/template-search-news-blog.php
+msgctxt "Pattern title"
+msgid "News blog search results"
+msgstr "न्यूज ब्लॉग शोध परिणाम"
+
+#: patterns/template-query-loop.php
+msgctxt "Pattern description"
+msgid "A list of posts, 1 column, with featured image and post date."
+msgstr "एक स्तंभ, वैशिष्ट्यपूर्ण प्रतिमा आणि पोस्ट तारखेच्या सूचीसह पोस्ट."
+
+#: patterns/template-query-loop.php
+msgctxt "Pattern title"
+msgid "List of posts, 1 column"
+msgstr "पोस्ट्सची यादी, १ स्तंभ"
+
+#: patterns/template-query-loop-vertical-header-blog.php
+msgctxt "Pattern title"
+msgid "Right-aligned posts"
+msgstr "उजवीकडे संरेखित पोस्ट"
+
+#: patterns/template-query-loop-text-blog.php
+msgctxt "Pattern title"
+msgid "Text-only blog, posts"
+msgstr "केवळ मजकूर ब्लॉग, पोस्ट"
+
+#: patterns/template-query-loop-photo-blog.php
+msgctxt "Pattern description"
+msgid "A list of posts, 3 columns, with only featured images."
+msgstr "फक्त वैशिष्ट्यपूर्ण प्रतिमांसह ३ स्तंभांची पोस्ट सूची."
+
+#: patterns/template-query-loop-photo-blog.php
+msgctxt "Pattern title"
+msgid "Photo blog posts"
+msgstr "फोटो ब्लॉग पोस्ट"
+
+#: patterns/template-query-loop-news-blog.php:49
+msgid "Older Posts"
+msgstr "जुने पोस्ट"
+
+#: patterns/template-query-loop-news-blog.php:45
+msgid "Newer Posts"
+msgstr "नवीन पोस्ट"
+
+#: patterns/template-query-loop-news-blog.php:30
+msgctxt "Prefix before the author name. The post author name is displayed in a separate block."
+msgid "Written by"
+msgstr "लेखक:"
+
+#: patterns/template-query-loop-news-blog.php
+msgctxt "Pattern title"
+msgid "News blog query loop"
+msgstr "न्यूज ब्लॉग क्वेरी लूप"
+
+#: patterns/template-page-vertical-header-blog.php
+msgctxt "Pattern title"
+msgid "Page template for the right-aligned blog"
+msgstr "उजवीकडे संरेखित ब्लॉगसाठी पृष्ठ टेम्पलेट"
+
+#: patterns/template-page-photo-blog.php
+msgctxt "Pattern title"
+msgid "Photo blog page"
+msgstr "फोटो ब्लॉग पृष्ठ"
+
+#: patterns/template-home-with-sidebar-news-blog.php:42
+msgid "The Latest"
+msgstr "ताजे अपडेट"
+
+#: patterns/template-home-with-sidebar-news-blog.php
+msgctxt "Pattern title"
+msgid "News blog with sidebar"
+msgstr "साईडबारसह न्यूज ब्लॉग"
+
+#: patterns/template-home-vertical-header-blog.php
+msgctxt "Pattern title"
+msgid "Homepage for right-aligned blog"
+msgstr "उजवीकडे संरेखित ब्लॉगसाठी मुख्यपृष्ठ"
+
+#: patterns/template-home-text-blog.php
+msgctxt "Pattern title"
+msgid "Text-only blog, home"
+msgstr "केवळ मजकूर ब्लॉग, मुख्यपृष्ठ"
+
+#: patterns/template-home-posts-grid-news-blog.php:114
+msgid "Architecture"
+msgstr "वास्तुकला"
+
+#: patterns/template-home-posts-grid-news-blog.php
+msgctxt "Pattern title"
+msgid "News blog with featured posts grid"
+msgstr "वैशिष्ट्यपूर्ण पोस्ट ग्रिडसह न्यूज ब्लॉग"
+
+#: patterns/template-home-photo-blog.php
+msgctxt "Pattern title"
+msgid "Photo blog home"
+msgstr "फोटो ब्लॉग मुख्यपृष्ठ"
+
+#: patterns/template-home-news-blog.php
+msgctxt "Pattern title"
+msgid "News blog home"
+msgstr "न्यूज ब्लॉग मुख्यपृष्ठ"
+
+#: patterns/template-archive-vertical-header-blog.php
+msgctxt "Pattern title"
+msgid "Archive for the right-aligned blog"
+msgstr "उजवीकडे संरेखित ब्लॉगसाठी संग्रह"
+
+#: patterns/template-archive-text-blog.php
+msgctxt "Pattern title"
+msgid "Text-only blog, archive"
+msgstr "केवळ मजकूर ब्लॉग, संग्रह"
+
+#: patterns/template-archive-photo-blog.php
+msgctxt "Pattern title"
+msgid "Photo blog archive"
+msgstr "फोटो ब्लॉग संग्रह"
+
+#: patterns/template-archive-news-blog.php
+msgctxt "Pattern title"
+msgid "News blog archive"
+msgstr "न्यूज ब्लॉग संग्रह"
+
+#: patterns/template-404-vertical-header-blog.php
+msgctxt "Pattern title"
+msgid "Right-aligned blog, 404"
+msgstr "उजवीकडे संरेखित ब्लॉग, 404"
+
+#: patterns/services-team-photos.php:50
+msgid "Man in hat, standing in front of a building."
+msgstr "टोपी घातलेला माणूस, इमारतीसमोर उभा आहे."
+
+#: patterns/services-team-photos.php:44
+msgid "Picture of a person typing on a typewriter."
+msgstr "टायपरायटरवर टाइप करत असलेल्या व्यक्तीचे चित्र"
+
+#: patterns/services-team-photos.php:38
+msgid "Portrait of a nurse"
+msgstr "नर्सचे पोर्ट्रेट"
+
+#: patterns/services-team-photos.php:21
+msgid "Our small team is a group of driven, detail-oriented people who are passionate about their customers."
+msgstr "आमची छोटी टीम जिज्ञासू, तपशील-केंद्रित आणि आपल्या ग्राहकांविषयी उत्कट असलेल्या लोकांचा समूह आहे."
+
+#: patterns/services-team-photos.php
+msgctxt "Pattern description"
+msgid "Display team photos in a services section with grid layout."
+msgstr "सेवा विभागात ग्रिड लेआउटसह टीम फोटो दर्शवा."
+
+#: patterns/services-team-photos.php
+msgctxt "Pattern title"
+msgid "Services, team photos"
+msgstr "सेवा, टीम फोटो"
+
+#: patterns/services-subscriber-only-section.php:69
+msgid "Smartphones capturing a scenic wildflower meadow with trees"
+msgstr "स्मार्टफोन्सने झाडांसह जंगली फुलांच्या गवताळ प्रदेशाचे दृश्य कॅप्चर केले आहे"
+
+#: patterns/services-subscriber-only-section.php:55
+msgid "View plans"
+msgstr "योजना पहा"
+
+#: patterns/services-subscriber-only-section.php:21
+msgid "Subscribe to get unlimited access"
+msgstr "अमर्यादित प्रवेशासाठी सदस्यता घ्या"
+
+#: patterns/services-subscriber-only-section.php
+msgctxt "Pattern description"
+msgid "A subscriber-only section highlighting exclusive services and offerings."
+msgstr "फक्त सदस्यांसाठी असलेला विभाग, विशेष सेवा आणि ऑफर दर्शवितो."
+
+#: patterns/services-subscriber-only-section.php
+msgctxt "Pattern title"
+msgid "Services, subscriber only section"
+msgstr "सेवा, फक्त सदस्यांसाठी विभाग"
+
+#: patterns/services-3-col.php:68
+msgid "Deliver"
+msgstr "वितरण"
+
+#: patterns/services-3-col.php:50
+msgid "Assemble"
+msgstr "एकत्र करणे"
+
+#: patterns/services-3-col.php:36 patterns/services-3-col.php:54
+#: patterns/services-3-col.php:72
+msgid "Like flowers that bloom in unexpected places, every story unfolds with beauty and resilience"
+msgstr "अनपेक्षित ठिकाणी उमलणाऱ्या फुलांसारखीच, प्रत्येक कथा सौंदर्य आणि चिकाटीने उलगडते"
+
+#: patterns/services-3-col.php:32
+msgid "Collect"
+msgstr "संकलन"
+
+#: patterns/services-3-col.php:27 patterns/services-3-col.php:45
+#: patterns/services-3-col.php:63
+msgid "Image for service"
+msgstr "सेवेचे चित्र"
+
+#: patterns/services-3-col.php:17
+msgid "Our services"
+msgstr "आमच्या सेवा"
+
+#: patterns/services-3-col.php
+msgctxt "Pattern description"
+msgid "Three columns with images and text to showcase services."
+msgstr "सेवा दर्शविण्यासाठी प्रतिमा आणि मजकूरासह तीन स्तंभ"
+
+#: patterns/services-3-col.php
+msgctxt "Pattern title"
+msgid "Services, 3 columns"
+msgstr "सेवा, ३ स्तंभ"
+
+#: patterns/pricing-3-col.php:125
+msgid "40€"
+msgstr "४०€"
+
+#: patterns/pricing-3-col.php:117
+msgid "Get access to our paid newsletter and an unlimited pass."
+msgstr "आमच्या सशुल्क वृत्तपत्रासह अमर्याद प्रवेश मिळवा."
+
+#: patterns/pricing-3-col.php:113
+msgctxt "Name of membership package."
+msgid "Expert"
+msgstr "तज्ञ"
+
+#: patterns/pricing-3-col.php:89 patterns/pricing-3-col.php:129
+msgid "Month"
+msgstr "महिना"
+
+#: patterns/pricing-3-col.php:85
+msgid "20€"
+msgstr "२०€"
+
+#: patterns/pricing-3-col.php:77
+msgid "Get access to our paid newsletter and a limited pass for one event."
+msgstr "आमच्या सशुल्क वृत्तपत्रासह एका कार्यक्रमासाठी मर्यादित प्रवेश मिळवा."
+
+#: patterns/pricing-3-col.php:41
+msgid "Get access to our free articles and weekly newsletter."
+msgstr "आमच्या मोफत लेख आणि साप्ताहिक वृत्तपत्राला प्रवेश मिळवा."
+
+#: patterns/pricing-3-col.php:19
+msgid "Choose your membership"
+msgstr "तुमची सदस्यता निवडा"
+
+#: patterns/pricing-3-col.php
+msgctxt "Pattern description"
+msgid "A three-column boxed pricing table designed to showcase services, descriptions, and pricing options."
+msgstr "सेवा, वर्णन, आणि किंमत पर्याय दाखविण्यासाठी तीन स्तंभ असलेली बॉक्स्ड किंमत तालिका."
+
+#: patterns/pricing-3-col.php
+msgctxt "Pattern title"
+msgid "Pricing, 3 columns"
+msgstr "किंमत, ३ स्तंभ"
+
+#: patterns/pricing-2-col.php:82
+msgid "20€/month"
+msgstr "२०€/महिना"
+
+#: patterns/pricing-2-col.php:78 patterns/pricing-3-col.php:73
+msgctxt "Name of membership package."
+msgid "Single"
+msgstr "एकल"
+
+#: patterns/pricing-2-col.php:68 patterns/pricing-2-col.php:112
+#: patterns/pricing-3-col.php:59 patterns/pricing-3-col.php:99
+#: patterns/pricing-3-col.php:139
+msgctxt "Button text, refers to joining a community. Verb."
+msgid "Join"
+msgstr "सामील व्हा"
+
+#: patterns/pricing-2-col.php:60 patterns/pricing-2-col.php:104
+#: patterns/services-subscriber-only-section.php:43
+msgid "Join our forums."
+msgstr "आमच्या फोरममध्ये सामील व्हा."
+
+#: patterns/pricing-2-col.php:56 patterns/pricing-2-col.php:100
+#: patterns/services-subscriber-only-section.php:39
+msgid "An elegant addition of home decor collection."
+msgstr "घरगुती सजावटीच्या संग्रहातील एक सुंदर भर."
+
+#: patterns/pricing-2-col.php:52 patterns/pricing-2-col.php:96
+#: patterns/services-subscriber-only-section.php:35
+msgid "Get a free tote bag."
+msgstr "मोफत टोट बॅग मिळवा."
+
+#: patterns/pricing-2-col.php:48 patterns/pricing-2-col.php:92
+#: patterns/services-subscriber-only-section.php:31
+msgid "Join our IRL events."
+msgstr "आमच्या प्रत्यक्ष कार्यक्रमांमध्ये सामील व्हा."
+
+#: patterns/pricing-2-col.php:44 patterns/pricing-2-col.php:88
+#: patterns/services-subscriber-only-section.php:27
+msgid "Get access to our paid articles and weekly newsletter."
+msgstr "आमच्या सशुल्क लेख आणि साप्ताहिक वृत्तपत्रास प्रवेश मिळवा."
+
+#: patterns/pricing-2-col.php:38 patterns/pricing-3-col.php:49
+msgid "0€"
+msgstr "०€"
+
+#: patterns/pricing-2-col.php:34 patterns/pricing-3-col.php:37
+msgid "Free"
+msgstr "मोफत"
+
+#: patterns/pricing-2-col.php:22
+#: patterns/services-subscriber-only-section.php:61
+msgid "Cancel or pause anytime."
+msgstr "कधीही रद्द किंवा थांबवा."
+
+#: patterns/pricing-2-col.php:18 patterns/pricing-3-col.php:23
+msgid "Pricing"
+msgstr "किंमत"
+
+#: patterns/pricing-2-col.php
+msgctxt "Pattern description"
+msgid "Pricing section with two columns, pricing plan, description, and call-to-action buttons."
+msgstr "दोन स्तंभांसह किंमत विभाग, किंमत योजना, वर्णन, आणि कृती बटणे."
+
+#: patterns/pricing-2-col.php
+msgctxt "Pattern title"
+msgid "Pricing, 2 columns"
+msgstr "किंमत, २ स्तंभ"
+
+#: patterns/post-navigation.php:17 patterns/post-navigation.php:18
+#: patterns/template-single-left-aligned-content.php:78
+#: patterns/template-single-left-aligned-content.php:79
+#: patterns/template-single-news-blog.php:95
+#: patterns/template-single-news-blog.php:96
+#: patterns/template-single-offset.php:61
+#: patterns/template-single-offset.php:62
+#: patterns/template-single-photo-blog.php:76
+#: patterns/template-single-photo-blog.php:77
+#: patterns/template-single-text-blog.php:36
+#: patterns/template-single-text-blog.php:37
+#: patterns/template-single-vertical-header-blog.php:82
+#: patterns/template-single-vertical-header-blog.php:83
+msgid "Post navigation"
+msgstr "पोस्ट नेव्हिगेशन"
+
+#: patterns/post-navigation.php
+msgctxt "Pattern description"
+msgid "Next and previous post links."
+msgstr "पुढील आणि मागील पोस्ट दुवे."
+
+#: patterns/post-navigation.php
+msgctxt "Pattern title"
+msgid "Post navigation"
+msgstr "पोस्ट नेव्हिगेशन"
+
+#: patterns/page-shop-home.php
+msgctxt "Pattern description"
+msgid "A shop homepage pattern."
+msgstr "दुकानाचे मुख्यपृष्ठ नमुना."
+
+#: patterns/page-shop-home.php
+msgctxt "Pattern title"
+msgid "Shop homepage"
+msgstr "दुकान मुख्यपृष्ठ"
+
+#: patterns/page-portfolio-home.php:229
+msgctxt "Phone number."
+msgid "+1 555 349 1806"
+msgstr "+१ ५५५ ३४९ १८०६"
+
+#: patterns/page-portfolio-home.php:229
+msgid "email@example.com"
+msgstr "ईमेल@example.com"
+
+#: patterns/page-portfolio-home.php:27
+msgid "My name is Anna Möller and these are some of my photo projects."
+msgstr "माझे नाव अ‍ॅना मोलर आहे आणि हे माझे काही फोटो प्रकल्प आहेत."
+
+#: patterns/page-portfolio-home.php
+msgctxt "Pattern description"
+msgid "A portfolio homepage pattern."
+msgstr "पोर्टफोलियो मुख्यपृष्ठ नमुना."
+
+#: patterns/page-portfolio-home.php
+msgctxt "Pattern title"
+msgid "Portfolio homepage"
+msgstr "पोर्टफोलियो मुख्यपृष्ठ"
+
+#: patterns/page-link-in-bio-with-tight-margins.php:42
+msgid "I’m Asahachi Kōno, a Japanese photographer, a member of Los Angeles’s Japanese Camera Pictorialists of California. Before returning to Japan, I worked as a photo retoucher."
+msgstr "मी असाहाची कोनो, एक जपानी फोटोग्राफर, लॉस एंजेलिसच्या जपानी कॅमेरा पिक्टोरियलिस्ट्स ऑफ कॅलिफोर्नियाचा सदस्य आहे. जपानला परतण्यापूर्वी, मी फोटो रिटचेर म्हणून काम केले."
+
+#: patterns/page-link-in-bio-with-tight-margins.php:27
+msgid "Black and white photo focusing on a woman and a child from afar."
+msgstr "दुरून एका स्त्री आणि मुलावर लक्ष केंद्रित केलेले कृष्णधवल छायाचित्र."
+
+#: patterns/page-link-in-bio-with-tight-margins.php
+msgctxt "Pattern description"
+msgid "A full-width, full-height link in bio section with an image, a paragraph and social links."
+msgstr "पूर्ण रुंदी आणि उंची असलेल्या बायो विभागात एक प्रतिमा, परिच्छेद आणि सामाजिक दुवे."
+
+#: patterns/page-link-in-bio-with-tight-margins.php
+msgctxt "Pattern title"
+msgid "Link in bio with tight margins"
+msgstr "बायो दुव्यासह संकुचित मार्जिन"
+
+#: patterns/page-link-in-bio-wide-margins.php:38
+msgctxt "Pattern placeholder text."
+msgid "I’m Nora, a dedicated public interest attorney based in Denver. I’m a graduate of Stanford University."
+msgstr "मी नोरा, डेन्व्हरमध्ये स्थायिक असलेली एक समर्पित सार्वजनिक हित वकील आहे. मी स्टॅनफोर्ड विद्यापीठाची पदवीधर आहे."
+
+#: patterns/page-link-in-bio-wide-margins.php:34
+msgid "Nora Winslow Keene"
+msgstr "नोरा विंसलो कीन"
+
+#: patterns/page-link-in-bio-wide-margins.php
+msgctxt "Pattern description"
+msgid "A link in bio landing page with social links, a profile photo and a brief description."
+msgstr "सामाजिक दुवे, प्रोफाइल फोटो आणि थोडक्यात वर्णन असलेली बायो लँडिंग पृष्ठ."
+
+#: patterns/page-link-in-bio-wide-margins.php
+msgctxt "Pattern title"
+msgid "Link in bio with profile, links and wide margins"
+msgstr "प्रोफाइल, दुवे आणि विस्तृत मार्जिनसह बायो लँडिंग पृष्ठ"
+
+#: patterns/page-link-in-bio-heading-paragraph-links-image.php:57
+msgid "Photo of a woman worker."
+msgstr "महिला कामगाराचे छायाचित्र."
+
+#: patterns/page-link-in-bio-heading-paragraph-links-image.php:30
+msgid "Lewis W. Hine studied sociology before moving to New York in 1901 to work at the Ethical Culture School, where he took up photography to enhance his teaching practices"
+msgstr "लेविस डब्ल्यू. हाइन यांनी समाजशास्त्राचा अभ्यास केला आणि १९०१ मध्ये न्यूयॉर्कमध्ये एथिकल कल्चर स्कूलमध्ये काम करण्यासाठी गेले, जिथे त्यांनी आपल्या अध्यापन पद्धती सुधारण्यासाठी छायाचित्रण स्वीकारले."
+
+#: patterns/page-link-in-bio-heading-paragraph-links-image.php:26
+msgid "Lewis Hine"
+msgstr "लेविस हाइन"
+
+#: patterns/page-link-in-bio-heading-paragraph-links-image.php
+msgctxt "Pattern description"
+msgid "A link in bio landing page with a heading, paragraph, links and a full height image."
+msgstr "एक शीर्षक, परिच्छेद, दुवे आणि पूर्ण उंची असलेल्या प्रतिमेसह बायो लँडिंग पृष्ठ."
+
+#: patterns/page-link-in-bio-heading-paragraph-links-image.php
+msgctxt "Pattern title"
+msgid "Link in bio heading, paragraph, links and full-height image"
+msgstr "बायो शीर्षक, परिच्छेद, दुवे आणि पूर्ण उंची प्रतिमेसह लँडिंग पृष्ठ"
+
+#: patterns/page-landing-podcast.php
+msgctxt "Pattern description"
+msgid "A landing page for the podcast with a hero section, description, logos, grid with videos and newsletter signup."
+msgstr "पोडकास्टसाठी एक लँडिंग पृष्ठ ज्यामध्ये हिरो विभाग, वर्णन, लोगो, व्हिडिओसह ग्रिड आणि वृत्तपत्र साइनअप आहे."
+
+#: patterns/page-landing-podcast.php
+msgctxt "Pattern title"
+msgid "Landing page for podcast"
+msgstr "पोडकास्टसाठी लँडिंग पृष्ठ"
+
+#: patterns/page-landing-event.php
+msgctxt "Pattern description"
+msgid "A landing page for the event with a hero section, description, FAQs and call to action."
+msgstr "कार्यक्रमासाठी एक लँडिंग पृष्ठ, ज्यामध्ये हिरो विभाग, वर्णन, वारंवार विचारले जाणारे प्रश्न आणि कृतीसाठी कॉल आहे."
+
+#: patterns/page-landing-event.php
+msgctxt "Pattern title"
+msgid "Landing page for event"
+msgstr "कार्यक्रमासाठी लँडिंग पृष्ठ"
+
+#: patterns/page-landing-book.php
+msgctxt "Pattern description"
+msgid "A landing page for the book with a hero section, pre-order links, locations, FAQs and newsletter signup."
+msgstr "पुस्तकासाठी एक लँडिंग पृष्ठ, ज्यामध्ये हिरो विभाग, प्री-ऑर्डर दुवे, स्थान, वारंवार विचारले जाणारे प्रश्न आणि वृत्तपत्र साइनअप आहे."
+
+#: patterns/page-landing-book.php
+msgctxt "Pattern title"
+msgid "Landing page for book"
+msgstr "पुस्तकासाठी लँडिंग पृष्ठ"
+
+#: patterns/page-cv-bio.php:47
+msgctxt "Link to a page with information about what the person is working on right now."
+msgid "Now"
+msgstr "सध्या"
+
+#: patterns/page-cv-bio.php:47
+msgid "LinkedIn"
+msgstr "लिंक्डइन"
+
+#: patterns/page-cv-bio.php:43 patterns/page-link-in-bio-wide-margins.php:24
+#: patterns/services-team-photos.php:32
+msgid "Woman on beach, splashing water."
+msgstr "समुद्रकिनारी पाणी उडवणारी स्त्री."
+
+#: patterns/page-cv-bio.php:31
+msgctxt "Pattern placeholder text."
+msgid "My name is Nora Winslow Keene, and I’m a committed public interest attorney. Living in Denver, Colorado, I’ve spent years championing the rights of underrepresented workers. A graduate of Stanford University, I played a key role in securing critical protections for agricultural laborers, ensuring better wages and access to healthcare. My work has focused on advocating for environmental justice and improving the quality of life for rural communities. Every case I take on is driven by the belief that everyone deserves dignity and fair treatment in the workplace."
+msgstr "माझे नाव नोरा विंसलो कीन आहे, आणि मी एक समर्पित सार्वजनिक हित वकील आहे. डेन्व्हर, कोलोराडो येथे राहणारी, मी दुर्लक्षित कामगारांच्या हक्कांसाठी वर्षेभर लढा दिला आहे. स्टॅनफोर्ड विद्यापीठाची पदवीधर असल्याने, मी कृषी कामगारांसाठी महत्वाच्या संरक्षणाची हमी देण्यात महत्त्वाची भूमिका बजावली, ज्यामुळे चांगल्या वेतनासह आरोग्यसेवांमध्ये सुधारणा झाली. माझे कार्य पर्यावरण न्यायाच्या बाजूने आणि ग्रामीण समुदायांच्या जीवनमान उन्नतीसाठी केंद्रित आहे. प्रत्येक केस मी घेतो ती या विश्वासाने प्रेरित असते की प्रत्येकास सन्मान आणि न्याय मिळायला हवा."
+
+#: patterns/page-cv-bio.php:28
+msgctxt "Example heading in pattern."
+msgid "Hey,"
+msgstr "नमस्कार,"
+
+#: patterns/page-cv-bio.php
+msgctxt "Pattern description"
+msgid "A pattern for a CV/Bio landing page."
+msgstr "सीव्ही/बायो लँडिंग पृष्ठासाठी एक नमुना."
+
+#: patterns/page-cv-bio.php
+msgctxt "Pattern title"
+msgid "CV/bio"
+msgstr "सीव्ही/बायो"
+
+#: patterns/page-coming-soon.php:33
+msgid "Subscribe to get notified when our website is ready."
+msgstr "आमची वेबसाइट तयार झाल्यावर सूचना मिळवण्यासाठी सदस्यता घ्या."
+
+#: patterns/page-coming-soon.php:29
+msgid "Something great is coming soon"
+msgstr "काहीतरी अप्रतिम लवकरच येत आहे"
+
+#: patterns/page-coming-soon.php:24
+msgid "Event"
+msgstr "कार्यक्रम"
+
+#: patterns/page-coming-soon.php
+msgctxt "Pattern description"
+msgid "A full-width cover banner that can be applied to a page or it can work as a single landing page."
+msgstr "पूर्ण रुंदीचे कव्हर बॅनर, जे एखाद्या पृष्ठावर लागू केले जाऊ शकते किंवा एकल लँडिंग पृष्ठ म्हणून कार्य करू शकते."
+
+#: patterns/page-coming-soon.php
+msgctxt "Pattern title"
+msgid "Coming soon"
+msgstr "लवकरच येत आहे"
+
+#: patterns/page-business-home.php
+msgctxt "Pattern description"
+msgid "A business homepage pattern."
+msgstr "व्यवसायाच्या मुख्यपृष्ठाचा नमुना."
+
+#: patterns/page-business-home.php
+msgctxt "Pattern title"
+msgid "Business homepage"
+msgstr "व्यवसायाचे मुख्यपृष्ठ"
+
+#: patterns/overlapped-images.php
+msgctxt "Pattern description"
+msgid "A section with overlapping images, and a description."
+msgstr "ओव्हरलॅपिंग प्रतिमा आणि वर्णन असलेला विभाग."
+
+#: patterns/overlapped-images.php
+msgctxt "Pattern title"
+msgid "Overlapping images and paragraph on right"
+msgstr "ओव्हरलॅपिंग प्रतिमा आणि उजवीकडे परिच्छेद"
+
+#: patterns/more-posts.php:18
+msgid "More posts"
+msgstr "अधिक पोस्ट्स"
+
+#: patterns/more-posts.php
+msgctxt "Pattern description"
+msgid "Displays a list of posts with title and date."
+msgstr "शीर्षक आणि तारखेच्या सूचीसह पोस्ट दर्शवते."
+
+#: patterns/more-posts.php
+msgctxt "Pattern title"
+msgid "More posts"
+msgstr "अधिक पोस्ट्स"
+
+#: patterns/media-instagram-grid.php:56
+msgid "Close up of two flowers on a dark background."
+msgstr "गडद पार्श्वभूमीवर दोन फुलांचे क्लोज-अप."
+
+#: patterns/media-instagram-grid.php:48
+msgid "Portrait of an African Woman dressed in traditional costume, wearing decorative jewelry."
+msgstr "पारंपारिक पोशाख आणि अलंकार घातलेल्या आफ्रिकन स्त्रीचे पोर्ट्रेट."
+
+#: patterns/media-instagram-grid.php:40
+msgid "Profile portrait of a native person."
+msgstr "मूळ व्यक्तीचे प्रोफाइल पोर्ट्रेट."
+
+#: patterns/media-instagram-grid.php:28
+msgctxt "Example username for social media account."
+msgid "@example"
+msgstr "@उदाहरण"
+
+#: patterns/media-instagram-grid.php
+msgctxt "Pattern description"
+msgid "A grid section with photos and a link to an Instagram profile."
+msgstr "फोटो आणि इंस्टाग्राम प्रोफाइलसाठी दुव्यासह ग्रिड विभाग."
+
+#: patterns/media-instagram-grid.php
+msgctxt "Pattern title"
+msgid "Instagram grid"
+msgstr "इंस्टाग्राम ग्रिड"
+
+#: patterns/logos.php:17
+msgid "The Stories Podcast is sponsored by"
+msgstr "द स्टोरीज पॉडकास्ट प्रायोजित आहे"
+
+#: patterns/logos.php
+msgctxt "Pattern description"
+msgid "Showcasing the podcast's clients with a heading and a series of client logos."
+msgstr "पॉडकास्टच्या क्लायंटना शीर्षकासह आणि क्लायंटच्या लोगोच्या मालिकेसह प्रदर्शित करणे."
+
+#: patterns/logos.php
+msgctxt "Pattern title"
+msgid "Logos"
+msgstr "लोगो"
+
+#: patterns/hidden-written-by.php:20
+msgid "in"
+msgstr "मध्ये"
+
+#: patterns/hidden-written-by.php:16
+msgid "Written by "
+msgstr "लेखक: "
+
+#: patterns/hidden-written-by.php
+msgctxt "Pattern title"
+msgid "Written by"
+msgstr "लेखक"
+
+#: patterns/hidden-sidebar.php:38 patterns/page-portfolio-home.php:65
+#: patterns/page-portfolio-home.php:87 patterns/page-portfolio-home.php:121
+#: patterns/page-portfolio-home.php:154 patterns/page-portfolio-home.php:176
+#: patterns/page-portfolio-home.php:203 patterns/template-home-news-blog.php:40
+#: patterns/template-home-posts-grid-news-blog.php:35
+#: patterns/template-home-posts-grid-news-blog.php:60
+#: patterns/template-home-posts-grid-news-blog.php:78
+#: patterns/template-home-posts-grid-news-blog.php:103
+#: patterns/template-home-with-sidebar-news-blog.php:62
+#: patterns/template-home-with-sidebar-news-blog.php:119
+#: patterns/template-query-loop-news-blog.php:55
+#: patterns/template-query-loop-photo-blog.php:22
+#: patterns/template-query-loop-text-blog.php:19
+#: patterns/template-query-loop-vertical-header-blog.php:47
+#: patterns/template-query-loop.php:31
+msgctxt "Message explaining that there are no results returned from a search."
+msgid "Sorry, but nothing was found. Please try a search with different keywords."
+msgstr "माफ करा, काहीही सापडले नाही. कृपया वेगळ्या कीवर्डसह शोधा."
+
+#: patterns/hidden-sidebar.php:37
+#: patterns/template-home-posts-grid-news-blog.php:34
+#: patterns/template-home-with-sidebar-news-blog.php:61
+msgid "Add text or blocks that will display when a query returns no results."
+msgstr "जेव्हा शोध परिणाम उपलब्ध नसतात, तेव्हा दर्शविण्यासाठी मजकूर किंवा ब्लॉक्स जोडा."
+
+#: patterns/hidden-sidebar.php:14
+msgid "Other Posts"
+msgstr "इतर पोस्ट्स"
+
+#: patterns/hidden-sidebar.php
+msgctxt "Pattern title"
+msgid "Sidebar"
+msgstr "साइडबार"
+
+#: patterns/cta-heading-search.php:21 patterns/hidden-search.php:14
+msgctxt "Button text. Verb."
+msgid "Search"
+msgstr "शोधा"
+
+#: patterns/hidden-search.php
+msgctxt "Pattern title"
+msgid "Search"
+msgstr "शोध"
+
+#: patterns/hidden-blog-heading.php
+msgctxt "Pattern description"
+msgid "Hidden heading for the home page and index template."
+msgstr "मुखपृष्ठ आणि अनुक्रमणिका टेम्प्लेटसाठी लपविलेले शीर्षक."
+
+#: patterns/hidden-blog-heading.php
+msgctxt "Pattern title"
+msgid "Hidden blog heading"
+msgstr "लपविलेले ब्लॉग शीर्षक"
+
+#: patterns/hidden-404.php:36
+msgctxt "404 error message"
+msgid "The page you are looking for doesn't exist, or it has been moved. Please try searching using the form below."
+msgstr "आपण शोधत असलेले पृष्ठ अस्तित्वात नाही, किंवा ते हलविले गेले आहे. कृपया खालील फॉर्म वापरून शोधा."
+
+#: patterns/hidden-404.php:32
+msgctxt "404 error message"
+msgid "Page not found"
+msgstr "पृष्ठ सापडले नाही"
+
+#: patterns/hidden-404.php:21
+msgctxt "image description"
+msgid "Small totara tree on ridge above Long Point"
+msgstr "लाँग पॉइंटवरील टेकडीवर लहान तोतारा झाड"
+
+#: patterns/hidden-404.php
+msgctxt "Pattern title"
+msgid "404"
+msgstr "404"
+
+#: patterns/hero-podcast.php:65
+msgctxt "Button text"
+msgid "RSS"
+msgstr "RSS"
+
+#: patterns/hero-podcast.php:61
+msgctxt "Button text"
+msgid "Pocket Casts"
+msgstr "पॉकेट कास्ट्स"
+
+#: patterns/hero-podcast.php:57
+msgctxt "Button text"
+msgid "Spotify"
+msgstr "Spotify"
+
+#: patterns/hero-podcast.php:53
+msgctxt "Button text"
+msgid "Apple Podcasts"
+msgstr "Apple Podcasts"
+
+#: patterns/hero-podcast.php:49
+msgctxt "Button text"
+msgid "YouTube"
+msgstr "YouTube"
+
+#: patterns/hero-podcast.php:43
+msgid "Subscribe on your favorite platform"
+msgstr "आपल्या आवडत्या प्लॅटफॉर्मवर सदस्यता घ्या"
+
+#: patterns/hero-podcast.php:36
+msgctxt "Podcast description"
+msgid "Storytelling, expert analysis, and vivid descriptions. The Stories Podcast brings history to life, making it accessible and engaging for a global audience."
+msgstr "कथाकथन, तज्ज्ञ विश्लेषण आणि ज्वलंत वर्णन. स्टोरीज पॉडकास्ट इतिहासाला जिवंत करतो, जागतिक प्रेक्षकांसाठी उपलब्ध आणि आकर्षक बनवतो."
+
+#: patterns/hero-podcast.php:32
+msgid "The Stories Podcast"
+msgstr "द स्टोरीज पॉडकास्ट"
+
+#: patterns/hero-podcast.php:22
+msgctxt "Alt text for hero image."
+msgid "Picture of a person"
+msgstr "व्यक्तीचे चित्र"
+
+#: patterns/hero-podcast.php
+msgctxt "Pattern title"
+msgid "Hero podcast"
+msgstr "हिरो पॉडकास्ट"
+
+#: patterns/hero-overlapped-book-cover-with-links.php:113
+msgid "Book Image"
+msgstr "पुस्तक प्रतिमा"
+
+#: patterns/hero-overlapped-book-cover-with-links.php:34
+msgctxt "Hero - Overlapped book cover pattern subline text"
+msgid "A fine collection of moments in time featuring photographs from Louis Fleckenstein, Paul Strand and Asahachi Kōno."
+msgstr "लुईस फ्लेक्केंस्टाईन, पॉल स्ट्रँड आणि असाहाची कोनो यांच्या छायाचित्रांचा उत्कृष्ट संकलन."
+
+#: patterns/hero-overlapped-book-cover-with-links.php:28
+msgctxt "Hero - Overlapped book cover pattern headline text"
+msgid "The Stories Book"
+msgstr "द स्टोरीज बुक"
+
+#: patterns/hero-overlapped-book-cover-with-links.php
+msgctxt "Pattern description"
+msgid "A hero with an overlapped book cover and links."
+msgstr "ओव्हरलॅप केलेल्या पुस्तकाच्या कव्हरसह हिरो आणि दुवे."
+
+#: patterns/hero-overlapped-book-cover-with-links.php
+msgctxt "Pattern title"
+msgid "Hero, overlapped book cover with links"
+msgstr "हिरो, ओव्हरलॅप केलेले पुस्तक कव्हर आणि दुवे"
+
+#: patterns/hero-full-width-image.php:33
+msgctxt "Sample hero button"
+msgid "Learn More"
+msgstr "अधिक जाणून घ्या"
+
+#: patterns/hero-full-width-image.php:27
+msgctxt "Sample hero paragraph"
+msgid "Like flowers that bloom in unexpected places, every story unfolds with beauty and resilience, revealing hidden wonders."
+msgstr "अनपेक्षित ठिकाणी उमलणाऱ्या फुलांप्रमाणे, प्रत्येक कथा सौंदर्य आणि चिकाटीने उलगडते, लपलेल्या चमत्कार उघड करते."
+
+#: patterns/hero-full-width-image.php:23
+msgctxt "Sample hero heading"
+msgid "Tell your story"
+msgstr "तुमची कथा सांगा"
+
+#: patterns/hero-full-width-image.php:18
+msgctxt "Alt text for cover image."
+msgid "Picture of a flower"
+msgstr "फुलाचे चित्र"
+
+#: patterns/hero-full-width-image.php
+msgctxt "Pattern description"
+msgid "A hero with a full width image, heading, short paragraph and button."
+msgstr "पूर्ण रुंदीच्या प्रतिमेसह हिरो, शीर्षक, लहान परिच्छेद आणि बटण."
+
+#: patterns/hero-full-width-image.php
+msgctxt "Pattern title"
+msgid "Hero, full width image"
+msgstr "हिरो, पूर्ण रुंदी प्रतिमा"
+
+#: patterns/hero-book.php:46
+msgctxt "CTA text of the hero section."
+msgid "Available for pre-order now."
+msgstr "आता प्री-ऑर्डरसाठी उपलब्ध."
+
+#: patterns/hero-book.php:42
+msgctxt "Content of the hero section."
+msgid "A fine collection of moments in time featuring photographs from Louis Fleckenstein, Paul Strand and Asahachi Kōno."
+msgstr "लुईस फ्लेक्केंस्टाईन, पॉल स्ट्रँड आणि असाहाची कोनो यांच्या छायाचित्रांचा उत्कृष्ट संकलन."
+
+#: patterns/hero-book.php:38
+msgctxt "Heading of the hero section."
+msgid "The Stories Book"
+msgstr "द स्टोरीज बुक"
+
+#: patterns/hero-book.php:24
+msgid "Image of the book"
+msgstr "पुस्तकाची प्रतिमा"
+
+#: patterns/hero-book.php
+msgctxt "Pattern description"
+msgid "A hero section for the book with a description and pre-order link."
+msgstr "पुस्तकासाठी एक हिरो विभाग, ज्यामध्ये वर्णन आणि प्री-ऑर्डर दुवा आहे."
+
+#: patterns/hero-book.php
+msgctxt "Pattern title"
+msgid "Hero book"
+msgstr "हिरो पुस्तक"
+
+#: patterns/heading-and-paragraph-with-image.php:36
+msgctxt "Alt text for Overview picture."
+msgid "Cliff Palace, Colorado"
+msgstr "क्लिफ पॅलेस, कोलोराडो"
+
+#: patterns/heading-and-paragraph-with-image.php:27
+msgctxt "Event Overview Text."
+msgid "Held over a weekend, the event is structured around a series of exhibitions, workshops, and panel discussions. The exhibitions showcase a curated selection of photographs that tell compelling stories from various corners of the globe, each image accompanied by detailed narratives that provide context and deeper insight into the historical significance of the scenes depicted. These photographs are drawn from the archives of renowned photographers, as well as emerging talents, ensuring a blend of both classical and contemporary perspectives."
+msgstr "संपूर्ण आठवड्याच्या शेवटी आयोजित हा कार्यक्रम प्रदर्शन, कार्यशाळा आणि पॅनेल चर्चांभोवती आयोजित केला जातो. प्रदर्शनांमध्ये जगाच्या विविध कोपऱ्यांतील छायाचित्रांच्या कथांची मांडणी केली जाते, ज्यामध्ये प्रत्येक छायाचित्राला तपशीलवार कथानकासह ऐतिहासिक महत्त्व दर्शविले जाते. हे छायाचित्र प्रसिद्ध छायाचित्रकारांच्या संग्रहातून आणि उदयोन्मुख प्रतिभांमधून घेतलेले आहेत, ज्यामुळे पारंपारिक आणि आधुनिक दृष्टिकोनांचा संगम साधला जातो."
+
+#: patterns/heading-and-paragraph-with-image.php:23
+msgid "About the event"
+msgstr "कार्यक्रमाबद्दल"
+
+#: patterns/heading-and-paragraph-with-image.php
+msgctxt "Pattern description"
+msgid "A two-column section with a heading and paragraph on the left, and an image on the right."
+msgstr "डावीकडे शीर्षक आणि परिच्छेद, आणि उजवीकडे प्रतिमा असलेला दोन स्तंभ विभाग."
+
+#: patterns/heading-and-paragraph-with-image.php
+msgctxt "Pattern title"
+msgid "Heading and paragraph with image on the right"
+msgstr "उजवीकडे प्रतिमेसह शीर्षक आणि परिच्छेद"
+
+#: patterns/header.php
+msgctxt "Pattern description"
+msgid "Header with site title and navigation."
+msgstr "साइट शीर्षक आणि नेव्हिगेशनसह हेडर."
+
+#: patterns/header.php
+msgctxt "Pattern title"
+msgid "Header"
+msgstr "हेडर"
+
+#: patterns/header-large-title.php
+msgctxt "Pattern description"
+msgid "Header with large site title and right-aligned navigation."
+msgstr "मोठ्या साइट शीर्षकासह आणि उजवीकडे नेव्हिगेशन असलेला हेडर."
+
+#: patterns/header-large-title.php
+msgctxt "Pattern title"
+msgid "Header with large title"
+msgstr "मोठ्या शीर्षकासह हेडर"
+
+#: patterns/header-columns.php
+msgctxt "Pattern description"
+msgid "Header with site title and navigation in columns."
+msgstr "साइट शीर्षक आणि स्तंभांमध्ये नेव्हिगेशनसह हेडर."
+
+#: patterns/header-columns.php
+msgctxt "Pattern title"
+msgid "Header with columns"
+msgstr "स्तंभांसह हेडर"
+
+#: patterns/header-centered.php
+msgctxt "Pattern description"
+msgid "Header with centered site title and navigation."
+msgstr "मध्यभागी साइट शीर्षक आणि नेव्हिगेशनसह हेडर."
+
+#: patterns/header-centered.php
+msgctxt "Pattern title"
+msgid "Centered header"
+msgstr "मध्यभागी हेडर"
+
+#: patterns/grid-with-categories.php:64
+msgid "Sunflowers"
+msgstr "सूर्यफुलं"
+
+#: patterns/grid-with-categories.php:50
+msgid "Cactus"
+msgstr "कॅक्टस"
+
+#: patterns/grid-with-categories.php:36
+msgid "Anthuriums"
+msgstr "अँथुरियम"
+
+#: patterns/grid-with-categories.php:29
+msgid "Close up of a red anthurium."
+msgstr "लाल अँथुरियमचा क्लोज-अप."
+
+#: patterns/grid-with-categories.php:22
+msgid "Top Categories"
+msgstr "शीर्ष श्रेणी"
+
+#: patterns/grid-with-categories.php
+msgctxt "Pattern description"
+msgid "A grid section with different categories."
+msgstr "विविध श्रेणींसह ग्रिड विभाग."
+
+#: patterns/grid-with-categories.php
+msgctxt "Pattern title"
+msgid "Grid with categories"
+msgstr "श्रेणींसह ग्रिड"
+
+#: patterns/grid-videos.php:23
+msgid "Podcast"
+msgstr "पॉडकास्ट"
+
+#: patterns/grid-videos.php:19
+msgid "Explore the episodes"
+msgstr "भागांचा अन्वेषण करा"
+
+#: patterns/grid-videos.php
+msgctxt "Pattern description"
+msgid "A grid with videos."
+msgstr "व्हिडिओसह ग्रिड विभाग."
+
+#: patterns/grid-videos.php
+msgctxt "Pattern title"
+msgid "Grid with videos"
+msgstr "व्हिडिओसह ग्रिड"
+
+#: patterns/format-link.php:23
+msgid "https://example.com"
+msgstr "https://example.com"
+
+#: patterns/format-link.php:17
+msgid "The Stories Book, a fine collection of moments in time featuring photographs from Louis Fleckenstein, Paul Strand and Asahachi Kōno, is available for pre-order"
+msgstr "द स्टोरीज बुक, लुईस फ्लेक्केंस्टाईन, पॉल स्ट्रँड आणि असाहाची कोनो यांच्या छायाचित्रांचा उत्कृष्ट संकलन, प्री-ऑर्डरसाठी उपलब्ध आहे."
+
+#: patterns/format-link.php
+msgctxt "Pattern description"
+msgid "A link post format with a description and an emphasized link for key content."
+msgstr "वर्णनासह आणि महत्त्वाच्या सामग्रीसाठी ठळक दुव्यासह लिंक पोस्ट फॉरमॅट."
+
+#: patterns/format-link.php
+msgctxt "Pattern title"
+msgid "Link format"
+msgstr "लिंक फॉरमॅट"
+
+#: patterns/format-audio.php:30
+msgid "Acoma Pueblo, in New Mexico, stands as a testament to the resilience and cultural heritage of the Acoma people"
+msgstr "न्यू मेक्सिकोमधील अकोमा पुएब्लो, अकोमा लोकांच्या चिकाटी आणि सांस्कृतिक वारशाचे प्रतीक आहे."
+
+#: patterns/format-audio.php:26
+msgid "Episode 1: Acoma Pueblo with Prof. Fiona Presley"
+msgstr "भाग १: प्रो. फिओना प्रेस्ली यांच्यासोबत अकोमा पुएब्लो"
+
+#: patterns/format-audio.php
+msgctxt "Pattern description"
+msgid "An audio post format with an image, title, audio player, and description."
+msgstr "प्रतिमा, शीर्षक, ऑडिओ प्लेयर आणि वर्णनासह ऑडिओ पोस्ट फॉरमॅट."
+
+#: patterns/format-audio.php
+msgctxt "Pattern title"
+msgid "Audio format"
+msgstr "ऑडिओ फॉरमॅट"
+
+#: patterns/footer.php
+msgctxt "Pattern description"
+msgid "Footer columns with logo, title, tagline and links."
+msgstr "लोगो, शीर्षक, टॅगलाइन आणि दुव्यांसह फूटर स्तंभ."
+
+#: patterns/footer.php
+msgctxt "Pattern title"
+msgid "Footer"
+msgstr "फूटर"
+
+#: patterns/footer-social.php
+msgctxt "Pattern description"
+msgid "Footer with centered site title and social links."
+msgstr "मध्यभागी साइट शीर्षक आणि सामाजिक दुव्यांसह फूटर."
+
+#: patterns/footer-social.php
+msgctxt "Pattern title"
+msgid "Centered footer with social links"
+msgstr "सामाजिक दुव्यांसह मध्यभागी फूटर"
+
+#: patterns/footer-newsletter.php:24
+msgid "Receive our articles in your inbox."
+msgstr "आमचे लेख तुमच्या इनबॉक्समध्ये मिळवा."
+
+#: patterns/footer-newsletter.php
+msgctxt "Pattern description"
+msgid "Footer with large site title and newsletter signup."
+msgstr "मोठे साइट शीर्षक आणि वृत्तपत्र साइनअपसह फूटर."
+
+#: patterns/footer-newsletter.php
+msgctxt "Pattern title"
+msgid "Footer with newsletter signup"
+msgstr "वृत्तपत्र साइनअपसह फूटर"
+
+#: patterns/footer-columns.php:52 patterns/footer.php:61
+msgid "Themes"
+msgstr "थीम्स"
+
+#: patterns/footer-columns.php:51 patterns/footer.php:59
+msgid "Patterns"
+msgstr "नमुने"
+
+#: patterns/footer-columns.php:50 patterns/footer.php:57
+msgid "Shop"
+msgstr "दुकान"
+
+#: patterns/footer-columns.php:48
+msgid "Featured"
+msgstr "वैशिष्ट्यपूर्ण"
+
+#: patterns/footer-columns.php:39 patterns/footer.php:51
+msgid "Authors"
+msgstr "लेखक"
+
+#: patterns/footer-columns.php:38 patterns/footer.php:49
+msgid "FAQs"
+msgstr "सामान्य प्रश्न"
+
+#: patterns/footer-columns.php:37 patterns/footer.php:47
+msgid "About"
+msgstr "बद्दल"
+
+#: patterns/footer-columns.php:36 patterns/footer.php:45
+#: patterns/hidden-blog-heading.php:15 patterns/template-home-text-blog.php:20
+msgid "Blog"
+msgstr "ब्लॉग"
+
+#: patterns/footer-columns.php
+msgctxt "Pattern description"
+msgid "Footer columns with title, tagline and links."
+msgstr "शीर्षक, टॅगलाइन आणि दुव्यांसह फूटर स्तंभ."
+
+#: patterns/footer-columns.php
+msgctxt "Pattern title"
+msgid "Footer with columns"
+msgstr "स्तंभांसह फूटर"
+
+#. translators: Designed with WordPress. %s: WordPress link.
+#: patterns/footer-centered.php:33 patterns/footer-columns.php:73
+#: patterns/footer-newsletter.php:49 patterns/footer-social.php:35
+#: patterns/footer.php:82
+msgid "Designed with %s"
+msgstr "%s सह डिझाइन केलेले"
+
+#: patterns/footer-centered.php
+msgctxt "Pattern description"
+msgid "Footer with centered site title and tagline."
+msgstr "मध्यभागी साइट शीर्षक आणि टॅगलाइनसह फूटर."
+
+#: patterns/footer-centered.php
+msgctxt "Pattern title"
+msgid "Centered footer"
+msgstr "मध्यभागी फूटर"
+
+#: patterns/event-schedule.php:174
+msgid "An introduction to African dialects"
+msgstr "आफ्रिकन बोलींचे परिचय"
+
+#: patterns/event-schedule.php:163
+msgid "Black and white photo of an African woman."
+msgstr "आफ्रिकन महिलेचे कृष्णधवल छायाचित्र."
+
+#: patterns/event-schedule.php:142
+msgid "Ancient buildings and symbols"
+msgstr "प्राचीन इमारती आणि चिन्हे"
+
+#: patterns/event-schedule.php:132 patterns/media-instagram-grid.php:52
+msgid "The Acropolis of Athens."
+msgstr "अथेन्समधील अक्रोपोलिस."
+
+#: patterns/event-schedule.php:89
+msgid "Things you didn’t know about the deep ocean"
+msgstr "गहन महासागराबद्दल तुम्हाला माहीत नसलेल्या गोष्टी"
+
+#: patterns/event-schedule.php:78 patterns/media-instagram-grid.php:44
+msgid "View of the deep ocean."
+msgstr "गहन महासागराचे दृश्य."
+
+#: patterns/event-schedule.php:65 patterns/event-schedule.php:97
+#: patterns/event-schedule.php:150 patterns/event-schedule.php:182
+msgctxt "Pattern placeholder text with link."
+msgid "Lecture by <a href=\"#\">Prof. Fiona Presley</a>"
+msgstr "<a href=\"#\">प्रो. फिओना प्रेस्ली</a> यांचे व्याख्यान"
+
+#: patterns/event-schedule.php:60 patterns/event-schedule.php:92
+#: patterns/event-schedule.php:145 patterns/event-schedule.php:177
+msgctxt "Example event time in pattern."
+msgid "9 AM — 11 AM"
+msgstr "सकाळी ९ — ११"
+
+#: patterns/event-schedule.php:57
+msgid "Fauna from North America and its characteristics"
+msgstr "उत्तर अमेरिकेतील प्राणी आणि त्यांची वैशिष्ट्ये"
+
+#: patterns/event-schedule.php:46 patterns/media-instagram-grid.php:60
+msgid "Birds on a lake."
+msgstr "तळ्यातील पक्षी."
+
+#: patterns/event-schedule.php:20
+msgid "Agenda"
+msgstr "कार्यक्रम"
+
+#: patterns/event-schedule.php
+msgctxt "Pattern description"
+msgid "A section with specified dates and times for an event."
+msgstr "कार्यक्रमासाठी निश्चित तारखा आणि वेळांसह एक विभाग."
+
+#: patterns/event-schedule.php
+msgctxt "Pattern title"
+msgid "Event schedule"
+msgstr "कार्यक्रम वेळापत्रक"
+
+#: patterns/event-rsvp.php:91
+msgid "Close up photo of white flowers on a grey background"
+msgstr "करड्या पार्श्वभूमीवर पांढऱ्या फुलांचा क्लोज-अप"
+
+#: patterns/event-rsvp.php:81
+msgctxt "Abbreviation for \"Please respond\"."
+msgid "RSVP"
+msgstr "RSVP"
+
+#: patterns/event-rsvp.php:73
+msgid "This immersive event celebrates the universal human experience through the lenses of history and ancestry, featuring a diverse array of photographers whose works capture the essence of different cultures and historical moments."
+msgstr "हा समृद्ध अनुभव इतिहास आणि वंशाच्या माध्यमातून सार्वत्रिक मानवी अनुभव साजरा करतो, विविध छायाचित्रकारांच्या कामांद्वारे विविध संस्कृती आणि ऐतिहासिक क्षणांचे सार दर्शवितो."
+
+#: patterns/event-rsvp.php:57
+msgid "Free Workshop"
+msgstr "मोफत कार्यशाळा"
+
+#: patterns/event-rsvp.php
+msgctxt "Pattern description"
+msgid "RSVP for an upcoming event with a cover image and event details."
+msgstr "आगामी कार्यक्रमासाठी RSVP करा, ज्यामध्ये कव्हर प्रतिमा आणि कार्यक्रम तपशील आहेत."
+
+#: patterns/event-rsvp.php
+msgctxt "Pattern title"
+msgid "Event RSVP"
+msgstr "कार्यक्रम RSVP"
+
+#: patterns/event-3-col.php:50 patterns/event-3-col.php:74
+#: patterns/event-3-col.php:98
+msgid "Event details"
+msgstr "कार्यक्रमाचे तपशील"
+
+#: patterns/event-3-col.php:34 patterns/event-3-col.php:58
+#: patterns/event-3-col.php:82 patterns/format-audio.php:20
+msgid "Event image"
+msgstr "कार्यक्रम प्रतिमा"
+
+#: patterns/event-3-col.php:24 patterns/event-schedule.php:23
+msgid "These are some of the upcoming events."
+msgstr "हे काही आगामी कार्यक्रम आहेत."
+
+#: patterns/event-3-col.php:20 patterns/footer-columns.php:49
+#: patterns/footer.php:55
+msgid "Events"
+msgstr "कार्यक्रम"
+
+#: patterns/event-3-col.php
+msgctxt "Pattern description"
+msgid "A header with title and text and three columns that show 3 events with their images and titles."
+msgstr "शीर्षक आणि मजकूरासह एक हेडर, आणि तीन स्तंभ ज्यामध्ये ३ कार्यक्रमांची प्रतिमा आणि शीर्षके आहेत."
+
+#: patterns/event-3-col.php
+msgctxt "Pattern title"
+msgid "Events, 3 columns with event images and titles"
+msgstr "कार्यक्रम, ३ स्तंभांसह प्रतिमा आणि शीर्षके"
+
+#: patterns/cta-newsletter.php:32 patterns/footer-newsletter.php:30
+#: patterns/page-coming-soon.php:39
+#: patterns/services-subscriber-only-section.php:51
+msgid "Subscribe"
+msgstr "सदस्यता घ्या"
+
+#: patterns/cta-newsletter.php:23
+msgid "Get access to a curated collection of moments in time featuring photographs from historical relevance."
+msgstr "ऐतिहासिक महत्त्व असलेल्या छायाचित्रांसह काळाच्या निवडक क्षणांचे संकलन मिळवा."
+
+#: patterns/cta-newsletter.php:19
+msgid "Sign up to get daily stories"
+msgstr "दैनंदिन कथा मिळवण्यासाठी साइन अप करा"
+
+#: patterns/cta-newsletter.php
+msgctxt "Pattern title"
+msgid "Newsletter sign-up"
+msgstr "वृत्तपत्र साइन-अप"
+
+#: patterns/cta-heading-search.php:21 patterns/hidden-search.php:14
+msgctxt "Search input field placeholder text."
+msgid "Type here..."
+msgstr "येथे टाइप करा..."
+
+#: patterns/cta-heading-search.php:21 patterns/hidden-search.php:14
+msgctxt "Search form label."
+msgid "Search"
+msgstr "शोध"
+
+#: patterns/cta-heading-search.php:18
+msgid "What are you looking for?"
+msgstr "आपण काय शोधत आहात?"
+
+#: patterns/cta-heading-search.php
+msgctxt "Pattern description"
+msgid "Large heading with a search form for quick navigation."
+msgstr "द्रुत नेव्हिगेशनसाठी शोध फॉर्मसह मोठे शीर्षक."
+
+#: patterns/cta-heading-search.php
+msgctxt "Pattern title"
+msgid "Heading and search form"
+msgstr "शीर्षक आणि शोध फॉर्म"
+
+#: patterns/cta-grid-products-link.php:134
+msgid "Shop now"
+msgstr "आता खरेदी करा"
+
+#: patterns/cta-grid-products-link.php:114
+msgid "Botany flowers"
+msgstr "वनस्पती फुले"
+
+#: patterns/cta-grid-products-link.php:100
+msgid "Cancel anytime"
+msgstr "कधीही रद्द करा"
+
+#: patterns/cta-grid-products-link.php:84
+msgid "Free shipping"
+msgstr "मोफत शिपिंग"
+
+#: patterns/cta-grid-products-link.php:76
+msgid "Tailored to your needs"
+msgstr "तुमच्या गरजेनुसार सानुकूलित"
+
+#: patterns/cta-grid-products-link.php:70
+msgid "Flora of Akaka Falls State Park"
+msgstr "अकाका फॉल्स स्टेट पार्कची वनस्पती"
+
+#: patterns/cta-grid-products-link.php:59
+msgid "30€"
+msgstr "३०€"
+
+#. translators: %s: Starting price, split into three rows using HTML <br> tags.
+#. The price value has a font size set.
+#: patterns/cta-grid-products-link.php:58
+msgid "Starting at%s/month"
+msgstr "%s/महिन्यापासून सुरू"
+
+#: patterns/cta-grid-products-link.php:38
+msgid "Closeup of plantlife in the Malibu Canyon area"
+msgstr "मालिबू कॅनियन भागातील वनस्पतींचा क्लोज-अप"
+
+#: patterns/cta-grid-products-link.php:32
+msgid "Delivered every week"
+msgstr "प्रत्येक आठवड्यात वितरित"
+
+#: patterns/cta-grid-products-link.php:26
+#: patterns/cta-grid-products-link.php:126
+msgid "Black and white flower"
+msgstr "कृष्णधवल फूल"
+
+#: patterns/cta-grid-products-link.php:20
+msgid "Our online store."
+msgstr "आमचे ऑनलाइन स्टोअर."
+
+#: patterns/cta-grid-products-link.php
+msgctxt "Pattern description"
+msgid "A call to action featuring product images."
+msgstr "उत्पादनांच्या प्रतिमा दर्शविणारा कृतीसाठी कॉल."
+
+#: patterns/cta-grid-products-link.php
+msgctxt "Pattern title"
+msgid "Call to action with grid layout with products and link"
+msgstr "उत्पादन आणि दुव्यासह ग्रिड लेआउटमधील कृतीसाठी कॉल"
+
+#: patterns/cta-events-list.php:106 patterns/cta-events-list.php:144
+msgid "Thornville, OH, USA"
+msgstr "थॉर्नव्हिल, ओहायो, यूएसए"
+
+#: patterns/cta-events-list.php:75
+msgid "Mexico City, Mexico"
+msgstr "मेक्सिको सिटी, मेक्सिको"
+
+#: patterns/cta-events-list.php:51 patterns/cta-events-list.php:89
+#: patterns/cta-events-list.php:120 patterns/cta-events-list.php:158
+msgid "Buy Tickets"
+msgstr "तिकीट खरेदी करा"
+
+#: patterns/cta-events-list.php:45 patterns/cta-events-list.php:83
+#: patterns/cta-events-list.php:114 patterns/cta-events-list.php:152
+#: patterns/event-3-col.php:44 patterns/event-3-col.php:68
+#: patterns/event-3-col.php:92 patterns/event-rsvp.php:37
+#: patterns/event-schedule.php:35 patterns/event-schedule.php:121
+msgctxt "Example event date in pattern."
+msgid "Mon, Jan 1"
+msgstr "सोम, जाने १"
+
+#: patterns/cta-events-list.php:37
+msgid "Atlanta, GA, USA"
+msgstr "अटलांटा, GA, यूएसए"
+
+#: patterns/cta-events-list.php:23
+msgid "These are some of the upcoming events"
+msgstr "हे काही आगामी कार्यक्रम आहेत"
+
+#: patterns/cta-events-list.php:19
+msgid "Upcoming events"
+msgstr "आगामी कार्यक्रम"
+
+#: patterns/cta-events-list.php
+msgctxt "Pattern description"
+msgid "A list of events with call to action."
+msgstr "कृतीसाठी कॉलसह कार्यक्रमांची सूची."
+
+#: patterns/cta-events-list.php
+msgctxt "Pattern title"
+msgid "Events list"
+msgstr "कार्यक्रम सूची"
+
+#: patterns/cta-centered-heading.php:28
+msgid "Learn more"
+msgstr "अधिक जाणून घ्या"
+
+#: patterns/cta-centered-heading.php:22
+msgid "Like flowers that bloom in unexpected places, every story unfolds with beauty and resilience, revealing hidden wonders."
+msgstr "अनपेक्षित ठिकाणी उमलणाऱ्या फुलांसारखी, प्रत्येक कथा सौंदर्य आणि चिकाटीने उलगडते, लपलेल्या चमत्कार उघड करते."
+
+#: patterns/cta-centered-heading.php:19 patterns/cta-events-list.php:33
+#: patterns/cta-events-list.php:102 patterns/event-3-col.php:40
+#: patterns/event-3-col.php:64 patterns/event-3-col.php:88
+#: patterns/template-home-photo-blog.php:27
+msgid "Tell your story"
+msgstr "तुमची कथा सांगा"
+
+#: patterns/cta-centered-heading.php
+msgctxt "Pattern description"
+msgid "A hero with a centered heading, paragraph and button."
+msgstr "मध्यभागी शीर्षक, परिच्छेद आणि बटण असलेला हिरो विभाग."
+
+#: patterns/cta-centered-heading.php
+msgctxt "Pattern title"
+msgid "Centered heading"
+msgstr "मध्यभागी शीर्षक"
+
+#: patterns/cta-book-locations.php:131
+msgid "United Kingdom"
+msgstr "युनायटेड किंगडम"
+
+#: patterns/cta-book-locations.php:119
+msgid "United States"
+msgstr "युनायटेड स्टेट्स"
+
+#: patterns/cta-book-locations.php:107
+msgid "Switzerland"
+msgstr "स्वित्झर्लंड"
+
+#: patterns/cta-book-locations.php:95
+msgid "New Zealand"
+msgstr "न्यूझीलंड"
+
+#: patterns/cta-book-locations.php:79
+msgid "Japan"
+msgstr "जपान"
+
+#: patterns/cta-book-locations.php:67
+msgid "Canada"
+msgstr "कॅनडा"
+
+#: patterns/cta-book-locations.php:55
+msgid "Brazil"
+msgstr "ब्राझील"
+
+#: patterns/cta-book-locations.php:47 patterns/cta-book-locations.php:59
+#: patterns/cta-book-locations.php:71 patterns/cta-book-locations.php:83
+#: patterns/cta-book-locations.php:99 patterns/cta-book-locations.php:111
+#: patterns/cta-book-locations.php:123 patterns/cta-book-locations.php:135
+msgid "Book Store"
+msgstr "पुस्तक दुकान"
+
+#: patterns/cta-book-locations.php:43
+msgid "Australia"
+msgstr "ऑस्ट्रेलिया"
+
+#: patterns/cta-book-locations.php:27
+msgid "The Stories Book will be available from these international retailers."
+msgstr "द स्टोरीज बुक या आंतरराष्ट्रीय विक्रेत्यांकडून उपलब्ध असेल."
+
+#: patterns/cta-book-locations.php:23
+msgid "International editions"
+msgstr "आंतरराष्ट्रीय आवृत्त्या"
+
+#: patterns/cta-book-locations.php
+msgctxt "Pattern description"
+msgid "A call to action section with links to get the book in the most popular locations."
+msgstr "लोकप्रिय ठिकाणी पुस्तक खरेदीसाठी दुवे असलेला कॉल टू ॲक्शन विभाग."
+
+#: patterns/cta-book-locations.php
+msgctxt "Pattern title"
+msgid "Call to action with locations"
+msgstr "स्थानांसह कॉल टू ॲक्शन"
+
+#: patterns/cta-book-links.php:57
+#: patterns/hero-overlapped-book-cover-with-links.php:100
+msgctxt "Pattern placeholder text with link."
+msgid "Outside Europe? View <a href=\"#\" rel=\"nofollow\">international editions</a>."
+msgstr "युरोपबाहेर? <a href=\"#\" rel=\"nofollow\">आंतरराष्ट्रीय आवृत्त्या</a> पहा."
+
+#: patterns/cta-book-links.php:51
+msgctxt "Example brand name."
+msgid "Simon &amp; Schuster"
+msgstr "सायमन & शुस्टर"
+
+#: patterns/cta-book-links.php:47
+msgctxt "Example brand name."
+msgid "BAM!"
+msgstr "BAM!"
+
+#: patterns/cta-book-links.php:43
+msgctxt "Example brand name."
+msgid "Spotify"
+msgstr "स्पॉटिफाई"
+
+#: patterns/cta-book-links.php:39
+msgctxt "Example brand name."
+msgid "Bookshop.org"
+msgstr "बुकशॉप.ऑर्ग"
+
+#: patterns/cta-book-links.php:35
+#: patterns/hero-overlapped-book-cover-with-links.php:62
+msgctxt "Example brand name."
+msgid "Apple Books"
+msgstr "ॲपल बुक्स"
+
+#: patterns/cta-book-links.php:31
+#: patterns/hero-overlapped-book-cover-with-links.php:84
+msgctxt "Example brand name."
+msgid "Barnes &amp; Noble"
+msgstr "बर्न्स & नोबल"
+
+#: patterns/cta-book-links.php:27
+#: patterns/hero-overlapped-book-cover-with-links.php:77
+msgctxt "Example brand name."
+msgid "Audible"
+msgstr "ऑडिबल"
+
+#: patterns/cta-book-links.php:23
+#: patterns/hero-overlapped-book-cover-with-links.php:55
+msgctxt "Example brand name."
+msgid "Amazon"
+msgstr "ॲमेझॉन"
+
+#: patterns/cta-book-links.php:17
+msgid "Buy your copy of The Stories Book"
+msgstr "द स्टोरीज बुकची तुमची प्रत खरेदी करा"
+
+#: patterns/cta-book-links.php
+msgctxt "Pattern description"
+msgid "A call to action section with links to get the book in different websites."
+msgstr "विविध वेबसाइटवर पुस्तक खरेदीसाठी दुवे असलेला कॉल टू ॲक्शन विभाग."
+
+#: patterns/cta-book-links.php
+msgctxt "Pattern title"
+msgid "Call to action with book links"
+msgstr "पुस्तक दुव्यांसह कॉल टू ॲक्शन"
+
+#: patterns/contact-location-and-link.php:36
+msgid "The business location"
+msgstr "व्यवसायाचे स्थान"
+
+#: patterns/contact-location-and-link.php:26
+msgid "Get directions"
+msgstr "दिशा मिळवा"
+
+#: patterns/contact-location-and-link.php:22
+msgid "Visit us at 123 Example St. Manhattan, NY 10300, United States"
+msgstr "आमच्याकडे या: 123 उदाहरण स्ट्रीट, मॅनहॅटन, NY 10300, युनायटेड स्टेट्स"
+
+#: patterns/contact-location-and-link.php
+msgctxt "Pattern description"
+msgid "Contact section with a location address, a directions link, and an image of the location."
+msgstr "स्थानाचा पत्ता, दिशा दुवा, आणि स्थानाचे चित्र असलेला संपर्क विभाग."
+
+#: patterns/contact-location-and-link.php
+msgctxt "Pattern title"
+msgid "Contact location and link"
+msgstr "संपर्क स्थान आणि दुवा"
+
+#: patterns/contact-info-locations.php:86
+msgid "Portland"
+msgstr "पोर्टलंड"
+
+#: patterns/contact-info-locations.php:74
+msgid "Salt Lake City"
+msgstr "सॉल्ट लेक सिटी"
+
+#: patterns/contact-info-locations.php:62
+msgid "San Diego"
+msgstr "सान दिएगो"
+
+#: patterns/contact-info-locations.php:54
+#: patterns/contact-info-locations.php:66
+#: patterns/contact-info-locations.php:78
+#: patterns/contact-info-locations.php:90
+msgid "123 Example St. Manhattan, NY 10300 United States"
+msgstr "123 उदाहरण स्ट्रीट, मॅनहॅटन, NY 10300, युनायटेड स्टेट्स"
+
+#: patterns/contact-info-locations.php:51
+msgid "New York"
+msgstr "न्यूयॉर्क"
+
+#: patterns/contact-info-locations.php:41
+msgid "example@example.com"
+msgstr "उदाहरण@उदाहरण.com"
+
+#: patterns/contact-info-locations.php:38
+msgid "Email"
+msgstr "ईमेल"
+
+#: patterns/contact-info-locations.php:35
+#: patterns/page-link-in-bio-heading-paragraph-links-image.php:44
+#: patterns/page-link-in-bio-with-tight-margins.php:56
+msgid "TikTok"
+msgstr "टिकटॉक"
+
+#: patterns/contact-info-locations.php:34 patterns/footer-social.php:21
+msgid "Facebook"
+msgstr "फेसबुक"
+
+#: patterns/contact-info-locations.php:33 patterns/footer-social.php:22
+#: patterns/media-instagram-grid.php:24 patterns/page-cv-bio.php:47
+#: patterns/page-link-in-bio-heading-paragraph-links-image.php:36
+#: patterns/page-link-in-bio-with-tight-margins.php:48
+msgid "Instagram"
+msgstr "इंस्टाग्राम"
+
+#: patterns/contact-info-locations.php:32 patterns/footer-social.php:23
+#: patterns/page-link-in-bio-heading-paragraph-links-image.php:40
+#: patterns/page-link-in-bio-with-tight-margins.php:52
+msgctxt "Refers to the social media platform formerly known as Twitter."
+msgid "X"
+msgstr "X"
+
+#: patterns/contact-info-locations.php:29
+#: patterns/contact-info-locations.php:31 patterns/footer-social.php:20
+msgid "Social media"
+msgstr "सोशल मीडिया"
+
+#: patterns/contact-info-locations.php:21
+msgid "How to get in touch with us"
+msgstr "आमच्याशी संपर्क साधण्याचा मार्ग"
+
+#: patterns/contact-info-locations.php
+msgctxt "Pattern description"
+msgid "Contact section with social media links, email, and multiple location details."
+msgstr "सोशल मीडिया दुवे, ईमेल, आणि विविध स्थान तपशीलांसह संपर्क विभाग."
+
+#: patterns/contact-info-locations.php
+msgctxt "Pattern title"
+msgid "Contact, info and locations"
+msgstr "संपर्क, माहिती आणि स्थान"
+
+#: patterns/contact-centered-social-link.php:21
+msgctxt "Heading of the Contact social link pattern"
+msgid "Got questions? <br><a href=\"#\" rel=\"nofollow\">Feel free to reach out.</a>"
+msgstr "प्रश्न आहेत का? <br><a href=\"#\" rel=\"nofollow\">मोकळेपणाने संपर्क करा.</a>"
+
+#: patterns/contact-centered-social-link.php
+msgctxt "Pattern description"
+msgid "Centered contact section with a prominent message and social media links."
+msgstr "प्रमुख संदेश आणि सोशल मीडिया दुव्यांसह मध्यभागी संपर्क विभाग."
+
+#: patterns/contact-centered-social-link.php
+msgctxt "Pattern title"
+msgid "Centered link and social links"
+msgstr "मध्यभागी लिंक आणि सोशल दुवे"
+
+#: patterns/comments.php:18
+msgid "Comments"
+msgstr "टिप्पण्या"
+
+#: patterns/comments.php
+msgctxt "Pattern description"
+msgid "Comments area with comments list, pagination, and comment form."
+msgstr "टिप्पणी क्षेत्र, टिप्पण्या सूची, पृष्ठीकरण आणि टिप्पणी फॉर्म."
+
+#: patterns/comments.php
+msgctxt "Pattern title"
+msgid "Comments"
+msgstr "टिप्पण्या"
+
+#: patterns/binding-format.php
+msgctxt "Pattern description"
+msgid "Prints the name of the post format with the help of the Block Bindings API."
+msgstr "ब्लॉक बाइंडिंग API च्या मदतीने पोस्ट फॉरमॅटचे नाव दर्शवते."
+
+#: patterns/binding-format.php
+msgctxt "Pattern title"
+msgid "Post format name"
+msgstr "पोस्ट फॉरमॅटचे नाव"
+
+#: patterns/banner-with-description-and-images-grid.php:48
+#: patterns/overlapped-images.php:26
+msgid "Black and white photography close up of a flower."
+msgstr "फुलाचा कृष्णधवल छायाचित्र क्लोज-अप."
+
+#: patterns/banner-with-description-and-images-grid.php:42
+#: patterns/overlapped-images.php:21
+msgid "Photography close up of a red flower."
+msgstr "लाल फुलाचा छायाचित्र क्लोज-अप."
+
+#. translators: %s is the brand name, e.g., 'Fleurs'.
+#: patterns/banner-with-description-and-images-grid.php:31
+#: patterns/overlapped-images.php:47
+msgid "%s is a flower delivery and subscription business. Based in the EU, our mission is not only to deliver stunning flower arrangements across but also foster knowledge and enthusiasm on the beautiful gift of nature: flowers."
+msgstr "%s हा फुलांच्या डिलिव्हरी आणि सदस्यता व्यवसाय आहे. युरोपमध्ये आधारित, आमचे ध्येय केवळ सुंदर फुलांचे व्यवस्थापन वितरित करणेच नाही तर निसर्गाच्या सुंदर देणगीबद्दल ज्ञान आणि उत्साह वाढवणे आहे."
+
+#: patterns/banner-with-description-and-images-grid.php:23
+#: patterns/overlapped-images.php:37
+msgid "About Us"
+msgstr "आमच्याबद्दल"
+
+#: patterns/banner-with-description-and-images-grid.php
+msgctxt "Pattern description"
+msgid "A banner with a short paragraph, and two images displayed in a grid layout."
+msgstr "लघु परिच्छेद आणि दोन प्रतिमा असलेल्या ग्रिड लेआउटमधील बॅनर."
+
+#: patterns/banner-with-description-and-images-grid.php
+msgctxt "Pattern title"
+msgid "Banner with description and images grid"
+msgstr "वर्णन आणि प्रतिमा ग्रिडसह बॅनर"
+
+#: patterns/banner-poster.php:59
+msgid "#stories"
+msgstr "#कथा"
+
+#: patterns/banner-poster.php:51
+msgid "Let’s hear them."
+msgstr "त्यांना ऐकूया."
+
+#: patterns/banner-poster.php:39
+msgid "Fuego Bar, Mexico City"
+msgstr "फ्यूगो बार, मेक्सिको सिटी"
+
+#: patterns/banner-poster.php:39
+msgctxt "Example event date in pattern."
+msgid "Aug 08—10 2025"
+msgstr "ऑगस्ट ०८—१०, २०२५"
+
+#. translators: This string contains the word "Stories" in four different
+#. languages with the first item in the locale's language.
+#: patterns/banner-poster.php:28 patterns/cta-events-list.php:68
+#: patterns/cta-events-list.php:137 patterns/event-rsvp.php:30
+msgctxt "Placeholder heading in four languages."
+msgid "“Stories, <span lang=\"es\">historias</span>, <span lang=\"uk\">iсторії</span>, <span lang=\"el\">iστορίες</span>”"
+msgstr "“कथा, <span lang=\"es\">historias</span>, <span lang=\"uk\">iсторії</span>, <span lang=\"el\">iστορίες</span>”"
+
+#: patterns/banner-poster.php:15
+msgid "Picture of a historical building in ruins."
+msgstr "उध्वस्त ऐतिहासिक इमारतीचे चित्र."
+
+#: patterns/banner-poster.php
+msgctxt "Pattern description"
+msgid "A section that can be used as a banner or a landing page to announce an event."
+msgstr "कार्यक्रम जाहीर करण्यासाठी बॅनर किंवा लँडिंग पृष्ठ म्हणून वापरला जाऊ शकतो असा विभाग."
+
+#: patterns/banner-poster.php
+msgctxt "Pattern title"
+msgid "Poster-like section"
+msgstr "पोस्टरप्रमाणे विभाग"
+
+#: patterns/banner-intro.php:22
+#: patterns/banner-with-description-and-images-grid.php:32
+#: patterns/footer-columns.php:46 patterns/overlapped-images.php:48
+msgctxt "Example brand name."
+msgid "Fleurs"
+msgstr "फ्ल्यूर"
+
+#. translators: %s is the brand name, e.g., 'Fleurs'.
+#: patterns/banner-intro.php:21
+msgctxt "Pattern placeholder text."
+msgid "We're %s, our mission is to deliver exquisite flower arrangements that not only adorn living spaces but also inspire a deeper appreciation for natural beauty."
+msgstr "आम्ही %s आहोत, आमचे ध्येय केवळ राहण्याच्या जागांना सजविण्यासाठी उत्कृष्ट फुलांचे व्यवस्थापन वितरीत करणेच नाही, तर नैसर्गिक सौंदर्याविषयी एक सखोल प्रशंसा निर्माण करणे आहे."
+
+#: patterns/banner-intro.php
+msgctxt "Pattern description"
+msgid "A large left-aligned heading with a brand name emphasized in bold."
+msgstr "मोठे डावीकडे-संरेखित शीर्षक ज्यामध्ये ब्रँडचे नाव ठळकपणे दाखवलेले आहे."
+
+#: patterns/banner-intro.php
+msgctxt "Pattern title"
+msgid "Intro with left-aligned description"
+msgstr "डावीकडे वर्णनासह परिचय"
+
+#: patterns/banner-intro-image.php:42
+msgctxt "Button text of intro section."
+msgid "Learn More"
+msgstr "अधिक जाणून घ्या"
+
+#: patterns/banner-intro-image.php:35
+msgctxt "Sample description for banner with flower."
+msgid "Like flowers that bloom in unexpected places, every story unfolds with beauty and resilience, revealing hidden wonders."
+msgstr "अनपेक्षित ठिकाणी उमलणाऱ्या फुलांप्रमाणेच, प्रत्येक कथा सौंदर्य आणि चिकाटीने उलगडते, लपलेल्या चमत्कारांना उघड करते."
+
+#: patterns/banner-intro-image.php:31
+msgctxt "Heading for banner pattern."
+msgid "New arrivals"
+msgstr "नवीन आगमन"
+
+#: patterns/banner-intro-image.php:22
+msgctxt "Alt text for intro picture."
+msgid "Picture of a flower"
+msgstr "फुलाचे चित्र"
+
+#: patterns/banner-intro-image.php
+msgctxt "Pattern description"
+msgid "A Intro pattern with Short heading, paragraph and image on the left."
+msgstr "डावीकडे लघु शीर्षक, परिच्छेद आणि प्रतिमा असलेला परिचय नमुना."
+
+#: patterns/banner-intro-image.php
+msgctxt "Pattern title"
+msgid "Short heading and paragraph and image on the left"
+msgstr "लघु शीर्षक, परिच्छेद आणि डावीकडे प्रतिमा"
+
+#: patterns/banner-cover-big-heading.php:27 patterns/footer-columns.php:33
+#: patterns/footer-columns.php:35 patterns/footer-newsletter.php:20
+#: patterns/template-home-photo-blog.php:22
+msgid "Stories"
+msgstr "कथा"
+
+#: patterns/banner-cover-big-heading.php:20
+#: patterns/media-instagram-grid.php:36 patterns/page-coming-soon.php:19
+msgid "Photo of a field full of flowers, a blue sky and a tree."
+msgstr "फुलांनी भरलेल्या शेताचे चित्र, निळे आकाश आणि एक झाड."
+
+#: patterns/banner-cover-big-heading.php
+msgctxt "Pattern description"
+msgid "A full-width cover section with a large background image and an oversized heading."
+msgstr "पूर्ण रुंदीच्या कव्हर विभागामध्ये मोठी पार्श्वभूमी प्रतिमा आणि मोठे शीर्षक आहे."
+
+#: patterns/banner-cover-big-heading.php
+msgctxt "Pattern title"
+msgid "Cover with big heading"
+msgstr "मोठ्या शीर्षकासह कव्हर"
+
+#: patterns/banner-about-book.php:34
+msgid "Image of a book"
+msgstr "पुस्तकाचे चित्र"
+
+#: patterns/banner-about-book.php:26
+msgctxt "Pattern placeholder text."
+msgid "This exquisite compilation showcases a diverse array of photographs that capture the essence of different eras and cultures, reflecting the unique styles and perspectives of each artist. Fleckenstein’s evocative imagery, Strand’s groundbreaking modernist approach, and Kōno’s meticulous documentation of Japanese life come together in a harmonious blend that celebrates the art of photography. Each image in “The Stories Book” is accompanied by insightful commentary, providing historical context and revealing the stories behind the photographs. This collection is not only a visual feast but also a tribute to the power of photography to preserve and narrate the multifaceted experiences of humanity."
+msgstr "हे उत्कृष्ट संकलन विविध युग आणि संस्कृतींचे सार पकडणाऱ्या छायाचित्रांचे विविधरंगी संकलन सादर करते, ज्यामध्ये प्रत्येक कलाकाराची अद्वितीय शैली आणि दृष्टिकोन प्रतिबिंबित होतो. फ्लेक्केंस्टाईनची आवेशपूर्ण छायाचित्रण, स्ट्रँडचा आधुनिकतावादी दृष्टिकोन आणि कोनोची जपानी जीवनाची तपशीलवार दस्तऐवजीकरण यांचे मिश्रण फोटोग्राफीच्या कलेचा उत्सव साजरा करते. 'द स्टोरीज बुक' मधील प्रत्येक छायाचित्राला सखोल भाष्य जोडलेले आहे, ज्यामुळे ऐतिहासिक संदर्भ मिळतो आणि छायाचित्रांमागील कथा उलगडतात. हे संकलन केवळ दृश्यमान उत्सव नाही तर फोटोग्राफीच्या शक्तीला मानवतेच्या विविध अनुभवांचे दस्तऐवजीकरण करण्यासाठी आदरांजली आहे."
+
+#: patterns/banner-about-book.php:22
+msgid "About the book"
+msgstr "पुस्तकाबद्दल"
+
+#: patterns/banner-about-book.php
+msgctxt "Pattern description"
+msgid "Banner with book description and accompanying image for promotion."
+msgstr "पुस्तकाच्या वर्णनासह आणि चित्रासह जाहिरातीसाठी बॅनर."
+
+#: patterns/banner-about-book.php
+msgctxt "Pattern title"
+msgid "Banner with book description"
+msgstr "पुस्तक वर्णनासह बॅनर"
+
+#: functions.php:134
+msgctxt "Label for the block binding placeholder in the editor"
+msgid "Post format name"
+msgstr "पोस्ट फॉरमॅटचे नाव"
+
+#: functions.php:114
+msgid "A collection of post format patterns."
+msgstr "पोस्ट फॉरमॅट नमुन्यांचे संकलन."
+
+#: functions.php:113
+msgid "Post formats"
+msgstr "पोस्ट फॉरमॅट"
+
+#: functions.php:106
+msgid "A collection of full page layouts."
+msgstr "पूर्ण पान रचनांचा संग्रह."
+
+#: functions.php:105
+msgid "Pages"
+msgstr "पृष्ठे"
+
+#: functions.php:76
+msgid "Checkmark"
+msgstr "चेकमार्क"
+
+#. Author URI of the theme
+#: style.css patterns/footer-centered.php:34 patterns/footer-columns.php:74
+#: patterns/footer-newsletter.php:50 patterns/footer-social.php:36
+#: patterns/footer.php:83
+#, gp-priority: low
+msgid "https://wordpress.org"
+msgstr "https://wordpress.org"
+
+#. Author of the theme
+#: style.css
+#, gp-priority: low
+msgid "the WordPress team"
+msgstr "वर्डप्रेस टीम"
+
+#. Theme URI of the theme
+#: style.css
+#, gp-priority: low
+msgid "https://wordpress.org/themes/twentytwentyfive/"
+msgstr "https://wordpress.org/themes/twentytwentyfive/"

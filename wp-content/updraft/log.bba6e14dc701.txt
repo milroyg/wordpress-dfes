@@ -1,0 +1,1486 @@
+0000.001 (0) Opened log file at time: Mon, 11 Aug 2025 09:56:42 +0000 on http://localhost
+0000.005 (0) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.25.6 WP: 6.8.1 PHP: 8.2.12 (apache2handler, Windows NT MSI 10.0 build 22631 (Windows 11) AMD64) MySQL: 10.4.32-MariaDB (max packet size=1048576) WPLANG: en_US Server: Apache/2.4.58 (Win64) OpenSSL/3.1.3 PHP/8.2.12 safe_mode: 0 max_execution_time: 900 memory_limit: 1000M (used: 10.8M | 14M) multisite: N openssl: OpenSSL 3.0.11 19 Sep 2023 mcrypt: N LANG:  WP Proxy: disabled ZipArchive::addFile: N
+0000.008 (0) Free space on disk containing Updraft's temporary directory: 20005.4 MB
+0000.016 (0) Tasks: Backup files: 1 (schedule: daily) Backup DB:  (schedule: daily)
+0000.018 (0) Processed schedules. Combining jobs from identical schedules. Tasks now: Backup files: 1 Backup DB: 1
+0000.024 (0) Requesting semaphore lock (fd) (apparently via scheduler: last_scheduled_action_called_at=1754893552, seconds_ago=12650)
+0000.031 (0) Set semaphore last lock (fd) time to 2025-08-11 09:56:42
+0000.033 (0) Semaphore lock (fd) complete
+0000.043 (0) Backup run: resumption=0, nonce=bba6e14dc701, file_nonce=bba6e14dc701 begun at=1754906202 (0s ago), job type=backup
+0000.047 (0) Scheduling a resumption (1) after 600 seconds (1754906802) in case this run gets aborted
+0000.052 (0) Checking if we have a zip executable available
+0000.056 (0) Zip engine: ZipArchive (a.k.a. php-zip) is not available or is disabled (will use PclZip (much slower) if needed)
+0000.058 (0) Creation of backups of directories: beginning
+0000.066 (0) Beginning creation of dump of plugins (split every: 400 MB)
+0008.683 (0) Total entities for the zip file: 3394 directories, 17352 files (0 skipped as non-modified), 299.5 MB
+0008.685 (0) Only one archive required (UpdraftPlus_PclZip) - will attempt to do in single operation (data: 306726.4 KB, split: 409600 KB)
+0008.708 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 100 files added (on-disk size: 0 KB)
+0008.727 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 200 files added (on-disk size: 0 KB)
+0008.747 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 300 files added (on-disk size: 0 KB)
+0008.766 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 400 files added (on-disk size: 0 KB)
+0008.785 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 500 files added (on-disk size: 0 KB)
+0008.804 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 600 files added (on-disk size: 0 KB)
+0008.824 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 700 files added (on-disk size: 0 KB)
+0008.844 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 800 files added (on-disk size: 0 KB)
+0008.865 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 900 files added (on-disk size: 0 KB)
+0008.885 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 1000 files added (on-disk size: 0 KB)
+0008.906 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 1100 files added (on-disk size: 0 KB)
+0008.932 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 1200 files added (on-disk size: 0 KB)
+0008.952 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 1300 files added (on-disk size: 0 KB)
+0008.975 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 1400 files added (on-disk size: 0 KB)
+0008.994 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 1500 files added (on-disk size: 0 KB)
+0009.013 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 1600 files added (on-disk size: 0 KB)
+0009.033 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 1700 files added (on-disk size: 0 KB)
+0009.056 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 1800 files added (on-disk size: 0 KB)
+0009.079 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 1900 files added (on-disk size: 0 KB)
+0009.098 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 2000 files added (on-disk size: 0 KB)
+0009.119 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 2100 files added (on-disk size: 0 KB)
+0009.137 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 2200 files added (on-disk size: 0 KB)
+0009.156 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 2300 files added (on-disk size: 0 KB)
+0009.174 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 2400 files added (on-disk size: 0 KB)
+0009.194 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 2500 files added (on-disk size: 0 KB)
+0009.216 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 2600 files added (on-disk size: 0 KB)
+0009.240 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 2700 files added (on-disk size: 0 KB)
+0009.259 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 2800 files added (on-disk size: 0 KB)
+0009.279 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 2900 files added (on-disk size: 0 KB)
+0009.299 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 3000 files added (on-disk size: 0 KB)
+0009.320 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 3100 files added (on-disk size: 0 KB)
+0009.339 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 3200 files added (on-disk size: 0 KB)
+0009.357 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 3300 files added (on-disk size: 0 KB)
+0009.376 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 3400 files added (on-disk size: 0 KB)
+0009.396 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 3500 files added (on-disk size: 0 KB)
+0009.418 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 3600 files added (on-disk size: 0 KB)
+0009.439 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 3700 files added (on-disk size: 0 KB)
+0009.460 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 3800 files added (on-disk size: 0 KB)
+0009.480 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 3900 files added (on-disk size: 0 KB)
+0009.503 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 4000 files added (on-disk size: 0 KB)
+0009.522 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 4100 files added (on-disk size: 0 KB)
+0009.541 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 4200 files added (on-disk size: 0 KB)
+0009.563 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 4300 files added (on-disk size: 0 KB)
+0009.584 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 4400 files added (on-disk size: 0 KB)
+0009.604 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 4500 files added (on-disk size: 0 KB)
+0009.624 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 4600 files added (on-disk size: 0 KB)
+0009.643 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 4700 files added (on-disk size: 0 KB)
+0009.663 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 4800 files added (on-disk size: 0 KB)
+0009.683 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 4900 files added (on-disk size: 0 KB)
+0009.702 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 5000 files added (on-disk size: 0 KB)
+0009.722 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 5100 files added (on-disk size: 0 KB)
+0009.741 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 5200 files added (on-disk size: 0 KB)
+0009.761 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 5300 files added (on-disk size: 0 KB)
+0009.781 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 5400 files added (on-disk size: 0 KB)
+0009.801 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 5500 files added (on-disk size: 0 KB)
+0009.820 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 5600 files added (on-disk size: 0 KB)
+0009.843 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 5700 files added (on-disk size: 0 KB)
+0009.863 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 5800 files added (on-disk size: 0 KB)
+0009.884 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 5900 files added (on-disk size: 0 KB)
+0009.904 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 6000 files added (on-disk size: 0 KB)
+0009.925 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 6100 files added (on-disk size: 0 KB)
+0009.946 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 6200 files added (on-disk size: 0 KB)
+0009.966 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 6300 files added (on-disk size: 0 KB)
+0009.989 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 6400 files added (on-disk size: 0 KB)
+0010.014 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 6500 files added (on-disk size: 0 KB)
+0010.035 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 6600 files added (on-disk size: 0 KB)
+0010.058 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 6700 files added (on-disk size: 0 KB)
+0010.087 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 6800 files added (on-disk size: 0 KB)
+0010.114 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 6900 files added (on-disk size: 0 KB)
+0010.137 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 7000 files added (on-disk size: 0 KB)
+0010.164 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 7100 files added (on-disk size: 0 KB)
+0010.190 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 7200 files added (on-disk size: 0 KB)
+0010.214 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 7300 files added (on-disk size: 0 KB)
+0010.238 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 7400 files added (on-disk size: 0 KB)
+0010.263 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 7500 files added (on-disk size: 0 KB)
+0010.289 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 7600 files added (on-disk size: 0 KB)
+0010.321 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 7700 files added (on-disk size: 0 KB)
+0010.347 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 7800 files added (on-disk size: 0 KB)
+0010.372 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 7900 files added (on-disk size: 0 KB)
+0010.405 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 8000 files added (on-disk size: 0 KB)
+0010.432 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 8100 files added (on-disk size: 0 KB)
+0010.460 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 8200 files added (on-disk size: 0 KB)
+0010.486 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 8300 files added (on-disk size: 0 KB)
+0010.514 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 8400 files added (on-disk size: 0 KB)
+0010.540 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 8500 files added (on-disk size: 0 KB)
+0010.566 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 8600 files added (on-disk size: 0 KB)
+0010.588 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 8700 files added (on-disk size: 0 KB)
+0010.609 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 8800 files added (on-disk size: 0 KB)
+0010.632 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 8900 files added (on-disk size: 0 KB)
+0010.653 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 9000 files added (on-disk size: 0 KB)
+0010.675 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 9100 files added (on-disk size: 0 KB)
+0010.697 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 9200 files added (on-disk size: 0 KB)
+0010.718 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 9300 files added (on-disk size: 0 KB)
+0010.745 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 9400 files added (on-disk size: 0 KB)
+0010.770 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 9500 files added (on-disk size: 0 KB)
+0010.801 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 9600 files added (on-disk size: 0 KB)
+0010.830 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 9700 files added (on-disk size: 0 KB)
+0010.851 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 9800 files added (on-disk size: 0 KB)
+0010.875 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 9900 files added (on-disk size: 0 KB)
+0010.898 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 10000 files added (on-disk size: 0 KB)
+0010.922 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 10100 files added (on-disk size: 0 KB)
+0010.944 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 10200 files added (on-disk size: 0 KB)
+0010.970 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 10300 files added (on-disk size: 0 KB)
+0010.992 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 10400 files added (on-disk size: 0 KB)
+0011.019 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 10500 files added (on-disk size: 0 KB)
+0011.044 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 10600 files added (on-disk size: 0 KB)
+0011.075 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 10700 files added (on-disk size: 0 KB)
+0011.097 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 10800 files added (on-disk size: 0 KB)
+0011.117 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 10900 files added (on-disk size: 0 KB)
+0011.138 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 11000 files added (on-disk size: 0 KB)
+0011.156 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 11100 files added (on-disk size: 0 KB)
+0011.175 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 11200 files added (on-disk size: 0 KB)
+0011.196 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 11300 files added (on-disk size: 0 KB)
+0011.216 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 11400 files added (on-disk size: 0 KB)
+0011.238 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 11500 files added (on-disk size: 0 KB)
+0011.257 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 11600 files added (on-disk size: 0 KB)
+0011.275 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 11700 files added (on-disk size: 0 KB)
+0011.296 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 11800 files added (on-disk size: 0 KB)
+0011.318 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 11900 files added (on-disk size: 0 KB)
+0011.339 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 12000 files added (on-disk size: 0 KB)
+0011.358 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 12100 files added (on-disk size: 0 KB)
+0011.378 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 12200 files added (on-disk size: 0 KB)
+0011.397 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 12300 files added (on-disk size: 0 KB)
+0011.416 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 12400 files added (on-disk size: 0 KB)
+0011.435 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 12500 files added (on-disk size: 0 KB)
+0011.454 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 12600 files added (on-disk size: 0 KB)
+0011.476 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 12700 files added (on-disk size: 0 KB)
+0011.496 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 12800 files added (on-disk size: 0 KB)
+0011.516 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 12900 files added (on-disk size: 0 KB)
+0011.536 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 13000 files added (on-disk size: 0 KB)
+0011.558 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 13100 files added (on-disk size: 0 KB)
+0011.581 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 13200 files added (on-disk size: 0 KB)
+0011.603 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 13300 files added (on-disk size: 0 KB)
+0011.624 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 13400 files added (on-disk size: 0 KB)
+0011.644 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 13500 files added (on-disk size: 0 KB)
+0011.664 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 13600 files added (on-disk size: 0 KB)
+0011.686 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 13700 files added (on-disk size: 0 KB)
+0011.707 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 13800 files added (on-disk size: 0 KB)
+0011.732 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 13900 files added (on-disk size: 0 KB)
+0011.753 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 14000 files added (on-disk size: 0 KB)
+0011.771 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 14100 files added (on-disk size: 0 KB)
+0011.813 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 14200 files added (on-disk size: 0 KB)
+0011.846 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 14300 files added (on-disk size: 0 KB)
+0011.878 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 14400 files added (on-disk size: 0 KB)
+0011.910 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 14500 files added (on-disk size: 0 KB)
+0011.948 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 14600 files added (on-disk size: 0 KB)
+0011.980 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 14700 files added (on-disk size: 0 KB)
+0012.015 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 14800 files added (on-disk size: 0 KB)
+0012.077 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 14900 files added (on-disk size: 0 KB)
+0012.141 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 15000 files added (on-disk size: 0 KB)
+0012.205 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 15100 files added (on-disk size: 0 KB)
+0012.251 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 15200 files added (on-disk size: 0 KB)
+0012.303 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 15300 files added (on-disk size: 0 KB)
+0012.366 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 15400 files added (on-disk size: 0 KB)
+0012.417 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 15500 files added (on-disk size: 0 KB)
+0012.459 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 15600 files added (on-disk size: 0 KB)
+0012.496 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 15700 files added (on-disk size: 0 KB)
+0012.551 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 15800 files added (on-disk size: 0 KB)
+0012.608 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 15900 files added (on-disk size: 0 KB)
+0012.657 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 16000 files added (on-disk size: 0 KB)
+0012.699 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 16100 files added (on-disk size: 0 KB)
+0012.743 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 16200 files added (on-disk size: 0 KB)
+0012.790 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 16300 files added (on-disk size: 0 KB)
+0012.845 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 16400 files added (on-disk size: 0 KB)
+0012.891 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 16500 files added (on-disk size: 0 KB)
+0012.927 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 16600 files added (on-disk size: 0 KB)
+0012.959 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 16700 files added (on-disk size: 0 KB)
+0012.997 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 16800 files added (on-disk size: 0 KB)
+0013.039 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 16900 files added (on-disk size: 0 KB)
+0013.078 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 17000 files added (on-disk size: 0 KB)
+0013.113 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 17100 files added (on-disk size: 0 KB)
+0013.162 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 17200 files added (on-disk size: 0 KB)
+0013.209 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.tmp: 17300 files added (on-disk size: 0 KB)
+0599.132 (0) The time we have been running (599.1) is approaching the resumption interval (600) - increasing resumption interval to 630
+0599.250 (0) Creating zip file manifest (backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip.list-temp.tmp)
+0599.299 (0) Successfully created zip file manifest (size: 1506993)
+0600.098 (0) Created plugins zip (0) - 105276.7 KB in 600 s (175.5 KB/s) (sha1: 6722e3ddb15d5ecf52e134e11c2fcde1764d7114, sha256: 6613246fc0efc77deb851620c7ab9f9571723fe31771d012f8efe3898c831032)
+0600.115 (0) Cloud backup selection (1/1): googledrive with instance (1/1) (last)
+0600.118 (0) Beginning dispatch of backup to remote (googledrive) (instance identifier s-51097c087e0651afa7a453b6f950e052)
+0602.754 (0) Google Drive: quota usage: used=12672.6 MB, total=15360 MB, available=2687.4 MB
+0602.756 (0) Google Drive: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip: Attempting to upload to Google Drive (into folder id: 1qpq6iqhV3w-OyOspa6qLmRDipUZHm3mZ)
+0604.788 (0) The time we have been running (604.8) is approaching the resumption interval (630) - increasing resumption interval to 635
+0604.792 (0) Googledrive chunked upload: 1 % uploaded (1048576 - increasing chunk size to 2048 KB - memory usage: 14.3 / 46)
+0605.633 (0) The time we have been running (605.6) is approaching the resumption interval (635) - increasing resumption interval to 636
+0605.638 (0) Googledrive chunked upload: 2.9 % uploaded (3145728 - increasing chunk size to 4096 KB - memory usage: 14.3 / 46)
+0607.068 (0) The time we have been running (607.1) is approaching the resumption interval (636) - increasing resumption interval to 638
+0607.073 (0) Googledrive chunked upload: 6.8 % uploaded (7340032 - increasing chunk size to 8192 KB - memory usage: 14.3 / 46)
+0608.871 (0) The time we have been running (608.9) is approaching the resumption interval (638) - increasing resumption interval to 639
+0608.873 (0) Googledrive chunked upload: 14.6 % uploaded (15728640 - increasing chunk size to 16384 KB - memory usage: 14.3 / 46)
+0611.391 (0) The time we have been running (611.4) is approaching the resumption interval (639) - increasing resumption interval to 642
+0611.395 (0) Googledrive chunked upload: 30.2 % uploaded (32505856 - increasing chunk size to 32768 KB - memory usage: 14.3 / 46)
+0614.253 (0) The time we have been running (614.2) is approaching the resumption interval (642) - increasing resumption interval to 645
+0614.257 (0) Googledrive chunked upload: 61.3 % uploaded (66060288)
+0617.772 (0) The time we have been running (617.8) is approaching the resumption interval (645) - increasing resumption interval to 648
+0617.774 (0) Googledrive chunked upload: 92.4 % uploaded (99614720)
+0621.598 (0) The time we have been running (621.6) is approaching the resumption interval (648) - increasing resumption interval to 652
+0621.602 (0) Googledrive chunked upload: 100 % uploaded (99614720)
+0621.607 (0) Google Drive: OK: Archive backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip uploaded in 18.85 seconds
+0621.608 (0) Recording as successfully uploaded: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip
+0621.621 (0) Deleting local file: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip: OK
+0621.631 (0) Beginning creation of dump of themes (split every: 400 MB)
+0621.776 (0) Total entities for the zip file: 78 directories, 564 files (0 skipped as non-modified), 23.4 MB
+0621.777 (0) Only one archive required (UpdraftPlus_PclZip) - will attempt to do in single operation (data: 23985.5 KB, split: 409600 KB)
+0621.794 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-themes.zip.tmp: 100 files added (on-disk size: 0 KB)
+0621.812 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-themes.zip.tmp: 200 files added (on-disk size: 0 KB)
+0621.828 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-themes.zip.tmp: 300 files added (on-disk size: 0 KB)
+0621.844 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-themes.zip.tmp: 400 files added (on-disk size: 0 KB)
+0621.860 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-themes.zip.tmp: 500 files added (on-disk size: 0 KB)
+0625.721 (0) The time we have been running (625.7) is approaching the resumption interval (652) - increasing resumption interval to 656
+0625.728 (0) Creating zip file manifest (backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-themes.zip.list-temp.tmp)
+0625.732 (0) Successfully created zip file manifest (size: 37556)
+0625.903 (0) Created themes zip (0) - 20186 KB in 4.3 s (4732.9 KB/s) (sha1: 7d392e4059382b8796c11f8493eb9a27bc072cb0, sha256: b237939b7b4e168b5fb996aa7b1c4ef5977fdc48b9461286b8996270b09b2545)
+0625.910 (0) Cloud backup selection (1/1): googledrive with instance (1/1) (last)
+0625.911 (0) Beginning dispatch of backup to remote (googledrive) (instance identifier s-51097c087e0651afa7a453b6f950e052)
+0626.597 (0) Google Drive: quota usage: used=12775.4 MB, total=15360 MB, available=2584.6 MB
+0626.599 (0) Google Drive: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-themes.zip: Attempting to upload to Google Drive (into folder id: 1qpq6iqhV3w-OyOspa6qLmRDipUZHm3mZ)
+0628.405 (0) The time we have been running (628.4) is approaching the resumption interval (656) - increasing resumption interval to 659
+0628.408 (0) Googledrive chunked upload: 5.1 % uploaded (1048576 - increasing chunk size to 2048 KB - memory usage: 11.4 / 44)
+0629.276 (0) The time we have been running (629.3) is approaching the resumption interval (659) - increasing resumption interval to 660
+0629.279 (0) Googledrive chunked upload: 15.2 % uploaded (3145728 - increasing chunk size to 4096 KB - memory usage: 11.4 / 44)
+0630.591 (0) The time we have been running (630.6) is approaching the resumption interval (660) - increasing resumption interval to 661
+0630.594 (0) Googledrive chunked upload: 35.5 % uploaded (7340032 - increasing chunk size to 8192 KB - memory usage: 11.4 / 44)
+0632.414 (0) The time we have been running (632.4) is approaching the resumption interval (661) - increasing resumption interval to 663
+0632.418 (0) Googledrive chunked upload: 76.1 % uploaded (15728640 - increasing chunk size to 16384 KB - memory usage: 11.4 / 44)
+0635.257 (0) The time we have been running (635.3) is approaching the resumption interval (663) - increasing resumption interval to 666
+0635.261 (0) Googledrive chunked upload: 100 % uploaded (15728640)
+0635.266 (0) Google Drive: OK: Archive backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-themes.zip uploaded in 8.67 seconds
+0635.268 (0) Recording as successfully uploaded: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-themes.zip
+0635.272 (0) Deleting local file: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-themes.zip: OK
+0635.279 (0) Exclusion option setting (uploads): backup*,*backups,backwpup*,wp-clone,snapshots
+0635.281 (0) Looking for candidates to backup in: C:\xampp\htdocs\wordpress/wp-content/uploads
+0635.282 (0) finding files: 2011: adding to list (1)
+0635.283 (0) finding files: 2022: adding to list (2)
+0635.285 (0) finding files: 2023: adding to list (3)
+0635.286 (0) finding files: 2024: adding to list (4)
+0635.287 (0) finding files: 2025: adding to list (5)
+0635.289 (0) finding files: ast-block-templates-json: adding to list (6)
+0635.290 (0) finding files: custom-css-js: adding to list (7)
+0635.291 (0) finding files: DMRP_Items.csv: adding to list (8)
+0635.292 (0) finding files: download-manager-files: adding to list (9)
+0635.294 (0) finding files: elementor: adding to list (10)
+0635.295 (0) finding files: embedpress: adding to list (11)
+0635.296 (0) finding files: essential-addons-elementor: adding to list (12)
+0635.297 (0) finding files: firebox: adding to list (13)
+0635.298 (0) finding files: images: adding to list (14)
+0635.299 (0) finding files: incident-data.csv: adding to list (15)
+0635.300 (0) finding files: markers: adding to list (16)
+0635.301 (0) finding files: NewFolder: adding to list (17)
+0635.302 (0) finding files: optimole-logs: adding to list (18)
+0635.303 (0) finding files: pdf: adding to list (19)
+0635.304 (0) finding files: photo-gallery: adding to list (20)
+0635.305 (0) finding files: premium-addons-elementor: adding to list (21)
+0635.307 (0) finding files: revenue_villages.json: adding to list (22)
+0635.308 (0) finding files: simply-static: adding to list (23)
+0635.309 (0) finding files: staatic: adding to list (24)
+0635.310 (0) finding files: supsystic-tables: adding to list (25)
+0635.311 (0) finding files: uag-plugin: adding to list (26)
+0635.312 (0) finding files: visualizer: adding to list (27)
+0635.313 (0) finding files: wp-file-manager-pro: adding to list (28)
+0635.314 (0) finding files: wpcf7_uploads: adding to list (29)
+0635.314 (0) finding files: wpcode: adding to list (30)
+0635.316 (0) finding files: wpdm-cache: adding to list (31)
+0635.317 (0) finding files: wpdm-custom-tags: adding to list (32)
+0635.318 (0) finding files: wpdm-file-type-icons: adding to list (33)
+0635.319 (0) Beginning creation of dump of uploads (split every: 400 MB)
+0638.874 (0) Total entities for the zip file: 1547 directories, 10776 files (0 skipped as non-modified), 2670.6 MB
+0638.879 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 2.0 seconds have passed since the last write (0.2 MB, 1 (1) files added so far); re-opening (prior size: 0 KB)
+0642.648 (0) The time we have been running (642.6) is approaching the resumption interval (666) - increasing resumption interval to 673
+0642.661 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 25 MB added on this batch (34.3 MB, 10776 files batched, 49 (50) added so far); re-opening (prior size: 534.9 KB)
+0643.789 (0) The time we have been running (643.8) is approaching the resumption interval (673) - increasing resumption interval to 674
+0643.793 (0) A useful amount of data was added after this amount of zip processing: 1.6 s (normalised: 1.2 s, rate: 22089.9 KB/s)
+0643.796 (0) Performance is good - will increase the amount of data we attempt to batch (time=1.5895900726318, normalised_time=1.1588998039472, max_time=643.79375600815, data points known=1, old_max_bytes=26214400, new_max_bytes=209715200)
+0643.810 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads.zip.tmp: 100 files added (on-disk size: 35553.7 KB)
+0643.830 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads.zip.tmp: 200 files added (on-disk size: 35553.7 KB)
+0643.854 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads.zip.tmp: 300 files added (on-disk size: 35553.7 KB)
+0643.878 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads.zip.tmp: 400 files added (on-disk size: 35553.7 KB)
+0643.885 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 200 MB added on this batch (204.1 MB, 10776 files batched, 373 (423) added so far); re-opening (prior size: 35553.7 KB)
+0651.291 (0) The time we have been running (651.3) is approaching the resumption interval (674) - increasing resumption interval to 682
+0651.294 (0) A useful amount of data was added after this amount of zip processing: 8.1 s (normalised: 7.9 s, rate: 25832 KB/s)
+0651.296 (0) Performance is good - but we will not increase the amount of data we batch, as we are already at the present limit (time=8.0910730361938, normalised_time=7.928156095612, max_time=651.29547190666, data points known=1, max_bytes=209715200)
+0651.312 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads.zip.tmp: 500 files added (on-disk size: 238998.5 KB)
+0651.330 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads.zip.tmp: 600 files added (on-disk size: 238998.5 KB)
+0651.348 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads.zip.tmp: 700 files added (on-disk size: 238998.5 KB)
+0651.367 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads.zip.tmp: 800 files added (on-disk size: 238998.5 KB)
+0651.386 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads.zip.tmp: 900 files added (on-disk size: 238998.5 KB)
+0651.389 (0) Adding batch to zip file (UpdraftPlus_PclZip): possibly approaching split limit (155.7 MB, 488 (911) files added so far); last ratio: 0.9734; re-opening (prior size: 238998.5 KB)
+0657.881 (0) The time we have been running (657.9) is approaching the resumption interval (682) - increasing resumption interval to 688
+0657.884 (0) Zip size is at/near split limit (387.6 MB / 400 MB) - bumping index (from: 0)
+0661.090 (0) Creating zip file manifest (backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads.zip.list-temp.tmp)
+0661.095 (0) Successfully created zip file manifest (size: 61873)
+0661.102 (0) The time we have been running (661.1) is approaching the resumption interval (688) - increasing resumption interval to 692
+0661.105 (0) Created uploads zip (0) - 396906.8 KB in 22.6 s (17591.5 KB/s) (checksums: sha1: 53ab72c28981fd85be5a8e51fb1180149bd41f22, sha256: 94d49316edb46efaa49da7278104865517f7166621fe44507f2652c083a7cbc7)
+0661.116 (0) Cloud backup selection (1/1): googledrive with instance (1/1) (last)
+0661.118 (0) Beginning dispatch of backup to remote (googledrive) (instance identifier s-51097c087e0651afa7a453b6f950e052)
+0661.724 (0) Google Drive: quota usage: used=12795.1 MB, total=15360 MB, available=2564.9 MB
+0661.725 (0) Google Drive: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads.zip: Attempting to upload to Google Drive (into folder id: 1qpq6iqhV3w-OyOspa6qLmRDipUZHm3mZ)
+0663.674 (0) The time we have been running (663.7) is approaching the resumption interval (692) - increasing resumption interval to 694
+0663.677 (0) Googledrive chunked upload: 0.3 % uploaded (1048576 - increasing chunk size to 2048 KB - memory usage: 15 / 46)
+0664.546 (0) The time we have been running (664.5) is approaching the resumption interval (694) - increasing resumption interval to 695
+0664.549 (0) Googledrive chunked upload: 0.8 % uploaded (3145728 - increasing chunk size to 4096 KB - memory usage: 15 / 46)
+0665.865 (0) The time we have been running (665.9) is approaching the resumption interval (695) - increasing resumption interval to 696
+0665.868 (0) Googledrive chunked upload: 1.8 % uploaded (7340032 - increasing chunk size to 8192 KB - memory usage: 15 / 46)
+0667.644 (0) The time we have been running (667.6) is approaching the resumption interval (696) - increasing resumption interval to 698
+0667.647 (0) Googledrive chunked upload: 3.9 % uploaded (15728640 - increasing chunk size to 16384 KB - memory usage: 15 / 46)
+0670.197 (0) The time we have been running (670.2) is approaching the resumption interval (698) - increasing resumption interval to 701
+0670.200 (0) Googledrive chunked upload: 8 % uploaded (32505856)
+0672.729 (0) The time we have been running (672.7) is approaching the resumption interval (701) - increasing resumption interval to 703
+0672.732 (0) Googledrive chunked upload: 12.1 % uploaded (49283072)
+0675.432 (0) The time we have been running (675.4) is approaching the resumption interval (703) - increasing resumption interval to 706
+0675.435 (0) Googledrive chunked upload: 16.3 % uploaded (66060288)
+0677.996 (0) The time we have been running (678) is approaching the resumption interval (706) - increasing resumption interval to 708
+0677.998 (0) Googledrive chunked upload: 20.4 % uploaded (82837504)
+0680.534 (0) The time we have been running (680.5) is approaching the resumption interval (708) - increasing resumption interval to 711
+0680.537 (0) Googledrive chunked upload: 24.5 % uploaded (99614720)
+0683.053 (0) The time we have been running (683) is approaching the resumption interval (711) - increasing resumption interval to 714
+0683.056 (0) Googledrive chunked upload: 28.6 % uploaded (116391936 - increasing chunk size to 32768 KB - memory usage: 15 / 46)
+0686.688 (0) The time we have been running (686.7) is approaching the resumption interval (714) - increasing resumption interval to 717
+0686.690 (0) Googledrive chunked upload: 36.9 % uploaded (149946368)
+0690.196 (0) The time we have been running (690.2) is approaching the resumption interval (717) - increasing resumption interval to 721
+0690.199 (0) Googledrive chunked upload: 45.1 % uploaded (183500800)
+0693.628 (0) The time we have been running (693.6) is approaching the resumption interval (721) - increasing resumption interval to 724
+0693.631 (0) Googledrive chunked upload: 53.4 % uploaded (217055232)
+0697.046 (0) The time we have been running (697) is approaching the resumption interval (724) - increasing resumption interval to 728
+0697.049 (0) Googledrive chunked upload: 61.7 % uploaded (250609664)
+0700.479 (0) The time we have been running (700.5) is approaching the resumption interval (728) - increasing resumption interval to 731
+0700.483 (0) Googledrive chunked upload: 69.9 % uploaded (284164096)
+0703.458 (0) The time we have been running (703.5) is approaching the resumption interval (731) - increasing resumption interval to 734
+0703.462 (0) Googledrive chunked upload: 78.2 % uploaded (317718528)
+0707.032 (0) The time we have been running (707) is approaching the resumption interval (734) - increasing resumption interval to 738
+0707.035 (0) Googledrive chunked upload: 86.4 % uploaded (351272960)
+0710.697 (0) The time we have been running (710.7) is approaching the resumption interval (738) - increasing resumption interval to 741
+0710.701 (0) Googledrive chunked upload: 94.7 % uploaded (384827392)
+0715.065 (0) The time we have been running (715.1) is approaching the resumption interval (741) - increasing resumption interval to 746
+0715.068 (0) Googledrive chunked upload: 100 % uploaded (384827392)
+0715.073 (0) Google Drive: OK: Archive backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads.zip uploaded in 53.35 seconds
+0715.074 (0) Recording as successfully uploaded: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads.zip
+0715.122 (0) Deleting local file: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads.zip: OK
+0715.128 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 2.0 seconds have passed since the last write (0.6 MB, 1 (912) files added so far); re-opening (prior size: 0 KB)
+0715.163 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads2.zip.tmp: 1000 files added (on-disk size: 613.5 KB)
+0715.182 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads2.zip.tmp: 1100 files added (on-disk size: 613.5 KB)
+0715.199 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads2.zip.tmp: 1200 files added (on-disk size: 613.5 KB)
+0715.213 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 200 MB added on this batch (200.2 MB, 10776 files batched, 368 (1280) added so far); re-opening (prior size: 613.5 KB)
+0723.761 (0) The time we have been running (723.8) is approaching the resumption interval (746) - increasing resumption interval to 754
+0723.764 (0) A useful amount of data was added after this amount of zip processing: 9.6 s (normalised: 9.6 s, rate: 21439.6 KB/s)
+0723.765 (0) Performance is good - but we will not increase the amount of data we batch, as we are already at the present limit (time=9.5602450370789, normalised_time=9.5524342902793, max_time=723.7642519474, data points known=1, max_bytes=209715200)
+0723.771 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads2.zip.tmp: 1300 files added (on-disk size: 193315.9 KB)
+0723.787 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads2.zip.tmp: 1400 files added (on-disk size: 193315.9 KB)
+0723.802 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads2.zip.tmp: 1500 files added (on-disk size: 193315.9 KB)
+0723.818 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads2.zip.tmp: 1600 files added (on-disk size: 193315.9 KB)
+0723.833 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 200 MB added on this batch (200 MB, 10776 files batched, 407 (1687) added so far); re-opening (prior size: 193315.9 KB)
+0751.013 (0) The time we have been running (751) is approaching the resumption interval (754) - increasing resumption interval to 782
+0751.016 (0) A useful amount of data was added after this amount of zip processing: 27.8 s (normalised: 27.8 s, rate: 7365.4 KB/s)
+0751.017 (0) Performance is good - but we will not increase the amount of data we batch, as we are already at the present limit (time=27.812403917313, normalised_time=27.805835877934, max_time=751.01603984833, data points known=1, max_bytes=209715200)
+0751.021 (0) Adding batch to zip file (UpdraftPlus_PclZip): possibly approaching split limit (34.4 MB, 7 (1694) files added so far); last ratio: 0.9285; re-opening (prior size: 383512 KB)
+0755.126 (0) The time we have been running (755.1) is approaching the resumption interval (782) - increasing resumption interval to 786
+0755.129 (0) Zip size is at/near split limit (407.7 MB / 400 MB) - bumping index (from: 1)
+0758.272 (0) Creating zip file manifest (backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads2.zip.list-temp.tmp)
+0758.277 (0) Successfully created zip file manifest (size: 62825)
+0758.285 (0) The time we have been running (758.3) is approaching the resumption interval (786) - increasing resumption interval to 789
+0758.289 (0) Created uploads zip (1) - 417443 KB in 94 s (4439.8 KB/s) (checksums: sha1: 6105ab69df6a799f40c3dba99b13e7ea9075b672, sha256: bc746745907c8c90315961e4100e89e2b0f70f5c7815be155ade734f89aa0d7d)
+0758.303 (0) Cloud backup selection (1/1): googledrive with instance (1/1) (last)
+0758.306 (0) Beginning dispatch of backup to remote (googledrive) (instance identifier s-51097c087e0651afa7a453b6f950e052)
+0758.934 (0) Google Drive: quota usage: used=13182.7 MB, total=15360 MB, available=2177.3 MB
+0758.936 (0) Google Drive: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads2.zip: Attempting to upload to Google Drive (into folder id: 1qpq6iqhV3w-OyOspa6qLmRDipUZHm3mZ)
+0760.666 (0) The time we have been running (760.7) is approaching the resumption interval (789) - increasing resumption interval to 791
+0760.668 (0) Googledrive chunked upload: 0.2 % uploaded (1048576 - increasing chunk size to 2048 KB - memory usage: 15 / 46)
+0761.507 (0) The time we have been running (761.5) is approaching the resumption interval (791) - increasing resumption interval to 792
+0761.511 (0) Googledrive chunked upload: 0.7 % uploaded (3145728 - increasing chunk size to 4096 KB - memory usage: 15 / 46)
+0762.863 (0) The time we have been running (762.9) is approaching the resumption interval (792) - increasing resumption interval to 793
+0762.866 (0) Googledrive chunked upload: 1.7 % uploaded (7340032 - increasing chunk size to 8192 KB - memory usage: 15 / 46)
+0764.634 (0) The time we have been running (764.6) is approaching the resumption interval (793) - increasing resumption interval to 795
+0764.637 (0) Googledrive chunked upload: 3.7 % uploaded (15728640 - increasing chunk size to 16384 KB - memory usage: 15 / 46)
+0767.204 (0) The time we have been running (767.2) is approaching the resumption interval (795) - increasing resumption interval to 798
+0767.207 (0) Googledrive chunked upload: 7.6 % uploaded (32505856)
+0769.732 (0) The time we have been running (769.7) is approaching the resumption interval (798) - increasing resumption interval to 800
+0769.736 (0) Googledrive chunked upload: 11.5 % uploaded (49283072)
+0772.407 (0) The time we have been running (772.4) is approaching the resumption interval (800) - increasing resumption interval to 803
+0772.410 (0) Googledrive chunked upload: 15.5 % uploaded (66060288)
+0775.003 (0) The time we have been running (775) is approaching the resumption interval (803) - increasing resumption interval to 805
+0775.006 (0) Googledrive chunked upload: 19.4 % uploaded (82837504)
+0777.703 (0) The time we have been running (777.7) is approaching the resumption interval (805) - increasing resumption interval to 808
+0777.706 (0) Googledrive chunked upload: 23.3 % uploaded (99614720)
+0780.287 (0) The time we have been running (780.3) is approaching the resumption interval (808) - increasing resumption interval to 811
+0780.291 (0) Googledrive chunked upload: 27.2 % uploaded (116391936)
+0782.768 (0) The time we have been running (782.8) is approaching the resumption interval (811) - increasing resumption interval to 813
+0782.772 (0) Googledrive chunked upload: 31.2 % uploaded (133169152 - increasing chunk size to 32768 KB - memory usage: 15 / 46)
+0786.208 (0) The time we have been running (786.2) is approaching the resumption interval (813) - increasing resumption interval to 817
+0786.212 (0) Googledrive chunked upload: 39 % uploaded (166723584)
+0789.631 (0) The time we have been running (789.6) is approaching the resumption interval (817) - increasing resumption interval to 820
+0789.636 (0) Googledrive chunked upload: 46.9 % uploaded (200278016)
+0793.256 (0) The time we have been running (793.3) is approaching the resumption interval (820) - increasing resumption interval to 824
+0793.259 (0) Googledrive chunked upload: 54.7 % uploaded (233832448)
+0796.780 (0) The time we have been running (796.8) is approaching the resumption interval (824) - increasing resumption interval to 827
+0796.784 (0) Googledrive chunked upload: 62.6 % uploaded (267386880)
+0800.259 (0) The time we have been running (800.3) is approaching the resumption interval (827) - increasing resumption interval to 831
+0800.262 (0) Googledrive chunked upload: 70.4 % uploaded (300941312)
+0803.575 (0) The time we have been running (803.6) is approaching the resumption interval (831) - increasing resumption interval to 834
+0803.579 (0) Googledrive chunked upload: 78.3 % uploaded (334495744)
+0807.054 (0) The time we have been running (807) is approaching the resumption interval (834) - increasing resumption interval to 838
+0807.058 (0) Googledrive chunked upload: 86.1 % uploaded (368050176)
+0810.461 (0) The time we have been running (810.5) is approaching the resumption interval (838) - increasing resumption interval to 841
+0810.465 (0) Googledrive chunked upload: 94 % uploaded (401604608)
+0814.948 (0) The time we have been running (814.9) is approaching the resumption interval (841) - increasing resumption interval to 845
+0814.952 (0) Googledrive chunked upload: 100 % uploaded (401604608)
+0814.957 (0) Google Drive: OK: Archive backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads2.zip uploaded in 56.02 seconds
+0814.958 (0) Recording as successfully uploaded: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads2.zip
+0815.009 (0) Deleting local file: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads2.zip: OK
+0815.014 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 2.0 seconds have passed since the last write (11.5 MB, 1 (1695) files added so far); re-opening (prior size: 0 KB)
+0815.357 (0) The time we have been running (815.4) is approaching the resumption interval (845) - increasing resumption interval to 846
+0815.360 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 1700 files added (on-disk size: 11311.2 KB)
+0815.378 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 1800 files added (on-disk size: 11311.2 KB)
+0815.393 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 1900 files added (on-disk size: 11311.2 KB)
+0815.409 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 2000 files added (on-disk size: 11311.2 KB)
+0815.425 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 2100 files added (on-disk size: 11311.2 KB)
+0815.441 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 2200 files added (on-disk size: 11311.2 KB)
+0815.457 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 2300 files added (on-disk size: 11311.2 KB)
+0815.473 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 2400 files added (on-disk size: 11311.2 KB)
+0815.490 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 2500 files added (on-disk size: 11311.2 KB)
+0815.508 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 2600 files added (on-disk size: 11311.2 KB)
+0815.524 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 1000 files added on this batch (124.7 MB, 10776 files batched, 1001 (2696) added so far); re-opening (prior size: 11311.2 KB)
+0837.253 (0) The time we have been running (837.2) is approaching the resumption interval (846) - increasing resumption interval to 868
+0837.256 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 2700 files added (on-disk size: 87498.1 KB)
+0837.273 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 2800 files added (on-disk size: 87498.1 KB)
+0837.290 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 2900 files added (on-disk size: 87498.1 KB)
+0837.307 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 3000 files added (on-disk size: 87498.1 KB)
+0837.325 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 3100 files added (on-disk size: 87498.1 KB)
+0837.342 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 3200 files added (on-disk size: 87498.1 KB)
+0837.361 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 3300 files added (on-disk size: 87498.1 KB)
+0837.377 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 3400 files added (on-disk size: 87498.1 KB)
+0837.394 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 3500 files added (on-disk size: 87498.1 KB)
+0837.411 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 3600 files added (on-disk size: 87498.1 KB)
+0837.426 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 1000 files added on this batch (84.8 MB, 10776 files batched, 1001 (3697) added so far); re-opening (prior size: 87498.1 KB)
+0894.608 (0) The time we have been running (894.6) is approaching the resumption interval (868) - increasing resumption interval to 925
+0894.613 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 3700 files added (on-disk size: 131669.5 KB)
+0894.629 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 3800 files added (on-disk size: 131669.5 KB)
+0894.644 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 3900 files added (on-disk size: 131669.5 KB)
+0894.660 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 4000 files added (on-disk size: 131669.5 KB)
+0894.676 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 4100 files added (on-disk size: 131669.5 KB)
+0894.691 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 4200 files added (on-disk size: 131669.5 KB)
+0894.707 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 4300 files added (on-disk size: 131669.5 KB)
+0894.723 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 4400 files added (on-disk size: 131669.5 KB)
+0894.731 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 200 MB added on this batch (200.4 MB, 10776 files batched, 755 (4452) added so far); re-opening (prior size: 131669.5 KB)
+0904.183 (0) The time we have been running (904.2) is approaching the resumption interval (925) - increasing resumption interval to 935
+0904.185 (0) A useful amount of data was added after this amount of zip processing: 10 s (normalised: 10 s, rate: 20555.4 KB/s)
+0904.186 (0) Performance is good - but we will not increase the amount of data we batch, as we are already at the present limit (time=9.9815928936005, normalised_time=9.9633183944844, max_time=904.18520092964, data points known=1, max_bytes=209715200)
+0904.196 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 4500 files added (on-disk size: 336991.4 KB)
+0904.213 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 4600 files added (on-disk size: 336991.4 KB)
+0904.229 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 4700 files added (on-disk size: 336991.4 KB)
+0904.246 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.tmp: 4800 files added (on-disk size: 336991.4 KB)
+0904.261 (0) Adding batch to zip file (UpdraftPlus_PclZip): possibly approaching split limit (66.4 MB, 442 (4894) files added so far); last ratio: 1; re-opening (prior size: 336991.4 KB)
+0910.315 (0) The time we have been running (910.3) is approaching the resumption interval (935) - increasing resumption interval to 941
+0910.317 (0) Zip size is at/near split limit (395.6 MB / 400 MB) - bumping index (from: 2)
+0913.306 (0) Creating zip file manifest (backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip.list-temp.tmp)
+0913.317 (0) Successfully created zip file manifest (size: 391872)
+0913.323 (0) The time we have been running (913.3) is approaching the resumption interval (941) - increasing resumption interval to 944
+0913.326 (0) Created uploads zip (2) - 405068.6 KB in 152 s (2664.5 KB/s) (checksums: sha1: d9840a150c6bad58a98d03c12fc9f6f1d051446b, sha256: eda87dfe573cb6226ccc802e5bef2df80a6cd25bc31f28638b6ccc0e4205e974)
+0913.336 (0) Cloud backup selection (1/1): googledrive with instance (1/1) (last)
+0913.337 (0) Beginning dispatch of backup to remote (googledrive) (instance identifier s-51097c087e0651afa7a453b6f950e052)
+0914.079 (0) Google Drive: quota usage: used=13590.4 MB, total=15360 MB, available=1769.6 MB
+0914.082 (0) Google Drive: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip: Attempting to upload to Google Drive (into folder id: 1qpq6iqhV3w-OyOspa6qLmRDipUZHm3mZ)
+0915.903 (0) The time we have been running (915.9) is approaching the resumption interval (944) - increasing resumption interval to 946
+0915.907 (0) Googledrive chunked upload: 0.3 % uploaded (1048576 - increasing chunk size to 2048 KB - memory usage: 15.5 / 46)
+0916.773 (0) The time we have been running (916.8) is approaching the resumption interval (946) - increasing resumption interval to 947
+0916.776 (0) Googledrive chunked upload: 0.8 % uploaded (3145728 - increasing chunk size to 4096 KB - memory usage: 15.5 / 46)
+0918.094 (0) The time we have been running (918.1) is approaching the resumption interval (947) - increasing resumption interval to 949
+0918.098 (0) Googledrive chunked upload: 1.8 % uploaded (7340032 - increasing chunk size to 8192 KB - memory usage: 15.5 / 46)
+0919.995 (0) The time we have been running (920) is approaching the resumption interval (949) - increasing resumption interval to 950
+0919.999 (0) Googledrive chunked upload: 3.8 % uploaded (15728640 - increasing chunk size to 16384 KB - memory usage: 15.5 / 46)
+0922.544 (0) The time we have been running (922.5) is approaching the resumption interval (950) - increasing resumption interval to 953
+0922.548 (0) Googledrive chunked upload: 7.8 % uploaded (32505856)
+0925.105 (0) The time we have been running (925.1) is approaching the resumption interval (953) - increasing resumption interval to 956
+0925.108 (0) Googledrive chunked upload: 11.9 % uploaded (49283072)
+0927.657 (0) The time we have been running (927.7) is approaching the resumption interval (956) - increasing resumption interval to 958
+0927.661 (0) Googledrive chunked upload: 15.9 % uploaded (66060288)
+0934.534 (0) The time we have been running (934.5) is approaching the resumption interval (958) - increasing resumption interval to 965
+0934.538 (0) Googledrive chunked upload: 20 % uploaded (82837504)
+0937.297 (0) The time we have been running (937.3) is approaching the resumption interval (965) - increasing resumption interval to 968
+0937.300 (0) Googledrive chunked upload: 24 % uploaded (99614720)
+0939.815 (0) The time we have been running (939.8) is approaching the resumption interval (968) - increasing resumption interval to 970
+0939.819 (0) Googledrive chunked upload: 28.1 % uploaded (116391936 - increasing chunk size to 32768 KB - memory usage: 15.5 / 46)
+0943.238 (0) The time we have been running (943.2) is approaching the resumption interval (970) - increasing resumption interval to 974
+0943.242 (0) Googledrive chunked upload: 36.1 % uploaded (149946368)
+0946.679 (0) The time we have been running (946.7) is approaching the resumption interval (974) - increasing resumption interval to 977
+0946.683 (0) Googledrive chunked upload: 44.2 % uploaded (183500800)
+0950.210 (0) The time we have been running (950.2) is approaching the resumption interval (977) - increasing resumption interval to 981
+0950.214 (0) Googledrive chunked upload: 52.3 % uploaded (217055232)
+0953.695 (0) The time we have been running (953.7) is approaching the resumption interval (981) - increasing resumption interval to 984
+0953.698 (0) Googledrive chunked upload: 60.4 % uploaded (250609664)
+0957.104 (0) The time we have been running (957.1) is approaching the resumption interval (984) - increasing resumption interval to 988
+0957.113 (0) Googledrive chunked upload: 68.5 % uploaded (284164096)
+0960.562 (0) The time we have been running (960.6) is approaching the resumption interval (988) - increasing resumption interval to 991
+0960.565 (0) Googledrive chunked upload: 76.6 % uploaded (317718528)
+0964.117 (0) The time we have been running (964.1) is approaching the resumption interval (991) - increasing resumption interval to 995
+0964.120 (0) Googledrive chunked upload: 84.7 % uploaded (351272960)
+0967.692 (0) The time we have been running (967.7) is approaching the resumption interval (995) - increasing resumption interval to 998
+0967.696 (0) Googledrive chunked upload: 92.8 % uploaded (384827392)
+0972.716 (0) The time we have been running (972.7) is approaching the resumption interval (998) - increasing resumption interval to 1003
+0972.719 (0) Googledrive chunked upload: 100 % uploaded (384827392)
+0972.723 (0) Google Drive: OK: Archive backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip uploaded in 58.64 seconds
+0972.725 (0) Recording as successfully uploaded: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip
+0972.776 (0) Deleting local file: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip: OK
+0972.781 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 2.0 seconds have passed since the last write (0 MB, 1 (4895) files added so far); re-opening (prior size: 0 KB)
+0972.785 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip.tmp: 4900 files added (on-disk size: 0.4 KB)
+0972.801 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip.tmp: 5000 files added (on-disk size: 0.4 KB)
+0972.817 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip.tmp: 5100 files added (on-disk size: 0.4 KB)
+0972.834 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip.tmp: 5200 files added (on-disk size: 0.4 KB)
+0972.850 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip.tmp: 5300 files added (on-disk size: 0.4 KB)
+0972.868 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip.tmp: 5400 files added (on-disk size: 0.4 KB)
+0972.885 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip.tmp: 5500 files added (on-disk size: 0.4 KB)
+0972.901 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip.tmp: 5600 files added (on-disk size: 0.4 KB)
+0972.918 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip.tmp: 5700 files added (on-disk size: 0.4 KB)
+0972.934 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip.tmp: 5800 files added (on-disk size: 0.4 KB)
+0972.950 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 1000 files added on this batch (187.1 MB, 10776 files batched, 1001 (5896) added so far); re-opening (prior size: 0.4 KB)
+0980.255 (0) The time we have been running (980.2) is approaching the resumption interval (1003) - increasing resumption interval to 1011
+0980.259 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip.tmp: 5900 files added (on-disk size: 191560.7 KB)
+0980.275 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip.tmp: 6000 files added (on-disk size: 191560.7 KB)
+0980.291 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip.tmp: 6100 files added (on-disk size: 191560.7 KB)
+0980.307 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip.tmp: 6200 files added (on-disk size: 191560.7 KB)
+0980.323 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip.tmp: 6300 files added (on-disk size: 191560.7 KB)
+0980.340 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip.tmp: 6400 files added (on-disk size: 191560.7 KB)
+0980.356 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip.tmp: 6500 files added (on-disk size: 191560.7 KB)
+0980.368 (0) Adding batch to zip file (UpdraftPlus_PclZip): possibly approaching split limit (194.4 MB, 684 (6580) files added so far); last ratio: 0.9999; re-opening (prior size: 191560.7 KB)
+0991.729 (0) The time we have been running (991.7) is approaching the resumption interval (1011) - increasing resumption interval to 1022
+0991.732 (0) Zip size is at/near split limit (381.6 MB / 400 MB) - bumping index (from: 3)
+0994.671 (0) Creating zip file manifest (backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip.list-temp.tmp)
+0994.678 (0) Successfully created zip file manifest (size: 137413)
+0994.686 (0) The time we have been running (994.7) is approaching the resumption interval (1022) - increasing resumption interval to 1025
+0994.689 (0) Created uploads zip (3) - 390726.7 KB in 78.4 s (4983.4 KB/s) (checksums: sha1: 8891e764d46125f4cc88ad8d59713b4c37475af4, sha256: 1480d5b22e03f1acb9fe2b6ae8991f9c6a655a85c495b5bf998f8f2b28610156)
+0994.698 (0) Cloud backup selection (1/1): googledrive with instance (1/1) (last)
+0994.700 (0) Beginning dispatch of backup to remote (googledrive) (instance identifier s-51097c087e0651afa7a453b6f950e052)
+0995.271 (0) Google Drive: quota usage: used=13986 MB, total=15360 MB, available=1374 MB
+0995.273 (0) Google Drive: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip: Attempting to upload to Google Drive (into folder id: 1qpq6iqhV3w-OyOspa6qLmRDipUZHm3mZ)
+0997.101 (0) The time we have been running (997.1) is approaching the resumption interval (1025) - increasing resumption interval to 1028
+0997.106 (0) Googledrive chunked upload: 0.3 % uploaded (1048576 - increasing chunk size to 2048 KB - memory usage: 15.2 / 46)
+0997.937 (0) Googledrive chunked upload: 0.8 % uploaded (3145728 - increasing chunk size to 4096 KB - memory usage: 15.2 / 46)
+0999.250 (0) The time we have been running (999.2) is approaching the resumption interval (1028) - increasing resumption interval to 1030
+0999.255 (0) Googledrive chunked upload: 1.8 % uploaded (7340032 - increasing chunk size to 8192 KB - memory usage: 15.2 / 46)
+1001.048 (0) The time we have been running (1001) is approaching the resumption interval (1030) - increasing resumption interval to 1032
+1001.051 (0) Googledrive chunked upload: 3.9 % uploaded (15728640 - increasing chunk size to 16384 KB - memory usage: 15.2 / 46)
+1003.635 (0) The time we have been running (1003.6) is approaching the resumption interval (1032) - increasing resumption interval to 1034
+1003.637 (0) Googledrive chunked upload: 8.1 % uploaded (32505856)
+1006.216 (0) The time we have been running (1006.2) is approaching the resumption interval (1034) - increasing resumption interval to 1037
+1006.220 (0) Googledrive chunked upload: 12.3 % uploaded (49283072)
+1008.894 (0) The time we have been running (1008.9) is approaching the resumption interval (1037) - increasing resumption interval to 1039
+1008.899 (0) Googledrive chunked upload: 16.5 % uploaded (66060288)
+1011.427 (0) The time we have been running (1011.4) is approaching the resumption interval (1039) - increasing resumption interval to 1042
+1011.430 (0) Googledrive chunked upload: 20.7 % uploaded (82837504)
+1013.920 (0) The time we have been running (1013.9) is approaching the resumption interval (1042) - increasing resumption interval to 1044
+1013.923 (0) Googledrive chunked upload: 24.9 % uploaded (99614720 - increasing chunk size to 32768 KB - memory usage: 15.2 / 46)
+1017.349 (0) The time we have been running (1017.3) is approaching the resumption interval (1044) - increasing resumption interval to 1048
+1017.352 (0) Googledrive chunked upload: 33.3 % uploaded (133169152)
+1020.749 (0) The time we have been running (1020.7) is approaching the resumption interval (1048) - increasing resumption interval to 1051
+1020.751 (0) Googledrive chunked upload: 41.7 % uploaded (166723584)
+1024.121 (0) The time we have been running (1024.1) is approaching the resumption interval (1051) - increasing resumption interval to 1055
+1024.124 (0) Googledrive chunked upload: 50.1 % uploaded (200278016)
+1027.686 (0) The time we have been running (1027.7) is approaching the resumption interval (1055) - increasing resumption interval to 1058
+1027.690 (0) Googledrive chunked upload: 58.4 % uploaded (233832448)
+1031.149 (0) The time we have been running (1031.1) is approaching the resumption interval (1058) - increasing resumption interval to 1062
+1031.152 (0) Googledrive chunked upload: 66.8 % uploaded (267386880)
+1034.644 (0) The time we have been running (1034.6) is approaching the resumption interval (1062) - increasing resumption interval to 1065
+1034.648 (0) Googledrive chunked upload: 75.2 % uploaded (300941312)
+1038.056 (0) The time we have been running (1038) is approaching the resumption interval (1065) - increasing resumption interval to 1069
+1038.058 (0) Googledrive chunked upload: 83.6 % uploaded (334495744)
+1041.430 (0) The time we have been running (1041.4) is approaching the resumption interval (1069) - increasing resumption interval to 1072
+1041.434 (0) Googledrive chunked upload: 92 % uploaded (368050176)
+1046.330 (0) The time we have been running (1046.3) is approaching the resumption interval (1072) - increasing resumption interval to 1077
+1046.333 (0) Googledrive chunked upload: 100 % uploaded (368050176)
+1046.337 (0) Google Drive: OK: Archive backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip uploaded in 51.06 seconds
+1046.338 (0) Recording as successfully uploaded: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip
+1046.393 (0) Deleting local file: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip: OK
+1046.398 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 2.0 seconds have passed since the last write (2.8 MB, 1 (6581) files added so far); re-opening (prior size: 0 KB)
+1046.479 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 6600 files added (on-disk size: 2827.5 KB)
+1046.496 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 6700 files added (on-disk size: 2827.5 KB)
+1046.514 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 6800 files added (on-disk size: 2827.5 KB)
+1046.529 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 6900 files added (on-disk size: 2827.5 KB)
+1046.546 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 7000 files added (on-disk size: 2827.5 KB)
+1046.565 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 7100 files added (on-disk size: 2827.5 KB)
+1046.583 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 7200 files added (on-disk size: 2827.5 KB)
+1046.603 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 7300 files added (on-disk size: 2827.5 KB)
+1046.621 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 7400 files added (on-disk size: 2827.5 KB)
+1046.641 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 7500 files added (on-disk size: 2827.5 KB)
+1046.657 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 1000 files added on this batch (69.4 MB, 10776 files batched, 1001 (7582) added so far); re-opening (prior size: 2827.5 KB)
+1155.918 (0) The time we have been running (1155.9) is approaching the resumption interval (1077) - increasing resumption interval to 1186
+1155.925 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 7600 files added (on-disk size: 52876.3 KB)
+1155.944 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 7700 files added (on-disk size: 52876.3 KB)
+1155.961 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 7800 files added (on-disk size: 52876.3 KB)
+1155.978 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 7900 files added (on-disk size: 52876.3 KB)
+1155.993 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 8000 files added (on-disk size: 52876.3 KB)
+1156.009 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 8100 files added (on-disk size: 52876.3 KB)
+1156.026 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 8200 files added (on-disk size: 52876.3 KB)
+1156.042 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 8300 files added (on-disk size: 52876.3 KB)
+1156.058 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 8400 files added (on-disk size: 52876.3 KB)
+1156.075 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 8500 files added (on-disk size: 52876.3 KB)
+1156.090 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 1000 files added on this batch (52.8 MB, 10776 files batched, 1001 (8583) added so far); re-opening (prior size: 52876.3 KB)
+1195.103 (0) The time we have been running (1195.1) is approaching the resumption interval (1186) - increasing resumption interval to 1226
+1195.109 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 8600 files added (on-disk size: 66395 KB)
+1195.126 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 8700 files added (on-disk size: 66395 KB)
+1195.149 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 8800 files added (on-disk size: 66395 KB)
+1195.165 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 8900 files added (on-disk size: 66395 KB)
+1195.180 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 9000 files added (on-disk size: 66395 KB)
+1195.196 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 9100 files added (on-disk size: 66395 KB)
+1195.200 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 200 MB added on this batch (204.9 MB, 10776 files batched, 536 (9119) added so far); re-opening (prior size: 66395 KB)
+1217.443 (0) The time we have been running (1217.4) is approaching the resumption interval (1226) - increasing resumption interval to 1248
+1217.446 (0) A useful amount of data was added after this amount of zip processing: 23.2 s (normalised: 22.7 s, rate: 9027.5 KB/s)
+1217.448 (0) Performance is good - but we will not increase the amount of data we batch, as we are already at the present limit (time=23.243092060089, normalised_time=22.686280412167, max_time=1217.4474270344, data points known=1, max_bytes=209715200)
+1217.464 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 9200 files added (on-disk size: 267043.6 KB)
+1217.481 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 9300 files added (on-disk size: 267043.6 KB)
+1217.497 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.tmp: 9400 files added (on-disk size: 267043.6 KB)
+1217.508 (0) Adding batch to zip file (UpdraftPlus_PclZip): possibly approaching split limit (132.6 MB, 340 (9459) files added so far); last ratio: 0.9563; re-opening (prior size: 267043.6 KB)
+1224.325 (0) The time we have been running (1224.3) is approaching the resumption interval (1248) - increasing resumption interval to 1255
+1224.328 (0) Zip size is at/near split limit (391.6 MB / 400 MB) - bumping index (from: 4)
+1227.401 (0) Creating zip file manifest (backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip.list-temp.tmp)
+1227.412 (0) Successfully created zip file manifest (size: 315475)
+1227.418 (0) The time we have been running (1227.4) is approaching the resumption interval (1255) - increasing resumption interval to 1258
+1227.421 (0) Created uploads zip (4) - 400967.6 KB in 229.6 s (1746.1 KB/s) (checksums: sha1: 5cb9ec30f7b4a252f98095e1f6856826715713cf, sha256: 6ff7a2f9515d99654ef9320bd8d0a18ad0b7b77fbbc225b8592e977972bd610d)
+1227.432 (0) Cloud backup selection (1/1): googledrive with instance (1/1) (last)
+1227.433 (0) Beginning dispatch of backup to remote (googledrive) (instance identifier s-51097c087e0651afa7a453b6f950e052)
+1228.985 (0) Google Drive: quota usage: used=14367.5 MB, total=15360 MB, available=992.5 MB
+1228.986 (0) Google Drive: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip: Attempting to upload to Google Drive (into folder id: 1qpq6iqhV3w-OyOspa6qLmRDipUZHm3mZ)
+1230.796 (0) The time we have been running (1230.8) is approaching the resumption interval (1258) - increasing resumption interval to 1261
+1230.799 (0) Googledrive chunked upload: 0.3 % uploaded (1048576 - increasing chunk size to 2048 KB - memory usage: 15.4 / 46)
+1231.631 (0) The time we have been running (1231.6) is approaching the resumption interval (1261) - increasing resumption interval to 1262
+1231.635 (0) Googledrive chunked upload: 0.8 % uploaded (3145728 - increasing chunk size to 4096 KB - memory usage: 15.4 / 46)
+1232.926 (0) The time we have been running (1232.9) is approaching the resumption interval (1262) - increasing resumption interval to 1263
+1232.929 (0) Googledrive chunked upload: 1.8 % uploaded (7340032 - increasing chunk size to 8192 KB - memory usage: 15.4 / 46)
+1234.655 (0) The time we have been running (1234.6) is approaching the resumption interval (1263) - increasing resumption interval to 1265
+1234.658 (0) Googledrive chunked upload: 3.8 % uploaded (15728640 - increasing chunk size to 16384 KB - memory usage: 15.4 / 46)
+1237.194 (0) The time we have been running (1237.2) is approaching the resumption interval (1265) - increasing resumption interval to 1268
+1237.197 (0) Googledrive chunked upload: 7.9 % uploaded (32505856)
+1239.655 (0) The time we have been running (1239.6) is approaching the resumption interval (1268) - increasing resumption interval to 1270
+1239.658 (0) Googledrive chunked upload: 12 % uploaded (49283072 - increasing chunk size to 32768 KB - memory usage: 15.4 / 46)
+1242.983 (0) The time we have been running (1243) is approaching the resumption interval (1270) - increasing resumption interval to 1273
+1242.986 (0) Googledrive chunked upload: 20.2 % uploaded (82837504)
+1246.324 (0) The time we have been running (1246.3) is approaching the resumption interval (1273) - increasing resumption interval to 1277
+1246.327 (0) Googledrive chunked upload: 28.3 % uploaded (116391936)
+1249.809 (0) The time we have been running (1249.8) is approaching the resumption interval (1277) - increasing resumption interval to 1280
+1249.811 (0) Googledrive chunked upload: 36.5 % uploaded (149946368)
+1253.175 (0) The time we have been running (1253.2) is approaching the resumption interval (1280) - increasing resumption interval to 1284
+1253.179 (0) Googledrive chunked upload: 44.7 % uploaded (183500800)
+1256.563 (0) The time we have been running (1256.6) is approaching the resumption interval (1284) - increasing resumption interval to 1287
+1256.567 (0) Googledrive chunked upload: 52.9 % uploaded (217055232)
+1259.839 (0) The time we have been running (1259.8) is approaching the resumption interval (1287) - increasing resumption interval to 1290
+1259.842 (0) Googledrive chunked upload: 61 % uploaded (250609664)
+1263.133 (0) The time we have been running (1263.1) is approaching the resumption interval (1290) - increasing resumption interval to 1294
+1263.136 (0) Googledrive chunked upload: 69.2 % uploaded (284164096)
+1266.696 (0) The time we have been running (1266.7) is approaching the resumption interval (1294) - increasing resumption interval to 1297
+1266.698 (0) Googledrive chunked upload: 77.4 % uploaded (317718528)
+1270.059 (0) The time we have been running (1270.1) is approaching the resumption interval (1297) - increasing resumption interval to 1301
+1270.062 (0) Googledrive chunked upload: 85.6 % uploaded (351272960)
+1273.462 (0) The time we have been running (1273.5) is approaching the resumption interval (1301) - increasing resumption interval to 1304
+1273.467 (0) Googledrive chunked upload: 93.7 % uploaded (384827392)
+1278.260 (0) The time we have been running (1278.3) is approaching the resumption interval (1304) - increasing resumption interval to 1309
+1278.263 (0) Googledrive chunked upload: 100 % uploaded (384827392)
+1278.266 (0) Google Drive: OK: Archive backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip uploaded in 49.28 seconds
+1278.268 (0) Recording as successfully uploaded: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip
+1278.316 (0) Deleting local file: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip: OK
+1278.321 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 2.0 seconds have passed since the last write (0.3 MB, 1 (9460) files added so far); re-opening (prior size: 0 KB)
+1278.342 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads6.zip.tmp: 9500 files added (on-disk size: 304.7 KB)
+1278.360 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads6.zip.tmp: 9600 files added (on-disk size: 304.7 KB)
+1278.377 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads6.zip.tmp: 9700 files added (on-disk size: 304.7 KB)
+1278.394 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads6.zip.tmp: 9800 files added (on-disk size: 304.7 KB)
+1278.411 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads6.zip.tmp: 9900 files added (on-disk size: 304.7 KB)
+1278.416 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 200 MB added on this batch (200.3 MB, 10776 files batched, 461 (9921) added so far); re-opening (prior size: 304.7 KB)
+1287.385 (0) The time we have been running (1287.4) is approaching the resumption interval (1309) - increasing resumption interval to 1318
+1287.388 (0) A useful amount of data was added after this amount of zip processing: 9.2 s (normalised: 9.2 s, rate: 22327.3 KB/s)
+1287.389 (0) Performance is good - but we will not increase the amount of data we batch, as we are already at the present limit (time=9.1845970153809, normalised_time=9.1726287615143, max_time=1287.3885538578, data points known=1, max_bytes=209715200)
+1287.405 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads6.zip.tmp: 10000 files added (on-disk size: 198838.9 KB)
+1287.419 (0) Adding batch to zip file (UpdraftPlus_PclZip): possibly approaching split limit (195.3 MB, 162 (10083) files added so far); last ratio: 0.9681; re-opening (prior size: 198838.9 KB)
+1297.763 (0) The time we have been running (1297.7) is approaching the resumption interval (1318) - increasing resumption interval to 1328
+1297.765 (0) Zip size is at/near split limit (377.9 MB / 400 MB) - bumping index (from: 5)
+1300.647 (0) Creating zip file manifest (backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads6.zip.list-temp.tmp)
+1300.651 (0) Successfully created zip file manifest (size: 76812)
+1300.658 (0) The time we have been running (1300.7) is approaching the resumption interval (1328) - increasing resumption interval to 1331
+1300.662 (0) Created uploads zip (5) - 386987.8 KB in 70.3 s (5501.4 KB/s) (checksums: sha1: 95cba30a41320aceeb7de1c4bad6e76f0b4633a1, sha256: 6a10d8f240cac369286df534a9446ede2198b81f77babe86e59dbe53037046d7)
+1300.674 (0) Cloud backup selection (1/1): googledrive with instance (1/1) (last)
+1300.677 (0) Beginning dispatch of backup to remote (googledrive) (instance identifier s-51097c087e0651afa7a453b6f950e052)
+1301.340 (0) Google Drive: quota usage: used=14759.1 MB, total=15360 MB, available=600.9 MB
+1301.341 (0) Google Drive: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads6.zip: Attempting to upload to Google Drive (into folder id: 1qpq6iqhV3w-OyOspa6qLmRDipUZHm3mZ)
+1303.026 (0) The time we have been running (1303) is approaching the resumption interval (1331) - increasing resumption interval to 1334
+1303.028 (0) Googledrive chunked upload: 0.3 % uploaded (1048576 - increasing chunk size to 2048 KB - memory usage: 15.1 / 46)
+1303.882 (0) Googledrive chunked upload: 0.8 % uploaded (3145728 - increasing chunk size to 4096 KB - memory usage: 15.1 / 46)
+1305.156 (0) The time we have been running (1305.2) is approaching the resumption interval (1334) - increasing resumption interval to 1336
+1305.159 (0) Googledrive chunked upload: 1.9 % uploaded (7340032 - increasing chunk size to 8192 KB - memory usage: 15.1 / 46)
+1306.966 (0) The time we have been running (1307) is approaching the resumption interval (1336) - increasing resumption interval to 1337
+1306.971 (0) Googledrive chunked upload: 4 % uploaded (15728640 - increasing chunk size to 16384 KB - memory usage: 15.1 / 46)
+1309.460 (0) The time we have been running (1309.5) is approaching the resumption interval (1337) - increasing resumption interval to 1340
+1309.463 (0) Googledrive chunked upload: 8.2 % uploaded (32505856 - increasing chunk size to 32768 KB - memory usage: 15.1 / 46)
+1312.961 (0) The time we have been running (1313) is approaching the resumption interval (1340) - increasing resumption interval to 1343
+1312.965 (0) Googledrive chunked upload: 16.7 % uploaded (66060288)
+1316.492 (0) The time we have been running (1316.5) is approaching the resumption interval (1343) - increasing resumption interval to 1347
+1316.496 (0) Googledrive chunked upload: 25.1 % uploaded (99614720)
+1319.865 (0) The time we have been running (1319.9) is approaching the resumption interval (1347) - increasing resumption interval to 1350
+1319.869 (0) Googledrive chunked upload: 33.6 % uploaded (133169152)
+1323.226 (0) The time we have been running (1323.2) is approaching the resumption interval (1350) - increasing resumption interval to 1354
+1323.229 (0) Googledrive chunked upload: 42.1 % uploaded (166723584)
+1326.576 (0) The time we have been running (1326.6) is approaching the resumption interval (1354) - increasing resumption interval to 1357
+1326.581 (0) Googledrive chunked upload: 50.5 % uploaded (200278016)
+1330.039 (0) The time we have been running (1330) is approaching the resumption interval (1357) - increasing resumption interval to 1361
+1330.043 (0) Googledrive chunked upload: 59 % uploaded (233832448)
+1333.395 (0) The time we have been running (1333.4) is approaching the resumption interval (1361) - increasing resumption interval to 1364
+1333.397 (0) Googledrive chunked upload: 67.5 % uploaded (267386880)
+1336.824 (0) The time we have been running (1336.8) is approaching the resumption interval (1364) - increasing resumption interval to 1367
+1336.827 (0) Googledrive chunked upload: 75.9 % uploaded (300941312)
+1340.133 (0) The time we have been running (1340.1) is approaching the resumption interval (1367) - increasing resumption interval to 1371
+1340.138 (0) Googledrive chunked upload: 84.4 % uploaded (334495744)
+1343.550 (0) The time we have been running (1343.5) is approaching the resumption interval (1371) - increasing resumption interval to 1374
+1343.554 (0) Googledrive chunked upload: 92.9 % uploaded (368050176)
+1350.252 (0) The time we have been running (1350.2) is approaching the resumption interval (1374) - increasing resumption interval to 1381
+1350.255 (0) Googledrive chunked upload: 100 % uploaded (368050176)
+1350.259 (0) Google Drive: OK: Archive backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads6.zip uploaded in 48.92 seconds
+1350.261 (0) Recording as successfully uploaded: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads6.zip
+1350.307 (0) Deleting local file: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads6.zip: OK
+1350.312 (0) Adding batch to zip file (UpdraftPlus_PclZip): over 2.0 seconds have passed since the last write (11.5 MB, 1 (10084) files added so far); re-opening (prior size: 0 KB)
+1350.651 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads7.zip.tmp: 10100 files added (on-disk size: 11311.2 KB)
+1350.668 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads7.zip.tmp: 10200 files added (on-disk size: 11311.2 KB)
+1350.685 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads7.zip.tmp: 10300 files added (on-disk size: 11311.2 KB)
+1350.701 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads7.zip.tmp: 10400 files added (on-disk size: 11311.2 KB)
+1350.718 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads7.zip.tmp: 10500 files added (on-disk size: 11311.2 KB)
+1350.736 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads7.zip.tmp: 10600 files added (on-disk size: 11311.2 KB)
+1350.756 (0) Zip: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads7.zip.tmp: 10700 files added (on-disk size: 11311.2 KB)
+1405.597 (0) The time we have been running (1405.6) is approaching the resumption interval (1381) - increasing resumption interval to 1436
+1405.604 (0) Creating zip file manifest (backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads7.zip.list-temp.tmp)
+1405.608 (0) Successfully created zip file manifest (size: 79918)
+1406.425 (0) Created uploads zip (6) - 105362.4 KB in 105.8 s (996.2 KB/s) (sha1: e17eedec6ee240db34bf6bd64ac9fc490bbe0654, sha256: d0b8abf74a7b18f817ae4d673ac7e61ca31af5a0ec83495ff3a07fd471c1b4e2)
+1406.433 (0) Cloud backup selection (1/1): googledrive with instance (1/1) (last)
+1406.435 (0) Beginning dispatch of backup to remote (googledrive) (instance identifier s-51097c087e0651afa7a453b6f950e052)
+1407.057 (0) Google Drive: quota usage: used=15137 MB, total=15360 MB, available=223 MB
+1407.058 (0) Google Drive: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads7.zip: Attempting to upload to Google Drive (into folder id: 1qpq6iqhV3w-OyOspa6qLmRDipUZHm3mZ)
+1408.853 (0) The time we have been running (1408.8) is approaching the resumption interval (1436) - increasing resumption interval to 1439
+1408.856 (0) Googledrive chunked upload: 1 % uploaded (1048576 - increasing chunk size to 2048 KB - memory usage: 11.5 / 46)
+1409.711 (0) The time we have been running (1409.7) is approaching the resumption interval (1439) - increasing resumption interval to 1440
+1409.714 (0) Googledrive chunked upload: 2.9 % uploaded (3145728 - increasing chunk size to 4096 KB - memory usage: 11.5 / 46)
+1411.018 (0) The time we have been running (1411) is approaching the resumption interval (1440) - increasing resumption interval to 1442
+1411.021 (0) Googledrive chunked upload: 6.8 % uploaded (7340032 - increasing chunk size to 8192 KB - memory usage: 11.5 / 46)
+1412.886 (0) The time we have been running (1412.9) is approaching the resumption interval (1442) - increasing resumption interval to 1443
+1412.890 (0) Googledrive chunked upload: 14.6 % uploaded (15728640 - increasing chunk size to 16384 KB - memory usage: 11.5 / 46)
+1415.471 (0) The time we have been running (1415.5) is approaching the resumption interval (1443) - increasing resumption interval to 1446
+1415.474 (0) Googledrive chunked upload: 30.1 % uploaded (32505856)
+1418.112 (0) The time we have been running (1418.1) is approaching the resumption interval (1446) - increasing resumption interval to 1449
+1418.114 (0) Googledrive chunked upload: 45.7 % uploaded (49283072)
+1420.790 (0) The time we have been running (1420.8) is approaching the resumption interval (1449) - increasing resumption interval to 1451
+1420.793 (0) Googledrive chunked upload: 61.2 % uploaded (66060288)
+1423.321 (0) The time we have been running (1423.3) is approaching the resumption interval (1451) - increasing resumption interval to 1454
+1423.325 (0) Googledrive chunked upload: 76.8 % uploaded (82837504)
+1425.997 (0) The time we have been running (1426) is approaching the resumption interval (1454) - increasing resumption interval to 1456
+1425.999 (0) Googledrive chunked upload: 92.3 % uploaded (99614720)
+1429.278 (0) The time we have been running (1429.3) is approaching the resumption interval (1456) - increasing resumption interval to 1460
+1429.282 (0) Googledrive chunked upload: 100 % uploaded (99614720)
+1429.289 (0) Google Drive: OK: Archive backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads7.zip uploaded in 22.23 seconds
+1429.290 (0) Recording as successfully uploaded: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads7.zip
+1429.305 (0) Deleting local file: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads7.zip: OK
+1429.313 (0) Beginning creation of dump of mu-plugins (split every: 400 MB)
+1429.314 (0) Does not exist: C:\xampp\htdocs\wordpress/wp-content/mu-plugins
+1429.316 (0) There are no mu-plugins to backup. Will not raise an error.
+1429.317 (0) mu-plugins: create_zip returned an error
+1429.320 (0) Beginning backup of other directories found in the content directory (index: 0)
+1429.322 (0) Exclusion option setting (others): upgrade,cache,updraft,backup*,*backups,mysql.sql,debug.log
+1429.323 (0) Looking for candidates to backup in: C:\xampp\htdocs\wordpress/wp-content
+1429.325 (0) finding files: ai1wm-backups: skipping: excluded by options (glob)
+1429.327 (0) finding files: debug.log: skipping: excluded by options
+1429.328 (0) finding files: index.php: adding to list (1)
+1429.330 (0) finding files: languages: adding to list (2)
+1429.331 (0) finding files: plugins: skipping: this is the plugins directory
+1429.333 (0) finding files: themes: skipping: this is the themes directory
+1429.335 (0) finding files: updraft: skipping: this is the updraft directory
+1429.337 (0) finding files: upgrade: skipping: excluded by options
+1429.338 (0) finding files: upgrade-temp-backup: adding to list (3)
+1429.340 (0) finding files: uploads: skipping: this is the uploads directory
+1429.342 (0) finding files: wpdm-assets: adding to list (4)
+1429.370 (0) Total entities for the zip file: 9 directories, 87 files (0 skipped as non-modified), 6 MB
+1429.372 (0) Only one archive required (UpdraftPlus_PclZip) - will attempt to do in single operation (data: 6103.2 KB, split: 409600 KB)
+1429.765 (0) Creating zip file manifest (backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-others.zip.list-temp.tmp)
+1429.767 (0) Successfully created zip file manifest (size: 4958)
+1429.783 (0) Created others zip (0) - 1404.3 KB in 0.4 s (3224.7 KB/s) (sha1: e7959cdffd53569b454440d3ecfe21d149433ab7, sha256: da3cedcbc1c3d3bc281584fda68ff0c8558f46cfe70cae952c6f8af1f30c3319)
+1429.789 (0) Cloud backup selection (1/1): googledrive with instance (1/1) (last)
+1429.791 (0) Beginning dispatch of backup to remote (googledrive) (instance identifier s-51097c087e0651afa7a453b6f950e052)
+1430.405 (0) Google Drive: quota usage: used=15239.9 MB, total=15360 MB, available=120.1 MB
+1430.407 (0) Google Drive: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-others.zip: Attempting to upload to Google Drive (into folder id: 1qpq6iqhV3w-OyOspa6qLmRDipUZHm3mZ)
+1432.237 (0) The time we have been running (1432.2) is approaching the resumption interval (1460) - increasing resumption interval to 1463
+1432.240 (0) Googledrive chunked upload: 72.9 % uploaded (1048576 - increasing chunk size to 2048 KB - memory usage: 11.4 / 46)
+1434.306 (0) The time we have been running (1434.3) is approaching the resumption interval (1463) - increasing resumption interval to 1465
+1434.310 (0) Googledrive chunked upload: 100 % uploaded (1048576)
+1434.315 (0) Google Drive: OK: Archive backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-others.zip uploaded in 3.91 seconds
+1434.317 (0) Recording as successfully uploaded: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-others.zip
+1434.321 (0) Deleting local file: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-others.zip: OK
+1434.332 (0) Saving backup status to database (elements: 14)
+1434.339 (0) Beginning creation of database dump (WordPress DB)
+1434.341 (0) SQL compatibility mode is: NO_ZERO_IN_DATE,NO_ENGINE_SUBSTITUTION
+1434.425 (0) Table wp_options: Total expected rows (approximate): 1219
+1434.517 (0) Table wp_options: Rows added in this batch (next record: 1711816): 1237 (uncompressed bytes in this segment=2713584) in 0.16 seconds
+1434.527 (0) Table wp_options: finishing file(s) (2, 607.1 KB)
+1434.535 (0) Table wp_users: Total expected rows (via COUNT): 1
+1434.536 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1434.540 (0) Table wp_users: Rows added in this batch (next record: 1): 1 (uncompressed bytes in this segment=1201) in 0.01 seconds
+1434.547 (0) Table wp_users: finishing file(s) (2, 0.6 KB)
+1434.556 (0) Table wp_usermeta: Total expected rows (via COUNT): 92
+1434.558 (0) Table is relatively small; fetch_rows will thus be: 100 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1434.561 (0) Table wp_usermeta: Rows added in this batch (next record: 127): 92 (uncompressed bytes in this segment=10026) in 0.01 seconds
+1434.569 (0) Table wp_usermeta: finishing file(s) (2, 3.8 KB)
+1434.585 (0) Table wp_actionscheduler_actions: Total expected rows (via COUNT): 855
+1434.600 (0) Table wp_actionscheduler_actions: Rows added in this batch (next record: 8447): 855 (uncompressed bytes in this segment=417408) in 0.03 seconds
+1434.608 (0) Table wp_actionscheduler_actions: finishing file(s) (2, 22.5 KB)
+1434.616 (0) Table wp_actionscheduler_claims: Total expected rows (via COUNT): 0
+1434.618 (0) Table wp_actionscheduler_claims: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=627) in 0.00 seconds
+1434.624 (0) Table wp_actionscheduler_claims: finishing file(s) (2, 0.4 KB)
+1434.630 (0) Table wp_actionscheduler_groups: Total expected rows (via COUNT): 8
+1434.631 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1434.634 (0) Table wp_actionscheduler_groups: Rows added in this batch (next record: 8): 8 (uncompressed bytes in this segment=887) in 0.01 seconds
+1434.640 (0) Table wp_actionscheduler_groups: finishing file(s) (2, 0.4 KB)
+1434.647 (0) Table wp_actionscheduler_logs: Total expected rows (approximate): 2565
+1434.673 (0) Table wp_actionscheduler_logs: Rows added in this batch (next record: 4599): 2562 (uncompressed bytes in this segment=227240) in 0.03 seconds
+1434.681 (0) Table wp_actionscheduler_logs: finishing file(s) (2, 23.9 KB)
+1434.692 (0) Table wp_commentmeta: Total expected rows (via COUNT): 0
+1434.695 (0) Table wp_commentmeta: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=634) in 0.01 seconds
+1434.702 (0) Table wp_commentmeta: finishing file(s) (2, 0.4 KB)
+1434.710 (0) Table wp_comments: Total expected rows (via COUNT): 0
+1434.714 (0) Table wp_comments: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=1466) in 0.01 seconds
+1434.720 (0) Table wp_comments: finishing file(s) (2, 0.5 KB)
+1434.728 (0) Table wp_links: Total expected rows (via COUNT): 0
+1434.730 (0) Table wp_links: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=1027) in 0.01 seconds
+1434.737 (0) Table wp_links: finishing file(s) (2, 0.5 KB)
+1436.544 (0) Table wp_postmeta: Total expected rows (approximate): 32690
+1439.546 (0) Table wp_postmeta: Rows added in this batch (next record: 102350): 29744 (uncompressed bytes in this segment=91999271) in 4.81 seconds
+1439.558 (0) The time we have been running (1439.6) is approaching the resumption interval (1465) - increasing resumption interval to 1470
+1439.566 (0) Table wp_postmeta: finishing file(s) (2, 7332.1 KB)
+1440.213 (0) Table wp_posts: Total expected rows (approximate): 6011
+1442.251 (0) Table wp_posts: Rows added in this batch (next record: 13007): 4955 (uncompressed bytes in this segment=40731467) in 2.68 seconds
+1442.269 (0) The time we have been running (1442.3) is approaching the resumption interval (1470) - increasing resumption interval to 1473
+1442.277 (0) Table wp_posts: finishing file(s) (2, 3988.7 KB)
+1442.284 (0) Table wp_term_relationships: Total expected rows (approximate): 1555
+1442.298 (0) Table wp_term_relationships: Rows added in this batch (next record: 100000): 1582 (uncompressed bytes in this segment=27268) in 0.02 seconds
+1442.306 (0) Table wp_term_relationships: finishing file(s) (2, 5 KB)
+1442.317 (0) Table wp_term_taxonomy: Total expected rows (via COUNT): 253
+1442.320 (0) Table is relatively small; fetch_rows will thus be: 500 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1442.327 (0) Table wp_term_taxonomy: Rows added in this batch (next record: 303): 253 (uncompressed bytes in this segment=18449) in 0.02 seconds
+1442.342 (0) Table wp_term_taxonomy: finishing file(s) (2, 3.3 KB)
+1442.355 (0) Table wp_termmeta: Total expected rows (via COUNT): 6
+1442.358 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1442.363 (0) Table wp_termmeta: Rows added in this batch (next record: 10): 6 (uncompressed bytes in this segment=2316) in 0.01 seconds
+1442.381 (0) Table wp_termmeta: finishing file(s) (2, 1 KB)
+1442.390 (0) Table wp_terms: Total expected rows (via COUNT): 253
+1442.391 (0) Table is relatively small; fetch_rows will thus be: 500 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1442.396 (0) Table wp_terms: Rows added in this batch (next record: 303): 253 (uncompressed bytes in this segment=14000) in 0.01 seconds
+1442.403 (0) Table wp_terms: finishing file(s) (2, 3.5 KB)
+1442.412 (0) Table wp_accessibility_checker: Total expected rows (approximate): 2685
+1442.482 (0) Table wp_accessibility_checker: Rows added in this batch (next record: 2853): 2719 (uncompressed bytes in this segment=1783253) in 0.07 seconds
+1442.492 (0) Table wp_accessibility_checker: finishing file(s) (2, 93.9 KB)
+1442.502 (0) Table wp_ahm_asset_links: Total expected rows (via COUNT): 0
+1442.505 (0) Table wp_ahm_asset_links: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=595) in 0.01 seconds
+1442.513 (0) Table wp_ahm_asset_links: finishing file(s) (2, 0.4 KB)
+1442.522 (0) Table wp_ahm_assets: Total expected rows (via COUNT): 1
+1442.524 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1442.528 (0) Table wp_ahm_assets: Rows added in this batch (next record: 1): 1 (uncompressed bytes in this segment=739) in 0.01 seconds
+1442.536 (0) Table wp_ahm_assets: finishing file(s) (2, 0.5 KB)
+1442.548 (0) Table wp_ahm_cron_jobs: Total expected rows (via COUNT): 0
+1442.552 (0) Table wp_ahm_cron_jobs: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=868) in 0.01 seconds
+1442.562 (0) Table wp_ahm_cron_jobs: finishing file(s) (2, 0.4 KB)
+1442.574 (0) Table wp_ahm_download_stats: Total expected rows (via COUNT): 3
+1442.577 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1442.582 (0) Table wp_ahm_download_stats: Rows added in this batch (next record: 3): 3 (uncompressed bytes in this segment=1930) in 0.01 seconds
+1442.589 (0) Table wp_ahm_download_stats: finishing file(s) (2, 0.8 KB)
+1442.598 (0) Table wp_ahm_emails: Total expected rows (via COUNT): 0
+1442.603 (0) Table wp_ahm_emails: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=557) in 0.01 seconds
+1442.609 (0) Table wp_ahm_emails: finishing file(s) (2, 0.4 KB)
+1442.618 (0) Table wp_ahm_sessions: Total expected rows (via COUNT): 8
+1442.620 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1442.624 (0) Table wp_ahm_sessions: Rows added in this batch (next record: 13): 8 (uncompressed bytes in this segment=7632) in 0.01 seconds
+1442.630 (0) Table wp_ahm_sessions: finishing file(s) (2, 1.5 KB)
+1442.638 (0) Table wp_ahm_social_conns: Total expected rows (via COUNT): 0
+1442.641 (0) Table wp_ahm_social_conns: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=736) in 0.01 seconds
+1442.647 (0) Table wp_ahm_social_conns: finishing file(s) (2, 0.4 KB)
+1442.655 (0) Table wp_ahm_user_download_counts: Total expected rows (via COUNT): 3
+1442.656 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1442.660 (0) Table wp_ahm_user_download_counts: Rows added in this batch (next record: 3): 3 (uncompressed bytes in this segment=710) in 0.01 seconds
+1442.666 (0) Table wp_ahm_user_download_counts: finishing file(s) (2, 0.4 KB)
+1442.675 (0) Table wp_bwg_album: Total expected rows (via COUNT): 0
+1442.679 (0) Table wp_bwg_album: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=719) in 0.01 seconds
+1442.685 (0) Table wp_bwg_album: finishing file(s) (2, 0.4 KB)
+1442.693 (0) Table wp_bwg_album_gallery: Total expected rows (via COUNT): 0
+1442.695 (0) Table wp_bwg_album_gallery: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=582) in 0.00 seconds
+1442.702 (0) Table wp_bwg_album_gallery: finishing file(s) (2, 0.3 KB)
+1442.710 (0) Table wp_bwg_file_paths: Total expected rows (via COUNT): 1
+1442.711 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1442.715 (0) Table wp_bwg_file_paths: Rows added in this batch (next record: 1): 1 (uncompressed bytes in this segment=1457) in 0.01 seconds
+1442.722 (0) Table wp_bwg_file_paths: finishing file(s) (2, 0.6 KB)
+1442.731 (0) Table wp_bwg_gallery: Total expected rows (via COUNT): 1
+1442.732 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1442.735 (0) Table wp_bwg_gallery: Rows added in this batch (next record: 1): 1 (uncompressed bytes in this segment=1113) in 0.01 seconds
+1442.741 (0) Table wp_bwg_gallery: finishing file(s) (2, 0.6 KB)
+1442.751 (0) Table wp_bwg_image: Total expected rows (via COUNT): 2
+1442.753 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1442.755 (0) Table wp_bwg_image: Rows added in this batch (next record: 2): 2 (uncompressed bytes in this segment=1876) in 0.01 seconds
+1442.763 (0) Table wp_bwg_image: finishing file(s) (2, 0.7 KB)
+1442.770 (0) Table wp_bwg_image_comment: Total expected rows (via COUNT): 0
+1442.774 (0) Table wp_bwg_image_comment: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=671) in 0.01 seconds
+1442.780 (0) Table wp_bwg_image_comment: finishing file(s) (2, 0.4 KB)
+1442.788 (0) Table wp_bwg_image_rate: Total expected rows (via COUNT): 0
+1442.790 (0) Table wp_bwg_image_rate: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=548) in 0.01 seconds
+1442.796 (0) Table wp_bwg_image_rate: finishing file(s) (2, 0.3 KB)
+1442.803 (0) Table wp_bwg_image_tag: Total expected rows (via COUNT): 0
+1442.805 (0) Table wp_bwg_image_tag: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=525) in 0.00 seconds
+1442.811 (0) Table wp_bwg_image_tag: finishing file(s) (2, 0.3 KB)
+1442.821 (0) Table wp_bwg_shortcode: Total expected rows (via COUNT): 2
+1442.825 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1442.829 (0) Table wp_bwg_shortcode: Rows added in this batch (next record: 2): 2 (uncompressed bytes in this segment=3376) in 0.01 seconds
+1442.835 (0) Table wp_bwg_shortcode: finishing file(s) (2, 1 KB)
+1442.848 (0) Table wp_bwg_theme: Total expected rows (via COUNT): 2
+1442.850 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1442.852 (0) Table wp_bwg_theme: Rows added in this batch (next record: 2): 2 (uncompressed bytes in this segment=41453) in 0.01 seconds
+1442.860 (0) Table wp_bwg_theme: finishing file(s) (2, 4.5 KB)
+1442.870 (0) Table wp_dfes_incidents: Total expected rows (via COUNT): 8
+1442.871 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1442.874 (0) Table wp_dfes_incidents: Rows added in this batch (next record: 8): 8 (uncompressed bytes in this segment=2109) in 0.01 seconds
+1442.880 (0) Table wp_dfes_incidents: finishing file(s) (2, 0.6 KB)
+1442.888 (0) Table wp_e_events: Total expected rows (via COUNT): 0
+1442.891 (0) Table wp_e_events: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=511) in 0.01 seconds
+1442.897 (0) Table wp_e_events: finishing file(s) (2, 0.3 KB)
+1442.905 (0) Table wp_export_page_to_html_logs: Total expected rows (via COUNT): 0
+1442.907 (0) Table wp_export_page_to_html_logs: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=605) in 0.00 seconds
+1442.913 (0) Table wp_export_page_to_html_logs: finishing file(s) (2, 0.4 KB)
+1442.919 (0) Table wp_export_urls_logs: Total expected rows (via COUNT): 0
+1442.921 (0) Table wp_export_urls_logs: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=599) in 0.00 seconds
+1442.928 (0) Table wp_export_urls_logs: finishing file(s) (2, 0.4 KB)
+1442.934 (0) Table wp_firebox_logs: Total expected rows (via COUNT): 0
+1442.936 (0) Table wp_firebox_logs: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=1161) in 0.00 seconds
+1442.944 (0) Table wp_firebox_logs: finishing file(s) (2, 0.5 KB)
+1442.951 (0) Table wp_firebox_logs_details: Total expected rows (via COUNT): 0
+1442.953 (0) Table wp_firebox_logs_details: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=711) in 0.00 seconds
+1442.959 (0) Table wp_firebox_logs_details: finishing file(s) (2, 0.4 KB)
+1442.965 (0) Table wp_firebox_submission_meta: Total expected rows (via COUNT): 0
+1442.968 (0) Table wp_firebox_submission_meta: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=793) in 0.01 seconds
+1442.974 (0) Table wp_firebox_submission_meta: finishing file(s) (2, 0.4 KB)
+1442.982 (0) Table wp_firebox_submissions: Total expected rows (via COUNT): 0
+1442.985 (0) Table wp_firebox_submissions: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=689) in 0.01 seconds
+1442.992 (0) Table wp_firebox_submissions: finishing file(s) (2, 0.4 KB)
+1443.002 (0) Table wp_hfcm_scripts: Total expected rows (via COUNT): 4
+1443.003 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1443.007 (0) Table wp_hfcm_scripts: Rows added in this batch (next record: 4): 4 (uncompressed bytes in this segment=21417) in 0.01 seconds
+1443.014 (0) The time we have been running (1443) is approaching the resumption interval (1473) - increasing resumption interval to 1474
+1443.019 (0) Table wp_hfcm_scripts: finishing file(s) (2, 5.7 KB)
+1443.027 (0) Table wp_incident_chart: Total expected rows (via COUNT): 0
+1443.030 (0) Table wp_incident_chart: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=559) in 0.01 seconds
+1443.042 (0) Table wp_incident_chart: finishing file(s) (2, 0.3 KB)
+1443.049 (0) Table wp_nextend2_image_storage: Total expected rows (via COUNT): 0
+1443.051 (0) Table wp_nextend2_image_storage: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=591) in 0.00 seconds
+1443.057 (0) Table wp_nextend2_image_storage: finishing file(s) (2, 0.4 KB)
+1443.066 (0) Table wp_nextend2_section_storage: Total expected rows (via COUNT): 5
+1443.067 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1443.070 (0) Table wp_nextend2_section_storage: Rows added in this batch (next record: 10018): 5 (uncompressed bytes in this segment=2064) in 0.01 seconds
+1443.078 (0) Table wp_nextend2_section_storage: finishing file(s) (2, 0.8 KB)
+1443.086 (0) Table wp_nextend2_smartslider3_generators: Total expected rows (via COUNT): 0
+1443.090 (0) Table wp_nextend2_smartslider3_generators: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=625) in 0.01 seconds
+1443.097 (0) Table wp_nextend2_smartslider3_generators: finishing file(s) (2, 0.4 KB)
+1443.104 (0) Table wp_nextend2_smartslider3_sliders: Total expected rows (via COUNT): 2
+1443.106 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1443.112 (0) Table wp_nextend2_smartslider3_sliders: Rows added in this batch (next record: 2): 2 (uncompressed bytes in this segment=29674) in 0.01 seconds
+1443.119 (0) Table wp_nextend2_smartslider3_sliders: finishing file(s) (2, 4.3 KB)
+1443.125 (0) Table wp_nextend2_smartslider3_sliders_xref: Total expected rows (approximate): 0
+1443.129 (0) Table wp_nextend2_smartslider3_sliders_xref: Rows added in this batch (next record: 1000): 1 (uncompressed bytes in this segment=730) in 0.01 seconds
+1443.136 (0) Table wp_nextend2_smartslider3_sliders_xref: finishing file(s) (2, 0.4 KB)
+1443.148 (0) Table wp_nextend2_smartslider3_slides: Total expected rows (via COUNT): 2
+1443.149 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1443.153 (0) Table wp_nextend2_smartslider3_slides: Rows added in this batch (next record: 2): 2 (uncompressed bytes in this segment=30909) in 0.01 seconds
+1443.161 (0) Table wp_nextend2_smartslider3_slides: finishing file(s) (2, 2.8 KB)
+1443.168 (0) Table wp_pdfposter_presets: Total expected rows (via COUNT): 0
+1443.171 (0) Table wp_pdfposter_presets: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=633) in 0.01 seconds
+1443.178 (0) Table wp_pdfposter_presets: finishing file(s) (2, 0.4 KB)
+1443.186 (0) Table wp_redirection_404: Total expected rows (via COUNT): 300
+1443.188 (0) Table is relatively small; fetch_rows will thus be: 500 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1443.196 (0) Table wp_redirection_404: Rows added in this batch (next record: 20523): 300 (uncompressed bytes in this segment=97205) in 0.01 seconds
+1443.202 (0) Table wp_redirection_404: finishing file(s) (2, 4.7 KB)
+1443.211 (0) Table wp_redirection_groups: Total expected rows (via COUNT): 2
+1443.212 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1443.217 (0) Table wp_redirection_groups: Rows added in this batch (next record: 2): 2 (uncompressed bytes in this segment=904) in 0.01 seconds
+1443.224 (0) Table wp_redirection_groups: finishing file(s) (2, 0.5 KB)
+1443.231 (0) Table wp_redirection_items: Total expected rows (via COUNT): 68
+1443.233 (0) Table is relatively small; fetch_rows will thus be: 100 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1443.239 (0) Table wp_redirection_items: Rows added in this batch (next record: 68): 68 (uncompressed bytes in this segment=39376) in 0.01 seconds
+1443.245 (0) Table wp_redirection_items: finishing file(s) (2, 4.8 KB)
+1443.253 (0) Table wp_redirection_logs: Total expected rows (via COUNT): 0
+1443.257 (0) Table wp_redirection_logs: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=1029) in 0.01 seconds
+1443.263 (0) Table wp_redirection_logs: finishing file(s) (2, 0.5 KB)
+1443.273 (0) Table wp_robogallery_cache: Total expected rows (via COUNT): 0
+1443.275 (0) Table wp_robogallery_cache: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=565) in 0.01 seconds
+1443.282 (0) Table wp_robogallery_cache: finishing file(s) (2, 0.4 KB)
+1443.290 (0) Table wp_say_what_strings: Total expected rows (via COUNT): 0
+1443.292 (0) Table wp_say_what_strings: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=584) in 0.00 seconds
+1443.298 (0) Table wp_say_what_strings: finishing file(s) (2, 0.3 KB)
+1443.303 (0) Table wp_simply_static_pages: Total expected rows (approximate): 1206
+1443.343 (0) Table wp_simply_static_pages: Rows added in this batch (next record: 10549): 1337 (uncompressed bytes in this segment=523727) in 0.04 seconds
+1443.349 (0) Table wp_simply_static_pages: finishing file(s) (2, 41.7 KB)
+1443.357 (0) Table wp_site_mail_logs: Total expected rows (via COUNT): 0
+1443.360 (0) Table wp_site_mail_logs: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=927) in 0.01 seconds
+1443.367 (0) Table wp_site_mail_logs: finishing file(s) (2, 0.5 KB)
+1443.375 (0) Table wp_site_mail_statuses: Total expected rows (via COUNT): 0
+1443.377 (0) Table wp_site_mail_statuses: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=978) in 0.01 seconds
+1443.384 (0) Table wp_site_mail_statuses: finishing file(s) (2, 0.5 KB)
+1443.392 (0) Table wp_site_mail_suppressions: Total expected rows (via COUNT): 0
+1443.394 (0) Table wp_site_mail_suppressions: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=810) in 0.01 seconds
+1443.400 (0) Table wp_site_mail_suppressions: finishing file(s) (2, 0.4 KB)
+1443.411 (0) Table wp_snippets: Total expected rows (via COUNT): 6
+1443.413 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1443.416 (0) Table wp_snippets: Rows added in this batch (next record: 6): 6 (uncompressed bytes in this segment=3859) in 0.01 seconds
+1443.424 (0) Table wp_snippets: finishing file(s) (2, 1.4 KB)
+1443.434 (0) Table wp_staatic_builds: Total expected rows (via COUNT): 1
+1443.435 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1443.438 (0) Table wp_staatic_builds: Rows added in this batch (next record: 27): 1 (uncompressed bytes in this segment=1081) in 0.01 seconds
+1443.444 (0) Table wp_staatic_builds: finishing file(s) (2, 0.6 KB)
+1443.453 (0) Table wp_staatic_crawl_queue: Total expected rows (via COUNT): 0
+1443.458 (0) Table wp_staatic_crawl_queue: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=926) in 0.01 seconds
+1443.464 (0) Table wp_staatic_crawl_queue: finishing file(s) (2, 0.4 KB)
+1443.471 (0) Table wp_staatic_deployments: Total expected rows (via COUNT): 1
+1443.473 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1443.476 (0) Table wp_staatic_deployments: Rows added in this batch (next record: 31): 1 (uncompressed bytes in this segment=1093) in 0.01 seconds
+1443.483 (0) Table wp_staatic_deployments: finishing file(s) (2, 0.5 KB)
+1443.489 (0) Table wp_staatic_known_urls: Total expected rows (approximate): 3708
+1443.510 (0) Table wp_staatic_known_urls: Rows added in this batch (next record: 4000): 3876 (uncompressed bytes in this segment=151782) in 0.02 seconds
+1443.516 (0) Table wp_staatic_known_urls: finishing file(s) (2, 74.9 KB)
+1443.523 (0) Table wp_staatic_log_entries: Total expected rows (via COUNT): 188
+1443.524 (0) Table is relatively small; fetch_rows will thus be: 250 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1443.536 (0) Table wp_staatic_log_entries: Rows added in this batch (next record: 5150): 188 (uncompressed bytes in this segment=154298) in 0.02 seconds
+1443.543 (0) Table wp_staatic_log_entries: finishing file(s) (2, 10.9 KB)
+1443.550 (0) Table wp_staatic_publications: Total expected rows (via COUNT): 1
+1443.551 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1443.555 (0) Table wp_staatic_publications: Rows added in this batch (next record: 31): 1 (uncompressed bytes in this segment=1154) in 0.01 seconds
+1443.561 (0) Table wp_staatic_publications: finishing file(s) (2, 0.6 KB)
+1443.567 (0) Table wp_staatic_results: Total expected rows (approximate): 3413
+1443.665 (0) Table wp_staatic_results: Rows added in this batch (next record: 99435): 3709 (uncompressed bytes in this segment=1963875) in 0.10 seconds
+1443.674 (0) Table wp_staatic_results: finishing file(s) (2, 413.5 KB)
+1443.683 (0) Table wp_staatic_results_deployment: Total expected rows (approximate): 3709
+1443.717 (0) Table wp_staatic_results_deployment: Rows added in this batch (next record: 4000): 3709 (uncompressed bytes in this segment=449636) in 0.04 seconds
+1443.724 (0) Table wp_staatic_results_deployment: finishing file(s) (2, 82.6 KB)
+1443.734 (0) Table wp_supsystic_tbl_columns: Total expected rows (via COUNT): 0
+1443.735 (0) Table wp_supsystic_tbl_columns: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=591) in 0.00 seconds
+1443.744 (0) Table wp_supsystic_tbl_columns: finishing file(s) (2, 0.3 KB)
+1443.752 (0) Table wp_supsystic_tbl_conditions: Total expected rows (via COUNT): 0
+1443.756 (0) Table wp_supsystic_tbl_conditions: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=563) in 0.01 seconds
+1443.763 (0) Table wp_supsystic_tbl_conditions: finishing file(s) (2, 0.3 KB)
+1443.772 (0) Table wp_supsystic_tbl_diagrams: Total expected rows (via COUNT): 0
+1443.776 (0) Table wp_supsystic_tbl_diagrams: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=737) in 0.01 seconds
+1443.784 (0) Table wp_supsystic_tbl_diagrams: finishing file(s) (2, 0.4 KB)
+1443.796 (0) Table wp_supsystic_tbl_rows: Total expected rows (via COUNT): 14
+1443.797 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1443.802 (0) Table wp_supsystic_tbl_rows: Rows added in this batch (next record: 19): 14 (uncompressed bytes in this segment=8613) in 0.01 seconds
+1443.813 (0) Table wp_supsystic_tbl_rows: finishing file(s) (2, 0.9 KB)
+1443.823 (0) Table wp_supsystic_tbl_rows_history: Total expected rows (via COUNT): 0
+1443.828 (0) Table wp_supsystic_tbl_rows_history: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=717) in 0.01 seconds
+1443.836 (0) Table wp_supsystic_tbl_rows_history: finishing file(s) (2, 0.4 KB)
+1443.845 (0) Table wp_supsystic_tbl_tables: Total expected rows (via COUNT): 1
+1443.846 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1443.850 (0) Table wp_supsystic_tbl_tables: Rows added in this batch (next record: 1): 1 (uncompressed bytes in this segment=1446) in 0.01 seconds
+1443.858 (0) Table wp_supsystic_tbl_tables: finishing file(s) (2, 0.7 KB)
+1443.892 (0) Table wp_trp_dictionary_en_us_mr: Total expected rows (approximate): 2923
+1443.950 (0) Table wp_trp_dictionary_en_us_mr: Rows added in this batch (next record: 3775): 3775 (uncompressed bytes in this segment=833098) in 0.09 seconds
+1443.960 (0) Table wp_trp_dictionary_en_us_mr: finishing file(s) (2, 163.4 KB)
+1444.002 (0) Table wp_trp_gettext_en_us: Total expected rows (approximate): 5289
+1444.104 (0) Table wp_trp_gettext_en_us: Rows added in this batch (next record: 6487): 6487 (uncompressed bytes in this segment=2190771) in 0.14 seconds
+1444.114 (0) The time we have been running (1444.1) is approaching the resumption interval (1474) - increasing resumption interval to 1475
+1444.120 (0) Table wp_trp_gettext_en_us: finishing file(s) (2, 243.7 KB)
+1444.164 (0) Table wp_trp_gettext_mr: Total expected rows (approximate): 4072
+1444.245 (0) Table wp_trp_gettext_mr: Rows added in this batch (next record: 4880): 4880 (uncompressed bytes in this segment=1318678) in 0.12 seconds
+1444.254 (0) Table wp_trp_gettext_mr: finishing file(s) (2, 174 KB)
+1444.267 (0) Table wp_trp_gettext_original_meta: Total expected rows (via COUNT): 0
+1444.271 (0) Table wp_trp_gettext_original_meta: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=746) in 0.01 seconds
+1444.280 (0) Table wp_trp_gettext_original_meta: finishing file(s) (2, 0.4 KB)
+1444.288 (0) Table wp_trp_gettext_original_strings: Total expected rows (approximate): 22570
+1444.563 (0) Table wp_trp_gettext_original_strings: Rows added in this batch (next record: 26657): 26657 (uncompressed bytes in this segment=4651377) in 0.28 seconds
+1444.574 (0) Table wp_trp_gettext_original_strings: finishing file(s) (2, 606.6 KB)
+1444.588 (0) Table wp_trp_original_meta: Total expected rows (via COUNT): 1086
+1444.589 (0) Table is relatively small; fetch_rows will thus be: 500 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1444.597 (0) Table wp_trp_original_meta: Rows added in this batch (next record: 1086): 1086 (uncompressed bytes in this segment=43501) in 0.02 seconds
+1444.607 (0) Table wp_trp_original_meta: finishing file(s) (2, 6.6 KB)
+1444.618 (0) Table wp_trp_original_strings: Total expected rows (approximate): 2730
+1444.687 (0) Table wp_trp_original_strings: Rows added in this batch (next record: 3775): 3775 (uncompressed bytes in this segment=735083) in 0.07 seconds
+1444.694 (0) Table wp_trp_original_strings: finishing file(s) (2, 142.9 KB)
+1444.706 (0) Table wp_wpda_app: Total expected rows (via COUNT): 0
+1444.708 (0) Table wp_wpda_app: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=682) in 0.01 seconds
+1444.715 (0) Table wp_wpda_app: finishing file(s) (2, 0.4 KB)
+1444.723 (0) Table wp_wpda_app_apps: Total expected rows (approximate): 0
+1444.727 (0) Table wp_wpda_app_apps: Rows added in this batch (next record: 0): 0 (uncompressed bytes in this segment=571) in 0.01 seconds
+1444.733 (0) Table wp_wpda_app_apps: finishing file(s) (2, 0.3 KB)
+1444.745 (0) Table wp_wpda_app_container: Total expected rows (via COUNT): 0
+1444.747 (0) Table wp_wpda_app_container: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=919) in 0.01 seconds
+1444.756 (0) Table wp_wpda_app_container: finishing file(s) (2, 0.4 KB)
+1444.763 (0) Table wp_wpda_csv_uploads: Total expected rows (via COUNT): 0
+1444.764 (0) Table wp_wpda_csv_uploads: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=657) in 0.00 seconds
+1444.771 (0) Table wp_wpda_csv_uploads: finishing file(s) (2, 0.4 KB)
+1444.777 (0) Table wp_wpda_logging: Total expected rows (approximate): 0
+1444.779 (0) Table wp_wpda_logging: Rows added in this batch (next record: 0): 0 (uncompressed bytes in this segment=573) in 0.00 seconds
+1444.786 (0) Table wp_wpda_logging: finishing file(s) (2, 0.4 KB)
+1444.792 (0) Table wp_wpda_media: Total expected rows (approximate): 0
+1444.795 (0) Table wp_wpda_media: Rows added in this batch (next record: 0): 0 (uncompressed bytes in this segment=704) in 0.00 seconds
+1444.802 (0) Table wp_wpda_media: finishing file(s) (2, 0.4 KB)
+1444.810 (0) Table wp_wpda_menus: Total expected rows (via COUNT): 0
+1444.812 (0) Table wp_wpda_menus: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=628) in 0.00 seconds
+1444.818 (0) Table wp_wpda_menus: finishing file(s) (2, 0.4 KB)
+1444.827 (0) Table wp_wpda_project: Total expected rows (via COUNT): 0
+1444.829 (0) Table wp_wpda_project: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=714) in 0.01 seconds
+1444.841 (0) Table wp_wpda_project: finishing file(s) (2, 0.4 KB)
+1444.849 (0) Table wp_wpda_project_page: Total expected rows (via COUNT): 0
+1444.851 (0) Table wp_wpda_project_page: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=1472) in 0.01 seconds
+1444.858 (0) Table wp_wpda_project_page: finishing file(s) (2, 0.6 KB)
+1444.865 (0) Table wp_wpda_project_table: Total expected rows (approximate): 0
+1444.867 (0) Table wp_wpda_project_table: Rows added in this batch (next record: 0): 0 (uncompressed bytes in this segment=664) in 0.00 seconds
+1444.874 (0) Table wp_wpda_project_table: finishing file(s) (2, 0.4 KB)
+1444.883 (0) Table wp_wpda_publisher: Total expected rows (via COUNT): 0
+1444.885 (0) Table wp_wpda_publisher: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=2364) in 0.01 seconds
+1444.892 (0) Table wp_wpda_publisher: finishing file(s) (2, 0.8 KB)
+1444.898 (0) Table wp_wpda_table_design: Total expected rows (approximate): 0
+1444.902 (0) Table wp_wpda_table_design: Rows added in this batch (next record: 0): 0 (uncompressed bytes in this segment=739) in 0.00 seconds
+1444.908 (0) Table wp_wpda_table_design: finishing file(s) (2, 0.4 KB)
+1444.913 (0) Table wp_wpda_table_settings: Total expected rows (approximate): 0
+1444.917 (0) Table wp_wpda_table_settings: Rows added in this batch (next record: 0): 0 (uncompressed bytes in this segment=583) in 0.00 seconds
+1444.923 (0) Table wp_wpda_table_settings: finishing file(s) (2, 0.3 KB)
+1444.931 (0) Table wp_wpdatacharts: Total expected rows (via COUNT): 0
+1444.933 (0) Table wp_wpdatacharts: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=611) in 0.01 seconds
+1444.940 (0) Table wp_wpdatacharts: finishing file(s) (2, 0.4 KB)
+1444.948 (0) Table wp_wpdatatables: Total expected rows (via COUNT): 1
+1444.949 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1444.953 (0) Table wp_wpdatatables: Rows added in this batch (next record: 1): 1 (uncompressed bytes in this segment=2846) in 0.01 seconds
+1444.959 (0) Table wp_wpdatatables: finishing file(s) (2, 1.1 KB)
+1444.969 (0) Table wp_wpdatatables_cache: Total expected rows (via COUNT): 1
+1444.970 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1444.972 (0) Table wp_wpdatatables_cache: Rows added in this batch (next record: 12): 1 (uncompressed bytes in this segment=2884) in 0.01 seconds
+1444.980 (0) Table wp_wpdatatables_cache: finishing file(s) (2, 1 KB)
+1444.988 (0) Table wp_wpdatatables_columns: Total expected rows (via COUNT): 13
+1444.989 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1444.992 (0) Table wp_wpdatatables_columns: Rows added in this batch (next record: 13): 13 (uncompressed bytes in this segment=7599) in 0.01 seconds
+1444.999 (0) Table wp_wpdatatables_columns: finishing file(s) (2, 1.1 KB)
+1445.007 (0) Table wp_wpdatatables_rows: Total expected rows (via COUNT): 0
+1445.010 (0) Table wp_wpdatatables_rows: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=510) in 0.01 seconds
+1445.016 (0) The time we have been running (1445) is approaching the resumption interval (1475) - increasing resumption interval to 1476
+1445.022 (0) Table wp_wpdatatables_rows: finishing file(s) (2, 0.3 KB)
+1445.035 (0) Table wp_wpdatatables_templates: Total expected rows (via COUNT): 255
+1445.036 (0) Table is relatively small; fetch_rows will thus be: 500 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1445.045 (0) Table wp_wpdatatables_templates: Rows added in this batch (next record: 255): 255 (uncompressed bytes in this segment=440077) in 0.02 seconds
+1445.053 (0) Table wp_wpdatatables_templates: finishing file(s) (2, 23.3 KB)
+1445.060 (0) Table wp_wpfm_backup: Total expected rows (via COUNT): 0
+1445.064 (0) Table wp_wpfm_backup: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=478) in 0.01 seconds
+1445.070 (0) Table wp_wpfm_backup: finishing file(s) (2, 0.3 KB)
+1445.080 (0) Table wp_wpgmza: Total expected rows (via COUNT): 0
+1445.081 (0) Table wp_wpgmza: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=1048) in 0.01 seconds
+1445.089 (0) Table wp_wpgmza: finishing file(s) (2, 0.5 KB)
+1445.098 (0) Table wp_wpgmza_admin_notices: Total expected rows (via COUNT): 0
+1445.100 (0) Table wp_wpgmza_admin_notices: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=639) in 0.01 seconds
+1445.108 (0) Table wp_wpgmza_admin_notices: finishing file(s) (2, 0.4 KB)
+1445.115 (0) Table wp_wpgmza_circles: Total expected rows (via COUNT): 0
+1445.117 (0) Table wp_wpgmza_circles: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=985) in 0.00 seconds
+1445.123 (0) Table wp_wpgmza_circles: finishing file(s) (2, 0.4 KB)
+1445.132 (0) Table wp_wpgmza_image_overlays: Total expected rows (via COUNT): 0
+1445.133 (0) Table wp_wpgmza_image_overlays: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=658) in 0.01 seconds
+1445.139 (0) Table wp_wpgmza_image_overlays: finishing file(s) (2, 0.4 KB)
+1445.148 (0) Table wp_wpgmza_maps: Total expected rows (via COUNT): 1
+1445.149 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+1445.152 (0) Table wp_wpgmza_maps: Rows added in this batch (next record: 1): 1 (uncompressed bytes in this segment=2116) in 0.01 seconds
+1445.159 (0) Table wp_wpgmza_maps: finishing file(s) (2, 0.8 KB)
+1445.166 (0) Table wp_wpgmza_point_labels: Total expected rows (via COUNT): 0
+1445.169 (0) Table wp_wpgmza_point_labels: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=694) in 0.01 seconds
+1445.176 (0) Table wp_wpgmza_point_labels: finishing file(s) (2, 0.4 KB)
+1445.184 (0) Table wp_wpgmza_polygon: Total expected rows (via COUNT): 0
+1445.186 (0) Table wp_wpgmza_polygon: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=977) in 0.01 seconds
+1445.193 (0) Table wp_wpgmza_polygon: finishing file(s) (2, 0.4 KB)
+1445.202 (0) Table wp_wpgmza_polylines: Total expected rows (via COUNT): 0
+1445.204 (0) Table wp_wpgmza_polylines: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=675) in 0.01 seconds
+1445.211 (0) Table wp_wpgmza_polylines: finishing file(s) (2, 0.4 KB)
+1445.219 (0) Table wp_wpgmza_rectangles: Total expected rows (via COUNT): 0
+1445.221 (0) Table wp_wpgmza_rectangles: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=1005) in 0.01 seconds
+1445.227 (0) Table wp_wpgmza_rectangles: finishing file(s) (2, 0.5 KB)
+1445.228 (0) PHP event: code E_WARNING: filemtime(): stat failed for C:\xampp\htdocs\wordpress/wp-content/updraft/backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db.gz (line 1923, C:\xampp\htdocs\wordpress\wp-content\plugins\updraftplus\backup.php)
+1445.231 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_options.table.tmpr1711817.gz (1/113/fopen): adding to final database dump
+1445.241 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_options.table.gz (2/113/fopen): adding to final database dump
+1445.243 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_users.table.tmpr2.gz (3/113/fopen): adding to final database dump
+1445.244 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_users.table.gz (4/113/fopen): adding to final database dump
+1445.246 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_usermeta.table.tmpr128.gz (5/113/fopen): adding to final database dump
+1445.248 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_usermeta.table.gz (6/113/fopen): adding to final database dump
+1445.250 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_actionscheduler_actions.table.tmpr8448.gz (7/113/fopen): adding to final database dump
+1445.252 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_actionscheduler_actions.table.gz (8/113/fopen): adding to final database dump
+1445.254 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_actionscheduler_claims.table.tmpr0.gz (9/113/fopen): adding to final database dump
+1445.256 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_actionscheduler_claims.table.gz (10/113/fopen): adding to final database dump
+1445.257 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_actionscheduler_groups.table.tmpr9.gz (11/113/fopen): adding to final database dump
+1445.260 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_actionscheduler_groups.table.gz (12/113/fopen): adding to final database dump
+1445.261 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_actionscheduler_logs.table.tmpr4600.gz (13/113/fopen): adding to final database dump
+1445.263 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_actionscheduler_logs.table.gz (14/113/fopen): adding to final database dump
+1445.264 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_commentmeta.table.tmpr0.gz (15/113/fopen): adding to final database dump
+1445.265 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_commentmeta.table.gz (16/113/fopen): adding to final database dump
+1445.267 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_comments.table.tmpr0.gz (17/113/fopen): adding to final database dump
+1445.268 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_comments.table.gz (18/113/fopen): adding to final database dump
+1445.270 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_links.table.tmpr0.gz (19/113/fopen): adding to final database dump
+1445.271 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_links.table.gz (20/113/fopen): adding to final database dump
+1445.273 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_postmeta.table.tmpr102351.gz (21/113/fopen): adding to final database dump
+1445.388 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_postmeta.table.gz (22/113/fopen): adding to final database dump
+1445.390 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_posts.table.tmpr13008.gz (23/113/fopen): adding to final database dump
+1445.451 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_posts.table.gz (24/113/fopen): adding to final database dump
+1445.453 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_term_relationships.table.tmpr100001.gz (25/113/fopen): adding to final database dump
+1445.454 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_term_relationships.table.gz (26/113/fopen): adding to final database dump
+1445.456 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_term_taxonomy.table.tmpr304.gz (27/113/fopen): adding to final database dump
+1445.457 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_term_taxonomy.table.gz (28/113/fopen): adding to final database dump
+1445.459 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_termmeta.table.tmpr11.gz (29/113/fopen): adding to final database dump
+1445.460 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_termmeta.table.gz (30/113/fopen): adding to final database dump
+1445.461 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_terms.table.tmpr304.gz (31/113/fopen): adding to final database dump
+1445.463 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_terms.table.gz (32/113/fopen): adding to final database dump
+1445.464 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_accessibility_checker.table.tmpr2854.gz (33/113/fopen): adding to final database dump
+1445.467 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_accessibility_checker.table.gz (34/113/fopen): adding to final database dump
+1445.468 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_ahm_asset_links.table.tmpr0.gz (35/113/fopen): adding to final database dump
+1445.470 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_ahm_asset_links.table.gz (36/113/fopen): adding to final database dump
+1445.471 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_ahm_assets.table.tmpr2.gz (37/113/fopen): adding to final database dump
+1445.473 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_ahm_assets.table.gz (38/113/fopen): adding to final database dump
+1445.474 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_ahm_cron_jobs.table.tmpr0.gz (39/113/fopen): adding to final database dump
+1445.476 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_ahm_cron_jobs.table.gz (40/113/fopen): adding to final database dump
+1445.477 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_ahm_download_stats.table.tmpr4.gz (41/113/fopen): adding to final database dump
+1445.478 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_ahm_download_stats.table.gz (42/113/fopen): adding to final database dump
+1445.480 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_ahm_emails.table.tmpr0.gz (43/113/fopen): adding to final database dump
+1445.481 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_ahm_emails.table.gz (44/113/fopen): adding to final database dump
+1445.483 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_ahm_sessions.table.tmpr14.gz (45/113/fopen): adding to final database dump
+1445.484 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_ahm_sessions.table.gz (46/113/fopen): adding to final database dump
+1445.485 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_ahm_social_conns.table.tmpr0.gz (47/113/fopen): adding to final database dump
+1445.487 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_ahm_social_conns.table.gz (48/113/fopen): adding to final database dump
+1445.488 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_ahm_user_download_counts.table.tmpr4.gz (49/113/fopen): adding to final database dump
+1445.489 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_ahm_user_download_counts.table.gz (50/113/fopen): adding to final database dump
+1445.490 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_album.table.tmpr0.gz (51/113/fopen): adding to final database dump
+1445.492 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_album.table.gz (52/113/fopen): adding to final database dump
+1445.493 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_album_gallery.table.tmpr0.gz (53/113/fopen): adding to final database dump
+1445.494 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_album_gallery.table.gz (54/113/fopen): adding to final database dump
+1445.496 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_file_paths.table.tmpr2.gz (55/113/fopen): adding to final database dump
+1445.497 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_file_paths.table.gz (56/113/fopen): adding to final database dump
+1445.498 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_gallery.table.tmpr2.gz (57/113/fopen): adding to final database dump
+1445.499 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_gallery.table.gz (58/113/fopen): adding to final database dump
+1445.500 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_image.table.tmpr3.gz (59/113/fopen): adding to final database dump
+1445.502 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_image.table.gz (60/113/fopen): adding to final database dump
+1445.503 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_image_comment.table.tmpr0.gz (61/113/fopen): adding to final database dump
+1445.505 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_image_comment.table.gz (62/113/fopen): adding to final database dump
+1445.506 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_image_rate.table.tmpr0.gz (63/113/fopen): adding to final database dump
+1445.508 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_image_rate.table.gz (64/113/fopen): adding to final database dump
+1445.509 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_image_tag.table.tmpr0.gz (65/113/fopen): adding to final database dump
+1445.510 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_image_tag.table.gz (66/113/fopen): adding to final database dump
+1445.512 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_shortcode.table.tmpr3.gz (67/113/fopen): adding to final database dump
+1445.513 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_shortcode.table.gz (68/113/fopen): adding to final database dump
+1445.515 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_theme.table.tmpr3.gz (69/113/fopen): adding to final database dump
+1445.516 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_bwg_theme.table.gz (70/113/fopen): adding to final database dump
+1445.518 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_dfes_incidents.table.tmpr9.gz (71/113/fopen): adding to final database dump
+1445.519 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_dfes_incidents.table.gz (72/113/fopen): adding to final database dump
+1445.521 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_e_events.table.tmpr0.gz (73/113/fopen): adding to final database dump
+1445.522 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_e_events.table.gz (74/113/fopen): adding to final database dump
+1445.523 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_export_page_to_html_logs.table.tmpr0.gz (75/113/fopen): adding to final database dump
+1445.525 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_export_page_to_html_logs.table.gz (76/113/fopen): adding to final database dump
+1445.526 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_export_urls_logs.table.tmpr0.gz (77/113/fopen): adding to final database dump
+1445.528 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_export_urls_logs.table.gz (78/113/fopen): adding to final database dump
+1445.529 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_firebox_logs.table.tmpr0.gz (79/113/fopen): adding to final database dump
+1445.531 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_firebox_logs.table.gz (80/113/fopen): adding to final database dump
+1445.532 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_firebox_logs_details.table.tmpr0.gz (81/113/fopen): adding to final database dump
+1445.533 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_firebox_logs_details.table.gz (82/113/fopen): adding to final database dump
+1445.535 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_firebox_submission_meta.table.tmpr0.gz (83/113/fopen): adding to final database dump
+1445.536 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_firebox_submission_meta.table.gz (84/113/fopen): adding to final database dump
+1445.538 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_firebox_submissions.table.tmpr0.gz (85/113/fopen): adding to final database dump
+1445.539 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_firebox_submissions.table.gz (86/113/fopen): adding to final database dump
+1445.541 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_hfcm_scripts.table.tmpr5.gz (87/113/fopen): adding to final database dump
+1445.542 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_hfcm_scripts.table.gz (88/113/fopen): adding to final database dump
+1445.544 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_incident_chart.table.tmpr0.gz (89/113/fopen): adding to final database dump
+1445.545 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_incident_chart.table.gz (90/113/fopen): adding to final database dump
+1445.547 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_nextend2_image_storage.table.tmpr0.gz (91/113/fopen): adding to final database dump
+1445.548 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_nextend2_image_storage.table.gz (92/113/fopen): adding to final database dump
+1445.550 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_nextend2_section_storage.table.tmpr10019.gz (93/113/fopen): adding to final database dump
+1445.551 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_nextend2_section_storage.table.gz (94/113/fopen): adding to final database dump
+1445.552 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_nextend2_smartslider3_generators.table.tmpr0.gz (95/113/fopen): adding to final database dump
+1445.554 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_nextend2_smartslider3_generators.table.gz (96/113/fopen): adding to final database dump
+1445.555 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_nextend2_smartslider3_sliders.table.tmpr3.gz (97/113/fopen): adding to final database dump
+1445.557 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_nextend2_smartslider3_sliders.table.gz (98/113/fopen): adding to final database dump
+1445.558 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_nextend2_smartslider3_sliders_xref.table.tmpr1001.gz (99/113/fopen): adding to final database dump
+1445.561 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_nextend2_smartslider3_sliders_xref.table.gz (100/113/fopen): adding to final database dump
+1445.562 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_nextend2_smartslider3_slides.table.tmpr3.gz (101/113/fopen): adding to final database dump
+1445.563 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_nextend2_smartslider3_slides.table.gz (102/113/fopen): adding to final database dump
+1445.564 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_pdfposter_presets.table.tmpr0.gz (103/113/fopen): adding to final database dump
+1445.565 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_pdfposter_presets.table.gz (104/113/fopen): adding to final database dump
+1445.566 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_redirection_404.table.tmpr20524.gz (105/113/fopen): adding to final database dump
+1445.568 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_redirection_404.table.gz (106/113/fopen): adding to final database dump
+1445.569 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_redirection_groups.table.tmpr3.gz (107/113/fopen): adding to final database dump
+1445.570 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_redirection_groups.table.gz (108/113/fopen): adding to final database dump
+1445.571 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_redirection_items.table.tmpr69.gz (109/113/fopen): adding to final database dump
+1445.572 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_redirection_items.table.gz (110/113/fopen): adding to final database dump
+1445.573 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_redirection_logs.table.tmpr0.gz (111/113/fopen): adding to final database dump
+1445.575 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_redirection_logs.table.gz (112/113/fopen): adding to final database dump
+1445.576 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_robogallery_cache.table.tmpr0.gz (113/113/fopen): adding to final database dump
+1445.577 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_robogallery_cache.table.gz (114/113/fopen): adding to final database dump
+1445.579 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_say_what_strings.table.tmpr0.gz (115/113/fopen): adding to final database dump
+1445.580 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_say_what_strings.table.gz (116/113/fopen): adding to final database dump
+1445.582 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_simply_static_pages.table.tmpr10550.gz (117/113/fopen): adding to final database dump
+1445.584 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_simply_static_pages.table.gz (118/113/fopen): adding to final database dump
+1445.585 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_site_mail_logs.table.tmpr0.gz (119/113/fopen): adding to final database dump
+1445.587 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_site_mail_logs.table.gz (120/113/fopen): adding to final database dump
+1445.588 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_site_mail_statuses.table.tmpr0.gz (121/113/fopen): adding to final database dump
+1445.589 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_site_mail_statuses.table.gz (122/113/fopen): adding to final database dump
+1445.591 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_site_mail_suppressions.table.tmpr0.gz (123/113/fopen): adding to final database dump
+1445.592 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_site_mail_suppressions.table.gz (124/113/fopen): adding to final database dump
+1445.594 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_snippets.table.tmpr7.gz (125/113/fopen): adding to final database dump
+1445.595 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_snippets.table.gz (126/113/fopen): adding to final database dump
+1445.596 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_staatic_builds.table.tmpr28.gz (127/113/fopen): adding to final database dump
+1445.598 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_staatic_builds.table.gz (128/113/fopen): adding to final database dump
+1445.599 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_staatic_crawl_queue.table.tmpr0.gz (129/113/fopen): adding to final database dump
+1445.601 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_staatic_crawl_queue.table.gz (130/113/fopen): adding to final database dump
+1445.602 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_staatic_deployments.table.tmpr32.gz (131/113/fopen): adding to final database dump
+1445.603 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_staatic_deployments.table.gz (132/113/fopen): adding to final database dump
+1445.605 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_staatic_known_urls.table.tmpr4001.gz (133/113/fopen): adding to final database dump
+1445.607 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_staatic_known_urls.table.gz (134/113/fopen): adding to final database dump
+1445.609 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_staatic_log_entries.table.tmpr5151.gz (135/113/fopen): adding to final database dump
+1445.610 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_staatic_log_entries.table.gz (136/113/fopen): adding to final database dump
+1445.612 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_staatic_publications.table.tmpr32.gz (137/113/fopen): adding to final database dump
+1445.613 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_staatic_publications.table.gz (138/113/fopen): adding to final database dump
+1445.615 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_staatic_results.table.tmpr99436.gz (139/113/fopen): adding to final database dump
+1445.623 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_staatic_results.table.gz (140/113/fopen): adding to final database dump
+1445.625 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_staatic_results_deployment.table.tmpr4001.gz (141/113/fopen): adding to final database dump
+1445.628 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_staatic_results_deployment.table.gz (142/113/fopen): adding to final database dump
+1445.630 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_supsystic_tbl_columns.table.tmpr0.gz (143/113/fopen): adding to final database dump
+1445.631 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_supsystic_tbl_columns.table.gz (144/113/fopen): adding to final database dump
+1445.633 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_supsystic_tbl_conditions.table.tmpr0.gz (145/113/fopen): adding to final database dump
+1445.638 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_supsystic_tbl_conditions.table.gz (146/113/fopen): adding to final database dump
+1445.640 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_supsystic_tbl_diagrams.table.tmpr0.gz (147/113/fopen): adding to final database dump
+1445.644 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_supsystic_tbl_diagrams.table.gz (148/113/fopen): adding to final database dump
+1445.646 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_supsystic_tbl_rows.table.tmpr20.gz (149/113/fopen): adding to final database dump
+1445.651 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_supsystic_tbl_rows.table.gz (150/113/fopen): adding to final database dump
+1445.653 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_supsystic_tbl_rows_history.table.tmpr0.gz (151/113/fopen): adding to final database dump
+1445.654 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_supsystic_tbl_rows_history.table.gz (152/113/fopen): adding to final database dump
+1445.656 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_supsystic_tbl_tables.table.tmpr2.gz (153/113/fopen): adding to final database dump
+1445.657 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_supsystic_tbl_tables.table.gz (154/113/fopen): adding to final database dump
+1445.659 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_trp_dictionary_en_us_mr.table.tmpr3776.gz (155/113/fopen): adding to final database dump
+1445.663 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_trp_dictionary_en_us_mr.table.gz (156/113/fopen): adding to final database dump
+1445.665 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_trp_gettext_en_us.table.tmpr6488.gz (157/113/fopen): adding to final database dump
+1445.671 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_trp_gettext_en_us.table.gz (158/113/fopen): adding to final database dump
+1445.673 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_trp_gettext_mr.table.tmpr4881.gz (159/113/fopen): adding to final database dump
+1445.678 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_trp_gettext_mr.table.gz (160/113/fopen): adding to final database dump
+1445.680 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_trp_gettext_original_meta.table.tmpr0.gz (161/113/fopen): adding to final database dump
+1445.683 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_trp_gettext_original_meta.table.gz (162/113/fopen): adding to final database dump
+1445.685 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_trp_gettext_original_strings.table.tmpr26658.gz (163/113/fopen): adding to final database dump
+1445.697 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_trp_gettext_original_strings.table.gz (164/113/fopen): adding to final database dump
+1445.699 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_trp_original_meta.table.tmpr1087.gz (165/113/fopen): adding to final database dump
+1445.701 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_trp_original_meta.table.gz (166/113/fopen): adding to final database dump
+1445.703 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_trp_original_strings.table.tmpr3776.gz (167/113/fopen): adding to final database dump
+1445.707 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_trp_original_strings.table.gz (168/113/fopen): adding to final database dump
+1445.708 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_app.table.tmpr0.gz (169/113/fopen): adding to final database dump
+1445.710 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_app.table.gz (170/113/fopen): adding to final database dump
+1445.712 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_app_apps.table.tmpr1.gz (171/113/fopen): adding to final database dump
+1445.714 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_app_apps.table.gz (172/113/fopen): adding to final database dump
+1445.715 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_app_container.table.tmpr0.gz (173/113/fopen): adding to final database dump
+1445.717 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_app_container.table.gz (174/113/fopen): adding to final database dump
+1445.719 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_csv_uploads.table.tmpr0.gz (175/113/fopen): adding to final database dump
+1445.720 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_csv_uploads.table.gz (176/113/fopen): adding to final database dump
+1445.722 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_logging.table.tmpr1.gz (177/113/fopen): adding to final database dump
+1445.723 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_logging.table.gz (178/113/fopen): adding to final database dump
+1445.724 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_media.table.tmpr1.gz (179/113/fopen): adding to final database dump
+1445.726 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_media.table.gz (180/113/fopen): adding to final database dump
+1445.727 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_menus.table.tmpr0.gz (181/113/fopen): adding to final database dump
+1445.729 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_menus.table.gz (182/113/fopen): adding to final database dump
+1445.730 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_project.table.tmpr0.gz (183/113/fopen): adding to final database dump
+1445.731 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_project.table.gz (184/113/fopen): adding to final database dump
+1445.732 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_project_page.table.tmpr0.gz (185/113/fopen): adding to final database dump
+1445.734 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_project_page.table.gz (186/113/fopen): adding to final database dump
+1445.735 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_project_table.table.tmpr1.gz (187/113/fopen): adding to final database dump
+1445.736 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_project_table.table.gz (188/113/fopen): adding to final database dump
+1445.737 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_publisher.table.tmpr0.gz (189/113/fopen): adding to final database dump
+1445.739 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_publisher.table.gz (190/113/fopen): adding to final database dump
+1445.740 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_table_design.table.tmpr1.gz (191/113/fopen): adding to final database dump
+1445.742 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_table_design.table.gz (192/113/fopen): adding to final database dump
+1445.743 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_table_settings.table.tmpr1.gz (193/113/fopen): adding to final database dump
+1445.745 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpda_table_settings.table.gz (194/113/fopen): adding to final database dump
+1445.746 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpdatacharts.table.tmpr0.gz (195/113/fopen): adding to final database dump
+1445.747 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpdatacharts.table.gz (196/113/fopen): adding to final database dump
+1445.749 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpdatatables.table.tmpr2.gz (197/113/fopen): adding to final database dump
+1445.750 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpdatatables.table.gz (198/113/fopen): adding to final database dump
+1445.751 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpdatatables_cache.table.tmpr13.gz (199/113/fopen): adding to final database dump
+1445.755 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpdatatables_cache.table.gz (200/113/fopen): adding to final database dump
+1445.756 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpdatatables_columns.table.tmpr14.gz (201/113/fopen): adding to final database dump
+1445.758 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpdatatables_columns.table.gz (202/113/fopen): adding to final database dump
+1445.760 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpdatatables_rows.table.tmpr0.gz (203/113/fopen): adding to final database dump
+1445.761 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpdatatables_rows.table.gz (204/113/fopen): adding to final database dump
+1445.762 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpdatatables_templates.table.tmpr256.gz (205/113/fopen): adding to final database dump
+1445.764 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpdatatables_templates.table.gz (206/113/fopen): adding to final database dump
+1445.765 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpfm_backup.table.tmpr0.gz (207/113/fopen): adding to final database dump
+1445.767 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpfm_backup.table.gz (208/113/fopen): adding to final database dump
+1445.768 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpgmza.table.tmpr0.gz (209/113/fopen): adding to final database dump
+1445.769 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpgmza.table.gz (210/113/fopen): adding to final database dump
+1445.771 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpgmza_admin_notices.table.tmpr0.gz (211/113/fopen): adding to final database dump
+1445.773 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpgmza_admin_notices.table.gz (212/113/fopen): adding to final database dump
+1445.775 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpgmza_circles.table.tmpr0.gz (213/113/fopen): adding to final database dump
+1445.777 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpgmza_circles.table.gz (214/113/fopen): adding to final database dump
+1445.779 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpgmza_image_overlays.table.tmpr0.gz (215/113/fopen): adding to final database dump
+1445.780 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpgmza_image_overlays.table.gz (216/113/fopen): adding to final database dump
+1445.782 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpgmza_maps.table.tmpr2.gz (217/113/fopen): adding to final database dump
+1445.784 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpgmza_maps.table.gz (218/113/fopen): adding to final database dump
+1445.786 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpgmza_point_labels.table.tmpr0.gz (219/113/fopen): adding to final database dump
+1445.788 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpgmza_point_labels.table.gz (220/113/fopen): adding to final database dump
+1445.789 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpgmza_polygon.table.tmpr0.gz (221/113/fopen): adding to final database dump
+1445.791 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpgmza_polygon.table.gz (222/113/fopen): adding to final database dump
+1445.792 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpgmza_polylines.table.tmpr0.gz (223/113/fopen): adding to final database dump
+1445.794 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpgmza_polylines.table.gz (224/113/fopen): adding to final database dump
+1445.795 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpgmza_rectangles.table.tmpr0.gz (225/113/fopen): adding to final database dump
+1445.797 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db-table-wp_wpgmza_rectangles.table.gz (226/113/fopen): adding to final database dump
+1445.806 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db.gz: finished writing out complete database file (14136.3 KB)
+1445.940 (0) Total database tables backed up: 113 (backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db.gz, size: 14475672, sha1: 4082020d237236eb6612aaa63a5979f71963a80f, sha256: 2d4046a2eb5a045b2b19cbc309016aeaffe25e0c07c7deb7e62574bee948f4dd)
+1445.950 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-plugins.zip: plugins: This file has already been successfully uploaded
+1445.951 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-themes.zip: themes: This file has already been successfully uploaded
+1445.953 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads.zip: uploads: This file has already been successfully uploaded
+1445.954 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads2.zip: uploads: This file has already been successfully uploaded
+1445.956 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads3.zip: uploads: This file has already been successfully uploaded
+1445.957 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads4.zip: uploads: This file has already been successfully uploaded
+1445.959 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads5.zip: uploads: This file has already been successfully uploaded
+1445.960 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads6.zip: uploads: This file has already been successfully uploaded
+1445.962 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-uploads7.zip: uploads: This file has already been successfully uploaded
+1445.964 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-others.zip: others: This file has already been successfully uploaded
+1445.965 (0) backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db.gz: db: This file has not yet been successfully uploaded: will queue
+1445.966 (0) Saving backup history. Total backup size: 2.5 GB
+1445.970 (0) Requesting upload of the files that have not yet been successfully uploaded (1)
+1445.975 (0) Cloud backup selection (1/1): googledrive with instance (1/1) (last)
+1445.977 (0) Beginning dispatch of backup to remote (googledrive) (instance identifier s-51097c087e0651afa7a453b6f950e052)
+1446.578 (0) Google Drive: quota usage: used=15241.3 MB, total=15360 MB, available=118.7 MB
+1446.580 (0) Google Drive: backup_2025-08-11-1526_Government_of_Goa_Directorate__bba6e14dc701-db.gz: Attempting to upload to Google Drive (into folder id: 1qpq6iqhV3w-OyOspa6qLmRDipUZHm3mZ)
+1447.703 (0) Google Drive: Upload exception (Google_Exception): Failed to start the resumable upload (HTTP 403: usageLimits, The user has exceeded their Drive storage quota) (line: 322, file: C:\xampp\htdocs\wordpress\wp-content\plugins\updraftplus\includes\google-extensions.php)
+1447.707 (0) An error condition has occurred for the first time during this job
+1447.712 (0) Retain: beginning examination of existing backup sets; user setting: retain_files=2, retain_db=2
+1447.715 (0) Number of backup sets in history: 3; groups (db): 1
+1447.717 (0) Examining (for databases) backup set with group_id=0, nonce=bba6e14dc701, datestamp=1754906202 (Aug 11 2025 09:56:42)
+1447.719 (0) This backup set is the backup set just made, so will not be deleted.
+1447.719 (0) Examining (for databases) backup set with group_id=0, nonce=93707dc36e91, datestamp=1754893552 (Aug 11 2025 06:25:52)
+1447.719 (0) This backup set remains non-empty (f=1/d=1); will retain in history
+1447.722 (0) Examining (for databases) backup set with group_id=0, nonce=1698fac0bed0, datestamp=1754456309 (Aug 06 2025 04:58:29)
+1447.722 (0) 1754456309: db: this set includes a database (backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-db.gz); db count is now 2
+1447.722 (0) 1754456309: db: over retain limit (2); will delete this database
+1447.722 (0) Delete file: backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-db.gz, service=googledrive
+1447.724 (0) Deleting local copy (backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-db.gz)
+1450.050 (0) Google Drive: backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-db.gz: Deletion failed: file was not found
+1450.059 (0) The time we have been running (1450.1) is approaching the resumption interval (1476) - increasing resumption interval to 1481
+1450.062 (0) This backup set remains non-empty (f=1/d=0); will retain in history
+1450.064 (0) Number of backup sets in history: 3; groups (files): 1
+1450.065 (0) Examining (for files) backup set with nonce=bba6e14dc701, datestamp=1754906202 (Aug 11 2025 09:56:42)
+1450.065 (0) This backup set is the backup set just made, so will not be deleted.
+1450.066 (0) This backup set is the backup set just made, so will not be deleted.
+1450.067 (0) This backup set is the backup set just made, so will not be deleted.
+1450.067 (0) This backup set is the backup set just made, so will not be deleted.
+1450.067 (0) This backup set remains non-empty (f=1/d=1); will retain in history
+1450.068 (0) Examining (for files) backup set with nonce=93707dc36e91, datestamp=1754893552 (Aug 11 2025 06:25:52)
+1450.068 (0) This backup set remains non-empty (f=1/d=1); will retain in history
+1450.069 (0) Examining (for files) backup set with nonce=1698fac0bed0, datestamp=1754456309 (Aug 06 2025 04:58:29)
+1450.069 (0) plugins: over retain limit (2); will delete this file entity
+1450.069 (0) themes: over retain limit (2); will delete this file entity
+1450.069 (0) uploads: over retain limit (2); will delete this file entity
+1450.069 (0) others: over retain limit (2); will delete this file entity
+1450.069 (0) Delete file: backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-uploads4.zip, service=googledrive
+1450.072 (0) Deleting local copy (backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-uploads4.zip)
+1450.076 (0) Delete file: backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-uploads5.zip, service=googledrive
+1450.078 (0) Deleting local copy (backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-uploads5.zip)
+1450.083 (0) Delete file: backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-uploads6.zip, service=googledrive
+1450.085 (0) Deleting local copy (backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-uploads6.zip)
+1452.814 (0) Google Drive: backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-others.zip: Deletion successful
+1453.573 (0) Google Drive: backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-uploads7.zip: Deletion successful
+1454.300 (0) Google Drive: backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-uploads3.zip: Deletion successful
+1455.045 (0) Google Drive: backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-uploads2.zip: Deletion successful
+1456.711 (0) Google Drive: backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-uploads.zip: Deletion successful
+1457.713 (0) Google Drive: backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-themes.zip: Deletion successful
+1458.410 (0) Google Drive: backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-plugins.zip: Deletion successful
+1458.413 (0) Google Drive: backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-uploads4.zip: Deletion failed: file was not found
+1458.415 (0) Google Drive: backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-uploads5.zip: Deletion failed: file was not found
+1458.417 (0) Google Drive: backup_2025-08-06-1028_Government_of_Goa_Directorate__1698fac0bed0-uploads6.zip: Deletion failed: file was not found
+1458.431 (0) The time we have been running (1458.4) is approaching the resumption interval (1481) - increasing resumption interval to 1489
+1458.436 (0) This backup set is now empty; will remove from history
+1458.437 (0) Deleting log file (log.1698fac0bed0.txt)
+1458.439 (0) Retain: saving new backup history (sets now: 2) and finishing retain operation
+1458.444 (0) Resume backup (bba6e14dc701, 0): finish run
+1458.449 (0) Decremented the semaphore (fd) by 1
+1458.452 (0) Semaphore (fd) unlocked
+1458.453 (0) There were errors in the uploads, so the 'resume' event is remaining scheduled
+1458.458 (0) Rescheduling resumption 1: moving to 60 seconds from now (1754907721)
+1458.463 (0) The backup has not finished; a resumption is scheduled

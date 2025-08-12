@@ -8,9 +8,9 @@ Author: Milroy Gomes
 
 // Enqueue scripts and styles
 function incident_chart_enqueue_scripts() {
-    wp_enqueue_style('incident-chart-style', plugin_dir_url(__FILE__) . 'css/style.css');
+    // wp_enqueue_style('incident-chart-style', plugin_dir_url(__FILE__) . 'css/style.css');
     wp_enqueue_script('chart-js', 'https://cdn.jsdelivr.net/npm/chart.js', array(), null, true);
-    wp_enqueue_script('incident-chart-script', plugin_dir_url(__FILE__) . 'js/chart-script.js', array('jquery', 'chart-js'), null, true);
+    // wp_enqueue_script('incident-chart-script', plugin_dir_url(__FILE__) . 'js/chart-script.js', array('jquery', 'chart-js'), null, true);
     wp_localize_script('incident-chart-script', 'incidentChart', [
         'ajax_url' => admin_url('admin-ajax.php'),
     ]);
@@ -30,8 +30,35 @@ function incident_chart_admin_menu() {
 }
 
 function incident_chart_admin_page() {
+    if (isset($_POST['refresh_google_csv']) && check_admin_referer('refresh_google_csv_action', 'refresh_google_csv_nonce')) {
+        incident_chart_fetch_and_cache_csv();
+        wp_redirect(admin_url('admin.php?page=incident-chart-csv&refreshed=1'));
+        exit;
+    }
+
     include(plugin_dir_path(__FILE__) . 'admin-page.php');
 }
+
+function incident_chart_fetch_and_cache_csv() {
+    $google_csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-.../pub?output=csv';
+
+    $response = wp_remote_get($google_csv_url);
+    if (is_wp_error($response)) return false;
+
+    $csv_content = wp_remote_retrieve_body($response);
+
+    $upload_dir = wp_upload_dir();
+    $csv_file_path = $upload_dir['basedir'] . '/incident-data.csv';
+
+    file_put_contents($csv_file_path, $csv_content);
+
+    // Save file path and timestamp
+    update_option('incident_chart_csv_path', $csv_file_path);
+    update_option('incident_chart_csv_last_updated', current_time('timestamp'));
+
+    return true;
+}
+
 
 add_action('wp_ajax_incident_chart_upload_csv', 'incident_chart_upload_csv');
 
@@ -376,49 +403,27 @@ function renderTable() {
         return;
     }
 
-    for (const row of rows) {
-        let totalFigure = 0;
-        let latestYear = null;
-        let earliestYear = null;
+   for (const row of rows) {
+    let totalFigure = 0;
 
-        let latestFigure = 0;
-        let earliestFigure = 0;
+    for (const key of row.keys) {
+        const record = tableData[key];
+        if (record) {
+            let figure = record.figure || 0;
 
-        for (const key of row.keys) {
-            const record = tableData[key];
-            if (record) {
-                let figure = record.figure || 0;
-                if (typeof figure === 'string' && !isNaN(figure)) {
-                    figure = parseFloat(figure);
-                }
-
-                totalFigure += figure;
-
-                // Track earliest and latest year & figures
-                if (earliestYear === null || record.year < earliestYear) {
-                    earliestYear = record.year;
-                    earliestFigure = figure;
-                } else if (record.year === earliestYear) {
-                    earliestFigure += figure;
-                }
-
-                if (latestYear === null || record.year > latestYear) {
-                    latestYear = record.year;
-                    latestFigure = figure;
-                } else if (record.year === latestYear) {
-                    latestFigure += figure;
-                }
+            if (typeof figure === 'string' && !isNaN(figure)) {
+                figure = parseFloat(figure);
             }
-        }
 
-        // const isUp = row.percentage.includes('🔺');
-        // const color = isUp ? 'green' : 'red';
+            totalFigure += figure;
+        }
+    }
 
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${row.label}</td>
-            <td>${totalFigure.toLocaleString()}<br>${earliestYear}-${latestYear}</td>
+            <td>${totalFigure.toLocaleString()}<br>2003-2024</td>
               <td style="color: ${row.color}; font-weight: bold;">${row.percentage} ${row.arrow}</td>
         `;
         tbody.appendChild(tr);
@@ -438,7 +443,7 @@ renderChart("<?php echo $first_category; ?>");
     });
 </script>
 
-    <style>
+    <!-- <style>
         #category-filter{
             color:#000;
         }
@@ -482,12 +487,26 @@ renderChart("<?php echo $first_category; ?>");
             max-width: 100%;
             height: auto;
         }
-    </style>
+    </style> -->
 
     <?php
     return ob_get_clean();
 }
 add_shortcode('incident_chart', 'incident_chart_shortcode');
+
+add_action('wp_enqueue_scripts', function () {
+    global $post;
+
+    if (is_a($post, 'WP_Post') && has_shortcode($post->post_content, 'incident_chart')) {
+        wp_enqueue_style(
+            'incident-chart-style',
+            plugin_dir_url(__FILE__) . 'assets/style.css',
+            [],
+            '1.0'
+        );
+    }
+});
+
 
 add_action('wp_ajax_incident_chart_delete_csv', 'incident_chart_delete_csv_file');
 

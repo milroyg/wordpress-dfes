@@ -1,0 +1,111 @@
+/** Swiper flexbox ==> https://github.com/nolimits4web/swiper/issues/3599 */
+/** eac-swiper pour éviter la collision avec swiper.css d'Elementor */
+/** Elementor container si max-width n'est pas initialisé dans le theme, il y a un débordement sur l'axe X */
+.swiper {
+	margin: 0 auto;
+	max-inline-size: 100vw;
+	min-inline-size: 0;
+	inline-size: 100%;
+	overflow: hidden;
+}
+
+/** Pour les mobiles */
+@media (max-width: 460px) {
+	.swiper {
+		max-inline-size: 90vw;
+	}
+}
+
+@supports selector(:has(*)) {
+	.swiper:has(div):has(.swiper-scrollbar-horizontal) .swiper-wrapper {
+		margin-block-end: 20px;
+	}
+}
+
+.swiper .swiper-horizontal>.swiper-scrollbar,
+.swiper .swiper-scrollbar.swiper-scrollbar-horizontal {
+	--swiper-scrollbar-sides-offset: 10%;
+	--swiper-scrollbar-bottom: 5px;
+}
+
+/** Width pour 'slidesPerView = auto' */
+.swiper .swiper-wrapper .swiper-slide {
+	inline-size: auto;
+}
+
+/* Force la hauteur lorsque le ratio d'image n'est pas activé */
+.swiper .swiper-slide {
+	block-size: auto;
+}
+
+/* Boutons Prev et Next */
+.swiper .swiper-button-next,
+.swiper .swiper-button-prev {
+	inline-size: auto;
+	background-image: none;
+}
+
+.swiper .swiper-button-next {
+	inset-inline-end: 10px;
+}
+
+.swiper .swiper-button-next:after {
+	position: relative;
+	display: inline-block;
+	font-family: 'dashicons';
+	content: '\f345';
+	font-weight: 600;
+	font-size: 45px;
+	font-style: normal;
+	font-variant: normal;
+	color: currentColor;
+	line-height: 1;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+}
+
+.swiper .swiper-button-prev {
+	inset-inline-start: 10px;
+}
+
+.swiper .swiper-button-prev:after {
+	position: relative;
+	display: inline-block;
+	font-family: 'dashicons';
+	content: '\f341';
+	font-weight: 600;
+	font-size: 45px;
+	font-style: normal;
+	font-variant: normal;
+	color: currentColor;
+	line-height: 1;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Le séparateur (Elementor) au-dessus des bullets */
+.swiper .swiper-horizontal>.swiper-pagination-bullets,
+.swiper .swiper-pagination-bullets.swiper-pagination-horizontal {
+	position: relative;
+	block-size: 3px;
+	inset-block-end: -5px !important;
+	text-align: center;
+	opacity: .8;
+}
+
+/* Toutes les bullets */
+.swiper .swiper-pagination-bullets.swiper-pagination-horizontal .swiper-pagination-bullet {
+	block-size: 3px;
+	inline-size: 12px;
+	margin: 15px 5px !important;
+	text-align: center;
+	border-radius: 0;
+	background-color: black;
+	opacity: 1;
+}
+
+/* La bullet active */
+.swiper .swiper-pagination-bullets.swiper-pagination-horizontal .swiper-pagination-bullet.swiper-pagination-bullet-active {
+	background-color: red;
+	opacity: 1;
+}

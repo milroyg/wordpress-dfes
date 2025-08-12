@@ -1,0 +1,256 @@
+#adminmenu .menu-icon-location_weather .wp-menu-image img {
+    width: 20px;
+    padding: 4px 0;
+    margin-top: 3px;
+}
+#adminmenu .menu-icon-location_weather div.wp-menu-image{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#adminmenu #menu-posts-location_weather li:nth-child(7) a{
+	color: #f9be48;
+}
+#adminmenu #menu-posts-location_weather li a .sp-go-pro-icon {
+	background-image: url(../images/premium.svg);
+	width: 20px;
+	height: 20px;
+	display: block;
+	float: left;
+	margin-right: 1px;
+	margin-left: -2px;
+	margin-top: -1px;
+}
+.splw-footer-text-star {
+    color: #dba617;
+}
+
+/* Review Notice */
+#location-weather-review-notice {
+    padding: 18px 15px 18px 0;
+    background-color: #fff;
+    border-radius: 5px;
+    margin: 20px 20px 0 0;
+    box-shadow: 0 0 20px 0 rgba(36,39,50,.08);
+}
+#location-weather-review-notice .splw-plugin-icon {
+    width: 125px;
+    float: left;
+    line-height: 90px;
+    text-align: center;
+    margin-left: 8px;
+}
+#location-weather-review-notice .splw-plugin-icon img {
+    max-width: 94px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+#location-weather-review-notice .splw-notice-text {
+    overflow: hidden
+}
+#location-weather-review-notice .splw-notice-text h3 {
+    font-size: 24px;
+    margin: 0 0 5px;
+    font-weight: 400;
+    line-height: 1
+}
+#location-weather-review-notice .splw-notice-text p {
+    margin: 10px 0 10px 0;
+    font-size: 13px
+}
+#location-weather-review-notice .splw-notice-text p.splw-review-actions {
+    margin: 10px 0 2px 0
+}
+#location-weather-review-notice .splw-notice-text .splw-review-actions a {
+    text-decoration: none;
+    margin-right: 8px;
+    color: #63a37b;
+    display: inline-block;
+    position: relative
+}
+#location-weather-review-notice .splw-notice-text .splw-review-actions a span {
+    padding-right: 2px
+}
+#location-weather-review-notice .splw-notice-text .splw-review-actions a.button {
+    color: #fff
+}
+
+.rtl  #location-weather-review-notice {
+    margin: 20px 0 0 20px;
+    padding: 18px 0 18px 15px;
+}
+ 
+.rtl #location-weather-review-notice .splw-plugin-icon {
+    float: right;
+    margin: 0 0 0 8px;
+}
+
+.menu-icon-location_weather.wp-not-current-submenu .wp-menu-image.dashicons-before {
+	background-image: url(../images/menu-weather-gray.svg);
+	background-position: 10px center;
+	background-repeat: no-repeat;
+}
+.menu-icon-location_weather.wp-has-current-submenu .wp-menu-image.dashicons-before {
+	background-image: url(../images/menu-weather.svg);
+	background-position: 10px center;
+	background-repeat: no-repeat;
+}
+
+/* Offer Banner Styles  */
+.splw-admin-offer-banner-section {
+    position: relative;
+    border-radius: 5px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 16px;
+    height: auto;
+    border-left: 0;
+    margin-top: 40px;
+    margin-right: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 5px 40px;
+    background: linear-gradient(90deg, #000717 0%, #002068 50.5%, #451223 100%);
+    clear: both;
+}
+
+.splw-admin-offer-banner-section .splw-offer-additional-text {
+    display: flex;
+    align-items: center;
+}
+
+.splw-admin-offer-banner-section span.splw-clock-icon {
+    font-size: 24px;
+    margin-right: 6px;
+}
+
+.splw-admin-offer-banner-section img.splw-plugin-logo,
+.splw-admin-offer-banner-section img.splw-offer-name,
+.splw-admin-offer-banner-section img.splw-offer-percentage {
+    max-width: 250px;
+}
+
+.splw-admin-offer-banner-section img.splw-plugin-logo {
+    width: 150px;
+}
+
+.splw-admin-offer-banner-section img.splw-offer-percentage {
+    width: 210px;
+    vertical-align: middle;
+}
+
+.splw-admin-offer-banner-section .splw-offer-additional-text p {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: .5px;
+}
+
+.splw-admin-offer-banner-section a.splw-get-offer-button {
+    width: 100px;
+    display: inline-block;
+    font-size: 13px;
+    background: pink;
+    border-radius: 50px;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    padding: 12px 15px;
+    font-weight: 600;
+    transition: .8s ease;
+    background: linear-gradient(98.42deg, #A900BF 8.48%, #E100FF 80.32%);
+}
+
+.splw-admin-offer-banner-section a.splw-get-offer-button:hover {
+    background: linear-gradient(0deg, #A900BF 8.48%, #E100FF 80.32%);
+}
+
+.splw-admin-offer-banner-section .splw-close-offer-banner {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    top: 6px;
+    cursor: pointer;
+}
+
+.splw-admin-offer-banner-section i.splw-icon-banner-close {
+    transition: 0.15s ease;
+}
+
+.splw-admin-offer-banner-section i.splw-icon-banner-close:hover {
+    color: #df3939b5;
+}
+
+.splw-admin-offer-banner-section .splw-banner-action-button {
+    line-height: 22px;
+}
+
+/* Offer Banner Responsiveness */
+@media only screen and (max-width: 1360px) {
+    .splw-admin-offer-banner-section {
+        padding-bottom: 20px;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .splw-admin-offer-banner-section {
+        padding-top: 20px;
+    }
+    #screen-meta-links + .splw-admin-offer-banner-section {
+        margin-top: 50px !important;
+    }
+}
+
+.splw-admin-offer-banner-section .splw-close-offer-banner {
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    top: 4px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}
+
+.splw-admin-offer-banner-section .splw-close-offer-banner:before,
+.splw-admin-offer-banner-section .splw-close-offer-banner:after {
+    content: '';
+    width: 16px;
+    height: 1.3px;
+    background: #ffffff;
+    top: 9px;
+    left: 3px;
+    display: block !important;
+    transform: rotate(45deg);
+    position: absolute;
+}
+
+.splw-admin-offer-banner-section .splw-close-offer-banner:after {
+    transform: rotate(135deg);
+}
+
+.splw-admin-offer-banner-section .splw-close-offer-banner:hover:before,
+.splw-admin-offer-banner-section .splw-close-offer-banner:hover:after {
+    background-color: #df3939b5;
+}
+
+.spwpcp-gutenberg-shortcode.editor-styles-wrapper:after {
+	display: none;
+}
+
+/* RTL style for the offer banner. */
+.rtl .splw-admin-offer-banner-section {
+    margin: 40px 0 0 20px;
+}
+
+.rtl .splw-admin-offer-banner-section .splw-close-offer-banner {
+    right: auto;
+    left: 4px;
+}
+
+.rtl .splw-admin-offer-banner-section span.splw-clock-icon {
+    margin-left: 6px;
+    margin-right: 0;
+}
