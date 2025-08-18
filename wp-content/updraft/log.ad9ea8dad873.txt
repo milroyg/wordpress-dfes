@@ -1944,3 +1944,27 @@
 69353.902 (5) Googledrive chunked upload: 67.4 % uploaded (269484032)
 69357.863 (5) Googledrive chunked upload: 71.5 % uploaded (286261248)
 69361.939 (5) Googledrive chunked upload: 75.7 % uploaded (303038464)
+69365.792 (5) Googledrive chunked upload: 79.9 % uploaded (319815680)
+69369.601 (5) Googledrive chunked upload: 84.1 % uploaded (336592896)
+69373.378 (5) Googledrive chunked upload: 88.3 % uploaded (353370112)
+69377.296 (5) Googledrive chunked upload: 92.5 % uploaded (370147328)
+69381.060 (5) Googledrive chunked upload: 96.7 % uploaded (386924544)
+69386.228 (5) Googledrive chunked upload: 100 % uploaded (386924544)
+69386.233 (5) Google Drive: OK: Archive backup_2025-08-17-1936_Government_of_Goa_Directorate__ad9ea8dad873-uploads4.zip uploaded in 69.23 seconds
+69386.235 (5) Recording as successfully uploaded: backup_2025-08-17-1936_Government_of_Goa_Directorate__ad9ea8dad873-uploads4.zip
+69386.267 (5) Deleting local file: backup_2025-08-17-1936_Government_of_Goa_Directorate__ad9ea8dad873-uploads4.zip: OK
+69387.037 (5) Google Drive: quota usage: used=12970.5 MB, total=15360 MB, available=2389.5 MB
+69387.039 (5) Google Drive: backup_2025-08-17-1936_Government_of_Goa_Directorate__ad9ea8dad873-uploads5.zip: Attempting to upload to Google Drive (into folder id: 1qpq6iqhV3w-OyOspa6qLmRDipUZHm3mZ)
+69389.255 (5) Googledrive chunked upload: 0.3 % uploaded (1048576 - increasing chunk size to 2048 KB - memory usage: 11.1 / 14)
+69390.807 (5) Googledrive chunked upload: 0.8 % uploaded (3145728 - increasing chunk size to 4096 KB - memory usage: 11.1 / 14)
+69393.218 (5) Googledrive chunked upload: 1.8 % uploaded (7340032 - increasing chunk size to 8192 KB - memory usage: 11.1 / 14)
+69396.124 (5) Googledrive chunked upload: 3.8 % uploaded (15728640)
+69398.935 (5) Googledrive chunked upload: 5.9 % uploaded (24117248)
+69401.740 (5) Googledrive chunked upload: 7.9 % uploaded (32505856)
+69404.883 (5) Googledrive chunked upload: 10 % uploaded (40894464)
+69407.332 (5) Googledrive chunked upload: 12 % uploaded (49283072 - increasing chunk size to 16384 KB - memory usage: 11.1 / 14)
+69411.281 (5) Googledrive chunked upload: 16.1 % uploaded (66060288)
+69415.053 (5) Googledrive chunked upload: 20.2 % uploaded (82837504)
+69418.834 (5) Googledrive chunked upload: 24.3 % uploaded (99614720)
+69421.776 (5) Googledrive chunked upload: 28.3 % uploaded (116391936)
+69425.463 (5) Googledrive chunked upload: 32.4 % uploaded (133169152)
