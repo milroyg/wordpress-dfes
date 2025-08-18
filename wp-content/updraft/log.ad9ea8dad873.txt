@@ -1968,3 +1968,104 @@
 69418.834 (5) Googledrive chunked upload: 24.3 % uploaded (99614720)
 69421.776 (5) Googledrive chunked upload: 28.3 % uploaded (116391936)
 69425.463 (5) Googledrive chunked upload: 32.4 % uploaded (133169152)
+69431.710 (5) Googledrive chunked upload: 36.5 % uploaded (149946368)
+69435.454 (5) Googledrive chunked upload: 40.6 % uploaded (166723584)
+69438.555 (5) Googledrive chunked upload: 44.7 % uploaded (183500800)
+69442.663 (5) Googledrive chunked upload: 48.8 % uploaded (200278016)
+69446.655 (5) Googledrive chunked upload: 52.9 % uploaded (217055232)
+69450.751 (5) Googledrive chunked upload: 57 % uploaded (233832448)
+69454.891 (5) Googledrive chunked upload: 61 % uploaded (250609664)
+69458.942 (5) Googledrive chunked upload: 65.1 % uploaded (267386880)
+69462.873 (5) Googledrive chunked upload: 69.2 % uploaded (284164096)
+69466.849 (5) Googledrive chunked upload: 73.3 % uploaded (300941312)
+69470.803 (5) Googledrive chunked upload: 77.4 % uploaded (317718528)
+69474.822 (5) Googledrive chunked upload: 81.5 % uploaded (334495744)
+69478.854 (5) Googledrive chunked upload: 85.6 % uploaded (351272960)
+69482.761 (5) Googledrive chunked upload: 89.6 % uploaded (368050176)
+69486.663 (5) Googledrive chunked upload: 93.7 % uploaded (384827392)
+69490.661 (5) Googledrive chunked upload: 97.8 % uploaded (401604608)
+69495.208 (5) Googledrive chunked upload: 100 % uploaded (401604608)
+69495.215 (5) Google Drive: OK: Archive backup_2025-08-17-1936_Government_of_Goa_Directorate__ad9ea8dad873-uploads5.zip uploaded in 108.17 seconds
+69495.217 (5) Recording as successfully uploaded: backup_2025-08-17-1936_Government_of_Goa_Directorate__ad9ea8dad873-uploads5.zip
+69495.275 (5) Deleting local file: backup_2025-08-17-1936_Government_of_Goa_Directorate__ad9ea8dad873-uploads5.zip: OK
+69495.974 (5) Google Drive: quota usage: used=13362.1 MB, total=15360 MB, available=1997.9 MB
+69495.985 (5) Google Drive: backup_2025-08-17-1936_Government_of_Goa_Directorate__ad9ea8dad873-uploads6.zip: Attempting to upload to Google Drive (into folder id: 1qpq6iqhV3w-OyOspa6qLmRDipUZHm3mZ)
+69498.262 (5) Googledrive chunked upload: 0.3 % uploaded (1048576 - increasing chunk size to 2048 KB - memory usage: 11.1 / 14)
+69499.806 (5) Googledrive chunked upload: 0.8 % uploaded (3145728 - increasing chunk size to 4096 KB - memory usage: 11.1 / 14)
+69502.005 (5) Googledrive chunked upload: 1.9 % uploaded (7340032 - increasing chunk size to 8192 KB - memory usage: 11.1 / 14)
+69505.122 (5) Googledrive chunked upload: 4 % uploaded (15728640)
+69508.251 (5) Googledrive chunked upload: 6.1 % uploaded (24117248)
+69511.221 (5) Googledrive chunked upload: 8.2 % uploaded (32505856)
+69514.267 (5) Googledrive chunked upload: 10.3 % uploaded (40894464)
+69517.179 (5) Googledrive chunked upload: 12.4 % uploaded (49283072)
+69520.124 (5) Googledrive chunked upload: 14.6 % uploaded (57671680)
+69523.227 (5) Googledrive chunked upload: 16.7 % uploaded (66060288)
+69526.054 (5) Googledrive chunked upload: 18.8 % uploaded (74448896)
+69529.169 (5) Googledrive chunked upload: 20.9 % uploaded (82837504)
+69532.064 (5) Googledrive chunked upload: 23 % uploaded (91226112)
+69534.553 (5) Googledrive chunked upload: 25.1 % uploaded (99614720 - increasing chunk size to 16384 KB - memory usage: 11.1 / 14)
+69538.825 (5) Googledrive chunked upload: 29.4 % uploaded (116391936)
+69542.888 (5) Googledrive chunked upload: 33.6 % uploaded (133169152)
+69546.896 (5) Googledrive chunked upload: 37.8 % uploaded (149946368)
+69550.727 (5) Googledrive chunked upload: 42.1 % uploaded (166723584)
+69554.585 (5) Googledrive chunked upload: 46.3 % uploaded (183500800)
+69558.332 (5) Googledrive chunked upload: 50.5 % uploaded (200278016)
+69562.369 (5) Googledrive chunked upload: 54.8 % uploaded (217055232)
+69566.515 (5) Googledrive chunked upload: 59 % uploaded (233832448)
+69570.343 (5) Googledrive chunked upload: 63.2 % uploaded (250609664)
+69574.337 (5) Googledrive chunked upload: 67.5 % uploaded (267386880)
+69578.144 (5) Googledrive chunked upload: 71.7 % uploaded (284164096)
+69582.036 (5) Googledrive chunked upload: 75.9 % uploaded (300941312)
+69585.993 (5) Googledrive chunked upload: 80.2 % uploaded (317718528)
+69589.702 (5) Googledrive chunked upload: 84.4 % uploaded (334495744)
+69593.487 (5) Googledrive chunked upload: 88.6 % uploaded (351272960)
+69596.453 (5) Googledrive chunked upload: 92.9 % uploaded (368050176)
+69599.532 (5) Googledrive chunked upload: 97.1 % uploaded (384827392)
+69604.742 (5) Googledrive chunked upload: 100 % uploaded (384827392)
+69604.750 (5) Google Drive: OK: Archive backup_2025-08-17-1936_Government_of_Goa_Directorate__ad9ea8dad873-uploads6.zip uploaded in 108.76 seconds
+69604.752 (5) Recording as successfully uploaded: backup_2025-08-17-1936_Government_of_Goa_Directorate__ad9ea8dad873-uploads6.zip
+69604.811 (5) Deleting local file: backup_2025-08-17-1936_Government_of_Goa_Directorate__ad9ea8dad873-uploads6.zip: OK
+69605.523 (5) Google Drive: quota usage: used=13740 MB, total=15360 MB, available=1620 MB
+69605.528 (5) Google Drive: backup_2025-08-17-1936_Government_of_Goa_Directorate__ad9ea8dad873-uploads7.zip: Attempting to upload to Google Drive (into folder id: 1qpq6iqhV3w-OyOspa6qLmRDipUZHm3mZ)
+69607.823 (5) Googledrive chunked upload: 1 % uploaded (1048576 - increasing chunk size to 2048 KB - memory usage: 11.1 / 14)
+69609.462 (5) Googledrive chunked upload: 2.9 % uploaded (3145728 - increasing chunk size to 4096 KB - memory usage: 11.1 / 14)
+69611.587 (5) Googledrive chunked upload: 6.8 % uploaded (7340032 - increasing chunk size to 8192 KB - memory usage: 11.1 / 14)
+69614.624 (5) Googledrive chunked upload: 14.6 % uploaded (15728640)
+69617.576 (5) Googledrive chunked upload: 22.4 % uploaded (24117248)
+69620.625 (5) Googledrive chunked upload: 30.1 % uploaded (32505856)
+69623.569 (5) Googledrive chunked upload: 37.9 % uploaded (40894464)
+69626.765 (5) Googledrive chunked upload: 45.7 % uploaded (49283072)
+69629.558 (5) Googledrive chunked upload: 53.5 % uploaded (57671680)
+69632.120 (5) Googledrive chunked upload: 61.2 % uploaded (66060288)
+69635.039 (5) Googledrive chunked upload: 69 % uploaded (74448896)
+69638.195 (5) Googledrive chunked upload: 76.8 % uploaded (82837504)
+69641.281 (5) Googledrive chunked upload: 84.6 % uploaded (91226112)
+69644.067 (5) Googledrive chunked upload: 92.3 % uploaded (99614720)
+69648.485 (5) Googledrive chunked upload: 100 % uploaded (99614720)
+69648.491 (5) Google Drive: OK: Archive backup_2025-08-17-1936_Government_of_Goa_Directorate__ad9ea8dad873-uploads7.zip uploaded in 42.96 seconds
+69648.493 (5) Recording as successfully uploaded: backup_2025-08-17-1936_Government_of_Goa_Directorate__ad9ea8dad873-uploads7.zip
+69648.510 (5) Deleting local file: backup_2025-08-17-1936_Government_of_Goa_Directorate__ad9ea8dad873-uploads7.zip: OK
+69648.514 (5) Retain: beginning examination of existing backup sets; user setting: retain_files=2, retain_db=2
+69648.516 (5) Number of backup sets in history: 2; groups (db): 1
+69648.518 (5) Examining (for databases) backup set with group_id=0, nonce=ad9ea8dad873, datestamp=1755439594 (Aug 17 2025 14:06:34)
+69648.519 (5) This backup set is the backup set just made, so will not be deleted.
+69648.519 (5) Examining (for databases) backup set with group_id=0, nonce=985c8244a62e, datestamp=1755370782 (Aug 16 2025 18:59:42)
+69648.519 (5) This backup set remains non-empty (f=1/d=1); will retain in history
+69648.520 (5) Number of backup sets in history: 2; groups (files): 1
+69648.522 (5) Examining (for files) backup set with nonce=ad9ea8dad873, datestamp=1755439594 (Aug 17 2025 14:06:34)
+69648.522 (5) This backup set is the backup set just made, so will not be deleted.
+69648.524 (5) This backup set is the backup set just made, so will not be deleted.
+69648.524 (5) This backup set is the backup set just made, so will not be deleted.
+69648.524 (5) This backup set is the backup set just made, so will not be deleted.
+69648.524 (5) This backup set remains non-empty (f=1/d=1); will retain in history
+69648.525 (5) Examining (for files) backup set with nonce=985c8244a62e, datestamp=1755370782 (Aug 16 2025 18:59:42)
+69648.525 (5) This backup set remains non-empty (f=1/d=1); will retain in history
+69648.525 (5) Retain: saving new backup history (sets now: 2) and finishing retain operation
+69648.529 (5) Resume backup (ad9ea8dad873, 5): finish run
+69648.532 (5) [Info] Lock option (updraft_lock_ad9ea8dad873, wp_options) released
+69648.534 (5) There were no errors in the uploads, so the 'resume' event (6) is being unscheduled
+69648.540 (5) Fetching RSS news feed
+69649.978 (5) Fetched RSS news feed; result is a: SimplePie\SimplePie
+69650.020 (5) Sending email ('Files and database (Full backup)') report (attachments: 1, size: 240.8 KB) to: milro...
+69650.023 (5) An error occurred when sending a backup report email and/or backup file(s) via email (wp_mail_failed): Invalid address:  (From): wordpress@localhost
+69650.024 (5) The backup succeeded (with warnings) and is now complete
