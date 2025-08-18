@@ -314,28 +314,35 @@ add_action('login_head', function () {
     <?php
 });
 
-
 add_filter( 'rest_authentication_errors', function( $result ) {
-    // If a previous authentication check was applied,
-    // pass that result along without modification.
     if ( true === $result || is_wp_error( $result ) ) {
         return $result;
     }
 
-    // No authentication has been performed yet.
-    // Return an error if user is not logged in.
+    if ( isset( $_SERVER['REQUEST_URI'] ) ) {
+        $uri = $_SERVER['REQUEST_URI'];
+
+        // Allow CF7 requests
+        if ( strpos( $uri, '/wp-json/contact-form-7/v1/contact-forms' ) !== false ) {
+            return null;
+        }
+
+      if ( isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/dfes/data/live/update') !== false ) {
+    return null; // allow public
+}
+    }
+
     if ( ! is_user_logged_in() ) {
         return new WP_Error(
-            'rest_not_logged_in',
-            __( 'Test, You are not currently logged in.' ),
+            'access_denied',
+            __( 'Access Denied' ),
             array( 'status' => 401 )
         );
     }
 
-    // Our custom authentication check should have no effect
-    // on logged-in requests
     return $result;
 });
+
 
 // Only apply on login page
 add_action('login_head', function () {
