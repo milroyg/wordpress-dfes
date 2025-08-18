@@ -1,0 +1,24 @@
+.tam-pdfs {
+    list-style: inside;
+    padding: 0;
+}
+.tam-pdf-item {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+}
+.tam-pdf-item:last-child {
+    border-bottom: none;
+}
+.tam-pdf-item img {
+    vertical-align: middle;
+    margin-right: 10px;
+}
+.tam-pdf-item a {
+    text-decoration: none;
+    color: #0073aa;
+    font-weight: bold;
+}
+.tam-pdf-item a:hover {
+    color: #005177;
+}
