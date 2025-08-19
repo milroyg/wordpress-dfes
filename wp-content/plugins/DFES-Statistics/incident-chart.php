@@ -5,10 +5,6 @@ Description: Displays line charts from CSV data with category filtering.
 Version: 1.0
 Author: Milroy Gomes
 */
-
-
-
-
 if (!defined('ABSPATH')) exit; // No direct access
 
 // 🔹 Shared helper: fetch Google Sheet CSV
@@ -31,7 +27,7 @@ require_once plugin_dir_path(__FILE__) . 'incident-chart.php';
 class IncidentChartCSV {
 
     // Your published Google Sheets CSV link
-    // private $csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3_xKr3khhEIr5QqAKaTs9b4xUnZlgOjyfBMmsclrt2fYfxJfXGlMKMltEnCAKBFDjqm5MkGPntnr4/pub?output=csv';
+    private $csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3_xKr3khhEIr5QqAKaTs9b4xUnZlgOjyfBMmsclrt2fYfxJfXGlMKMltEnCAKBFDjqm5MkGPntnr4/pub?output=csv';
 
     public function __construct() {
         // Core hooks
