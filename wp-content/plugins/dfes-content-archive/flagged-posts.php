@@ -218,76 +218,6 @@ add_action('wp_ajax_save_bulk_flag_status', function () {
 });
 
  
-
-
-
-
-    // Make the column toggleable in Screen Options
-//     add_filter('get_user_option_screen_columns', function($columns, $screen_id) use ($screen) {
-//         if ($screen_id === $screen->id) {
-//             $columns['flagged'] = 1;
-//         }
-//         return $columns;
-//     }, 10, 2);
-// });
-
-// add_action('pre_get_posts', function($query) {
-//     if (is_admin() || !$query->is_main_query()) return;
-
-//     // Allow flagged posts to show inside shortcode
-//     if (!empty($GLOBALS['flagged_posts_shortcode'])) return;
-
-//     // Only run for post-type public front-end queries
-//     if (
-//         $query->is_home() ||
-//         $query->is_archive() ||
-//         $query->is_category() ||
-//         $query->is_tag() ||
-//         $query->is_author() ||
-//         $query->is_search()
-//     ) {
-//         $meta_query = $query->get('meta_query') ?: [];
-
-//         // Explicitly exclude posts where _is_flagged = 1
-//         $meta_query[] = [
-//             'key'     => '_is_flagged',
-//             'compare' => 'NOT EXISTS' // default: allow all unflagged
-//         ];
-//         $meta_query[] = [
-//             'key'     => '_is_flagged',
-//             'value'   => '1',
-//             'compare' => '!=',
-//         ];
-
-//         $query->set('meta_query', $meta_query);
-//     }
-// });
-
-
-
-
-// Meta box (visible to all roles with post editing capabilities)
-// add_action('add_meta_boxes', function () {
-//     $post_types = get_post_types(['public' => true], 'names');
-//     foreach ($post_types as $post_type) {
-//         add_meta_box('flag_post', 'Flag this Post', function ($post) {
-//             $value = get_post_meta($post->ID, '_is_flagged', true);
-//             echo '<label><input type="checkbox" name="is_flagged" value="1" ' . checked($value, '1', false) . '> Flag this post</label>';
-//         }, $post_type, 'side');
-//     }
-// });
-
-// Save the flag status
-// add_action('save_post', function ($post_id) {
-//     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
-
-//     if (isset($_POST['is_flagged'])) {
-//         update_post_meta($post_id, '_is_flagged', '1');
-//     } else {
-//         delete_post_meta($post_id, '_is_flagged');
-//     }
-// });
-
 // Hook into all front-end queries except inside flagged_posts shortcode
 add_filter('posts_where', function ($where, $query) {
     global $wpdb;
@@ -325,35 +255,6 @@ add_filter('posts_clauses', function ($clauses, $query) {
 
     return $clauses;
 }, 10, 2);
-
-
-
-
-
-// // Global filter to hide flagged posts
-// add_filter('posts_where', function ($where, $query) {
-//     global $wpdb;
-
-//     // Allow only inside the [flagged_posts] shortcode
-//     if (!empty($GLOBALS['flagged_posts_shortcode'])) {
-//         return $where;
-//     }
-
-//     // Skip admin and REST API
-//     if (is_admin() || defined('REST_REQUEST')) {
-//         return $where;
-//     }
-
-//     // Hide posts with meta_key = _is_flagged and value = 1
-//     $where .= " AND {$wpdb->posts}.ID NOT IN (
-//         SELECT post_id FROM {$wpdb->postmeta}
-//         WHERE meta_key = '_is_flagged' AND meta_value = '1'
-//     )";
-
-//     return $where;
-// }, 10, 2); 
-
-
 
 
 // Admin notices (only shown in admin screens)
