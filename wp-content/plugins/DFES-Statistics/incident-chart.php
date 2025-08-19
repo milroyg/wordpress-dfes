@@ -6,112 +6,109 @@ Version: 1.0
 Author: Milroy Gomes
 */
 
-// Enqueue scripts and styles
-function incident_chart_enqueue_scripts() {
-    // wp_enqueue_style('incident-chart-style', plugin_dir_url(__FILE__) . 'css/style.css');
-    wp_enqueue_script('chart-js', 'https://cdn.jsdelivr.net/npm/chart.js', array(), null, true);
-    // wp_enqueue_script('incident-chart-script', plugin_dir_url(__FILE__) . 'js/chart-script.js', array('jquery', 'chart-js'), null, true);
-    wp_localize_script('incident-chart-script', 'incidentChart', [
-        'ajax_url' => admin_url('admin-ajax.php'),
-    ]);
-}
-add_action('wp_enqueue_scripts', 'incident_chart_enqueue_scripts');
-
-add_action('admin_menu', 'incident_chart_admin_menu');
-
-function incident_chart_admin_menu() {
-    add_menu_page(
-        'Incident Chart CSV',
-        'Incident Chart CSV',
-        'manage_options',
-        'incident-chart-csv',
-        'incident_chart_admin_page'
-    );
-}
-
-function incident_chart_admin_page() {
-    if (isset($_POST['refresh_google_csv']) && check_admin_referer('refresh_google_csv_action', 'refresh_google_csv_nonce')) {
-        incident_chart_fetch_and_cache_csv();
-        wp_redirect(admin_url('admin.php?page=incident-chart-csv&refreshed=1'));
-        exit;
-    }
-
-    include(plugin_dir_path(__FILE__) . 'admin-page.php');
-}
-
-function incident_chart_fetch_and_cache_csv() {
-    $google_csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-.../pub?output=csv';
-
-    $response = wp_remote_get($google_csv_url);
-    if (is_wp_error($response)) return false;
-
-    $csv_content = wp_remote_retrieve_body($response);
-
-    $upload_dir = wp_upload_dir();
-    $csv_file_path = $upload_dir['basedir'] . '/incident-data.csv';
-
-    file_put_contents($csv_file_path, $csv_content);
-
-    // Save file path and timestamp
-    update_option('incident_chart_csv_path', $csv_file_path);
-    update_option('incident_chart_csv_last_updated', current_time('timestamp'));
-
-    return true;
-}
 
 
-add_action('wp_ajax_incident_chart_upload_csv', 'incident_chart_upload_csv');
 
-function incident_chart_upload_csv() {
-    if (!current_user_can('manage_options')) {
-        wp_send_json_error(['message' => 'Unauthorized']);
-        return;
-    }
+if (!defined('ABSPATH')) exit; // No direct access
 
-    if (!isset($_FILES['csv_file']) || $_FILES['csv_file']['error'] !== UPLOAD_ERR_OK) {
-        wp_send_json_error(['message' => 'No file uploaded or error occurred']);
-        return;
-    }
-
-    $file = $_FILES['csv_file'];
-
-    // Validate CSV file type
-    $file_type = mime_content_type($file['tmp_name']);
-    if ($file_type !== 'text/csv' && $file_type !== 'text/plain') {
-        wp_send_json_error(['message' => 'Invalid file type. Only CSV files are allowed.']);
-        return;
-    }
-
-    // Move the uploaded file
-    $upload_dir = wp_upload_dir();
-    wp_mkdir_p($upload_dir['path']);
-    $target_file = $upload_dir['path'] . '/' . uniqid('incident_', true) . '_' . basename($file['name']);
-
-    if (move_uploaded_file($file['tmp_name'], $target_file)) {
-        update_option('incident_chart_csv_path', $target_file);
-        wp_send_json_success(['message' => 'File uploaded successfully!', 'file' => $target_file]);
-    } else {
-        wp_send_json_error(['message' => 'Failed to upload file']);
+// 🔹 Shared helper: fetch Google Sheet CSV
+if ( ! function_exists('fetch_google_sheet_csv') ) {
+    function fetch_google_sheet_csv($csv_url) {
+        $response = wp_remote_get($csv_url);
+        if (is_wp_error($response)) {
+            return false;
+        }
+        $csv = wp_remote_retrieve_body($response);
+        $lines = explode("\n", $csv);
+        return array_map('str_getcsv', $lines);
     }
 }
 
 
+// 🔹 Include admin and shortcode logic
+require_once plugin_dir_path(__FILE__) . 'incident-chart.php';
 
-// Shortcode to display CSV data with chart, category dropdown, and table
-function incident_chart_shortcode() {
-    // Replace with your actual Google Sheet CSV *export* link (not edit/view link)
-    $google_csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3_xKr3khhEIr5QqAKaTs9b4xUnZlgOjyfBMmsclrt2fYfxJfXGlMKMltEnCAKBFDjqm5MkGPntnr4/pub?output=csv';
+class IncidentChartCSV {
 
-    $response = wp_remote_get($google_csv_url);
-    if (is_wp_error($response)) {
-        return '<p>Unable to fetch data from Google Sheet.</p>';
+    // Your published Google Sheets CSV link
+    // private $csv_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3_xKr3khhEIr5QqAKaTs9b4xUnZlgOjyfBMmsclrt2fYfxJfXGlMKMltEnCAKBFDjqm5MkGPntnr4/pub?output=csv';
+
+    public function __construct() {
+        // Core hooks
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_assets']);
+        add_action('admin_menu', [$this, 'register_admin_page']);
+        add_shortcode('incident_chart', [$this, 'render_shortcode']);
     }
 
-    $csv = wp_remote_retrieve_body($response);
+    /** -------------------------
+     * FRONTEND
+     * ------------------------- */
+    public function enqueue_assets() {
+        global $post;
+        if (is_a($post, 'WP_Post') && has_shortcode($post->post_content, 'incident_chart')) {
+            wp_enqueue_script('chart-js', 'https://cdn.jsdelivr.net/npm/chart.js', [], null, true);
+            wp_enqueue_style('incident-chart-style', plugin_dir_url(__FILE__) . 'assets/style.css', [], '1.0');
+        }
+    }
+
+   
+
+    /** -------------------------
+     * ADMIN
+     * ------------------------- */
+    public function register_admin_page() {
+        add_menu_page(
+            'Incident Chart CSV',
+            'Incident Chart CSV',
+            'manage_options',
+            'incident-chart-csv',
+            [$this, 'render_admin_page']
+        );
+    }
+
+    public function render_admin_page() {
+        // Handle refresh request
+        if (isset($_POST['refresh_google_csv']) && check_admin_referer('refresh_google_csv_action', 'refresh_google_csv_nonce')) {
+            $this->fetch_and_cache_csv();
+            wp_redirect(admin_url('admin.php?page=incident-chart-csv&refreshed=1'));
+            exit;
+        }
+
+        // Include your existing admin page UI
+        include plugin_dir_path(__FILE__) . 'admin-page.php';
+    }
+
+    public function fetch_and_cache_csv() {
+        $response = wp_remote_get($this->csv_url);
+        if (is_wp_error($response)) return false;
+
+        $csv_content = wp_remote_retrieve_body($response);
+        $upload_dir = wp_upload_dir();
+        $csv_file_path = $upload_dir['basedir'] . '/incident-data.csv';
+        file_put_contents($csv_file_path, $csv_content);
+
+        update_option('incident_chart_csv_path', $csv_file_path);
+        update_option('incident_chart_csv_last_updated', current_time('timestamp'));
+
+        return true;
+    }
+
+     /** -------------------------
+     * SHORTCODE
+     * ------------------------- */
+ public function render_shortcode() {
+    // ✅ Always use cached CSV set from admin-page.php
+    $csv_file_path = get_option('incident_chart_csv_path');
+
+    if (!$csv_file_path || !file_exists($csv_file_path)) {
+        return '<p>No cached data available. Please refresh from the admin panel.</p>';
+    }
+
+    $csv = file_get_contents($csv_file_path);
     $csv_lines = array_map('str_getcsv', explode("\n", trim($csv)));
 
     if (empty($csv_lines)) {
-        return '<p>No data found in Google Sheet.</p>';
+        return '<p>No data found in cached CSV.</p>';
     }
 
     // Extract headers
@@ -124,34 +121,35 @@ function incident_chart_shortcode() {
         if (count($row) < 3) continue;
 
         $stat_type = esc_html(trim($row[0]));
-        $year = esc_html(trim($row[1]));
-        $figure = (float)trim($row[2]);
+        $year      = esc_html(trim($row[1]));
+        $figure    = (float) trim($row[2]);
 
         if (!isset($data[$stat_type])) {
             $data[$stat_type] = [];
         }
 
         $data[$stat_type][] = [
-            'year' => $year,
+            'year'   => $year,
             'figure' => $figure
         ];
 
+        // Keep latest year for table
         if (
             !isset($tableData[$stat_type]) ||
             (isset($tableData[$stat_type]['year']) && $year > $tableData[$stat_type]['year'])
         ) {
             $tableData[$stat_type] = [
-                'year' => $year,
+                'year'   => $year,
                 'figure' => $figure
             ];
         }
-        
     }
 
     $first_category = array_keys($data)[0] ?? '';
 
     ob_start();
     ?>
+    
     <div class="incident-chart-container">
         <h3>Select Criteria</h3>
         <label for="category-filter" class="screen-reader-text">Select Incident Category</label>
@@ -311,26 +309,31 @@ function renderChart(category) {
                         minRotation: 45
                     }
                 },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'No. of Units',
-                        color: '#555',
-                        font: {
-                            size: 14,
-                            style: 'italic',
-                            weight: 'bold'
-                        }
-                    },
-                    ticks: {
-                        stepSize: stepSize,               // Dynamic step size
-                        callback: function(value) {
-                            return value.toLocaleString();  // Add comma separator
-                        }
-                    },
-                    min: roundedMin,                      // Rounded minimum
-                    max: roundedMax                       // Rounded maximum
-                }
+               y: {
+    title: {
+        display: true,
+        text: 'No. of Units',
+        color: '#555',
+        font: {
+            size: 14,
+            style: 'italic',
+            weight: 'bold'
+        }
+    },
+    ticks: {
+        stepSize: stepSize,               
+        callback: function(value) {
+            // ✅ Only show whole numbers
+            if (Number.isInteger(value)) {
+                return value.toLocaleString();
+            }
+            return null; // hides decimal tick labels
+        }
+    },
+    min: roundedMin,                      
+    max: roundedMax                       
+}
+
             }
         }
     });
@@ -443,84 +446,19 @@ renderChart("<?php echo $first_category; ?>");
     });
 </script>
 
-    <!-- <style>
-        #category-filter{
-            color:#000;
-        }
-        
-        .incident-chart-container, .incident-table-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        table, table th, table td{
-            border:3px solid rgb(255 255 255);
-        }
-
-        select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            font-size: 16px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color:#F5F5F5;
-            color:black;
-        }
-
-        th, td {
-            padding: 12px;
-            border: 1px solid #ccc;
-            text-align: center;
-        }
-
-        th {
-            background: rgb(22, 32, 59);
-            color: #fff;
-        }
-
-        canvas {
-            max-width: 100%;
-            height: auto;
-        }
-    </style> -->
-
     <?php
     return ob_get_clean();
 }
-add_shortcode('incident_chart', 'incident_chart_shortcode');
 
-add_action('wp_enqueue_scripts', function () {
-    global $post;
-
-    if (is_a($post, 'WP_Post') && has_shortcode($post->post_content, 'incident_chart')) {
-        wp_enqueue_style(
-            'incident-chart-style',
-            plugin_dir_url(__FILE__) . 'assets/style.css',
-            [],
-            '1.0'
-        );
-    }
-});
-
-
-add_action('wp_ajax_incident_chart_delete_csv', 'incident_chart_delete_csv_file');
-
-function incident_chart_delete_csv_file() {
-    $file_path = get_option('incident_chart_csv_path');
-
-    if ($file_path && file_exists($file_path)) {
-        unlink($file_path); // Delete the file
-        delete_option('incident_chart_csv_path'); // Clear the option
-
-        wp_send_json_success(['message' => 'CSV file deleted successfully.']);
-    } else {
-        wp_send_json_error(['message' => 'CSV file not found.']);
+    private function get_cached_csv() {
+        $csv_file_path = get_option('incident_chart_csv_path');
+        if ($csv_file_path && file_exists($csv_file_path)) {
+            return file_get_contents($csv_file_path);
+        }
+        return false;
     }
 }
 
+// Initialize plugin
+new IncidentChartCSV();
 

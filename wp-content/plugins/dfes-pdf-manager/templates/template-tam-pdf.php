@@ -9,10 +9,13 @@ if ($pdf_url) :
 <head>
     <meta charset="UTF-8">
     <title><?php echo esc_html(get_the_title()); ?></title>
+    <meta name="robots" content="noindex, nofollow">
     <script>
         window.onload = function() {
             window.open("<?php echo esc_url($pdf_url); ?>", "_blank");
-            window.location.href = "<?php echo esc_url(home_url()); ?>"; // Optionally redirect elsewhere
+             setTimeout(function() {
+                window.location.href = "<?php echo esc_url(home_url()); ?>"; 
+            }, 800);
         };
     </script>
     <style>
@@ -26,7 +29,7 @@ if ($pdf_url) :
 </head>
 <body>
     <p>Opening PDF... <a href="<?php echo esc_url($pdf_url); ?>" target="_blank">Click here if it doesn't open.</a></p>
-</body>
+
 </html>
 <?php
 else :
