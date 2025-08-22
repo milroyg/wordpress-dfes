@@ -1,0 +1,30 @@
+/*** Client Section ***/
+
+.client-items .item {
+    display: inline-block;
+}
+
+.client-items .item img {
+    display: inline-block;
+    -webkit-filter: saturate(0%);
+    filter: saturate(0%);
+    -webkit-transition: all 0.3s ease-out 0s;
+    -moz-transition: all 0.3s ease-out 0s;
+    -ms-transition: all 0.3s ease-out 0s;
+    -o-transition: all 0.3s ease-out 0s;
+    transition: all 0.3s ease-out 0s;
+    opacity: .4;
+    margin: 11px 0;
+}
+
+.client-items .item img:hover {
+    display: inline-block;
+    -webkit-filter: saturate(1000%);
+    filter: saturate(100%);
+    opacity: 1;
+}
+
+.client-section {
+    padding: 90px 0;
+    padding-bottom: 75px;
+}

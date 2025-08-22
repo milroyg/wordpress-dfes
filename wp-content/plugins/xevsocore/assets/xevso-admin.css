@@ -1,0 +1,50 @@
+.kc-param-row.field-radio.field-base-xevso_tsml_option-xevso_tsml_ratting .kc-radio-field-wrp label.rbtn {
+    float: none;
+    margin: 3px;
+}
+
+input#post_video_format_metabox {
+    width: 100%;
+    margin: 20px 0;
+    padding: 10px;
+}
+
+.xevso-widget-infoimg-box {
+    width: 100px;
+    height: 100px;
+    clear: both;
+    display: block;
+    margin-bottom: 32px;
+    padding-top: 11px;
+}
+
+.xevso-widget-infoimg-box img {
+    width: 100%;
+    box-shadow: 0px 0px 8px 0px #bbbbbb;
+    padding: 10px;
+    height: 100%;
+    object-fit: contain;
+    background-color: #eaeaea;
+}
+
+#xevso_pfv_meta,
+#xevso_pfa_meta,
+#xevso_pfg_meta {
+    display: none;
+}
+
+div#xevso_page_meta_options .cs-field-select select {
+    max-width: 159px !important;
+    width: 100%;
+    padding: 10px;
+}
+
+div#cs-tab-xevso_header_style_options .cs-field-image-select>label {
+    padding: 10px 0;
+}
+
+div#xevso_page_meta_options>h2 {
+    background-color: rgba(11, 91, 224, 0.78);
+    color: #fff !important;
+    border-bottom: 1px solid rgba(64, 127, 231, 0.76) !important;
+}

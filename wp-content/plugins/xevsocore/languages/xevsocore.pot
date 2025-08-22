@@ -1,0 +1,2537 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: xevso Core\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-15 19:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.5.3; wp-5.8.1\n"
+"X-Domain: xevsocore"
+
+#: addons/widgets/contact-box.php:163
+msgid ""
+"\n"
+"\t\t\t\t    <ul>\n"
+"\t\t\t\t    \t<li>24info@example.com</li>\n"
+"\t\t\t\t    \t<li>support@example.com</li>\n"
+"\t\t\t\t    </ul>"
+msgstr ""
+
+#: addons/widgets/pricing.php:140 addons/widgets/pricing-two.php:132
+#: addons/widgets/pricing-two.php:245
+msgid ""
+"\n"
+"\t\t\t\t    <ul>\n"
+"\t\t\t\t    \t<li>Brandwidth: <strong>2GB</strong></li>\n"
+"\t\t\t\t    \t<li>Clint & Product: <strong>2GB</strong></li>\n"
+"\t\t\t\t    \t<li>onlinespace: <strong>2GB</strong></li>\n"
+"\t\t\t\t    \t<li>Domain: <strong>2</strong></li>\n"
+"\t\t\t\t    \t<li>Hidden Fees: <strong>0</strong></li>\n"
+"\t\t\t\t    </ul>"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:177 addons/widgets/pricing-two.php:290
+msgid ""
+"\n"
+"                            <ul>\n"
+"                                <li>Brandwidth: <strong>2GB</strong></li>\n"
+"                                <li>Clint & Product: <strong>2GB</strong>"
+"</li>\n"
+"                                <li>onlinespace: <strong>2GB</strong></li>\n"
+"                                <li>Domain: <strong>2</strong></li>\n"
+"                                <li>Hidden Fees: <strong>0</strong></li>\n"
+"                            </ul>"
+msgstr ""
+
+#: addons/widgets/project.php:415 addons/widgets/project.php:451
+msgid " Typography"
+msgstr ""
+
+#. 1: Plugin name 2: Elementor
+#: addons/control/messing-notice.php:9
+#, php-format
+msgid "\"%1$s\" requires \"%2$s\" to be installed and activated."
+msgstr ""
+
+#. 1: Plugin name 2: Elementor 3: Required Elementor version
+#. 1: Plugin name 2: PHP 3: Required PHP version
+#: addons/control/miniv-notice.php:9 addons/control/minivp-notice.php:8
+#, php-format
+msgid "\"%1$s\" requires \"%2$s\" version %3$s or greater."
+msgstr ""
+
+#: inc/custom-widgets.php:59 inc/custom-widgets.php:64
+msgid "#"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:288
+msgid "$10"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:175
+msgid "$30"
+msgstr ""
+
+#: inc/custom-widgets.php:62
+msgid "(+02) 1800 5656 3010"
+msgstr ""
+
+#: addons/widgets/counter.php:117 addons/widgets/counter-two.php:237
+#: addons/widgets/progress.php:152
+msgid "+"
+msgstr ""
+
+#: inc/core-function.php:25
+msgid "-- Select Page --"
+msgstr ""
+
+#: inc/core-function.php:9
+msgid "-- Select Slider --"
+msgstr ""
+
+#: addons/widgets/blog.php:112 addons/widgets/testimonial.php:148
+msgid "1"
+msgstr ""
+
+#: inc/custom-widgets.php:53
+msgid "184 Main Rd E, St Albans VIC 3021, Australia"
+msgstr ""
+
+#: addons/widgets/blog.php:113 addons/widgets/testimonial.php:151
+msgid "2"
+msgstr ""
+
+#: addons/widgets/blog.php:114 addons/widgets/testimonial.php:154
+msgid "3"
+msgstr ""
+
+#: addons/widgets/testimonial.php:157
+msgid "4"
+msgstr ""
+
+#: addons/widgets/testimonial.php:160
+msgid "5"
+msgstr ""
+
+#: addons/widgets/counter-two.php:219
+msgid "555"
+msgstr ""
+
+#: addons/widgets/testimonial.php:171
+msgid "7"
+msgstr ""
+
+#: addons/widgets/about.php:118
+msgid ""
+"<p>On the other hand, we denounce with righteous indiation and dislike men "
+"who are so beguiled and demoralized by the charms of pleasure of the moment, "
+"so blinded desire, that they cannot foresee the pain and trouble that arund "
+"to ensue; and equal blame belongs. \n"
+"\t\t\t\t\t<ul>\n"
+"\t\t\t\t\t\t<li>IT Solutions</li>\n"
+"\t\t\t\t\t\t<li>IT Consulting</li>\n"
+"\t\t\t\t\t\t<li>IT Services</li>\n"
+"\t\t\t\t\t\t<li>IT Insurance</li>\n"
+"\t\t\t\t\t</ul></p>"
+msgstr ""
+
+#: addons/widgets/team.php:236 addons/widgets/team-two.php:236
+msgid "<strong> Small Title Options</strong>"
+msgstr ""
+
+#: addons/widgets/buttons.php:323
+msgid "<strong>Busston Style Two Static Test </strong>"
+msgstr ""
+
+#: addons/widgets/buttons.php:257 addons/widgets/promo-content.php:447
+msgid "<strong>Button Hover Section</strong>"
+msgstr ""
+
+#: addons/widgets/project.php:495
+msgid "<strong>Hover Section</strong>"
+msgstr ""
+
+#: addons/widgets/team.php:382 addons/widgets/team-two.php:382
+msgid "<strong>Icon Hover  Options</strong>"
+msgstr ""
+
+#: addons/widgets/team.php:340 addons/widgets/team-two.php:340
+msgid "<strong>Icon Hover box Options</strong>"
+msgstr ""
+
+#: addons/widgets/project.php:596
+msgid "<strong>image Hover background color</strong>"
+msgstr ""
+
+#: addons/widgets/contact-box.php:318
+msgid "<strong>Image ICON</string>"
+msgstr ""
+
+#: addons/widgets/about.php:100
+msgid "About Us"
+msgstr ""
+
+#: addons/widgets/project-two.php:214
+msgid "Active / Hover Background"
+msgstr ""
+
+#: addons/widgets/project.php:481
+msgid "active Background"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:688
+msgid "Active BG Color"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:678
+msgid "Active Color"
+msgstr ""
+
+#: addons/widgets/project.php:469
+msgid "Active color"
+msgstr ""
+
+#: addons/widgets/flipbox.php:113 addons/widgets/flipbox.php:226
+msgid "Add Button Link"
+msgstr ""
+
+#: addons/widgets/about.php:186 addons/widgets/buttons.php:130
+#: addons/widgets/clients.php:142 addons/widgets/contact-message.php:135
+#: addons/widgets/promo-content.php:174 addons/widgets/service.php:211
+#: addons/widgets/slider.php:149 addons/widgets/support.php:148
+#: addons/widgets/title.php:149
+msgid "Add Extranal Link"
+msgstr ""
+
+#: inc/custom-widgets.php:33
+msgid "Add Information"
+msgstr ""
+
+#: inc/custom-widgets.php:210 inc/custom-widgets.php:224
+msgid "Add Link"
+msgstr ""
+
+#: inc/custom-widgets.php:188
+msgid "Add Newsletter Info"
+msgstr ""
+
+#: inc/custom-widgets.php:225
+msgid "Add Newsletter Link from your Account"
+msgstr ""
+
+#: inc/custom-widgets.php:217
+msgid "Add Shortcode"
+msgstr ""
+
+#: inc/custom-widgets.php:218
+msgid "Add Shortcode from Mailchip wordpress Plugin"
+msgstr ""
+
+#: inc/custom-widgets.php:292
+msgid "Add Social Links"
+msgstr ""
+
+#: inc/custom-widgets.php:200
+msgid "Add Sort Description"
+msgstr ""
+
+#: inc/custom-widgets.php:7
+msgid "Add Your Contact Info"
+msgstr ""
+
+#: inc/custom-widgets.php:117
+msgid "Add your Contact Info"
+msgstr ""
+
+#: inc/custom-widgets.php:362
+msgid "Add Your Nav Nemu"
+msgstr ""
+
+#: inc/custom-widgets.php:277
+msgid "Add Your Social Info"
+msgstr ""
+
+#: addons/widgets/blog.php:156
+msgid "Aligment"
+msgstr ""
+
+#: addons/widgets/blog.php:235
+msgid "aligment"
+msgstr ""
+
+#: addons/widgets/buttons.php:550 addons/widgets/contact-box.php:189
+#: addons/widgets/counter-two.php:264 addons/widgets/counter-two.php:525
+#: addons/widgets/counter-two.php:673 addons/widgets/flipbox.php:263
+#: addons/widgets/icon-box.php:128 addons/widgets/pricing.php:191
+#: addons/widgets/pricing-two.php:321 addons/widgets/pricing-two.php:488
+#: addons/widgets/progress.php:187 addons/widgets/project.php:332
+#: addons/widgets/project-two.php:151 addons/widgets/service.php:588
+#: addons/widgets/service.php:672 addons/widgets/slider.php:369
+#: addons/widgets/support.php:252 addons/widgets/testimonial.php:144
+#: addons/widgets/title.php:282
+msgid "Alignment"
+msgstr ""
+
+#: addons/widgets/project.php:952 addons/widgets/project-two.php:427
+msgid "all"
+msgstr ""
+
+#: addons/widgets/pricing.php:363
+msgid "Amount"
+msgstr ""
+
+#: addons/widgets/pricing.php:129 addons/widgets/pricing.php:137
+#: addons/widgets/pricing-two.php:121 addons/widgets/pricing-two.php:234
+msgid "Amount with Currency "
+msgstr ""
+
+#: addons/widgets/pricing-two.php:242
+msgid "Amount with Description "
+msgstr ""
+
+#: addons/widgets/dot-shape.php:30
+msgid "Animation"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:93 addons/widgets/shape.php:125
+msgid "Animation Duration"
+msgstr ""
+
+#: addons/widgets/testimonial.php:137 addons/widgets/testimonial.php:185
+msgid ""
+"At vero eos et accusamus et iusto odio ducimus qui praesentium voluptatum "
+"demtor eos et accus accus leniti atque corrupti quos dolores. excepturi sint "
+"occaecati cupiditate non provident,  similique sunt in culpa qui officia "
+"deserunt mollitia. "
+msgstr ""
+
+#: addons/widgets/about.php:474 addons/widgets/about.php:531
+#: addons/widgets/about-video.php:151 addons/widgets/blog.php:472
+#: addons/widgets/blog.php:529 addons/widgets/buttons.php:420
+#: addons/widgets/buttons.php:477 addons/widgets/contact-message.php:271
+#: addons/widgets/contact-message.php:328 addons/widgets/counter-two.php:291
+#: addons/widgets/flipbox.php:689 addons/widgets/flipbox.php:1137
+#: addons/widgets/icon-box.php:194 addons/widgets/icon-box.php:226
+#: addons/widgets/pricing.php:523 addons/widgets/pricing.php:580
+#: addons/widgets/pricing-two.php:382 addons/widgets/pricing-two.php:434
+#: addons/widgets/pricing-two.php:826 addons/widgets/pricing-two.php:843
+#: addons/widgets/pricing-two.php:932 addons/widgets/pricing-two.php:959
+#: addons/widgets/project.php:726 addons/widgets/project.php:783
+#: addons/widgets/service.php:276 addons/widgets/service.php:318
+#: addons/widgets/service.php:397 addons/widgets/slider.php:666
+#: addons/widgets/slider.php:692 addons/widgets/slider.php:887
+#: addons/widgets/slider.php:962 addons/widgets/support.php:698
+#: addons/widgets/support.php:755 addons/widgets/testimonial.php:304
+#: addons/widgets/testimonial.php:381 addons/widgets/title.php:374
+#: addons/widgets/title.php:431
+msgid "Background"
+msgstr ""
+
+#: addons/widgets/flipbox.php:632 addons/widgets/flipbox.php:1006
+#: addons/widgets/flipbox.php:1076 addons/widgets/pricing-two.php:558
+#: addons/widgets/project.php:604
+msgid "Background Color"
+msgstr ""
+
+#: addons/widgets/support.php:216 addons/widgets/support.php:324
+msgid "Background color"
+msgstr ""
+
+#: addons/widgets/project-two.php:203
+msgid "background Color"
+msgstr ""
+
+#: addons/widgets/buttons.php:212 addons/widgets/buttons.php:275
+#: addons/widgets/promo-content.php:425 addons/widgets/promo-content.php:466
+msgid "background color"
+msgstr ""
+
+#: addons/widgets/support.php:192
+msgid "Background Icon"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:616
+msgid "BG Color"
+msgstr ""
+
+#: addons/widgets/about.php:483 addons/widgets/about.php:540
+#: addons/widgets/blog.php:481 addons/widgets/blog.php:538
+#: addons/widgets/buttons.php:429 addons/widgets/buttons.php:486
+#: addons/widgets/clients.php:319 addons/widgets/contact-message.php:280
+#: addons/widgets/contact-message.php:337 addons/widgets/counter-two.php:305
+#: addons/widgets/flipbox.php:396 addons/widgets/flipbox.php:643
+#: addons/widgets/flipbox.php:698 addons/widgets/flipbox.php:793
+#: addons/widgets/flipbox.php:1017 addons/widgets/flipbox.php:1087
+#: addons/widgets/flipbox.php:1146 addons/widgets/icon-box.php:203
+#: addons/widgets/icon-box.php:235 addons/widgets/pricing.php:184
+#: addons/widgets/pricing.php:532 addons/widgets/pricing.php:589
+#: addons/widgets/project.php:735 addons/widgets/project.php:792
+#: addons/widgets/promo-content.php:434 addons/widgets/service.php:293
+#: addons/widgets/service.php:335 addons/widgets/service.php:406
+#: addons/widgets/support.php:226 addons/widgets/support.php:333
+#: addons/widgets/support.php:707 addons/widgets/support.php:764
+#: addons/widgets/title.php:383 addons/widgets/title.php:440
+msgid "Border"
+msgstr ""
+
+#: addons/widgets/counter-two.php:457 addons/widgets/progress.php:137
+msgid "Border Color"
+msgstr ""
+
+#: addons/widgets/pricing.php:445
+msgid "border Color"
+msgstr ""
+
+#: addons/widgets/service.php:503
+msgid "border color"
+msgstr ""
+
+#: addons/widgets/service.php:530
+msgid "border Hover"
+msgstr ""
+
+#: addons/widgets/about.php:490 addons/widgets/about.php:547
+#: addons/widgets/blog.php:488 addons/widgets/blog.php:545
+#: addons/widgets/buttons.php:436 addons/widgets/buttons.php:493
+#: addons/widgets/contact-message.php:287
+#: addons/widgets/contact-message.php:344 addons/widgets/flipbox.php:650
+#: addons/widgets/flipbox.php:705 addons/widgets/flipbox.php:1024
+#: addons/widgets/flipbox.php:1094 addons/widgets/flipbox.php:1153
+#: addons/widgets/pricing.php:539 addons/widgets/pricing.php:596
+#: addons/widgets/pricing-two.php:390 addons/widgets/pricing-two.php:442
+#: addons/widgets/pricing-two.php:568 addons/widgets/pricing-two.php:626
+#: addons/widgets/pricing-two.php:999 addons/widgets/project.php:742
+#: addons/widgets/project.php:799 addons/widgets/service.php:300
+#: addons/widgets/service.php:342 addons/widgets/slider.php:895
+#: addons/widgets/support.php:233 addons/widgets/support.php:340
+#: addons/widgets/support.php:714 addons/widgets/support.php:771
+#: addons/widgets/testimonial.php:314 addons/widgets/testimonial.php:389
+#: addons/widgets/testimonial.php:478 addons/widgets/title.php:390
+#: addons/widgets/title.php:447
+msgid "Border Radius"
+msgstr ""
+
+#: addons/widgets/counter-two.php:472
+msgid "Border Width"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:52 addons/widgets/shape.php:44
+msgid "Bounce"
+msgstr ""
+
+#: addons/widgets/buttons.php:519 addons/widgets/counter-two.php:253
+#: addons/widgets/icon-box.php:121 addons/widgets/project.php:614
+#: addons/widgets/slider.php:362
+msgid "Box"
+msgstr ""
+
+#: addons/widgets/promo-content.php:208 addons/widgets/support.php:201
+msgid "box"
+msgstr ""
+
+#: addons/widgets/counter.php:132
+msgid "Box Alignment"
+msgstr ""
+
+#: addons/widgets/team.php:348 addons/widgets/team-two.php:348
+msgid "box Background"
+msgstr ""
+
+#: addons/widgets/counter.php:177
+msgid "Box Margin"
+msgstr ""
+
+#: addons/widgets/counter.php:158
+msgid "Box Padding"
+msgstr ""
+
+#: addons/widgets/about-video.php:232 addons/widgets/icon-box.php:211
+#: addons/widgets/icon-box.php:243 addons/widgets/pricing-two.php:418
+#: addons/widgets/pricing-two.php:470 addons/widgets/promo-content.php:240
+#: addons/widgets/service.php:285 addons/widgets/service.php:327
+#: addons/widgets/service.php:414 addons/widgets/testimonial.php:342
+#: addons/widgets/testimonial.php:417 addons/widgets/testimonial.php:501
+msgid "Box Shadow"
+msgstr ""
+
+#: addons/widgets/contact-box.php:182 addons/widgets/pricing-two.php:314
+#: addons/widgets/service.php:239
+msgid "Box Style"
+msgstr ""
+
+#: addons/widgets/progress.php:274 addons/widgets/testimonial.php:289
+msgid "box Style"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:51 addons/widgets/shape.php:43
+msgid "Bubble Mover"
+msgstr ""
+
+#: addons/widgets/slider.php:168
+msgid "Buttn Text"
+msgstr ""
+
+#: addons/widgets/about.php:409 addons/widgets/blog.php:407
+#: addons/widgets/contact-message.php:206 addons/widgets/pricing.php:458
+#: addons/widgets/slider.php:569 addons/widgets/support.php:633
+#: addons/widgets/title.php:309
+msgid "Button"
+msgstr ""
+
+#: addons/widgets/slider.php:279
+msgid "Button Animation"
+msgstr ""
+
+#: addons/widgets/slider.php:288
+msgid "Button Animation Delay"
+msgstr ""
+
+#: addons/widgets/flipbox.php:576 addons/widgets/flipbox.php:973
+msgid "Button CSS"
+msgstr ""
+
+#: addons/widgets/flipbox.php:1057
+msgid "Button Hover"
+msgstr ""
+
+#: addons/widgets/promo-content.php:387
+msgid "button Icon Size"
+msgstr ""
+
+#: addons/widgets/pricing.php:160 addons/widgets/pricing-two.php:152
+#: addons/widgets/pricing-two.php:265
+msgid "button Link"
+msgstr ""
+
+#: addons/widgets/buttons.php:159 addons/widgets/support.php:167
+#: addons/widgets/title.php:168
+msgid "Button Link Text"
+msgstr ""
+
+#: addons/widgets/flipbox.php:987
+msgid "Button Normal"
+msgstr ""
+
+#: addons/widgets/project.php:258
+msgid "button Position Bottom"
+msgstr ""
+
+#: addons/widgets/project.php:280
+msgid "button Position Right"
+msgstr ""
+
+#: addons/widgets/about.php:150 addons/widgets/contact-message.php:106
+#: addons/widgets/flipbox.php:131 addons/widgets/flipbox.php:244
+#: addons/widgets/icon-box.php:109 addons/widgets/pricing.php:167
+#: addons/widgets/pricing-two.php:160 addons/widgets/pricing-two.php:273
+msgid "Button Text"
+msgstr ""
+
+#: addons/widgets/buttons.php:352 addons/widgets/project.php:661
+msgid "Button Three"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:968
+msgid "Button Typography"
+msgstr ""
+
+#: addons/widgets/promo-content.php:380
+msgid "Buttons"
+msgstr ""
+
+#: addons/widgets/project.php:443
+msgid "Category Menu"
+msgstr ""
+
+#: addons/widgets/project-two.php:304
+msgid "Category Typography"
+msgstr ""
+
+#: addons/widgets/project-two.php:311
+msgid "Categry Color Color"
+msgstr ""
+
+#: addons/widgets/blog.php:164 addons/widgets/blog.php:243
+#: addons/widgets/buttons.php:558 addons/widgets/contact-box.php:197
+#: addons/widgets/counter.php:140 addons/widgets/counter-two.php:272
+#: addons/widgets/counter-two.php:533 addons/widgets/counter-two.php:681
+#: addons/widgets/flipbox.php:271 addons/widgets/icon-box.php:136
+#: addons/widgets/pricing.php:199 addons/widgets/pricing-two.php:329
+#: addons/widgets/pricing-two.php:496 addons/widgets/progress.php:195
+#: addons/widgets/project.php:340 addons/widgets/project-two.php:159
+#: addons/widgets/service.php:596 addons/widgets/service.php:680
+#: addons/widgets/slider.php:377 addons/widgets/support.php:260
+#: addons/widgets/title.php:290
+msgid "Center"
+msgstr ""
+
+#: addons/widgets/testimonial.php:129 addons/widgets/testimonial.php:184
+msgid "CEO & Founder"
+msgstr ""
+
+#: addons/widgets/buttons.php:161
+msgid "Check Our Protfolo"
+msgstr ""
+
+#: addons/widgets/support.php:107
+msgid ""
+"Check out our In-App Help, Blog, and Youtube Channel. You can also email our "
+"support team at support@avso.com."
+msgstr ""
+
+#: addons/widgets/shape.php:144
+msgid "Choose Image"
+msgstr ""
+
+#: addons/widgets/service.php:97
+msgid "Choose Style"
+msgstr ""
+
+#: addons/widgets/slider.php:109 addons/widgets/slider.php:344
+msgid "Choose Your IT Solution For Good Business!"
+msgstr ""
+
+#: addons/widgets/clients.php:166
+msgid "Client Iamge"
+msgstr ""
+
+#: addons/widgets/clients.php:98
+msgid "Client Logo"
+msgstr ""
+
+#: addons/widgets/clients.php:161
+msgid "Clients"
+msgstr ""
+
+#: addons/widgets/about.php:462 addons/widgets/about.php:519
+#: addons/widgets/blog.php:193 addons/widgets/blog.php:299
+#: addons/widgets/blog.php:460 addons/widgets/blog.php:517
+#: addons/widgets/buttons.php:201 addons/widgets/buttons.php:264
+#: addons/widgets/buttons.php:408 addons/widgets/buttons.php:465
+#: addons/widgets/contact-box.php:361 addons/widgets/contact-box.php:387
+#: addons/widgets/contact-message.php:259
+#: addons/widgets/contact-message.php:316 addons/widgets/counter-two.php:395
+#: addons/widgets/counter-two.php:554 addons/widgets/counter-two.php:702
+#: addons/widgets/dot-shape.php:248 addons/widgets/flipbox.php:622
+#: addons/widgets/flipbox.php:996 addons/widgets/flipbox.php:1066
+#: addons/widgets/pricing.php:271 addons/widgets/pricing.php:321
+#: addons/widgets/pricing.php:345 addons/widgets/pricing.php:369
+#: addons/widgets/pricing.php:427 addons/widgets/pricing.php:511
+#: addons/widgets/pricing.php:568 addons/widgets/pricing-two.php:606
+#: addons/widgets/pricing-two.php:921 addons/widgets/project.php:714
+#: addons/widgets/project.php:771 addons/widgets/project-two.php:181
+#: addons/widgets/promo-content.php:281 addons/widgets/promo-content.php:413
+#: addons/widgets/promo-content.php:454 addons/widgets/service.php:636
+#: addons/widgets/slider.php:532 addons/widgets/slider.php:655
+#: addons/widgets/slider.php:681 addons/widgets/support.php:437
+#: addons/widgets/support.php:554 addons/widgets/support.php:617
+#: addons/widgets/support.php:686 addons/widgets/support.php:743
+#: addons/widgets/title.php:362 addons/widgets/title.php:419
+msgid "Color"
+msgstr ""
+
+#: addons/widgets/testimonial.php:576
+msgid "color"
+msgstr ""
+
+#: inc/custom-widgets.php:372
+msgid "Column"
+msgstr ""
+
+#: addons/widgets/blog.php:635
+msgid "Comments"
+msgstr ""
+
+#: addons/widgets/team.php:90 addons/widgets/team-two.php:90
+msgid "Configaration"
+msgstr ""
+
+#: addons/widgets/contact-info.php:99
+msgid "Contact Info"
+msgstr ""
+
+#: addons/widgets/contact-box.php:154 addons/widgets/contact-message.php:108
+msgid "Contact Us"
+msgstr ""
+
+#: inc/custom-widgets.php:38 addons/widgets/about.php:90
+#: addons/widgets/about-video.php:90 addons/widgets/blog.php:352
+#: addons/widgets/buttons.php:90 addons/widgets/clients.php:90
+#: addons/widgets/contact-box.php:90 addons/widgets/contact-info.php:90
+#: addons/widgets/contact-info.php:105 addons/widgets/contact-info.php:114
+#: addons/widgets/contact-message.php:90 addons/widgets/counter.php:90
+#: addons/widgets/counter-two.php:174 addons/widgets/pricing.php:90
+#: addons/widgets/progress.php:90 addons/widgets/project.php:90
+#: addons/widgets/promo-content.php:90 addons/widgets/promo-content.php:316
+#: addons/widgets/service.php:90 addons/widgets/slider.php:89
+#: addons/widgets/slider.php:116 addons/widgets/slider.php:578
+#: addons/widgets/support.php:90 addons/widgets/support.php:540
+#: addons/widgets/testimonial.php:90 addons/widgets/testimonial.php:135
+#: addons/widgets/title.php:90
+msgid "Content"
+msgstr ""
+
+#: addons/widgets/blog.php:89 addons/widgets/contact-box.php:160
+#: addons/widgets/contact-message.php:155
+msgid "content"
+msgstr ""
+
+#: addons/widgets/slider.php:251
+msgid "Content Animation"
+msgstr ""
+
+#: addons/widgets/slider.php:260
+msgid "Content Animation Delay"
+msgstr ""
+
+#: addons/widgets/project-two.php:350
+msgid "Content Background"
+msgstr ""
+
+#: addons/widgets/service.php:366
+msgid "Content Box"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:859 addons/widgets/service.php:423
+msgid "Content Color"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:869 addons/widgets/service.php:436
+msgid "Content Hover Color"
+msgstr ""
+
+#: addons/widgets/testimonial.php:587
+msgid "Content Icon color"
+msgstr ""
+
+#: addons/widgets/about.php:304
+msgid "Content List Typography"
+msgstr ""
+
+#: addons/widgets/contact-box.php:380 addons/widgets/pricing-two.php:852
+#: addons/widgets/testimonial.php:561
+msgid "Content Style"
+msgstr ""
+
+#: addons/widgets/progress.php:213
+msgid "Contents Style"
+msgstr ""
+
+#: addons/widgets/counter.php:99
+msgid "Counter Title"
+msgstr ""
+
+#: addons/widgets/promo-content.php:107
+msgid "Customer Service"
+msgstr ""
+
+#: addons/widgets/contact-info.php:116 addons/widgets/contact-info.php:135
+msgid "Dambo Dika US. Road 123"
+msgstr ""
+
+#: xevso-custom-post.php:24
+msgid "dashicons-groups"
+msgstr ""
+
+#: xevso-custom-post.php:12
+msgid "dashicons-image-filter"
+msgstr ""
+
+#: addons/widgets/about.php:115 addons/widgets/about.php:278
+#: addons/widgets/icon-box.php:75 addons/widgets/icon-box.php:398
+#: addons/widgets/service.php:229 addons/widgets/slider.php:517
+#: addons/widgets/slider.php:525
+msgid "Description"
+msgstr ""
+
+#: addons/widgets/flipbox.php:529 addons/widgets/flipbox.php:926
+#: addons/widgets/icon-box.php:413
+msgid "Description Color"
+msgstr ""
+
+#: addons/widgets/flipbox.php:521 addons/widgets/flipbox.php:918
+msgid "Description CSS"
+msgstr ""
+
+#: addons/widgets/icon-box.php:423
+msgid "Description Hver Color"
+msgstr ""
+
+#: addons/widgets/about.php:352
+msgid "Description Margin"
+msgstr ""
+
+#: addons/widgets/about.php:363
+msgid "Description Padding"
+msgstr ""
+
+#: addons/widgets/about.php:286
+msgid "Description Typography"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:120
+msgid "Dot Shape"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:226
+msgid "Dot Size"
+msgstr ""
+
+#: inc/core-function.php:88
+msgid "Dribbble"
+msgstr ""
+
+#: addons/control/messing-notice.php:11 addons/control/miniv-notice.php:11
+msgid "Elementor"
+msgstr ""
+
+#: addons/control/messing-notice.php:10 addons/control/miniv-notice.php:10
+#: addons/control/minivp-notice.php:9
+msgid "Elementor Test Extension"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:37
+msgid "Enable Animation"
+msgstr ""
+
+#: addons/widgets/clients.php:225
+msgid "Enable Auto Loop "
+msgstr ""
+
+#: addons/widgets/project.php:157 addons/widgets/team.php:122
+#: addons/widgets/team-two.php:122 addons/widgets/testimonial.php:228
+msgid "Enable Auto Play"
+msgstr ""
+
+#: addons/widgets/project.php:172 addons/widgets/team.php:136
+#: addons/widgets/team-two.php:136
+msgid "Enable Auto Play Speed"
+msgstr ""
+
+#: addons/widgets/flipbox.php:75 addons/widgets/flipbox.php:188
+#: addons/widgets/icon-box.php:98
+msgid "Enable Button"
+msgstr ""
+
+#: addons/widgets/about.php:139
+msgid "Enable Button "
+msgstr ""
+
+#: addons/widgets/promo-content.php:139 addons/widgets/title.php:114
+msgid "Enable Buttons"
+msgstr ""
+
+#: addons/widgets/clients.php:270
+msgid "Enable Dots "
+msgstr ""
+
+#: addons/widgets/flipbox.php:37 addons/widgets/flipbox.php:150
+msgid "Enable Icon"
+msgstr ""
+
+#: inc/custom-widgets.php:139
+msgid "Enable Image"
+msgstr ""
+
+#: addons/widgets/clients.php:106
+msgid "Enable Link"
+msgstr ""
+
+#: inc/custom-widgets.php:17
+msgid "Enable Logo"
+msgstr ""
+
+#: addons/widgets/clients.php:195
+msgid "Enable Loop "
+msgstr ""
+
+#: addons/widgets/project-two.php:97
+msgid "Enable Manu"
+msgstr ""
+
+#: inc/custom-widgets.php:133
+msgid "Enable Meta"
+msgstr ""
+
+#: addons/widgets/project.php:142 addons/widgets/team.php:108
+#: addons/widgets/team-two.php:108 addons/widgets/testimonial.php:214
+msgid "Enable Nav"
+msgstr ""
+
+#: addons/widgets/clients.php:256
+msgid "Enable Nav "
+msgstr ""
+
+#: addons/widgets/project.php:313 addons/widgets/project-two.php:132
+msgid "Enable Pagination"
+msgstr ""
+
+#: addons/widgets/project.php:127 addons/widgets/team.php:97
+#: addons/widgets/team-two.php:97 addons/widgets/testimonial.php:203
+msgid "Enable Slide ?"
+msgstr ""
+
+#: addons/widgets/clients.php:184
+msgid "Enable Slider "
+msgstr ""
+
+#: addons/widgets/project.php:204 addons/widgets/testimonial.php:258
+msgid "Enable Speed"
+msgstr ""
+
+#: addons/widgets/support.php:113
+msgid "Enable support_btns"
+msgstr ""
+
+#: addons/widgets/icon-box.php:64
+msgid "Enable Title Link"
+msgstr ""
+
+#: addons/widgets/slider.php:177
+msgid "Enable Video button"
+msgstr ""
+
+#: addons/widgets/slider.php:118
+msgid ""
+"Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla "
+"mauris sit amet nibh.sagittis magna.From helpdesk."
+msgstr ""
+
+#: addons/widgets/slider.php:345
+msgid ""
+"Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla "
+"mauris sit amet nibh.sagittis magna.From helpdesk. "
+msgstr ""
+
+#: inc/custom-widgets.php:57
+msgid "example@example.com"
+msgstr ""
+
+#: addons/widgets/about.php:166 addons/widgets/buttons.php:114
+#: addons/widgets/clients.php:122 addons/widgets/contact-message.php:119
+#: addons/widgets/promo-content.php:154 addons/widgets/service.php:195
+#: addons/widgets/slider.php:131 addons/widgets/support.php:128
+#: addons/widgets/title.php:129
+msgid "Extranal"
+msgstr ""
+
+#: addons/widgets/about.php:177 addons/widgets/buttons.php:122
+#: addons/widgets/clients.php:133 addons/widgets/contact-message.php:127
+#: addons/widgets/flipbox.php:91 addons/widgets/flipbox.php:204
+#: addons/widgets/promo-content.php:165 addons/widgets/service.php:203
+#: addons/widgets/slider.php:141 addons/widgets/support.php:139
+#: addons/widgets/title.php:140
+msgid "Extranal Link"
+msgstr ""
+
+#: inc/core-function.php:83 inc/core-function.php:104 inc/core-function.php:104
+#: inc/custom-widgets.php:312
+msgid "Facebook"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:58 addons/widgets/shape.php:50
+msgid "FadeIn"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:59 addons/widgets/shape.php:51
+msgid "FadeIn Down"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:60 addons/widgets/shape.php:52
+msgid "FadeIn Left"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:61 addons/widgets/shape.php:53
+msgid "FadeIn Right"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:62 addons/widgets/shape.php:54
+msgid "FadeIn Up"
+msgstr ""
+
+#: addons/widgets/slider.php:311
+msgid "fadeInUp"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:63 addons/widgets/shape.php:55
+msgid "FadeOut"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:64 addons/widgets/shape.php:56
+msgid "FadeOut Down"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:65 addons/widgets/shape.php:57
+msgid "FadeOut Left"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:66 addons/widgets/shape.php:58
+msgid "FadeOut Right"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:67 addons/widgets/shape.php:59
+msgid "FadeOut Up"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:54 addons/widgets/shape.php:46
+msgid "Flash"
+msgstr ""
+
+#: inc/admin/icons.php:411
+msgid "Flat Icons"
+msgstr ""
+
+#: addons/icons.php:2318
+msgid "Flaticon"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:68 addons/widgets/shape.php:60
+msgid "Flip"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:69 addons/widgets/shape.php:61
+msgid "FlipInX"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:70 addons/widgets/shape.php:62
+msgid "FlipInY"
+msgstr ""
+
+#: addons/widgets/service.php:744
+msgid "Font Icon Color"
+msgstr ""
+
+#: addons/widgets/contact-box.php:292 addons/widgets/service.php:512
+msgid "Font icon Hover"
+msgstr ""
+
+#: addons/widgets/contact-box.php:248 addons/widgets/service.php:459
+msgid "Font icon Normal"
+msgstr ""
+
+#: addons/widgets/contact-box.php:265 addons/widgets/pricing.php:249
+#: addons/widgets/service.php:476 addons/widgets/service.php:754
+msgid "Font Icon Size"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:914
+msgid "Footer Style"
+msgstr ""
+
+#: addons/widgets/support.php:169
+msgid "Get free more"
+msgstr ""
+
+#: addons/widgets/slider.php:874
+msgid "Glow Color"
+msgstr ""
+
+#: inc/core-function.php:108
+msgid "Google plus"
+msgstr ""
+
+#: addons/widgets/about.php:106 addons/widgets/contact-message.php:97
+#: addons/widgets/project.php:105 addons/widgets/project.php:108
+#: addons/widgets/project.php:325 addons/widgets/support.php:105
+#: addons/widgets/title.php:105 addons/widgets/title.php:231
+msgid "Hadding"
+msgstr ""
+
+#: addons/widgets/about.php:240 addons/widgets/contact-message.php:162
+#: addons/widgets/progress.php:177 addons/widgets/project.php:381
+#: addons/widgets/title.php:238
+msgid "Hadding Color"
+msgstr ""
+
+#: addons/widgets/project.php:392
+msgid "Hadding margin Right"
+msgstr ""
+
+#: addons/widgets/progress.php:162
+msgid "Hadding Style"
+msgstr ""
+
+#: addons/widgets/about.php:233
+msgid "Hadding Typography"
+msgstr ""
+
+#: addons/widgets/counter-two.php:201
+msgid "Happy Client"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:707
+msgid "Header Style"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:154 addons/widgets/flipbox.php:318
+#: addons/widgets/pricing-two.php:648 addons/widgets/slider.php:395
+#: addons/widgets/slider.php:733
+msgid "Height"
+msgstr ""
+
+#: addons/widgets/testimonial.php:456
+msgid "height"
+msgstr ""
+
+#: addons/widgets/blog.php:149 addons/widgets/dot-shape.php:40
+#: addons/widgets/flipbox.php:40 addons/widgets/flipbox.php:78
+#: addons/widgets/flipbox.php:153 addons/widgets/flipbox.php:191
+#: addons/widgets/icon-box.php:67 addons/widgets/icon-box.php:101
+#: addons/widgets/project.php:130 addons/widgets/project.php:145
+#: addons/widgets/project.php:160 addons/widgets/project.php:175
+#: addons/widgets/project.php:207 addons/widgets/project.php:316
+#: addons/widgets/project-two.php:100 addons/widgets/project-two.php:135
+#: addons/widgets/promo-content.php:142 addons/widgets/slider.php:180
+#: addons/widgets/support.php:116 addons/widgets/team.php:111
+#: addons/widgets/team.php:125 addons/widgets/team.php:139
+#: addons/widgets/team-two.php:111 addons/widgets/team-two.php:125
+#: addons/widgets/team-two.php:139 addons/widgets/testimonial.php:206
+#: addons/widgets/testimonial.php:217 addons/widgets/testimonial.php:231
+#: addons/widgets/testimonial.php:261 addons/widgets/title.php:117
+msgid "Hide"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:77 addons/widgets/shape.php:69
+msgid "Hinge"
+msgstr ""
+
+#: addons/widgets/about.php:513 addons/widgets/about-video.php:216
+#: addons/widgets/blog.php:511 addons/widgets/buttons.php:459
+#: addons/widgets/contact-message.php:310 addons/widgets/icon-box.php:219
+#: addons/widgets/pricing.php:562 addons/widgets/pricing-two.php:427
+#: addons/widgets/project.php:765 addons/widgets/service.php:311
+#: addons/widgets/service.php:647 addons/widgets/slider.php:675
+#: addons/widgets/slider.php:924 addons/widgets/support.php:317
+#: addons/widgets/support.php:520 addons/widgets/support.php:611
+#: addons/widgets/support.php:737 addons/widgets/testimonial.php:374
+#: addons/widgets/title.php:413
+msgid "Hover"
+msgstr ""
+
+#: addons/widgets/service.php:353
+msgid "Hover Animation"
+msgstr ""
+
+#: addons/widgets/about-video.php:223 addons/widgets/pricing-two.php:834
+#: addons/widgets/project.php:514
+msgid "Hover Background"
+msgstr ""
+
+#: addons/widgets/promo-content.php:475
+msgid "Hover Border"
+msgstr ""
+
+#: addons/widgets/slider.php:970
+msgid "Hover Border Radius"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:940
+msgid "Hover Button Color and Background Color"
+msgstr ""
+
+#: addons/widgets/blog.php:309 addons/widgets/pricing-two.php:948
+#: addons/widgets/project-two.php:192 addons/widgets/service.php:653
+msgid "Hover Color"
+msgstr ""
+
+#: addons/widgets/project.php:502
+msgid "Hover color"
+msgstr ""
+
+#: addons/widgets/slider.php:951
+msgid "Hover Glow Color"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.templatemonster.com/authors/themepul/"
+msgstr ""
+
+#: addons/widgets/about-video.php:125
+msgid "https://www.youtube.com/watch?v=u8Egk_j0EbY"
+msgstr ""
+
+#: addons/widgets/flipbox.php:115 addons/widgets/flipbox.php:228
+#: addons/widgets/icon-box.php:86
+msgid "https://your-link.com"
+msgstr ""
+
+#: addons/widgets/about.php:42
+msgid "xevso About"
+msgstr ""
+
+#: addons/widgets/about-video.php:42
+msgid "xevso About Video"
+msgstr ""
+
+#: inc/core-function.php:119
+msgid "xevso Addons"
+msgstr ""
+
+#: addons/widgets/shape.php:30
+msgid "xevso Animation Shape"
+msgstr ""
+
+#: addons/widgets/blog.php:42
+msgid "xevso Blog"
+msgstr ""
+
+#: addons/widgets/buttons.php:42
+msgid "xevso Buttons"
+msgstr ""
+
+#: addons/widgets/clients.php:42
+msgid "xevso Client"
+msgstr ""
+
+#: addons/widgets/contact-box.php:42
+msgid "xevso Contact Box"
+msgstr ""
+
+#: inc/custom-widgets.php:5
+msgid "xevso Contact Info"
+msgstr ""
+
+#: addons/widgets/contact-info.php:42
+msgid "xevso contact Info"
+msgstr ""
+
+#: addons/widgets/contact-message.php:42
+msgid "xevso Contact Message"
+msgstr ""
+
+#. Name of the plugin
+msgid "xevso Core"
+msgstr ""
+
+#: addons/widgets/counter.php:42
+msgid "xevso Counter"
+msgstr ""
+
+#: addons/widgets/counter-two.php:83
+msgid "xevso Counter Two"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:12
+msgid "xevso Dot shape"
+msgstr ""
+
+#: addons/widgets/flipbox.php:12
+msgid "xevso Flip box"
+msgstr ""
+
+#: addons/widgets/flipbox.php:143
+msgid "xevso Flipbox Back"
+msgstr ""
+
+#: addons/widgets/flipbox.php:738
+msgid "xevso Flipbox Back CSS"
+msgstr ""
+
+#: addons/widgets/flipbox.php:256
+msgid "xevso Flipbox Box CSS"
+msgstr ""
+
+#: addons/widgets/flipbox.php:30
+msgid "xevso Flipbox Front"
+msgstr ""
+
+#: addons/widgets/flipbox.php:341
+msgid "xevso Flipbox Front CSS"
+msgstr ""
+
+#: addons/widgets/icon-box.php:12 addons/widgets/icon-box.php:30
+msgid "xevso Icon Box"
+msgstr ""
+
+#: addons/icons.php:2298
+msgid "xevso Icons"
+msgstr ""
+
+#: inc/custom-widgets.php:360
+msgid "xevso Nav Widget"
+msgstr ""
+
+#: inc/custom-widgets.php:186
+msgid "xevso Newletter Widget"
+msgstr ""
+
+#: inc/custom-widgets.php:115
+msgid "xevso Post With Thumbnail"
+msgstr ""
+
+#: addons/widgets/pricing.php:42
+msgid "xevso Pricing Table"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:42
+msgid "xevso Pricing Table Two"
+msgstr ""
+
+#: addons/widgets/progress.php:42
+msgid "xevso Progress"
+msgstr ""
+
+#: addons/widgets/project.php:42
+msgid "xevso Project"
+msgstr ""
+
+#: addons/widgets/project-two.php:42
+msgid "xevso Project Two"
+msgstr ""
+
+#: addons/widgets/promo-content.php:42
+msgid "xevso Promo Content"
+msgstr ""
+
+#: addons/widgets/service.php:42
+msgid "xevso Service"
+msgstr ""
+
+#: addons/widgets/shape.php:12
+msgid "xevso Shape Animation"
+msgstr ""
+
+#: addons/widgets/slider.php:42
+msgid "xevso Slider Two"
+msgstr ""
+
+#: inc/custom-widgets.php:275
+msgid "xevso Social Widget"
+msgstr ""
+
+#: addons/widgets/support.php:42
+msgid "xevso Support"
+msgstr ""
+
+#: addons/widgets/team.php:42
+msgid "xevso Team"
+msgstr ""
+
+#: addons/widgets/team-two.php:42
+msgid "xevso Team Two"
+msgstr ""
+
+#: addons/widgets/testimonial.php:42
+msgid "xevso Testimonial"
+msgstr ""
+
+#: addons/widgets/title.php:42
+msgid "xevso Title"
+msgstr ""
+
+#: inc/custom-widgets.php:43 addons/widgets/contact-box.php:105
+#: addons/widgets/contact-box.php:141 addons/widgets/contact-info.php:122
+#: addons/widgets/counter-two.php:186 addons/widgets/counter-two.php:382
+#: addons/widgets/flipbox.php:48 addons/widgets/flipbox.php:161
+#: addons/widgets/icon-box.php:49 addons/widgets/icon-box.php:254
+#: addons/widgets/pricing.php:97 addons/widgets/promo-content.php:132
+#: addons/widgets/service.php:118 addons/widgets/service.php:158
+#: addons/widgets/support.php:363
+msgid "Icon"
+msgstr ""
+
+#: addons/widgets/promo-content.php:248
+msgid "icon"
+msgstr ""
+
+#: addons/widgets/team.php:326 addons/widgets/team.php:401
+#: addons/widgets/team-two.php:326 addons/widgets/team-two.php:401
+msgid "Icon Background"
+msgstr ""
+
+#: addons/widgets/flipbox.php:369 addons/widgets/flipbox.php:766
+msgid "Icon BG Color"
+msgstr ""
+
+#: addons/widgets/flipbox.php:403 addons/widgets/flipbox.php:800
+msgid "Icon Border Radius"
+msgstr ""
+
+#: addons/widgets/about-video.php:159 addons/widgets/contact-box.php:254
+#: addons/widgets/flipbox.php:359 addons/widgets/flipbox.php:756
+#: addons/widgets/icon-box.php:283 addons/widgets/service.php:465
+#: addons/widgets/slider.php:854
+msgid "Icon Color"
+msgstr ""
+
+#: addons/widgets/project.php:568 addons/widgets/team.php:314
+#: addons/widgets/team-two.php:314
+msgid "Icon color"
+msgstr ""
+
+#: addons/widgets/flipbox.php:348 addons/widgets/flipbox.php:745
+msgid "Icon CSS"
+msgstr ""
+
+#: addons/widgets/about-video.php:239 addons/widgets/contact-box.php:298
+#: addons/widgets/icon-box.php:293 addons/widgets/service.php:518
+msgid "Icon Hover Color"
+msgstr ""
+
+#: addons/widgets/project.php:579 addons/widgets/team.php:389
+#: addons/widgets/team-two.php:389
+msgid "Icon Hover color"
+msgstr ""
+
+#: addons/widgets/service.php:780 addons/widgets/slider.php:931
+msgid "Icon hover Color"
+msgstr ""
+
+#: addons/widgets/slider.php:628
+msgid "Icon Left To Right"
+msgstr ""
+
+#: addons/widgets/support.php:414
+msgid "Icon Position"
+msgstr ""
+
+#: addons/widgets/counter-two.php:490
+msgid "icon position"
+msgstr ""
+
+#: addons/widgets/team.php:292 addons/widgets/team-two.php:292
+msgid "Icon Radius"
+msgstr ""
+
+#: addons/widgets/support.php:392
+msgid "Icon rotate"
+msgstr ""
+
+#: addons/widgets/flipbox.php:430 addons/widgets/flipbox.php:827
+msgid "Icon Shadow"
+msgstr ""
+
+#: addons/widgets/team.php:270 addons/widgets/team-two.php:270
+msgid "Icon SIze"
+msgstr ""
+
+#: addons/widgets/about-video.php:169 addons/widgets/flipbox.php:380
+#: addons/widgets/flipbox.php:777 addons/widgets/icon-box.php:261
+#: addons/widgets/promo-content.php:255 addons/widgets/slider.php:778
+#: addons/widgets/support.php:370 addons/widgets/testimonial.php:598
+msgid "Icon Size"
+msgstr ""
+
+#: addons/widgets/slider.php:610
+msgid "Icon Top To Bottom"
+msgstr ""
+
+#: addons/widgets/contact-box.php:97
+msgid "Icon Type"
+msgstr ""
+
+#: addons/icons.php:2308
+msgid "Iconfont"
+msgstr ""
+
+#: inc/admin/icons.php:15
+msgid "Iconfont Icons"
+msgstr ""
+
+#: addons/widgets/about-video.php:111
+msgid "ICONS"
+msgstr ""
+
+#: addons/widgets/contact-box.php:240 addons/widgets/service.php:451
+msgid "Icons Style"
+msgstr ""
+
+#: addons/widgets/contact-message.php:99
+msgid ""
+"If you have any query about us and our services, then fell free to contact "
+"with us."
+msgstr ""
+
+#: addons/widgets/service.php:549
+msgid "If You Select image Icon Then Worked This area Options"
+msgstr ""
+
+#: addons/widgets/about-video.php:97 addons/widgets/contact-box.php:101
+#: addons/widgets/contact-box.php:116 addons/widgets/promo-content.php:113
+#: addons/widgets/service.php:114 addons/widgets/service.php:132
+#: addons/widgets/slider.php:98 addons/widgets/testimonial.php:110
+msgid "Image"
+msgstr ""
+
+#: addons/widgets/project-two.php:281
+msgid "Image Blur"
+msgstr ""
+
+#: addons/widgets/service.php:547
+msgid "Image ICON"
+msgstr ""
+
+#: addons/widgets/contact-box.php:326 addons/widgets/service.php:556
+msgid "Image Icon Size"
+msgstr ""
+
+#: addons/widgets/slider.php:436
+msgid "Image Opacity with Color"
+msgstr ""
+
+#: addons/widgets/testimonial.php:427
+msgid "Image Style"
+msgstr ""
+
+#: inc/core-function.php:87 inc/custom-widgets.php:327
+msgid "Instagram"
+msgstr ""
+
+#: inc/custom-widgets.php:86
+msgid "Intech by Themepul"
+msgstr ""
+
+#: addons/widgets/contact-info.php:107
+msgid ""
+"It is a long established fact that a reader will be distracted by the "
+"readable content of a page when looking at its layout."
+msgstr ""
+
+#: addons/widgets/service.php:172
+msgid "It Managment"
+msgstr ""
+
+#: addons/widgets/flipbox.php:60 addons/widgets/flipbox.php:173
+msgid "IT Service"
+msgstr ""
+
+#: addons/widgets/icon-box.php:58
+msgid "IT Solutions Service"
+msgstr ""
+
+#: addons/widgets/project.php:561 addons/widgets/project-two.php:274
+msgid "Item"
+msgstr ""
+
+#: addons/widgets/project-two.php:144
+msgid "Item Menu"
+msgstr ""
+
+#: addons/widgets/project.php:348 addons/widgets/project-two.php:167
+msgid "Justified"
+msgstr ""
+
+#: inc/custom-widgets.php:287
+msgid "Label"
+msgstr ""
+
+#: addons/widgets/pricing.php:115
+msgid "label"
+msgstr ""
+
+#: addons/widgets/project.php:99
+msgid "Latest Project"
+msgstr ""
+
+#: addons/widgets/about.php:293
+msgid "LDescriptionist Color"
+msgstr ""
+
+#: addons/widgets/blog.php:160 addons/widgets/blog.php:239
+#: addons/widgets/buttons.php:554 addons/widgets/contact-box.php:193
+#: addons/widgets/counter.php:136 addons/widgets/counter-two.php:268
+#: addons/widgets/counter-two.php:529 addons/widgets/counter-two.php:677
+#: addons/widgets/flipbox.php:267 addons/widgets/icon-box.php:132
+#: addons/widgets/pricing.php:195 addons/widgets/pricing-two.php:325
+#: addons/widgets/pricing-two.php:492 addons/widgets/progress.php:191
+#: addons/widgets/project.php:336 addons/widgets/project-two.php:155
+#: addons/widgets/service.php:592 addons/widgets/service.php:676
+#: addons/widgets/slider.php:373 addons/widgets/support.php:256
+#: addons/widgets/title.php:286
+msgid "Left"
+msgstr ""
+
+#: addons/widgets/slider.php:192
+msgid "Left Side"
+msgstr ""
+
+#: addons/widgets/shape.php:102
+msgid "Left To Right"
+msgstr ""
+
+#: addons/widgets/blog.php:135
+msgid "Limit Text"
+msgstr ""
+
+#: addons/widgets/blog.php:383
+msgid "Line Height"
+msgstr ""
+
+#: addons/widgets/slider.php:755
+msgid "line Height"
+msgstr ""
+
+#: inc/custom-widgets.php:48 addons/widgets/icon-box.php:84
+msgid "Link"
+msgstr ""
+
+#: addons/widgets/buttons.php:297
+msgid "Link Color"
+msgstr ""
+
+#: addons/widgets/buttons.php:307
+msgid "Link Hover Color"
+msgstr ""
+
+#: addons/widgets/buttons.php:289
+msgid "link Typography"
+msgstr ""
+
+#: inc/core-function.php:85 inc/core-function.php:110 inc/core-function.php:110
+#: inc/custom-widgets.php:322
+msgid "Linkedin"
+msgstr ""
+
+#: addons/widgets/about.php:311
+msgid "List Color"
+msgstr ""
+
+#: addons/widgets/about.php:321
+msgid "List Icon Color"
+msgstr ""
+
+#: addons/widgets/about.php:331
+msgid "List Width"
+msgstr ""
+
+#: addons/widgets/about-video.php:277
+msgid "Logo"
+msgstr ""
+
+#: addons/widgets/about-video.php:104
+msgid "Logo Image"
+msgstr ""
+
+#: addons/widgets/service.php:231
+msgid "Lorem ipsum dolor sit amet, consecte adipiscing elit Morbi vitae."
+msgstr ""
+
+#: addons/widgets/about.php:251 addons/widgets/about.php:381
+#: addons/widgets/about.php:424 addons/widgets/about-video.php:191
+#: addons/widgets/about-video.php:249 addons/widgets/about-video.php:284
+#: addons/widgets/blog.php:223 addons/widgets/blog.php:339
+#: addons/widgets/blog.php:371 addons/widgets/blog.php:422
+#: addons/widgets/buttons.php:220 addons/widgets/buttons.php:370
+#: addons/widgets/buttons.php:526 addons/widgets/clients.php:294
+#: addons/widgets/contact-box.php:215 addons/widgets/contact-box.php:405
+#: addons/widgets/contact-message.php:192
+#: addons/widgets/contact-message.php:221 addons/widgets/counter-two.php:319
+#: addons/widgets/counter-two.php:597 addons/widgets/flipbox.php:289
+#: addons/widgets/flipbox.php:437 addons/widgets/flipbox.php:492
+#: addons/widgets/flipbox.php:547 addons/widgets/flipbox.php:587
+#: addons/widgets/flipbox.php:601 addons/widgets/flipbox.php:834
+#: addons/widgets/flipbox.php:889 addons/widgets/flipbox.php:944
+#: addons/widgets/icon-box.php:154 addons/widgets/icon-box.php:303
+#: addons/widgets/icon-box.php:321 addons/widgets/icon-box.php:368
+#: addons/widgets/icon-box.php:386 addons/widgets/icon-box.php:433
+#: addons/widgets/icon-box.php:444 addons/widgets/pricing.php:217
+#: addons/widgets/pricing.php:395 addons/widgets/pricing.php:473
+#: addons/widgets/pricing-two.php:347 addons/widgets/pricing-two.php:522
+#: addons/widgets/pricing-two.php:800 addons/widgets/pricing-two.php:888
+#: addons/widgets/pricing-two.php:975 addons/widgets/progress.php:281
+#: addons/widgets/project.php:522 addons/widgets/project.php:621
+#: addons/widgets/project.php:676 addons/widgets/project-two.php:253
+#: addons/widgets/project-two.php:360 addons/widgets/promo-content.php:227
+#: addons/widgets/promo-content.php:303 addons/widgets/service.php:253
+#: addons/widgets/service.php:373 addons/widgets/service.php:717
+#: addons/widgets/slider.php:498 addons/widgets/slider.php:555
+#: addons/widgets/slider.php:598 addons/widgets/support.php:297
+#: addons/widgets/support.php:466 addons/widgets/support.php:591
+#: addons/widgets/support.php:648 addons/widgets/testimonial.php:361
+#: addons/widgets/title.php:258 addons/widgets/title.php:324
+msgid "Margin"
+msgstr ""
+
+#: addons/widgets/slider.php:822
+msgid "Margin Left"
+msgstr ""
+
+#: addons/widgets/counter-two.php:418 addons/widgets/counter-two.php:436
+msgid "Margin Right"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:481
+msgid "Menu"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:670
+msgid "Menu Active Item CSS"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:514
+msgid "Menu Box CSS"
+msgstr ""
+
+#: addons/widgets/project.php:458
+msgid "Menu color"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:590
+msgid "Menu Item CSS"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:113
+msgid "Month"
+msgstr ""
+
+#: addons/widgets/pricing.php:121
+msgid "Month/Year"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:89 addons/widgets/pricing-two.php:96
+#: addons/widgets/pricing-two.php:98
+msgid "Monthly"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:168
+msgid "Monthly Pricing List"
+msgstr ""
+
+#: addons/widgets/about.php:152
+msgid "More About"
+msgstr ""
+
+#: inc/custom-widgets.php:297
+msgid "Name"
+msgstr ""
+
+#: addons/widgets/buttons.php:170 addons/widgets/promo-content.php:196
+#: addons/widgets/support.php:181 addons/widgets/team.php:100
+#: addons/widgets/team-two.php:100 addons/widgets/title.php:182
+msgid "No"
+msgstr ""
+
+#: addons/widgets/about.php:456 addons/widgets/about-video.php:144
+#: addons/widgets/blog.php:454 addons/widgets/buttons.php:402
+#: addons/widgets/contact-message.php:253 addons/widgets/icon-box.php:187
+#: addons/widgets/pricing.php:505 addons/widgets/pricing-two.php:375
+#: addons/widgets/project.php:708 addons/widgets/service.php:247
+#: addons/widgets/service.php:623 addons/widgets/slider.php:649
+#: addons/widgets/slider.php:848 addons/widgets/support.php:209
+#: addons/widgets/support.php:495 addons/widgets/support.php:548
+#: addons/widgets/support.php:680 addons/widgets/testimonial.php:297
+#: addons/widgets/title.php:356
+msgid "Normal"
+msgstr ""
+
+#: addons/widgets/counter.php:105 addons/widgets/counter-two.php:215
+#: addons/widgets/counter-two.php:515 addons/widgets/progress.php:121
+#: addons/widgets/progress.php:245
+msgid "Number"
+msgstr ""
+
+#: addons/widgets/counter.php:195 addons/widgets/progress.php:259
+msgid "Number Color"
+msgstr ""
+
+#: addons/widgets/about.php:142 addons/widgets/clients.php:109
+#: addons/widgets/clients.php:187 addons/widgets/clients.php:198
+#: addons/widgets/clients.php:228 addons/widgets/clients.php:259
+#: addons/widgets/clients.php:273
+msgid "Off"
+msgstr ""
+
+#: addons/widgets/about.php:141 addons/widgets/clients.php:108
+#: addons/widgets/clients.php:186 addons/widgets/clients.php:197
+#: addons/widgets/clients.php:227 addons/widgets/clients.php:258
+#: addons/widgets/clients.php:272
+msgid "On"
+msgstr ""
+
+#: addons/widgets/project-two.php:112
+msgid "One Column"
+msgstr ""
+
+#: addons/widgets/progress.php:129 addons/widgets/slider.php:444
+msgid "Opacity Color"
+msgstr ""
+
+#: addons/widgets/buttons.php:167 addons/widgets/promo-content.php:193
+#: addons/widgets/support.php:178 addons/widgets/title.php:179
+msgid "Open New Tab ? "
+msgstr ""
+
+#: addons/widgets/project-two.php:90
+msgid "Options"
+msgstr ""
+
+#: addons/widgets/flipbox.php:680 addons/widgets/flipbox.php:1128
+msgid "Others CSS"
+msgstr ""
+
+#: addons/widgets/about.php:263 addons/widgets/about.php:393
+#: addons/widgets/about.php:435 addons/widgets/about-video.php:203
+#: addons/widgets/about-video.php:261 addons/widgets/about-video.php:296
+#: addons/widgets/blog.php:211 addons/widgets/blog.php:327
+#: addons/widgets/blog.php:359 addons/widgets/blog.php:433
+#: addons/widgets/buttons.php:232 addons/widgets/buttons.php:381
+#: addons/widgets/buttons.php:538 addons/widgets/clients.php:306
+#: addons/widgets/contact-box.php:227 addons/widgets/contact-message.php:180
+#: addons/widgets/contact-message.php:232 addons/widgets/counter-two.php:343
+#: addons/widgets/counter-two.php:620 addons/widgets/flipbox.php:300
+#: addons/widgets/flipbox.php:455 addons/widgets/flipbox.php:510
+#: addons/widgets/flipbox.php:565 addons/widgets/flipbox.php:852
+#: addons/widgets/flipbox.php:907 addons/widgets/flipbox.php:962
+#: addons/widgets/icon-box.php:165 addons/widgets/pricing.php:229
+#: addons/widgets/pricing.php:407 addons/widgets/pricing.php:484
+#: addons/widgets/pricing-two.php:359 addons/widgets/pricing-two.php:540
+#: addons/widgets/pricing-two.php:812 addons/widgets/pricing-two.php:900
+#: addons/widgets/pricing-two.php:987 addons/widgets/progress.php:293
+#: addons/widgets/project.php:422 addons/widgets/project.php:541
+#: addons/widgets/project.php:640 addons/widgets/project.php:687
+#: addons/widgets/project-two.php:234 addons/widgets/project-two.php:371
+#: addons/widgets/promo-content.php:215 addons/widgets/promo-content.php:291
+#: addons/widgets/service.php:264 addons/widgets/service.php:384
+#: addons/widgets/service.php:698 addons/widgets/slider.php:418
+#: addons/widgets/slider.php:480 addons/widgets/slider.php:542
+#: addons/widgets/slider.php:586 addons/widgets/support.php:278
+#: addons/widgets/support.php:447 addons/widgets/support.php:572
+#: addons/widgets/support.php:659 addons/widgets/team.php:357
+#: addons/widgets/team-two.php:357 addons/widgets/testimonial.php:349
+#: addons/widgets/title.php:270 addons/widgets/title.php:335
+msgid "Padding"
+msgstr ""
+
+#: addons/widgets/contact-box.php:424
+msgid "padding"
+msgstr ""
+
+#: addons/widgets/blog.php:270
+msgid "Padding Right"
+msgstr ""
+
+#: addons/widgets/about.php:167 addons/widgets/buttons.php:115
+#: addons/widgets/clients.php:123 addons/widgets/contact-message.php:120
+#: addons/widgets/promo-content.php:155 addons/widgets/service.php:196
+#: addons/widgets/slider.php:132 addons/widgets/support.php:129
+#: addons/widgets/title.php:130
+msgid "Page"
+msgstr ""
+
+#: addons/widgets/about.php:193 addons/widgets/buttons.php:137
+#: addons/widgets/clients.php:149 addons/widgets/contact-message.php:142
+#: addons/widgets/flipbox.php:90 addons/widgets/flipbox.php:203
+#: addons/widgets/promo-content.php:181 addons/widgets/service.php:218
+#: addons/widgets/slider.php:156 addons/widgets/support.php:155
+#: addons/widgets/title.php:156
+msgid "Page Link"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:115 addons/widgets/pricing-two.php:174
+msgid "Per Month"
+msgstr ""
+
+#: addons/widgets/pricing.php:123 addons/widgets/pricing-two.php:228
+#: addons/widgets/pricing-two.php:287
+msgid "Per year"
+msgstr ""
+
+#: addons/control/minivp-notice.php:10
+msgid "PHP"
+msgstr ""
+
+#: inc/core-function.php:86
+msgid "Pinterest"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:203
+msgid "Position Left To Right"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:181
+msgid "Position Top To Bottom"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:173 addons/widgets/pricing-two.php:286
+msgid "Premium"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:771
+msgid "Price Color"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:781
+msgid "Price Hover Color"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:792 addons/widgets/pricing-two.php:880
+msgid "Price Typography"
+msgstr ""
+
+#: addons/widgets/pricing.php:420
+msgid "Pricing Body"
+msgstr ""
+
+#: addons/widgets/pricing.php:176
+msgid "Pricing box"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:129
+msgid "Pricing Description"
+msgstr ""
+
+#: addons/widgets/pricing.php:306
+msgid "Pricing Header"
+msgstr ""
+
+#: addons/widgets/pricing.php:242
+msgid "Pricing Icon"
+msgstr ""
+
+#: addons/widgets/pricing.php:107 addons/widgets/pricing-two.php:107
+#: addons/widgets/pricing-two.php:220
+msgid "Pricing Title"
+msgstr ""
+
+#: addons/widgets/progress.php:97
+msgid "Progress Hadding"
+msgstr ""
+
+#: addons/widgets/progress.php:145
+msgid "Progress Items"
+msgstr ""
+
+#: addons/widgets/progress.php:113 addons/widgets/progress.php:115
+msgid "Progress Title"
+msgstr ""
+
+#: xevso-custom-post.php:8
+msgid "Project"
+msgstr ""
+
+#: xevso-custom-post.php:41
+msgid "project Category"
+msgstr ""
+
+#: xevso-custom-post.php:7
+msgid "Projects"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:55 addons/widgets/shape.php:47
+msgid "Pulse"
+msgstr ""
+
+#: addons/widgets/blog.php:621 addons/widgets/flipbox.php:133
+#: addons/widgets/flipbox.php:246 addons/widgets/icon-box.php:111
+#: addons/widgets/slider.php:170 addons/widgets/slider.php:346
+#: addons/widgets/title.php:170
+msgid "Read More"
+msgstr ""
+
+#: addons/widgets/buttons.php:148
+msgid "Readmore Text"
+msgstr ""
+
+#: addons/widgets/contact-info.php:130 addons/widgets/testimonial.php:178
+msgid "Repeater List"
+msgstr ""
+
+#: addons/widgets/testimonial.php:727
+msgid "Review"
+msgstr ""
+
+#: addons/widgets/testimonial.php:169
+msgid "Review Number"
+msgstr ""
+
+#: addons/widgets/blog.php:168 addons/widgets/blog.php:247
+#: addons/widgets/buttons.php:562 addons/widgets/contact-box.php:201
+#: addons/widgets/counter.php:144 addons/widgets/counter-two.php:276
+#: addons/widgets/counter-two.php:537 addons/widgets/counter-two.php:685
+#: addons/widgets/flipbox.php:275 addons/widgets/icon-box.php:140
+#: addons/widgets/pricing.php:203 addons/widgets/pricing-two.php:333
+#: addons/widgets/pricing-two.php:500 addons/widgets/progress.php:199
+#: addons/widgets/project.php:344 addons/widgets/project-two.php:163
+#: addons/widgets/service.php:600 addons/widgets/service.php:684
+#: addons/widgets/slider.php:381 addons/widgets/support.php:264
+#: addons/widgets/title.php:294
+msgid "Right"
+msgstr ""
+
+#: addons/widgets/slider.php:193
+msgid "Right Side"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:76 addons/widgets/shape.php:68
+msgid "Rotate Out"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:71 addons/widgets/shape.php:63
+msgid "RotateIn"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:72 addons/widgets/shape.php:64
+msgid "RotateIn Down Left"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:73 addons/widgets/shape.php:65
+msgid "RotateIn Down Right"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:74 addons/widgets/shape.php:66
+msgid "RotateIn Up Left"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:75 addons/widgets/shape.php:67
+msgid "RotateIn Up Right"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:56 addons/widgets/shape.php:48
+msgid "Rubber Band"
+msgstr ""
+
+#: addons/widgets/testimonial.php:121 addons/widgets/testimonial.php:183
+msgid "Salina Smith"
+msgstr ""
+
+#: inc/custom-widgets.php:384
+msgid "Select A Menu"
+msgstr ""
+
+#: inc/custom-widgets.php:207
+msgid "Select an option"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:46 addons/widgets/shape.php:38
+msgid "Select Animation"
+msgstr ""
+
+#: addons/widgets/flipbox.php:86 addons/widgets/flipbox.php:199
+msgid "Select Button"
+msgstr ""
+
+#: addons/widgets/buttons.php:97
+msgid "Select Buttons"
+msgstr ""
+
+#: addons/widgets/blog.php:108
+msgid "Select Column"
+msgstr ""
+
+#: addons/widgets/about.php:161 addons/widgets/buttons.php:110
+#: addons/widgets/clients.php:117 addons/widgets/contact-message.php:114
+#: addons/widgets/promo-content.php:150 addons/widgets/service.php:190
+#: addons/widgets/slider.php:127 addons/widgets/support.php:124
+#: addons/widgets/title.php:125
+msgid "Select Link"
+msgstr ""
+
+#: inc/custom-widgets.php:383
+msgid "Select Menu"
+msgstr ""
+
+#: addons/widgets/about.php:165 addons/widgets/clients.php:121
+#: addons/widgets/contact-message.php:118 addons/widgets/service.php:194
+msgid "Select Options"
+msgstr ""
+
+#: addons/widgets/flipbox.php:101 addons/widgets/flipbox.php:214
+msgid "Select Page"
+msgstr ""
+
+#: addons/widgets/slider.php:188
+msgid "Select Position"
+msgstr ""
+
+#: addons/widgets/blog.php:96 addons/widgets/icon-box.php:37
+#: addons/widgets/project.php:114 addons/widgets/project-two.php:108
+#: addons/widgets/testimonial.php:97
+msgid "Select Style"
+msgstr ""
+
+#: inc/custom-widgets.php:206
+msgid "Select Type"
+msgstr ""
+
+#: addons/widgets/service.php:110
+msgid "Service Icon Type"
+msgstr ""
+
+#: addons/widgets/service.php:173
+msgid "Service Title"
+msgstr ""
+
+#: addons/widgets/flipbox.php:673 addons/widgets/flipbox.php:728
+#: addons/widgets/flipbox.php:1047 addons/widgets/flipbox.php:1117
+#: addons/widgets/flipbox.php:1176 addons/widgets/pricing-two.php:699
+msgid "Shadow"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:57 addons/widgets/shape.php:49
+msgid "ShakeX"
+msgstr ""
+
+#: addons/widgets/shape.php:155
+msgid "Shape List"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:50 addons/widgets/shape.php:42
+msgid "Shape Mover"
+msgstr ""
+
+#: inc/custom-widgets.php:209
+msgid "Shortcode form Plugin"
+msgstr ""
+
+#: addons/widgets/blog.php:148 addons/widgets/dot-shape.php:39
+#: addons/widgets/flipbox.php:39 addons/widgets/flipbox.php:77
+#: addons/widgets/flipbox.php:152 addons/widgets/flipbox.php:190
+#: addons/widgets/icon-box.php:66 addons/widgets/icon-box.php:100
+#: addons/widgets/project.php:129 addons/widgets/project.php:144
+#: addons/widgets/project.php:159 addons/widgets/project.php:174
+#: addons/widgets/project.php:206 addons/widgets/project.php:315
+#: addons/widgets/project-two.php:99 addons/widgets/project-two.php:134
+#: addons/widgets/promo-content.php:141 addons/widgets/slider.php:179
+#: addons/widgets/support.php:115 addons/widgets/team.php:110
+#: addons/widgets/team.php:124 addons/widgets/team.php:138
+#: addons/widgets/team-two.php:110 addons/widgets/team-two.php:124
+#: addons/widgets/team-two.php:138 addons/widgets/testimonial.php:205
+#: addons/widgets/testimonial.php:216 addons/widgets/testimonial.php:230
+#: addons/widgets/testimonial.php:260 addons/widgets/title.php:116
+msgid "Show"
+msgstr ""
+
+#: addons/widgets/blog.php:124 addons/widgets/project.php:302
+#: addons/widgets/project-two.php:121
+msgid "Show Items"
+msgstr ""
+
+#: addons/widgets/blog.php:146
+msgid "Show Navication"
+msgstr ""
+
+#: inc/custom-widgets.php:127
+msgid "Show Post"
+msgstr ""
+
+#: inc/custom-widgets.php:307
+msgid "Site Icon"
+msgstr ""
+
+#: inc/custom-widgets.php:302
+msgid "Site Link"
+msgstr ""
+
+#: addons/widgets/clients.php:239 addons/widgets/project.php:187
+#: addons/widgets/team.php:150 addons/widgets/team-two.php:150
+#: addons/widgets/testimonial.php:242
+msgid "Slide auto Speed"
+msgstr ""
+
+#: addons/widgets/clients.php:177
+msgid "Slide Configaration"
+msgstr ""
+
+#: addons/widgets/team.php:181 addons/widgets/team-two.php:181
+msgid "Slide items"
+msgstr ""
+
+#: addons/widgets/testimonial.php:196
+msgid "Slide Setting"
+msgstr ""
+
+#: addons/widgets/clients.php:209 addons/widgets/project.php:219
+#: addons/widgets/team.php:166 addons/widgets/team-two.php:166
+#: addons/widgets/testimonial.php:272
+msgid "Slide Speed"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:78 addons/widgets/shape.php:70
+msgid "SlideIn Down"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:79 addons/widgets/shape.php:71
+msgid "SlideIn Left"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:80 addons/widgets/shape.php:72
+msgid "SlideIn Right"
+msgstr ""
+
+#: addons/widgets/slider.php:339
+msgid "Slider List"
+msgstr ""
+
+#: addons/widgets/project.php:362
+msgid "Small Text Color"
+msgstr ""
+
+#: addons/widgets/project.php:374
+msgid "Small Text Typography"
+msgstr ""
+
+#: addons/widgets/about.php:98 addons/widgets/project.php:97
+#: addons/widgets/promo-content.php:97 addons/widgets/promo-content.php:99
+#: addons/widgets/promo-content.php:326 addons/widgets/title.php:97
+#: addons/widgets/title.php:99 addons/widgets/title.php:205
+msgid "Small Title"
+msgstr ""
+
+#: addons/widgets/about.php:221
+msgid "Small Title Color"
+msgstr ""
+
+#: addons/widgets/team.php:251 addons/widgets/team-two.php:251
+#: addons/widgets/testimonial.php:549
+msgid "Small Title color"
+msgstr ""
+
+#: addons/widgets/about.php:214 addons/widgets/team.php:244
+#: addons/widgets/team-two.php:244 addons/widgets/testimonial.php:542
+msgid "Small Title Typography"
+msgstr ""
+
+#: inc/custom-widgets.php:199
+msgid "Sort Description"
+msgstr ""
+
+#: addons/widgets/buttons.php:338
+msgid "Static Text Color"
+msgstr ""
+
+#: addons/widgets/buttons.php:330
+msgid "Static Text Typography"
+msgstr ""
+
+#: addons/widgets/support.php:99
+msgid "Still need help for any problem?"
+msgstr ""
+
+#: addons/widgets/about-video.php:134 addons/widgets/buttons.php:179
+#: addons/widgets/clients.php:287 addons/widgets/counter.php:125
+#: addons/widgets/title.php:195
+msgid "Style"
+msgstr ""
+
+#: addons/widgets/blog.php:100 addons/widgets/buttons.php:101
+#: addons/widgets/buttons.php:187 addons/widgets/icon-box.php:41
+#: addons/widgets/project.php:118 addons/widgets/service.php:100
+#: addons/widgets/testimonial.php:101
+msgid "Style One"
+msgstr ""
+
+#: addons/widgets/buttons.php:103 addons/widgets/project.php:120
+#: addons/widgets/service.php:102
+msgid "Style Three"
+msgstr ""
+
+#: addons/widgets/blog.php:101 addons/widgets/buttons.php:102
+#: addons/widgets/buttons.php:283 addons/widgets/icon-box.php:42
+#: addons/widgets/project.php:119 addons/widgets/service.php:101
+#: addons/widgets/testimonial.php:102
+msgid "Style Two"
+msgstr ""
+
+#: addons/widgets/testimonial.php:127
+msgid "Sub Title"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:742
+msgid "Sub Title Color"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:752
+msgid "Sub Title Hover Color"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:763
+msgid "Sub Title Typography"
+msgstr ""
+
+#: inc/custom-widgets.php:201
+msgid "Subscribe To Our Newsletter And Get Daily 10% Off Your First Purchase."
+msgstr ""
+
+#: addons/widgets/counter.php:115
+msgid "Symble"
+msgstr ""
+
+#: addons/widgets/counter.php:243
+msgid "Symble Color"
+msgstr ""
+
+#: addons/widgets/counter.php:230 addons/widgets/counter.php:254
+msgid "Symble Typography"
+msgstr ""
+
+#: addons/widgets/counter-two.php:233
+msgid "Symbol"
+msgstr ""
+
+#: addons/widgets/counter-two.php:576
+msgid "Symbol Color"
+msgstr ""
+
+#: xevso-custom-post.php:19 xevso-custom-post.php:20
+msgid "Team"
+msgstr ""
+
+#: addons/widgets/team.php:263 addons/widgets/team-two.php:263
+msgid "Team Social"
+msgstr ""
+
+#: addons/widgets/team.php:193 addons/widgets/team-two.php:193
+msgid "Team Title"
+msgstr ""
+
+#: addons/widgets/slider.php:864 addons/widgets/slider.php:941
+msgid "Text Color"
+msgstr ""
+
+#: addons/widgets/slider.php:800
+msgid "Text Size"
+msgstr ""
+
+#: addons/widgets/flipbox.php:66 addons/widgets/flipbox.php:179
+msgid "Textarea"
+msgstr ""
+
+#. Author of the plugin
+msgid "Themepul"
+msgstr ""
+
+#: addons/widgets/project.php:107
+msgid "There are more latest project done yet."
+msgstr ""
+
+#. Description of the plugin
+msgid "This is xevso Core plugin for xevso Theme."
+msgstr ""
+
+#: addons/widgets/project-two.php:114
+msgid "Three Column"
+msgstr ""
+
+#: addons/widgets/icon-box.php:333
+msgid "Tilte"
+msgstr ""
+
+#: inc/custom-widgets.php:12 inc/custom-widgets.php:122
+#: inc/custom-widgets.php:194 inc/custom-widgets.php:282
+#: inc/custom-widgets.php:367 addons/widgets/about.php:206
+#: addons/widgets/blog.php:263 addons/widgets/contact-box.php:152
+#: addons/widgets/contact-info.php:97 addons/widgets/counter.php:97
+#: addons/widgets/counter-two.php:197 addons/widgets/counter-two.php:663
+#: addons/widgets/flipbox.php:58 addons/widgets/flipbox.php:171
+#: addons/widgets/icon-box.php:56 addons/widgets/pricing.php:105
+#: addons/widgets/pricing.php:315 addons/widgets/pricing-two.php:105
+#: addons/widgets/pricing-two.php:218 addons/widgets/progress.php:150
+#: addons/widgets/progress.php:221 addons/widgets/promo-content.php:105
+#: addons/widgets/promo-content.php:352 addons/widgets/service.php:170
+#: addons/widgets/slider.php:107 addons/widgets/slider.php:455
+#: addons/widgets/slider.php:463 addons/widgets/support.php:97
+#: addons/widgets/support.php:487 addons/widgets/testimonial.php:119
+msgid "Title"
+msgstr ""
+
+#: addons/widgets/slider.php:223
+msgid "Title Animation"
+msgstr ""
+
+#: addons/widgets/slider.php:232
+msgid "Title Animation Delay"
+msgstr ""
+
+#: addons/widgets/counter.php:219 addons/widgets/flipbox.php:474
+#: addons/widgets/flipbox.php:871 addons/widgets/icon-box.php:348
+#: addons/widgets/pricing-two.php:714 addons/widgets/progress.php:235
+#: addons/widgets/project-two.php:330 addons/widgets/promo-content.php:332
+#: addons/widgets/promo-content.php:359 addons/widgets/slider.php:470
+#: addons/widgets/support.php:501 addons/widgets/support.php:526
+#: addons/widgets/title.php:211
+msgid "Title Color"
+msgstr ""
+
+#: addons/widgets/team.php:208 addons/widgets/team-two.php:208
+#: addons/widgets/testimonial.php:524
+msgid "Title color"
+msgstr ""
+
+#: addons/widgets/flipbox.php:466 addons/widgets/flipbox.php:863
+msgid "Title CSS"
+msgstr ""
+
+#: addons/widgets/contact-message.php:100 addons/widgets/title.php:108
+msgid "Title Hadding"
+msgstr ""
+
+#: addons/widgets/icon-box.php:358 addons/widgets/pricing-two.php:724
+#: addons/widgets/project-two.php:340
+msgid "Title Hover Color"
+msgstr ""
+
+#: addons/widgets/team.php:219 addons/widgets/team-two.php:219
+msgid "Title Hover color"
+msgstr ""
+
+#: addons/widgets/service.php:179 addons/widgets/service.php:737
+msgid "Title Icon"
+msgstr ""
+
+#: addons/widgets/service.php:797
+msgid "Title Icon Margin Right"
+msgstr ""
+
+#: addons/widgets/service.php:823
+msgid "Title Icon Position"
+msgstr ""
+
+#: addons/widgets/pricing.php:113
+msgid "Title Label"
+msgstr ""
+
+#: addons/widgets/contact-box.php:354 addons/widgets/service.php:615
+#: addons/widgets/testimonial.php:509
+msgid "Title Style"
+msgstr ""
+
+#: addons/widgets/counter.php:205 addons/widgets/pricing-two.php:735
+#: addons/widgets/progress.php:228 addons/widgets/progress.php:252
+#: addons/widgets/project-two.php:323 addons/widgets/team.php:201
+#: addons/widgets/team-two.php:201 addons/widgets/testimonial.php:517
+msgid "Title Typography"
+msgstr ""
+
+#: addons/widgets/pricing.php:283
+msgid "Top"
+msgstr ""
+
+#: addons/widgets/blog.php:186
+msgid "Top Area"
+msgstr ""
+
+#: addons/widgets/shape.php:79
+msgid "Top To Bottom"
+msgstr ""
+
+#: inc/core-function.php:84 inc/core-function.php:106 inc/core-function.php:106
+#: inc/custom-widgets.php:317
+msgid "Twitter"
+msgstr ""
+
+#: addons/widgets/project-two.php:113
+msgid "Two Column"
+msgstr ""
+
+#: addons/widgets/about.php:133
+msgid "Type your Description here"
+msgstr ""
+
+#: addons/widgets/about.php:109
+msgid "Type your hadding Content here"
+msgstr ""
+
+#: addons/widgets/progress.php:100
+msgid "Type your Progress Hadding here"
+msgstr ""
+
+#: addons/widgets/about.php:417 addons/widgets/blog.php:204
+#: addons/widgets/blog.php:320 addons/widgets/blog.php:415
+#: addons/widgets/buttons.php:193 addons/widgets/buttons.php:363
+#: addons/widgets/contact-message.php:173
+#: addons/widgets/contact-message.php:214 addons/widgets/flipbox.php:485
+#: addons/widgets/flipbox.php:540 addons/widgets/flipbox.php:882
+#: addons/widgets/flipbox.php:937 addons/widgets/icon-box.php:341
+#: addons/widgets/icon-box.php:406 addons/widgets/pricing.php:466
+#: addons/widgets/pricing-two.php:599 addons/widgets/progress.php:170
+#: addons/widgets/project.php:669 addons/widgets/project-two.php:227
+#: addons/widgets/promo-content.php:344 addons/widgets/promo-content.php:370
+#: addons/widgets/support.php:641 addons/widgets/testimonial.php:569
+#: addons/widgets/title.php:223 addons/widgets/title.php:249
+#: addons/widgets/title.php:317
+msgid "Typography"
+msgstr ""
+
+#: inc/custom-widgets.php:24
+msgid "Upload Logo"
+msgstr ""
+
+#: addons/widgets/slider.php:320
+msgid "Video Animation Delay"
+msgstr ""
+
+#: addons/widgets/slider.php:703
+msgid "video Button"
+msgstr ""
+
+#: addons/widgets/slider.php:307
+msgid "Video Button Animation"
+msgstr ""
+
+#: addons/widgets/project.php:236
+msgid "video Icon position"
+msgstr ""
+
+#: addons/widgets/slider.php:200
+msgid "Video Link"
+msgstr ""
+
+#: addons/widgets/about-video.php:123
+msgid "video Link"
+msgstr ""
+
+#: addons/widgets/slider.php:212
+msgid "Video Text"
+msgstr ""
+
+#: addons/widgets/about.php:108
+msgid "We have more than about 20+ years experience IT solutions."
+msgstr ""
+
+#: addons/widgets/buttons.php:150
+msgid "We work creatively and specially for our client"
+msgstr ""
+
+#: addons/widgets/title.php:107
+msgid ""
+"We work creatively and specially for our clients You can check out our work."
+msgstr ""
+
+#: addons/widgets/flipbox.php:68 addons/widgets/flipbox.php:181
+#: addons/widgets/icon-box.php:77
+msgid ""
+"We’ve been a strategy thought leader for nearly five decades and we bring "
+"unrivaled"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:127 addons/widgets/slider.php:711
+#: addons/widgets/testimonial.php:434
+msgid "Width"
+msgstr ""
+
+#: addons/widgets/pricing.php:339 addons/widgets/pricing-two.php:226
+msgid "Year"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:202 addons/widgets/pricing-two.php:209
+#: addons/widgets/pricing-two.php:211
+msgid "Yearly"
+msgstr ""
+
+#: addons/widgets/pricing-two.php:281
+msgid "Yearly Pricing List"
+msgstr ""
+
+#: addons/widgets/buttons.php:169 addons/widgets/promo-content.php:195
+#: addons/widgets/support.php:180 addons/widgets/team.php:99
+#: addons/widgets/team-two.php:99 addons/widgets/title.php:181
+msgid "Yes"
+msgstr ""
+
+#: addons/widgets/progress.php:99
+msgid ""
+"You can check out our work. Are you ready for a better, more productive "
+"business?"
+msgstr ""
+
+#: addons/widgets/dot-shape.php:53 addons/widgets/shape.php:45
+msgid "ZoomIn"
+msgstr ""
