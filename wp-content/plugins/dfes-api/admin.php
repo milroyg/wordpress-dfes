@@ -448,6 +448,7 @@ function dfes_settings_admin_page() {
         $opts['hydgw_senderid']        = sanitize_text_field($_POST['hydgw_senderid'] ?? 'GOFIRE');
         $opts['hydgw_dlt_entity_id']   = sanitize_text_field($_POST['hydgw_dlt_entity_id'] ?? '');
         $opts['hydgw_dlt_template_id'] = sanitize_text_field($_POST['hydgw_dlt_template_id'] ?? '');
+        $opts['hydgw_route'] = sanitize_text_field($_POST['hydgw_route'] ?? '');
         $opts['hydgw_base_url']        = sanitize_text_field($_POST['hydgw_base_url'] ?? 'https://hydgw.sms.gov.in/failsafe/MLink');
 
         // Other settings
@@ -473,7 +474,7 @@ function dfes_settings_admin_page() {
             <div class="mb-3"><label>HydGW Sender ID</label><input type="text" name="hydgw_senderid" class="form-control" value="<?php echo esc_attr($opts['hydgw_senderid'] ?? 'GOFIRE'); ?>"></div>
             <div class="mb-3"><label>HydGW DLT Entity ID</label><input type="text" name="hydgw_dlt_entity_id" class="form-control" value="<?php echo esc_attr($opts['hydgw_dlt_entity_id'] ?? ''); ?>"></div>
             <div class="mb-3"><label>HydGW DLT Template ID</label><input type="text" name="hydgw_dlt_template_id" class="form-control" value="<?php echo esc_attr($opts['hydgw_dlt_template_id'] ?? ''); ?>"></div>
-           <div class="mb-3"><label>HydGW Route</label><input type="text" name="hydgw_route" class="form-control" value="<?php echo esc_attr($opts['hydgw_route'] ?? ''); ?>">
+           <div class="mb-3"><label>HydGW Route</label><input type="number" name="hydgw_route" class="form-control" value="<?php echo esc_attr($opts['hydgw_route'] ?? ''); ?>">
             <div class="mb-3"><label>HydGW Base URL</label><input type="text" name="hydgw_base_url" class="form-control" value="<?php echo esc_attr($opts['hydgw_base_url'] ?? 'https://hydgw.sms.gov.in/failsafe/MLink'); ?>"></div>
 
             <h3>Other Settings</h3>

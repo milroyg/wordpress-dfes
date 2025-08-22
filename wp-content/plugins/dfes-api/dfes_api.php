@@ -363,7 +363,7 @@ function dfes_send_sms_hydgw($mobile, $message, $station, $dsr_id) {
         'message'        => $message,
         'dlt_entity_id'  => $dlt_entity,
         'dlt_template_id'=> $dlt_template,
-        'route'           => $route, 
+        'hydgw_route'           => $hydgw_route, 
     );
 
     $response = wp_remote_post($base_url, array(
