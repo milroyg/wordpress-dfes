@@ -3,3 +3,6 @@ Theme Name: Xevso Child
 Template: xevso
 */
 
+.elementor-divider-separator{
+	z-index:1;
+}

@@ -70,9 +70,11 @@ if( class_exists( 'CSF' ) ) {
 }
 //Live Calls Chart
 require_once get_template_directory() . '/inc/live-calls-charts.php';
-
-
 require_once get_template_directory() . '/inc/dmrp-map.php';
+
+//Live Vehicle
+require_once get_template_directory() . '/inc/live-vehicle.php';
+
 
 
 
@@ -94,75 +96,10 @@ function allow_json_uploads($mimes) {
 add_filter('upload_mimes', 'allow_json_uploads');
 
 
-/**
- * Feedback
- * */
-function add_feedback_image() {
-    $feedback_image_url = get_site_url() . '/wp-content/uploads/2025/01/feedback_simple.gif';
-
-    // Use the post ID of the "contact-us" page in the default language (e.g., English)
-    $default_contact_page_id = 614; // 
-
-    // Get the correct translation ID for the current language
-    if (function_exists('pll_get_post')) {
-        $translated_id = pll_get_post($default_contact_page_id);
-        $feedback_url = get_permalink($translated_id);
-    } else {
-        $feedback_url = get_permalink($default_contact_page_id); // fallback
-    }
-
-    ?>
-    <div id="feedback-image" style="position: fixed; bottom: 150px; right: 0px; z-index: 9999;">
-        <a href="<?php echo esc_url($feedback_url); ?>" target="_blank" title="Give Feedback">
-            <img src="<?php echo esc_url($feedback_image_url); ?>" alt="Feedback">
-        </a>
-    </div>
-    <?php
-}
-add_action('wp_footer', 'add_feedback_image');
-
-
-
-
-/**
- * Alert Box
- * */
-
-function add_external_link_confirmation_script() {
-    // Enqueue jQuery if it's not already loaded
-    wp_enqueue_script('jquery'); // Ensures jQuery is loaded
-
-    // Add custom JavaScript
-    wp_add_inline_script('jquery', '
-        jQuery(document).on("click", "a", function(e) {
-            var link = jQuery(this);
-            var href = link.attr("href");
-
-            // Check if it\'s an external link
-            if (href && !href.startsWith("mailto:") && !href.startsWith("tel:")&&!href.startsWith("https://www.youtube.com/watch?v=HTWmLUyOk_k")   && link[0].hostname !== window.location.hostname) {
-                
-                // Custom confirmation message with all three languages
-                var message = "This link will take you to an external website!\n\n" +
-                              "ही लिंक तुम्हाला बाह्य वेब साइटवर घेऊन जाईल!\n\n" +
-                              "यह लिंक आपको एक बाहरी वेब साइट पर ले जाएगा।";
-
-                // Show the confirmation box with all the languages
-                var confirmLeave = confirm(message);
-
-                if (!confirmLeave) {
-                    e.preventDefault();
-                }
-            }
-        });
-    ');
-}
-add_action('wp_enqueue_scripts', 'add_external_link_confirmation_script');
-
-
 function enqueue_leaflet_cluster_scripts() {
 	    if (is_page([9616, 9625])) {
      // Load Leaflet core
-    wp_enqueue_style('leaflet-css', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
+	wp_enqueue_style('leaflet-css', get_template_directory_uri() . '/assets/css/leaflet.css', [], '1.9.4');
     wp_enqueue_script('leaflet-js', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', [], null, true);
     // Load MarkerCluster plugin
     wp_enqueue_style('leaflet-markercluster-css', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css');
@@ -180,15 +117,13 @@ function add_leaflet_script_attributes($tag, $handle, $src) {
     }
     return $tag;
 }
-
-add_filter('style_loader_tag', 'add_leaflet_style_attributes', 10, 4);
-function add_leaflet_style_attributes($html, $handle, $href, $media) {
+add_filter('style_loader_tag', function ($html, $handle, $href, $media) {
     if ($handle === 'leaflet-css') {
-        $integrity = 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';
-        return '<link rel="stylesheet" href="' . esc_url($href) . '" integrity="' . esc_attr($integrity) . '" crossorigin="" media="' . esc_attr($media) . '"/>';
+        $integrity = 'sha256-V3EH7RVdB4sO7/yu12GB6tryHbOuqdqnqeV+ewWGAN8=';
+        return '<link rel="stylesheet" href="' . esc_url($href) . '" integrity="' . esc_attr($integrity) . '" crossorigin="anonymous" media="' . esc_attr($media) . '" />';
     }
     return $html;
-}
+}, 10, 4);
 
 
 
@@ -265,6 +200,7 @@ function sitemap_menu_shortcode($atts) {
 }
 add_shortcode('sitemap_menu', 'sitemap_menu_shortcode');
 
+//Classic editor
 add_filter('the_content', function($content) {
     // Check if this is in the admin area and not during REST or block editor (Gutenberg)
     if (is_admin()) {
@@ -292,27 +228,6 @@ add_filter('the_content', function($content) {
     // Otherwise, return content untouched
     return $content;
 }, 5); // Run early to sanitize before other filters
-
-add_filter('wp_img_tag_add_auto_sizes', '__return_false');
-
-add_action('login_head', function () {
-    ?>
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        let user = document.getElementById('user_login');
-        let pass = document.getElementById('user_pass');
-        if (user) {
-            user.removeAttribute('autocomplete');
-            user.setAttribute('autocomplete', 'off');
-        }
-        if (pass) {
-            pass.removeAttribute('autocomplete');
-            pass.setAttribute('autocomplete', 'new-password');
-        }
-    });
-    </script>
-    <?php
-});
 
 add_filter( 'rest_authentication_errors', function( $result ) {
     if ( true === $result || is_wp_error( $result ) ) {
@@ -398,7 +313,3 @@ function remove_konkani_menu_item( $items, $args ) {
     }
     return $items;
 }
-
-
-
-
