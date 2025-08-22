@@ -1,0 +1,31 @@
+.elementor-9979 .elementor-element.elementor-element-26eafb14{--display:flex;}/* Start custom CSS for container, class: .elementor-element-26eafb14 */.elementor-9979 .elementor-element.elementor-element-26eafb14 .eael-timeline .elementor-9979 .elementor-element.elementor-element-26eafb14 .eael-tl-vertical {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* Each timeline item should be 48% and alternate */
+.elementor-9979 .elementor-element.elementor-element-26eafb14 .eael-timeline-item {
+    width: 48% !important;
+    clear: none !important;
+    float: none !important;
+    margin-bottom: 30px;
+}
+
+/* Even items go to the right */
+.elementor-9979 .elementor-element.elementor-element-26eafb14 .eael-timeline-item:nth-child(even) {
+    align-self: flex-start;
+    margin-left: auto;
+}
+
+/* Odd items go to the left */
+.elementor-9979 .elementor-element.elementor-element-26eafb14 .eael-timeline-item:nth-child(odd) {
+    align-self: flex-start;
+    margin-right: auto;
+}
+
+/* Fix inner content alignment */
+.elementor-9979 .elementor-element.elementor-element-26eafb14 .eael-tl-content {
+    text-align: left;
+}/* End custom CSS */

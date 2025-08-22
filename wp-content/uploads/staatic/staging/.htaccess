@@ -1,0 +1,1044 @@
+ErrorDocument 404 /dfes/404_not_found/index.html
+Redirect 301 /dfes/overview-functioning/acts-rules-citizens-charter-rti/ https://milroyg.github.io/dfes/acts-rules-citizens-charter-rti/
+Redirect 301 /dfes/category/publications/ https://milroyg.github.io/dfes/fire-extinction/publications/
+Redirect 301 /dfes/test/ https://milroyg.github.io/dfes/agnisandes/
+Redirect 301 /dfes/ensure-fire-safety-contribute-towards-nation-building-pdf-186-65-kb/ https://milroyg.github.io/dfes/ensure-fire-safety-contribute-towards-nation-building/
+Redirect 301 /dfes/cool_timeline/37th-annual-drilll-competition/ https://milroyg.github.io/dfes/37th-annual-drilll-competition/
+Redirect 301 /dfes/cool_timeline/annual-raising-family-day-function/ https://milroyg.github.io/dfes/annual-raising-family-day-function/
+Redirect 301 /dfes/cool_timeline/40th-annual-raising-day/ https://milroyg.github.io/dfes/40th-annual-raising-day/
+Redirect 301 /dfes/cool_timeline/the-special-course-in-general-fire-prevention-fire-fighting-of-batch-no-xxxi-for-employees-of-taj-group-of-hotels-w-e-f-24-01-2024-to-07-02-2024/ https://milroyg.github.io/dfes/the-special-course-in-general-fire-prevention-fire-fighting-of-batch-no-xxxi-for-employees-of-taj-group-of-hotels-w-e-f-24-01-2024-to-07-02-2024/
+Redirect 301 /dfes/mr/cool_timeline/%E0%A4%B0%E0%A4%BE%E0%A4%B7%E0%A5%8D%E0%A4%9F%E0%A5%8D%E0%A4%B0%E0%A5%80%E0%A4%AF-%E0%A4%85%E0%A4%97%E0%A5%8D%E0%A4%A8%E0%A4%BF%E0%A4%B6%E0%A4%AE%E0%A4%A8-%E0%A4%B8%E0%A5%87%E0%A4%B5%E0%A4%BE/ https://milroyg.github.io/dfes/mr/%e0%a4%b0%e0%a4%be%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%af-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8-%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%be/
+Redirect 301 /dfes/mr/cool_timeline/16-%E0%A4%AE%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%9A-2024-%E0%A4%B0%E0%A5%8B%E0%A4%9C%E0%A5%80-%E0%A4%9D%E0%A4%BE%E0%A4%B2%E0%A5%87%E0%A4%B2%E0%A5%80-36%E0%A4%B5%E0%A5%80-%E0%A4%B5%E0%A4%BE%E0%A4%B0/ https://milroyg.github.io/dfes/mr/16-%e0%a4%ae%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%9a-2024-%e0%a4%b0%e0%a5%8b%e0%a4%9c%e0%a5%80-%e0%a4%9d%e0%a4%be%e0%a4%b2%e0%a5%87%e0%a4%b2%e0%a5%80-36%e0%a4%b5%e0%a5%80-%e0%a4%b5%e0%a4%be%e0%a4%b0/
+Redirect 301 /dfes/cool_timeline/36th-annual-inspection-day-parade-held-on-16th-march-2024/ https://milroyg.github.io/dfes/36th-annual-inspection-day-parade-held-on-16th-march-2024/
+Redirect 301 /dfes/cool_timeline/national-fire-service-day-14th-april-2024/ https://milroyg.github.io/dfes/national-fire-service-day-14th-april-2024/
+Redirect 301 /dfes/mr/cool_timeline/24-01-2024-%E0%A4%A4%E0%A5%87-07-02-2024-%E0%A4%AA%E0%A4%B0%E0%A5%8D%E0%A4%AF%E0%A4%82%E0%A4%A4-%E0%A4%A4%E0%A4%BE%E0%A4%9C-%E0%A4%B9%E0%A5%89%E0%A4%9F%E0%A5%87%E0%A4%B2-%E0%A4%B8%E0%A4%AE%E0%A5%81/ https://milroyg.github.io/dfes/mr/24-01-2024-%e0%a4%a4%e0%a5%87-07-02-2024-%e0%a4%aa%e0%a4%b0%e0%a5%8d%e0%a4%af%e0%a4%82%e0%a4%a4-%e0%a4%a4%e0%a4%be%e0%a4%9c-%e0%a4%b9%e0%a5%89%e0%a4%9f%e0%a5%87%e0%a4%b2-%e0%a4%b8%e0%a4%ae%e0%a5%81/
+Redirect 301 /dfes/mr/cool_timeline/40%E0%A4%B5%E0%A4%BE-%E0%A4%B5%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%B7%E0%A4%BF%E0%A4%95-%E0%A4%B0%E0%A5%87%E0%A4%9D%E0%A4%BF%E0%A4%82%E0%A4%97-%E0%A4%A1%E0%A5%87/ https://milroyg.github.io/dfes/mr/40%e0%a4%b5%e0%a4%be-%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%95-%e0%a4%b0%e0%a5%87%e0%a4%9d%e0%a4%bf%e0%a4%82%e0%a4%97-%e0%a4%a1%e0%a5%87/
+Redirect 301 /dfes/mr/cool_timeline/%E0%A5%A9%E0%A5%AD-%E0%A4%B5%E0%A5%80-%E0%A4%B5%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%B7%E0%A4%BF%E0%A4%95-%E0%A4%A1%E0%A5%8D%E0%A4%B0%E0%A4%BF%E0%A4%B2-%E0%A4%B8%E0%A5%8D%E0%A4%AA%E0%A4%B0%E0%A5%8D/ https://milroyg.github.io/dfes/mr/%e0%a5%a9%e0%a5%ad-%e0%a4%b5%e0%a5%80-%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%95-%e0%a4%a1%e0%a5%8d%e0%a4%b0%e0%a4%bf%e0%a4%b2-%e0%a4%b8%e0%a5%8d%e0%a4%aa%e0%a4%b0%e0%a5%8d/
+Redirect 301 /dfes/mr/cool_timeline/%E0%A4%B5%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%B7%E0%A4%BF%E0%A4%95-%E0%A4%B8%E0%A4%82%E0%A4%95%E0%A4%B2%E0%A4%A8-%E0%A4%95%E0%A5%81%E0%A4%9F%E0%A5%81%E0%A4%82%E0%A4%AC-%E0%A4%A6%E0%A4%BF%E0%A4%A8/ https://milroyg.github.io/dfes/mr/%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%95-%e0%a4%b8%e0%a4%82%e0%a4%95%e0%a4%b2%e0%a4%a8-%e0%a4%95%e0%a5%81%e0%a4%9f%e0%a5%81%e0%a4%82%e0%a4%ac-%e0%a4%a6%e0%a4%bf%e0%a4%a8/
+Redirect 301 /dfes/11-training-of-trainers-in-basic-fire-safety-evacuation-drill-procedures-for-educational-institutions/ https://milroyg.github.io/dfes/training/training-courses/11-training-of-trainers-in-basic-fire-safety-evacuation-drill-procedures-for-educational-institutions-2/
+Redirect 301 /dfes/1-external-sub-officers-course-of-national-fire-service-college-ministry-of-home-affairs-nagpur/ https://milroyg.github.io/dfes/training/training-courses/1-external-sub-officers-course-of-national-fire-service-college-ministry-of-home-affairs-nagpur-2/
+Redirect 301 /dfes/10-basic-fire-safety-and-evacuation-drill-procedure-for-government-sponsored-and-private-candidates/ https://milroyg.github.io/dfes/training/training-courses/10-basic-fire-safety-and-evacuation-drill-procedure-for-government-sponsored-and-private-candidates-2/
+Redirect 301 /dfes/12-urban-search-rescue-and-medical-first-responder-course-for-state-fire-services-sdrf-home-guards-civil-defence/ https://milroyg.github.io/dfes/training/training-courses/12-urban-search-rescue-and-medical-first-responder-course-for-state-fire-services-sdrf-home-guards-civil-defence-2/
+Redirect 301 /dfes/14-familiarization-course-in-breathing-apparatus-handling/ https://milroyg.github.io/dfes/training/training-courses/14-familiarization-course-in-breathing-apparatus-handling-2/
+Redirect 301 /dfes/13-elementary-course-in-general-fire-fighting-for-volunteers-home-guards-civil-defence/ https://milroyg.github.io/dfes/training/training-courses/13-elementary-course-in-general-fire-fighting-for-volunteers-home-guards-civil-defence-2/
+Redirect 301 /dfes/15-safe-transportation-of-hazardous-goods-for-driver-as-per-central-motor-vehicle-act-and-rules-1993/ https://milroyg.github.io/dfes/training/training-courses/15-safe-transportation-of-hazardous-goods-for-driver-as-per-central-motor-vehicle-act-and-rules-1993-2/
+Redirect 301 /dfes/2-practical-attachment-sponsored-by-national-fire-service-college-nagpur-private-trainees/ https://milroyg.github.io/dfes/training/training-courses/2-practical-attachment-sponsored-by-national-fire-service-college-nagpur-private-trainees-2/
+Redirect 301 /dfes/4-firemanship-training-course-for-private-candidates/ https://milroyg.github.io/dfes/training/training-courses/4-firemanship-training-course-for-private-candidates-2/
+Redirect 301 /dfes/3-elementary-course-in-general-fire-fighting-for-recruit-sub-officer-fire-fighter-driver-operator-and-watch-room-operator-government-sponsored/ https://milroyg.github.io/dfes/training/training-courses/3-elementary-course-in-general-fire-fighting-for-recruit-sub-officer-fire-fighter-driver-operator-and-watch-room-operator-government-sponsored-2/
+Redirect 301 /dfes/5-refresher-course-in-general-fire-fighting-for-leading-fire-fighters-senior-fire-fighters/ https://milroyg.github.io/dfes/training/training-courses/5-refresher-course-in-general-fire-fighting-for-leading-fire-fighters-senior-fire-fighters-2/
+Redirect 301 /dfes/6-orientation-course-in-general-fire-prevention-and-fire-fighting/ https://milroyg.github.io/dfes/training/training-courses/6-orientation-course-in-general-fire-prevention-and-fire-fighting-2/
+Redirect 301 /dfes/fire-safety-education-awareness-campaign-safer-school-safer-india/ https://milroyg.github.io/dfes/training/training-courses/fire-safety-education-awareness-campaign-safer-school-safer-india-2/
+Redirect 301 /dfes/7-special-course-in-general-fire-prevention-and-fire-fighting-for-hotel-employees/ https://milroyg.github.io/dfes/training/training-courses/7-special-course-in-general-fire-prevention-and-fire-fighting-for-hotel-employees-2/
+Redirect 301 /dfes/8-basic-fire-fighting-course-for-volunteers-and-private-organisations/ https://milroyg.github.io/dfes/training/training-courses/8-basic-fire-fighting-course-for-volunteers-and-private-organisations-2/
+Redirect 301 /dfes/9-familiarization-course-in-general-fire-fighting/ https://milroyg.github.io/dfes/training/training-courses/9-familiarization-course-in-general-fire-fighting-2/
+Redirect 301 /dfes/training-in-basic-fire-safety-and-disaster-preparedness-with-the-help-of-fire-safety-educational-van/ https://milroyg.github.io/dfes/training/training-courses/training-in-basic-fire-safety-and-disaster-preparedness-with-the-help-of-fire-safety-educational-van-2/
+Redirect 301 /dfes/mr/1-%E0%A4%B0%E0%A4%BE%E0%A4%B7%E0%A5%8D%E0%A4%9F%E0%A5%8D%E0%A4%B0%E0%A5%80%E0%A4%AF-%E0%A4%85%E0%A4%97%E0%A5%8D%E0%A4%A8%E0%A4%BF%E0%A4%B6%E0%A4%AE%E0%A4%A8-%E0%A4%B8%E0%A5%87%E0%A4%B5%E0%A4%BE/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/1-%e0%a4%b0%e0%a4%be%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%af-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8-%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%be/
+Redirect 301 /dfes/mr/10-%E0%A4%B8%E0%A4%B0%E0%A4%95%E0%A4%BE%E0%A4%B0-%E0%A4%AA%E0%A5%81%E0%A4%B0%E0%A4%B8%E0%A5%8D%E0%A4%95%E0%A5%83%E0%A4%A4-%E0%A4%B5-%E0%A4%96%E0%A4%BE%E0%A4%B8%E0%A4%97%E0%A5%80-%E0%A4%89%E0%A4%AE/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/10-%e0%a4%b8%e0%a4%b0%e0%a4%95%e0%a4%be%e0%a4%b0-%e0%a4%aa%e0%a5%81%e0%a4%b0%e0%a4%b8%e0%a5%8d%e0%a4%95%e0%a5%83%e0%a4%a4-%e0%a4%b5-%e0%a4%96%e0%a4%be%e0%a4%b8%e0%a4%97%e0%a5%80-%e0%a4%89%e0%a4%ae/
+Redirect 301 /dfes/mr/11-%E0%A4%B6%E0%A5%88%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A4%A3%E0%A4%BF%E0%A4%95-%E0%A4%B8%E0%A4%82%E0%A4%B8%E0%A5%8D%E0%A4%A5%E0%A4%BE%E0%A4%82%E0%A4%B8%E0%A4%BE%E0%A4%A0%E0%A5%80-%E0%A4%AA%E0%A5%8D/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/11-%e0%a4%b6%e0%a5%88%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3%e0%a4%bf%e0%a4%95-%e0%a4%b8%e0%a4%82%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%82%e0%a4%b8%e0%a4%be%e0%a4%a0%e0%a5%80-%e0%a4%aa%e0%a5%8d/
+Redirect 301 /dfes/mr/13-%E0%A4%B8%E0%A5%8D%E0%A4%B5%E0%A4%AF%E0%A4%82%E0%A4%B8%E0%A5%87%E0%A4%B5%E0%A4%95%E0%A4%BE%E0%A4%82%E0%A4%B8%E0%A4%BE%E0%A4%A0%E0%A5%80-%E0%A4%B9%E0%A5%8B%E0%A4%AE-%E0%A4%97%E0%A4%BE%E0%A4%B0/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/13-%e0%a4%b8%e0%a5%8d%e0%a4%b5%e0%a4%af%e0%a4%82%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%95%e0%a4%be%e0%a4%82%e0%a4%b8%e0%a4%be%e0%a4%a0%e0%a5%80-%e0%a4%b9%e0%a5%8b%e0%a4%ae-%e0%a4%97%e0%a4%be%e0%a4%b0/
+Redirect 301 /dfes/mr/15-%E0%A4%95%E0%A5%87%E0%A4%82%E0%A4%A6%E0%A5%8D%E0%A4%B0%E0%A5%80%E0%A4%AF-%E0%A4%AE%E0%A5%8B%E0%A4%9F%E0%A4%BE%E0%A4%B0-%E0%A4%B5%E0%A4%BE%E0%A4%B9%E0%A4%A8-%E0%A4%85%E0%A4%A7%E0%A4%BF%E0%A4%A8/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/15-%e0%a4%95%e0%a5%87%e0%a4%82%e0%a4%a6%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%af-%e0%a4%ae%e0%a5%8b%e0%a4%9f%e0%a4%be%e0%a4%b0-%e0%a4%b5%e0%a4%be%e0%a4%b9%e0%a4%a8-%e0%a4%85%e0%a4%a7%e0%a4%bf%e0%a4%a8/
+Redirect 301 /dfes/mr/12-%E0%A4%B0%E0%A4%BE%E0%A4%9C%E0%A5%8D%E0%A4%AF-%E0%A4%85%E0%A4%97%E0%A5%8D%E0%A4%A8%E0%A4%BF%E0%A4%B6%E0%A4%AE%E0%A4%A8-%E0%A4%B8%E0%A5%87%E0%A4%B5%E0%A4%BE-%E0%A4%8F%E0%A4%B8%E0%A4%A1%E0%A5%80/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/12-%e0%a4%b0%e0%a4%be%e0%a4%9c%e0%a5%8d%e0%a4%af-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8-%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%be-%e0%a4%8f%e0%a4%b8%e0%a4%a1%e0%a5%80/
+Redirect 301 /dfes/mr/14-%E0%A4%B6%E0%A5%8D%E0%A4%B5%E0%A4%B8%E0%A4%A8-%E0%A4%89%E0%A4%AA%E0%A4%95%E0%A4%B0%E0%A4%A3%E0%A5%87-%E0%A4%B9%E0%A4%BE%E0%A4%A4%E0%A4%BE%E0%A4%B3%E0%A4%A3%E0%A5%8D%E0%A4%AF%E0%A4%BE%E0%A4%AE/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/14-%e0%a4%b6%e0%a5%8d%e0%a4%b5%e0%a4%b8%e0%a4%a8-%e0%a4%89%e0%a4%aa%e0%a4%95%e0%a4%b0%e0%a4%a3%e0%a5%87-%e0%a4%b9%e0%a4%be%e0%a4%a4%e0%a4%be%e0%a4%b3%e0%a4%a3%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%ae/
+Redirect 301 /dfes/mr/5-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%AE%E0%A5%81%E0%A4%96-%E0%A4%AB%E0%A4%BE%E0%A4%AF%E0%A4%B0-%E0%A4%AB%E0%A4%BE%E0%A4%AF%E0%A4%9F%E0%A4%B0%E0%A5%8D%E0%A4%B8-%E0%A4%B5%E0%A4%B0%E0%A4%BF%E0%A4%B7/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/5-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%ae%e0%a5%81%e0%a4%96-%e0%a4%ab%e0%a4%be%e0%a4%af%e0%a4%b0-%e0%a4%ab%e0%a4%be%e0%a4%af%e0%a4%9f%e0%a4%b0%e0%a5%8d%e0%a4%b8-%e0%a4%b5%e0%a4%b0%e0%a4%bf%e0%a4%b7/
+Redirect 301 /dfes/mr/2-%E0%A4%B0%E0%A4%BE%E0%A4%B7%E0%A5%8D%E0%A4%9F%E0%A5%8D%E0%A4%B0%E0%A5%80%E0%A4%AF-%E0%A4%85%E0%A4%97%E0%A5%8D%E0%A4%A8%E0%A4%BF%E0%A4%B6%E0%A4%AE%E0%A4%A8-%E0%A4%B8%E0%A5%87%E0%A4%B5%E0%A4%BE/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/2-%e0%a4%b0%e0%a4%be%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%af-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8-%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%be/
+Redirect 301 /dfes/mr/3-%E0%A4%B0%E0%A5%87%E0%A4%95%E0%A5%8D%E0%A4%B0%E0%A5%81%E0%A4%9F-%E0%A4%89%E0%A4%AA-%E0%A4%85%E0%A4%A7%E0%A4%BF%E0%A4%95%E0%A4%BE%E0%A4%B0%E0%A5%80-%E0%A4%AB%E0%A4%BE%E0%A4%AF%E0%A4%B0-%E0%A4%AB/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/3-%e0%a4%b0%e0%a5%87%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a5%81%e0%a4%9f-%e0%a4%89%e0%a4%aa-%e0%a4%85%e0%a4%a7%e0%a4%bf%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%80-%e0%a4%ab%e0%a4%be%e0%a4%af%e0%a4%b0-%e0%a4%ab/
+Redirect 301 /dfes/mr/4-%E0%A4%96%E0%A4%BE%E0%A4%B8%E0%A4%97%E0%A5%80-%E0%A4%89%E0%A4%AE%E0%A5%87%E0%A4%A6%E0%A4%B5%E0%A4%BE%E0%A4%B0%E0%A4%BE%E0%A4%82%E0%A4%B8%E0%A4%BE%E0%A4%A0%E0%A5%80-%E0%A4%AB%E0%A4%BE%E0%A4%AF/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/4-%e0%a4%96%e0%a4%be%e0%a4%b8%e0%a4%97%e0%a5%80-%e0%a4%89%e0%a4%ae%e0%a5%87%e0%a4%a6%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a4%be%e0%a4%82%e0%a4%b8%e0%a4%be%e0%a4%a0%e0%a5%80-%e0%a4%ab%e0%a4%be%e0%a4%af/
+Redirect 301 /dfes/mr/8-%E0%A4%B8%E0%A5%8D%E0%A4%B5%E0%A4%AF%E0%A4%82%E0%A4%B8%E0%A5%87%E0%A4%B5%E0%A4%95%E0%A4%BE%E0%A4%82%E0%A4%B8%E0%A4%BE%E0%A4%A0%E0%A5%80-%E0%A4%B5-%E0%A4%96%E0%A4%BE%E0%A4%B8%E0%A4%97%E0%A5%80/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/8-%e0%a4%b8%e0%a5%8d%e0%a4%b5%e0%a4%af%e0%a4%82%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%95%e0%a4%be%e0%a4%82%e0%a4%b8%e0%a4%be%e0%a4%a0%e0%a5%80-%e0%a4%b5-%e0%a4%96%e0%a4%be%e0%a4%b8%e0%a4%97%e0%a5%80/
+Redirect 301 /dfes/mr/7-%E0%A4%B9%E0%A5%89%E0%A4%9F%E0%A5%87%E0%A4%B2-%E0%A4%95%E0%A4%B0%E0%A5%8D%E0%A4%AE%E0%A4%9A%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%AF%E0%A4%BE%E0%A4%82%E0%A4%B8%E0%A4%BE%E0%A4%A0%E0%A5%80/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/7-%e0%a4%b9%e0%a5%89%e0%a4%9f%e0%a5%87%e0%a4%b2-%e0%a4%95%e0%a4%b0%e0%a5%8d%e0%a4%ae%e0%a4%9a%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%82%e0%a4%b8%e0%a4%be%e0%a4%a0%e0%a5%80/
+Redirect 301 /dfes/mr/6-%E0%A4%B8%E0%A4%B0%E0%A5%8D%E0%A4%B5%E0%A4%B8%E0%A4%BE%E0%A4%A7%E0%A4%BE%E0%A4%B0%E0%A4%A3-%E0%A4%85%E0%A4%97%E0%A5%8D%E0%A4%A8%E0%A4%BF%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%A4%E0%A4%BF%E0%A4%AC/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/6-%e0%a4%b8%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%b8%e0%a4%be%e0%a4%a7%e0%a4%be%e0%a4%b0%e0%a4%a3-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac/
+Redirect 301 /dfes/mr/9-%E0%A4%B8%E0%A4%B0%E0%A5%8D%E0%A4%B5%E0%A4%B8%E0%A4%BE%E0%A4%A7%E0%A4%BE%E0%A4%B0%E0%A4%A3-%E0%A4%85%E0%A4%97%E0%A5%8D%E0%A4%A8%E0%A4%BF%E0%A4%B6%E0%A4%BE%E0%A4%AE%E0%A4%95%E0%A4%AE%E0%A4%A7/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/9-%e0%a4%b8%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%b8%e0%a4%be%e0%a4%a7%e0%a4%be%e0%a4%b0%e0%a4%a3-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%be%e0%a4%ae%e0%a4%95%e0%a4%ae%e0%a4%a7/
+Redirect 301 /dfes/mr/%E0%A4%85%E0%A4%97%E0%A5%8D%E0%A4%A8%E0%A4%BF-%E0%A4%B8%E0%A5%81%E0%A4%B0%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A4%BE-%E0%A4%B6%E0%A4%BF%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A4%A3-%E0%A4%B5-%E0%A4%9C%E0%A4%BE/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%be-%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%b5-%e0%a4%9c%e0%a4%be/
+Redirect 301 /dfes/mr/%E0%A4%85%E0%A4%97%E0%A5%8D%E0%A4%A8%E0%A4%BF-%E0%A4%B8%E0%A5%81%E0%A4%B0%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A4%BE-%E0%A4%B6%E0%A5%88%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A4%A3%E0%A4%BF%E0%A4%95-%E0%A4%B5/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%be-%e0%a4%b6%e0%a5%88%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3%e0%a4%bf%e0%a4%95-%e0%a4%b5/
+Redirect 301 /dfes/click-here-for-the-disaster-management-response-handbook/ https://milroyg.github.io/dfes/disaster-management/disaster-response-plan/click-here-for-the-disaster-management-response-handbook/
+Redirect 301 /dfes/overview-functioning/contact-us-2/ https://milroyg.github.io/dfes/overview-functioning/contact-us/
+Redirect 301 /dfes/mr/%E0%A4%85%E0%A4%97%E0%A5%8D%E0%A4%A8%E0%A4%BF-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%A4%E0%A4%BF%E0%A4%AC%E0%A4%82%E0%A4%A7/%E0%A4%B0%E0%A4%9A%E0%A4%A8%E0%A4%BE-%E0%A4%B5-%E0%A4%A8%E0%A4%BF%E0%A4%AF%E0%A4%82%E0%A4%A4%E0%A5%8D%E0%A4%B0%E0%A4%A3/ https://milroyg.github.io/dfes/mr/%e0%a4%b5%e0%a4%bf%e0%a4%b9%e0%a4%82%e0%a4%97%e0%a4%be%e0%a4%b5%e0%a4%b2%e0%a5%8b%e0%a4%95%e0%a4%a8-%e0%a4%86%e0%a4%a3%e0%a4%bf-%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af/%e0%a4%b0%e0%a4%9a%e0%a4%a8%e0%a4%be-%e0%a4%b5-%e0%a4%a8%e0%a4%bf%e0%a4%af%e0%a4%82%e0%a4%a4%e0%a5%8d%e0%a4%b0%e0%a4%a3/
+Redirect 301 /dfes/mr/%E0%A4%86%E0%A4%AA%E0%A4%A4%E0%A5%8D%E0%A4%A4%E0%A5%80-%E0%A4%B5%E0%A5%8D%E0%A4%AF%E0%A4%B5%E0%A4%B8%E0%A5%8D%E0%A4%A5%E0%A4%BE%E0%A4%AA%E0%A4%A8-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%A4%E0%A4%BF%E0%A4%B8/ https://milroyg.github.io/dfes/mr/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%b8%e0%a4%be%e0%a4%a6-%e0%a4%af%e0%a5%8b%e0%a4%9c%e0%a4%a8%e0%a4%be/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%b8/
+Redirect 301 /dfes/mr/%E0%A4%85%E0%A4%97%E0%A5%8D%E0%A4%A8%E0%A4%BF-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%A4%E0%A4%BF%E0%A4%AC%E0%A4%82%E0%A4%A7/%E0%A4%B0%E0%A4%BF%E0%A4%85%E0%A4%B2-%E0%A4%9F%E0%A4%BE%E0%A4%87%E0%A4%AE-%E0%A4%98%E0%A4%9F%E0%A4%A8%E0%A4%BE-%E0%A4%B8%E0%A5%82%E0%A4%9A%E0%A4%A8%E0%A4%BE/ https://milroyg.github.io/dfes/mr/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8/%e0%a4%b0%e0%a4%bf%e0%a4%85%e0%a4%b2-%e0%a4%9f%e0%a4%be%e0%a4%87%e0%a4%ae-%e0%a4%98%e0%a4%9f%e0%a4%a8%e0%a4%be-%e0%a4%b8%e0%a5%82%e0%a4%9a%e0%a4%a8%e0%a4%be/
+Redirect 301 /dfes/mr/%E0%A4%85%E0%A4%97%E0%A5%8D%E0%A4%A8%E0%A4%BF-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%A4%E0%A4%BF%E0%A4%AC%E0%A4%82%E0%A4%A7/%E0%A4%A6%E0%A5%88%E0%A4%A8%E0%A4%BF%E0%A4%95-%E0%A4%AA%E0%A4%B0%E0%A4%BF%E0%A4%B8%E0%A5%8D%E0%A4%A5%E0%A4%BF%E0%A4%A4%E0%A5%80-%E0%A4%85%E0%A4%B9%E0%A4%B5%E0%A4%BE%E0%A4%B2/ https://milroyg.github.io/dfes/mr/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8/%e0%a4%a6%e0%a5%88%e0%a4%a8%e0%a4%bf%e0%a4%95-%e0%a4%aa%e0%a4%b0%e0%a4%bf%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%bf%e0%a4%a4%e0%a5%80-%e0%a4%85%e0%a4%b9%e0%a4%b5%e0%a4%be%e0%a4%b2/
+Redirect 301 /dfes/mr/%E0%A4%B5%E0%A5%8D%E0%A4%AF%E0%A4%B5%E0%A4%B8%E0%A4%BE%E0%A4%AF-%E0%A4%B8%E0%A5%81%E0%A4%B2%E0%A4%AD%E0%A4%A4%E0%A4%BE/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7/%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a4%be%e0%a4%af-%e0%a4%b8%e0%a5%81%e0%a4%b2%e0%a4%ad%e0%a4%a4%e0%a4%be/
+Redirect 301 /dfes/mr/%E0%A4%AE%E0%A4%B9%E0%A4%A4%E0%A5%8D%E0%A4%A4%E0%A5%8D%E0%A4%B5%E0%A4%BE%E0%A4%9A%E0%A5%80-%E0%A4%B8%E0%A4%82%E0%A4%B8%E0%A4%BE%E0%A4%A7%E0%A4%A8%E0%A5%87/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7/%e0%a4%ae%e0%a4%b9%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%8d%e0%a4%b5%e0%a4%be%e0%a4%9a%e0%a5%80-%e0%a4%b8%e0%a4%82%e0%a4%b8%e0%a4%be%e0%a4%a7%e0%a4%a8%e0%a5%87/
+Redirect 301 /dfes/mr/%E0%A4%B8%E0%A5%81%E0%A4%B0%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A4%BE-%E0%A4%AE%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%97%E0%A4%A6%E0%A4%B0%E0%A5%8D%E0%A4%B6%E0%A4%95-%E0%A4%A4%E0%A4%A4%E0%A5%8D%E0%A4%A4%E0%A5%8D/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7/%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%be-%e0%a4%ae%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%97%e0%a4%a6%e0%a4%b0%e0%a5%8d%e0%a4%b6%e0%a4%95-%e0%a4%a4%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%8d/
+Redirect 301 /dfes/mr/%E0%A4%B8%E0%A5%81%E0%A4%B0%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A4%BF%E0%A4%A4-%E0%A4%97%E0%A5%8B%E0%A4%B5%E0%A4%BE-24x7-%E0%A4%88%E0%A4%8F%E0%A4%AE%E0%A4%8F%E0%A4%B8/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7/%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%a4-%e0%a4%97%e0%a5%8b%e0%a4%b5%e0%a4%be-24x7-%e0%a4%88%e0%a4%8f%e0%a4%ae%e0%a4%8f%e0%a4%b8/
+Redirect 301 /dfes/mr/%E0%A4%AD%E0%A4%B0%E0%A4%A4%E0%A5%80/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%ad%e0%a4%b0%e0%a4%a4%e0%a5%80/
+Redirect 301 /dfes/mr/%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B6%E0%A4%BF%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A4%A3-%E0%A4%B8%E0%A5%81%E0%A4%B5%E0%A4%BF%E0%A4%A7%E0%A4%BE/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%b8%e0%a5%81%e0%a4%b5%e0%a4%bf%e0%a4%a7%e0%a4%be/
+Redirect 301 /dfes/mr/%E0%A4%86%E0%A4%AA%E0%A4%A4%E0%A5%8D%E0%A4%A4%E0%A5%80%E0%A4%9A%E0%A4%BE-%E0%A4%A7%E0%A5%8B%E0%A4%95%E0%A4%BE-%E0%A4%95%E0%A4%AE%E0%A5%80-%E0%A4%95%E0%A4%B0%E0%A4%A3%E0%A5%87/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80%e0%a4%9a%e0%a4%be-%e0%a4%a7%e0%a5%8b%e0%a4%95%e0%a4%be-%e0%a4%95%e0%a4%ae%e0%a5%80-%e0%a4%95%e0%a4%b0%e0%a4%a3%e0%a5%87/
+Redirect 301 /dfes/mr/%E0%A4%B5%E0%A4%B0%E0%A5%8D%E0%A4%A4%E0%A4%AE%E0%A4%BE%E0%A4%A8%E0%A4%AA%E0%A4%A4%E0%A5%8D%E0%A4%B0-%E0%A4%95%E0%A5%8D%E0%A4%B2%E0%A4%BF%E0%A4%AA%E0%A4%BF%E0%A4%82%E0%A4%97%E0%A5%8D%E0%A4%9C/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%b5%e0%a4%b0%e0%a5%8d%e0%a4%a4%e0%a4%ae%e0%a4%be%e0%a4%a8%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%b0-%e0%a4%95%e0%a5%8d%e0%a4%b2%e0%a4%bf%e0%a4%aa%e0%a4%bf%e0%a4%82%e0%a4%97%e0%a5%8d%e0%a4%9c/
+Redirect 301 /dfes/mr/%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B6%E0%A4%BF%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A4%A3/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/
+Redirect 301 /dfes/mr/%E0%A4%86%E0%A4%95%E0%A4%A1%E0%A5%87%E0%A4%B5%E0%A4%BE%E0%A4%B0%E0%A5%80/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%86%e0%a4%95%e0%a4%a1%e0%a5%87%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a5%80/
+Redirect 301 /dfes/overview-functioning/organization-control/ https://milroyg.github.io/dfes/organization-control/
+Redirect 301 /dfes/overview-functioning/about-us/ https://milroyg.github.io/dfes/about-us/
+Redirect 301 /dfes/annual-raising-family-day-function/ https://milroyg.github.io/dfes/cool_timeline/annual-raising-family-day-function-2/
+Redirect 301 /dfes/37th-annual-drilll-competition/ https://milroyg.github.io/dfes/cool_timeline/37th-annual-drilll-competition-2/
+Redirect 301 /dfes/the-special-course-in-general-fire-prevention-fire-fighting-of-batch-no-xxxi-for-employees-of-taj-group-of-hotels-w-e-f-24-01-2024-to-07-02-2024/ https://milroyg.github.io/dfes/cool_timeline/the-special-course-in-general-fire-prevention-fire-fighting-of-batch-no-xxxi-for-employees-of-taj-group-of-hotels-w-e-f-24-01-2024-to-07-02-2024-2/
+Redirect 301 /dfes/40th-annual-raising-day/ https://milroyg.github.io/dfes/cool_timeline/40th-annual-raising-day-2/
+Redirect 301 /dfes/mr/%e0%a4%b0%e0%a4%be%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%af-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8-%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%be/ https://milroyg.github.io/dfes/mr/cool_timeline/%e0%a4%b0%e0%a4%be%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%af-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8-%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%be-2/
+Redirect 301 /dfes/mr/16-%e0%a4%ae%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%9a-2024-%e0%a4%b0%e0%a5%8b%e0%a4%9c%e0%a5%80-%e0%a4%9d%e0%a4%be%e0%a4%b2%e0%a5%87%e0%a4%b2%e0%a5%80-36%e0%a4%b5%e0%a5%80-%e0%a4%b5%e0%a4%be%e0%a4%b0/ https://milroyg.github.io/dfes/mr/cool_timeline/16-%e0%a4%ae%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%9a-2024-%e0%a4%b0%e0%a5%8b%e0%a4%9c%e0%a5%80-%e0%a4%9d%e0%a4%be%e0%a4%b2%e0%a5%87%e0%a4%b2%e0%a5%80-36%e0%a4%b5%e0%a5%80-%e0%a4%b5%e0%a4%be%e0%a4%b0-2/
+Redirect 301 /dfes/36th-annual-inspection-day-parade-held-on-16th-march-2024/ https://milroyg.github.io/dfes/cool_timeline/36th-annual-inspection-day-parade-held-on-16th-march-2024-2/
+Redirect 301 /dfes/national-fire-service-day-14th-april-2024/ https://milroyg.github.io/dfes/cool_timeline/national-fire-service-day-14th-april-2024-2/
+Redirect 301 /dfes/mr/24-01-2024-%e0%a4%a4%e0%a5%87-07-02-2024-%e0%a4%aa%e0%a4%b0%e0%a5%8d%e0%a4%af%e0%a4%82%e0%a4%a4-%e0%a4%a4%e0%a4%be%e0%a4%9c-%e0%a4%b9%e0%a5%89%e0%a4%9f%e0%a5%87%e0%a4%b2-%e0%a4%b8%e0%a4%ae%e0%a5%81/ https://milroyg.github.io/dfes/mr/cool_timeline/24-01-2024-%e0%a4%a4%e0%a5%87-07-02-2024-%e0%a4%aa%e0%a4%b0%e0%a5%8d%e0%a4%af%e0%a4%82%e0%a4%a4-%e0%a4%a4%e0%a4%be%e0%a4%9c-%e0%a4%b9%e0%a5%89%e0%a4%9f%e0%a5%87%e0%a4%b2-%e0%a4%b8%e0%a4%ae%e0%a5%81-1/
+Redirect 301 /dfes/mr/40%e0%a4%b5%e0%a4%be-%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%95-%e0%a4%b0%e0%a5%87%e0%a4%9d%e0%a4%bf%e0%a4%82%e0%a4%97-%e0%a4%a1%e0%a5%87/ https://milroyg.github.io/dfes/mr/cool_timeline/40%e0%a4%b5%e0%a4%be-%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%95-%e0%a4%b0%e0%a5%87%e0%a4%9d%e0%a4%bf%e0%a4%82%e0%a4%97-%e0%a4%a1%e0%a5%87-2/
+Redirect 301 /dfes/mr/%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%95-%e0%a4%b8%e0%a4%82%e0%a4%95%e0%a4%b2%e0%a4%a8-%e0%a4%95%e0%a5%81%e0%a4%9f%e0%a5%81%e0%a4%82%e0%a4%ac-%e0%a4%a6%e0%a4%bf%e0%a4%a8/ https://milroyg.github.io/dfes/mr/cool_timeline/%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%95-%e0%a4%b8%e0%a4%82%e0%a4%95%e0%a4%b2%e0%a4%a8-%e0%a4%95%e0%a5%81%e0%a4%9f%e0%a5%81%e0%a4%82%e0%a4%ac-%e0%a4%a6%e0%a4%bf%e0%a4%a8-2/
+Redirect 301 /dfes/mr/%e0%a5%a9%e0%a5%ad-%e0%a4%b5%e0%a5%80-%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%95-%e0%a4%a1%e0%a5%8d%e0%a4%b0%e0%a4%bf%e0%a4%b2-%e0%a4%b8%e0%a5%8d%e0%a4%aa%e0%a4%b0%e0%a5%8d/ https://milroyg.github.io/dfes/mr/cool_timeline/%e0%a5%a9%e0%a5%ad-%e0%a4%b5%e0%a5%80-%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%95-%e0%a4%a1%e0%a5%8d%e0%a4%b0%e0%a4%bf%e0%a4%b2-%e0%a4%b8%e0%a5%8d%e0%a4%aa%e0%a4%b0%e0%a5%8d-2/
+Redirect 301 /dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%ad%e0%a4%b0%e0%a4%a4%e0%a5%80/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%ad%e0%a4%b0%e0%a4%a4%e0%a5%80/
+Redirect 301 /dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%b8%e0%a5%81%e0%a4%b5%e0%a4%bf%e0%a4%a7%e0%a4%be/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%b8%e0%a5%81%e0%a4%b5%e0%a4%bf%e0%a4%a7%e0%a4%be/
+Redirect 301 /dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80%e0%a4%9a%e0%a4%be-%e0%a4%a7%e0%a5%8b%e0%a4%95%e0%a4%be-%e0%a4%95%e0%a4%ae%e0%a5%80-%e0%a4%95%e0%a4%b0%e0%a4%a3%e0%a5%87/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80%e0%a4%9a%e0%a4%be-%e0%a4%a7%e0%a5%8b%e0%a4%95%e0%a4%be-%e0%a4%95%e0%a4%ae%e0%a5%80-%e0%a4%95%e0%a4%b0%e0%a4%a3%e0%a5%87/
+Redirect 301 /dfes/elementor-hf/footer-2/ https://milroyg.github.io/dfes/
+Redirect 301 /dfes/elementor-hf/header/ https://milroyg.github.io/dfes/
+Redirect 301 /dfes/elementor-hf/before-footer/ https://milroyg.github.io/dfes/
+Redirect 301 /dfes/mr/elementor-hf/before-footer-marathi/ https://milroyg.github.io/dfes/
+Redirect 301 /dfes/mr/elementor-hf/footer/ https://milroyg.github.io/dfes/
+Redirect 301 /dfes/mr/elementor-hf/header-mr/ https://milroyg.github.io/dfes/
+Redirect 301 /dfes/mr/overview-functioning/objectives-vision/ https://milroyg.github.io/dfes/overview-functioning/objectives-vision/
+Redirect 301 /dfes/mr/acts-rules-citizens-charter-rti/ https://milroyg.github.io/dfes/acts-rules-citizens-charter-rti/
+Redirect 301 /dfes/mr/about-us/ https://milroyg.github.io/dfes/about-us/
+Redirect 301 /dfes/mr/organization-control/ https://milroyg.github.io/dfes/organization-control/
+Redirect 301 /dfes/mr/overview-functioning/contact-us/ https://milroyg.github.io/dfes/overview-functioning/contact-us/
+Redirect 301 /dfes/mr/public-disclosures/orders-circulars-memos/ https://milroyg.github.io/dfes/public-disclosures/orders-circulars-memos/
+Redirect 301 /dfes/mr/public-disclosures/notifications/ https://milroyg.github.io/dfes/public-disclosures/notifications/
+Redirect 301 /dfes/mr/public-disclosures/events/ https://milroyg.github.io/dfes/public-disclosures/events/
+Redirect 301 /dfes/mr/disaster-management/live-calls/ https://milroyg.github.io/dfes/disaster-management/live-calls/
+Redirect 301 /dfes/mr/public-disclosures/tenders-auctions/ https://milroyg.github.io/dfes/public-disclosures/tenders-auctions/
+Redirect 301 /dfes/mr/public-disclosures/content-archive/ https://milroyg.github.io/dfes/public-disclosures/content-archive/
+Redirect 301 /dfes/mr/disaster-management/daily-situation-report/ https://milroyg.github.io/dfes/disaster-management/daily-situation-report/
+Redirect 301 /dfes/mr/disaster-management/state-disaster-response-force/ https://milroyg.github.io/dfes/disaster-management/state-disaster-response-force/
+Redirect 301 /dfes/mr/disaster-management/disaster-response-plan/ https://milroyg.github.io/dfes/disaster-management/disaster-response-plan/
+Redirect 301 /dfes/mr/fire-prevention/ease-of-doing-business/ https://milroyg.github.io/dfes/fire-prevention/ease-of-doing-business/
+Redirect 301 /dfes/mr/fire-prevention/safety-guidelines/ https://milroyg.github.io/dfes/fire-prevention/safety-guidelines/
+Redirect 301 /dfes/mr/fire-prevention/important-resources/ https://milroyg.github.io/dfes/fire-prevention/important-resources/
+Redirect 301 /dfes/mr/fire-prevention/safe-goa-24x7-ems/ https://milroyg.github.io/dfes/fire-prevention/safe-goa-24x7-ems/
+Redirect 301 /dfes/mr/training/training-facilities/ https://milroyg.github.io/dfes/training/training-facilities/
+Redirect 301 /dfes/mr/training/training-courses/ https://milroyg.github.io/dfes/training/training-courses/
+Redirect 301 /dfes/mr/training/recruitment/ https://milroyg.github.io/dfes/training/recruitment/
+Redirect 301 /dfes/mr/training/disaster-risk-reduction/ https://milroyg.github.io/dfes/training/disaster-risk-reduction/
+Redirect 301 /dfes/mr/fire-extinction/evacuation-drills/ https://milroyg.github.io/dfes/fire-extinction/evacuation-drills/
+Redirect 301 /dfes/mr/website-policies/ https://milroyg.github.io/dfes/website-policies/
+Redirect 301 /dfes/mr/fire-extinction/newspaper-clippings/ https://milroyg.github.io/dfes/fire-extinction/newspaper-clippings/
+Redirect 301 /dfes/mr/fire-extinction/publications/ https://milroyg.github.io/dfes/fire-extinction/publications/
+Redirect 301 /dfes/mr/terms-conditions/ https://milroyg.github.io/dfes/terms-conditions/
+Redirect 301 /dfes/mr/help/ https://milroyg.github.io/dfes/help/
+Redirect 301 /dfes/mr/fire-extinction/statistics/ https://milroyg.github.io/dfes/fire-extinction/statistics/
+Redirect 301 /dfes/mr/sitemap/ https://milroyg.github.io/dfes/sitemap/
+Redirect 301 /dfes/mr/disclaimer/ https://milroyg.github.io/dfes/disclaimer/
+Redirect 301 /dfes/mr/contact-us/ https://milroyg.github.io/dfes/contact-us/
+Redirect 301 /dfes/mr/grass-fires/ https://milroyg.github.io/dfes/grass-fires/
+Redirect 301 /dfes/mr/cyclone/ https://milroyg.github.io/dfes/cyclone/
+Redirect 301 /dfes/mr/floods/ https://milroyg.github.io/dfes/floods/
+Redirect 301 /dfes/mr/structure-fires/ https://milroyg.github.io/dfes/structure-fires/
+Redirect 301 /dfes/mr/hazmat/ https://milroyg.github.io/dfes/hazmat/
+Redirect 301 /dfes/mr/landslide/ https://milroyg.github.io/dfes/landslide/
+Redirect 301 /dfes/mr/earthquake-2/ https://milroyg.github.io/dfes/earthquake-2/
+Redirect 301 /dfes/mr/tsunami/ https://milroyg.github.io/dfes/tsunami/
+Redirect 301 /dfes/mr/agnisandes/ https://milroyg.github.io/dfes/agnisandes/
+Redirect 301 /dfes/mr/ensure-fire-safety-contribute-towards-nation-building/ https://milroyg.github.io/dfes/ensure-fire-safety-contribute-towards-nation-building/
+Redirect 301 /dfes/mr/training/training-courses/11-training-of-trainers-in-basic-fire-safety-evacuation-drill-procedures-for-educational-institutions-2/ https://milroyg.github.io/dfes/training/training-courses/11-training-of-trainers-in-basic-fire-safety-evacuation-drill-procedures-for-educational-institutions-2/
+Redirect 301 /dfes/mr/training/training-courses/1-external-sub-officers-course-of-national-fire-service-college-ministry-of-home-affairs-nagpur-2/ https://milroyg.github.io/dfes/training/training-courses/1-external-sub-officers-course-of-national-fire-service-college-ministry-of-home-affairs-nagpur-2/
+Redirect 301 /dfes/mr/training/training-courses/12-urban-search-rescue-and-medical-first-responder-course-for-state-fire-services-sdrf-home-guards-civil-defence-2/ https://milroyg.github.io/dfes/training/training-courses/12-urban-search-rescue-and-medical-first-responder-course-for-state-fire-services-sdrf-home-guards-civil-defence-2/
+Redirect 301 /dfes/mr/training/training-courses/10-basic-fire-safety-and-evacuation-drill-procedure-for-government-sponsored-and-private-candidates-2/ https://milroyg.github.io/dfes/training/training-courses/10-basic-fire-safety-and-evacuation-drill-procedure-for-government-sponsored-and-private-candidates-2/
+Redirect 301 /dfes/mr/training/training-courses/14-familiarization-course-in-breathing-apparatus-handling-2/ https://milroyg.github.io/dfes/training/training-courses/14-familiarization-course-in-breathing-apparatus-handling-2/
+Redirect 301 /dfes/mr/training/training-courses/13-elementary-course-in-general-fire-fighting-for-volunteers-home-guards-civil-defence-2/ https://milroyg.github.io/dfes/training/training-courses/13-elementary-course-in-general-fire-fighting-for-volunteers-home-guards-civil-defence-2/
+Redirect 301 /dfes/mr/training/training-courses/4-firemanship-training-course-for-private-candidates-2/ https://milroyg.github.io/dfes/training/training-courses/4-firemanship-training-course-for-private-candidates-2/
+Redirect 301 /dfes/mr/training/training-courses/15-safe-transportation-of-hazardous-goods-for-driver-as-per-central-motor-vehicle-act-and-rules-1993-2/ https://milroyg.github.io/dfes/training/training-courses/15-safe-transportation-of-hazardous-goods-for-driver-as-per-central-motor-vehicle-act-and-rules-1993-2/
+Redirect 301 /dfes/mr/training/training-courses/2-practical-attachment-sponsored-by-national-fire-service-college-nagpur-private-trainees-2/ https://milroyg.github.io/dfes/training/training-courses/2-practical-attachment-sponsored-by-national-fire-service-college-nagpur-private-trainees-2/
+Redirect 301 /dfes/mr/training/training-courses/fire-safety-education-awareness-campaign-safer-school-safer-india-2/ https://milroyg.github.io/dfes/training/training-courses/fire-safety-education-awareness-campaign-safer-school-safer-india-2/
+Redirect 301 /dfes/mr/training/training-courses/3-elementary-course-in-general-fire-fighting-for-recruit-sub-officer-fire-fighter-driver-operator-and-watch-room-operator-government-sponsored-2/ https://milroyg.github.io/dfes/training/training-courses/3-elementary-course-in-general-fire-fighting-for-recruit-sub-officer-fire-fighter-driver-operator-and-watch-room-operator-government-sponsored-2/
+Redirect 301 /dfes/mr/training/training-courses/5-refresher-course-in-general-fire-fighting-for-leading-fire-fighters-senior-fire-fighters-2/ https://milroyg.github.io/dfes/training/training-courses/5-refresher-course-in-general-fire-fighting-for-leading-fire-fighters-senior-fire-fighters-2/
+Redirect 301 /dfes/mr/training/training-courses/7-special-course-in-general-fire-prevention-and-fire-fighting-for-hotel-employees-2/ https://milroyg.github.io/dfes/training/training-courses/7-special-course-in-general-fire-prevention-and-fire-fighting-for-hotel-employees-2/
+Redirect 301 /dfes/mr/training/training-courses/6-orientation-course-in-general-fire-prevention-and-fire-fighting-2/ https://milroyg.github.io/dfes/training/training-courses/6-orientation-course-in-general-fire-prevention-and-fire-fighting-2/
+Redirect 301 /dfes/mr/training/training-courses/8-basic-fire-fighting-course-for-volunteers-and-private-organisations-2/ https://milroyg.github.io/dfes/training/training-courses/8-basic-fire-fighting-course-for-volunteers-and-private-organisations-2/
+Redirect 301 /dfes/mr/training/training-courses/training-in-basic-fire-safety-and-disaster-preparedness-with-the-help-of-fire-safety-educational-van-2/ https://milroyg.github.io/dfes/training/training-courses/training-in-basic-fire-safety-and-disaster-preparedness-with-the-help-of-fire-safety-educational-van-2/
+Redirect 301 /dfes/mr/training/training-courses/9-familiarization-course-in-general-fire-fighting-2/ https://milroyg.github.io/dfes/training/training-courses/9-familiarization-course-in-general-fire-fighting-2/
+Redirect 301 /dfes/mr/disaster-management/disaster-response-plan/click-here-for-the-disaster-management-response-handbook/ https://milroyg.github.io/dfes/disaster-management/disaster-response-plan/click-here-for-the-disaster-management-response-handbook/
+Redirect 301 /dfes/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%b8%e0%a4%be%e0%a4%a6-%e0%a4%af%e0%a5%8b%e0%a4%9c%e0%a4%a8%e0%a4%be/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%b8/ https://milroyg.github.io/dfes/mr/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%b8%e0%a4%be%e0%a4%a6-%e0%a4%af%e0%a5%8b%e0%a4%9c%e0%a4%a8%e0%a4%be/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%b8/
+Redirect 301 /dfes/%e0%a4%b5%e0%a4%bf%e0%a4%b9%e0%a4%82%e0%a4%97%e0%a4%be%e0%a4%b5%e0%a4%b2%e0%a5%8b%e0%a4%95%e0%a4%a8-%e0%a4%86%e0%a4%a3%e0%a4%bf-%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af/%e0%a4%b0%e0%a4%9a%e0%a4%a8%e0%a4%be-%e0%a4%b5-%e0%a4%a8%e0%a4%bf%e0%a4%af%e0%a4%82%e0%a4%a4%e0%a5%8d%e0%a4%b0%e0%a4%a3/ https://milroyg.github.io/dfes/mr/%e0%a4%b5%e0%a4%bf%e0%a4%b9%e0%a4%82%e0%a4%97%e0%a4%be%e0%a4%b5%e0%a4%b2%e0%a5%8b%e0%a4%95%e0%a4%a8-%e0%a4%86%e0%a4%a3%e0%a4%bf-%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af/%e0%a4%b0%e0%a4%9a%e0%a4%a8%e0%a4%be-%e0%a4%b5-%e0%a4%a8%e0%a4%bf%e0%a4%af%e0%a4%82%e0%a4%a4%e0%a5%8d%e0%a4%b0%e0%a4%a3/
+Redirect 301 /dfes/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8/%e0%a4%b0%e0%a4%bf%e0%a4%85%e0%a4%b2-%e0%a4%9f%e0%a4%be%e0%a4%87%e0%a4%ae-%e0%a4%98%e0%a4%9f%e0%a4%a8%e0%a4%be-%e0%a4%b8%e0%a5%82%e0%a4%9a%e0%a4%a8%e0%a4%be/ https://milroyg.github.io/dfes/mr/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8/%e0%a4%b0%e0%a4%bf%e0%a4%85%e0%a4%b2-%e0%a4%9f%e0%a4%be%e0%a4%87%e0%a4%ae-%e0%a4%98%e0%a4%9f%e0%a4%a8%e0%a4%be-%e0%a4%b8%e0%a5%82%e0%a4%9a%e0%a4%a8%e0%a4%be/
+Redirect 301 /dfes/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8/%e0%a4%a6%e0%a5%88%e0%a4%a8%e0%a4%bf%e0%a4%95-%e0%a4%aa%e0%a4%b0%e0%a4%bf%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%bf%e0%a4%a4%e0%a5%80-%e0%a4%85%e0%a4%b9%e0%a4%b5%e0%a4%be%e0%a4%b2/ https://milroyg.github.io/dfes/mr/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8/%e0%a4%a6%e0%a5%88%e0%a4%a8%e0%a4%bf%e0%a4%95-%e0%a4%aa%e0%a4%b0%e0%a4%bf%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%bf%e0%a4%a4%e0%a5%80-%e0%a4%85%e0%a4%b9%e0%a4%b5%e0%a4%be%e0%a4%b2/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7/%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a4%be%e0%a4%af-%e0%a4%b8%e0%a5%81%e0%a4%b2%e0%a4%ad%e0%a4%a4%e0%a4%be/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7/%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a4%be%e0%a4%af-%e0%a4%b8%e0%a5%81%e0%a4%b2%e0%a4%ad%e0%a4%a4%e0%a4%be/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7/%e0%a4%ae%e0%a4%b9%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%8d%e0%a4%b5%e0%a4%be%e0%a4%9a%e0%a5%80-%e0%a4%b8%e0%a4%82%e0%a4%b8%e0%a4%be%e0%a4%a7%e0%a4%a8%e0%a5%87/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7/%e0%a4%ae%e0%a4%b9%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%8d%e0%a4%b5%e0%a4%be%e0%a4%9a%e0%a5%80-%e0%a4%b8%e0%a4%82%e0%a4%b8%e0%a4%be%e0%a4%a7%e0%a4%a8%e0%a5%87/
+Redirect 301 /dfes/mr/awareness-in-fire-safety-for-growth-of-national-infrastructure-agni-pdf-147-55-kb/ https://milroyg.github.io/dfes/awareness-in-fire-safety-for-growth-of-national-infrastructure-agni-pdf-147-55-kb/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7/%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%be-%e0%a4%ae%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%97%e0%a4%a6%e0%a4%b0%e0%a5%8d%e0%a4%b6%e0%a4%95-%e0%a4%a4%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%8d/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7/%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%be-%e0%a4%ae%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%97%e0%a4%a6%e0%a4%b0%e0%a5%8d%e0%a4%b6%e0%a4%95-%e0%a4%a4%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%8d/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7/%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%a4-%e0%a4%97%e0%a5%8b%e0%a4%b5%e0%a4%be-24x7-%e0%a4%88%e0%a4%8f%e0%a4%ae%e0%a4%8f%e0%a4%b8/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7/%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%a4-%e0%a4%97%e0%a5%8b%e0%a4%b5%e0%a4%be-24x7-%e0%a4%88%e0%a4%8f%e0%a4%ae%e0%a4%8f%e0%a4%b8/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/
+Redirect 301 /dfes/mr/learn-fire-safety-increase-productivity-pdf-680-55-kb-2/ https://milroyg.github.io/dfes/learn-fire-safety-increase-productivity-pdf-680-55-kb-2/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%b5%e0%a4%b0%e0%a5%8d%e0%a4%a4%e0%a4%ae%e0%a4%be%e0%a4%a8%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%b0-%e0%a4%95%e0%a5%8d%e0%a4%b2%e0%a4%bf%e0%a4%aa%e0%a4%bf%e0%a4%82%e0%a4%97%e0%a5%8d%e0%a4%9c/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%b5%e0%a4%b0%e0%a5%8d%e0%a4%a4%e0%a4%ae%e0%a4%be%e0%a4%a8%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%b0-%e0%a4%95%e0%a5%8d%e0%a4%b2%e0%a4%bf%e0%a4%aa%e0%a4%bf%e0%a4%82%e0%a4%97%e0%a5%8d%e0%a4%9c/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%be-%e0%a4%b8%e0%a5%81%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a5%8d%e0%a4%9a%e0%a4%bf%e0%a4%a4/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%be-%e0%a4%b8%e0%a5%81%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a5%8d%e0%a4%9a%e0%a4%bf%e0%a4%a4/
+Redirect 301 /dfes/%e0%a4%b0%e0%a4%be%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%af-%e0%a4%b8%e0%a4%be%e0%a4%a7%e0%a4%a8%e0%a4%b8%e0%a5%81%e0%a4%b5%e0%a4%bf%e0%a4%a7%e0%a4%be-%e0%a4%b5%e0%a4%be%e0%a4%a2/ https://milroyg.github.io/dfes/mr/%e0%a4%b0%e0%a4%be%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%af-%e0%a4%b8%e0%a4%be%e0%a4%a7%e0%a4%a8%e0%a4%b8%e0%a5%81%e0%a4%b5%e0%a4%bf%e0%a4%a7%e0%a4%be-%e0%a4%b5%e0%a4%be%e0%a4%a2/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%86%e0%a4%95%e0%a4%a1%e0%a5%87%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a5%80/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%86%e0%a4%95%e0%a4%a1%e0%a5%87%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a5%80/
+Redirect 301 /dfes/mr/disaster-management/interactive-dashboard/ https://milroyg.github.io/dfes/disaster-management/interactive-dashboard/
+Redirect 301 /dfes/mr/privacy-policy/ https://milroyg.github.io/dfes/privacy-policy/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%be-%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a4%be-%e0%a4%89%e0%a4%a4%e0%a5%8d%e0%a4%aa%e0%a4%be/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%be-%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a4%be-%e0%a4%89%e0%a4%a4%e0%a5%8d%e0%a4%aa%e0%a4%be/
+Redirect 301 /dfes/mr/service-2/ https://milroyg.github.io/dfes/service-2/
+Redirect 301 /dfes/mr/public-disclosures/ https://milroyg.github.io/dfes/public-disclosures/
+Redirect 301 /dfes/mr/fire-extinction/ https://milroyg.github.io/dfes/fire-extinction/
+Redirect 301 /dfes/mr/disaster-management/ https://milroyg.github.io/dfes/disaster-management/
+Redirect 301 /dfes/mr/fire-prevention/ https://milroyg.github.io/dfes/fire-prevention/
+Redirect 301 /dfes/mr/training/ https://milroyg.github.io/dfes/training/
+Redirect 301 /dfes/mr/learn-fire-safety-increase-productivity-pdf-680-55-kb/ https://milroyg.github.io/dfes/learn-fire-safety-increase-productivity-pdf-680-55-kb/
+Redirect 301 /dfes/mr/copyright-policy/ https://milroyg.github.io/dfes/copyright-policy/
+Redirect 301 /dfes/mr/website-monitoring-plan/ https://milroyg.github.io/dfes/website-monitoring-plan/
+Redirect 301 /dfes/mr/content-contribution-moderation-approval-policy/ https://milroyg.github.io/dfes/content-contribution-moderation-approval-policy/
+Redirect 301 /dfes/mr/hyperlinking-policy/ https://milroyg.github.io/dfes/hyperlinking-policy/
+Redirect 301 /dfes/mr/content-archival-policy/ https://milroyg.github.io/dfes/content-archival-policy/
+Redirect 301 /dfes/mr/content-review-policy/ https://milroyg.github.io/dfes/content-review-policy/
+Redirect 301 /dfes/mr/security-policy/ https://milroyg.github.io/dfes/security-policy/
+Redirect 301 /dfes/mr/contingency-management-plan/ https://milroyg.github.io/dfes/contingency-management-plan/
+Redirect 301 /dfes/mr/agni-sandes-privacy-policy/ https://milroyg.github.io/dfes/agni-sandes-privacy-policy/
+Redirect 301 /dfes/%e0%a4%91%e0%a4%b0%e0%a5%8d%e0%a4%a1%e0%a4%b0-%e0%a4%aa%e0%a4%b0%e0%a4%bf%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%b0%e0%a4%95%e0%a5%87-%e0%a4%ae%e0%a5%87%e0%a4%ae%e0%a5%8b/ https://milroyg.github.io/dfes/mr/%e0%a4%91%e0%a4%b0%e0%a5%8d%e0%a4%a1%e0%a4%b0-%e0%a4%aa%e0%a4%b0%e0%a4%bf%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%b0%e0%a4%95%e0%a5%87-%e0%a4%ae%e0%a5%87%e0%a4%ae%e0%a5%8b/
+Redirect 301 /dfes/%e0%a4%b8%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%9c%e0%a4%a8%e0%a4%bf%e0%a4%95-%e0%a4%96%e0%a5%81%e0%a4%b2%e0%a4%be%e0%a4%b8%e0%a5%87/%e0%a4%a8%e0%a4%bf%e0%a4%b5%e0%a4%bf%e0%a4%a6%e0%a4%be-%e0%a4%b2%e0%a4%bf%e0%a4%b2%e0%a4%be%e0%a4%b5/ https://milroyg.github.io/dfes/mr/%e0%a4%b8%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%9c%e0%a4%a8%e0%a4%bf%e0%a4%95-%e0%a4%96%e0%a5%81%e0%a4%b2%e0%a4%be%e0%a4%b8%e0%a5%87/%e0%a4%a8%e0%a4%bf%e0%a4%b5%e0%a4%bf%e0%a4%a6%e0%a4%be-%e0%a4%b2%e0%a4%bf%e0%a4%b2%e0%a4%be%e0%a4%b5/
+Redirect 301 /dfes/%e0%a4%b5%e0%a4%bf%e0%a4%b9%e0%a4%82%e0%a4%97%e0%a4%be%e0%a4%b5%e0%a4%b2%e0%a5%8b%e0%a4%95%e0%a4%a8-%e0%a4%86%e0%a4%a3%e0%a4%bf-%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af/%e0%a4%86%e0%a4%ae%e0%a4%9a%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b5%e0%a4%bf%e0%a4%b7%e0%a4%af%e0%a5%80/ https://milroyg.github.io/dfes/mr/%e0%a4%b5%e0%a4%bf%e0%a4%b9%e0%a4%82%e0%a4%97%e0%a4%be%e0%a4%b5%e0%a4%b2%e0%a5%8b%e0%a4%95%e0%a4%a8-%e0%a4%86%e0%a4%a3%e0%a4%bf-%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af/%e0%a4%86%e0%a4%ae%e0%a4%9a%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b5%e0%a4%bf%e0%a4%b7%e0%a4%af%e0%a5%80/
+Redirect 301 /dfes/%e0%a4%b8%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%9c%e0%a4%a8%e0%a4%bf%e0%a4%95-%e0%a4%96%e0%a5%81%e0%a4%b2%e0%a4%be%e0%a4%b8%e0%a5%87/%e0%a4%b8%e0%a4%be%e0%a4%ae%e0%a4%97%e0%a5%8d%e0%a4%b0%e0%a5%80-%e0%a4%b8%e0%a4%82%e0%a4%97%e0%a5%8d%e0%a4%b0%e0%a4%b9/ https://milroyg.github.io/dfes/mr/%e0%a4%b8%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%9c%e0%a4%a8%e0%a4%bf%e0%a4%95-%e0%a4%96%e0%a5%81%e0%a4%b2%e0%a4%be%e0%a4%b8%e0%a5%87/%e0%a4%b8%e0%a4%be%e0%a4%ae%e0%a4%97%e0%a5%8d%e0%a4%b0%e0%a5%80-%e0%a4%b8%e0%a4%82%e0%a4%97%e0%a5%8d%e0%a4%b0%e0%a4%b9/
+Redirect 301 /dfes/%e0%a4%b5%e0%a4%bf%e0%a4%b9%e0%a4%82%e0%a4%97%e0%a4%be%e0%a4%b5%e0%a4%b2%e0%a5%8b%e0%a4%95%e0%a4%a8-%e0%a4%86%e0%a4%a3%e0%a4%bf-%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af/%e0%a4%85%e0%a4%a7%e0%a4%bf%e0%a4%a8%e0%a4%bf%e0%a4%af%e0%a4%ae-%e0%a4%b5-%e0%a4%a8%e0%a4%bf%e0%a4%af%e0%a4%ae-%e0%a4%a8%e0%a4%be%e0%a4%97%e0%a4%b0%e0%a4%bf%e0%a4%95%e0%a4%be%e0%a4%82%e0%a4%9a/ https://milroyg.github.io/dfes/mr/%e0%a4%b5%e0%a4%bf%e0%a4%b9%e0%a4%82%e0%a4%97%e0%a4%be%e0%a4%b5%e0%a4%b2%e0%a5%8b%e0%a4%95%e0%a4%a8-%e0%a4%86%e0%a4%a3%e0%a4%bf-%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af/%e0%a4%85%e0%a4%a7%e0%a4%bf%e0%a4%a8%e0%a4%bf%e0%a4%af%e0%a4%ae-%e0%a4%b5-%e0%a4%a8%e0%a4%bf%e0%a4%af%e0%a4%ae-%e0%a4%a8%e0%a4%be%e0%a4%97%e0%a4%b0%e0%a4%bf%e0%a4%95%e0%a4%be%e0%a4%82%e0%a4%9a/
+Redirect 301 /dfes/%e0%a4%b5%e0%a4%bf%e0%a4%b9%e0%a4%82%e0%a4%97%e0%a4%be%e0%a4%b5%e0%a4%b2%e0%a5%8b%e0%a4%95%e0%a4%a8-%e0%a4%86%e0%a4%a3%e0%a4%bf-%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af/ https://milroyg.github.io/dfes/mr/%e0%a4%b5%e0%a4%bf%e0%a4%b9%e0%a4%82%e0%a4%97%e0%a4%be%e0%a4%b5%e0%a4%b2%e0%a5%8b%e0%a4%95%e0%a4%a8-%e0%a4%86%e0%a4%a3%e0%a4%bf-%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af/
+Redirect 301 /dfes/%e0%a4%b8%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%9c%e0%a4%a8%e0%a4%bf%e0%a4%95-%e0%a4%96%e0%a5%81%e0%a4%b2%e0%a4%be%e0%a4%b8%e0%a5%87/%e0%a4%86%e0%a4%a6%e0%a5%87%e0%a4%b6-%e0%a4%aa%e0%a4%b0%e0%a4%bf%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%b0%e0%a4%95-%e0%a4%ae%e0%a5%87%e0%a4%ae%e0%a5%8b/ https://milroyg.github.io/dfes/mr/%e0%a4%b8%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%9c%e0%a4%a8%e0%a4%bf%e0%a4%95-%e0%a4%96%e0%a5%81%e0%a4%b2%e0%a4%be%e0%a4%b8%e0%a5%87/%e0%a4%86%e0%a4%a6%e0%a5%87%e0%a4%b6-%e0%a4%aa%e0%a4%b0%e0%a4%bf%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%b0%e0%a4%95-%e0%a4%ae%e0%a5%87%e0%a4%ae%e0%a5%8b/
+Redirect 301 /dfes/%e0%a4%b8%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%9c%e0%a4%a8%e0%a4%bf%e0%a4%95-%e0%a4%96%e0%a5%81%e0%a4%b2%e0%a4%be%e0%a4%b8%e0%a5%87/%e0%a4%85%e0%a4%a7%e0%a4%bf%e0%a4%b8%e0%a5%82%e0%a4%9a%e0%a4%a8%e0%a4%be/ https://milroyg.github.io/dfes/mr/%e0%a4%b8%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%9c%e0%a4%a8%e0%a4%bf%e0%a4%95-%e0%a4%96%e0%a5%81%e0%a4%b2%e0%a4%be%e0%a4%b8%e0%a5%87/%e0%a4%85%e0%a4%a7%e0%a4%bf%e0%a4%b8%e0%a5%82%e0%a4%9a%e0%a4%a8%e0%a4%be/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7/
+Redirect 301 /dfes/%e0%a4%b5%e0%a4%bf%e0%a4%b9%e0%a4%82%e0%a4%97%e0%a4%be%e0%a4%b5%e0%a4%b2%e0%a5%8b%e0%a4%95%e0%a4%a8-%e0%a4%86%e0%a4%a3%e0%a4%bf-%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af/%e0%a4%86%e0%a4%ae%e0%a4%9a%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b6%e0%a5%80-%e0%a4%b8%e0%a4%82%e0%a4%aa%e0%a4%b0%e0%a5%8d%e0%a4%95-%e0%a4%b8%e0%a4%be%e0%a4%a7%e0%a4%be/ https://milroyg.github.io/dfes/mr/%e0%a4%b5%e0%a4%bf%e0%a4%b9%e0%a4%82%e0%a4%97%e0%a4%be%e0%a4%b5%e0%a4%b2%e0%a5%8b%e0%a4%95%e0%a4%a8-%e0%a4%86%e0%a4%a3%e0%a4%bf-%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af/%e0%a4%86%e0%a4%ae%e0%a4%9a%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b6%e0%a5%80-%e0%a4%b8%e0%a4%82%e0%a4%aa%e0%a4%b0%e0%a5%8d%e0%a4%95-%e0%a4%b8%e0%a4%be%e0%a4%a7%e0%a4%be/
+Redirect 301 /dfes/%e0%a4%b8%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%9c%e0%a4%a8%e0%a4%bf%e0%a4%95-%e0%a4%96%e0%a5%81%e0%a4%b2%e0%a4%be%e0%a4%b8%e0%a5%87/ https://milroyg.github.io/dfes/mr/%e0%a4%b8%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%9c%e0%a4%a8%e0%a4%bf%e0%a4%95-%e0%a4%96%e0%a5%81%e0%a4%b2%e0%a4%be%e0%a4%b8%e0%a5%87/
+Redirect 301 /dfes/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8/ https://milroyg.github.io/dfes/mr/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%b8%e0%a5%81%e0%a4%b5%e0%a4%bf%e0%a4%a7%e0%a4%be/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%b8%e0%a5%81%e0%a4%b5%e0%a4%bf%e0%a4%a7%e0%a4%be/
+Redirect 301 /dfes/%e0%a4%b5%e0%a4%bf%e0%a4%b9%e0%a4%82%e0%a4%97%e0%a4%be%e0%a4%b5%e0%a4%b2%e0%a5%8b%e0%a4%95%e0%a4%a8-%e0%a4%86%e0%a4%a3%e0%a4%bf-%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af/%e0%a4%89%e0%a4%a6%e0%a5%8d%e0%a4%a6%e0%a4%bf%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%87-%e0%a4%b5-%e0%a4%a6%e0%a5%82%e0%a4%b0%e0%a4%a6%e0%a5%83%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%80/ https://milroyg.github.io/dfes/mr/%e0%a4%b5%e0%a4%bf%e0%a4%b9%e0%a4%82%e0%a4%97%e0%a4%be%e0%a4%b5%e0%a4%b2%e0%a5%8b%e0%a4%95%e0%a4%a8-%e0%a4%86%e0%a4%a3%e0%a4%bf-%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af/%e0%a4%89%e0%a4%a6%e0%a5%8d%e0%a4%a6%e0%a4%bf%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%87-%e0%a4%b5-%e0%a4%a6%e0%a5%82%e0%a4%b0%e0%a4%a6%e0%a5%83%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%80/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80%e0%a4%9a%e0%a4%be-%e0%a4%a7%e0%a5%8b%e0%a4%95%e0%a4%be-%e0%a4%95%e0%a4%ae%e0%a5%80-%e0%a4%95%e0%a4%b0%e0%a4%a3%e0%a5%87/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80%e0%a4%9a%e0%a4%be-%e0%a4%a7%e0%a5%8b%e0%a4%95%e0%a4%be-%e0%a4%95%e0%a4%ae%e0%a5%80-%e0%a4%95%e0%a4%b0%e0%a4%a3%e0%a5%87/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%ad%e0%a4%b0%e0%a4%a4%e0%a5%80/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%ad%e0%a4%b0%e0%a4%a4%e0%a5%80/
+Redirect 301 /dfes/%e0%a4%a8%e0%a4%bf%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%be%e0%a4%b8%e0%a4%a8-%e0%a4%a1%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%b2%e0%a5%8d%e0%a4%b8/ https://milroyg.github.io/dfes/mr/%e0%a4%a8%e0%a4%bf%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%be%e0%a4%b8%e0%a4%a8-%e0%a4%a1%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%b2%e0%a5%8d%e0%a4%b8/
+Redirect 301 /dfes/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%95%e0%a4%be%e0%a4%b6%e0%a4%a8%e0%a5%87/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%95%e0%a4%be%e0%a4%b6%e0%a4%a8%e0%a5%87/
+Redirect 301 /dfes/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8/%e0%a4%b0%e0%a4%be%e0%a4%9c%e0%a5%8d%e0%a4%af-%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%b8%e0%a4%be%e0%a4%a6-%e0%a4%a6%e0%a4%b2/ https://milroyg.github.io/dfes/mr/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8/%e0%a4%b0%e0%a4%be%e0%a4%9c%e0%a5%8d%e0%a4%af-%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%b8%e0%a4%be%e0%a4%a6-%e0%a4%a6%e0%a4%b2/
+Redirect 301 /dfes/%e0%a4%b8%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%9c%e0%a4%a8%e0%a4%bf%e0%a4%95-%e0%a4%96%e0%a5%81%e0%a4%b2%e0%a4%be%e0%a4%b8%e0%a5%87/%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/ https://milroyg.github.io/dfes/mr/%e0%a4%b8%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%9c%e0%a4%a8%e0%a4%bf%e0%a4%95-%e0%a4%96%e0%a5%81%e0%a4%b2%e0%a4%be%e0%a4%b8%e0%a5%87/%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/
+Redirect 301 /dfes/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%b8%e0%a4%be%e0%a4%a6-%e0%a4%af%e0%a5%8b%e0%a4%9c%e0%a4%a8%e0%a4%be/ https://milroyg.github.io/dfes/mr/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%b8%e0%a4%be%e0%a4%a6-%e0%a4%af%e0%a5%8b%e0%a4%9c%e0%a4%a8%e0%a4%be/
+Redirect 301 /dfes/%e0%a4%b8%e0%a4%82%e0%a4%b0%e0%a4%9a%e0%a4%a8%e0%a5%87%e0%a4%a4-%e0%a4%86%e0%a4%97%e0%a5%80/ https://milroyg.github.io/dfes/mr/%e0%a4%b8%e0%a4%82%e0%a4%b0%e0%a4%9a%e0%a4%a8%e0%a5%87%e0%a4%a4-%e0%a4%86%e0%a4%97%e0%a5%80/
+Redirect 301 /dfes/%e0%a4%97%e0%a4%b5%e0%a4%a4%e0%a4%be%e0%a4%b3-%e0%a4%86%e0%a4%97%e0%a5%80/ https://milroyg.github.io/dfes/mr/%e0%a4%97%e0%a4%b5%e0%a4%a4%e0%a4%be%e0%a4%b3-%e0%a4%86%e0%a4%97%e0%a5%80/
+Redirect 301 /dfes/%e0%a4%aa%e0%a5%82%e0%a4%b0/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%82%e0%a4%b0/
+Redirect 301 /dfes/%e0%a4%9a%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%b5%e0%a4%be%e0%a4%a6%e0%a4%b3/ https://milroyg.github.io/dfes/mr/%e0%a4%9a%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%b5%e0%a4%be%e0%a4%a6%e0%a4%b3/
+Redirect 301 /dfes/%e0%a4%ad%e0%a5%82%e0%a4%95%e0%a4%82%e0%a4%aa/ https://milroyg.github.io/dfes/mr/%e0%a4%ad%e0%a5%82%e0%a4%95%e0%a4%82%e0%a4%aa/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%be-%e0%a4%b6%e0%a5%88%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3%e0%a4%bf%e0%a4%95-%e0%a4%b5/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%be-%e0%a4%b6%e0%a5%88%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3%e0%a4%bf%e0%a4%95-%e0%a4%b5/
+Redirect 301 /dfes/%e0%a4%ad%e0%a5%82%e0%a4%b8%e0%a5%8d%e0%a4%96%e0%a4%b2%e0%a4%a8/ https://milroyg.github.io/dfes/mr/%e0%a4%ad%e0%a5%82%e0%a4%b8%e0%a5%8d%e0%a4%96%e0%a4%b2%e0%a4%a8/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%be-%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%b5-%e0%a4%9c%e0%a4%be/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%be-%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%b5-%e0%a4%9c%e0%a4%be/
+Redirect 301 /dfes/%e0%a4%b9%e0%a4%9d%e0%a4%ae%e0%a4%a4/ https://milroyg.github.io/dfes/mr/%e0%a4%b9%e0%a4%9d%e0%a4%ae%e0%a4%a4/
+Redirect 301 /dfes/%e0%a4%a4%e0%a5%8d%e0%a4%b8%e0%a5%81%e0%a4%a8%e0%a4%be%e0%a4%ae%e0%a5%80/ https://milroyg.github.io/dfes/mr/%e0%a4%a4%e0%a5%8d%e0%a4%b8%e0%a5%81%e0%a4%a8%e0%a4%be%e0%a4%ae%e0%a5%80/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/15-%e0%a4%95%e0%a5%87%e0%a4%82%e0%a4%a6%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%af-%e0%a4%ae%e0%a5%8b%e0%a4%9f%e0%a4%be%e0%a4%b0-%e0%a4%b5%e0%a4%be%e0%a4%b9%e0%a4%a8-%e0%a4%85%e0%a4%a7%e0%a4%bf%e0%a4%a8/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/15-%e0%a4%95%e0%a5%87%e0%a4%82%e0%a4%a6%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%af-%e0%a4%ae%e0%a5%8b%e0%a4%9f%e0%a4%be%e0%a4%b0-%e0%a4%b5%e0%a4%be%e0%a4%b9%e0%a4%a8-%e0%a4%85%e0%a4%a7%e0%a4%bf%e0%a4%a8/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/14-%e0%a4%b6%e0%a5%8d%e0%a4%b5%e0%a4%b8%e0%a4%a8-%e0%a4%89%e0%a4%aa%e0%a4%95%e0%a4%b0%e0%a4%a3%e0%a5%87-%e0%a4%b9%e0%a4%be%e0%a4%a4%e0%a4%be%e0%a4%b3%e0%a4%a3%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%ae/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/14-%e0%a4%b6%e0%a5%8d%e0%a4%b5%e0%a4%b8%e0%a4%a8-%e0%a4%89%e0%a4%aa%e0%a4%95%e0%a4%b0%e0%a4%a3%e0%a5%87-%e0%a4%b9%e0%a4%be%e0%a4%a4%e0%a4%be%e0%a4%b3%e0%a4%a3%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%ae/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/13-%e0%a4%b8%e0%a5%8d%e0%a4%b5%e0%a4%af%e0%a4%82%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%95%e0%a4%be%e0%a4%82%e0%a4%b8%e0%a4%be%e0%a4%a0%e0%a5%80-%e0%a4%b9%e0%a5%8b%e0%a4%ae-%e0%a4%97%e0%a4%be%e0%a4%b0/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/13-%e0%a4%b8%e0%a5%8d%e0%a4%b5%e0%a4%af%e0%a4%82%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%95%e0%a4%be%e0%a4%82%e0%a4%b8%e0%a4%be%e0%a4%a0%e0%a5%80-%e0%a4%b9%e0%a5%8b%e0%a4%ae-%e0%a4%97%e0%a4%be%e0%a4%b0/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/12-%e0%a4%b0%e0%a4%be%e0%a4%9c%e0%a5%8d%e0%a4%af-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8-%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%be-%e0%a4%8f%e0%a4%b8%e0%a4%a1%e0%a5%80/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/12-%e0%a4%b0%e0%a4%be%e0%a4%9c%e0%a5%8d%e0%a4%af-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8-%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%be-%e0%a4%8f%e0%a4%b8%e0%a4%a1%e0%a5%80/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/10-%e0%a4%b8%e0%a4%b0%e0%a4%95%e0%a4%be%e0%a4%b0-%e0%a4%aa%e0%a5%81%e0%a4%b0%e0%a4%b8%e0%a5%8d%e0%a4%95%e0%a5%83%e0%a4%a4-%e0%a4%b5-%e0%a4%96%e0%a4%be%e0%a4%b8%e0%a4%97%e0%a5%80-%e0%a4%89%e0%a4%ae/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/10-%e0%a4%b8%e0%a4%b0%e0%a4%95%e0%a4%be%e0%a4%b0-%e0%a4%aa%e0%a5%81%e0%a4%b0%e0%a4%b8%e0%a5%8d%e0%a4%95%e0%a5%83%e0%a4%a4-%e0%a4%b5-%e0%a4%96%e0%a4%be%e0%a4%b8%e0%a4%97%e0%a5%80-%e0%a4%89%e0%a4%ae/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/11-%e0%a4%b6%e0%a5%88%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3%e0%a4%bf%e0%a4%95-%e0%a4%b8%e0%a4%82%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%82%e0%a4%b8%e0%a4%be%e0%a4%a0%e0%a5%80-%e0%a4%aa%e0%a5%8d/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/11-%e0%a4%b6%e0%a5%88%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3%e0%a4%bf%e0%a4%95-%e0%a4%b8%e0%a4%82%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%82%e0%a4%b8%e0%a4%be%e0%a4%a0%e0%a5%80-%e0%a4%aa%e0%a5%8d/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/9-%e0%a4%b8%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%b8%e0%a4%be%e0%a4%a7%e0%a4%be%e0%a4%b0%e0%a4%a3-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%be%e0%a4%ae%e0%a4%95%e0%a4%ae%e0%a4%a7/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/9-%e0%a4%b8%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%b8%e0%a4%be%e0%a4%a7%e0%a4%be%e0%a4%b0%e0%a4%a3-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%be%e0%a4%ae%e0%a4%95%e0%a4%ae%e0%a4%a7/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/8-%e0%a4%b8%e0%a5%8d%e0%a4%b5%e0%a4%af%e0%a4%82%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%95%e0%a4%be%e0%a4%82%e0%a4%b8%e0%a4%be%e0%a4%a0%e0%a5%80-%e0%a4%b5-%e0%a4%96%e0%a4%be%e0%a4%b8%e0%a4%97%e0%a5%80/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/8-%e0%a4%b8%e0%a5%8d%e0%a4%b5%e0%a4%af%e0%a4%82%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%95%e0%a4%be%e0%a4%82%e0%a4%b8%e0%a4%be%e0%a4%a0%e0%a5%80-%e0%a4%b5-%e0%a4%96%e0%a4%be%e0%a4%b8%e0%a4%97%e0%a5%80/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/4-%e0%a4%96%e0%a4%be%e0%a4%b8%e0%a4%97%e0%a5%80-%e0%a4%89%e0%a4%ae%e0%a5%87%e0%a4%a6%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a4%be%e0%a4%82%e0%a4%b8%e0%a4%be%e0%a4%a0%e0%a5%80-%e0%a4%ab%e0%a4%be%e0%a4%af/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/4-%e0%a4%96%e0%a4%be%e0%a4%b8%e0%a4%97%e0%a5%80-%e0%a4%89%e0%a4%ae%e0%a5%87%e0%a4%a6%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a4%be%e0%a4%82%e0%a4%b8%e0%a4%be%e0%a4%a0%e0%a5%80-%e0%a4%ab%e0%a4%be%e0%a4%af/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/7-%e0%a4%b9%e0%a5%89%e0%a4%9f%e0%a5%87%e0%a4%b2-%e0%a4%95%e0%a4%b0%e0%a5%8d%e0%a4%ae%e0%a4%9a%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%82%e0%a4%b8%e0%a4%be%e0%a4%a0%e0%a5%80/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/7-%e0%a4%b9%e0%a5%89%e0%a4%9f%e0%a5%87%e0%a4%b2-%e0%a4%95%e0%a4%b0%e0%a5%8d%e0%a4%ae%e0%a4%9a%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%82%e0%a4%b8%e0%a4%be%e0%a4%a0%e0%a5%80/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/5-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%ae%e0%a5%81%e0%a4%96-%e0%a4%ab%e0%a4%be%e0%a4%af%e0%a4%b0-%e0%a4%ab%e0%a4%be%e0%a4%af%e0%a4%9f%e0%a4%b0%e0%a5%8d%e0%a4%b8-%e0%a4%b5%e0%a4%b0%e0%a4%bf%e0%a4%b7/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/5-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%ae%e0%a5%81%e0%a4%96-%e0%a4%ab%e0%a4%be%e0%a4%af%e0%a4%b0-%e0%a4%ab%e0%a4%be%e0%a4%af%e0%a4%9f%e0%a4%b0%e0%a5%8d%e0%a4%b8-%e0%a4%b5%e0%a4%b0%e0%a4%bf%e0%a4%b7/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/6-%e0%a4%b8%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%b8%e0%a4%be%e0%a4%a7%e0%a4%be%e0%a4%b0%e0%a4%a3-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/6-%e0%a4%b8%e0%a4%b0%e0%a5%8d%e0%a4%b5%e0%a4%b8%e0%a4%be%e0%a4%a7%e0%a4%be%e0%a4%b0%e0%a4%a3-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/1-%e0%a4%b0%e0%a4%be%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%af-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8-%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%be/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/1-%e0%a4%b0%e0%a4%be%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%af-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8-%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%be/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/3-%e0%a4%b0%e0%a5%87%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a5%81%e0%a4%9f-%e0%a4%89%e0%a4%aa-%e0%a4%85%e0%a4%a7%e0%a4%bf%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%80-%e0%a4%ab%e0%a4%be%e0%a4%af%e0%a4%b0-%e0%a4%ab/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/3-%e0%a4%b0%e0%a5%87%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a5%81%e0%a4%9f-%e0%a4%89%e0%a4%aa-%e0%a4%85%e0%a4%a7%e0%a4%bf%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%80-%e0%a4%ab%e0%a4%be%e0%a4%af%e0%a4%b0-%e0%a4%ab/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/2-%e0%a4%b0%e0%a4%be%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%af-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8-%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%be/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b5%e0%a4%bf%e0%a4%b2%e0%a5%81%e0%a4%aa%e0%a5%8d%e0%a4%a4-%e0%a4%b9%e0%a5%8b%e0%a4%a3%e0%a5%87/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%a3-%e0%a4%85%e0%a4%ad%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%b8%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/2-%e0%a4%b0%e0%a4%be%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%af-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8-%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%be/
+Redirect 301 /dfes/%e0%a4%b8%e0%a4%82%e0%a4%aa%e0%a4%b0%e0%a5%8d%e0%a4%95/ https://milroyg.github.io/dfes/mr/%e0%a4%b8%e0%a4%82%e0%a4%aa%e0%a4%b0%e0%a5%8d%e0%a4%95/
+Redirect 301 /dfes/%e0%a4%b8%e0%a4%be%e0%a4%ae%e0%a4%97%e0%a5%8d%e0%a4%b0%e0%a5%80-%e0%a4%aa%e0%a5%81%e0%a4%a8%e0%a4%b0%e0%a4%be%e0%a4%b5%e0%a4%b2%e0%a5%8b%e0%a4%95%e0%a4%a8-%e0%a4%a7%e0%a5%8b%e0%a4%b0%e0%a4%a3/ https://milroyg.github.io/dfes/mr/%e0%a4%b8%e0%a4%be%e0%a4%ae%e0%a4%97%e0%a5%8d%e0%a4%b0%e0%a5%80-%e0%a4%aa%e0%a5%81%e0%a4%a8%e0%a4%b0%e0%a4%be%e0%a4%b5%e0%a4%b2%e0%a5%8b%e0%a4%95%e0%a4%a8-%e0%a4%a7%e0%a5%8b%e0%a4%b0%e0%a4%a3/
+Redirect 301 /dfes/%e0%a4%b8%e0%a4%be%e0%a4%ae%e0%a4%97%e0%a5%8d%e0%a4%b0%e0%a5%80-%e0%a4%b8%e0%a4%82%e0%a4%97%e0%a5%8d%e0%a4%b0%e0%a4%b9%e0%a4%a3-%e0%a4%a7%e0%a5%8b%e0%a4%b0%e0%a4%a3/ https://milroyg.github.io/dfes/mr/%e0%a4%b8%e0%a4%be%e0%a4%ae%e0%a4%97%e0%a5%8d%e0%a4%b0%e0%a5%80-%e0%a4%b8%e0%a4%82%e0%a4%97%e0%a5%8d%e0%a4%b0%e0%a4%b9%e0%a4%a3-%e0%a4%a7%e0%a5%8b%e0%a4%b0%e0%a4%a3/
+Redirect 301 /dfes/%e0%a4%b5%e0%a5%87%e0%a4%ac%e0%a4%b8%e0%a4%be%e0%a4%87%e0%a4%9f-%e0%a4%ae%e0%a5%89%e0%a4%a8%e0%a4%bf%e0%a4%9f%e0%a4%b0%e0%a4%bf%e0%a4%82%e0%a4%97-%e0%a4%aa%e0%a5%8d%e0%a4%b2%e0%a5%85%e0%a4%a8/ https://milroyg.github.io/dfes/mr/%e0%a4%b5%e0%a5%87%e0%a4%ac%e0%a4%b8%e0%a4%be%e0%a4%87%e0%a4%9f-%e0%a4%ae%e0%a5%89%e0%a4%a8%e0%a4%bf%e0%a4%9f%e0%a4%b0%e0%a4%bf%e0%a4%82%e0%a4%97-%e0%a4%aa%e0%a5%8d%e0%a4%b2%e0%a5%85%e0%a4%a8/
+Redirect 301 /dfes/%e0%a4%b8%e0%a4%be%e0%a4%ae%e0%a4%97%e0%a5%8d%e0%a4%b0%e0%a5%80-%e0%a4%af%e0%a5%8b%e0%a4%97%e0%a4%a6%e0%a4%be%e0%a4%a8-%e0%a4%a8%e0%a4%bf%e0%a4%af%e0%a4%82%e0%a4%a4%e0%a5%8d%e0%a4%b0%e0%a4%a3/ https://milroyg.github.io/dfes/mr/%e0%a4%b8%e0%a4%be%e0%a4%ae%e0%a4%97%e0%a5%8d%e0%a4%b0%e0%a5%80-%e0%a4%af%e0%a5%8b%e0%a4%97%e0%a4%a6%e0%a4%be%e0%a4%a8-%e0%a4%a8%e0%a4%bf%e0%a4%af%e0%a4%82%e0%a4%a4%e0%a5%8d%e0%a4%b0%e0%a4%a3/
+Redirect 301 /dfes/%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%be-%e0%a4%a7%e0%a5%8b%e0%a4%b0%e0%a4%a3/ https://milroyg.github.io/dfes/mr/%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%be-%e0%a4%a7%e0%a5%8b%e0%a4%b0%e0%a4%a3/
+Redirect 301 /dfes/%e0%a4%86%e0%a4%95%e0%a4%b8%e0%a5%8d%e0%a4%ae%e0%a4%bf%e0%a4%95-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8-%e0%a4%af%e0%a5%8b%e0%a4%9c%e0%a4%a8/ https://milroyg.github.io/dfes/mr/%e0%a4%86%e0%a4%95%e0%a4%b8%e0%a5%8d%e0%a4%ae%e0%a4%bf%e0%a4%95-%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%b5%e0%a4%b8%e0%a5%8d%e0%a4%a5%e0%a4%be%e0%a4%aa%e0%a4%a8-%e0%a4%af%e0%a5%8b%e0%a4%9c%e0%a4%a8/
+Redirect 301 /dfes/agni-sandes-%e0%a4%97%e0%a5%8b%e0%a4%aa%e0%a4%a8%e0%a5%80%e0%a4%af%e0%a4%a4%e0%a4%be-%e0%a4%a7%e0%a5%8b%e0%a4%b0%e0%a4%a3/ https://milroyg.github.io/dfes/mr/agni-sandes-%e0%a4%97%e0%a5%8b%e0%a4%aa%e0%a4%a8%e0%a5%80%e0%a4%af%e0%a4%a4%e0%a4%be-%e0%a4%a7%e0%a5%8b%e0%a4%b0%e0%a4%a3/
+Redirect 301 /dfes/%e0%a4%95%e0%a5%89%e0%a4%aa%e0%a5%80%e0%a4%b0%e0%a4%be%e0%a4%87%e0%a4%9f-%e0%a4%a7%e0%a5%8b%e0%a4%b0%e0%a4%a3/ https://milroyg.github.io/dfes/mr/%e0%a4%95%e0%a5%89%e0%a4%aa%e0%a5%80%e0%a4%b0%e0%a4%be%e0%a4%87%e0%a4%9f-%e0%a4%a7%e0%a5%8b%e0%a4%b0%e0%a4%a3/
+Redirect 301 /dfes/%e0%a4%b9%e0%a4%be%e0%a4%af%e0%a4%aa%e0%a4%b0%e0%a4%b2%e0%a4%bf%e0%a4%82%e0%a4%95%e0%a4%bf%e0%a4%82%e0%a4%97-%e0%a4%a7%e0%a5%8b%e0%a4%b0%e0%a4%a3/ https://milroyg.github.io/dfes/mr/%e0%a4%b9%e0%a4%be%e0%a4%af%e0%a4%aa%e0%a4%b0%e0%a4%b2%e0%a4%bf%e0%a4%82%e0%a4%95%e0%a4%bf%e0%a4%82%e0%a4%97-%e0%a4%a7%e0%a5%8b%e0%a4%b0%e0%a4%a3/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%9f%e0%a5%80-%e0%a4%b5-%e0%a4%b6%e0%a4%b0%e0%a5%8d%e0%a4%a4%e0%a5%80/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%9f%e0%a5%80-%e0%a4%b5-%e0%a4%b6%e0%a4%b0%e0%a5%8d%e0%a4%a4%e0%a5%80/
+Redirect 301 /dfes/%e0%a4%97%e0%a5%8b%e0%a4%aa%e0%a4%a8%e0%a5%80%e0%a4%af%e0%a4%a4%e0%a4%be-%e0%a4%a7%e0%a5%8b%e0%a4%b0%e0%a4%a3/ https://milroyg.github.io/dfes/mr/%e0%a4%97%e0%a5%8b%e0%a4%aa%e0%a4%a8%e0%a5%80%e0%a4%af%e0%a4%a4%e0%a4%be-%e0%a4%a7%e0%a5%8b%e0%a4%b0%e0%a4%a3/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%b8%e0%a5%8d%e0%a4%b5%e0%a5%80%e0%a4%95%e0%a4%b0%e0%a4%a3/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%b8%e0%a5%8d%e0%a4%b5%e0%a5%80%e0%a4%95%e0%a4%b0%e0%a4%a3/
+Redirect 301 /dfes/%e0%a4%b5%e0%a5%87%e0%a4%ac%e0%a4%b8%e0%a4%be%e0%a4%87%e0%a4%9f-%e0%a4%a7%e0%a5%8b%e0%a4%b0%e0%a4%a3%e0%a5%87/ https://milroyg.github.io/dfes/mr/%e0%a4%b5%e0%a5%87%e0%a4%ac%e0%a4%b8%e0%a4%be%e0%a4%87%e0%a4%9f-%e0%a4%a7%e0%a5%8b%e0%a4%b0%e0%a4%a3%e0%a5%87/
+Redirect 301 /dfes/%e0%a4%ae%e0%a4%a6%e0%a4%a4/ https://milroyg.github.io/dfes/mr/%e0%a4%ae%e0%a4%a6%e0%a4%a4/
+Redirect 301 /dfes/%e0%a4%b8%e0%a4%be%e0%a4%87%e0%a4%9f%e0%a4%ae%e0%a5%85%e0%a4%aa/ https://milroyg.github.io/dfes/mr/%e0%a4%b8%e0%a4%be%e0%a4%87%e0%a4%9f%e0%a4%ae%e0%a5%85%e0%a4%aa/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b8%e0%a4%81%e0%a4%a1%e0%a5%87%e0%a4%b8/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b8%e0%a4%81%e0%a4%a1%e0%a5%87%e0%a4%b8/
+Redirect 301 /dfes/mr/cool_timeline/national-fire-service-day-14th-april-2024-2/ https://milroyg.github.io/dfes/cool_timeline/national-fire-service-day-14th-april-2024-2/
+Redirect 301 /dfes/mr/cool_timeline/annual-raising-family-day-function-2/ https://milroyg.github.io/dfes/cool_timeline/annual-raising-family-day-function-2/
+Redirect 301 /dfes/mr/cool_timeline/40th-annual-raising-day-2/ https://milroyg.github.io/dfes/cool_timeline/40th-annual-raising-day-2/
+Redirect 301 /dfes/mr/cool_timeline/36th-annual-inspection-day-parade-held-on-16th-march-2024-2/ https://milroyg.github.io/dfes/cool_timeline/36th-annual-inspection-day-parade-held-on-16th-march-2024-2/
+Redirect 301 /dfes/mr/cool_timeline/the-special-course-in-general-fire-prevention-fire-fighting-of-batch-no-xxxi-for-employees-of-taj-group-of-hotels-w-e-f-24-01-2024-to-07-02-2024-2/ https://milroyg.github.io/dfes/cool_timeline/the-special-course-in-general-fire-prevention-fire-fighting-of-batch-no-xxxi-for-employees-of-taj-group-of-hotels-w-e-f-24-01-2024-to-07-02-2024-2/
+Redirect 301 /dfes/mr/cool_timeline/37th-annual-drilll-competition-2/ https://milroyg.github.io/dfes/cool_timeline/37th-annual-drilll-competition-2/
+Redirect 301 /dfes/cool_timeline/%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%95-%e0%a4%b8%e0%a4%82%e0%a4%95%e0%a4%b2%e0%a4%a8-%e0%a4%95%e0%a5%81%e0%a4%9f%e0%a5%81%e0%a4%82%e0%a4%ac-%e0%a4%a6%e0%a4%bf%e0%a4%a8-2/ https://milroyg.github.io/dfes/mr/cool_timeline/%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%95-%e0%a4%b8%e0%a4%82%e0%a4%95%e0%a4%b2%e0%a4%a8-%e0%a4%95%e0%a5%81%e0%a4%9f%e0%a5%81%e0%a4%82%e0%a4%ac-%e0%a4%a6%e0%a4%bf%e0%a4%a8-2/
+Redirect 301 /dfes/cool_timeline/24-01-2024-%e0%a4%a4%e0%a5%87-07-02-2024-%e0%a4%aa%e0%a4%b0%e0%a5%8d%e0%a4%af%e0%a4%82%e0%a4%a4-%e0%a4%a4%e0%a4%be%e0%a4%9c-%e0%a4%b9%e0%a5%89%e0%a4%9f%e0%a5%87%e0%a4%b2-%e0%a4%b8%e0%a4%ae%e0%a5%81-1/ https://milroyg.github.io/dfes/mr/cool_timeline/24-01-2024-%e0%a4%a4%e0%a5%87-07-02-2024-%e0%a4%aa%e0%a4%b0%e0%a5%8d%e0%a4%af%e0%a4%82%e0%a4%a4-%e0%a4%a4%e0%a4%be%e0%a4%9c-%e0%a4%b9%e0%a5%89%e0%a4%9f%e0%a5%87%e0%a4%b2-%e0%a4%b8%e0%a4%ae%e0%a5%81-1/
+Redirect 301 /dfes/cool_timeline/16-%e0%a4%ae%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%9a-2024-%e0%a4%b0%e0%a5%8b%e0%a4%9c%e0%a5%80-%e0%a4%9d%e0%a4%be%e0%a4%b2%e0%a5%87%e0%a4%b2%e0%a5%80-36%e0%a4%b5%e0%a5%80-%e0%a4%b5%e0%a4%be%e0%a4%b0-2/ https://milroyg.github.io/dfes/mr/cool_timeline/16-%e0%a4%ae%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%9a-2024-%e0%a4%b0%e0%a5%8b%e0%a4%9c%e0%a5%80-%e0%a4%9d%e0%a4%be%e0%a4%b2%e0%a5%87%e0%a4%b2%e0%a5%80-36%e0%a4%b5%e0%a5%80-%e0%a4%b5%e0%a4%be%e0%a4%b0-2/
+Redirect 301 /dfes/cool_timeline/%e0%a5%a9%e0%a5%ad-%e0%a4%b5%e0%a5%80-%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%95-%e0%a4%a1%e0%a5%8d%e0%a4%b0%e0%a4%bf%e0%a4%b2-%e0%a4%b8%e0%a5%8d%e0%a4%aa%e0%a4%b0%e0%a5%8d-2/ https://milroyg.github.io/dfes/mr/cool_timeline/%e0%a5%a9%e0%a5%ad-%e0%a4%b5%e0%a5%80-%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%95-%e0%a4%a1%e0%a5%8d%e0%a4%b0%e0%a4%bf%e0%a4%b2-%e0%a4%b8%e0%a5%8d%e0%a4%aa%e0%a4%b0%e0%a5%8d-2/
+Redirect 301 /dfes/cool_timeline/%e0%a4%b0%e0%a4%be%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%af-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8-%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%be-2/ https://milroyg.github.io/dfes/mr/cool_timeline/%e0%a4%b0%e0%a4%be%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%af-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8-%e0%a4%b8%e0%a5%87%e0%a4%b5%e0%a4%be-2/
+Redirect 301 /dfes/category/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%95%e0%a4%be%e0%a4%b6%e0%a4%a8%e0%a5%87/ https://milroyg.github.io/dfes/mr/category/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%95%e0%a4%be%e0%a4%b6%e0%a4%a8%e0%a5%87/
+Redirect 301 /dfes/cool_timeline/40%e0%a4%b5%e0%a4%be-%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%95-%e0%a4%b0%e0%a5%87%e0%a4%9d%e0%a4%bf%e0%a4%82%e0%a4%97-%e0%a4%a1%e0%a5%87-2/ https://milroyg.github.io/dfes/mr/cool_timeline/40%e0%a4%b5%e0%a4%be-%e0%a4%b5%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%95-%e0%a4%b0%e0%a5%87%e0%a4%9d%e0%a4%bf%e0%a4%82%e0%a4%97-%e0%a4%a1%e0%a5%87-2/
+Redirect 301 /dfes/category/%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/ https://milroyg.github.io/dfes/mr/category/%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/
+Redirect 301 /dfes/mr/category/events/ https://milroyg.github.io/dfes/category/events/
+Redirect 301 /dfes/mr/a-brief-overview-of-the-emergency-incidents-attended-during-the-cyclone-tauktae/ https://milroyg.github.io/dfes/a-brief-overview-of-the-emergency-incidents-attended-during-the-cyclone-tauktae/
+Redirect 301 /dfes/mr/37-years-of-state-fire-emergency-services-14th-april-2021/ https://milroyg.github.io/dfes/37-years-of-state-fire-emergency-services-14th-april-2021/
+Redirect 301 /dfes/mr/supply-of-high-density-poly-ethylene-hdpe-boat-with-obm-of-25-hp-along-with-trailer-8-seater-dated13-07-2021/ https://milroyg.github.io/dfes/supply-of-high-density-poly-ethylene-hdpe-boat-with-obm-of-25-hp-along-with-trailer-8-seater-dated13-07-2021/
+Redirect 301 /dfes/mr/press-note-2-jan-2021/ https://milroyg.github.io/dfes/press-note-2-jan-2021/
+Redirect 301 /dfes/mr/flooding-due-to-incessant-rains-in-various-areas-in-goa/ https://milroyg.github.io/dfes/flooding-due-to-incessant-rains-in-various-areas-in-goa/
+Redirect 301 /dfes/mr/cyclone-nisarga-keeps-goa-fire-personnel-on-their-toes/ https://milroyg.github.io/dfes/cyclone-nisarga-keeps-goa-fire-personnel-on-their-toes/
+Redirect 301 /dfes/mr/effective-and-innovative-use-of-technology-in-data-reporting-analysis/ https://milroyg.github.io/dfes/effective-and-innovative-use-of-technology-in-data-reporting-analysis/
+Redirect 301 /dfes/mr/samanam-agni-saranam-agni/ https://milroyg.github.io/dfes/samanam-agni-saranam-agni/
+Redirect 301 /dfes/mr/smart-technology-in-fire-prevention/ https://milroyg.github.io/dfes/smart-technology-in-fire-prevention/
+Redirect 301 /dfes/mr/prevent-fire-accidents-promote-nations-development/ https://milroyg.github.io/dfes/prevent-fire-accidents-promote-nations-development/
+Redirect 301 /dfes/mr/fire-prevention-never-too-late/ https://milroyg.github.io/dfes/fire-prevention-never-too-late/
+Redirect 301 /dfes/mr/fire-safe-goa/ https://milroyg.github.io/dfes/fire-safe-goa/
+Redirect 301 /dfes/mr/fire-burns-smoke-kills-smoke-management-saves-lives/ https://milroyg.github.io/dfes/fire-burns-smoke-kills-smoke-management-saves-lives/
+Redirect 301 /dfes/mr/dial-101-for-prompt-assistance-in-fire-emergencies/ https://milroyg.github.io/dfes/dial-101-for-prompt-assistance-in-fire-emergencies/
+Redirect 301 /dfes/mr/emergency-evacuation-plan-for-life-fire-safety/ https://milroyg.github.io/dfes/emergency-evacuation-plan-for-life-fire-safety/
+Redirect 301 /dfes/mr/disaster-preparedness-life-long-vision/ https://milroyg.github.io/dfes/disaster-preparedness-life-long-vision/
+Redirect 301 /dfes/mr/25-years-of-goa-state-fire-emergency-services-a-retrospect/ https://milroyg.github.io/dfes/25-years-of-goa-state-fire-emergency-services-a-retrospect/
+Redirect 301 /dfes/mr/fire-prevention-is-better-option/ https://milroyg.github.io/dfes/fire-prevention-is-better-option/
+Redirect 301 /dfes/%e0%a4%a4%e0%a5%8c%e0%a4%95%e0%a5%8d%e0%a4%a4%e0%a5%87-%e0%a4%9a%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%b5%e0%a4%be%e0%a4%a6%e0%a4%b3%e0%a4%be%e0%a4%a6%e0%a4%b0%e0%a4%ae%e0%a5%8d%e0%a4%af%e0%a4%be/ https://milroyg.github.io/dfes/mr/%e0%a4%a4%e0%a5%8c%e0%a4%95%e0%a5%8d%e0%a4%a4%e0%a5%87-%e0%a4%9a%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%b5%e0%a4%be%e0%a4%a6%e0%a4%b3%e0%a4%be%e0%a4%a6%e0%a4%b0%e0%a4%ae%e0%a5%8d%e0%a4%af%e0%a4%be/
+Redirect 301 /dfes/%e0%a4%97%e0%a5%8b%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%a4%e0%a5%80%e0%a4%b2-%e0%a4%b5%e0%a4%bf%e0%a4%b5%e0%a4%bf%e0%a4%a7-%e0%a4%ad%e0%a4%be%e0%a4%97%e0%a4%be%e0%a4%82%e0%a4%a4%e0%a5%80%e0%a4%b2/ https://milroyg.github.io/dfes/mr/%e0%a4%97%e0%a5%8b%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%a4%e0%a5%80%e0%a4%b2-%e0%a4%b5%e0%a4%bf%e0%a4%b5%e0%a4%bf%e0%a4%a7-%e0%a4%ad%e0%a4%be%e0%a4%97%e0%a4%be%e0%a4%82%e0%a4%a4%e0%a5%80%e0%a4%b2/
+Redirect 301 /dfes/25-%e0%a4%8f%e0%a4%9a%e0%a4%aa%e0%a5%80-%e0%a4%93%e0%a4%ac%e0%a5%80%e0%a4%8f%e0%a4%ae%e0%a4%b8%e0%a4%b9-%e0%a4%b9%e0%a4%be%e0%a4%af-%e0%a4%a1%e0%a5%87%e0%a4%a8%e0%a5%8d%e0%a4%b8%e0%a4%bf/ https://milroyg.github.io/dfes/mr/25-%e0%a4%8f%e0%a4%9a%e0%a4%aa%e0%a5%80-%e0%a4%93%e0%a4%ac%e0%a5%80%e0%a4%8f%e0%a4%ae%e0%a4%b8%e0%a4%b9-%e0%a4%b9%e0%a4%be%e0%a4%af-%e0%a4%a1%e0%a5%87%e0%a4%a8%e0%a5%8d%e0%a4%b8%e0%a4%bf/
+Redirect 301 /dfes/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b8%e0%a4%bf%e0%a4%a6%e0%a5%8d%e0%a4%a7%e0%a5%80-%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%b0%e0%a4%95-2-%e0%a4%9c%e0%a4%be%e0%a4%a8%e0%a5%87-2021/ https://milroyg.github.io/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b8%e0%a4%bf%e0%a4%a6%e0%a5%8d%e0%a4%a7%e0%a5%80-%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%b0%e0%a4%95-2-%e0%a4%9c%e0%a4%be%e0%a4%a8%e0%a5%87-2021/
+Redirect 301 /dfes/%e0%a4%b0%e0%a4%be%e0%a4%9c%e0%a5%8d%e0%a4%af-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8-%e0%a4%b5-%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%95%e0%a4%be%e0%a4%b2/ https://milroyg.github.io/dfes/mr/%e0%a4%b0%e0%a4%be%e0%a4%9c%e0%a5%8d%e0%a4%af-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8-%e0%a4%b5-%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%95%e0%a4%be%e0%a4%b2/
+Redirect 301 /dfes/%e0%a4%a1%e0%a5%87%e0%a4%9f%e0%a4%be-%e0%a4%b0%e0%a4%bf%e0%a4%aa%e0%a5%8b%e0%a4%b0%e0%a5%8d%e0%a4%9f%e0%a4%bf%e0%a4%82%e0%a4%97%e0%a4%ae%e0%a4%a7%e0%a5%8d%e0%a4%af%e0%a5%87-%e0%a4%b5-%e0%a4%b5/ https://milroyg.github.io/dfes/mr/%e0%a4%a1%e0%a5%87%e0%a4%9f%e0%a4%be-%e0%a4%b0%e0%a4%bf%e0%a4%aa%e0%a5%8b%e0%a4%b0%e0%a5%8d%e0%a4%9f%e0%a4%bf%e0%a4%82%e0%a4%97%e0%a4%ae%e0%a4%a7%e0%a5%8d%e0%a4%af%e0%a5%87-%e0%a4%b5-%e0%a4%b5/
+Redirect 301 /dfes/%e0%a4%9a%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%b5%e0%a4%be%e0%a4%a6%e0%a4%b3-%e0%a4%a8%e0%a4%bf%e0%a4%b8%e0%a4%b0%e0%a5%8d%e0%a4%97-%e0%a4%97%e0%a5%8b%e0%a4%b5%e0%a4%be-%e0%a4%85%e0%a4%97/ https://milroyg.github.io/dfes/mr/%e0%a4%9a%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%b5%e0%a4%be%e0%a4%a6%e0%a4%b3-%e0%a4%a8%e0%a4%bf%e0%a4%b8%e0%a4%b0%e0%a5%8d%e0%a4%97-%e0%a4%97%e0%a5%8b%e0%a4%b5%e0%a4%be-%e0%a4%85%e0%a4%97/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%a4-%e0%a4%97%e0%a5%8b%e0%a4%b5%e0%a4%be/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%a4-%e0%a4%97%e0%a5%8b%e0%a4%b5%e0%a4%be/
+Redirect 301 /dfes/%e0%a4%b8%e0%a4%ae%e0%a4%be%e0%a4%a8%e0%a4%ae%e0%a5%8d-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b8%e0%a4%be%e0%a4%b0%e0%a4%a8%e0%a4%ae%e0%a5%8d-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8/ https://milroyg.github.io/dfes/mr/%e0%a4%b8%e0%a4%ae%e0%a4%be%e0%a4%a8%e0%a4%ae%e0%a5%8d-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%b8%e0%a4%be%e0%a4%b0%e0%a4%a8%e0%a4%ae%e0%a5%8d-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7%e0%a4%a4%e0%a5%87%e0%a4%a4-%e0%a4%b8%e0%a5%8d%e0%a4%ae%e0%a4%be%e0%a4%b0%e0%a5%8d/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7%e0%a4%a4%e0%a5%87%e0%a4%a4-%e0%a4%b8%e0%a5%8d%e0%a4%ae%e0%a4%be%e0%a4%b0%e0%a5%8d/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%85%e0%a4%aa%e0%a4%98%e0%a4%be%e0%a4%a4-%e0%a4%9f%e0%a4%be%e0%a4%b3%e0%a4%be-%e0%a4%b0%e0%a4%be%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%8d/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%85%e0%a4%aa%e0%a4%98%e0%a4%be%e0%a4%a4-%e0%a4%9f%e0%a4%be%e0%a4%b3%e0%a4%be-%e0%a4%b0%e0%a4%be%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%8d/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%a8%e0%a5%87%e0%a4%b9%e0%a4%ae%e0%a5%80%e0%a4%9a-%e0%a4%86%e0%a4%b5/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%a8%e0%a5%87%e0%a4%b9%e0%a4%ae%e0%a5%80%e0%a4%9a-%e0%a4%86%e0%a4%b5/
+Redirect 301 /dfes/%e0%a4%9c%e0%a5%80%e0%a4%b5%e0%a4%bf%e0%a4%a4%e0%a4%be%e0%a4%b8%e0%a4%be%e0%a4%a0%e0%a5%80-%e0%a4%b5-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7/ https://milroyg.github.io/dfes/mr/%e0%a4%9c%e0%a5%80%e0%a4%b5%e0%a4%bf%e0%a4%a4%e0%a4%be%e0%a4%b8%e0%a4%be%e0%a4%a0%e0%a5%80-%e0%a4%b5-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7/
+Redirect 301 /dfes/%e0%a4%86%e0%a4%97%e0%a5%80%e0%a4%9a%e0%a5%8d%e0%a4%af%e0%a4%be-%e0%a4%b5-%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%95%e0%a4%be%e0%a4%b2%e0%a5%80%e0%a4%a8-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b8/ https://milroyg.github.io/dfes/mr/%e0%a4%86%e0%a4%97%e0%a5%80%e0%a4%9a%e0%a5%8d%e0%a4%af%e0%a4%be-%e0%a4%b5-%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%95%e0%a4%be%e0%a4%b2%e0%a5%80%e0%a4%a8-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b8/
+Redirect 301 /dfes/%e0%a4%86%e0%a4%97-%e0%a4%9c%e0%a4%be%e0%a4%b3%e0%a4%a4%e0%a5%87-%e0%a4%a7%e0%a5%82%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%be%e0%a4%a3%e0%a4%be%e0%a4%b5%e0%a4%b0-%e0%a4%ac%e0%a5%87%e0%a4%a4/ https://milroyg.github.io/dfes/mr/%e0%a4%86%e0%a4%97-%e0%a4%9c%e0%a4%be%e0%a4%b3%e0%a4%a4%e0%a5%87-%e0%a4%a7%e0%a5%82%e0%a4%b0-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%be%e0%a4%a3%e0%a4%be%e0%a4%b5%e0%a4%b0-%e0%a4%ac%e0%a5%87%e0%a4%a4/
+Redirect 301 /dfes/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b8%e0%a4%9c%e0%a5%8d%e0%a4%9c%e0%a4%a4%e0%a4%be-%e0%a4%86%e0%a4%9c%e0%a5%80%e0%a4%b5%e0%a4%a8-%e0%a4%a6%e0%a5%82%e0%a4%b0%e0%a4%a6/ https://milroyg.github.io/dfes/mr/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80-%e0%a4%b8%e0%a4%9c%e0%a5%8d%e0%a4%9c%e0%a4%a4%e0%a4%be-%e0%a4%86%e0%a4%9c%e0%a5%80%e0%a4%b5%e0%a4%a8-%e0%a4%a6%e0%a5%82%e0%a4%b0%e0%a4%a6/
+Redirect 301 /dfes/%e0%a4%97%e0%a5%8b%e0%a4%b5%e0%a4%be-%e0%a4%b0%e0%a4%be%e0%a4%9c%e0%a5%8d%e0%a4%af-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8-%e0%a4%b5-%e0%a4%86%e0%a4%aa%e0%a4%a4/ https://milroyg.github.io/dfes/mr/%e0%a4%97%e0%a5%8b%e0%a4%b5%e0%a4%be-%e0%a4%b0%e0%a4%be%e0%a4%9c%e0%a5%8d%e0%a4%af-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8-%e0%a4%b5-%e0%a4%86%e0%a4%aa%e0%a4%a4/
+Redirect 301 /dfes/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b9%e0%a4%be-%e0%a4%85%e0%a4%a7%e0%a4%bf%e0%a4%95-%e0%a4%9a%e0%a4%be/ https://milroyg.github.io/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7-%e0%a4%b9%e0%a4%be-%e0%a4%85%e0%a4%a7%e0%a4%bf%e0%a4%95-%e0%a4%9a%e0%a4%be/
+
+<If "%{REQUEST_URI} =~ m#^/dfes/wp\-content/uploads/2024/12/Bushfire\-1\.webm#i">
+  ForceType "video/webm"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/wp\-content/uploads/2024/12/Bushfire\.webm#i">
+  ForceType "video/webm"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/wp\-content/uploads/2025/02/GOVERMENT\-OF\-GOA\.mp4#i">
+  ForceType "video/mp4"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/wp\-content/uploads/ast\-block\-templates\-json/index\.html#i">
+  ForceType "text/html; charset=iso-8859-1"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/wp\-content/uploads/download\-manager\-files/ACFrOgDHRWEgtlLqBaL5GrQqDJ3m6BnvP5_9uMts6JFc3L2yAsXLMQP9ZzxaO6vPWOc45Mx0veWBCqbl6PPCUWdlpHd49ZtNZMJE042J45Tci9mdMyRzAvd1A4mVcAWMHtgmefy\-CN9AZMZbOfGD\.pdf#i">
+  ForceType "text/html; charset=iso-8859-1"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/wp\-content/uploads/download\-manager\-files/State\-Assistant\-Public\-Information\-Officers\-_1\.pdf#i">
+  ForceType "text/html; charset=iso-8859-1"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/wp\-content/uploads/download\-manager\-files/index\.php#i">
+  ForceType "text/html; charset=iso-8859-1"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/wp\-content/uploads/supsystic\-tables/cache/tables/1#i">
+  ForceType "text/html; charset=iso-8859-1"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/wp\-content/uploads/wpdm\-custom\-tags/index\.php#i">
+  ForceType "text/html; charset=iso-8859-1"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/wp\-sitemap\-index\.xsl#i">
+  ForceType "application/xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/comments/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/wp\-json/#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/wp\-sitemap\.xsl#i">
+  ForceType "application/xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/comments/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10067#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10666#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9456#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9625#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9769#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9773#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9777#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9784#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9790#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9732#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf\-%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%be\-%e0%a4%b8%e0%a5%81%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a5%8d%e0%a4%9a%e0%a4%bf%e0%a4%a4/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9941#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%b0%e0%a4%be%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%af\-%e0%a4%b8%e0%a4%be%e0%a4%a7%e0%a4%a8%e0%a4%b8%e0%a5%81%e0%a4%b5%e0%a4%bf%e0%a4%a7%e0%a4%be\-%e0%a4%b5%e0%a4%be%e0%a4%a2/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10304#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10310#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%be\-%e0%a4%b6%e0%a4%bf%e0%a4%95%e0%a4%be\-%e0%a4%89%e0%a4%a4%e0%a5%8d%e0%a4%aa%e0%a4%be/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9881#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/privacy\-policy/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10319#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/8659#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/8708#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9451#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9462#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/8788#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9714#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9488#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9522#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9728#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9482#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9720#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9724#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9736#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9821#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9755#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9826#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9829#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9873#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9964#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9878#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9979#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9987#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9982#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9993#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/9999#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10015#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10021#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10004#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10205#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10026#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10208#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10032#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10210#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10046#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10212#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10214#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10216#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10219#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10221#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10223#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10225#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10227#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10233#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10229#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10231#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10239#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10235#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10237#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10657#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10721#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10725#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10712#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10717#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10729#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10733#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10740#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10738#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10744#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%97%e0%a5%8b%e0%a4%aa%e0%a4%a8%e0%a5%80%e0%a4%af%e0%a4%a4%e0%a4%be\-%e0%a4%a7%e0%a5%8b%e0%a4%b0%e0%a4%a3/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10755#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10742#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10749#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10759#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/10757#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/11208#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/pages/11164#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/categories/184#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/category/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%95%e0%a4%be%e0%a4%b6%e0%a4%a8%e0%a5%87/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/categories/283#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/category/%e0%a4%95%e0%a4%be%e0%a4%b0%e0%a5%8d%e0%a4%af%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a4%ae/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/tam\-category/tenders/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/tam\-category/recruitment/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/tam\-category/notification\-central/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/tam\-category/orders\-circulars\-memos\-intra\-departmental/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/category/events/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/type/gallery/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/author/milroy/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/users/1#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/project\-category/help/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/project\-category/energy/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/project\-category/expertise/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/project\-category/hydropower/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/project\-category/panels/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/author/milroy/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/project\-category/solar/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%a4%e0%a5%8c%e0%a4%95%e0%a5%8d%e0%a4%a4%e0%a5%87\-%e0%a4%9a%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%b5%e0%a4%be%e0%a4%a6%e0%a4%b3%e0%a4%be%e0%a4%a6%e0%a4%b0%e0%a4%ae%e0%a5%8d%e0%a4%af%e0%a4%be/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10557#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%97%e0%a5%8b%e0%a4%b5%e0%a5%8d%e0%a4%af%e0%a4%be%e0%a4%a4%e0%a5%80%e0%a4%b2\-%e0%a4%b5%e0%a4%bf%e0%a4%b5%e0%a4%bf%e0%a4%a7\-%e0%a4%ad%e0%a4%be%e0%a4%97%e0%a4%be%e0%a4%82%e0%a4%a4%e0%a5%80%e0%a4%b2/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/25\-%e0%a4%8f%e0%a4%9a%e0%a4%aa%e0%a5%80\-%e0%a4%93%e0%a4%ac%e0%a5%80%e0%a4%8f%e0%a4%ae%e0%a4%b8%e0%a4%b9\-%e0%a4%b9%e0%a4%be%e0%a4%af\-%e0%a4%a1%e0%a5%87%e0%a4%a8%e0%a5%8d%e0%a4%b8%e0%a4%bf/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10569#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b8%e0%a4%bf%e0%a4%a6%e0%a5%8d%e0%a4%a7%e0%a5%80\-%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%b0%e0%a4%95\-2\-%e0%a4%9c%e0%a4%be%e0%a4%a8%e0%a5%87\-2021/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10563#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10544#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%b0%e0%a4%be%e0%a4%9c%e0%a5%8d%e0%a4%af\-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8\-%e0%a4%b5\-%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%95%e0%a4%be%e0%a4%b2/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10551#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%a1%e0%a5%87%e0%a4%9f%e0%a4%be\-%e0%a4%b0%e0%a4%bf%e0%a4%aa%e0%a5%8b%e0%a4%b0%e0%a5%8d%e0%a4%9f%e0%a4%bf%e0%a4%82%e0%a4%97%e0%a4%ae%e0%a4%a7%e0%a5%8d%e0%a4%af%e0%a5%87\-%e0%a4%b5\-%e0%a4%b5/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%9a%e0%a4%95%e0%a5%8d%e0%a4%b0%e0%a5%80%e0%a4%b5%e0%a4%be%e0%a4%a6%e0%a4%b3\-%e0%a4%a8%e0%a4%bf%e0%a4%b8%e0%a4%b0%e0%a5%8d%e0%a4%97\-%e0%a4%97%e0%a5%8b%e0%a4%b5%e0%a4%be\-%e0%a4%85%e0%a4%97/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10536#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%b8%e0%a4%ae%e0%a4%be%e0%a4%a8%e0%a4%ae%e0%a5%8d\-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf\-%e0%a4%b8%e0%a4%be%e0%a4%b0%e0%a4%a8%e0%a4%ae%e0%a5%8d\-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10523#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10530#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7%e0%a4%bf%e0%a4%a4\-%e0%a4%97%e0%a5%8b%e0%a4%b5%e0%a4%be/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10500#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7%e0%a4%a4%e0%a5%87%e0%a4%a4\-%e0%a4%b8%e0%a5%8d%e0%a4%ae%e0%a4%be%e0%a4%b0%e0%a5%8d/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf\-%e0%a4%85%e0%a4%aa%e0%a4%98%e0%a4%be%e0%a4%a4\-%e0%a4%9f%e0%a4%be%e0%a4%b3%e0%a4%be\-%e0%a4%b0%e0%a4%be%e0%a4%b7%e0%a5%8d%e0%a4%9f%e0%a5%8d/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10517#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf\-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7\-%e0%a4%a8%e0%a5%87%e0%a4%b9%e0%a4%ae%e0%a5%80%e0%a4%9a\-%e0%a4%86%e0%a4%b5/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10493#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10511#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%9c%e0%a5%80%e0%a4%b5%e0%a4%bf%e0%a4%a4%e0%a4%be%e0%a4%b8%e0%a4%be%e0%a4%a0%e0%a5%80\-%e0%a4%b5\-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b8%e0%a5%81%e0%a4%b0%e0%a4%95%e0%a5%8d%e0%a4%b7/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10481#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%86%e0%a4%97%e0%a5%80%e0%a4%9a%e0%a5%8d%e0%a4%af%e0%a4%be\-%e0%a4%b5\-%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%95%e0%a4%be%e0%a4%b2%e0%a5%80%e0%a4%a8\-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%b8/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%86%e0%a4%97\-%e0%a4%9c%e0%a4%be%e0%a4%b3%e0%a4%a4%e0%a5%87\-%e0%a4%a7%e0%a5%82%e0%a4%b0\-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%be%e0%a4%a3%e0%a4%be%e0%a4%b5%e0%a4%b0\-%e0%a4%ac%e0%a5%87%e0%a4%a4/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10470#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%97%e0%a5%8b%e0%a4%b5%e0%a4%be\-%e0%a4%b0%e0%a4%be%e0%a4%9c%e0%a5%8d%e0%a4%af\-%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf%e0%a4%b6%e0%a4%ae%e0%a4%a8\-%e0%a4%b5\-%e0%a4%86%e0%a4%aa%e0%a4%a4/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10487#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10455#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%86%e0%a4%aa%e0%a4%a4%e0%a5%8d%e0%a4%a4%e0%a5%80\-%e0%a4%b8%e0%a4%9c%e0%a5%8d%e0%a4%9c%e0%a4%a4%e0%a4%be\-%e0%a4%86%e0%a4%9c%e0%a5%80%e0%a4%b5%e0%a4%a8\-%e0%a4%a6%e0%a5%82%e0%a4%b0%e0%a4%a6/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10464#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/%e0%a4%85%e0%a4%97%e0%a5%8d%e0%a4%a8%e0%a4%bf\-%e0%a4%aa%e0%a5%8d%e0%a4%b0%e0%a4%a4%e0%a4%bf%e0%a4%ac%e0%a4%82%e0%a4%a7\-%e0%a4%b9%e0%a4%be\-%e0%a4%85%e0%a4%a7%e0%a4%bf%e0%a4%95\-%e0%a4%9a%e0%a4%be/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/project/195#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/posts/10449#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/project/212#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/project/217#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/project/213#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/project/215#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/project/4211#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/team/252#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/project/4064#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/project/4210#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/team/3610#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/team/256#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/team/1126#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/tam\-category/tenders/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/tam\-category/orders\-circulars\-memos\-intra\-departmental/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/tam\-category/notification\-central/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/tam\-category/recruitment/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/type/gallery/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/project_cat/35#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/project_cat/38#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/project\-category/help/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/project\-category/energy/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/project\-category/hydropower/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/project_cat/40#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/project_cat/36#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/project\-category/expertise/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/project_cat/42#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/wp\-json/wp/v2/project_cat/43#i">
+  ForceType "application/json; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/project\-category/solar/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>
+
+<If "%{REQUEST_URI} =~ m#^/dfes/mr/project\-category/panels/feed/#i">
+  ForceType "application/rss+xml; charset=UTF-8"
+</If>

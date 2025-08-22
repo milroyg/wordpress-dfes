@@ -344,7 +344,7 @@ function dfes_send_sms_hydgw($mobile, $message, $station, $dsr_id) {
     $senderid     = trim($settings['hydgw_senderid'] ?? 'GOFIRE');
     $dlt_entity   = trim($settings['hydgw_dlt_entity_id'] ?? '');
     $dlt_template = trim($settings['hydgw_dlt_template_id'] ?? '');
-    $route        = trim($settings['hydgw_route'] ?? 'default'); 
+    $route        = trim($settings['hydgw_route'] ?? ''); 
     $base_url     = trim($settings['hydgw_base_url'] ?? 'https://hydgw.sms.gov.in/failsafe/MLink');
     $log_on       = !empty($settings['logging_enabled']);
 

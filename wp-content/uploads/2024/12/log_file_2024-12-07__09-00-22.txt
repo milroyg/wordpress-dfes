@@ -1,0 +1,55 @@
+
+---Downloaded files---
+The import files for: Demo page were successfully downloaded!
+Initial max execution time = 120
+Files info:
+Site URL = http://localhost/wordpress
+Data file = C:\xampp\htdocs\wordpress/wp-content/themes/xevso/inc/demo/demo.xml
+Widget file = C:\xampp\htdocs\wordpress/wp-content/themes/xevso/inc/demo/widgets.wie
+Customizer file = C:\xampp\htdocs\wordpress/wp-content/themes/xevso/inc/demo/customizer.dat
+Redux files:
+not defined!
+
+------
+New AJAX call!
+
+
+---Importing widgets---
+Sidebar : 
+
+Block - No Title - Widget already exists
+Block - No Title - Imported
+Block - No Title - Imported
+Block - No Title - Imported
+Block - No Title - Imported
+Block - No Title - Imported
+Block - No Title - Imported
+Block - No Title - Imported
+Block - No Title - Imported
+
+Footer One : 
+
+xevso Newletter Widget - Newsletter Signup - Imported
+
+Footer Two : 
+
+xevso Nav Widget - Quick Links - Imported
+
+Footer Three : 
+
+xevso Post With Thumbnail - Recent Post - Imported
+
+Footer Four : 
+
+xevso Contact Info - Get In Touch - Imported
+
+
+
+------
+Custom Framework file loaded.
+
+---Importing customizer settings---
+Customizer settings import finished!
+
+---ocdi/after_import---
+

@@ -1,0 +1,48 @@
+
+---Downloaded files---
+The import files for: Demo page were successfully downloaded!
+Initial max execution time = 60
+Files info:
+Site URL = https://xevso.bikebuzzbd.com
+Data file = /home/bikebuz/xevso.bikebuzzbd.com/wp-content/themes/xevso/inc/demo/demo.xml
+Widget file = /home/bikebuz/xevso.bikebuzzbd.com/wp-content/themes/xevso/inc/demo/widgets.wie
+Customizer file = /home/bikebuz/xevso.bikebuzzbd.com/wp-content/themes/xevso/inc/demo/customizer.dat
+Redux files:
+not defined!
+
+---Importing widgets---
+Sidebar : 
+
+Block - No Title - Widget already exists
+Block - No Title - Imported
+Block - No Title - Imported
+Block - No Title - Imported
+Block - No Title - Imported
+Block - No Title - Imported
+Block - No Title - Imported
+Block - No Title - Imported
+Block - No Title - Imported
+
+Footer One : 
+
+xevso Newletter Widget - Newsletter Signup - Imported
+
+Footer Two : 
+
+xevso Nav Widget - Quick Links - Imported
+
+Footer Three : 
+
+xevso Post With Thumbnail - Recent Post - Imported
+
+Footer Four : 
+
+xevso Contact Info - Get In Touch - Imported
+
+
+
+---Importing customizer settings---
+Error: The customizer import file is not in a correct format. Please make sure to use the correct customizer import file.
+
+---ocdi/after_import---
+

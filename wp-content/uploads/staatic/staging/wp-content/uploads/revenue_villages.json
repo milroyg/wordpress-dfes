@@ -1,0 +1,2546 @@
+[
+  {
+    "id": 180,
+    "taluka": "Bardez",
+    "village": "Aldona",
+    "wkt": "POINT(73.8720439148892 15.5909177435709)"
+  },
+  {
+    "id": 164,
+    "taluka": "Bardez",
+    "village": "Anjuna",
+    "wkt": "POINT(73.74982044577 15.5888984730075)"
+  },
+  {
+    "id": 161,
+    "taluka": "Bardez",
+    "village": "Arpora",
+    "wkt": "POINT(73.7661052539404 15.5707215569399)"
+  },
+  {
+    "id": 165,
+    "taluka": "Bardez",
+    "village": "Assagao",
+    "wkt": "POINT(73.7763230425357 15.6024135871262)"
+  },
+  {
+    "id": 198,
+    "taluka": "Bardez",
+    "village": "Assonora",
+    "wkt": "POINT(73.895995437116 15.6211502418695)"
+  },
+  {
+    "id": 188,
+    "taluka": "Bardez",
+    "village": "Bastora",
+    "wkt": "POINT(73.8228224370529 15.5826658309628)"
+  },
+  {
+    "id": 160,
+    "taluka": "Bardez",
+    "village": "Calangute",
+    "wkt": "POINT(73.7672121984215 15.5441416635973)"
+  },
+  {
+    "id": 199,
+    "taluka": "Bardez",
+    "village": "Calvim",
+    "wkt": "POINT(73.8919533531743 15.5661199964241)"
+  },
+  {
+    "id": 194,
+    "taluka": "Bardez",
+    "village": "Camurlim",
+    "wkt": "POINT(73.7978326892692 15.6414274677573)"
+  },
+  {
+    "id": 190,
+    "taluka": "Bardez",
+    "village": "Canca",
+    "wkt": "POINT(73.79986472617 15.5841807503679)"
+  },
+  {
+    "id": 159,
+    "taluka": "Bardez",
+    "village": "Candolim",
+    "wkt": "POINT(73.77175463672 15.5102513123572)"
+  },
+  {
+    "id": 193,
+    "taluka": "Bardez",
+    "village": "Colvale",
+    "wkt": "POINT(73.8271639217886 15.636988475751)"
+  },
+  {
+    "id": 181,
+    "taluka": "Bardez",
+    "village": "Corjuem",
+    "wkt": "POINT(73.8852062020915 15.5930466385925)"
+  },
+  {
+    "id": 442,
+    "taluka": "Bardez",
+    "village": "Cunchelim",
+    "wkt": "POINT(73.8130380083187 15.6148341635816)"
+  },
+  {
+    "id": 186,
+    "taluka": "Bardez",
+    "village": "Guirim",
+    "wkt": "POINT(73.8064607184463 15.5702549850484)"
+  },
+  {
+    "id": 192,
+    "taluka": "Bardez",
+    "village": "Mapusa",
+    "wkt": "POINT(73.8162075704021 15.598228690512)"
+  },
+  {
+    "id": 166,
+    "taluka": "Bardez",
+    "village": "Marna",
+    "wkt": "POINT(73.7867798514011 15.6134719296548)"
+  },
+  {
+    "id": 169,
+    "taluka": "Bardez",
+    "village": "Marra",
+    "wkt": "POINT(73.7968816657498 15.5216558928453)"
+  },
+  {
+    "id": 184,
+    "taluka": "Bardez",
+    "village": "Moira",
+    "wkt": "POINT(73.8434402412236 15.5981385612686)"
+  },
+  {
+    "id": 437,
+    "taluka": "Bardez",
+    "village": "Moitem",
+    "wkt": "POINT(73.9049508822432 15.6304790434779)"
+  },
+  {
+    "id": 179,
+    "taluka": "Bardez",
+    "village": "Nachinola",
+    "wkt": "POINT(73.8551895176271 15.5862104538354)"
+  },
+  {
+    "id": 196,
+    "taluka": "Bardez",
+    "village": "Nadora",
+    "wkt": "POINT(73.8665695853224 15.6695192956221)"
+  },
+  {
+    "id": 162,
+    "taluka": "Bardez",
+    "village": "Nagoa",
+    "wkt": "POINT(73.7792169680115 15.5581241881937)"
+  },
+  {
+    "id": 173,
+    "taluka": "Bardez",
+    "village": "Nerul",
+    "wkt": "POINT(73.7893749336507 15.5076384949216)"
+  },
+  {
+    "id": 182,
+    "taluka": "Bardez",
+    "village": "Olaulim",
+    "wkt": "POINT(73.8682358930647 15.5715151032227)"
+  },
+  {
+    "id": 168,
+    "taluka": "Bardez",
+    "village": "Oxel",
+    "wkt": "POINT(73.7777150082519 15.6340122970325)"
+  },
+  {
+    "id": 187,
+    "taluka": "Bardez",
+    "village": "Paliem",
+    "wkt": "POINT(73.8242189320394 15.5728313567196)"
+  },
+  {
+    "id": 163,
+    "taluka": "Bardez",
+    "village": "Parra",
+    "wkt": "POINT(73.7840703903904 15.5711735792405)"
+  },
+  {
+    "id": 175,
+    "taluka": "Bardez",
+    "village": "Penha De Franca",
+    "wkt": "POINT(73.8361004513948 15.5178034101199)"
+  },
+  {
+    "id": 171,
+    "taluka": "Bardez",
+    "village": "Pilerne",
+    "wkt": "POINT(73.8120054743883 15.5288565536377)"
+  },
+  {
+    "id": 197,
+    "taluka": "Bardez",
+    "village": "Pirna",
+    "wkt": "POINT(73.8879203116171 15.6656198149628)"
+  },
+  {
+    "id": 178,
+    "taluka": "Bardez",
+    "village": "Pomburpa",
+    "wkt": "POINT(73.857339185541 15.5652093509091)"
+  },
+  {
+    "id": 200,
+    "taluka": "Bardez",
+    "village": "Ponolem",
+    "wkt": "POINT(73.8989728397653 15.5698464314687)"
+  },
+  {
+    "id": 189,
+    "taluka": "Bardez",
+    "village": "Punola",
+    "wkt": "POINT(73.8332102430795 15.580713341034)"
+  },
+  {
+    "id": 172,
+    "taluka": "Bardez",
+    "village": "Reis Magos",
+    "wkt": "POINT(73.8133186171732 15.5087343916896)"
+  },
+  {
+    "id": 195,
+    "taluka": "Bardez",
+    "village": "Revora",
+    "wkt": "POINT(73.8547413599404 15.6539736566212)"
+  },
+  {
+    "id": 170,
+    "taluka": "Bardez",
+    "village": "Saligao",
+    "wkt": "POINT(73.7900315903021 15.5446534326496)"
+  },
+  {
+    "id": 176,
+    "taluka": "Bardez",
+    "village": "Salvador Do Mundo",
+    "wkt": "POINT(73.8521650255808 15.5380019260116)"
+  },
+  {
+    "id": 174,
+    "taluka": "Bardez",
+    "village": "Sangolda",
+    "wkt": "POINT(73.80626030747 15.5502003764412)"
+  },
+  {
+    "id": 167,
+    "taluka": "Bardez",
+    "village": "Siolim",
+    "wkt": "POINT(73.7812167518767 15.6236691599826)"
+  },
+  {
+    "id": 441,
+    "taluka": "Bardez",
+    "village": "Sircaim",
+    "wkt": "POINT(73.8794461320722 15.6241332165008)"
+  },
+  {
+    "id": 177,
+    "taluka": "Bardez",
+    "village": "Socorro",
+    "wkt": "POINT(73.8310238155048 15.5553844444199)"
+  },
+  {
+    "id": 185,
+    "taluka": "Bardez",
+    "village": "Tivim",
+    "wkt": "POINT(73.8565454555068 15.624800214184)"
+  },
+  {
+    "id": 183,
+    "taluka": "Bardez",
+    "village": "Ucassaim",
+    "wkt": "POINT(73.8422730790988 15.5825443481723)"
+  },
+  {
+    "id": 191,
+    "taluka": "Bardez",
+    "village": "Verla",
+    "wkt": "POINT(73.7882040270941 15.5863480311493)"
+  },
+  {
+    "id": 432,
+    "taluka": "Bicholim",
+    "village": "Adwalpale",
+    "wkt": "POINT(73.8987062239541 15.6445892430965)"
+  },
+  {
+    "id": 408,
+    "taluka": "Bicholim",
+    "village": "Amone",
+    "wkt": "POINT(73.981022703343 15.5346183324806)"
+  },
+  {
+    "id": 410,
+    "taluka": "Bicholim",
+    "village": "Arvalem",
+    "wkt": "POINT(74.0371174464241 15.5595570839756)"
+  },
+  {
+    "id": 411,
+    "taluka": "Bicholim",
+    "village": "Aturli",
+    "wkt": "POINT(73.9213661715879 15.5599929973562)"
+  },
+  {
+    "id": 412,
+    "taluka": "Bicholim",
+    "village": "Bicholim",
+    "wkt": "POINT(73.9519426213428 15.5798606474231)"
+  },
+  {
+    "id": 414,
+    "taluka": "Bicholim",
+    "village": "Bordem",
+    "wkt": "POINT(73.949196210927 15.6027028860815)"
+  },
+  {
+    "id": 415,
+    "taluka": "Bicholim",
+    "village": "Carapur",
+    "wkt": "POINT(73.9854910942473 15.5670705453279)"
+  },
+  {
+    "id": 439,
+    "taluka": "Bicholim",
+    "village": "Cassabe De Sanquelim",
+    "wkt": "POINT(74.0096619418117 15.5637163688139)"
+  },
+  {
+    "id": 416,
+    "taluka": "Bicholim",
+    "village": "Cotombi",
+    "wkt": "POINT(74.0322587271212 15.4800452656688)"
+  },
+  {
+    "id": 417,
+    "taluka": "Bicholim",
+    "village": "Cudnem",
+    "wkt": "POINT(74.0199268086748 15.5391366683338)"
+  },
+  {
+    "id": 418,
+    "taluka": "Bicholim",
+    "village": "Curchirem",
+    "wkt": "POINT(74.001146416147 15.599289434791)"
+  },
+  {
+    "id": 435,
+    "taluka": "Bicholim",
+    "village": "Dumacem",
+    "wkt": "POINT(73.9070513338756 15.6814461739689)"
+  },
+  {
+    "id": 429,
+    "taluka": "Bicholim",
+    "village": "Lamgao",
+    "wkt": "POINT(73.9337330761965 15.5950798066772)"
+  },
+  {
+    "id": 438,
+    "taluka": "Bicholim",
+    "village": "Latambarcem",
+    "wkt": "POINT(73.9374247208046 15.6512330137862)"
+  },
+  {
+    "id": 419,
+    "taluka": "Bicholim",
+    "village": "Maem",
+    "wkt": "POINT(73.9167622280682 15.5814485909227)"
+  },
+  {
+    "id": 420,
+    "taluka": "Bicholim",
+    "village": "Maulinguem North",
+    "wkt": "POINT(73.9758309755856 15.6128753107985)"
+  },
+  {
+    "id": 421,
+    "taluka": "Bicholim",
+    "village": "Maulinguem South",
+    "wkt": "POINT(74.0093675502412 15.5573980803996)"
+  },
+  {
+    "id": 434,
+    "taluka": "Bicholim",
+    "village": "Mencurem",
+    "wkt": "POINT(73.8956480774387 15.6920202795648)"
+  },
+  {
+    "id": 431,
+    "taluka": "Bicholim",
+    "village": "Mulgao",
+    "wkt": "POINT(73.9212224775686 15.6171087181992)"
+  },
+  {
+    "id": 413,
+    "taluka": "Bicholim",
+    "village": "Naroa",
+    "wkt": "POINT(73.9290666301172 15.5520378494073)"
+  },
+  {
+    "id": 422,
+    "taluka": "Bicholim",
+    "village": "Navelim",
+    "wkt": "POINT(74.0076862327862 15.5186681980577)"
+  },
+  {
+    "id": 428,
+    "taluka": "Bicholim",
+    "village": "Ona",
+    "wkt": "POINT(73.9542301765997 15.6155710418448)"
+  },
+  {
+    "id": 407,
+    "taluka": "Bicholim",
+    "village": "Pale",
+    "wkt": "POINT(74.0638365017411 15.4730876201243)"
+  },
+  {
+    "id": 423,
+    "taluka": "Bicholim",
+    "village": "Piligao",
+    "wkt": "POINT(73.9576838629447 15.5572829894163)"
+  },
+  {
+    "id": 436,
+    "taluka": "Bicholim",
+    "village": "Salem",
+    "wkt": "POINT(73.9425779700868 15.6881528863148)"
+  },
+  {
+    "id": 424,
+    "taluka": "Bicholim",
+    "village": "Sarvona",
+    "wkt": "POINT(73.9728500511826 15.5844198836547)"
+  },
+  {
+    "id": 430,
+    "taluka": "Bicholim",
+    "village": "Sirigao",
+    "wkt": "POINT(73.9004284893436 15.6073076477171)"
+  },
+  {
+    "id": 425,
+    "taluka": "Bicholim",
+    "village": "Surla",
+    "wkt": "POINT(74.0372117445203 15.4984011264395)"
+  },
+  {
+    "id": 433,
+    "taluka": "Bicholim",
+    "village": "Vainguinim",
+    "wkt": "POINT(73.9098569835489 15.5664695560477)"
+  },
+  {
+    "id": 426,
+    "taluka": "Bicholim",
+    "village": "Velguem",
+    "wkt": "POINT(74.0583408317244 15.4991534949394)"
+  },
+  {
+    "id": 427,
+    "taluka": "Bicholim",
+    "village": "Virdi",
+    "wkt": "POINT(73.9879388455059 15.5490312699072)"
+  },
+  {
+    "id": 23,
+    "taluka": "Canacona",
+    "village": "Agonda",
+    "wkt": "POINT(74.0006083836032 15.0427380076711)"
+  },
+  {
+    "id": 24,
+    "taluka": "Canacona",
+    "village": "Canacona",
+    "wkt": "POINT(74.0629669179346 15.0309757504446)"
+  },
+  {
+    "id": 406,
+    "taluka": "Canacona",
+    "village": "Chaudi",
+    "wkt": "POINT(74.0426975657225 15.0086639401349)"
+  },
+  {
+    "id": 19,
+    "taluka": "Canacona",
+    "village": "Cola",
+    "wkt": "POINT(73.9671038663513 15.0833920505061)"
+  },
+  {
+    "id": 21,
+    "taluka": "Canacona",
+    "village": "Cotigao",
+    "wkt": "POINT(74.1874862807661 14.9766760795189)"
+  },
+  {
+    "id": 26,
+    "taluka": "Canacona",
+    "village": "Gaodongrem",
+    "wkt": "POINT(74.1398640203042 15.0261740795223)"
+  },
+  {
+    "id": 20,
+    "taluka": "Canacona",
+    "village": "Loliem",
+    "wkt": "POINT(74.0784027546154 14.9365422762692)"
+  },
+  {
+    "id": 25,
+    "taluka": "Canacona",
+    "village": "Nagorcem Palolem",
+    "wkt": "POINT(74.0376759239384 15.0102161690793)"
+  },
+  {
+    "id": 22,
+    "taluka": "Canacona",
+    "village": "Poinguinim",
+    "wkt": "POINT(74.0937562970352 14.9827603975242)"
+  },
+  {
+    "id": 353,
+    "taluka": "Dharbandora",
+    "village": "Aglote",
+    "wkt": "POINT(74.1704220211415 15.427234043774)"
+  },
+  {
+    "id": 354,
+    "taluka": "Dharbandora",
+    "village": "Bandoli",
+    "wkt": "POINT(74.1287419440299 15.3051257111577)"
+  },
+  {
+    "id": 355,
+    "taluka": "Dharbandora",
+    "village": "Camarconda",
+    "wkt": "POINT(74.0986093293363 15.319169012458)"
+  },
+  {
+    "id": 356,
+    "taluka": "Dharbandora",
+    "village": "Caranzol",
+    "wkt": "POINT(74.2915785364495 15.3582019085915)"
+  },
+  {
+    "id": 352,
+    "taluka": "Dharbandora",
+    "village": "Codli",
+    "wkt": "POINT(74.124809170757 15.3386341635333)"
+  },
+  {
+    "id": 341,
+    "taluka": "Dharbandora",
+    "village": "Colem",
+    "wkt": "POINT(74.2489106337011 15.3420138034551)"
+  },
+  {
+    "id": 342,
+    "taluka": "Dharbandora",
+    "village": "Cormonem",
+    "wkt": "POINT(74.1577019839622 15.3237487018163)"
+  },
+  {
+    "id": 343,
+    "taluka": "Dharbandora",
+    "village": "Dharbandora",
+    "wkt": "POINT(74.1300909644369 15.3923243497348)"
+  },
+  {
+    "id": 344,
+    "taluka": "Dharbandora",
+    "village": "Moissal",
+    "wkt": "POINT(74.1017471839651 15.3008118826354)"
+  },
+  {
+    "id": 345,
+    "taluka": "Dharbandora",
+    "village": "Molem",
+    "wkt": "POINT(74.2408982256174 15.3884266175531)"
+  },
+  {
+    "id": 346,
+    "taluka": "Dharbandora",
+    "village": "Piliem",
+    "wkt": "POINT(74.0929031820375 15.4071797973013)"
+  },
+  {
+    "id": 347,
+    "taluka": "Dharbandora",
+    "village": "Sancordem",
+    "wkt": "POINT(74.1815721924287 15.3960329419053)"
+  },
+  {
+    "id": 348,
+    "taluka": "Dharbandora",
+    "village": "Sangod",
+    "wkt": "POINT(74.1717417177326 15.3585787248774)"
+  },
+  {
+    "id": 349,
+    "taluka": "Dharbandora",
+    "village": "Sigao",
+    "wkt": "POINT(74.2047084826545 15.332971117946)"
+  },
+  {
+    "id": 350,
+    "taluka": "Dharbandora",
+    "village": "Sonauli",
+    "wkt": "POINT(74.3043542505547 15.3115133197022)"
+  },
+  {
+    "id": 351,
+    "taluka": "Dharbandora",
+    "village": "Surla",
+    "wkt": "POINT(74.2315937952975 15.4439039787632)"
+  },
+  {
+    "id": 29,
+    "taluka": "Mormugao",
+    "village": "Arossim",
+    "wkt": "POINT(73.9029925410421 15.3359583470494)"
+  },
+  {
+    "id": 28,
+    "taluka": "Mormugao",
+    "village": "Cansaulim",
+    "wkt": "POINT(73.8989906159687 15.3454855009537)"
+  },
+  {
+    "id": 33,
+    "taluka": "Mormugao",
+    "village": "Chicalim",
+    "wkt": "POINT(73.836893634126 15.3880845155425)"
+  },
+  {
+    "id": 37,
+    "taluka": "Mormugao",
+    "village": "Chicolna",
+    "wkt": "POINT(73.8453243306733 15.3677019161031)"
+  },
+  {
+    "id": 35,
+    "taluka": "Mormugao",
+    "village": "Cortalim",
+    "wkt": "POINT(73.9159585584084 15.3850948461107)"
+  },
+  {
+    "id": 27,
+    "taluka": "Mormugao",
+    "village": "Cuelim",
+    "wkt": "POINT(73.9040183891763 15.3604490179635)"
+  },
+  {
+    "id": 92,
+    "taluka": "Mormugao",
+    "village": "Dabolim",
+    "wkt": "POINT(73.8515154469158 15.3902148962607)"
+  },
+  {
+    "id": 32,
+    "taluka": "Mormugao",
+    "village": "Issorcim",
+    "wkt": "POINT(73.8556230207712 15.3736141001503)"
+  },
+  {
+    "id": 31,
+    "taluka": "Mormugao",
+    "village": "Pale",
+    "wkt": "POINT(73.8856800007017 15.3659052033157)"
+  },
+  {
+    "id": 36,
+    "taluka": "Mormugao",
+    "village": "Quelossim",
+    "wkt": "POINT(73.937177316403 15.3906635759225)"
+  },
+  {
+    "id": 93,
+    "taluka": "Mormugao",
+    "village": "Sancoale",
+    "wkt": "POINT(73.8844065084036 15.3865863845198)"
+  },
+  {
+    "id": 357,
+    "taluka": "Mormugao",
+    "village": "Sao Jacinto Island",
+    "wkt": "POINT(73.8635245139085 15.4061406661313)"
+  },
+  {
+    "id": 34,
+    "taluka": "Mormugao",
+    "village": "Vasco",
+    "wkt": "POINT(73.8119668810951 15.394944350435)"
+  },
+  {
+    "id": 30,
+    "taluka": "Mormugao",
+    "village": "Velsao",
+    "wkt": "POINT(73.8901709583683 15.3538353749209)"
+  },
+  {
+    "id": 154,
+    "taluka": "Pernem",
+    "village": "Agarvado",
+    "wkt": "POINT(73.7636905125643 15.6456277050749)"
+  },
+  {
+    "id": 150,
+    "taluka": "Pernem",
+    "village": "Alorna",
+    "wkt": "POINT(73.9156059551956 15.7221857447541)"
+  },
+  {
+    "id": 142,
+    "taluka": "Pernem",
+    "village": "Amberem",
+    "wkt": "POINT(73.8311589068927 15.7381978264367)"
+  },
+  {
+    "id": 135,
+    "taluka": "Pernem",
+    "village": "Arambol",
+    "wkt": "POINT(73.7202428718871 15.6882826745272)"
+  },
+  {
+    "id": 149,
+    "taluka": "Pernem",
+    "village": "Cansarvornem",
+    "wkt": "POINT(73.8766389648073 15.7185441241679)"
+  },
+  {
+    "id": 141,
+    "taluka": "Pernem",
+    "village": "Casnem",
+    "wkt": "POINT(73.8216740118561 15.72690526669)"
+  },
+  {
+    "id": 148,
+    "taluka": "Pernem",
+    "village": "Chandel",
+    "wkt": "POINT(73.8875449946196 15.7390703156639)"
+  },
+  {
+    "id": 153,
+    "taluka": "Pernem",
+    "village": "Chopdem",
+    "wkt": "POINT(73.753615848208 15.639824786872)"
+  },
+  {
+    "id": 138,
+    "taluka": "Pernem",
+    "village": "Corgao",
+    "wkt": "POINT(73.7574116942038 15.7064491915786)"
+  },
+  {
+    "id": 152,
+    "taluka": "Pernem",
+    "village": "Dargalim",
+    "wkt": "POINT(73.839684937573 15.681724643175)"
+  },
+  {
+    "id": 157,
+    "taluka": "Pernem",
+    "village": "Ibrampur",
+    "wkt": "POINT(73.9355593160929 15.7099344537512)"
+  },
+  {
+    "id": 134,
+    "taluka": "Pernem",
+    "village": "Mandrem",
+    "wkt": "POINT(73.7381036844747 15.665646066927)"
+  },
+  {
+    "id": 147,
+    "taluka": "Pernem",
+    "village": "Mopa",
+    "wkt": "POINT(73.8627177326159 15.7536976212149)"
+  },
+  {
+    "id": 133,
+    "taluka": "Pernem",
+    "village": "Morgim",
+    "wkt": "POINT(73.7362700806357 15.6361728178618)"
+  },
+  {
+    "id": 151,
+    "taluka": "Pernem",
+    "village": "Ozorim",
+    "wkt": "POINT(73.8708637106927 15.6953488962366)"
+  },
+  {
+    "id": 136,
+    "taluka": "Pernem",
+    "village": "Paliem",
+    "wkt": "POINT(73.7194514399076 15.7081622648397)"
+  },
+  {
+    "id": 155,
+    "taluka": "Pernem",
+    "village": "Parcem",
+    "wkt": "POINT(73.7749986673595 15.6670817019992)"
+  },
+  {
+    "id": 139,
+    "taluka": "Pernem",
+    "village": "Pernem",
+    "wkt": "POINT(73.8005585850791 15.7124775745953)"
+  },
+  {
+    "id": 140,
+    "taluka": "Pernem",
+    "village": "Poroscodem",
+    "wkt": "POINT(73.8141745809832 15.7360569994805)"
+  },
+  {
+    "id": 137,
+    "taluka": "Pernem",
+    "village": "Querim",
+    "wkt": "POINT(73.7008844599413 15.7143159157508)"
+  },
+  {
+    "id": 145,
+    "taluka": "Pernem",
+    "village": "Tamboxem",
+    "wkt": "POINT(73.8372264113558 15.7606526667858)"
+  },
+  {
+    "id": 132,
+    "taluka": "Pernem",
+    "village": "Tiracol",
+    "wkt": "POINT(73.686105212733 15.7257268691007)"
+  },
+  {
+    "id": 146,
+    "taluka": "Pernem",
+    "village": "Torxem",
+    "wkt": "POINT(73.85724619527 15.7787947175195)"
+  },
+  {
+    "id": 158,
+    "taluka": "Pernem",
+    "village": "Tuem",
+    "wkt": "POINT(73.8014297223733 15.6698456475552)"
+  },
+  {
+    "id": 143,
+    "taluka": "Pernem",
+    "village": "Uguem",
+    "wkt": "POINT(73.8394030399828 15.7492682634079)"
+  },
+  {
+    "id": 144,
+    "taluka": "Pernem",
+    "village": "Varconda",
+    "wkt": "POINT(73.845862412461 15.7257712541833)"
+  },
+  {
+    "id": 156,
+    "taluka": "Pernem",
+    "village": "Virnora",
+    "wkt": "POINT(73.8162207287138 15.6896036009899)"
+  },
+  {
+    "id": 372,
+    "taluka": "Ponda",
+    "village": "Adcolna",
+    "wkt": "POINT(73.9695217452152 15.4875594696431)"
+  },
+  {
+    "id": 385,
+    "taluka": "Ponda",
+    "village": "Bandora",
+    "wkt": "POINT(73.9760132419354 15.4085319525265)"
+  },
+  {
+    "id": 398,
+    "taluka": "Ponda",
+    "village": "Betora",
+    "wkt": "POINT(74.0346596430956 15.3831887371039)"
+  },
+  {
+    "id": 375,
+    "taluka": "Ponda",
+    "village": "Betqui",
+    "wkt": "POINT(73.9874879973291 15.5022127154266)"
+  },
+  {
+    "id": 379,
+    "taluka": "Ponda",
+    "village": "Boma",
+    "wkt": "POINT(73.9644837710417 15.4761916165342)"
+  },
+  {
+    "id": 392,
+    "taluka": "Ponda",
+    "village": "Borim",
+    "wkt": "POINT(74.0145889082383 15.3624709934719)"
+  },
+  {
+    "id": 395,
+    "taluka": "Ponda",
+    "village": "Candepar",
+    "wkt": "POINT(74.0386120793224 15.4268734129917)"
+  },
+  {
+    "id": 371,
+    "taluka": "Ponda",
+    "village": "Candola",
+    "wkt": "POINT(73.9666127309851 15.5217792525119)"
+  },
+  {
+    "id": 399,
+    "taluka": "Ponda",
+    "village": "Codar",
+    "wkt": "POINT(74.0660115944512 15.3940560918817)"
+  },
+  {
+    "id": 440,
+    "taluka": "Ponda",
+    "village": "Conxem",
+    "wkt": "POINT(74.07077885744 15.3496819778502)"
+  },
+  {
+    "id": 380,
+    "taluka": "Ponda",
+    "village": "Cuncoliem",
+    "wkt": "POINT(73.9793752671621 15.4625974322941)"
+  },
+  {
+    "id": 381,
+    "taluka": "Ponda",
+    "village": "Cundaim",
+    "wkt": "POINT(73.9573840511806 15.449944309521)"
+  },
+  {
+    "id": 396,
+    "taluka": "Ponda",
+    "village": "Curti",
+    "wkt": "POINT(74.0215758380334 15.4139166022819)"
+  },
+  {
+    "id": 389,
+    "taluka": "Ponda",
+    "village": "Durbhat",
+    "wkt": "POINT(73.966778099644 15.3848284064106)"
+  },
+  {
+    "id": 370,
+    "taluka": "Ponda",
+    "village": "Gangem",
+    "wkt": "POINT(74.0920988635319 15.4545447254694)"
+  },
+  {
+    "id": 383,
+    "taluka": "Ponda",
+    "village": "Marcaim",
+    "wkt": "POINT(73.9437345225581 15.4207936026142)"
+  },
+  {
+    "id": 400,
+    "taluka": "Ponda",
+    "village": "Nirancal",
+    "wkt": "POINT(74.0790275086538 15.3615367737445)"
+  },
+  {
+    "id": 374,
+    "taluka": "Ponda",
+    "village": "Orgao",
+    "wkt": "POINT(73.9619037922246 15.5123131996749)"
+  },
+  {
+    "id": 394,
+    "taluka": "Ponda",
+    "village": "Ponchavadi",
+    "wkt": "POINT(74.0829190977762 15.2956011652823)"
+  },
+  {
+    "id": 397,
+    "taluka": "Ponda",
+    "village": "Ponda",
+    "wkt": "POINT(74.0099933270114 15.4022900848437)"
+  },
+  {
+    "id": 382,
+    "taluka": "Ponda",
+    "village": "Priol",
+    "wkt": "POINT(73.9925262739789 15.4354901718593)"
+  },
+  {
+    "id": 378,
+    "taluka": "Ponda",
+    "village": "Querim",
+    "wkt": "POINT(74.0021539604998 15.4600178080282)"
+  },
+  {
+    "id": 386,
+    "taluka": "Ponda",
+    "village": "Queula",
+    "wkt": "POINT(73.9969157395622 15.3882698467696)"
+  },
+  {
+    "id": 377,
+    "taluka": "Ponda",
+    "village": "Savoi Verem",
+    "wkt": "POINT(74.0103369561948 15.4809294485541)"
+  },
+  {
+    "id": 393,
+    "taluka": "Ponda",
+    "village": "Siroda",
+    "wkt": "POINT(74.042138618006 15.3287003662115)"
+  },
+  {
+    "id": 390,
+    "taluka": "Ponda",
+    "village": "Telaulim",
+    "wkt": "POINT(73.9800605339657 15.381733024864)"
+  },
+  {
+    "id": 373,
+    "taluka": "Ponda",
+    "village": "Tivrem",
+    "wkt": "POINT(73.9656870956434 15.4987487668406)"
+  },
+  {
+    "id": 369,
+    "taluka": "Ponda",
+    "village": "Usgao",
+    "wkt": "POINT(74.0743411824561 15.436178507186)"
+  },
+  {
+    "id": 388,
+    "taluka": "Ponda",
+    "village": "Vadi",
+    "wkt": "POINT(73.9868545450933 15.3750410138709)"
+  },
+  {
+    "id": 391,
+    "taluka": "Ponda",
+    "village": "Vagurbem",
+    "wkt": "POINT(74.0282022410109 15.4577554786253)"
+  },
+  {
+    "id": 384,
+    "taluka": "Ponda",
+    "village": "Velinga",
+    "wkt": "POINT(73.9721235884693 15.4310954253295)"
+  },
+  {
+    "id": 376,
+    "taluka": "Ponda",
+    "village": "Volvoi",
+    "wkt": "POINT(74.0100092792583 15.4934690091201)"
+  },
+  {
+    "id": 266,
+    "taluka": "Quepem",
+    "village": "Adnem",
+    "wkt": "POINT(74.0508185082609 15.1642187149987)"
+  },
+  {
+    "id": 265,
+    "taluka": "Quepem",
+    "village": "Ambaulim",
+    "wkt": "POINT(74.0483853911445 15.1929457872683)"
+  },
+  {
+    "id": 268,
+    "taluka": "Quepem",
+    "village": "Amona",
+    "wkt": "POINT(74.0707232049859 15.2270014040088)"
+  },
+  {
+    "id": 401,
+    "taluka": "Quepem",
+    "village": "Assolda",
+    "wkt": "POINT(74.0669302478343 15.2586345037713)"
+  },
+  {
+    "id": 272,
+    "taluka": "Quepem",
+    "village": "Avedem",
+    "wkt": "POINT(74.0538936107794 15.2351161155426)"
+  },
+  {
+    "id": 263,
+    "taluka": "Quepem",
+    "village": "Bali",
+    "wkt": "POINT(74.0302399416347 15.1538629689751)"
+  },
+  {
+    "id": 286,
+    "taluka": "Quepem",
+    "village": "Barcem",
+    "wkt": "POINT(74.0416019472599 15.0658162736788)"
+  },
+  {
+    "id": 274,
+    "taluka": "Quepem",
+    "village": "Bendordem",
+    "wkt": "POINT(74.0428495694284 15.132492967936)"
+  },
+  {
+    "id": 280,
+    "taluka": "Quepem",
+    "village": "Cacora",
+    "wkt": "POINT(74.1161840578878 15.2379541070853)"
+  },
+  {
+    "id": 273,
+    "taluka": "Quepem",
+    "village": "Cavorem",
+    "wkt": "POINT(74.0683770926454 15.1427009703572)"
+  },
+  {
+    "id": 327,
+    "taluka": "Quepem",
+    "village": "Cazur",
+    "wkt": "POINT(74.1560791854308 15.0776689047665)"
+  },
+  {
+    "id": 277,
+    "taluka": "Quepem",
+    "village": "Chaifi",
+    "wkt": "POINT(74.0635318200471 15.2342666357839)"
+  },
+  {
+    "id": 275,
+    "taluka": "Quepem",
+    "village": "Cordem",
+    "wkt": "POINT(74.0445176846931 15.1133468969037)"
+  },
+  {
+    "id": 328,
+    "taluka": "Quepem",
+    "village": "Corla",
+    "wkt": "POINT(74.124286879673 15.0744654295026)"
+  },
+  {
+    "id": 271,
+    "taluka": "Quepem",
+    "village": "Cotombi",
+    "wkt": "POINT(74.0575442471473 15.2455055079988)"
+  },
+  {
+    "id": 405,
+    "taluka": "Quepem",
+    "village": "Curchorem",
+    "wkt": "POINT(74.113415763668 15.2622764005619)"
+  },
+  {
+    "id": 269,
+    "taluka": "Quepem",
+    "village": "Cusmane",
+    "wkt": "POINT(74.0596728169506 15.2141652702571)"
+  },
+  {
+    "id": 285,
+    "taluka": "Quepem",
+    "village": "Deao",
+    "wkt": "POINT(74.0699870888782 15.19360860077)"
+  },
+  {
+    "id": 262,
+    "taluka": "Quepem",
+    "village": "Fatorpa",
+    "wkt": "POINT(73.9930464662982 15.14025827705)"
+  },
+  {
+    "id": 324,
+    "taluka": "Quepem",
+    "village": "Gocoldem",
+    "wkt": "POINT(74.0748788958401 15.0779000596439)"
+  },
+  {
+    "id": 320,
+    "taluka": "Quepem",
+    "village": "Maina",
+    "wkt": "POINT(74.0848883819857 15.1151794458166)"
+  },
+  {
+    "id": 326,
+    "taluka": "Quepem",
+    "village": "Mangal",
+    "wkt": "POINT(74.1792580052372 15.0635241089507)"
+  },
+  {
+    "id": 283,
+    "taluka": "Quepem",
+    "village": "Molcarnem",
+    "wkt": "POINT(74.1264076456993 15.1854109145458)"
+  },
+  {
+    "id": 282,
+    "taluka": "Quepem",
+    "village": "Molcopona",
+    "wkt": "POINT(74.1489427530407 15.1763534927832)"
+  },
+  {
+    "id": 261,
+    "taluka": "Quepem",
+    "village": "Morpila",
+    "wkt": "POINT(74.0006478558103 15.112760709703)"
+  },
+  {
+    "id": 279,
+    "taluka": "Quepem",
+    "village": "Nagvem",
+    "wkt": "POINT(74.123482739851 15.2083100646938)"
+  },
+  {
+    "id": 260,
+    "taluka": "Quepem",
+    "village": "Naquerim",
+    "wkt": "POINT(73.9609667884655 15.1115412979871)"
+  },
+  {
+    "id": 404,
+    "taluka": "Quepem",
+    "village": "Odar",
+    "wkt": "POINT(74.0932866404365 15.2631797783063)"
+  },
+  {
+    "id": 322,
+    "taluka": "Quepem",
+    "village": "Padi",
+    "wkt": "POINT(74.0503717287122 15.0949775611735)"
+  },
+  {
+    "id": 321,
+    "taluka": "Quepem",
+    "village": "Pirla",
+    "wkt": "POINT(74.1225150003623 15.1005754369051)"
+  },
+  {
+    "id": 276,
+    "taluka": "Quepem",
+    "village": "Quedem",
+    "wkt": "POINT(74.0170854105432 15.0885325259292)"
+  },
+  {
+    "id": 267,
+    "taluka": "Quepem",
+    "village": "Quepem",
+    "wkt": "POINT(74.070394101134 15.2165624868285)"
+  },
+  {
+    "id": 323,
+    "taluka": "Quepem",
+    "village": "Quisconda",
+    "wkt": "POINT(74.0959903920564 15.0686117222317)"
+  },
+  {
+    "id": 259,
+    "taluka": "Quepem",
+    "village": "Quitol",
+    "wkt": "POINT(73.9632251519966 15.1336725259583)"
+  },
+  {
+    "id": 284,
+    "taluka": "Quepem",
+    "village": "Sirvoi",
+    "wkt": "POINT(74.094047680135 15.2061266022655)"
+  },
+  {
+    "id": 325,
+    "taluka": "Quepem",
+    "village": "Sulcorna",
+    "wkt": "POINT(74.1575435605345 15.1037557149123)"
+  },
+  {
+    "id": 264,
+    "taluka": "Quepem",
+    "village": "Tiloi",
+    "wkt": "POINT(74.0178725656768 15.1333901922837)"
+  },
+  {
+    "id": 281,
+    "taluka": "Quepem",
+    "village": "Undorna",
+    "wkt": "POINT(74.1610333342941 15.1850469676497)"
+  },
+  {
+    "id": 270,
+    "taluka": "Quepem",
+    "village": "Xeldem",
+    "wkt": "POINT(74.0839475747795 15.2398982913972)"
+  },
+  {
+    "id": 403,
+    "taluka": "Quepem",
+    "village": "Xelvona",
+    "wkt": "POINT(74.0826887586969 15.2689533095611)"
+  },
+  {
+    "id": 402,
+    "taluka": "Quepem",
+    "village": "Xic Xelvona",
+    "wkt": "POINT(74.0782806452301 15.2614791699653)"
+  },
+  {
+    "id": 278,
+    "taluka": "Quepem",
+    "village": "Zanodem",
+    "wkt": "POINT(74.1422744135245 15.2000621345905)"
+  },
+  {
+    "id": 74,
+    "taluka": "Salcete",
+    "village": "Adsulim",
+    "wkt": "POINT(73.9314348837267 15.2644068195274)"
+  },
+  {
+    "id": 361,
+    "taluka": "Salcete",
+    "village": "Ambelim",
+    "wkt": "POINT(73.9780363395262 15.1650493010502)"
+  },
+  {
+    "id": 336,
+    "taluka": "Salcete",
+    "village": "Aquem",
+    "wkt": "POINT(73.9825945112528 15.2582694735016)"
+  },
+  {
+    "id": 362,
+    "taluka": "Salcete",
+    "village": "Assolna",
+    "wkt": "POINT(73.9746771098517 15.1800462435135)"
+  },
+  {
+    "id": 69,
+    "taluka": "Salcete",
+    "village": "Benaulim",
+    "wkt": "POINT(73.9362052071148 15.2579783350911)"
+  },
+  {
+    "id": 75,
+    "taluka": "Salcete",
+    "village": "Betalbatim",
+    "wkt": "POINT(73.9193345743128 15.2980759330632)"
+  },
+  {
+    "id": 89,
+    "taluka": "Salcete",
+    "village": "Calata",
+    "wkt": "POINT(73.9259755746506 15.3110436110818)"
+  },
+  {
+    "id": 251,
+    "taluka": "Salcete",
+    "village": "Camurlim",
+    "wkt": "POINT(73.9879291255152 15.3293189854962)"
+  },
+  {
+    "id": 73,
+    "taluka": "Salcete",
+    "village": "Cana",
+    "wkt": "POINT(73.9341166641703 15.2700656929856)"
+  },
+  {
+    "id": 60,
+    "taluka": "Salcete",
+    "village": "Carmona",
+    "wkt": "POINT(73.9527443388873 15.2012892494162)"
+  },
+  {
+    "id": 57,
+    "taluka": "Salcete",
+    "village": "Cavelossim",
+    "wkt": "POINT(73.94733571281 15.1791414214518)"
+  },
+  {
+    "id": 367,
+    "taluka": "Salcete",
+    "village": "Cavorim",
+    "wkt": "POINT(74.0374598273662 15.2514058538851)"
+  },
+  {
+    "id": 254,
+    "taluka": "Salcete",
+    "village": "Chandor",
+    "wkt": "POINT(74.0596515129599 15.2651095845849)"
+  },
+  {
+    "id": 96,
+    "taluka": "Salcete",
+    "village": "Chinchinim",
+    "wkt": "POINT(73.9802430801857 15.2045033845241)"
+  },
+  {
+    "id": 71,
+    "taluka": "Salcete",
+    "village": "Colva",
+    "wkt": "POINT(73.9195481634764 15.2821736646013)"
+  },
+  {
+    "id": 256,
+    "taluka": "Salcete",
+    "village": "Cuncolim",
+    "wkt": "POINT(74.00722900858 15.178770275429)"
+  },
+  {
+    "id": 252,
+    "taluka": "Salcete",
+    "village": "Curtorim",
+    "wkt": "POINT(74.0219642109028 15.2863081991648)"
+  },
+  {
+    "id": 335,
+    "taluka": "Salcete",
+    "village": "Davorlim",
+    "wkt": "POINT(73.9883157072127 15.2706679953136)"
+  },
+  {
+    "id": 333,
+    "taluka": "Salcete",
+    "village": "Deussua",
+    "wkt": "POINT(73.9667543633412 15.2125249873605)"
+  },
+  {
+    "id": 337,
+    "taluka": "Salcete",
+    "village": "Dicarpale",
+    "wkt": "POINT(73.9948428819388 15.2552332424605)"
+  },
+  {
+    "id": 331,
+    "taluka": "Salcete",
+    "village": "Dramapur",
+    "wkt": "POINT(73.9838721409031 15.238586726468)"
+  },
+  {
+    "id": 95,
+    "taluka": "Salcete",
+    "village": "Duncolim",
+    "wkt": "POINT(73.9376285869811 15.2958459683997)"
+  },
+  {
+    "id": 76,
+    "taluka": "Salcete",
+    "village": "Gaundaulim",
+    "wkt": "POINT(73.9191233564813 15.2895669757778)"
+  },
+  {
+    "id": 78,
+    "taluka": "Salcete",
+    "village": "Gonsua",
+    "wkt": "POINT(73.9068087938233 15.3081330287002)"
+  },
+  {
+    "id": 366,
+    "taluka": "Salcete",
+    "village": "Guirdolim",
+    "wkt": "POINT(74.0484116622979 15.2721232401533)"
+  },
+  {
+    "id": 91,
+    "taluka": "Salcete",
+    "village": "Loutulim",
+    "wkt": "POINT(73.9731686868947 15.350528726798)"
+  },
+  {
+    "id": 365,
+    "taluka": "Salcete",
+    "village": "Macasana",
+    "wkt": "POINT(74.0574246393139 15.2893694865704)"
+  },
+  {
+    "id": 77,
+    "taluka": "Salcete",
+    "village": "Majorda",
+    "wkt": "POINT(73.916472703632 15.3166323457513)"
+  },
+  {
+    "id": 334,
+    "taluka": "Salcete",
+    "village": "Margao",
+    "wkt": "POINT(73.9673751319129 15.2817355656433)"
+  },
+  {
+    "id": 363,
+    "taluka": "Salcete",
+    "village": "Mulem",
+    "wkt": "POINT(74.0257340073093 15.2287677505039)"
+  },
+  {
+    "id": 82,
+    "taluka": "Salcete",
+    "village": "Nagoa",
+    "wkt": "POINT(73.9245280180832 15.3596955406419)"
+  },
+  {
+    "id": 329,
+    "taluka": "Salcete",
+    "village": "Navelim",
+    "wkt": "POINT(73.9619971587841 15.2535863923892)"
+  },
+  {
+    "id": 90,
+    "taluka": "Salcete",
+    "village": "Nuvem",
+    "wkt": "POINT(73.9471878128447 15.3146779660947)"
+  },
+  {
+    "id": 80,
+    "taluka": "Salcete",
+    "village": "Orlim",
+    "wkt": "POINT(73.952004104728 15.2207532497343)"
+  },
+  {
+    "id": 364,
+    "taluka": "Salcete",
+    "village": "Paroda",
+    "wkt": "POINT(74.0470904642851 15.2224563235774)"
+  },
+  {
+    "id": 368,
+    "taluka": "Salcete",
+    "village": "Rachol",
+    "wkt": "POINT(74.0043860890329 15.3167951384522)"
+  },
+  {
+    "id": 253,
+    "taluka": "Salcete",
+    "village": "Raia",
+    "wkt": "POINT(73.9834714916161 15.3090005780863)"
+  },
+  {
+    "id": 340,
+    "taluka": "Salcete",
+    "village": "Sao Jose De Areal",
+    "wkt": "POINT(74.0108696527563 15.2538193299173)"
+  },
+  {
+    "id": 339,
+    "taluka": "Salcete",
+    "village": "Sarzora",
+    "wkt": "POINT(74.0023675916283 15.2186447573327)"
+  },
+  {
+    "id": 94,
+    "taluka": "Salcete",
+    "village": "Seraulim",
+    "wkt": "POINT(73.938839715911 15.2858778992635)"
+  },
+  {
+    "id": 70,
+    "taluka": "Salcete",
+    "village": "Sernabatim",
+    "wkt": "POINT(73.9221012082102 15.2680479939196)"
+  },
+  {
+    "id": 332,
+    "taluka": "Salcete",
+    "village": "Sirlim",
+    "wkt": "POINT(73.9731907982039 15.2268742312705)"
+  },
+  {
+    "id": 330,
+    "taluka": "Salcete",
+    "village": "Talaulim",
+    "wkt": "POINT(73.9609910674408 15.2408476866424)"
+  },
+  {
+    "id": 255,
+    "taluka": "Salcete",
+    "village": "Talvorda",
+    "wkt": "POINT(74.0290436251296 15.2044027176889)"
+  },
+  {
+    "id": 79,
+    "taluka": "Salcete",
+    "village": "Utorda",
+    "wkt": "POINT(73.9093485507966 15.3258371078985)"
+  },
+  {
+    "id": 72,
+    "taluka": "Salcete",
+    "village": "Vanelim",
+    "wkt": "POINT(73.928329252162 15.2757283556548)"
+  },
+  {
+    "id": 61,
+    "taluka": "Salcete",
+    "village": "Varca",
+    "wkt": "POINT(73.9388098498324 15.2259885389322)"
+  },
+  {
+    "id": 360,
+    "taluka": "Salcete",
+    "village": "Velim",
+    "wkt": "POINT(73.9662145008942 15.1545116001286)"
+  },
+  {
+    "id": 81,
+    "taluka": "Salcete",
+    "village": "Verna",
+    "wkt": "POINT(73.939079996873 15.3442829986969)"
+  },
+  {
+    "id": 338,
+    "taluka": "Salcete",
+    "village": "Veroda",
+    "wkt": "POINT(74.0094090467701 15.1949151023401)"
+  },
+  {
+    "id": 288,
+    "taluka": "Sanguem",
+    "village": "Antoriem",
+    "wkt": "POINT(74.1350924882002 15.2772339312537)"
+  },
+  {
+    "id": 289,
+    "taluka": "Sanguem",
+    "village": "Bati",
+    "wkt": "POINT(74.2499827896697 15.1920548537313)"
+  },
+  {
+    "id": 290,
+    "taluka": "Sanguem",
+    "village": "Boma",
+    "wkt": "POINT(74.2781819833961 15.296289019738)"
+  },
+  {
+    "id": 291,
+    "taluka": "Sanguem",
+    "village": "Calem",
+    "wkt": "POINT(74.2037905890383 15.3041436220289)"
+  },
+  {
+    "id": 292,
+    "taluka": "Sanguem",
+    "village": "Colomba",
+    "wkt": "POINT(74.1407033573656 15.1458429325163)"
+  },
+  {
+    "id": 294,
+    "taluka": "Sanguem",
+    "village": "Comproi",
+    "wkt": "POINT(74.1281465423479 15.2589070815922)"
+  },
+  {
+    "id": 293,
+    "taluka": "Sanguem",
+    "village": "Coranginim",
+    "wkt": "POINT(74.1430399321563 15.265215091975)"
+  },
+  {
+    "id": 53,
+    "taluka": "Sanguem",
+    "village": "Costi",
+    "wkt": "POINT(74.1695596109614 15.261240778567)"
+  },
+  {
+    "id": 295,
+    "taluka": "Sanguem",
+    "village": "Cotarli",
+    "wkt": "POINT(74.1466601122228 15.2158786447807)"
+  },
+  {
+    "id": 296,
+    "taluka": "Sanguem",
+    "village": "Cumbari",
+    "wkt": "POINT(74.2821126704524 15.1684222774747)"
+  },
+  {
+    "id": 297,
+    "taluka": "Sanguem",
+    "village": "Curdi",
+    "wkt": "POINT(74.1869912910894 15.165208410243)"
+  },
+  {
+    "id": 298,
+    "taluka": "Sanguem",
+    "village": "Curpem",
+    "wkt": "POINT(74.1741962439332 15.1273506206133)"
+  },
+  {
+    "id": 299,
+    "taluka": "Sanguem",
+    "village": "Dongor",
+    "wkt": "POINT(74.2472142871023 15.1467386651573)"
+  },
+  {
+    "id": 56,
+    "taluka": "Sanguem",
+    "village": "Dongurli",
+    "wkt": "POINT(74.229299967445 15.2741682648365)"
+  },
+  {
+    "id": 54,
+    "taluka": "Sanguem",
+    "village": "Dudal",
+    "wkt": "POINT(74.1844707779752 15.2745472395883)"
+  },
+  {
+    "id": 55,
+    "taluka": "Sanguem",
+    "village": "Maulinguem",
+    "wkt": "POINT(74.2066663255776 15.2624038767108)"
+  },
+  {
+    "id": 287,
+    "taluka": "Sanguem",
+    "village": "Muguli",
+    "wkt": "POINT(74.1566387700358 15.2465711248932)"
+  },
+  {
+    "id": 300,
+    "taluka": "Sanguem",
+    "village": "Naiquinim",
+    "wkt": "POINT(74.2204841583039 15.1524275378362)"
+  },
+  {
+    "id": 301,
+    "taluka": "Sanguem",
+    "village": "Netorli",
+    "wkt": "POINT(74.2314103928583 15.0838568107536)"
+  },
+  {
+    "id": 302,
+    "taluka": "Sanguem",
+    "village": "Nundem",
+    "wkt": "POINT(74.2003772062507 15.053632790669)"
+  },
+  {
+    "id": 303,
+    "taluka": "Sanguem",
+    "village": "Oxel",
+    "wkt": "POINT(74.2530947776572 15.2853958385712)"
+  },
+  {
+    "id": 304,
+    "taluka": "Sanguem",
+    "village": "Patiem",
+    "wkt": "POINT(74.2278818419861 15.2507890634201)"
+  },
+  {
+    "id": 305,
+    "taluka": "Sanguem",
+    "village": "Portem",
+    "wkt": "POINT(74.2086245349911 15.1311016299068)"
+  },
+  {
+    "id": 306,
+    "taluka": "Sanguem",
+    "village": "Potrem",
+    "wkt": "POINT(74.2694480724318 15.2179064208773)"
+  },
+  {
+    "id": 307,
+    "taluka": "Sanguem",
+    "village": "Rivona",
+    "wkt": "POINT(74.1014457001685 15.1534428197481)"
+  },
+  {
+    "id": 319,
+    "taluka": "Sanguem",
+    "village": "Rumbrem",
+    "wkt": "POINT(74.1184745691304 15.2887834837562)"
+  },
+  {
+    "id": 308,
+    "taluka": "Sanguem",
+    "village": "Salauli",
+    "wkt": "POINT(74.1904863283321 15.199163797145)"
+  },
+  {
+    "id": 309,
+    "taluka": "Sanguem",
+    "village": "Sanguem",
+    "wkt": "POINT(74.1526472446107 15.2282137893746)"
+  },
+  {
+    "id": 310,
+    "taluka": "Sanguem",
+    "village": "Santona",
+    "wkt": "POINT(74.1509708218687 15.2922981689155)"
+  },
+  {
+    "id": 311,
+    "taluka": "Sanguem",
+    "village": "Sanvordem",
+    "wkt": "POINT(74.1160165764549 15.2749508191759)"
+  },
+  {
+    "id": 312,
+    "taluka": "Sanguem",
+    "village": "Sigonem",
+    "wkt": "POINT(74.2590703960544 15.1221376218645)"
+  },
+  {
+    "id": 313,
+    "taluka": "Sanguem",
+    "village": "Tudou",
+    "wkt": "POINT(74.2325927123317 15.2290583403935)"
+  },
+  {
+    "id": 314,
+    "taluka": "Sanguem",
+    "village": "Uguem",
+    "wkt": "POINT(74.1911600385458 15.2310081011609)"
+  },
+  {
+    "id": 315,
+    "taluka": "Sanguem",
+    "village": "Verlem",
+    "wkt": "POINT(74.261135111642 15.0414030709792)"
+  },
+  {
+    "id": 316,
+    "taluka": "Sanguem",
+    "village": "Vichundrem",
+    "wkt": "POINT(74.1899979592848 15.0995451223026)"
+  },
+  {
+    "id": 317,
+    "taluka": "Sanguem",
+    "village": "Viliena",
+    "wkt": "POINT(74.2428556596951 15.1676762001826)"
+  },
+  {
+    "id": 318,
+    "taluka": "Sanguem",
+    "village": "Xelpem",
+    "wkt": "POINT(74.1689323847565 15.2042394820744)"
+  },
+  {
+    "id": 46,
+    "taluka": "Sattari",
+    "village": "Advoi",
+    "wkt": "POINT(74.1090624684438 15.5024218759351)"
+  },
+  {
+    "id": 258,
+    "taluka": "Sattari",
+    "village": "Ambedem",
+    "wkt": "POINT(74.1630270523497 15.5560095027403)"
+  },
+  {
+    "id": 222,
+    "taluka": "Sattari",
+    "village": "Ambeli",
+    "wkt": "POINT(74.1639078501203 15.4627843195513)"
+  },
+  {
+    "id": 7,
+    "taluka": "Sattari",
+    "village": "Anjunem",
+    "wkt": "POINT(74.0868736554329 15.6283264168989)"
+  },
+  {
+    "id": 227,
+    "taluka": "Sattari",
+    "village": "Ansolem",
+    "wkt": "POINT(74.1160468482255 15.5159616978206)"
+  },
+  {
+    "id": 238,
+    "taluka": "Sattari",
+    "village": "Assodem",
+    "wkt": "POINT(74.1950254279939 15.4754325391356)"
+  },
+  {
+    "id": 358,
+    "taluka": "Sattari",
+    "village": "Birondem",
+    "wkt": "POINT(74.127892232829 15.4908216035905)"
+  },
+  {
+    "id": 223,
+    "taluka": "Sattari",
+    "village": "Bombedem",
+    "wkt": "POINT(74.1643289815786 15.5498960870288)"
+  },
+  {
+    "id": 41,
+    "taluka": "Sattari",
+    "village": "Buimpal",
+    "wkt": "POINT(74.0838317538415 15.543779400582)"
+  },
+  {
+    "id": 215,
+    "taluka": "Sattari",
+    "village": "Carambolim Brama",
+    "wkt": "POINT(74.167580249467 15.5735241235536)"
+  },
+  {
+    "id": 220,
+    "taluka": "Sattari",
+    "village": "Carambolim Buzruco",
+    "wkt": "POINT(74.1804991146399 15.5074116593595)"
+  },
+  {
+    "id": 241,
+    "taluka": "Sattari",
+    "village": "Caranzol",
+    "wkt": "POINT(74.2165131052098 15.5152422860803)"
+  },
+  {
+    "id": 17,
+    "taluka": "Sattari",
+    "village": "Choraundem",
+    "wkt": "POINT(74.1260529993395 15.6357432822452)"
+  },
+  {
+    "id": 209,
+    "taluka": "Sattari",
+    "village": "Codal",
+    "wkt": "POINT(74.1993038596039 15.6054305979454)"
+  },
+  {
+    "id": 45,
+    "taluka": "Sattari",
+    "village": "Codiem",
+    "wkt": "POINT(74.0984005573324 15.5125648607479)"
+  },
+  {
+    "id": 88,
+    "taluka": "Sattari",
+    "village": "Codqui",
+    "wkt": "POINT(74.1427839354202 15.5055731572035)"
+  },
+  {
+    "id": 244,
+    "taluka": "Sattari",
+    "village": "Codvol",
+    "wkt": "POINT(74.2643278508001 15.5442069966723)"
+  },
+  {
+    "id": 52,
+    "taluka": "Sattari",
+    "village": "Compordem",
+    "wkt": "POINT(74.126309125067 15.5656168927517)"
+  },
+  {
+    "id": 207,
+    "taluka": "Sattari",
+    "village": "Conquirem",
+    "wkt": "POINT(74.1106429511452 15.4548209125889)"
+  },
+  {
+    "id": 87,
+    "taluka": "Sattari",
+    "village": "Cotorem",
+    "wkt": "POINT(74.1463213826604 15.4820022587072)"
+  },
+  {
+    "id": 233,
+    "taluka": "Sattari",
+    "village": "Cudcem",
+    "wkt": "POINT(74.1617210331486 15.5343199251575)"
+  },
+  {
+    "id": 39,
+    "taluka": "Sattari",
+    "village": "Cumarconda",
+    "wkt": "POINT(74.093616447393 15.5288139139311)"
+  },
+  {
+    "id": 42,
+    "taluka": "Sattari",
+    "village": "Dabem",
+    "wkt": "POINT(74.1062034869083 15.5598873916546)"
+  },
+  {
+    "id": 86,
+    "taluka": "Sattari",
+    "village": "Damocem",
+    "wkt": "POINT(74.127698334152 15.4764449294811)"
+  },
+  {
+    "id": 219,
+    "taluka": "Sattari",
+    "village": "Davem",
+    "wkt": "POINT(74.1773609347237 15.5502275929639)"
+  },
+  {
+    "id": 205,
+    "taluka": "Sattari",
+    "village": "Derodem",
+    "wkt": "POINT(74.239222965449 15.6069661502458)"
+  },
+  {
+    "id": 85,
+    "taluka": "Sattari",
+    "village": "Dongurli",
+    "wkt": "POINT(74.1449697763098 15.6080329645484)"
+  },
+  {
+    "id": 229,
+    "taluka": "Sattari",
+    "village": "Edorem",
+    "wkt": "POINT(74.1452847942675 15.5672938189882)"
+  },
+  {
+    "id": 202,
+    "taluka": "Sattari",
+    "village": "Golauli",
+    "wkt": "POINT(74.1681052716799 15.6425933332268)"
+  },
+  {
+    "id": 5,
+    "taluka": "Sattari",
+    "village": "Gonteli",
+    "wkt": "POINT(74.0563375145272 15.6096433556784)"
+  },
+  {
+    "id": 237,
+    "taluka": "Sattari",
+    "village": "Govanem",
+    "wkt": "POINT(74.1823893805237 15.4633010963621)"
+  },
+  {
+    "id": 206,
+    "taluka": "Sattari",
+    "village": "Guleli",
+    "wkt": "POINT(74.1143694345386 15.4733993796632)"
+  },
+  {
+    "id": 10,
+    "taluka": "Sattari",
+    "village": "Gululem",
+    "wkt": "POINT(74.1037906278969 15.6099377391144)"
+  },
+  {
+    "id": 18,
+    "taluka": "Sattari",
+    "village": "Ivrem Buzruco",
+    "wkt": "POINT(74.1405120417327 15.6355996251932)"
+  },
+  {
+    "id": 201,
+    "taluka": "Sattari",
+    "village": "Ivrem Curdo",
+    "wkt": "POINT(74.1529697179932 15.6363643076193)"
+  },
+  {
+    "id": 214,
+    "taluka": "Sattari",
+    "village": "Maloli",
+    "wkt": "POINT(74.1876508587693 15.5784695662358)"
+  },
+  {
+    "id": 221,
+    "taluka": "Sattari",
+    "village": "Malpona",
+    "wkt": "POINT(74.1762181710997 15.4486500951772)"
+  },
+  {
+    "id": 50,
+    "taluka": "Sattari",
+    "village": "Massordem",
+    "wkt": "POINT(74.1394359063898 15.5259900785339)"
+  },
+  {
+    "id": 43,
+    "taluka": "Sattari",
+    "village": "Mauzi",
+    "wkt": "POINT(74.1157867984511 15.5458779412311)"
+  },
+  {
+    "id": 235,
+    "taluka": "Sattari",
+    "village": "Melauli",
+    "wkt": "POINT(74.1421059101558 15.4551077433831)"
+  },
+  {
+    "id": 2,
+    "taluka": "Sattari",
+    "village": "Morlem",
+    "wkt": "POINT(74.0544121699154 15.585540628044)"
+  },
+  {
+    "id": 217,
+    "taluka": "Sattari",
+    "village": "Nagargao",
+    "wkt": "POINT(74.1585542033785 15.5621654197555)"
+  },
+  {
+    "id": 225,
+    "taluka": "Sattari",
+    "village": "Naguem",
+    "wkt": "POINT(74.1149057054255 15.5308599831441)"
+  },
+  {
+    "id": 84,
+    "taluka": "Sattari",
+    "village": "Naneli",
+    "wkt": "POINT(74.1440692095319 15.5813284560748)"
+  },
+  {
+    "id": 213,
+    "taluka": "Sattari",
+    "village": "Nanorem",
+    "wkt": "POINT(74.2051038084992 15.58128045429)"
+  },
+  {
+    "id": 226,
+    "taluka": "Sattari",
+    "village": "Nanus",
+    "wkt": "POINT(74.1280335673608 15.5169026632642)"
+  },
+  {
+    "id": 12,
+    "taluka": "Sattari",
+    "village": "Onda",
+    "wkt": "POINT(74.0552347943079 15.5510172347447)"
+  },
+  {
+    "id": 359,
+    "taluka": "Sattari",
+    "village": "Padeli",
+    "wkt": "POINT(74.1150990242935 15.4858902622997)"
+  },
+  {
+    "id": 83,
+    "taluka": "Sattari",
+    "village": "Pale",
+    "wkt": "POINT(74.125180065121 15.5944724396759)"
+  },
+  {
+    "id": 243,
+    "taluka": "Sattari",
+    "village": "Pendral",
+    "wkt": "POINT(74.2489664460667 15.5300729545067)"
+  },
+  {
+    "id": 16,
+    "taluka": "Sattari",
+    "village": "Pissurlem",
+    "wkt": "POINT(74.0671030332936 15.5277446452972)"
+  },
+  {
+    "id": 11,
+    "taluka": "Sattari",
+    "village": "Podocem",
+    "wkt": "POINT(74.006742910117 15.5787274719286)"
+  },
+  {
+    "id": 257,
+    "taluka": "Sattari",
+    "village": "Ponocem",
+    "wkt": "POINT(74.0773501503845 15.4931406698345)"
+  },
+  {
+    "id": 9,
+    "taluka": "Sattari",
+    "village": "Ponsuli",
+    "wkt": "POINT(74.1124493479058 15.6293516242412)"
+  },
+  {
+    "id": 1,
+    "taluka": "Sattari",
+    "village": "Poriem",
+    "wkt": "POINT(74.0266974762862 15.5848395097021)"
+  },
+  {
+    "id": 8,
+    "taluka": "Sattari",
+    "village": "Quelaudem",
+    "wkt": "POINT(74.1006181086115 15.6354083190169)"
+  },
+  {
+    "id": 3,
+    "taluka": "Sattari",
+    "village": "Querim",
+    "wkt": "POINT(74.0785198320373 15.6010719079985)"
+  },
+  {
+    "id": 4,
+    "taluka": "Sattari",
+    "village": "Ravona",
+    "wkt": "POINT(74.0396341928651 15.6127193055994)"
+  },
+  {
+    "id": 208,
+    "taluka": "Sattari",
+    "village": "Rivem",
+    "wkt": "POINT(74.1750787364214 15.622258854565)"
+  },
+  {
+    "id": 14,
+    "taluka": "Sattari",
+    "village": "Saleli",
+    "wkt": "POINT(74.0783959256346 15.5628566773354)"
+  },
+  {
+    "id": 228,
+    "taluka": "Sattari",
+    "village": "Sanvorcem",
+    "wkt": "POINT(74.1308669206498 15.5021073509807)"
+  },
+  {
+    "id": 224,
+    "taluka": "Sattari",
+    "village": "Sanvordem",
+    "wkt": "POINT(74.1732109980403 15.5233906911227)"
+  },
+  {
+    "id": 230,
+    "taluka": "Sattari",
+    "village": "Satorem",
+    "wkt": "POINT(74.1471672881987 15.5556270180738)"
+  },
+  {
+    "id": 204,
+    "taluka": "Sattari",
+    "village": "Satrem",
+    "wkt": "POINT(74.2268545344097 15.6396310279655)"
+  },
+  {
+    "id": 210,
+    "taluka": "Sattari",
+    "village": "Sigonem",
+    "wkt": "POINT(74.1722370047144 15.5984287220644)"
+  },
+  {
+    "id": 240,
+    "taluka": "Sattari",
+    "village": "Siranguli",
+    "wkt": "POINT(74.1825198692072 15.4939531256124)"
+  },
+  {
+    "id": 6,
+    "taluka": "Sattari",
+    "village": "Siroli",
+    "wkt": "POINT(74.0673257315916 15.6238697839882)"
+  },
+  {
+    "id": 239,
+    "taluka": "Sattari",
+    "village": "Sirsodem",
+    "wkt": "POINT(74.1929303753566 15.4869068017247)"
+  },
+  {
+    "id": 218,
+    "taluka": "Sattari",
+    "village": "Sonal",
+    "wkt": "POINT(74.1883754732544 15.542935110751)"
+  },
+  {
+    "id": 15,
+    "taluka": "Sattari",
+    "village": "Sonus Vonvoliem",
+    "wkt": "POINT(74.0563761484331 15.5175848605363)"
+  },
+  {
+    "id": 203,
+    "taluka": "Sattari",
+    "village": "Surla",
+    "wkt": "POINT(74.1877426956027 15.654700351967)"
+  },
+  {
+    "id": 242,
+    "taluka": "Sattari",
+    "village": "Ustem",
+    "wkt": "POINT(74.2001005841471 15.5618895486377)"
+  },
+  {
+    "id": 38,
+    "taluka": "Sattari",
+    "village": "Vaguriem",
+    "wkt": "POINT(74.0838183205033 15.508219594828)"
+  },
+  {
+    "id": 212,
+    "taluka": "Sattari",
+    "village": "Vainguinim",
+    "wkt": "POINT(74.2398267679463 15.5845855955585)"
+  },
+  {
+    "id": 231,
+    "taluka": "Sattari",
+    "village": "Valpoi",
+    "wkt": "POINT(74.1385474567928 15.5334059468214)"
+  },
+  {
+    "id": 40,
+    "taluka": "Sattari",
+    "village": "Vantem",
+    "wkt": "POINT(74.0947338152725 15.4857411444151)"
+  },
+  {
+    "id": 234,
+    "taluka": "Sattari",
+    "village": "Velguem",
+    "wkt": "POINT(74.1572531569627 15.5059721304766)"
+  },
+  {
+    "id": 232,
+    "taluka": "Sattari",
+    "village": "Veluz",
+    "wkt": "POINT(74.1459730718518 15.5425783874123)"
+  },
+  {
+    "id": 211,
+    "taluka": "Sattari",
+    "village": "Xelopo Buzruco",
+    "wkt": "POINT(74.1653654647109 15.5896210378137)"
+  },
+  {
+    "id": 236,
+    "taluka": "Sattari",
+    "village": "Xelopo Curdo",
+    "wkt": "POINT(74.1684581571729 15.4839407039519)"
+  },
+  {
+    "id": 216,
+    "taluka": "Sattari",
+    "village": "Zarani",
+    "wkt": "POINT(74.2319592627469 15.5661473859408)"
+  },
+  {
+    "id": 13,
+    "taluka": "Sattari",
+    "village": "Zormen",
+    "wkt": "POINT(74.099388370133 15.5783878798207)"
+  },
+  {
+    "id": 246,
+    "taluka": "Tiswadi",
+    "village": "Ambarim",
+    "wkt": "POINT(73.8792912267781 15.5632561927315)"
+  },
+  {
+    "id": 104,
+    "taluka": "Tiswadi",
+    "village": "Azossim",
+    "wkt": "POINT(73.9226536962829 15.4625007743309)"
+  },
+  {
+    "id": 123,
+    "taluka": "Tiswadi",
+    "village": "Bainguinim",
+    "wkt": "POINT(73.9031095132119 15.4922884774492)"
+  },
+  {
+    "id": 100,
+    "taluka": "Tiswadi",
+    "village": "Bambolim",
+    "wkt": "POINT(73.8566859019423 15.4569577945875)"
+  },
+  {
+    "id": 108,
+    "taluka": "Tiswadi",
+    "village": "Batim",
+    "wkt": "POINT(73.8872460938071 15.4524656357324)"
+  },
+  {
+    "id": 99,
+    "taluka": "Tiswadi",
+    "village": "Calapor",
+    "wkt": "POINT(73.8394705065273 15.4701240189818)"
+  },
+  {
+    "id": 111,
+    "taluka": "Tiswadi",
+    "village": "Capao",
+    "wkt": "POINT(73.9050115300494 15.5428824030268)"
+  },
+  {
+    "id": 245,
+    "taluka": "Tiswadi",
+    "village": "Caraim",
+    "wkt": "POINT(73.8977968058658 15.5502545674948)"
+  },
+  {
+    "id": 127,
+    "taluka": "Tiswadi",
+    "village": "Carambolim",
+    "wkt": "POINT(73.9344106211015 15.4700688344662)"
+  },
+  {
+    "id": 121,
+    "taluka": "Tiswadi",
+    "village": "Chimbel",
+    "wkt": "POINT(73.8780871033601 15.4922989405947)"
+  },
+  {
+    "id": 247,
+    "taluka": "Tiswadi",
+    "village": "Chorao",
+    "wkt": "POINT(73.8794422599703 15.5393304803639)"
+  },
+  {
+    "id": 128,
+    "taluka": "Tiswadi",
+    "village": "Corlim",
+    "wkt": "POINT(73.9431436517452 15.4929475834594)"
+  },
+  {
+    "id": 110,
+    "taluka": "Tiswadi",
+    "village": "Cujira",
+    "wkt": "POINT(73.8567600023073 15.4707975329999)"
+  },
+  {
+    "id": 130,
+    "taluka": "Tiswadi",
+    "village": "Cumbarjua",
+    "wkt": "POINT(73.9507130614278 15.5091699546642)"
+  },
+  {
+    "id": 107,
+    "taluka": "Tiswadi",
+    "village": "Curca",
+    "wkt": "POINT(73.87197772093 15.4583031740169)"
+  },
+  {
+    "id": 248,
+    "taluka": "Tiswadi",
+    "village": "Durgavado",
+    "wkt": "POINT(73.8274783039175 15.4744881298468)"
+  },
+  {
+    "id": 126,
+    "taluka": "Tiswadi",
+    "village": "Ella",
+    "wkt": "POINT(73.9213381828933 15.5032661979611)"
+  },
+  {
+    "id": 125,
+    "taluka": "Tiswadi",
+    "village": "Gancim",
+    "wkt": "POINT(73.9041340290177 15.457180688395)"
+  },
+  {
+    "id": 129,
+    "taluka": "Tiswadi",
+    "village": "Gandaulim",
+    "wkt": "POINT(73.9394162360055 15.5104926925149)"
+  },
+  {
+    "id": 124,
+    "taluka": "Tiswadi",
+    "village": "Goalim Moula",
+    "wkt": "POINT(73.9014879387779 15.4701795673992)"
+  },
+  {
+    "id": 102,
+    "taluka": "Tiswadi",
+    "village": "Goa Velha",
+    "wkt": "POINT(73.8865778109515 15.4364825546202)"
+  },
+  {
+    "id": 115,
+    "taluka": "Tiswadi",
+    "village": "Goltim",
+    "wkt": "POINT(73.9051448259448 15.5186009896452)"
+  },
+  {
+    "id": 131,
+    "taluka": "Tiswadi",
+    "village": "Jua",
+    "wkt": "POINT(73.9438186077163 15.5327131608798)"
+  },
+  {
+    "id": 113,
+    "taluka": "Tiswadi",
+    "village": "Malar",
+    "wkt": "POINT(73.9146417511461 15.5290144706942)"
+  },
+  {
+    "id": 106,
+    "taluka": "Tiswadi",
+    "village": "Mandur",
+    "wkt": "POINT(73.9205507422921 15.4513264862646)"
+  },
+  {
+    "id": 103,
+    "taluka": "Tiswadi",
+    "village": "Mercurim",
+    "wkt": "POINT(73.904332875764 15.4238212543653)"
+  },
+  {
+    "id": 119,
+    "taluka": "Tiswadi",
+    "village": "Morambi O Grande",
+    "wkt": "POINT(73.8652974677784 15.4862009667797)"
+  },
+  {
+    "id": 250,
+    "taluka": "Tiswadi",
+    "village": "Morambi O Pequeno",
+    "wkt": "POINT(73.8459990448934 15.4924592553196)"
+  },
+  {
+    "id": 116,
+    "taluka": "Tiswadi",
+    "village": "Murda",
+    "wkt": "POINT(73.8542780090212 15.4804562464056)"
+  },
+  {
+    "id": 112,
+    "taluka": "Tiswadi",
+    "village": "Naroa",
+    "wkt": "POINT(73.9251561180373 15.5313316854995)"
+  },
+  {
+    "id": 114,
+    "taluka": "Tiswadi",
+    "village": "Navelim",
+    "wkt": "POINT(73.8917356664253 15.5162090679327)"
+  },
+  {
+    "id": 105,
+    "taluka": "Tiswadi",
+    "village": "Neura O Grande",
+    "wkt": "POINT(73.9188023584726 15.4345464700599)"
+  },
+  {
+    "id": 109,
+    "taluka": "Tiswadi",
+    "village": "Neura O Pequeno",
+    "wkt": "POINT(73.9044494684752 15.4416145966076)"
+  },
+  {
+    "id": 97,
+    "taluka": "Tiswadi",
+    "village": "Panaji",
+    "wkt": "POINT(73.8246455445429 15.4860531381096)"
+  },
+  {
+    "id": 122,
+    "taluka": "Tiswadi",
+    "village": "Panelim",
+    "wkt": "POINT(73.8907835239751 15.4952084344639)"
+  },
+  {
+    "id": 118,
+    "taluka": "Tiswadi",
+    "village": "Renovadi",
+    "wkt": "POINT(73.8519133230976 15.4936682058911)"
+  },
+  {
+    "id": 101,
+    "taluka": "Tiswadi",
+    "village": "Siridao",
+    "wkt": "POINT(73.8660504028398 15.4393883186521)"
+  },
+  {
+    "id": 120,
+    "taluka": "Tiswadi",
+    "village": "Talaulim",
+    "wkt": "POINT(73.8889684305819 15.4757988313583)"
+  },
+  {
+    "id": 98,
+    "taluka": "Tiswadi",
+    "village": "Taleigao",
+    "wkt": "POINT(73.8192057077363 15.4661745944712)"
+  }
+]
