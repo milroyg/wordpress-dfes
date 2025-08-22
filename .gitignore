@@ -24,9 +24,14 @@ wp-config.php
 node_modules/
 
 # Ignore vendor if you don't want dependencies
-vendor/
 /.idea/.gitignore
 /.idea/dfes-wordpress.iml
 /.idea/modules.xml
 /.idea/php.xml
 /.idea/vcs.xml
+wp-content/updraft/.htaccess
+wp-content/updraft/index.html
+wp-content/updraft/log.1e230cb836dd.txt
+wp-content/updraft/log.1947e335e98f.txt
+wp-content/updraft/log.79448d0b6ccc.txt
+wp-content/updraft/web.config

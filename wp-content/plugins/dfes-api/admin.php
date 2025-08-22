@@ -67,36 +67,48 @@ add_action('admin_enqueue_scripts', 'dfes_admin_enqueue_scripts');
 // =============================
 
 // ✅ Save Contact
+// ✅ Save Contact (normalized schema)
 add_action('admin_post_dfes_save_contact', 'dfes_handle_save_contact');
 function dfes_handle_save_contact() {
     if (!current_user_can('manage_options')) wp_die('Unauthorized');
     check_admin_referer('dfes_save_contact');
 
     global $wpdb;
-    $table = $wpdb->prefix . 'dfes_contacts';
+    $contacts_table = $wpdb->prefix . 'dfes_contacts';
+    $stations_table = $wpdb->prefix . 'dfes_contact_stations';
 
     $stations = isset($_POST['stations']) ? array_map('sanitize_text_field', (array)$_POST['stations']) : [];
-    $stations_str = implode(',', $stations);
 
     $data = [
         'name'         => sanitize_text_field($_POST['name'] ?? ''),
         'phone_number' => sanitize_text_field($_POST['phone_number'] ?? ''),
         'email'        => sanitize_email($_POST['email'] ?? ''),
-        'station'      => $stations_str,
         'status'       => !empty($_POST['status']) ? 1 : 0
     ];
 
     if (!empty($_POST['contact_id'])) {
-        $wpdb->update($table, $data, ['id' => intval($_POST['contact_id'])]);
+        $contact_id = intval($_POST['contact_id']);
+        $wpdb->update($contacts_table, $data, ['id' => $contact_id]);
         $msg = "updated";
     } else {
-        $wpdb->insert($table, $data);
+        $wpdb->insert($contacts_table, $data);
+        $contact_id = $wpdb->insert_id;
         $msg = "added";
+    }
+
+    // 🔄 Update stations
+    $wpdb->delete($stations_table, ['contact_id' => $contact_id]);
+    foreach ($stations as $s) {
+        $wpdb->insert($stations_table, [
+            'contact_id' => $contact_id,
+            'station'    => $s
+        ]);
     }
 
     wp_redirect(admin_url('admin.php?page=dfes-contacts&success=' . $msg));
     exit;
 }
+
 
 // ✅ Delete Contact
 add_action('admin_post_dfes_delete_contact', 'dfes_handle_delete_contact');
@@ -198,21 +210,45 @@ function dfes_handle_import_csv() {
                 }
             }
 
-            // ✅ Only insert if NO remark
-            if (empty($remark)) {
-                $inserted = $wpdb->insert($table, [
-                    'name'         => $name,
-                    'phone_number' => $phone,
-                    'email'        => $email,
-                    'station'      => $station,
-                    'status'       => $status
-                ]);
-                if ($inserted) {
-                    $imported++;
-                } else {
-                    $remark = "DB insert failed";
-                }
-            }
+            // Insert contact
+if (empty($remark)) {
+    $inserted = $wpdb->insert($table, [
+        'name'         => $name,
+        'phone_number' => $phone,
+        'email'        => $email,
+        'status'       => $status
+    ]);
+
+    if ($inserted) {
+        $contact_id = $wpdb->insert_id;
+
+       // Split stations if multiple (comma separated)
+$stations_table = $wpdb->prefix . 'dfes_contact_stations';
+
+if (strtolower($station) === 'all station') {
+    // Assign all stations except Press and TestStation
+    $stations_arr = array_diff(array_keys($stations_list), ['Press', 'TestStation']);
+} else {
+    $stations_arr = array_map('trim', explode(',', $station));
+}
+
+// Insert each station
+foreach ($stations_arr as $s) {
+    if (!empty($s)) {
+        $wpdb->insert($stations_table, [
+            'contact_id' => $contact_id,
+            'station'    => $s
+        ]);
+    }
+}
+
+
+        $imported++;
+    } else {
+        $remark = "DB insert failed";
+    }
+}
+
 
             // Record row with remark if skipped
             if (!empty($remark)) {
@@ -263,47 +299,56 @@ function dfes_contacts_admin_page() {
     if (!current_user_can('manage_options')) return;
 
     global $wpdb;
-    $table = $wpdb->prefix . 'dfes_contacts';
-   $stations_list = [
-    'Headquarters' => 'Headquarters',
-    'Mapusa'       => 'Mapusa',
-    'Panaji'       => 'Panaji',
-    'Pernem'       => 'Pernem',
-    'Pilerne'      => 'Pilerne',
-    'Porvorim'     => 'Porvorim',
-    'Vasco'        => 'Vasco',
-    'Bicholim'     => 'Bicholim',
-    'Kundaim'      => 'Kundaim',
-    'Old Goa'      => 'Old Goa',
-    'Ponda'        => 'Ponda',
-    'Valpoi'       => 'Valpoi',
-    'Canacona'     => 'Canacona',
-    'Cuncolim'     => 'Cuncolim',
-    'Curchorem'    => 'Curchorem',
-    'Margao'       => 'Margao',
-    'Verna'        => 'Verna',
-    'Press'        => 'Press',
-    'TestStation'  => 'TestStation'
-];
+    $contacts_table = $wpdb->prefix . 'dfes_contacts';
+    $stations_table = $wpdb->prefix . 'dfes_contact_stations';
 
+
+    $stations_list = [
+        'Headquarters' => 'Headquarters',
+        'Mapusa'       => 'Mapusa',
+        'Panaji'       => 'Panaji',
+        'Pernem'       => 'Pernem',
+        'Pilerne'      => 'Pilerne',
+        'Porvorim'     => 'Porvorim',
+        'Vasco'        => 'Vasco',
+        'Bicholim'     => 'Bicholim',
+        'Kundaim'      => 'Kundaim',
+        'Old Goa'      => 'Old Goa',
+        'Ponda'        => 'Ponda',
+        'Valpoi'       => 'Valpoi',
+        'Canacona'     => 'Canacona',
+        'Cuncolim'     => 'Cuncolim',
+        'Curchorem'    => 'Curchorem',
+        'Margao'       => 'Margao',
+        'Verna'        => 'Verna',
+        'Press'        => 'Press',
+        'TestStation'  => 'TestStation'
+    ];
 
     $edit_contact = null;
+    $selected_stations = [];
     if (isset($_GET['edit_contact'])) {
-        $edit_contact = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE id = %d", intval($_GET['edit_contact'])), ARRAY_A);
+        $contact_id = intval($_GET['edit_contact']);
+        $edit_contact = $wpdb->get_row($wpdb->prepare("SELECT * FROM $contacts_table WHERE id = %d", $contact_id), ARRAY_A);
+        if ($edit_contact) {
+            $selected_stations = $wpdb->get_col($wpdb->prepare("SELECT station FROM $stations_table WHERE contact_id = %d", $contact_id));
+        }
     }
-    $contacts = $wpdb->get_results("SELECT * FROM $table", ARRAY_A);
-    $selected_stations = $edit_contact ? explode(',', $edit_contact['station']) : [];
+
+    // fetch all contacts with stations
+  $contacts = $wpdb->get_results(
+    "SELECT c.*, GROUP_CONCAT(s.station ORDER BY s.station SEPARATOR ', ') AS stations
+     FROM $contacts_table c
+     LEFT JOIN $stations_table s ON s.contact_id = c.id
+     GROUP BY c.id
+     ORDER BY c.id ASC",
+    ARRAY_A
+);
+
+
     ?>
     <div class="container-fluid">
         <h1 class="mb-4">🚒 DFES Contacts</h1>
-
-        <?php if (isset($_GET['import_done']) && ($result = get_transient('dfes_csv_import_result'))): ?>
-            <div class="notice notice-success"><p>✅ Imported: <?php echo intval($result['imported']); ?>, Errors: <?php echo intval($result['errors']); ?></p></div>
-            <?php if ($result['errors'] > 0 && $result['log_url']): ?>
-                <div class="notice notice-warning"><p><a href="<?php echo esc_url($result['log_url']); ?>">📄 Download Error Log</a></p></div>
-            <?php endif; ?>
-            <?php delete_transient('dfes_csv_import_result'); ?>
-        <?php endif; ?>
 
         <?php if (isset($_GET['success'])): ?>
             <div class="alert alert-success">✅ <?php echo esc_html($_GET['success']); ?> successfully</div>
@@ -322,7 +367,7 @@ function dfes_contacts_admin_page() {
                     <div class="mb-3"><label>Email</label><input type="email" name="email" class="form-control" value="<?php echo esc_attr($edit_contact['email'] ?? ''); ?>"></div>
                     <div class="mb-3"><label>Stations</label><br>
                         <?php foreach ($stations_list as $key => $label): ?>
-                            <label><input type="checkbox" name="stations[]" value="<?php echo esc_attr($key); ?>" <?php checked(in_array($key,$selected_stations,true)); ?>> <?php echo esc_html($label); ?></label><br>
+                            <label><input type="checkbox" name="stations[]" value="<?php echo esc_attr($key); ?>" <?php checked(in_array($key, $selected_stations, true)); ?>> <?php echo esc_html($label); ?></label><br>
                         <?php endforeach; ?>
                     </div>
                     <div class="mb-3"><label><input type="checkbox" name="status" value="1" <?php checked($edit_contact && !empty($edit_contact['status'])); ?>> Active</label></div>
@@ -344,7 +389,7 @@ function dfes_contacts_admin_page() {
                         <td><?php echo esc_html($c['name']); ?></td>
                         <td><?php echo esc_html($c['phone_number']); ?></td>
                         <td><?php echo esc_html($c['email']); ?></td>
-                        <td><?php echo esc_html($c['station']); ?></td>
+                       <td><?php echo esc_html($c['stations']); ?></td>
                         <td><?php echo !empty($c['status']) ? '✅ Active' : '❌ Inactive'; ?></td>
                         <td>
                             <a href="<?php echo admin_url('admin.php?page=dfes-contacts&edit_contact='.$c['id']); ?>" class="btn btn-sm btn-primary">Edit</a>
@@ -356,17 +401,26 @@ function dfes_contacts_admin_page() {
             </table>
             <button type="submit" class="btn btn-danger mt-2">🗑️ Delete Selected</button>
         </form>
+        <!-- Import/Export CSV -->
+<div class="mt-3">
+    <a href="<?php echo esc_url(admin_url('admin.php?page=dfes-contacts&export_csv=1')); ?>" class="btn btn-success">⬇️ Export CSV</a>
 
-        <!-- Import/Export -->
-        <div class="mt-3">
-            <a href="<?php echo esc_url(admin_url('admin.php?page=dfes-contacts&export_csv=1')); ?>" class="btn btn-success">⬇️ Export CSV</a>
-            <form method="post" action="<?php echo admin_url('admin-post.php'); ?>" enctype="multipart/form-data" style="display:inline-block;">
-                <?php wp_nonce_field('dfes_import_csv','dfes_import_csv_nonce'); ?>
-                <input type="hidden" name="action" value="dfes_import_csv">
-                <input type="file" name="import_csv" accept=".csv" required>
-                <button type="submit" class="btn btn-warning">⬆️ Import CSV</button>
-            </form>
-        </div>
+    <form method="post" action="<?php echo admin_url('admin-post.php'); ?>" enctype="multipart/form-data" style="display:inline-block;">
+        <?php wp_nonce_field('dfes_import_csv','dfes_import_csv_nonce'); ?>
+        <input type="hidden" name="action" value="dfes_import_csv">
+        <input type="file" name="import_csv" accept=".csv" required>
+        <button type="submit" class="btn btn-warning">⬆️ Import CSV</button>
+    </form>
+</div>
+
+<?php if (isset($_GET['import_done']) && ($result = get_transient('dfes_csv_import_result'))): ?>
+    <div class="notice notice-success mt-2"><p>✅ Imported: <?php echo intval($result['imported']); ?>, Errors: <?php echo intval($result['errors']); ?></p></div>
+    <?php if ($result['errors'] > 0 && $result['log_url']): ?>
+        <div class="notice notice-warning"><p><a href="<?php echo esc_url($result['log_url']); ?>">📄 Download Error Log</a></p></div>
+    <?php endif; ?>
+    <?php delete_transient('dfes_csv_import_result'); ?>
+<?php endif; ?>
+
     </div>
 
     <script>
@@ -377,8 +431,9 @@ function dfes_contacts_admin_page() {
     <?php
 }
 
+       
 // -----------------------------
-// Settings Admin Page
+// Settings Menus
 // -----------------------------
 function dfes_settings_admin_page() {
     if (!current_user_can('manage_options')) return;
@@ -386,14 +441,22 @@ function dfes_settings_admin_page() {
     $opts = get_option('dfes_settings', []);
     if (isset($_POST['dfes_save_settings'])) {
         check_admin_referer('dfes_save_settings');
-        $opts['msg91_authkey']   = sanitize_text_field($_POST['msg91_authkey'] ?? '');
-        $opts['msg91_senderid']  = sanitize_text_field($_POST['msg91_senderid'] ?? '');
-        $opts['msg91_dlt_te_id'] = sanitize_text_field($_POST['msg91_dlt_te_id'] ?? '');
-        $opts['email_from_name'] = sanitize_text_field($_POST['email_from_name'] ?? '');
+
+        // HydGW fields
+        $opts['hydgw_username']        = sanitize_text_field($_POST['hydgw_username'] ?? '');
+        $opts['hydgw_password']        = sanitize_text_field($_POST['hydgw_password'] ?? '');
+        $opts['hydgw_senderid']        = sanitize_text_field($_POST['hydgw_senderid'] ?? 'GOFIRE');
+        $opts['hydgw_dlt_entity_id']   = sanitize_text_field($_POST['hydgw_dlt_entity_id'] ?? '');
+        $opts['hydgw_dlt_template_id'] = sanitize_text_field($_POST['hydgw_dlt_template_id'] ?? '');
+        $opts['hydgw_base_url']        = sanitize_text_field($_POST['hydgw_base_url'] ?? 'https://hydgw.sms.gov.in/failsafe/MLink');
+
+        // Other settings
+        $opts['email_from_name']    = sanitize_text_field($_POST['email_from_name'] ?? '');
         $opts['email_from_address'] = sanitize_email($_POST['email_from_address'] ?? '');
-        $opts['notify_all'] = !empty($_POST['notify_all']) ? 1 : 0;
-        $opts['logging_enabled'] = !empty($_POST['logging_enabled']) ? 1 : 0;
-        update_option('dfes_settings',$opts);
+        $opts['notify_all']         = !empty($_POST['notify_all']) ? 1 : 0;
+        $opts['logging_enabled']    = !empty($_POST['logging_enabled']) ? 1 : 0;
+
+        update_option('dfes_settings', $opts);
         echo '<div class="notice notice-success"><p>✅ Settings saved.</p></div>';
     }
     ?>
@@ -401,11 +464,22 @@ function dfes_settings_admin_page() {
         <h1>⚙️ DFES Settings</h1>
         <form method="post">
             <?php wp_nonce_field('dfes_save_settings'); ?>
-            <div class="mb-3"><label>MSG91 Auth Key</label><input type="text" name="msg91_authkey" class="form-control" value="<?php echo esc_attr($opts['msg91_authkey'] ?? ''); ?>"></div>
-            <div class="mb-3"><label>MSG91 Sender ID</label><input type="text" name="msg91_senderid" class="form-control" value="<?php echo esc_attr($opts['msg91_senderid'] ?? ''); ?>"></div>
-            <div class="mb-3"><label>MSG91 DLT Template ID</label><input type="text" name="msg91_dlt_te_id" class="form-control" value="<?php echo esc_attr($opts['msg91_dlt_te_id'] ?? ''); ?>"></div>
+
+
+
+            <h3>HydGW Settings</h3>
+            <div class="mb-3"><label>HydGW Username</label><input type="text" name="hydgw_username" class="form-control" value="<?php echo esc_attr($opts['hydgw_username'] ?? ''); ?>"></div>
+            <div class="mb-3"><label>HydGW Password</label><input type="password" name="hydgw_password" class="form-control" value="<?php echo esc_attr($opts['hydgw_password'] ?? ''); ?>"></div>
+            <div class="mb-3"><label>HydGW Sender ID</label><input type="text" name="hydgw_senderid" class="form-control" value="<?php echo esc_attr($opts['hydgw_senderid'] ?? 'GOFIRE'); ?>"></div>
+            <div class="mb-3"><label>HydGW DLT Entity ID</label><input type="text" name="hydgw_dlt_entity_id" class="form-control" value="<?php echo esc_attr($opts['hydgw_dlt_entity_id'] ?? ''); ?>"></div>
+            <div class="mb-3"><label>HydGW DLT Template ID</label><input type="text" name="hydgw_dlt_template_id" class="form-control" value="<?php echo esc_attr($opts['hydgw_dlt_template_id'] ?? ''); ?>"></div>
+           <div class="mb-3"><label>HydGW Route</label><input type="text" name="hydgw_route" class="form-control" value="<?php echo esc_attr($opts['hydgw_route'] ?? ''); ?>">
+            <div class="mb-3"><label>HydGW Base URL</label><input type="text" name="hydgw_base_url" class="form-control" value="<?php echo esc_attr($opts['hydgw_base_url'] ?? 'https://hydgw.sms.gov.in/failsafe/MLink'); ?>"></div>
+
+            <h3>Other Settings</h3>
             <div class="mb-3 form-check"><input class="form-check-input" type="checkbox" name="notify_all" value="1" <?php checked(!empty($opts['notify_all'])); ?>> <label>Send to all active contacts</label></div>
             <div class="mb-3 form-check"><input class="form-check-input" type="checkbox" name="logging_enabled" value="1" <?php checked(!empty($opts['logging_enabled'])); ?>> <label>Enable logging</label></div>
+
             <button type="submit" name="dfes_save_settings" class="btn btn-primary">Save</button>
         </form>
     </div>

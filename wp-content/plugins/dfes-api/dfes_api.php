@@ -59,10 +59,12 @@ function dfes_api_register_hooks() {
 // =============================
 function dfes_api_create_tables() {
     global $wpdb;
-    $incidents_table = $wpdb->prefix . 'dfes_incidents';
-    $contacts_table  = $wpdb->prefix . 'dfes_contacts';
-    $charset_collate = $wpdb->get_charset_collate();
 
+    $charset_collate = $wpdb->get_charset_collate();
+    $prefix = $wpdb->prefix;
+
+    // 🚒 Incidents Table
+    $incidents_table = $prefix . 'dfes_incidents';
     $sql1 = "CREATE TABLE $incidents_table (
         id BIGINT(20) NOT NULL AUTO_INCREMENT,
         dsr_id VARCHAR(50) NOT NULL,
@@ -84,21 +86,35 @@ function dfes_api_create_tables() {
         KEY date_idx (date)
     ) $charset_collate;";
 
+    // 👥 Contacts Table
+    $contacts_table = $prefix . 'dfes_contacts';
     $sql2 = "CREATE TABLE $contacts_table (
         id BIGINT(20) NOT NULL AUTO_INCREMENT,
         name VARCHAR(100) NOT NULL,
         phone_number VARCHAR(20) NOT NULL,
         email VARCHAR(150) DEFAULT NULL,
-        station VARCHAR(255) NOT NULL,      -- CSV list: e.g. 'Mapusa,Panaji'
         status TINYINT(1) DEFAULT 1,
         PRIMARY KEY (id),
         KEY status (status)
     ) $charset_collate;";
 
+    $stations_table = $prefix . 'dfes_contact_stations';
+$sql3 = "CREATE TABLE $stations_table (
+    id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+    contact_id BIGINT(20) UNSIGNED NOT NULL,
+    station VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id),
+    KEY contact_station (contact_id, station)
+) $charset_collate;";
+
+
+    // Include dbDelta
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql1);
     dbDelta($sql2);
+    dbDelta($sql3);
 }
+
 
 function dfes_api_create_log_table() {
     global $wpdb;
@@ -127,12 +143,20 @@ function dfes_api_create_log_table() {
 
 function dfes_api_seed_default_options() {
     $defaults = array(
-        'msg91_authkey'        => '',
-        'msg91_senderid'       => '',
-        'msg91_dlt_te_id'      => '',
+        // HydGW defaults
+        'hydgw_username'       => '',
+        'hydgw_password'       => '',
+        'hydgw_senderid'       => 'GOFIRE',
+        'hydgw_dlt_entity_id'  => '',
+        'hydgw_dlt_template_id'=> '',
+        'hydgw_route'          => '',
+        'hydgw_base_url'       => 'https://hydgw.sms.gov.in/failsafe/MLink',
+
+        // Other defaults
         'notify_all'           => 0,
         'logging_enabled'      => 1,
     );
+
     $current = get_option('dfes_settings', array());
     update_option('dfes_settings', wp_parse_args($current, $defaults));
 }
@@ -258,7 +282,6 @@ function dfes_send_notifications_async($payload, $scheduled_at) {
     // Compose one message
     $message = "Fire Station: $station\nTime: $outtime\nIncident: $activity_live\nNear: $near\nAt: $at\nArea: $village\nDFES,Goa.";
 
-    // Fetch contacts (notify_all or station-specific with FIND_IN_SET)
     $contacts = dfes_get_contacts_for_station($station, $notify_all);
 
     if (!$contacts) {
@@ -271,59 +294,82 @@ function dfes_send_notifications_async($payload, $scheduled_at) {
         $email  = $c['email'];
 
         if (!empty($mobile)) {
-            dfes_send_sms_msg91($mobile, $message, $station, $dsr_id);
+           dfes_send_sms_hydgw($mobile, $message, $station, $dsr_id);
         }
         if (!empty($email)) {
             dfes_send_email_wp($email, "DFES Incident Alert - $station", $message, $station, $dsr_id);
         }
     }
-}
+}  // Fetch contacts (notify_all or station-specific with FIND_IN_SET)
+  
 
 /**
  * Return active contacts. If $notify_all is true, returns all active contacts.
- * Otherwise matches station within CSV list using FIND_IN_SET.
+ * 
+ * 
  */
 function dfes_get_contacts_for_station($station, $notify_all = false) {
     global $wpdb;
-    $table = $wpdb->prefix . 'dfes_contacts';
+    $contacts_table = $wpdb->prefix . 'dfes_contacts';
+    $stations_table = $wpdb->prefix . 'dfes_contact_stations';
 
     if ($notify_all) {
-        return $wpdb->get_results("SELECT * FROM $table WHERE status = 1", ARRAY_A);
+        // If notify all, send to all active contacts (with any station)
+        return $wpdb->get_results(
+            "SELECT c.*
+             FROM $contacts_table c
+             WHERE c.status = 1",
+            ARRAY_A
+        );
     }
 
-    // Match station inside CSV list using FIND_IN_SET
-    $sql = $wpdb->prepare(
-        "SELECT * FROM $table WHERE status = 1 AND FIND_IN_SET(%s, station)",
-        $station
+    // Station-specific: join with stations table
+    return $wpdb->get_results(
+        $wpdb->prepare(
+            "SELECT c.*
+             FROM $contacts_table c
+             INNER JOIN $stations_table s ON c.id = s.contact_id
+             WHERE c.status = 1 AND s.station = %s",
+            $station
+        ),
+        ARRAY_A
     );
-    return $wpdb->get_results($sql, ARRAY_A);
 }
 
-function dfes_send_sms_msg91($mobile, $message, $station, $dsr_id) {
+function dfes_send_sms_hydgw($mobile, $message, $station, $dsr_id) {
     $settings  = get_option('dfes_settings', array());
-    $authkey   = trim($settings['msg91_authkey'] ?? '');
-    $senderid  = trim($settings['msg91_senderid'] ?? '');
-    $dlt_id    = trim($settings['msg91_dlt_te_id'] ?? '');
-    $log_on    = !empty($settings['logging_enabled']);
 
-    if (!$authkey || !$senderid) {
+    $username     = trim($settings['hydgw_username'] ?? '');
+    $password     = trim($settings['hydgw_password'] ?? '');
+    $senderid     = trim($settings['hydgw_senderid'] ?? 'GOFIRE');
+    $dlt_entity   = trim($settings['hydgw_dlt_entity_id'] ?? '');
+    $dlt_template = trim($settings['hydgw_dlt_template_id'] ?? '');
+    $route        = trim($settings['hydgw_route'] ?? 'default'); 
+    $base_url     = trim($settings['hydgw_base_url'] ?? 'https://hydgw.sms.gov.in/failsafe/MLink');
+    $log_on       = !empty($settings['logging_enabled']);
+
+    if (!$username || !$senderid) {
         if ($log_on) {
-            dfes_log_notification_event('sms', $mobile, $station, $dsr_id, $message, 'error', 'MSG91 settings missing.');
+            dfes_log_notification_event('sms', $mobile, $station, $dsr_id, $message, 'error', 'HydGW settings missing.');
         }
         return false;
     }
 
-    // NOTE: Update this to your current MSG91 API endpoint & parameters as per your account.
-    $url = add_query_arg(array(
-        'authkey'   => rawurlencode($authkey),
-        'sender'    => rawurlencode($senderid),
-        'mobiles'   => rawurlencode($mobile),
-        'route'     => '4',
-        'message'   => rawurlencode($message),
-        'DLT_TE_ID' => rawurlencode($dlt_id),
-    ), 'https://api.msg91.com/api/sendhttp.php');
+    $body = array(
+        'username'       => $username,
+        'pin'            => $password,
+        'signature'      => $senderid,
+        'mnumber'        => '91' . preg_replace('/\D/', '', $mobile),
+        'message'        => $message,
+        'dlt_entity_id'  => $dlt_entity,
+        'dlt_template_id'=> $dlt_template,
+        'route'           => $route, 
+    );
 
-    $response = wp_remote_get($url, array('timeout' => 20));
+    $response = wp_remote_post($base_url, array(
+        'body'    => $body,
+        'timeout' => 20,
+    ));
 
     if (is_wp_error($response)) {
         if ($log_on) {
@@ -333,21 +379,29 @@ function dfes_send_sms_msg91($mobile, $message, $station, $dsr_id) {
     }
 
     $code = wp_remote_retrieve_response_code($response);
-    $body = wp_remote_retrieve_body($response);
+    $body_response = wp_remote_retrieve_body($response);
 
-    $success = ($code >= 200 && $code < 300); // may refine based on MSG91 body
+    $success = ($code >= 200 && $code < 300);
 
     if ($log_on) {
-        dfes_log_notification_event('sms', $mobile, $station, $dsr_id, $message, $success ? 'success' : 'error', $success ? '' : ("HTTP $code: " . substr($body, 0, 500)));
+        dfes_log_notification_event(
+            'sms',
+            $mobile,
+            $station,
+            $dsr_id,
+            $message,
+            $success ? 'success' : 'error',
+            $success ? '' : ("HTTP $code: " . substr($body_response, 0, 500))
+        );
     }
 
     return $success;
 }
 
+
+
 function dfes_send_email_wp($to, $subject, $message, $station, $dsr_id) {
     $settings = get_option('dfes_settings', array());
-    $from_name  = trim($settings['email_from_name'] ?? 'DFES Goa');
-    $from_email = trim($settings['email_from_address'] ?? get_option('admin_email'));
     $log_on     = !empty($settings['logging_enabled']);
 
     $headers = array();
