@@ -25,5 +25,8 @@ node_modules/
 
 # Ignore vendor if you don't want dependencies
 vendor/
-wp-content/updraft/log.ad9ea8dad873.txt
-wp-content/updraft/
+/.idea/.gitignore
+/.idea/dfes-wordpress.iml
+/.idea/modules.xml
+/.idea/php.xml
+/.idea/vcs.xml
