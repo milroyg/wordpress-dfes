@@ -141,25 +141,27 @@ function dfes_api_create_log_table() {
     dbDelta($sql);
 }
 
-function dfes_api_seed_default_options() {
-    $defaults = array(
-        // HydGW defaults
-        'hydgw_username'       => '',
-        'hydgw_password'       => '',
-        'hydgw_senderid'       => 'GOFIRE',
-        'hydgw_dlt_entity_id'  => '',
-        'hydgw_dlt_template_id'=> '',
-        'hydgw_route'          => '',
-        'hydgw_base_url'       => 'https://hydgw.sms.gov.in/failsafe/MLink',
+// function dfes_api_seed_default_options() {
+//     $defaults = array(
+//         // HydGW defaults
+//         'hydgw_username'        => '',
+//         'hydgw_password'        => '',
+//         'hydgw_senderid'        => 'GOFIRE',
+//         'hydgw_dlt_entity_id'   => '',
+//         'hydgw_dlt_template_id' => '',
+//         'hydgw_route'           => '',
+//         'hydgw_base_url'        => 'https://hydgw.sms.gov.in/failsafe/MLink',
 
-        // Other defaults
-        'notify_all'           => 0,
-        'logging_enabled'      => 1,
-    );
+//         // Other defaults
+//         'notify_all'            => 0,
+//         'logging_enabled'       => 1,
+//         'active_gateway'        => 'hydgw', // ✅ new: mark which gateway is active
+//     );
 
-    $current = get_option('dfes_settings', array());
-    update_option('dfes_settings', wp_parse_args($current, $defaults));
-}
+//     $current = get_option('dfes_settings', array());
+//     update_option('dfes_settings', wp_parse_args($current, $defaults));
+// }
+
 
 // =============================
 // 4️⃣ REWRITE RULES & QUERY VARS
@@ -294,7 +296,7 @@ function dfes_send_notifications_async($payload, $scheduled_at) {
         $email  = $c['email'];
 
         if (!empty($mobile)) {
-           dfes_send_sms_hydgw($mobile, $message, $station, $dsr_id);
+           dfes_send_sms($mobile, $message, $station, $dsr_id);
         }
         if (!empty($email)) {
             dfes_send_email_wp($email, "DFES Incident Alert - $station", $message, $station, $dsr_id);
@@ -336,52 +338,59 @@ function dfes_get_contacts_for_station($station, $notify_all = false) {
     );
 }
 
-function dfes_send_sms_hydgw($mobile, $message, $station, $dsr_id) {
-    $settings  = get_option('dfes_settings', array());
+// -----------------------------
+// Seed Default Options
+// -----------------------------
+function dfes_api_seed_default_options() {
+    $current = get_option('dfes_settings', []);
 
-    $username     = trim($settings['hydgw_username'] ?? '');
-    $password     = trim($settings['hydgw_password'] ?? '');
-    $senderid     = trim($settings['hydgw_senderid'] ?? 'GOFIRE');
-    $dlt_entity   = trim($settings['hydgw_dlt_entity_id'] ?? '');
-    $dlt_template = trim($settings['hydgw_dlt_template_id'] ?? '');
-    $route        = trim($settings['hydgw_route'] ?? ''); 
-    $base_url     = trim($settings['hydgw_base_url'] ?? 'https://hydgw.sms.gov.in/failsafe/MLink');
-    $log_on       = !empty($settings['logging_enabled']);
+    $defaults = [
+        'active'   => '',
+        'gateways' => [],
+        'notify_all'       => 0,    // Send to all recipients? (0 = no, 1 = yes)
+        'logging_enabled'  => 1 
+    ];
 
-    if (!$username || !$senderid) {
+    // Merge defaults so we don’t override existing data
+    update_option('dfes_settings', wp_parse_args($current, $defaults));
+}
+
+// -----------------------------
+// Send SMS via Active Gateway
+// -----------------------------
+function dfes_send_sms($mobile, $message, $station = '', $dsr_id = '') {
+    $all = get_option('dfes_settings', ['active' => '', 'gateways' => []]);
+    $log_on = !empty($all['logging_enabled']);
+
+    if (empty($all['active']) || empty($all['gateways'][$all['active']])) {
         if ($log_on) {
-            dfes_log_notification_event('sms', $mobile, $station, $dsr_id, $message, 'error', 'HydGW settings missing.');
+            dfes_log_notification_event('sms', $mobile, $station, $dsr_id, $message, 'error', 'No active SMS gateway configured.');
         }
         return false;
     }
 
-    $body = array(
-        'username'       => $username,
-        'pin'            => $password,
-        'signature'      => $senderid,
-        'mnumber'        => '91' . preg_replace('/\D/', '', $mobile),
-        'message'        => $message,
-        'dlt_entity_id'  => $dlt_entity,
-        'dlt_template_id'=> $dlt_template,
-        'hydgw_route'           => $hydgw_route, 
-    );
+    $gw = $all['gateways'][$all['active']];
+    $base_url = $gw['base_url'];
+    $params   = $gw['params'];
 
-    $response = wp_remote_post($base_url, array(
+    $body = [];
+    foreach ($params as $param) {
+        $body[$param['key']] = strtr($param['value'], [
+            '{mobile}'  => '91' . preg_replace('/\D/', '', $mobile),
+            '{message}' => $message,
+            '{station}' => $station,
+            '{dsr_id}'  => $dsr_id,
+        ]);
+    }
+
+    $response = wp_remote_post($base_url, [
         'body'    => $body,
         'timeout' => 20,
-    ));
-
-    if (is_wp_error($response)) {
-        if ($log_on) {
-            dfes_log_notification_event('sms', $mobile, $station, $dsr_id, $message, 'error', $response->get_error_message());
-        }
-        return false;
-    }
+    ]);
 
     $code = wp_remote_retrieve_response_code($response);
     $body_response = wp_remote_retrieve_body($response);
-
-    $success = ($code >= 200 && $code < 300);
+    $success = !is_wp_error($response) && ($code >= 200 && $code < 300);
 
     if ($log_on) {
         dfes_log_notification_event(
@@ -391,7 +400,7 @@ function dfes_send_sms_hydgw($mobile, $message, $station, $dsr_id) {
             $dsr_id,
             $message,
             $success ? 'success' : 'error',
-            $success ? '' : ("HTTP $code: " . substr($body_response, 0, 500))
+            $success ? '' : (is_wp_error($response) ? $response->get_error_message() : "HTTP $code: " . substr($body_response,0,500))
         );
     }
 
@@ -400,6 +409,9 @@ function dfes_send_sms_hydgw($mobile, $message, $station, $dsr_id) {
 
 
 
+// -----------------------------
+// Send Email
+// -----------------------------
 function dfes_send_email_wp($to, $subject, $message, $station, $dsr_id) {
     $settings = get_option('dfes_settings', array());
     $log_on     = !empty($settings['logging_enabled']);

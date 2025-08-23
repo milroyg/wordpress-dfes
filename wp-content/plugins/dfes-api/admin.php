@@ -225,7 +225,31 @@ if (empty($remark)) {
        // Split stations if multiple (comma separated)
 $stations_table = $wpdb->prefix . 'dfes_contact_stations';
 
-if (strtolower($station) === 'all station') {
+$stations_list = [
+    'Headquarters' => 'Headquarters',
+    'Mapusa'       => 'Mapusa',
+    'Panaji'       => 'Panaji',
+    'Pernem'       => 'Pernem',
+    'Pilerne'      => 'Pilerne',
+    'Porvorim'     => 'Porvorim',
+    'Vasco'        => 'Vasco',
+    'Bicholim'     => 'Bicholim',
+    'Kundaim'      => 'Kundaim',
+    'Old Goa'      => 'Old Goa',
+    'Ponda'        => 'Ponda',
+    'Valpoi'       => 'Valpoi',
+    'Canacona'     => 'Canacona',
+    'Cuncolim'     => 'Cuncolim',
+    'Curchorem'    => 'Curchorem',
+    'Margao'       => 'Margao',
+    'Verna'        => 'Verna',
+    'Press'        => 'Press',
+    'Reinforcement'=> 'Reinforcement',
+    'TestStation'  => 'TestStation'
+];
+
+
+if (strtolower($station) === 'all fire station') {
     // Assign all stations except Press and TestStation
     $stations_arr = array_diff(array_keys($stations_list), ['Press', 'TestStation']);
 } else {
@@ -261,33 +285,68 @@ foreach ($stations_arr as $s) {
         @unlink($file_path);
 
         // If errors → generate error CSV
-        if (!empty($rows_with_remarks)) {
-            $upload_dir = wp_upload_dir();
-            $csv_file = $upload_dir['basedir'] . '/dfes_import_errors_' . date('Ymd_His') . '.csv';
-            $fh = fopen($csv_file, 'w');
-            if ($header) {
-                fputcsv($fh, $header);
-            }
-            foreach ($rows_with_remarks as $row) {
-                fputcsv($fh, $row);
-            }
-            fclose($fh);
-            $log_url = $upload_dir['baseurl'] . '/' . basename($csv_file);
-        }
-    } else {
-        $errors++;
+if (!empty($rows_with_remarks)) {
+    $tmp_file = tmpfile(); 
+    $meta = stream_get_meta_data($tmp_file);
+    $csv_file = $meta['uri'];
+
+    if ($header) {
+        fputcsv($tmp_file, $header);
     }
+    foreach ($rows_with_remarks as $row) {
+        fputcsv($tmp_file, $row);
+    }
+    rewind($tmp_file);
 
-    set_transient('dfes_csv_import_result', [
-        'imported' => $imported, 
-        'errors'   => $errors, 
-        'log_url'  => $log_url
-    ], 30);
+    // Send for download immediately
+    header('Content-Type: text/csv');
+    header('Content-Disposition: attachment; filename="dfes_import_errors.csv"');
+    fpassthru($tmp_file);
 
-    wp_redirect(admin_url('admin.php?page=dfes-contacts&import_done=1'));
+    fclose($tmp_file); // auto deletes
     exit;
 }
+    }
+}
 
+//✅ CSV Export
+if (isset($_GET['export_csv']) && $_GET['export_csv'] == 1) {
+    global $wpdb;
+    $contacts_table = $wpdb->prefix . 'dfes_contacts';
+    $stations_table = $wpdb->prefix . 'dfes_contact_stations';
+
+    // Fetch contacts with stations
+    $contacts = $wpdb->get_results(
+        "SELECT c.id, c.name, c.phone_number, c.email, c.status, 
+                GROUP_CONCAT(s.station ORDER BY s.station SEPARATOR ', ') AS stations
+         FROM $contacts_table c
+         LEFT JOIN $stations_table s ON s.contact_id = c.id
+         GROUP BY c.id
+         ORDER BY c.id ASC",
+        ARRAY_A
+    );
+
+    // Send CSV headers
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename=dfes_contacts_' . date('Ymd_His') . '.csv');
+
+    $output = fopen('php://output', 'w');
+
+    // CSV Header Row
+    fputcsv($output, ['Name', 'Phone Number', 'Email']);
+
+    // Rows
+    foreach ($contacts as $contact) {
+        fputcsv($output, [
+            $contact['name'],
+            $contact['phone_number'],
+            $contact['email'],
+        ]);
+    }
+
+    fclose($output);
+    exit; // stop rendering admin page
+}
 
 
 
@@ -322,6 +381,7 @@ function dfes_contacts_admin_page() {
         'Margao'       => 'Margao',
         'Verna'        => 'Verna',
         'Press'        => 'Press',
+        'Reinforcement'=> 'Reinforcement',
         'TestStation'  => 'TestStation'
     ];
 
@@ -355,8 +415,8 @@ function dfes_contacts_admin_page() {
         <?php endif; ?>
 
         <!-- Contact Form -->
-        <div class="card mb-4">
-            <div class="card-header"><?php echo $edit_contact ? '✏️ Edit Contact' : '➕ Add Contact'; ?></div>
+        <div class="card border-success mb-3">
+            <div class="card-header"><?php echo $edit_contact ? 'Edit Contact' : 'Add Contact'; ?></div>
             <div class="card-body">
                 <form method="POST" action="<?php echo admin_url('admin-post.php'); ?>">
                     <?php wp_nonce_field('dfes_save_contact'); ?>
@@ -392,24 +452,24 @@ function dfes_contacts_admin_page() {
                        <td><?php echo esc_html($c['stations']); ?></td>
                         <td><?php echo !empty($c['status']) ? '✅ Active' : '❌ Inactive'; ?></td>
                         <td>
-                            <a href="<?php echo admin_url('admin.php?page=dfes-contacts&edit_contact='.$c['id']); ?>" class="btn btn-sm btn-primary">Edit</a>
-                            <a href="<?php echo wp_nonce_url(admin_url('admin-post.php?action=dfes_delete_contact&id='.$c['id']), 'dfes_delete_contact'); ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this contact?');">Delete</a>
+                            <a href="<?php echo admin_url('admin.php?page=dfes-contacts&edit_contact='.$c['id']); ?>" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Edit</a>
+                            <a href="<?php echo wp_nonce_url(admin_url('admin-post.php?action=dfes_delete_contact&id='.$c['id']), 'dfes_delete_contact'); ?>" class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onclick="return confirm('Delete this contact?');">Delete</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
             </table>
-            <button type="submit" class="btn btn-danger mt-2">🗑️ Delete Selected</button>
+            <button type="submit" class="btn btn-outline-danger">Delete Selected</button>
         </form>
         <!-- Import/Export CSV -->
 <div class="mt-3">
-    <a href="<?php echo esc_url(admin_url('admin.php?page=dfes-contacts&export_csv=1')); ?>" class="btn btn-success">⬇️ Export CSV</a>
+    <a href="<?php echo esc_url(admin_url('admin.php?page=dfes-contacts&export_csv=1')); ?>" class="btn btn-outline-success">Export CSV</a>
 
     <form method="post" action="<?php echo admin_url('admin-post.php'); ?>" enctype="multipart/form-data" style="display:inline-block;">
         <?php wp_nonce_field('dfes_import_csv','dfes_import_csv_nonce'); ?>
         <input type="hidden" name="action" value="dfes_import_csv">
         <input type="file" name="import_csv" accept=".csv" required>
-        <button type="submit" class="btn btn-warning">⬆️ Import CSV</button>
+        <button type="submit" class="btn btn-outline-primary">Import CSV</button>
     </form>
 </div>
 
@@ -431,58 +491,209 @@ function dfes_contacts_admin_page() {
     <?php
 }
 
-       
-// -----------------------------
-// Settings Menus
-// -----------------------------
+// =============================
+// SMS Gateway
+// =============================       
 function dfes_settings_admin_page() {
     if (!current_user_can('manage_options')) return;
 
-    $opts = get_option('dfes_settings', []);
-    if (isset($_POST['dfes_save_settings'])) {
-        check_admin_referer('dfes_save_settings');
+    // Seed defaults if not present
+    dfes_api_seed_default_options();
 
-        // HydGW fields
-        $opts['hydgw_username']        = sanitize_text_field($_POST['hydgw_username'] ?? '');
-        $opts['hydgw_password']        = sanitize_text_field($_POST['hydgw_password'] ?? '');
-        $opts['hydgw_senderid']        = sanitize_text_field($_POST['hydgw_senderid'] ?? 'GOFIRE');
-        $opts['hydgw_dlt_entity_id']   = sanitize_text_field($_POST['hydgw_dlt_entity_id'] ?? '');
-        $opts['hydgw_dlt_template_id'] = sanitize_text_field($_POST['hydgw_dlt_template_id'] ?? '');
-        $opts['hydgw_route'] = sanitize_text_field($_POST['hydgw_route'] ?? '');
-        $opts['hydgw_base_url']        = sanitize_text_field($_POST['hydgw_base_url'] ?? 'https://hydgw.sms.gov.in/failsafe/MLink');
+    $all = (array) get_option('dfes_settings', ['active'=>'','gateways'=>[]]);
+    $all['gateways'] = $all['gateways'] ?? [];
 
-        // Other settings
-        $opts['email_from_name']    = sanitize_text_field($_POST['email_from_name'] ?? '');
-        $opts['email_from_address'] = sanitize_email($_POST['email_from_address'] ?? '');
-        $opts['notify_all']         = !empty($_POST['notify_all']) ? 1 : 0;
-        $opts['logging_enabled']    = !empty($_POST['logging_enabled']) ? 1 : 0;
+    $edit_id   = '';
+    $edit_data = ['name'=>'','base_url'=>'','params'=>[]];
 
-        update_option('dfes_settings', $opts);
-        echo '<div class="notice notice-success"><p>✅ Settings saved.</p></div>';
+
+    // -------------------------------
+    // Detect edit
+    // -------------------------------
+    if (isset($_POST['dfes_edit_gateway'])) {
+        $edit_id = sanitize_key($_POST['edit_gateway']);
+        if (!empty($all['gateways'][$edit_id])) {
+            $edit_data = $all['gateways'][$edit_id];
+
+            // Convert old-style params (assoc array) to new-style if needed
+            if (!empty($edit_data['params']) && isset($edit_data['params']['keys'])) {
+                $converted = [];
+                foreach ($edit_data['params']['keys'] as $i => $key) {
+                    $converted[] = [
+                        'key' => $key,
+                        'value' => $edit_data['params']['values'][$i] ?? ''
+                    ];
+                }
+                $edit_data['params'] = $converted;
+            }
+        }
     }
+
+    // -------------------------------
+    // Save gateway
+    // -------------------------------
+    if (isset($_POST['dfes_save_gateway'])) {
+        check_admin_referer('dfes_save_gateway');
+
+        $gateway_id = !empty($_POST['gateway_id']) ? sanitize_key($_POST['gateway_id']) : uniqid('gw_');
+        $gateway_name = sanitize_text_field($_POST['gateway_name'] ?? '');
+        $base_url     = esc_url_raw($_POST['base_url'] ?? '');
+
+        $params = [];
+        if (!empty($_POST['params']['keys'])) {
+            foreach ($_POST['params']['keys'] as $i => $key) {
+                $k = sanitize_text_field($key);
+                $v = sanitize_text_field($_POST['params']['values'][$i] ?? '');
+                if ($k || $v) { // save even if key is empty
+                    $params[] = ['key'=>$k,'value'=>$v];
+                }
+            }
+        }
+
+        $all['gateways'][$gateway_id] = [
+            'name' => $gateway_name,
+            'base_url' => $base_url,
+            'params' => $params
+        ];
+
+        update_option('dfes_settings', $all);
+        echo '<div class="notice notice-success"><p>✅ Gateway saved.</p></div>';
+
+        $edit_id = '';
+        $edit_data = ['name'=>'','base_url'=>'','params'=>[]];
+    }
+
+    // -------------------------------
+    // Activate gateway
+    // -------------------------------
+    if (isset($_POST['dfes_activate_gateway'])) {
+        check_admin_referer('dfes_activate_gateway');
+        $activate = sanitize_key($_POST['activate_gateway']);
+        if (!empty($all['gateways'][$activate])) {
+            $all['active'] = $activate;
+            update_option('dfes_settings', $all);
+            echo '<div class="notice notice-success"><p>✅ Gateway activated.</p></div>';
+        }
+    }
+
+    // -------------------------------
+    // Delete gateway
+    // -------------------------------
+    if (isset($_POST['dfes_delete_gateway'])) {
+        check_admin_referer('dfes_delete_gateway');
+        $delete = sanitize_key($_POST['delete_gateway']);
+        if (isset($all['gateways'][$delete])) {
+            unset($all['gateways'][$delete]);
+            if ($all['active'] === $delete) $all['active'] = '';
+            update_option('dfes_settings', $all);
+            echo '<div class="notice notice-warning"><p>🗑️ Gateway deleted.</p></div>';
+        }
+    }
+
+    // -------------------------------
+    // Render Form
+    // -------------------------------
     ?>
-    <div class="container-fluid">
-        <h1>⚙️ DFES Settings</h1>
+    <div class="wrap">
+        <h1>⚙️ DFES SMS Gateway Settings</h1>
+        <h2>Active Gateway: <?php echo $all['active'] ? esc_html($all['gateways'][$all['active']]['name']) : '❌ None'; ?></h2>
+        <h2><?php echo $edit_id ? '✏️ Edit Gateway' : '➕ Add Gateway'; ?></h2>
         <form method="post">
-            <?php wp_nonce_field('dfes_save_settings'); ?>
+            <?php wp_nonce_field('dfes_save_gateway'); ?>
+            <input type="hidden" name="gateway_id" value="<?php echo esc_attr($edit_id); ?>">
 
+            <table class="form-table">
+                <tr>
+                    <th><label>Gateway Name</label></th>
+                    <td><input type="text" name="gateway_name" value="<?php echo esc_attr($edit_data['name']); ?>" class="regular-text" required></td>
+                </tr>
+                <tr>
+                    <th><label>Base URL</label></th>
+                    <td><input type="text" name="base_url" value="<?php echo esc_attr($edit_data['base_url']); ?>" class="regular-text" required></td>
+                </tr>
+            </table>
 
-
-            <h3>HydGW Settings</h3>
-            <div class="mb-3"><label>HydGW Username</label><input type="text" name="hydgw_username" class="form-control" value="<?php echo esc_attr($opts['hydgw_username'] ?? ''); ?>"></div>
-            <div class="mb-3"><label>HydGW Password</label><input type="password" name="hydgw_password" class="form-control" value="<?php echo esc_attr($opts['hydgw_password'] ?? ''); ?>"></div>
-            <div class="mb-3"><label>HydGW Sender ID</label><input type="text" name="hydgw_senderid" class="form-control" value="<?php echo esc_attr($opts['hydgw_senderid'] ?? 'GOFIRE'); ?>"></div>
-            <div class="mb-3"><label>HydGW DLT Entity ID</label><input type="text" name="hydgw_dlt_entity_id" class="form-control" value="<?php echo esc_attr($opts['hydgw_dlt_entity_id'] ?? ''); ?>"></div>
-            <div class="mb-3"><label>HydGW DLT Template ID</label><input type="text" name="hydgw_dlt_template_id" class="form-control" value="<?php echo esc_attr($opts['hydgw_dlt_template_id'] ?? ''); ?>"></div>
-           <div class="mb-3"><label>HydGW Route</label><input type="number" name="hydgw_route" class="form-control" value="<?php echo esc_attr($opts['hydgw_route'] ?? ''); ?>">
-            <div class="mb-3"><label>HydGW Base URL</label><input type="text" name="hydgw_base_url" class="form-control" value="<?php echo esc_attr($opts['hydgw_base_url'] ?? 'https://hydgw.sms.gov.in/failsafe/MLink'); ?>"></div>
-
-            <h3>Other Settings</h3>
-            <div class="mb-3 form-check"><input class="form-check-input" type="checkbox" name="notify_all" value="1" <?php checked(!empty($opts['notify_all'])); ?>> <label>Send to all active contacts</label></div>
-            <div class="mb-3 form-check"><input class="form-check-input" type="checkbox" name="logging_enabled" value="1" <?php checked(!empty($opts['logging_enabled'])); ?>> <label>Enable logging</label></div>
-
-            <button type="submit" name="dfes_save_settings" class="btn btn-primary">Save</button>
+            <h3>Parameters</h3>
+            <div id="gateway-params">
+                <?php if (!empty($edit_data['params'])): ?>
+                    <?php foreach ($edit_data['params'] as $param): ?>
+                        <div class="param" style="margin-bottom:6px;">
+                            <input type="text" name="params[keys][]" value="<?php echo esc_attr($param['key']); ?>" placeholder="param_name" class="regular-text" style="width:25%;">
+                            <input type="text" name="params[values][]" value="<?php echo esc_attr($param['value']); ?>" placeholder="param_value (use {mobile}, {message})" class="regular-text" style="width:50%;">
+                            <button type="button" class="button button-small" onclick="this.parentNode.remove()">❌</button>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="param" style="margin-bottom:6px;">
+                        <input type="text" name="params[keys][]" placeholder="param_name" class="regular-text" style="width:25%;">
+                        <input type="text" name="params[values][]" placeholder="param_value (use {mobile}, {message})" class="regular-text" style="width:50%;">
+                        <button type="button" class="button button-small" onclick="this.parentNode.remove()">❌</button>
+                    </div>
+                <?php endif; ?>
+            </div>
+            <p><button type="button" class="button" onclick="addParam()">+ Add Param</button></p>
+            <p><button type="submit" name="dfes_save_gateway" class="button button-primary">Save Gateway</button></p>
         </form>
+
+        <hr>
+        <h2>📋 Existing Gateways</h2>
+        <?php if (!empty($all['gateways'])): ?>
+            <table class="table">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Base URL</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($all['gateways'] as $id => $gw): ?>
+                        <tr>
+                            <td><strong><?php echo esc_html($gw['name']); ?></strong></td>
+                            <td><?php echo esc_url($gw['base_url']); ?></td>
+                            <td><?php echo ($all['active'] === $id) ? '✅ Active' : '❌ Inactive'; ?></td>
+                            <td>
+                                <?php if ($all['active'] !== $id): ?>
+                                    <form method="post" style="display:inline">
+                                        <?php wp_nonce_field('dfes_activate_gateway'); ?>
+                                        <input type="hidden" name="activate_gateway" value="<?php echo esc_attr($id); ?>">
+                                        <button type="submit" name="dfes_activate_gateway" class="btn btn-outline-success">Activate</button>
+                                    </form>
+                                <?php endif; ?>
+
+                                <form method="post" style="display:inline">
+                                    <input type="hidden" name="edit_gateway" value="<?php echo esc_attr($id); ?>">
+                                    <button type="submit" name="dfes_edit_gateway" class="btn btn-outline-primary">Edit</button>
+                                </form>
+
+                                <form method="post" style="display:inline" onsubmit="return confirm('Delete this gateway?');">
+                                    <?php wp_nonce_field('dfes_delete_gateway'); ?>
+                                    <input type="hidden" name="delete_gateway" value="<?php echo esc_attr($id); ?>">
+                                    <button type="submit" name="dfes_delete_gateway" class="btn btn-outline-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else: ?>
+            <p>No gateways configured yet.</p>
+        <?php endif; ?>
     </div>
+
+    <script>
+    function addParam() {
+        let div = document.createElement('div');
+        div.className = 'param';
+        div.style.marginBottom = "6px";
+        div.innerHTML = `
+            <input type="text" name="params[keys][]" placeholder="param_name" class="regular-text" style="width:25%;">
+            <input type="text" name="params[values][]" placeholder="param_value (use {mobile}, {message})" class="regular-text" style="width:50%;">
+            <button type="button" class="button button-small" onclick="this.parentNode.remove()">❌</button>
+        `;
+        document.getElementById('gateway-params').appendChild(div);
+    }
+    </script>
     <?php
 }
