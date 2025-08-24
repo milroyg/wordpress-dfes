@@ -110,37 +110,6 @@ function dfes_handle_save_contact() {
 }
 
 
-// ✅ Delete Contact
-add_action('admin_post_dfes_delete_contact', 'dfes_handle_delete_contact');
-function dfes_handle_delete_contact() {
-    if (!current_user_can('manage_options')) wp_die('Unauthorized');
-
-    global $wpdb;
-    $table = $wpdb->prefix . 'dfes_contacts';
-    $wpdb->delete($table, ['id' => intval($_GET['id'] ?? 0)]);
-
-    wp_redirect(admin_url('admin.php?page=dfes-contacts&success=deleted'));
-    exit;
-}
-
-// ✅ Bulk Delete
-add_action('admin_post_dfes_bulk_delete', 'dfes_handle_bulk_delete');
-function dfes_handle_bulk_delete() {
-    if (!current_user_can('manage_options')) wp_die('Unauthorized');
-
-    global $wpdb;
-    $table = $wpdb->prefix . 'dfes_contacts';
-
-    if (!empty($_POST['delete_ids'])) {
-        $ids = array_map('intval', $_POST['delete_ids']);
-        $ids_placeholders = implode(',', array_fill(0, count($ids), '%d'));
-        $wpdb->query($wpdb->prepare("DELETE FROM $table WHERE id IN ($ids_placeholders)", $ids));
-    }
-
-    wp_redirect(admin_url('admin.php?page=dfes-contacts&success=deleted'));
-    exit;
-}
-
 // ✅ Import CSV
 add_action('admin_post_dfes_import_csv', 'dfes_handle_import_csv');
 function dfes_handle_import_csv() {
@@ -191,21 +160,20 @@ function dfes_handle_import_csv() {
                 $remark = "Missing name or phone";
             } elseif (!preg_match('/^[0-9]{10,15}$/', $phone)) {
                 $remark = "Invalid phone number";
-            } elseif (empty($email_raw)) {
-                $remark = "Missing email (required)";
-            } elseif (!is_email($email_raw)) {
-                $remark = "Invalid email";
+            } elseif (!empty($email_raw) && !is_email($email_raw)) {
+               $remark = "Invalid email";
             }
+
 
             // ✅ Check duplicates only if validations passed
             if (empty($remark)) {
                 $exists_phone = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table WHERE phone_number = %s", $phone));
                 if ($exists_phone > 0) {
                     $remark = "Phone exists ($phone)";
-                } else {
+                } elseif (!empty($email)) { // only check if email provided
                     $exists_email = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table WHERE email = %s", $email));
-                    if ($exists_email > 0) {
-                        $remark = "Email exists ($email)";
+                if ($exists_email > 0) {
+                    $remark = "Email exists ($email)";
                     }
                 }
             }
@@ -215,7 +183,7 @@ if (empty($remark)) {
     $inserted = $wpdb->insert($table, [
         'name'         => $name,
         'phone_number' => $phone,
-        'email'        => $email,
+        'email'        => !empty($email) ? $email : null,
         'status'       => $status
     ]);
 
@@ -249,28 +217,37 @@ $stations_list = [
 ];
 
 
-if (strtolower($station) === 'all fire station') {
-    // Assign all stations except Press and TestStation
-    $stations_arr = array_diff(array_keys($stations_list), ['Press', 'TestStation']);
-} else {
-    $stations_arr = array_map('trim', explode(',', $station));
+// ✅ Handle stations
+$stations_arr = [];
+$station_parts = array_map('trim', explode(',', $station));
+
+foreach ($station_parts as $part) {
+    if (strtolower($part) === 'all') {
+        // Expand All → every station except Press & TestStation
+        $stations_arr = array_merge(
+            $stations_arr,
+            array_diff(array_keys($stations_list), ['Press', 'TestStation','Reinforcement'])
+        );
+    } elseif (!empty($part)) {
+        $stations_arr[] = $part;
+    }
 }
+
+// Remove duplicates just in case
+$stations_arr = array_unique($stations_arr);
 
 // Insert each station
 foreach ($stations_arr as $s) {
-    if (!empty($s)) {
-        $wpdb->insert($stations_table, [
-            'contact_id' => $contact_id,
-            'station'    => $s
-        ]);
-    }
+    $wpdb->insert($stations_table, [
+        'contact_id' => $contact_id,
+        'station'    => $s
+    ]);
 }
 
-
-        $imported++;
-    } else {
-        $remark = "DB insert failed";
-    }
+$imported++;
+} else {
+    $remark = "DB insert failed";
+}
 }
 
 
@@ -306,6 +283,9 @@ if (!empty($rows_with_remarks)) {
     fclose($tmp_file); // auto deletes
     exit;
 }
+// ✅ If success
+        wp_redirect(admin_url('admin.php?page=dfes-contacts&import_done=1&imported='.$imported));
+        exit;
     }
 }
 
@@ -440,12 +420,22 @@ function dfes_contacts_admin_page() {
         <form method="POST" action="<?php echo admin_url('admin-post.php'); ?>" onsubmit="return confirm('Delete selected contacts?');">
             <input type="hidden" name="action" value="dfes_bulk_delete">
             <table id="dfes-contacts-table" class="table table-bordered">
-                <thead><tr><th><input type="checkbox" id="select-all"></th><th>ID</th><th>Name</th><th>Phone</th><th>Email</th><th>Stations</th><th>Status</th><th>Action</th></tr></thead>
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" id="select-all"></th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Stations</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
                 <tbody>
                 <?php foreach ($contacts as $c): ?>
                     <tr>
                         <td><input type="checkbox" name="delete_ids[]" value="<?php echo intval($c['id']); ?>"></td>
-                        <td><?php echo esc_html($c['id']); ?></td>
                         <td><?php echo esc_html($c['name']); ?></td>
                         <td><?php echo esc_html($c['phone_number']); ?></td>
                         <td><?php echo esc_html($c['email']); ?></td>
@@ -490,6 +480,59 @@ function dfes_contacts_admin_page() {
     </script>
     <?php
 }
+// =============================
+// Shared Delete Function
+// =============================
+function dfes_delete_contact_with_stations($id) {
+    global $wpdb;
+    $contacts_table = $wpdb->prefix . 'dfes_contacts';
+    $stations_table = $wpdb->prefix . 'dfes_contact_stations';
+
+    $id = intval($id);
+    if ($id > 0) {
+        // Delete linked stations first
+        $wpdb->delete($stations_table, ['contact_id' => $id]);
+        // Delete contact
+        $wpdb->delete($contacts_table, ['id' => $id]);
+    }
+}
+
+// =============================
+// Delete Single Contact
+// =============================
+function dfes_handle_delete_contact() {
+    if (!current_user_can('manage_options')) wp_die('Unauthorized');
+    check_admin_referer('dfes_delete_contact');
+
+    $id = intval($_GET['id'] ?? 0);
+    dfes_delete_contact_with_stations($id);
+
+    wp_redirect(admin_url('admin.php?page=dfes-contacts&success=Deleted'));
+    exit;
+}
+add_action('admin_post_dfes_delete_contact', 'dfes_handle_delete_contact');
+
+
+// =============================
+// Bulk Delete Contacts
+// =============================
+function dfes_handle_bulk_delete() {
+    if (!current_user_can('manage_options')) wp_die('Unauthorized');
+
+    $ids = $_POST['delete_ids'] ?? [];
+    if (!empty($ids) && is_array($ids)) {
+        foreach ($ids as $id) {
+            dfes_delete_contact_with_stations($id);
+        }
+    }
+
+    wp_redirect(admin_url('admin.php?page=dfes-contacts&success=Deleted'));
+    exit;
+}
+add_action('admin_post_dfes_bulk_delete', 'dfes_handle_bulk_delete');
+
+
+
 
 // =============================
 // SMS Gateway

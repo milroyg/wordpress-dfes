@@ -89,7 +89,7 @@ function dfes_api_create_tables() {
     // 👥 Contacts Table
     $contacts_table = $prefix . 'dfes_contacts';
     $sql2 = "CREATE TABLE $contacts_table (
-        id BIGINT(20) NOT NULL AUTO_INCREMENT,
+        id BIGINT(20)  NOT NULL AUTO_INCREMENT,
         name VARCHAR(100) NOT NULL,
         phone_number VARCHAR(20) NOT NULL,
         email VARCHAR(150) DEFAULT NULL,
@@ -113,6 +113,8 @@ $sql3 = "CREATE TABLE $stations_table (
     dbDelta($sql1);
     dbDelta($sql2);
     dbDelta($sql3);
+    
+    
 }
 
 
@@ -140,28 +142,6 @@ function dfes_api_create_log_table() {
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql);
 }
-
-// function dfes_api_seed_default_options() {
-//     $defaults = array(
-//         // HydGW defaults
-//         'hydgw_username'        => '',
-//         'hydgw_password'        => '',
-//         'hydgw_senderid'        => 'GOFIRE',
-//         'hydgw_dlt_entity_id'   => '',
-//         'hydgw_dlt_template_id' => '',
-//         'hydgw_route'           => '',
-//         'hydgw_base_url'        => 'https://hydgw.sms.gov.in/failsafe/MLink',
-
-//         // Other defaults
-//         'notify_all'            => 0,
-//         'logging_enabled'       => 1,
-//         'active_gateway'        => 'hydgw', // ✅ new: mark which gateway is active
-//     );
-
-//     $current = get_option('dfes_settings', array());
-//     update_option('dfes_settings', wp_parse_args($current, $defaults));
-// }
-
 
 // =============================
 // 4️⃣ REWRITE RULES & QUERY VARS
@@ -486,7 +466,7 @@ function dfes_api_fetch_live_calls(WP_REST_Request $request) {
     $retitled = array_map(function($row) {
         return [
             'dsr_id'      => $row['dsr_id'],
-            'date'        => $row['date'],
+            'date' => !empty($row['date']) ? date('d-m-Y', $row['date']) : null,
             'outtime'     => $row['outtime'],
             'intime'      => $row['intime'],
             'station'     => $row['station'],
