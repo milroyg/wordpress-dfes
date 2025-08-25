@@ -45,28 +45,29 @@ class CoolTimelinePosttypeFree {
 			'not_found'          => __( 'Not found', 'cool-timeline' ),
 			'not_found_in_trash' => __( 'Not found in Trash', 'cool-timeline' ),
 		);
-		$args   = array(
-			'label'               => __( 'cool_timeline', 'cool-timeline' ),
-			'description'         => __( 'Timeline Post Type Description', 'cool-timeline' ),
-			'labels'              => $labels,
-			'supports'            => array( 'title', 'editor', 'thumbnail' ),
-			'taxonomies'          => array(),
-			'hierarchical'        => false,
-			'public'              => true,
-			'show_ui'             => true,
-			'show_in_menu'        => 'cool-plugins-timeline-addon',
-			'menu_position'       => 5,
-			'show_in_admin_bar'   => true,
-			'show_in_nav_menus'   => true,
-			'can_export'          => true,
-			'has_archive'         => true,
-			'exclude_from_search' => false,
-			'show_in_rest' => true,
-			'publicly_queryable'  => true,
-			'capability_type'     => 'page',
-			'menu_icon'           => CTL_PLUGIN_URL . 'assets/images/timeline-icon-small.png',
-		);
-		register_post_type( 'cool_timeline', $args );
+	$args = array(
+		'label'               => __( 'cool_timeline', 'cool-timeline' ),
+		'description'         => __( 'Timeline Stories Post Type', 'cool-timeline' ),
+		'labels'              => $labels,
+		'supports'            => array( 'title', 'editor', 'thumbnail' ),
+		'hierarchical'        => false,
+		'public'              => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true, // 👈 Makes it a top-level menu
+		'menu_position'       => 25,   // 👈 Choose a good visible position
+		'menu_icon'           => CTL_PLUGIN_URL . 'assets/images/timeline-icon-small.png',
+		'show_in_admin_bar'   => true,
+		'show_in_nav_menus'   => true,
+		'can_export'          => true,
+		'has_archive'         => true,
+		'exclude_from_search' => false,
+		'publicly_queryable'  => true,
+		'capability_type'     => 'page',
+		'map_meta_cap'        => true,
+	);
+
+	register_post_type( 'cool_timeline', $args );
+
 	}
 
 	// custom columns for all stories
