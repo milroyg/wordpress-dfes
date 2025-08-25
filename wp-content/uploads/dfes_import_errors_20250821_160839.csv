@@ -1,7 +1,0 @@
-name,phone_number,email,station,status,Remarks
-"John Doe",9876543210,john.doe@example.com,"Panaji,Mapusa",Active,"DB insert failed"
-"Jane Smith",1234567890,jane.smithexample.com,"Mapusa,Panaji,Vasco",Active,"Invalid email"
-"Alex Johnson",9876543210,alex.johnson@gmail.com,"Mapusa,Panaji,Vasco",Inactive,"DB insert failed"
-"Maria Cruz",9876543211,maria.cruz@domain.com,"Mapusa,Panaji,Vasco",Active,"DB insert failed"
-"Test User",98765abcd0,test.user@example.com,Pilerne,Inactive,"Invalid phone number"
-Duplicate,9876543210,john.doe@example.com,Panaji,Active,"DB insert failed"

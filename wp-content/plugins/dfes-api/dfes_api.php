@@ -264,7 +264,7 @@ function dfes_send_notifications_async($payload, $scheduled_at) {
     // Compose one message
     $message = "Fire Station: $station\nTime: $outtime\nIncident: $activity_live\nNear: $near\nAt: $at\nArea: $village\nDFES,Goa.";
 
-    $contacts = dfes_get_contacts_for_station($station, $notify_all);
+    $contacts = dfes_get_contacts_for_station($station, false);
 
     if (!$contacts) {
         dfes_log_notification_event('system', 'none', $station, $dsr_id, $message, 'error', 'No contacts found for notification criteria.');
@@ -290,25 +290,14 @@ function dfes_send_notifications_async($payload, $scheduled_at) {
  * 
  * 
  */
-function dfes_get_contacts_for_station($station, $notify_all = false) {
+function dfes_get_contacts_for_station($station) {
     global $wpdb;
     $contacts_table = $wpdb->prefix . 'dfes_contacts';
     $stations_table = $wpdb->prefix . 'dfes_contact_stations';
 
-    if ($notify_all) {
-        // If notify all, send to all active contacts (with any station)
-        return $wpdb->get_results(
-            "SELECT c.*
-             FROM $contacts_table c
-             WHERE c.status = 1",
-            ARRAY_A
-        );
-    }
-
-    // Station-specific: join with stations table
     return $wpdb->get_results(
         $wpdb->prepare(
-            "SELECT c.*
+            "SELECT c.* 
              FROM $contacts_table c
              INNER JOIN $stations_table s ON c.id = s.contact_id
              WHERE c.status = 1 AND s.station = %s",
@@ -317,6 +306,7 @@ function dfes_get_contacts_for_station($station, $notify_all = false) {
         ARRAY_A
     );
 }
+
 
 // -----------------------------
 // Seed Default Options
@@ -327,7 +317,6 @@ function dfes_api_seed_default_options() {
     $defaults = [
         'active'   => '',
         'gateways' => [],
-        'notify_all'       => 0,    // Send to all recipients? (0 = no, 1 = yes)
         'logging_enabled'  => 1 
     ];
 
