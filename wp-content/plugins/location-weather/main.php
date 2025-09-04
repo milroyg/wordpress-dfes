@@ -13,7 +13,7 @@
  * Plugin URI:        https://locationweather.io/?ref=1
  * Author:            ShapedPlugin LLC
  * Author URI:        https://shapedplugin.com/
- * Version:           2.1.0
+ * Version:           2.1.3
  * Requires at least: 5.0
  * Requires PHP:      7.4
  * License:           GPL v2 or later
@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'LOCATION_WEATHER_FILE', __FILE__ );
 define( 'LOCATION_WEATHER_URL', plugins_url( '', LOCATION_WEATHER_FILE ) );
 define( 'LOCATION_WEATHER_ASSETS', LOCATION_WEATHER_URL . '/assets' );
-define( 'LOCATION_WEATHER_VERSION', '2.1.0' );
+define( 'LOCATION_WEATHER_VERSION', '2.1.3' );
 
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
 if ( ! ( is_plugin_active( 'location-weather-pro/main.php' ) || is_plugin_active_for_network( 'location-weather-pro/main.php' ) ) ) {
@@ -55,7 +55,7 @@ final class Location_Weather {
 	 *
 	 * @var string
 	 */
-	public $version = '2.1.0';
+	public $version = '2.1.3';
 
 	/**
 	 * The unique slug of this plugin.
@@ -322,7 +322,7 @@ final class Location_Weather {
 		wp_register_script( 'splw-old-script', LOCATION_WEATHER_ASSETS . '/js/Old-locationWeather' . $this->suffix . '.js', array( 'jquery' ), LOCATION_WEATHER_VERSION, true );
 		wp_register_script( 'splw-scripts', LOCATION_WEATHER_ASSETS . '/js/lw-scripts' . $this->suffix . '.js', array( 'jquery' ), LOCATION_WEATHER_ASSETS, true );
 		wp_localize_script(
-			'splw-old-script',
+			'splw-scripts',
 			'splw_ajax_object',
 			array(
 				'ajax_url'        => admin_url( 'admin-ajax.php' ),
@@ -350,10 +350,12 @@ final class Location_Weather {
 		}
 
 		if ( 'location_weather' === $post->post_type ) {
-			$current_cache_key     = 'sp_open_weather_data' . $post_ID;
-			$weather_api_cache_key = 'sp_weather_api_data_' . $post_ID;
+			$current_cache_key         = 'sp_open_weather_data' . $post_ID;
+			$weather_api_cache_key     = 'sp_weather_api_data_' . $post_ID;
+			$hourly_forecast_cache_key = 'sp_open_weather_hourly_forecast_data' . $post_ID;
 			$this->splw_delete_transient( $current_cache_key );
 			$this->splw_delete_transient( $weather_api_cache_key );
+			$this->splw_delete_transient( $hourly_forecast_cache_key );
 		}
 	}
 	/**

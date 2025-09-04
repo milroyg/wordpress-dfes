@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace MasterHeaderFooter\Theme_Hooks;
 use MasterHeaderFooter\Master_Header_Footer;
 
@@ -15,11 +15,11 @@ class Hello_Elementor {
 		if($template_ids[0] != null){
 			add_action( 'get_header', [ $this, 'jltma_get_header' ] );
 		}
-		
+
 		if($template_ids[1] != null){
 			add_action( 'get_footer', [ $this, 'jltma_get_footer' ] );
 		}
-		
+
 		if($template_ids[2] != null){
 			add_filter( 'comments_template', [ $this, 'jltma_get_comment_form' ] );
 		}
@@ -30,17 +30,17 @@ class Hello_Elementor {
 
 
 	public function jltma_get_comment_form( $comment_template ){
-        
+
         ob_start();
-        
+
         return JLTMA_PLUGIN_PATH . '/inc/view/theme-support-comment.php';
-		
+
 		ob_get_clean();
 	}
 
 
 	public function jltma_get_header( $name ) {
-		
+
 		require JLTMA_PLUGIN_PATH . '/inc/view/theme-support-header.php';
 
 
@@ -62,7 +62,7 @@ class Hello_Elementor {
 
 
 	public function jltma_get_footer( $name ) {
-		
+
 		require JLTMA_PLUGIN_PATH . '/inc/view/theme-support-footer.php';
 
 		$templates = [];
@@ -79,6 +79,5 @@ class Hello_Elementor {
 		ob_get_clean();
 	}
 
-	
-}
 
+}

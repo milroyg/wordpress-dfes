@@ -4,11 +4,10 @@ namespace MasterAddons\Inc\Helper;
 
 use Elementor\Utils;
 use Elementor\Icons_Manager;
+use MasterAddons\Inc\Classes\Pro_Upgrade;
 
 class Master_Addons_Helper
 {
-
-
 
 	/**
 	 * Remove spaces from Plugin Slug
@@ -45,6 +44,24 @@ class Master_Addons_Helper
 		}
 
 		return new \DateTimeZone(self::jltma_wp_timezone_string());
+	}
+	public static function jltma_load_svg( $icon ) {
+
+		if ( ! file_exists( $icon ) ) {
+			return false;
+		}
+
+		ob_start();
+
+		include $icon;
+
+		$svg = ob_get_clean();
+
+		return $svg;
+	}
+
+	public static function get_plugin_name($full = false) {
+		return class_exists('\MasterAddons\Inc\Classes\Master_Addons_White_Label') ? \MasterAddons\Inc\Classes\Master_Addons_White_Label::get_plugin_name($full) : __('Master Addons', 'master-addons');
 	}
 
 	/**
@@ -1103,11 +1120,11 @@ class Master_Addons_Helper
 					if ($excerpt_icon_align == "left") {
 						array_push($words, '<br> <a href="' . get_permalink(
 							$post_id
-						) . '" class="ma-el-post-btn"> <i class="' . esc_attr($excerpt_icon) . '"></i>' . esc_html($exceprt_text) . '</a>');
+						) . '" class="jltma-post-btn"> <i class="' . esc_attr($excerpt_icon) . '"></i>' . esc_html($exceprt_text) . '</a>');
 					} elseif ($excerpt_icon_align == "right") {
-						array_push($words, '<br> <a href="' . get_permalink($post_id) . '" class="ma-el-post-btn">' . esc_html($exceprt_text) . ' <i class="' . esc_attr($excerpt_icon) . '"></i></a>');
+						array_push($words, '<br> <a href="' . get_permalink($post_id) . '" class="jltma-post-btn">' . esc_html($exceprt_text) . ' <i class="' . esc_attr($excerpt_icon) . '"></i></a>');
 					} else {
-						array_push($words, '<br> <a href="' . get_permalink($post_id) . '" class="ma-el-post-btn">' . esc_html($exceprt_text) . '</a>');
+						array_push($words, '<br> <a href="' . get_permalink($post_id) . '" class="jltma-post-btn">' . esc_html($exceprt_text) . '</a>');
 					}
 				}
 			}
@@ -1556,6 +1573,27 @@ class Master_Addons_Helper
 		return $url;
 	}
 
+	public static function jltma_blend_options() {
+		$blend_options = [
+			'multiply'    => esc_html__( 'Multiply', 'master-addons' ),
+			'screen'      => esc_html__( 'Screen', 'master-addons' ),
+			'overlay'     => esc_html__( 'Overlay', 'master-addons' ),
+			'darken'      => esc_html__( 'Darken', 'master-addons' ),
+			'lighten'     => esc_html__( 'Lighten', 'master-addons' ),
+			'color-dodge' => esc_html__( 'Color-Dodge', 'master-addons' ),
+			'color-burn'  => esc_html__( 'Color-Burn', 'master-addons' ),
+			'hard-light'  => esc_html__( 'Hard-Light', 'master-addons' ),
+			'soft-light'  => esc_html__( 'Soft-Light', 'master-addons' ),
+			'difference'  => esc_html__( 'Difference', 'master-addons' ),
+			'exclusion'   => esc_html__( 'Exclusion', 'master-addons' ),
+			'hue'         => esc_html__( 'Hue', 'master-addons' ),
+			'saturation'  => esc_html__( 'Saturation', 'master-addons' ),
+			'color'       => esc_html__( 'Color', 'master-addons' ),
+			'luminosity'  => esc_html__( 'Luminosity', 'master-addons' ),
+		];
+
+		return $blend_options;
+	}
 
 	public static function jltma_carousel_navigation_position()
 	{
@@ -2075,7 +2113,7 @@ class Master_Addons_Helper
 		else :
 			$return = substr(get_the_excerpt(), 0, $excerpt);
 			if ($readmore == 'on') :
-				$return .= '<a class="article-read-more" href="' . get_permalink($post->ID) . '" ' . $css_link . '>' . esc_html__('Read More', 'elementorwidgetsmegapack') . '</a>';
+				$return .= '<a class="article-read-more" href="' . get_permalink($post->ID) . '" ' . $css_link . '>' . esc_html__('Read More', 'master-addons') . '</a>';
 			else :
 				$return .= '...';
 			endif;
@@ -2089,9 +2127,9 @@ class Master_Addons_Helper
 	{
 
 		$return = '<div class="container-social">
-			<a target="_blank" href="http://www.facebook.com/sharer.php?u=' . get_the_permalink() . '&amp;t=' . get_the_title() . '" title="' . esc_html__('Click to share this post on Facebook', 'elementorwidgetsmegapack') . '" ' . $css_link . '><i class="fa fa-facebook"></i></a>
-			<a target="_blank" href="http://twitter.com/home?status=' . get_the_permalink() . '" title="' . esc_html__('Click to share this post on Twitter', 'elementorwidgetsmegapack') . '"><i class="fa fa-twitter" ' . $css_link . '></i></a>
-			<a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=' . get_the_permalink() . '" title="' . esc_html__('Click to share this post on Linkedin', 'elementorwidgetsmegapack') . '"><i class="fa fa-linkedin" ' . $css_link . '></i></a></div>';
+			<a target="_blank" href="http://www.facebook.com/sharer.php?u=' . get_the_permalink() . '&amp;t=' . get_the_title() . '" title="' . esc_html__('Click to share this post on Facebook', 'master-addons') . '" ' . $css_link . '><i class="fa fa-facebook"></i></a>
+			<a target="_blank" href="http://twitter.com/home?status=' . get_the_permalink() . '" title="' . esc_html__('Click to share this post on Twitter', 'master-addons') . '"><i class="fa fa-twitter" ' . $css_link . '></i></a>
+			<a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=' . get_the_permalink() . '" title="' . esc_html__('Click to share this post on Linkedin', 'master-addons') . '"><i class="fa fa-linkedin" ' . $css_link . '></i></a></div>';
 
 		return $return;
 	}
@@ -2178,5 +2216,86 @@ class Master_Addons_Helper
 		} else {
 			return $jltma_string;
 		}
+	}
+
+
+	public static function jltma_pro_notice_html() {
+
+		ob_start();
+		$upgrade_data = new Pro_Upgrade();
+		// $image_url = esc_url($upgrade_data->get_content('image_url')),
+		// pretty_log( 'Data Looking for ',  $upgrade_data->slug);
+
+		// return sprintf(
+		// 	'<div class="jltma-pro-notice">
+		// 		<img src="%s" alt="%s" />
+		// 		<div class="jltma-pro-notice-content">
+		// 			<h4>%s</h4>
+		// 			<a target="__blank" rel="nofollow" class="elementor-button elementor-button-default" href="%s">%s</a>
+		// 		</div>
+		// 	</div>',
+		// 	esc_url_raw( JLTMA_IMAGE_DIR . 'promo-image.png' ),
+		// 	esc_attr(__('Upgrade Notice', 'master-addons')),
+		// 	__('Upgrade to premium plan and unlock every feature!', 'master-addons'),
+		// 	esc_url('https://master-addons.com/pricing'),
+		// 	__('Upgrade Master Addons', 'master-addons')
+		// );
+
+		// $banner_image = '';
+		// if(!empty($upgrade_data->get_content('image_url'))) {
+			// $banner_image = $upgrade_data->get_content('image_url');
+		// } else {
+			$banner_image = JLTMA_IMAGE_DIR . 'promo-image.png';
+		// }
+
+
+		$notice_html = '<div class="jltma-upgrade-banner" id="jltma-upgrade-banner">
+
+			<div class="jltma-upgrade-banner-overlay"></div>
+
+			<div class="jltma-upgrade-banner-modal" style="background-image: url(' . $banner_image . '); --jltma-upgrade-banner-color: ' . esc_attr($upgrade_data->get_content('btn_color')) . ';">
+
+				<!-- content section  -->
+				<div class="jltma-upgrade-banner-modal-footer">
+
+					<!-- countdown  -->
+					<div class="jltma-upgrade-banner-countdown" >';
+
+				//  if (!empty($upgrade_data->get_content('notice'))) {
+					$notice_html .=	"<span data-counter='notice' style='color:#F4B740; font-size:14px; padding-bottom:20px; font-style:italic;'>" . esc_html__('Notice:', 'master-addons') . " " . $upgrade_data->get_content('notice') . "</span>";
+				// }
+
+				$notice_html .=	'<span class="jltma-upgrade-banner-countdown-text">' . esc_html__('Offer Ends In', 'master-addons') . '</span>
+						<div class="jltma-upgrade-banner-countdown-time">
+							<div>
+								<span data-counter="days">00</span>
+								<span>' . esc_html__('Days', 'master-addons') . '</span>
+							</div>
+							<span>:</span>
+							<div>
+								<span data-counter="hours">00</span>
+								<span>' . esc_html__('Hours', 'master-addons') . '</span>
+							</div>
+							<span>:</span>
+							<div>
+								<span data-counter="minutes">00</span>
+								<span>' . esc_html__('Minutes', 'master-addons') . '</span>
+							</div>
+							<span>:</span>
+							<div>
+								<span data-counter="seconds">00</span>
+								<span>' . esc_html__('Seconds', 'master-addons') . '</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- button  -->
+					<a class="jltma-upgrade-banner-button" target="_blank" href="' . esc_url($upgrade_data->get_content('button_url')) . '">' . esc_html($upgrade_data->get_content('button_text')) . '</a>
+				</div>
+			</div>
+		</div>';
+
+		return $notice_html;
+		ob_get_clean();
 	}
 }

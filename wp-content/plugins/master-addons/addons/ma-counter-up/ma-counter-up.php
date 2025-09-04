@@ -139,21 +139,13 @@ class JLTMA_Counter_Up extends Widget_Base
 		);
 
 		$repeater->add_control(
-			'number',
-			[
-				'type'    => Controls_Manager::NUMBER,
-				'label'   => esc_html__('Number', 'master-addons' ),
-				'default' => 123456,
-			]
-		);
-
-		$repeater->add_control(
 			'number_prefix',
 			[
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
 				'label'       => esc_html__('Number Prefix', 'master-addons' ),
-				'placeholder' => '1',
+				'placeholder' => '',
+				'default'     => '',
 			]
 		);
 
@@ -163,9 +155,19 @@ class JLTMA_Counter_Up extends Widget_Base
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
 				'label'       => esc_html__('Number Suffix', 'master-addons' ),
-				'placeholder' => '1',
+				'default'     => '+',
 			]
 		);
+
+		$repeater->add_control(
+			'number',
+			[
+				'type'    => Controls_Manager::NUMBER,
+				'label'   => esc_html__('Number', 'master-addons' ),
+				'default' => 123456,
+			]
+		);
+
 
 		$repeater->add_control(
 			'background',

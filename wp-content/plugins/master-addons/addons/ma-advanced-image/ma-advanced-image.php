@@ -1627,13 +1627,15 @@ class JLTMA_Advanced_Image extends Widget_Base
 						</div>
 					<?php } ?>
 
-
+           <?php if ($this->ma_el_is_true($lightbox)) { ?>
 					<?php if ('plus' == $icon && empty($image_secondary)) { ?>
 						<div class='jltma-hover-scale-circle-plus'>
 							<span class='jltma-symbol-plus'></span>
 							<span class='jltma-symbol-circle'></span>
 						</div>
 					<?php } ?>
+					<?php } ?>
+
 
 					<?php if (!empty($image_secondary)) { ?>
 						<div class="jltma-image-holder jltma-image-has-secondary">
@@ -1685,11 +1687,11 @@ class JLTMA_Advanced_Image extends Widget_Base
 			'attach_id_hover'  => Master_Addons_Helper::jltma_get_array_value($settings['ma_el_adv_image_hover_image'], 'id'),
 
 			'display_ribbon'   => esc_attr($settings['ma_el_adv_image_display_ribbon']),
-			'ribbon_text'      => $this->parse_text_editor($settings['ma_el_adv_image_ribbon_text']),
+			'ribbon_text'      => $this->parse_text_editor( $settings['ma_el_adv_image_ribbon_text'] ?? ''),
 			'ribbon_style'     => !empty($settings['ma_el_adv_image_ribbon_style']) ? esc_attr($settings['ma_el_adv_image_ribbon_style']) : 'simple',
 			'ribbon_position'  => !empty($settings['ma_el_adv_image_ribbon_position']) ? esc_attr($settings['ma_el_adv_image_ribbon_position']) : 'top-right',
 			'colorized_shadow' => !empty($settings['ma_el_adv_image_colorized_shadow']) ? esc_attr($settings['ma_el_adv_image_colorized_shadow']) : true,
-			'lightbox'         => !empty($settings['ma_el_adv_image_settings_lightbox']) ? esc_attr($settings['ma_el_adv_image_settings_lightbox']) : true,
+			'lightbox'         => !empty($settings['ma_el_adv_image_settings_lightbox']) ? esc_attr($settings['ma_el_adv_image_settings_lightbox']) : 'no',
 			'icon'             => !empty($settings['ma_el_adv_image_settings_icon']) ? esc_attr($settings['ma_el_adv_image_settings_icon']) : 'plus',
 			'preloadable'      => !empty($settings['ma_el_adv_image_settings_preloadable']) ? esc_attr($settings['ma_el_adv_image_settings_preloadable']) : false,
 			'preload_preview'  => !empty($settings['ma_el_adv_image_settings_preload_preview']) ? esc_attr($settings['ma_el_adv_image_settings_preload_preview']) : true,

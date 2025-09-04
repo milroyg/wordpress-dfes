@@ -136,6 +136,11 @@ if ( !class_exists( 'Master_Elementor_Addons' ) ) {
             self::activated_extensions();
             self::activated_third_party_plugins();
             self::activated_icons_library();
+            // Current Master Addons Version
+            $current_version = get_option( '_master_addons_version', null );
+            if ( is_null( $current_version ) ) {
+                update_option( '_master_addons_version', JLTMA_VER );
+            }
             $jltma_white_label_setting = jltma_get_options( 'jltma_white_label_settings' ) ?? [];
             if ( !empty( $jltma_white_label_setting ) && isset( $jltma_white_label_setting['jltma_wl_plugin_tab_white_label'] ) ) {
                 $jltma_white_label_setting['jltma_wl_plugin_tab_white_label'] = 0;
@@ -197,6 +202,9 @@ if ( !class_exists( 'Master_Elementor_Addons' ) ) {
             //Defined Constants
             if ( !defined( 'JLTMA_BADGE' ) ) {
                 define( 'JLTMA_BADGE', '<span class="jltma-badge"></span>' );
+            }
+            if ( !defined( 'JLTMA_EXTENSION_BADGE' ) ) {
+                define( 'JLTMA_EXTENSION_BADGE', '<span class="jltma-icon-ma"></span>' );
             }
             if ( !defined( 'JLTMA_NEW_FEATURE' ) ) {
                 define( 'JLTMA_NEW_FEATURE', '<span class="jltma-new-feature"></span>' );
@@ -269,7 +277,7 @@ if ( !class_exists( 'Master_Elementor_Addons' ) ) {
 
         function jltma_add_category_to_editor( $widgets_manager ) {
             $widgets_manager->add_category( 'master-addons', [
-                'title' => esc_html__( 'Master Addonsss', 'master-addons' ),
+                'title' => esc_html__( 'Master Addons', 'master-addons' ),
                 'icon'  => 'font',
             ], 1 );
         }
@@ -299,6 +307,7 @@ if ( !class_exists( 'Master_Elementor_Addons' ) ) {
         // Extensions
         public static function activated_extensions() {
             $jltma_default_extensions_settings = array_fill_keys( Master_Addons_Admin_Settings::jltma_addons_extensions_array(), true );
+            $jltma_default_extensions_settings['mega-menu'] = 0;
             $jltma_get_extension_settings = get_option( 'ma_el_extensions_save_settings', $jltma_default_extensions_settings );
             $jltma_new_extension_settings = array_diff_key( $jltma_default_extensions_settings, $jltma_get_extension_settings );
             $jltma_updated_extension_settings = array_merge( $jltma_get_extension_settings, $jltma_new_extension_settings );
@@ -335,20 +344,6 @@ if ( !class_exists( 'Master_Elementor_Addons' ) ) {
             return $jltma_get_icons_library_settings;
         }
 
-        // public function jltma_add_actions_to_elementor()
-        // {
-        // 	$classes = glob(JLTMA_PATH . '/inc/classes/JLTMA_*.php');
-        // 	// include all classes
-        // 	foreach ($classes as $key => $value) {
-        // 		require_once $value;
-        // 	}
-        // 	// instance all classes
-        // 	foreach ($classes as $key => $value) {
-        // 		$name = pathinfo($value, PATHINFO_FILENAME);
-        // 		$class = self::$class_namespace . $name;
-        // 		$this->jltma_classes[strtolower($name)] = new $class();
-        // 	}
-        // }
         /**
          * Load all extension classes and instance them.
          *
@@ -616,6 +611,8 @@ if ( !class_exists( 'Master_Elementor_Addons' ) ) {
 
         // Include Files
         public function jltma_include_files() {
+            // Base Class
+            // include_once JLTMA_PATH . '/inc/classes/Base/Base.php';
             // Helper Class
             include_once JLTMA_PATH . '/inc/classes/helper-class.php';
             // Assets Manager

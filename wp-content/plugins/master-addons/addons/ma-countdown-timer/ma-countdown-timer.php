@@ -66,22 +66,7 @@ class JLTMA_Countdown_Timer extends Widget_Base
 		$this->start_controls_section(
 			'ma_el_section_countdown_settings_general',
 			[
-				'label' => esc_html__('Timer Settings', 'master-addons' )
-			]
-		);
-
-		$this->add_control(
-			'ma_el_countdown_style',
-			[
-				'label'   => esc_html__('Style', 'master-addons' ),
-				'type'    => Controls_Manager::SELECT,
-				'default' => 'block',
-				'options' => [
-					'block'         => esc_html__('Block', 'master-addons' ),
-					'inline'        => esc_html__('Inline', 'master-addons' ),
-					'block-table'   => esc_html__('Block Table', 'master-addons' ),
-					'inline-table+' => esc_html__('Inline Table', 'master-addons' ),
-				],
+				'label' => esc_html__('Timer', 'master-addons' )
 			]
 		);
 
@@ -96,12 +81,40 @@ class JLTMA_Countdown_Timer extends Widget_Base
 			]
 		);
 
+		$this->end_controls_section();
+
+
+		$this->start_controls_section(
+			'ma_el_countdown_settings_general',
+			[
+				'label' => esc_html__('Countdown Settings', 'master-addons' )
+			]
+		);
+
+		$this->add_control(
+			'ma_el_countdown_style',
+			[
+				'label'   => esc_html__('Style Preset', 'master-addons' ),
+				'type'    => Controls_Manager::SELECT,
+				'default' => 'block',
+				'options' => [
+					'block'         => esc_html__('Block', 'master-addons' ),
+					'inline'        => esc_html__('Inline', 'master-addons' ),
+					'block-table'   => esc_html__('Block Table', 'master-addons' ),
+					'inline-table+' => esc_html__('Inline Table', 'master-addons' ),
+				],
+			]
+		);
+
 		$this->add_control(
 			'ma_el_seperator',
 			array(
 				'label'   => __('Seperator', 'master-addons' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => '/'
+				'default' => '/',
+				'condition'   => [
+					'ma_el_countdown_style!' => 'inline-table+',
+				],
 			)
 		);
 
@@ -109,55 +122,107 @@ class JLTMA_Countdown_Timer extends Widget_Base
 		$this->add_control(
 			'ma_el_show_year',
 			array(
-				'label'        => __('Display Years', 'master-addons' ),
+				'label'        => __('Show Years?', 'master-addons' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => __('On', 'master-addons' ),
 				'label_off'    => __('Off', 'master-addons' ),
 				'return_value' => '1',
 				'default'      => '1'
+			)
+		);
+
+		$this->add_control(
+			'ma_el_label_year',
+			array(
+				'label'        => __('Years Label', 'master-addons' ),
+				'type'         => Controls_Manager::TEXT,
+				'default' => esc_html__( 'Years', 'master-addons' ),
+				'description' => __('Set the label for years.', 'master-addons'),
+				'condition'   => [
+					'ma_el_show_year' => '1',
+				],
 			)
 		);
 
 		$this->add_control(
 			'ma_el_show_month',
 			array(
-				'label'        => __('Display Month', 'master-addons' ),
+				'label'        => __('Show Month?', 'master-addons' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => __('On', 'master-addons' ),
 				'label_off'    => __('Off', 'master-addons' ),
 				'return_value' => '1',
 				'default'      => '1'
+			)
+		);
+
+		$this->add_control(
+			'ma_el_label_month',
+			array(
+				'label'        => __('Month Label', 'master-addons' ),
+				'type'         => Controls_Manager::TEXT,
+				'default' => esc_html__( 'Month', 'master-addons' ),
+				'description' => __('Set the label for month.', 'master-addons'),
+				'condition'   => [
+					'ma_el_show_month' => '1',
+				],
 			)
 		);
 
 		$this->add_control(
 			'ma_el_show_day',
 			array(
-				'label'        => __('Display Days', 'master-addons' ),
+				'label'        => __('Show Days?', 'master-addons' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => __('On', 'master-addons' ),
 				'label_off'    => __('Off', 'master-addons' ),
 				'return_value' => '1',
 				'default'      => '1'
+			)
+		);
+
+		$this->add_control(
+			'ma_el_label_day',
+			array(
+				'label'        => __('Days Label', 'master-addons' ),
+				'type'         => Controls_Manager::TEXT,
+				'default' => esc_html__( 'Days', 'master-addons' ),
+				'description' => __('Set the label for days.', 'master-addons'),
+				'condition'   => [
+					'ma_el_show_day' => '1',
+				],
 			)
 		);
 
 		$this->add_control(
 			'ma_el_show_hour',
 			array(
-				'label'        => __('Display Hours', 'master-addons' ),
+				'label'        => __('Show Hours?', 'master-addons' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => __('On', 'master-addons' ),
 				'label_off'    => __('Off', 'master-addons' ),
 				'return_value' => '1',
 				'default'      => '1'
+			)
+		);
+
+		$this->add_control(
+			'ma_el_label_hour',
+			array(
+				'label'        => __('Hour Label', 'master-addons' ),
+				'type'         => Controls_Manager::TEXT,
+				'default' => esc_html__( 'Hours', 'master-addons' ),
+				'description' => __('Set the label for hours.', 'master-addons'),
+				'condition'   => [
+					'ma_el_show_hour' => '1',
+				],
 			)
 		);
 
 		$this->add_control(
 			'ma_el_show_min',
 			array(
-				'label'        => __('Display Minutes', 'master-addons' ),
+				'label'        => __('Show Minutes?', 'master-addons' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => __('On', 'master-addons' ),
 				'label_off'    => __('Off', 'master-addons' ),
@@ -167,9 +232,22 @@ class JLTMA_Countdown_Timer extends Widget_Base
 		);
 
 		$this->add_control(
+			'ma_el_label_min',
+			array(
+				'label'        => __('Minutes Label', 'master-addons' ),
+				'type'         => Controls_Manager::TEXT,
+				'default' => esc_html__( 'Minutes', 'master-addons' ),
+				'description' => __('Set the label for minutes.', 'master-addons'),
+				'condition'   => [
+					'ma_el_show_min' => '1',
+				],
+			)
+		);
+
+		$this->add_control(
 			'ma_el_show_sec',
 			array(
-				'label'        => __('Display Seconds', 'master-addons' ),
+				'label'        => __('Show Seconds?', 'master-addons' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => __('On', 'master-addons' ),
 				'label_off'    => __('Off', 'master-addons' ),
@@ -178,6 +256,87 @@ class JLTMA_Countdown_Timer extends Widget_Base
 			)
 		);
 
+		$this->add_control(
+			'ma_el_label_sec',
+			array(
+				'label'        => __('Seconds Label', 'master-addons' ),
+				'type'         => Controls_Manager::TEXT,
+				'default' => esc_html__( 'Seconds', 'master-addons' ),
+				'description' => __('Set the label for seconds.', 'master-addons'),
+				'condition'   => [
+					'ma_el_show_sec' => '1',
+				],
+			)
+		);
+
+		$this->end_controls_section();
+
+
+		/*
+			 * Countdown Timer Styling Section
+			 */
+
+		$this->start_controls_section(
+			'ma_el_section_countdown_item_wrapper',
+			[
+				'label' => esc_html__('Common Style', 'master-addons' ),
+				'tab'   => Controls_Manager::TAB_STYLE
+			]
+		);
+
+		$this->add_control(
+			'jltma_countdown_item_width',
+			[
+				'label' => esc_html__( 'Width', 'master-addons' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 1000,
+						'step' => 5,
+					],
+					'%' => [
+						'min' => 0,
+						'max' => 100,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => '',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .jltma-countdown-wrapper .jltma-countdown-item' => 'width: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);		
+		
+		$this->add_control(
+			'jltma_countdown_item_height',
+			[
+				'label' => esc_html__( 'Height', 'master-addons' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 1000,
+						'step' => 5,
+					],
+					'%' => [
+						'min' => 0,
+						'max' => 100,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => '',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .jltma-countdown-wrapper .jltma-countdown-item' => 'height: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
 
 		$this->add_responsive_control(
 			'ma_el_countdown_alignment',
@@ -192,18 +351,13 @@ class JLTMA_Countdown_Timer extends Widget_Base
 				],
 			]
 		);
-		$this->end_controls_section();
 
-
-		/*
-			 * Countdown Timer Styling Section
-			 */
-
-		$this->start_controls_section(
-			'ma_el_section_countdown_item_wrapper',
+		$this->add_group_control(
+			Group_Control_Box_Shadow::get_type(),
 			[
-				'label' => esc_html__('Item Wrapper', 'master-addons' ),
-				'tab'   => Controls_Manager::TAB_STYLE
+				'name' => 'jltma_section_item_box_shadow',
+				'label'    => __('Box Shadow', 'master-addons' ),
+				'selector' => '{{WRAPPER}} .jltma-countdown-wrapper .jltma-countdown-item',
 			]
 		);
 
@@ -264,12 +418,171 @@ class JLTMA_Countdown_Timer extends Widget_Base
 		$this->start_controls_section(
 			'ma_el_value_style_section',
 			array(
-				'label' => __('Value', 'master-addons' ),
+				'label' => __('Counter Style', 'master-addons' ),
 				'tab'   => Controls_Manager::TAB_STYLE
 			)
 		);
 
-		$this->start_controls_tabs('ma_el_value_colors');
+
+	// Year Item
+		$this->add_control(
+			'jltma_countdown_item_yrs_bg_heading',
+			[
+				'label' => __('Years Background', 'master-addons'),
+				'type' => Controls_Manager::HEADING,
+				'condition'   => [
+					'ma_el_show_year' => '1',
+				],				
+			]
+		);
+		$this->add_group_control(
+			Group_Control_Background::get_type(),
+			[
+				'name'     => 'jltma_countdown_item_yrs_bg',
+				'label'    => __('Years Background', 'master-addons' ),
+				'types'    => ['classic', 'gradient'],
+				'separator' => 'after',
+				'condition'   => [
+					'ma_el_show_year' => '1',
+				],
+				'selector' => '{{WRAPPER}} .jltma-countdown-wrapper .jltma-countdown-item-year'
+			]
+		);
+
+		// Month Item
+		$this->add_control(
+			'jltma_countdown_item_month_bg_heading',
+			[
+				'label' => __('Month Background', 'master-addons'),
+				'type' => Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition'   => [
+					'ma_el_show_month' => '1',
+				],				
+			]
+		);
+		$this->add_group_control(
+			Group_Control_Background::get_type(),
+			[
+				'name'     => 'jltma_countdown_item_month_bg',
+				'label'    => __('Month Background', 'master-addons' ),
+				'types'    => ['classic', 'gradient'],
+				'separator' => 'after',
+				'condition'   => [
+					'ma_el_show_month' => '1',
+				],
+				'selector' => '{{WRAPPER}} .jltma-countdown-wrapper .jltma-countdown-item-month'
+			]
+		);
+
+		// Day Item
+		$this->add_control(
+			'jltma_countdown_item_day_bg_heading',
+			[
+				'label' => __('Day Background', 'master-addons'),
+				'type' => Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition'   => [
+					'ma_el_show_day' => '1',
+				],				
+			]
+		);
+		$this->add_group_control(
+			Group_Control_Background::get_type(),
+			[
+				'name'     => 'jltma_countdown_item_day_bg',
+				'label'    => __('Day Background', 'master-addons' ),
+				'types'    => ['classic', 'gradient'],
+				'separator' => 'after',
+				'condition'   => [
+					'ma_el_show_day' => '1',
+				],
+				'selector' => '{{WRAPPER}} .jltma-countdown-wrapper .jltma-countdown-item-day'
+			]
+		);
+
+		// Hour Item
+		$this->add_control(
+			'jltma_countdown_item_hour_bg_heading',
+			[
+				'label' => __('Hour Background', 'master-addons'),
+				'type' => Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition'   => [
+					'ma_el_show_hour' => '1',
+				],				
+			]
+		);
+		$this->add_group_control(
+			Group_Control_Background::get_type(),
+			[
+				'name'     => 'jltma_countdown_item_hour_bg',
+				'label'    => __('Hour Background', 'master-addons' ),
+				'types'    => ['classic', 'gradient'],
+				'separator' => 'after',
+				'condition'   => [
+					'ma_el_show_hour' => '1',
+				],
+				'selector' => '{{WRAPPER}} .jltma-countdown-wrapper .jltma-countdown-item-hour'
+			]
+		);
+
+		// Minute Item
+		$this->add_control(
+			'jltma_countdown_item_mins_bg_heading',
+			[
+				'label' => __('Minute Background', 'master-addons'),
+				'type' => Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition'   => [
+					'ma_el_show_min' => '1',
+				],				
+			]
+		);
+		$this->add_group_control(
+			Group_Control_Background::get_type(),
+			[
+				'name'     => 'jltma_countdown_item_mins_bg',
+				'label'    => __('Minute Background', 'master-addons' ),
+				'types'    => ['classic', 'gradient'],
+				'separator' => 'after',
+				'condition'   => [
+					'ma_el_show_min' => '1',
+				],
+				'selector' => '{{WRAPPER}} .jltma-countdown-wrapper .jltma-countdown-item-min'
+			]
+		);
+
+		// Second Item
+		$this->add_control(
+			'jltma_countdown_item_sec_bg_heading',
+			[
+				'label' => __('Second Background', 'master-addons'),
+				'type' => Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition'   => [
+					'ma_el_show_sec' => '1',
+				],				
+			]
+		);
+
+
+		$this->add_group_control(
+			Group_Control_Background::get_type(),
+			[
+				'name'     => 'jltma_countdown_item_sec_bg',
+				'label'    => __('Second Background', 'master-addons' ),
+				'types'    => ['classic', 'gradient'],
+				'separator' => 'after',
+				'condition'   => [
+					'ma_el_show_sec' => '1',
+				],
+				'selector' => '{{WRAPPER}} .jltma-countdown-wrapper .jltma-countdown-item-sec'
+			]
+		);
+
+
+		$this->start_controls_tabs('ma_el_value_colors', array( 'separator' => 'before', ));
 
 		$this->start_controls_tab(
 			'ma_el_value_color_normal',
@@ -540,47 +853,10 @@ class JLTMA_Countdown_Timer extends Widget_Base
 
 		$this->end_controls_section();
 
-		// Counter Styles
-
-		$this->start_controls_section(
-			'ma_el_section_countdown_styles_counter',
-			[
-				'label' => esc_html__('Counter Style', 'master-addons' ),
-				'tab'   => Controls_Manager::TAB_STYLE
-			]
-		);
-
-		$this->add_group_control(
-			Group_Control_Typography::get_type(),
-			[
-				'name'     => 'counter_typography',
-				'selector' => '{{WRAPPER}} .jltma-countdown-count',
-			]
-		);
-
-		$this->add_control(
-			'ma_el_progress_bar_count_color',
-			[
-				'label'     => __('Color', 'master-addons' ),
-				'type'      => Controls_Manager::COLOR,
-				'default'   => '#FFF',
-				'selectors' => [
-					'{{WRAPPER}} .jltma-countdown-count' => 'color: {{VALUE}};',
-				],
-			]
-		);
-
-		$this->end_controls_section();
-
-
-
-
-
-
 		$this->start_controls_section(
 			'ma_el_title_style_section',
 			array(
-				'label' => __('Title', 'master-addons' ),
+				'label' => __('Label', 'master-addons' ),
 				'tab'   => Controls_Manager::TAB_STYLE
 			)
 		);
@@ -720,12 +996,6 @@ class JLTMA_Countdown_Timer extends Widget_Base
 		$countdown_style = $settings['ma_el_countdown_style'];
 		$countdown_time  = $settings['ma_el_countdown_time'];
 		$seperator       = $settings['ma_el_seperator'];
-		$show_year       = $settings['ma_el_show_year'];
-		$show_month      = $settings['ma_el_show_month'];
-		$show_day        = $settings['ma_el_show_day'];
-		$show_hour       = $settings['ma_el_show_hour'];
-		$show_min        = $settings['ma_el_show_min'];
-		$show_sec        = $settings['ma_el_show_sec'];
 
 		$data_value  = '';
 		$attr_markup = '';
@@ -744,38 +1014,39 @@ class JLTMA_Countdown_Timer extends Widget_Base
 		$date_attr = array(
 			'year' => array(
 				'value' => $date[0],
-				// 'value'   => explode("-", $countdown_time)[0],
-				'display' => $show_year,
-				'title'   => __('Years', 'master-addons' ),
+				'display' => $settings['ma_el_show_year'],
+				'title'   => $settings['ma_el_label_year'] ?? __('Years', 'master-addons'),
 			),
 			'month' => array(
 				'value' => !empty($date[1]) ? $date[1] - 1 : '',
-				// 'value'   => explode("-", $countdown_time)[1],
-				'display' => $show_month,
-				'title'   => __('Months', 'master-addons' ),
+				'display' => $settings['ma_el_show_month'],
+				'title'   => $settings['ma_el_label_month'] ?? __('Month', 'master-addons'),
 			),
 			'day' => array(
 				'value' => !empty($date[2]) ? $date[2] : '',
-				// 'value'   => explode("-", $countdown_time)[2],
-				'display' => !empty($show_day) ? $show_day : '',
-				'title'   => __('Days', 'master-addons' ),
+				'display' => $settings['ma_el_show_day'],
+				'title'   => $settings['ma_el_label_day'] ?? __('Days', 'master-addons'),
 			),
 			'hour' => array(
 				'value'   => !empty($time[0]) ? $time[0] : '',
-				'display' => !empty($show_hour) ? $show_hour : '',
-				'title'   => __('Hours', 'master-addons' ),
+				'display' => $settings['ma_el_show_hour'],
+				'title'   =>$settings['ma_el_label_hour'] ?? __('Hours', 'master-addons' ),
 			),
 			'min' => array(
 				'value'   => !empty($time[1]) ? $time[1] : '',
-				'display' => !empty($show_min) ? $show_min : '',
-				'title'   => 'Minutes'
+				'display' => $settings['ma_el_show_min'],
+				'title'   => $settings['ma_el_label_min'] ?? __('Minutes','master-addons'),
 			),
 			'sec' => array(
 				'value'   => !empty($time[1]) ? $time[1] : '',
-				'display' => !empty($show_sec) ? $show_sec : '',
-				'title'   => 'Seconds'
+				'display' => $settings['ma_el_show_sec'],
+				'title'   => $settings['ma_el_label_sec'] ?? __('Seconds','master-addons')
 			),
 		);
+
+		// remove last item separator
+		$visible_units = array_filter($date_attr, fn($unit) => !empty($unit['display']));
+		$last_unit_key = array_key_last($visible_units);
 
 		foreach ($date_attr as $attr => $key) {
 
@@ -787,12 +1058,21 @@ class JLTMA_Countdown_Timer extends Widget_Base
 			);
 
 			if ($key['display']) {
-				$attr_markup .= '<div class="jltma-countdown-item">';
+				$is_last_item = ($attr === $last_unit_key);
+
+				$attr_markup .= '<div class="jltma-countdown-item jltma-countdown-item-' . esc_attr( $attr ) . '">';
 				$attr_markup .= '<span class="jltma-countdown-value jltma-countdown-' . esc_attr($attr) . '">' . __('0', 'master-addons' ) . '</span>';
 				$attr_markup .= ('inline' === $countdown_style || 'inline-table' === $countdown_style) && !empty($seperator) ? '<span class="jltma-countdown-seperator">' . esc_attr($seperator) . '</span>' : '';
 				$attr_markup .= '<span class="jltma-countdown-title">' . esc_html($key['title']) . '</span>';
 				$attr_markup .= '</div>';
-				$attr_markup .= ('block' === $countdown_style || 'block-table' === $countdown_style) &&  'sec' !== $attr ? '<span class="jltma-countdown-seperator">' . esc_attr($seperator) . '</span>' : '';
+
+				if (
+					!empty($seperator) &&
+					('block' === $countdown_style || 'block-table' === $countdown_style) &&
+					!$is_last_item
+				) {
+					$attr_markup .= '<span class="jltma-countdown-seperator">' . esc_html($seperator) . '</span>';
+				}
 			}
 		}
 

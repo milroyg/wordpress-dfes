@@ -3,9 +3,9 @@ Contributors: Leap13, Rimoun
 Tags: elementor, elementor addons, widgets, elementor elements, elementor templates
 Donate Link: https://premiumaddons.com/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme
 Requires at least: 5.0
-Tested Up To: 6.8.1
+Tested Up To: 6.8.2
 Requires PHP: 7.4
-Stable Tag: 4.11.14
+Stable Tag: 4.11.31
 License: GPL v3.0
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -13,7 +13,7 @@ License URI: https://opensource.org/licenses/GPL-3.0
 
 == Description ==
 
-Supercharge your [Elementor Page Builder](https://wordpress.org/plugins/elementor/) with 90+ highly customizable addons and widgets, 550+ premade templates that will give you the ability to build sophisticated websites in less time with no coding required. Both Elementor and Premium Addons plugins take your WordPress website to the next level.
+Supercharge your [Elementor Page Builder](https://wordpress.org/plugins/elementor/) with 90+ highly customizable addons and widgets, 550+ pre-made templates that will give you the ability to build sophisticated websites in less time with no coding required. Both Elementor and Premium Addons plugins take your WordPress website to the next level.
 
 [**Check The Widgets & Addons Demo Pages**](https://premiumaddons.com/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme)
 
@@ -120,9 +120,9 @@ Each widget and addon has been tested on different screen sizes, mobile devices,
 * [**Vertical Scroll Widget**](https://premiumaddons.com/vertical-scroll-widget-for-elementor-page-builder/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) *(FREE)*: Create beautiful vertical scroll pages with advanced responsive control options using Premium Vertical Scroll Widget.
 * [**Background Transition Widget**](https://premiumaddons.com/elementor-color-transition-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) *(PRO)*: Create fancy, colorful, and eye-catching webpages.
 * [**Multi-Scroll Widget**](https://premiumaddons.com/multi-scroll-widget-for-elementor-page-builder/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) *(PRO)*: Create attractive multi-scroll effect.
-* [**Custom Mouse Cursor Global Addon**](https://premiumaddons.com/elementor-custom-mouse-cursor-global-feature/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) *(PRO)*: Add a custom mouse cursor to any container or widget.
+* [**Custom Mouse Cursor Global Addon**](https://premiumaddons.com/elementor-custom-mouse-cursor-global-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) *(PRO)*: Add a custom mouse cursor to any container or widget.
 * [**Magic Scroll Global Addon**](https://premiumaddons.com/elementor-magic-scroll-global-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) *(PRO)*: Create outstanding scroll animations to any column/widget with just few clicks and control every single detail in the animation scene.
-* [**Animated Shape Divier Addon**](https://premiumaddons.com/elementor-animated-shape-divider-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) *(FREE)*: Create animated shape divider on containers. Select between tens of pre-made dividers or use your own.
+* [**Animated Shape Divider Addon**](https://premiumaddons.com/elementor-animated-shape-divider-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) *(FREE)*: Create animated shape divider on containers. Select between tens of pre-made dividers or use your own.
 * [**Tooltips Global Addon**](https://premiumaddons.com/elementor-tooltip-global-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) *(FREE)*: Add icon, image, Lottie animation or Elementor template as a tooltip for any Elementor container element.
 * [**Badge Global Addon**](https://premiumaddons.com/elementor-badge-global-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) *(PRO)*: Add an icon, image, Lottie animation, or SVG blob shape badge to any container.
 * [**Animated Blob Generator**](https://premiumaddons.com/elementor-animated-blob-generator/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) *(PRO)*: Add multiple animated blob layers to your containers with a wide range of smart customization options.
@@ -208,11 +208,11 @@ Yes, it will work with any WordPress theme as long as you are using Elementor as
 
 = Will this plugin slow down my website speed? =
 
-Premium Addonsis light weight and we also gave you the control to enable only the elements you actually use on your website for faster performance.
+Premium Addons is light weight and we also gave you the control to enable only the elements you actually use on your website for faster performance.
 
 = Is this plugin 100% Ads Free? =
 
-Premium Addonsis 100% Ads Free, Ads can only be detected from Youtube videos, that can be added to Premium Widgets ( eg. Modal Box, Video Box, Blog, etc.)
+Premium Addons is 100% Ads Free, Ads can only be detected from Youtube videos, that can be added to Premium Widgets ( eg. Modal Box, Video Box, Blog, etc.)
 
 = How can I report security bugs? =
 
@@ -236,6 +236,100 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 14. Premium Progress Bar Widget
 
 == Changelog ==
+
+= 4.11.31 =
+
+- Tweak: Added CSS ID option in Mobile Menu widget.
+- Tweak: Improved RTL compatibility of Woo Mini Cart widget.
+
+= 4.11.30 =
+
+- Tweak: Code improvements for better performance.
+
+= 4.11.29 =
+
+- Tweak: Improved RTL compatibility of Woo Products, Woo Categories, Blog widgets.
+- Tweak: Improved compatibility between Woo CTA and WPML translation plugin.
+
+= 4.11.28 =
+
+- Tweak: Improved compatibility between News Ticker and WPML translation plugin.
+- Fixed: Carousel widget not showing templates in some cases.
+- Fixed: Info window for Google Maps widget marker not positioned correctly on Chrome.
+
+= 4.11.27 =
+
+- Tweak: Improved RTL compatibility of Recent Posts Notification, News Ticker and Image Scroll widgets.
+- Fixed: Appearance option not working on touch devices in Carousel widget.
+
+= 4.11.26 =
+
+- Tweak: Compatibility with Elementor v3.31.
+- Tweak: Styling improved for Pre-made Templates button.
+
+= 4.11.25 =
+
+- Tweak: Added button to filter pre-made blocks by widget.
+- Fixed: Mini Cart strings not showing in Loco translation plugin.
+
+= 4.11.24 =
+
+- Tweak: Premium Templates performance improvements.
+- Fixed: PHP warnings when image has not alt attribute in Media Grid widget.
+
+= 4.11.23 =
+
+- Tweak: Equal Height in Woo Products widget.
+- Tweak: Improved RTL compatibility of Weather Forecast widget.
+- Tweak: Added Margin control for arrows in Carousel widget .
+- Fixed: Carousel arrows conflict in Weather Forecast widget.
+- Fixed: PHP warning when running setup wizard for first time.
+
+= 4.11.22 =
+
+- Tweak: Added Overflow Slides option in Carousel widget.
+- Tweak: Improved RTL compatibility of World Clock widget.
+- Fixed: WooCommerce widgets not working after v4.11.21
+
+= 4.11.21 =
+
+- Tweak: Dashboard pages loading speed improved by unloading unnecessary PHP files.
+
+= 4.11.20 =
+
+- Tweak: Editor loading speed improved by removing some JS files.
+- Tweak: Added two more shadow presets in Liquid Glass addon.
+
+= 4.11.19 =
+
+- Tweak: Added Coupon Remove button in Mini Cart widget.
+- Tweak: Added Tax Label option in Mini Cart widget.
+- Tweak: Improved RTL compatibility in Tags Cloud widget.
+- Tweak: Added option to search using Title or Description in AJAX Search widget.
+- Fixed: Fatal error in Media Grid widget when `mb_` PHP extension is not installed.
+
+= 4.11.18 =
+
+- Fixed: Google Maps markers not showing after v4.11.17
+- Fixed: PHP warning when SVG Draw widget is used while Dynamic Assets feature is enabled.
+
+= 4.11.17 =
+
+- Fixed: Display Conditions showing code after v4.11.16.
+
+= 4.11.16 =
+
+- Tweak: Added "DC" icon when Display Condition is enabled.
+- Tweak: Setup Wizard improved for better user experience.
+- Fixed: Returning Visitor Display Condition causes unnecessary cookies to be stored.
+
+= 4.11.15 =
+
+- Tweak: Improved compatibility with RTL sites.
+- Tweak: Plugin size decreased by improving Dynamic CSS generating.
+- Fixed: Effect #8 not working on RTL in Banner widget.
+- Fixed: Style #3 not working on RTL in Team Members widget.
+- Fixed: Horizontal Direction not working on RTL in Image Scroll widget.
 
 = 4.11.14 =
 
@@ -268,7 +362,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 - Tweak: Submenu Trigger option in Mega Menu widget.
 - Fixed: Error while saving Elementor templates after Elementor v3.29.
 - Fixed: Icons from custom icons are not showing in some widgets.
-- Fixed: Security issue in Coutdown widget.
+- Fixed: Security issue in Countdown widget.
 
 = 4.11.8 =
 
@@ -322,7 +416,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 - Tweak: Added Delay control in Lottie animation widget.
 - Tweak: Vertical Scroll widget behavior on Elementor editor.
 - Tweak: Removed `nofollow` link attribute for links in Google Maps widget markers.
-- Tweak: Removed Frontpage option from Static Page in Display Conditions addon.
+- Tweak: Removed Front page option from Static Page in Display Conditions addon.
 - Tweak: Action control changed to show when Query is set to Posts in AJAX Search widget.
 
 = 4.10.90 =
@@ -396,7 +490,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 - Tweak: Load some CSS files only when needed to improve performance.
 - Fixed: PHP warning in Location display condition.
-- Fixed: Brokens CSS links showing in broken link checker.
+- Fixed: Broken CSS links showing in broken link checker.
 
 = 4.10.78 =
 
@@ -521,7 +615,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 = 4.10.57 =
 
 - Deprecated: Enable Full Section Scroll on Touch Devices control in Vertical Scroll widget.
-- Tweak: Global addons code refactored to minimize mmemory usage.
+- Tweak: Global addons code refactored to minimize memory usage.
 - Tweak: Animated Shape Divider addon code refactored to improve editor loading speed.
 - Tweak: Premium Templates code refactored to improve site's frontend loading speed.
 - Fixed: Security issue in Display Conditions addon and Mega Menu widget.

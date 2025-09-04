@@ -102,16 +102,15 @@ class JLTMA_Creative_Links extends Widget_Base {
             'title'       => esc_html__( 'Enter Link text here', 'master-addons' ),
         ] );
         $this->add_control( 'ma_el_creative_link_icon', [
-            'label'            => esc_html__( 'Icon', 'master-addons' ),
-            'description'      => esc_html__( 'Please choose an icon from the list.', 'master-addons' ),
-            'type'             => Controls_Manager::ICONS,
-            'fa4compatibility' => 'icon',
-            'default'          => [
-                'value'   => 'fas fa-external-link-alt',
-                'library' => 'solid',
+            'label'       => esc_html__( 'Icon', 'master-addons' ),
+            'description' => esc_html__( 'Please choose an icon from the list.', 'master-addons' ),
+            'type'        => Controls_Manager::ICONS,
+            'default'     => [
+                'value'   => 'eicon-editor-external-link',
+                'library' => 'eicon',
             ],
-            'render_type'      => 'template',
-            'condition'        => [
+            'render_type' => 'template',
+            'condition'   => [
                 'creative_link_effect!' => 'jltma-cl-effect-11',
             ],
         ] );

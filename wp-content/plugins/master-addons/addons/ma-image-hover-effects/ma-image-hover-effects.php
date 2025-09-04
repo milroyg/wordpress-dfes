@@ -166,6 +166,9 @@ class JLTMA_Image_Hover_Effects extends Widget_Base {
             'label'       => __( 'Upload Image', 'master-addons' ),
             'description' => __( 'Select an Image', 'master-addons' ),
             'type'        => Controls_Manager::MEDIA,
+            'dynamic'     => [
+                'active' => true,
+            ],
             'default'     => [
                 'url' => Utils::get_placeholder_image_src(),
             ],
@@ -391,13 +394,21 @@ class JLTMA_Image_Hover_Effects extends Widget_Base {
             'dynamic'     => [
                 'active' => true,
             ],
-            'default'     => __( 'Master <span>Addons</span>', 'master-addons' ),
+            'default'     => __( 'Master Addons', 'master-addons' ),
             'label_block' => false,
         ] );
         $this->add_control( 'title_html_tag', [
             'label'   => __( 'HTML Tag', 'master-addons' ),
             'type'    => Controls_Manager::SELECT,
-            'options' => Master_Addons_Helper::jltma_title_tags(),
+            'options' => [
+                'h1'   => __( 'H1', 'master-addons' ),
+                'h2'   => __( 'H2', 'master-addons' ),
+                'h3'   => __( 'H3', 'master-addons' ),
+                'h4'   => __( 'H4', 'master-addons' ),
+                'h5'   => __( 'H5', 'master-addons' ),
+                'h6'   => __( 'H6', 'master-addons' ),
+                'span' => __( 'span', 'master-addons' ),
+            ],
             'default' => 'h2',
         ] );
         $this->end_controls_section();
@@ -525,15 +536,14 @@ class JLTMA_Image_Hover_Effects extends Widget_Base {
         ] );
         $repeater = new Repeater();
         $repeater->add_control( 'ma_el_main_image_icon', [
-            'label'            => esc_html__( 'Icon', 'master-addons' ),
-            'description'      => esc_html__( 'Please choose an icon from the list.', 'master-addons' ),
-            'type'             => Controls_Manager::ICONS,
-            'fa4compatibility' => 'icon',
-            'default'          => [
-                'value'   => 'fab fa-elementor',
-                'library' => 'brand',
+            'label'       => esc_html__( 'Icon', 'master-addons' ),
+            'description' => esc_html__( 'Please choose an icon from the list.', 'master-addons' ),
+            'type'        => Controls_Manager::ICONS,
+            'default'     => [
+                'value'   => 'eicon-elementor-circle',
+                'library' => 'eicon',
             ],
-            'render_type'      => 'template',
+            'render_type' => 'template',
         ] );
         $repeater->add_control( 'ma_el_main_image_icon_link', [
             'label'       => __( 'Icon Link', 'master-addons' ),
@@ -549,16 +559,16 @@ class JLTMA_Image_Hover_Effects extends Widget_Base {
             'type'        => Controls_Manager::REPEATER,
             'default'     => [
                 [
-                    'ma_el_main_image_icon' => 'fab fa-wordpress',
+                    'ma_el_main_image_icon' => 'eicon-elementor-circle',
                 ],
                 [
-                    'ma_el_main_image_icon' => 'fab fa-facebook',
+                    'ma_el_main_image_icon' => 'eicon-elementor-circle',
                 ],
                 [
-                    'ma_el_main_image_icon' => 'fab fa-twitter',
+                    'ma_el_main_image_icon' => 'eicon-elementor-circle',
                 ],
                 [
-                    'ma_el_main_image_icon' => 'fab fa-instagram',
+                    'ma_el_main_image_icon' => 'eicon-elementor-circle',
                 ]
             ],
             'fields'      => $repeater->get_controls(),
@@ -959,7 +969,8 @@ class JLTMA_Image_Hover_Effects extends Widget_Base {
 					<div class="jltma-image-hover-content">
 						<<?php 
         echo tag_escape( $settings['title_html_tag'] );
-        ?> <?php 
+        ?>
+							<?php 
         echo $this->get_render_attribute_string( 'ma_el_image_hover_effect_heading' );
         ?>>
 
@@ -1003,7 +1014,7 @@ class JLTMA_Image_Hover_Effects extends Widget_Base {
                 echo esc_url_raw( $tab['ma_el_main_image_icon_link']['url'] );
                 ?>">
 										<span>
-                                            <?php 
+											<?php 
                 $migrated = isset( $tab['__fa4_migrated']['ma_el_main_image_icon'] );
                 $is_new = empty( $tab['icon'] ) && \Elementor\Icons_Manager::is_migration_allowed();
                 if ( $is_new || $migrated ) {
@@ -1012,13 +1023,13 @@ class JLTMA_Image_Hover_Effects extends Widget_Base {
                     ] );
                 } else {
                     ?>
-                                                <i class="<?php 
+												<i class="<?php 
                     echo esc_attr( $tab['icon'] );
                     ?>" aria-hidden="true"></i>
-                                            <?php 
+											<?php 
                 }
                 ?>
-                                        </span>
+										</span>
 									</a>
 								<?php 
             }
@@ -1043,7 +1054,7 @@ class JLTMA_Image_Hover_Effects extends Widget_Base {
                     echo esc_html( $tab['ma_el_main_image_desc_set2'] );
                     ?>
 									</p>
-							<?php 
+								<?php 
                 }
             }
         }
@@ -1115,7 +1126,9 @@ class JLTMA_Image_Hover_Effects extends Widget_Base {
 
 						<a data-fancybox data-src="#jltma-image-hover-<?php 
             echo esc_attr( $this->get_id() );
-            ?>" href="javascript:;" data-animation-duration="700" data-animation="fade" data-modal="false" class="jltma-fancybox elementor-clickable ma-image-hover-read-more" aria-label="Fancybox Popup">
+            ?>" href="javascript:;"
+							data-animation-duration="700" data-animation="fade" data-modal="false"
+							class="jltma-fancybox elementor-clickable ma-image-hover-read-more" aria-label="Fancybox Popup">
 						</a>
 
 						<div style="display: none;" id="jltma-image-hover-<?php 
@@ -1163,7 +1176,7 @@ class JLTMA_Image_Hover_Effects extends Widget_Base {
 
 
 		</div>
-<?php 
+		<?php 
     }
 
     protected function content_template() {

@@ -145,7 +145,7 @@ class Premium_Carousel extends Widget_Base {
 	}
 
 	public function has_widget_inner_wrapper(): bool {
-		return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+		return ! Helper_Functions::check_elementor_experiment( 'e_optimized_markup' );
 	}
 
 	/**
@@ -163,32 +163,19 @@ class Premium_Carousel extends Widget_Base {
 			)
 		);
 
-		$this->add_control(
-			'premium_carousel_content_type',
-			array(
-				'label'       => __( 'Content Type', 'premium-addons-for-elementor' ),
-				'description' => __( 'How templates are selected', 'premium-addons-for-elementor' ),
-				'type'        => Controls_Manager::SELECT,
-				'options'     => array(
-					'select'   => __( 'Select Field', 'premium-addons-for-elementor' ),
-					'repeater' => __( 'Repeater', 'premium-addons-for-elementor' ),
-				),
-				'default'     => 'select',
-			)
-		);
+		$demo = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-carousel-widget/', 'carousel', 'wp-editor', 'demo' );
+		Helper_Functions::add_templates_controls( $this, 'carousel', $demo );
 
 		$this->add_control(
 			'premium_carousel_slider_content',
 			array(
 				'label'       => __( 'Templates', 'premium-addons-for-elementor' ),
-				'type'        => Premium_Post_Filter::TYPE,
+				'type'        => Controls_Manager::HIDDEN,
 				'classes'     => 'premium-live-temp-label',
 				'label_block' => true,
 				'multiple'    => true,
 				'source'      => 'elementor_library',
-				'condition'   => array(
-					'premium_carousel_content_type' => 'select',
-				),
+
 			)
 		);
 
@@ -243,18 +230,15 @@ class Premium_Carousel extends Widget_Base {
 				'label'       => __( 'Templates', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::REPEATER,
 				'fields'      => $repeater->get_controls(),
-				'condition'   => array(
-					'premium_carousel_content_type' => 'repeater',
-				),
 				'title_field' => 'Template: {{{  "" !== premium_carousel_repeater_item ? premium_carousel_repeater_item : "Live Template" }}}',
+				'prevent_empty'      => false,
 			)
 		);
 
 		$this->add_control(
 			'premium_carousel_slider_type',
 			array(
-				'label'       => __( 'Type', 'premium-addons-for-elementor' ),
-				'description' => __( 'Set a navigation type', 'premium-addons-for-elementor' ),
+				'label'       => __( 'Direction', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::SELECT,
 				'options'     => array(
 					'horizontal' => __( 'Horizontal', 'premium-addons-for-elementor' ),
@@ -306,10 +290,28 @@ class Premium_Carousel extends Widget_Base {
 		);
 
 		$this->add_control(
+			'overflow_slides',
+			array(
+				'label'       => __( 'Overflow Slides', 'premium-addons-for-elementor' ),
+				'render_type' => 'template',
+				'type'        => Controls_Manager::SWITCHER,
+				'separator'   => 'before',
+				'selectors'   => array(
+					'{{WRAPPER}} .slick-list' => 'overflow: visible;',
+					'body'                    => 'overflow-x: hidden;',
+				),
+				'condition'   => array(
+					'premium_carousel_slider_type' => 'horizontal',
+				),
+			)
+		);
+
+		$this->add_control(
 			'mscroll',
 			array(
 				'label'       => __( 'Use With Magic Scroll', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::SWITCHER,
+				'separator'   => 'before',
 				'description' => __( 'Enable this option if you want to animate the carousel using ', 'premium-addons-for-elementor' ) . '<a href="https://premiumaddons.com/elementor-magic-scroll-global-addon/" target="_blank">Magic Scroll addon.</a>',
 			)
 		);
@@ -379,7 +381,7 @@ class Premium_Carousel extends Widget_Base {
 			array(
 				'label'      => __( 'Vertical Offset', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::SLIDER,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-carousel-dots-above ul.slick-dots' => 'top: {{SIZE}}{{UNIT}}',
 					'{{WRAPPER}} .premium-carousel-dots-below ul.slick-dots' => 'bottom: {{SIZE}}{{UNIT}}',
@@ -387,6 +389,55 @@ class Premium_Carousel extends Widget_Base {
 				),
 				'condition'  => array(
 					'premium_carousel_nav_options!' => array( 'none', 'progress' ),
+				),
+			)
+		);
+
+		$this->add_control(
+			'dots_text_align',
+			array(
+				'label'      => __( 'Alignment', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::CHOOSE,
+				'options'    => array(
+					'left'   => array(
+						'title' => __( 'Left', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center' => array(
+						'title' => __( 'Center', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'right'  => array(
+						'title' => __( 'Right', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'default'    => 'center',
+				'toggle'     => false,
+				'selectors'  => array(
+					'{{WRAPPER}} .slick-dots,{{WRAPPER}} .premium-carousel-nav-fraction'   => 'text-align: {{VALUE}};',
+				),
+				'conditions' => array(
+					'relation' => 'or',
+					'terms'    => array(
+						array(
+							'name'  => 'premium_carousel_nav_options',
+							'value' => 'fraction',
+						),
+						array(
+							'terms' => array(
+								array(
+									'name'  => 'premium_carousel_nav_options',
+									'value' => 'dots',
+								),
+								array(
+									'name'  => 'premium_carousel_dot_position',
+									'value' => 'below',
+								),
+							),
+						),
+
+					),
 				),
 			)
 		);
@@ -415,6 +466,98 @@ class Premium_Carousel extends Widget_Base {
 			)
 		);
 
+		$this->add_control(
+			'arrows_position',
+			array(
+				'label'     => __( 'Position', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::CHOOSE,
+				'options'   => array(
+					'above'   => array(
+						'title' => __( 'Above Slide', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-v-align-top',
+					),
+					'default' => array(
+						'title' => __( 'Center', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-h-align-center',
+					),
+					'below'   => array(
+						'title' => __( 'Below Slides', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-v-align-bottom',
+					),
+				),
+				'default'   => 'default',
+				'condition' => array(
+					'premium_carousel_navigation_show' => 'yes',
+					'premium_carousel_slider_type'     => 'horizontal',
+				),
+			)
+		);
+
+		$this->add_control(
+			'arrows_alignment',
+			array(
+				'label'     => __( 'Alignment', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::CHOOSE,
+				'options'   => array(
+					'start'  => array(
+						'title' => __( 'Start', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-h-align-left',
+					),
+					'center' => array(
+						'title' => __( 'Center', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-v-align-middle',
+					),
+					'end'    => array(
+						'title' => __( 'End', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-h-align-right',
+					),
+				),
+				'default'   => 'start',
+				'condition' => array(
+					'premium_carousel_navigation_show' => 'yes',
+					'premium_carousel_slider_type'     => 'horizontal',
+					'arrows_position!'                 => 'default',
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .premium-carousel-arrows-wrapper' => 'justify-content: {{VALUE}}',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'arrows_gap',
+			array(
+				'label'      => __( 'Spacing', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .premium-carousel-arrows-wrapper' => 'gap: {{SIZE}}{{UNIT}}',
+				),
+				'condition'  => array(
+					'premium_carousel_navigation_show' => 'yes',
+					'premium_carousel_slider_type'     => 'horizontal',
+					'arrows_position!'                 => 'default',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'arrows_margin',
+			array(
+				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .premium-carousel-arrows-wrapper' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+				'condition'  => array(
+					'premium_carousel_navigation_show' => 'yes',
+					'premium_carousel_slider_type'     => 'horizontal',
+					'arrows_position'                 => 'below',
+				),
+			)
+		);
+
 		$this->end_controls_section();
 
 		$this->start_controls_section(
@@ -434,6 +577,28 @@ class Premium_Carousel extends Widget_Base {
 				'type'        => Controls_Manager::SWITCHER,
 				'description' => __( 'Restart the slider automatically as it passes the last slide', 'premium-addons-for-elementor' ),
 				'default'     => 'yes',
+				'conditions'  => array(
+					'relation' => 'or',
+					'terms'    => array(
+						array(
+							'name'  => 'premium_carousel_slider_type',
+							'value' => 'vertical',
+						),
+						array(
+							'terms' => array(
+								array(
+									'name'  => 'premium_carousel_slider_type',
+									'value' => 'horizontal',
+								),
+								array(
+									'name'     => 'overflow_slides',
+									'operator' => '!==',
+									'value'    => 'yes',
+								),
+							),
+						),
+					),
+				),
 			)
 		);
 
@@ -445,6 +610,7 @@ class Premium_Carousel extends Widget_Base {
 				'description' => __( 'Enable fade transition between slides', 'premium-addons-for-elementor' ),
 				'condition'   => array(
 					'premium_carousel_slider_type' => 'horizontal',
+					'overflow_slides!'             => 'yes',
 				),
 			)
 		);
@@ -457,6 +623,7 @@ class Premium_Carousel extends Widget_Base {
 				'condition' => array(
 					'premium_carousel_fade'        => 'yes',
 					'premium_carousel_slider_type' => 'horizontal',
+					'overflow_slides!'             => 'yes',
 				),
 			)
 		);
@@ -582,6 +749,9 @@ class Premium_Carousel extends Widget_Base {
 				'label'       => __( 'Center Mode', 'premium-addons-for-elementor' ),
 				'description' => __( 'Center mode enables a centered view with partial next/previous slides.', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::SWITCHER,
+				'condition'   => array(
+					'overflow_slides!' => 'yes',
+				),
 			)
 		);
 
@@ -598,6 +768,7 @@ class Premium_Carousel extends Widget_Base {
 				),
 				'condition'   => array(
 					'premium_carousel_center_mode' => 'yes',
+					'overflow_slides!'             => 'yes',
 				),
 			)
 		);
@@ -667,6 +838,8 @@ class Premium_Carousel extends Widget_Base {
 		}
 
 		$this->end_controls_section();
+
+		Helper_Functions::register_papro_promotion_controls( $this, 'carousel' );
 
 		$this->start_controls_section(
 			'premium_carousel_navigation_arrows',
@@ -881,19 +1054,40 @@ class Premium_Carousel extends Widget_Base {
 		$this->add_responsive_control(
 			'premium_carousel_arrow_position',
 			array(
-				'label'     => __( 'Position (PX)', 'premium-addons-for-elementor' ),
-				'type'      => Controls_Manager::SLIDER,
-				'range'     => array(
+				'label'      => __( 'Position (px)', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::SLIDER,
+				'range'      => array(
 					'px' => array(
 						'min' => -100,
 						'max' => 100,
 					),
 				),
-				'selectors' => array(
+				'selectors'  => array(
 					'{{WRAPPER}} a.carousel-arrow.carousel-next' => 'right: {{SIZE}}px',
 					'{{WRAPPER}} a.carousel-arrow.carousel-prev' => 'left: {{SIZE}}px',
 					'{{WRAPPER}} a.ver-carousel-arrow.carousel-next' => 'bottom: {{SIZE}}px',
 					'{{WRAPPER}} a.ver-carousel-arrow.carousel-prev' => 'top: {{SIZE}}px',
+				),
+				'conditions' => array(
+					'relation' => 'or',
+					'terms'    => array(
+						array(
+							'name'  => 'premium_carousel_slider_type',
+							'value' => 'vertical',
+						),
+						array(
+							'terms' => array(
+								array(
+									'name'  => 'premium_carousel_slider_type',
+									'value' => 'horizontal',
+								),
+								array(
+									'name'  => 'arrows_position',
+									'value' => 'default',
+								),
+							),
+						),
+					),
 				),
 			)
 		);
@@ -1010,6 +1204,80 @@ class Premium_Carousel extends Widget_Base {
 
 		$this->end_controls_tab();
 
+		$this->start_controls_tab(
+			'pa_arrows_disabled',
+			array(
+				'label'      => __( 'Disabled', 'premium-addons-for-elementor' ),
+				'conditions' => array(
+					'terms' => array(
+						array(
+							'name'  => 'premium_carousel_navigation_show',
+							'value' => 'yes',
+						),
+						array(
+							'relation' => 'or',
+							'terms'    => array(
+								array(
+									'name'     => 'premium_carousel_loop',
+									'operator' => '!==',
+									'value'    => 'yes',
+								),
+								array(
+									'name'  => 'overflow_slides',
+									'value' => 'yes',
+								),
+							),
+						),
+					),
+				),
+			)
+		);
+
+		$this->add_control(
+			'disabled_arrow_color',
+			array(
+				'label'     => __( 'Color', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .premium-carousel-wrapper .slick-arrow.slick-disabled, .carousel-next-{{ID}}.slick-disabled, .carousel-prev-{{ID}}.slick-disabled' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .premium-carousel-wrapper .slick-arrow.slick-disabled svg, .carousel-next-{{ID}}.slick-disabled svg, .carousel-prev-{{ID}}.slick-disabled svg' => 'fill: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'disabled_bg_color',
+			array(
+				'label'     => __( 'Background Color', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} a.carousel-next.slick-disabled, {{WRAPPER}} a.carousel-prev.slick-disabled, .carousel-next-{{ID}}.slick-disabled, .carousel-prev-{{ID}}.slick-disabled' => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
+			array(
+				'name'     => 'disabled_border_hover',
+				'selector' => '{{WRAPPER}} .slick-arrow.slick-disabled, .carousel-next-{{ID}}.slick-disabled, .carousel-prev-{{ID}}.slick-disabled',
+			)
+		);
+
+		$this->add_control(
+			'disabled_radius_hover',
+			array(
+				'label'      => __( 'Border Radius', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .slick-arrow.slick-disabled, .carousel-next-{{ID}}.slick-disabled, .carousel-prev-{{ID}}.slick-disabled' => 'border-radius: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->end_controls_tab();
+
 		$this->end_controls_tabs();
 
 		$this->end_controls_section();
@@ -1017,7 +1285,7 @@ class Premium_Carousel extends Widget_Base {
 		$this->start_controls_section(
 			'premium_carousel_navigation',
 			array(
-				'label' => __( 'Navigation', 'premium-addons-for-elementor' ),
+				'label' => __( 'Navigation Dots/Progress Bar', 'premium-addons-for-elementor' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1285,11 +1553,16 @@ class Premium_Carousel extends Widget_Base {
 	protected function render() {
 		$settings = $this->get_settings();
 
-		$content_type = $settings['premium_carousel_content_type'];
-
 		$templates = array();
 
 		$templates_count = 0;
+
+		$content_type = 'repeater';
+
+		// Use the old select field only if it's value is not empty.
+		if( ! empty ( $settings['premium_carousel_slider_content'] ) && empty( $settings['premium_carousel_templates_repeater'] ) ) {
+			$content_type = 'select';
+		}
 
 		if ( 'select' === $content_type ) {
 			$templates       = $settings['premium_carousel_slider_content'];
@@ -1311,14 +1584,9 @@ class Premium_Carousel extends Widget_Base {
 			return;
 		}
 
-		$vertical = 'vertical' === $settings['premium_carousel_slider_type'] ? true : false;
+		$vertical = 'vertical' === $settings['premium_carousel_slider_type'];
 
 		$slides_on_desk = $settings['premium_carousel_responsive_desktop'];
-		if ( 'all' === $settings['premium_carousel_slides_to_show'] ) {
-			$slides_scroll = ! empty( $slides_on_desk ) ? $slides_on_desk : 1;
-		} else {
-			$slides_scroll = 1;
-		}
 
 		$slides_show = ! empty( $slides_on_desk ) ? $slides_on_desk : 1;
 
@@ -1333,32 +1601,38 @@ class Premium_Carousel extends Widget_Base {
 			$slides_on_mob = $slides_on_desk;
 		}
 
-		$infinite = 'yes' === $settings['premium_carousel_loop'] ? true : false;
+		$overflow_enabled = 'yes' === $settings['overflow_slides'];
+		$mscroll_disabled = 'yes' !== $settings['mscroll'];
 
-		$fade = 'yes' !== $settings['mscroll'] && 'yes' === $settings['premium_carousel_fade'] ? true : false;
+		$infinite = ! $overflow_enabled && 'yes' === $settings['premium_carousel_loop'];
+
+		$fade = ! $overflow_enabled && $mscroll_disabled && 'yes' === $settings['premium_carousel_fade'];
 
 		$speed = ! empty( $settings['premium_carousel_speed'] ) ? $settings['premium_carousel_speed'] : '';
 
-		$autoplay = 'yes' !== $settings['mscroll'] && 'yes' === $settings['premium_carousel_autoplay'] ? true : false;
+		$autoplay = $mscroll_disabled && 'yes' === $settings['premium_carousel_autoplay'];
 
 		$autoplay_speed = ! empty( $settings['premium_carousel_autoplay_speed'] ) ? $settings['premium_carousel_autoplay_speed'] : '';
 
-		$draggable = 'yes' !== $settings['mscroll'] && 'yes' === $settings['premium_carousel_draggable_effect'] ? true : false;
+		$draggable = $mscroll_disabled && 'yes' === $settings['premium_carousel_draggable_effect'];
 
-		$touch_move = 'yes' !== $settings['mscroll'] && 'yes' === $settings['premium_carousel_touch_move'] ? true : false;
+		$touch_move = $mscroll_disabled && 'yes' === $settings['premium_carousel_touch_move'];
 
-		$variable_width = ( 'yes' !== $settings['mscroll'] && 'yes' === $settings['variable_width'] ) ? true : false;
+		$variable_width = ( $mscroll_disabled && 'yes' === $settings['variable_width'] );
 
-		$adaptive_height = 'yes' === $settings['premium_carousel_adaptive_height'] ? true : false;
+		$adaptive_height = 'yes' === $settings['premium_carousel_adaptive_height'];
 
-		$linear = 'yes' === $settings['linear_ease'] ? true : false;
+		$linear = 'yes' === $settings['linear_ease'];
 
-		$pause_hover = 'yes' === $settings['premium_carousel_pausehover'] ? true : false;
+		$pause_hover = 'yes' === $settings['premium_carousel_pausehover'];
 
-		$center_mode = 'yes' === $settings['premium_carousel_center_mode'] ? true : false;
+		$center_mode = ! $overflow_enabled && 'yes' === $settings['premium_carousel_center_mode'];
+
+		$render_arrows     = $mscroll_disabled && 'yes' === $settings['premium_carousel_navigation_show'];
+		$arrows_custom_pos = $render_arrows && 'horizontal' === $settings['premium_carousel_slider_type'] && 'default' !== $settings['arrows_position'];
 
 		// Navigation arrow setting setup.
-		if ( 'yes' !== $settings['mscroll'] && 'yes' === $settings['premium_carousel_navigation_show'] ) {
+		if ( $render_arrows ) {
 			$arrows = true;
 
 			if ( 'vertical' === $settings['premium_carousel_slider_type'] ) {
@@ -1450,7 +1724,7 @@ class Premium_Carousel extends Widget_Base {
 			$arrows = false;
 		}
 
-		if ( 'yes' !== $settings['mscroll'] && 'dots' === $settings['premium_carousel_nav_options'] ) {
+		if ( $mscroll_disabled && 'dots' === $settings['premium_carousel_nav_options'] ) {
 			$dots = true;
 			if ( 'yes' !== $settings['custom_pagination_icon'] ) {
 				if ( 'square_white' === $settings['premium_carousel_dot_icon'] ) {
@@ -1484,7 +1758,7 @@ class Premium_Carousel extends Widget_Base {
 
 		$carousel_settings = array(
 			'vertical'           => $vertical,
-			'slidesToScroll'     => $slides_scroll,
+			'appearance'		 => $settings['premium_carousel_slides_to_show'],
 			'slidesToShow'       => $slides_show,
 			'infinite'           => $infinite,
 			'speed'              => $speed,
@@ -1510,6 +1784,11 @@ class Premium_Carousel extends Widget_Base {
 			'carouselNavigation' => $carouselNavigation,
 			'templatesNumber'    => $templates_count,
 		);
+
+		if ( $render_arrows && $arrows_custom_pos ) {
+			$carousel_settings['arrowCustomPos'] = true;
+			$this->add_render_attribute( 'carousel', 'class', 'pa-has-custom-pos' );
+		}
 
 		$this->add_render_attribute( 'carousel', 'id', 'premium-carousel-wrapper-' . esc_attr( $this->get_id() ) );
 
@@ -1546,59 +1825,69 @@ class Premium_Carousel extends Widget_Base {
 		?>
 
 		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'carousel' ) ); ?>>
-		<?php if ( 'dots' === $settings['premium_carousel_nav_options'] ) { ?>
-				<div class="premium-carousel-nav-dot">
-			<?php if ( 'yes' !== $settings['mscroll'] && 'yes' !== $settings['custom_pagination_icon'] ) { ?>
-					<i class="<?php echo esc_attr( $custom_paging ); ?>" aria-hidden="true"></i>
-				<?php
-			} else {
-				Icons_Manager::render_icon( $settings['custom_pagination_icon_select'], array( 'aria-hidden' => 'true' ) );
-			}
-			?>
-				</div>
-		<?php } ?>
-		<?php if ( 'yes' !== $settings['mscroll'] && 'yes' === $settings['premium_carousel_navigation_show'] ) { ?>
+			<?php if ( 'dots' === $settings['premium_carousel_nav_options'] ) { ?>
+					<div class="premium-carousel-nav-dot">
+				<?php if ( $mscroll_disabled && 'yes' !== $settings['custom_pagination_icon'] ) { ?>
+						<i class="<?php echo esc_attr( $custom_paging ); ?>" aria-hidden="true"></i>
+					<?php
+				} else {
+					Icons_Manager::render_icon( $settings['custom_pagination_icon_select'], array( 'aria-hidden' => 'true' ) );
+				}
+				?>
+					</div>
+			<?php } ?>
+			<?php
+			if ( $render_arrows ) {
+				if ( $arrows_custom_pos && 'above' === $settings['arrows_position'] ) {
+					?>
+					<div class="premium-carousel-arrows-wrapper"></div>
+					<?php
+				}
+				?>
 				<div class="premium-carousel-nav-arrow-prev">
 					<a type="button" data-role="none" class="<?php echo esc_attr( $vertical_alignment ); ?> carousel-prev" aria-label="Previous" role="button">
-			<?php if ( 'yes' !== $settings['custom_left_arrow'] ) { ?>
+						<?php if ( 'yes' !== $settings['custom_left_arrow'] ) { ?>
 							<i class="<?php echo esc_attr( $icon_prev_class ); ?>" aria-hidden="true"></i>
-				<?php
-			} else {
-				Icons_Manager::render_icon( $settings['custom_left_arrow_select'], array( 'aria-hidden' => 'true' ) );
-			}
-			?>
-					</a>
-				</div>
-				<div class="premium-carousel-nav-arrow-next">
-					<a type="button" data-role="none" class="<?php echo esc_attr( $vertical_alignment ); ?> carousel-next" aria-label="Next" role="button">
-			<?php if ( 'yes' !== $settings['custom_right_arrow'] ) { ?>
-							<i class="<?php echo esc_attr( $icon_next_class ); ?>" aria-hidden="true"></i>
-				<?php
-			} else {
-				Icons_Manager::render_icon( $settings['custom_right_arrow_select'], array( 'aria-hidden' => 'true' ) );
-			}
-			?>
-					</a>
-				</div>
-		<?php } ?>
+							<?php
+						} else {
+							Icons_Manager::render_icon( $settings['custom_left_arrow_select'], array( 'aria-hidden' => 'true' ) );
+						}
+						?>
+						</a>
+					</div>
+					<div class="premium-carousel-nav-arrow-next">
+						<a type="button" data-role="none" class="<?php echo esc_attr( $vertical_alignment ); ?> carousel-next" aria-label="Next" role="button">
+							<?php if ( 'yes' !== $settings['custom_right_arrow'] ) { ?>
+								<i class="<?php echo esc_attr( $icon_next_class ); ?>" aria-hidden="true"></i>
+								<?php
+							} else {
+								Icons_Manager::render_icon( $settings['custom_right_arrow_select'], array( 'aria-hidden' => 'true' ) );
+							}
+							?>
+						</a>
+					</div>
+			<?php } ?>
 			<div id="premium-carousel-<?php echo esc_attr( $this->get_id() ); ?>" class="premium-carousel-inner">
-		<?php
-		foreach ( $templates as $template_title ) :
-			if ( ! empty( $template_title ) ) :
-				?>
-				<div class="premium-carousel-template item-wrapper">
-					<?php echo Helper_Functions::render_elementor_template( $template_title ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-					<?php if ( 'progress' === $settings['premium_carousel_nav_options'] ) { ?>
-						<div class="premium-carousel-nav-progress">
-							<span class="premium-carousel-nav-progress-fill"></span>
-						</div>
-					<?php } ?>
-				</div>
 				<?php
-			endif;
-		endforeach;
-		?>
+				foreach ( $templates as $template_title ) :
+					if ( ! empty( $template_title ) ) :
+						?>
+						<div class="premium-carousel-template item-wrapper">
+							<?php echo Helper_Functions::render_elementor_template( $template_title ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<?php if ( 'progress' === $settings['premium_carousel_nav_options'] ) { ?>
+								<div class="premium-carousel-nav-progress">
+									<span class="premium-carousel-nav-progress-fill"></span>
+								</div>
+							<?php } ?>
+						</div>
+						<?php
+					endif;
+				endforeach;
+				?>
 			</div>
+			<?php if ( $render_arrows && $arrows_custom_pos && 'below' === $settings['arrows_position'] ) { ?>
+				<div class="premium-carousel-arrows-wrapper"></div>
+			<?php } ?>
 			<?php if ( 'fraction' === $settings['premium_carousel_nav_options'] ) { ?>
 				<div class="premium-carousel-nav-fraction">
 

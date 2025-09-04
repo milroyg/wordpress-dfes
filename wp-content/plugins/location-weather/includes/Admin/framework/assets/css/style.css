@@ -4960,7 +4960,7 @@ Location weather lite version css.
 	display: block;
 }
 
-div:is(.lw-forecast-data-pro, .weather-forecast-icon-type) select,
+div:is(.lw-forecast-data-pro) select,
 div:is(.lw-forecast-data-pro, .splw-active-lw-units) .splwt-lite--button,
 .weather-layout-style .splwt-lite--image:not(:nth-child(1)) figure,
 .weather-horizontal-template .splwt-lite--image:not(:nth-child(1)) figure,
@@ -4969,7 +4969,6 @@ div:is(.lw-forecast-data-pro, .splw-active-lw-units) .splwt-lite--button,
 div:is(.lw-additional-data-space-between, .lw_max_width) .splwt-lite--inputs,
 .lw-forecast-data-pro .splwt-lite--switcher,
 .forecast-icon-size .ui-spinner,
-.weather-forecast-icon-type .forecast_icon_preview,
 .lw-forecast-data-pro .splwt-lite-checkbox,
 .lw-forecast-data-pro li label,
 .lw-forecast-data-pro.splwt-lite-field-text input,
@@ -5623,3 +5622,13 @@ div:is(#sp_lw_shortcode, #sp_lw_builder_option) .postbox-header .handle-actions 
 	font-weight: 500;
 	text-decoration: none;
 }
+.lw-graph-chart .splwt-lite-title h4::after {
+	content: "HOT";
+	background-color: red;
+	color: white;
+	font-size: 10px;
+	padding: 2px 6px;
+	margin-left: 6px;
+	border-radius: 4px;
+	font-weight: bold;
+ }

@@ -25,7 +25,6 @@ class Master_Menu
 
         $this->url = self::plugin_url() . '/mega-menu/';
 
-
         add_action('init', [$this, 'jltma_include_files']);
     }
 
@@ -55,7 +54,11 @@ class Master_Menu
         jltma_megamenu_cpt_api()->init();
 
         if (is_admin()) {
-            jltma_megamenu_cpt();
+            if(!function_exists('\MasterAddons\Modules\MegaMenu\jltma_megamenu_cpt')){
+                new \MasterAddons\Modules\MegaMenu\JLTMA_Megamenu_Cpt();
+            }else{
+                \MasterAddons\Modules\MegaMenu\jltma_megamenu_cpt();
+            }
         }
     }
 

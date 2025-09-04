@@ -81,8 +81,8 @@ SPLW::createSection(
 				'title'      => __( 'Add Your API Key', 'location-weather' ),
 				'desc'       => sprintf(
 					/* translators: %1$s: anchor tag start, %2$s: anchor tag end. */
-					__( '%1$sGet your WeatherAPI key!%2$s', 'location-weather-pro' ),
-					'<a href="https://www.weatherapi.com/signup.aspx" target="_blank">',
+					__( '%1$sGet your WeatherAPI key!%2$s', 'location-weather' ),
+					'<a href="https://www.weatherapi.com/my/" target="_blank">',
 					'</a>'
 				),
 				'dependency' => array( 'lw_api_source_type', '==', 'weather_api', true ),

@@ -12,6 +12,7 @@ use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 use Elementor\Group_Control_Image_Size;
 use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Box_Shadow;
+use Elementor\Utils;
 use MasterAddons\Inc\Helper\Master_Addons_Helper;
 /**
  * Author Name: Liton Arefin
@@ -82,6 +83,9 @@ class JLTMA_Image_Comparison extends Widget_Base {
             'label'      => esc_html__( 'Before image', 'master-addons' ),
             'type'       => Controls_Manager::MEDIA,
             'show_label' => false,
+            'default'    => [
+                'url' => Utils::get_placeholder_image_src(),
+            ],
         ) );
         $this->add_control( 'jltma_image_comparison_before_label', [
             'label'       => esc_html__( 'Label', 'master-addons' ),
@@ -101,6 +105,9 @@ class JLTMA_Image_Comparison extends Widget_Base {
             'label'      => esc_html__( 'After Image', 'master-addons' ),
             'type'       => Controls_Manager::MEDIA,
             'show_label' => false,
+            'default'    => [
+                'url' => Utils::get_placeholder_image_src(),
+            ],
         ) );
         $this->add_control( 'jltma_image_comparison_after_label', [
             'label'       => esc_html__( 'Label', 'master-addons' ),
@@ -607,13 +614,19 @@ class JLTMA_Image_Comparison extends Widget_Base {
         ?>
 		</div>
 
-	<?php 
+		<?php 
     }
 
     protected function content_template() {
         ?>
-		<# var visible_ratio=( settings.jltma_image_comparison_visible_ratio.size !='' ) ? settings.jltma_image_comparison_visible_ratio.size / 100 : '0.5' ; var slider_on_hover=( settings.jltma_image_comparison_move_handle=='mouse_move' ) ? true : false; var slider_with_handle=( settings.jltma_image_comparison_move_handle=='drag' ) ? true : false; var slider_with_click=( settings.jltma_image_comparison_move_handle=='mouse_click' ) ? true : false; var no_overlay=( settings.jltma_image_comparison_overlay=='yes' ) ? false : true; #>
-			<div class="jltma-image-comparison twentytwenty-container" data-image-comparison-settings='{ "visible_ratio":{{ visible_ratio }},"orientation":"{{ settings.jltma_image_comparison_orientation }}","before_label":"{{ settings.jltma_image_comparison_before_label }}","after_label":"{{ settings.jltma_image_comparison_after_label }}","slider_on_hover":{{ slider_on_hover }},"slider_with_handle":{{ slider_with_handle }},"slider_with_click":{{ slider_with_click }},"no_overlay":{{ no_overlay }} }'>
+		<# var visible_ratio=( settings.jltma_image_comparison_visible_ratio.size !='' ) ?
+			settings.jltma_image_comparison_visible_ratio.size / 100 : '0.5' ; var slider_on_hover=(
+			settings.jltma_image_comparison_move_handle=='mouse_move' ) ? true : false; var slider_with_handle=(
+			settings.jltma_image_comparison_move_handle=='drag' ) ? true : false; var slider_with_click=(
+			settings.jltma_image_comparison_move_handle=='mouse_click' ) ? true : false; var no_overlay=(
+			settings.jltma_image_comparison_overlay=='yes' ) ? false : true; #>
+			<div class="jltma-image-comparison twentytwenty-container"
+				data-image-comparison-settings='{ "visible_ratio":{{ visible_ratio }},"orientation":"{{ settings.jltma_image_comparison_orientation }}","before_label":"{{ settings.jltma_image_comparison_before_label }}","after_label":"{{ settings.jltma_image_comparison_after_label }}","slider_on_hover":{{ slider_on_hover }},"slider_with_handle":{{ slider_with_handle }},"slider_with_click":{{ slider_with_click }},"no_overlay":{{ no_overlay }} }'>
 				<# if ( settings.jltma_image_comparison_before_image.url !='' ) { #>
 					<img src="{{ settings.jltma_image_comparison_before_image.url }}">
 					<# } #>
@@ -622,7 +635,7 @@ class JLTMA_Image_Comparison extends Widget_Base {
 							<img src="{{ settings.jltma_image_comparison_after_image.url }}">
 							<# } #>
 			</div>
-	<?php 
+			<?php 
     }
 
 }

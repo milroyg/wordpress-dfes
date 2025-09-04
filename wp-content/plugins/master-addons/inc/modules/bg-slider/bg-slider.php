@@ -18,36 +18,132 @@ class JLTMA_Extension_Background_Slider
 		add_action('elementor/frontend/element/before_render', [$this, '_before_render'], 10, 1);
 		add_action('elementor/frontend/column/before_render', [$this, '_before_render'], 10, 1);
 		add_action('elementor/frontend/section/before_render', [$this, '_before_render'], 10, 1);
+		add_action('elementor/frontend/container/before_render', [$this, '_before_render'], 10, 1);
 
 		add_action('elementor/element/print_template', [$this, '_print_template'], 10, 2);
-		// add_action('elementor/widget/print_template', [$this, '_print_template'], 10, 2);
-		// add_action('elementor/section/print_template', [$this, '_print_template'], 10, 2);
+		add_action('elementor/section/print_template', [$this, '_print_template'], 10, 2);
+		add_action('elementor/column/print_template', [$this, '_print_template'], 10, 2);
+		add_action('elementor/container/print_template', [$this, '_print_template'], 10, 2);
 
-		add_action('elementor/editor/before_enqueue_scripts', [$this, 'ma_el_add_js_css']);
+		// Enqueue scripts early on frontend when needed
+		add_action('wp_enqueue_scripts', [$this, 'maybe_enqueue_bg_slider_for_frontend'], 10);
+
+		// Only enqueue scripts when needed (no longer auto-enqueue in editor)
+		add_action('elementor/preview/enqueue_scripts', [$this, 'maybe_enqueue_bg_slider_for_preview']);
 	}
 
 
 	public function ma_el_add_js_css()
 	{
-
 		// CSS
-		wp_enqueue_style('vegas', JLTMA_URL . '/assets/vendor/vegas/vegas.min.css');
-		// wp_enqueue_style('swiper');
+		wp_enqueue_style('master-addons-vegas');
 
 		// JS
-		wp_enqueue_script('vegas', JLTMA_URL . '/assets/vendor/vegas/vegas.min.js', ['jquery'], JLTMA_VER, true);
-		wp_enqueue_script('swiper');
+		wp_enqueue_script('master-addons-vegas');
+	}
+
+	public function maybe_enqueue_bg_slider_for_preview()
+	{
+		// Check if any element on the page has bg slider enabled
+		global $post;
+		if (!$post) return;
+
+		// Get Elementor data
+		$document = \Elementor\Plugin::$instance->documents->get($post->ID);
+		if (!$document) return;
+
+		$data = $document->get_elements_data();
+		if ($this->has_bg_slider_enabled($data)) {
+			$this->ma_el_add_js_css();
+		}
+	}
+
+	public function maybe_enqueue_bg_slider_for_frontend()
+	{
+		// Only run on Elementor pages
+		if (!did_action('elementor/loaded')) {
+			return;
+		}
+
+		// Check if we're on a frontend Elementor page
+		if (is_admin() || (function_exists('elementorFrontend\is_edit_mode') && \Elementor\Plugin::$instance->editor->is_edit_mode())) {
+			return;
+		}
+
+		// Check if any element on the page has bg slider enabled
+		global $post;
+		if (!$post) return;
+
+		// Check if this post uses Elementor
+		if (!\Elementor\Plugin::$instance->db->is_built_with_elementor($post->ID)) {
+			return;
+		}
+
+		// Get Elementor data
+		$document = \Elementor\Plugin::$instance->documents->get($post->ID);
+		if (!$document) return;
+
+		$data = $document->get_elements_data();
+		if ($this->has_bg_slider_enabled($data)) {
+			$this->ma_el_add_js_css();
+		}
+	}
+
+	private function has_bg_slider_enabled($elements)
+	{
+		foreach ($elements as $element) {
+			$settings = $element['settings'] ?? [];
+
+			// Check if this element has bg slider enabled and has images
+			if (isset($settings['ma_el_enable_bg_slider']) && $settings['ma_el_enable_bg_slider'] === 'yes' && 
+				isset($settings['ma_el_bg_slider_images']) && !empty($settings['ma_el_bg_slider_images'])) {
+				return true;
+			}
+
+			// Check child elements recursively
+			if (!empty($element['elements'])) {
+				if ($this->has_bg_slider_enabled($element['elements'])) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public function _add_controls($element, $section_id, $args)
 	{
-		if (('section' === $element->get_name() && 'section_background' === $section_id) || ('column' === $element->get_name() && 'section_style' === $section_id)) {
+		if (('section' === $element->get_name() && 'section_background' === $section_id) || ('column' === $element->get_name() && 'section_style' === $section_id) || ('container' === $element->get_name() && 'section_background' === $section_id)) {
 
 			$element->start_controls_section(
 				'_ma_el_section_bg_slider',
 				[
-					'label' => JLTMA_BADGE . __(' Background Slider', 'master-addons' ),
+					'label' => __('Background Slider ', 'master-addons' )  . JLTMA_EXTENSION_BADGE,
 					'tab'   => Controls_Manager::TAB_STYLE
+				]
+			);
+
+			$element->add_control(
+				'ma_el_enable_bg_slider',
+				[
+					'type'  => Controls_Manager::SWITCHER,
+					'label' => __('Enable Background Slider', 'master-addons' ),
+					'default' => '',
+					'label_on' => __('Yes', 'master-addons' ),
+					'label_off' => __('No', 'master-addons' ),
+					'return_value' => 'yes',
+					'render_type' => 'template',
+				]
+			);
+
+			$element->add_control(
+				'ma_el_bg_slider_apply_changes',
+				[
+					'type' => Controls_Manager::RAW_HTML,
+					'raw' => '<div class="elementor-update-preview-button editor-ma-bg-slider-preview-update"><span>Update changes to Preview</span><button class="elementor-button elementor-button-success" onclick="elementor.reloadPreview();">Apply</button></div>',
+					'separator' => 'after',
+					'condition' => [
+						'ma_el_enable_bg_slider' => 'yes',
+					],
 				]
 			);
 
@@ -57,6 +153,9 @@ class JLTMA_Extension_Background_Slider
 					'label'     => __('Add Images', 'master-addons' ),
 					'type'      => Controls_Manager::GALLERY,
 					'default'   => [],
+					'condition' => [
+						'ma_el_enable_bg_slider' => 'yes',
+					],
 				]
 			);
 
@@ -64,6 +163,9 @@ class JLTMA_Extension_Background_Slider
 				Group_Control_Image_Size::get_type(),
 				[
 					'name' => 'ma_el_thumbnail',
+					'condition' => [
+						'ma_el_enable_bg_slider' => 'yes',
+					],
 				]
 			);
 
@@ -123,6 +225,9 @@ class JLTMA_Extension_Background_Slider
 						'random'      => __('Random', 'master-addons' )
 					],
 					'default' => 'fade',
+					'condition' => [
+						'ma_el_enable_bg_slider' => 'yes',
+					],
 				]
 			);
 
@@ -135,6 +240,9 @@ class JLTMA_Extension_Background_Slider
 					'label_on'     => __('Yes', 'master-addons' ),
 					'label_off'    => __('No', 'master-addons' ),
 					'return_value' => 'yes',
+					'condition' => [
+						'ma_el_enable_bg_slider' => 'yes',
+					],
 				]
 			);
 
@@ -157,6 +265,9 @@ class JLTMA_Extension_Background_Slider
 						''                  => __('None', 'master-addons' )
 					],
 					'default' => 'kenburns',
+					'condition' => [
+						'ma_el_enable_bg_slider' => 'yes',
+					],
 				]
 			);
 
@@ -169,6 +280,9 @@ class JLTMA_Extension_Background_Slider
 					'label_on'     => __('Show', 'master-addons' ),
 					'label_off'    => __('Hide', 'master-addons' ),
 					'return_value' => 'yes',
+					'condition' => [
+						'ma_el_enable_bg_slider' => 'yes',
+					],
 				]
 			);
 
@@ -191,6 +305,7 @@ class JLTMA_Extension_Background_Slider
 					'types'     => ['none', 'classic', 'gradient'],
 					'selector'  => '{{WRAPPER}} .vegas-overlay',
 					'condition' => [
+						'ma_el_enable_bg_slider' => 'yes',
 						'ma_el_custom_overlay_switcher' => 'yes',
 					]
 				]
@@ -215,6 +330,7 @@ class JLTMA_Extension_Background_Slider
 					],
 					'default'   => '01',
 					'condition' => [
+						'ma_el_enable_bg_slider' => 'yes',
 						'ma_el_custom_overlay_switcher' => '',
 					]
 				]
@@ -229,6 +345,9 @@ class JLTMA_Extension_Background_Slider
 						'false' => __('False', 'master-addons' )
 					],
 					'default' => 'true',
+					'condition' => [
+						'ma_el_enable_bg_slider' => 'yes',
+					],
 				]
 			);
 			$element->add_control(
@@ -239,6 +358,9 @@ class JLTMA_Extension_Background_Slider
 					'label_block' => true,
 					'placeholder' => __('Delay', 'master-addons' ),
 					'default'     => __('5000', 'master-addons' ),
+					'condition' => [
+						'ma_el_enable_bg_slider' => 'yes',
+					],
 				]
 			);
 			$element->add_control(
@@ -251,6 +373,9 @@ class JLTMA_Extension_Background_Slider
 						'false' => __('False', 'master-addons' )
 					],
 					'default' => 'true',
+					'condition' => [
+						'ma_el_enable_bg_slider' => 'yes',
+					],
 				]
 			);
 
@@ -261,87 +386,60 @@ class JLTMA_Extension_Background_Slider
 
 	function _before_render(\Elementor\Element_Base $element)
 	{
-
-		if ($element->get_name() != 'section' && $element->get_name() != 'column') {
+		if ($element->get_name() != 'section' && $element->get_name() != 'column' && $element->get_name() != 'container') {
 			return;
 		}
+
 		$settings = $element->get_settings();
 
-		$element->add_render_attribute('_wrapper', 'class', 'has_ma_el_bg_slider');
-		$element->add_render_attribute('ma-el-bs-background-slideshow-wrapper', 'class', 'ma-el-bs-background-slideshow-wrapper');
-
-		$element->add_render_attribute('ma-el-bs-backgroundslideshow', 'class', 'ma-el-at-backgroundslideshow');
-
-		$slides = [];
+		// Check if bg slider is enabled first
+		if (empty($settings['ma_el_enable_bg_slider']) || $settings['ma_el_enable_bg_slider'] !== 'yes') {
+			return;
+		}
 
 		if (empty($settings['ma_el_bg_slider_images'])) {
 			return;
 		}
 
-		$this->ma_el_add_js_css();
+		$element->add_render_attribute('_wrapper', 'class', 'has_ma_el_bg_slider');
 
+		$slides = [];
 		foreach ($settings['ma_el_bg_slider_images'] as $attachment) {
 			$image_url = Group_Control_Image_Size::get_attachment_image_src(
 				$attachment['id'],
 				'ma_el_thumbnail',
 				$settings
 			);
-			$slides[]  = ['src' => $image_url];
+			$slides[] = $image_url;
 		}
 
 		if (empty($slides)) {
 			return;
 		}
-		// make slider random
-		if( $settings['ma_el_slider_display_random'] === 'yes' ) shuffle($slides);
 
-?>
+		// Make slider random
+		if ($settings['ma_el_slider_display_random'] === 'yes') {
+			shuffle($slides);
+		}
 
-		<script type="text/javascript">
-			jQuery(document).ready(function() {
-				jQuery(".elementor-element-<?php echo sanitize_text_field($element->get_id()); ?>").prepend('<div ' +
-					'class="ma-el-section-bs"><div' +
-					' class="ma-el-section-bs-inner"></div></div>');
-				var bgimage = '<?php echo esc_url($settings["ma_el_slider_custom_overlay_image"]['url']); ?>';
-				if ('<?php echo esc_attr($settings["ma_el_custom_overlay_switcher"]); ?>' == 'yes') {
+		// Add data attributes for JavaScript to read
+		$images_string = implode(',', $slides);
+		$element->add_render_attribute('_wrapper', 'data-ma-el-bg-slider-images', $images_string);
+		$element->add_render_attribute('_wrapper', 'data-ma-el-bg-slider-transition', $settings['ma_el_slider_transition']);
+		$element->add_render_attribute('_wrapper', 'data-ma-el-bg-slider-animation', $settings['ma_el_slider_animation']);
+		$element->add_render_attribute('_wrapper', 'data-ma-el-bg-custom-overlay', $settings['ma_el_custom_overlay_switcher']);
+		$element->add_render_attribute('_wrapper', 'data-ma-el-bg-slider-overlay', $settings['ma_el_slider_overlay']);
+		$element->add_render_attribute('_wrapper', 'data-ma-el-bg-slider-cover', $settings['ma_el_slider_cover']);
+		$element->add_render_attribute('_wrapper', 'data-ma-el-bs-slider-delay', $settings['ma_el_slider_delay']);
+		$element->add_render_attribute('_wrapper', 'data-ma-el-bs-slider-timer', $settings['ma_el_slider_timer_bar']);
 
-					//if(bgimage == ''){
-					//    var bgoverlay = '<?php //echo $settings["ma_el_slider_custom_overlay_image"]['url'];
-											?>';
-					//}else{
-					var bgoverlay = '<?php echo JLTMA_URL . "/assets/vendor/vegas/overlays/00.png"; ?>';
-					// }
-				} else {
-					if ('<?php echo !empty($settings["ma_el_slider_overlay"]); ?>') {
-						var bgoverlay = '<?php echo JLTMA_URL . "/assets/vendor/vegas/overlays/" . esc_attr($settings["ma_el_slider_overlay"]) . ".png"; ?>';
-					} else {
-						var bgoverlay = '<?php echo JLTMA_URL . "/assets/vendor/vegas/overlays/00.png"; ?>';
-					}
-				}
+		// Scripts are now enqueued early via wp_enqueue_scripts hook
 
-
-				jQuery(".elementor-element-<?php echo sanitize_text_field($element->get_id()); ?>").children('.ma-el-section-bs').children('' +
-					'.ma-el-section-bs-inner').vegas({
-					slides: <?php echo json_encode($slides) ?>,
-					transition: '<?php echo esc_attr($settings['ma_el_slider_transition']); ?>',
-					animation: '<?php echo esc_attr($settings['ma_el_slider_animation']); ?>',
-					overlay: bgoverlay,
-					cover: <?php echo esc_attr($settings['ma_el_slider_cover']); ?>,
-					delay: <?php echo esc_attr($settings['ma_el_slider_delay']); ?>,
-					timer: <?php echo esc_attr($settings['ma_el_slider_timer_bar']); ?>
-				});
-				if ('<?php echo esc_attr($settings["ma_el_custom_overlay_switcher"]); ?>' == 'yes') {
-					jQuery(".elementor-element-<?php echo sanitize_text_field($element->get_id()); ?>").children('.ma-el-section-bs')
-						.children('.ma-el-section-bs-inner').children('.vegas-overlay').css('background-image', '');
-				}
-			});
-		</script>
-	<?php
 	}
 
 	function _print_template($template, $widget)
 	{
-		if ($widget->get_name() != 'section' && $widget->get_name() != 'column') {
+		if ($widget->get_name() != 'section' && $widget->get_name() != 'column' && $widget->get_name() != 'container') {
 			return $template;
 		}
 
@@ -349,11 +447,29 @@ class JLTMA_Extension_Background_Slider
 		ob_start();
 	?>
 
-		<# var rand_id=Math.random().toString(36).substring(7) slides_path_string='' , ma_el_transition=settings.ma_el_slider_transition, ma_el_animation=settings.ma_el_slider_animation, ma_el_custom_overlay=settings.ma_el_custom_overlay_switcher, ma_el_overlay='' , ma_el_cover=settings.ma_el_slider_cover, ma_el_delay=settings.ma_el_slider_delay, ma_el_timer=settings.ma_el_slider_timer_bar; if(!_.isUndefined(settings.ma_el_bg_slider_images) && settings.ma_el_bg_slider_images.length){ var slider_data=[]; slides=settings.ma_el_bg_slider_images; for(var i in slides){ slider_data[i]=slides[i].url; } slides_path_string=slider_data.join(); } if(settings.ma_el_custom_overlay_switcher=='yes' ){ ma_el_overlay='00.png' ; }else{ if(settings.ma_el_slider_overlay){ ma_el_overlay=settings.ma_el_slider_overlay + '.png' ; }else{ ma_el_overlay='00.png' ; } } #>
+		<# if(settings.ma_el_enable_bg_slider === 'yes' && !_.isUndefined(settings.ma_el_bg_slider_images) && settings.ma_el_bg_slider_images.length){
+			var slides_path_string='', ma_el_transition=settings.ma_el_slider_transition, ma_el_animation=settings.ma_el_slider_animation, ma_el_custom_overlay=settings.ma_el_custom_overlay_switcher, ma_el_overlay='', ma_el_cover=settings.ma_el_slider_cover, ma_el_delay=settings.ma_el_slider_delay, ma_el_timer=settings.ma_el_slider_timer_bar;
+			var slider_data=[];
+			slides=settings.ma_el_bg_slider_images;
+			for(var i in slides){
+				slider_data[i]=slides[i].url;
+			}
+			slides_path_string=slider_data.join();
+			if(settings.ma_el_custom_overlay_switcher=='yes' ){
+				ma_el_overlay='00.png';
+			}else{
+				if(settings.ma_el_slider_overlay){
+					ma_el_overlay=settings.ma_el_slider_overlay + '.png';
+				}else{
+					ma_el_overlay='00.png';
+				}
+			} #>
 
 			<div class="ma-el-section-bs">
 				<div class="ma-el-section-bs-inner" data-ma-el-bg-slider="{{ slides_path_string }}" data-ma-el-bg-slider-transition="{{ ma_el_transition }}" data-ma-el-bg-slider-animation="{{ ma_el_animation }}" data-ma-el-bg-custom-overlay="{{ ma_el_custom_overlay }}" data-ma-el-bg-slider-overlay="{{ ma_el_overlay }}" data-ma-el-bg-slider-cover="{{ ma_el_cover }}" data-ma-el-bs-slider-delay="{{ ma_el_delay }}" data-ma-el-bs-slider-timer="{{ ma_el_timer }}"></div>
 			</div>
+
+		<# } #>
 
 	<?php
 		$slider_content = ob_get_contents();

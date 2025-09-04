@@ -228,6 +228,25 @@ SPLW::createSection(
 				'default'    => false,
 			),
 			array(
+				'id'         => 'lw-custom-weather-search',
+				'type'       => 'switcher',
+				'title'      => __( 'Custom Weather Search', 'location-weather' ),
+				'class'      => 'splw_show_hide auto-location',
+				'title_info' => sprintf(
+					'<div class="lw-info-label">%1$s</div> <div class="lw-short-content">%2$s</div> %3$s',
+					__( 'Custom Weather Search', 'location-weather' ),
+					__(
+						'Help visitors search for weather data by entering the desired city or location name to view the latest weather conditions.',
+						'location-weather'
+					),
+					'<a class="lw-open-live-demo" href="https://locationweather.io/demos/custom-weather-search/" target="_blank">' . __( 'Live Demo', 'location-weather' ) . '</a>'
+				),
+				'text_on'    => __( 'Enabled', 'location-weather' ),
+				'text_off'   => __( 'Disabled', 'location-weather' ),
+				'text_width' => 99,
+				'default'    => false,
+			),
+			array(
 				'id'    => 'lw-measurement-units-heading',
 				'type'  => 'subheading',
 				'title' => __( 'Measurement Units', 'location-weather' ),

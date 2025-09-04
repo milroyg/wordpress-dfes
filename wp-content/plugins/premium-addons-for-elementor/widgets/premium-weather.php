@@ -32,6 +32,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Premium_Weather extends Widget_Base {
 
 	/**
+	 * Check if the icon draw is enabled.
+	 *
+	 * @since 4.9.26
+	 * @access private
+	 *
+	 * @var bool
+	 */
+	private $is_draw_enabled = null;
+
+	/**
 	 * Options
 	 *
 	 * @var options
@@ -52,8 +62,13 @@ class Premium_Weather extends Widget_Base {
 	 * @access public
 	 */
 	public function check_icon_draw() {
-		$is_enabled = Admin_Helper::check_svg_draw( 'premium-weather' );
-		return $is_enabled;
+
+		if ( null === $this->is_draw_enabled ) {
+			$this->is_draw_enabled = Admin_Helper::check_svg_draw( 'premium-weather' );
+		}
+
+		return $this->is_draw_enabled;
+
 	}
 
 	/**
@@ -150,7 +165,6 @@ class Premium_Weather extends Widget_Base {
 	public function get_script_depends() {
 
 		$draw_scripts = $this->check_icon_draw() ? array(
-			// 'pa-fontawesome-all',
 			'pa-tweenmax',
 			'pa-motionpath',
 		) : array();
@@ -178,7 +192,7 @@ class Premium_Weather extends Widget_Base {
 	}
 
 	public function has_widget_inner_wrapper(): bool {
-		return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+		return ! Helper_Functions::check_elementor_experiment( 'e_optimized_markup' );
 	}
 
 	/**
@@ -229,6 +243,8 @@ class Premium_Weather extends Widget_Base {
 		$this->add_daily_forecast_section();
 		$this->add_custom_icons_section();
 		$this->add_helpful_info_section();
+
+		Helper_Functions::register_papro_promotion_controls( $this, 'weather' );
 	}
 
 	/**
@@ -264,6 +280,9 @@ class Premium_Weather extends Widget_Base {
 				'label' => __( 'General Settings', 'premium-addons-for-elementor' ),
 			)
 		);
+
+		$demo = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-weather-widget/', 'weather', 'wp-editor', 'demo' );
+		Helper_Functions::add_templates_controls( $this, 'weather', $demo );
 
 		$this->add_control(
 			'api_key',

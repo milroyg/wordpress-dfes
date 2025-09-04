@@ -88,7 +88,7 @@ class JLTMA_Call_to_Action extends Widget_Base
 					'style-02' => esc_html__('Center Style', 'master-addons' ),
 					'style-03' => esc_html__('Quote Style', 'master-addons' ),
 					'style-04' => esc_html__('Quote Style 2', 'master-addons' ),
-					'style-07' => esc_html__('Left Icon', 'master-addons' )
+					'style-07' => esc_html__('Left Icon', 'master-addons' ),
 				],
 			]
 		);
@@ -191,10 +191,10 @@ class JLTMA_Call_to_Action extends Widget_Base
 		$this->add_control(
 			'ma_el_call_to_action_border_color',
 			[
-				'label'		=> esc_html__('Border Color', 'master-addons' ),
-				'type'		=> Controls_Manager::COLOR,
-				'default' => '#4b00e7',
-				'selectors'	=> [
+				'label'     => esc_html__('Border Color', 'master-addons' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '#4b00e7',
+				'selectors' => [
 					'{{WRAPPER}} .style-03 .jltma-call-action-content .jltma-row' => 'border-color: {{VALUE}};',
 					'{{WRAPPER}} .style-04 .jltma-call-action-content .jltma-row' => 'border-color: {{VALUE}};',
 				],
@@ -209,10 +209,10 @@ class JLTMA_Call_to_Action extends Widget_Base
 		$this->add_control(
 			'ma_el_call_to_action_icon_color',
 			[
-				'label'		=> esc_html__('Icon Color', 'master-addons' ),
-				'type'		=> Controls_Manager::COLOR,
-				'default' => '#4b00e7',
-				'selectors'	=> [
+				'label'     => esc_html__('Icon Color', 'master-addons' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '#4b00e7',
+				'selectors' => [
 					'{{WRAPPER}} .style-07 .jltma-media-left i' => 'color: {{VALUE}};',
 				],
 
@@ -264,10 +264,10 @@ class JLTMA_Call_to_Action extends Widget_Base
 		$this->add_control(
 			'ma_el_call_to_action_title_color',
 			[
-				'label'		=> esc_html__('Title Color', 'master-addons' ),
-				'type'		=> Controls_Manager::COLOR,
-				'default' => '#393c3f',
-				'selectors'	=> [
+				'label'     => esc_html__('Title Color', 'master-addons' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '#393c3f',
+				'selectors' => [
 
 					'{{WRAPPER}} .style-02 .jltma-call-action-title' => 'color: #fff;',
 					'{{WRAPPER}} .jltma-call-action-title' => 'color: {{VALUE}} !important;',
@@ -280,7 +280,7 @@ class JLTMA_Call_to_Action extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
-				'name' => 'ma_el_cta_title_typography',
+				'name'   => 'ma_el_cta_title_typography',
 				'global' => [
 					'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
 				],
@@ -298,17 +298,17 @@ class JLTMA_Call_to_Action extends Widget_Base
 			'ma_el_call_to_action_desc_style_section',
 			[
 				'label' => __('Description Style', 'master-addons' ),
-				'tab' => Controls_Manager::TAB_STYLE,
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
 		$this->add_control(
 			'ma_el_call_to_action_description_color',
 			[
-				'label'		=> esc_html__('Text Color', 'master-addons' ),
-				'type'		=> Controls_Manager::COLOR,
-				'default' => '#78909c',
-				'selectors'	=> [
+				'label'     => esc_html__('Text Color', 'master-addons' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '#78909c',
+				'selectors' => [
 					'{{WRAPPER}} .jltma-call-action-description' => 'color: {{VALUE}};'
 				]
 			]
@@ -320,7 +320,7 @@ class JLTMA_Call_to_Action extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
-				'name' => 'ma_el_call_to_action_text_typography',
+				'name'   => 'ma_el_call_to_action_text_typography',
 				'global' => [
 					'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
 				],
@@ -353,10 +353,10 @@ class JLTMA_Call_to_Action extends Widget_Base
 		$this->add_control(
 			'ma_el_call_to_action_button_bg_color',
 			[
-				'label'		=> esc_html__('Background Color', 'master-addons' ),
-				'type'		=> Controls_Manager::COLOR,
-				'default' => '#4b00e7',
-				'selectors'	=> [
+				'label'     => esc_html__('Background Color', 'master-addons' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '#4b00e7',
+				'selectors' => [
 					'{{WRAPPER}} .jltma-call-action-content .jltma-call-action-btn' => 'background-color: {{VALUE}};',
 				]
 			]
@@ -587,6 +587,7 @@ class JLTMA_Call_to_Action extends Widget_Base
 	protected function render()
 	{
 		$settings = $this->get_settings_for_display();
+		
 		$this->add_render_attribute('ma_el_call_to_action_wrapper', [
 			'class'	=> [
 				'jltma-call-to-action'
@@ -612,7 +613,6 @@ class JLTMA_Call_to_Action extends Widget_Base
 
 		$migrated  = isset($settings['__fa4_migrated']['ma_el_call_to_action_icon']);
 		$is_new    = empty($settings['icon']) && Icons_Manager::is_migration_allowed();
-
 
 		$this->add_render_attribute('jltma_cta_link', [
 			'class' => 'jltma-call-action-btn',
@@ -667,6 +667,7 @@ class JLTMA_Call_to_Action extends Widget_Base
 									<?php echo $this->parse_text_editor($settings['ma_el_call_to_action_content_desc']); ?>
 								</p>
 							<?php } ?>
+
 						</div>
 						<div class="jltma-col-3 text-right">
 							<a <?php echo $this->get_render_attribute_string('jltma_cta_link'); ?>>

@@ -15,9 +15,15 @@ $icon_color                     = isset( $splw_meta['lw-icon-color']['color'] ) 
 $background_type                = isset( $splw_meta['lw-background-type'] ) ? $splw_meta['lw-background-type'] : '';
 $bg_solid                       = isset( $splw_meta['lw-bg-solid'] ) ? $splw_meta['lw-bg-solid'] : '#F05800';
 
-$lw_bg_border      = isset( $splw_meta['lw_bg_border'] ) ? $splw_meta['lw_bg_border']['all'] . 'px ' . $splw_meta['lw_bg_border']['style'] . ' ' . $splw_meta['lw_bg_border']['color'] : '';
-$bg_border_radius  = isset( $splw_meta['lw_bg_border_radius'] ) ? $splw_meta['lw_bg_border_radius']['all'] . $splw_meta['lw_bg_border_radius']['unit'] : '8px';
-$weather_icon_size = isset( $splw_meta['lw_current_icon_size'] ) ? $splw_meta['lw_current_icon_size'] : '58';
+$lw_bg_border        = isset( $splw_meta['lw_bg_border'] ) ? $splw_meta['lw_bg_border']['all'] . 'px ' . $splw_meta['lw_bg_border']['style'] . ' ' . $splw_meta['lw_bg_border']['color'] : '';
+$bg_border_radius    = isset( $splw_meta['lw_bg_border_radius'] ) ? $splw_meta['lw_bg_border_radius']['all'] . $splw_meta['lw_bg_border_radius']['unit'] : '8px';
+$weather_icon_size   = $splw_meta['lw_current_icon_size'] ?? '58';
+$forecast            = $splw_meta['lw-enable-forecast'] ?? true;
+$forecast_font_color = $splw_meta['lw-forecast-color'] ?? '#fff';
+$forecast_margin     = $splw_meta['lw-forecast-margin'] ?? array(
+	'top'    => 0,
+	'bottom' => 0,
+);
 
 $custom_css                  .= "#splw-location-weather-{$splw_id}.splw-main-wrapper {
 	max-width: 320px;
@@ -25,7 +31,7 @@ $custom_css                  .= "#splw-location-weather-{$splw_id}.splw-main-wra
 	margin-bottom: 2em;
 }
 #splw-location-weather-{$splw_id}.splw-main-wrapper.horizontal {
-	max-width: 666px;
+	max-width: 800px;
 }";
 $weather_content_padding_unit = isset( $splw_meta['lw_content_padding']['unit'] ) ? $splw_meta['lw_content_padding']['unit'] : 'px';
 $weather_content_padding      = isset( $splw_meta['lw_content_padding'] ) ? $splw_meta['lw_content_padding'] : array(
@@ -38,7 +44,7 @@ $custom_css                  .= '#splw-location-weather-' . $splw_id . ' .splw-l
 	text-decoration: none;
 }';
 
-$custom_css .= "#splw-location-weather-{$splw_id} .splw-lite-templates-body{
+$custom_css .= "#splw-location-weather-{$splw_id} .splw-lite-templates-body,#splw-location-weather-{$splw_id} .splw-adv-forecast-days{
 	padding : {$weather_content_padding['top']}{$weather_content_padding_unit} {$weather_content_padding['right']}{$weather_content_padding_unit} {$weather_content_padding['bottom']}{$weather_content_padding_unit} {$weather_content_padding['left']}{$weather_content_padding_unit};
 }
 #splw-location-weather-{$splw_id} .splw-weather-detailed-updated-time{
@@ -50,6 +56,18 @@ $custom_css .= "#splw-location-weather-{$splw_id} .splw-lite-templates-body{
 #splw-location-weather-{$splw_id} .splw-lite-wrapper .splw-lite-current-temp .splw-weather-icon{
 	width: {$weather_icon_size}px;
 }";
+
+if ( $forecast ) {
+	$custom_css .= "#splw-location-weather-{$splw_id} .splw-adv-forecast-days{
+		padding-top : 0;
+		color : {$forecast_font_color};
+		margin-top : {$forecast_margin['top']}px;
+		margin-bottom : {$forecast_margin['bottom']}px;
+	}
+	#splw-location-weather-{$splw_id} .splw-lite-templates-body{
+		padding-bottom : 0;
+	}";
+}
 
 $custom_css .= "#splw-location-weather-{$splw_id} .splw-lite-wrapper{
 	border-radius: {$bg_border_radius};

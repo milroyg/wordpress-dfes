@@ -31,6 +31,14 @@ require self::lw_locate_template( 'additional-icon.php' );
 			require self::lw_locate_template( 'template-parts/additional-data.php' );
 			?>
 		</div>
+		<?php if ( $show_forecast && $forecast_data ) : ?>
+		<div class="splw-adv-forecast-days">
+			<?php
+			require self::lw_locate_template( 'template-parts/forecast-header-section.php' );
+			require self::lw_locate_template( 'template-parts/forecast-data.php' );
+			?>
+		</div>
+		<?php endif; ?>
 		<?php require self::lw_locate_template( 'template-parts/footer.php' ); ?>
 	</div>
 </div>

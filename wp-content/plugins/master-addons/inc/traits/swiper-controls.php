@@ -476,8 +476,10 @@ trait JLTMA_Swiper_Controls
             [
                 'label' => __('Show Scrollbar?', 'master-addons' ),
                 'type'  => Controls_Manager::SWITCHER,
+                'frontend_available' => true
             ]
         );
+
 
         $this->add_control(
             'both_position',
@@ -568,6 +570,17 @@ trait JLTMA_Swiper_Controls
             ]
         );
 
+        $this->add_control(
+            'hide_arrow_on_mobile',
+            [
+                'label'     => __('Hide Arrow on Mobile ?', 'master-addons' ),
+                'type'      => Controls_Manager::SWITCHER,
+                'default'   => 'yes',
+                'condition' => [
+                    'navigation' => ['arrows-fraction', 'arrows', 'both'],
+                ],
+            ]
+        );
 
         // Arrow Icons
         $this->start_controls_tabs('carousel_arrow_controls_tabs');
@@ -637,21 +650,6 @@ trait JLTMA_Swiper_Controls
 
         $this->end_controls_tab();
         $this->end_controls_tabs();
-
-
-
-
-        $this->add_control(
-            'hide_arrow_on_mobile',
-            [
-                'label'     => __('Hide Arrow on Mobile', 'master-addons' ),
-                'type'      => Controls_Manager::SWITCHER,
-                'default'   => 'yes',
-                'condition' => [
-                    'navigation' => ['arrows-fraction', 'arrows', 'both'],
-                ],
-            ]
-        );
     }
 
 
@@ -1023,17 +1021,27 @@ trait JLTMA_Swiper_Controls
                 'size_units' => ['px', 'em', '%'],
                 'selectors'  => [
                     '{{WRAPPER}} .jltma-' . $name . '-wrapper .jltma-swiper__slide' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+
                 ],
             ]
         );
 
-        $this->add_control(
+        $this->add_responsive_control(
             'item_gap',
             [
                 'label'              => esc_html__('Item Gap', 'master-addons' ),
                 'type'               => Controls_Manager::SLIDER,
                 'default'            => [
                     'size' => 35,
+                    'unit' => 'px',
+                ],
+                'tablet_default'     => [
+                    'size' => 35,
+                    'unit' => 'px',
+                ],
+                'mobile_default'     => [
+                    'size' => 20,
+                    'unit' => 'px',
                 ],
                 'range'              => [
                     'px' => [
@@ -1296,7 +1304,7 @@ trait JLTMA_Swiper_Controls
             Group_Control_Border::get_type(),
             [
                 'name'      => 'nav_arrows_border',
-                'selector'  => '{{WRAPPER}} .jltma-arrows .jltma-arrow--prev, {{WRAPPER}} .jltma-arrows .jltma-arrow--next,{{WRAPPER}} .jltma-' . $name . '-wrapper .jltma-arrows .jltma-arrow--prev, {{WRAPPER}} .jltma-' . $name . '-wrapper .jltma-arrows .jltma-arrow--next', 
+                'selector'  => '{{WRAPPER}} .jltma-arrows .jltma-arrow--prev, {{WRAPPER}} .jltma-arrows .jltma-arrow--next,{{WRAPPER}} .jltma-' . $name . '-wrapper .jltma-arrows .jltma-arrow--prev, {{WRAPPER}} .jltma-' . $name . '-wrapper .jltma-arrows .jltma-arrow--next',
                 'condition' => [
                     'navigation!' => ['dots', 'progressbar', 'none'],
                 ],
@@ -1747,7 +1755,7 @@ trait JLTMA_Swiper_Controls
                     ],
                 ],
                 'selectors' => [
-                    
+
                     '{{WRAPPER}}' => '--jltma-swiper-dots-align: {{VALUE}};',
                 ],
                 'condition' => [
@@ -2567,8 +2575,12 @@ trait JLTMA_Swiper_Controls
 
         $elementor_vp_lg = get_option('elementor_viewport_lg');
         $elementor_vp_md = get_option('elementor_viewport_md');
+        $elementor_vp_sm = get_option('elementor_viewport_sm');
+        // $elementor_vp_xs = get_option('elementor_viewport_xs');
+
         $viewport_lg = !empty($elementor_vp_lg) ? $elementor_vp_lg - 1 : 1023;
         $viewport_md = !empty($elementor_vp_md) ? $elementor_vp_md - 1 : 767;
+        $viewport_sm = !empty($elementor_vp_sm) ? $elementor_vp_sm - 1 : 600;
 
 
         if ('arrows' == $settings['navigation']) {
@@ -2610,9 +2622,14 @@ trait JLTMA_Swiper_Controls
                             "observer"        => ($settings["observer"]) ? true : false,
                             "observeParents" => ($settings["observer"]) ? true : false,
                             "breakpoints"     => [
+                                (int)$viewport_sm => [
+                                    "slidesPerView"  => isset($settings["columns_tablet"]) ? (int)$settings["columns_tablet"] : 2,
+                                    "spaceBetween"   => $settings["item_gap_tablet"]["size"],
+                                    "slidesPerGroup" => isset($settings["slides_to_scroll_tablet"]) ? (int)$settings["slides_to_scroll_tablet"] : 1,
+                                ],
                                 (int)$viewport_md => [
                                     "slidesPerView"  => isset($settings["columns_tablet"]) ? (int)$settings["columns_tablet"] : 2,
-                                    "spaceBetween"   => $settings["item_gap"]["size"],
+                                    "spaceBetween"   => $settings["item_gap_tablet"]["size"],
                                     "slidesPerGroup" => isset($settings["slides_to_scroll_tablet"]) ? (int)$settings["slides_to_scroll_tablet"] : 1,
                                 ],
                                 (int)$viewport_lg => [

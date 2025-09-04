@@ -151,6 +151,9 @@ class Premium_Dual_Header extends Widget_Base {
 			)
 		);
 
+		$demo = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/dual-header-widget-for-elementor-page-builder/', 'dual', 'wp-editor', 'demo' );
+		Helper_Functions::add_templates_controls( $this, 'dual-heading', $demo );
+
 		/*First Header*/
 		$this->add_control(
 			'premium_dual_header_first_header_text',
@@ -645,7 +648,7 @@ class Premium_Dual_Header extends Widget_Base {
 			'doc_1',
 			array(
 				'type'            => Controls_Manager::RAW_HTML,
-				'raw'             => sprintf( '<a href="%s" target="_blank">%s</a>', $doc1_url, __( 'Gettings started »', 'premium-addons-for-elementor' ) ),
+				'raw'             => sprintf( '<a href="%s" target="_blank">%s</a>', $doc1_url, __( 'Getting started »', 'premium-addons-for-elementor' ) ),
 				'content_classes' => 'editor-pa-doc',
 			)
 		);
@@ -662,6 +665,8 @@ class Premium_Dual_Header extends Widget_Base {
 		);
 
 		$this->end_controls_section();
+
+		Helper_Functions::register_papro_promotion_controls( $this, 'dual' );
 
 		$this->start_controls_section(
 			'premium_dual_header_first_style',

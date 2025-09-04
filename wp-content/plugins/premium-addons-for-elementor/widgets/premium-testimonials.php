@@ -139,7 +139,7 @@ class Premium_Testimonials extends Widget_Base {
 	}
 
 	public function has_widget_inner_wrapper(): bool {
-		return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+		return ! Helper_Functions::check_elementor_experiment( 'e_optimized_markup' );
 	}
 
 	/**
@@ -158,6 +158,9 @@ class Premium_Testimonials extends Widget_Base {
 				'label' => __( 'Testimonial', 'premium-addons-for-elementor' ),
 			)
 		);
+
+		$demo = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/testimonials-widget-for-elementor-page-builder/', 'testimonials', 'wp-editor', 'demo' );
+		Helper_Functions::add_templates_controls( $this, 'testimonials', $demo );
 
 		$this->add_control(
 			'multiple',
@@ -801,6 +804,8 @@ class Premium_Testimonials extends Widget_Base {
 		);
 
 		$this->end_controls_section();
+
+		Helper_Functions::register_papro_promotion_controls( $this, 'testimonials' );
 
 		$this->start_controls_section(
 			'premium_testimonial_image_style',

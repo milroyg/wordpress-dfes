@@ -851,7 +851,7 @@ class JLTMA_Logo_Slider extends Widget_Base
 										$repeater_key_brand_name = $repeater_key . 'brand_name';
 										$this->add_render_attribute($repeater_key_brand_name, 'class', 'jltma-logo-slider-brand-name');
 										?>
-											<<?php echo esc_attr($brand_title_tag); ?> <?php $this->print_render_attribute_string($repeater_key_brand_name); ?>>
+											<<?php echo esc_attr($brand_title_tag); ?> <?php $this->print_render_attribute_string($repeater_key_brand_name); ?>> 
 												<?php echo esc_html($item['jltma_logo_slider_brand_name']); ?>
 											</<?php echo esc_attr($brand_title_tag); ?>>
 										<?php

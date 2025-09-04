@@ -36,14 +36,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Premium_Mobile_Menu extends Widget_Base {
 
 	/**
+	 * Check if the icon draw is enabled.
+	 *
+	 * @since 4.9.26
+	 * @access private
+	 *
+	 * @var bool
+	 */
+	private $is_draw_enabled = null;
+
+	/**
 	 * Check Icon Draw Option.
 	 *
 	 * @since 4.9.26
 	 * @access public
 	 */
 	public function check_icon_draw() {
-		$is_enabled = Admin_Helper::check_svg_draw( 'premium-mobile-menu' );
-		return $is_enabled;
+
+		if ( null === $this->is_draw_enabled ) {
+			$this->is_draw_enabled = Admin_Helper::check_svg_draw( 'premium-mobile-menu' );
+		}
+
+		return $this->is_draw_enabled;
+
 	}
 
 	/**
@@ -129,7 +144,6 @@ class Premium_Mobile_Menu extends Widget_Base {
 	 */
 	public function get_script_depends() {
 		$draw_scripts = $this->check_icon_draw() ? array(
-			// 'pa-fontawesome-all',
 			'pa-tweenmax',
 			'pa-motionpath',
 		) : array();
@@ -157,7 +171,7 @@ class Premium_Mobile_Menu extends Widget_Base {
 	}
 
 	public function has_widget_inner_wrapper(): bool {
-		return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+		return ! Helper_Functions::check_elementor_experiment( 'e_optimized_markup' );
 	}
 
 	/**
@@ -178,6 +192,9 @@ class Premium_Mobile_Menu extends Widget_Base {
 				'label' => __( 'Menu Items', 'premium-addons-for-elementor' ),
 			)
 		);
+
+		$demo = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-mobile-menu-widget/', 'mobile-menu', 'wp-editor', 'demo' );
+		Helper_Functions::add_templates_controls( $this, 'mobile-menu', $demo );
 
 		$repeater = new Repeater();
 
@@ -646,6 +663,16 @@ class Premium_Mobile_Menu extends Widget_Base {
 		} else {
 			do_action( 'pa_mobile_menu_badge_controls', $repeater );
 		}
+
+		$repeater->add_control(
+			'css_id',
+			array(
+				'label'       => __( 'CSS ID', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::TEXT,
+				'description' => __( 'Add a CSS ID for this item.', 'premium-addons-for-elementor' ),
+				'label_block' => true,
+			)
+		);
 
 		$repeater->end_controls_tab();
 
@@ -1170,6 +1197,8 @@ class Premium_Mobile_Menu extends Widget_Base {
 		}
 
 		$this->end_controls_section();
+
+		Helper_Functions::register_papro_promotion_controls( $this, 'mobile-menu' );
 
 		$this->start_controls_section(
 			'item_style',
@@ -1716,6 +1745,10 @@ class Premium_Mobile_Menu extends Widget_Base {
 									),
 								)
 							);
+
+							if( ! empty( $item['css_id'] ) ) {
+								$this->add_render_attribute( 'menu-item-' . $index, 'id', $item['css_id'] );
+							}
 
 							$animation_key = 'icon_lottie_' . $index;
 

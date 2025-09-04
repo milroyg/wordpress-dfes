@@ -493,14 +493,12 @@ SPLW::createSection(
 							array(
 								'id'      => 'lw-forecast-color',
 								'type'    => 'color',
-								'class'   => 'splw_lite_pro_only',
 								'title'   => __( 'Color', 'location-weather' ),
 								'default' => '#fff',
 							),
 							array(
 								'id'      => 'lw-forecast-margin',
 								'type'    => 'spacing',
-								'class'   => 'lw-forecast-margin splw_lite_pro_only',
 								'title'   => __( 'Margin', 'location-weather' ),
 								'all'     => false,
 								'left'    => false,
@@ -510,7 +508,7 @@ SPLW::createSection(
 								'units'   => array( 'px' ),
 								'default' => array(
 									'top'    => '0',
-									'bottom' => '10',
+									'bottom' => '0',
 								),
 							),
 						),

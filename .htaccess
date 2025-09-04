@@ -20,3 +20,38 @@ RewriteRule . /index.php [L]
 </IfModule>
 
 # END WordPress
+# BEGIN HttpHeaders
+# The directives (lines) between "BEGIN HttpHeaders" and "END HttpHeaders" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+# END HttpHeaders
+# BEGIN HttpHeadersAuth
+# The directives (lines) between "BEGIN HttpHeadersAuth" and "END HttpHeadersAuth" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+# END HttpHeadersAuth
+# BEGIN HttpHeadersCompression
+# The directives (lines) between "BEGIN HttpHeadersCompression" and "END HttpHeadersCompression" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+# END HttpHeadersCompression
+# BEGIN HttpHeadersContentType
+# The directives (lines) between "BEGIN HttpHeadersContentType" and "END HttpHeadersContentType" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+# END HttpHeadersContentType
+# BEGIN HttpHeadersExpires
+# The directives (lines) between "BEGIN HttpHeadersExpires" and "END HttpHeadersExpires" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+# END HttpHeadersExpires
+# BEGIN HttpHeadersCookieSecurity
+# The directives (lines) between "BEGIN HttpHeadersCookieSecurity" and "END HttpHeadersCookieSecurity" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+# END HttpHeadersCookieSecurity
+# BEGIN HttpHeadersTiming
+# The directives (lines) between "BEGIN HttpHeadersTiming" and "END HttpHeadersTiming" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+# END HttpHeadersTiming

@@ -61,11 +61,12 @@ if ( ! class_exists( 'SPLWT_Field_shortcode' ) ) {
 					) . '</p>';
 
 					echo '<ul>';
-					echo '<li><i class="splwp-icon-check-icon"></i> ' . esc_html__( '25+ Premium Weather Templates', 'location-weather' ) . '</li>';
+					echo '<li><i class="splwp-icon-check-icon"></i> <a class="splwp-feature-link" href="https://locationweather.io/#weather-showcase" target="_blank">' . esc_html__( '25+ Premium Weather Templates', 'location-weather' ) . '</a></li>';
 					echo '<li><i class="splwp-icon-check-icon"></i> ' . esc_html__( 'Daily & Hourly Forecasts', 'location-weather' ) . '</li>';
 					echo '<li><i class="splwp-icon-check-icon"></i> ' . esc_html__( 'Interactive Radar & Weather Maps', 'location-weather' ) . '</li>';
-					echo '<li><i class="splwp-icon-check-icon"></i> ' . esc_html__( 'Weather Graph Charts', 'location-weather' ) . '</li>';
+					echo '<li><i class="splwp-icon-check-icon"></i> <a class="splwp-feature-link" href="https://locationweather.io/demos/weather-graph-chart/" target="_blank">' . esc_html__( 'Weather Graph Charts', 'location-weather' ) . '</a></li>';
 					echo '<li><i class="splwp-icon-check-icon"></i> ' . esc_html__( 'Weather Data Carousel', 'location-weather' ) . '</li>';
+					echo '<li><i class="splwp-icon-check-icon"></i> <a class="splwp-feature-link" href="https://locationweather.io/demos/custom-weather-search/" target="_blank">' . esc_html__( 'Custom Weather Search', 'location-weather' ) . '</a></li>';
 					echo '<li><i class="splwp-icon-check-icon"></i> ' . esc_html__( '18+ Detailed Weather Metrics', 'location-weather' ) . '</li>';
 					echo '<li><i class="splwp-icon-check-icon"></i> ' . esc_html__( '120+ Advanced Customizations', 'location-weather' ) . '</li>';
 					echo '</ul>';

@@ -90,7 +90,7 @@ class Premium_Image_Scroll extends Widget_Base {
 	}
 
 	public function has_widget_inner_wrapper(): bool {
-		return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+		return ! Helper_Functions::check_elementor_experiment( 'e_optimized_markup' );
 	}
 
 	/**
@@ -159,6 +159,9 @@ class Premium_Image_Scroll extends Widget_Base {
 				'label' => __( 'Image Settings', 'premium-addons-for-elementor' ),
 			)
 		);
+
+		$demo = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-image-scroll-widget/', 'img-scroll', 'wp-editor', 'demo' );
+		Helper_Functions::add_templates_controls( $this, 'image-scroll', $demo );
 
 		$this->add_control(
 			'image',
@@ -458,8 +461,8 @@ class Premium_Image_Scroll extends Widget_Base {
 				'description' => __( 'Select Scroll Direction', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::SELECT,
 				'options'     => array(
-					'horizontal' => __( 'Horizontal', 'premium-addons-for-elementor' ),
 					'vertical'   => __( 'Vertical', 'premium-addons-for-elementor' ),
+					'horizontal' => __( 'Horizontal', 'premium-addons-for-elementor' ),
 				),
 				'default'     => 'vertical',
 			)
@@ -582,12 +585,14 @@ class Premium_Image_Scroll extends Widget_Base {
 			'doc_1',
 			array(
 				'type'            => Controls_Manager::RAW_HTML,
-				'raw'             => sprintf( '<a href="%s" target="_blank">%s</a>', $doc1_url, __( 'Gettings started »', 'premium-addons-for-elementor' ) ),
+				'raw'             => sprintf( '<a href="%s" target="_blank">%s</a>', $doc1_url, __( 'Getting started »', 'premium-addons-for-elementor' ) ),
 				'content_classes' => 'editor-pa-doc',
 			)
 		);
 
 		$this->end_controls_section();
+
+		Helper_Functions::register_papro_promotion_controls( $this, 'img-scroll' );
 
 		$this->start_controls_section(
 			'image_style',

@@ -324,29 +324,4 @@
             }
         });
  }
-
- $('.splw-main-wrapper:not(.splw-data-loaded)').each(function () {
-    var lw_id = $(this).attr('id'),
-    _this = $('#' + lw_id),
-    shortcode_id = _this.data('shortcode-id');
-    if (splw_ajax_object.splw_skip_cache == '1' && shortcode_id ){
-        var data = {
-            'splw_nonce': splw_ajax_object.splw_nonce,
-            'action': 'splw_ajax_location_weather',
-            'id': shortcode_id,
-        };
-
-        _this.addClass('splw-data-loaded');
-        $.ajax({    
-            url: splw_ajax_object.ajax_url,
-            data: data,
-            type: "POST",
-            success: function (response) {
-                if (response) {
-                    _this.replaceWith(response);
-                }
-            }
-        })
-    }
- });
 })(jQuery);

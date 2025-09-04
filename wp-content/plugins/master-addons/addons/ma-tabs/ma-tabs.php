@@ -172,16 +172,15 @@ class JLTMA_Tabs extends Widget_Base {
             'default'     => 'icon',
         ] );
         $repeater->add_control( 'ma_el_tab_title_icon', [
-            'label'            => esc_html__( 'Icon', 'master-addons' ),
-            'description'      => esc_html__( 'Please choose an icon from the list.', 'master-addons' ),
-            'type'             => Controls_Manager::ICONS,
-            'fa4compatibility' => 'icon',
-            'default'          => [
-                'value'   => 'fas fa-home',
-                'library' => 'solid',
+            'label'       => esc_html__( 'Icon', 'master-addons' ),
+            'description' => esc_html__( 'Please choose an icon from the list.', 'master-addons' ),
+            'type'        => Controls_Manager::ICONS,
+            'default'     => [
+                'value'   => 'eicon-tabs',
+                'library' => 'elementor',
             ],
-            'render_type'      => 'template',
-            'condition'        => [
+            'render_type' => 'template',
+            'condition'   => [
                 'ma_el_tabs_icon_type' => 'icon',
             ],
         ] );
@@ -244,6 +243,64 @@ class JLTMA_Tabs extends Widget_Base {
             'name'     => 'ma_el_tab_heading_typography',
             'selector' => '{{WRAPPER}} .jltma--advance-tab .jltma--tab-title',
         ] );
+        $this->add_control( 'ma_el_tab_alignment_active', [
+            'label'     => esc_html__( 'Alignment', 'master-addons' ),
+            'type'      => Controls_Manager::CHOOSE,
+            'options'   => [
+                'flex-start' => [
+                    'title' => esc_html__( 'Left', 'master-addons' ),
+                    'icon'  => 'eicon-text-align-left',
+                ],
+                'center'     => [
+                    'title' => esc_html__( 'Center', 'master-addons' ),
+                    'icon'  => 'eicon-text-align-center',
+                ],
+                'flex-end'   => [
+                    'title' => esc_html__( 'Right', 'master-addons' ),
+                    'icon'  => 'eicon-text-align-right',
+                ],
+            ],
+            'default'   => 'flex-start',
+            'toggle'    => true,
+            'selectors' => [
+                '{{WRAPPER}} .jltma--advance-tab .jltma--advance-tab-nav li' => 'justify-content: {{VALUE}};',
+            ],
+            'condition' => [
+                'ma_el_tabs_preset!' => 'five',
+            ],
+        ] );
+        $this->add_control( 'ma_el_tab_gap_active', [
+            'label'      => esc_html__( 'Gap', 'master-addons' ),
+            'type'       => Controls_Manager::SLIDER,
+            'size_units' => ['px', 'em', 'rem'],
+            'range'      => [
+                'px'  => [
+                    'min'  => 0,
+                    'max'  => 100,
+                    'step' => 1,
+                ],
+                'em'  => [
+                    'min'  => 0,
+                    'max'  => 10,
+                    'step' => 0.1,
+                ],
+                'rem' => [
+                    'min'  => 0,
+                    'max'  => 10,
+                    'step' => 0.1,
+                ],
+            ],
+            'default'    => [
+                'size' => 15,
+                'unit' => 'px',
+            ],
+            'selectors'  => [
+                '{{WRAPPER}} .jltma--advance-tab .jltma--advance-tab-nav li' => 'gap: {{SIZE}}{{UNIT}};',
+            ],
+            'condition'  => [
+                'ma_el_tabs_preset!' => 'five',
+            ],
+        ] );
         $this->start_controls_tabs( 'ma_el_tabs_header_tabs' );
         // Normal State Tab
         $this->start_controls_tab( 'ma_el_tabs_header_normal', [
@@ -255,6 +312,7 @@ class JLTMA_Tabs extends Widget_Base {
             'default'   => '#8a8d91',
             'selectors' => [
                 '{{WRAPPER}} .jltma--advance-tab .jltma--advance-tab-nav li span, {{WRAPPER}} .jltma--advance-tab .jltma--advance-tab-nav li i' => 'color: {{VALUE}};',
+                '{{WRAPPER}} .jltma--advance-tab .jltma--advance-tab-nav li svg'                                                                => 'fill: {{VALUE}};',
             ],
         ] );
         $this->add_control( 'ma_el_tab_bg_color', [
@@ -311,8 +369,8 @@ class JLTMA_Tabs extends Widget_Base {
                 'size' => 18,
             ],
             'selectors'      => array(
-                '.jltma--advance-tab .jltma--advance-tab-nav li i'   => 'font-size:{{SIZE}}{{UNIT}} !important;',
-                '.jltma--advance-tab .jltma--advance-tab-nav li svg' => 'width:{{SIZE}}{{UNIT}} !important;',
+                '{{WRAPPER}} .jltma--advance-tab .jltma--advance-tab-nav li i'   => 'font-size:{{SIZE}}{{UNIT}} !important;',
+                '{{WRAPPER}} .jltma--advance-tab .jltma--advance-tab-nav li svg' => 'width:{{SIZE}}{{UNIT}} !important;',
             ),
             'style_transfer' => true,
         ] );
@@ -340,6 +398,7 @@ class JLTMA_Tabs extends Widget_Base {
             'default'   => '#0a1724',
             'selectors' => [
                 '{{WRAPPER}} .jltma--advance-tab .jltma--advance-tab-nav li.active span, {{WRAPPER}} .jltma--advance-tab .jltma--advance-tab-nav li.active i' => 'color: {{VALUE}};',
+                '{{WRAPPER}} .jltma--advance-tab .jltma--advance-tab-nav li.active svg'                                                                       => 'fill: {{VALUE}};',
             ],
         ] );
         $this->add_control( 'ma_el_tab_bg_color_active', [
@@ -458,6 +517,31 @@ class JLTMA_Tabs extends Widget_Base {
             'name'     => 'ma_el_tabs_content_typography',
             'label'    => esc_html__( 'Content Typography', 'master-addons' ),
             'selector' => '{{WRAPPER}} .jltma--advance-tab .jltma--advance-tab-content',
+        ] );
+        $this->add_control( 'jltma_content_alignment', [
+            'label'     => esc_html__( 'Content Alignment', 'master-addons' ),
+            'type'      => Controls_Manager::CHOOSE,
+            'default'   => 'flex-start',
+            'options'   => [
+                'flex-start' => [
+                    'title' => esc_html__( 'Top', 'master-addons' ),
+                    'icon'  => 'eicon-v-align-top',
+                ],
+                'center'     => [
+                    'title' => esc_html__( 'Center', 'master-addons' ),
+                    'icon'  => 'eicon-v-align-middle',
+                ],
+                'flex-end'   => [
+                    'title' => esc_html__( 'Bottom', 'master-addons' ),
+                    'icon'  => 'eicon-v-align-bottom',
+                ],
+            ],
+            'selectors' => [
+                '{{WRAPPER}} .jltma--advance-tab .jltma--advance-tab-content' => 'flex-direction: column; justify-content: {{VALUE}};',
+            ],
+            "condition" => [
+                'ma_el_tabs_preset!' => 'two',
+            ],
         ] );
         $this->add_responsive_control( 'ma_el_tabs_content_border_radius', array(
             'label'      => esc_html__( 'Border Radius', 'master-addons' ),

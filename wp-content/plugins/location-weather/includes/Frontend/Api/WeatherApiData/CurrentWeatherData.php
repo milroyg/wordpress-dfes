@@ -14,6 +14,7 @@ use ShapedPlugin\Weather\Frontend\Api\Aid\Temperature;
 use ShapedPlugin\Weather\Frontend\Api\Aid\Unit;
 use ShapedPlugin\Weather\Frontend\Api\Aid\Weather;
 use ShapedPlugin\Weather\Frontend\Api\Aid\Wind;
+use ShapedPlugin\Weather\Frontend\Api\Aid\IconConverter;
 
 /**
  * Weather class used to hold the current weather data.
@@ -76,13 +77,6 @@ class CurrentWeatherData {
 	public $visibility;
 
 	/**
-	 * Feels Like.
-	 *
-	 * @var Aid\feels_like
-	 */
-	public $feels_like;
-
-	/**
 	 *  Precipitation.
 	 *
 	 * @var Aid\Precipitation
@@ -97,32 +91,11 @@ class CurrentWeatherData {
 	public $sun;
 
 	/**
-	 * The dew_point
-	 *
-	 * @var dew_point
-	 */
-	public $dew_point;
-
-	/**
 	 * Weather.
 	 *
 	 * @var Aid\Weather
 	 */
 	public $weather;
-
-	/**
-	 * Weather uv_index.
-	 *
-	 * @var Aid\uv_index
-	 */
-	public $uv_index;
-
-	/**
-	 * The Air Quality
-	 *
-	 * @var air_quality
-	 */
-	public $air_quality;
 
 	/**
 	 * Rain chance.
@@ -137,53 +110,6 @@ class CurrentWeatherData {
 	 * @var $snow of the hourly forecast.
 	 */
 	public $snow;
-
-	/**
-	 * Moon Phase.
-	 *
-	 * @var Moon_phase of the hourly forecast.
-	 */
-	public $moon_phase;
-
-	/**
-	 * Moonrise and set.
-	 *
-	 * @var Moonrise The time of the forecast.
-	 */
-	public $moon;
-
-	/**
-	 * Moonrise.
-	 *
-	 * @var Moonrise The time of the forecast.
-	 */
-	public $moonrise;
-
-	/**
-	 * Moonset.
-	 *
-	 * @var MoonSet The time of the forecast.
-	 */
-	public $moonset;
-
-	/**
-	 * The Alerts
-	 *
-	 * @var mixed
-	 */
-	public $alerts;
-	/**
-	 * The Alerts start time
-	 *
-	 * @var mixed
-	 */
-	public $alerts_start_time;
-	/**
-	 * The Alerts End Time
-	 *
-	 * @var mixed
-	 */
-	public $alerts_end_time;
 
 	/**
 	 *  Datetime.
@@ -241,7 +167,7 @@ class CurrentWeatherData {
 		$this->clouds        = new Unit( $data->current->cloud, null );
 		$this->visibility    = new Unit( ( $data->current->vis_km ) );
 		$this->precipitation = $data->current->precip_mm;
-		$this->weather       = new Weather( $data->current->condition->icon, $data->current->condition->text, $data->current->condition->code );
+		$this->weather       = new Weather( $data->current->condition->icon, $data->current->condition->text, IconConverter::get_owm_icon( $data->current->condition->code, $data->current->is_day ) );
 
 		$location_tz    = new \DateTimeZone( $data->location->tz_id );
 		$datetime       = new \DateTime( 'now', $utctz );

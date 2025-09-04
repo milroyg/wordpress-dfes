@@ -459,7 +459,7 @@ if ( ! class_exists( 'SPLW' ) ) {
 				'splwt-lite',
 				'splwt_vars',
 				array(
-					'previewJS'     => esc_url( LOCATION_WEATHER_ASSETS . '/js/Old-locationWeather' . $min . '.js' ),
+					'previewJS'     => esc_url( LOCATION_WEATHER_ASSETS . '/js/lw-scripts' . $min . '.js' ),
 					'color_palette' => apply_filters( 'splwt_color_palette', array() ),
 					'i18n'          => array(
 						'confirm'         => esc_html__( 'Are you sure?', 'location-weather' ),

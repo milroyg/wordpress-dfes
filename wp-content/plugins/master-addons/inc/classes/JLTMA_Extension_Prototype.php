@@ -19,6 +19,8 @@ class JLTMA_Extension_Prototype
 
     public $has_controls = false;
 
+    public $is_premium = false;
+
     private $is_common = true;
 
     private $depended_scripts = [];
@@ -154,15 +156,23 @@ class JLTMA_Extension_Prototype
 
     public function get_control_section($section_name, $element)
     {
+        $section_title = '';
+        // If the extension is premium, add a badge to the section title
+        if (ma_el_fs()->can_use_premium_code__premium_only() && $this->is_premium) {
+            $section_title = sprintf(__('%s ', 'master-addons'), $this->name );
+        } elseif( $this->is_premium ){
+            $section_title = sprintf(__('%s <span class="jltma_pro_text">%s<span>', 'master-addons'), $this->name, __('Pro', 'master-addons') );
+        } else {
+            // If the extension is not premium, just show the name
+            $section_title = sprintf(__('%s ', 'master-addons'), $this->name );
+        }
+
         $element->start_controls_section(
             $section_name,
             [
                 'tab' => Controls_Manager::TAB_ADVANCED,
-                'label' => JLTMA_BADGE . ' ' . (
-                    !empty($this->name) 
-                    ? sprintf(__('%s', 'master-addons') /* translators: %s: Name of the addon or section */, $this->name)
-                    : __('Default Name', 'master-addons')  // Provide a fallback name if $this->name is empty
-                ),
+                'label' => ( !empty($this->name) ? $section_title : __('Master Addons', 'master-addons')  ) . ' ' . JLTMA_EXTENSION_BADGE,
+                // Provide a fallback name if $this->name is empty
             ]
         );
         $element->end_controls_section();

@@ -41,6 +41,12 @@ class Pro_Upgrade
 	 */
 	public function __construct()
 	{
+		// Check if Pro is already activated
+		// pretty_log( 'Data Looking for ',  $this->get_content('show_for_premiun'));
+		// if (wp_validate_boolean($this->get_content('show_for_premiun'))) {
+		// 	return;
+		// }
+
 		$this->slug = Master_Addons_Helper::jltma_slug_cleanup();
 
 		$this->maybe_sync_remote_data();

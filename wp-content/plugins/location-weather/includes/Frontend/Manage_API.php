@@ -11,6 +11,8 @@ namespace ShapedPlugin\Weather\Frontend;
 
 use ShapedPlugin\Weather\Frontend\Api\OpenWeatherData\CurrentWeather;
 use ShapedPlugin\Weather\Frontend\Api\WeatherApiData\CurrentWeatherData;
+use ShapedPlugin\Weather\Frontend\Api\OpenWeatherData\ForecastWeather;
+use ShapedPlugin\Weather\Frontend\Api\WeatherApiData\ForecastData;
 use ShapedPlugin\Weather\Frontend\Api\OpenWeatherData\Exception as LWException;
 
 /**
@@ -26,6 +28,13 @@ class Manage_API {
 	 * @var string The basic api url to fetch weather data from.
 	 */
 	private static $open_weather_api = 'https://api.openweathermap.org/data/2.5/weather?';
+
+	/**
+	 * The basic api URL for the three hourly forecast.
+	 *
+	 * @var string The basic api url to fetch weather hourly forecast data from.
+	 */
+	private static $hourly_forecast_api = 'https://api.openweathermap.org/data/2.5/forecast?';
 
 	/**
 	 * The api URL to fetch weather API data.
@@ -120,8 +129,8 @@ class Manage_API {
 	 *
 	 * @return CurrentWeather|false      Returns a `CurrentWeather` object on success, or false on failure.
 	 */
-	public static function weather_api_data( $query, $units = 'metric', $lang = 'en', $appid = '', $shortcode_id = null ) {
-		$answer = self::weather_api_build_url( $query, $units, $lang, $appid, self::$weather_api ) . '&days=1';
+	public static function weather_api_data( $query, $units = 'metric', $lang = 'en', $appid = '', $shortcode_id = null, $hours = null, $hourly_type = 'one-hour' ) {
+		$answer = self::weather_api_build_url( $query, $units, $lang, $appid, self::$weather_api ) . '&days=2';
 
 		// Optionally use transient caching (commented out).
 		$transient_name = 'sp_weather_api_data_' . $shortcode_id;
@@ -144,13 +153,89 @@ class Manage_API {
 			$data = $weather_data;
 		}
 
-		$is_day = ( isset( $data->current->is_day ) && 1 === $data->current->is_day ) ? true : false;
-
+		if ( isset( $data->error->code ) && (int) 2006 === $data->error->code ) {
+			return array(
+				'code'    => 2006,
+				'message' => sprintf(
+					// translators: 1: start link, 2: close link.
+					__( 'Your WeatherAPI key is invalid. Get your API key from %1$shere%2$s.', 'location-weather' ),
+					'<a href="https://www.weatherapi.com/my/" target="_blank" rel="noopener noreferrer">',
+					'</a>'
+				),
+			);
+		}
+		if ( isset( $data->error->code ) && (int) 1006 === $data->error->code ) {
+			return array(
+				'code'    => 1006,
+				'message' => __(
+					'Search by city name, ID, ZIP code, or coordinates.',
+					'location-weather'
+				),
+			);
+		}
 		// Check if weather is day.
+		$current_weather_data  = new CurrentWeatherData( $data, $units );
+		$forecast_weather_data = new ForecastData( $data, $units, $hours, $hourly_type );
+
 		return array(
-			'current_weather' => new CurrentWeatherData( $data, $units ),
-			'is_daytime'      => $is_day,
+			'current'  => $current_weather_data,
+			'forecast' => $forecast_weather_data,
 		);
+	}
+
+	/**
+	 * Fetches hourly weather forecast data for a specified location.
+	 *
+	 * @param string   $query               Location identifier (e.g., city name).
+	 * @param string   $units               Measurement units: 'metric', 'imperial', or 'standard' (default: 'metric').
+	 * @param string   $lang                Language for weather data (default: 'en').
+	 * @param string   $appid               Optional API key.
+	 * @param int|null $shortcode_id        Optional shortcode or component ID.
+	 * @param array    $forecast_settings Settings: 'type' (daily/hourly/both), 'days' (int), 'hours' (int), 'hourly_type'.
+	 * @return CustomForecastWeather|false  Weather data or false on failure.
+	 */
+	public static function get_weather_hourly_forecast_data( $query, $units = 'metric', $lang = 'en', $appid = '', $shortcode_id = null, $forecast_settings = array() ) {
+		$answer         = self::get_weather_hourly_forecast_url( $query, $units, $lang, $appid, 'json' );
+		$transient_name = 'sp_open_weather_hourly_forecast_data' . $shortcode_id;
+		$weather_data   = self::splw_get_transient( $transient_name );
+		// Check if the transient exists and has not expired or if we should use the visitor's location.
+		if ( ! $weather_data ) {
+			$request = wp_remote_get( $answer );
+
+			if ( is_wp_error( $request ) ) {
+				return false;
+			}
+			$body = wp_remote_retrieve_body( $request );
+			$data = json_decode( $body );
+
+			if ( $data ) {
+				self::splw_set_transient( $transient_name, $data );
+			}
+		} else {
+			$data = $weather_data;
+		}
+		return new ForecastWeather( $data, $units, $forecast_settings['hours'], '', $forecast_settings['type'], $forecast_settings['hourly_type'] );
+	}
+
+	/**
+	 * Get the URL for retrieving hourly weather forecast data.
+	 *
+	 * @param string $query   A query string or location identifier (e.g., city name,city id, ZIP code, and coordinates).
+	 * @param string $units   The units for temperature and other measurements (default: 'metric').
+	 *                        Possible values: 'metric', 'imperial', 'standard'.
+	 * @param string $lang    The language for the weather data (default: 'en').
+	 * @param string $appid   Your API key for accessing the weather data service (optional).
+	 * @param string $mode    The format of the response data (default: 'json').
+	 *                        Possible values: 'json', 'xml', 'html'.
+	 *
+	 * @return string The URL for fetching hourly weather forecast data.
+	 */
+	public static function get_weather_hourly_forecast_url( $query, $units = 'metric', $lang = 'en', $appid = '', $mode = 'json' ) {
+		// Build the URL using the provided parameters and the base hourly forecast URL.
+		$url = self::build_url( $query, $units, $lang, $appid, $mode, self::$hourly_forecast_api );
+
+		// Return the constructed URL.
+		return $url;
 	}
 
 	/**

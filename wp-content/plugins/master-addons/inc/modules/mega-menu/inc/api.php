@@ -15,7 +15,7 @@ class JLTMA_Megamenu_Api
 
     public function __construct()
     {
-        $this->config('megamenu', '');
+        $this->config('/megamenu', '');
         $this->init();
     }
 
@@ -25,7 +25,10 @@ class JLTMA_Megamenu_Api
             return;
         }
 
-        check_ajax_referer('jltma_megamenu_nonce');
+        $nonce = $_SERVER['HTTP_X_WP_NONCE'];
+        if ( ! wp_verify_nonce($nonce, 'wp_rest') ) {
+            wp_send_json_error('Nonce verification failed.', 403);
+        }
 
         $menu_item_id = $this->request['settings']['menu_id'];
         $menu_item_settings = json_encode($this->request['settings']);

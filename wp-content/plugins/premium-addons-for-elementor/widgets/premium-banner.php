@@ -83,7 +83,7 @@ class Premium_Banner extends Widget_Base {
 	}
 
 	public function has_widget_inner_wrapper(): bool {
-		return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+		return ! Helper_Functions::check_elementor_experiment( 'e_optimized_markup' );
 	}
 
 	/**
@@ -153,6 +153,9 @@ class Premium_Banner extends Widget_Base {
 				'label' => __( 'Image', 'premium-addons-for-elementor' ),
 			)
 		);
+
+		$demo = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/banner-widget-for-elementor-page-builder/', 'banner', 'wp-editor', 'demo' );
+		Helper_Functions::add_templates_controls( $this, 'banner', $demo );
 
 		$this->add_control(
 			'premium_banner_image',
@@ -274,28 +277,12 @@ class Premium_Banner extends Widget_Base {
 			)
 		);
 
-		$this->add_control(
-			'premium_banner_height',
-			array(
-				'label'   => __( 'Height', 'premium-addons-for-elementor' ),
-				'type'    => Controls_Manager::SELECT,
-				'options' => array(
-					'default' => __( 'Default', 'premium-addons-for-elementor' ),
-					'custom'  => __( 'Custom', 'premium-addons-for-elementor' ),
-				),
-				'default' => 'default',
-			)
-		);
-
 		$this->add_responsive_control(
 			'premium_banner_custom_height',
 			array(
-				'label'      => __( 'Min Height', 'premium-addons-for-elementor' ),
+				'label'      => __( 'Minimum Height', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => array( 'px', 'em', 'vh', 'custom' ),
-				'condition'  => array(
-					'premium_banner_height' => 'custom',
-				),
 				'range'      => array(
 					'px' => array(
 						'min' => 1,
@@ -323,7 +310,7 @@ class Premium_Banner extends Widget_Base {
 					'{{WRAPPER}} .premium-banner-ib img' => 'object-fit: {{VALUE}}',
 				),
 				'condition' => array(
-					'premium_banner_height' => 'custom',
+					'premium_banner_custom_height[size]!' => '',
 				),
 			)
 		);
@@ -331,30 +318,9 @@ class Premium_Banner extends Widget_Base {
 		$this->add_control(
 			'mouse_tilt',
 			array(
-				'label'        => __( 'Enable Mouse Tilt', 'premium-addons-for-elementor' ),
+				'label'        => __( 'Mouse Tilt', 'premium-addons-for-elementor' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'prefix_class' => 'premium-banner-tilt-',
-			)
-		);
-
-		$this->add_control(
-			'mouse_tilt_rev',
-			array(
-				'label'        => __( 'Reverse', 'premium-addons-for-elementor' ),
-				'type'         => Controls_Manager::SWITCHER,
-				'prefix_class' => 'premium-banner-tilt-rev-',
-				'condition'    => array(
-					'mouse_tilt' => 'yes',
-				),
-			)
-		);
-
-		$this->add_control(
-			'premium_banner_extra_class',
-			array(
-				'label'   => __( 'Extra Class', 'premium-addons-for-elementor' ),
-				'type'    => Controls_Manager::TEXT,
-				'dynamic' => array( 'active' => true ),
 			)
 		);
 
@@ -590,12 +556,14 @@ class Premium_Banner extends Widget_Base {
 			'doc_1',
 			array(
 				'type'            => Controls_Manager::RAW_HTML,
-				'raw'             => sprintf( '<a href="%s" target="_blank">%s</a>', $doc1_url, __( 'Gettings started »', 'premium-addons-for-elementor' ) ),
+				'raw'             => sprintf( '<a href="%s" target="_blank">%s</a>', $doc1_url, __( 'Getting started »', 'premium-addons-for-elementor' ) ),
 				'content_classes' => 'editor-pa-doc',
 			)
 		);
 
 		$this->end_controls_section();
+
+		Helper_Functions::register_papro_promotion_controls( $this, 'banner' );
 
 		$this->start_controls_section(
 			'premium_banner_opacity_style',
@@ -867,7 +835,6 @@ class Premium_Banner extends Widget_Base {
 		$this->add_group_control(
 			Group_Control_Text_Shadow::get_type(),
 			array(
-				'label'    => __( 'Shadow', 'premium-addons-for-elementor' ),
 				'name'     => 'premium_banner_title_shadow',
 				'selector' => '{{WRAPPER}} .premium-banner-ib-desc .premium_banner_title',
 			)
@@ -923,7 +890,6 @@ class Premium_Banner extends Widget_Base {
 		$this->add_group_control(
 			Group_Control_Text_Shadow::get_type(),
 			array(
-				'label'    => __( 'Shadow', 'premium-addons-for-elementor' ),
 				'name'     => 'premium_banner_description_shadow',
 				'selector' => '{{WRAPPER}} .premium_banner_content',
 			)
@@ -1380,9 +1346,8 @@ class Premium_Banner extends Widget_Base {
 
 		$animation_class = 'premium-banner-' . $settings['premium_banner_image_animation'];
 		$hover_class     = ' ' . $settings['premium_banner_hover_effect'];
-		$extra_class     = ! empty( $settings['premium_banner_extra_class'] ) ? ' ' . $settings['premium_banner_extra_class'] : '';
 		$active          = 'yes' === $settings['premium_banner_active'] ? ' active' : '';
-		$full_class      = $animation_class . $hover_class . $extra_class . $active;
+		$full_class      = $animation_class . $hover_class . $active;
 		$min_size        = $settings['premium_banner_min_range'] . 'px';
 		$max_size        = $settings['premium_banner_max_range'] . 'px';
 
@@ -1521,7 +1486,6 @@ class Premium_Banner extends Widget_Base {
 				'premium-banner-min-height',
 				'premium-banner-' + settings.premium_banner_image_animation,
 				settings.premium_banner_hover_effect,
-				settings.premium_banner_extra_class,
 				active
 			] );
 

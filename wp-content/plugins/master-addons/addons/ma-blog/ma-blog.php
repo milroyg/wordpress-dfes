@@ -37,7 +37,7 @@ class JLTMA_Blog extends Widget_Base
 
 	public function get_title()
 	{
-		return esc_html__('Blog Posts', 'master-addons' );
+		return esc_html__('Blog Posts', 'master-addons');
 	}
 
 	public function get_categories()
@@ -77,13 +77,13 @@ class JLTMA_Blog extends Widget_Base
 	{
 
 		/*
-		* Display Options
-		*/
+		 * Display Options
+		 */
 
 		$this->start_controls_section(
 			'ma_el_post_grid_section_filters',
 			[
-				'label' => __('Display Options', 'master-addons' ),
+				'label' => __('Display Options', 'master-addons'),
 			]
 		);
 
@@ -91,14 +91,14 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_skin',
 			[
-				'label'         => __('Blog Layout', 'master-addons' ),
-				'type'          => Controls_Manager::SELECT,
-				'options'       => [
-					'classic'       => __('Classic', 'master-addons' ),
-					'cards'         => __('Cards', 'master-addons' )
+				'label' => __('Blog Layout', 'master-addons'),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'classic' => __('Classic', 'master-addons'),
+					'cards' => __('Cards', 'master-addons')
 				],
-				'default'       => 'classic',
-				'label_block'   => true
+				'default' => 'classic',
+				'label_block' => true
 			]
 		);
 
@@ -108,38 +108,38 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_post_grid_layout',
 			[
-				'label'         => __('Blog Type', 'master-addons' ),
-				'type'          => Controls_Manager::SELECT,
-				'options'       => [
-					'grid'          => __('Grid Layout', 'master-addons' ),
-					'list'          => __('List Layout', 'master-addons' ),
-					'masonry'       => __('Masonry Layout', 'master-addons' ),
+				'label' => __('Blog Type', 'master-addons'),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'grid' => __('Grid Layout', 'master-addons'),
+					'list' => __('List Layout', 'master-addons'),
+					'masonry' => __('Masonry Layout', 'master-addons'),
 				],
-				'frontend_available' 	=> true,
-				'default'       => 'grid',
-				'label_block'   => true
+				'frontend_available' => true,
+				'default' => 'grid',
+				'label_block' => true
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_cards_skin',
 			[
-				'label'         => __('Cards Layout', 'master-addons' ),
-				'type'          => Controls_Manager::SELECT,
-				'options'       => [
-					'default'                => __('Default', 'master-addons' ),
-					'absolute_content'       => __('Content Overlap', 'master-addons' ),
-					'absolute_content_two'   => __('Top Left Meta', 'master-addons' ),
-					'cards_right'            => __('Right Align Cards', 'master-addons' ),
-					'cards_center'           => __('Center Align Cards', 'master-addons' ),
-					'gradient_bg'            => __('Center Align Gradient BG', 'master-addons' ),
-					'full_banner'            => __('Banner Card', 'master-addons' )
+				'label' => __('Cards Layout', 'master-addons'),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'default' => __('Default', 'master-addons'),
+					'absolute_content' => __('Content Overlap', 'master-addons'),
+					'absolute_content_two' => __('Top Left Meta', 'master-addons'),
+					'cards_right' => __('Right Align Cards', 'master-addons'),
+					'cards_center' => __('Center Align Cards', 'master-addons'),
+					'gradient_bg' => __('Center Align Gradient BG', 'master-addons'),
+					'full_banner' => __('Banner Card', 'master-addons')
 				],
-				'default'       => 'default',
-				'label_block'   => true,
-				'condition'     => [
-					'ma_el_blog_skin'           =>  'cards',
-					'ma_el_post_grid_layout'    =>  'grid'
+				'default' => 'default',
+				'label_block' => true,
+				'condition' => [
+					'ma_el_blog_skin' => 'cards',
+					'ma_el_post_grid_layout' => 'grid'
 				]
 			]
 		);
@@ -147,20 +147,20 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_post_list_layout',
 			[
-				'label'         => __('List Layout Type', 'master-addons' ),
-				'type'          => Controls_Manager::SELECT,
-				'options'       => [
-					'classic'               => __('List Classic', 'master-addons' ),
-					'meta_bg'               => __('List Meta Background', 'master-addons' ),
-					'button_right'          => __('List Button Right', 'master-addons' ),
-					'content_overlap'       => __('List Content Overlap', 'master-addons' ),
-					'thumbnail_hover'       => __('List Thumbnail Hover', 'master-addons' ),
-					'thumbnail_hover_nav'   => __('List Blur Content', 'master-addons' ),
-					'thumbnail_bg'          => __('List Thumbnail Background', 'master-addons' ),
+				'label' => __('List Layout Type', 'master-addons'),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'classic' => __('List Classic', 'master-addons'),
+					'meta_bg' => __('List Meta Background', 'master-addons'),
+					'button_right' => __('List Button Right', 'master-addons'),
+					'content_overlap' => __('List Content Overlap', 'master-addons'),
+					'thumbnail_hover' => __('List Thumbnail Hover', 'master-addons'),
+					'thumbnail_hover_nav' => __('List Blur Content', 'master-addons'),
+					'thumbnail_bg' => __('List Thumbnail Background', 'master-addons'),
 
 				],
-				'default'       => 'classic',
-				'label_block'   => true,
+				'default' => 'classic',
+				'label_block' => true,
 				'condition' => [
 					'ma_el_post_grid_layout' => 'list',
 				],
@@ -170,35 +170,35 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_order',
 			[
-				'label'         => __('Post Order', 'master-addons' ),
-				'type'          => Controls_Manager::SELECT,
-				'label_block'   => true,
-				'options'       => [
-					'asc'           => __('Ascending', 'master-addons' ),
-					'desc'          => __('Descending', 'master-addons' )
+				'label' => __('Post Order', 'master-addons'),
+				'type' => Controls_Manager::SELECT,
+				'label_block' => true,
+				'options' => [
+					'asc' => __('Ascending', 'master-addons'),
+					'desc' => __('Descending', 'master-addons')
 				],
-				'default'       => 'desc'
+				'default' => 'desc'
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_order_by',
 			[
-				'label'         => __('Order By', 'master-addons' ),
-				'type'          => Controls_Manager::SELECT,
-				'label_block'   => true,
-				'options'       => [
-					'none'  => __('None', 'master-addons' ),
-					'ID'    => __('ID', 'master-addons' ),
-					'author' => __('Author', 'master-addons' ),
-					'title' => __('Title', 'master-addons' ),
-					'name'  => __('Name', 'master-addons' ),
-					'date'  => __('Date', 'master-addons' ),
-					'modified' => __('Last Modified', 'master-addons' ),
-					'rand'  => __('Random', 'master-addons' ),
-					'comment_count' => __('Number of Comments', 'master-addons' ),
+				'label' => __('Order By', 'master-addons'),
+				'type' => Controls_Manager::SELECT,
+				'label_block' => true,
+				'options' => [
+					'none' => __('None', 'master-addons'),
+					'ID' => __('ID', 'master-addons'),
+					'author' => __('Author', 'master-addons'),
+					'title' => __('Title', 'master-addons'),
+					'name' => __('Name', 'master-addons'),
+					'date' => __('Date', 'master-addons'),
+					'modified' => __('Last Modified', 'master-addons'),
+					'rand' => __('Random', 'master-addons'),
+					'comment_count' => __('Number of Comments', 'master-addons'),
 				],
-				'default'       => 'date'
+				'default' => 'date'
 			]
 		);
 
@@ -206,19 +206,19 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_blog_cols',
 			[
-				'label'         => __('Number of Columns', 'master-addons' ),
-				'type'          => Controls_Manager::SELECT,
-				'options'       => [
-					'100%'          => __('1 Column', 'master-addons' ),
-					'50%'           => __('2 Columns', 'master-addons' ),
-					'33.33%'        => __('3 Columns', 'master-addons' ),
-					'25%'           => __('4 Columns', 'master-addons' )
+				'label' => __('Number of Columns', 'master-addons'),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'100%' => __('1 Column', 'master-addons'),
+					'50%' => __('2 Columns', 'master-addons'),
+					'33.33%' => __('3 Columns', 'master-addons'),
+					'25%' => __('4 Columns', 'master-addons')
 				],
-				'default'       => '25%',
-				'render_type'   => 'template',
-				'label_block'   => true,
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-blog-post-outer-container'  => 'width: {{VALUE}};'
+				'default' => '25%',
+				'render_type' => 'template',
+				'label_block' => true,
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blog-post-outer-container' => 'width: {{VALUE}};'
 				],
 			]
 		);
@@ -226,11 +226,11 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_post_meta_separator',
 			[
-				'label'         => __('Post Meta Separator', 'master-addons' ),
-				'type'          => Controls_Manager::TEXT,
-				'default'       => '//',
-				'selectors'     => [
-					"{{WRAPPER}} .jltma-post-entry-meta span:before"  => "content:'{{VALUE}}';"
+				'label' => __('Post Meta Separator', 'master-addons'),
+				'type' => Controls_Manager::TEXT,
+				'default' => '//',
+				'selectors' => [
+					"{{WRAPPER}} .jltma-post-entry-meta span:before" => "content:'{{VALUE}}';"
 				],
 			]
 		);
@@ -239,8 +239,8 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'title_html_tag',
 			[
-				'label'   => __('Title HTML Tag', 'master-addons' ),
-				'type'    => Controls_Manager::SELECT,
+				'label' => __('Title HTML Tag', 'master-addons'),
+				'type' => Controls_Manager::SELECT,
 				'options' => Master_Addons_Helper::jltma_title_tags(),
 				'default' => 'h2',
 			]
@@ -249,10 +249,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_post_grid_type',
 			[
-				'label'         => __('Post Type', 'master-addons' ),
-				'type'          => Controls_Manager::SELECT2,
-				'options'       => Master_Addons_Helper::ma_el_get_post_types(),
-				'default'       => 'post',
+				'label' => __('Post Type', 'master-addons'),
+				'type' => Controls_Manager::SELECT2,
+				'options' => Master_Addons_Helper::ma_el_get_post_types(),
+				'default' => 'post',
 
 			]
 		);
@@ -260,7 +260,7 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_post_grid_taxonomy_type',
 			[
-				'label' => __('Select Taxonomy', 'master-addons' ),
+				'label' => __('Select Taxonomy', 'master-addons'),
 				'type' => Controls_Manager::SELECT2,
 				'options' => '',
 				'condition' => [
@@ -272,19 +272,19 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_post_grid_posts_columns_spacing',
 			[
-				'label'         => __('Rows Spacing', 'master-addons' ),
-				'type'          => Controls_Manager::SLIDER,
-				'size_units'    => ['px', '%', "em"],
-				'range'         => [
-					'px'    => [
-						'min'   => 1,
-						'max'   => 200,
+				'label' => __('Rows Spacing', 'master-addons'),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => ['px', '%', "em"],
+				'range' => [
+					'px' => [
+						'min' => 1,
+						'max' => 200,
 					],
 				],
-				'condition'     => [
-					'ma_el_post_grid_layout' =>  ['grid', 'list']
+				'condition' => [
+					'ma_el_post_grid_layout' => ['grid', 'list']
 				],
-				'selectors'     => [
+				'selectors' => [
 					'{{WRAPPER}} .jltma-post-outer-container' => 'margin-bottom: {{SIZE}}{{UNIT}}'
 				]
 			]
@@ -293,20 +293,20 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_post_grid_posts_spacing',
 			[
-				'label'         => __('Columns Spacing', 'master-addons' ),
-				'type'          => Controls_Manager::SLIDER,
-				'size_units'    => ['px', '%', "em"],
-				'range'         => [
-					'px'    => [
-						'min'   => 1,
-						'max'   => 200,
+				'label' => __('Columns Spacing', 'master-addons'),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => ['px', '%', "em"],
+				'range' => [
+					'px' => [
+						'min' => 1,
+						'max' => 200,
 					],
 				],
-				'render_type'   => 'template',
-				'condition'     => [
-					'ma_el_post_grid_layout' =>  ['grid', 'list']
+				'render_type' => 'template',
+				'condition' => [
+					'ma_el_post_grid_layout' => ['grid', 'list']
 				],
-				'selectors'     => [
+				'selectors' => [
 					'{{WRAPPER}} .jltma-post-outer-container' => 'padding-left: {{SIZE}}{{UNIT}}; padding-right: {{SIZE}}{{UNIT}}'
 				]
 			]
@@ -316,24 +316,24 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_post_grid_flip_text_align',
 			[
-				'label'         => __('Content Alignment', 'master-addons' ),
-				'type'          => Controls_Manager::CHOOSE,
-				'options'       => [
-					'left'      => [
-						'title' => __('Left', 'master-addons' ),
+				'label' => __('Content Alignment', 'master-addons'),
+				'type' => Controls_Manager::CHOOSE,
+				'options' => [
+					'left' => [
+						'title' => __('Left', 'master-addons'),
 						'icon' => 'eicon-text-align-left',
 					],
-					'center'    => [
-						'title' => __('Center', 'master-addons' ),
+					'center' => [
+						'title' => __('Center', 'master-addons'),
 						'icon' => 'eicon-text-align-center',
 					],
-					'right'     => [
-						'title' => __('Right', 'master-addons' ),
+					'right' => [
+						'title' => __('Right', 'master-addons'),
 						'icon' => 'eicon-text-align-right',
 					],
 				],
-				'default'       => 'left',
-				'selectors'     => [
+				'default' => 'left',
+				'selectors' => [
 					'{{WRAPPER}} .jltma-post-content ' => 'text-align: {{VALUE}};',
 				],
 			]
@@ -343,19 +343,19 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_total_posts_number',
 			[
-				'label'         => __('Total Number of Posts', 'master-addons' ),
-				'type'          => Controls_Manager::NUMBER,
-				'default'       => wp_count_posts()->publish
+				'label' => __('Total Number of Posts', 'master-addons'),
+				'type' => Controls_Manager::NUMBER,
+				'default' => wp_count_posts()->publish
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_posts_per_page',
 			[
-				'label'         => __('Posts Per Page', 'master-addons' ),
-				'type'          => Controls_Manager::NUMBER,
-				'min'			=> 1,
-				'default'       => '4'
+				'label' => __('Posts Per Page', 'master-addons'),
+				'type' => Controls_Manager::NUMBER,
+				'min' => 1,
+				'default' => '4'
 			]
 		);
 
@@ -363,9 +363,9 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_pagination',
 			[
-				'label'         => __('Pagination', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'description'   => __('Pagination is the process of dividing the posts into discrete pages', 'master-addons' ),
+				'label' => __('Pagination', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'description' => __('Pagination is the process of dividing the posts into discrete pages', 'master-addons'),
 			]
 		);
 
@@ -373,11 +373,11 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_next_text',
 			[
-				'label'			=> __('Next Page Text', 'master-addons' ),
-				'type'			=> Controls_Manager::TEXT,
-				'default'       => __('Next Post', 'master-addons' ),
-				'condition'     => [
-					'ma_el_blog_pagination'      => 'yes',
+				'label' => __('Next Page Text', 'master-addons'),
+				'type' => Controls_Manager::TEXT,
+				'default' => __('Next Post', 'master-addons'),
+				'condition' => [
+					'ma_el_blog_pagination' => 'yes',
 				]
 			]
 		);
@@ -386,11 +386,11 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_prev_text',
 			[
-				'label'			=> __('Previous Page Text', 'master-addons' ),
-				'type'			=> Controls_Manager::TEXT,
-				'default'       => __('Previous Post', 'master-addons' ),
-				'condition'     => [
-					'ma_el_blog_pagination'      => 'yes',
+				'label' => __('Previous Page Text', 'master-addons'),
+				'type' => Controls_Manager::TEXT,
+				'default' => __('Previous Post', 'master-addons'),
+				'condition' => [
+					'ma_el_blog_pagination' => 'yes',
 				]
 			]
 		);
@@ -398,27 +398,27 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_blog_pagination_alignment',
 			[
-				'label'         => __('Pagination Alignment', 'master-addons' ),
-				'type'          => Controls_Manager::CHOOSE,
-				'options'       => [
-					'left'      => [
-						'title' => __('Left', 'master-addons' ),
+				'label' => __('Pagination Alignment', 'master-addons'),
+				'type' => Controls_Manager::CHOOSE,
+				'options' => [
+					'left' => [
+						'title' => __('Left', 'master-addons'),
 						'icon' => 'eicon-text-align-left',
 					],
-					'center'    => [
-						'title' => __('Center', 'master-addons' ),
+					'center' => [
+						'title' => __('Center', 'master-addons'),
 						'icon' => 'eicon-text-align-center',
 					],
-					'right'     => [
-						'title' => __('Right', 'master-addons' ),
+					'right' => [
+						'title' => __('Right', 'master-addons'),
 						'icon' => 'eicon-text-align-right',
 					],
 				],
-				'default'       => 'center',
-				'condition'     => [
-					'ma_el_blog_pagination'      => 'yes',
+				'default' => 'center',
+				'condition' => [
+					'ma_el_blog_pagination' => 'yes',
 				],
-				'selectors'     => [
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-pagination' => 'text-align: {{VALUE}};',
 				],
 			]
@@ -427,8 +427,8 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_carousel',
 			[
-				'label'         => __('Enable Carousel?', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER
+				'label' => __('Enable Carousel?', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER
 			]
 		);
 
@@ -441,7 +441,7 @@ class JLTMA_Blog extends Widget_Base
 		$this->start_controls_section(
 			'section_content_navigation',
 			[
-				'label' => __('Navigation', 'master-addons' ),
+				'label' => __('Navigation', 'master-addons'),
 			]
 		);
 		$this->jltma_swiper_navigation_controls();
@@ -454,7 +454,7 @@ class JLTMA_Blog extends Widget_Base
 		$this->start_controls_section(
 			'section_carousel_settings',
 			[
-				'label' => __('Carousel Settings', 'master-addons' ),
+				'label' => __('Carousel Settings', 'master-addons'),
 			]
 		);
 		$this->jltma_swiper_settings_controls();
@@ -463,22 +463,22 @@ class JLTMA_Blog extends Widget_Base
 
 
 		/*
-		    * Thumbnail Settings
-		    */
+		 * Thumbnail Settings
+		 */
 		$this->start_controls_section(
 			'ma_el_section_post_grid_thumbnail',
 			[
-				'label' => __('Thumbnail Settings', 'master-addons' ),
+				'label' => __('Thumbnail Settings', 'master-addons'),
 			]
 		);
 
 		$this->add_control(
 			'ma_el_post_grid_thumbnail',
 			[
-				'label'         => __('Show Thumbnail?', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'description'   => __('Show or Hide Thumbnail', 'master-addons' ),
-				'default'       => 'yes',
+				'label' => __('Show Thumbnail?', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'description' => __('Show or Hide Thumbnail', 'master-addons'),
+				'default' => 'yes',
 			]
 		);
 
@@ -494,22 +494,22 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_post_grid_thumbnail_fit',
 			[
-				'label'         => __('Thumbnail Fit', 'master-addons' ),
-				'description'   => __('You need to set Height for work Thumbnail Fit ', 'master-addons' ),
-				'type'          => Controls_Manager::SELECT,
-				'options'       => [
-					'landscape'     => __('Landscape', 'master-addons' ),
-					'square'        => __('Square', 'master-addons' ),
-					'cover'         => __('Cover', 'master-addons' ),
-					'fill'          => __('Fill', 'master-addons' ),
-					'contain'       => __('Contain', 'master-addons' ),
+				'label' => __('Thumbnail Fit', 'master-addons'),
+				'description' => __('You need to set Height for work Thumbnail Fit ', 'master-addons'),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'landscape' => __('Landscape', 'master-addons'),
+					'square' => __('Square', 'master-addons'),
+					'cover' => __('Cover', 'master-addons'),
+					'fill' => __('Fill', 'master-addons'),
+					'contain' => __('Contain', 'master-addons'),
 				],
-				'default'       => 'cover',
-				'selectors'     => [
+				'default' => 'cover',
+				'selectors' => [
 					'{{WRAPPER}} .jltma-post-thumbnail img' => 'object-fit: {{VALUE}}'
 				],
-				'condition'     => [
-					'ma_el_post_grid_thumbnail' =>  'yes'
+				'condition' => [
+					'ma_el_post_grid_thumbnail' => 'yes'
 				]
 			]
 		);
@@ -517,30 +517,30 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_thumb_height',
 			[
-				'label'         => __('Custom Height?', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'description'   => __('Show or Hide Thumbnail', 'master-addons' ),
-				'default'       => 'no',
+				'label' => __('Custom Height?', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'description' => __('Show or Hide Thumbnail', 'master-addons'),
+				'default' => 'no',
 			]
 		);
 
 		$this->add_responsive_control(
 			'ma_el_post_grid_thumb_min_height',
 			[
-				'label'         => __('Thumbnail Min Height', 'master-addons' ),
-				'type'          => Controls_Manager::SLIDER,
-				'size_units'    => ['px', '%', "em"],
-				'range'         => [
-					'px'    => [
-						'min'   => 1,
-						'max'   => 300,
+				'label' => __('Thumbnail Min Height', 'master-addons'),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => ['px', '%', "em"],
+				'range' => [
+					'px' => [
+						'min' => 1,
+						'max' => 300,
 					],
 				],
-				'condition'     => [
-					'ma_el_post_grid_thumbnail' =>  'yes',
-					'ma_el_blog_thumb_height' =>  'yes'
+				'condition' => [
+					'ma_el_post_grid_thumbnail' => 'yes',
+					'ma_el_blog_thumb_height' => 'yes'
 				],
-				'selectors'     => [
+				'selectors' => [
 					'{{WRAPPER}} .jltma-post-thumbnail img' => 'min-height: {{SIZE}}{{UNIT}};'
 				]
 			]
@@ -549,20 +549,20 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_post_grid_thumb_max_height',
 			[
-				'label'         => __('Thumbnail Max Height', 'master-addons' ),
-				'type'          => Controls_Manager::SLIDER,
-				'size_units'    => ['px', '%', "em"],
-				'range'         => [
-					'px'    => [
-						'min'   => 1,
-						'max'   => 1000,
+				'label' => __('Thumbnail Max Height', 'master-addons'),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => ['px', '%', "em"],
+				'range' => [
+					'px' => [
+						'min' => 1,
+						'max' => 1000,
 					],
 				],
-				'condition'     => [
-					'ma_el_post_grid_thumbnail' =>  'yes',
-					'ma_el_blog_thumb_height' =>  'yes'
+				'condition' => [
+					'ma_el_post_grid_thumbnail' => 'yes',
+					'ma_el_blog_thumb_height' => 'yes'
 				],
-				'selectors'     => [
+				'selectors' => [
 					'{{WRAPPER}} .jltma-post-thumbnail img' => 'max-height: {{SIZE}}{{UNIT}};'
 				]
 			]
@@ -571,20 +571,20 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_thumbnail_position',
 			[
-				'label'         => __('Thumbnail Position', 'master-addons' ),
-				'type'          => Controls_Manager::SELECT,
-				'description'   => __('Thumbnail Image Position', 'master-addons' ),
-				'options'       => [
-					'default'   		=> __('Default', 'master-addons' ),
-					'left'      		=> __('Left', 'master-addons' ),
-					'thumb_top'     	=> __('Top Thumb, Bottom Title', 'master-addons' ),
-					'thumb_bottom'     	=> __('Bottom Thumb, Title Top', 'master-addons' ),
+				'label' => __('Thumbnail Position', 'master-addons'),
+				'type' => Controls_Manager::SELECT,
+				'description' => __('Thumbnail Image Position', 'master-addons'),
+				'options' => [
+					'default' => __('Default', 'master-addons'),
+					'left' => __('Left', 'master-addons'),
+					'thumb_top' => __('Top Thumb, Bottom Title', 'master-addons'),
+					'thumb_bottom' => __('Bottom Thumb, Title Top', 'master-addons'),
 				],
-				'default'       => 'default',
-				'label_block'   => true,
-				'condition'     => [
-					'ma_el_post_grid_layout' =>  'grid',
-					'ma_el_post_grid_thumbnail' =>  'yes'
+				'default' => 'default',
+				'label_block' => true,
+				'condition' => [
+					'ma_el_post_grid_layout' => 'grid',
+					'ma_el_post_grid_thumbnail' => 'yes'
 				]
 			]
 		);
@@ -592,9 +592,9 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'hover_animation',
 			[
-				'label' => __('Hover Animation', 'master-addons' ),
+				'label' => __('Hover Animation', 'master-addons'),
 				'type' => \Elementor\Controls_Manager::HOVER_ANIMATION,
-				'selectors'     => [
+				'selectors' => [
 					'{{WRAPPER}} .jltma-post-thumbnail'
 				]
 			]
@@ -604,50 +604,50 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_hover_color_effect',
 			[
-				'label'         => __('Color Effect', 'master-addons' ),
-				'type'          => Controls_Manager::SELECT,
-				'description'   => __('Choose an overlay color effect', 'master-addons' ),
-				'options'       => [
-					'none'                   => __('No Effect', 'master-addons' ),
-					'zoom_in_one'            => __('Zoom In #1', 'master-addons' ),
-					'zoom_in_two'            => __('Zoom In #2', 'master-addons' ),
-					'zoom_out_one'           => __('Zoom Out #1', 'master-addons' ),
-					'zoom_out_two'           => __('Zoom Out #2', 'master-addons' ),
-					'rotate_zoomout'         => __('Rotate + Zoom Out', 'master-addons' ),
-					'slide'                  => __('Slide', 'master-addons' ),
-					'grayscale'              => __('Gray Scale', 'master-addons' ),
-					'blur'                   => __('Blur', 'master-addons' ),
-					'sepia'                  => __('Sepia', 'master-addons' ),
-					'blur_sepia'             => __('Blur + Sepia', 'master-addons' ),
-					'blur_grayscale'         => __('Blur + Gray Scale', 'master-addons' ),
-					'opacity_one'            => __('Opacity #1', 'master-addons' ),
-					'opacity_two'            => __('Opacity #2', 'master-addons' ),
-					'flushing'               => __('Flushing', 'master-addons' ),
-					'shine'                  => __('Shine', 'master-addons' ),
-					'circle'                 => __('Circle', 'master-addons' ),
+				'label' => __('Color Effect', 'master-addons'),
+				'type' => Controls_Manager::SELECT,
+				'description' => __('Choose an overlay color effect', 'master-addons'),
+				'options' => [
+					'none' => __('No Effect', 'master-addons'),
+					'zoom_in_one' => __('Zoom In #1', 'master-addons'),
+					'zoom_in_two' => __('Zoom In #2', 'master-addons'),
+					'zoom_out_one' => __('Zoom Out #1', 'master-addons'),
+					'zoom_out_two' => __('Zoom Out #2', 'master-addons'),
+					'rotate_zoomout' => __('Rotate + Zoom Out', 'master-addons'),
+					'slide' => __('Slide', 'master-addons'),
+					'grayscale' => __('Gray Scale', 'master-addons'),
+					'blur' => __('Blur', 'master-addons'),
+					'sepia' => __('Sepia', 'master-addons'),
+					'blur_sepia' => __('Blur + Sepia', 'master-addons'),
+					'blur_grayscale' => __('Blur + Gray Scale', 'master-addons'),
+					'opacity_one' => __('Opacity #1', 'master-addons'),
+					'opacity_two' => __('Opacity #2', 'master-addons'),
+					'flushing' => __('Flushing', 'master-addons'),
+					'shine' => __('Shine', 'master-addons'),
+					'circle' => __('Circle', 'master-addons'),
 
 				],
-				'default'       => 'none',
-				'label_block'   => true
+				'default' => 'none',
+				'label_block' => true
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_image_shapes',
 			[
-				'label'         => __('Thumbnail Shapes', 'master-addons' ),
-				'type'          => Controls_Manager::SELECT,
-				'description'   => __('Choose an Shapes for Thumbnails', 'master-addons' ),
-				'options'       => [
-					'none'              => __('None', 'master-addons' ),
-					'framed'            => __('Framed', 'master-addons' ),
-					'diagonal'          => __('Diagonal', 'master-addons' ),
-					'bordered'          => __('Bordered', 'master-addons' ),
-					'gradient-border'   => __('Gradient Bordered', 'master-addons' ),
-					'squares'           => __('Squares', 'master-addons' )
+				'label' => __('Thumbnail Shapes', 'master-addons'),
+				'type' => Controls_Manager::SELECT,
+				'description' => __('Choose an Shapes for Thumbnails', 'master-addons'),
+				'options' => [
+					'none' => __('None', 'master-addons'),
+					'framed' => __('Framed', 'master-addons'),
+					'diagonal' => __('Diagonal', 'master-addons'),
+					'bordered' => __('Bordered', 'master-addons'),
+					'gradient-border' => __('Gradient Bordered', 'master-addons'),
+					'squares' => __('Squares', 'master-addons')
 				],
-				'default'       => 'none',
-				'label_block'   => true
+				'default' => 'none',
+				'label_block' => true
 			]
 		);
 
@@ -659,34 +659,34 @@ class JLTMA_Blog extends Widget_Base
 		$this->start_controls_section(
 			'ma_el_post_grid_posts_options',
 			[
-				'label'         => __('Posts Settings', 'master-addons' ),
+				'label' => __('Posts Settings', 'master-addons'),
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_post_meta_icon',
 			[
-				'label'         => __('Post Meta Icon', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'default'       => 'yes',
-				'return_value'  => 'yes'
+				'label' => __('Post Meta Icon', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'default' => 'yes',
+				'return_value' => 'yes'
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_post_format_icon',
 			[
-				'label'         => __('Post Format Icon', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'default'       => 'No',
-				'return_value'  => 'yes'
+				'label' => __('Post Format Icon', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'default' => 'No',
+				'return_value' => 'yes'
 			]
 		);
 
 		$this->add_control(
 			'ma_el_post_grid_ignore_sticky',
 			[
-				'label' => esc_html__('Ignore Sticky?', 'master-addons' ),
+				'label' => esc_html__('Ignore Sticky?', 'master-addons'),
 				'type' => Controls_Manager::SWITCHER,
 				'return_value' => 'yes',
 				'default' => 'yes',
@@ -696,22 +696,22 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_show_content',
 			[
-				'label'         => __('Show Content?', 'master-addons' ),
-				'description'   => __('Show/Hide Contents', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'default'       => 'yes',
+				'label' => __('Show Content?', 'master-addons'),
+				'description' => __('Show/Hide Contents', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'default' => 'yes',
 			]
 		);
 
 		$this->add_control(
 			'ma_el_post_grid_excerpt',
 			[
-				'label'         => __('Show Excerpt ?', 'master-addons' ),
-				'description'   => __('Default Except Content Length is 55', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'default'       => 'yes',
-				'condition'     => [
-					'ma_el_blog_show_content'  => 'yes',
+				'label' => __('Show Excerpt ?', 'master-addons'),
+				'description' => __('Default Except Content Length is 55', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'default' => 'yes',
+				'condition' => [
+					'ma_el_blog_show_content' => 'yes',
 				]
 			]
 		);
@@ -720,13 +720,13 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_post_grid_excerpt_content',
 			[
-				'label'         => __('Excerpt from Content?', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'description'   => __('Post content will be pulled from post content box', 'master-addons' ),
-				'default'       => 'true',
-				'return_value'  => 'true',
-				'condition'     => [
-					'ma_el_post_grid_excerpt'  => 'yes',
+				'label' => __('Excerpt from Content?', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'description' => __('Post content will be pulled from post content box', 'master-addons'),
+				'default' => 'true',
+				'return_value' => 'true',
+				'condition' => [
+					'ma_el_post_grid_excerpt' => 'yes',
 				]
 			]
 		);
@@ -735,11 +735,11 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_excerpt_length',
 			[
-				'label'         => __('Excerpt Length', 'master-addons' ),
-				'type'          => Controls_Manager::NUMBER,
-				'default'       => 55,
-				'condition'     => [
-					'ma_el_post_grid_excerpt'  => 'yes',
+				'label' => __('Excerpt Length', 'master-addons'),
+				'type' => Controls_Manager::NUMBER,
+				'default' => 55,
+				'condition' => [
+					'ma_el_post_grid_excerpt' => 'yes',
 				]
 			]
 		);
@@ -748,16 +748,16 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_post_grid_excerpt_type',
 			[
-				'label'         => __('Excerpt Type', 'master-addons' ),
-				'type'          => Controls_Manager::SELECT,
-				'options'       => [
-					'three_dots'        => __('Three Dots', 'master-addons' ),
-					'read_more_link'    => __('Read More Link', 'master-addons' ),
+				'label' => __('Excerpt Type', 'master-addons'),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'three_dots' => __('Three Dots', 'master-addons'),
+					'read_more_link' => __('Read More Link', 'master-addons'),
 				],
-				'default'       => 'read_more_link',
-				'label_block'   => true,
-				'condition'     => [
-					'ma_el_post_grid_excerpt'  			=> 'yes'
+				'default' => 'read_more_link',
+				'label_block' => true,
+				'condition' => [
+					'ma_el_post_grid_excerpt' => 'yes'
 				]
 			]
 		);
@@ -765,13 +765,13 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_post_grid_excerpt_text',
 			[
-				'label'			=> __('Read More Text', 'master-addons' ),
-				'type'			=> Controls_Manager::TEXT,
-				'default'       => __('Read More', 'master-addons' ),
-				'condition'     => [
-					'ma_el_post_grid_excerpt'      		=> 'yes',
-					'ma_el_post_grid_show_read_more'    => 'yes',
-					'ma_el_post_grid_excerpt_type' 		=> 'read_more_link'
+				'label' => __('Read More Text', 'master-addons'),
+				'type' => Controls_Manager::TEXT,
+				'default' => __('Read More', 'master-addons'),
+				'condition' => [
+					'ma_el_post_grid_excerpt' => 'yes',
+					'ma_el_post_grid_show_read_more' => 'yes',
+					'ma_el_post_grid_excerpt_type' => 'read_more_link'
 				]
 			]
 		);
@@ -779,19 +779,19 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_post_grid_post_title',
 			[
-				'label'         => __('Display Post Title?', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'default'       => 'yes',
+				'label' => __('Display Post Title?', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'default' => 'yes',
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_author_avatar',
 			[
-				'label'         => __('Display Author Avatar?', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'default'       => 'no',
-				'return_value'  => 'yes'
+				'label' => __('Display Author Avatar?', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'default' => 'no',
+				'return_value' => 'yes'
 			]
 		);
 
@@ -799,54 +799,66 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_post_grid_post_author_meta',
 			[
-				'label'         => __('Display Post Author?', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'default'       => 'yes',
+				'label' => __('Display Post Author?', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'default' => 'yes',
 			]
 		);
 
 		$this->add_control(
 			'ma_el_post_grid_post_date_meta',
 			[
-				'label'         => __('Display Post Date?', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'default'       => 'yes',
+				'label' => __('Display Post Date?', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'default' => 'yes',
 			]
 		);
 
 		$this->add_control(
 			'ma_el_post_grid_categories_meta',
 			[
-				'label'         => __('Display Categories?', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'default'       => 'no',
+				'label' => __('Display Categories?', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'default' => 'no',
 			]
 		);
 
 		$this->add_control(
 			'ma_el_post_grid_tags_meta',
 			[
-				'label'         => __('Display Tags?', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'default'       => 'no',
+				'label' => __('Display Tags?', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'default' => 'no',
+			]
+		);
+
+		$this->add_control(
+			'jltma_post_grid_tag_separetor',
+			[
+				'label' => __('Tags Separetor', 'master-addons'),
+				'type' => Controls_Manager::TEXT,
+				'default' => ', ',
+				'condition' => [
+					'ma_el_post_grid_tags_meta' => 'yes'
+				]
 			]
 		);
 
 		$this->add_control(
 			'ma_el_post_grid_comments_meta',
 			[
-				'label'         => __('Display Comments Number?', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'default'       => 'yes',
+				'label' => __('Display Comments Number?', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'default' => 'yes',
 			]
 		);
 
 		$this->add_control(
 			'ma_el_post_grid_show_read_more',
 			[
-				'label'         => __('Show Read More?', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'default'       => 'yes',
+				'label' => __('Show Read More?', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'default' => 'yes',
 			]
 		);
 
@@ -856,33 +868,33 @@ class JLTMA_Blog extends Widget_Base
 
 
 		/*
-			 * Advanced Blog Settings
-			 */
+		 * Advanced Blog Settings
+		 */
 		$this->start_controls_section(
 			'ma_el_blog_advanced_settings',
 			[
-				'label'         => __('Advanced Settings', 'master-addons' ),
+				'label' => __('Advanced Settings', 'master-addons'),
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_post_offset',
 			[
-				'label'         => __('Offset Post Count', 'master-addons' ),
-				'description'   => __('The index of post to start with', 'master-addons' ),
-				'type' 			=> Controls_Manager::NUMBER,
-				'default' 		=> '0',
-				'min' 			=> '0',
+				'label' => __('Offset Post Count', 'master-addons'),
+				'description' => __('The index of post to start with', 'master-addons'),
+				'type' => Controls_Manager::NUMBER,
+				'default' => '0',
+				'min' => '0',
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_cat_tabs',
 			[
-				'label'         => __('Category Filter Tabs', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'condition'     => [
-					'ma_el_blog_carousel!'  => 'yes'
+				'label' => __('Category Filter Tabs', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'condition' => [
+					'ma_el_blog_carousel!' => 'yes'
 				]
 			]
 		);
@@ -890,10 +902,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_cat_tabs_all_text',
 			[
-				'label'             => __('All Text', 'master-addons' ),
-				'type'              => Controls_Manager::TEXT,
-				'placeholder'       => __('All', 'master-addons' ),
-				'default'           => __('All', 'master-addons' ),
+				'label' => __('All Text', 'master-addons'),
+				'type' => Controls_Manager::TEXT,
+				'placeholder' => __('All', 'master-addons'),
+				'default' => __('All', 'master-addons'),
 
 			]
 		);
@@ -901,40 +913,40 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_categories',
 			[
-				'label'         => __('Filter By Category', 'master-addons' ),
-				'type'          => Controls_Manager::SELECT2,
-				'description'   => __('Get posts for specific category(s)', 'master-addons' ),
-				'label_block'   => true,
-				'multiple'      => true,
-				'options'       => Master_Addons_Helper::ma_el_blog_post_type_categories(),
+				'label' => __('Filter By Category', 'master-addons'),
+				'type' => Controls_Manager::SELECT2,
+				'description' => __('Get posts for specific category(s)', 'master-addons'),
+				'label_block' => true,
+				'multiple' => true,
+				'options' => Master_Addons_Helper::ma_el_blog_post_type_categories(),
 			]
 		);
 
 		$this->add_responsive_control(
 			'ma_el_blog_filter_align',
 			[
-				'label'         => __('Alignment', 'master-addons' ),
-				'type'          => Controls_Manager::CHOOSE,
-				'options'       => [
-					'flex-start'    => [
-						'title' => __('Left', 'master-addons' ),
-						'icon'  => 'eicon-text-align-left',
+				'label' => __('Alignment', 'master-addons'),
+				'type' => Controls_Manager::CHOOSE,
+				'options' => [
+					'flex-start' => [
+						'title' => __('Left', 'master-addons'),
+						'icon' => 'eicon-text-align-left',
 					],
-					'center'        => [
-						'title' => __('Center', 'master-addons' ),
-						'icon'  => 'eicon-text-align-center',
+					'center' => [
+						'title' => __('Center', 'master-addons'),
+						'icon' => 'eicon-text-align-center',
 					],
-					'flex-end'      => [
-						'title' => __('Right', 'master-addons' ),
-						'icon'  => 'eicon-text-align-right',
+					'flex-end' => [
+						'title' => __('Right', 'master-addons'),
+						'icon' => 'eicon-text-align-right',
 					],
 				],
-				'default'       => 'center',
-				'condition'     => [
-					'ma_el_blog_cat_tabs'     => 'yes',
-					'ma_el_blog_carousel!'    => 'yes'
+				'default' => 'center',
+				'condition' => [
+					'ma_el_blog_cat_tabs' => 'yes',
+					'ma_el_blog_carousel!' => 'yes'
 				],
-				'selectors'     => [
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-filter' => 'justify-content: {{VALUE}};',
 				],
 			]
@@ -944,12 +956,12 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_tags',
 			[
-				'label'         => __('Filter By Tag', 'master-addons' ),
-				'type'          => Controls_Manager::SELECT2,
-				'description'   => __('Get posts for specific tag(s)', 'master-addons' ),
-				'label_block'   => true,
-				'multiple'      => true,
-				'options'       => Master_Addons_Helper::ma_el_blog_post_type_tags(),
+				'label' => __('Filter By Tag', 'master-addons'),
+				'type' => Controls_Manager::SELECT2,
+				'description' => __('Get posts for specific tag(s)', 'master-addons'),
+				'label_block' => true,
+				'multiple' => true,
+				'options' => Master_Addons_Helper::ma_el_blog_post_type_tags(),
 			]
 		);
 
@@ -957,34 +969,34 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_users',
 			[
-				'label'         => __('Filter By Author', 'master-addons' ),
-				'type'          => Controls_Manager::SELECT2,
-				'description'   => __('Get posts for specific author(s)', 'master-addons' ),
-				'label_block'   => true,
-				'multiple'      => true,
-				'options'       => Master_Addons_Helper::ma_el_blog_post_type_users(),
+				'label' => __('Filter By Author', 'master-addons'),
+				'type' => Controls_Manager::SELECT2,
+				'description' => __('Get posts for specific author(s)', 'master-addons'),
+				'label_block' => true,
+				'multiple' => true,
+				'options' => Master_Addons_Helper::ma_el_blog_post_type_users(),
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_posts_exclude',
 			[
-				'label'         => __('Posts to Exclude', 'master-addons' ),
-				'type'          => Controls_Manager::SELECT2,
-				'description'   => __('Add post(s) to exclude', 'master-addons' ),
-				'label_block'   => true,
-				'multiple'      => true,
-				'options'       => Master_Addons_Helper::ma_el_blog_posts_list(),
+				'label' => __('Posts to Exclude', 'master-addons'),
+				'type' => Controls_Manager::SELECT2,
+				'description' => __('Add post(s) to exclude', 'master-addons'),
+				'label_block' => true,
+				'multiple' => true,
+				'options' => Master_Addons_Helper::ma_el_blog_posts_list(),
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_new_tab',
 			[
-				'label'         => __('Links in New Tab', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'description'   => __('Enable links to be opened in a new tab', 'master-addons' ),
-				'default'       => 'no',
+				'label' => __('Links in New Tab', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'description' => __('Enable links to be opened in a new tab', 'master-addons'),
+				'default' => 'no',
 			]
 		);
 
@@ -994,16 +1006,16 @@ class JLTMA_Blog extends Widget_Base
 
 
 		/*
-			 * Style Settings
-			 */
+		 * Style Settings
+		 */
 
 		$this->start_controls_section(
 			'ma_el_blog_thumbnail_style_section',
 			[
-				'label'         => __('Thumbnail Image', 'master-addons' ),
-				'tab'           => Controls_Manager::TAB_STYLE,
-				'condition'     => [
-					'ma_el_post_grid_thumbnail'  => 'yes',
+				'label' => __('Thumbnail Image', 'master-addons'),
+				'tab' => Controls_Manager::TAB_STYLE,
+				'condition' => [
+					'ma_el_post_grid_thumbnail' => 'yes',
 				],
 
 			]
@@ -1012,10 +1024,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_thumb_border_radius',
 			[
-				'label'         => __('Border Radius', 'master-addons' ),
-				'type'          => Controls_Manager::SLIDER,
-				'size_units'    => ['px', '%', 'em'],
-				'selectors'     => [
+				'label' => __('Border Radius', 'master-addons'),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => ['px', '%', 'em'],
+				'selectors' => [
 					'{{WRAPPER}} .jltma-post-thumbnail img' => 'border-radius: {{SIZE}}{{UNIT}};'
 				]
 			]
@@ -1024,9 +1036,9 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_overlay_color',
 			[
-				'label'         => __('Overlay Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'selectors'     => [
+				'label' => __('Overlay Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
 					'{{WRAPPER}} .jltma-post-thumbnail,
                         {{WRAPPER}} .jltma-post-thumbnail img:hover' => 'background: {{VALUE}};',
 				]
@@ -1036,15 +1048,15 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_border_effect_color',
 			[
-				'label'         => __('Border Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
+				'label' => __('Border Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
 				'global' => [
 					'default' => Global_Colors::COLOR_SECONDARY,
 				],
-				'condition'     => [
-					'ma_el_blog_image_shapes'  => 'bordered',
+				'condition' => [
+					'ma_el_blog_image_shapes' => 'bordered',
 				],
-				'selectors'     => [
+				'selectors' => [
 					'{{WRAPPER}} .jltma-img-shape-bordered' => 'border-color: {{VALUE}};',
 				],
 			]
@@ -1062,27 +1074,27 @@ class JLTMA_Blog extends Widget_Base
 
 
 		/*
-			 * Title Styles
-			 */
+		 * Title Styles
+		 */
 
 		$this->start_controls_section(
 			'ma_el_blog_title_style_section',
 			[
-				'label'         => __('Title', 'master-addons' ),
-				'tab'           => Controls_Manager::TAB_STYLE,
+				'label' => __('Title', 'master-addons'),
+				'tab' => Controls_Manager::TAB_STYLE,
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_title_color',
 			[
-				'label'         => __('Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
+				'label' => __('Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
 				'global' => [
 					'default' => Global_Colors::COLOR_SECONDARY,
 				],
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-entry-title a'  => 'color: {{VALUE}};',
+				'selectors' => [
+					'{{WRAPPER}} .jltma-entry-title a' => 'color: {{VALUE}};',
 				]
 			]
 		);
@@ -1090,21 +1102,21 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
-				'name'          => 'ma_el_blog_title_typo',
-				'selector'      => '{{WRAPPER}} .jltma-entry-title',
+				'name' => 'ma_el_blog_title_typo',
+				'selector' => '{{WRAPPER}} .jltma-entry-title',
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_title_hover_color',
 			[
-				'label'         => __('Hover Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
+				'label' => __('Hover Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
 				'global' => [
 					'default' => Global_Colors::COLOR_PRIMARY,
 				],
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-entry-title:hover a'  => 'color: {{VALUE}};',
+				'selectors' => [
+					'{{WRAPPER}} .jltma-entry-title:hover a' => 'color: {{VALUE}};',
 				]
 			]
 		);
@@ -1112,10 +1124,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_blog_title_padding',
 			[
-				'label'         => __('Title Padding', 'master-addons' ),
-				'type'          => Controls_Manager::DIMENSIONS,
-				'size_units'    => ['px', 'em', '%'],
-				'selectors'     => [
+				'label' => __('Title Padding', 'master-addons'),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => ['px', 'em', '%'],
+				'selectors' => [
 					'{{WRAPPER}} .jltma-entry-title' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
 				]
 			]
@@ -1125,10 +1137,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_blog_title_margin',
 			[
-				'label'         => __('Title Margin', 'master-addons' ),
-				'type'          => Controls_Manager::DIMENSIONS,
-				'size_units'    => ['px', 'em', '%'],
-				'selectors'     => [
+				'label' => __('Title Margin', 'master-addons'),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => ['px', 'em', '%'],
+				'selectors' => [
 					'{{WRAPPER}} .jltma-entry-title' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
 				]
 			]
@@ -1139,26 +1151,26 @@ class JLTMA_Blog extends Widget_Base
 
 
 		/*
-			 * Meta Styles
-			 */
+		 * Meta Styles
+		 */
 		$this->start_controls_section(
 			'ma_el_blog_meta_style_section',
 			[
-				'label'         => __('Meta', 'master-addons' ),
-				'tab'           => Controls_Manager::TAB_STYLE,
+				'label' => __('Meta', 'master-addons'),
+				'tab' => Controls_Manager::TAB_STYLE,
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_meta_color',
 			[
-				'label'         => __('Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
+				'label' => __('Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
 				'global' => [
 					'default' => Global_Colors::COLOR_SECONDARY,
 				],
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-post-entry-meta span, {{WRAPPER}} .jltma-post-entry-meta a, {{WRAPPER}} .jltma-blog-post-tags-container, {{WRAPPER}} .jltma-blog-post-tags-container a, {{WRAPPER}} .jltma-blog-post-tags a'  => 'color: {{VALUE}};',
+				'selectors' => [
+					'{{WRAPPER}} .jltma-post-entry-meta span, {{WRAPPER}} .jltma-post-entry-meta a, {{WRAPPER}} .jltma-blog-post-tags-container, {{WRAPPER}} .jltma-blog-post-tags-container a, {{WRAPPER}} .jltma-blog-post-tags a' => 'color: {{VALUE}};',
 				]
 			]
 		);
@@ -1166,21 +1178,21 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
-				'name'          => 'ma_el_blog_meta_typo',
-				'selector'      => '{{WRAPPER}} .jltma-post-entry-meta, {{WRAPPER}} .jltma-blog-post-tags-container',
+				'name' => 'ma_el_blog_meta_typo',
+				'selector' => '{{WRAPPER}} .jltma-post-entry-meta, {{WRAPPER}} .jltma-blog-post-tags-container',
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_meta_hover_color',
 			[
-				'label'         => __('Hover Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
+				'label' => __('Hover Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
 				'global' => [
 					'default' => Global_Colors::COLOR_PRIMARY,
 				],
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-post-entry-meta a:hover, {{WRAPPER}} .jltma-blog-post-tags-container a:hover'  => 'color: {{VALUE}};',
+				'selectors' => [
+					'{{WRAPPER}} .jltma-post-entry-meta a:hover, {{WRAPPER}} .jltma-blog-post-tags-container a:hover' => 'color: {{VALUE}};',
 				]
 			]
 		);
@@ -1188,26 +1200,26 @@ class JLTMA_Blog extends Widget_Base
 
 
 		/*
-			 * Content Styles
-			 */
+		 * Content Styles
+		 */
 		$this->start_controls_section(
 			'ma_el_blog_content_style_section',
 			[
-				'label'         => __('Content', 'master-addons' ),
-				'tab'           => Controls_Manager::TAB_STYLE
+				'label' => __('Content', 'master-addons'),
+				'tab' => Controls_Manager::TAB_STYLE
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_post_content_color',
 			[
-				'label'         => __('Text Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
+				'label' => __('Text Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
 				'global' => [
 					'default' => Global_Colors::COLOR_TEXT,
 				],
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-post-content, {{WRAPPER}} .jltma-post-content p'  => 'color: {{VALUE}};',
+				'selectors' => [
+					'{{WRAPPER}} .jltma-post-content, {{WRAPPER}} .jltma-post-content p' => 'color: {{VALUE}};',
 				]
 			]
 		);
@@ -1215,10 +1227,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_post_content_bg_color',
 			[
-				'label'         => __('Content Background Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-post-content'  => 'background-color: {{VALUE}};',
+				'label' => __('Content Background Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .jltma-post-content' => 'background-color: {{VALUE}};',
 				]
 			]
 		);
@@ -1226,18 +1238,18 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
-				'name'          => 'ma_el_blog_post_content_typo',
-				'selector'      => '{{WRAPPER}} .jltma-post-content .jltma-blog-post-content-wrap, {{WRAPPER}} .jltma-post-content p'
+				'name' => 'ma_el_blog_post_content_typo',
+				'selector' => '{{WRAPPER}} .jltma-post-content .jltma-blog-post-content-wrap, {{WRAPPER}} .jltma-post-content p'
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_post_content_box_color',
 			[
-				'label'         => __('Box Background Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-blog-post'  => 'background-color: {{VALUE}};',
+				'label' => __('Box Background Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blog-post' => 'background-color: {{VALUE}};',
 				]
 			]
 		);
@@ -1245,18 +1257,18 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Box_Shadow::get_type(),
 			[
-				'name'          => 'ma_el_blog_box_shadow',
-				'selector'      => '{{WRAPPER}} .jltma-blog-post',
+				'name' => 'ma_el_blog_box_shadow',
+				'selector' => '{{WRAPPER}} .jltma-blog-post',
 			]
 		);
 
 		$this->add_responsive_control(
 			'ma_el_blog_box_padding',
 			[
-				'label'         => __('Content Padding', 'master-addons' ),
-				'type'          => Controls_Manager::DIMENSIONS,
-				'size_units'    => ['px', 'em', '%'],
-				'selectors'     => [
+				'label' => __('Content Padding', 'master-addons'),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => ['px', 'em', '%'],
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-post-content-wrap' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
 				]
 			]
@@ -1265,10 +1277,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_blog_content_margin',
 			[
-				'label'         => __('Content Margin', 'master-addons' ),
-				'type'          => Controls_Manager::DIMENSIONS,
-				'size_units'    => ['px', 'em', '%'],
-				'selectors'     => [
+				'label' => __('Content Margin', 'master-addons'),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => ['px', 'em', '%'],
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-post-content-wrap' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
 				]
 			]
@@ -1278,10 +1290,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_blog_content_box_padding',
 			[
-				'label'         => __('Article Box Padding', 'master-addons' ),
-				'type'          => Controls_Manager::DIMENSIONS,
-				'size_units'    => ['px', 'em', '%'],
-				'selectors'     => [
+				'label' => __('Article Box Padding', 'master-addons'),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => ['px', 'em', '%'],
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-wrapper .jltma-post-outer-container' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
 				]
 			]
@@ -1295,17 +1307,17 @@ class JLTMA_Blog extends Widget_Base
 
 
 		/*
-			 * Read More Settings
-			 */
+		 * Read More Settings
+		 */
 		$this->start_controls_section(
 			'ma_el_excerpt_read_more_style_section',
 			[
-				'label'         => __('Read More', 'master-addons' ),
-				'tab'           => Controls_Manager::TAB_STYLE,
-				'condition'     => [
-					'ma_el_post_grid_excerpt'      			=> 'yes',
-					'ma_el_post_grid_show_read_more'      	=> 'yes',
-					'ma_el_post_grid_excerpt_type' 			=> 'read_more_link'
+				'label' => __('Read More', 'master-addons'),
+				'tab' => Controls_Manager::TAB_STYLE,
+				'condition' => [
+					'ma_el_post_grid_excerpt' => 'yes',
+					'ma_el_post_grid_show_read_more' => 'yes',
+					'ma_el_post_grid_excerpt_type' => 'read_more_link'
 				]
 			]
 		);
@@ -1313,13 +1325,13 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_excerpt_read_more_color',
 			[
-				'label'         => __('Text Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
+				'label' => __('Text Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
 				'global' => [
 					'default' => Global_Colors::COLOR_TEXT,
 				],
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-blog-post-content-wrap .jltma-post-btn'  => 'color: {{VALUE}};',
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blog-post-content-wrap .jltma-post-btn' => 'color: {{VALUE}};',
 				]
 			]
 		);
@@ -1327,13 +1339,13 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_excerpt_read_more_hover_color',
 			[
-				'label'         => __('Hover Text Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
+				'label' => __('Hover Text Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
 				'global' => [
 					'default' => Global_Colors::COLOR_TEXT,
 				],
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-blog-post-content-wrap .jltma-post-btn:hover'  => 'color: {{VALUE}};',
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blog-post-content-wrap .jltma-post-btn:hover' => 'color: {{VALUE}};',
 				]
 			]
 		);
@@ -1388,10 +1400,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_excerpt_read_more_icon_padding',
 			[
-				'label'         => __('Icon Padding', 'master-addons' ),
-				'type'          => Controls_Manager::DIMENSIONS,
-				'size_units'    => ['px', 'em', '%'],
-				'selectors'     => [
+				'label' => __('Icon Padding', 'master-addons'),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => ['px', 'em', '%'],
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-post-content-wrap .jltma-post-btn i' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
 				]
 			]
@@ -1400,10 +1412,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_excerpt_read_more_bg_color',
 			[
-				'label'         => __('Background Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-blog-post-content-wrap .jltma-post-btn'  => 'background-color: {{VALUE}};',
+				'label' => __('Background Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blog-post-content-wrap .jltma-post-btn' => 'background-color: {{VALUE}};',
 				]
 			]
 		);
@@ -1411,35 +1423,35 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
-				'name'          => 'ma_el_excerpt_read_more_typo',
-				'selector'      => '{{WRAPPER}} .jltma-blog-post-content-wrap .jltma-post-btn'
+				'name' => 'ma_el_excerpt_read_more_typo',
+				'selector' => '{{WRAPPER}} .jltma-blog-post-content-wrap .jltma-post-btn'
 			]
 		);
 
 		$this->add_group_control(
 			Group_Control_Box_Shadow::get_type(),
 			[
-				'name'          => 'ma_el_excerpt_read_more_box_shadow',
-				'selector'      => '{{WRAPPER}} .jltma-blog-post-content-wrap .jltma-post-btn',
+				'name' => 'ma_el_excerpt_read_more_box_shadow',
+				'selector' => '{{WRAPPER}} .jltma-blog-post-content-wrap .jltma-post-btn',
 			]
 		);
 
 		$this->add_group_control(
 			Group_Control_Border::get_type(),
 			[
-				'name'          => 'ma_el_excerpt_read_more_border',
-				'separator'     => 'before',
-				'selector'      => '{{WRAPPER}} .jltma-blog-post-content-wrap .jltma-post-btn',
+				'name' => 'ma_el_excerpt_read_more_border',
+				'separator' => 'before',
+				'selector' => '{{WRAPPER}} .jltma-blog-post-content-wrap .jltma-post-btn',
 			]
 		);
 
 		$this->add_responsive_control(
 			'ma_el_excerpt_read_more_padding',
 			[
-				'label'         => __('Padding', 'master-addons' ),
-				'type'          => Controls_Manager::DIMENSIONS,
-				'size_units'    => ['px', 'em', '%'],
-				'selectors'     => [
+				'label' => __('Padding', 'master-addons'),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => ['px', 'em', '%'],
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-post-content-wrap .jltma-post-btn' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
 				]
 			]
@@ -1448,10 +1460,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_excerpt_read_more_margin',
 			[
-				'label'         => __('Content Margin', 'master-addons' ),
-				'type'          => Controls_Manager::DIMENSIONS,
-				'size_units'    => ['px', 'em', '%'],
-				'selectors'     => [
+				'label' => __('Content Margin', 'master-addons'),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => ['px', 'em', '%'],
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-post-content-wrap .jltma-post-btn' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
 				]
 			]
@@ -1461,15 +1473,15 @@ class JLTMA_Blog extends Widget_Base
 
 
 		/*
-			 * Post Format Icon Styles
-			 */
+		 * Post Format Icon Styles
+		 */
 		$this->start_controls_section(
 			'ma_el_blog_post_format_icon_style_section',
 			[
-				'label'         => __('Post Format Icon', 'master-addons' ),
-				'tab'           => Controls_Manager::TAB_STYLE,
-				'condition'     => [
-					'ma_el_blog_post_format_icon'  => 'yes',
+				'label' => __('Post Format Icon', 'master-addons'),
+				'tab' => Controls_Manager::TAB_STYLE,
+				'condition' => [
+					'ma_el_blog_post_format_icon' => 'yes',
 				]
 			]
 		);
@@ -1477,17 +1489,17 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_format_icon_size',
 			[
-				'label'         => __('Size', 'master-addons' ),
-				'type'          => Controls_Manager::SLIDER,
-				'range'         => [
-					'em'    => [
-						'min'       => 1,
-						'max'       => 10,
+				'label' => __('Size', 'master-addons'),
+				'type' => Controls_Manager::SLIDER,
+				'range' => [
+					'em' => [
+						'min' => 1,
+						'max' => 10,
 					],
 				],
-				'size_units'    => ['px', "em"],
-				'label_block'   => true,
-				'selectors'     => [
+				'size_units' => ['px', "em"],
+				'label_block' => true,
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-format-link i' => 'font-size: {{SIZE}}{{UNIT}};',
 				]
 			]
@@ -1496,14 +1508,14 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_post_format_icon_color',
 			[
-				'label'         => __('Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
+				'label' => __('Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
 				'global' => [
 					'default' => Global_Colors::COLOR_SECONDARY,
 				],
 				'default' => '#4b00e7',
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-blog-format-link i'  => 'color: {{VALUE}};',
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blog-format-link i' => 'color: {{VALUE}};',
 				]
 			]
 		);
@@ -1511,21 +1523,21 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_p_f_trans_icon',
 			[
-				'label'         => __('Transparent Icon?', 'master-addons' ),
-				'type'          => Controls_Manager::SWITCHER,
-				'description'   => __('Show or Hide Thumbnail', 'master-addons' ),
-				'default'       => 'yes',
+				'label' => __('Transparent Icon?', 'master-addons'),
+				'type' => Controls_Manager::SWITCHER,
+				'description' => __('Show or Hide Thumbnail', 'master-addons'),
+				'default' => 'yes',
 			]
 		);
 
 		$this->add_control(
 			'margin',
 			[
-				'label' => __('Position', 'master-addons' ),
+				'label' => __('Position', 'master-addons'),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', '%', 'em'],
-				'condition'     => [
-					'ma_el_blog_p_f_trans_icon'  => 'yes',
+				'condition' => [
+					'ma_el_blog_p_f_trans_icon' => 'yes',
 				],
 				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-format-link i' => 'position: absolute;z-index:0;top: {{TOP}}{{UNIT}}; right: {{RIGHT}}{{UNIT}}; bottom: {{BOTTOM}}{{UNIT}}; left:{{LEFT}}{{UNIT}};',
@@ -1536,8 +1548,8 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_blog_pf_rotate',
 			[
-				'label'         => __('Rotation', 'master-addons' ),
-				'type'          => Controls_Manager::SLIDER,
+				'label' => __('Rotation', 'master-addons'),
+				'type' => Controls_Manager::SLIDER,
 				'size_units' => ['deg'],
 				'default' => [
 					'unit' => 'deg',
@@ -1548,10 +1560,10 @@ class JLTMA_Blog extends Widget_Base
 						'step' => 5,
 					],
 				],
-				'condition'     => [
-					'ma_el_blog_p_f_trans_icon' =>  'yes'
+				'condition' => [
+					'ma_el_blog_p_f_trans_icon' => 'yes'
 				],
-				'selectors'     => [
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-format-link i' => 'transform: rotateZ({{SIZE}}{{UNIT}});'
 				]
 
@@ -1563,21 +1575,21 @@ class JLTMA_Blog extends Widget_Base
 
 
 		/*
-			 * Pagination Styles
-			 */
+		 * Pagination Styles
+		 */
 		$this->start_controls_section(
 			'ma_el_blog_pagination_style_section',
 			[
-				'label'         => __('Pagination', 'master-addons' ),
-				'tab'           => Controls_Manager::TAB_STYLE,
+				'label' => __('Pagination', 'master-addons'),
+				'tab' => Controls_Manager::TAB_STYLE,
 			]
 		);
 
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
-				'name'          => 'ma_el_blog_pagination_typography',
-				'selector'      => '{{WRAPPER}} .jltma-blog-pagination .page-numbers li span,{{WRAPPER}} .jltma-blog-pagination .page-numbers li a'
+				'name' => 'ma_el_blog_pagination_typography',
+				'selector' => '{{WRAPPER}} .jltma-blog-pagination .page-numbers li span,{{WRAPPER}} .jltma-blog-pagination .page-numbers li a'
 			]
 		);
 
@@ -1587,7 +1599,7 @@ class JLTMA_Blog extends Widget_Base
 		$this->start_controls_tab(
 			'ma_el_blog_pagination_nomral',
 			[
-				'label'         => __('Normal', 'master-addons' ),
+				'label' => __('Normal', 'master-addons'),
 
 			]
 		);
@@ -1595,9 +1607,9 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_pagination_text_color',
 			[
-				'label'         => __('Text Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'selectors'     => [
+				'label' => __('Text Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-pagination .page-numbers li *' => 'color: {{VALUE}};'
 				]
 			]
@@ -1606,9 +1618,9 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_pagination_bg_color',
 			[
-				'label'         => __('Background Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'selectors'     => [
+				'label' => __('Background Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-pagination .page-numbers li span,{{WRAPPER}} .jltma-blog-pagination .page-numbers li a' => 'background: {{VALUE}};'
 				]
 			]
@@ -1619,7 +1631,7 @@ class JLTMA_Blog extends Widget_Base
 		$this->start_controls_tab(
 			'ma_el_blog_pagination_hover',
 			[
-				'label'         => __('Hover', 'master-addons' ),
+				'label' => __('Hover', 'master-addons'),
 
 			]
 		);
@@ -1627,10 +1639,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_pagination_text_hover_color',
 			[
-				'label'         => __('Hover Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-blog-pagination .page-numbers li span:hover,{{WRAPPER}} .jltma-blog-pagination .page-numbers li a:hover'  => 'color: {{VALUE}};',
+				'label' => __('Hover Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blog-pagination .page-numbers li span:hover,{{WRAPPER}} .jltma-blog-pagination .page-numbers li a:hover' => 'color: {{VALUE}};',
 				]
 			]
 		);
@@ -1638,9 +1650,9 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_pagination_hover_bg_color',
 			[
-				'label'         => __('Background Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'selectors'     => [
+				'label' => __('Background Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-pagination .page-numbers li span:hover,{{WRAPPER}} .jltma-blog-pagination .page-numbers li a:hover' => 'background: {{VALUE}};'
 				]
 			]
@@ -1651,7 +1663,7 @@ class JLTMA_Blog extends Widget_Base
 		$this->start_controls_tab(
 			'ma_el_blog_pagination_active',
 			[
-				'label'         => __('Active', 'master-addons' ),
+				'label' => __('Active', 'master-addons'),
 
 			]
 		);
@@ -1659,10 +1671,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_pagination_text_active_color',
 			[
-				'label'         => __('Active Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-blog-pagination .page-numbers li span.current'  => 'color: {{VALUE}};',
+				'label' => __('Active Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blog-pagination .page-numbers li span.current' => 'color: {{VALUE}};',
 				]
 			]
 		);
@@ -1670,9 +1682,9 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_pagination_active_bg_color',
 			[
-				'label'         => __('Background Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'selectors'     => [
+				'label' => __('Background Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-pagination .page-numbers li span.current' => 'background: {{VALUE}};'
 				]
 			]
@@ -1685,19 +1697,19 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Border::get_type(),
 			[
-				'name'          => 'ma_el_pagination_border',
-				'separator'     => 'before',
-				'selector'      => '{{WRAPPER}} .jltma-blog-pagination .page-numbers li span,{{WRAPPER}} .jltma-blog-pagination .page-numbers li a',
+				'name' => 'ma_el_pagination_border',
+				'separator' => 'before',
+				'selector' => '{{WRAPPER}} .jltma-blog-pagination .page-numbers li span,{{WRAPPER}} .jltma-blog-pagination .page-numbers li a',
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_pagination_border_radius',
 			[
-				'label'         => __('Border Radius', 'master-addons' ),
-				'type'          => Controls_Manager::SLIDER,
-				'size_units'    => ['px', '%', 'em'],
-				'selectors'     => [
+				'label' => __('Border Radius', 'master-addons'),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => ['px', '%', 'em'],
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-pagination .page-numbers li span, {{WRAPPER}} .jltma-blog-pagination .page-numbers li span.current, {{WRAPPER}} .jltma-blog-pagination .page-numbers li a' => 'border-radius: {{SIZE}}{{UNIT}};'
 				]
 			]
@@ -1707,18 +1719,18 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Box_Shadow::get_type(),
 			[
-				'name'          => 'ma_el_blog_pagination_shadow',
-				'selector'      => '{{WRAPPER}} .jltma-blog-pagination .page-numbers li span, {{WRAPPER}} .jltma-blog-pagination .page-numbers li span.current, {{WRAPPER}} .jltma-blog-pagination .page-numbers li a'
+				'name' => 'ma_el_blog_pagination_shadow',
+				'selector' => '{{WRAPPER}} .jltma-blog-pagination .page-numbers li span, {{WRAPPER}} .jltma-blog-pagination .page-numbers li span.current, {{WRAPPER}} .jltma-blog-pagination .page-numbers li a'
 			]
 		);
 
 		$this->add_responsive_control(
 			'ma_el_blog_pagination_padding',
 			[
-				'label'         => __('Inner Padding', 'master-addons' ),
-				'type'          => Controls_Manager::DIMENSIONS,
-				'size_units'    => ['px', 'em', '%'],
-				'selectors'     => [
+				'label' => __('Inner Padding', 'master-addons'),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => ['px', 'em', '%'],
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-pagination .page-numbers li span,
                         {{WRAPPER}} .jltma-blog-pagination .page-numbers li span.current,
                         {{WRAPPER}} .jltma-blog-pagination .page-numbers li a' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
@@ -1729,10 +1741,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_blog_pagination_item_spacing',
 			[
-				'label'         => __('Item Spacing', 'master-addons' ),
-				'type'          => Controls_Manager::DIMENSIONS,
-				'size_units'    => ['px', 'em', '%'],
-				'selectors'     => [
+				'label' => __('Item Spacing', 'master-addons'),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => ['px', 'em', '%'],
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-pagination .page-numbers li' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
 				]
 			]
@@ -1741,10 +1753,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_blog_pagination_margin',
 			[
-				'label'         => __('Margin', 'master-addons' ),
-				'type'          => Controls_Manager::DIMENSIONS,
-				'size_units'    => ['px', 'em', '%'],
-				'selectors'     => [
+				'label' => __('Margin', 'master-addons'),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => ['px', 'em', '%'],
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-pagination' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
 				]
 			]
@@ -1755,16 +1767,16 @@ class JLTMA_Blog extends Widget_Base
 
 
 		/*
-             * Category Filter Tabs
-             */
+		 * Category Filter Tabs
+		 */
 		$this->start_controls_section(
 			'ma_el_blog_cat_filter_tabs_style_section',
 			[
-				'label'         => __('Category Filter Tabs', 'master-addons' ),
-				'tab'           => Controls_Manager::TAB_STYLE,
-				'condition'     => [
-					'ma_el_blog_cat_tabs'         => 'yes',
-					'ma_el_blog_carousel!'        => 'yes'
+				'label' => __('Category Filter Tabs', 'master-addons'),
+				'tab' => Controls_Manager::TAB_STYLE,
+				'condition' => [
+					'ma_el_blog_cat_tabs' => 'yes',
+					'ma_el_blog_carousel!' => 'yes'
 				]
 			]
 		);
@@ -1772,8 +1784,8 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
-				'name'          => 'ma_el_blog_cat_filter_typo',
-				'selector'      => '{{WRAPPER}} .jltma-blog-filter ul li a'
+				'name' => 'ma_el_blog_cat_filter_typo',
+				'selector' => '{{WRAPPER}} .jltma-blog-filter ul li a'
 			]
 		);
 
@@ -1784,17 +1796,17 @@ class JLTMA_Blog extends Widget_Base
 		$this->start_controls_tab(
 			'ma_el_blog_cat_nomral',
 			[
-				'label'         => __('Normal', 'master-addons' ),
+				'label' => __('Normal', 'master-addons'),
 
 			]
 		);
 		$this->add_control(
 			'ma_el_blog_cat_filter_text_color',
 			[
-				'label'         => __('Text Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-blog-filter ul li a'  => 'color: {{VALUE}};',
+				'label' => __('Text Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blog-filter ul li a' => 'color: {{VALUE}};',
 				]
 			]
 		);
@@ -1802,9 +1814,9 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_cat_filter_bg_color',
 			[
-				'label'         => __('Background Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'selectors'     => [
+				'label' => __('Background Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-filter ul li a' => 'background: {{VALUE}};'
 				]
 			]
@@ -1812,11 +1824,11 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_cat_filter_border_color',
 			[
-				'label'         => __('Border Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'default'       => '#4b00e7',
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-blog-filter ul li a'  => 'border-color: {{VALUE}};',
+				'label' => __('Border Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'default' => '#4b00e7',
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blog-filter ul li a' => 'border-color: {{VALUE}};',
 				]
 			]
 		);
@@ -1829,17 +1841,17 @@ class JLTMA_Blog extends Widget_Base
 		$this->start_controls_tab(
 			'ma_el_blog_cat_hover',
 			[
-				'label'         => __('Hover', 'master-addons' ),
+				'label' => __('Hover', 'master-addons'),
 
 			]
 		);
 		$this->add_control(
 			'ma_el_blog_cat_filter_text_hover_color',
 			[
-				'label'         => __('Text Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-blog-filter ul li a:hover'  => 'color: {{VALUE}};',
+				'label' => __('Text Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blog-filter ul li a:hover' => 'color: {{VALUE}};',
 				]
 			]
 		);
@@ -1847,9 +1859,9 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_cat_filter_hover_bg_color',
 			[
-				'label'         => __('Background Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'selectors'     => [
+				'label' => __('Background Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-filter ul li a:hover' => 'background: {{VALUE}};'
 				]
 			]
@@ -1857,11 +1869,11 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_cat_filter_border_hover_color',
 			[
-				'label'         => __('Border Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'default'       => '#4b00e7',
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-blog-filter ul li a:hover'  => 'border-color: {{VALUE}};',
+				'label' => __('Border Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'default' => '#4b00e7',
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blog-filter ul li a:hover' => 'border-color: {{VALUE}};',
 				]
 			]
 		);
@@ -1872,18 +1884,18 @@ class JLTMA_Blog extends Widget_Base
 		$this->start_controls_tab(
 			'ma_el_blog_cat_active_style',
 			[
-				'label'         => __('Active', 'master-addons' ),
+				'label' => __('Active', 'master-addons'),
 
 			]
 		);
 		$this->add_control(
 			'ma_el_blog_cat_filter_text_active_color',
 			[
-				'label'         => __('Text Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'default'       => '#fff',
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-blog-filter ul li a.active'  => 'color: {{VALUE}};',
+				'label' => __('Text Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'default' => '#fff',
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blog-filter ul li a.active' => 'color: {{VALUE}};',
 				]
 			]
 		);
@@ -1891,10 +1903,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_cat_filter_active_bg_color',
 			[
-				'label'         => __('Background Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'default'       => '#4b00e7',
-				'selectors'     => [
+				'label' => __('Background Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'default' => '#4b00e7',
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-filter ul li a.active' => 'background: {{VALUE}};'
 				]
 			]
@@ -1903,11 +1915,11 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'ma_el_blog_cat_filter_border_active_color',
 			[
-				'label'         => __('Border Color', 'master-addons' ),
-				'type'          => Controls_Manager::COLOR,
-				'default'       => '#4b00e7',
-				'selectors'     => [
-					'{{WRAPPER}} .jltma-blog-filter ul li a.active'  => 'border-color: {{VALUE}};',
+				'label' => __('Border Color', 'master-addons'),
+				'type' => Controls_Manager::COLOR,
+				'default' => '#4b00e7',
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blog-filter ul li a.active' => 'border-color: {{VALUE}};',
 				]
 			]
 		);
@@ -1919,27 +1931,27 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Box_Shadow::get_type(),
 			[
-				'name'          => 'ma_el_blog_cat_filter_shadow',
-				'selector'      => '{{WRAPPER}} .jltma-blog-filter ul li a'
+				'name' => 'ma_el_blog_cat_filter_shadow',
+				'selector' => '{{WRAPPER}} .jltma-blog-filter ul li a'
 			]
 		);
 
 		$this->add_group_control(
 			Group_Control_Border::get_type(),
 			[
-				'name'          => 'ma_el_blog_cat_border',
-				'separator'     => 'before',
-				'selector'      => '{{WRAPPER}} .jltma-blog-filter ul li a',
+				'name' => 'ma_el_blog_cat_border',
+				'separator' => 'before',
+				'selector' => '{{WRAPPER}} .jltma-blog-filter ul li a',
 			]
 		);
 
 		$this->add_control(
 			'ma_el_blog_cat_filter_border_radius',
 			[
-				'label'         => __('Border Radius', 'master-addons' ),
-				'type'          => Controls_Manager::SLIDER,
-				'size_units'    => ['px', '%', 'em'],
-				'selectors'     => [
+				'label' => __('Border Radius', 'master-addons'),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => ['px', '%', 'em'],
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-filter ul li a' => 'border-radius: {{SIZE}}{{UNIT}};'
 				]
 			]
@@ -1950,10 +1962,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_blog_cat_filter_padding',
 			[
-				'label'         => __('Inner Padding', 'master-addons' ),
-				'type'          => Controls_Manager::DIMENSIONS,
-				'size_units'    => ['px', 'em', '%'],
-				'selectors'     => [
+				'label' => __('Inner Padding', 'master-addons'),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => ['px', 'em', '%'],
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-filter ul li a' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
 				]
 			]
@@ -1962,10 +1974,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_blog_cat_filter_item_spacing',
 			[
-				'label'         => __('Item Spacing', 'master-addons' ),
-				'type'          => Controls_Manager::DIMENSIONS,
-				'size_units'    => ['px', 'em', '%'],
-				'selectors'     => [
+				'label' => __('Item Spacing', 'master-addons'),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => ['px', 'em', '%'],
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-filter ul li' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
 				]
 			]
@@ -1974,10 +1986,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_responsive_control(
 			'ma_el_blog_cat_filter_margin',
 			[
-				'label'         => __('Margin', 'master-addons' ),
-				'type'          => Controls_Manager::DIMENSIONS,
-				'size_units'    => ['px', 'em', '%'],
-				'selectors'     => [
+				'label' => __('Margin', 'master-addons'),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => ['px', 'em', '%'],
+				'selectors' => [
 					'{{WRAPPER}} .jltma-blog-filter' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
 				]
 			]
@@ -1995,21 +2007,21 @@ class JLTMA_Blog extends Widget_Base
 		$this->start_controls_section(
 			'section_style_navigation',
 			[
-				'label'      => __(
+				'label' => __(
 					'Navigation',
 					'master-addons'
 				),
-				'tab'        => Controls_Manager::TAB_STYLE,
+				'tab' => Controls_Manager::TAB_STYLE,
 				'conditions' => [
 					'relation' => 'or',
-					'terms'    => [
+					'terms' => [
 						[
-							'name'     => 'navigation',
+							'name' => 'navigation',
 							'operator' => '!=',
-							'value'    => 'none',
+							'value' => 'none',
 						],
 						[
-							'name'  => 'show_scrollbar',
+							'name' => 'show_scrollbar',
 							'value' => 'yes',
 						],
 					],
@@ -2024,10 +2036,10 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_group_control(
 			MA_Group_Control_Transition::get_type(),
 			[
-				'name' 			=> 'arrows',
-				'selector' 		=> '{{WRAPPER}} .jltma-swiper__button',
-				'condition'		=> [
-					'carousel_arrows'         => 'yes'
+				'name' => 'arrows',
+				'selector' => '{{WRAPPER}} .jltma-swiper__button',
+				'condition' => [
+					'carousel_arrows' => 'yes'
 				]
 			]
 		);
@@ -2042,7 +2054,7 @@ class JLTMA_Blog extends Widget_Base
 		$this->start_controls_section(
 			'jltma_section_help_docs',
 			[
-				'label' => esc_html__('Help Docs', 'master-addons' ),
+				'label' => esc_html__('Help Docs', 'master-addons'),
 			]
 		);
 
@@ -2050,8 +2062,8 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'help_doc_1',
 			[
-				'type'            => Controls_Manager::RAW_HTML,
-				'raw'             => sprintf(esc_html__('%1$s Live Demo %2$s', 'master-addons' ), '<a href="https://master-addons.com/demos/blog-element/" target="_blank" rel="noopener">', '</a>'),
+				'type' => Controls_Manager::RAW_HTML,
+				'raw' => sprintf(esc_html__('%1$s Live Demo %2$s', 'master-addons'), '<a href="https://master-addons.com/demos/blog-element/" target="_blank" rel="noopener">', '</a>'),
 				'content_classes' => 'jltma-editor-doc-links',
 			]
 		);
@@ -2059,8 +2071,8 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'help_doc_2',
 			[
-				'type'            => Controls_Manager::RAW_HTML,
-				'raw'             => sprintf(esc_html__('%1$s Documentation %2$s', 'master-addons' ), '<a href="https://master-addons.com/docs/addons/blog-element-customization/?utm_source=widget&utm_medium=panel&utm_campaign=dashboard" target="_blank" rel="noopener">', '</a>'),
+				'type' => Controls_Manager::RAW_HTML,
+				'raw' => sprintf(esc_html__('%1$s Documentation %2$s', 'master-addons'), '<a href="https://master-addons.com/docs/addons/blog-element-customization/?utm_source=widget&utm_medium=panel&utm_campaign=dashboard" target="_blank" rel="noopener">', '</a>'),
 				'content_classes' => 'jltma-editor-doc-links',
 			]
 		);
@@ -2068,8 +2080,8 @@ class JLTMA_Blog extends Widget_Base
 		$this->add_control(
 			'help_doc_3',
 			[
-				'type'            => Controls_Manager::RAW_HTML,
-				'raw'             => sprintf(esc_html__('%1$s Watch Video Tutorial %2$s', 'master-addons' ), '<a href="https://www.youtube.com/watch?v=03AcgVEsTaA" target="_blank" rel="noopener">', '</a>'),
+				'type' => Controls_Manager::RAW_HTML,
+				'raw' => sprintf(esc_html__('%1$s Watch Video Tutorial %2$s', 'master-addons'), '<a href="https://www.youtube.com/watch?v=03AcgVEsTaA" target="_blank" rel="noopener">', '</a>'),
 				'content_classes' => 'jltma-editor-doc-links',
 			]
 		);
@@ -2082,9 +2094,9 @@ class JLTMA_Blog extends Widget_Base
 
 
 	/*
-		 * Renders Post Format Icon
-		 * @since 1.1.5
-		 */
+	 * Renders Post Format Icon
+	 * @since 1.1.5
+	 */
 	protected function ma_el_blog_post_format_icon()
 	{
 
@@ -2115,7 +2127,7 @@ class JLTMA_Blog extends Widget_Base
 			default:
 				$post_format = 'thumb-tack';
 		}
-?>
+		?>
 		<i class="jltma-blog-post-format-icon fa fa-<?php echo esc_attr($post_format); ?>"></i>
 		<?php
 	}
@@ -2124,9 +2136,9 @@ class JLTMA_Blog extends Widget_Base
 
 
 	/*
-		 * Renders Post Title
-		 * @since 1.1.5
-		 */
+	 * Renders Post Title
+	 * @since 1.1.5
+	 */
 	protected function jltma_get_post_title($link_target)
 	{
 
@@ -2145,9 +2157,9 @@ class JLTMA_Blog extends Widget_Base
 
 
 	/*
-		 * Renders Post Title
-		 * @since 1.1.5
-		 */
+	 * Renders Post Title
+	 * @since 1.1.5
+	 */
 	protected function jltma_get_post_content()
 	{
 
@@ -2155,16 +2167,17 @@ class JLTMA_Blog extends Widget_Base
 
 		$excerpt_type = $settings['ma_el_post_grid_excerpt_type'];
 		$excerpt_text = $settings['ma_el_post_grid_excerpt_text'];
-		$excerpt_src  = $settings['ma_el_post_grid_excerpt_content'];
-		$read_more_link  = $settings['ma_el_post_grid_show_read_more'];
+		$excerpt_src = $settings['ma_el_post_grid_excerpt_content'];
+		$read_more_link = $settings['ma_el_post_grid_show_read_more'];
 		// $excerpt_icon  = ($settings['ma_el_blog_read_more_icon'])?$settings['ma_el_blog_read_more_icon']:"";
 		// $excerpt_icon_align  = $settings['ma_el_blog_read_more_icon_alignment'];
 
 		?>
 		<div class="jltma-blog-post-content-wrap" style="<?php if (
-																$settings['ma_el_blog_post_format_icon'] !== 'yes'
-															) : echo 'margin-left:0px;';
-															endif; ?>">
+			$settings['ma_el_blog_post_format_icon'] !== 'yes'
+		):
+			echo 'margin-left:0px;';
+		endif; ?>">
 			<?php if ($settings['ma_el_post_grid_excerpt'] === 'yes') {
 				echo Master_Addons_Helper::ma_el_get_excerpt_by_id(get_the_ID(), $settings['ma_el_blog_excerpt_length'], $excerpt_type, $excerpt_text, $excerpt_src, $excerpt_icon = "", $excerpt_icon_align = "", $read_more_link);
 			} else {
@@ -2179,9 +2192,9 @@ class JLTMA_Blog extends Widget_Base
 
 
 	/*
-		 * Renders Post Title
-		 * @since 1.1.5
-		 */
+	 * Renders Post Title
+	 * @since 1.1.5
+	 */
 	protected function ma_el_get_post_meta($link_target)
 	{
 
@@ -2195,12 +2208,13 @@ class JLTMA_Blog extends Widget_Base
 			$settings['ma_el_post_grid_categories_meta'] === 'yes' ||
 			$settings['ma_el_post_grid_comments_meta'] === 'yes'
 		) {
-		?>
+			?>
 
-			<div class="jltma-post-entry-meta" style="<?php if ($settings['ma_el_blog_post_format_icon'] !== 'yes') : echo 'margin-left:0px';
-														endif; ?>">
+			<div class="jltma-post-entry-meta" style="<?php if ($settings['ma_el_blog_post_format_icon'] !== 'yes'):
+				echo 'margin-left:0px';
+			endif; ?>">
 
-				<?php if ($settings['ma_el_post_grid_post_author_meta'] === 'yes') : ?>
+				<?php if ($settings['ma_el_post_grid_post_author_meta'] === 'yes'): ?>
 					<span class="jltma-post-author">
 						<?php if ($settings['ma_el_blog_post_meta_icon'] === 'yes') { ?>
 							<i class="fa fa-user fa-fw"></i>
@@ -2209,7 +2223,7 @@ class JLTMA_Blog extends Widget_Base
 					</span>
 				<?php endif; ?>
 
-				<?php if ($settings['ma_el_post_grid_post_date_meta'] === 'yes') : ?>
+				<?php if ($settings['ma_el_post_grid_post_date_meta'] === 'yes'): ?>
 					<span class="jltma-post-date">
 						<?php if ($settings['ma_el_blog_post_meta_icon'] === 'yes') { ?>
 							<i class="fa fa-calendar fa-fw"></i>
@@ -2225,12 +2239,13 @@ class JLTMA_Blog extends Widget_Base
 								</span>
 							</time>
 						<?php } else { ?>
-							<a href="<?php the_permalink(); ?>" target="<?php echo esc_attr($link_target); ?>"><?php the_time($date_format); ?></a>
+							<a href="<?php the_permalink(); ?>"
+								target="<?php echo esc_attr($link_target); ?>"><?php the_time($date_format); ?></a>
 						<?php } ?>
 					</span>
 				<?php endif; ?>
 
-				<?php if ($settings['ma_el_post_grid_categories_meta'] === 'yes') : ?>
+				<?php if ($settings['ma_el_post_grid_categories_meta'] === 'yes'): ?>
 					<span class="jltma-post-categories">
 						<?php if ($settings['ma_el_blog_post_meta_icon'] === 'yes') { ?>
 							<i class="fa fa-tags fa-fw"></i>
@@ -2239,7 +2254,7 @@ class JLTMA_Blog extends Widget_Base
 					</span>
 				<?php endif; ?>
 
-				<?php if ($settings['ma_el_post_grid_comments_meta'] === 'yes') : ?>
+				<?php if ($settings['ma_el_post_grid_comments_meta'] === 'yes'): ?>
 					<span class="jltma-post-comments">
 						<?php if ($settings['ma_el_blog_post_meta_icon'] === 'yes') { ?>
 							<i class="fa fa-comments-o fa-fw"></i>
@@ -2252,15 +2267,15 @@ class JLTMA_Blog extends Widget_Base
 
 			</div>
 
-		<?php
+			<?php
 		}
 	}
 
 
 	/*
-         * Renders Blog Layout
-         * @since 1.1.5
-         */
+	 * Renders Blog Layout
+	 * @since 1.1.5
+	 */
 	public function ma_el_get_post_meta_media_format($link_target)
 	{
 
@@ -2275,7 +2290,7 @@ class JLTMA_Blog extends Widget_Base
 				</div>
 
 				<div class="media-body">
-					<?php if ($settings['ma_el_post_grid_post_author_meta'] === 'yes') : ?>
+					<?php if ($settings['ma_el_post_grid_post_author_meta'] === 'yes'): ?>
 						<span class="jltma-post-author">
 							<?php if ($settings['ma_el_blog_post_meta_icon'] === 'yes') { ?>
 								<i class="fa fa-user fa-fw"></i>
@@ -2284,15 +2299,16 @@ class JLTMA_Blog extends Widget_Base
 						</span>
 					<?php endif; ?>
 
-					<?php if ($settings['ma_el_post_grid_post_date_meta'] === 'yes') : ?>
+					<?php if ($settings['ma_el_post_grid_post_date_meta'] === 'yes'): ?>
 						<span class="jltma-post-date">
 							<?php if ($settings['ma_el_blog_post_meta_icon'] === 'yes') { ?>
 								<i class="fa fa-calendar fa-fw"></i>
 							<?php } ?>
-							<a href="<?php the_permalink(); ?>" target="<?php echo esc_attr($link_target); ?>"><?php the_time($date_format); ?></a></span>
+							<a href="<?php the_permalink(); ?>"
+								target="<?php echo esc_attr($link_target); ?>"><?php the_time($date_format); ?></a></span>
 					<?php endif; ?>
 
-					<?php if ($settings['ma_el_post_grid_categories_meta'] === 'yes') : ?>
+					<?php if ($settings['ma_el_post_grid_categories_meta'] === 'yes'): ?>
 						<span class="jltma-post-categories">
 							<?php if ($settings['ma_el_blog_post_meta_icon'] === 'yes') { ?>
 								<i class="fa fa-tags fa-fw"></i>
@@ -2301,27 +2317,27 @@ class JLTMA_Blog extends Widget_Base
 						</span>
 					<?php endif; ?>
 
-					<?php if ($settings['ma_el_post_grid_comments_meta'] === 'yes') : ?>
+					<?php if ($settings['ma_el_post_grid_comments_meta'] === 'yes'): ?>
 						<span class="jltma-post-comments">
 							<?php if ($settings['ma_el_blog_post_meta_icon'] === 'yes') { ?>
 								<i class="fa fa-comments-o fa-fw"></i>
 							<?php } ?>
 							<a href="<?php the_permalink(); ?>" target="<?php echo esc_attr($link_target);
-																		?>"><?php comments_number('0 Comment', '1 Comment', '% Comments'); ?> </a></span>
+								?>"><?php comments_number('0 Comment', '1 Comment', '% Comments'); ?> </a></span>
 					<?php endif; ?>
 				</div>
 			</div>
 
 
-		<?php
+			<?php
 		}
 	}
 
 
 	/*
-		 * Renders Blog Layout
-		 * @since 1.1.5
-		 */
+	 * Renders Blog Layout
+	 * @since 1.1.5
+	 */
 	protected function ma_el_blog_layout()
 	{
 
@@ -2412,7 +2428,7 @@ class JLTMA_Blog extends Widget_Base
 		]);
 
 
-		if ( !empty( $settings['hover_animation'])) {
+		if (!empty($settings['hover_animation'])) {
 			$this->add_render_attribute('hover_animations', 'class', ['elementor-animation-' . esc_attr($settings['hover_animation'])]);
 		}
 
@@ -2453,13 +2469,15 @@ class JLTMA_Blog extends Widget_Base
 
 										<?php if ($settings['ma_el_blog_thumbnail_position'] !== "thumb_bottom") {
 											$this->jltma_render_thumbnails();
-										}  ?>
+										} ?>
 
-										<div class="jltma-blog-effect-container <?php echo 'jltma-blog-' . esc_attr($post_effect) . '-effect'; ?>">
-											<a class="jltma-post-link" href="<?php the_permalink(); ?>" target="<?php echo esc_attr($target); ?>"></a>
-											<?php if ($settings['ma_el_blog_hover_color_effect'] === 'bordered') : ?>
+										<div
+											class="jltma-blog-effect-container <?php echo 'jltma-blog-' . esc_attr($post_effect) . '-effect'; ?>">
+											<a class="jltma-post-link" href="<?php the_permalink(); ?>"
+												target="<?php echo esc_attr($target); ?>"></a>
+											<?php if ($settings['ma_el_blog_hover_color_effect'] === 'bordered'): ?>
 												<div class="jltma-blog-bordered-border-container"></div>
-											<?php elseif ($settings['ma_el_blog_hover_color_effect'] === 'squares') : ?>
+											<?php elseif ($settings['ma_el_blog_hover_color_effect'] === 'squares'): ?>
 												<div class="jltma-blog-squares-square-container"></div>
 											<?php endif; ?>
 										</div>
@@ -2483,7 +2501,7 @@ class JLTMA_Blog extends Widget_Base
 									<div class="jltma-col-6">
 									<?php } ?>
 
-									<?php if ('cards' === $skin && $settings['ma_el_blog_author_avatar'] == "yes") : ?>
+									<?php if ('cards' === $skin && $settings['ma_el_blog_author_avatar'] == "yes"): ?>
 										<div class="jltma-author-avatar">
 											<?php echo get_avatar(get_the_author_meta('ID'), 64, '', get_the_author_meta('display_name'), array('class' => 'rounded-circle')); ?>
 										</div>
@@ -2507,13 +2525,15 @@ class JLTMA_Blog extends Widget_Base
 
 													<div class="jltma-blog-inner-container">
 
-														<?php if ($settings['ma_el_blog_post_format_icon'] === 'yes') : ?>
+														<?php if ($settings['ma_el_blog_post_format_icon'] === 'yes'): ?>
 															<div class="jltma-blog-format-container">
 																<a class="jltma-blog-format-link" href="<?php the_permalink(); ?>" title="<?php if (
-																																				get_post_format() === ' '
-																																			) : echo 'standard';
-																																			else : echo get_post_format();
-																																			endif; ?>" target="<?php echo esc_attr($target); ?>">
+																		get_post_format() === ' '
+																	):
+																		echo 'standard';
+																	else:
+																		echo get_post_format();
+																	endif; ?>" target="<?php echo esc_attr($target); ?>">
 
 																	<?php $this->ma_el_blog_post_format_icon(); ?>
 																</a>
@@ -2552,7 +2572,7 @@ class JLTMA_Blog extends Widget_Base
 
 													<?php if ($settings['ma_el_blog_thumbnail_position'] === "thumb_bottom") {
 														$this->jltma_render_thumbnails();
-													}  ?>
+													} ?>
 
 													<?php
 
@@ -2569,16 +2589,20 @@ class JLTMA_Blog extends Widget_Base
 													}
 													?>
 
-													<?php if ($settings['ma_el_post_grid_tags_meta'] === 'yes' && has_tag()) : ?>
-														<div class="jltma-blog-post-tags-container" style="<?php if ($settings['ma_el_blog_post_format_icon'] !== 'yes') : echo 'margin-left:0px;';
-																											endif; ?>">
+													<?php if ($settings['ma_el_post_grid_tags_meta'] === 'yes' && has_tag()): ?>
+														<div class="jltma-blog-post-tags-container" style="<?php if ($settings['ma_el_blog_post_format_icon'] !== 'yes'):
+															echo 'margin-left:0px;';
+														endif; ?>">
 															<span class="jltma-blog-post-tags">
 
 																<?php if ($settings['ma_el_blog_post_meta_icon'] === 'yes') { ?>
 																	<i class="fa fa-tags fa-fw"></i>
 																<?php } ?>
 
-																<?php the_tags(' ', ', '); ?>
+																<?php
+																$jltma_post_grid_tag_separetor = ($settings['jltma_post_grid_tag_separetor']) ? $settings['jltma_post_grid_tag_separetor'] : ' ';
+																the_tags(' ', $jltma_post_grid_tag_separetor);
+																?>
 															</span>
 														</div>
 													<?php endif; ?>
@@ -2610,195 +2634,197 @@ class JLTMA_Blog extends Widget_Base
 							<?php } ?>
 
 
-							</div>
 						</div>
+					</div>
 
-					<?php }
-
-
-
-				protected function jltma_render_thumbnails()
-				{
-					$settings = $this->get_settings_for_display();
-					$image_effect = $settings['ma_el_blog_hover_color_effect'];
-					if ($settings['ma_el_blog_new_tab'] == 'yes') {
-						$target = '_blank';
-					} else {
-						$target = '_self';
-					}
-
-					?>
-
-						<?php if ($settings['ma_el_post_grid_thumbnail'] == 'yes') { ?>
-							<div <?php echo $this->get_render_attribute_string('hover_animations'); ?>>
-								<div class="jltma-post-thumbnail jltma-img-<?php echo esc_attr($image_effect); ?> jltma-img-shape-<?php echo esc_attr($settings['ma_el_blog_image_shapes']); ?>">
-									<a href="<?php the_permalink(); ?>" target="<?php echo esc_attr($target); ?>">
-										<?php the_post_thumbnail($settings['thumbnail_size']); ?>
-									</a>
-									<?php if ($settings['ma_el_blog_cards_skin'] === "absolute_content_two") { ?>
-										<div class="jltma-post-entry-meta">
-											<span class="jltma-post-date">
-												<time datetime="<?php echo get_the_modified_date('c'); ?>">
-													<?php echo get_the_time('d'); ?>
-													<span>
-														<?php echo get_the_time('M'); ?>
-													</span>
-												</time>
-											</span>
-										</div>
-									<?php } ?>
-								</div>
-							</div>
-						<?php } ?>
-
-					<?php }
+				<?php }
 
 
 
+	protected function jltma_render_thumbnails()
+	{
+		$settings = $this->get_settings_for_display();
+		$image_effect = $settings['ma_el_blog_hover_color_effect'];
+		if ($settings['ma_el_blog_new_tab'] == 'yes') {
+			$target = '_blank';
+		} else {
+			$target = '_self';
+		}
 
-				protected function render()
-				{
+		?>
 
-					// Query var for paged
-					if (get_query_var('paged')) {
-						$paged = (int) get_query_var('paged');
-					} elseif (get_query_var('page')) {
-						$paged = (int) get_query_var('page');
-					} else {
-						$paged = 1;
-					}
-
-					$settings = $this->get_settings_for_display();
-
-					$offset = (int) $settings['ma_el_blog_post_offset'];
-
-					$post_per_page = (int) $settings['ma_el_blog_posts_per_page'];
-
-					$new_offset = $offset + (($paged - 1) * $post_per_page);
-
-					$post_args = Master_Addons_Helper::ma_el_blog_get_post_settings($settings);
-
-					$posts = Master_Addons_Helper::ma_el_blog_get_post_data($post_args, $paged, $new_offset);
-
-					$posts_number = intval(100 / substr($settings['ma_el_blog_cols'], 0, strpos($settings['ma_el_blog_cols'], '%')));
-
-					$carousel = 'yes' == $settings['ma_el_blog_carousel'] ? true : false;
-
-					$unique_id 	= implode('-', [$this->get_id(), get_the_ID()]);
-
-					if (!$carousel) {
-
-						$this->add_render_attribute(
-							'ma_el_blog',
-							'class',
-							[
-								'jltma-blog-wrapper',
-								'jltma-blog-' . esc_attr($settings['ma_el_post_grid_layout']),
-								'jltma-row'
-							]
-						);
-					} else {
-
-						$this->add_render_attribute([
-							'ma_el_blog' => [
-								'class' => [
-									'jltma-blog-carousel-wrapper',
-									'jltma-carousel',
-									'jltma-swiper',
-									'jltma-swiper__container',
-									'swiper',
-									'elementor-jltma-element-' . $unique_id
-								],
-								'data-jltma-template-widget-id' => $unique_id
-							],
-
-							'swiper-wrapper' => [
-								'class' => [
-									'jltma-blog-carousel',
-									'jltma-swiper__wrapper',
-									'swiper-wrapper',
-								],
-							],
-
-							'swiper-item' => [
-								'class' => [
-									'jltma-slider__item',
-									'jltma-swiper__slide',
-									'swiper-slide'
-								],
-							],
-						]);
-
-
-						//Global Header Function
-						$this->jltma_render_swiper_header_attribute('blog-carousel');
-
-						$this->add_render_attribute('carousel', 'class', ['jltma-blog-carousel-slider']);
-
-						$this->add_render_attribute('ma_el_blog', 'class', ['elementor-swiper-slider']);
-					}
-					?>
-
-						<?php if ($carousel) { ?>
-							<div <?php echo $this->get_render_attribute_string('carousel'); ?>>
-							<?php } ?>
-							<div class="jltma-blog">
-
-								<?php if ('yes' === $settings['ma_el_blog_cat_tabs'] && 'yes' !== $settings['ma_el_blog_carousel']) { ?>
-									<div class="jltma-blog-filter">
-										<ul class="jltma-blog-cats-container">
-											<li>
-												<a href="javascript:;" class="category active" data-filter="*">
-													<span>
-														<?php echo esc_html($settings['ma_el_blog_cat_tabs_all_text']); ?>
-													</span>
-												</a>
-											</li>
-											<?php foreach ($settings['ma_el_blog_categories'] as $index => $id) {
-												$cat_list_key = 'blog_category_' . $index;
-
-												$name = get_cat_name($id);
-
-												$name_filter = str_replace(' ', '-', $name);
-												$name_lower = strtolower($name_filter);
-
-												$this->add_render_attribute(
-													$cat_list_key,
-													'class',
-													[
-														'category'
-													]
-												);
-											?>
-												<li>
-													<a href="javascript:;" <?php echo $this->get_render_attribute_string($cat_list_key); ?> data-filter=".<?php echo esc_attr($name_lower); ?>"><span><?php echo esc_html($name); ?></span>
-													</a>
-												</li>
-											<?php } ?>
-										</ul>
+					<?php if ($settings['ma_el_post_grid_thumbnail'] == 'yes') { ?>
+						<div <?php echo $this->get_render_attribute_string('hover_animations'); ?>>
+							<div
+								class="jltma-post-thumbnail jltma-img-<?php echo esc_attr($image_effect); ?> jltma-img-shape-<?php echo esc_attr($settings['ma_el_blog_image_shapes']); ?>">
+								<a href="<?php the_permalink(); ?>" target="<?php echo esc_attr($target); ?>">
+									<?php the_post_thumbnail($settings['thumbnail_size']); ?>
+								</a>
+								<?php if ($settings['ma_el_blog_cards_skin'] === "absolute_content_two") { ?>
+									<div class="jltma-post-entry-meta">
+										<span class="jltma-post-date">
+											<time datetime="<?php echo get_the_modified_date('c'); ?>">
+												<?php echo get_the_time('d'); ?>
+												<span>
+													<?php echo get_the_time('M'); ?>
+												</span>
+											</time>
+										</span>
 									</div>
 								<?php } ?>
+							</div>
+						</div>
+					<?php } ?>
+
+				<?php }
 
 
-								<div <?php echo $this->get_render_attribute_string('ma_el_blog'); ?>>
 
-									<?php if ($carousel) { ?>
-										<div <?php echo $this->get_render_attribute_string('swiper-wrapper'); ?>>
-											<?php }
 
-										if (count($posts)) {
-											global $post;
-											foreach ($posts as $post) {
-												setup_postdata($post);
-												if ($carousel) {
-													echo '<div ' . $this->get_render_attribute_string('swiper-item') . '>';
-												}
-												$this->ma_el_blog_layout();
-												if ($carousel) {
-													echo '</div>';
-												}
-											}
-											if ($carousel) { ?>
+	protected function render()
+	{
+
+		// Query var for paged
+		if (get_query_var('paged')) {
+			$paged = (int) get_query_var('paged');
+		} elseif (get_query_var('page')) {
+			$paged = (int) get_query_var('page');
+		} else {
+			$paged = 1;
+		}
+
+		$settings = $this->get_settings_for_display();
+
+		$offset = (int) $settings['ma_el_blog_post_offset'];
+
+		$post_per_page = (int) $settings['ma_el_blog_posts_per_page'];
+
+		$new_offset = $offset + (($paged - 1) * $post_per_page);
+
+		$post_args = Master_Addons_Helper::ma_el_blog_get_post_settings($settings);
+
+		$posts = Master_Addons_Helper::ma_el_blog_get_post_data($post_args, $paged, $new_offset);
+
+		$posts_number = intval(100 / substr($settings['ma_el_blog_cols'], 0, strpos($settings['ma_el_blog_cols'], '%')));
+
+		$carousel = 'yes' == $settings['ma_el_blog_carousel'] ? true : false;
+
+		$unique_id = implode('-', [$this->get_id(), get_the_ID()]);
+
+		if (!$carousel) {
+
+			$this->add_render_attribute(
+				'ma_el_blog',
+				'class',
+				[
+					'jltma-blog-wrapper',
+					'jltma-blog-' . esc_attr($settings['ma_el_post_grid_layout']),
+					'jltma-row'
+				]
+			);
+		} else {
+
+			$this->add_render_attribute([
+				'ma_el_blog' => [
+					'class' => [
+						'jltma-blog-carousel-wrapper',
+						'jltma-carousel',
+						'jltma-swiper',
+						'jltma-swiper__container',
+						'swiper',
+						'elementor-jltma-element-' . $unique_id
+					],
+					'data-jltma-template-widget-id' => $unique_id
+				],
+
+				'swiper-wrapper' => [
+					'class' => [
+						'jltma-blog-carousel',
+						'jltma-swiper__wrapper',
+						'swiper-wrapper',
+					],
+				],
+
+				'swiper-item' => [
+					'class' => [
+						'jltma-slider__item',
+						'jltma-swiper__slide',
+						'swiper-slide'
+					],
+				],
+			]);
+
+
+			//Global Header Function
+			$this->jltma_render_swiper_header_attribute('blog-carousel');
+
+			$this->add_render_attribute('carousel', 'class', ['jltma-blog-carousel-slider']);
+
+			$this->add_render_attribute('ma_el_blog', 'class', ['elementor-swiper-slider']);
+		}
+		?>
+
+					<?php if ($carousel) { ?>
+						<div <?php echo $this->get_render_attribute_string('carousel'); ?>>
+						<?php } ?>
+						<div class="jltma-blog">
+
+							<?php if ('yes' === $settings['ma_el_blog_cat_tabs'] && 'yes' !== $settings['ma_el_blog_carousel']) { ?>
+								<div class="jltma-blog-filter">
+									<ul class="jltma-blog-cats-container">
+										<li>
+											<a href="javascript:;" class="category active" data-filter="*">
+												<span>
+													<?php echo esc_html($settings['ma_el_blog_cat_tabs_all_text']); ?>
+												</span>
+											</a>
+										</li>
+										<?php foreach ($settings['ma_el_blog_categories'] as $index => $id) {
+											$cat_list_key = 'blog_category_' . $index;
+
+											$name = get_cat_name($id);
+
+											$name_filter = str_replace(' ', '-', $name);
+											$name_lower = strtolower($name_filter);
+
+											$this->add_render_attribute(
+												$cat_list_key,
+												'class',
+												[
+													'category'
+												]
+											);
+											?>
+											<li>
+												<a href="javascript:;" <?php echo $this->get_render_attribute_string($cat_list_key); ?>
+													data-filter=".<?php echo esc_attr($name_lower); ?>"><span><?php echo esc_html($name); ?></span>
+												</a>
+											</li>
+										<?php } ?>
+									</ul>
+								</div>
+							<?php } ?>
+
+
+							<div <?php echo $this->get_render_attribute_string('ma_el_blog'); ?>>
+
+								<?php if ($carousel) { ?>
+									<div <?php echo $this->get_render_attribute_string('swiper-wrapper'); ?>>
+									<?php }
+
+								if (count($posts)) {
+									global $post;
+									foreach ($posts as $post) {
+										setup_postdata($post);
+										if ($carousel) {
+											echo '<div ' . $this->get_render_attribute_string('swiper-item') . '>';
+										}
+										$this->ma_el_blog_layout();
+										if ($carousel) {
+											echo '</div>';
+										}
+									}
+									if ($carousel) { ?>
 										</div>
 
 
@@ -2807,9 +2833,9 @@ class JLTMA_Blog extends Widget_Base
 										<?php if ('yes' === $settings['show_scrollbar']) { ?>
 											<div class="swiper-scrollbar"></div>
 										<?php } ?>
-								</div>
+									</div>
 
-							<?php } ?>
+								<?php } ?>
 
 							</div>
 
@@ -2817,40 +2843,40 @@ class JLTMA_Blog extends Widget_Base
 							</div>
 						<?php } ?>
 
-				</div>
-
-
-				<?php if ($settings['ma_el_blog_pagination'] === 'yes') { ?>
-
-					<div class="jltma-blog-pagination">
-						<?php
-												$count_posts = wp_count_posts();
-												$published_posts = $count_posts->publish;
-
-												$total_posts = !empty($settings['ma_el_blog_total_posts_number']) ? $settings['ma_el_blog_total_posts_number'] : $published_posts;
-
-												$page_tot = ceil(($total_posts - $offset) / $settings['ma_el_blog_posts_per_page']);
-												if ($page_tot > 1) {
-													$big        = 999999999;
-													echo paginate_links(
-														array(
-															'base'      => str_replace($big, '%#%', get_pagenum_link(999999999, false)),
-															'format'    => '?paged=%#%',
-															'current'   => max(1, $paged),
-															'total'     => $page_tot,
-															'prev_next' => true,
-															'prev_text' => sprintf("&lsaquo; %s", $settings['ma_el_blog_prev_text']),
-															'next_text' => sprintf("%s &rsaquo;", $settings['ma_el_blog_next_text']),
-															'end_size'  => 1,
-															'mid_size'  => 2,
-															'type'      => 'list'
-														)
-													);
-												}
-						?>
 					</div>
-	<?php }
-											wp_reset_postdata();
-										}
-									}
+
+
+					<?php if ($settings['ma_el_blog_pagination'] === 'yes') { ?>
+
+						<div class="jltma-blog-pagination">
+							<?php
+							$count_posts = wp_count_posts();
+							$published_posts = $count_posts->publish;
+
+							$total_posts = !empty($settings['ma_el_blog_total_posts_number']) ? $settings['ma_el_blog_total_posts_number'] : $published_posts;
+
+							$page_tot = ceil(($total_posts - $offset) / $settings['ma_el_blog_posts_per_page']);
+							if ($page_tot > 1) {
+								$big = 999999999;
+								echo paginate_links(
+									array(
+										'base' => str_replace($big, '%#%', get_pagenum_link(999999999, false)),
+										'format' => '?paged=%#%',
+										'current' => max(1, $paged),
+										'total' => $page_tot,
+										'prev_next' => true,
+										'prev_text' => sprintf("&lsaquo; %s", $settings['ma_el_blog_prev_text']),
+										'next_text' => sprintf("%s &rsaquo;", $settings['ma_el_blog_next_text']),
+										'end_size' => 1,
+										'mid_size' => 2,
+										'type' => 'list'
+									)
+								);
+							}
+							?>
+						</div>
+					<?php }
+					wp_reset_postdata();
 								}
+	}
+}

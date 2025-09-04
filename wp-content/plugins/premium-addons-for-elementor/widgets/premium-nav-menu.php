@@ -133,7 +133,7 @@ class Premium_Nav_Menu extends Widget_Base {
 	 * @return bool
 	 */
 	protected function is_dynamic_content(): bool {
-		return false;
+		return true;
 	}
 
 	/**
@@ -191,6 +191,8 @@ class Premium_Nav_Menu extends Widget_Base {
 		$this->add_helpful_docs_section();
 
 		$this->get_menu_style_controls();
+
+		Helper_Functions::register_papro_promotion_controls( $this, 'menu' );
 	}
 
 	/**
@@ -225,6 +227,9 @@ class Premium_Nav_Menu extends Widget_Base {
 				'label' => __( 'Menu Settings', 'premium-addons-for-elementor' ),
 			)
 		);
+
+		$demo = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-mega-menu-widget/', 'menu', 'wp-editor', 'demo' );
+		Helper_Functions::add_templates_controls( $this, 'nav-mega-menu', $demo );
 
 		$this->add_control(
 			'menu_type',

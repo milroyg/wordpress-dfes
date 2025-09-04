@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $preloader       = isset( $splw_meta['lw-preloader'] ) ? $splw_meta['lw-preloader'] : true;
 $preloader_class = $preloader ? 'lw-preloader-wrapper' : '';
-if ( $preloader && ! is_admin() ) {
+if ( $preloader && ! is_admin() && ! $is_admin ) {
 	$preloader_image = LOCATION_WEATHER_URL . '/assets/images/spinner.svg';
 	if ( ! empty( $preloader_image ) ) {
 		?>

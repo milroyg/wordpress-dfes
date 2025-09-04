@@ -2,40 +2,38 @@
 
 namespace MasterAddons\Modules;
 
-use \Elementor\Controls_Manager;
-
+use Elementor\Controls_Manager;
 /**
  * Author Name: Liton Arefin
  * Author URL: https://jeweltheme.com
  * Date: 6/5/2021
  */
-
-if (!defined('ABSPATH')) {
+if ( !defined( 'ABSPATH' ) ) {
     exit;
-} // Exit if accessed directly.
-
-class JLTMA_Extension_Icons_Extended
-{
-
+}
+// Exit if accessed directly.
+class JLTMA_Extension_Icons_Extended {
     /*
-	* Instance of this class
-	*/
+     * Instance of this class
+     */
     private static $instance = null;
 
-    public function __construct()
-    {
+    public function __construct() {
         // Add new Icons to Icons Manager
-        add_filter('elementor/icons_manager/additional_tabs', [$this, 'jltma_add_icons_manager_tab'], 100, 3);
+        add_filter(
+            'elementor/icons_manager/additional_tabs',
+            [$this, 'jltma_add_icons_manager_tab'],
+            100,
+            3
+        );
     }
 
     // Add Section Controls
-    public function jltma_add_icons_manager_tab($tabs)
-    {
+    public function jltma_add_icons_manager_tab( $tabs ) {
         // Adds Icons Library options
-
         $tabs['elementor-icons'] = [
             'name'          => 'elementor-icons',
-            'label'         => __('Elementor Icons', 'master-addons' ),
+            'label'         => __( 'Elementor Icons', 'master-addons' ),
             'prefix'        => 'eicon-',
             'displayPrefix' => 'elementor-icons',
             'labelIcon'     => 'jltma-icon jltma-icon-ma elementor-icons eicon eicon-elementor-circle jltma-font-manager',
@@ -43,10 +41,9 @@ class JLTMA_Extension_Icons_Extended
             'fetchJson'     => JLTMA_ASSETS . 'fonts/elementor-icon/elementor-icons.js?v=' . JLTMA_VER,
             'native'        => true,
         ];
-
         $tabs['simple-line-icons'] = [
             'name'          => 'simple-line-icons',
-            'label'         => __('Simple Line Icons', 'master-addons' ),
+            'label'         => __( 'Simple Line Icons', 'master-addons' ),
             'url'           => JLTMA_ASSETS . 'fonts/simple-line-icons/simple-line-icons.css',
             'enqueue'       => [JLTMA_ASSETS . 'fonts/simple-line-icons/simple-line-icons.css'],
             'prefix'        => 'icon-',
@@ -56,10 +53,9 @@ class JLTMA_Extension_Icons_Extended
             'fetchJson'     => JLTMA_ASSETS . 'fonts/simple-line-icons/simple-line-icons.js?v=' . JLTMA_VER,
             'native'        => false,
         ];
-
         $tabs['iconic-fonts'] = [
             'name'          => 'iconic-fonts',
-            'label'         => __('Iconic Font Icons', 'master-addons' ),
+            'label'         => __( 'Iconic Font Icons', 'master-addons' ),
             'url'           => JLTMA_ASSETS . 'fonts/iconic-fonts/iconic-font.min.css',
             'enqueue'       => [JLTMA_ASSETS . 'fonts/iconic-fonts/iconic-font.min.css'],
             'prefix'        => 'im-',
@@ -69,10 +65,9 @@ class JLTMA_Extension_Icons_Extended
             'fetchJson'     => JLTMA_ASSETS . 'fonts/iconic-fonts/iconic-fonts.js?v=' . JLTMA_VER,
             'native'        => false,
         ];
-
         $tabs['linear-icons'] = [
             'name'          => 'linear-icons',
-            'label'         => __('Linear Icons', 'master-addons' ),
+            'label'         => __( 'Linear Icons', 'master-addons' ),
             'url'           => JLTMA_ASSETS . 'fonts/linear-icons/linear-icons.css',
             'enqueue'       => [JLTMA_ASSETS . 'fonts/linear-icons/linear-icons.css'],
             'prefix'        => 'lnr-',
@@ -82,10 +77,9 @@ class JLTMA_Extension_Icons_Extended
             'fetchJson'     => JLTMA_ASSETS . 'fonts/linear-icons/linear-icons.js?v=' . JLTMA_VER,
             'native'        => false,
         ];
-
         $tabs['material-icons'] = [
             'name'          => 'material-icons',
-            'label'         => __('Material Icons', 'master-addons' ),
+            'label'         => __( 'Material Icons', 'master-addons' ),
             'url'           => JLTMA_ASSETS . 'fonts/material-icons/material-icons.css',
             'enqueue'       => [JLTMA_ASSETS . 'fonts/material-icons/material-icons.css'],
             'prefix'        => 'jltma-material-icon-',
@@ -95,18 +89,24 @@ class JLTMA_Extension_Icons_Extended
             'fetchJson'     => JLTMA_ASSETS . 'fonts/material-icons/material-icons.js?v=' . JLTMA_VER,
             'native'        => false,
         ];
-
-        return $tabs;
+        // Check Enabled Icons Libraries
+        $jltma_get_icons_library_settings = get_option( 'jltma_icons_library_save_settings', [] );
+        $enabled_tabs = [];
+        foreach ( $tabs as $key => $tab ) {
+            if ( isset( $jltma_get_icons_library_settings[$key] ) && $jltma_get_icons_library_settings[$key] == 1 ) {
+                $enabled_tabs[$key] = $tab;
+            }
+        }
+        return $enabled_tabs;
     }
 
-
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self;
+    public static function get_instance() {
+        if ( !self::$instance ) {
+            self::$instance = new self();
         }
         return self::$instance;
     }
+
 }
 
 JLTMA_Extension_Icons_Extended::get_instance();

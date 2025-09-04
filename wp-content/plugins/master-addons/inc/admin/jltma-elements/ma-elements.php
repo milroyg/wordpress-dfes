@@ -426,6 +426,39 @@ if (!class_exists('JLTMA_Addon_Elements')) {
                             'is_pro'   => false
                         ],
                         // [
+                        //     // 'title'    => esc_html__('Devices', 'master-addons' ),
+                        //     'title'    => 'Devices',
+                        //     'key'      => 'ma-devices',
+                        //     'class'    => 'MasterAddons\Addons\JLTMA_Devices',
+                        //     'demo_url' => '',
+                        //     'docs_url' => '',
+                        //     'tuts_url' => '',
+                        //     'is_pro'   => true
+                        // ],
+                        // [
+                        //     // 'title'    => esc_html__('Devices', 'master-addons' ),
+                        //     'title'    => 'Device Slider',
+                        //     'key'      => 'ma-devices-slider',
+                        //     'class'    => 'MasterAddons\Addons\JLTMA_Devices_Slider',
+                        //     'demo_url' => '',
+                        //     'docs_url' => '',
+                        //     'tuts_url' => '',
+                        //     'is_pro'   => true
+                        // ],
+                        // [
+                        //     'title'    => esc_html__('iFrame', 'master-addons' ),
+                        //     'title'    => 'iFrame',
+                        //     'key'      => 'ma-iframe',
+                        //     'class'    => 'MasterAddons\Addons\JLTMA_IFrame',
+                        //     'demo_url' => '',
+                        //     'docs_url' => '',
+                        //     'tuts_url' => '',
+                        //     'is_pro'   => false
+                        // ],
+
+
+
+                        // [
                         //     'title'    => esc_html__('Twitter Slider', 'master-addons' ),
                         //     'title'    => 'Twitter Slider',
                         //     'key'      => 'ma-twitter-slider',
@@ -561,18 +594,6 @@ if (!class_exists('JLTMA_Addon_Elements')) {
                         //     'tuts_url' => '',
                         //     'is_pro'   => false
                         // ],
-
-                        // [
-                        //     'title'    => esc_html__('iFrame', 'master-addons' ),
-                        //     'title'    => 'iFrame',
-                        //     'key'      => 'ma-iframe',
-                        //     'class'    => 'MasterAddons\Addons\JLTMA_iFrame',
-                        //     'demo_url' => '',
-                        //     'docs_url' => '',
-                        //     'tuts_url' => '',
-                        //     'is_pro'   => false
-                        // ],
-
 
 
 

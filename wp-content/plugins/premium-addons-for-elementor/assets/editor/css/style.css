@@ -723,6 +723,12 @@ html:not([dir="rtl"]) .premium-promotion-pro-btn {
 	background-color: #afafaf;
 }
 
+.elementor-control-presets img {
+	aspect-ratio: 2/2;
+	object-fit: cover;
+	object-position: center;
+}
+
 .image-choose-label-block input {
 	display: none !important;
 }
@@ -920,12 +926,15 @@ html:not([dir="rtl"]) .premium-promotion-pro-btn {
 	color: #3756e1;
 }
 
-.papro-promote-box {
-	padding: 15px;
+.premium-promote-box {
 	text-align: center;
 }
 
-.papro-promote-box svg {
+.addon-promotion {
+	padding: 15px;
+}
+
+.premium-promote-box svg {
 	width: 110px;
 	height: 110px;
 }
@@ -943,26 +952,49 @@ html:not([dir="rtl"]) .premium-promotion-pro-btn {
 	margin-top: 5px;
 }
 
-.papro-promote-ctas {
-	display: flex;
-	flex-direction: column;
+.papro-promote-message + .premium-promote-ctas {
 	margin-top: 15px;
 }
 
-.papro-promote-box .elementor-button {
+.premium-promote-ctas {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.premium-promote-box.addon-promotion .premium-promote-ctas {
+	flex-direction: column;
+}
+
+.premium-promote-ctas > a.elementor-button {
+	white-space: nowrap;
+}
+
+.premium-promote-box .elementor-button {
 	color: #fff;
-	padding: 7px 25px;
+	padding: 10px;
 	border: none;
 	box-shadow:
 		0 0 1px rgba(0, 0, 0, 0.1),
 		0 2px 2px rgba(0, 0, 0, 0.1);
 }
 
-.papro-promote-ctas .elementor-button.papro-promote-demo {
+.widget-box .elementor-button {
+	width: calc(50% - 5px);
+}
+
+.premium-promote-ctas .elementor-button.premium-promote-demo {
 	background-color: #252c59;
 }
 
-.papro-promote-ctas .elementor-button.papro-promote-upgrade {
+.premium-promote-ctas .elementor-button.premium-promote-upgrade {
 	background-color: #ff6000;
+}
+
+.addon-promotion .elementor-button.premium-promote-upgrade {
 	margin-top: 7px;
+}
+
+.elementor-control-pa_pro_promotion_notice a {
+	color: #2463eb !important;
 }

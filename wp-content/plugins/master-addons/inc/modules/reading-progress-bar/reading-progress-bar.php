@@ -40,7 +40,7 @@ class JLTMA_Extension_Reading_Progress_Bar
 			'jltma_reading_progress_bar_section',
 			[
 				'tab' 			=> Controls_Manager::TAB_SETTINGS,
-				'label' 		=> JLTMA_BADGE . esc_html__(' Reading Progress Bar', 'master-addons' )
+				'label' 		=> esc_html__('Reading Progress Bar ', 'master-addons' ) . JLTMA_EXTENSION_BADGE
 			]
 		);
 

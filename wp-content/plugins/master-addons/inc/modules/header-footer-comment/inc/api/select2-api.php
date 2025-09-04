@@ -75,12 +75,39 @@ class JLTMA_Ajax_Select2_Api extends Handler_Api {
         wp_reset_postdata();
     }
 
-    public function get_singular_list(){
-        if (!current_user_can('manage_options')) {
-            return;
+    public function get_post_types_list() {
+        // Get all public post types with objects
+        $post_types = get_post_types( [ 'public' => true ], 'objects' );
+
+        // Exclude 'post' and 'page'
+        $excluded = [ 'attachment', 'e-floating-buttons', 'elementor_library' ];
+
+        $list = [];
+        foreach ( $post_types as $type => $obj ) {
+            if ( ! in_array( $type, $excluded, true ) ) {
+                $list[ $type ] = $obj->labels->singular_name;
+            }
         }
 
-        check_ajax_referer('jltma_hfc_nonce');
+        return ['results' => $list];
+    }
+
+
+    public function get_singular_list(){
+        // Only perform security checks if user is logged in
+        if (is_user_logged_in()) {
+            // Verify REST API nonce that comes from JavaScript - be more lenient with nonce check
+            $nonce = $this->request->get_header('X-WP-Nonce');
+            if ($nonce && !wp_verify_nonce($nonce, 'wp_rest')) {
+                // If nonce verification fails, log it but don't block the request
+                error_log('Master Addons: Header & Footer Nonce verification failed for user ' . get_current_user_id());
+            }
+
+            // Check if user can read posts
+            if (!current_user_can('read')) {
+                return new \WP_Error( 'rest_forbidden', __( 'Insufficient permissions.' ), [ 'status' => 403 ] );
+            }
+        }
 
         $query_args = [
             'post_status'       => 'publish',
@@ -90,10 +117,10 @@ class JLTMA_Ajax_Select2_Api extends Handler_Api {
 
         if(isset($this->request['ids'])){
             $ids = explode(',', $this->request['ids']);
-            $query_args['post__in'] = $ids;
+            $query_args['post__in'] = array_map('intval', $ids); // Sanitize IDs
         }
         if(isset($this->request['s'])){
-            $query_args['s'] = $this->request['s'];
+            $query_args['s'] = sanitize_text_field($this->request['s']);
         }
 
         $query = new \WP_Query($query_args);
@@ -104,9 +131,9 @@ class JLTMA_Ajax_Select2_Api extends Handler_Api {
                 $options[] = [ 'id' => get_the_ID(), 'text' => get_the_title() ];
             }
         endif;
+        wp_reset_postdata();
 
         return ['results' => $options];
-        wp_reset_postdata();
     }
 
     public function get_category(){

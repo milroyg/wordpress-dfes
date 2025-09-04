@@ -49,12 +49,49 @@ class JLTMA_Megamenu_Assets
 
             // Stylesheets
             wp_enqueue_style('wp-color-picker');
+            // $jltma_get_icons_library_settings = get_option('jltma_icons_library_save_settings', []);
+
+            $megamenu_icons = [
+                'linecons' =>[
+                    'enqueue'       => [JLTMA_ASSETS . 'fonts/simple-line-icons/simple-line-icons.css'],
+                ],
+                'fa4' =>[
+                    'enqueue'       => ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css']
+                ],
+                'fab' =>[
+                    'enqueue'       => ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/brands.min.css']
+                ],
+                'far' => [
+                    'enqueue'       => ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/regular.min.css']
+                ],
+                'fas' => [
+                    'enqueue'       => ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/solid.min.css']
+                ],
+                'Genericons' =>[
+                    'enqueue'       => ['https://cdnjs.cloudflare.com/ajax/libs/genericons/3.1/genericons.min.css']
+                ],
+                'Linearicons' =>[
+                    'enqueue'       => [JLTMA_ASSETS . 'fonts/linear-icons/linear-icons.css']
+                ],
+                'Icomoon' => [
+                    'enqueue_need'       => ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css']
+                ],
+                'Themify' => [
+                    'enqueue_need'       => ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css']
+                ]
+            ];
+            foreach($megamenu_icons as $key => $iconfont ){
+                if(array_key_exists('enqueue',$iconfont )){
+                    foreach( $iconfont['enqueue'] as $number => $file){
+                        wp_enqueue_style('mega-menu-font-' .$key . '-' . $number, $file);
+                    }
+                }
+            }
 
             wp_enqueue_style('mega-menu-style', JLTMA_URL . '/assets/megamenu/css/megamenu.css');
-
             // Scripts
             wp_enqueue_script('icon-picker', JLTMA_URL . '/assets/megamenu/js/icon-picker.js', array('jquery'), JLTMA_VER, true);
-            wp_enqueue_script('mega-menu-admin', JLTMA_URL . '/assets/megamenu/js/mega-script.js', array('jquery', 'wp-color-picker'), JLTMA_VER, true);
+            wp_enqueue_script('mega-menu-admin', JLTMA_URL . '/assets/megamenu/js/mega-script.js', array('jquery', 'wp-color-picker', 'icon-picker'), JLTMA_VER, true);
 
 
             // Localize Scripts

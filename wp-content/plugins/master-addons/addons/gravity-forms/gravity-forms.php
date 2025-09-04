@@ -128,7 +128,7 @@ class JLTMA_Gravity_Forms extends Widget_Base {
 				</div>
 <?php 
             } else {
-                esc_html__e( 'Please select a Contact Form!', 'master-addons' );
+                esc_html_e( 'Please select a Contact Form!', 'master-addons' );
             }
         }
     }

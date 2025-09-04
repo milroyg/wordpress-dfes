@@ -14,19 +14,62 @@ class JLTMA_Extension_Particles
 
     add_action('elementor/element/after_section_end', [$this, 'register_controls'], 10, 3);
 
+    // Only enqueue scripts when needed (no longer auto-enqueue in editor)
+    add_action('elementor/preview/enqueue_scripts', [$this, 'maybe_enqueue_particles_for_preview']);
+
     // Add print template for editor preview
+    add_action('elementor/element/print_template', [$this, '_print_template'], 10, 2);
     add_action('elementor/section/print_template', [$this, '_print_template'], 10, 2);
     add_action('elementor/column/print_template', [$this, '_print_template'], 10, 2);
+    add_action('elementor/container/print_template', [$this, '_print_template'], 10, 2);
 
+    add_action('elementor/frontend/element/before_render', [$this, '_before_render'], 10, 1);
     add_action('elementor/frontend/column/before_render', [$this, '_before_render'], 10, 1);
     add_action('elementor/frontend/section/before_render', [$this, '_before_render'], 10, 1);
+    add_action('elementor/frontend/container/before_render', [$this, '_before_render'], 10, 1);
 
     add_action('elementor/frontend/section/after_render', array($this, 'after_render'));
   }
 
-  public static function jltma_add_particles_scripts()
+  public function jltma_add_particles_scripts()
   {
-    wp_enqueue_script('master-addons-particles', JLTMA_URL . '/assets/js/particles.min.js', ['jquery'], JLTMA_VER, true);
+    wp_enqueue_script('master-addons-particles');
+  }
+
+  public function maybe_enqueue_particles_for_preview()
+  {
+    // Check if any element on the page has particles enabled
+    global $post;
+    if (!$post) return;
+
+    // Get Elementor data
+    $document = \Elementor\Plugin::$instance->documents->get($post->ID);
+    if (!$document) return;
+
+    $data = $document->get_elements_data();
+    if ($this->has_particles_enabled($data)) {
+      $this->jltma_add_particles_scripts();
+    }
+  }
+
+  private function has_particles_enabled($elements)
+  {
+    foreach ($elements as $element) {
+      $settings = $element['settings'] ?? [];
+
+      // Check if this element has particles enabled
+      if (isset($settings['ma_el_enable_particles']) && $settings['ma_el_enable_particles'] === 'yes') {
+        return true;
+      }
+
+      // Check child elements recursively
+      if (!empty($element['elements'])) {
+        if ($this->has_particles_enabled($element['elements'])) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
 
@@ -39,9 +82,28 @@ class JLTMA_Extension_Particles
         'ma_el_particles',
         [
           'tab' => Controls_Manager::TAB_STYLE,
-          'label' => JLTMA_BADGE . __(' Particles', 'master-addons' )
+          'label' =>  __('Particles ', 'master-addons' ) . JLTMA_EXTENSION_BADGE
         ]
       );
+
+      $element->add_control(
+        'ma_el_particles_apply_changes',
+        [
+          'type' => Controls_Manager::RAW_HTML,
+          'raw' => '<div class="elementor-update-preview-button editor-ma-preview-update"><span>Update changes to Preview</span><button class="elementor-button elementor-button-success" onclick="elementor.reloadPreview();">Apply</button></div>',
+          'separator' => 'after'
+        ]
+      );
+
+
+      // $element->add_control(
+      //     'ma_el_particle_video_tutorial',
+      //     [
+      //         'raw' => '<br><a href="#" target="_blank">Watch Video Tutorial <span class="dashicons dashicons-video-alt3"></span></a>',
+      //         'type' => Controls_Manager::RAW_HTML,
+      //     ]
+      // );
+
 
       $element->add_control(
         'ma_el_enable_particles',
@@ -220,8 +282,17 @@ class JLTMA_Extension_Particles
 
     $settings = $element->get_settings();
     if ($settings['ma_el_enable_particles'] == 'yes') {
-      $element->add_render_attribute('_wrapper', 'data-jltma-particle', $settings['ma_el_particle_json']);
-      self::jltma_add_particles_scripts();
+      // Clean and validate JSON
+      $particle_json = $settings['ma_el_particle_json'];
+      $particle_data = json_decode($particle_json, true);
+
+      if ($particle_data) {
+        $element->add_render_attribute('_wrapper', 'data-jltma-particle', json_encode($particle_data));
+      }
+      $element->add_render_attribute('_wrapper', 'data-jltma-particle-zindex', $settings['ma_el_particle_area_zindex']);
+
+      // Only enqueue particles script when particles are enabled
+      $this->jltma_add_particles_scripts();
     }
   }
 
@@ -232,18 +303,14 @@ class JLTMA_Extension_Particles
       return $template;
     }
 
-    $old_template = $template;
     ob_start();
-  ?>
 
-    <div class="jltma-particle-wrapper" id="jltma-particle-{{ view.getID() }}" data-ma-el-pdata=" {{ settings
-            .ma_el_particle_json }}"></div>
+    echo '<div class="jltma-particle-wrapper" id="jltma-particle-{{ view.getID() }}" data-jltma-particles-editor="{{ settings.ma_el_particle_json }}" data-jltma-particle-zindex="{{ settings.ma_el_particle_area_zindex }}"></div>';
 
-    <?php
-    $slider_content = ob_get_contents();
+    $particles_content = ob_get_contents();
     ob_end_clean();
-    $template = $slider_content . $old_template;
-    return $template;
+
+    return $template . $particles_content;
   }
 
   public function after_render($element)
@@ -253,13 +320,63 @@ class JLTMA_Extension_Particles
     $settings = $element->get_settings_for_display();
     $type     = $data['elType'];
     $zindex   = !empty($settings['ma_el_particle_area_zindex']) ? $settings['ma_el_particle_area_zindex'] : 0;
-    if (('section' === $type) && ($element->get_settings('ma_el_enable_particles') === 'yes')) {
+    if (($type === 'section' || $type === 'column' || $type === 'container') && ($element->get_settings('ma_el_enable_particles') === 'yes')) {
     ?>
       <style>
-        .elementor-element-<?php echo sanitize_text_field($element->get_id()); ?>.jltma-particle-wrapper>canvas {
+        /* Frontend styles */
+        .elementor-element-<?php echo sanitize_text_field($element->get_id()); ?> .jltma-particle-wrapper > canvas {
           z-index: <?php echo esc_attr($zindex); ?>;
           position: absolute;
           top: 0;
+          left: 0;
+          width: 100% !important;
+          height: 100% !important;
+          pointer-events: none;
+        }
+        .elementor-element-<?php echo sanitize_text_field($element->get_id()); ?> .jltma-particle-wrapper {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          pointer-events: none;
+          z-index: <?php echo esc_attr($zindex); ?>;
+        }
+        .elementor-element-<?php echo sanitize_text_field($element->get_id()); ?>.jltma-particle-yes {
+          position: relative;
+          overflow: hidden;
+        }
+
+        /* Editor-specific styles */
+        .elementor-editor-active .elementor-element-<?php echo sanitize_text_field($element->get_id()); ?>.jltma-particle-yes {
+          position: relative !important;
+          overflow: hidden !important;
+        }
+        .elementor-editor-active .elementor-element-<?php echo sanitize_text_field($element->get_id()); ?> .jltma-particle-wrapper {
+          position: absolute !important;
+          top: 0 !important;
+          left: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+          pointer-events: none !important;
+          z-index: <?php echo esc_attr($zindex); ?> !important;
+          overflow: hidden !important;
+        }
+        .elementor-editor-active .elementor-element-<?php echo sanitize_text_field($element->get_id()); ?> .jltma-particle-wrapper > canvas {
+          position: absolute !important;
+          top: 0 !important;
+          left: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+          pointer-events: none !important;
+          z-index: <?php echo esc_attr($zindex); ?> !important;
+        }
+
+        /* Container support */
+        .elementor-element-<?php echo sanitize_text_field($element->get_id()); ?>.e-con.jltma-particle-yes {
+          position: relative;
+          overflow: hidden;
         }
       </style>
 <?php

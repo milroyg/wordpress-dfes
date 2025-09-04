@@ -4,7 +4,7 @@ Contributors:      google
 Requires at least: 5.2
 Tested up to:      6.8
 Requires PHP:      7.4
-Stable tag:        1.155.0
+Stable tag:        1.160.1
 License:           Apache License 2.0
 License URI:       https://www.apache.org/licenses/LICENSE-2.0
 Tags:              google, search-console, analytics, adsense, pagespeed-insights
@@ -109,23 +109,33 @@ Please create a new topic on our [WordPress.org support forum](https://wordpress
 
 == Changelog ==
 
-= 1.155.0 =
-
-**Enhanced**
-
-* Redesign the Enhanced Measurement Banner with the new Middle SVG and In Progress Banner states. See [#10813](https://github.com/google/site-kit-wp/issues/10813).
-* Refactor Setup CTA Widgets which use the new "Top SVG" Banner component variation. See [#10716](https://github.com/google/site-kit-wp/issues/10716).
-* Update the Consent Mode, Ads Setup, and Reader Revenue Manager banner images. See [#10715](https://github.com/google/site-kit-wp/issues/10715).
-* Update the Setup CTAs to use a different/consistent image style. See [#10714](https://github.com/google/site-kit-wp/issues/10714).
-* Remove the `rrmModule` feature flag. See [#10677](https://github.com/google/site-kit-wp/issues/10677).
-* Refactor AudienceSegmentationIntroductoryOverlayNotification to use the new notifications infrastructure. See [#10391](https://github.com/google/site-kit-wp/issues/10391).
-* Enhance the loading performance of the Audiences Widget by refining the data fetching logic. See [#9982](https://github.com/google/site-kit-wp/issues/9982).
-* Update references to Google Analytics "conversions" to use the new "key events" terminology across the plugin. See [#9463](https://github.com/google/site-kit-wp/issues/9463).
-* Refactor Audience Segmentation / FPM Setup Success Subtle Notifications to use a new "on demand" notification. See [#9453](https://github.com/google/site-kit-wp/issues/9453).
+= 1.160.1 =
 
 **Fixed**
 
-* Fix bug that could cause auth setup banners to be interrupted by another notification. See [#10903](https://github.com/google/site-kit-wp/issues/10903).
-* Update the key metrics setup banner to continue showing the progress state in the CTA button until the next page loads. See [#10721](https://github.com/google/site-kit-wp/issues/10721).
+* Fix bug that could cause errors to appear in the Analytics pie chart when switching to the "Locations" tab. See [#11359](https://github.com/google/site-kit-wp/issues/11359).
+
+= 1.160.0 =
+
+**Enhanced**
+
+* Update the Partner Ads Experience script version to `1.1.9`. See [#11283](https://github.com/google/site-kit-wp/issues/11283).
+* Rename the "Enhanced conversion tracking" toggle, the new name is "Plugin conversion tracking". See [#11192](https://github.com/google/site-kit-wp/issues/11192).
+* Add ARIA label to the Recover CTA of the ModuleRecoveryAlert banner. See [#11022](https://github.com/google/site-kit-wp/issues/11022).
+* Track Enhanced Conversions user data for logged in users. See [#11015](https://github.com/google/site-kit-wp/issues/11015).
+* Update paragraph text styling across plugin. See [#10946](https://github.com/google/site-kit-wp/issues/10946).
+* Harmonize heading styles throughout Site Kit. See [#10945](https://github.com/google/site-kit-wp/issues/10945).
+* Add GA event tracking for Reader Revenue Manager block insertion. See [#10334](https://github.com/google/site-kit-wp/issues/10334).
+* Add vertical padding to the **Enable One Tap sign in** toggle, ensuring its interaction states don't overlap adjacent controls. See [#9968](https://github.com/google/site-kit-wp/issues/9968).
+* Remove Ads Conversion ID under Analytics from Site Health information. See [#9960](https://github.com/google/site-kit-wp/issues/9960).
+* Fix the icon, hover and focus styling for the `Checkbox` component. See [#9692](https://github.com/google/site-kit-wp/issues/9692).
+* Scroll down to the "Visitor groups" section when following the Settings links on the Audience Selection Panel and the "no audiences" banner, ensuring the section is visible. See [#8875](https://github.com/google/site-kit-wp/issues/8875).
+* Update styles for survey answers. See [#7591](https://github.com/google/site-kit-wp/issues/7591).
+
+**Fixed**
+
+* Ensure WooCommerce Redirect Modal appears when WooCommerce and Google for WooCommerce plugins are installed. See [#11310](https://github.com/google/site-kit-wp/issues/11310).
+* Fix deprecation errors from appearing when `WP_DEBUG_DISPLAY` is enabled on PHP 8.4+. See [#10883](https://github.com/google/site-kit-wp/issues/10883).
+* Fix bug that allowed buttons to submit multiple times. See [#10837](https://github.com/google/site-kit-wp/issues/10837).
 
 [See changelog for all versions](https://raw.githubusercontent.com/google/site-kit-wp/main/changelog.txt).

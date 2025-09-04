@@ -219,7 +219,6 @@ if (!class_exists('Master_Addons_Templates_Manager')) {
 			wp_send_json_success();
 		}
 
-
 		public function jltma_register_ajax_actions($ajax_manager)
 		{
 
@@ -230,8 +229,8 @@ if (!class_exists('Master_Addons_Templates_Manager')) {
 			$actions     = (array) json_decode(stripslashes(sanitize_text_field($_REQUEST['actions'])), true);
 			$data        = false;
 
-			foreach ($actions as $id => $action_data) {
-				if (!isset($action_data['get_template_data'])) {
+			foreach ($actions as $action_data) {
+				if( in_array('get_template_data',  $action_data) || in_array('save_template',  $action_data) ){
 					$data = $action_data;
 				}
 			}
@@ -248,16 +247,44 @@ if (!class_exists('Master_Addons_Templates_Manager')) {
 				return;
 			}
 
-			$source = $data['data']['source'];
-
-			if (!isset($this->sources[$source])) {
-				return;
+			// Handle both single source string and array of sources
+			$sources = $data['data']['source'];
+			if (!is_array($sources)) {
+				$sources = [$sources];
 			}
 
-			$ajax_manager->register_ajax_action('get_template_data', function ($data) {
-				return $this->get_template_data_array($data);
-			});
+			foreach ( $sources as $source ) {
+				if ( isset( $this->sources[ $source ] ) ) {
+					// Register AJAX actions only once
+					$ajax_manager->register_ajax_action( 'get_template_data', function( $data ) {
+						return $this->get_template_data_array( $data );
+					});
+
+					$ajax_manager->register_ajax_action( 'save_template', function( $data ) {
+						return $this->save_template_data_array( $data );
+					});
+
+					break; // Exit loop after registering once
+				}
+			}
+
 		}
+
+
+		public function save_template_data_array($data) {
+				$post_id = sanitize_text_field($data['template_id'] ?? '');
+				$template_data = wp_unslash($data['template_data'] ?? '');
+
+				if ($post_id && $template_data) {
+						return \Elementor\Plugin::$instance->templates_manager->save_template(
+								$post_id,
+								$template_data
+						);
+				}
+
+				return new \WP_Error('invalid_data', 'Missing template ID or data');
+		}
+
 
 		public function get_template_data_array($data)
 		{
@@ -270,8 +297,14 @@ if (!class_exists('Master_Addons_Templates_Manager')) {
 				return false;
 			}
 
-			$source_name = isset($data['source']) ? esc_attr($data['source']) : '';
+			$source_name = isset($data['source']) ? $data['source'] : '';
 
+			// Handle both single source string and array of sources
+			if (is_array($source_name)) {
+				$source_name = !empty($source_name) ? esc_attr($source_name[0]) : '';
+			} else {
+				$source_name = esc_attr($source_name);
+			}
 
 			if (!$source_name) {
 				return false;

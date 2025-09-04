@@ -1,9 +1,9 @@
 === Location Weather – Hourly, Daily Weather Forecast Widget and Weather Map ===
 Contributors: shapedplugin, khalilu, rubel_miah, shamimmiashuhagh
 Tags: weather forecast, weather widget, live weather map, hourly forecast, daily forecast
-Requires at least: 4.7
-Tested up to: 6.8
-Stable tag: 2.1.0
+Requires at least: 5.0
+Tested up to: 6.8.2
+Stable tag: 2.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -414,6 +414,19 @@ The WordPress codex contains <a href="https://wordpress.org/documentation/articl
 
 
 == Changelog ==
+
+= 2.1.3 - Jul 23, 2025 =
+* Fix: The weather forecast did not display correctly when the shortcode was used on the blog home page.
+* Fix: The location weather block select field style issue.
+* Fix: The mismatched text domain issue.
+* Updated: The language (.pot) file.
+
+= 2.1.2 - Jul 02, 2025 =
+* Fix: Notice style issue.
+
+= 2.1.1 - Jul 02, 2025 =
+* New: Weather Forecast( Hourly, 3-Hourly) feature.
+* Updated: The language (.pot) file.
 
 = 2.1.0 - May 30, 2025 =
 * New: New weather source type WeatherAPI support added.

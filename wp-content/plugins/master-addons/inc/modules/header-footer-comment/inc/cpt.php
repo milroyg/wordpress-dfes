@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace MasterHeaderFooter;
 
 defined( 'ABSPATH' ) || exit;
@@ -10,7 +10,7 @@ class Master_Addons_CPT{
     public function __construct() {
         add_action( 'init', [ $this, 'jltma_register_post_type' ] );
         add_action( 'admin_menu', [$this, 'jltma_cpt_menu'], 50);
-        add_filter( 'single_template', [ $this, 'load_canvas_templates' ] ); 
+        add_filter( 'single_template', [ $this, 'load_canvas_templates' ] );
     }
 
 
@@ -36,7 +36,7 @@ class Master_Addons_CPT{
 
 
     public function jltma_register_post_type() {
-        
+
         $labels = array(
             'name'               => esc_html__( 'MA Templates', 'master-addons' ),
             'singular_name'      => esc_html__( 'MA Template', 'master-addons' ),
@@ -62,8 +62,10 @@ class Master_Addons_CPT{
             'show_in_menu'        => false,
             'show_in_nav_menus'   => false,
             'exclude_from_search' => true,
+            'show_in_rest'        => true,
+            'rest_base'           => 'ma-template',
             'capability_type'     => 'page',
-            'hierarchical'        => true,
+            'hierarchical'        => false,
             'supports'            => array( 'title', 'thumbnail', 'elementor', 'comments' )
         );
 
@@ -79,7 +81,7 @@ class Master_Addons_CPT{
             'edit.php?post_type=master_template'
         );
     }
-    
+
 }
 
 new Master_Addons_CPT();

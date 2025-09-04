@@ -879,21 +879,7 @@ SPLW::createSection(
 						'icon'   => '<span><i class="splwp-icon-forecast-data"></i></span>',
 						'fields' => array(
 							array(
-								'type'    => 'notice',
-								'style'   => 'normal',
-								'class'   => 'forecast-pro-notice',
-								'content' => sprintf(
-									/* translators: 1: start link tag, 2: close link tag 3: start link and strong tag. 4: close link and strong tag. */
-									__( 'To display advanced %1$sWeather Forecast Data%2$s with customizable options, %3$sUpgrade to Pro!%4$s', 'location-weather' ),
-									'<a href="https://locationweather.io/demos/daily-hourly-weather-forecast/" target="_blank"><strong>',
-									'</strong></a>',
-									'<a class="lw-open-live-demo" href="https://locationweather.io/pricing/?ref=1" target="_blank"><strong>',
-									'</strong></a>'
-								),
-							),
-							array(
 								'id'         => 'lw-enable-forecast',
-								'class'      => 'lw-forecast-data-pro',
 								'type'       => 'switcher',
 								'title'      => __( 'Enable Weather Forecast', 'location-weather' ),
 								'default'    => true,
@@ -910,7 +896,7 @@ SPLW::createSection(
 								'id'         => 'lw_forecast_data_sortable',
 								'type'       => 'sortable',
 								'title'      => __( 'Forecast Data', 'location-weather' ),
-								'class'      => 'style_generator_sortable lw-forecast-data-pro',
+								'class'      => 'style_generator_sortable',
 								'dependency' => array( 'lw-enable-forecast', '==', 'true' ),
 								'default'    => array(
 									'temperature'   => true,
@@ -985,17 +971,18 @@ SPLW::createSection(
 							array(
 								'id'         => 'enable-graph-chart',
 								'type'       => 'switcher',
-								'class'      => 'lw-forecast-data-pro',
+								'class'      => 'lw-forecast-data-pro splw_show_hide lw-graph-chart',
 								'title'      => __( 'Weather Graph Chart', 'location-weather' ),
 								'text_on'    => __( 'Enabled', 'location-weather' ),
 								'text_off'   => __( 'Disabled', 'location-weather' ),
 								'text_width' => 100,
 								'only_pro'   => true,
 								'default'    => 'true',
+								'dependency' => array( 'lw-enable-forecast', '==', 'true' ),
 							),
 							array(
 								'id'         => 'lw-forecast-type',
-								'class'      => 'lw-forecast-data-pro',
+								'class'      => 'lw-forecast-type',
 								'type'       => 'button_set',
 								'title'      => __( 'Weather Forecast Type', 'location-weather' ),
 								'options'    => array(
@@ -1010,7 +997,13 @@ SPLW::createSection(
 									__( 'Open Docs', 'location-weather' ),
 									__( 'Live Demo', 'location-weather' )
 								),
-								'default'    => 'both',
+								'desc'       => sprintf(
+								/* translators: 1: start link tag, 2: close tag. */
+									__( 'This is a %1$sPro feature!%2$s', 'location-weather' ),
+									'<a class="lw-open-live-demo" href="https://locationweather.io/pricing/?ref=1" target="_blank">',
+									'</a>'
+								),
+								'default'    => 'hourly',
 								'dependency' => array( 'lw-enable-forecast', '==', 'true' ),
 							),
 							array(
@@ -1052,44 +1045,106 @@ SPLW::createSection(
 							),
 							array(
 								'id'         => 'lw-hourly-type',
-								'class'      => 'lw-forecast-data-pro',
 								'type'       => 'button_set',
 								'title'      => __( 'Hourly Forecast Type', 'location-weather' ),
 								'options'    => array(
 									'one-hour'   => __( '1-Hour', 'location-weather' ),
 									'three-hour' => __( '3-Hour', 'location-weather' ),
 								),
+								'title_info' =>
+									__(
+										'OpenWeatherAPI free api you can show only 3 hourly forecast.',
+										'location-weather'
+									),
 								'default'    => 'three-hour',
 								'dependency' => array( 'lw-enable-forecast|lw-forecast-type', '==|!=', 'true|daily' ),
 							),
 							array(
 								'id'         => 'lw-number-forecast-hours',
-								'class'      => 'lw-forecast-data-pro',
-								'type'       => 'select',
-								'title'      => 'Number of Forecast Hours to Show',
-								'options'    => array(
-									'40' => __( '120 Hours', 'location-weather' ),
-								),
+								'type'       => 'spinner',
+								'class'      => 'lw-number-forecast-hours',
+								'title'      => __( 'Number of Forecast Hours to Show', 'location-weather' ),
+								'unit'       => __( 'Hours', 'location-weather' ),
+								'max'        => 96,
+								'min'        => 1,
+								'default'    => 8,
 								'title_info' => sprintf(
 									'<div class="lw-info-label">%s</div><div class="lw-short-content">%s</div><div class="info-button"><a class="lw-open-docs" href="https://locationweather.io/docs/how-to-set-the-number-of-forecast-hours-to-show/" target="_blank">%s</a></div>',
 									__( 'Forecast Hours To Show', 'location-weather' ),
-									__( 'Set the number of the hours you want to show weather forecasts for.', 'location-weather' ),
+									__( 'The maximum forecast data available is 48 hours for the One Call API and 96 hours for Developer, Professional, or Enterprise plans.', 'location-weather' ),
 									__( 'Open Docs', 'location-weather' )
 								),
-								'default'    => '40',
+								'desc'       => sprintf(
+								/* translators: 1: start link tag, 2: close tag. */
+									__( 'To show more than 8 hours, %1$sUpgrade to Pro!%2$s', 'location-weather' ),
+									'<a class="lw-open-live-demo" href="https://locationweather.io/pricing/?ref=1" target="_blank">',
+									'</a>'
+								),
 								'dependency' => array( 'lw-enable-forecast|lw-forecast-type|lw-hourly-type', '==|!=|==', 'true|daily|one-hour' ),
 							),
 							array(
-								'id'         => 'lw-hourly-time-style',
-								'class'      => 'lw-forecast-data-pro',
-								'type'       => 'checkbox',
-								'title'      => __( 'Display Day/Date with Hour', 'location-weather' ),
-								'default'    => false,
-								'dependency' => array( 'lw-enable-forecast|lw-forecast-type', '==|!=', 'true|daily' ),
+								'id'         => 'lw-number-forecast-three-hours',
+								'type'       => 'select',
+								'class'      => 'lw-number-forecast-three-hours',
+								'title'      => __( 'Number of Forecast Hours to Show', 'location-weather' ),
+								'options'    => array(
+									'1'  => __( '3 Hour', 'location-weather' ),
+									'2'  => __( '6 Hours', 'location-weather' ),
+									'3'  => __( '9 Hours', 'location-weather' ),
+									'4'  => __( '12 Hours', 'location-weather' ),
+									'5'  => __( '15 Hours', 'location-weather' ),
+									'6'  => __( '18 Hours', 'location-weather' ),
+									'7'  => __( '21 Hours', 'location-weather' ),
+									'8'  => __( '24 Hours', 'location-weather' ),
+									'9'  => __( '27 Hours', 'location-weather' ),
+									'10' => __( '30 Hours', 'location-weather' ),
+									'11' => __( '33 Hours', 'location-weather' ),
+									'12' => __( '36 Hours', 'location-weather' ),
+									'13' => __( '39 Hours', 'location-weather' ),
+									'14' => __( '42 Hours', 'location-weather' ),
+									'15' => __( '45 Hours', 'location-weather' ),
+									'16' => __( '48 Hours', 'location-weather' ),
+									'17' => __( '51 Hours', 'location-weather' ),
+									'18' => __( '54 Hours', 'location-weather' ),
+									'19' => __( '57 Hours', 'location-weather' ),
+									'20' => __( '60 Hours', 'location-weather' ),
+									'21' => __( '63 Hours', 'location-weather' ),
+									'22' => __( '66 Hours', 'location-weather' ),
+									'23' => __( '69 Hours', 'location-weather' ),
+									'24' => __( '72 Hours', 'location-weather' ),
+									'25' => __( '75 Hours', 'location-weather' ),
+									'26' => __( '78 Hours', 'location-weather' ),
+									'27' => __( '81 Hours', 'location-weather' ),
+									'28' => __( '84 Hours', 'location-weather' ),
+									'29' => __( '87 Hours', 'location-weather' ),
+									'30' => __( '90 Hours', 'location-weather' ),
+									'31' => __( '93 Hours', 'location-weather' ),
+									'32' => __( '96 Hours', 'location-weather' ),
+									'33' => __( '99 Hours', 'location-weather' ),
+									'34' => __( '102 Hours', 'location-weather' ),
+									'35' => __( '105 Hours', 'location-weather' ),
+									'36' => __( '108 Hours', 'location-weather' ),
+									'37' => __( '111 Hours', 'location-weather' ),
+									'38' => __( '114 Hours', 'location-weather' ),
+									'39' => __( '117 Hours', 'location-weather' ),
+									'40' => __( '120 Hours', 'location-weather' ),
+								),
+								'title_info' => sprintf(
+									'<div class="lw-info-label">%s</div>%s',
+									__( 'Forecast Hours To Show', 'location-weather' ),
+									__( 'Set the number of the hours you want to show weather forecasts for.', 'location-weather' )
+								),
+								'desc'       => sprintf(
+								/* translators: 1: start link tag, 2: close tag. */
+									__( 'To show more than 24 hours, %1$sUpgrade to Pro!%2$s', 'location-weather' ),
+									'<a class="lw-open-live-demo" href="https://locationweather.io/pricing/?ref=1" target="_blank">',
+									'</a>'
+								),
+								'default'    => '8',
+								'dependency' => array( 'lw-enable-forecast|lw-forecast-type|lw-hourly-type', '==|!=|==', 'true|daily|three-hour' ),
 							),
 							array(
 								'id'         => 'hourly-forecast-title',
-								'class'      => 'lw-forecast-data-pro',
 								'type'       => 'text',
 								'title'      => __( 'Hourly Forecast Title', 'location-weather' ),
 								'default'    => __( 'Hourly Forecast', 'location-weather' ),
@@ -1111,14 +1166,17 @@ SPLW::createSection(
 							),
 							array(
 								'id'               => 'weather-forecast-icon-type',
-								'class'            => 'lw-forecast-data-pro weather-forecast-icon-type',
+								'class'            => 'weather-forecast-icon-type',
 								'forecast_preview' => true,
 								'type'             => 'select',
 								'title'            => __( 'Icon Type', 'location-weather' ),
 								'options'          => array(
-									'forecast_icon_set_one' => __( 'Animated', 'location-weather' ),
+									'forecast_icon_set_one'   => __( 'Animated', 'location-weather' ),
 									'forecast_icon_set_two'   => __( 'Static (No-animation) ', 'location-weather' ),
+									'forecast_icon_set_six'   => __( 'Animated 2 (Line)', 'location-weather' ),
+									'forecast_icon_set_seven' => __( 'Animated 3', 'location-weather' ),
 									'forecast_icon_set_three' => __( 'Light (Line) ', 'location-weather' ),
+									'forecast_icon_set_eight' => __( 'Medium (Line) ', 'location-weather' ),
 									'forecast_icon_set_four'  => __( 'Fill ', 'location-weather' ),
 									'forecast_icon_set_five'  => __( 'Glassmorphism', 'location-weather' ),
 								),
@@ -1132,11 +1190,33 @@ SPLW::createSection(
 								'dependency'       => array( 'lw-enable-forecast', '==', 'true', true ),
 							),
 							array(
-								'id'      => 'lw-forecast-icon-color',
-								'class'   => 'lw-forecast-data-pro',
-								'type'    => 'color',
-								'title'   => __( 'Icon Color', 'location-weather' ),
-								'default' => '#fff',
+								'type'    => 'notice',
+								'style'   => 'normal',
+								'class'   => 'forecast-pro-notice',
+								'content' => sprintf(
+									/* translators: 1: start link tag, 2: close link tag 3: start link and strong tag. 4: close link and strong tag. */
+									__( 'To display advanced %1$sWeather Forecast Data%2$s with customizable options, %3$sUpgrade to Pro!%4$s', 'location-weather' ),
+									'<a href="https://locationweather.io/demos/daily-hourly-weather-forecast/" target="_blank"><strong>',
+									'</strong></a>',
+									'<a class="lw-open-live-demo" href="https://locationweather.io/pricing/?ref=1" target="_blank"><strong>',
+									'</strong></a>'
+								),
+							),
+							array(
+								'id'         => 'lw-hourly-time-style',
+								'class'      => 'lw-forecast-data-pro',
+								'type'       => 'checkbox',
+								'title'      => __( 'Display Day/Date with Hour', 'location-weather' ),
+								'default'    => false,
+								'dependency' => array( 'lw-enable-forecast|lw-forecast-type', '==|!=', 'true|daily' ),
+							),
+							array(
+								'id'         => 'lw-forecast-icon-color',
+								'class'      => 'lw-forecast-data-pro',
+								'type'       => 'color',
+								'title'      => __( 'Icon Color', 'location-weather' ),
+								'default'    => '#fff',
+								'dependency' => array( 'lw-enable-forecast', '==', 'true' ),
 							),
 							array(
 								'id'         => 'lw_forecast_icon_size',
@@ -1156,7 +1236,7 @@ SPLW::createSection(
 								'title'      => __( 'Forecast Data Background', 'location-weather' ),
 								'default'    => 'transparent',
 								'title_info' => '<div class="lw-img-tag"><img src="' . SPLW::include_plugin_url( 'assets/images/weather-forecast-data-background.webp' ) . '" alt="weather-content-padding"></div><div class="lw-info-label img">' . __( 'Weather Forecast Data Background', 'location-weather' ) . '</div>',
-								'dependency' => array( 'weather-template|weather-view', 'any|==', 'template-one,template-two,template-three|vertical', true ),
+								'dependency' => array( 'lw-enable-forecast|weather-template|weather-view', '==|any|==', 'true|template-one,template-two,template-three|vertical', true ),
 							),
 							array(
 								'id'          => 'lw_forecast_toggle_button_style',
@@ -1218,6 +1298,7 @@ SPLW::createSection(
 									'bottom' => '0',
 								),
 								'title_info' => '<div class="lw-img-tag"><img src="' . SPLW::include_plugin_url( 'assets/images/forecast-area-margin.svg' ) . '" alt="forecast-area-margin"></div><div class="lw-info-label img">' . __( 'Forecast Area Margin', 'location-weather' ) . '</div>',
+								'dependency' => array( 'lw-enable-forecast', '==', 'true', true ),
 							),
 							array(
 								'id'         => 'lw-temperature-heading',
@@ -1229,7 +1310,7 @@ SPLW::createSection(
 							array(
 								'id'         => 'enable-forecast-carousel-autoplay',
 								'type'       => 'switcher',
-								'class'      => 'lw-forecast-data-pro',
+								'class'      => 'lw-forecast-data-pro splw_show_hide',
 								'title'      => __( 'Carousel AutoPlay', 'location-weather' ),
 								'default'    => false,
 								'text_on'    => __( 'Enabled', 'location-weather' ),
@@ -1273,7 +1354,7 @@ SPLW::createSection(
 							array(
 								'id'         => 'forecast_carousel_onhover',
 								'type'       => 'switcher',
-								'class'      => 'lw-forecast-data-pro',
+								'class'      => 'lw-forecast-data-pro splw_show_hide',
 								'title'      => __( 'Stop on Hover', 'location-weather' ),
 								'text_on'    => __( 'Enabled', 'location-weather' ),
 								'text_off'   => __( 'Disabled', 'location-weather' ),
@@ -1284,7 +1365,7 @@ SPLW::createSection(
 							array(
 								'id'         => 'enable-forecast-carousel-infinite-loop',
 								'type'       => 'switcher',
-								'class'      => 'lw-forecast-data-pro',
+								'class'      => 'lw-forecast-data-pro splw_show_hide',
 								'title'      => __( 'Infinite Loop', 'location-weather' ),
 								'default'    => false,
 								'text_on'    => __( 'Enabled', 'location-weather' ),

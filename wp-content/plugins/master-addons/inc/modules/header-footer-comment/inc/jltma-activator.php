@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace MasterHeaderFooter;
 use MasterHeaderFooter\Master_Header_Footer;
 
@@ -9,9 +9,11 @@ class JLTMA_HF_Activator {
     public static $instance = null;
 
     protected $templates;
+    public $templates_template;
     public $header_template;
     public $footer_template;
     public $comment_template;
+    public $popup_template;
 
     protected $current_theme;
     protected $current_template;
@@ -19,9 +21,9 @@ class JLTMA_HF_Activator {
     protected $post_type = 'master_template';
 
     public function __construct() {
-        
+
         $this->jltma_include_theme_support_files();
-        
+
         add_action( 'wp', array( $this, 'jltma_hooks' ) );
 
     }
@@ -39,10 +41,10 @@ class JLTMA_HF_Activator {
         include JLTMA_PLUGIN_PATH . '/inc/theme-hooks/twenty-nineteen.php';
     }
 
-    
+
     public function jltma_hooks(){
         $this->current_template = basename(get_page_template_slug());
-        
+
         if($this->current_template == 'elementor_canvas'){
             return;
         }
@@ -93,7 +95,7 @@ class JLTMA_HF_Activator {
 
         }
 
-        
+
     }
 
     public static function template_ids(){
@@ -102,7 +104,7 @@ class JLTMA_HF_Activator {
 		if ( false !== $cached ) {
 			return $cached;
         }
-        
+
         $instance = self::instance();
         $instance->the_filter();
 
@@ -110,7 +112,17 @@ class JLTMA_HF_Activator {
             $instance->header_template,
             $instance->footer_template,
             $instance->comment_template,
+            $instance->templates_template,
+            $instance->popup_template,
         ];
+
+        if($instance->templates_template != null){
+            Master_Header_Footer::render_elementor_content_css($instance->templates_template);
+        }
+
+        if($instance->popup_template != null){
+            Master_Header_Footer::render_elementor_content_css($instance->popup_template);
+        }
 
         if($instance->header_template != null){
             Master_Header_Footer::render_elementor_content_css($instance->header_template);
@@ -129,7 +141,7 @@ class JLTMA_HF_Activator {
         return $ids;
     }
 
-    protected function the_filter(){
+    protected function the_filter() {
         $arg = [
             'posts_per_page'   => -1,
             'orderby'          => 'id',
@@ -152,8 +164,25 @@ class JLTMA_HF_Activator {
                 'key'     => 'jltma_hf_conditions',
                 'value'   => 'entire_site',
             ]];
+
             $this->get_header_footer($filters);
         }
+
+        // Post Types selection
+        if( is_singular() && ! is_archive() && ! is_home() ) {
+            $filters = [
+                [
+                    'key'     => 'jltma_hf_conditions',
+                    'value'   => 'post_types',
+                ],
+                [
+                    'key'     => 'jltma_hfc_post_types_id',
+                    'value'   => get_post_type(get_the_ID()),
+                ]
+            ];
+            $this->get_header_footer($filters);
+        }
+
 
         // all archive
         if(is_archive()){
@@ -178,7 +207,7 @@ class JLTMA_HF_Activator {
             ];
             $this->get_header_footer($filters);
         }
-        
+
         // all pages, all posts, 404 page
         if(is_page()){
             $filters = [
@@ -237,6 +266,7 @@ class JLTMA_HF_Activator {
             $this->get_header_footer($filters);
         }
 
+
         // homepage
         if(is_home() || is_front_page()){
             $filters = [
@@ -261,7 +291,7 @@ class JLTMA_HF_Activator {
         if($this->templates != null){
             foreach($this->templates as $template){
                 $template = $this->get_full_data($template);
-                
+
                 $match_found = true;
 
                 // WPML Language Check
@@ -272,15 +302,21 @@ class JLTMA_HF_Activator {
                         $template_id[ $template['type'] ] = $template['ID'];
                     endif;
                 endif;
-                
-                foreach($filters as $filter){
-                    if($filter['key'] == 'jltma_hfc_singular_id'){
 
+                foreach($filters as $filter){
+
+                    if($filter['key'] == 'jltma_hfc_singular_id'){
                         $ids = explode(',', $template[$filter['key']]);
                         if(!in_array($filter['value'], $ids)){
                             $match_found = false;
                         }
-                    }elseif($template[$filter['key']] != $filter['value']){
+                    } elseif($filter['key'] == 'jltma_hfc_post_types_id'){
+                        $current_post_type = get_post_type(get_the_ID());
+                        $selected_post_types = array_map('trim', explode(',', $template[$filter['key']]));
+                        if(!in_array($current_post_type, $selected_post_types)){
+                            $match_found = false;
+                        }
+                    } elseif($template[$filter['key']] != $filter['value']){
                         $match_found = false;
                     }
                     if( $filter['key'] == 'jltma_hf_conditions' && $template[$filter['key']] == 'singular' && count($filters) < 2){
@@ -289,12 +325,22 @@ class JLTMA_HF_Activator {
                 }
 
                 if($match_found == true){
+                    if($template['type'] == 'templates'){
+                        $this->templates_template = isset( $template_id['templates'] ) ? $template_id['templates'] : $template['ID'];
+                    }
+
+                    if($template['type'] == 'popup'){
+                        $this->popup_template = isset( $template_id['popup'] ) ? $template_id['popup'] : $template['ID'];
+                    }
+
                     if($template['type'] == 'header'){
                         $this->header_template = isset( $template_id['header'] ) ? $template_id['header'] : $template['ID'];
                     }
+
                     if($template['type'] == 'footer'){
                         $this->footer_template = isset( $template_id['footer'] ) ? $template_id['footer'] : $template['ID'];
                     }
+
                     if($template['type'] == 'comment'){
                         $this->comment_template = isset( $template_id['comment'] ) ? $template_id['comment'] : $template['ID'];
                     }
@@ -306,10 +352,11 @@ class JLTMA_HF_Activator {
     protected function get_full_data($post){
         if($post != null){
             return array_merge((array)$post, [
-                'type' => get_post_meta($post->ID, 'master_template_type', true),
-                'jltma_hf_conditions'   => get_post_meta($post->ID, 'master_template_jltma_hf_conditions', true),
-                'jltma_hfc_singular'    => get_post_meta($post->ID, 'master_template_jltma_hfc_singular', true),
-                'jltma_hfc_singular_id' => get_post_meta($post->ID, 'master_template_jltma_hfc_singular_id', true),
+                'type'                    => get_post_meta($post->ID, 'master_template_type', true),
+                'jltma_hf_conditions'     => get_post_meta($post->ID, 'master_template_jltma_hf_conditions', true),
+                'jltma_hfc_singular'      => get_post_meta($post->ID, 'master_template_jltma_hfc_singular', true),
+                'jltma_hfc_singular_id'   => get_post_meta($post->ID, 'master_template_jltma_hfc_singular_id', true),
+                'jltma_hfc_post_types_id' => get_post_meta($post->ID, 'master_template_jltma_hfc_post_types_id', true),
             ]);
         }
     }

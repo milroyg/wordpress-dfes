@@ -32,14 +32,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Premium_Progressbar extends Widget_Base {
 
 	/**
+	 * Check if the icon draw is enabled.
+	 *
+	 * @since 4.9.26
+	 * @access private
+	 *
+	 * @var bool
+	 */
+	private $is_draw_enabled = null;
+
+	/**
 	 * Check Icon Draw Option.
 	 *
 	 * @since 4.9.26
 	 * @access public
 	 */
 	public function check_icon_draw() {
-		$is_enabled = Admin_Helper::check_svg_draw( 'premium-progressbar' );
-		return $is_enabled;
+
+		if ( null === $this->is_draw_enabled ) {
+			$this->is_draw_enabled = Admin_Helper::check_svg_draw( 'premium-progressbar' );
+		}
+
+		return $this->is_draw_enabled;
+
 	}
 
 	/**
@@ -111,7 +126,6 @@ class Premium_Progressbar extends Widget_Base {
 	public function get_script_depends() {
 
 		$draw_scripts = $this->check_icon_draw() ? array(
-			// 'pa-fontawesome-all',
 			'pa-tweenmax',
 			'pa-motionpath',
 		) : array();
@@ -153,7 +167,7 @@ class Premium_Progressbar extends Widget_Base {
 	}
 
 	public function has_widget_inner_wrapper(): bool {
-		return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+		return ! Helper_Functions::check_elementor_experiment( 'e_optimized_markup' );
 	}
 
 	/**
@@ -962,7 +976,7 @@ class Premium_Progressbar extends Widget_Base {
 			'doc_1',
 			array(
 				'type'            => Controls_Manager::RAW_HTML,
-				'raw'             => sprintf( '<a href="%s" target="_blank">%s</a>', $doc1_url, __( 'Gettings started »', 'premium-addons-for-elementor' ) ),
+				'raw'             => sprintf( '<a href="%s" target="_blank">%s</a>', $doc1_url, __( 'Getting started »', 'premium-addons-for-elementor' ) ),
 				'content_classes' => 'editor-pa-doc',
 			)
 		);

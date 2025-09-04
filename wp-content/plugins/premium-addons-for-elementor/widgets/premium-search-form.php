@@ -136,7 +136,7 @@ class Premium_Search_Form extends Widget_Base {
 	}
 
 	public function has_widget_inner_wrapper(): bool {
-		return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+		return ! Helper_Functions::check_elementor_experiment( 'e_optimized_markup' );
 	}
 
 	/**
@@ -155,6 +155,9 @@ class Premium_Search_Form extends Widget_Base {
 				'label' => __( 'Query', 'premium-addons-for-elementor' ),
 			)
 		);
+
+		$demo = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-ajax-search-widget/', 'ajax-search', 'wp-editor', 'demo' );
+		Helper_Functions::add_templates_controls( $this, 'ajax-search', $demo );
 
 		$this->add_control(
 			'query_type',
@@ -313,6 +316,25 @@ class Premium_Search_Form extends Widget_Base {
 				'options'     => $post_types,
 				'default'     => 'post',
 				'condition'   => array(
+					'custom_search_query' => 'yes',
+					'query_type'          => 'post',
+				),
+			)
+		);
+
+		$this->add_control(
+			'search_in',
+			array(
+				'label'        => __( 'Search In', 'premium-addons-for-elementor' ),
+				'label_block'  => true,
+				'type'         => Controls_Manager::SELECT,
+				'options'      => array(
+					'title'  => __( 'Post Title', 'premium-addons-for-elementor' ),
+					'description' => __( 'Post Description', 'premium-addons-for-elementor' ),
+					'both' => __( 'Title & Description', 'premium-addons-for-elementor' ),
+				),
+				'default'      => 'both',
+				'condition'    => array(
 					'custom_search_query' => 'yes',
 					'query_type'          => 'post',
 				),

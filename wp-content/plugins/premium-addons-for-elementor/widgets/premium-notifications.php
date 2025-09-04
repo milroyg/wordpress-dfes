@@ -40,6 +40,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Premium_Notifications extends Widget_Base {
 
 	/**
+	 * Check if the icon draw is enabled.
+	 *
+	 * @since 4.9.26
+	 * @access private
+	 *
+	 * @var bool
+	 */
+	private $is_draw_enabled = null;
+
+	/**
 	 * Blog Helper
 	 *
 	 * @var blog_helper
@@ -71,8 +81,13 @@ class Premium_Notifications extends Widget_Base {
 	 * @access public
 	 */
 	public function check_icon_draw() {
-		$is_enabled = Admin_Helper::check_svg_draw( 'premium-notifications' );
-		return $is_enabled;
+
+		if ( null === $this->is_draw_enabled ) {
+			$this->is_draw_enabled = Admin_Helper::check_svg_draw( 'premium-notifications' );
+		}
+
+		return $this->is_draw_enabled;
+
 	}
 
 	/**
@@ -156,7 +171,6 @@ class Premium_Notifications extends Widget_Base {
 	public function get_script_depends() {
 
 		$draw_scripts = $this->check_icon_draw() ? array(
-			// 'pa-fontawesome-all',
 			'pa-tweenmax',
 			'pa-motionpath',
 		) : array();
@@ -182,7 +196,7 @@ class Premium_Notifications extends Widget_Base {
 	}
 
 	public function has_widget_inner_wrapper(): bool {
-		return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+		return ! Helper_Functions::check_elementor_experiment( 'e_optimized_markup' );
 	}
 
 	/**
@@ -1713,23 +1727,24 @@ class Premium_Notifications extends Widget_Base {
 			)
 		);
 
+
 		$this->add_responsive_control(
 			'post_text_align',
 			array(
 				'label'        => __( 'Alignment', 'premium-addons-for-elementor' ),
 				'type'         => Controls_Manager::CHOOSE,
 				'options'      => array(
-					'left'    => array(
-						'title' => __( 'Left', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-text-align-left',
+					'left'   => array(
+						'title' => __( 'start', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-text-align-right' : 'eicon-text-align-left',
 					),
 					'center'  => array(
 						'title' => __( 'Center', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-text-align-center',
 					),
-					'right'   => array(
-						'title' => __( 'Right', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-text-align-right',
+					'right'     => array(
+						'title' => __( 'end', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-text-align-left' : 'eicon-text-align-right',
 					),
 					'justify' => array(
 						'title' => __( 'Justify', 'premium-addons-for-elementor' ),
@@ -1739,8 +1754,13 @@ class Premium_Notifications extends Widget_Base {
 				'toggle'       => false,
 				'default'      => 'left',
 				'prefix_class' => 'premium-blog-align-',
+				'selectors_dictionary' => array(
+					'left'   => 'start',
+					'right'  => 'end',
+				),
 				'selectors'    => array(
 					'{{WRAPPER}} .premium-blog-content-wrapper' => 'text-align: {{VALUE}};',
+					'{{WRAPPER}} .post-categories , {{WRAPPER}} .premium-blog-post-tags-container ' => 'justify-content: {{VALUE}};',
 				),
 			)
 		);
@@ -3593,6 +3613,10 @@ class Premium_Notifications extends Widget_Base {
 
 		$blog_helper->set_widget_settings( $settings );
 
+		$masked = 'none' !== $settings['shape_divider'] ? 'premium-blog-masked' : '';
+
+		$this->add_render_attribute( 'posts_container', 'class', array( 'premium-blog-wrap', $masked ) );
+
 		$icon_type = $settings['icon_type'];
 
 		if ( 'image' === $icon_type ) {
@@ -3781,7 +3805,9 @@ class Premium_Notifications extends Widget_Base {
 				<?php endif; ?>
 
 				<?php if ( 'yes' === $settings['add_icon_with_no_posts'] && 'image' === $icon_type ) : ?>
+					<div class='premium-icon-with-no-post'>
 					<?php echo wp_kses_post( $image_html_with_no_post ); ?>
+					</div>
 
 				<?php else : ?>
 					<?php

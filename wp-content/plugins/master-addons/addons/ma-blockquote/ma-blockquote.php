@@ -154,6 +154,33 @@ class JLTMA_Blockquote extends Widget_Base
 			]
 		);
 
+		$this->add_control(
+			'width',
+			[
+				'label' => esc_html__( 'Border Radius', 'master-addons' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 1000,
+						'step' => 5,
+					],
+					'%' => [
+						'min' => 0,
+						'max' => 100,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => '20',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blockquote ' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
 		$this->add_responsive_control(
 			'jltma_blockquote_padding',
 			[

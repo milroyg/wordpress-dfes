@@ -22,8 +22,12 @@ class Master_Addons_White_Label
         if($settings['jltma_wl_placeholder_image'] != 1 ){
             add_filter('elementor/utils/get_placeholder_image_src', [$this, 'jltma_replace_placeholder_image'], 900);
         }
-
     }
+
+    public static function get_plugin_name( $badge ) {
+		$default = $badge ? JLTMA_EXTENSION_BADGE : __('Master Addons', 'master-addons');
+		return !empty(get_option('jltma_wl_plugin_name')) ? get_option('jltma_wl_plugin_name') : $default;
+	}
 
     public function jltma_replace_placeholder_image()
     {

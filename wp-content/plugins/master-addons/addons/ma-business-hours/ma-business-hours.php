@@ -222,8 +222,8 @@ class JLTMA_Business_Hours extends Widget_Base
 				'type'          	=> Controls_Manager::ICONS,
 				'fa4compatibility' 	=> 'icon',
 				'default'       	=> [
-					'value'     => 'far fa-clock',
-					'library'   => 'regular',
+					'value'     => 'eicon-clock-o',
+					'library'   => 'eicon',
 				],
 				'render_type'      => 'template',
 				'condition' => [
@@ -1368,7 +1368,7 @@ class JLTMA_Business_Hours extends Widget_Base
 						$this->add_render_attribute('jltma-row' . $i, 'class', 'jltma-bh-closed');
 					}
 					?>
-					<li <?php echo $this->get_render_attribute_string('jltma-row' . $i); ?>>
+					<li <?php echo $this->get_render_attribute_string('jltma-row' . (int) $i); ?>>
 						<span class="jltma-business-day-name float-left">
 							<?php if ($settings['ma_el_bh_show_day_icon'] == "yes") {
                                 $migrated = isset($settings['__fa4_migrated']['ma_el_bh_day_icon']);
@@ -1415,7 +1415,7 @@ class JLTMA_Business_Hours extends Widget_Base
 							<?php
 							} else {
 								if ($item['ma_el_bh_closed_text']) {
-									echo '<span class="closed">' . $this->parse_text_editor($item['ma_el_bh_closed_text']) . '</span>';
+									echo '<span class="closed">' . wp_kses_post($this->parse_text_editor($item['ma_el_bh_closed_text'])) . '</span>';
 								} else {
 									echo '<span class="closed">' . esc_html('Closed', 'master-addons' ) . '</span>';
 								}
@@ -1468,7 +1468,7 @@ class JLTMA_Business_Hours extends Widget_Base
 								<time class="jltma-opening-hours">
 									<?php
 									if ($settings['ma_el_bh_hours_format'] == 'yes') {
-										echo $this->parse_text_editor($item['ma_el_opening_hours']);
+										echo$this->parse_text_editor($item['ma_el_opening_hours']);
 									} else {
 										echo esc_attr(date("g:i A", strtotime($item['ma_el_opening_hours'])));
 									}
@@ -1505,8 +1505,13 @@ class JLTMA_Business_Hours extends Widget_Base
 				if ('custom' === $ma_el_image_gallery_image) {
 					$image_src = Group_Control_Image_Size::get_attachment_image_src($image_id, 'ma_el_business_bg_image', $settings);
 				} else {
-					$image_src = wp_get_attachment_image_src($image_id, $ma_el_image_gallery_image);
-					$image_src = $image_src[0];
+					if(isset($image_id) && $image_id){
+						$image_src = wp_get_attachment_image_src($image_id, $ma_el_image_gallery_image);
+						$image_src = $image_src[0];
+					} else {
+						$image_url = $settings['ma_el_business_bg_image']['url'];
+						return sprintf('<img src="%s" alt="%s" />', esc_url($image_url), esc_html(get_post_meta($image_id, '_wp_attachment_image_alt', true))); 	
+					}
 				}
 
 				return sprintf('<img src="%s" alt="%s" />', esc_url($image_src), esc_html(get_post_meta($image_id, '_wp_attachment_image_alt', true)));
@@ -1530,12 +1535,12 @@ class JLTMA_Business_Hours extends Widget_Base
 
 
 						<?php if ($settings['ma_el_bh_show_subtitle'] == 'yes') { ?>
-							<?php if ($settings['ma_el_business_hours_style'] == 'table-reservation') { ?>
-								<h2 class="jltma-business-hour-title">
+
+								<h3 class="jltma-business-hour-title">
 									<?php echo esc_attr($settings['ma_el_bh_table_subtitle']); ?>
-								</h2>
+								</h3>
 							<?php } ?>
-						<?php } ?>
+
 
 
 						<?php foreach ($settings['ma_el_business_custom_hours'] as $index => $item) : ?>
@@ -1602,19 +1607,26 @@ class JLTMA_Business_Hours extends Widget_Base
 					);
 
 					$ma_el_business_bg_image = $this->get_settings_for_display('ma_el_business_bg_image');
+					$jltma_business_bg_image = $ma_el_business_bg_image['url'] ?? '';
 
-					if (!empty($ma_el_business_bg_image)) {
+					if (!empty($ma_el_business_bg_image['id'])) {
 						$ma_el_business_bg_image_url_src = Group_Control_Image_Size::get_attachment_image_src(
 							$ma_el_business_bg_image['id'],
-							'ma_el_business_bg_img', $settings);
+							'ma_el_business_bg_img',
+							 $settings
+							);
 					}
+
+					$jltma_background_image_url = (!empty($ma_el_business_bg_image_url_src) && $ma_el_business_bg_image_url_src)
+					    ? $ma_el_business_bg_image_url_src
+							: $jltma_business_bg_image;
 
 					if ($settings['ma_el_business_hours_style'] == 'content-bg-image') {
 						$this->add_render_attribute(
 							'jltma_business_hours_image',
 							[
 								'class' => 'jltma-business-hour-content',
-								'style' => 'background: url("' . $ma_el_business_bg_image_url_src . '") no-repeat center; background-size: cover;',
+								'style' => 'background: url("' . $jltma_background_image_url . '") no-repeat center; background-size: cover;',
 							]
 						);
 					}
@@ -1644,7 +1656,7 @@ class JLTMA_Business_Hours extends Widget_Base
 							<?php if (($settings['ma_el_business_hours_style'] == 'content-corner-btn') || ($settings['ma_el_business_hours_style'] == 'table-reservation')) { ?>
 								<div class="jltma-row">
 									<div class="<?php echo ($settings['ma_el_business_hours_style'] == 'table-reservation') ? "jltma-col-8" : "jltma-col-6"; ?>">
-										<?php echo $this->render_image($settings['ma_el_business_bg_image']['id'], $settings); ?>
+										<?php echo wp_kses_post($this->render_image($settings['ma_el_business_bg_image']['id'], $settings)); ?>
 
 									</div>
 								<?php } ?>
@@ -1671,15 +1683,9 @@ class JLTMA_Business_Hours extends Widget_Base
 										<?php if ($settings['ma_el_bh_show_button'] == 'yes' && $settings['ma_el_business_hours_style'] == 'content-corner-btn') { ?>
 											<div class="jltma-business-hour-content-bottom">
 
-												<?php if ($settings['ma_el_bh_show_subtitle'] == 'yes') { ?>
-													<span class="float-left">
-														<?php echo esc_attr($settings['ma_el_bh_table_subtitle']); ?>
-													</span>
-												<?php } ?>
-
 												<a <?php echo $this->get_render_attribute_string('ma_el_bh_btn_link'); ?>>
-													<?php echo  $settings['ma_el_bh_table_btn_text']; ?>
-													<i class="fa fa-arrow-right"></i>
+													<?php echo $settings['ma_el_bh_table_btn_text']; ?>
+													<i class="eicon-arrow-right"></i>
 												</a>
 											</div>
 										<?php } ?>
@@ -1704,7 +1710,7 @@ class JLTMA_Business_Hours extends Widget_Base
 											<div class="jltma-business-hour-content-bottom">
 												<a <?php echo $this->get_render_attribute_string('ma_el_bh_normal_btn'); ?>>
 													<?php echo  $settings['ma_el_bh_table_btn_text']; ?>
-													<i class="fa fa-arrow-right"></i>
+													<i class="eicon-arrow-right"></i>
 												</a>
 											</div><!-- /.jltma-business-hour-content-bottom -->
 										<?php } ?>

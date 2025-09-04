@@ -319,11 +319,20 @@ class Master_Addons_Templates_Source_Api extends Master_Addons_Templates_Source_
 		));
 
 		$body = wp_remote_retrieve_body($response);
+		
+		if (empty($body)) {
+			wp_send_json_error(array(
+				'message' => 'Empty API response',
+			));
+		}
+		
 		$body = json_decode($body, true);
 
-		if (!isset($body['success'])) {
+		if (!$body || !isset($body['success'])) {
 			wp_send_json_error(array(
-				'message' => 'Internal Error',
+				'message' => 'Invalid API response format',
+				'response' => $body,
+				'request_url' => $request
 			));
 		}
 

@@ -8,6 +8,8 @@ namespace PremiumAddons\Includes;
 // Premium Addons Pro Classes.
 use PremiumAddonsPro\Includes\White_Label\Helper;
 
+use PremiumAddons\Admin\Includes\Admin_Helper;
+
 // Elementor Classes.
 use Elementor\Icons_Manager;
 use Elementor\Core\Settings\Manager as SettingsManager;
@@ -175,7 +177,7 @@ class Helper_Functions {
 	 */
 	public static function name() {
 
-		$name_free = 'Premium Addons for Elementor';
+		$name_free = 'Premium Addons';
 
 		if ( self::check_papro_version() ) {
 
@@ -185,7 +187,7 @@ class Helper_Functions {
 
 		}
 
-		return '' !== $name_free ? $name_free : 'Premium Addons for Elementor';
+		return '' !== $name_free ? $name_free : 'Premium Addons';
 	}
 
 	/**
@@ -1555,6 +1557,75 @@ class Helper_Functions {
 				'label_block' => true,
 			)
 		);
+	}
+
+	/**
+	 * Add Templates Controls
+	 *
+	 * @since 4.11.25
+	 * @access public
+	 *
+	 * @param string $keyword keyword for templates.
+	 * @param string $demo demo url.
+	 */
+	public static function add_templates_controls( $element, $keyword, $demo ) {
+
+		if ( ! Admin_Helper::check_element_by_key( 'premium-templates' ) ) {
+			return;
+		}
+
+		$element->add_control(
+			'premium_templates_links',
+			array(
+				'type' => Controls_Manager::RAW_HTML,
+				'raw'  => '<div class="premium-promote-box widget-box">
+					<div class="premium-promote-ctas">
+						<a class="premium-promote-demo elementor-button elementor-button-default" href="' . esc_url( $demo ) . '" target="_blank"> ' .
+							__( 'Widget Demo', 'premium-addons-for-elementor' ) .
+						'</a>
+						<a class="premium-promote-upgrade premium-widget-blocks elementor-button elementor-button-default" href="#" data-keyword="' . esc_attr( $keyword ) . '">' .
+							__( 'Premade Templates', 'premium-addons-for-elementor' ) .
+						'</a>
+					</div>
+				</div>',
+			)
+		);
+	}
+
+	/**
+	 * Add Templates Controls
+	 *
+	 * @since 4.11.29
+	 * @access public
+	 *
+	 * @param string $keyword keyword for templates.
+	 * @param string $demo demo url.
+	 */
+	public static function register_papro_promotion_controls( $element, $keyword ) {
+
+		if ( ! self::check_papro_version() ) {
+
+			$pro_link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro/', $keyword, 'wp-editor', 'get-pro' );
+
+			$element->start_controls_section(
+				'section_pro_features_field',
+				array(
+					'label' => __( 'Go Pro for More Features', 'premium-addons-for-elementor' ),
+				)
+			);
+
+			$element->add_control(
+				'pa_pro_promotion_notice',
+				array(
+					'type'        => Controls_Manager::NOTICE,
+					'notice_type' => 'info',
+					'dismissible' => false,
+					'content'     => __( '<b>Build smarter and faster</b> with premium widgets, 580+ container blocks, and advanced customization controls — all available in the <a href="'. esc_url( $pro_link ) .'" target="_blank">PA Pro</a>. Use the code <b>SUMMER10</b> to get 10% OFF on Lifetime license.', 'premium-addons-for-elementor' ),
+				)
+			);
+
+			$element->end_controls_section();
+		}
 	}
 
 	/**

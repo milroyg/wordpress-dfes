@@ -144,7 +144,7 @@ class Premium_Maps extends Widget_Base {
 	}
 
 	public function has_widget_inner_wrapper(): bool {
-		return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+		return ! Helper_Functions::check_elementor_experiment( 'e_optimized_markup' );
 	}
 
 	/**
@@ -161,6 +161,9 @@ class Premium_Maps extends Widget_Base {
 				'label' => __( 'Center Location', 'premium-addons-for-elementor' ),
 			)
 		);
+
+		$demo = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/google-maps-widget-for-elementor-page-builder/', 'maps', 'wp-editor', 'demo' );
+		Helper_Functions::add_templates_controls( $this, 'google-maps', $demo );
 
 		$settings = Admin_Helper::get_integrations_settings();
 
@@ -660,6 +663,17 @@ class Premium_Maps extends Widget_Base {
 			)
 		);
 
+		$this->add_control(
+			'linked_carousel_id',
+			array(
+				'label'       => __( 'Connected Carousel Widget ID', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::TEXT,
+				'description' => __( 'Add the CSS ID given to Premium Carousel to link carousel slides with the maps marker. ', 'premium-addons-for-elementor' ) .
+					'<a href="https://premiumaddons.com/docs/how-to-link-google-maps-markers-carousel/" target="_blank">' . __( 'Learn more', 'premium-addons-for-elementor' ) . '</a>',
+				'label_block' => true,
+			)
+		);
+
 		$this->end_controls_section();
 
 		$this->start_controls_section(
@@ -711,6 +725,8 @@ class Premium_Maps extends Widget_Base {
 		);
 
 		$this->end_controls_section();
+
+		Helper_Functions::register_papro_promotion_controls( $this, 'maps' );
 
 		$this->start_controls_section(
 			'premium_maps_box_style',
@@ -1227,6 +1243,7 @@ class Premium_Maps extends Widget_Base {
 			'cluster_icon_size' => $cluster_icon_size,
 			'drag'              => $settings['disable_drag'],
 			'loadScroll'        => $settings['load_on_visible'],
+			'linkedCarouselId'  => $settings['linked_carousel_id'],
 		);
 
 		$this->add_render_attribute(

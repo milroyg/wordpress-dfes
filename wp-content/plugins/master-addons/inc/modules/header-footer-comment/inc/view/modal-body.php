@@ -39,7 +39,12 @@ esc_html_e( 'Template Type', 'master-addons' );
                             </div>
                             <div class="jltma-form-group mb-2 jltma-col-6">
                                 <select name="type" class="jltma-form-control jltma_hfc_type">
-                                    <option value="header" selected="selected">
+                                    <!-- <option value="templates" selected="selected">
+                                        <?php 
+//esc_html_e('Templates', 'master-addons' );
+?>
+                                    </option> -->
+                                    <option value="header">
                                         <?php 
 esc_html_e( 'Header', 'master-addons' );
 ?>
@@ -54,11 +59,11 @@ esc_html_e( 'Footer', 'master-addons' );
 esc_html_e( 'Comment', 'master-addons' );
 ?>
                                     </option>
-                                    <!-- <option value="popup"> -->
-                                    <?php 
+                                    <!-- <option value="popup">
+                                        <?php 
 //esc_html_e('Popup', 'master-addons' );
 ?>
-                                    <!-- </option> -->
+                                    </option> -->
                                 </select>
                             </div>
 
@@ -87,6 +92,11 @@ esc_html_e( 'Entire Site', 'master-addons' );
 esc_html_e( 'Singular (Pro)', 'master-addons' );
 ?>
                                         </option>
+                                        <option value="post_types_pro">
+                                            <?php 
+esc_html_e( 'Post Types (Pro)', 'master-addons' );
+?>
+                                        </option>
                                         <option value="jltma-hfc-archive-pro">
                                             <?php 
 esc_html_e( 'Archive (Pro)', 'master-addons' );
@@ -99,6 +109,7 @@ esc_html_e( 'Archive (Pro)', 'master-addons' );
 
 
                                 <div class="jltma_hf_modal-jltma_hfc_singular-container">
+                                    <br>
                                     <div class="jltma-input-group">
                                         <label class="jltma-attr-input-label"></label>
                                         <select name="jltma_hfc_singular" class="jltma_hf_modal-jltma_hfc_singular jltma-orm-control">
@@ -115,26 +126,20 @@ esc_html_e( 'All Posts', 'master-addons' );
 esc_html_e( 'All Pages', 'master-addons' );
 ?></option>
                                             <option value="selective"><?php 
-esc_html_e( 'Selective Singular', 'master-addons' );
-?>
-                                            </option>
+esc_html_e( 'Specific Page', 'master-addons' );
+?></option>
                                             <option value="404page"><?php 
 esc_html_e( '404 Page', 'master-addons' );
 ?></option>
                                         </select>
                                     </div>
-                                    <br>
 
-                                    <div class="jltma_hf_modal-jltma_hfc_singular_id-container jltma_multipile_ajax_search_filed">
-                                        <div class="jltma-input-group">
-                                            <label class="jltma-attr-input-label"></label>
-                                            <select multiple name="jltma_hfc_singular_id[]" class="jltma_hf_modal-jltma_hfc_singular_id"></select>
-                                        </div>
-                                        <br />
+                                    <?php 
+?>
                                     </div>
-                                    <br>
-                                </div>
 
+                                    <?php 
+?>
 
                             </div>
 
@@ -143,7 +148,7 @@ esc_html_e( '404 Page', 'master-addons' );
                                 <label for="jltma-hf-hide-item-label">
                                     <strong>
                                         <?php 
-esc_html_e( 'Enable Settings?', 'master-addons' );
+esc_html_e( 'Activation', 'master-addons' );
 ?>
                                     </strong>
                                 </label>

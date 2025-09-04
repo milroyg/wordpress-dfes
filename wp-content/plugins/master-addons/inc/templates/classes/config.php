@@ -37,7 +37,6 @@ if ( !class_exists( 'Master_Addons_Templates_Core_Config' ) ) {
                         'categories' => '/categories/',
                         'template'   => '/template/',
                         'info'       => '/info/',
-                        'template'   => '/template/',
                     ),
                 ),
             );

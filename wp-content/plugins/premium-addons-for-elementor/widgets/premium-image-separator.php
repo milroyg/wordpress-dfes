@@ -32,14 +32,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Premium_Image_Separator extends Widget_Base {
 
 	/**
+	 * Check if the icon draw is enabled.
+	 *
+	 * @since 4.9.26
+	 * @access private
+	 *
+	 * @var bool
+	 */
+	private $is_draw_enabled = null;
+
+	/**
 	 * Check Icon Draw Option.
 	 *
 	 * @since 4.9.26
 	 * @access public
 	 */
 	public function check_icon_draw() {
-		$is_enabled = Admin_Helper::check_svg_draw( 'premium-image-separator' );
-		return $is_enabled;
+
+		if ( null === $this->is_draw_enabled ) {
+			$this->is_draw_enabled = Admin_Helper::check_svg_draw( 'premium-image-separator' );
+		}
+
+		return $this->is_draw_enabled;
+
 	}
 
 	/**
@@ -87,7 +102,6 @@ class Premium_Image_Separator extends Widget_Base {
 	public function get_script_depends() {
 
 		$draw_scripts = $this->check_icon_draw() ? array(
-			'pa-fontawesome-all',
 			'pa-tweenmax',
 			'pa-motionpath',
 		) : array();
@@ -152,7 +166,7 @@ class Premium_Image_Separator extends Widget_Base {
 	}
 
 	public function has_widget_inner_wrapper(): bool {
-		return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+		return ! Helper_Functions::check_elementor_experiment( 'e_optimized_markup' );
 	}
 
 	/**
@@ -1061,99 +1075,6 @@ class Premium_Image_Separator extends Widget_Base {
 	 * @since 1.0.0
 	 * @access protected
 	 */
-	protected function content_template() {
-		?>
-		<#
-			var type        = settings.separator_type,
-				linkSwitch  = settings.premium_image_separator_link_switcher;
+	protected function content_template() {}
 
-			if( 'image' === type ) {
-				var imgUrl = settings.premium_image_separator_image.url;
-
-			} else if ( 'icon' === type || 'svg' === type ) {
-
-				view.addRenderAttribute( 'icon', 'class', 'premium-drawable-icon' );
-
-				if( 'icon' === type && 'yes' !== settings.draw_svg ) {
-					var iconHTML = elementor.helpers.renderIcon( view, settings.separator_icon, { 'class': [ 'premium-svg-nodraw', 'premium-drawable-icon' ], 'aria-hidden': true }, 'i' , 'object' );
-				}
-
-
-				if ( 'yes' === settings.draw_svg ) {
-
-					view.addRenderAttribute( 'container', 'class', 'elementor-invisible' );
-
-					if ( 'icon' === type ) {
-
-						view.addRenderAttribute( 'icon', 'class', settings.separator_icon.value );
-
-					}
-
-					view.addRenderAttribute(
-						'icon',
-						{
-							'class'            : 'premium-svg-drawer',
-							'data-svg-reverse' : settings.lottie_reverse,
-							'data-svg-loop'    : settings.lottie_loop,
-							'data-svg-hover'   : settings.lottie_hover,
-							'data-svg-sync'    : settings.svg_sync,
-							'data-svg-fill'    : settings.svg_color,
-							'data-svg-frames'  : settings.frames,
-							'data-svg-yoyo'    : settings.svg_yoyo,
-							'data-svg-point'   : settings.lottie_reverse ? settings.end_point.size : settings.start_point.size,
-						}
-					);
-
-				} else {
-					view.addRenderAttribute( 'icon', 'class', 'premium-svg-nodraw' );
-				}
-
-
-			} else {
-
-				view.addRenderAttribute( 'separator_lottie', {
-					'class': 'premium-lottie-animation',
-					'data-lottie-url': settings.lottie_url,
-					'data-lottie-loop': settings.lottie_loop,
-					'data-lottie-reverse': settings.lottie_reverse,
-					'data-lottie-hover': settings.lottie_hover
-				});
-
-			}
-
-			if( 'yes' === linkSwitch ) {
-				var linkType = settings.premium_image_separator_link_type,
-					linkUrl = ( 'url' == linkType ) ? settings.premium_image_separator_image_link.url : settings.premium_image_separator_existing_page;
-
-				view.addRenderAttribute( 'link', 'class', 'premium-image-separator-link' );
-				view.addRenderAttribute( 'link', 'href', linkUrl );
-
-			}
-
-		#>
-
-		<div class="premium-image-separator-container">
-			<# if( 'image' === type ) { #>
-				<img alt="image separator" src="{{ imgUrl }}">
-			<# } else if( 'icon' === type ) {
-				if( 'yes' !== settings.draw_svg ) { #>
-					{{{ iconHTML.value }}}
-				<# } else { #>
-					<i {{{ view.getRenderAttributeString('icon') }}}></i>
-				<# }
-			} else if( 'svg' === type ) { #>
-				<div {{{ view.getRenderAttributeString('icon') }}}>
-					{{{ settings.custom_svg }}}
-				</div>
-			<# } else { #>
-				<div {{{ view.getRenderAttributeString('separator_lottie') }}}></div>
-			<# }
-
-			if( 'yes' === linkSwitch ) { #>
-				<a {{{ view.getRenderAttributeString( 'link' ) }}}></a>
-			<# } #>
-		</div>
-
-		<?php
-	}
 }

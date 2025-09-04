@@ -1270,7 +1270,7 @@ class JLTMA_Table_of_Contents extends Widget_Base
 		<div <?php echo wp_kses_post($this->get_render_attribute_string('jltma_toc_wrapper')); ?>>
 			<div class="jltma-toc-wrapper">
 				<div class="jltma-toc-header">
-					<span class="jltma-toc-heading elementor-inline-editing" data-elementor-setting-key="heading_title" data-elementor-inline-editing-toolbar="basic"><?php echo wp_kses_post($this->get_settings_for_display('ma_el_toc_title')); ?></span>
+					<span class="jltma-toc-heading elementor-inline-editing"><?php echo wp_kses_post($this->get_settings_for_display('ma_el_toc_title')); ?></span>
 					<?php if ('yes' === $settings['ma_el_toc_collapsible']) { ?>
 						<div class="jltma-toc-switch" <?php echo wp_kses_post($this->get_render_attribute_string('jltma_show_hide_wrapper')); ?>>
 							<span class="jltma-toc-icon fa"></span>

@@ -16,7 +16,7 @@
 <div class="jltma-template-content-markup jltma-template-content-header jltma-template-content-theme-support">
 <?php
 	$template = \MasterHeaderFooter\JLTMA_HF_Activator::template_ids();
-	echo \MasterHeaderFooter\Master_Header_Footer::render_elementor_content($template[0]); 
+	echo \MasterHeaderFooter\Master_Header_Footer::render_elementor_content($template[0]);
 ?>
 </div>
 <?php do_action('masteraddons/template/after_header'); ?>

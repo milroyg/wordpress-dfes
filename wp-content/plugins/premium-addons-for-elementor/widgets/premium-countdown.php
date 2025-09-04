@@ -145,7 +145,7 @@ class Premium_Countdown extends Widget_Base {
 	}
 
 	public function has_widget_inner_wrapper(): bool {
-		return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+		return ! Helper_Functions::check_elementor_experiment( 'e_optimized_markup' );
 	}
 
 	/**
@@ -178,6 +178,9 @@ class Premium_Countdown extends Widget_Base {
 				'label' => __( 'Countdown', 'premium-addons-for-elementor' ),
 			)
 		);
+
+		$demo = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-countdown-widget-2/', 'countdown', 'wp-editor', 'demo' );
+		Helper_Functions::add_templates_controls( $this, 'countdown', $demo );
 
 		$this->add_control(
 			'premium_countdown_type',
@@ -928,12 +931,14 @@ class Premium_Countdown extends Widget_Base {
 			'doc_1',
 			array(
 				'type'            => Controls_Manager::RAW_HTML,
-				'raw'             => sprintf( '<a href="%s" target="_blank">%s</a>', $doc1_url, __( 'Gettings started »', 'premium-addons-for-elementor' ) ),
+				'raw'             => sprintf( '<a href="%s" target="_blank">%s</a>', $doc1_url, __( 'Getting started »', 'premium-addons-for-elementor' ) ),
 				'content_classes' => 'editor-pa-doc',
 			)
 		);
 
 		$this->end_controls_section();
+
+		Helper_Functions::register_papro_promotion_controls( $this, 'countdown' );
 
 		$this->start_controls_section(
 			'premium_countdown_typhography',

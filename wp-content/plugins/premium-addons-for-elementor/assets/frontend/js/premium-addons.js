@@ -1459,12 +1459,15 @@
 				if (windowWidth > settings.tabletBreak) {
 					slidesToShow = settings.slidesDesk;
 				}
+
 				if (windowWidth <= settings.tabletBreak) {
 					slidesToShow = settings.slidesTab;
 				}
+
 				if (windowWidth <= settings.mobileBreak) {
 					slidesToShow = settings.slidesMob;
 				}
+
 				return slidesToShow;
 
 			}
@@ -1488,53 +1491,66 @@
 
 			});
 
-			$carouselElem.find(".premium-carousel-inner").slick({
-				vertical: settings.vertical,
-				slidesToScroll: settings.slidesToScroll,
-				slidesToShow: settings.slidesToShow,
-				responsive: [{
-					breakpoint: settings.tabletBreak,
-					settings: {
-						slidesToShow: settings.slidesTab,
-						slidesToScroll: settings.slidesTab,
-						swipe: settings.touchMove,
+			$carouselElem.find(".premium-carousel-inner").slick(getSlickOptions(settings));
+
+			function getSlickOptions(settings) {
+
+				var appearance = settings.appearance;
+
+				var options = {
+					vertical: settings.vertical,
+					slidesToScroll: 'all' === appearance ? settings.slidesDesk : 1,
+					slidesToShow: settings.slidesToShow,
+					responsive: [{
+						breakpoint: settings.tabletBreak,
+						settings: {
+							slidesToShow: settings.slidesTab,
+							slidesToScroll: 'all' === appearance ? settings.slidesTab : 1,
+							swipe: settings.touchMove,
+						}
+					},
+					{
+						breakpoint: settings.mobileBreak,
+						settings: {
+							slidesToShow: settings.slidesMob,
+							slidesToScroll: 'all' === appearance ? settings.slidesMob : 1,
+							swipe: settings.touchMove,
+						}
 					}
-				},
-				{
-					breakpoint: settings.mobileBreak,
-					settings: {
-						slidesToShow: settings.slidesMob,
-						slidesToScroll: settings.slidesMob,
-						swipe: settings.touchMove,
-					}
+					],
+					useTransform: true,
+					fade: settings.fade,
+					infinite: settings.infinite,
+					speed: settings.speed,
+					autoplay: settings.autoplay,
+					autoplaySpeed: settings.autoplaySpeed,
+					rows: 0,
+					draggable: settings.draggable,
+					rtl: elementorFrontend.config.is_rtl,
+					adaptiveHeight: settings.adaptiveHeight,
+					pauseOnHover: settings.pauseOnHover,
+					centerMode: settings.centerMode,
+					centerPadding: computedStyle.getPropertyValue('--pa-carousel-center-padding') + 'px',
+					arrows: settings.arrows,
+					prevArrow: $carouselElem.find(".premium-carousel-nav-arrow-prev").html(),
+					nextArrow: $carouselElem.find(".premium-carousel-nav-arrow-next").html(),
+					dots: settings.dots,
+					variableWidth: settings.variableWidth,
+					cssEase: settings.cssEase,
+					customPaging: function () {
+						var customDot = $carouselElem.find(".premium-carousel-nav-dot").html();
+						return customDot;
+					},
+					carouselNavigation: settings.carouselNavigation,
+					templatesNumber: settings.templatesNumber,
 				}
-				],
-				useTransform: true,
-				fade: settings.fade,
-				infinite: settings.infinite,
-				speed: settings.speed,
-				autoplay: settings.autoplay,
-				autoplaySpeed: settings.autoplaySpeed,
-				rows: 0,
-				draggable: settings.draggable,
-				rtl: elementorFrontend.config.is_rtl,
-				adaptiveHeight: settings.adaptiveHeight,
-				pauseOnHover: settings.pauseOnHover,
-				centerMode: settings.centerMode,
-				centerPadding: computedStyle.getPropertyValue('--pa-carousel-center-padding') + 'px',
-				arrows: settings.arrows,
-				prevArrow: $carouselElem.find(".premium-carousel-nav-arrow-prev").html(),
-				nextArrow: $carouselElem.find(".premium-carousel-nav-arrow-next").html(),
-				dots: settings.dots,
-				variableWidth: settings.variableWidth,
-				cssEase: settings.cssEase,
-				customPaging: function () {
-					var customDot = $carouselElem.find(".premium-carousel-nav-dot").html();
-					return customDot;
-				},
-				carouselNavigation: settings.carouselNavigation,
-				templatesNumber: settings.templatesNumber,
-			});
+
+				if (settings.arrowCustomPos) {
+					options.appendArrows = $carouselElem.find(".premium-carousel-arrows-wrapper");
+				}
+
+				return options;
+			}
 
 			function runProgress() {
 				$progressbar.animate({ 'width': "+=100%" }, settings.autoplaySpeed, runProgress);
@@ -1615,7 +1631,7 @@
 					centerMode = slick.options.centerMode,
 					slideToAnimate = currentSlide + slidesToShow - 1;
 
-				//Trigger Aniamtions for the current slide
+				//Trigger Animations for the current slide
 				triggerAnimation();
 
 				if (slidesScrolled === 1) {
@@ -1657,7 +1673,7 @@
 
 			$carouselElem.on("beforeChange", function (event, slick, currentSlide) {
 
-				//Reset Aniamtions for the other slides
+				//Reset Animations for the other slides
 				resetAnimations();
 
 				var $inViewPort = $(this).find("[data-slick-index='" + currentSlide + "']");
@@ -1781,13 +1797,8 @@
 
 				if ($bannerElement.hasClass("premium-banner-tilt-yes")) {
 
-					var reverse = $bannerElement.hasClass("premium-banner-tilt-rev-yes");
-
 					UniversalTilt.init({
 						elements: $bannerElement.closest(".elementor-widget"),
-						settings: {
-							reverse: reverse
-						},
 						callbacks: {
 							onMouseLeave: function (el) {
 								el.style.boxShadow = "0 45px 100px rgba(255, 255, 255, 0)";
@@ -2331,25 +2342,32 @@
 				scrollOverlay = scrollElement.find(".premium-image-scroll-overlay"),
 				scrollVertical = scrollElement.find(".premium-image-scroll-vertical"),
 				dataElement = scrollElement.data("settings"),
-				imageScroll = scrollElement.find("img"),
+				$imageScroll = scrollElement.find("img"),
 				direction = dataElement["direction"],
 				reverse = dataElement["reverse"],
 				transformOffset = null;
 
 			function startTransform() {
-				imageScroll.css("transform", (direction === "vertical" ? "translateY" : "translateX") + "( -" +
+
+				var transformDirection = '-';
+
+				if (elementorFrontend.config.is_rtl && 'horizontal' === direction) {
+					transformDirection = '';
+				}
+
+				$imageScroll.css("transform", (direction === "vertical" ? "translateY" : "translateX") + "( " + transformDirection +
 					transformOffset + "px)");
 			}
 
 			function endTransform() {
-				imageScroll.css("transform", (direction === "vertical" ? "translateY" : "translateX") + "(0px)");
+				$imageScroll.css("transform", (direction === "vertical" ? "translateY" : "translateX") + "(0px)");
 			}
 
 			function setTransform() {
 				if (direction === "vertical") {
-					transformOffset = imageScroll.height() - scrollElement.height();
+					transformOffset = $imageScroll.height() - scrollElement.height();
 				} else {
-					transformOffset = imageScroll.width() - scrollElement.width();
+					transformOffset = $imageScroll.width() - scrollElement.width();
 				}
 			}
 			if (dataElement["trigger"] === "scroll") {
@@ -2359,8 +2377,8 @@
 				} else {
 					scrollElement.imagesLoaded(function () {
 						scrollOverlay.css({
-							width: imageScroll.width(),
-							height: imageScroll.height()
+							width: $imageScroll.width(),
+							height: $imageScroll.height()
 						});
 					});
 				}
@@ -3587,13 +3605,20 @@
 
 					var $typedItem = $postsWrapper.find('[data-slick-index="' + currentSlide + '"] .premium-post-ticker__post-title'),
 						$currentTyping = $postsWrapper.find('[data-slick-index="' + currentSlide + '"] .premium-post-ticker__post-title a'),
-						$nextTyping = $postsWrapper.find('[data-slick-index="' + nextSlide + '"] .premium-post-ticker__post-title a');
+						$nextTyping = $postsWrapper.find('[data-slick-index="' + nextSlide + '"] .premium-post-ticker__post-title a'),
+						speed = slick.options.speed,
+						typingDelay = Math.floor(speed / 3);
 
 					clearInterval(timer);
 					$typedItem.removeClass('premium-text-typing');
 					$currentTyping.text('');
 
-					typeTitle($nextTyping);
+					// Clear text before typing
+					$nextTyping.text('');
+
+					setTimeout(function () {
+						typeTitle($nextTyping);
+					}, typingDelay);
 				});
 			}
 
@@ -3660,7 +3685,8 @@
 					fade: settings.fade,
 					draggable: true,
 					pauseOnHover: settings.pauseOnHover,
-					vertical: settings.vertical
+					vertical: settings.vertical,
+					rtl: settings.shouldBeRtl
 				};
 
 				if (settings.autoPlay) {
@@ -3681,11 +3707,6 @@
 				if ('layout-4' === settings.layout) {
 					slickSetting.vertical = true;
 					slickSetting.slidesToShow = settings.slidesToShow || 1;
-				}
-
-				if ($scope.hasClass('premium-reversed-yes') && 'layout-4' !== settings.layout && !settings.vertical && !settings.typing && !settings.fade) {
-
-					slickSetting.rtl = true;
 				}
 
 				return slickSetting;
@@ -3737,7 +3758,8 @@
 		var PremiumWeatherHandler = function ($scope, $) {
 
 			var id = $scope.data('id'),
-				isInHotspots = $('.elementor-element-' + id).closest('.premium-tooltipster-base').length > 0;
+				isInHotspots = $('.elementor-element-' + id).closest('.premium-tooltipster-base').length > 0,
+				isRTL = $('body').hasClass('rtl');
 
 			if (isInHotspots) {
 				$scope = $('.elementor-element-' + id);
@@ -3777,14 +3799,14 @@
 
 				$forecastSlider.append(prevArrow + nextArrow);
 
-				$scope.find('a.carousel-arrow').on('click.paWeatherNav', function () {
+				$scope.find('.premium-weather__hourly-forecast-wrapper a.carousel-arrow, .premium-weather__extra-outer-wrapper a.carousel-arrow').on('click.paWeatherNav', function () {
+					var $slider = $(this).closest('.premium-weather__hourly-forecast-wrapper, .premium-weather__extra-outer-wrapper');
 
 					if ($(this).hasClass('carousel-prev')) {
-						$forecastSlider.slick('slickPrev');
+						$slider.slick('slickPrev');
 					} else if ($(this).hasClass('carousel-next')) {
-						$forecastSlider.slick('slickNext');
+						$slider.slick('slickNext');
 					}
-
 				});
 			}
 
@@ -3826,6 +3848,7 @@
 					arrows: true,
 					autoplay: false,
 					draggable: true,
+					rtl: isRTL,
 				};
 
 				if (!dailyForecast && 'layout-2' !== widgetLayout && 'vertical' === settings.hourlyLayout) {
@@ -3967,9 +3990,7 @@
 				window.open(link, 'popup', 'width=600,height=600');
 			});
 
-			if ('lightbox' === settings.onClick) {
-				initFeedPopupEvents($scope);
-			} else if ('play' === settings.onClick) {
+			if ('play' === settings.onClick) {
 
 				if ($scope.hasClass('premium-tiktok-feed__vid-layout-2')) {
 					$scope.find('.premium-tiktok-feed__vid-meta-wrapper').on('click', function () {
@@ -4007,48 +4028,6 @@
 					$(this).find('.premium-tiktok-feed__play-icon').removeClass('premium-addons__v-hidden');
 					$(this).find('video').get(0).pause();
 				})
-			}
-
-
-			function closeModal() {
-				$('.premium-tiktok-feed-modal-iframe-modal').css('display', 'none');
-
-				$(".premium-tiktok-feed-modal-iframe-modal #pa-tiktok-vid-control-iframe").attr({
-					'src': ''
-				});
-			}
-
-			function initFeedPopupEvents($scope) {
-
-				var isBanner = $scope.hasClass('premium-tiktok-feed__vid-layout-2');
-
-				if (isBanner) {
-					$scope.find('.premium-tiktok-feed__vid-meta-wrapper').on('click.paTriggerModal', function () {
-						$scope.find('.premium-tiktok-feed__video-media').trigger('click');
-					});
-				}
-
-				$scope.find('.premium-tiktok-feed__video-media').on('click.paTiktokModal', function () {
-					var embedLink = $(this).data('pa-tiktok-embed'),
-						$modalContainer = $('.premium-tiktok-feed-modal-iframe-modal'),
-						paIframe = $modalContainer.find("#pa-tiktok-vid-control-iframe");
-
-					$modalContainer.css('display', 'flex');
-					paIframe.css("z-index", "-1");
-
-					paIframe.attr("src", 'https://www.tiktok.com/embed/v2/' + embedLink);
-					paIframe.show();
-					paIframe.css("z-index", "1");
-				});
-
-				// close model events.
-				$('.eicon-close').on('click.paClosePopup', closeModal);
-
-				$(document).on('click.paClosePopup', '.premium-tiktok-feed-modal-iframe-modal', function (e) {
-					if ($(e.target).closest(".premium-tiktok-feed__video-content").length < 1) {
-						closeModal();
-					}
-				});
 			}
 
 			function getSlickSettings(settings) {

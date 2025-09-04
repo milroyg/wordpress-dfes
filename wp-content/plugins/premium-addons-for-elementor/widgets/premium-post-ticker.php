@@ -42,6 +42,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Premium_Post_Ticker extends Widget_Base {
 
 	/**
+	 * Check if the icon draw is enabled.
+	 *
+	 * @since 4.9.26
+	 * @access private
+	 *
+	 * @var bool
+	 */
+	private $is_draw_enabled = null;
+
+	/**
 	 * Options
 	 *
 	 * @var options
@@ -55,8 +65,13 @@ class Premium_Post_Ticker extends Widget_Base {
 	 * @access public
 	 */
 	public function check_icon_draw() {
-		$is_enabled = Admin_Helper::check_svg_draw( 'premium-post-ticker' );
-		return $is_enabled;
+
+		if ( null === $this->is_draw_enabled ) {
+			$this->is_draw_enabled = Admin_Helper::check_svg_draw( 'premium-post-ticker' );
+		}
+
+		return $this->is_draw_enabled;
+
 	}
 
 	/**
@@ -154,7 +169,6 @@ class Premium_Post_Ticker extends Widget_Base {
 	public function get_script_depends() {
 
 		$draw_scripts = $this->check_icon_draw() ? array(
-			// 'pa-fontawesome-all',
 			'pa-tweenmax',
 			'pa-motionpath',
 		) : array();
@@ -184,7 +198,7 @@ class Premium_Post_Ticker extends Widget_Base {
 	}
 
 	public function has_widget_inner_wrapper(): bool {
-		return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+		return ! Helper_Functions::check_elementor_experiment( 'e_optimized_markup' );
 	}
 
 	/**
@@ -233,6 +247,8 @@ class Premium_Post_Ticker extends Widget_Base {
 		$this->add_slider_section_controls();
 
 		$this->add_helpful_info_section();
+
+		Helper_Functions::register_papro_promotion_controls( $this, 'ticker' );
 	}
 
 	/**
@@ -272,6 +288,9 @@ class Premium_Post_Ticker extends Widget_Base {
 				'label' => __( 'General', 'premium-addons-for-elementor' ),
 			)
 		);
+
+		$demo = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-news-ticker-widget/', 'ticker', 'wp-editor', 'demo' );
+		Helper_Functions::add_templates_controls( $this, 'news-ticker', $demo );
 
 		$this->add_control(
 			'layout',
@@ -639,11 +658,12 @@ class Premium_Post_Ticker extends Widget_Base {
 				'options'   => array(
 					'0' => array(
 						'title' => __( 'Before Title', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-order-start',
+						'icon'  => is_rtl() ? 'eicon-order-end' : 'eicon-order-start',
 					),
 					'2' => array(
 						'title' => __( 'After Title', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-order-end',
+						'icon'  => is_rtl() ? 'eicon-order-start' : 'eicon-order-end',
 					),
 				),
 				'separator' => 'before',
@@ -747,11 +767,11 @@ class Premium_Post_Ticker extends Widget_Base {
 				'options'   => array(
 					'flex-start' => array(
 						'title' => __( 'Start', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-order-start',
+						'icon'  => is_rtl() ? 'eicon-order-end' : 'eicon-order-start',
 					),
 					'flex-end'   => array(
 						'title' => __( 'End', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-order-end',
+						'icon'  => is_rtl() ? 'eicon-order-start' : 'eicon-order-end',
 					),
 				),
 				'default'   => 'flex-start',
@@ -946,8 +966,10 @@ class Premium_Post_Ticker extends Widget_Base {
 				'type'      => Controls_Manager::COLOR,
 				'separator' => 'before',
 				'selectors' => array(
-					'{{WRAPPER}}.premium-ticker-pointer-yes:not(.premium-reversed-yes) .premium-post-ticker__content > div:first-child::after'  => 'border-left-color: {{VALUE}};',
-					'{{WRAPPER}}.premium-ticker-pointer-yes.premium-reversed-yes  .premium-post-ticker__content > div:first-child::after'  => 'border-right-color: {{VALUE}};',
+					'body:not(.rtl) {{WRAPPER}}.premium-ticker-pointer-yes:not(.premium-reversed-yes) .premium-post-ticker__content > div:first-child::after,
+					.rtl {{WRAPPER}}.premium-ticker-pointer-yes.premium-reversed-yes .premium-post-ticker__content > div:first-child::after'  => 'border-left-color: {{VALUE}};',
+					'body:not(.rtl) {{WRAPPER}}.premium-ticker-pointer-yes.premium-reversed-yes  .premium-post-ticker__content > div:first-child::after,
+					.rtl {{WRAPPER}}.premium-ticker-pointer-yes:not(.premium-reversed-yes)  .premium-post-ticker__content > div:first-child::after'  => 'border-right-color: {{VALUE}};',
 				),
 				'global'    => array(
 					'default' => Global_Colors::COLOR_PRIMARY,
@@ -1008,8 +1030,11 @@ class Premium_Post_Ticker extends Widget_Base {
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => array( 'px' ),
 				'selectors'  => array(
-					'{{WRAPPER}}.premium-ticker-pointer-yes:not(.premium-reversed-yes) .premium-post-ticker__content > div:first-child::after'  => 'border-left-width: {{SIZE}}px;',
-					'{{WRAPPER}}.premium-ticker-pointer-yes.premium-reversed-yes .premium-post-ticker__content > div:first-child::after'  => 'border-right-width: {{SIZE}}px;',
+					'body:not(.rtl) {{WRAPPER}}.premium-ticker-pointer-yes:not(.premium-reversed-yes) .premium-post-ticker__content > div:first-child::after,
+					.rtl {{WRAPPER}}.premium-ticker-pointer-yes.premium-reversed-yes .premium-post-ticker__content > div:first-child::after'  => 'border-left-width: {{SIZE}}px;',
+					'body:not(.rtl) {{WRAPPER}}.premium-ticker-pointer-yes.premium-reversed-yes .premium-post-ticker__content > div:first-child::after,
+					.rtl {{WRAPPER}}.premium-ticker-pointer-yes:not(.premium-reversed-yes) .premium-post-ticker__content > div:first-child::after'  => 'border-right-width: {{SIZE}}px;  left: calc(-1 * ({{SIZE}}px - 1px));',
+
 				),
 				'condition'  => array(
 					'ticker_title!'  => '',
@@ -1352,16 +1377,16 @@ class Premium_Post_Ticker extends Widget_Base {
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'flex-start' => array(
-						'title' => __( 'Left', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-h-align-left',
+						'title' => __( 'Start', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-h-align-right' : 'eicon-h-align-left',
 					),
 					'center'     => array(
 						'title' => __( 'Center', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-h-align-center',
 					),
 					'flex-end'   => array(
-						'title' => __( 'Right', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-h-align-right',
+						'title' => __( 'End', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-h-align-left' : 'eicon-h-align-right',
 					),
 				),
 				'default'   => 'flex-start',
@@ -1384,11 +1409,11 @@ class Premium_Post_Ticker extends Widget_Base {
 				'options'   => array(
 					'0' => array(
 						'title' => __( 'After Title', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-order-start',
+						'icon'  => is_rtl() ? 'eicon-order-end' : 'eicon-order-start',
 					),
 					'2' => array(
 						'title' => __( 'Before Title', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-order-end',
+						'icon'  => is_rtl() ? 'eicon-order-start' : 'eicon-order-end',
 					),
 				),
 				'condition' => array(
@@ -1899,6 +1924,7 @@ class Premium_Post_Ticker extends Widget_Base {
 				'type'      => Controls_Manager::SWITCHER,
 				'condition' => array(
 					'fade!'   => 'yes',
+					'typing!'   => 'yes',
 					'layout!' => 'layout-4',
 				),
 			)
@@ -2684,15 +2710,15 @@ class Premium_Post_Ticker extends Widget_Base {
 		$this->add_control(
 			'post_lq_effect',
 			array(
-				'label'        => __( 'Liquid Glass Effect', 'premium-addons-for-elementor' ),
-				'type'         => Controls_Manager::SELECT,
+				'label'       => __( 'Liquid Glass Effect', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::SELECT,
 				'description' => sprintf(
 					/* translators: 1: `<a>` opening tag, 2: `</a>` closing tag. */
 					esc_html__( 'Important: Make sure this element has a semi-transparent background color to see the effect. See all presets from %1$shere%2$s.', 'premium-addons-for-elementor' ),
 					'<a href="https://premiumaddons.com/liquid-glass/" target="_blank">',
 					'</a>'
 				),
-				'options'      => array(
+				'options'     => array(
 					'none'   => __( 'None', 'premium-addons-for-elementor' ),
 					'glass1' => __( 'Preset 01', 'premium-addons-for-elementor' ),
 					'glass2' => __( 'Preset 02', 'premium-addons-for-elementor' ),
@@ -2701,9 +2727,9 @@ class Premium_Post_Ticker extends Widget_Base {
 					'glass5' => apply_filters( 'pa_pro_label', __( 'Preset 05 (Pro)', 'premium-addons-for-elementor' ) ),
 					'glass6' => apply_filters( 'pa_pro_label', __( 'Preset 06 (Pro)', 'premium-addons-for-elementor' ) ),
 				),
-				'default'      => 'none',
-				'label_block'  => true,
-				'render_type'  => 'template',
+				'default'     => 'none',
+				'label_block' => true,
+				'render_type' => 'template',
 			)
 		);
 
@@ -3317,6 +3343,20 @@ class Premium_Post_Ticker extends Widget_Base {
 			$typing    = false;
 		}
 
+		$should_be_rtl = false;
+
+		if ( 'layout-4' !== $layout && ! $fade ) {
+			$is_reverse = isset( $settings['reverse'] ) && 'yes' === $settings['reverse'];
+			$should_be_rtl = ( is_rtl() && ! $is_reverse ) || ( ! is_rtl() && $is_reverse );
+
+			// Special case: RTL + reversed + typing enabled
+                if ( is_rtl() && $is_reverse && $typing ) {
+                $should_be_rtl = true;
+            }
+
+            $this->add_render_attribute( 'inner-wrapper', 'dir', $should_be_rtl ? 'rtl' : 'ltr' );
+		}
+
 		$slider_settings = array(
 			'layout'       => $settings['layout'],
 			'typing'       => $typing,
@@ -3329,6 +3369,7 @@ class Premium_Post_Ticker extends Widget_Base {
 			'slidesToShow' => $settings['slides_to_show'],
 			'pauseOnHover' => 'yes' === $settings['pause_on_hover'] ? true : false,
 			'animation'    => ! $infinite && ! $typing ? $settings['entrance_animation'] : '',
+			'shouldBeRtl' => $should_be_rtl,
 		);
 
 		if ( $auto_play ) {
@@ -3345,14 +3386,9 @@ class Premium_Post_Ticker extends Widget_Base {
 
 		$this->add_render_attribute( 'inner-wrapper', 'class', 'premium-post-ticker__posts-wrapper' );
 
-		if ( 'yes' === $settings['reverse'] && 'layout-4' !== $layout && ! $typing && ! $fade ) {
-			$this->add_render_attribute( 'inner-wrapper', 'dir', 'rtl' );
-		}
-
-
 		$this->add_render_attribute( 'ticker_content', 'class', 'premium-post-ticker__content' );
 
-		if( 'none' !== $settings['post_lq_effect'] ) {
+		if ( 'none' !== $settings['post_lq_effect'] ) {
 			$this->add_render_attribute( 'ticker_content', 'class', 'premium-con-lq__' . $settings['post_lq_effect'] );
 		}
 

@@ -341,6 +341,28 @@ class JLTMA_Advanced_Accordion extends Widget_Base {
             'name'     => 'tab_title_typography',
             'selector' => '{{WRAPPER}} .jltma-advanced-accordion .jltma-accordion-tab-title',
         ] );
+        $this->add_control( 'title_alignment', [
+            'label'     => __( 'Title Align', 'master-addons' ),
+            'type'      => Controls_Manager::CHOOSE,
+            'options'   => [
+                'left'   => [
+                    'title' => __( 'Left', 'master-addons' ),
+                    'icon'  => 'eicon-text-align-left',
+                ],
+                'center' => [
+                    'title' => __( 'Center', 'master-addons' ),
+                    'icon'  => 'eicon-text-align-center',
+                ],
+                'right'  => [
+                    'title' => __( 'Right', 'master-addons' ),
+                    'icon'  => 'eicon-text-align-right',
+                ],
+            ],
+            'default'   => 'left',
+            'selectors' => [
+                '{{WRAPPER}} .jltma-advanced-accordion .jltma-accordion-title-text' => 'text-align: {{VALUE}};',
+            ],
+        ] );
         $this->add_group_control( Group_Control_Border::get_type(), [
             'name'     => 'tab_title_border',
             'label'    => esc_html__( 'Border', 'master-addons' ),
@@ -824,7 +846,7 @@ class JLTMA_Advanced_Accordion extends Widget_Base {
 
 		<div <?php 
         echo $this->get_render_attribute_string( 'jltma-accordion' );
-        ?> <?php 
+        ?> 		<?php 
         echo 'data-accordion-id="' . esc_attr( $this->get_id() ) . '"';
         ?>>
 			<div <?php 
@@ -859,14 +881,15 @@ class JLTMA_Advanced_Accordion extends Widget_Base {
             ] );
             ?>
 
-					<div class="jltma-accordion-item elementor-repeater-item-<?php 
+					<div
+						class="jltma-accordion-item elementor-repeater-item-<?php 
             echo esc_attr( $tab['_id'] );
             ?> <?php 
             echo ( isset( $single_item_class ) ? $single_item_class : '' );
             ?>">
 						<<?php 
             echo tag_escape( $settings['title_html_tag'] );
-            ?> <?php 
+            ?> 			<?php 
             echo $this->get_render_attribute_string( $tab_title_setting_key );
             ?>>
 							<div class="jltma-accordion-title-icon">
@@ -879,36 +902,35 @@ class JLTMA_Advanced_Accordion extends Widget_Base {
                 if ( $tab['accordion_tab_icon_show'] === 'yes' ) {
                     ?>
 										<span class="jltma-accordion-toggle-icon jltma-accordion-tab-icon">
-											<?php 
-                    $migrated = isset( $settings['__fa4_migrated']['accordion_tab_title_icon_collapse'] );
-                    $is_new = empty( $settings['icon_collapse'] ) && \Elementor\Icons_Manager::is_migration_allowed();
+										<?php 
+                    $migrated = isset( $tab['__fa4_migrated']['accordion_tab_title_icon_collapse'] );
+                    $is_new = empty( $tab['icon_collapse'] ) && \Elementor\Icons_Manager::is_migration_allowed();
                     if ( $is_new || $migrated ) {
-                        \Elementor\Icons_Manager::render_icon( $settings['accordion_tab_title_icon_collapse'], [
+                        \Elementor\Icons_Manager::render_icon( $tab['accordion_tab_title_icon_collapse'], [
                             'aria-hidden' => 'true',
                             'class'       => 'jltma-el-accordion-icon-closed',
                         ] );
                     } else {
                         ?>
 												<i class="jltma-el-accordion-icon-closed <?php 
-                        echo esc_attr( $settings['icon_collapse'] );
-                        ?>" aria-hidden="true"></i>
+                        echo esc_attr( $tab['icon_collapse'] );
+                        ?>"
+													aria-hidden="true"></i>
 											<?php 
                     }
-                    // $active_migrated = isset($settings['__fa4_migrated']['accordion_tab_title_icon']);
-                    // $active_is_new   = empty($settings['icon_active']) && \Elementor\Icons_Manager::is_migration_allowed();
-                    $title_migrated = isset( $settings['__fa4_migrated']['accordion_tab_title_icon'] );
-                    $title_is_new = empty( $settings['icon_title'] ) && \Elementor\Icons_Manager::is_migration_allowed();
-                    if ( $title_is_new || $title_migrated ) {
-                        \Elementor\Icons_Manager::render_icon( $settings['accordion_tab_title_icon'], [
+                    $active_migrated = isset( $tab['__fa4_migrated']['accordion_tab_title_icon'] );
+                    $active_is_new = empty( $tab['icon_title'] ) && \Elementor\Icons_Manager::is_migration_allowed();
+                    if ( $active_is_new || $active_migrated ) {
+                        \Elementor\Icons_Manager::render_icon( $tab['accordion_tab_title_icon'], [
                             'aria-hidden' => 'true',
                             'class'       => 'jltma-el-accordion-icon-opened',
                         ] );
                     } else {
                         ?>
 												<i class="jltma-el-accordion-icon-opened <?php 
-                        echo esc_attr( $settings['icon_title'] );
+                        echo esc_attr( $tab['icon_title'] );
                         ?>" aria-hidden="true"></i>
-											<?php 
+										<?php 
                     }
                     ?>
 
@@ -917,7 +939,7 @@ class JLTMA_Advanced_Accordion extends Widget_Base {
                 } else {
                     ?>
 										<span class="jltma-accordion-toggle-icon">
-											<?php 
+										<?php 
                     $migrated = isset( $settings['__fa4_migrated']['toggle_icon'] );
                     $is_new = empty( $settings['icon_collapse'] ) && \Elementor\Icons_Manager::is_migration_allowed();
                     if ( $is_new || $migrated ) {
@@ -929,7 +951,8 @@ class JLTMA_Advanced_Accordion extends Widget_Base {
                         ?>
 												<i class="jltma-el-accordion-icon-closed <?php 
                         echo esc_attr( $settings['icon_collapse'] );
-                        ?>" aria-hidden="true"></i>
+                        ?>"
+													aria-hidden="true"></i>
 											<?php 
                     }
                     $active_migrated = isset( $settings['__fa4_migrated']['active_icon'] );
@@ -943,20 +966,21 @@ class JLTMA_Advanced_Accordion extends Widget_Base {
                         ?>
 												<i class="jltma-el-accordion-icon-opened <?php 
                         echo esc_attr( $settings['icon_title'] );
-                        ?>" aria-hidden="true"></i>
-											<?php 
+                        ?>"
+													aria-hidden="true"></i>
+										<?php 
                     }
                     ?>
 
 										</span>
-								<?php 
+									<?php 
                 }
             }
             ?>
 
 								<div class="jltma-accordion-title-text">
 									<?php 
-            echo $this->parse_text_editor( $tab['tab_title'] );
+            echo $this->parse_text_editor( Master_Addons_Helper::wp_kses_custom( $tab['tab_title'] ) );
             ?>
 								</div>
 							</div>
@@ -978,7 +1002,8 @@ class JLTMA_Advanced_Accordion extends Widget_Base {
                         ?>
 											<i class="jltma-el-accordion-icon-closed <?php 
                         echo esc_attr( $tab['icon_collapse'] );
-                        ?>" aria-hidden="true"></i>
+                        ?>"
+												aria-hidden="true"></i>
 										<?php 
                     }
                     $active_migrated = isset( $tab['__fa4_migrated']['accordion_tab_title_icon'] );
@@ -1013,7 +1038,8 @@ class JLTMA_Advanced_Accordion extends Widget_Base {
                         ?>
 											<i class="jltma-el-accordion-icon-closed <?php 
                         echo esc_attr( $settings['icon_collapse'] );
-                        ?>" aria-hidden="true"></i>
+                        ?>"
+												aria-hidden="true"></i>
 										<?php 
                     }
                     $active_migrated = isset( $settings['__fa4_migrated']['active_icon'] );
@@ -1027,12 +1053,13 @@ class JLTMA_Advanced_Accordion extends Widget_Base {
                         ?>
 											<i class="jltma-el-accordion-icon-opened <?php 
                         echo esc_attr( $settings['icon_title'] );
-                        ?>" aria-hidden="true"></i>
+                        ?>"
+												aria-hidden="true"></i>
 										<?php 
                     }
                     ?>
 									</span>
-							<?php 
+								<?php 
                 }
             }
             ?>
@@ -1045,12 +1072,12 @@ class JLTMA_Advanced_Accordion extends Widget_Base {
             echo $this->get_render_attribute_string( $tab_content_setting_key );
             // Premium Version Codes
             /*
-            								if (ma_el_fs()->can_use_premium_code__premium_only()) {
+            						if (ma_el_fs()->can_use_premium_code__premium_only()) {
             
-            									if ($tab['single_tab_title_bg_color_show'] == 'yes') { ?> style="background-color:<?php echo esc_attr($tab['single_tab_content_bg_color']); ?>;
-                                                            color:<?php echo esc_attr($tab['single_title_content_color']); ?>" <?php } // Premium Version Codes
+            							if ($tab['single_tab_title_bg_color_show'] == 'yes') { ?> style="background-color:<?php echo esc_attr($tab['single_tab_content_bg_color']); ?>;
+            																						color:<?php echo esc_attr($tab['single_title_content_color']); ?>" <?php } // Premium Version Codes
             
-            																											} */
+            																									} */
             ?>>
 							<?php 
             if ( $tab['content_type'] == 'content' ) {
@@ -1065,7 +1092,7 @@ class JLTMA_Advanced_Accordion extends Widget_Base {
         ?>
 			</div>
 		</div>
-<?php 
+		<?php 
     }
 
     public function get_page_template_options( $type = '' ) {

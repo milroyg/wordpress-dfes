@@ -157,6 +157,7 @@
                         n = a.attributes.pro,
                         l = Object.keys(o).length,
                         r = {};
+                    // console.log(a);
                     if (t.layout.showLoadingView(), 0 < l)
                         for (var s in o) e.ajax({
                             url: ajaxurl,
@@ -175,10 +176,10 @@
                             page_settings: !1
                         },
                         success: function(e) {
-                            e.license ? (console.log("%c Template Inserted Successfully!!", "color: #7a7a7a; background-color: #eee;"), t.closeModal(), elementor.channels.data.trigger("$e.run( 'document/import' )", a), null !== t.atIndex && (r.at = t.atIndex), elementor.config.version < "3.0.0" ? elementor.sections.currentView.addChildModel(e.content, r) : elementor.previewView.addChildModel(e.content, r), elementor.channels.data.trigger("template:after:insert", a), t.atIndex = null) : t.layout.showLicenseError()
+                            e.license ? (console.log("%c !", "color: #7a7a7a; background-color: #eee;"), t.closeModal(), elementor.channels.data.trigger("$e.run( 'document/import' )", a), null !== t.atIndex && (r.at = t.atIndex), elementor.config.version < "3.0.0" ? elementor.sections.currentView.addChildModel(e.content, r) : elementor.previewView.addChildModel(e.content, r), elementor.channels.data.trigger("template:after:insert", a), t.atIndex = null) : t.layout.showLicenseError()
                         },
                         error: function(e) {
-                            console.log(e)
+                            console.log(e);
                         }
                     })
                 }

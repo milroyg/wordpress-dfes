@@ -158,7 +158,7 @@ class Admin_Notices {
 	 * @return array The offers data, or an empty array if the data could not be retrieved or is invalid.
 	 */
 	public static function get_cached_offers_data( $api_url, $cache_duration = DAY_IN_SECONDS ) {
-		$cache_key   = 'sp_offers_data_' . md5( $api_url ); // Unique cache key based on the API URL.
+		$cache_key   = 'splw_offers_data_' . md5( $api_url ); // Unique cache key based on the API URL.
 		$offers_data = get_transient( $cache_key );
 
 		if ( false === $offers_data ) {
@@ -223,9 +223,9 @@ class Admin_Notices {
 		}
 
 		$offer_key             = isset( $offer['key'] ) ? esc_attr( $offer['key'] ) : ''; // Uniq identifier of the offer banner.
-		$start_date            = isset( $offer['start_date'] ) ? esc_html( $offer['start_date'] ) : ''; // Offer starting date.
-		$banner_unique_id      = $offer_key . strtotime( $offer['start_date'] ); // Generate banner unique ID by the offer key and starting date.
-		$banner_dismiss_status = get_option( 'splw_offer_banner_dismiss_status_' . $banner_unique_id ); // Banner closing or dismissing status.
+		$start_date            = isset( $offer['org_start_date'] ) ? esc_html( $offer['org_start_date'] ) : ''; // Offer starting date.
+		$banner_unique_id      = $offer_key . strtotime( $start_date ); // Generate banner unique ID by the offer key and starting date.
+		$banner_dismiss_status = get_transient( 'splw_offer_banner_dismiss_status_' . $banner_unique_id ); // Banner closing or dismissing status.
 
 		// Only display the banner if the dismissal status of the banner is not hide.
 		if ( isset( $banner_dismiss_status ) && 'hide' === $banner_dismiss_status ) {
@@ -233,45 +233,25 @@ class Admin_Notices {
 		}
 
 		// Declare admin banner related variables.
-		$end_date         = isset( $offer['end_date'] ) ? esc_html( $offer['end_date'] ) : ''; // Offer ending date.
-		$plugin_logo      = isset( $offer['plugin_logo'] ) ? $offer['plugin_logo'] : ''; // Plugin logo URL.
-		$offer_name       = isset( $offer['offer_name'] ) ? $offer['offer_name'] : ''; // Offer name.
-		$offer_percentage = isset( $offer['offer_percentage'] ) ? $offer['offer_percentage'] : ''; // Offer discount percentage.
-		$action_url       = isset( $offer['action_url'] ) ? $offer['action_url'] : ''; // Action button URL.
-		$action_title     = isset( $offer['action_title'] ) ? $offer['action_title'] : 'Grab the Deals!'; // Action button title.
+		$end_date = isset( $offer['org_end_date'] ) ? esc_html( $offer['org_end_date'] ) : ''; // Offer ending date.
+
 		// Banner starting date & ending date according to EST timezone.
 		$start_date   = strtotime( $start_date . ' 00:00:00 EST' ); // Convert start date to timestamp.
 		$end_date     = strtotime( $end_date . ' 23:59:59 EST' ); // Convert end date to timestamp.
 		$current_date = time(); // Get the current timestamp.
+		$offer_banner = isset( $offer['org_offer_banner'] ) ? esc_html( $offer['org_offer_banner'] ) : '';
+		$offer_url    = isset( $offer['org_offer_url'] ) ? esc_html( $offer['org_offer_url'] ) : '';
 
 		// Only display the banner if the current date is within the specified range.
 		if ( $current_date >= $start_date && $current_date <= $end_date ) {
 			// Start Banner HTML markup.
 			?>
-			<div class="splw-admin-offer-banner-section">	
-				<?php if ( ! empty( $plugin_logo ) ) { ?>
-					<div class="splw-offer-banner-image">
-						<img src="<?php echo esc_url( $plugin_logo ); ?>" alt="Plugin Logo" class="splw-plugin-logo">
-					</div>
-				<?php } if ( ! empty( $offer_name ) ) { ?>
-					<div class="splw-offer-banner-image">
-						<img src="<?php echo esc_url( $offer_name ); ?>" alt="Offer Name" class="splw-offer-name">
-					</div>
-				<?php } if ( ! empty( $offer_percentage ) ) { ?>
-					<div class="splw-offer-banner-image">
-						<img src="<?php echo esc_url( $offer_percentage ); ?>" alt="Offer Percentage" class="splw-offer-percentage">
-					</div>
-				<?php } ?>
-				<div class="splw-offer-additional-text">
-					<span class="splw-clock-icon">⏱</span><p><?php esc_html_e( 'Limited Time Offer, Upgrade Now!', 'location-weather' ); ?></p>
-				</div>
-				<?php if ( ! empty( $action_url ) ) { ?>
-					<div class="splw-banner-action-button">
-						<a href="<?php echo esc_url( $action_url ); ?>" class="splw-get-offer-button" target="_blank">
-							<?php echo esc_html( $action_title ); ?>
-						</a>
-					</div>
-				<?php } ?>
+
+			<div class="splw-notice-wrapper notice"">
+				<a href="<?php echo esc_url( $offer_url ); ?>" target="_blank">
+					<img loading="lazy" src="<?php echo esc_url( $offer_banner ); ?>" alt="Offer Banner">
+				</a>
+				
 				<div class="splw-close-offer-banner" data-unique_id="<?php echo esc_attr( $banner_unique_id ); ?>"></div>
 			</div>
 			<script type='text/javascript'>
@@ -285,7 +265,7 @@ class Admin_Notices {
 						unique_id,
 						nonce: '<?php echo esc_attr( wp_create_nonce( 'splw_banner_notice_nonce' ) ); ?>'
 					})
-					$(this).parents('.splw-admin-offer-banner-section').fadeOut('slow');
+					$(this).parents('.splw-notice-wrapper').fadeOut('slow');
 				});
 			});
 			</script>
@@ -312,7 +292,8 @@ class Admin_Notices {
 		 */
 		if ( 'hide' === $post_data['sp_offer_banner'] && isset( $post_data['sp_offer_banner'] ) ) {
 			$offer = 'hide';
-			update_option( 'splw_offer_banner_dismiss_status_' . $unique_id, $offer );
+			// Set transient for 30 days.
+			set_transient( 'splw_offer_banner_dismiss_status_' . $unique_id, $offer, 30 * DAY_IN_SECONDS );
 		}
 		die;
 	}

@@ -11,12 +11,15 @@ class JLTMA_Megamenu_Cpt
 
     public function __construct()
     {
-        add_action('init', [$this, 'post_types']);
+        if (!did_action('init')) {
+            add_action('init', [$this, 'post_types']);
+        } else {
+            $this->post_types();
+        }
     }
 
     public function post_types()
     {
-
         $labels = array(
             'name'                  => _x('Master Addons Items', 'Post Type General Name', 'master-addons' ),
             'singular_name'         => _x('Master Addons Item', 'Post Type Singular Name', 'master-addons' ),
@@ -68,10 +71,10 @@ class JLTMA_Megamenu_Cpt
             'has_archive'           => false,
             'publicly_queryable' => true,
             'rewrite'               => $rewrite,
-            'query_var' => true,
+            'query_var'             => true,
             'exclude_from_search'   => true,
             'publicly_queryable'    => true,
-            'capability_type'       => 'page',
+            'capability_type'       => 'post',
             'show_in_rest'          => true,
             'rest_base'             => 'mastermega-content',
         );
@@ -89,7 +92,7 @@ class JLTMA_Megamenu_Cpt
 
 
 /*
-* Returns Instanse of the Master Mega Menu
+* Returns Instance of the Master Mega Menu
 */
 if (!function_exists('jltma_megamenu_cpt')) {
     function jltma_megamenu_cpt()

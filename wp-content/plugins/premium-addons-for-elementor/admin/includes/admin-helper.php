@@ -40,13 +40,6 @@ class Admin_Helper {
 	public static $page_slug = 'premium-addons';
 
 	/**
-	 * Current Screen ID
-	 *
-	 * @var current_screen
-	 */
-	public static $current_screen = null;
-
-	/**
 	 * Elements List
 	 *
 	 * @var elements_list
@@ -93,9 +86,6 @@ class Admin_Helper {
 	 */
 	public function __construct() {
 
-		// Get current screen ID.
-		add_action( 'current_screen', array( $this, 'get_current_screen' ) );
-
 		// Insert admin settings submenus.
 		add_action( 'admin_menu', array( $this, 'add_menu_tabs' ), 100 );
 
@@ -140,7 +130,7 @@ class Admin_Helper {
 
 			// Beta tester.
 			// Not currently needed.
-			// Beta_Testers::get_instance();
+			// Beta_Testers::get_instance();.
 
 			// PA Duplicator.
 			if ( self::check_duplicator() ) {
@@ -155,7 +145,7 @@ class Admin_Helper {
 		// PA Dynamic Assets.
 		$row_meta = Helper_Functions::is_hide_row_meta();
 
-		if ( self::check_dynamic_assets() && ! $row_meta ) {
+		if ( ! is_admin() && self::check_dynamic_assets() && ! $row_meta ) {
 			Admin_Bar::get_instance();
 		}
 	}
@@ -251,43 +241,39 @@ class Admin_Helper {
 	 *
 	 * @since 1.0.0
 	 * @access public
+	 *
+	 * @param string $hook The current admin page hook.
 	 */
-	public function admin_enqueue_scripts() {
+	public function admin_enqueue_scripts( $hook ) {
 
-		$suffix           = is_rtl() ? '-rtl' : '';
-		$current_screen   = self::get_current_screen();
 		$enabled_elements = self::get_enabled_elements();
 		$action           = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 
-		if ( false === strpos( $action, 'action=architect' ) ) {
+		wp_enqueue_style(
+			'pa_admin_icon',
+			PREMIUM_ADDONS_URL . 'admin/assets/fonts/style.css',
+			array(),
+			PREMIUM_ADDONS_VERSION,
+			'all'
+		);
 
-			wp_enqueue_style(
-				'pa_admin_icon',
-				PREMIUM_ADDONS_URL . 'admin/assets/fonts/style.css',
-				array(),
-				PREMIUM_ADDONS_VERSION,
-				'all'
-			);
+		wp_enqueue_style(
+			'pa-notice',
+			PREMIUM_ADDONS_URL . 'admin/assets/css/notice.css',
+			array(),
+			PREMIUM_ADDONS_VERSION,
+			'all'
+		);
 
-			wp_enqueue_style(
-				'pa-notice',
-				PREMIUM_ADDONS_URL . 'admin/assets/css/notice' . $suffix . '.css',
-				array(),
-				PREMIUM_ADDONS_VERSION,
-				'all'
-			);
+		wp_enqueue_style(
+			'pa-admin',
+			PREMIUM_ADDONS_URL . 'admin/assets/css/admin.css',
+			array(),
+			PREMIUM_ADDONS_VERSION,
+			'all'
+		);
 
-			wp_enqueue_style(
-				'pa-admin',
-				PREMIUM_ADDONS_URL . 'admin/assets/css/admin' . $suffix . '.css',
-				array(),
-				PREMIUM_ADDONS_VERSION,
-				'all'
-			);
-
-		}
-
-		if ( strpos( $current_screen, self::$page_slug ) !== false ) {
+		if ( false !== strpos( $hook, 'premium-addons' ) ) {
 
 			wp_enqueue_style(
 				'pa-sweetalert-style',
@@ -323,6 +309,8 @@ class Admin_Helper {
 
 			$theme_slug = Helper_Functions::get_installed_theme();
 
+			$is_second_run = get_option( 'pa_complete_wizard' ) ? false : true;
+
 			$localized_data = array(
 				'settings'               => array(
 					'ajaxurl'           => admin_url( 'admin-ajax.php' ),
@@ -330,6 +318,7 @@ class Admin_Helper {
 					'unused_nonce'      => wp_create_nonce( 'pa-disable-unused' ),
 					'generate_nonce'    => wp_create_nonce( 'pa-generate-nonce' ),
 					'site_cursor_nonce' => wp_create_nonce( 'pa-site-cursor-nonce' ),
+					'isSecondRun'       => $is_second_run,
 					'theme'             => $theme_slug,
 					'i18n'              => array(
 						'successMsg' => __( 'Your submission was successful.', 'premium-addons-for-elementor' ),
@@ -347,6 +336,11 @@ class Admin_Helper {
 					),
 				),
 			);
+
+			// Only add savedFeatures if it's the second run.
+			if ( $is_second_run ) {
+				$localized_data['settings']['savedFeatures'] = get_option( 'pa_saved_features', array() );
+			}
 
 			// Add PAPRO Rollback Confirm message if PAPRO installed.
 			if ( Helper_Functions::check_papro_version() ) {
@@ -380,7 +374,9 @@ class Admin_Helper {
 				'paWizardSettings',
 				array(
 					'ajaxurl'       => admin_url( 'admin-ajax.php' ),
+					'nonce'         => wp_create_nonce( 'pa-wizard-nonce' ),
 					'exitWizardURL' => admin_URL( 'plugins.php' ),
+					'isSecondRun'   => get_option( 'pa_complete_wizard' ) ? false : true,
 					'dashboardURL'  => admin_URL( 'admin.php' ) . '?page=premium-addons#tab=elements',
 					'newPageURL'    => Plugin::$instance->documents->get_create_new_post_url(),
 				),
@@ -388,7 +384,7 @@ class Admin_Helper {
 
 		}
 
-		if ( 'nav-menus' === $current_screen && $enabled_elements['premium-nav-menu'] ) {
+		if ( 'nav-menus.php' === $hook && $enabled_elements['premium-nav-menu'] ) {
 
 			wp_enqueue_style(
 				'pa-font-awesome',
@@ -563,15 +559,15 @@ class Admin_Helper {
 
 		$settings_link = sprintf( '<a href="%1$s">%2$s</a>', admin_url( 'admin.php?page=' . self::$page_slug . '#tab=elements' ), __( 'Settings', 'premium-addons-for-elementor' ) );
 
-		$rollback_link = sprintf( '<a href="%1$s">%2$s %3$s</a>', wp_nonce_url( admin_url( 'admin-post.php?action=premium_addons_rollback' ), 'premium_addons_rollback' ), __( 'Rollback to Version ', 'premium-addons-for-elementor' ), PREMIUM_ADDONS_STABLE_VERSION );
+		$rollback_link = sprintf( '<a href="%1$s">%2$s%3$s</a>', wp_nonce_url( admin_url( 'admin-post.php?action=premium_addons_rollback' ), 'premium_addons_rollback' ), __( 'Rollback to v', 'premium-addons-for-elementor' ), PREMIUM_ADDONS_STABLE_VERSION );
 
-		$new_links = array( $settings_link, $rollback_link );
+		$new_links = array( $settings_link );
 
 		if ( ! $is_papro_active ) {
 
 			$link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro', 'plugins-page', 'wp-dash', 'get-pro' );
 
-			$pro_link = sprintf( '<a href="%s" target="_blank" style="color: #FF6000; font-weight: bold;">%s</a>', $link, __( 'Go Pro', 'premium-addons-for-elementor' ) );
+			$pro_link = sprintf( '<a href="%s" target="_blank" style="color: #FF6000; font-weight: bold;">%s</a>', $link, __( 'Go Pro (10% OFF)', 'premium-addons-for-elementor' ) );
 			array_push( $new_links, $pro_link );
 		}
 
@@ -618,21 +614,6 @@ class Admin_Helper {
 	}
 
 	/**
-	 * Gets current screen slug
-	 *
-	 * @since 3.3.8
-	 * @access public
-	 *
-	 * @return string current screen slug
-	 */
-	public static function get_current_screen() {
-
-		self::$current_screen = get_current_screen()->id;
-
-		return isset( self::$current_screen ) ? self::$current_screen : false;
-	}
-
-	/**
 	 * Set Admin Tabs
 	 *
 	 * @access private
@@ -657,12 +638,12 @@ class Admin_Helper {
 				'href'     => '#tab=elements',
 				'template' => PREMIUM_ADDONS_PATH . 'admin/includes/templates/modules-settings',
 			),
-			'features'        => array(
-				'id'       => 'features',
-				'slug'     => $slug . '#tab=features',
-				'title'    => __( 'Global Features', 'premium-addons-for-elementor' ),
-				'href'     => '#tab=features',
-				'template' => PREMIUM_ADDONS_PATH . 'admin/includes/templates/features',
+			'addons'        => array(
+				'id'       => 'addons',
+				'slug'     => $slug . '#tab=addons',
+				'title'    => __( 'Global Addons', 'premium-addons-for-elementor' ),
+				'href'     => '#tab=addons',
+				'template' => PREMIUM_ADDONS_PATH . 'admin/includes/templates/addons',
 			),
 			'integrations'    => array(
 				'id'       => 'integrations',
@@ -767,24 +748,30 @@ class Admin_Helper {
 		remove_submenu_page( self::$page_slug, self::$page_slug );
 	}
 
+	/**
+	 * Initializes the setup wizard Add the PRO popup template.
+	 *
+	 * @access public
+	 * @since 3.20.8
+	 */
 	public function pa_init_setup_wizard() {
 
 		include_once PREMIUM_ADDONS_PATH . 'admin/includes/setup-wizard/main-view.php';
-		// Add the PRO popup template
+		// Add the PRO popup template.
 		include_once PREMIUM_ADDONS_PATH . 'admin/includes/templates/pro-popup.php';
 	}
 
 	/**
-	 * Render Setting Tabs
+	 * Render Setting Tabs.
 	 *
-	 * Render the final HTML content for admin setting tabs
+	 * Render the final HTML content for admin setting tabs.
 	 *
 	 * @access public
 	 * @since 3.20.8
 	 */
 	public function render_setting_tabs() {
 
-		// add the PRO popup template
+		// add the PRO popup template.
 		include_once PREMIUM_ADDONS_PATH . 'admin/includes/templates/pro-popup.php';
 
 		?>
@@ -871,6 +858,12 @@ class Admin_Helper {
 		<?php
 	}
 
+	/**
+	 * Retrieves banner strings.
+	 *
+	 * @access public
+	 * @return array|null
+	 */
 	public function get_banner_strings() {
 
 		if ( ! Helper_Functions::check_papro_version() ) {
@@ -901,9 +894,9 @@ class Admin_Helper {
 	}
 
 	/**
-	 * Save Settings
+	 * Save Settings.
 	 *
-	 * Save elements settings using AJAX
+	 * Save elements settings using AJAX.
 	 *
 	 * @access public
 	 * @since 3.20.8
@@ -924,7 +917,42 @@ class Admin_Helper {
 
 		update_option( 'pa_save_settings', $elements );
 
+		// Save the global addons only if it's the second run.
+		$is_second_run = get_option( 'pa_complete_wizard' ) ? false : true;
+		if ( $is_second_run ) {
+			self::update_global_addons_option( $settings );
+		} else {
+			update_option( 'pa_complete_wizard', false );
+		}
+
 		wp_send_json_success();
+	}
+
+	private static function update_global_addons_option( $settings ) {
+
+		$global_addons = array(
+			'premium-mscroll',
+			'premium-templates',
+			'pa-display-conditions',
+			'premium-equal-height',
+			'premium-global-cursor',
+			'premium-global-badge',
+			'premium-shape-divider',
+			'premium-global-tooltips',
+			'premium-floating-effects',
+			'premium-cross-domain',
+			'premium-duplicator',
+			'premium-wrapper-link',
+		);
+
+		$features = array();
+		foreach ( $global_addons as $feature ) {
+			if ( isset( $settings[ $feature ] ) && 'on' === $settings[ $feature ] ) {
+				$features[] = $feature;
+			}
+		}
+
+		update_option( 'pa_saved_features', $features );
 	}
 
 	/**
@@ -1071,12 +1099,14 @@ class Admin_Helper {
 	}
 
 	/**
-	 * Get Info By Key
+	 * Get Info By Key.
 	 *
-	 * Returns elements by its key
+	 * Returns elements by its key.
 	 *
 	 * @since 4.10.49
 	 * @access public
+	 *
+	 * @param string $key element key.
 	 *
 	 * @return array
 	 */
@@ -1126,7 +1156,7 @@ class Admin_Helper {
 	}
 
 	/**
-	 * Get Default Interations
+	 * Get Default Integrations
 	 *
 	 * @since 3.20.9
 	 * @access private
@@ -1201,7 +1231,7 @@ class Admin_Helper {
 	}
 
 	/**
-	 * Check SVG Draw
+	 * Check SVG Draw.
 	 *
 	 * @since 4.9.26
 	 * @access public
@@ -1212,9 +1242,7 @@ class Admin_Helper {
 	 */
 	public static function check_svg_draw( $key ) {
 
-		$enabled_keys = self::get_enabled_elements();
-
-		$is_enabled = isset( $enabled_keys[ 'svg_' . $key ] ) ? $enabled_keys[ 'svg_' . $key ] : false;
+		$is_enabled = self::check_element_by_key( 'svg_' . $key );
 
 		return $is_enabled;
 	}
@@ -1284,14 +1312,14 @@ class Admin_Helper {
 	}
 
 	/**
-	 * Get Integrations Settings
+	 * Get Integrations Settings.
 	 *
-	 * Get plugin integrations settings
+	 * Get plugin integrations settings.
 	 *
 	 * @since 3.20.9
 	 * @access public
 	 *
-	 * @return array $settings integrations settings
+	 * @return array $settings integrations settings.
 	 */
 	public static function get_integrations_settings() {
 

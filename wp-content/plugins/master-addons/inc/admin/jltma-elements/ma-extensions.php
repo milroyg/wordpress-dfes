@@ -286,14 +286,14 @@ if (!class_exists('JLTMA_Addon_Extensions')) {
                         // 'is_pro'   => false
                         // ],
                         // [
-                        //     'key'           => 'morphing-effects',
-                        //     // 'title'         => esc_html__( 'Morphing Effects', 'master-addons' ),
-                        //     'title'         => 'Morphing Effects',
-                        //      'class'    => 'MasterAddons\Modules\JLTMA_Extension_Morphing_Effects',
-                        //     'demo_url'      => '',
-                        //     'docs_url'      => '',
-                        //     'tuts_url'      => '',
-                        // 'is_pro'   => false
+                        //     'key'      => 'morphing-effects',
+                        //       // 'title'         => esc_html__( 'Morphing Effects', 'master-addons' ),
+                        //     'title'    => 'Morphing Effects',
+                        //     'class'    => 'MasterAddons\Modules\JLTMA_Extension_Morphing_Effects',
+                        //     'demo_url' => '',
+                        //     'docs_url' => '',
+                        //     'tuts_url' => '',
+                        //     'is_pro'   => false
                         // ],
                     ]
                 ]

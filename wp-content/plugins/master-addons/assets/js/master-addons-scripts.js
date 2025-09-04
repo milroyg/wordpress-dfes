@@ -1102,21 +1102,24 @@
                     queue: false
                 }
             };
+            
+            var adata = Object.assign({}, optValues);
+
             if (layoutMode === 'fitRows')
             {
                 optValues['layoutMode'] = 'fitRows';
             }
 
-            // if(layoutMode === 'masonry'){
-            //     adata['macolumnWidthsonry'] = '.jltma-image-filter-item';
-            //     adata['horizontalOrder'] = true;
-            // };
+            if(layoutMode === 'masonry'){
+                adata['macolumnWidthsonry'] = '.jltma-image-filter-item';
+                adata['horizontalOrder'] = true;
+            };
 
-            // var $grid = $container.isotope(adata);
-            // $grid.imagesLoaded().progress(function() {
-            //     $grid.isotope('layout');
-            //     $scope.find('.jltma-image-filter-gallery').css({"min-height":"300px" ,"height" : container_outerheight});
-            // });
+            var $grid = $container.isotope(adata);
+            $grid.imagesLoaded().progress(function() {
+                $grid.isotope('layout');
+                $scope.find('.jltma-image-filter-gallery').css({"min-height":"300px"});
+            });
 
             if ($.isFunction($.fn.imagesLoaded))
             {
@@ -1191,9 +1194,9 @@
                     return false;
                 }
             });
-
-            $(".jltma-fancybox").fancybox({
-                // protect: false,
+            $("jltma-fancybox").fancybox({
+            // $(".elementor-widget.elementor-widget-ma-image-filter-gallery .jltma-fancybox").fancybox({
+                protect: true,
                 animationDuration: 366,
                 transitionDuration: 366,
                 transitionEffect: "fade", // Transition effect between slides
@@ -2649,150 +2652,288 @@
 
         MA_ParticlesBG: function ($scope, $)
         {
-            if ($scope.hasClass('jltma-particle-yes'))
-            {
-                let id = $scope.data('id');
+            // Helper function to check if we're in editor
+            function isElementorEditor() {
+                return typeof elementorFrontend !== 'undefined' && elementorFrontend.isEditMode();
+            }
+
+            // Debug logging (remove in production)
+            // console.log('MA_ParticlesBG called for element:', $scope.data('id'));
+            // console.log('Is editor:', isElementorEditor());
+            // console.log('Has particle class:', $scope.hasClass('jltma-particle-yes'));
+            // console.log('Data attribute:', $scope.attr('data-jltma-particle'));
+            // console.log('Wrapper editor data:', $scope.find('.jltma-particle-wrapper').attr('data-jltma-particles-editor'));
+
+            // Check if particles are enabled - either through class or data attribute or wrapper
+            if ($scope.hasClass('jltma-particle-yes') || $scope.attr('data-jltma-particle') || $scope.find('.jltma-particle-wrapper').attr('data-jltma-particles-editor')) {
+                
                 let element_type = $scope.data('element_type');
-                let pdata = $scope.data('jltma-particle');
-                let pdata_wrapper = $scope.find('.jltma-particle-wrapper').data('ma-el-pdata');
-                if (typeof pdata != 'undefined' && pdata != '')
-                {
-                    if ($scope.find('.ma-el-section-bs').length > 0)
-                    {
-                        $scope.find('.ma-el-section-bs').after('<div class="jltma-particle-wrapper"' +
-                            ' id="jltma-particle-' + id + '"></div>');
-                        particlesJS('jltma-particle-' + id, pdata);
-                    } else
-                    {
-                        if (element_type == 'column')
-                        {
-                            // $scope.prepend('<div class="jltma-particle-wrapper" id="jltma-particle-' + id + '"></div>');
+                let sectionID = encodeURIComponent($scope.data('id'));
+                let particlesJSON;
 
-                            $scope.find('.elementor-widget-wrap').prepend('<div class="jltma-particle-wrapper"' +
-                                ' id="jltma-particle-' + id + '"></div>');
-                        } else
-                        {
-                            $scope.prepend('<div class="jltma-particle-wrapper" id="jltma-particle-' + id + '"></div>');
-                        }
-
-                        particlesJS('jltma-particle-' + id, pdata);
-                    }
-
-
-                } else if (typeof pdata_wrapper != 'undefined' && pdata_wrapper != '')
-                {
-                    $scope.prepend('<div class="jltma-particle-wrapper" id="jltma-particle-'+ id +'"></div>');
-
-                    if (element_type == 'column')
-                    {
-                        $scope.find('.elementor-widget-wrap').prepend('<div class="jltma-particle-wrapper"' +
-                            ' id="jltma-particle-' + id + '"></div>');
-                    }
-                    else
-                    {
-                        $scope.prepend('<div class="jltma-particle-wrapper" id="jltma-particle-' + id + '"></div>');
-                    }
-
-                    particlesJS('jltma-particle-' + id, JSON.parse(pdata_wrapper));
+                // Get particle JSON based on context (editor vs frontend)
+                if (!isElementorEditor()) {
+                    // Frontend - get from data attribute
+                    particlesJSON = $scope.attr('data-jltma-particle');
+                } else {
+                    // Editor - get from wrapper data attribute
+                    particlesJSON = $scope.find('.jltma-particle-wrapper').attr('data-jltma-particles-editor');
                 }
 
+                if (('section' === element_type || 'column' === element_type || 'container' === element_type) && particlesJSON) {
+                    
+                    // Frontend
+                    if (!isElementorEditor()) {
+                        // Create wrapper for frontend
+                        $scope.prepend('<div class="jltma-particle-wrapper" id="jltma-particle-' + sectionID + '"></div>');
+                        
+                        try {
+                            let parsedData = JSON.parse(particlesJSON);
+                            particlesJS('jltma-particle-' + sectionID, parsedData);
+                            
+                            // Dispatch resize events to ensure proper rendering
+                            setTimeout(function() {
+                                window.dispatchEvent(new Event('resize'));
+                            }, 500);
+                            
+                            setTimeout(function() {
+                                window.dispatchEvent(new Event('resize'));
+                            }, 1500);
+                        } catch(e) {
+                            console.warn('Invalid particle JSON:', e);
+                        }
+                        
+                    // Editor
+                    } else {
+                        if ($scope.hasClass('jltma-particle-yes')) {
+                            try {
+                                let parsedData = JSON.parse(particlesJSON);
+                                particlesJS('jltma-particle-' + sectionID, parsedData);
+                                
+                                // Set z-index for columns in editor
+                                $scope.find('.elementor-column').css('z-index', 9);
+                                
+                                setTimeout(function() {
+                                    window.dispatchEvent(new Event('resize'));
+                                }, 500);
+                                
+                                setTimeout(function() {
+                                    window.dispatchEvent(new Event('resize'));
+                                }, 1500);
+                            } catch(e) {
+                                console.warn('Invalid particle JSON:', e);
+                            }
+                        } else {
+                            // Remove wrapper if particles are disabled
+                            $scope.find('.jltma-particle-wrapper').remove();
+                        }
+                    }
+                }
             }
-            //
-            //     })(jQuery);
-            // } catch(e) {
-            //     //We can also throw from try block and catch it here
-            //     // No Error Show
-            // }
-
         },
 
         MA_BgSlider: function ($scope, $)
         {
-            var ma_el_slides = [], ma_el_slides_json = [], ma_el_transition, ma_el_animation, ma_el_custom_overlay, ma_el_overlay, ma_el_cover, ma_el_delay, ma_el_timer;
-            var slider_wrapper = $scope.children('.ma-el-section-bs').children('.ma-el-section-bs-inner');
+            // Check if we're in Elementor editor mode
+            function isElementorEditor() {
+                return typeof elementorFrontend !== 'undefined' && elementorFrontend.isEditMode();
+            }
 
-            if (slider_wrapper && slider_wrapper.data('ma-el-bg-slider'))
-            {
-
-                var slider_images = slider_wrapper.data('ma-el-bg-slider');
-                ma_el_transition = slider_wrapper.data('ma-el-bg-slider-transition');
-                ma_el_animation = slider_wrapper.data('ma-el-bg-slider-animation');
-                ma_el_custom_overlay = slider_wrapper.data('ma-el-bg-custom-overlay');
-                if (ma_el_custom_overlay == 'yes')
-                {
-                    ma_el_overlay = jltma_scripts.plugin_url + 'assets/lib/vegas/overlays/' + slider_wrapper.data('ma-el-bg-slider-overlay');
-                } else
-                {
-                    if (slider_wrapper.data('ma-el-bg-slider-overlay'))
-                    {
-                        ma_el_overlay = jltma_scripts.plugin_url + 'assets/lib/vegas/overlays/' + slider_wrapper.data('ma-el-bg-slider-overlay');
-                    } else
-                    {
-                        ma_el_overlay = jltma_scripts.plugin_url + 'assets/lib/vegas/overlays/' + slider_wrapper.data('ma-el-bg-slider-overlay');
-                    }
+            // Check if this element has bg-slider enabled first
+            if (!isElementorEditor()) {
+                // Frontend: check for class (which is only added when bg slider is enabled and has images)
+                if (!$scope.hasClass('has_ma_el_bg_slider')) {
+                    return; // No bg slider configured or enabled
                 }
-
-                ma_el_cover = slider_wrapper.data('ma-el-bg-slider-cover');
-                ma_el_delay = slider_wrapper.data('ma-el-bs-slider-delay');
-                ma_el_timer = slider_wrapper.data('ma-el-bs-slider-timer');
-
-                if (typeof slider_images != 'undefined')
-                {
-                    ma_el_slides = slider_images.split(",");
-
-                    jQuery.each(ma_el_slides, function (key, value)
-                    {
-                        var slide = [];
-                        slide.src = value;
-                        ma_el_slides_json.push(slide);
-                    });
-
-                    slider_wrapper.vegas({
-                        slides: ma_el_slides_json,
-                        transition: ma_el_transition,
-                        animation: ma_el_animation,
-                        overlay: ma_el_overlay,
-                        cover: ma_el_cover,
-                        delay: ma_el_delay,
-                        timer: ma_el_timer,
-                        init: function ()
-                        {
-                            if (ma_el_custom_overlay == 'yes')
-                            {
-                                var ob_vegas_overlay = slider_wrapper.children('.vegas-overlay');
-                                ob_vegas_overlay.css('background-image', '');
-                            }
-                        }
-                    });
-
+            } else {
+                // Editor: check for template elements (template only shows when enabled)
+                if (!$scope.find('.ma-el-section-bs').length) {
+                    return; // No bg slider template or not enabled
                 }
             }
+
+            var ma_el_slides = [], ma_el_slides_json = [], ma_el_transition, ma_el_animation, ma_el_custom_overlay, ma_el_overlay, ma_el_cover, ma_el_delay, ma_el_timer;
+            var slider_images;
+
+            // Get slider data based on editor vs frontend
+            if (!isElementorEditor()) {
+                // Frontend: use data from _before_render (on main element)
+                slider_images = $scope.attr('data-ma-el-bg-slider-images');
+            } else {
+                // Editor: use data from _print_template (on inner wrapper)
+                var slider_wrapper = $scope.find('.ma-el-section-bs-inner');
+                if (slider_wrapper.length) {
+                    slider_images = slider_wrapper.attr('data-ma-el-bg-slider');
+                }
+            }
+
+            if (!slider_images) {
+                return; // No slider data available
+            }
+
+            // Get configuration data based on context
+            if (!isElementorEditor()) {
+                // Frontend: read from main element
+                ma_el_transition = $scope.attr('data-ma-el-bg-slider-transition');
+                ma_el_animation = $scope.attr('data-ma-el-bg-slider-animation');
+                ma_el_custom_overlay = $scope.attr('data-ma-el-bg-custom-overlay');
+                ma_el_cover = $scope.attr('data-ma-el-bg-slider-cover');
+                ma_el_delay = $scope.attr('data-ma-el-bs-slider-delay');
+                ma_el_timer = $scope.attr('data-ma-el-bs-slider-timer');
+                
+                if (ma_el_custom_overlay == 'yes') {
+                    ma_el_overlay = jltma_scripts.plugin_url + '/assets/vendor/vegas/overlays/00.png';
+                } else {
+                    var overlay_file = $scope.attr('data-ma-el-bg-slider-overlay');
+                    if (overlay_file) {
+                        ma_el_overlay = jltma_scripts.plugin_url + '/assets/vendor/vegas/overlays/' + overlay_file + '.png';
+                    } else {
+                        ma_el_overlay = jltma_scripts.plugin_url + '/assets/vendor/vegas/overlays/00.png';
+                    }
+                }
+            } else {
+                // Editor: read from template wrapper
+                var slider_wrapper = $scope.find('.ma-el-section-bs-inner');
+                ma_el_transition = slider_wrapper.attr('data-ma-el-bg-slider-transition');
+                ma_el_animation = slider_wrapper.attr('data-ma-el-bg-slider-animation');
+                ma_el_custom_overlay = slider_wrapper.attr('data-ma-el-bg-custom-overlay');
+                ma_el_cover = slider_wrapper.attr('data-ma-el-bg-slider-cover');
+                ma_el_delay = slider_wrapper.attr('data-ma-el-bs-slider-delay');
+                ma_el_timer = slider_wrapper.attr('data-ma-el-bs-slider-timer');
+                
+                if (ma_el_custom_overlay == 'yes') {
+                    ma_el_overlay = jltma_scripts.plugin_url + '/assets/vendor/vegas/overlays/00.png';
+                } else {
+                    var overlay_file = slider_wrapper.attr('data-ma-el-bg-slider-overlay');
+                    if (overlay_file && overlay_file !== '00.png') {
+                        ma_el_overlay = jltma_scripts.plugin_url + '/assets/vendor/vegas/overlays/' + overlay_file;
+                    } else {
+                        ma_el_overlay = jltma_scripts.plugin_url + '/assets/vendor/vegas/overlays/00.png';
+                    }
+                }
+            }
+
+            // Split images and create slides array
+            ma_el_slides = slider_images.split(",");
+
+            jQuery.each(ma_el_slides, function (key, value) {
+                var slide = [];
+                slide.src = value;
+                ma_el_slides_json.push(slide);
+            });
+
+            // Create slider wrapper if it doesn't exist
+            var slider_container;
+            if (!$scope.find('.ma-el-section-bs').length) {
+                $scope.prepend('<div class="ma-el-section-bs"><div class="ma-el-section-bs-inner"></div></div>');
+            }
+            slider_container = $scope.find('.ma-el-section-bs-inner');
+
+            slider_container.vegas({
+                slides: ma_el_slides_json,
+                transition: ma_el_transition,
+                animation: ma_el_animation,
+                overlay: ma_el_overlay,
+                cover: ma_el_cover == 'true' ? true : false,
+                delay: parseInt(ma_el_delay) || 5000,
+                timer: ma_el_timer == 'true' ? true : false,
+                init: function () {
+                    if (ma_el_custom_overlay == 'yes') {
+                        var ob_vegas_overlay = slider_container.children('.vegas-overlay');
+                        ob_vegas_overlay.css('background-image', '');
+                    }
+                }
+            });
         },
 
         MA_AnimatedGradient: function ($scope, $)
         {
-
+            
             if ($scope.hasClass('ma-el-animated-gradient-yes'))
             {
-                let id = $scope.data('id');
-                let color = $scope.data('color');
-                let angle = $scope.data('angle');
-                let gradient_color = 'linear-gradient(' + angle + ',' + color + ')';
-                let heading = $scope.find('.elementor-heading-title');
-                $scope.css('background-image', gradient_color);
+                let color = $scope.data('color') || $scope.attr('data-color');
+                let angle = $scope.data('angle') || $scope.attr('data-angle');
+                let duration = $scope.data('duration') || $scope.attr('data-duration') || '6s';
+                
+                
+                if (!color || !angle) {
+                    return;
+                }
 
+                // Parse colors from the comma-separated string
+                let colors = color.split(',');
+                if (colors.length < 2) {
+                    return;
+                }
+
+                // Create animated gradient CSS with proper timing distribution
+                let animationName = 'jltma-animated-gradient-' + Math.random().toString(36).substring(2, 11);
+                let keyframes = `@keyframes ${animationName} {`;
+                let totalSteps = colors.length;
+                
+                // Create keyframes with proper timing distribution
+                for (let i = 0; i <= totalSteps; i++) {
+                    let percentage = (i / totalSteps) * 100;
+                    let currentColorIndex = i % colors.length;
+                    let nextColorIndex = (i + 1) % colors.length;
+                    
+                    // Create smooth transition between current and next color
+                    keyframes += `${percentage}% { background: linear-gradient(${angle}, ${colors[currentColorIndex].trim()}, ${colors[nextColorIndex].trim()}); }`;
+                }
+                
+                keyframes += '}';
+
+                // Add keyframes to document
+                let style = document.createElement('style');
+                style.textContent = keyframes;
+                document.head.appendChild(style);
+
+                // Apply the animation
+                $scope.css({
+                    'animation': `${animationName} ${duration} ease-in-out infinite`,
+                    'background-size': '400% 400%'
+                });
+
+                // For editor mode - handle the .animated-gradient div
                 if ($scope.hasClass('elementor-element-edit-mode'))
                 {
-                    color = $scope.find('.animated-gradient').data('color');
-                    angle = $scope.find('.animated-gradient').data('angle');
-                    let gradient_color_editor = 'linear-gradient(' + angle + ',' + color + ')';
-                    $scope.prepend('<div class="animated-gradient" style="background-image : ' + gradient_color_editor + ' "></div>');
-                    //$scope.find('.animated-gradient').css('background-image', gradient_color_editor);
-                    //$scope.find('.animated-gradient').css('background-color', 'red');
-                }
-                //$scope.css('position', 'relative');
-                //$scope.css('background-color', 'black');
+                    let editorGradient = $scope.find('.animated-gradient');
+                    if (editorGradient.length > 0) {
+                        let editorColor = editorGradient.data('color') || editorGradient.attr('data-color');
+                        let editorAngle = editorGradient.data('angle') || editorGradient.attr('data-angle');
+                        let editorDuration = editorGradient.data('duration') || editorGradient.attr('data-duration') || '6s';
+                        
+                        if (editorColor && editorAngle) {
+                            let editorColors = editorColor.split(',');
+                            if (editorColors.length >= 2) {
+                                let editorAnimationName = 'jltma-animated-gradient-editor-' + Math.random().toString(36).substring(2, 11);
+                                let editorKeyframes = `@keyframes ${editorAnimationName} {`;
+                                let totalSteps = editorColors.length;
+                                
+                                // Create keyframes with proper timing distribution
+                                for (let i = 0; i <= totalSteps; i++) {
+                                    let percentage = (i / totalSteps) * 100;
+                                    let currentColorIndex = i % editorColors.length;
+                                    let nextColorIndex = (i + 1) % editorColors.length;
+                                    
+                                    // Create smooth transition between current and next color
+                                    editorKeyframes += `${percentage}% { background: linear-gradient(${editorAngle}, ${editorColors[currentColorIndex].trim()}, ${editorColors[nextColorIndex].trim()}); }`;
+                                }
+                                
+                                editorKeyframes += '}';
+                                
+                                let editorStyle = document.createElement('style');
+                                editorStyle.textContent = editorKeyframes;
+                                document.head.appendChild(editorStyle);
 
+                                editorGradient.css({
+                                    'animation': `${editorAnimationName} ${editorDuration} ease-in-out infinite`,
+                                    'background-size': '400% 400%'
+                                });
+                            }
+                        }
+                    }
+                }
             }
 
         },
@@ -3687,9 +3828,68 @@
         {
             $('body').addClass('js');
             Master_Addons.initEvents($scope, $);
-        }
+        },
 
     };
+    
+    function filter_fancy_box(element) {
+        $(element).find('.jltma-fancybox').each(function () {
+            const rawCaption = $(this).data('caption');
+            // console.log("Raw Caption : " , rawCaption );
+            // const caption = rawCaption;
+            
+            function decodeEntities(str) {
+                if (!str) return '';
+                const txt = document.createElement('textarea');
+                txt.innerHTML = str;
+                return txt.value;
+            }
+            
+            const caption = decodeEntities(rawCaption);
+            
+            // Stronger XSS checks
+            const hasDangerousAttr   = /\son\w+\s*=/i.test(caption);     // any onXXX=
+            const hasScriptTag       = /<\s*script/i.test(caption);     // <script>
+            const hasJsProto         = /javascript:/i.test(caption);    // javascript:...
+            // const hasEncodedSymbols  = /<|>/i.test(caption);            // real < or >
+
+            // console.log("hasDangerousAttr : " , hasDangerousAttr );
+            // console.log("hasScriptTag : " , hasScriptTag );
+            // console.log("hasJsProto : " , hasJsProto );
+            // // console.log("hasEncodedSymbols : " , hasEncodedSymbols );
+            // console.log(" Check result", caption && (hasDangerousAttr || hasScriptTag || hasJsProto ));
+            
+            
+
+            if (caption && (hasDangerousAttr || hasScriptTag || hasJsProto )) {
+                // console.log($(this).attr('data-caption'));
+                $(this).attr('data-caption', '');
+                // console.log($(this).closest('.elementor-element').html());
+                $(this).closest('.elementor-element').remove();
+            }
+        });
+
+    }
+
+    $(document).ready(function () {
+        filter_fancy_box(document.body);
+
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.nodeType === 1) { 
+                        filter_fancy_box(node);
+                    }
+                });
+            });
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    });
+
 
     $(window).on('elementor/frontend/init', function ()
     {
@@ -3701,8 +3901,14 @@
 
         //Global Scripts
         elementorFrontend.hooks.addAction('frontend/element_ready/global', Master_Addons.MA_AnimatedGradient);
+        // Add specific hooks for containers as they may not trigger the global hook
+        elementorFrontend.hooks.addAction('frontend/element_ready/container', Master_Addons.MA_AnimatedGradient);
         elementorFrontend.hooks.addAction('frontend/element_ready/global', Master_Addons.MA_BgSlider);
+        // Add specific hook for bg slider with containers
+        elementorFrontend.hooks.addAction('frontend/element_ready/container', Master_Addons.MA_BgSlider);
         elementorFrontend.hooks.addAction('frontend/element_ready/global', Master_Addons.MA_ParticlesBG);
+        // Add specific hook for particles with containers
+        elementorFrontend.hooks.addAction('frontend/element_ready/container', Master_Addons.MA_ParticlesBG);
         elementorFrontend.hooks.addAction('frontend/element_ready/global', Master_Addons.MA_Reveal);
         elementorFrontend.hooks.addAction('frontend/element_ready/global', Master_Addons.MA_Rellax);
         // elementorFrontend.hooks.addAction('frontend/element_ready/global', Master_Addons.MA_Entrance_Animation);

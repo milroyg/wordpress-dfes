@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace MasterHeaderFooter\Theme_Hooks;
 
 defined( 'ABSPATH' ) || exit;
@@ -36,7 +36,7 @@ class TwentyNineteen {
 			echo '<div id="page" class="site">';
 			echo '<div id="content" class="site-content">';
 		});
-		
+
 		require JLTMA_PLUGIN_PATH . '/inc/view/theme-support-header.php';
 
 		$templates = [];

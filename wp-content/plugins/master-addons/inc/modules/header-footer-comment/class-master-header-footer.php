@@ -70,3 +70,5 @@ if( !class_exists('Master_Header_Footer') ){
 	    }
 	}
 }
+
+\MasterHeaderFooter\Master_Header_Footer::get_instance();

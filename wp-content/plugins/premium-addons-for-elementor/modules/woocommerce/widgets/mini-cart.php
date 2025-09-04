@@ -191,7 +191,14 @@ class Mini_Cart extends Widget_Base {
 		$this->add_empty_cart_style();
 		$this->add_cart_containers_style();
 	}
-
+	/**
+	 * Register Trigger section controls for the Mini Cart widget.
+	 *
+	 * @since 4.7.0
+	 * @access private
+	 *
+	 * @return void
+	 */
 	private function add_trigger_ctrls() {
 
 		$this->start_controls_section(
@@ -368,7 +375,7 @@ class Mini_Cart extends Widget_Base {
 				'options'   => array(
 					'default-sharp'         => __( 'Cart (Sharp)', 'premium-addons-for-elementor' ),
 					'default-round'         => __( 'Cart (Rounded)', 'premium-addons-for-elementor' ),
-					'cart'                  => __( 'Mordern Cart (Filled)', 'premium-addons-for-elementor' ),
+					'cart'                  => __( 'Modern Cart (Filled)', 'premium-addons-for-elementor' ),
 					'cart-outline'          => __( 'Modern Cart (Outlined)', 'premium-addons-for-elementor' ),
 					'basket'                => __( 'Basket (Filled)', 'premium-addons-for-elementor' ),
 					'basket-thin'           => __( 'Basket (Outlined)', 'premium-addons-for-elementor' ),
@@ -515,16 +522,16 @@ class Mini_Cart extends Widget_Base {
 				'type'       => Controls_Manager::CHOOSE,
 				'options'    => array(
 					'flex-start' => array(
-						'title' => __( 'Left', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-h-align-left',
+						'title' => __( 'Start', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-h-align-right' : 'eicon-h-align-left',
 					),
 					'center'     => array(
 						'title' => __( 'Center', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-h-align-center',
 					),
 					'flex-end'   => array(
-						'title' => __( 'Right', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-h-align-right',
+						'title' => __( 'End', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-h-align-left' : 'eicon-h-align-right',
 					),
 				),
 				'default'    => 'center',
@@ -766,6 +773,23 @@ class Mini_Cart extends Widget_Base {
 		);
 
 		$this->add_control(
+			'show_tax_label',
+			array(
+				'label'        => __( 'Tax Label', 'premium-addons-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Show', 'premium-addons-for-elementor' ),
+				'label_off'    => __( 'Hide', 'premium-addons-for-elementor' ),
+				'separator'    => 'before',
+				'prefix_class' => 'pa-trigger-label-',
+				'render_type'  => 'template',
+				'description'  => __( 'Displays the tax label next to the subtotal amount when the ', 'premium-addons-for-elementor' ) . sprintf( __( '<a href="%s" target="_blank">Enable Taxes</a>', 'premium-addons-for-elementor' ), esc_url( admin_url( 'admin.php?page=wc-settings&tab=general' ) ) ) . __( ' option is enabled.', 'premium-addons-for-elementor' ),
+				'condition'    => array(
+					'presets!' => array( 'preset-1', 'preset-2' ),
+				),
+			)
+		);
+
+		$this->add_control(
 			'behaviour',
 			array(
 				'label'     => __( 'Icon Click Behaviour', 'premium-addons-for-elementor' ),
@@ -774,7 +798,6 @@ class Mini_Cart extends Widget_Base {
 				'options'   => array(
 					'toggle' => __( 'Opens Mini Cart List', 'premium-addons-for-elementor' ),
 					'url'    => apply_filters( 'pa_pro_label', __( 'Redirect To Cart Page (Pro)', 'premium-addons-for-elementor' ) ),
-
 				),
 				'default'   => 'toggle',
 			)
@@ -800,7 +823,7 @@ class Mini_Cart extends Widget_Base {
 			array(
 				'label'       => __( 'Connect To Premium Woo CTA', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::SWITCHER,
-				'description' => __( 'Use this option to open the cart menu everytime a product is added to cart using Premium Woo CTA widget.', 'premium-addons-for-elementor' ),
+				'description' => __( 'Use this option to open the cart menu every time a product is added to cart using Premium Woo CTA widget.', 'premium-addons-for-elementor' ),
 				'condition'   => array(
 					'behaviour' => 'url',
 				),
@@ -810,6 +833,14 @@ class Mini_Cart extends Widget_Base {
 		$this->end_controls_section();
 	}
 
+	/**
+	 * Register Mini Cart controls for the widget settings panel.
+	 *
+	 * @since 4.7.0
+	 * @access private
+	 *
+	 * @return void
+	 */
 	private function add_mini_cart_ctrls() {
 
 		$slide_connected_conds = array(
@@ -884,7 +915,7 @@ class Mini_Cart extends Widget_Base {
 
 		do_action( 'pa_woo_mini_cart_window_controls', $this );
 
-		$this->add_responsive_control(
+		$this->add_control(
 			'cart_dir',
 			array(
 				'label'              => __( 'Direction', 'premium-addons-for-elementor' ),
@@ -893,15 +924,16 @@ class Mini_Cart extends Widget_Base {
 				'toggle'             => false,
 				'options'            => array(
 					'left'  => array(
-						'title' => __( 'left', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-order-start',
+						'title' => __( 'Left', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-order-end' : 'eicon-order-start',
 					),
 					'right' => array(
 						'title' => __( 'Right', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-order-end',
+						'icon'  => is_rtl() ? 'eicon-order-start' : 'eicon-order-end',
 					),
 				),
 				'default'            => 'right',
+				'prefix_class'       => 'pa-slide-dir-',
 				'selectors'          => array(
 					'{{WRAPPER}} .pa-woo-mc__content-wrapper' => '{{VALUE}}: 0',
 				),
@@ -1054,6 +1086,14 @@ class Mini_Cart extends Widget_Base {
 		$this->end_controls_section();
 	}
 
+	/**
+	 * Register Free Shipping Progress Bar controls.
+	 *
+	 * @since 4.7.0
+	 * @access private
+	 *
+	 * @return void
+	 */
 	private function add_mc_progressbar_ctrls() {
 
 		$this->start_controls_section(
@@ -1150,6 +1190,14 @@ class Mini_Cart extends Widget_Base {
 		$this->end_controls_section();
 	}
 
+	/**
+	 * Register Cross-sells controls for the Mini Cart widget.
+	 *
+	 * @since 4.7.0
+	 * @access private
+	 *
+	 * @return void
+	 */
 	private function add_mc_cross_sells_ctrls() {
 
 		$this->start_controls_section(
@@ -1193,12 +1241,12 @@ class Mini_Cart extends Widget_Base {
 				'toggle'    => false,
 				'options'   => array(
 					'2' => array(
-						'title' => __( 'left', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-order-start',
+						'title' => __( 'start', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-order-end' : 'eicon-order-start',
 					),
 					'0' => array(
-						'title' => __( 'Right', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-order-end',
+						'title' => __( 'End', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-order-start' : 'eicon-order-end',
 					),
 				),
 				'default'   => '0',
@@ -1308,6 +1356,14 @@ class Mini_Cart extends Widget_Base {
 		$this->end_controls_section();
 	}
 
+	/**
+	 * Register listing controls for the Mini Cart widget.
+	 *
+	 * @since 4.7.0
+	 * @access private
+	 *
+	 * @return void
+	 */
 	private function add_mc_listing_ctrls() {
 
 		$this->start_controls_section(
@@ -1689,7 +1745,7 @@ class Mini_Cart extends Widget_Base {
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => array( 'px' ),
 				'selectors'  => array(
-					'{{WRAPPER}}.pa-mc-separator-yes .pa-woo-mc__item-divider'  => 'margin-left: {{SIZE}}{{UNIT}}; margin-right: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}}.pa-mc-separator-yes .pa-woo-mc__item-divider'  => 'margin-inline: {{SIZE}}{{UNIT}};',
 				),
 				'condition'  => array(
 					'separator' => 'yes',
@@ -1713,6 +1769,14 @@ class Mini_Cart extends Widget_Base {
 		$this->end_controls_section();
 	}
 
+	/**
+	 * Register header controls for the Mini Cart widget.
+	 *
+	 * @since 4.7.0
+	 * @access private
+	 *
+	 * @return void
+	 */
 	private function add_mc_header_ctrls() {
 
 		$slide_connected_conds = array(
@@ -1766,17 +1830,6 @@ class Mini_Cart extends Widget_Base {
 		);
 
 		$this->add_control(
-			'cart_header',
-			array(
-				'label'        => __( 'Title', 'premium-addons-pro' ),
-				'type'         => Controls_Manager::SWITCHER,
-				'prefix_class' => 'premium-mc-title-',
-				'render_type'  => 'template',
-				'default'      => 'yes',
-			)
-		);
-
-		$this->add_control(
 			'cart_title',
 			array(
 				'label'       => __( 'Title', 'premium-addons-for-elementor' ),
@@ -1784,9 +1837,6 @@ class Mini_Cart extends Widget_Base {
 				'default'     => 'Your Cart',
 				'label_block' => true,
 				'dynamic'     => array( 'active' => true ),
-				'condition'   => array(
-					'cart_header' => 'yes',
-				),
 			)
 		);
 
@@ -1804,6 +1854,19 @@ class Mini_Cart extends Widget_Base {
 				'skin'                   => 'inline',
 				'condition'              => array(
 					'content_layout!' => array( 'layout-3', 'layout-4' ),
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'close_icon_size',
+			array(
+				'label'      => __( 'Icon Size', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em', 'rem' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .pa-woo-mc__close-button i' => 'font-size: {{SIZE}}{{UNIT}}',
+					'{{WRAPPER}} .pa-woo-mc__close-button svg' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}}',
 				),
 			)
 		);
@@ -1831,7 +1894,6 @@ class Mini_Cart extends Widget_Base {
 				'condition' => array(
 					'content_layout!' => array( 'layout-3', 'layout-4' ),
 					'cart_title!'     => '',
-					'cart_header'     => 'yes',
 				),
 			)
 		);
@@ -1839,62 +1901,45 @@ class Mini_Cart extends Widget_Base {
 		$this->add_control(
 			'icon_pos',
 			array(
-				'label'      => __( 'Icon Position', 'premium-addons-for-elementor' ),
-				'type'       => Controls_Manager::CHOOSE,
-				'toggle'     => false,
-				'options'    => array(
+				'label'                => __( 'Icon Position', 'premium-addons-for-elementor' ),
+				'type'                 => Controls_Manager::CHOOSE,
+				'toggle'               => false,
+				'options'              => array(
 					'margin-right' => array(
-						'title' => __( 'left', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-order-start',
+						'title' => __( 'start', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-order-end' : 'eicon-order-start',
 					),
 					'margin-left'  => array(
-						'title' => __( 'Right', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-order-end',
+						'title' => __( 'End', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-order-start' : 'eicon-order-end',
 					),
 				),
-				'default'    => 'margin-left',
-				'selectors'  => array(
+				'default'              => 'margin-left',
+				'selectors_dictionary' => array(
+					'margin-right' => 'margin-inline-end',
+					'margin-left'  => 'margin-inline-start',
+				),
+				'selectors'            => array(
 					'{{WRAPPER}} .pa-woo-mc__close-button' => '{{VALUE}}: auto',
 				),
-				'conditions' => array(
-					'relation' => 'or',
-					'terms'    => array(
-						array(
-							'name'     => 'cart_header',
-							'operator' => '!==',
-							'value'    => 'yes',
-						),
-						array(
-							'name'     => 'content_layout',
-							'operator' => '!in',
-							'value'    => array( 'layout-3', 'layout-4' ),
-
-							// 'terms' => array(
-							// array(
-							// 'name'  => 'cart_title',
-							// 'value' => '',
-							// ),
-							// array(
-							// 'name'  => 'cart_header',
-							// 'value' => 'yes',
-							// ),
-							// ),
-						),
-					),
+				'condition'            => array(
+					'content_layout!' => array( 'layout-3', 'layout-4' ),
+					'cart_title'      => '',
 				),
-			)
-		);
-
-		$this->add_responsive_control(
-			'close_icon_size',
-			array(
-				'label'      => __( 'Icon Size', 'premium-addons-for-elementor' ),
-				'type'       => Controls_Manager::SLIDER,
-				'size_units' => array( 'px', 'em', 'rem' ),
-				'selectors'  => array(
-					'{{WRAPPER}} .pa-woo-mc__close-button i' => 'font-size: {{SIZE}}{{UNIT}}',
-					'{{WRAPPER}} .pa-woo-mc__close-button svg' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}}',
-				),
+				// 'conditions' => array(
+				// 'relation' => 'or',
+				// 'terms'    => array(
+				// array(
+				// 'name'     => 'cart_title',
+				// 'value'    => '',
+				// ),
+				// array(
+				// 'name'     => 'content_layout',
+				// 'operator' => '!in',
+				// 'value'    => array( 'layout-3', 'layout-4' ),
+				// ),
+				// ),
+				// ),
 			)
 		);
 
@@ -1920,16 +1965,16 @@ class Mini_Cart extends Widget_Base {
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'flex-start' => array(
-						'title' => __( 'Left', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-h-align-left',
+						'title' => __( 'Start', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-h-align-right' : 'eicon-h-align-left',
 					),
 					'center'     => array(
 						'title' => __( 'Center', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-h-align-center',
 					),
 					'flex-end'   => array(
-						'title' => __( 'Right', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-h-align-right',
+						'title' => __( 'End', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-h-align-left' : 'eicon-h-align-right',
 					),
 				),
 				'default'   => 'center',
@@ -1938,7 +1983,7 @@ class Mini_Cart extends Widget_Base {
 					'{{WRAPPER}} .pa-woo-mc__cart-header' => 'justify-content: {{VALUE}}',
 				),
 				'condition' => array(
-					'cart_header'     => 'yes',
+					'cart_title!'     => '',
 					'placement'       => 'default',
 					'cart_type'       => 'menu',
 					'content_layout!' => 'layout-3',
@@ -1953,16 +1998,16 @@ class Mini_Cart extends Widget_Base {
 				'type'       => Controls_Manager::CHOOSE,
 				'options'    => array(
 					'flex-start' => array(
-						'title' => __( 'Left', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-h-align-left',
+						'title' => __( 'Start', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-h-align-right' : 'eicon-h-align-left',
 					),
 					'center'     => array(
 						'title' => __( 'Center', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-h-align-center',
 					),
 					'flex-end'   => array(
-						'title' => __( 'Right', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-h-align-right',
+						'title' => __( 'End', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-h-align-left' : 'eicon-h-align-right',
 					),
 				),
 				'default'    => 'center',
@@ -1973,8 +2018,9 @@ class Mini_Cart extends Widget_Base {
 				'conditions' => array(
 					'terms' => array(
 						array(
-							'name'  => 'cart_header',
-							'value' => 'yes',
+							'name'     => 'cart_title',
+							'operator' => '!==',
+							'value'    => '',
 						),
 						array(
 							'relation' => 'or',
@@ -2005,6 +2051,14 @@ class Mini_Cart extends Widget_Base {
 		$this->end_controls_section();
 	}
 
+	/**
+	 * Register footer controls for the Mini Cart widget.
+	 *
+	 * @since 4.7.0
+	 * @access private
+	 *
+	 * @return void
+	 */
 	private function add_mc_footer_ctrls() {
 
 		$this->start_controls_section(
@@ -2031,7 +2085,7 @@ class Mini_Cart extends Widget_Base {
 				'label'       => __( 'Text', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::TEXT,
 				'render_type' => 'template',
-				'default'     => 'Remove All Items',
+				'default'     => esc_html__( 'Remove All Items', 'premium-addons-for-elementor' ),
 				'label_block' => true,
 				'dynamic'     => array( 'active' => true ),
 				'condition'   => array(
@@ -2056,13 +2110,29 @@ class Mini_Cart extends Widget_Base {
 				'label'       => __( 'Text', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::TEXT,
 				'render_type' => 'template',
-				'default'     => 'Subtotal {{count}} items',
+				'default'     => esc_html__( 'Subtotal {{count}} items', 'premium-addons-for-elementor' ),
 				'description' => __( 'Use this option to add a text of your choice, and use the {{count}} placeholder to add your items\' count.', 'premium-addons-for-elementor' ),
 				'label_block' => true,
 				'dynamic'     => array( 'active' => true ),
 				'condition'   => array(
 					'footer_subtotal' => 'yes',
 					'content_layout!' => 'layout-3',
+				),
+			)
+		);
+
+		$this->add_control(
+			'show_footer_tax_label',
+			array(
+				'label'        => __( 'Tax Label', 'premium-addons-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Show', 'premium-addons-for-elementor' ),
+				'label_off'    => __( 'Hide', 'premium-addons-for-elementor' ),
+				'prefix_class' => 'pa-footer-label-',
+				'render_type'  => 'template',
+				'description'  => __( 'Displays the tax label next to the subtotal amount when the ', 'premium-addons-for-elementor' ) . sprintf( __( '<a href="%s" target="_blank">Enable Taxes</a>', 'premium-addons-for-elementor' ), esc_url( admin_url( 'admin.php?page=wc-settings&tab=general' ) ) ) . __( ' option is enabled.', 'premium-addons-for-elementor' ),
+				'condition'    => array(
+					'footer_subtotal' => 'yes',
 				),
 			)
 		);
@@ -2074,16 +2144,16 @@ class Mini_Cart extends Widget_Base {
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'flex-start' => array(
-						'title' => __( 'Left', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-h-align-left',
+						'title' => __( 'Start', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-h-align-right' : 'eicon-h-align-left',
 					),
 					'center'     => array(
 						'title' => __( 'Center', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-h-align-center',
 					),
 					'flex-end'   => array(
-						'title' => __( 'Right', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-h-align-right',
+						'title' => __( 'End', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-h-align-left' : 'eicon-h-align-right',
 					),
 				),
 				'default'   => 'flex-end',
@@ -2105,7 +2175,7 @@ class Mini_Cart extends Widget_Base {
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'0' => array(
-						'title' => __( 'Defaul', 'premium-addons-for-elementor' ),
+						'title' => __( 'Default', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-order-start',
 					),
 					'2' => array(
@@ -2186,7 +2256,7 @@ class Mini_Cart extends Widget_Base {
 				'type'       => Controls_Manager::CHOOSE,
 				'options'    => array(
 					'0' => array(
-						'title' => __( 'Defaul', 'premium-addons-for-elementor' ),
+						'title' => __( 'Default', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-order-start',
 					),
 					'2' => array(
@@ -2250,6 +2320,14 @@ class Mini_Cart extends Widget_Base {
 		$this->end_controls_section();
 	}
 
+	/**
+	 * Register help documents controls for the Mini Cart widget.
+	 *
+	 * @since 4.7.0
+	 * @access private
+	 *
+	 * @return void
+	 */
 	private function add_help_docs_tab() {
 
 		$this->start_controls_section(
@@ -2266,7 +2344,7 @@ class Mini_Cart extends Widget_Base {
 			'doc_1',
 			array(
 				'type'            => Controls_Manager::RAW_HTML,
-				'raw'             => sprintf( '<a href="%s" target="_blank">%s</a>', $doc1_url, __( 'Gettings started »', 'premium-addons-for-elementor' ) ),
+				'raw'             => sprintf( '<a href="%s" target="_blank">%s</a>', $doc1_url, __( 'Getting started »', 'premium-addons-for-elementor' ) ),
 				'content_classes' => 'editor-pa-doc',
 			)
 		);
@@ -2283,6 +2361,14 @@ class Mini_Cart extends Widget_Base {
 		$this->end_controls_section();
 	}
 
+	/**
+	 * Register trigger style controls for the Mini Cart widget.
+	 *
+	 * @since 4.7.0
+	 * @access private
+	 *
+	 * @return void
+	 */
 	private function add_trigger_style() {
 
 		$subtotal_conds = array(
@@ -2467,7 +2553,7 @@ class Mini_Cart extends Widget_Base {
 			array(
 				'name'       => 'subtotal_typo',
 				'label'      => esc_html__( 'Subtotal Typography', 'premium-addons-for-elementor' ),
-				'selector'   => '{{WRAPPER}} .pa-woo-mc__subtotal',
+				'selector'   => '{{WRAPPER}}  .pa-woo-mc__inner-container .pa-woo-mc__subtotal, {{WRAPPER}}.premium-mc-counting-yes  .pa-woo-mc__inner-container .pa-woo-mc__subtotal *',
 				'conditions' => $subtotal_conds,
 			)
 		);
@@ -2495,7 +2581,7 @@ class Mini_Cart extends Widget_Base {
 		$this->start_controls_tab(
 			'triggle_style_normal',
 			array(
-				'label' => esc_html__( 'Normal', 'remium-addons-for-elementor' ),
+				'label' => esc_html__( 'Normal', 'premium-addons-for-elementor' ),
 			)
 		);
 
@@ -2505,7 +2591,7 @@ class Mini_Cart extends Widget_Base {
 				'label'      => __( 'Subtotal Color', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::COLOR,
 				'selectors'  => array(
-					'{{WRAPPER}} .pa-woo-mc__subtotal' => 'color: {{VALUE}}',
+					'{{WRAPPER}} .pa-woo-mc__inner-container .pa-woo-mc__subtotal' => 'color: {{VALUE}}',
 				),
 				'conditions' => $subtotal_conds,
 			)
@@ -2643,7 +2729,7 @@ class Mini_Cart extends Widget_Base {
 		$this->start_controls_tab(
 			'triggle_style_hov',
 			array(
-				'label' => esc_html__( 'Hover', 'remium-addons-for-elementor' ),
+				'label' => esc_html__( 'Hover', 'premium-addons-for-elementor' ),
 			)
 		);
 
@@ -2669,7 +2755,7 @@ class Mini_Cart extends Widget_Base {
 				'type'       => Controls_Manager::COLOR,
 				'selectors'  => array(
 					'{{WRAPPER}} .pa-woo-mc__link:hover .pa-woo-mc__subtotal,
-					 {{WRAPPER}} .pa-woo-mc__inner-container:hover .pa-woo-mc__subtotal' => 'color: {{VALUE}}',
+					{{WRAPPER}} .pa-woo-mc__inner-container:hover .pa-woo-mc__subtotal' => 'color: {{VALUE}}',
 				),
 				'conditions' => $subtotal_conds,
 			)
@@ -2814,6 +2900,14 @@ class Mini_Cart extends Widget_Base {
 		$this->end_controls_section();
 	}
 
+	/**
+	 * Register cart containers style controls for the Mini Cart widget.
+	 *
+	 * @since 4.7.0
+	 * @access private
+	 *
+	 * @return void
+	 */
 	private function add_cart_containers_style() {
 
 		$this->start_controls_section(
@@ -2926,6 +3020,14 @@ class Mini_Cart extends Widget_Base {
 		$this->end_controls_section();
 	}
 
+	/**
+	 * Register coupon style controls for the Mini Cart widget.
+	 *
+	 * @since 4.7.0
+	 * @access private
+	 *
+	 * @return void
+	 */
 	private function add_coupon_style() {
 
 		$this->start_controls_section(
@@ -3144,6 +3246,14 @@ class Mini_Cart extends Widget_Base {
 		$this->end_controls_section();
 	}
 
+	/**
+	 * Register cross sell style controls for the Mini Cart widget.
+	 *
+	 * @since 4.7.0
+	 * @access private
+	 *
+	 * @return void
+	 */
 	private function add_cross_sells_style() {
 
 		$this->start_controls_section(
@@ -3866,7 +3976,6 @@ class Mini_Cart extends Widget_Base {
 				'label'     => esc_html__( 'Title Typography', 'premium-addons-for-elementor' ),
 				'selector'  => '{{WRAPPER}} .pa-woo-mc__cart-title',
 				'condition' => array(
-					'cart_header' => 'yes',
 					'cart_title!' => '',
 				),
 			)
@@ -3881,7 +3990,6 @@ class Mini_Cart extends Widget_Base {
 					'{{WRAPPER}} .pa-woo-mc__cart-title' => 'color: {{VALUE}}',
 				),
 				'condition' => array(
-					'cart_header' => 'yes',
 					'cart_title!' => '',
 				),
 			)
@@ -3893,7 +4001,6 @@ class Mini_Cart extends Widget_Base {
 				'name'      => 'cart_title_shadow',
 				'selector'  => '{{WRAPPER}} .pa-woo-mc__cart-title',
 				'condition' => array(
-					'cart_header' => 'yes',
 					'cart_title!' => '',
 				),
 			)
@@ -3907,7 +4014,7 @@ class Mini_Cart extends Widget_Base {
 				'separator' => 'before',
 				'selector'  => '{{WRAPPER}} .pa-woo-mc__cart-header .pa-woo-mc__cart-count',
 				'condition' => array(
-					'cart_header'    => 'yes',
+					'cart_title!'    => '',
 					'content_layout' => 'layout-3',
 				),
 			)
@@ -3922,7 +4029,7 @@ class Mini_Cart extends Widget_Base {
 					'{{WRAPPER}} .pa-woo-mc__cart-header .pa-woo-mc__cart-count' => 'color: {{VALUE}}',
 				),
 				'condition' => array(
-					'cart_header'    => 'yes',
+					'cart_title!'    => '',
 					'content_layout' => 'layout-3',
 				),
 			)
@@ -3934,7 +4041,7 @@ class Mini_Cart extends Widget_Base {
 				'name'      => 'header_cart_count_shadow',
 				'selector'  => '{{WRAPPER}} .pa-woo-mc__cart-header .pa-woo-mc__cart-count',
 				'condition' => array(
-					'cart_header'    => 'yes',
+					'cart_title!'    => '',
 					'content_layout' => 'layout-3',
 				),
 			)
@@ -5162,6 +5269,7 @@ class Mini_Cart extends Widget_Base {
 
 			$cart_type  = $is_connected || 'float' === $trigger_pos ? 'slide' : $settings['cart_type'];
 			$cart_count = WC()->cart ? WC()->cart->get_cart_contents_count() : '0';
+			$header_cls = ! empty( $settings['cart_title'] ) ? 'premium-mc-title-yes' : '';
 
 			// we should also add the animation.
 			$this->add_render_attribute(
@@ -5173,6 +5281,7 @@ class Mini_Cart extends Widget_Base {
 					'premium-addons__v-hidden',
 					'pa-flex-col',
 					'pa-woo-mc__' . $cart_type,
+					$header_cls,
 				)
 			);
 
@@ -5190,6 +5299,10 @@ class Mini_Cart extends Widget_Base {
 				'removeTxt'    => 'yes' === $settings['remove_icon'] && 'text' === $settings['remove_type'] ? $settings['remove_txt'] : false,
 				'coupon'       => 'yes' === $settings['coupon'],
 			);
+
+			if ( 'yes' === get_option( 'woocommerce_calc_taxes' ) && in_array( 'yes', array( $settings['show_tax_label'], $settings['show_footer_tax_label'] ), true ) ) {
+				$cart_settings['taxLabel'] = WC()->countries->inc_tax_or_vat();
+			}
 
 			if ( 'yes' === $settings['cross_sells'] ) {
 				$cart_settings['crossSells'] = 'yes' === $settings['cross_sells'];
@@ -5230,20 +5343,17 @@ class Mini_Cart extends Widget_Base {
 								if ( 'preset-5' === $settings['presets'] ) {
 									?>
 										<span class="pa-woo-mc__icon-sep">/</span>
-										<?php
+									<?php
 								}
 							}
 
-								$discount_total = WC()->cart->get_discount_total();
-								$raw_subtotal   = WC()->cart->get_subtotal();
+							$subtotal_display = $this->get_cart_subtotal_amount( $settings );
 
-								$raw_subtotal_amount = floatval( $raw_subtotal ) - $discount_total;
-								$subtotal_amount     = wc_price( $raw_subtotal_amount );
 							if ( $counting_effect ) {
 								$this->add_render_attribute( 'trigger_subtotal', 'class', 'pa-counting' );
 
 								?>
-									<span class="pa-woo-mc__subtotal-placeholder" style="display:none;"><?php echo esc_html( $raw_subtotal ); ?></span>
+									<span class="pa-woo-mc__subtotal-placeholder" style="display:none;"><?php echo esc_html( $subtotal_display['raw_subtotal_amount'] ); ?></span>
 																													<?php
 							}
 							?>
@@ -5251,14 +5361,21 @@ class Mini_Cart extends Widget_Base {
 									<?php
 									if ( $counting_effect ) {
 										?>
-												<span class="pa-woo-mc__subtotal-val"><?php echo esc_html( $raw_subtotal_amount ); ?></span>
+											<!-- <span class='pa-rtl-counting'> -->
+												<span class="pa-woo-mc__subtotal-val" ><?php echo esc_html( $subtotal_display['raw_subtotal_amount'] ); ?></span>
 												<span class="pa-woo-mc__subtotal-currency"> <?php echo get_woocommerce_currency_symbol(); ?></span>
+											<!-- </span> -->
 											<?php
 									} else {
-										echo wp_kses_data( WC()->cart ? $subtotal_amount : '' );
+										echo wp_kses_data( WC()->cart ? $subtotal_display['subtotal_amount'] : '' );
+									}
+
+									if ( $subtotal_display['includes_tax'] && 'yes' === $settings['show_tax_label'] ) {
+										?>
+										<small class="pa-woo-mc__tax-label"><?php echo wp_kses_data( WC()->countries->inc_tax_or_vat() ); ?></small>
+										<?php
 									}
 									?>
-
 								</span>
 
 						</div>
@@ -5284,7 +5401,7 @@ class Mini_Cart extends Widget_Base {
 		if ( $render_mini_cart && 'slide' === $cart_type ) {
 
 			// $this->add_render_attribute( 'cart_menu_content', 'class', array( 'pa-woo-mc__anim-' . $settings['slide_effects'], $settings['cart_dir'] ) );
-			$this->add_render_attribute( 'cart_menu_content', 'class', array( 'pa-woo-mc__anim-overlay', $settings['cart_dir'] ) );
+			$this->add_render_attribute( 'cart_menu_content', 'class', array( 'pa-woo-mc__anim-overlay' ) );
 
 			$this->render_mini_cart_content( $settings, $cart_type );
 
@@ -5408,7 +5525,7 @@ class Mini_Cart extends Widget_Base {
 
 	private function render_mini_cart_content( $settings, $cart_type ) {
 
-		$render_header = 'slide' === $cart_type || ( 'menu' === $cart_type && 'yes' === $settings['cart_header'] );
+		$render_header = 'slide' === $cart_type || ( 'menu' === $cart_type && ! empty( $settings['cart_title'] ) );
 		$progress_bar  = 'yes' === $settings['mc_progressbar'];
 
 		?>
@@ -5428,7 +5545,7 @@ class Mini_Cart extends Widget_Base {
 							<div class="pa-woo-mc__progressbar-wrapper" data-pa-progress-txt="<?php echo wp_kses_data( $this->format_free_shipping_txt( $settings, $free_shipping_threshold, $raw_subtotal ) ); ?>" data-pa-progress-threshold="<?php echo esc_attr( $free_shipping_threshold ); ?>" data-pa-progress-complete="<?php echo esc_attr( $settings['complete_txt'] ); ?>">
 								<span class="pa-woo-mc__subtotal-placeholder" style="display:none"><?php echo esc_html( $raw_subtotal ); ?></span>
 								<span class="pa-woo-mc__progress-heading"></span>
-								<progress class="pa-woo-mc__progressbar" value="<?php echo esc_attr( $this->get_purchace_precentage( $free_shipping_threshold ) ); ?>" max="100"></progress>
+								<progress class="pa-woo-mc__progressbar" value="<?php echo esc_attr( $this->get_purchase_percentage( $free_shipping_threshold ) ); ?>" max="100"></progress>
 							</div>
 						<?php endif; ?>
 				<?php } ?>
@@ -5460,7 +5577,8 @@ class Mini_Cart extends Widget_Base {
 		$applied_coupons = WC()->cart->get_applied_coupons();
 
 		$last_applied_coupon = ! empty( $applied_coupons ) ? end( $applied_coupons ) : '';
-		$def_style           = ! $last_applied_coupon ? 'display:none' : ''
+		$def_style           = ! $last_applied_coupon ? 'display:none' : '';
+		$remove_style        = ! $last_applied_coupon ? 'display:none' : 'display:inline-block';
 		?>
 			<div class="pa-woo-mc__coupon-sec-wrapper">
 				<a role="button" href="#" class="pa-woo-mc__coupon-toggler">Apply Coupon</a>
@@ -5470,7 +5588,10 @@ class Mini_Cart extends Widget_Base {
 						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.90002 7.55999C9.21002 3.95999 11.06 2.48999 15.11 2.48999H15.24C19.71 2.48999 21.5 4.27999 21.5 8.74999V15.27C21.5 19.74 19.71 21.53 15.24 21.53H15.11C11.09 21.53 9.24002 20.08 8.91002 16.54" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12H14.88" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.65 8.6499L16 11.9999L12.65 15.3499" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
 					</a>
 				</div>
-				<span class="pa-woo-mc__coupon-notice"></span>
+				<div class="pa-woo-mc__coupon-notice-wrapper">
+					<span class="pa-woo-mc__coupon-notice"></span>
+					<a href="#" role="button" aria-label="<?php echo esc_attr__( 'Remove coupon', 'premium-addons-for-elementor' ); ?>" class="pa-woo-mc__remove-coupon" style="<?php echo esc_attr( $remove_style ); ?>"><?php echo esc_html__( 'Remove', 'premium-addons-for-elementor' ); ?></a>
+				</div>
 			</div>
 		<?php
 	}
@@ -5479,7 +5600,7 @@ class Mini_Cart extends Widget_Base {
 	private function render_remove_all_btn( $text ) {
 		?>
 			<div class="pa-woo-mc__empty-mc">
-				<a type="button" role="button" class="pa-woo-mc__remove-all-btn"><?php echo esc_html( $text ); ?></a>
+				<a type="button" role="button" class="pa-woo-mc__remove-all-btn"><?php echo esc_html__( $text, 'premium-addons-for-elementor' ); ?></a>
 				<div class="pa-woo-mc__empty-mc-confirm" style="display: none;">
 					<span class="pa-woo-mc__confirm-msg"><?php echo esc_html__( 'Are you sure? ', 'premium-addons-for-elementor' ); ?></span>
 					<a type="button" role="button" class="pa-woo-mc__confirm-btn pa-empty-mc"><?php echo esc_html__( 'Yes', 'premium-addons-for-elementor' ); ?></a> / <a type="button" role="button" class="pa-woo-mc__confirm-btn"><?php echo esc_html__( 'No', 'premium-addons-for-elementor' ); ?></a>
@@ -5488,6 +5609,46 @@ class Mini_Cart extends Widget_Base {
 		<?php
 	}
 
+	/**
+	 * Get the WooCommerce cart subtotal amount after applying discounts
+	 * and optionally including tax, based on the widget settings.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param array $settings Widget settings.
+	 *
+	 * @return array
+	 */
+	private function get_cart_subtotal_amount( $settings ) {
+
+		$discount_total = WC()->cart->get_discount_total();
+		$raw_subtotal   = floatval( WC()->cart->get_subtotal() );
+
+		$includes_tax = false;
+
+		if ( 'yes' === get_option( 'woocommerce_calc_taxes' ) ) {
+			$raw_subtotal += WC()->cart->get_taxes_total();
+			$includes_tax  = true;
+		}
+
+		$raw_subtotal_amount = number_format( $raw_subtotal - $discount_total, 2, '.', '' );
+		$subtotal_amount     = wc_price( $raw_subtotal - $discount_total, array( 'in_span' => false ) );
+
+		return array(
+			'raw_subtotal_amount' => $raw_subtotal_amount,
+			'subtotal_amount'     => $subtotal_amount,
+			'includes_tax'        => $includes_tax,
+		);
+	}
+
+	/**
+	 * Render the cart header section.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 *
+	 * @param array
+	 */
 	private function render_cart_header( $settings, $cart_type ) {
 		$title      = $settings['cart_title'];
 		$layout     = $settings['content_layout'];
@@ -5506,12 +5667,12 @@ class Mini_Cart extends Widget_Base {
 			if ( 'layout-3' === $layout ) {
 				?>
 					<span class="pa-woo-mc__cart-count"> <?php echo esc_html( $cart_count ); ?></span>
-																	<?php
+				<?php
 			}
 
 			if ( ! empty( $title ) ) {
 				?>
-						<div class="pa-woo-mc__cart-title"> <?php echo esc_html( $title ); ?> </div>
+						<div class="pa-woo-mc__cart-title"> <?php echo esc_html__( $title ); ?> </div>
 					<?php
 			}
 
@@ -5541,6 +5702,14 @@ class Mini_Cart extends Widget_Base {
 		<?php
 	}
 
+	/**
+	 * Render the cart footer section.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 *
+	 * @param array
+	 */
 	private function render_cart_footer( $settings ) {
 
 		$subtotal  = 'yes' === $settings['footer_subtotal'];
@@ -5549,10 +5718,7 @@ class Mini_Cart extends Widget_Base {
 		$layout    = $settings['content_layout'];
 
 		if ( $subtotal ) {
-			$discount_total = WC()->cart->get_discount_total();
-			$raw_subtotal   = floatval( WC()->cart->get_subtotal() );
-
-			$subtotal_amount = wc_price( $raw_subtotal - $discount_total );
+			$subtotal_display = $this->get_cart_subtotal_amount( $settings );
 		}
 
 		if ( ! in_array( true, array( $subtotal, $checkout, $view_cart ), true ) ) {
@@ -5565,14 +5731,14 @@ class Mini_Cart extends Widget_Base {
 			$this->add_render_attribute( 'cart_footer', 'class', 'pa-woo-mc__cart-footer' );
 
 			if ( 'layout-3' !== $layout ) {
-				$this->add_render_attribute( 'cart_footer', 'data-pa-count-txt', $settings['subtotal_txt'] );
+				$this->add_render_attribute( 'cart_footer', 'data-pa-count-txt', __( $settings['subtotal_txt'], 'premium-addons-for-elementor' ) );
 
 				$has_item_count = str_contains( $settings['subtotal_txt'], '{{count}}' );
 
 				if ( $has_item_count ) {
 					$subtotal_heading = ! empty( $settings['subtotal_txt'] ) ? '<span class="pa-woo-mc__cart-count">' . $cart_count . '</span>' : false;
 				} else {
-					$subtotal_heading = ! empty( $settings['subtotal_txt'] ) ? $settings['subtotal_txt'] : false;
+					$subtotal_heading = ! empty( $settings['subtotal_txt'] ) ? __( $settings['subtotal_txt'], 'premium-addons-for-elementor' ) : false;
 				}
 			}
 		}
@@ -5581,10 +5747,19 @@ class Mini_Cart extends Widget_Base {
 			<?php if ( $subtotal ) : ?>
 			<div class="pa-woo-mc__cart-subtotal">
 				<?php if ( 'layout-3' === $layout || $subtotal_heading ) : ?>
-					<span class="pa-woo-mc__subtotal-heading"> <?php echo 'layout-3' === $layout ? esc_attr_e( 'Subtotal', 'woocommerce' ) : wp_kses_post( $subtotal_heading ); ?></span>
+					<span class="pa-woo-mc__subtotal-heading"> <?php echo 'layout-3' === $layout ? esc_html__( 'Subtotal', 'premium-addons-for-elementor' ) : wp_kses_post( $subtotal_heading ); ?></span>
 				<?php endif; ?>
 
-				<span class="pa-woo-mc__subtotal"><?php echo wp_kses_data( WC()->cart ? $subtotal_amount : '' ); ?></span>
+				<span class="pa-woo-mc__subtotal">
+					<?php echo wp_kses_data( WC()->cart ? $subtotal_display['subtotal_amount'] : '' ); ?>
+					<?php
+					if ( $subtotal_display['includes_tax'] && 'yes' === $settings['show_footer_tax_label'] ) {
+						?>
+							<small class="pa-woo-mc__tax-label"><?php echo wp_kses_data( WC()->countries->inc_tax_or_vat() ); ?></small>
+							<?php
+					}
+					?>
+				</span>
 				</div>
 			<?php endif; ?>
 			<?php if ( $view_cart || $checkout ) : ?>
@@ -5606,6 +5781,14 @@ class Mini_Cart extends Widget_Base {
 		<?php
 	}
 
+	/**
+	 * Check for free shipping method.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 *
+	 * @return string|false
+	 */
 	private function check_free_shipping_method() {
 
 		// get the first shipping zone as a default.
@@ -5636,25 +5819,47 @@ class Mini_Cart extends Widget_Base {
 		return $threshold;
 	}
 
+	/**
+	 * Format the free shipping progress bar text.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 *
+	 * @param array $settings.
+	 * @param float $threshold The minimum amount required for free shipping.
+	 * @param float $subtotal  The current cart subtotal.
+	 *
+	 * @return string The formatted progress bar text.
+	 */
 	private function format_free_shipping_txt( $settings, $threshold, $subtotal ) {
 
-		return str_replace( '{{thershold}}', wc_price( $threshold ), $settings['progressbar_txt'] );
+		return str_replace( '{{thershold}}', wc_price( $threshold, array( 'in_span' => false ) ), $settings['progressbar_txt'] );
 	}
 
 	/**
-	 * Get purchace precentage.
+	 * Get purchase percentage.
 	 *
 	 * @param string $threshold  free shipping threshold.
 	 *
 	 * @return number
 	 */
-	private function get_purchace_precentage( $threshold ) {
+	private function get_purchase_percentage( $threshold ) {
 
 		$cart_total = WC()->cart ? WC()->cart->get_cart_contents_total() : 0;
 
 		return round( ( $cart_total / floatval( $threshold ) ) * 100, 2 );
 	}
 
+	/**
+	 * Retrieve the SVG icon markup based on the icon key.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 *
+	 * @param string $icon.
+	 *
+	 * @return string|null
+	 */
 	private function getTriggerIcon( $icon ) {
 
 		$icons = array(

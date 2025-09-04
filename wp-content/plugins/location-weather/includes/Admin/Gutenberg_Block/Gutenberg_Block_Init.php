@@ -44,7 +44,7 @@ class Gutenberg_Block_Init {
 	public function location_weather_block_editor_assets() {
 		wp_enqueue_script(
 			'sp-location-weather-shortcode-block',
-			plugins_url( '/Gutenberg_Block/build/index.js', dirname( __FILE__ ) ),
+			plugins_url( '/Gutenberg_Block/build/index.js', __DIR__ ),
 			array( 'jquery' ),
 			LOCATION_WEATHER_VERSION,
 			true
@@ -169,6 +169,6 @@ class Gutenberg_Block_Init {
 			return '<div ' . $class_name . '>' . do_shortcode( '[location-weather id="' . sanitize_text_field( $attributes['shortcode'] ) . '"]' ) . '</div>';
 		}
 
-		return '<div id="' . uniqid() . '" ' . $class_name . ' >' . do_shortcode( '[location-weather id="' . sanitize_text_field( $attributes['shortcode'] ) . '"]' ) . '</div>';
+		return '<div id="' . uniqid() . '" ' . $class_name . ' >' . do_shortcode( '[location-weather id="' . sanitize_text_field( $attributes['shortcode'] ) . '" is_admin="' . esc_attr( $attributes['is_admin'] ) . '"]' ) . '</div>';
 	}
 }

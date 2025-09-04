@@ -162,7 +162,7 @@ class Premium_Grid extends Widget_Base {
 	}
 
 	public function has_widget_inner_wrapper(): bool {
-		return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+		return ! Helper_Functions::check_elementor_experiment( 'e_optimized_markup' );
 	}
 
 	/**
@@ -181,10 +181,13 @@ class Premium_Grid extends Widget_Base {
 			)
 		);
 
+		$demo = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-grid-widget/', 'grid', 'wp-editor', 'demo' );
+		Helper_Functions::add_templates_controls( $this, 'media-grid', $demo );
+
 		$this->add_control(
 			'premium_gallery_img_size_select',
 			array(
-				'label'   => __( 'Grid Layout', 'premium-addons-for-elementor' ),
+				'label'   => __( 'Layout', 'premium-addons-for-elementor' ),
 				'type'    => Controls_Manager::SELECT,
 				'options' => array(
 					'fitRows' => __( 'Even', 'premium-addons-for-elementor' ),
@@ -1330,6 +1333,8 @@ class Premium_Grid extends Widget_Base {
 
 		$this->end_controls_section();
 
+		Helper_Functions::register_papro_promotion_controls( $this, 'grid' );
+
 		$this->start_controls_section(
 			'premium_gallery_general_style',
 			array(
@@ -1586,6 +1591,7 @@ class Premium_Grid extends Widget_Base {
 			array(
 				'label' => __( 'Container', 'premium-addons-for-elementor' ),
 				'type'  => Controls_Manager::HEADING,
+				'separator' => 'before',
 			)
 		);
 
@@ -1595,7 +1601,6 @@ class Premium_Grid extends Widget_Base {
 				'name'      => 'premium_gallery_content_background',
 				'types'     => array( 'classic', 'gradient' ),
 				'selector'  => '{{WRAPPER}} .premium-gallery-caption',
-				'separator' => 'before',
 			)
 		);
 
@@ -2517,7 +2522,7 @@ class Premium_Grid extends Widget_Base {
 
 		$cat_filtered = trim( $string );
 
-		$cat_filtered = mb_strtolower( $cat_filtered );
+		$cat_filtered = extension_loaded( 'mbstring' ) ? mb_strtolower( $cat_filtered ) : strtolower( $cat_filtered );
 
 		if ( strpos( $cat_filtered, 'class' ) || strpos( $cat_filtered, 'src' ) ) {
 			$cat_filtered = substr( $cat_filtered, strpos( $cat_filtered, '"' ) + 1 );
@@ -2992,6 +2997,10 @@ class Premium_Grid extends Widget_Base {
 	 */
 	protected function get_lightbox_title( $attachment ) {
 		$title = '';
+
+		if ( ! $attachment || ! is_a( $attachment, 'WP_Post' ) ) {
+			return $title;
+		}
 
 		$image_data = array(
 			'alt'         => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true ),

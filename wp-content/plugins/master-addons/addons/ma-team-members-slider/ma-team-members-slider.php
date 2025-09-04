@@ -267,19 +267,19 @@ class JLTMA_Team_Slider extends Widget_Base {
             'title_field' => '{{{ ma_el_team_carousel_name }}}',
             'default'     => [
                 [
-                    'ma_el_team_carousel_name'        => __( 'Member #1', 'master-addons' ),
+                    'ma_el_team_carousel_name'        => __( 'Team Member #1', 'master-addons' ),
                     'ma_el_team_carousel_description' => __( 'Add team member details here', 'master-addons' ),
                 ],
                 [
-                    'ma_el_team_carousel_name'        => __( 'Member #2', 'master-addons' ),
+                    'ma_el_team_carousel_name'        => __( 'Team Member #2', 'master-addons' ),
                     'ma_el_team_carousel_description' => __( 'Add team member details here', 'master-addons' ),
                 ],
                 [
-                    'ma_el_team_carousel_name'        => __( 'Member #3', 'master-addons' ),
+                    'ma_el_team_carousel_name'        => __( 'Team Member #3', 'master-addons' ),
                     'ma_el_team_carousel_description' => __( 'Add team member details here', 'master-addons' ),
                 ],
                 [
-                    'ma_el_team_carousel_name'        => __( 'Member #4', 'master-addons' ),
+                    'ma_el_team_carousel_name'        => __( 'Team Member #4', 'master-addons' ),
                     'ma_el_team_carousel_description' => __( 'Add team member details here', 'master-addons' ),
                 ]
             ],
@@ -787,29 +787,46 @@ class JLTMA_Team_Slider extends Widget_Base {
 				<ul class="gridder">
 
 					<?php 
+            $demo_images = [];
+            if ( empty( $settings['team_carousel_repeater'][0]['ma_el_team_carousel_image'] ) && empty( $settings['team_carousel_repeater'][1]['ma_el_team_carousel_image'] ) && empty( $settings['team_carousel_repeater'][0]['ma_el_team_carousel_image'] ) ) {
+                $demo_images[] = Master_Addons_Helper::jltma_placeholder_images();
+            }
             foreach ( $settings['team_carousel_repeater'] as $key => $member ) {
                 $team_carousel_image = $member['ma_el_team_carousel_image'];
+                $image_id = $member['ma_el_team_carousel_image']['id'];
+                if ( empty( $team_carousel_image ) ) {
+                    $team_carousel_image = $demo_images;
+                }
+                $team_member_image_src = '';
+                if ( !empty( $team_carousel_image ) ) {
+                    if ( isset( $image_id ) && $image_id ) {
+                        $team_member_image_src = wp_get_attachment_image(
+                            $image_id,
+                            $image_size,
+                            false,
+                            [
+                                'class' => 'team-slider-image',
+                                'alt'   => esc_attr( $member['ma_el_team_carousel_name'] ),
+                            ]
+                        );
+                    } else {
+                        $team_member_image_src = "<img src=" . esc_url( $team_carousel_image['url'] ) . ">";
+                    }
+                }
                 ?>
 
 						<li class="gridder-list" data-griddercontent="#jltma-team<?php 
                 echo esc_attr( $key ) + 1;
                 ?>">
 							<?php 
-                echo wp_get_attachment_image(
-                    $team_carousel_image['id'],
-                    $image_size,
-                    false,
-                    [
-                        'class' => 'team-slider-image',
-                        'alt'   => esc_attr( $member['ma_el_team_carousel_name'] ),
-                    ]
-                );
+                // Thumbnail Image
+                echo Master_Addons_Helper::wp_kses_custom( $team_member_image_src );
                 ?>
 							<div class="jltma-team-drawer-hover-content">
 
 								<<?php 
                 echo tag_escape( $settings['title_html_tag'] );
-                ?> class="jltma-team-member-name">
+                ?>
 									<?php 
                 echo esc_html( $member['ma_el_team_carousel_name'] );
                 ?>
@@ -991,7 +1008,8 @@ class JLTMA_Team_Slider extends Widget_Base {
 										<li>
 											<a href="mailto:<?php 
                         echo esc_attr( $member['ma_el_team_carousel_email_link'] );
-                        ?>"><i class="fa fa-envelope"></i></a>
+                        ?>"><i
+													class="fa fa-envelope"></i></a>
 										</li>
 									<?php 
                     }
@@ -1026,9 +1044,32 @@ class JLTMA_Team_Slider extends Widget_Base {
             echo $this->get_render_attribute_string( 'swiper-wrapper' );
             ?>>
 						<?php 
+            $demo_images = [];
+            if ( empty( $settings['team_carousel_repeater'][0]['ma_el_team_carousel_image'] ) && empty( $settings['team_carousel_repeater'][1]['ma_el_team_carousel_image'] ) && empty( $settings['team_carousel_repeater'][0]['ma_el_team_carousel_image'] ) ) {
+                $demo_images[] = Master_Addons_Helper::jltma_placeholder_images();
+            }
             foreach ( $settings['team_carousel_repeater'] as $key => $member ) {
                 $team_carousel_image = $member['ma_el_team_carousel_image'];
                 $image_id = $team_carousel_image['id'];
+                if ( empty( $team_carousel_image ) ) {
+                    $team_carousel_image = $demo_images;
+                }
+                $team_member_image_src = '';
+                if ( !empty( $team_carousel_image ) ) {
+                    if ( isset( $image_id ) && $image_id ) {
+                        $team_member_image_src = wp_get_attachment_image(
+                            $image_id,
+                            $image_size,
+                            false,
+                            [
+                                'class' => 'team-slider-image',
+                                'alt'   => esc_attr( $member['ma_el_team_carousel_name'] ),
+                            ]
+                        );
+                    } else {
+                        $team_member_image_src = "<img src=" . esc_url( $team_carousel_image['url'] ) . ">";
+                    }
+                }
                 ?>
 
 							<div <?php 
@@ -1041,61 +1082,23 @@ class JLTMA_Team_Slider extends Widget_Base {
 										<?php 
                 // if( $team_preset == '-circle' && isset( $settings['ma_el_team_circle_image'] ) && !isset( $settings['ma_el_team_circle_image_animation'] )) {
                 if ( $team_preset == '-circle' && isset( $settings['ma_el_team_circle_image'] ) ) {
+                    // SVG Image Circle
                     $file_path = JLTMA_PATH . '/assets/images/circlesvg/' . esc_attr( $settings['ma_el_team_circle_image'] ) . '.svg';
                     echo file_get_contents( $file_path );
-                    echo wp_get_attachment_image(
-                        $image_id,
-                        $image_size,
-                        false,
-                        [
-                            'class' => 'team-slider-image',
-                            'alt'   => esc_attr( $member['ma_el_team_carousel_name'] ),
-                        ]
-                    );
+                    // Thumbnail Image
+                    echo Master_Addons_Helper::wp_kses_custom( $team_member_image_src );
                 } elseif ( $team_preset == '-circle-animation' && isset( $settings['ma_el_team_circle_image_animation'] ) ) {
                     if ( $settings['ma_el_team_circle_image_animation'] == "animation_svg_02" ) {
-                        echo '<div class="animation_svg_02">' . wp_get_attachment_image(
-                            $image_id,
-                            $image_size,
-                            false,
-                            [
-                                'class' => 'team-slider-image',
-                                'alt'   => esc_attr( $member['ma_el_team_carousel_name'] ),
-                            ]
-                        ) . '</div>';
+                        echo '<div class="animation_svg_02">' . Master_Addons_Helper::wp_kses_custom( $team_member_image_src ) . '</div>';
                     } elseif ( $settings['ma_el_team_circle_image_animation'] == "animation_svg_03" ) {
-                        echo '<div class="animation_svg_03"></div><div class="animation_svg_03"></div><div class="animation_svg_03"></div><div class="animation_svg_03_center">' . wp_get_attachment_image(
-                            $image_id,
-                            $image_size,
-                            false,
-                            [
-                                'class' => 'team-slider-image',
-                                'alt'   => esc_attr( $member['ma_el_team_carousel_name'] ),
-                            ]
-                        ) . '</div>';
+                        echo '<div class="animation_svg_03"></div><div class="animation_svg_03"></div><div class="animation_svg_03"></div><div class="animation_svg_03_center">' . Master_Addons_Helper::wp_kses_custom( $team_member_image_src ) . '</div>';
                     } else {
                         $file_path = JLTMA_PATH . '/assets/images/animation/' . $settings['ma_el_team_circle_image_animation'] . '.svg';
                         echo file_get_contents( $file_path );
-                        echo wp_get_attachment_image(
-                            $image_id,
-                            $image_size,
-                            false,
-                            [
-                                'class' => 'team-slider-image',
-                                'alt'   => esc_attr( $member['ma_el_team_carousel_name'] ),
-                            ]
-                        );
+                        echo Master_Addons_Helper::wp_kses_custom( $team_member_image_src );
                     }
                 } else {
-                    echo wp_get_attachment_image(
-                        $image_id,
-                        $image_size,
-                        false,
-                        [
-                            'class' => 'team-slider-image',
-                            'alt'   => esc_attr( $member['ma_el_team_carousel_name'] ),
-                        ]
-                    );
+                    echo Master_Addons_Helper::wp_kses_custom( $team_member_image_src );
                 }
                 ?>
 
@@ -1250,7 +1253,8 @@ class JLTMA_Team_Slider extends Widget_Base {
 													<li>
 														<a href="mailto:<?php 
                         echo esc_attr( $member['ma_el_team_carousel_email_link'] );
-                        ?>"><i class="fa fa-envelope"></i></a>
+                        ?>"><i
+																class="fa fa-envelope"></i></a>
 													</li>
 												<?php 
                     }
@@ -1288,10 +1292,10 @@ class JLTMA_Team_Slider extends Widget_Base {
         }
         // carousel layout
         ?>
-			</div>
+		</div>
 
 
-	<?php 
+		<?php 
     }
 
 }

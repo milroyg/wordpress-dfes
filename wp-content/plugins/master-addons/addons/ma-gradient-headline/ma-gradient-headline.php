@@ -145,16 +145,24 @@ class JLTMA_Gradient_Headline extends Widget_Base
 				'options'     => [
 					'classic' => [
 						'title' => _x('Classic', 'Text Color Control', 'master-addons' ),
-						'icon'  => 'fa fa-paint-brush',
+						'icon'  => 'eicon-paint-brush',
 					],
 					'gradient' => [
 						'title' => _x('Gradient', 'Text Color Control', 'master-addons' ),
-						'icon'  => 'fa fa-barcode',
+						'icon'  => 'eicon-barcode',
 					],
 				],
 			]
 		);
 
+		$this->start_controls_tabs('jltma_gradient_heading_tabs');
+
+		$this->start_controls_tab(
+			'jltma_gradient_heading_status_normal',
+			[ 
+				'label' => __('Normal', 'master-addons' )
+			]
+		);
 
 		$this->add_control(
 			'jltma_gradient_heading_color',
@@ -189,8 +197,6 @@ class JLTMA_Gradient_Headline extends Widget_Base
 				'of_type' => 'gradient',
 			]
 		);
-
-
 		$this->add_control(
 			'jltma_gradient_heading_second_color',
 			[
@@ -205,7 +211,6 @@ class JLTMA_Gradient_Headline extends Widget_Base
 
 			]
 		);
-
 
 		$this->add_control(
 			'jltma_gradient_heading_b_stop',
@@ -225,8 +230,6 @@ class JLTMA_Gradient_Headline extends Widget_Base
 			]
 		);
 
-
-
 		$this->add_control(
 			'jltma_gradient_heading_type',
 			[
@@ -244,8 +247,6 @@ class JLTMA_Gradient_Headline extends Widget_Base
 				'of_type' => 'gradient',
 			]
 		);
-
-
 
 		$this->add_control(
 			'jltma_gradient_heading_angle',
@@ -272,8 +273,6 @@ class JLTMA_Gradient_Headline extends Widget_Base
 				'of_type' => 'gradient',
 			]
 		);
-
-
 
 		$this->add_control(
 			'jltma_gradient_heading_position',
@@ -302,7 +301,6 @@ class JLTMA_Gradient_Headline extends Widget_Base
 				'of_type' => 'gradient',
 			]
 		);
-
 
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
@@ -339,6 +337,9 @@ class JLTMA_Gradient_Headline extends Widget_Base
 					'{{WRAPPER}} .jltma-gradient-headline' => 'mix-blend-mode: {{VALUE}};',
 				],
 				'separator' => 'none',
+				'condition' 	=> [
+					'jltma_gradient_heading_color_type' => ['gradient'],
+				]
 			]
 		);
 
@@ -350,6 +351,218 @@ class JLTMA_Gradient_Headline extends Widget_Base
 				'selector' => '{{WRAPPER}} .jltma-gradient-headline',
 			)
 		);
+
+		$this->end_controls_tab();
+
+	  $this->start_controls_tab(
+			'jltma_gradient_heading_status_hover',
+			[ 
+				'label' => __('Hover', 'master-addons' )
+			]
+		);
+
+			$this->add_control(
+			'jltma_gradient_heading_hover_color',
+			[
+				'label'     => esc_html__('Color', 'master-addons' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '#1fb5ac',
+				'selectors' => [
+					'{{WRAPPER}} .jltma-gradient-headline:hover' => 'color: {{VALUE}};',
+				],
+				'condition' => [
+					'jltma_gradient_heading_color_type' => ['classic', 'gradient'],
+				],
+
+			]
+		);
+
+		$this->add_control(
+			'jltma_gradient_heading_hover_color_stop',
+			[
+				'label'      => _x('Location', 'Background Control', 'master-addons' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => ['%'],
+				'default'    => [
+					'unit' => '%',
+					'size' => 0,
+				],
+				'render_type' => 'ui',
+				'condition'   => [
+					'jltma_gradient_heading_color_type' => ['gradient'],
+				],
+				'of_type' => 'gradient',
+			]
+		);
+
+
+		$this->add_control(
+			'jltma_gradient_heading_hover_second_color',
+			[
+				'label'       => esc_html__('Second Color', 'Background Control', 'master-addons' ),
+				'type'        => Controls_Manager::COLOR,
+				'default'     => '#1fb5ac',
+				'render_type' => 'ui',
+				'condition'   => [
+					'jltma_gradient_heading_color_type' => ['gradient'],
+				],
+				'of_type' => 'gradient',
+
+			]
+		);
+
+
+		$this->add_control(
+			'jltma_gradient_heading_hover_b_stop',
+			[
+				'label'      => _x('Location', 'Background Control', 'master-addons' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => ['%'],
+				'default'    => [
+					'unit' => '%',
+					'size' => 100,
+				],
+				'render_type' => 'ui',
+				'condition'   => [
+					'jltma_gradient_heading_color_type' => ['gradient'],
+				],
+				'of_type' => 'gradient',
+			]
+		);
+
+
+
+		$this->add_control(
+			'jltma_gradient_heading_hover_type',
+			[
+				'label'   => _x('Type', 'Background Control', 'master-addons' ),
+				'type'    => Controls_Manager::SELECT,
+				'options' => [
+					'linear' => _x('Linear', 'Background Control', 'master-addons' ),
+					'radial' => _x('Radial', 'Background Control', 'master-addons' ),
+				],
+				'default'     => 'linear',
+				'render_type' => 'ui',
+				'condition'   => [
+					'jltma_gradient_heading_color_type' => ['gradient'],
+				],
+				'of_type' => 'gradient',
+			]
+		);
+
+
+
+		$this->add_control(
+			'jltma_gradient_heading_hover_angle',
+			[
+				'label'      => _x('Angle', 'Background Control', 'master-addons' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => ['deg'],
+				'default'    => [
+					'unit' => 'deg',
+					'size' => 180,
+				],
+				'range' 		=> [
+					'deg' 	=> [
+						'step' => 10,
+					],
+				],
+				'selectors' 	=> [
+					'{{WRAPPER}} .jltma-gradient-headline:hover' => '-webkit-background-clip: text; -webkit-text-fill-color: transparent; background-color: transparent; background-image: linear-gradient({{SIZE}}{{UNIT}}, {{jltma_gradient_heading_color.VALUE}} {{jltma_gradient_heading_color_stop.SIZE}}{{jltma_gradient_heading_color_stop.UNIT}}, {{jltma_gradient_heading_second_color.VALUE}} {{jltma_gradient_heading_b_stop.SIZE}}{{jltma_gradient_heading_b_stop.UNIT}})',
+				],
+				'condition' 	=> [
+					'jltma_gradient_heading_color_type' => ['gradient'],
+					'jltma_gradient_heading_type'       => 'linear',
+				],
+				'of_type' => 'gradient',
+			]
+		);
+
+
+
+		$this->add_control(
+			'jltma_gradient_heading_hover_position',
+			[
+				'label'   => _x('Position', 'Background Control', 'master-addons' ),
+				'type'    => Controls_Manager::SELECT,
+				'options' => [
+					'center center' => _x('Center Center', 'Background Control', 'master-addons' ),
+					'center left'   => _x('Center Left', 'Background Control', 'master-addons' ),
+					'center right'  => _x('Center Right', 'Background Control', 'master-addons' ),
+					'top center'    => _x('Top Center', 'Background Control', 'master-addons' ),
+					'top left'      => _x('Top Left', 'Background Control', 'master-addons' ),
+					'top right'     => _x('Top Right', 'Background Control', 'master-addons' ),
+					'bottom center' => _x('Bottom Center', 'Background Control', 'master-addons' ),
+					'bottom left'   => _x('Bottom Left', 'Background Control', 'master-addons' ),
+					'bottom right'  => _x('Bottom Right', 'Background Control', 'master-addons' ),
+				],
+				'default'   => 'center center',
+				'selectors' => [
+					'{{WRAPPER}} .jltma-gradient-headline:hover' => '-webkit-background-clip: text; -webkit-text-fill-color: transparent; background-color: transparent; background-image: radial-gradient(at {{VALUE}}, {{jltma_gradient_heading_color.VALUE}} {{jltma_gradient_heading_color_stop.SIZE}}{{jltma_gradient_heading_color_stop.UNIT}}, {{jltma_gradient_heading_second_color.VALUE}} {{jltma_gradient_heading_b_stop.SIZE}}{{jltma_gradient_heading_b_stop.UNIT}})',
+				],
+				'condition' 	=> [
+					'jltma_gradient_heading_color_type' => ['gradient'],
+					'jltma_gradient_heading_type'       => 'radial',
+				],
+				'of_type' => 'gradient',
+			]
+		);
+
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name'     => 'jltma_gradient_heading_hover_title_typo',
+				'selector' => '{{WRAPPER}} .jltma-gradient-headline:hover',
+				'global'   => [
+					'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
+				],
+			]
+		);
+
+		$this->add_control(
+			'jltma_gradient_heading_hover_title_blend_mode',
+			[
+				'label'   => __('Blend Mode', 'master-addons' ),
+				'type'    => Controls_Manager::SELECT,
+				'options' => [
+					''            => __('Normal', 'master-addons' ),
+					'multiply'    => __('Multiply', 'master-addons' ),
+					'screen'      => __('Screen', 'master-addons' ),
+					'overlay'     => __('Overlay', 'master-addons' ),
+					'darken'      => __('Darken', 'master-addons' ),
+					'lighten'     => __('Lighten', 'master-addons' ),
+					'color-dodge' => __('Color Dodge', 'master-addons' ),
+					'saturation'  => __('Saturation', 'master-addons' ),
+					'color'       => __('Color', 'master-addons' ),
+					'difference'  => __('Difference', 'master-addons' ),
+					'exclusion'   => __('Exclusion', 'master-addons' ),
+					'hue'         => __('Hue', 'master-addons' ),
+					'luminosity'  => __('Luminosity', 'master-addons' )
+				],
+				'selectors' 		=> [
+					'{{WRAPPER}} .jltma-gradient-headline:hover' => 'mix-blend-mode: {{VALUE}};',
+				],
+				'separator' => 'none',
+				'condition' 	=> [
+					'jltma_gradient_heading_color_type' => ['gradient'],
+				]
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Text_Shadow::get_type(),
+			array(
+				'name'     => 'jltma_gradient_heading_text_hover_shadow',
+				'label'    => __('Text Shadow', 'master-addons' ),
+				'selector' => '{{WRAPPER}} .jltma-gradient-headline:hover',
+			)
+		);
+
+
+
+		$this->end_controls_tab();
+		$this->end_controls_tabs();
 
 
 		$this->end_controls_section();

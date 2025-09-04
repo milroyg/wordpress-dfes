@@ -1,0 +1,9179 @@
+@font-face {
+    font-family: 'remixicon';
+    src: url('remixicon.eot?t=1590207869815');
+    src: url('remixicon.eot?t=1590207869815#iefix') format('embedded-opentype'),
+         url('remixicon.woff2?t=1590207869815') format("woff2"),
+         url('remixicon.woff?t=1590207869815') format("woff"),
+         url('remixicon.ttf?t=1590207869815') format('truetype'),
+         url('remixicon.svg?t=1590207869815#remixicon') format('svg');
+    font-display: swap
+}
+
+[class^="jltma-ri-"],
+[class*=" jltma-ri-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'remixicon' !important;
+    speak: never;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.jltma-ri-lg {
+    font-size: 1.3333em;
+    line-height: .75em;
+    vertical-align: -.0667em
+}
+
+.jltma-ri-xl {
+    font-size: 1.5em;
+    line-height: .6666em;
+    vertical-align: -.075em
+}
+
+.jltma-ri-xxs {
+    font-size: .5em
+}
+
+.jltma-ri-xs {
+    font-size: .75em
+}
+
+.jltma-ri-sm {
+    font-size: .875em
+}
+
+.jltma-ri-1x {
+    font-size: 1em
+}
+
+.jltma-ri-2x {
+    font-size: 2em
+}
+
+.jltma-ri-3x {
+    font-size: 3em
+}
+
+.jltma-ri-4x {
+    font-size: 4em
+}
+
+.jltma-ri-5x {
+    font-size: 5em
+}
+
+.jltma-ri-6x {
+    font-size: 6em
+}
+
+.jltma-ri-7x {
+    font-size: 7em
+}
+
+.jltma-ri-8x {
+    font-size: 8em
+}
+
+.jltma-ri-9x {
+    font-size: 9em
+}
+
+.jltma-ri-10x {
+    font-size: 10em
+}
+
+.jltma-ri-fw {
+    text-align: center;
+    width: 1.25em
+}
+
+.jltma-ri-24-hours-fill:before {
+    content: "\ea01"
+}
+
+.jltma-ri-24-hours-line:before {
+    content: "\ea02"
+}
+
+.jltma-ri-4k-fill:before {
+    content: "\ea03"
+}
+
+.jltma-ri-4k-line:before {
+    content: "\ea04"
+}
+
+.jltma-ri-a-b:before {
+    content: "\ea05"
+}
+
+.jltma-ri-account-box-fill:before {
+    content: "\ea06"
+}
+
+.jltma-ri-account-box-line:before {
+    content: "\ea07"
+}
+
+.jltma-ri-account-circle-fill:before {
+    content: "\ea08"
+}
+
+.jltma-ri-account-circle-line:before {
+    content: "\ea09"
+}
+
+.jltma-ri-account-pin-box-fill:before {
+    content: "\ea0a"
+}
+
+.jltma-ri-account-pin-box-line:before {
+    content: "\ea0b"
+}
+
+.jltma-ri-account-pin-circle-fill:before {
+    content: "\ea0c"
+}
+
+.jltma-ri-account-pin-circle-line:before {
+    content: "\ea0d"
+}
+
+.jltma-ri-add-box-fill:before {
+    content: "\ea0e"
+}
+
+.jltma-ri-add-box-line:before {
+    content: "\ea0f"
+}
+
+.jltma-ri-add-circle-fill:before {
+    content: "\ea10"
+}
+
+.jltma-ri-add-circle-line:before {
+    content: "\ea11"
+}
+
+.jltma-ri-add-fill:before {
+    content: "\ea12"
+}
+
+.jltma-ri-add-line:before {
+    content: "\ea13"
+}
+
+.jltma-ri-admin-fill:before {
+    content: "\ea14"
+}
+
+.jltma-ri-admin-line:before {
+    content: "\ea15"
+}
+
+.jltma-ri-advertisement-fill:before {
+    content: "\ea16"
+}
+
+.jltma-ri-advertisement-line:before {
+    content: "\ea17"
+}
+
+.jltma-ri-airplay-fill:before {
+    content: "\ea18"
+}
+
+.jltma-ri-airplay-line:before {
+    content: "\ea19"
+}
+
+.jltma-ri-alarm-fill:before {
+    content: "\ea1a"
+}
+
+.jltma-ri-alarm-line:before {
+    content: "\ea1b"
+}
+
+.jltma-ri-alarm-warning-fill:before {
+    content: "\ea1c"
+}
+
+.jltma-ri-alarm-warning-line:before {
+    content: "\ea1d"
+}
+
+.jltma-ri-album-fill:before {
+    content: "\ea1e"
+}
+
+.jltma-ri-album-line:before {
+    content: "\ea1f"
+}
+
+.jltma-ri-alert-fill:before {
+    content: "\ea20"
+}
+
+.jltma-ri-alert-line:before {
+    content: "\ea21"
+}
+
+.jltma-ri-aliens-fill:before {
+    content: "\ea22"
+}
+
+.jltma-ri-aliens-line:before {
+    content: "\ea23"
+}
+
+.jltma-ri-align-bottom:before {
+    content: "\ea24"
+}
+
+.jltma-ri-align-center:before {
+    content: "\ea25"
+}
+
+.jltma-ri-align-justify:before {
+    content: "\ea26"
+}
+
+.jltma-ri-align-left:before {
+    content: "\ea27"
+}
+
+.jltma-ri-align-right:before {
+    content: "\ea28"
+}
+
+.jltma-ri-align-top:before {
+    content: "\ea29"
+}
+
+.jltma-ri-align-vertically:before {
+    content: "\ea2a"
+}
+
+.jltma-ri-alipay-fill:before {
+    content: "\ea2b"
+}
+
+.jltma-ri-alipay-line:before {
+    content: "\ea2c"
+}
+
+.jltma-ri-amazon-fill:before {
+    content: "\ea2d"
+}
+
+.jltma-ri-amazon-line:before {
+    content: "\ea2e"
+}
+
+.jltma-ri-anchor-fill:before {
+    content: "\ea2f"
+}
+
+.jltma-ri-anchor-line:before {
+    content: "\ea30"
+}
+
+.jltma-ri-ancient-gate-fill:before {
+    content: "\ea31"
+}
+
+.jltma-ri-ancient-gate-line:before {
+    content: "\ea32"
+}
+
+.jltma-ri-ancient-pavilion-fill:before {
+    content: "\ea33"
+}
+
+.jltma-ri-ancient-pavilion-line:before {
+    content: "\ea34"
+}
+
+.jltma-ri-android-fill:before {
+    content: "\ea35"
+}
+
+.jltma-ri-android-line:before {
+    content: "\ea36"
+}
+
+.jltma-ri-angularjs-fill:before {
+    content: "\ea37"
+}
+
+.jltma-ri-angularjs-line:before {
+    content: "\ea38"
+}
+
+.jltma-ri-anticlockwise-2-fill:before {
+    content: "\ea39"
+}
+
+.jltma-ri-anticlockwise-2-line:before {
+    content: "\ea3a"
+}
+
+.jltma-ri-anticlockwise-fill:before {
+    content: "\ea3b"
+}
+
+.jltma-ri-anticlockwise-line:before {
+    content: "\ea3c"
+}
+
+.jltma-ri-app-store-fill:before {
+    content: "\ea3d"
+}
+
+.jltma-ri-app-store-line:before {
+    content: "\ea3e"
+}
+
+.jltma-ri-apple-fill:before {
+    content: "\ea3f"
+}
+
+.jltma-ri-apple-line:before {
+    content: "\ea40"
+}
+
+.jltma-ri-apps-2-fill:before {
+    content: "\ea41"
+}
+
+.jltma-ri-apps-2-line:before {
+    content: "\ea42"
+}
+
+.jltma-ri-apps-fill:before {
+    content: "\ea43"
+}
+
+.jltma-ri-apps-line:before {
+    content: "\ea44"
+}
+
+.jltma-ri-archive-drawer-fill:before {
+    content: "\ea45"
+}
+
+.jltma-ri-archive-drawer-line:before {
+    content: "\ea46"
+}
+
+.jltma-ri-archive-fill:before {
+    content: "\ea47"
+}
+
+.jltma-ri-archive-line:before {
+    content: "\ea48"
+}
+
+.jltma-ri-arrow-down-circle-fill:before {
+    content: "\ea49"
+}
+
+.jltma-ri-arrow-down-circle-line:before {
+    content: "\ea4a"
+}
+
+.jltma-ri-arrow-down-fill:before {
+    content: "\ea4b"
+}
+
+.jltma-ri-arrow-down-line:before {
+    content: "\ea4c"
+}
+
+.jltma-ri-arrow-down-s-fill:before {
+    content: "\ea4d"
+}
+
+.jltma-ri-arrow-down-s-line:before {
+    content: "\ea4e"
+}
+
+.jltma-ri-arrow-drop-down-fill:before {
+    content: "\ea4f"
+}
+
+.jltma-ri-arrow-drop-down-line:before {
+    content: "\ea50"
+}
+
+.jltma-ri-arrow-drop-left-fill:before {
+    content: "\ea51"
+}
+
+.jltma-ri-arrow-drop-left-line:before {
+    content: "\ea52"
+}
+
+.jltma-ri-arrow-drop-right-fill:before {
+    content: "\ea53"
+}
+
+.jltma-ri-arrow-drop-right-line:before {
+    content: "\ea54"
+}
+
+.jltma-ri-arrow-drop-up-fill:before {
+    content: "\ea55"
+}
+
+.jltma-ri-arrow-drop-up-line:before {
+    content: "\ea56"
+}
+
+.jltma-ri-arrow-go-back-fill:before {
+    content: "\ea57"
+}
+
+.jltma-ri-arrow-go-back-line:before {
+    content: "\ea58"
+}
+
+.jltma-ri-arrow-go-forward-fill:before {
+    content: "\ea59"
+}
+
+.jltma-ri-arrow-go-forward-line:before {
+    content: "\ea5a"
+}
+
+.jltma-ri-arrow-left-circle-fill:before {
+    content: "\ea5b"
+}
+
+.jltma-ri-arrow-left-circle-line:before {
+    content: "\ea5c"
+}
+
+.jltma-ri-arrow-left-down-fill:before {
+    content: "\ea5d"
+}
+
+.jltma-ri-arrow-left-down-line:before {
+    content: "\ea5e"
+}
+
+.jltma-ri-arrow-left-fill:before {
+    content: "\ea5f"
+}
+
+.jltma-ri-arrow-left-line:before {
+    content: "\ea60"
+}
+
+.jltma-ri-arrow-left-right-fill:before {
+    content: "\ea61"
+}
+
+.jltma-ri-arrow-left-right-line:before {
+    content: "\ea62"
+}
+
+.jltma-ri-arrow-left-s-fill:before {
+    content: "\ea63"
+}
+
+.jltma-ri-arrow-left-s-line:before {
+    content: "\ea64"
+}
+
+.jltma-ri-arrow-left-up-fill:before {
+    content: "\ea65"
+}
+
+.jltma-ri-arrow-left-up-line:before {
+    content: "\ea66"
+}
+
+.jltma-ri-arrow-right-circle-fill:before {
+    content: "\ea67"
+}
+
+.jltma-ri-arrow-right-circle-line:before {
+    content: "\ea68"
+}
+
+.jltma-ri-arrow-right-down-fill:before {
+    content: "\ea69"
+}
+
+.jltma-ri-arrow-right-down-line:before {
+    content: "\ea6a"
+}
+
+.jltma-ri-arrow-right-fill:before {
+    content: "\ea6b"
+}
+
+.jltma-ri-arrow-right-line:before {
+    content: "\ea6c"
+}
+
+.jltma-ri-arrow-right-s-fill:before {
+    content: "\ea6d"
+}
+
+.jltma-ri-arrow-right-s-line:before {
+    content: "\ea6e"
+}
+
+.jltma-ri-arrow-right-up-fill:before {
+    content: "\ea6f"
+}
+
+.jltma-ri-arrow-right-up-line:before {
+    content: "\ea70"
+}
+
+.jltma-ri-arrow-up-circle-fill:before {
+    content: "\ea71"
+}
+
+.jltma-ri-arrow-up-circle-line:before {
+    content: "\ea72"
+}
+
+.jltma-ri-arrow-up-down-fill:before {
+    content: "\ea73"
+}
+
+.jltma-ri-arrow-up-down-line:before {
+    content: "\ea74"
+}
+
+.jltma-ri-arrow-up-fill:before {
+    content: "\ea75"
+}
+
+.jltma-ri-arrow-up-line:before {
+    content: "\ea76"
+}
+
+.jltma-ri-arrow-up-s-fill:before {
+    content: "\ea77"
+}
+
+.jltma-ri-arrow-up-s-line:before {
+    content: "\ea78"
+}
+
+.jltma-ri-artboard-2-fill:before {
+    content: "\ea79"
+}
+
+.jltma-ri-artboard-2-line:before {
+    content: "\ea7a"
+}
+
+.jltma-ri-artboard-fill:before {
+    content: "\ea7b"
+}
+
+.jltma-ri-artboard-line:before {
+    content: "\ea7c"
+}
+
+.jltma-ri-article-fill:before {
+    content: "\ea7d"
+}
+
+.jltma-ri-article-line:before {
+    content: "\ea7e"
+}
+
+.jltma-ri-aspect-ratio-fill:before {
+    content: "\ea7f"
+}
+
+.jltma-ri-aspect-ratio-line:before {
+    content: "\ea80"
+}
+
+.jltma-ri-asterisk:before {
+    content: "\ea81"
+}
+
+.jltma-ri-at-fill:before {
+    content: "\ea82"
+}
+
+.jltma-ri-at-line:before {
+    content: "\ea83"
+}
+
+.jltma-ri-attachment-2:before {
+    content: "\ea84"
+}
+
+.jltma-ri-attachment-fill:before {
+    content: "\ea85"
+}
+
+.jltma-ri-attachment-line:before {
+    content: "\ea86"
+}
+
+.jltma-ri-auction-fill:before {
+    content: "\ea87"
+}
+
+.jltma-ri-auction-line:before {
+    content: "\ea88"
+}
+
+.jltma-ri-award-fill:before {
+    content: "\ea89"
+}
+
+.jltma-ri-award-line:before {
+    content: "\ea8a"
+}
+
+.jltma-ri-baidu-fill:before {
+    content: "\ea8b"
+}
+
+.jltma-ri-baidu-line:before {
+    content: "\ea8c"
+}
+
+.jltma-ri-ball-pen-fill:before {
+    content: "\ea8d"
+}
+
+.jltma-ri-ball-pen-line:before {
+    content: "\ea8e"
+}
+
+.jltma-ri-bank-card-2-fill:before {
+    content: "\ea8f"
+}
+
+.jltma-ri-bank-card-2-line:before {
+    content: "\ea90"
+}
+
+.jltma-ri-bank-card-fill:before {
+    content: "\ea91"
+}
+
+.jltma-ri-bank-card-line:before {
+    content: "\ea92"
+}
+
+.jltma-ri-bank-fill:before {
+    content: "\ea93"
+}
+
+.jltma-ri-bank-line:before {
+    content: "\ea94"
+}
+
+.jltma-ri-bar-chart-2-fill:before {
+    content: "\ea95"
+}
+
+.jltma-ri-bar-chart-2-line:before {
+    content: "\ea96"
+}
+
+.jltma-ri-bar-chart-box-fill:before {
+    content: "\ea97"
+}
+
+.jltma-ri-bar-chart-box-line:before {
+    content: "\ea98"
+}
+
+.jltma-ri-bar-chart-fill:before {
+    content: "\ea99"
+}
+
+.jltma-ri-bar-chart-grouped-fill:before {
+    content: "\ea9a"
+}
+
+.jltma-ri-bar-chart-grouped-line:before {
+    content: "\ea9b"
+}
+
+.jltma-ri-bar-chart-horizontal-fill:before {
+    content: "\ea9c"
+}
+
+.jltma-ri-bar-chart-horizontal-line:before {
+    content: "\ea9d"
+}
+
+.jltma-ri-bar-chart-line:before {
+    content: "\ea9e"
+}
+
+.jltma-ri-barcode-box-fill:before {
+    content: "\ea9f"
+}
+
+.jltma-ri-barcode-box-line:before {
+    content: "\eaa0"
+}
+
+.jltma-ri-barcode-fill:before {
+    content: "\eaa1"
+}
+
+.jltma-ri-barcode-line:before {
+    content: "\eaa2"
+}
+
+.jltma-ri-barricade-fill:before {
+    content: "\eaa3"
+}
+
+.jltma-ri-barricade-line:before {
+    content: "\eaa4"
+}
+
+.jltma-ri-base-station-fill:before {
+    content: "\eaa5"
+}
+
+.jltma-ri-base-station-line:before {
+    content: "\eaa6"
+}
+
+.jltma-ri-basketball-fill:before {
+    content: "\eaa7"
+}
+
+.jltma-ri-basketball-line:before {
+    content: "\eaa8"
+}
+
+.jltma-ri-battery-2-charge-fill:before {
+    content: "\eaa9"
+}
+
+.jltma-ri-battery-2-charge-line:before {
+    content: "\eaaa"
+}
+
+.jltma-ri-battery-2-fill:before {
+    content: "\eaab"
+}
+
+.jltma-ri-battery-2-line:before {
+    content: "\eaac"
+}
+
+.jltma-ri-battery-charge-fill:before {
+    content: "\eaad"
+}
+
+.jltma-ri-battery-charge-line:before {
+    content: "\eaae"
+}
+
+.jltma-ri-battery-fill:before {
+    content: "\eaaf"
+}
+
+.jltma-ri-battery-line:before {
+    content: "\eab0"
+}
+
+.jltma-ri-battery-low-fill:before {
+    content: "\eab1"
+}
+
+.jltma-ri-battery-low-line:before {
+    content: "\eab2"
+}
+
+.jltma-ri-battery-saver-fill:before {
+    content: "\eab3"
+}
+
+.jltma-ri-battery-saver-line:before {
+    content: "\eab4"
+}
+
+.jltma-ri-battery-share-fill:before {
+    content: "\eab5"
+}
+
+.jltma-ri-battery-share-line:before {
+    content: "\eab6"
+}
+
+.jltma-ri-bear-smile-fill:before {
+    content: "\eab7"
+}
+
+.jltma-ri-bear-smile-line:before {
+    content: "\eab8"
+}
+
+.jltma-ri-behance-fill:before {
+    content: "\eab9"
+}
+
+.jltma-ri-behance-line:before {
+    content: "\eaba"
+}
+
+.jltma-ri-bell-fill:before {
+    content: "\eabb"
+}
+
+.jltma-ri-bell-line:before {
+    content: "\eabc"
+}
+
+.jltma-ri-bike-fill:before {
+    content: "\eabd"
+}
+
+.jltma-ri-bike-line:before {
+    content: "\eabe"
+}
+
+.jltma-ri-bilibili-fill:before {
+    content: "\eabf"
+}
+
+.jltma-ri-bilibili-line:before {
+    content: "\eac0"
+}
+
+.jltma-ri-bill-fill:before {
+    content: "\eac1"
+}
+
+.jltma-ri-bill-line:before {
+    content: "\eac2"
+}
+
+.jltma-ri-billiards-fill:before {
+    content: "\eac3"
+}
+
+.jltma-ri-billiards-line:before {
+    content: "\eac4"
+}
+
+.jltma-ri-bit-coin-fill:before {
+    content: "\eac5"
+}
+
+.jltma-ri-bit-coin-line:before {
+    content: "\eac6"
+}
+
+.jltma-ri-blaze-fill:before {
+    content: "\eac7"
+}
+
+.jltma-ri-blaze-line:before {
+    content: "\eac8"
+}
+
+.jltma-ri-bluetooth-connect-fill:before {
+    content: "\eac9"
+}
+
+.jltma-ri-bluetooth-connect-line:before {
+    content: "\eaca"
+}
+
+.jltma-ri-bluetooth-fill:before {
+    content: "\eacb"
+}
+
+.jltma-ri-bluetooth-line:before {
+    content: "\eacc"
+}
+
+.jltma-ri-blur-off-fill:before {
+    content: "\eacd"
+}
+
+.jltma-ri-blur-off-line:before {
+    content: "\eace"
+}
+
+.jltma-ri-body-scan-fill:before {
+    content: "\eacf"
+}
+
+.jltma-ri-body-scan-line:before {
+    content: "\ead0"
+}
+
+.jltma-ri-bold:before {
+    content: "\ead1"
+}
+
+.jltma-ri-book-2-fill:before {
+    content: "\ead2"
+}
+
+.jltma-ri-book-2-line:before {
+    content: "\ead3"
+}
+
+.jltma-ri-book-3-fill:before {
+    content: "\ead4"
+}
+
+.jltma-ri-book-3-line:before {
+    content: "\ead5"
+}
+
+.jltma-ri-book-fill:before {
+    content: "\ead6"
+}
+
+.jltma-ri-book-line:before {
+    content: "\ead7"
+}
+
+.jltma-ri-book-mark-fill:before {
+    content: "\ead8"
+}
+
+.jltma-ri-book-mark-line:before {
+    content: "\ead9"
+}
+
+.jltma-ri-book-open-fill:before {
+    content: "\eada"
+}
+
+.jltma-ri-book-open-line:before {
+    content: "\eadb"
+}
+
+.jltma-ri-book-read-fill:before {
+    content: "\eadc"
+}
+
+.jltma-ri-book-read-line:before {
+    content: "\eadd"
+}
+
+.jltma-ri-booklet-fill:before {
+    content: "\eade"
+}
+
+.jltma-ri-booklet-line:before {
+    content: "\eadf"
+}
+
+.jltma-ri-bookmark-2-fill:before {
+    content: "\eae0"
+}
+
+.jltma-ri-bookmark-2-line:before {
+    content: "\eae1"
+}
+
+.jltma-ri-bookmark-3-fill:before {
+    content: "\eae2"
+}
+
+.jltma-ri-bookmark-3-line:before {
+    content: "\eae3"
+}
+
+.jltma-ri-bookmark-fill:before {
+    content: "\eae4"
+}
+
+.jltma-ri-bookmark-line:before {
+    content: "\eae5"
+}
+
+.jltma-ri-boxing-fill:before {
+    content: "\eae6"
+}
+
+.jltma-ri-boxing-line:before {
+    content: "\eae7"
+}
+
+.jltma-ri-braces-fill:before {
+    content: "\eae8"
+}
+
+.jltma-ri-braces-line:before {
+    content: "\eae9"
+}
+
+.jltma-ri-brackets-fill:before {
+    content: "\eaea"
+}
+
+.jltma-ri-brackets-line:before {
+    content: "\eaeb"
+}
+
+.jltma-ri-briefcase-2-fill:before {
+    content: "\eaec"
+}
+
+.jltma-ri-briefcase-2-line:before {
+    content: "\eaed"
+}
+
+.jltma-ri-briefcase-3-fill:before {
+    content: "\eaee"
+}
+
+.jltma-ri-briefcase-3-line:before {
+    content: "\eaef"
+}
+
+.jltma-ri-briefcase-4-fill:before {
+    content: "\eaf0"
+}
+
+.jltma-ri-briefcase-4-line:before {
+    content: "\eaf1"
+}
+
+.jltma-ri-briefcase-5-fill:before {
+    content: "\eaf2"
+}
+
+.jltma-ri-briefcase-5-line:before {
+    content: "\eaf3"
+}
+
+.jltma-ri-briefcase-fill:before {
+    content: "\eaf4"
+}
+
+.jltma-ri-briefcase-line:before {
+    content: "\eaf5"
+}
+
+.jltma-ri-bring-forward:before {
+    content: "\eaf6"
+}
+
+.jltma-ri-bring-to-front:before {
+    content: "\eaf7"
+}
+
+.jltma-ri-broadcast-fill:before {
+    content: "\eaf8"
+}
+
+.jltma-ri-broadcast-line:before {
+    content: "\eaf9"
+}
+
+.jltma-ri-brush-2-fill:before {
+    content: "\eafa"
+}
+
+.jltma-ri-brush-2-line:before {
+    content: "\eafb"
+}
+
+.jltma-ri-brush-3-fill:before {
+    content: "\eafc"
+}
+
+.jltma-ri-brush-3-line:before {
+    content: "\eafd"
+}
+
+.jltma-ri-brush-4-fill:before {
+    content: "\eafe"
+}
+
+.jltma-ri-brush-4-line:before {
+    content: "\eaff"
+}
+
+.jltma-ri-brush-fill:before {
+    content: "\eb00"
+}
+
+.jltma-ri-brush-line:before {
+    content: "\eb01"
+}
+
+.jltma-ri-bubble-chart-fill:before {
+    content: "\eb02"
+}
+
+.jltma-ri-bubble-chart-line:before {
+    content: "\eb03"
+}
+
+.jltma-ri-bug-2-fill:before {
+    content: "\eb04"
+}
+
+.jltma-ri-bug-2-line:before {
+    content: "\eb05"
+}
+
+.jltma-ri-bug-fill:before {
+    content: "\eb06"
+}
+
+.jltma-ri-bug-line:before {
+    content: "\eb07"
+}
+
+.jltma-ri-building-2-fill:before {
+    content: "\eb08"
+}
+
+.jltma-ri-building-2-line:before {
+    content: "\eb09"
+}
+
+.jltma-ri-building-3-fill:before {
+    content: "\eb0a"
+}
+
+.jltma-ri-building-3-line:before {
+    content: "\eb0b"
+}
+
+.jltma-ri-building-4-fill:before {
+    content: "\eb0c"
+}
+
+.jltma-ri-building-4-line:before {
+    content: "\eb0d"
+}
+
+.jltma-ri-building-fill:before {
+    content: "\eb0e"
+}
+
+.jltma-ri-building-line:before {
+    content: "\eb0f"
+}
+
+.jltma-ri-bus-2-fill:before {
+    content: "\eb10"
+}
+
+.jltma-ri-bus-2-line:before {
+    content: "\eb11"
+}
+
+.jltma-ri-bus-fill:before {
+    content: "\eb12"
+}
+
+.jltma-ri-bus-line:before {
+    content: "\eb13"
+}
+
+.jltma-ri-bus-wifi-fill:before {
+    content: "\eb14"
+}
+
+.jltma-ri-bus-wifi-line:before {
+    content: "\eb15"
+}
+
+.jltma-ri-cactus-fill:before {
+    content: "\eb16"
+}
+
+.jltma-ri-cactus-line:before {
+    content: "\eb17"
+}
+
+.jltma-ri-cake-2-fill:before {
+    content: "\eb18"
+}
+
+.jltma-ri-cake-2-line:before {
+    content: "\eb19"
+}
+
+.jltma-ri-cake-3-fill:before {
+    content: "\eb1a"
+}
+
+.jltma-ri-cake-3-line:before {
+    content: "\eb1b"
+}
+
+.jltma-ri-cake-fill:before {
+    content: "\eb1c"
+}
+
+.jltma-ri-cake-line:before {
+    content: "\eb1d"
+}
+
+.jltma-ri-calculator-fill:before {
+    content: "\eb1e"
+}
+
+.jltma-ri-calculator-line:before {
+    content: "\eb1f"
+}
+
+.jltma-ri-calendar-2-fill:before {
+    content: "\eb20"
+}
+
+.jltma-ri-calendar-2-line:before {
+    content: "\eb21"
+}
+
+.jltma-ri-calendar-check-fill:before {
+    content: "\eb22"
+}
+
+.jltma-ri-calendar-check-line:before {
+    content: "\eb23"
+}
+
+.jltma-ri-calendar-event-fill:before {
+    content: "\eb24"
+}
+
+.jltma-ri-calendar-event-line:before {
+    content: "\eb25"
+}
+
+.jltma-ri-calendar-fill:before {
+    content: "\eb26"
+}
+
+.jltma-ri-calendar-line:before {
+    content: "\eb27"
+}
+
+.jltma-ri-calendar-todo-fill:before {
+    content: "\eb28"
+}
+
+.jltma-ri-calendar-todo-line:before {
+    content: "\eb29"
+}
+
+.jltma-ri-camera-2-fill:before {
+    content: "\eb2a"
+}
+
+.jltma-ri-camera-2-line:before {
+    content: "\eb2b"
+}
+
+.jltma-ri-camera-3-fill:before {
+    content: "\eb2c"
+}
+
+.jltma-ri-camera-3-line:before {
+    content: "\eb2d"
+}
+
+.jltma-ri-camera-fill:before {
+    content: "\eb2e"
+}
+
+.jltma-ri-camera-lens-fill:before {
+    content: "\eb2f"
+}
+
+.jltma-ri-camera-lens-line:before {
+    content: "\eb30"
+}
+
+.jltma-ri-camera-line:before {
+    content: "\eb31"
+}
+
+.jltma-ri-camera-off-fill:before {
+    content: "\eb32"
+}
+
+.jltma-ri-camera-off-line:before {
+    content: "\eb33"
+}
+
+.jltma-ri-camera-switch-fill:before {
+    content: "\eb34"
+}
+
+.jltma-ri-camera-switch-line:before {
+    content: "\eb35"
+}
+
+.jltma-ri-capsule-fill:before {
+    content: "\eb36"
+}
+
+.jltma-ri-capsule-line:before {
+    content: "\eb37"
+}
+
+.jltma-ri-car-fill:before {
+    content: "\eb38"
+}
+
+.jltma-ri-car-line:before {
+    content: "\eb39"
+}
+
+.jltma-ri-car-washing-fill:before {
+    content: "\eb3a"
+}
+
+.jltma-ri-car-washing-line:before {
+    content: "\eb3b"
+}
+
+.jltma-ri-caravan-fill:before {
+    content: "\eb3c"
+}
+
+.jltma-ri-caravan-line:before {
+    content: "\eb3d"
+}
+
+.jltma-ri-cast-fill:before {
+    content: "\eb3e"
+}
+
+.jltma-ri-cast-line:before {
+    content: "\eb3f"
+}
+
+.jltma-ri-cellphone-fill:before {
+    content: "\eb40"
+}
+
+.jltma-ri-cellphone-line:before {
+    content: "\eb41"
+}
+
+.jltma-ri-celsius-fill:before {
+    content: "\eb42"
+}
+
+.jltma-ri-celsius-line:before {
+    content: "\eb43"
+}
+
+.jltma-ri-centos-fill:before {
+    content: "\eb44"
+}
+
+.jltma-ri-centos-line:before {
+    content: "\eb45"
+}
+
+.jltma-ri-character-recognition-fill:before {
+    content: "\eb46"
+}
+
+.jltma-ri-character-recognition-line:before {
+    content: "\eb47"
+}
+
+.jltma-ri-charging-pile-2-fill:before {
+    content: "\eb48"
+}
+
+.jltma-ri-charging-pile-2-line:before {
+    content: "\eb49"
+}
+
+.jltma-ri-charging-pile-fill:before {
+    content: "\eb4a"
+}
+
+.jltma-ri-charging-pile-line:before {
+    content: "\eb4b"
+}
+
+.jltma-ri-chat-1-fill:before {
+    content: "\eb4c"
+}
+
+.jltma-ri-chat-1-line:before {
+    content: "\eb4d"
+}
+
+.jltma-ri-chat-2-fill:before {
+    content: "\eb4e"
+}
+
+.jltma-ri-chat-2-line:before {
+    content: "\eb4f"
+}
+
+.jltma-ri-chat-3-fill:before {
+    content: "\eb50"
+}
+
+.jltma-ri-chat-3-line:before {
+    content: "\eb51"
+}
+
+.jltma-ri-chat-4-fill:before {
+    content: "\eb52"
+}
+
+.jltma-ri-chat-4-line:before {
+    content: "\eb53"
+}
+
+.jltma-ri-chat-check-fill:before {
+    content: "\eb54"
+}
+
+.jltma-ri-chat-check-line:before {
+    content: "\eb55"
+}
+
+.jltma-ri-chat-delete-fill:before {
+    content: "\eb56"
+}
+
+.jltma-ri-chat-delete-line:before {
+    content: "\eb57"
+}
+
+.jltma-ri-chat-download-fill:before {
+    content: "\eb58"
+}
+
+.jltma-ri-chat-download-line:before {
+    content: "\eb59"
+}
+
+.jltma-ri-chat-follow-up-fill:before {
+    content: "\eb5a"
+}
+
+.jltma-ri-chat-follow-up-line:before {
+    content: "\eb5b"
+}
+
+.jltma-ri-chat-forward-fill:before {
+    content: "\eb5c"
+}
+
+.jltma-ri-chat-forward-line:before {
+    content: "\eb5d"
+}
+
+.jltma-ri-chat-heart-fill:before {
+    content: "\eb5e"
+}
+
+.jltma-ri-chat-heart-line:before {
+    content: "\eb5f"
+}
+
+.jltma-ri-chat-history-fill:before {
+    content: "\eb60"
+}
+
+.jltma-ri-chat-history-line:before {
+    content: "\eb61"
+}
+
+.jltma-ri-chat-new-fill:before {
+    content: "\eb62"
+}
+
+.jltma-ri-chat-new-line:before {
+    content: "\eb63"
+}
+
+.jltma-ri-chat-off-fill:before {
+    content: "\eb64"
+}
+
+.jltma-ri-chat-off-line:before {
+    content: "\eb65"
+}
+
+.jltma-ri-chat-poll-fill:before {
+    content: "\eb66"
+}
+
+.jltma-ri-chat-poll-line:before {
+    content: "\eb67"
+}
+
+.jltma-ri-chat-private-fill:before {
+    content: "\eb68"
+}
+
+.jltma-ri-chat-private-line:before {
+    content: "\eb69"
+}
+
+.jltma-ri-chat-quote-fill:before {
+    content: "\eb6a"
+}
+
+.jltma-ri-chat-quote-line:before {
+    content: "\eb6b"
+}
+
+.jltma-ri-chat-settings-fill:before {
+    content: "\eb6c"
+}
+
+.jltma-ri-chat-settings-line:before {
+    content: "\eb6d"
+}
+
+.jltma-ri-chat-smile-2-fill:before {
+    content: "\eb6e"
+}
+
+.jltma-ri-chat-smile-2-line:before {
+    content: "\eb6f"
+}
+
+.jltma-ri-chat-smile-3-fill:before {
+    content: "\eb70"
+}
+
+.jltma-ri-chat-smile-3-line:before {
+    content: "\eb71"
+}
+
+.jltma-ri-chat-smile-fill:before {
+    content: "\eb72"
+}
+
+.jltma-ri-chat-smile-line:before {
+    content: "\eb73"
+}
+
+.jltma-ri-chat-upload-fill:before {
+    content: "\eb74"
+}
+
+.jltma-ri-chat-upload-line:before {
+    content: "\eb75"
+}
+
+.jltma-ri-chat-voice-fill:before {
+    content: "\eb76"
+}
+
+.jltma-ri-chat-voice-line:before {
+    content: "\eb77"
+}
+
+.jltma-ri-check-double-fill:before {
+    content: "\eb78"
+}
+
+.jltma-ri-check-double-line:before {
+    content: "\eb79"
+}
+
+.jltma-ri-check-fill:before {
+    content: "\eb7a"
+}
+
+.jltma-ri-check-line:before {
+    content: "\eb7b"
+}
+
+.jltma-ri-checkbox-blank-circle-fill:before {
+    content: "\eb7c"
+}
+
+.jltma-ri-checkbox-blank-circle-line:before {
+    content: "\eb7d"
+}
+
+.jltma-ri-checkbox-blank-fill:before {
+    content: "\eb7e"
+}
+
+.jltma-ri-checkbox-blank-line:before {
+    content: "\eb7f"
+}
+
+.jltma-ri-checkbox-circle-fill:before {
+    content: "\eb80"
+}
+
+.jltma-ri-checkbox-circle-line:before {
+    content: "\eb81"
+}
+
+.jltma-ri-checkbox-fill:before {
+    content: "\eb82"
+}
+
+.jltma-ri-checkbox-indeterminate-fill:before {
+    content: "\eb83"
+}
+
+.jltma-ri-checkbox-indeterminate-line:before {
+    content: "\eb84"
+}
+
+.jltma-ri-checkbox-line:before {
+    content: "\eb85"
+}
+
+.jltma-ri-checkbox-multiple-blank-fill:before {
+    content: "\eb86"
+}
+
+.jltma-ri-checkbox-multiple-blank-line:before {
+    content: "\eb87"
+}
+
+.jltma-ri-checkbox-multiple-fill:before {
+    content: "\eb88"
+}
+
+.jltma-ri-checkbox-multiple-line:before {
+    content: "\eb89"
+}
+
+.jltma-ri-china-railway-fill:before {
+    content: "\eb8a"
+}
+
+.jltma-ri-china-railway-line:before {
+    content: "\eb8b"
+}
+
+.jltma-ri-chrome-fill:before {
+    content: "\eb8c"
+}
+
+.jltma-ri-chrome-line:before {
+    content: "\eb8d"
+}
+
+.jltma-ri-clapperboard-fill:before {
+    content: "\eb8e"
+}
+
+.jltma-ri-clapperboard-line:before {
+    content: "\eb8f"
+}
+
+.jltma-ri-clipboard-fill:before {
+    content: "\eb90"
+}
+
+.jltma-ri-clipboard-line:before {
+    content: "\eb91"
+}
+
+.jltma-ri-clockwise-2-fill:before {
+    content: "\eb92"
+}
+
+.jltma-ri-clockwise-2-line:before {
+    content: "\eb93"
+}
+
+.jltma-ri-clockwise-fill:before {
+    content: "\eb94"
+}
+
+.jltma-ri-clockwise-line:before {
+    content: "\eb95"
+}
+
+.jltma-ri-close-circle-fill:before {
+    content: "\eb96"
+}
+
+.jltma-ri-close-circle-line:before {
+    content: "\eb97"
+}
+
+.jltma-ri-close-fill:before {
+    content: "\eb98"
+}
+
+.jltma-ri-close-line:before {
+    content: "\eb99"
+}
+
+.jltma-ri-closed-captioning-fill:before {
+    content: "\eb9a"
+}
+
+.jltma-ri-closed-captioning-line:before {
+    content: "\eb9b"
+}
+
+.jltma-ri-cloud-fill:before {
+    content: "\eb9c"
+}
+
+.jltma-ri-cloud-line:before {
+    content: "\eb9d"
+}
+
+.jltma-ri-cloud-off-fill:before {
+    content: "\eb9e"
+}
+
+.jltma-ri-cloud-off-line:before {
+    content: "\eb9f"
+}
+
+.jltma-ri-cloud-windy-fill:before {
+    content: "\eba0"
+}
+
+.jltma-ri-cloud-windy-line:before {
+    content: "\eba1"
+}
+
+.jltma-ri-cloudy-2-fill:before {
+    content: "\eba2"
+}
+
+.jltma-ri-cloudy-2-line:before {
+    content: "\eba3"
+}
+
+.jltma-ri-cloudy-fill:before {
+    content: "\eba4"
+}
+
+.jltma-ri-cloudy-line:before {
+    content: "\eba5"
+}
+
+.jltma-ri-code-box-fill:before {
+    content: "\eba6"
+}
+
+.jltma-ri-code-box-line:before {
+    content: "\eba7"
+}
+
+.jltma-ri-code-fill:before {
+    content: "\eba8"
+}
+
+.jltma-ri-code-line:before {
+    content: "\eba9"
+}
+
+.jltma-ri-code-s-fill:before {
+    content: "\ebaa"
+}
+
+.jltma-ri-code-s-line:before {
+    content: "\ebab"
+}
+
+.jltma-ri-code-s-slash-fill:before {
+    content: "\ebac"
+}
+
+.jltma-ri-code-s-slash-line:before {
+    content: "\ebad"
+}
+
+.jltma-ri-code-view:before {
+    content: "\ebae"
+}
+
+.jltma-ri-codepen-fill:before {
+    content: "\ebaf"
+}
+
+.jltma-ri-codepen-line:before {
+    content: "\ebb0"
+}
+
+.jltma-ri-coin-fill:before {
+    content: "\ebb1"
+}
+
+.jltma-ri-coin-line:before {
+    content: "\ebb2"
+}
+
+.jltma-ri-coins-fill:before {
+    content: "\ebb3"
+}
+
+.jltma-ri-coins-line:before {
+    content: "\ebb4"
+}
+
+.jltma-ri-collage-fill:before {
+    content: "\ebb5"
+}
+
+.jltma-ri-collage-line:before {
+    content: "\ebb6"
+}
+
+.jltma-ri-command-fill:before {
+    content: "\ebb7"
+}
+
+.jltma-ri-command-line:before {
+    content: "\ebb8"
+}
+
+.jltma-ri-community-fill:before {
+    content: "\ebb9"
+}
+
+.jltma-ri-community-line:before {
+    content: "\ebba"
+}
+
+.jltma-ri-compass-2-fill:before {
+    content: "\ebbb"
+}
+
+.jltma-ri-compass-2-line:before {
+    content: "\ebbc"
+}
+
+.jltma-ri-compass-3-fill:before {
+    content: "\ebbd"
+}
+
+.jltma-ri-compass-3-line:before {
+    content: "\ebbe"
+}
+
+.jltma-ri-compass-4-fill:before {
+    content: "\ebbf"
+}
+
+.jltma-ri-compass-4-line:before {
+    content: "\ebc0"
+}
+
+.jltma-ri-compass-discover-fill:before {
+    content: "\ebc1"
+}
+
+.jltma-ri-compass-discover-line:before {
+    content: "\ebc2"
+}
+
+.jltma-ri-compass-fill:before {
+    content: "\ebc3"
+}
+
+.jltma-ri-compass-line:before {
+    content: "\ebc4"
+}
+
+.jltma-ri-compasses-2-fill:before {
+    content: "\ebc5"
+}
+
+.jltma-ri-compasses-2-line:before {
+    content: "\ebc6"
+}
+
+.jltma-ri-compasses-fill:before {
+    content: "\ebc7"
+}
+
+.jltma-ri-compasses-line:before {
+    content: "\ebc8"
+}
+
+.jltma-ri-computer-fill:before {
+    content: "\ebc9"
+}
+
+.jltma-ri-computer-line:before {
+    content: "\ebca"
+}
+
+.jltma-ri-contacts-book-2-fill:before {
+    content: "\ebcb"
+}
+
+.jltma-ri-contacts-book-2-line:before {
+    content: "\ebcc"
+}
+
+.jltma-ri-contacts-book-fill:before {
+    content: "\ebcd"
+}
+
+.jltma-ri-contacts-book-line:before {
+    content: "\ebce"
+}
+
+.jltma-ri-contacts-book-upload-fill:before {
+    content: "\ebcf"
+}
+
+.jltma-ri-contacts-book-upload-line:before {
+    content: "\ebd0"
+}
+
+.jltma-ri-contacts-fill:before {
+    content: "\ebd1"
+}
+
+.jltma-ri-contacts-line:before {
+    content: "\ebd2"
+}
+
+.jltma-ri-contrast-2-fill:before {
+    content: "\ebd3"
+}
+
+.jltma-ri-contrast-2-line:before {
+    content: "\ebd4"
+}
+
+.jltma-ri-contrast-drop-2-fill:before {
+    content: "\ebd5"
+}
+
+.jltma-ri-contrast-drop-2-line:before {
+    content: "\ebd6"
+}
+
+.jltma-ri-contrast-drop-fill:before {
+    content: "\ebd7"
+}
+
+.jltma-ri-contrast-drop-line:before {
+    content: "\ebd8"
+}
+
+.jltma-ri-contrast-fill:before {
+    content: "\ebd9"
+}
+
+.jltma-ri-contrast-line:before {
+    content: "\ebda"
+}
+
+.jltma-ri-copper-coin-fill:before {
+    content: "\ebdb"
+}
+
+.jltma-ri-copper-coin-line:before {
+    content: "\ebdc"
+}
+
+.jltma-ri-copper-diamond-fill:before {
+    content: "\ebdd"
+}
+
+.jltma-ri-copper-diamond-line:before {
+    content: "\ebde"
+}
+
+.jltma-ri-copyleft-fill:before {
+    content: "\ebdf"
+}
+
+.jltma-ri-copyleft-line:before {
+    content: "\ebe0"
+}
+
+.jltma-ri-copyright-fill:before {
+    content: "\ebe1"
+}
+
+.jltma-ri-copyright-line:before {
+    content: "\ebe2"
+}
+
+.jltma-ri-coreos-fill:before {
+    content: "\ebe3"
+}
+
+.jltma-ri-coreos-line:before {
+    content: "\ebe4"
+}
+
+.jltma-ri-coupon-2-fill:before {
+    content: "\ebe5"
+}
+
+.jltma-ri-coupon-2-line:before {
+    content: "\ebe6"
+}
+
+.jltma-ri-coupon-3-fill:before {
+    content: "\ebe7"
+}
+
+.jltma-ri-coupon-3-line:before {
+    content: "\ebe8"
+}
+
+.jltma-ri-coupon-4-fill:before {
+    content: "\ebe9"
+}
+
+.jltma-ri-coupon-4-line:before {
+    content: "\ebea"
+}
+
+.jltma-ri-coupon-5-fill:before {
+    content: "\ebeb"
+}
+
+.jltma-ri-coupon-5-line:before {
+    content: "\ebec"
+}
+
+.jltma-ri-coupon-fill:before {
+    content: "\ebed"
+}
+
+.jltma-ri-coupon-line:before {
+    content: "\ebee"
+}
+
+.jltma-ri-cpu-fill:before {
+    content: "\ebef"
+}
+
+.jltma-ri-cpu-line:before {
+    content: "\ebf0"
+}
+
+.jltma-ri-creative-commons-by-fill:before {
+    content: "\ebf1"
+}
+
+.jltma-ri-creative-commons-by-line:before {
+    content: "\ebf2"
+}
+
+.jltma-ri-creative-commons-fill:before {
+    content: "\ebf3"
+}
+
+.jltma-ri-creative-commons-line:before {
+    content: "\ebf4"
+}
+
+.jltma-ri-creative-commons-nc-fill:before {
+    content: "\ebf5"
+}
+
+.jltma-ri-creative-commons-nc-line:before {
+    content: "\ebf6"
+}
+
+.jltma-ri-creative-commons-nd-fill:before {
+    content: "\ebf7"
+}
+
+.jltma-ri-creative-commons-nd-line:before {
+    content: "\ebf8"
+}
+
+.jltma-ri-creative-commons-sa-fill:before {
+    content: "\ebf9"
+}
+
+.jltma-ri-creative-commons-sa-line:before {
+    content: "\ebfa"
+}
+
+.jltma-ri-creative-commons-zero-fill:before {
+    content: "\ebfb"
+}
+
+.jltma-ri-creative-commons-zero-line:before {
+    content: "\ebfc"
+}
+
+.jltma-ri-criminal-fill:before {
+    content: "\ebfd"
+}
+
+.jltma-ri-criminal-line:before {
+    content: "\ebfe"
+}
+
+.jltma-ri-crop-2-fill:before {
+    content: "\ebff"
+}
+
+.jltma-ri-crop-2-line:before {
+    content: "\ec00"
+}
+
+.jltma-ri-crop-fill:before {
+    content: "\ec01"
+}
+
+.jltma-ri-crop-line:before {
+    content: "\ec02"
+}
+
+.jltma-ri-css3-fill:before {
+    content: "\ec03"
+}
+
+.jltma-ri-css3-line:before {
+    content: "\ec04"
+}
+
+.jltma-ri-cup-fill:before {
+    content: "\ec05"
+}
+
+.jltma-ri-cup-line:before {
+    content: "\ec06"
+}
+
+.jltma-ri-currency-fill:before {
+    content: "\ec07"
+}
+
+.jltma-ri-currency-line:before {
+    content: "\ec08"
+}
+
+.jltma-ri-cursor-fill:before {
+    content: "\ec09"
+}
+
+.jltma-ri-cursor-line:before {
+    content: "\ec0a"
+}
+
+.jltma-ri-customer-service-2-fill:before {
+    content: "\ec0b"
+}
+
+.jltma-ri-customer-service-2-line:before {
+    content: "\ec0c"
+}
+
+.jltma-ri-customer-service-fill:before {
+    content: "\ec0d"
+}
+
+.jltma-ri-customer-service-line:before {
+    content: "\ec0e"
+}
+
+.jltma-ri-dashboard-2-fill:before {
+    content: "\ec0f"
+}
+
+.jltma-ri-dashboard-2-line:before {
+    content: "\ec10"
+}
+
+.jltma-ri-dashboard-3-fill:before {
+    content: "\ec11"
+}
+
+.jltma-ri-dashboard-3-line:before {
+    content: "\ec12"
+}
+
+.jltma-ri-dashboard-fill:before {
+    content: "\ec13"
+}
+
+.jltma-ri-dashboard-line:before {
+    content: "\ec14"
+}
+
+.jltma-ri-database-2-fill:before {
+    content: "\ec15"
+}
+
+.jltma-ri-database-2-line:before {
+    content: "\ec16"
+}
+
+.jltma-ri-database-fill:before {
+    content: "\ec17"
+}
+
+.jltma-ri-database-line:before {
+    content: "\ec18"
+}
+
+.jltma-ri-delete-back-2-fill:before {
+    content: "\ec19"
+}
+
+.jltma-ri-delete-back-2-line:before {
+    content: "\ec1a"
+}
+
+.jltma-ri-delete-back-fill:before {
+    content: "\ec1b"
+}
+
+.jltma-ri-delete-back-line:before {
+    content: "\ec1c"
+}
+
+.jltma-ri-delete-bin-2-fill:before {
+    content: "\ec1d"
+}
+
+.jltma-ri-delete-bin-2-line:before {
+    content: "\ec1e"
+}
+
+.jltma-ri-delete-bin-3-fill:before {
+    content: "\ec1f"
+}
+
+.jltma-ri-delete-bin-3-line:before {
+    content: "\ec20"
+}
+
+.jltma-ri-delete-bin-4-fill:before {
+    content: "\ec21"
+}
+
+.jltma-ri-delete-bin-4-line:before {
+    content: "\ec22"
+}
+
+.jltma-ri-delete-bin-5-fill:before {
+    content: "\ec23"
+}
+
+.jltma-ri-delete-bin-5-line:before {
+    content: "\ec24"
+}
+
+.jltma-ri-delete-bin-6-fill:before {
+    content: "\ec25"
+}
+
+.jltma-ri-delete-bin-6-line:before {
+    content: "\ec26"
+}
+
+.jltma-ri-delete-bin-7-fill:before {
+    content: "\ec27"
+}
+
+.jltma-ri-delete-bin-7-line:before {
+    content: "\ec28"
+}
+
+.jltma-ri-delete-bin-fill:before {
+    content: "\ec29"
+}
+
+.jltma-ri-delete-bin-line:before {
+    content: "\ec2a"
+}
+
+.jltma-ri-delete-column:before {
+    content: "\ec2b"
+}
+
+.jltma-ri-delete-row:before {
+    content: "\ec2c"
+}
+
+.jltma-ri-device-fill:before {
+    content: "\ec2d"
+}
+
+.jltma-ri-device-line:before {
+    content: "\ec2e"
+}
+
+.jltma-ri-device-recover-fill:before {
+    content: "\ec2f"
+}
+
+.jltma-ri-device-recover-line:before {
+    content: "\ec30"
+}
+
+.jltma-ri-dingding-fill:before {
+    content: "\ec31"
+}
+
+.jltma-ri-dingding-line:before {
+    content: "\ec32"
+}
+
+.jltma-ri-direction-fill:before {
+    content: "\ec33"
+}
+
+.jltma-ri-direction-line:before {
+    content: "\ec34"
+}
+
+.jltma-ri-disc-fill:before {
+    content: "\ec35"
+}
+
+.jltma-ri-disc-line:before {
+    content: "\ec36"
+}
+
+.jltma-ri-discord-fill:before {
+    content: "\ec37"
+}
+
+.jltma-ri-discord-line:before {
+    content: "\ec38"
+}
+
+.jltma-ri-discuss-fill:before {
+    content: "\ec39"
+}
+
+.jltma-ri-discuss-line:before {
+    content: "\ec3a"
+}
+
+.jltma-ri-dislike-fill:before {
+    content: "\ec3b"
+}
+
+.jltma-ri-dislike-line:before {
+    content: "\ec3c"
+}
+
+.jltma-ri-disqus-fill:before {
+    content: "\ec3d"
+}
+
+.jltma-ri-disqus-line:before {
+    content: "\ec3e"
+}
+
+.jltma-ri-divide-fill:before {
+    content: "\ec3f"
+}
+
+.jltma-ri-divide-line:before {
+    content: "\ec40"
+}
+
+.jltma-ri-donut-chart-fill:before {
+    content: "\ec41"
+}
+
+.jltma-ri-donut-chart-line:before {
+    content: "\ec42"
+}
+
+.jltma-ri-door-closed-fill:before {
+    content: "\ec43"
+}
+
+.jltma-ri-door-closed-line:before {
+    content: "\ec44"
+}
+
+.jltma-ri-door-fill:before {
+    content: "\ec45"
+}
+
+.jltma-ri-door-line:before {
+    content: "\ec46"
+}
+
+.jltma-ri-door-lock-box-fill:before {
+    content: "\ec47"
+}
+
+.jltma-ri-door-lock-box-line:before {
+    content: "\ec48"
+}
+
+.jltma-ri-door-lock-fill:before {
+    content: "\ec49"
+}
+
+.jltma-ri-door-lock-line:before {
+    content: "\ec4a"
+}
+
+.jltma-ri-door-open-fill:before {
+    content: "\ec4b"
+}
+
+.jltma-ri-door-open-line:before {
+    content: "\ec4c"
+}
+
+.jltma-ri-dossier-fill:before {
+    content: "\ec4d"
+}
+
+.jltma-ri-dossier-line:before {
+    content: "\ec4e"
+}
+
+.jltma-ri-douban-fill:before {
+    content: "\ec4f"
+}
+
+.jltma-ri-douban-line:before {
+    content: "\ec50"
+}
+
+.jltma-ri-double-quotes-l:before {
+    content: "\ec51"
+}
+
+.jltma-ri-double-quotes-r:before {
+    content: "\ec52"
+}
+
+.jltma-ri-download-2-fill:before {
+    content: "\ec53"
+}
+
+.jltma-ri-download-2-line:before {
+    content: "\ec54"
+}
+
+.jltma-ri-download-cloud-2-fill:before {
+    content: "\ec55"
+}
+
+.jltma-ri-download-cloud-2-line:before {
+    content: "\ec56"
+}
+
+.jltma-ri-download-cloud-fill:before {
+    content: "\ec57"
+}
+
+.jltma-ri-download-cloud-line:before {
+    content: "\ec58"
+}
+
+.jltma-ri-download-fill:before {
+    content: "\ec59"
+}
+
+.jltma-ri-download-line:before {
+    content: "\ec5a"
+}
+
+.jltma-ri-draft-fill:before {
+    content: "\ec5b"
+}
+
+.jltma-ri-draft-line:before {
+    content: "\ec5c"
+}
+
+.jltma-ri-drag-drop-fill:before {
+    content: "\ec5d"
+}
+
+.jltma-ri-drag-drop-line:before {
+    content: "\ec5e"
+}
+
+.jltma-ri-drag-move-2-fill:before {
+    content: "\ec5f"
+}
+
+.jltma-ri-drag-move-2-line:before {
+    content: "\ec60"
+}
+
+.jltma-ri-drag-move-fill:before {
+    content: "\ec61"
+}
+
+.jltma-ri-drag-move-line:before {
+    content: "\ec62"
+}
+
+.jltma-ri-dribbble-fill:before {
+    content: "\ec63"
+}
+
+.jltma-ri-dribbble-line:before {
+    content: "\ec64"
+}
+
+.jltma-ri-drive-fill:before {
+    content: "\ec65"
+}
+
+.jltma-ri-drive-line:before {
+    content: "\ec66"
+}
+
+.jltma-ri-drizzle-fill:before {
+    content: "\ec67"
+}
+
+.jltma-ri-drizzle-line:before {
+    content: "\ec68"
+}
+
+.jltma-ri-drop-fill:before {
+    content: "\ec69"
+}
+
+.jltma-ri-drop-line:before {
+    content: "\ec6a"
+}
+
+.jltma-ri-dropbox-fill:before {
+    content: "\ec6b"
+}
+
+.jltma-ri-dropbox-line:before {
+    content: "\ec6c"
+}
+
+.jltma-ri-dual-sim-1-fill:before {
+    content: "\ec6d"
+}
+
+.jltma-ri-dual-sim-1-line:before {
+    content: "\ec6e"
+}
+
+.jltma-ri-dual-sim-2-fill:before {
+    content: "\ec6f"
+}
+
+.jltma-ri-dual-sim-2-line:before {
+    content: "\ec70"
+}
+
+.jltma-ri-dv-fill:before {
+    content: "\ec71"
+}
+
+.jltma-ri-dv-line:before {
+    content: "\ec72"
+}
+
+.jltma-ri-dvd-fill:before {
+    content: "\ec73"
+}
+
+.jltma-ri-dvd-line:before {
+    content: "\ec74"
+}
+
+.jltma-ri-e-bike-2-fill:before {
+    content: "\ec75"
+}
+
+.jltma-ri-e-bike-2-line:before {
+    content: "\ec76"
+}
+
+.jltma-ri-e-bike-fill:before {
+    content: "\ec77"
+}
+
+.jltma-ri-e-bike-line:before {
+    content: "\ec78"
+}
+
+.jltma-ri-earth-fill:before {
+    content: "\ec79"
+}
+
+.jltma-ri-earth-line:before {
+    content: "\ec7a"
+}
+
+.jltma-ri-earthquake-fill:before {
+    content: "\ec7b"
+}
+
+.jltma-ri-earthquake-line:before {
+    content: "\ec7c"
+}
+
+.jltma-ri-edge-fill:before {
+    content: "\ec7d"
+}
+
+.jltma-ri-edge-line:before {
+    content: "\ec7e"
+}
+
+.jltma-ri-edit-2-fill:before {
+    content: "\ec7f"
+}
+
+.jltma-ri-edit-2-line:before {
+    content: "\ec80"
+}
+
+.jltma-ri-edit-box-fill:before {
+    content: "\ec81"
+}
+
+.jltma-ri-edit-box-line:before {
+    content: "\ec82"
+}
+
+.jltma-ri-edit-circle-fill:before {
+    content: "\ec83"
+}
+
+.jltma-ri-edit-circle-line:before {
+    content: "\ec84"
+}
+
+.jltma-ri-edit-fill:before {
+    content: "\ec85"
+}
+
+.jltma-ri-edit-line:before {
+    content: "\ec86"
+}
+
+.jltma-ri-eject-fill:before {
+    content: "\ec87"
+}
+
+.jltma-ri-eject-line:before {
+    content: "\ec88"
+}
+
+.jltma-ri-emotion-2-fill:before {
+    content: "\ec89"
+}
+
+.jltma-ri-emotion-2-line:before {
+    content: "\ec8a"
+}
+
+.jltma-ri-emotion-fill:before {
+    content: "\ec8b"
+}
+
+.jltma-ri-emotion-happy-fill:before {
+    content: "\ec8c"
+}
+
+.jltma-ri-emotion-happy-line:before {
+    content: "\ec8d"
+}
+
+.jltma-ri-emotion-laugh-fill:before {
+    content: "\ec8e"
+}
+
+.jltma-ri-emotion-laugh-line:before {
+    content: "\ec8f"
+}
+
+.jltma-ri-emotion-line:before {
+    content: "\ec90"
+}
+
+.jltma-ri-emotion-normal-fill:before {
+    content: "\ec91"
+}
+
+.jltma-ri-emotion-normal-line:before {
+    content: "\ec92"
+}
+
+.jltma-ri-emotion-sad-fill:before {
+    content: "\ec93"
+}
+
+.jltma-ri-emotion-sad-line:before {
+    content: "\ec94"
+}
+
+.jltma-ri-emotion-unhappy-fill:before {
+    content: "\ec95"
+}
+
+.jltma-ri-emotion-unhappy-line:before {
+    content: "\ec96"
+}
+
+.jltma-ri-empathize-fill:before {
+    content: "\ec97"
+}
+
+.jltma-ri-empathize-line:before {
+    content: "\ec98"
+}
+
+.jltma-ri-emphasis-cn:before {
+    content: "\ec99"
+}
+
+.jltma-ri-emphasis:before {
+    content: "\ec9a"
+}
+
+.jltma-ri-english-input:before {
+    content: "\ec9b"
+}
+
+.jltma-ri-equalizer-fill:before {
+    content: "\ec9c"
+}
+
+.jltma-ri-equalizer-line:before {
+    content: "\ec9d"
+}
+
+.jltma-ri-eraser-fill:before {
+    content: "\ec9e"
+}
+
+.jltma-ri-eraser-line:before {
+    content: "\ec9f"
+}
+
+.jltma-ri-error-warning-fill:before {
+    content: "\eca0"
+}
+
+.jltma-ri-error-warning-line:before {
+    content: "\eca1"
+}
+
+.jltma-ri-evernote-fill:before {
+    content: "\eca2"
+}
+
+.jltma-ri-evernote-line:before {
+    content: "\eca3"
+}
+
+.jltma-ri-exchange-box-fill:before {
+    content: "\eca4"
+}
+
+.jltma-ri-exchange-box-line:before {
+    content: "\eca5"
+}
+
+.jltma-ri-exchange-cny-fill:before {
+    content: "\eca6"
+}
+
+.jltma-ri-exchange-cny-line:before {
+    content: "\eca7"
+}
+
+.jltma-ri-exchange-dollar-fill:before {
+    content: "\eca8"
+}
+
+.jltma-ri-exchange-dollar-line:before {
+    content: "\eca9"
+}
+
+.jltma-ri-exchange-fill:before {
+    content: "\ecaa"
+}
+
+.jltma-ri-exchange-funds-fill:before {
+    content: "\ecab"
+}
+
+.jltma-ri-exchange-funds-line:before {
+    content: "\ecac"
+}
+
+.jltma-ri-exchange-line:before {
+    content: "\ecad"
+}
+
+.jltma-ri-external-link-fill:before {
+    content: "\ecae"
+}
+
+.jltma-ri-external-link-line:before {
+    content: "\ecaf"
+}
+
+.jltma-ri-eye-2-fill:before {
+    content: "\ecb0"
+}
+
+.jltma-ri-eye-2-line:before {
+    content: "\ecb1"
+}
+
+.jltma-ri-eye-close-fill:before {
+    content: "\ecb2"
+}
+
+.jltma-ri-eye-close-line:before {
+    content: "\ecb3"
+}
+
+.jltma-ri-eye-fill:before {
+    content: "\ecb4"
+}
+
+.jltma-ri-eye-line:before {
+    content: "\ecb5"
+}
+
+.jltma-ri-eye-off-fill:before {
+    content: "\ecb6"
+}
+
+.jltma-ri-eye-off-line:before {
+    content: "\ecb7"
+}
+
+.jltma-ri-facebook-box-fill:before {
+    content: "\ecb8"
+}
+
+.jltma-ri-facebook-box-line:before {
+    content: "\ecb9"
+}
+
+.jltma-ri-facebook-circle-fill:before {
+    content: "\ecba"
+}
+
+.jltma-ri-facebook-circle-line:before {
+    content: "\ecbb"
+}
+
+.jltma-ri-facebook-fill:before {
+    content: "\ecbc"
+}
+
+.jltma-ri-facebook-line:before {
+    content: "\ecbd"
+}
+
+.jltma-ri-fahrenheit-fill:before {
+    content: "\ecbe"
+}
+
+.jltma-ri-fahrenheit-line:before {
+    content: "\ecbf"
+}
+
+.jltma-ri-feedback-fill:before {
+    content: "\ecc0"
+}
+
+.jltma-ri-feedback-line:before {
+    content: "\ecc1"
+}
+
+.jltma-ri-file-2-fill:before {
+    content: "\ecc2"
+}
+
+.jltma-ri-file-2-line:before {
+    content: "\ecc3"
+}
+
+.jltma-ri-file-3-fill:before {
+    content: "\ecc4"
+}
+
+.jltma-ri-file-3-line:before {
+    content: "\ecc5"
+}
+
+.jltma-ri-file-4-fill:before {
+    content: "\ecc6"
+}
+
+.jltma-ri-file-4-line:before {
+    content: "\ecc7"
+}
+
+.jltma-ri-file-add-fill:before {
+    content: "\ecc8"
+}
+
+.jltma-ri-file-add-line:before {
+    content: "\ecc9"
+}
+
+.jltma-ri-file-chart-2-fill:before {
+    content: "\ecca"
+}
+
+.jltma-ri-file-chart-2-line:before {
+    content: "\eccb"
+}
+
+.jltma-ri-file-chart-fill:before {
+    content: "\eccc"
+}
+
+.jltma-ri-file-chart-line:before {
+    content: "\eccd"
+}
+
+.jltma-ri-file-cloud-fill:before {
+    content: "\ecce"
+}
+
+.jltma-ri-file-cloud-line:before {
+    content: "\eccf"
+}
+
+.jltma-ri-file-code-fill:before {
+    content: "\ecd0"
+}
+
+.jltma-ri-file-code-line:before {
+    content: "\ecd1"
+}
+
+.jltma-ri-file-copy-2-fill:before {
+    content: "\ecd2"
+}
+
+.jltma-ri-file-copy-2-line:before {
+    content: "\ecd3"
+}
+
+.jltma-ri-file-copy-fill:before {
+    content: "\ecd4"
+}
+
+.jltma-ri-file-copy-line:before {
+    content: "\ecd5"
+}
+
+.jltma-ri-file-damage-fill:before {
+    content: "\ecd6"
+}
+
+.jltma-ri-file-damage-line:before {
+    content: "\ecd7"
+}
+
+.jltma-ri-file-download-fill:before {
+    content: "\ecd8"
+}
+
+.jltma-ri-file-download-line:before {
+    content: "\ecd9"
+}
+
+.jltma-ri-file-edit-fill:before {
+    content: "\ecda"
+}
+
+.jltma-ri-file-edit-line:before {
+    content: "\ecdb"
+}
+
+.jltma-ri-file-excel-2-fill:before {
+    content: "\ecdc"
+}
+
+.jltma-ri-file-excel-2-line:before {
+    content: "\ecdd"
+}
+
+.jltma-ri-file-excel-fill:before {
+    content: "\ecde"
+}
+
+.jltma-ri-file-excel-line:before {
+    content: "\ecdf"
+}
+
+.jltma-ri-file-fill:before {
+    content: "\ece0"
+}
+
+.jltma-ri-file-forbid-fill:before {
+    content: "\ece1"
+}
+
+.jltma-ri-file-forbid-line:before {
+    content: "\ece2"
+}
+
+.jltma-ri-file-gif-fill:before {
+    content: "\ece3"
+}
+
+.jltma-ri-file-gif-line:before {
+    content: "\ece4"
+}
+
+.jltma-ri-file-history-fill:before {
+    content: "\ece5"
+}
+
+.jltma-ri-file-history-line:before {
+    content: "\ece6"
+}
+
+.jltma-ri-file-hwp-fill:before {
+    content: "\ece7"
+}
+
+.jltma-ri-file-hwp-line:before {
+    content: "\ece8"
+}
+
+.jltma-ri-file-info-fill:before {
+    content: "\ece9"
+}
+
+.jltma-ri-file-info-line:before {
+    content: "\ecea"
+}
+
+.jltma-ri-file-line:before {
+    content: "\eceb"
+}
+
+.jltma-ri-file-list-2-fill:before {
+    content: "\ecec"
+}
+
+.jltma-ri-file-list-2-line:before {
+    content: "\eced"
+}
+
+.jltma-ri-file-list-3-fill:before {
+    content: "\ecee"
+}
+
+.jltma-ri-file-list-3-line:before {
+    content: "\ecef"
+}
+
+.jltma-ri-file-list-fill:before {
+    content: "\ecf0"
+}
+
+.jltma-ri-file-list-line:before {
+    content: "\ecf1"
+}
+
+.jltma-ri-file-lock-fill:before {
+    content: "\ecf2"
+}
+
+.jltma-ri-file-lock-line:before {
+    content: "\ecf3"
+}
+
+.jltma-ri-file-mark-fill:before {
+    content: "\ecf4"
+}
+
+.jltma-ri-file-mark-line:before {
+    content: "\ecf5"
+}
+
+.jltma-ri-file-music-fill:before {
+    content: "\ecf6"
+}
+
+.jltma-ri-file-music-line:before {
+    content: "\ecf7"
+}
+
+.jltma-ri-file-paper-2-fill:before {
+    content: "\ecf8"
+}
+
+.jltma-ri-file-paper-2-line:before {
+    content: "\ecf9"
+}
+
+.jltma-ri-file-paper-fill:before {
+    content: "\ecfa"
+}
+
+.jltma-ri-file-paper-line:before {
+    content: "\ecfb"
+}
+
+.jltma-ri-file-pdf-fill:before {
+    content: "\ecfc"
+}
+
+.jltma-ri-file-pdf-line:before {
+    content: "\ecfd"
+}
+
+.jltma-ri-file-ppt-2-fill:before {
+    content: "\ecfe"
+}
+
+.jltma-ri-file-ppt-2-line:before {
+    content: "\ecff"
+}
+
+.jltma-ri-file-ppt-fill:before {
+    content: "\ed00"
+}
+
+.jltma-ri-file-ppt-line:before {
+    content: "\ed01"
+}
+
+.jltma-ri-file-reduce-fill:before {
+    content: "\ed02"
+}
+
+.jltma-ri-file-reduce-line:before {
+    content: "\ed03"
+}
+
+.jltma-ri-file-search-fill:before {
+    content: "\ed04"
+}
+
+.jltma-ri-file-search-line:before {
+    content: "\ed05"
+}
+
+.jltma-ri-file-settings-fill:before {
+    content: "\ed06"
+}
+
+.jltma-ri-file-settings-line:before {
+    content: "\ed07"
+}
+
+.jltma-ri-file-shield-2-fill:before {
+    content: "\ed08"
+}
+
+.jltma-ri-file-shield-2-line:before {
+    content: "\ed09"
+}
+
+.jltma-ri-file-shield-fill:before {
+    content: "\ed0a"
+}
+
+.jltma-ri-file-shield-line:before {
+    content: "\ed0b"
+}
+
+.jltma-ri-file-shred-fill:before {
+    content: "\ed0c"
+}
+
+.jltma-ri-file-shred-line:before {
+    content: "\ed0d"
+}
+
+.jltma-ri-file-text-fill:before {
+    content: "\ed0e"
+}
+
+.jltma-ri-file-text-line:before {
+    content: "\ed0f"
+}
+
+.jltma-ri-file-transfer-fill:before {
+    content: "\ed10"
+}
+
+.jltma-ri-file-transfer-line:before {
+    content: "\ed11"
+}
+
+.jltma-ri-file-unknow-fill:before {
+    content: "\ed12"
+}
+
+.jltma-ri-file-unknow-line:before {
+    content: "\ed13"
+}
+
+.jltma-ri-file-upload-fill:before {
+    content: "\ed14"
+}
+
+.jltma-ri-file-upload-line:before {
+    content: "\ed15"
+}
+
+.jltma-ri-file-user-fill:before {
+    content: "\ed16"
+}
+
+.jltma-ri-file-user-line:before {
+    content: "\ed17"
+}
+
+.jltma-ri-file-warning-fill:before {
+    content: "\ed18"
+}
+
+.jltma-ri-file-warning-line:before {
+    content: "\ed19"
+}
+
+.jltma-ri-file-word-2-fill:before {
+    content: "\ed1a"
+}
+
+.jltma-ri-file-word-2-line:before {
+    content: "\ed1b"
+}
+
+.jltma-ri-file-word-fill:before {
+    content: "\ed1c"
+}
+
+.jltma-ri-file-word-line:before {
+    content: "\ed1d"
+}
+
+.jltma-ri-file-zip-fill:before {
+    content: "\ed1e"
+}
+
+.jltma-ri-file-zip-line:before {
+    content: "\ed1f"
+}
+
+.jltma-ri-film-fill:before {
+    content: "\ed20"
+}
+
+.jltma-ri-film-line:before {
+    content: "\ed21"
+}
+
+.jltma-ri-filter-2-fill:before {
+    content: "\ed22"
+}
+
+.jltma-ri-filter-2-line:before {
+    content: "\ed23"
+}
+
+.jltma-ri-filter-3-fill:before {
+    content: "\ed24"
+}
+
+.jltma-ri-filter-3-line:before {
+    content: "\ed25"
+}
+
+.jltma-ri-filter-fill:before {
+    content: "\ed26"
+}
+
+.jltma-ri-filter-line:before {
+    content: "\ed27"
+}
+
+.jltma-ri-filter-off-fill:before {
+    content: "\ed28"
+}
+
+.jltma-ri-filter-off-line:before {
+    content: "\ed29"
+}
+
+.jltma-ri-find-replace-fill:before {
+    content: "\ed2a"
+}
+
+.jltma-ri-find-replace-line:before {
+    content: "\ed2b"
+}
+
+.jltma-ri-finder-fill:before {
+    content: "\ed2c"
+}
+
+.jltma-ri-finder-line:before {
+    content: "\ed2d"
+}
+
+.jltma-ri-fingerprint-2-fill:before {
+    content: "\ed2e"
+}
+
+.jltma-ri-fingerprint-2-line:before {
+    content: "\ed2f"
+}
+
+.jltma-ri-fingerprint-fill:before {
+    content: "\ed30"
+}
+
+.jltma-ri-fingerprint-line:before {
+    content: "\ed31"
+}
+
+.jltma-ri-fire-fill:before {
+    content: "\ed32"
+}
+
+.jltma-ri-fire-line:before {
+    content: "\ed33"
+}
+
+.jltma-ri-firefox-fill:before {
+    content: "\ed34"
+}
+
+.jltma-ri-firefox-line:before {
+    content: "\ed35"
+}
+
+.jltma-ri-first-aid-kit-fill:before {
+    content: "\ed36"
+}
+
+.jltma-ri-first-aid-kit-line:before {
+    content: "\ed37"
+}
+
+.jltma-ri-flag-2-fill:before {
+    content: "\ed38"
+}
+
+.jltma-ri-flag-2-line:before {
+    content: "\ed39"
+}
+
+.jltma-ri-flag-fill:before {
+    content: "\ed3a"
+}
+
+.jltma-ri-flag-line:before {
+    content: "\ed3b"
+}
+
+.jltma-ri-flashlight-fill:before {
+    content: "\ed3c"
+}
+
+.jltma-ri-flashlight-line:before {
+    content: "\ed3d"
+}
+
+.jltma-ri-flask-fill:before {
+    content: "\ed3e"
+}
+
+.jltma-ri-flask-line:before {
+    content: "\ed3f"
+}
+
+.jltma-ri-flight-land-fill:before {
+    content: "\ed40"
+}
+
+.jltma-ri-flight-land-line:before {
+    content: "\ed41"
+}
+
+.jltma-ri-flight-takeoff-fill:before {
+    content: "\ed42"
+}
+
+.jltma-ri-flight-takeoff-line:before {
+    content: "\ed43"
+}
+
+.jltma-ri-flood-fill:before {
+    content: "\ed44"
+}
+
+.jltma-ri-flood-line:before {
+    content: "\ed45"
+}
+
+.jltma-ri-flow-chart:before {
+    content: "\ed46"
+}
+
+.jltma-ri-flutter-fill:before {
+    content: "\ed47"
+}
+
+.jltma-ri-flutter-line:before {
+    content: "\ed48"
+}
+
+.jltma-ri-focus-2-fill:before {
+    content: "\ed49"
+}
+
+.jltma-ri-focus-2-line:before {
+    content: "\ed4a"
+}
+
+.jltma-ri-focus-3-fill:before {
+    content: "\ed4b"
+}
+
+.jltma-ri-focus-3-line:before {
+    content: "\ed4c"
+}
+
+.jltma-ri-focus-fill:before {
+    content: "\ed4d"
+}
+
+.jltma-ri-focus-line:before {
+    content: "\ed4e"
+}
+
+.jltma-ri-foggy-fill:before {
+    content: "\ed4f"
+}
+
+.jltma-ri-foggy-line:before {
+    content: "\ed50"
+}
+
+.jltma-ri-folder-2-fill:before {
+    content: "\ed51"
+}
+
+.jltma-ri-folder-2-line:before {
+    content: "\ed52"
+}
+
+.jltma-ri-folder-3-fill:before {
+    content: "\ed53"
+}
+
+.jltma-ri-folder-3-line:before {
+    content: "\ed54"
+}
+
+.jltma-ri-folder-4-fill:before {
+    content: "\ed55"
+}
+
+.jltma-ri-folder-4-line:before {
+    content: "\ed56"
+}
+
+.jltma-ri-folder-5-fill:before {
+    content: "\ed57"
+}
+
+.jltma-ri-folder-5-line:before {
+    content: "\ed58"
+}
+
+.jltma-ri-folder-add-fill:before {
+    content: "\ed59"
+}
+
+.jltma-ri-folder-add-line:before {
+    content: "\ed5a"
+}
+
+.jltma-ri-folder-chart-2-fill:before {
+    content: "\ed5b"
+}
+
+.jltma-ri-folder-chart-2-line:before {
+    content: "\ed5c"
+}
+
+.jltma-ri-folder-chart-fill:before {
+    content: "\ed5d"
+}
+
+.jltma-ri-folder-chart-line:before {
+    content: "\ed5e"
+}
+
+.jltma-ri-folder-download-fill:before {
+    content: "\ed5f"
+}
+
+.jltma-ri-folder-download-line:before {
+    content: "\ed60"
+}
+
+.jltma-ri-folder-fill:before {
+    content: "\ed61"
+}
+
+.jltma-ri-folder-forbid-fill:before {
+    content: "\ed62"
+}
+
+.jltma-ri-folder-forbid-line:before {
+    content: "\ed63"
+}
+
+.jltma-ri-folder-history-fill:before {
+    content: "\ed64"
+}
+
+.jltma-ri-folder-history-line:before {
+    content: "\ed65"
+}
+
+.jltma-ri-folder-info-fill:before {
+    content: "\ed66"
+}
+
+.jltma-ri-folder-info-line:before {
+    content: "\ed67"
+}
+
+.jltma-ri-folder-keyhole-fill:before {
+    content: "\ed68"
+}
+
+.jltma-ri-folder-keyhole-line:before {
+    content: "\ed69"
+}
+
+.jltma-ri-folder-line:before {
+    content: "\ed6a"
+}
+
+.jltma-ri-folder-lock-fill:before {
+    content: "\ed6b"
+}
+
+.jltma-ri-folder-lock-line:before {
+    content: "\ed6c"
+}
+
+.jltma-ri-folder-music-fill:before {
+    content: "\ed6d"
+}
+
+.jltma-ri-folder-music-line:before {
+    content: "\ed6e"
+}
+
+.jltma-ri-folder-open-fill:before {
+    content: "\ed6f"
+}
+
+.jltma-ri-folder-open-line:before {
+    content: "\ed70"
+}
+
+.jltma-ri-folder-received-fill:before {
+    content: "\ed71"
+}
+
+.jltma-ri-folder-received-line:before {
+    content: "\ed72"
+}
+
+.jltma-ri-folder-reduce-fill:before {
+    content: "\ed73"
+}
+
+.jltma-ri-folder-reduce-line:before {
+    content: "\ed74"
+}
+
+.jltma-ri-folder-settings-fill:before {
+    content: "\ed75"
+}
+
+.jltma-ri-folder-settings-line:before {
+    content: "\ed76"
+}
+
+.jltma-ri-folder-shared-fill:before {
+    content: "\ed77"
+}
+
+.jltma-ri-folder-shared-line:before {
+    content: "\ed78"
+}
+
+.jltma-ri-folder-shield-2-fill:before {
+    content: "\ed79"
+}
+
+.jltma-ri-folder-shield-2-line:before {
+    content: "\ed7a"
+}
+
+.jltma-ri-folder-shield-fill:before {
+    content: "\ed7b"
+}
+
+.jltma-ri-folder-shield-line:before {
+    content: "\ed7c"
+}
+
+.jltma-ri-folder-transfer-fill:before {
+    content: "\ed7d"
+}
+
+.jltma-ri-folder-transfer-line:before {
+    content: "\ed7e"
+}
+
+.jltma-ri-folder-unknow-fill:before {
+    content: "\ed7f"
+}
+
+.jltma-ri-folder-unknow-line:before {
+    content: "\ed80"
+}
+
+.jltma-ri-folder-upload-fill:before {
+    content: "\ed81"
+}
+
+.jltma-ri-folder-upload-line:before {
+    content: "\ed82"
+}
+
+.jltma-ri-folder-user-fill:before {
+    content: "\ed83"
+}
+
+.jltma-ri-folder-user-line:before {
+    content: "\ed84"
+}
+
+.jltma-ri-folder-warning-fill:before {
+    content: "\ed85"
+}
+
+.jltma-ri-folder-warning-line:before {
+    content: "\ed86"
+}
+
+.jltma-ri-folder-zip-fill:before {
+    content: "\ed87"
+}
+
+.jltma-ri-folder-zip-line:before {
+    content: "\ed88"
+}
+
+.jltma-ri-folders-fill:before {
+    content: "\ed89"
+}
+
+.jltma-ri-folders-line:before {
+    content: "\ed8a"
+}
+
+.jltma-ri-font-color:before {
+    content: "\ed8b"
+}
+
+.jltma-ri-font-size-2:before {
+    content: "\ed8c"
+}
+
+.jltma-ri-font-size:before {
+    content: "\ed8d"
+}
+
+.jltma-ri-football-fill:before {
+    content: "\ed8e"
+}
+
+.jltma-ri-football-line:before {
+    content: "\ed8f"
+}
+
+.jltma-ri-footprint-fill:before {
+    content: "\ed90"
+}
+
+.jltma-ri-footprint-line:before {
+    content: "\ed91"
+}
+
+.jltma-ri-forbid-2-fill:before {
+    content: "\ed92"
+}
+
+.jltma-ri-forbid-2-line:before {
+    content: "\ed93"
+}
+
+.jltma-ri-forbid-fill:before {
+    content: "\ed94"
+}
+
+.jltma-ri-forbid-line:before {
+    content: "\ed95"
+}
+
+.jltma-ri-format-clear:before {
+    content: "\ed96"
+}
+
+.jltma-ri-fridge-fill:before {
+    content: "\ed97"
+}
+
+.jltma-ri-fridge-line:before {
+    content: "\ed98"
+}
+
+.jltma-ri-fullscreen-exit-fill:before {
+    content: "\ed99"
+}
+
+.jltma-ri-fullscreen-exit-line:before {
+    content: "\ed9a"
+}
+
+.jltma-ri-fullscreen-fill:before {
+    content: "\ed9b"
+}
+
+.jltma-ri-fullscreen-line:before {
+    content: "\ed9c"
+}
+
+.jltma-ri-function-fill:before {
+    content: "\ed9d"
+}
+
+.jltma-ri-function-line:before {
+    content: "\ed9e"
+}
+
+.jltma-ri-functions:before {
+    content: "\ed9f"
+}
+
+.jltma-ri-funds-box-fill:before {
+    content: "\eda0"
+}
+
+.jltma-ri-funds-box-line:before {
+    content: "\eda1"
+}
+
+.jltma-ri-funds-fill:before {
+    content: "\eda2"
+}
+
+.jltma-ri-funds-line:before {
+    content: "\eda3"
+}
+
+.jltma-ri-gallery-fill:before {
+    content: "\eda4"
+}
+
+.jltma-ri-gallery-line:before {
+    content: "\eda5"
+}
+
+.jltma-ri-gallery-upload-fill:before {
+    content: "\eda6"
+}
+
+.jltma-ri-gallery-upload-line:before {
+    content: "\eda7"
+}
+
+.jltma-ri-game-fill:before {
+    content: "\eda8"
+}
+
+.jltma-ri-game-line:before {
+    content: "\eda9"
+}
+
+.jltma-ri-gamepad-fill:before {
+    content: "\edaa"
+}
+
+.jltma-ri-gamepad-line:before {
+    content: "\edab"
+}
+
+.jltma-ri-gas-station-fill:before {
+    content: "\edac"
+}
+
+.jltma-ri-gas-station-line:before {
+    content: "\edad"
+}
+
+.jltma-ri-gatsby-fill:before {
+    content: "\edae"
+}
+
+.jltma-ri-gatsby-line:before {
+    content: "\edaf"
+}
+
+.jltma-ri-genderless-fill:before {
+    content: "\edb0"
+}
+
+.jltma-ri-genderless-line:before {
+    content: "\edb1"
+}
+
+.jltma-ri-ghost-2-fill:before {
+    content: "\edb2"
+}
+
+.jltma-ri-ghost-2-line:before {
+    content: "\edb3"
+}
+
+.jltma-ri-ghost-fill:before {
+    content: "\edb4"
+}
+
+.jltma-ri-ghost-line:before {
+    content: "\edb5"
+}
+
+.jltma-ri-ghost-smile-fill:before {
+    content: "\edb6"
+}
+
+.jltma-ri-ghost-smile-line:before {
+    content: "\edb7"
+}
+
+.jltma-ri-gift-2-fill:before {
+    content: "\edb8"
+}
+
+.jltma-ri-gift-2-line:before {
+    content: "\edb9"
+}
+
+.jltma-ri-gift-fill:before {
+    content: "\edba"
+}
+
+.jltma-ri-gift-line:before {
+    content: "\edbb"
+}
+
+.jltma-ri-git-branch-fill:before {
+    content: "\edbc"
+}
+
+.jltma-ri-git-branch-line:before {
+    content: "\edbd"
+}
+
+.jltma-ri-git-commit-fill:before {
+    content: "\edbe"
+}
+
+.jltma-ri-git-commit-line:before {
+    content: "\edbf"
+}
+
+.jltma-ri-git-merge-fill:before {
+    content: "\edc0"
+}
+
+.jltma-ri-git-merge-line:before {
+    content: "\edc1"
+}
+
+.jltma-ri-git-pull-request-fill:before {
+    content: "\edc2"
+}
+
+.jltma-ri-git-pull-request-line:before {
+    content: "\edc3"
+}
+
+.jltma-ri-git-repository-commits-fill:before {
+    content: "\edc4"
+}
+
+.jltma-ri-git-repository-commits-line:before {
+    content: "\edc5"
+}
+
+.jltma-ri-git-repository-fill:before {
+    content: "\edc6"
+}
+
+.jltma-ri-git-repository-line:before {
+    content: "\edc7"
+}
+
+.jltma-ri-git-repository-private-fill:before {
+    content: "\edc8"
+}
+
+.jltma-ri-git-repository-private-line:before {
+    content: "\edc9"
+}
+
+.jltma-ri-github-fill:before {
+    content: "\edca"
+}
+
+.jltma-ri-github-line:before {
+    content: "\edcb"
+}
+
+.jltma-ri-gitlab-fill:before {
+    content: "\edcc"
+}
+
+.jltma-ri-gitlab-line:before {
+    content: "\edcd"
+}
+
+.jltma-ri-global-fill:before {
+    content: "\edce"
+}
+
+.jltma-ri-global-line:before {
+    content: "\edcf"
+}
+
+.jltma-ri-globe-fill:before {
+    content: "\edd0"
+}
+
+.jltma-ri-globe-line:before {
+    content: "\edd1"
+}
+
+.jltma-ri-goblet-fill:before {
+    content: "\edd2"
+}
+
+.jltma-ri-goblet-line:before {
+    content: "\edd3"
+}
+
+.jltma-ri-google-fill:before {
+    content: "\edd4"
+}
+
+.jltma-ri-google-line:before {
+    content: "\edd5"
+}
+
+.jltma-ri-google-play-fill:before {
+    content: "\edd6"
+}
+
+.jltma-ri-google-play-line:before {
+    content: "\edd7"
+}
+
+.jltma-ri-government-fill:before {
+    content: "\edd8"
+}
+
+.jltma-ri-government-line:before {
+    content: "\edd9"
+}
+
+.jltma-ri-gps-fill:before {
+    content: "\edda"
+}
+
+.jltma-ri-gps-line:before {
+    content: "\eddb"
+}
+
+.jltma-ri-gradienter-fill:before {
+    content: "\eddc"
+}
+
+.jltma-ri-gradienter-line:before {
+    content: "\eddd"
+}
+
+.jltma-ri-grid-fill:before {
+    content: "\edde"
+}
+
+.jltma-ri-grid-line:before {
+    content: "\eddf"
+}
+
+.jltma-ri-group-2-fill:before {
+    content: "\ede0"
+}
+
+.jltma-ri-group-2-line:before {
+    content: "\ede1"
+}
+
+.jltma-ri-group-fill:before {
+    content: "\ede2"
+}
+
+.jltma-ri-group-line:before {
+    content: "\ede3"
+}
+
+.jltma-ri-guide-fill:before {
+    content: "\ede4"
+}
+
+.jltma-ri-guide-line:before {
+    content: "\ede5"
+}
+
+.jltma-ri-h-1:before {
+    content: "\ede6"
+}
+
+.jltma-ri-h-2:before {
+    content: "\ede7"
+}
+
+.jltma-ri-h-3:before {
+    content: "\ede8"
+}
+
+.jltma-ri-h-4:before {
+    content: "\ede9"
+}
+
+.jltma-ri-h-5:before {
+    content: "\edea"
+}
+
+.jltma-ri-h-6:before {
+    content: "\edeb"
+}
+
+.jltma-ri-hail-fill:before {
+    content: "\edec"
+}
+
+.jltma-ri-hail-line:before {
+    content: "\eded"
+}
+
+.jltma-ri-hammer-fill:before {
+    content: "\edee"
+}
+
+.jltma-ri-hammer-line:before {
+    content: "\edef"
+}
+
+.jltma-ri-hand-coin-fill:before {
+    content: "\edf0"
+}
+
+.jltma-ri-hand-coin-line:before {
+    content: "\edf1"
+}
+
+.jltma-ri-hand-heart-fill:before {
+    content: "\edf2"
+}
+
+.jltma-ri-hand-heart-line:before {
+    content: "\edf3"
+}
+
+.jltma-ri-hand-sanitizer-fill:before {
+    content: "\edf4"
+}
+
+.jltma-ri-hand-sanitizer-line:before {
+    content: "\edf5"
+}
+
+.jltma-ri-handbag-fill:before {
+    content: "\edf6"
+}
+
+.jltma-ri-handbag-line:before {
+    content: "\edf7"
+}
+
+.jltma-ri-hard-drive-2-fill:before {
+    content: "\edf8"
+}
+
+.jltma-ri-hard-drive-2-line:before {
+    content: "\edf9"
+}
+
+.jltma-ri-hard-drive-fill:before {
+    content: "\edfa"
+}
+
+.jltma-ri-hard-drive-line:before {
+    content: "\edfb"
+}
+
+.jltma-ri-hashtag:before {
+    content: "\edfc"
+}
+
+.jltma-ri-haze-2-fill:before {
+    content: "\edfd"
+}
+
+.jltma-ri-haze-2-line:before {
+    content: "\edfe"
+}
+
+.jltma-ri-haze-fill:before {
+    content: "\edff"
+}
+
+.jltma-ri-haze-line:before {
+    content: "\ee00"
+}
+
+.jltma-ri-hd-fill:before {
+    content: "\ee01"
+}
+
+.jltma-ri-hd-line:before {
+    content: "\ee02"
+}
+
+.jltma-ri-heading:before {
+    content: "\ee03"
+}
+
+.jltma-ri-headphone-fill:before {
+    content: "\ee04"
+}
+
+.jltma-ri-headphone-line:before {
+    content: "\ee05"
+}
+
+.jltma-ri-health-book-fill:before {
+    content: "\ee06"
+}
+
+.jltma-ri-health-book-line:before {
+    content: "\ee07"
+}
+
+.jltma-ri-heart-2-fill:before {
+    content: "\ee08"
+}
+
+.jltma-ri-heart-2-line:before {
+    content: "\ee09"
+}
+
+.jltma-ri-heart-3-fill:before {
+    content: "\ee0a"
+}
+
+.jltma-ri-heart-3-line:before {
+    content: "\ee0b"
+}
+
+.jltma-ri-heart-add-fill:before {
+    content: "\ee0c"
+}
+
+.jltma-ri-heart-add-line:before {
+    content: "\ee0d"
+}
+
+.jltma-ri-heart-fill:before {
+    content: "\ee0e"
+}
+
+.jltma-ri-heart-line:before {
+    content: "\ee0f"
+}
+
+.jltma-ri-heart-pulse-fill:before {
+    content: "\ee10"
+}
+
+.jltma-ri-heart-pulse-line:before {
+    content: "\ee11"
+}
+
+.jltma-ri-hearts-fill:before {
+    content: "\ee12"
+}
+
+.jltma-ri-hearts-line:before {
+    content: "\ee13"
+}
+
+.jltma-ri-heavy-showers-fill:before {
+    content: "\ee14"
+}
+
+.jltma-ri-heavy-showers-line:before {
+    content: "\ee15"
+}
+
+.jltma-ri-history-fill:before {
+    content: "\ee16"
+}
+
+.jltma-ri-history-line:before {
+    content: "\ee17"
+}
+
+.jltma-ri-home-2-fill:before {
+    content: "\ee18"
+}
+
+.jltma-ri-home-2-line:before {
+    content: "\ee19"
+}
+
+.jltma-ri-home-3-fill:before {
+    content: "\ee1a"
+}
+
+.jltma-ri-home-3-line:before {
+    content: "\ee1b"
+}
+
+.jltma-ri-home-4-fill:before {
+    content: "\ee1c"
+}
+
+.jltma-ri-home-4-line:before {
+    content: "\ee1d"
+}
+
+.jltma-ri-home-5-fill:before {
+    content: "\ee1e"
+}
+
+.jltma-ri-home-5-line:before {
+    content: "\ee1f"
+}
+
+.jltma-ri-home-6-fill:before {
+    content: "\ee20"
+}
+
+.jltma-ri-home-6-line:before {
+    content: "\ee21"
+}
+
+.jltma-ri-home-7-fill:before {
+    content: "\ee22"
+}
+
+.jltma-ri-home-7-line:before {
+    content: "\ee23"
+}
+
+.jltma-ri-home-8-fill:before {
+    content: "\ee24"
+}
+
+.jltma-ri-home-8-line:before {
+    content: "\ee25"
+}
+
+.jltma-ri-home-fill:before {
+    content: "\ee26"
+}
+
+.jltma-ri-home-gear-fill:before {
+    content: "\ee27"
+}
+
+.jltma-ri-home-gear-line:before {
+    content: "\ee28"
+}
+
+.jltma-ri-home-heart-fill:before {
+    content: "\ee29"
+}
+
+.jltma-ri-home-heart-line:before {
+    content: "\ee2a"
+}
+
+.jltma-ri-home-line:before {
+    content: "\ee2b"
+}
+
+.jltma-ri-home-smile-2-fill:before {
+    content: "\ee2c"
+}
+
+.jltma-ri-home-smile-2-line:before {
+    content: "\ee2d"
+}
+
+.jltma-ri-home-smile-fill:before {
+    content: "\ee2e"
+}
+
+.jltma-ri-home-smile-line:before {
+    content: "\ee2f"
+}
+
+.jltma-ri-home-wifi-fill:before {
+    content: "\ee30"
+}
+
+.jltma-ri-home-wifi-line:before {
+    content: "\ee31"
+}
+
+.jltma-ri-honor-of-kings-fill:before {
+    content: "\ee32"
+}
+
+.jltma-ri-honor-of-kings-line:before {
+    content: "\ee33"
+}
+
+.jltma-ri-honour-fill:before {
+    content: "\ee34"
+}
+
+.jltma-ri-honour-line:before {
+    content: "\ee35"
+}
+
+.jltma-ri-hospital-fill:before {
+    content: "\ee36"
+}
+
+.jltma-ri-hospital-line:before {
+    content: "\ee37"
+}
+
+.jltma-ri-hotel-bed-fill:before {
+    content: "\ee38"
+}
+
+.jltma-ri-hotel-bed-line:before {
+    content: "\ee39"
+}
+
+.jltma-ri-hotel-fill:before {
+    content: "\ee3a"
+}
+
+.jltma-ri-hotel-line:before {
+    content: "\ee3b"
+}
+
+.jltma-ri-hotspot-fill:before {
+    content: "\ee3c"
+}
+
+.jltma-ri-hotspot-line:before {
+    content: "\ee3d"
+}
+
+.jltma-ri-hq-fill:before {
+    content: "\ee3e"
+}
+
+.jltma-ri-hq-line:before {
+    content: "\ee3f"
+}
+
+.jltma-ri-html5-fill:before {
+    content: "\ee40"
+}
+
+.jltma-ri-html5-line:before {
+    content: "\ee41"
+}
+
+.jltma-ri-ie-fill:before {
+    content: "\ee42"
+}
+
+.jltma-ri-ie-line:before {
+    content: "\ee43"
+}
+
+.jltma-ri-image-2-fill:before {
+    content: "\ee44"
+}
+
+.jltma-ri-image-2-line:before {
+    content: "\ee45"
+}
+
+.jltma-ri-image-add-fill:before {
+    content: "\ee46"
+}
+
+.jltma-ri-image-add-line:before {
+    content: "\ee47"
+}
+
+.jltma-ri-image-edit-fill:before {
+    content: "\ee48"
+}
+
+.jltma-ri-image-edit-line:before {
+    content: "\ee49"
+}
+
+.jltma-ri-image-fill:before {
+    content: "\ee4a"
+}
+
+.jltma-ri-image-line:before {
+    content: "\ee4b"
+}
+
+.jltma-ri-inbox-archive-fill:before {
+    content: "\ee4c"
+}
+
+.jltma-ri-inbox-archive-line:before {
+    content: "\ee4d"
+}
+
+.jltma-ri-inbox-fill:before {
+    content: "\ee4e"
+}
+
+.jltma-ri-inbox-line:before {
+    content: "\ee4f"
+}
+
+.jltma-ri-inbox-unarchive-fill:before {
+    content: "\ee50"
+}
+
+.jltma-ri-inbox-unarchive-line:before {
+    content: "\ee51"
+}
+
+.jltma-ri-increase-decrease-fill:before {
+    content: "\ee52"
+}
+
+.jltma-ri-increase-decrease-line:before {
+    content: "\ee53"
+}
+
+.jltma-ri-indent-decrease:before {
+    content: "\ee54"
+}
+
+.jltma-ri-indent-increase:before {
+    content: "\ee55"
+}
+
+.jltma-ri-indeterminate-circle-fill:before {
+    content: "\ee56"
+}
+
+.jltma-ri-indeterminate-circle-line:before {
+    content: "\ee57"
+}
+
+.jltma-ri-information-fill:before {
+    content: "\ee58"
+}
+
+.jltma-ri-information-line:before {
+    content: "\ee59"
+}
+
+.jltma-ri-infrared-thermometer-fill:before {
+    content: "\ee5a"
+}
+
+.jltma-ri-infrared-thermometer-line:before {
+    content: "\ee5b"
+}
+
+.jltma-ri-ink-bottle-fill:before {
+    content: "\ee5c"
+}
+
+.jltma-ri-ink-bottle-line:before {
+    content: "\ee5d"
+}
+
+.jltma-ri-input-cursor-move:before {
+    content: "\ee5e"
+}
+
+.jltma-ri-input-method-fill:before {
+    content: "\ee5f"
+}
+
+.jltma-ri-input-method-line:before {
+    content: "\ee60"
+}
+
+.jltma-ri-insert-column-left:before {
+    content: "\ee61"
+}
+
+.jltma-ri-insert-column-right:before {
+    content: "\ee62"
+}
+
+.jltma-ri-insert-row-bottom:before {
+    content: "\ee63"
+}
+
+.jltma-ri-insert-row-top:before {
+    content: "\ee64"
+}
+
+.jltma-ri-instagram-fill:before {
+    content: "\ee65"
+}
+
+.jltma-ri-instagram-line:before {
+    content: "\ee66"
+}
+
+.jltma-ri-install-fill:before {
+    content: "\ee67"
+}
+
+.jltma-ri-install-line:before {
+    content: "\ee68"
+}
+
+.jltma-ri-invision-fill:before {
+    content: "\ee69"
+}
+
+.jltma-ri-invision-line:before {
+    content: "\ee6a"
+}
+
+.jltma-ri-italic:before {
+    content: "\ee6b"
+}
+
+.jltma-ri-kakao-talk-fill:before {
+    content: "\ee6c"
+}
+
+.jltma-ri-kakao-talk-line:before {
+    content: "\ee6d"
+}
+
+.jltma-ri-key-2-fill:before {
+    content: "\ee6e"
+}
+
+.jltma-ri-key-2-line:before {
+    content: "\ee6f"
+}
+
+.jltma-ri-key-fill:before {
+    content: "\ee70"
+}
+
+.jltma-ri-key-line:before {
+    content: "\ee71"
+}
+
+.jltma-ri-keyboard-box-fill:before {
+    content: "\ee72"
+}
+
+.jltma-ri-keyboard-box-line:before {
+    content: "\ee73"
+}
+
+.jltma-ri-keyboard-fill:before {
+    content: "\ee74"
+}
+
+.jltma-ri-keyboard-line:before {
+    content: "\ee75"
+}
+
+.jltma-ri-keynote-fill:before {
+    content: "\ee76"
+}
+
+.jltma-ri-keynote-line:before {
+    content: "\ee77"
+}
+
+.jltma-ri-knife-blood-fill:before {
+    content: "\ee78"
+}
+
+.jltma-ri-knife-blood-line:before {
+    content: "\ee79"
+}
+
+.jltma-ri-knife-fill:before {
+    content: "\ee7a"
+}
+
+.jltma-ri-knife-line:before {
+    content: "\ee7b"
+}
+
+.jltma-ri-landscape-fill:before {
+    content: "\ee7c"
+}
+
+.jltma-ri-landscape-line:before {
+    content: "\ee7d"
+}
+
+.jltma-ri-layout-2-fill:before {
+    content: "\ee7e"
+}
+
+.jltma-ri-layout-2-line:before {
+    content: "\ee7f"
+}
+
+.jltma-ri-layout-3-fill:before {
+    content: "\ee80"
+}
+
+.jltma-ri-layout-3-line:before {
+    content: "\ee81"
+}
+
+.jltma-ri-layout-4-fill:before {
+    content: "\ee82"
+}
+
+.jltma-ri-layout-4-line:before {
+    content: "\ee83"
+}
+
+.jltma-ri-layout-5-fill:before {
+    content: "\ee84"
+}
+
+.jltma-ri-layout-5-line:before {
+    content: "\ee85"
+}
+
+.jltma-ri-layout-6-fill:before {
+    content: "\ee86"
+}
+
+.jltma-ri-layout-6-line:before {
+    content: "\ee87"
+}
+
+.jltma-ri-layout-bottom-2-fill:before {
+    content: "\ee88"
+}
+
+.jltma-ri-layout-bottom-2-line:before {
+    content: "\ee89"
+}
+
+.jltma-ri-layout-bottom-fill:before {
+    content: "\ee8a"
+}
+
+.jltma-ri-layout-bottom-line:before {
+    content: "\ee8b"
+}
+
+.jltma-ri-layout-column-fill:before {
+    content: "\ee8c"
+}
+
+.jltma-ri-layout-column-line:before {
+    content: "\ee8d"
+}
+
+.jltma-ri-layout-fill:before {
+    content: "\ee8e"
+}
+
+.jltma-ri-layout-grid-fill:before {
+    content: "\ee8f"
+}
+
+.jltma-ri-layout-grid-line:before {
+    content: "\ee90"
+}
+
+.jltma-ri-layout-left-2-fill:before {
+    content: "\ee91"
+}
+
+.jltma-ri-layout-left-2-line:before {
+    content: "\ee92"
+}
+
+.jltma-ri-layout-left-fill:before {
+    content: "\ee93"
+}
+
+.jltma-ri-layout-left-line:before {
+    content: "\ee94"
+}
+
+.jltma-ri-layout-line:before {
+    content: "\ee95"
+}
+
+.jltma-ri-layout-masonry-fill:before {
+    content: "\ee96"
+}
+
+.jltma-ri-layout-masonry-line:before {
+    content: "\ee97"
+}
+
+.jltma-ri-layout-right-2-fill:before {
+    content: "\ee98"
+}
+
+.jltma-ri-layout-right-2-line:before {
+    content: "\ee99"
+}
+
+.jltma-ri-layout-right-fill:before {
+    content: "\ee9a"
+}
+
+.jltma-ri-layout-right-line:before {
+    content: "\ee9b"
+}
+
+.jltma-ri-layout-row-fill:before {
+    content: "\ee9c"
+}
+
+.jltma-ri-layout-row-line:before {
+    content: "\ee9d"
+}
+
+.jltma-ri-layout-top-2-fill:before {
+    content: "\ee9e"
+}
+
+.jltma-ri-layout-top-2-line:before {
+    content: "\ee9f"
+}
+
+.jltma-ri-layout-top-fill:before {
+    content: "\eea0"
+}
+
+.jltma-ri-layout-top-line:before {
+    content: "\eea1"
+}
+
+.jltma-ri-leaf-fill:before {
+    content: "\eea2"
+}
+
+.jltma-ri-leaf-line:before {
+    content: "\eea3"
+}
+
+.jltma-ri-lifebuoy-fill:before {
+    content: "\eea4"
+}
+
+.jltma-ri-lifebuoy-line:before {
+    content: "\eea5"
+}
+
+.jltma-ri-lightbulb-fill:before {
+    content: "\eea6"
+}
+
+.jltma-ri-lightbulb-flash-fill:before {
+    content: "\eea7"
+}
+
+.jltma-ri-lightbulb-flash-line:before {
+    content: "\eea8"
+}
+
+.jltma-ri-lightbulb-line:before {
+    content: "\eea9"
+}
+
+.jltma-ri-line-chart-fill:before {
+    content: "\eeaa"
+}
+
+.jltma-ri-line-chart-line:before {
+    content: "\eeab"
+}
+
+.jltma-ri-line-fill:before {
+    content: "\eeac"
+}
+
+.jltma-ri-line-height:before {
+    content: "\eead"
+}
+
+.jltma-ri-line-line:before {
+    content: "\eeae"
+}
+
+.jltma-ri-link-m:before {
+    content: "\eeaf"
+}
+
+.jltma-ri-link-unlink-m:before {
+    content: "\eeb0"
+}
+
+.jltma-ri-link-unlink:before {
+    content: "\eeb1"
+}
+
+.jltma-ri-link:before {
+    content: "\eeb2"
+}
+
+.jltma-ri-linkedin-box-fill:before {
+    content: "\eeb3"
+}
+
+.jltma-ri-linkedin-box-line:before {
+    content: "\eeb4"
+}
+
+.jltma-ri-linkedin-fill:before {
+    content: "\eeb5"
+}
+
+.jltma-ri-linkedin-line:before {
+    content: "\eeb6"
+}
+
+.jltma-ri-links-fill:before {
+    content: "\eeb7"
+}
+
+.jltma-ri-links-line:before {
+    content: "\eeb8"
+}
+
+.jltma-ri-list-check-2:before {
+    content: "\eeb9"
+}
+
+.jltma-ri-list-check:before {
+    content: "\eeba"
+}
+
+.jltma-ri-list-ordered:before {
+    content: "\eebb"
+}
+
+.jltma-ri-list-settings-fill:before {
+    content: "\eebc"
+}
+
+.jltma-ri-list-settings-line:before {
+    content: "\eebd"
+}
+
+.jltma-ri-list-unordered:before {
+    content: "\eebe"
+}
+
+.jltma-ri-live-fill:before {
+    content: "\eebf"
+}
+
+.jltma-ri-live-line:before {
+    content: "\eec0"
+}
+
+.jltma-ri-loader-2-fill:before {
+    content: "\eec1"
+}
+
+.jltma-ri-loader-2-line:before {
+    content: "\eec2"
+}
+
+.jltma-ri-loader-3-fill:before {
+    content: "\eec3"
+}
+
+.jltma-ri-loader-3-line:before {
+    content: "\eec4"
+}
+
+.jltma-ri-loader-4-fill:before {
+    content: "\eec5"
+}
+
+.jltma-ri-loader-4-line:before {
+    content: "\eec6"
+}
+
+.jltma-ri-loader-5-fill:before {
+    content: "\eec7"
+}
+
+.jltma-ri-loader-5-line:before {
+    content: "\eec8"
+}
+
+.jltma-ri-loader-fill:before {
+    content: "\eec9"
+}
+
+.jltma-ri-loader-line:before {
+    content: "\eeca"
+}
+
+.jltma-ri-lock-2-fill:before {
+    content: "\eecb"
+}
+
+.jltma-ri-lock-2-line:before {
+    content: "\eecc"
+}
+
+.jltma-ri-lock-fill:before {
+    content: "\eecd"
+}
+
+.jltma-ri-lock-line:before {
+    content: "\eece"
+}
+
+.jltma-ri-lock-password-fill:before {
+    content: "\eecf"
+}
+
+.jltma-ri-lock-password-line:before {
+    content: "\eed0"
+}
+
+.jltma-ri-lock-unlock-fill:before {
+    content: "\eed1"
+}
+
+.jltma-ri-lock-unlock-line:before {
+    content: "\eed2"
+}
+
+.jltma-ri-login-box-fill:before {
+    content: "\eed3"
+}
+
+.jltma-ri-login-box-line:before {
+    content: "\eed4"
+}
+
+.jltma-ri-login-circle-fill:before {
+    content: "\eed5"
+}
+
+.jltma-ri-login-circle-line:before {
+    content: "\eed6"
+}
+
+.jltma-ri-logout-box-fill:before {
+    content: "\eed7"
+}
+
+.jltma-ri-logout-box-line:before {
+    content: "\eed8"
+}
+
+.jltma-ri-logout-box-r-fill:before {
+    content: "\eed9"
+}
+
+.jltma-ri-logout-box-r-line:before {
+    content: "\eeda"
+}
+
+.jltma-ri-logout-circle-fill:before {
+    content: "\eedb"
+}
+
+.jltma-ri-logout-circle-line:before {
+    content: "\eedc"
+}
+
+.jltma-ri-logout-circle-r-fill:before {
+    content: "\eedd"
+}
+
+.jltma-ri-logout-circle-r-line:before {
+    content: "\eede"
+}
+
+.jltma-ri-luggage-cart-fill:before {
+    content: "\eedf"
+}
+
+.jltma-ri-luggage-cart-line:before {
+    content: "\eee0"
+}
+
+.jltma-ri-luggage-deposit-fill:before {
+    content: "\eee1"
+}
+
+.jltma-ri-luggage-deposit-line:before {
+    content: "\eee2"
+}
+
+.jltma-ri-lungs-fill:before {
+    content: "\eee3"
+}
+
+.jltma-ri-lungs-line:before {
+    content: "\eee4"
+}
+
+.jltma-ri-mac-fill:before {
+    content: "\eee5"
+}
+
+.jltma-ri-mac-line:before {
+    content: "\eee6"
+}
+
+.jltma-ri-macbook-fill:before {
+    content: "\eee7"
+}
+
+.jltma-ri-macbook-line:before {
+    content: "\eee8"
+}
+
+.jltma-ri-magic-fill:before {
+    content: "\eee9"
+}
+
+.jltma-ri-magic-line:before {
+    content: "\eeea"
+}
+
+.jltma-ri-mail-add-fill:before {
+    content: "\eeeb"
+}
+
+.jltma-ri-mail-add-line:before {
+    content: "\eeec"
+}
+
+.jltma-ri-mail-check-fill:before {
+    content: "\eeed"
+}
+
+.jltma-ri-mail-check-line:before {
+    content: "\eeee"
+}
+
+.jltma-ri-mail-close-fill:before {
+    content: "\eeef"
+}
+
+.jltma-ri-mail-close-line:before {
+    content: "\eef0"
+}
+
+.jltma-ri-mail-download-fill:before {
+    content: "\eef1"
+}
+
+.jltma-ri-mail-download-line:before {
+    content: "\eef2"
+}
+
+.jltma-ri-mail-fill:before {
+    content: "\eef3"
+}
+
+.jltma-ri-mail-forbid-fill:before {
+    content: "\eef4"
+}
+
+.jltma-ri-mail-forbid-line:before {
+    content: "\eef5"
+}
+
+.jltma-ri-mail-line:before {
+    content: "\eef6"
+}
+
+.jltma-ri-mail-lock-fill:before {
+    content: "\eef7"
+}
+
+.jltma-ri-mail-lock-line:before {
+    content: "\eef8"
+}
+
+.jltma-ri-mail-open-fill:before {
+    content: "\eef9"
+}
+
+.jltma-ri-mail-open-line:before {
+    content: "\eefa"
+}
+
+.jltma-ri-mail-send-fill:before {
+    content: "\eefb"
+}
+
+.jltma-ri-mail-send-line:before {
+    content: "\eefc"
+}
+
+.jltma-ri-mail-settings-fill:before {
+    content: "\eefd"
+}
+
+.jltma-ri-mail-settings-line:before {
+    content: "\eefe"
+}
+
+.jltma-ri-mail-star-fill:before {
+    content: "\eeff"
+}
+
+.jltma-ri-mail-star-line:before {
+    content: "\ef00"
+}
+
+.jltma-ri-mail-unread-fill:before {
+    content: "\ef01"
+}
+
+.jltma-ri-mail-unread-line:before {
+    content: "\ef02"
+}
+
+.jltma-ri-mail-volume-fill:before {
+    content: "\ef03"
+}
+
+.jltma-ri-mail-volume-line:before {
+    content: "\ef04"
+}
+
+.jltma-ri-map-2-fill:before {
+    content: "\ef05"
+}
+
+.jltma-ri-map-2-line:before {
+    content: "\ef06"
+}
+
+.jltma-ri-map-fill:before {
+    content: "\ef07"
+}
+
+.jltma-ri-map-line:before {
+    content: "\ef08"
+}
+
+.jltma-ri-map-pin-2-fill:before {
+    content: "\ef09"
+}
+
+.jltma-ri-map-pin-2-line:before {
+    content: "\ef0a"
+}
+
+.jltma-ri-map-pin-3-fill:before {
+    content: "\ef0b"
+}
+
+.jltma-ri-map-pin-3-line:before {
+    content: "\ef0c"
+}
+
+.jltma-ri-map-pin-4-fill:before {
+    content: "\ef0d"
+}
+
+.jltma-ri-map-pin-4-line:before {
+    content: "\ef0e"
+}
+
+.jltma-ri-map-pin-5-fill:before {
+    content: "\ef0f"
+}
+
+.jltma-ri-map-pin-5-line:before {
+    content: "\ef10"
+}
+
+.jltma-ri-map-pin-add-fill:before {
+    content: "\ef11"
+}
+
+.jltma-ri-map-pin-add-line:before {
+    content: "\ef12"
+}
+
+.jltma-ri-map-pin-fill:before {
+    content: "\ef13"
+}
+
+.jltma-ri-map-pin-line:before {
+    content: "\ef14"
+}
+
+.jltma-ri-map-pin-range-fill:before {
+    content: "\ef15"
+}
+
+.jltma-ri-map-pin-range-line:before {
+    content: "\ef16"
+}
+
+.jltma-ri-map-pin-time-fill:before {
+    content: "\ef17"
+}
+
+.jltma-ri-map-pin-time-line:before {
+    content: "\ef18"
+}
+
+.jltma-ri-map-pin-user-fill:before {
+    content: "\ef19"
+}
+
+.jltma-ri-map-pin-user-line:before {
+    content: "\ef1a"
+}
+
+.jltma-ri-mark-pen-fill:before {
+    content: "\ef1b"
+}
+
+.jltma-ri-mark-pen-line:before {
+    content: "\ef1c"
+}
+
+.jltma-ri-markdown-fill:before {
+    content: "\ef1d"
+}
+
+.jltma-ri-markdown-line:before {
+    content: "\ef1e"
+}
+
+.jltma-ri-markup-fill:before {
+    content: "\ef1f"
+}
+
+.jltma-ri-markup-line:before {
+    content: "\ef20"
+}
+
+.jltma-ri-mastercard-fill:before {
+    content: "\ef21"
+}
+
+.jltma-ri-mastercard-line:before {
+    content: "\ef22"
+}
+
+.jltma-ri-mastodon-fill:before {
+    content: "\ef23"
+}
+
+.jltma-ri-mastodon-line:before {
+    content: "\ef24"
+}
+
+.jltma-ri-medal-2-fill:before {
+    content: "\ef25"
+}
+
+.jltma-ri-medal-2-line:before {
+    content: "\ef26"
+}
+
+.jltma-ri-medal-fill:before {
+    content: "\ef27"
+}
+
+.jltma-ri-medal-line:before {
+    content: "\ef28"
+}
+
+.jltma-ri-medicine-bottle-fill:before {
+    content: "\ef29"
+}
+
+.jltma-ri-medicine-bottle-line:before {
+    content: "\ef2a"
+}
+
+.jltma-ri-medium-fill:before {
+    content: "\ef2b"
+}
+
+.jltma-ri-medium-line:before {
+    content: "\ef2c"
+}
+
+.jltma-ri-men-fill:before {
+    content: "\ef2d"
+}
+
+.jltma-ri-men-line:before {
+    content: "\ef2e"
+}
+
+.jltma-ri-mental-health-fill:before {
+    content: "\ef2f"
+}
+
+.jltma-ri-mental-health-line:before {
+    content: "\ef30"
+}
+
+.jltma-ri-menu-2-fill:before {
+    content: "\ef31"
+}
+
+.jltma-ri-menu-2-line:before {
+    content: "\ef32"
+}
+
+.jltma-ri-menu-3-fill:before {
+    content: "\ef33"
+}
+
+.jltma-ri-menu-3-line:before {
+    content: "\ef34"
+}
+
+.jltma-ri-menu-4-fill:before {
+    content: "\ef35"
+}
+
+.jltma-ri-menu-4-line:before {
+    content: "\ef36"
+}
+
+.jltma-ri-menu-5-fill:before {
+    content: "\ef37"
+}
+
+.jltma-ri-menu-5-line:before {
+    content: "\ef38"
+}
+
+.jltma-ri-menu-add-fill:before {
+    content: "\ef39"
+}
+
+.jltma-ri-menu-add-line:before {
+    content: "\ef3a"
+}
+
+.jltma-ri-menu-fill:before {
+    content: "\ef3b"
+}
+
+.jltma-ri-menu-fold-fill:before {
+    content: "\ef3c"
+}
+
+.jltma-ri-menu-fold-line:before {
+    content: "\ef3d"
+}
+
+.jltma-ri-menu-line:before {
+    content: "\ef3e"
+}
+
+.jltma-ri-menu-unfold-fill:before {
+    content: "\ef3f"
+}
+
+.jltma-ri-menu-unfold-line:before {
+    content: "\ef40"
+}
+
+.jltma-ri-merge-cells-horizontal:before {
+    content: "\ef41"
+}
+
+.jltma-ri-merge-cells-vertical:before {
+    content: "\ef42"
+}
+
+.jltma-ri-message-2-fill:before {
+    content: "\ef43"
+}
+
+.jltma-ri-message-2-line:before {
+    content: "\ef44"
+}
+
+.jltma-ri-message-3-fill:before {
+    content: "\ef45"
+}
+
+.jltma-ri-message-3-line:before {
+    content: "\ef46"
+}
+
+.jltma-ri-message-fill:before {
+    content: "\ef47"
+}
+
+.jltma-ri-message-line:before {
+    content: "\ef48"
+}
+
+.jltma-ri-messenger-fill:before {
+    content: "\ef49"
+}
+
+.jltma-ri-messenger-line:before {
+    content: "\ef4a"
+}
+
+.jltma-ri-meteor-fill:before {
+    content: "\ef4b"
+}
+
+.jltma-ri-meteor-line:before {
+    content: "\ef4c"
+}
+
+.jltma-ri-mic-2-fill:before {
+    content: "\ef4d"
+}
+
+.jltma-ri-mic-2-line:before {
+    content: "\ef4e"
+}
+
+.jltma-ri-mic-fill:before {
+    content: "\ef4f"
+}
+
+.jltma-ri-mic-line:before {
+    content: "\ef50"
+}
+
+.jltma-ri-mic-off-fill:before {
+    content: "\ef51"
+}
+
+.jltma-ri-mic-off-line:before {
+    content: "\ef52"
+}
+
+.jltma-ri-mickey-fill:before {
+    content: "\ef53"
+}
+
+.jltma-ri-mickey-line:before {
+    content: "\ef54"
+}
+
+.jltma-ri-microscope-fill:before {
+    content: "\ef55"
+}
+
+.jltma-ri-microscope-line:before {
+    content: "\ef56"
+}
+
+.jltma-ri-microsoft-fill:before {
+    content: "\ef57"
+}
+
+.jltma-ri-microsoft-line:before {
+    content: "\ef58"
+}
+
+.jltma-ri-mind-map:before {
+    content: "\ef59"
+}
+
+.jltma-ri-mini-program-fill:before {
+    content: "\ef5a"
+}
+
+.jltma-ri-mini-program-line:before {
+    content: "\ef5b"
+}
+
+.jltma-ri-mist-fill:before {
+    content: "\ef5c"
+}
+
+.jltma-ri-mist-line:before {
+    content: "\ef5d"
+}
+
+.jltma-ri-money-cny-box-fill:before {
+    content: "\ef5e"
+}
+
+.jltma-ri-money-cny-box-line:before {
+    content: "\ef5f"
+}
+
+.jltma-ri-money-cny-circle-fill:before {
+    content: "\ef60"
+}
+
+.jltma-ri-money-cny-circle-line:before {
+    content: "\ef61"
+}
+
+.jltma-ri-money-dollar-box-fill:before {
+    content: "\ef62"
+}
+
+.jltma-ri-money-dollar-box-line:before {
+    content: "\ef63"
+}
+
+.jltma-ri-money-dollar-circle-fill:before {
+    content: "\ef64"
+}
+
+.jltma-ri-money-dollar-circle-line:before {
+    content: "\ef65"
+}
+
+.jltma-ri-money-euro-box-fill:before {
+    content: "\ef66"
+}
+
+.jltma-ri-money-euro-box-line:before {
+    content: "\ef67"
+}
+
+.jltma-ri-money-euro-circle-fill:before {
+    content: "\ef68"
+}
+
+.jltma-ri-money-euro-circle-line:before {
+    content: "\ef69"
+}
+
+.jltma-ri-money-pound-box-fill:before {
+    content: "\ef6a"
+}
+
+.jltma-ri-money-pound-box-line:before {
+    content: "\ef6b"
+}
+
+.jltma-ri-money-pound-circle-fill:before {
+    content: "\ef6c"
+}
+
+.jltma-ri-money-pound-circle-line:before {
+    content: "\ef6d"
+}
+
+.jltma-ri-moon-clear-fill:before {
+    content: "\ef6e"
+}
+
+.jltma-ri-moon-clear-line:before {
+    content: "\ef6f"
+}
+
+.jltma-ri-moon-cloudy-fill:before {
+    content: "\ef70"
+}
+
+.jltma-ri-moon-cloudy-line:before {
+    content: "\ef71"
+}
+
+.jltma-ri-moon-fill:before {
+    content: "\ef72"
+}
+
+.jltma-ri-moon-foggy-fill:before {
+    content: "\ef73"
+}
+
+.jltma-ri-moon-foggy-line:before {
+    content: "\ef74"
+}
+
+.jltma-ri-moon-line:before {
+    content: "\ef75"
+}
+
+.jltma-ri-more-2-fill:before {
+    content: "\ef76"
+}
+
+.jltma-ri-more-2-line:before {
+    content: "\ef77"
+}
+
+.jltma-ri-more-fill:before {
+    content: "\ef78"
+}
+
+.jltma-ri-more-line:before {
+    content: "\ef79"
+}
+
+.jltma-ri-motorbike-fill:before {
+    content: "\ef7a"
+}
+
+.jltma-ri-motorbike-line:before {
+    content: "\ef7b"
+}
+
+.jltma-ri-mouse-fill:before {
+    content: "\ef7c"
+}
+
+.jltma-ri-mouse-line:before {
+    content: "\ef7d"
+}
+
+.jltma-ri-movie-2-fill:before {
+    content: "\ef7e"
+}
+
+.jltma-ri-movie-2-line:before {
+    content: "\ef7f"
+}
+
+.jltma-ri-movie-fill:before {
+    content: "\ef80"
+}
+
+.jltma-ri-movie-line:before {
+    content: "\ef81"
+}
+
+.jltma-ri-music-2-fill:before {
+    content: "\ef82"
+}
+
+.jltma-ri-music-2-line:before {
+    content: "\ef83"
+}
+
+.jltma-ri-music-fill:before {
+    content: "\ef84"
+}
+
+.jltma-ri-music-line:before {
+    content: "\ef85"
+}
+
+.jltma-ri-mv-fill:before {
+    content: "\ef86"
+}
+
+.jltma-ri-mv-line:before {
+    content: "\ef87"
+}
+
+.jltma-ri-navigation-fill:before {
+    content: "\ef88"
+}
+
+.jltma-ri-navigation-line:before {
+    content: "\ef89"
+}
+
+.jltma-ri-netease-cloud-music-fill:before {
+    content: "\ef8a"
+}
+
+.jltma-ri-netease-cloud-music-line:before {
+    content: "\ef8b"
+}
+
+.jltma-ri-netflix-fill:before {
+    content: "\ef8c"
+}
+
+.jltma-ri-netflix-line:before {
+    content: "\ef8d"
+}
+
+.jltma-ri-newspaper-fill:before {
+    content: "\ef8e"
+}
+
+.jltma-ri-newspaper-line:before {
+    content: "\ef8f"
+}
+
+.jltma-ri-node-tree:before {
+    content: "\ef90"
+}
+
+.jltma-ri-notification-2-fill:before {
+    content: "\ef91"
+}
+
+.jltma-ri-notification-2-line:before {
+    content: "\ef92"
+}
+
+.jltma-ri-notification-3-fill:before {
+    content: "\ef93"
+}
+
+.jltma-ri-notification-3-line:before {
+    content: "\ef94"
+}
+
+.jltma-ri-notification-4-fill:before {
+    content: "\ef95"
+}
+
+.jltma-ri-notification-4-line:before {
+    content: "\ef96"
+}
+
+.jltma-ri-notification-badge-fill:before {
+    content: "\ef97"
+}
+
+.jltma-ri-notification-badge-line:before {
+    content: "\ef98"
+}
+
+.jltma-ri-notification-fill:before {
+    content: "\ef99"
+}
+
+.jltma-ri-notification-line:before {
+    content: "\ef9a"
+}
+
+.jltma-ri-notification-off-fill:before {
+    content: "\ef9b"
+}
+
+.jltma-ri-notification-off-line:before {
+    content: "\ef9c"
+}
+
+.jltma-ri-npmjs-fill:before {
+    content: "\ef9d"
+}
+
+.jltma-ri-npmjs-line:before {
+    content: "\ef9e"
+}
+
+.jltma-ri-number-0:before {
+    content: "\ef9f"
+}
+
+.jltma-ri-number-1:before {
+    content: "\efa0"
+}
+
+.jltma-ri-number-2:before {
+    content: "\efa1"
+}
+
+.jltma-ri-number-3:before {
+    content: "\efa2"
+}
+
+.jltma-ri-number-4:before {
+    content: "\efa3"
+}
+
+.jltma-ri-number-5:before {
+    content: "\efa4"
+}
+
+.jltma-ri-number-6:before {
+    content: "\efa5"
+}
+
+.jltma-ri-number-7:before {
+    content: "\efa6"
+}
+
+.jltma-ri-number-8:before {
+    content: "\efa7"
+}
+
+.jltma-ri-number-9:before {
+    content: "\efa8"
+}
+
+.jltma-ri-numbers-fill:before {
+    content: "\efa9"
+}
+
+.jltma-ri-numbers-line:before {
+    content: "\efaa"
+}
+
+.jltma-ri-nurse-fill:before {
+    content: "\efab"
+}
+
+.jltma-ri-nurse-line:before {
+    content: "\efac"
+}
+
+.jltma-ri-oil-fill:before {
+    content: "\efad"
+}
+
+.jltma-ri-oil-line:before {
+    content: "\efae"
+}
+
+.jltma-ri-omega:before {
+    content: "\efaf"
+}
+
+.jltma-ri-open-arm-fill:before {
+    content: "\efb0"
+}
+
+.jltma-ri-open-arm-line:before {
+    content: "\efb1"
+}
+
+.jltma-ri-open-source-fill:before {
+    content: "\efb2"
+}
+
+.jltma-ri-open-source-line:before {
+    content: "\efb3"
+}
+
+.jltma-ri-opera-fill:before {
+    content: "\efb4"
+}
+
+.jltma-ri-opera-line:before {
+    content: "\efb5"
+}
+
+.jltma-ri-order-play-fill:before {
+    content: "\efb6"
+}
+
+.jltma-ri-order-play-line:before {
+    content: "\efb7"
+}
+
+.jltma-ri-organization-chart:before {
+    content: "\efb8"
+}
+
+.jltma-ri-outlet-2-fill:before {
+    content: "\efb9"
+}
+
+.jltma-ri-outlet-2-line:before {
+    content: "\efba"
+}
+
+.jltma-ri-outlet-fill:before {
+    content: "\efbb"
+}
+
+.jltma-ri-outlet-line:before {
+    content: "\efbc"
+}
+
+.jltma-ri-page-separator:before {
+    content: "\efbd"
+}
+
+.jltma-ri-pages-fill:before {
+    content: "\efbe"
+}
+
+.jltma-ri-pages-line:before {
+    content: "\efbf"
+}
+
+.jltma-ri-paint-brush-fill:before {
+    content: "\efc0"
+}
+
+.jltma-ri-paint-brush-line:before {
+    content: "\efc1"
+}
+
+.jltma-ri-paint-fill:before {
+    content: "\efc2"
+}
+
+.jltma-ri-paint-line:before {
+    content: "\efc3"
+}
+
+.jltma-ri-palette-fill:before {
+    content: "\efc4"
+}
+
+.jltma-ri-palette-line:before {
+    content: "\efc5"
+}
+
+.jltma-ri-pantone-fill:before {
+    content: "\efc6"
+}
+
+.jltma-ri-pantone-line:before {
+    content: "\efc7"
+}
+
+.jltma-ri-paragraph:before {
+    content: "\efc8"
+}
+
+.jltma-ri-parent-fill:before {
+    content: "\efc9"
+}
+
+.jltma-ri-parent-line:before {
+    content: "\efca"
+}
+
+.jltma-ri-parentheses-fill:before {
+    content: "\efcb"
+}
+
+.jltma-ri-parentheses-line:before {
+    content: "\efcc"
+}
+
+.jltma-ri-parking-box-fill:before {
+    content: "\efcd"
+}
+
+.jltma-ri-parking-box-line:before {
+    content: "\efce"
+}
+
+.jltma-ri-parking-fill:before {
+    content: "\efcf"
+}
+
+.jltma-ri-parking-line:before {
+    content: "\efd0"
+}
+
+.jltma-ri-passport-fill:before {
+    content: "\efd1"
+}
+
+.jltma-ri-passport-line:before {
+    content: "\efd2"
+}
+
+.jltma-ri-patreon-fill:before {
+    content: "\efd3"
+}
+
+.jltma-ri-patreon-line:before {
+    content: "\efd4"
+}
+
+.jltma-ri-pause-circle-fill:before {
+    content: "\efd5"
+}
+
+.jltma-ri-pause-circle-line:before {
+    content: "\efd6"
+}
+
+.jltma-ri-pause-fill:before {
+    content: "\efd7"
+}
+
+.jltma-ri-pause-line:before {
+    content: "\efd8"
+}
+
+.jltma-ri-pause-mini-fill:before {
+    content: "\efd9"
+}
+
+.jltma-ri-pause-mini-line:before {
+    content: "\efda"
+}
+
+.jltma-ri-paypal-fill:before {
+    content: "\efdb"
+}
+
+.jltma-ri-paypal-line:before {
+    content: "\efdc"
+}
+
+.jltma-ri-pen-nib-fill:before {
+    content: "\efdd"
+}
+
+.jltma-ri-pen-nib-line:before {
+    content: "\efde"
+}
+
+.jltma-ri-pencil-fill:before {
+    content: "\efdf"
+}
+
+.jltma-ri-pencil-line:before {
+    content: "\efe0"
+}
+
+.jltma-ri-pencil-ruler-2-fill:before {
+    content: "\efe1"
+}
+
+.jltma-ri-pencil-ruler-2-line:before {
+    content: "\efe2"
+}
+
+.jltma-ri-pencil-ruler-fill:before {
+    content: "\efe3"
+}
+
+.jltma-ri-pencil-ruler-line:before {
+    content: "\efe4"
+}
+
+.jltma-ri-percent-fill:before {
+    content: "\efe5"
+}
+
+.jltma-ri-percent-line:before {
+    content: "\efe6"
+}
+
+.jltma-ri-phone-camera-fill:before {
+    content: "\efe7"
+}
+
+.jltma-ri-phone-camera-line:before {
+    content: "\efe8"
+}
+
+.jltma-ri-phone-fill:before {
+    content: "\efe9"
+}
+
+.jltma-ri-phone-find-fill:before {
+    content: "\efea"
+}
+
+.jltma-ri-phone-find-line:before {
+    content: "\efeb"
+}
+
+.jltma-ri-phone-line:before {
+    content: "\efec"
+}
+
+.jltma-ri-phone-lock-fill:before {
+    content: "\efed"
+}
+
+.jltma-ri-phone-lock-line:before {
+    content: "\efee"
+}
+
+.jltma-ri-picture-in-picture-2-fill:before {
+    content: "\efef"
+}
+
+.jltma-ri-picture-in-picture-2-line:before {
+    content: "\eff0"
+}
+
+.jltma-ri-picture-in-picture-exit-fill:before {
+    content: "\eff1"
+}
+
+.jltma-ri-picture-in-picture-exit-line:before {
+    content: "\eff2"
+}
+
+.jltma-ri-picture-in-picture-fill:before {
+    content: "\eff3"
+}
+
+.jltma-ri-picture-in-picture-line:before {
+    content: "\eff4"
+}
+
+.jltma-ri-pie-chart-2-fill:before {
+    content: "\eff5"
+}
+
+.jltma-ri-pie-chart-2-line:before {
+    content: "\eff6"
+}
+
+.jltma-ri-pie-chart-box-fill:before {
+    content: "\eff7"
+}
+
+.jltma-ri-pie-chart-box-line:before {
+    content: "\eff8"
+}
+
+.jltma-ri-pie-chart-fill:before {
+    content: "\eff9"
+}
+
+.jltma-ri-pie-chart-line:before {
+    content: "\effa"
+}
+
+.jltma-ri-pin-distance-fill:before {
+    content: "\effb"
+}
+
+.jltma-ri-pin-distance-line:before {
+    content: "\effc"
+}
+
+.jltma-ri-ping-pong-fill:before {
+    content: "\effd"
+}
+
+.jltma-ri-ping-pong-line:before {
+    content: "\effe"
+}
+
+.jltma-ri-pinterest-fill:before {
+    content: "\efff"
+}
+
+.jltma-ri-pinterest-line:before {
+    content: "\f000"
+}
+
+.jltma-ri-pinyin-input:before {
+    content: "\f001"
+}
+
+.jltma-ri-pixelfed-fill:before {
+    content: "\f002"
+}
+
+.jltma-ri-pixelfed-line:before {
+    content: "\f003"
+}
+
+.jltma-ri-plane-fill:before {
+    content: "\f004"
+}
+
+.jltma-ri-plane-line:before {
+    content: "\f005"
+}
+
+.jltma-ri-plant-fill:before {
+    content: "\f006"
+}
+
+.jltma-ri-plant-line:before {
+    content: "\f007"
+}
+
+.jltma-ri-play-circle-fill:before {
+    content: "\f008"
+}
+
+.jltma-ri-play-circle-line:before {
+    content: "\f009"
+}
+
+.jltma-ri-play-fill:before {
+    content: "\f00a"
+}
+
+.jltma-ri-play-line:before {
+    content: "\f00b"
+}
+
+.jltma-ri-play-list-2-fill:before {
+    content: "\f00c"
+}
+
+.jltma-ri-play-list-2-line:before {
+    content: "\f00d"
+}
+
+.jltma-ri-play-list-add-fill:before {
+    content: "\f00e"
+}
+
+.jltma-ri-play-list-add-line:before {
+    content: "\f00f"
+}
+
+.jltma-ri-play-list-fill:before {
+    content: "\f010"
+}
+
+.jltma-ri-play-list-line:before {
+    content: "\f011"
+}
+
+.jltma-ri-play-mini-fill:before {
+    content: "\f012"
+}
+
+.jltma-ri-play-mini-line:before {
+    content: "\f013"
+}
+
+.jltma-ri-playstation-fill:before {
+    content: "\f014"
+}
+
+.jltma-ri-playstation-line:before {
+    content: "\f015"
+}
+
+.jltma-ri-plug-2-fill:before {
+    content: "\f016"
+}
+
+.jltma-ri-plug-2-line:before {
+    content: "\f017"
+}
+
+.jltma-ri-plug-fill:before {
+    content: "\f018"
+}
+
+.jltma-ri-plug-line:before {
+    content: "\f019"
+}
+
+.jltma-ri-polaroid-2-fill:before {
+    content: "\f01a"
+}
+
+.jltma-ri-polaroid-2-line:before {
+    content: "\f01b"
+}
+
+.jltma-ri-polaroid-fill:before {
+    content: "\f01c"
+}
+
+.jltma-ri-polaroid-line:before {
+    content: "\f01d"
+}
+
+.jltma-ri-police-car-fill:before {
+    content: "\f01e"
+}
+
+.jltma-ri-police-car-line:before {
+    content: "\f01f"
+}
+
+.jltma-ri-price-tag-2-fill:before {
+    content: "\f020"
+}
+
+.jltma-ri-price-tag-2-line:before {
+    content: "\f021"
+}
+
+.jltma-ri-price-tag-3-fill:before {
+    content: "\f022"
+}
+
+.jltma-ri-price-tag-3-line:before {
+    content: "\f023"
+}
+
+.jltma-ri-price-tag-fill:before {
+    content: "\f024"
+}
+
+.jltma-ri-price-tag-line:before {
+    content: "\f025"
+}
+
+.jltma-ri-printer-cloud-fill:before {
+    content: "\f026"
+}
+
+.jltma-ri-printer-cloud-line:before {
+    content: "\f027"
+}
+
+.jltma-ri-printer-fill:before {
+    content: "\f028"
+}
+
+.jltma-ri-printer-line:before {
+    content: "\f029"
+}
+
+.jltma-ri-product-hunt-fill:before {
+    content: "\f02a"
+}
+
+.jltma-ri-product-hunt-line:before {
+    content: "\f02b"
+}
+
+.jltma-ri-profile-fill:before {
+    content: "\f02c"
+}
+
+.jltma-ri-profile-line:before {
+    content: "\f02d"
+}
+
+.jltma-ri-projector-2-fill:before {
+    content: "\f02e"
+}
+
+.jltma-ri-projector-2-line:before {
+    content: "\f02f"
+}
+
+.jltma-ri-projector-fill:before {
+    content: "\f030"
+}
+
+.jltma-ri-projector-line:before {
+    content: "\f031"
+}
+
+.jltma-ri-psychotherapy-fill:before {
+    content: "\f032"
+}
+
+.jltma-ri-psychotherapy-line:before {
+    content: "\f033"
+}
+
+.jltma-ri-pulse-fill:before {
+    content: "\f034"
+}
+
+.jltma-ri-pulse-line:before {
+    content: "\f035"
+}
+
+.jltma-ri-pushpin-2-fill:before {
+    content: "\f036"
+}
+
+.jltma-ri-pushpin-2-line:before {
+    content: "\f037"
+}
+
+.jltma-ri-pushpin-fill:before {
+    content: "\f038"
+}
+
+.jltma-ri-pushpin-line:before {
+    content: "\f039"
+}
+
+.jltma-ri-qq-fill:before {
+    content: "\f03a"
+}
+
+.jltma-ri-qq-line:before {
+    content: "\f03b"
+}
+
+.jltma-ri-qr-code-fill:before {
+    content: "\f03c"
+}
+
+.jltma-ri-qr-code-line:before {
+    content: "\f03d"
+}
+
+.jltma-ri-qr-scan-2-fill:before {
+    content: "\f03e"
+}
+
+.jltma-ri-qr-scan-2-line:before {
+    content: "\f03f"
+}
+
+.jltma-ri-qr-scan-fill:before {
+    content: "\f040"
+}
+
+.jltma-ri-qr-scan-line:before {
+    content: "\f041"
+}
+
+.jltma-ri-question-answer-fill:before {
+    content: "\f042"
+}
+
+.jltma-ri-question-answer-line:before {
+    content: "\f043"
+}
+
+.jltma-ri-question-fill:before {
+    content: "\f044"
+}
+
+.jltma-ri-question-line:before {
+    content: "\f045"
+}
+
+.jltma-ri-question-mark:before {
+    content: "\f046"
+}
+
+.jltma-ri-questionnaire-fill:before {
+    content: "\f047"
+}
+
+.jltma-ri-questionnaire-line:before {
+    content: "\f048"
+}
+
+.jltma-ri-quill-pen-fill:before {
+    content: "\f049"
+}
+
+.jltma-ri-quill-pen-line:before {
+    content: "\f04a"
+}
+
+.jltma-ri-radar-fill:before {
+    content: "\f04b"
+}
+
+.jltma-ri-radar-line:before {
+    content: "\f04c"
+}
+
+.jltma-ri-radio-2-fill:before {
+    content: "\f04d"
+}
+
+.jltma-ri-radio-2-line:before {
+    content: "\f04e"
+}
+
+.jltma-ri-radio-button-fill:before {
+    content: "\f04f"
+}
+
+.jltma-ri-radio-button-line:before {
+    content: "\f050"
+}
+
+.jltma-ri-radio-fill:before {
+    content: "\f051"
+}
+
+.jltma-ri-radio-line:before {
+    content: "\f052"
+}
+
+.jltma-ri-rainbow-fill:before {
+    content: "\f053"
+}
+
+.jltma-ri-rainbow-line:before {
+    content: "\f054"
+}
+
+.jltma-ri-rainy-fill:before {
+    content: "\f055"
+}
+
+.jltma-ri-rainy-line:before {
+    content: "\f056"
+}
+
+.jltma-ri-reactjs-fill:before {
+    content: "\f057"
+}
+
+.jltma-ri-reactjs-line:before {
+    content: "\f058"
+}
+
+.jltma-ri-record-circle-fill:before {
+    content: "\f059"
+}
+
+.jltma-ri-record-circle-line:before {
+    content: "\f05a"
+}
+
+.jltma-ri-record-mail-fill:before {
+    content: "\f05b"
+}
+
+.jltma-ri-record-mail-line:before {
+    content: "\f05c"
+}
+
+.jltma-ri-recycle-fill:before {
+    content: "\f05d"
+}
+
+.jltma-ri-recycle-line:before {
+    content: "\f05e"
+}
+
+.jltma-ri-red-packet-fill:before {
+    content: "\f05f"
+}
+
+.jltma-ri-red-packet-line:before {
+    content: "\f060"
+}
+
+.jltma-ri-reddit-fill:before {
+    content: "\f061"
+}
+
+.jltma-ri-reddit-line:before {
+    content: "\f062"
+}
+
+.jltma-ri-refresh-fill:before {
+    content: "\f063"
+}
+
+.jltma-ri-refresh-line:before {
+    content: "\f064"
+}
+
+.jltma-ri-refund-2-fill:before {
+    content: "\f065"
+}
+
+.jltma-ri-refund-2-line:before {
+    content: "\f066"
+}
+
+.jltma-ri-refund-fill:before {
+    content: "\f067"
+}
+
+.jltma-ri-refund-line:before {
+    content: "\f068"
+}
+
+.jltma-ri-registered-fill:before {
+    content: "\f069"
+}
+
+.jltma-ri-registered-line:before {
+    content: "\f06a"
+}
+
+.jltma-ri-remixicon-fill:before {
+    content: "\f06b"
+}
+
+.jltma-ri-remixicon-line:before {
+    content: "\f06c"
+}
+
+.jltma-ri-remote-control-2-fill:before {
+    content: "\f06d"
+}
+
+.jltma-ri-remote-control-2-line:before {
+    content: "\f06e"
+}
+
+.jltma-ri-remote-control-fill:before {
+    content: "\f06f"
+}
+
+.jltma-ri-remote-control-line:before {
+    content: "\f070"
+}
+
+.jltma-ri-repeat-2-fill:before {
+    content: "\f071"
+}
+
+.jltma-ri-repeat-2-line:before {
+    content: "\f072"
+}
+
+.jltma-ri-repeat-fill:before {
+    content: "\f073"
+}
+
+.jltma-ri-repeat-line:before {
+    content: "\f074"
+}
+
+.jltma-ri-repeat-one-fill:before {
+    content: "\f075"
+}
+
+.jltma-ri-repeat-one-line:before {
+    content: "\f076"
+}
+
+.jltma-ri-reply-all-fill:before {
+    content: "\f077"
+}
+
+.jltma-ri-reply-all-line:before {
+    content: "\f078"
+}
+
+.jltma-ri-reply-fill:before {
+    content: "\f079"
+}
+
+.jltma-ri-reply-line:before {
+    content: "\f07a"
+}
+
+.jltma-ri-reserved-fill:before {
+    content: "\f07b"
+}
+
+.jltma-ri-reserved-line:before {
+    content: "\f07c"
+}
+
+.jltma-ri-rest-time-fill:before {
+    content: "\f07d"
+}
+
+.jltma-ri-rest-time-line:before {
+    content: "\f07e"
+}
+
+.jltma-ri-restart-fill:before {
+    content: "\f07f"
+}
+
+.jltma-ri-restart-line:before {
+    content: "\f080"
+}
+
+.jltma-ri-restaurant-2-fill:before {
+    content: "\f081"
+}
+
+.jltma-ri-restaurant-2-line:before {
+    content: "\f082"
+}
+
+.jltma-ri-restaurant-fill:before {
+    content: "\f083"
+}
+
+.jltma-ri-restaurant-line:before {
+    content: "\f084"
+}
+
+.jltma-ri-rewind-fill:before {
+    content: "\f085"
+}
+
+.jltma-ri-rewind-line:before {
+    content: "\f086"
+}
+
+.jltma-ri-rewind-mini-fill:before {
+    content: "\f087"
+}
+
+.jltma-ri-rewind-mini-line:before {
+    content: "\f088"
+}
+
+.jltma-ri-rhythm-fill:before {
+    content: "\f089"
+}
+
+.jltma-ri-rhythm-line:before {
+    content: "\f08a"
+}
+
+.jltma-ri-riding-fill:before {
+    content: "\f08b"
+}
+
+.jltma-ri-riding-line:before {
+    content: "\f08c"
+}
+
+.jltma-ri-road-map-fill:before {
+    content: "\f08d"
+}
+
+.jltma-ri-road-map-line:before {
+    content: "\f08e"
+}
+
+.jltma-ri-roadster-fill:before {
+    content: "\f08f"
+}
+
+.jltma-ri-roadster-line:before {
+    content: "\f090"
+}
+
+.jltma-ri-robot-fill:before {
+    content: "\f091"
+}
+
+.jltma-ri-robot-line:before {
+    content: "\f092"
+}
+
+.jltma-ri-rocket-2-fill:before {
+    content: "\f093"
+}
+
+.jltma-ri-rocket-2-line:before {
+    content: "\f094"
+}
+
+.jltma-ri-rocket-fill:before {
+    content: "\f095"
+}
+
+.jltma-ri-rocket-line:before {
+    content: "\f096"
+}
+
+.jltma-ri-rotate-lock-fill:before {
+    content: "\f097"
+}
+
+.jltma-ri-rotate-lock-line:before {
+    content: "\f098"
+}
+
+.jltma-ri-rounded-corner:before {
+    content: "\f099"
+}
+
+.jltma-ri-route-fill:before {
+    content: "\f09a"
+}
+
+.jltma-ri-route-line:before {
+    content: "\f09b"
+}
+
+.jltma-ri-router-fill:before {
+    content: "\f09c"
+}
+
+.jltma-ri-router-line:before {
+    content: "\f09d"
+}
+
+.jltma-ri-rss-fill:before {
+    content: "\f09e"
+}
+
+.jltma-ri-rss-line:before {
+    content: "\f09f"
+}
+
+.jltma-ri-ruler-2-fill:before {
+    content: "\f0a0"
+}
+
+.jltma-ri-ruler-2-line:before {
+    content: "\f0a1"
+}
+
+.jltma-ri-ruler-fill:before {
+    content: "\f0a2"
+}
+
+.jltma-ri-ruler-line:before {
+    content: "\f0a3"
+}
+
+.jltma-ri-run-fill:before {
+    content: "\f0a4"
+}
+
+.jltma-ri-run-line:before {
+    content: "\f0a5"
+}
+
+.jltma-ri-safari-fill:before {
+    content: "\f0a6"
+}
+
+.jltma-ri-safari-line:before {
+    content: "\f0a7"
+}
+
+.jltma-ri-safe-2-fill:before {
+    content: "\f0a8"
+}
+
+.jltma-ri-safe-2-line:before {
+    content: "\f0a9"
+}
+
+.jltma-ri-safe-fill:before {
+    content: "\f0aa"
+}
+
+.jltma-ri-safe-line:before {
+    content: "\f0ab"
+}
+
+.jltma-ri-sailboat-fill:before {
+    content: "\f0ac"
+}
+
+.jltma-ri-sailboat-line:before {
+    content: "\f0ad"
+}
+
+.jltma-ri-save-2-fill:before {
+    content: "\f0ae"
+}
+
+.jltma-ri-save-2-line:before {
+    content: "\f0af"
+}
+
+.jltma-ri-save-3-fill:before {
+    content: "\f0b0"
+}
+
+.jltma-ri-save-3-line:before {
+    content: "\f0b1"
+}
+
+.jltma-ri-save-fill:before {
+    content: "\f0b2"
+}
+
+.jltma-ri-save-line:before {
+    content: "\f0b3"
+}
+
+.jltma-ri-scales-2-fill:before {
+    content: "\f0b4"
+}
+
+.jltma-ri-scales-2-line:before {
+    content: "\f0b5"
+}
+
+.jltma-ri-scales-3-fill:before {
+    content: "\f0b6"
+}
+
+.jltma-ri-scales-3-line:before {
+    content: "\f0b7"
+}
+
+.jltma-ri-scales-fill:before {
+    content: "\f0b8"
+}
+
+.jltma-ri-scales-line:before {
+    content: "\f0b9"
+}
+
+.jltma-ri-scan-2-fill:before {
+    content: "\f0ba"
+}
+
+.jltma-ri-scan-2-line:before {
+    content: "\f0bb"
+}
+
+.jltma-ri-scan-fill:before {
+    content: "\f0bc"
+}
+
+.jltma-ri-scan-line:before {
+    content: "\f0bd"
+}
+
+.jltma-ri-scissors-2-fill:before {
+    content: "\f0be"
+}
+
+.jltma-ri-scissors-2-line:before {
+    content: "\f0bf"
+}
+
+.jltma-ri-scissors-cut-fill:before {
+    content: "\f0c0"
+}
+
+.jltma-ri-scissors-cut-line:before {
+    content: "\f0c1"
+}
+
+.jltma-ri-scissors-fill:before {
+    content: "\f0c2"
+}
+
+.jltma-ri-scissors-line:before {
+    content: "\f0c3"
+}
+
+.jltma-ri-screenshot-2-fill:before {
+    content: "\f0c4"
+}
+
+.jltma-ri-screenshot-2-line:before {
+    content: "\f0c5"
+}
+
+.jltma-ri-screenshot-fill:before {
+    content: "\f0c6"
+}
+
+.jltma-ri-screenshot-line:before {
+    content: "\f0c7"
+}
+
+.jltma-ri-sd-card-fill:before {
+    content: "\f0c8"
+}
+
+.jltma-ri-sd-card-line:before {
+    content: "\f0c9"
+}
+
+.jltma-ri-sd-card-mini-fill:before {
+    content: "\f0ca"
+}
+
+.jltma-ri-sd-card-mini-line:before {
+    content: "\f0cb"
+}
+
+.jltma-ri-search-2-fill:before {
+    content: "\f0cc"
+}
+
+.jltma-ri-search-2-line:before {
+    content: "\f0cd"
+}
+
+.jltma-ri-search-eye-fill:before {
+    content: "\f0ce"
+}
+
+.jltma-ri-search-eye-line:before {
+    content: "\f0cf"
+}
+
+.jltma-ri-search-fill:before {
+    content: "\f0d0"
+}
+
+.jltma-ri-search-line:before {
+    content: "\f0d1"
+}
+
+.jltma-ri-secure-payment-fill:before {
+    content: "\f0d2"
+}
+
+.jltma-ri-secure-payment-line:before {
+    content: "\f0d3"
+}
+
+.jltma-ri-seedling-fill:before {
+    content: "\f0d4"
+}
+
+.jltma-ri-seedling-line:before {
+    content: "\f0d5"
+}
+
+.jltma-ri-send-backward:before {
+    content: "\f0d6"
+}
+
+.jltma-ri-send-plane-2-fill:before {
+    content: "\f0d7"
+}
+
+.jltma-ri-send-plane-2-line:before {
+    content: "\f0d8"
+}
+
+.jltma-ri-send-plane-fill:before {
+    content: "\f0d9"
+}
+
+.jltma-ri-send-plane-line:before {
+    content: "\f0da"
+}
+
+.jltma-ri-send-to-back:before {
+    content: "\f0db"
+}
+
+.jltma-ri-sensor-fill:before {
+    content: "\f0dc"
+}
+
+.jltma-ri-sensor-line:before {
+    content: "\f0dd"
+}
+
+.jltma-ri-separator:before {
+    content: "\f0de"
+}
+
+.jltma-ri-server-fill:before {
+    content: "\f0df"
+}
+
+.jltma-ri-server-line:before {
+    content: "\f0e0"
+}
+
+.jltma-ri-service-fill:before {
+    content: "\f0e1"
+}
+
+.jltma-ri-service-line:before {
+    content: "\f0e2"
+}
+
+.jltma-ri-settings-2-fill:before {
+    content: "\f0e3"
+}
+
+.jltma-ri-settings-2-line:before {
+    content: "\f0e4"
+}
+
+.jltma-ri-settings-3-fill:before {
+    content: "\f0e5"
+}
+
+.jltma-ri-settings-3-line:before {
+    content: "\f0e6"
+}
+
+.jltma-ri-settings-4-fill:before {
+    content: "\f0e7"
+}
+
+.jltma-ri-settings-4-line:before {
+    content: "\f0e8"
+}
+
+.jltma-ri-settings-5-fill:before {
+    content: "\f0e9"
+}
+
+.jltma-ri-settings-5-line:before {
+    content: "\f0ea"
+}
+
+.jltma-ri-settings-6-fill:before {
+    content: "\f0eb"
+}
+
+.jltma-ri-settings-6-line:before {
+    content: "\f0ec"
+}
+
+.jltma-ri-settings-fill:before {
+    content: "\f0ed"
+}
+
+.jltma-ri-settings-line:before {
+    content: "\f0ee"
+}
+
+.jltma-ri-shape-2-fill:before {
+    content: "\f0ef"
+}
+
+.jltma-ri-shape-2-line:before {
+    content: "\f0f0"
+}
+
+.jltma-ri-shape-fill:before {
+    content: "\f0f1"
+}
+
+.jltma-ri-shape-line:before {
+    content: "\f0f2"
+}
+
+.jltma-ri-share-box-fill:before {
+    content: "\f0f3"
+}
+
+.jltma-ri-share-box-line:before {
+    content: "\f0f4"
+}
+
+.jltma-ri-share-circle-fill:before {
+    content: "\f0f5"
+}
+
+.jltma-ri-share-circle-line:before {
+    content: "\f0f6"
+}
+
+.jltma-ri-share-fill:before {
+    content: "\f0f7"
+}
+
+.jltma-ri-share-forward-2-fill:before {
+    content: "\f0f8"
+}
+
+.jltma-ri-share-forward-2-line:before {
+    content: "\f0f9"
+}
+
+.jltma-ri-share-forward-box-fill:before {
+    content: "\f0fa"
+}
+
+.jltma-ri-share-forward-box-line:before {
+    content: "\f0fb"
+}
+
+.jltma-ri-share-forward-fill:before {
+    content: "\f0fc"
+}
+
+.jltma-ri-share-forward-line:before {
+    content: "\f0fd"
+}
+
+.jltma-ri-share-line:before {
+    content: "\f0fe"
+}
+
+.jltma-ri-shield-check-fill:before {
+    content: "\f0ff"
+}
+
+.jltma-ri-shield-check-line:before {
+    content: "\f100"
+}
+
+.jltma-ri-shield-cross-fill:before {
+    content: "\f101"
+}
+
+.jltma-ri-shield-cross-line:before {
+    content: "\f102"
+}
+
+.jltma-ri-shield-fill:before {
+    content: "\f103"
+}
+
+.jltma-ri-shield-flash-fill:before {
+    content: "\f104"
+}
+
+.jltma-ri-shield-flash-line:before {
+    content: "\f105"
+}
+
+.jltma-ri-shield-keyhole-fill:before {
+    content: "\f106"
+}
+
+.jltma-ri-shield-keyhole-line:before {
+    content: "\f107"
+}
+
+.jltma-ri-shield-line:before {
+    content: "\f108"
+}
+
+.jltma-ri-shield-star-fill:before {
+    content: "\f109"
+}
+
+.jltma-ri-shield-star-line:before {
+    content: "\f10a"
+}
+
+.jltma-ri-shield-user-fill:before {
+    content: "\f10b"
+}
+
+.jltma-ri-shield-user-line:before {
+    content: "\f10c"
+}
+
+.jltma-ri-ship-2-fill:before {
+    content: "\f10d"
+}
+
+.jltma-ri-ship-2-line:before {
+    content: "\f10e"
+}
+
+.jltma-ri-ship-fill:before {
+    content: "\f10f"
+}
+
+.jltma-ri-ship-line:before {
+    content: "\f110"
+}
+
+.jltma-ri-shirt-fill:before {
+    content: "\f111"
+}
+
+.jltma-ri-shirt-line:before {
+    content: "\f112"
+}
+
+.jltma-ri-shopping-bag-2-fill:before {
+    content: "\f113"
+}
+
+.jltma-ri-shopping-bag-2-line:before {
+    content: "\f114"
+}
+
+.jltma-ri-shopping-bag-3-fill:before {
+    content: "\f115"
+}
+
+.jltma-ri-shopping-bag-3-line:before {
+    content: "\f116"
+}
+
+.jltma-ri-shopping-bag-fill:before {
+    content: "\f117"
+}
+
+.jltma-ri-shopping-bag-line:before {
+    content: "\f118"
+}
+
+.jltma-ri-shopping-basket-2-fill:before {
+    content: "\f119"
+}
+
+.jltma-ri-shopping-basket-2-line:before {
+    content: "\f11a"
+}
+
+.jltma-ri-shopping-basket-fill:before {
+    content: "\f11b"
+}
+
+.jltma-ri-shopping-basket-line:before {
+    content: "\f11c"
+}
+
+.jltma-ri-shopping-cart-2-fill:before {
+    content: "\f11d"
+}
+
+.jltma-ri-shopping-cart-2-line:before {
+    content: "\f11e"
+}
+
+.jltma-ri-shopping-cart-fill:before {
+    content: "\f11f"
+}
+
+.jltma-ri-shopping-cart-line:before {
+    content: "\f120"
+}
+
+.jltma-ri-showers-fill:before {
+    content: "\f121"
+}
+
+.jltma-ri-showers-line:before {
+    content: "\f122"
+}
+
+.jltma-ri-shuffle-fill:before {
+    content: "\f123"
+}
+
+.jltma-ri-shuffle-line:before {
+    content: "\f124"
+}
+
+.jltma-ri-shut-down-fill:before {
+    content: "\f125"
+}
+
+.jltma-ri-shut-down-line:before {
+    content: "\f126"
+}
+
+.jltma-ri-side-bar-fill:before {
+    content: "\f127"
+}
+
+.jltma-ri-side-bar-line:before {
+    content: "\f128"
+}
+
+.jltma-ri-signal-tower-fill:before {
+    content: "\f129"
+}
+
+.jltma-ri-signal-tower-line:before {
+    content: "\f12a"
+}
+
+.jltma-ri-signal-wifi-1-fill:before {
+    content: "\f12b"
+}
+
+.jltma-ri-signal-wifi-1-line:before {
+    content: "\f12c"
+}
+
+.jltma-ri-signal-wifi-2-fill:before {
+    content: "\f12d"
+}
+
+.jltma-ri-signal-wifi-2-line:before {
+    content: "\f12e"
+}
+
+.jltma-ri-signal-wifi-3-fill:before {
+    content: "\f12f"
+}
+
+.jltma-ri-signal-wifi-3-line:before {
+    content: "\f130"
+}
+
+.jltma-ri-signal-wifi-error-fill:before {
+    content: "\f131"
+}
+
+.jltma-ri-signal-wifi-error-line:before {
+    content: "\f132"
+}
+
+.jltma-ri-signal-wifi-fill:before {
+    content: "\f133"
+}
+
+.jltma-ri-signal-wifi-line:before {
+    content: "\f134"
+}
+
+.jltma-ri-signal-wifi-off-fill:before {
+    content: "\f135"
+}
+
+.jltma-ri-signal-wifi-off-line:before {
+    content: "\f136"
+}
+
+.jltma-ri-sim-card-2-fill:before {
+    content: "\f137"
+}
+
+.jltma-ri-sim-card-2-line:before {
+    content: "\f138"
+}
+
+.jltma-ri-sim-card-fill:before {
+    content: "\f139"
+}
+
+.jltma-ri-sim-card-line:before {
+    content: "\f13a"
+}
+
+.jltma-ri-single-quotes-l:before {
+    content: "\f13b"
+}
+
+.jltma-ri-single-quotes-r:before {
+    content: "\f13c"
+}
+
+.jltma-ri-sip-fill:before {
+    content: "\f13d"
+}
+
+.jltma-ri-sip-line:before {
+    content: "\f13e"
+}
+
+.jltma-ri-skip-back-fill:before {
+    content: "\f13f"
+}
+
+.jltma-ri-skip-back-line:before {
+    content: "\f140"
+}
+
+.jltma-ri-skip-back-mini-fill:before {
+    content: "\f141"
+}
+
+.jltma-ri-skip-back-mini-line:before {
+    content: "\f142"
+}
+
+.jltma-ri-skip-forward-fill:before {
+    content: "\f143"
+}
+
+.jltma-ri-skip-forward-line:before {
+    content: "\f144"
+}
+
+.jltma-ri-skip-forward-mini-fill:before {
+    content: "\f145"
+}
+
+.jltma-ri-skip-forward-mini-line:before {
+    content: "\f146"
+}
+
+.jltma-ri-skull-2-fill:before {
+    content: "\f147"
+}
+
+.jltma-ri-skull-2-line:before {
+    content: "\f148"
+}
+
+.jltma-ri-skull-fill:before {
+    content: "\f149"
+}
+
+.jltma-ri-skull-line:before {
+    content: "\f14a"
+}
+
+.jltma-ri-skype-fill:before {
+    content: "\f14b"
+}
+
+.jltma-ri-skype-line:before {
+    content: "\f14c"
+}
+
+.jltma-ri-slack-fill:before {
+    content: "\f14d"
+}
+
+.jltma-ri-slack-line:before {
+    content: "\f14e"
+}
+
+.jltma-ri-slice-fill:before {
+    content: "\f14f"
+}
+
+.jltma-ri-slice-line:before {
+    content: "\f150"
+}
+
+.jltma-ri-slideshow-2-fill:before {
+    content: "\f151"
+}
+
+.jltma-ri-slideshow-2-line:before {
+    content: "\f152"
+}
+
+.jltma-ri-slideshow-3-fill:before {
+    content: "\f153"
+}
+
+.jltma-ri-slideshow-3-line:before {
+    content: "\f154"
+}
+
+.jltma-ri-slideshow-4-fill:before {
+    content: "\f155"
+}
+
+.jltma-ri-slideshow-4-line:before {
+    content: "\f156"
+}
+
+.jltma-ri-slideshow-fill:before {
+    content: "\f157"
+}
+
+.jltma-ri-slideshow-line:before {
+    content: "\f158"
+}
+
+.jltma-ri-smartphone-fill:before {
+    content: "\f159"
+}
+
+.jltma-ri-smartphone-line:before {
+    content: "\f15a"
+}
+
+.jltma-ri-snapchat-fill:before {
+    content: "\f15b"
+}
+
+.jltma-ri-snapchat-line:before {
+    content: "\f15c"
+}
+
+.jltma-ri-snowy-fill:before {
+    content: "\f15d"
+}
+
+.jltma-ri-snowy-line:before {
+    content: "\f15e"
+}
+
+.jltma-ri-sort-asc:before {
+    content: "\f15f"
+}
+
+.jltma-ri-sort-desc:before {
+    content: "\f160"
+}
+
+.jltma-ri-sound-module-fill:before {
+    content: "\f161"
+}
+
+.jltma-ri-sound-module-line:before {
+    content: "\f162"
+}
+
+.jltma-ri-soundcloud-fill:before {
+    content: "\f163"
+}
+
+.jltma-ri-soundcloud-line:before {
+    content: "\f164"
+}
+
+.jltma-ri-space-ship-fill:before {
+    content: "\f165"
+}
+
+.jltma-ri-space-ship-line:before {
+    content: "\f166"
+}
+
+.jltma-ri-space:before {
+    content: "\f167"
+}
+
+.jltma-ri-spam-2-fill:before {
+    content: "\f168"
+}
+
+.jltma-ri-spam-2-line:before {
+    content: "\f169"
+}
+
+.jltma-ri-spam-3-fill:before {
+    content: "\f16a"
+}
+
+.jltma-ri-spam-3-line:before {
+    content: "\f16b"
+}
+
+.jltma-ri-spam-fill:before {
+    content: "\f16c"
+}
+
+.jltma-ri-spam-line:before {
+    content: "\f16d"
+}
+
+.jltma-ri-speaker-2-fill:before {
+    content: "\f16e"
+}
+
+.jltma-ri-speaker-2-line:before {
+    content: "\f16f"
+}
+
+.jltma-ri-speaker-3-fill:before {
+    content: "\f170"
+}
+
+.jltma-ri-speaker-3-line:before {
+    content: "\f171"
+}
+
+.jltma-ri-speaker-fill:before {
+    content: "\f172"
+}
+
+.jltma-ri-speaker-line:before {
+    content: "\f173"
+}
+
+.jltma-ri-spectrum-fill:before {
+    content: "\f174"
+}
+
+.jltma-ri-spectrum-line:before {
+    content: "\f175"
+}
+
+.jltma-ri-speed-fill:before {
+    content: "\f176"
+}
+
+.jltma-ri-speed-line:before {
+    content: "\f177"
+}
+
+.jltma-ri-speed-mini-fill:before {
+    content: "\f178"
+}
+
+.jltma-ri-speed-mini-line:before {
+    content: "\f179"
+}
+
+.jltma-ri-split-cells-horizontal:before {
+    content: "\f17a"
+}
+
+.jltma-ri-split-cells-vertical:before {
+    content: "\f17b"
+}
+
+.jltma-ri-spotify-fill:before {
+    content: "\f17c"
+}
+
+.jltma-ri-spotify-line:before {
+    content: "\f17d"
+}
+
+.jltma-ri-spy-fill:before {
+    content: "\f17e"
+}
+
+.jltma-ri-spy-line:before {
+    content: "\f17f"
+}
+
+.jltma-ri-stack-fill:before {
+    content: "\f180"
+}
+
+.jltma-ri-stack-line:before {
+    content: "\f181"
+}
+
+.jltma-ri-stack-overflow-fill:before {
+    content: "\f182"
+}
+
+.jltma-ri-stack-overflow-line:before {
+    content: "\f183"
+}
+
+.jltma-ri-stackshare-fill:before {
+    content: "\f184"
+}
+
+.jltma-ri-stackshare-line:before {
+    content: "\f185"
+}
+
+.jltma-ri-star-fill:before {
+    content: "\f186"
+}
+
+.jltma-ri-star-half-fill:before {
+    content: "\f187"
+}
+
+.jltma-ri-star-half-line:before {
+    content: "\f188"
+}
+
+.jltma-ri-star-half-s-fill:before {
+    content: "\f189"
+}
+
+.jltma-ri-star-half-s-line:before {
+    content: "\f18a"
+}
+
+.jltma-ri-star-line:before {
+    content: "\f18b"
+}
+
+.jltma-ri-star-s-fill:before {
+    content: "\f18c"
+}
+
+.jltma-ri-star-s-line:before {
+    content: "\f18d"
+}
+
+.jltma-ri-star-smile-fill:before {
+    content: "\f18e"
+}
+
+.jltma-ri-star-smile-line:before {
+    content: "\f18f"
+}
+
+.jltma-ri-steam-fill:before {
+    content: "\f190"
+}
+
+.jltma-ri-steam-line:before {
+    content: "\f191"
+}
+
+.jltma-ri-steering-2-fill:before {
+    content: "\f192"
+}
+
+.jltma-ri-steering-2-line:before {
+    content: "\f193"
+}
+
+.jltma-ri-steering-fill:before {
+    content: "\f194"
+}
+
+.jltma-ri-steering-line:before {
+    content: "\f195"
+}
+
+.jltma-ri-stethoscope-fill:before {
+    content: "\f196"
+}
+
+.jltma-ri-stethoscope-line:before {
+    content: "\f197"
+}
+
+.jltma-ri-sticky-note-2-fill:before {
+    content: "\f198"
+}
+
+.jltma-ri-sticky-note-2-line:before {
+    content: "\f199"
+}
+
+.jltma-ri-sticky-note-fill:before {
+    content: "\f19a"
+}
+
+.jltma-ri-sticky-note-line:before {
+    content: "\f19b"
+}
+
+.jltma-ri-stock-fill:before {
+    content: "\f19c"
+}
+
+.jltma-ri-stock-line:before {
+    content: "\f19d"
+}
+
+.jltma-ri-stop-circle-fill:before {
+    content: "\f19e"
+}
+
+.jltma-ri-stop-circle-line:before {
+    content: "\f19f"
+}
+
+.jltma-ri-stop-fill:before {
+    content: "\f1a0"
+}
+
+.jltma-ri-stop-line:before {
+    content: "\f1a1"
+}
+
+.jltma-ri-stop-mini-fill:before {
+    content: "\f1a2"
+}
+
+.jltma-ri-stop-mini-line:before {
+    content: "\f1a3"
+}
+
+.jltma-ri-store-2-fill:before {
+    content: "\f1a4"
+}
+
+.jltma-ri-store-2-line:before {
+    content: "\f1a5"
+}
+
+.jltma-ri-store-3-fill:before {
+    content: "\f1a6"
+}
+
+.jltma-ri-store-3-line:before {
+    content: "\f1a7"
+}
+
+.jltma-ri-store-fill:before {
+    content: "\f1a8"
+}
+
+.jltma-ri-store-line:before {
+    content: "\f1a9"
+}
+
+.jltma-ri-strikethrough-2:before {
+    content: "\f1aa"
+}
+
+.jltma-ri-strikethrough:before {
+    content: "\f1ab"
+}
+
+.jltma-ri-subscript-2:before {
+    content: "\f1ac"
+}
+
+.jltma-ri-subscript:before {
+    content: "\f1ad"
+}
+
+.jltma-ri-subtract-fill:before {
+    content: "\f1ae"
+}
+
+.jltma-ri-subtract-line:before {
+    content: "\f1af"
+}
+
+.jltma-ri-subway-fill:before {
+    content: "\f1b0"
+}
+
+.jltma-ri-subway-line:before {
+    content: "\f1b1"
+}
+
+.jltma-ri-subway-wifi-fill:before {
+    content: "\f1b2"
+}
+
+.jltma-ri-subway-wifi-line:before {
+    content: "\f1b3"
+}
+
+.jltma-ri-suitcase-2-fill:before {
+    content: "\f1b4"
+}
+
+.jltma-ri-suitcase-2-line:before {
+    content: "\f1b5"
+}
+
+.jltma-ri-suitcase-3-fill:before {
+    content: "\f1b6"
+}
+
+.jltma-ri-suitcase-3-line:before {
+    content: "\f1b7"
+}
+
+.jltma-ri-suitcase-fill:before {
+    content: "\f1b8"
+}
+
+.jltma-ri-suitcase-line:before {
+    content: "\f1b9"
+}
+
+.jltma-ri-sun-cloudy-fill:before {
+    content: "\f1ba"
+}
+
+.jltma-ri-sun-cloudy-line:before {
+    content: "\f1bb"
+}
+
+.jltma-ri-sun-fill:before {
+    content: "\f1bc"
+}
+
+.jltma-ri-sun-foggy-fill:before {
+    content: "\f1bd"
+}
+
+.jltma-ri-sun-foggy-line:before {
+    content: "\f1be"
+}
+
+.jltma-ri-sun-line:before {
+    content: "\f1bf"
+}
+
+.jltma-ri-superscript-2:before {
+    content: "\f1c0"
+}
+
+.jltma-ri-superscript:before {
+    content: "\f1c1"
+}
+
+.jltma-ri-surgical-mask-fill:before {
+    content: "\f1c2"
+}
+
+.jltma-ri-surgical-mask-line:before {
+    content: "\f1c3"
+}
+
+.jltma-ri-surround-sound-fill:before {
+    content: "\f1c4"
+}
+
+.jltma-ri-surround-sound-line:before {
+    content: "\f1c5"
+}
+
+.jltma-ri-survey-fill:before {
+    content: "\f1c6"
+}
+
+.jltma-ri-survey-line:before {
+    content: "\f1c7"
+}
+
+.jltma-ri-swap-box-fill:before {
+    content: "\f1c8"
+}
+
+.jltma-ri-swap-box-line:before {
+    content: "\f1c9"
+}
+
+.jltma-ri-swap-fill:before {
+    content: "\f1ca"
+}
+
+.jltma-ri-swap-line:before {
+    content: "\f1cb"
+}
+
+.jltma-ri-switch-fill:before {
+    content: "\f1cc"
+}
+
+.jltma-ri-switch-line:before {
+    content: "\f1cd"
+}
+
+.jltma-ri-sword-fill:before {
+    content: "\f1ce"
+}
+
+.jltma-ri-sword-line:before {
+    content: "\f1cf"
+}
+
+.jltma-ri-syringe-fill:before {
+    content: "\f1d0"
+}
+
+.jltma-ri-syringe-line:before {
+    content: "\f1d1"
+}
+
+.jltma-ri-t-box-fill:before {
+    content: "\f1d2"
+}
+
+.jltma-ri-t-box-line:before {
+    content: "\f1d3"
+}
+
+.jltma-ri-t-shirt-2-fill:before {
+    content: "\f1d4"
+}
+
+.jltma-ri-t-shirt-2-line:before {
+    content: "\f1d5"
+}
+
+.jltma-ri-t-shirt-air-fill:before {
+    content: "\f1d6"
+}
+
+.jltma-ri-t-shirt-air-line:before {
+    content: "\f1d7"
+}
+
+.jltma-ri-t-shirt-fill:before {
+    content: "\f1d8"
+}
+
+.jltma-ri-t-shirt-line:before {
+    content: "\f1d9"
+}
+
+.jltma-ri-table-2:before {
+    content: "\f1da"
+}
+
+.jltma-ri-table-alt-fill:before {
+    content: "\f1db"
+}
+
+.jltma-ri-table-alt-line:before {
+    content: "\f1dc"
+}
+
+.jltma-ri-table-fill:before {
+    content: "\f1dd"
+}
+
+.jltma-ri-table-line:before {
+    content: "\f1de"
+}
+
+.jltma-ri-tablet-fill:before {
+    content: "\f1df"
+}
+
+.jltma-ri-tablet-line:before {
+    content: "\f1e0"
+}
+
+.jltma-ri-takeaway-fill:before {
+    content: "\f1e1"
+}
+
+.jltma-ri-takeaway-line:before {
+    content: "\f1e2"
+}
+
+.jltma-ri-taobao-fill:before {
+    content: "\f1e3"
+}
+
+.jltma-ri-taobao-line:before {
+    content: "\f1e4"
+}
+
+.jltma-ri-tape-fill:before {
+    content: "\f1e5"
+}
+
+.jltma-ri-tape-line:before {
+    content: "\f1e6"
+}
+
+.jltma-ri-task-fill:before {
+    content: "\f1e7"
+}
+
+.jltma-ri-task-line:before {
+    content: "\f1e8"
+}
+
+.jltma-ri-taxi-fill:before {
+    content: "\f1e9"
+}
+
+.jltma-ri-taxi-line:before {
+    content: "\f1ea"
+}
+
+.jltma-ri-taxi-wifi-fill:before {
+    content: "\f1eb"
+}
+
+.jltma-ri-taxi-wifi-line:before {
+    content: "\f1ec"
+}
+
+.jltma-ri-team-fill:before {
+    content: "\f1ed"
+}
+
+.jltma-ri-team-line:before {
+    content: "\f1ee"
+}
+
+.jltma-ri-telegram-fill:before {
+    content: "\f1ef"
+}
+
+.jltma-ri-telegram-line:before {
+    content: "\f1f0"
+}
+
+.jltma-ri-temp-cold-fill:before {
+    content: "\f1f1"
+}
+
+.jltma-ri-temp-cold-line:before {
+    content: "\f1f2"
+}
+
+.jltma-ri-temp-hot-fill:before {
+    content: "\f1f3"
+}
+
+.jltma-ri-temp-hot-line:before {
+    content: "\f1f4"
+}
+
+.jltma-ri-terminal-box-fill:before {
+    content: "\f1f5"
+}
+
+.jltma-ri-terminal-box-line:before {
+    content: "\f1f6"
+}
+
+.jltma-ri-terminal-fill:before {
+    content: "\f1f7"
+}
+
+.jltma-ri-terminal-line:before {
+    content: "\f1f8"
+}
+
+.jltma-ri-terminal-window-fill:before {
+    content: "\f1f9"
+}
+
+.jltma-ri-terminal-window-line:before {
+    content: "\f1fa"
+}
+
+.jltma-ri-test-tube-fill:before {
+    content: "\f1fb"
+}
+
+.jltma-ri-test-tube-line:before {
+    content: "\f1fc"
+}
+
+.jltma-ri-text-direction-l:before {
+    content: "\f1fd"
+}
+
+.jltma-ri-text-direction-r:before {
+    content: "\f1fe"
+}
+
+.jltma-ri-text-spacing:before {
+    content: "\f1ff"
+}
+
+.jltma-ri-text-wrap:before {
+    content: "\f200"
+}
+
+.jltma-ri-text:before {
+    content: "\f201"
+}
+
+.jltma-ri-thermometer-fill:before {
+    content: "\f202"
+}
+
+.jltma-ri-thermometer-line:before {
+    content: "\f203"
+}
+
+.jltma-ri-thumb-down-fill:before {
+    content: "\f204"
+}
+
+.jltma-ri-thumb-down-line:before {
+    content: "\f205"
+}
+
+.jltma-ri-thumb-up-fill:before {
+    content: "\f206"
+}
+
+.jltma-ri-thumb-up-line:before {
+    content: "\f207"
+}
+
+.jltma-ri-thunderstorms-fill:before {
+    content: "\f208"
+}
+
+.jltma-ri-thunderstorms-line:before {
+    content: "\f209"
+}
+
+.jltma-ri-ticket-2-fill:before {
+    content: "\f20a"
+}
+
+.jltma-ri-ticket-2-line:before {
+    content: "\f20b"
+}
+
+.jltma-ri-ticket-fill:before {
+    content: "\f20c"
+}
+
+.jltma-ri-ticket-line:before {
+    content: "\f20d"
+}
+
+.jltma-ri-time-fill:before {
+    content: "\f20e"
+}
+
+.jltma-ri-time-line:before {
+    content: "\f20f"
+}
+
+.jltma-ri-timer-2-fill:before {
+    content: "\f210"
+}
+
+.jltma-ri-timer-2-line:before {
+    content: "\f211"
+}
+
+.jltma-ri-timer-fill:before {
+    content: "\f212"
+}
+
+.jltma-ri-timer-flash-fill:before {
+    content: "\f213"
+}
+
+.jltma-ri-timer-flash-line:before {
+    content: "\f214"
+}
+
+.jltma-ri-timer-line:before {
+    content: "\f215"
+}
+
+.jltma-ri-todo-fill:before {
+    content: "\f216"
+}
+
+.jltma-ri-todo-line:before {
+    content: "\f217"
+}
+
+.jltma-ri-toggle-fill:before {
+    content: "\f218"
+}
+
+.jltma-ri-toggle-line:before {
+    content: "\f219"
+}
+
+.jltma-ri-tools-fill:before {
+    content: "\f21a"
+}
+
+.jltma-ri-tools-line:before {
+    content: "\f21b"
+}
+
+.jltma-ri-tornado-fill:before {
+    content: "\f21c"
+}
+
+.jltma-ri-tornado-line:before {
+    content: "\f21d"
+}
+
+.jltma-ri-trademark-fill:before {
+    content: "\f21e"
+}
+
+.jltma-ri-trademark-line:before {
+    content: "\f21f"
+}
+
+.jltma-ri-traffic-light-fill:before {
+    content: "\f220"
+}
+
+.jltma-ri-traffic-light-line:before {
+    content: "\f221"
+}
+
+.jltma-ri-train-fill:before {
+    content: "\f222"
+}
+
+.jltma-ri-train-line:before {
+    content: "\f223"
+}
+
+.jltma-ri-train-wifi-fill:before {
+    content: "\f224"
+}
+
+.jltma-ri-train-wifi-line:before {
+    content: "\f225"
+}
+
+.jltma-ri-translate-2:before {
+    content: "\f226"
+}
+
+.jltma-ri-translate:before {
+    content: "\f227"
+}
+
+.jltma-ri-travesti-fill:before {
+    content: "\f228"
+}
+
+.jltma-ri-travesti-line:before {
+    content: "\f229"
+}
+
+.jltma-ri-treasure-map-fill:before {
+    content: "\f22a"
+}
+
+.jltma-ri-treasure-map-line:before {
+    content: "\f22b"
+}
+
+.jltma-ri-trello-fill:before {
+    content: "\f22c"
+}
+
+.jltma-ri-trello-line:before {
+    content: "\f22d"
+}
+
+.jltma-ri-trophy-fill:before {
+    content: "\f22e"
+}
+
+.jltma-ri-trophy-line:before {
+    content: "\f22f"
+}
+
+.jltma-ri-truck-fill:before {
+    content: "\f230"
+}
+
+.jltma-ri-truck-line:before {
+    content: "\f231"
+}
+
+.jltma-ri-tumblr-fill:before {
+    content: "\f232"
+}
+
+.jltma-ri-tumblr-line:before {
+    content: "\f233"
+}
+
+.jltma-ri-tv-2-fill:before {
+    content: "\f234"
+}
+
+.jltma-ri-tv-2-line:before {
+    content: "\f235"
+}
+
+.jltma-ri-tv-fill:before {
+    content: "\f236"
+}
+
+.jltma-ri-tv-line:before {
+    content: "\f237"
+}
+
+.jltma-ri-twitch-fill:before {
+    content: "\f238"
+}
+
+.jltma-ri-twitch-line:before {
+    content: "\f239"
+}
+
+.jltma-ri-twitter-fill:before {
+    content: "\f23a"
+}
+
+.jltma-ri-twitter-line:before {
+    content: "\f23b"
+}
+
+.jltma-ri-typhoon-fill:before {
+    content: "\f23c"
+}
+
+.jltma-ri-typhoon-line:before {
+    content: "\f23d"
+}
+
+.jltma-ri-u-disk-fill:before {
+    content: "\f23e"
+}
+
+.jltma-ri-u-disk-line:before {
+    content: "\f23f"
+}
+
+.jltma-ri-ubuntu-fill:before {
+    content: "\f240"
+}
+
+.jltma-ri-ubuntu-line:before {
+    content: "\f241"
+}
+
+.jltma-ri-umbrella-fill:before {
+    content: "\f242"
+}
+
+.jltma-ri-umbrella-line:before {
+    content: "\f243"
+}
+
+.jltma-ri-underline:before {
+    content: "\f244"
+}
+
+.jltma-ri-uninstall-fill:before {
+    content: "\f245"
+}
+
+.jltma-ri-uninstall-line:before {
+    content: "\f246"
+}
+
+.jltma-ri-unsplash-fill:before {
+    content: "\f247"
+}
+
+.jltma-ri-unsplash-line:before {
+    content: "\f248"
+}
+
+.jltma-ri-upload-2-fill:before {
+    content: "\f249"
+}
+
+.jltma-ri-upload-2-line:before {
+    content: "\f24a"
+}
+
+.jltma-ri-upload-cloud-2-fill:before {
+    content: "\f24b"
+}
+
+.jltma-ri-upload-cloud-2-line:before {
+    content: "\f24c"
+}
+
+.jltma-ri-upload-cloud-fill:before {
+    content: "\f24d"
+}
+
+.jltma-ri-upload-cloud-line:before {
+    content: "\f24e"
+}
+
+.jltma-ri-upload-fill:before {
+    content: "\f24f"
+}
+
+.jltma-ri-upload-line:before {
+    content: "\f250"
+}
+
+.jltma-ri-usb-fill:before {
+    content: "\f251"
+}
+
+.jltma-ri-usb-line:before {
+    content: "\f252"
+}
+
+.jltma-ri-user-2-fill:before {
+    content: "\f253"
+}
+
+.jltma-ri-user-2-line:before {
+    content: "\f254"
+}
+
+.jltma-ri-user-3-fill:before {
+    content: "\f255"
+}
+
+.jltma-ri-user-3-line:before {
+    content: "\f256"
+}
+
+.jltma-ri-user-4-fill:before {
+    content: "\f257"
+}
+
+.jltma-ri-user-4-line:before {
+    content: "\f258"
+}
+
+.jltma-ri-user-5-fill:before {
+    content: "\f259"
+}
+
+.jltma-ri-user-5-line:before {
+    content: "\f25a"
+}
+
+.jltma-ri-user-6-fill:before {
+    content: "\f25b"
+}
+
+.jltma-ri-user-6-line:before {
+    content: "\f25c"
+}
+
+.jltma-ri-user-add-fill:before {
+    content: "\f25d"
+}
+
+.jltma-ri-user-add-line:before {
+    content: "\f25e"
+}
+
+.jltma-ri-user-fill:before {
+    content: "\f25f"
+}
+
+.jltma-ri-user-follow-fill:before {
+    content: "\f260"
+}
+
+.jltma-ri-user-follow-line:before {
+    content: "\f261"
+}
+
+.jltma-ri-user-heart-fill:before {
+    content: "\f262"
+}
+
+.jltma-ri-user-heart-line:before {
+    content: "\f263"
+}
+
+.jltma-ri-user-line:before {
+    content: "\f264"
+}
+
+.jltma-ri-user-location-fill:before {
+    content: "\f265"
+}
+
+.jltma-ri-user-location-line:before {
+    content: "\f266"
+}
+
+.jltma-ri-user-received-2-fill:before {
+    content: "\f267"
+}
+
+.jltma-ri-user-received-2-line:before {
+    content: "\f268"
+}
+
+.jltma-ri-user-received-fill:before {
+    content: "\f269"
+}
+
+.jltma-ri-user-received-line:before {
+    content: "\f26a"
+}
+
+.jltma-ri-user-search-fill:before {
+    content: "\f26b"
+}
+
+.jltma-ri-user-search-line:before {
+    content: "\f26c"
+}
+
+.jltma-ri-user-settings-fill:before {
+    content: "\f26d"
+}
+
+.jltma-ri-user-settings-line:before {
+    content: "\f26e"
+}
+
+.jltma-ri-user-shared-2-fill:before {
+    content: "\f26f"
+}
+
+.jltma-ri-user-shared-2-line:before {
+    content: "\f270"
+}
+
+.jltma-ri-user-shared-fill:before {
+    content: "\f271"
+}
+
+.jltma-ri-user-shared-line:before {
+    content: "\f272"
+}
+
+.jltma-ri-user-smile-fill:before {
+    content: "\f273"
+}
+
+.jltma-ri-user-smile-line:before {
+    content: "\f274"
+}
+
+.jltma-ri-user-star-fill:before {
+    content: "\f275"
+}
+
+.jltma-ri-user-star-line:before {
+    content: "\f276"
+}
+
+.jltma-ri-user-unfollow-fill:before {
+    content: "\f277"
+}
+
+.jltma-ri-user-unfollow-line:before {
+    content: "\f278"
+}
+
+.jltma-ri-user-voice-fill:before {
+    content: "\f279"
+}
+
+.jltma-ri-user-voice-line:before {
+    content: "\f27a"
+}
+
+.jltma-ri-video-add-fill:before {
+    content: "\f27b"
+}
+
+.jltma-ri-video-add-line:before {
+    content: "\f27c"
+}
+
+.jltma-ri-video-chat-fill:before {
+    content: "\f27d"
+}
+
+.jltma-ri-video-chat-line:before {
+    content: "\f27e"
+}
+
+.jltma-ri-video-download-fill:before {
+    content: "\f27f"
+}
+
+.jltma-ri-video-download-line:before {
+    content: "\f280"
+}
+
+.jltma-ri-video-fill:before {
+    content: "\f281"
+}
+
+.jltma-ri-video-line:before {
+    content: "\f282"
+}
+
+.jltma-ri-video-upload-fill:before {
+    content: "\f283"
+}
+
+.jltma-ri-video-upload-line:before {
+    content: "\f284"
+}
+
+.jltma-ri-vidicon-2-fill:before {
+    content: "\f285"
+}
+
+.jltma-ri-vidicon-2-line:before {
+    content: "\f286"
+}
+
+.jltma-ri-vidicon-fill:before {
+    content: "\f287"
+}
+
+.jltma-ri-vidicon-line:before {
+    content: "\f288"
+}
+
+.jltma-ri-vimeo-fill:before {
+    content: "\f289"
+}
+
+.jltma-ri-vimeo-line:before {
+    content: "\f28a"
+}
+
+.jltma-ri-vip-crown-2-fill:before {
+    content: "\f28b"
+}
+
+.jltma-ri-vip-crown-2-line:before {
+    content: "\f28c"
+}
+
+.jltma-ri-vip-crown-fill:before {
+    content: "\f28d"
+}
+
+.jltma-ri-vip-crown-line:before {
+    content: "\f28e"
+}
+
+.jltma-ri-vip-diamond-fill:before {
+    content: "\f28f"
+}
+
+.jltma-ri-vip-diamond-line:before {
+    content: "\f290"
+}
+
+.jltma-ri-vip-fill:before {
+    content: "\f291"
+}
+
+.jltma-ri-vip-line:before {
+    content: "\f292"
+}
+
+.jltma-ri-virus-fill:before {
+    content: "\f293"
+}
+
+.jltma-ri-virus-line:before {
+    content: "\f294"
+}
+
+.jltma-ri-visa-fill:before {
+    content: "\f295"
+}
+
+.jltma-ri-visa-line:before {
+    content: "\f296"
+}
+
+.jltma-ri-voice-recognition-fill:before {
+    content: "\f297"
+}
+
+.jltma-ri-voice-recognition-line:before {
+    content: "\f298"
+}
+
+.jltma-ri-voiceprint-fill:before {
+    content: "\f299"
+}
+
+.jltma-ri-voiceprint-line:before {
+    content: "\f29a"
+}
+
+.jltma-ri-volume-down-fill:before {
+    content: "\f29b"
+}
+
+.jltma-ri-volume-down-line:before {
+    content: "\f29c"
+}
+
+.jltma-ri-volume-mute-fill:before {
+    content: "\f29d"
+}
+
+.jltma-ri-volume-mute-line:before {
+    content: "\f29e"
+}
+
+.jltma-ri-volume-off-vibrate-fill:before {
+    content: "\f29f"
+}
+
+.jltma-ri-volume-off-vibrate-line:before {
+    content: "\f2a0"
+}
+
+.jltma-ri-volume-up-fill:before {
+    content: "\f2a1"
+}
+
+.jltma-ri-volume-up-line:before {
+    content: "\f2a2"
+}
+
+.jltma-ri-volume-vibrate-fill:before {
+    content: "\f2a3"
+}
+
+.jltma-ri-volume-vibrate-line:before {
+    content: "\f2a4"
+}
+
+.jltma-ri-vuejs-fill:before {
+    content: "\f2a5"
+}
+
+.jltma-ri-vuejs-line:before {
+    content: "\f2a6"
+}
+
+.jltma-ri-walk-fill:before {
+    content: "\f2a7"
+}
+
+.jltma-ri-walk-line:before {
+    content: "\f2a8"
+}
+
+.jltma-ri-wallet-2-fill:before {
+    content: "\f2a9"
+}
+
+.jltma-ri-wallet-2-line:before {
+    content: "\f2aa"
+}
+
+.jltma-ri-wallet-3-fill:before {
+    content: "\f2ab"
+}
+
+.jltma-ri-wallet-3-line:before {
+    content: "\f2ac"
+}
+
+.jltma-ri-wallet-fill:before {
+    content: "\f2ad"
+}
+
+.jltma-ri-wallet-line:before {
+    content: "\f2ae"
+}
+
+.jltma-ri-water-flash-fill:before {
+    content: "\f2af"
+}
+
+.jltma-ri-water-flash-line:before {
+    content: "\f2b0"
+}
+
+.jltma-ri-webcam-fill:before {
+    content: "\f2b1"
+}
+
+.jltma-ri-webcam-line:before {
+    content: "\f2b2"
+}
+
+.jltma-ri-wechat-2-fill:before {
+    content: "\f2b3"
+}
+
+.jltma-ri-wechat-2-line:before {
+    content: "\f2b4"
+}
+
+.jltma-ri-wechat-fill:before {
+    content: "\f2b5"
+}
+
+.jltma-ri-wechat-line:before {
+    content: "\f2b6"
+}
+
+.jltma-ri-wechat-pay-fill:before {
+    content: "\f2b7"
+}
+
+.jltma-ri-wechat-pay-line:before {
+    content: "\f2b8"
+}
+
+.jltma-ri-weibo-fill:before {
+    content: "\f2b9"
+}
+
+.jltma-ri-weibo-line:before {
+    content: "\f2ba"
+}
+
+.jltma-ri-whatsapp-fill:before {
+    content: "\f2bb"
+}
+
+.jltma-ri-whatsapp-line:before {
+    content: "\f2bc"
+}
+
+.jltma-ri-wheelchair-fill:before {
+    content: "\f2bd"
+}
+
+.jltma-ri-wheelchair-line:before {
+    content: "\f2be"
+}
+
+.jltma-ri-wifi-fill:before {
+    content: "\f2bf"
+}
+
+.jltma-ri-wifi-line:before {
+    content: "\f2c0"
+}
+
+.jltma-ri-wifi-off-fill:before {
+    content: "\f2c1"
+}
+
+.jltma-ri-wifi-off-line:before {
+    content: "\f2c2"
+}
+
+.jltma-ri-window-2-fill:before {
+    content: "\f2c3"
+}
+
+.jltma-ri-window-2-line:before {
+    content: "\f2c4"
+}
+
+.jltma-ri-window-fill:before {
+    content: "\f2c5"
+}
+
+.jltma-ri-window-line:before {
+    content: "\f2c6"
+}
+
+.jltma-ri-windows-fill:before {
+    content: "\f2c7"
+}
+
+.jltma-ri-windows-line:before {
+    content: "\f2c8"
+}
+
+.jltma-ri-windy-fill:before {
+    content: "\f2c9"
+}
+
+.jltma-ri-windy-line:before {
+    content: "\f2ca"
+}
+
+.jltma-ri-wireless-charging-fill:before {
+    content: "\f2cb"
+}
+
+.jltma-ri-wireless-charging-line:before {
+    content: "\f2cc"
+}
+
+.jltma-ri-women-fill:before {
+    content: "\f2cd"
+}
+
+.jltma-ri-women-line:before {
+    content: "\f2ce"
+}
+
+.jltma-ri-wubi-input:before {
+    content: "\f2cf"
+}
+
+.jltma-ri-xbox-fill:before {
+    content: "\f2d0"
+}
+
+.jltma-ri-xbox-line:before {
+    content: "\f2d1"
+}
+
+.jltma-ri-xing-fill:before {
+    content: "\f2d2"
+}
+
+.jltma-ri-xing-line:before {
+    content: "\f2d3"
+}
+
+.jltma-ri-youtube-fill:before {
+    content: "\f2d4"
+}
+
+.jltma-ri-youtube-line:before {
+    content: "\f2d5"
+}
+
+.jltma-ri-zcool-fill:before {
+    content: "\f2d6"
+}
+
+.jltma-ri-zcool-line:before {
+    content: "\f2d7"
+}
+
+.jltma-ri-zhihu-fill:before {
+    content: "\f2d8"
+}
+
+.jltma-ri-zhihu-line:before {
+    content: "\f2d9"
+}
+
+.jltma-ri-zoom-in-fill:before {
+    content: "\f2da"
+}
+
+.jltma-ri-zoom-in-line:before {
+    content: "\f2db"
+}
+
+.jltma-ri-zoom-out-fill:before {
+    content: "\f2dc"
+}
+
+.jltma-ri-zoom-out-line:before {
+    content: "\f2dd"
+}
+
+.jltma-ri-zzz-fill:before {
+    content: "\f2de"
+}
+
+.jltma-ri-zzz-line:before {
+    content: "\f2df"
+}

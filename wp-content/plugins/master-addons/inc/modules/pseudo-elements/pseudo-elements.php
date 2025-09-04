@@ -64,7 +64,7 @@ class Extension_Pseudo_Elements
 		$widget->start_controls_section(
 			'ma_el_section_background_pseudo',
 			array(
-				'label'     => JLTMA_BADGE . __(' Pseudo Elements (Developers)', 'master-addons' ),
+				'label'     => _(' Pseudo Elements (Developers)', 'master-addons' ) . JLTMA_EXTENSION_BADGE,
 				'tab'       => Controls_Manager::TAB_ADVANCED
 			)
 		);

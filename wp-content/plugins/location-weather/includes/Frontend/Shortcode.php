@@ -29,7 +29,7 @@ class Shortcode {
 	 * @param array $splw_meta get all meta options.
 	 * @param array $layout_meta get all layout meta options.
 	 */
-	public static function splw_html_show( $shortcode_id, $splw_option, $splw_meta, $layout_meta ) {
+	public static function splw_html_show( $shortcode_id, $splw_option, $splw_meta, $layout_meta, $is_admin = false ) {
 		// Weather option meta area.
 		$api_source = $splw_option['lw_api_source_type'] ?? 'openweather_api';
 
@@ -59,56 +59,81 @@ class Shortcode {
 		// Check if the API key is empty.
 		// If the API key is empty, show a warning message.
 		if ( ! $appid ) {
-			$weather_output = sprintf( '<div id="splw-location-weather-%1$s" class="splw-main-wrapper"><div class="splw-weather-title">%2$s</div><div class="splw-lite-wrapper"><div class="splw-warning">%3$s</div> <div class="splw-weather-attribution"><a href = "https://openweathermap.org/" target="_blank">' . __( 'Weather from OpenWeatherMap', 'location-weather' ) . '</a></div></div></div>', esc_attr( $shortcode_id ), esc_html( get_the_title( $shortcode_id ) ), 'Please enter your OpenWeatherMap <a href="' . admin_url( 'edit.php?post_type=location_weather&page=lw-settings#tab=weather-api-key' ) . '" target="_blank">API key.</a>' );
+			$url            = 'openweather_api' === $api_source ? 'https://openweathermap.org/api' : 'https://weatherapi.com/';
+			$weather_from   = 'openweather_api' === $api_source ? 'OpenWeatherMap' : 'WeatherAPI';
+			$weather_output = sprintf(
+				'<div id="splw-location-weather-%1$s" class="splw-main-wrapper">
+				<div class="splw-weather-title">%2$s</div>
+				<div class="splw-lite-wrapper">
+					<div class="splw-warning">%3$s</div> 
+					<div class="splw-weather-attribution">
+						<a href="' . esc_url( $url ) . '" target="_blank">' . __( 'Weather from ', 'location-weather' ) . $weather_from . '</a>
+					</div>
+				</div>
+			</div>',
+				esc_attr( $shortcode_id ),
+				esc_html( get_the_title( $shortcode_id ) ),
+				'Please set your weather <a href="' . admin_url( 'edit.php?post_type=location_weather&page=lw-settings#tab=weather-api-key' ) . '" target="_blank">API key.</a>'
+			);
+
 			echo $weather_output; // phpcs:ignore
 			return;
 		}
 		$layout                        = isset( $layout_meta['weather-view'] ) && ! wp_is_mobile() ? $layout_meta['weather-view'] : 'vertical';
 		$active_additional_data_layout = $splw_meta['weather-additional-data-layout'] ?? 'center';
-		$show_comport_data_position    = isset( $splw_meta['lw-comport-data-position'] ) ? $splw_meta['lw-comport-data-position'] : false;
+		$show_comport_data_position    = $splw_meta['lw-comport-data-position'] ?? false;
 
 		// Weather setup meta area .
-		$custom_name     = isset( $splw_meta['lw-custom-name'] ) ? $splw_meta['lw-custom-name'] : '';
-		$pressure_unit   = isset( $splw_meta['lw-pressure-unit'] ) ? $splw_meta['lw-pressure-unit'] : 'mb';
-		$visibility_unit = isset( $splw_meta['lw-visibility-unit'] ) ? $splw_meta['lw-visibility-unit'] : 'km';
-		$wind_speed_unit = isset( $splw_meta['lw-wind-speed-unit'] ) ? $splw_meta['lw-wind-speed-unit'] : '';
-		$lw_language     = isset( $splw_meta['lw-language'] ) ? $splw_meta['lw-language'] : 'en';
+		$custom_name     = $splw_meta['lw-custom-name'] ?? '';
+		$pressure_unit   = $splw_meta['lw-pressure-unit'] ?? 'mb';
+		$visibility_unit = $splw_meta['lw-visibility-unit'] ?? 'km';
+		$wind_speed_unit = $splw_meta['lw-wind-speed-unit'] ?? 'mph';
+		$lw_language     = $splw_meta['lw-language'] ?? 'en';
 
 		// Display settings meta section.
-		$show_weather_title = isset( $splw_meta['lw-title'] ) ? $splw_meta['lw-title'] : '';
-		$time_format        = isset( $splw_meta['lw-time-format'] ) ? $splw_meta['lw-time-format'] : 'g:i a';
+		$show_weather_title = $splw_meta['lw-title'] ?? true;
+		$time_format        = $splw_meta['lw-time-format'] ?? 'g:i a';
 		$utc_timezone       = isset( $splw_meta['lw-utc-time-zone'] ) && ! empty( $splw_meta['lw-utc-time-zone'] ) ? (float) str_replace( 'UTC', '', $splw_meta['lw-utc-time-zone'] ) * 3600 : '';
 
-		$lw_modify_date_format = isset( $splw_meta['lw_client_date_format'] ) ? $splw_meta['lw_client_date_format'] : 'F j, Y';
+		$lw_modify_date_format = $splw_meta['lw_client_date_format'] ?? 'F j, Y';
 		$lw_custom_date_format = preg_replace( '/\s*,?\s*\b(?:g:i a|g:i A|H:i|h:i|g:ia|g:iA)\b\s*,?\s*/i', '', $lw_modify_date_format );
 		$lw_client_date_format = isset( $splw_meta['lw_date_format'] ) && 'custom' !== $splw_meta['lw_date_format'] ? $splw_meta['lw_date_format'] : $lw_custom_date_format;
-		$show_date             = isset( $splw_meta['lw-date'] ) ? $splw_meta['lw-date'] : true;
-		$show_time             = isset( $splw_meta['lw-show-time'] ) ? $splw_meta['lw-show-time'] : true;
-		$show_icon             = isset( $splw_meta['lw-icon'] ) ? $splw_meta['lw-icon'] : '';
+		$show_date             = $splw_meta['lw-date'] ?? true;
+		$show_time             = $splw_meta['lw-show-time'] ?? true;
+		$show_icon             = $splw_meta['lw-icon'] ?? true;
 
-		// Temperature show hide meta.
-		$show_temperature  = isset( $splw_meta['lw-temperature'] ) ? $splw_meta['lw-temperature'] : '';
-		$temperature_scale = isset( $splw_meta['lw-display-temp-scale'] ) ? $splw_meta['lw-display-temp-scale'] : '';
-		$short_description = isset( $splw_meta['lw-short-description'] ) ? $splw_meta['lw-short-description'] : '';
+		// Temperature and weather units show hide meta.
+		$show_temperature          = $splw_meta['lw-temperature'] ?? true;
+		$temperature_scale         = $splw_meta['lw-display-temp-scale'] ?? true;
+		$short_description         = $splw_meta['lw-short-description'] ?? true;
+		$show_pressure             = $splw_meta['lw-pressure'] ?? true;
+		$show_humidity             = $splw_meta['lw-humidity'] ?? true;
+		$show_clouds               = $splw_meta['lw-clouds'] ?? true;
+		$show_wind                 = $splw_meta['lw-wind'] ?? true;
+		$show_wind_gusts           = $splw_meta['lw-wind-gusts'] ?? true;
+		$show_visibility           = $splw_meta['lw-visibility'] ?? true;
+		$show_sunrise_sunset       = $splw_meta['lw-sunrise-sunset'] ?? true;
+		$lw_current_icon_type      = $splw_meta['weather-current-icon-type'] ?? 'forecast_icon_set_one';
+		$show_weather_attr         = $splw_meta['lw-attribution'] ?? true;
+		$show_weather_detailed     = $splw_meta['lw-weather-details'] ?? false;
+		$show_weather_updated_time = $splw_meta['lw-weather-update-time'] ?? false;
+
+		$forecast_icon_type      = $splw_meta['weather-forecast-icon-type'] ?? 'forecast_icon_set_one';
+		$hourly_type             = $splw_meta['lw-hourly-type'] ?? 'three-hour';
+		$one_forecasting_hours   = $splw_meta['lw-number-forecast-hours'] ?? '8';
+		$three_forecasting_hours = $splw_meta['lw-number-forecast-three-hours'] ?? '8';
+		if ( 'openweather_api' === $api_source ) {
+			$hourly_type = 'three-hour';
+		}
+		$number_of_hours = 'three-hour' === $hourly_type ? (int) $three_forecasting_hours : (int) $one_forecasting_hours;
+		$number_of_hours = $number_of_hours > 8 ? 8 : $number_of_hours;
 
 		// Units show hide meta.
-		$weather_units     = isset( $splw_meta['lw-units'] ) ? $splw_meta['lw-units'] : '';
+		$weather_units     = $splw_meta['lw-units'] ?? 'metric';
 		$temperature_scale = $temperature_scale || 'none' !== $weather_units ? true : false;
 		if ( 'auto_temp' === $weather_units || 'auto' === $weather_units || 'none' === $weather_units ) {
 			$weather_units = 'metric';
 		}
-		$show_pressure        = isset( $splw_meta['lw-pressure'] ) ? $splw_meta['lw-pressure'] : '';
-		$show_humidity        = isset( $splw_meta['lw-humidity'] ) ? $splw_meta['lw-humidity'] : '';
-		$show_clouds          = isset( $splw_meta['lw-clouds'] ) ? $splw_meta['lw-clouds'] : '';
-		$show_wind            = isset( $splw_meta['lw-wind'] ) ? $splw_meta['lw-wind'] : '';
-		$show_wind_gusts      = isset( $splw_meta['lw-wind-gusts'] ) ? $splw_meta['lw-wind-gusts'] : '';
-		$show_visibility      = isset( $splw_meta['lw-visibility'] ) ? $splw_meta['lw-visibility'] : '';
-		$show_sunrise_sunset  = isset( $splw_meta['lw-sunrise-sunset'] ) ? $splw_meta['lw-sunrise-sunset'] : '';
-		$lw_current_icon_type = isset( $splw_meta['weather-current-icon-type'] ) ? $splw_meta['weather-current-icon-type'] : 'forecast_icon_set_one';
-
-		$show_weather_attr         = isset( $splw_meta['lw-attribution'] ) ? $splw_meta['lw-attribution'] : '';
-		$show_weather_detailed     = isset( $splw_meta['lw-weather-details'] ) ? $splw_meta['lw-weather-details'] : false;
-		$show_weather_updated_time = isset( $splw_meta['lw-weather-update-time'] ) ? $splw_meta['lw-weather-update-time'] : false;
 
 		$weather_by = $splw_meta['get-weather-by'] ?? 'city_name';
 
@@ -154,13 +179,18 @@ class Shortcode {
 		}
 
 		if ( 'openweather_api' === $api_source ) {
-			$data       = Manage_API::get_weather( $query, $weather_units, $lw_language, $appid, $shortcode_id );
-			$is_daytime = 'none';
+			$data = Manage_API::get_weather( $query, $weather_units, $lw_language, $appid, $shortcode_id );
 		} else {
 			$api_query        = is_array( $query ) ? implode( ',', $query ) : $query;
-			$weather_api_data = Manage_API::weather_api_data( $api_query, $weather_units, $lw_language, $appid, $shortcode_id );
-			$data             = $weather_api_data['current_weather'];
-			$is_daytime       = $weather_api_data['is_daytime'];
+			$weather_api_data = Manage_API::weather_api_data( $api_query, $weather_units, $lw_language, $appid, $shortcode_id, $number_of_hours, $hourly_type );
+
+			// Api call error check.
+			if ( is_array( $weather_api_data ) && isset( $weather_api_data['code'] ) && ( 1006 === $weather_api_data['code'] || 2006 === $weather_api_data['code'] ) ) {
+				$weather_error_status = sprintf( '<div id="splw-location-weather-%1$s" class="splw-main-wrapper"><div class="splw-weather-title">%2$s</div><div class="splw-lite-wrapper"><div class="splw-warning">%3$s</div> <div class="splw-weather-attribution"><a href = "https://www.weatherapi.com/docs/key.aspx" target="_blank">' . __( 'Weather from WeatherAPI ', 'location-weather' ) . '</a></div></div></div>', esc_attr( $shortcode_id ), esc_html( get_the_title( $shortcode_id ) ), $weather_api_data['message'] );
+				echo $weather_error_status; // phpcs:ignore
+				return;
+			}
+			$data = $weather_api_data['current'];
 		}
 
 		if ( is_array( $data ) && isset( $data['code'] ) && ( 401 === $data['code'] || 404 === $data['code'] ) ) {
@@ -170,7 +200,60 @@ class Shortcode {
 			return;
 		}
 
+		// Current weather data.
 		$weather_data = self::current_weather_data( $data, $time_format, $temperature_scale, $wind_speed_unit, $weather_units, $pressure_unit, $visibility_unit, $lw_client_date_format, $utc_timezone, $api_source );
+
+		// Forecast meta options.
+		$forecast_data = '';
+		$show_forecast = $splw_meta['lw-enable-forecast'] ?? true;
+		if ( $show_forecast ) {
+			$forecast_data_sortable        = $splw_meta['lw_forecast_data_sortable'] ?? array(
+				'temperature'   => true,
+				'precipitation' => true,
+				'rainchance'    => true,
+				'wind'          => true,
+				'humidity'      => true,
+				'pressure'      => true,
+				'snow'          => false,
+			);
+			$hourly_forecast_section_title = $splw_meta['hourly-forecast-title'] ?? 'Hourly Forecast';
+			$forecast_settings             = array(
+				'type'        => 'hourly',
+				'hours'       => $number_of_hours,
+				'hourly_type' => $hourly_type,
+			);
+
+			$measurement_units = array(
+				'temperature_scale' => $temperature_scale,
+				'pressure_unit'     => $pressure_unit,
+				'visibility_unit'   => $visibility_unit,
+				'wind_speed_unit'   => $wind_speed_unit,
+				'weather_unit'      => $weather_units,
+				'humidity_unit'     => '%',
+			);
+
+			$city_time_zone = $utc_timezone && ! empty( $utc_timezone ) || '' !== $utc_timezone ? (int) $utc_timezone : (int) $data->timezone;
+
+			// Time settings configuration.
+			$time_settings = array(
+				'time_format'       => $time_format,
+				'date_format'       => $lw_client_date_format,
+				'time_zone'         => $city_time_zone,
+				'weather_time_zone' => $utc_timezone && ! empty( $utc_timezone ) || '' !== $utc_timezone ? (int) $utc_timezone
+				: ( 'openweather_api' === $api_source ? $city_time_zone : null ),
+			);
+
+			if ( 'openweather_api' === $api_source ) {
+				$forecast = Manage_API::get_weather_hourly_forecast_data( $query, $weather_units, $lw_language, $appid, $shortcode_id, $forecast_settings );
+			} else {
+				$forecast = $weather_api_data['forecast'];
+			}
+
+			if ( is_object( $forecast ) ) {
+				$forecast_data = $forecast->hourly_forecast;
+			}
+		}
+
 		ob_start();
 		include self::lw_locate_template( 'main-template.php' );
 		$weather_output = ob_get_clean();
@@ -192,6 +275,7 @@ class Shortcode {
 		$splw_option  = get_option( 'location_weather_settings', true );
 		$splw_meta    = get_post_meta( $shortcode_id, 'sp_location_weather_generator', true );
 		$layout_meta  = get_post_meta( $shortcode_id, 'sp_location_weather_layout', true );
+		$is_admin     = $attribute['is_admin'] ?? false;
 		// Stylesheet loading problem solving here. Shortcode id to push page id option for getting how many shortcode in the page.
 		$get_page_data      = Scripts::get_page_data();
 		$found_generator_id = $get_page_data['generator_id'];
@@ -207,8 +291,9 @@ class Shortcode {
 		}
 		// Update options if the existing shortcode id option not found.
 		Scripts::lw_db_options_update( $shortcode_id, $get_page_data );
-		self::splw_html_show( $shortcode_id, $splw_option, $splw_meta, $layout_meta );
+		self::splw_html_show( $shortcode_id, $splw_option, $splw_meta, $layout_meta, $is_admin );
 		wp_enqueue_script( 'splw-old-script' );
+		wp_enqueue_script( 'splw-scripts' );
 		return ob_get_clean();
 	}
 	// Shortcode render method end.
@@ -270,6 +355,73 @@ class Shortcode {
 			'updated_time' => $updated_time,
 			'sunrise_time' => $sunrise_time,
 			'sunset_time'  => $sunset_time,
+		);
+	}
+
+	/**
+	 * Get forecast data for display.
+	 *
+	 * @param object $data             The weather data object for the location.
+	 * @param array  $measurement_units Array of measurement units:
+	 * - 'temperature_scale': 'F' or 'C' (default: 'C').
+	 * - 'pressure_unit': 'mb' or 'kpa' (default: 'mb').
+	 * - 'visibility_unit': 'km' or 'mi' (default: 'km').
+	 * - 'wind_speed_unit': 'mph', 'kmh', 'kts', or 'm/s' (default: 'mph').
+	 * - 'weather_units': 'metric' or 'imperial' (default: 'metric').
+	 * - 'precipitation_unit': e.g., 'mm' or 'in' (default: 'mm').
+	 * @param array  $time_settings     Array of time settings:
+	 * - 'time_format': '24' or '12' (default: '12').
+	 * - 'date_format': Date format (default: 'Y-m-d').
+	 *
+	 * @return array Forecast data.
+	 */
+	public static function get_forecast_data( $data, $measurement_units, $time_settings ) {
+
+		$last_update = $data->last_update;
+		// Calculate time with timezone offset.
+		$time               = date_i18n( $time_settings['time_format'], strtotime( $last_update->format( 'D M d g:i a' ) ) + $time_settings['weather_time_zone'] );
+		$date_with_timezone = gmdate( 'D M d g:i a', strtotime( $last_update->format( 'D M d g:i a' ) ) + $time_settings['weather_time_zone'] );
+		$date_format        = $last_update->format( 'D M d' );
+
+		// Determine temperature values based on available data.
+		if ( ! empty( $data->temperature->value ) ) {
+			$min_value    = $data->temperature->value;
+			$max_temp     = 0;
+			$current_temp = $data->temperature->value;
+		} else {
+			$min_value    = $data->temperature->min->value;
+			$max_temp     = $data->temperature->max->value;
+			$current_temp = $data->temperature->now->value;
+		}
+		$scale = self::temperature_scale( $measurement_units['temperature_scale'], $measurement_units['weather_unit'] );
+
+		// Format min and max temperature values.
+		$min_temp = '<span class="low">' . round( $min_value ) . '</span><span class="low-scale">°</span>';
+
+		$max_temp = $max_temp ? '<span class="high">' . round( $max_temp ) . '</span><span class="high-scale">°</span>' . $scale : '';
+		$pressure = self::get_pressure( $measurement_units['pressure_unit'], $data );
+		$wind     = self::get_wind_speed( $measurement_units['weather_unit'], $measurement_units['wind_speed_unit'], $data, false );
+		$gusts    = isset( $data->gusts ) ? self::get_wind_speed( $measurement_units['weather_unit'], $measurement_units['wind_speed_unit'], $data, true ) : null;
+
+		// Return the forecast data as an array.
+		return array(
+			'now'             => $current_temp,
+			'min'             => $min_temp,
+			'max'             => $max_temp,
+			'humidity'        => $data->humidity . '%',
+			'precipitation'   => $data->precipitation . ' mm',
+			'rain'            => $data->rainchance,
+			'snow'            => $data->snow,
+			'icon'            => $data->weather->icon,
+			'desc'            => $data->weather->description,
+			'times'           => $time,
+			'date_format'     => $date_format,
+			'timezone_offset' => $time_settings['time_zone'],
+			'pressure'        => self::get_pressure( $measurement_units['pressure_unit'], $data ),
+			'wind'            => $wind,
+			'id'              => $data->weather->id,
+			'gusts'           => $gusts,
+			'clouds'          => isset( $data->clouds ) ? $data->clouds->value : null,
 		);
 	}
 
@@ -364,78 +516,6 @@ class Shortcode {
 			$visibility = round( $visibility_value * 0.621371 ) . __( ' mi', 'location-weather' );
 		}
 		return $visibility;
-	}
-
-	/**
-	 * Get OpenWeatherMap-compatible icon code based on weather condition code.
-	 *
-	 * Maps weather condition codes (from sources like WeatherAPI or similar)
-	 * to OpenWeatherMap-style icon IDs (e.g., '01d', '10n').
-	 *
-	 * @param int  $code       The weather condition code to map.
-	 * @param bool $is_daytime Whether it's daytime (true) or nighttime (false).
-	 *
-	 * @return string The OWM icon code (e.g., '01d', '10n').
-	 */
-	public static function get_owm_icon( $code, $is_daytime = true ) {
-
-		if ( 'none' === $is_daytime ) {
-			return $code;
-		}
-
-		$suffix = $is_daytime ? 'd' : 'n';
-
-		$map = array(
-			// Clear / Cloudy.
-			1000 => '01', // Sunny/Clear.
-			1003 => '02', // Partly cloudy.
-			1006 => '03', // Cloudy.
-			1009 => '04', // Overcast.
-
-		// Mist / Fog.
-			1030 => '50', // Mist.
-			1135 => '50', // Fog.
-			1147 => '50', // Freezing fog.
-
-		// Rain / Drizzle.
-			1063 => '09',
-			1150 => '09',
-			1153 => '09',
-			1180 => '09',
-			1183 => '09',
-			1186 => '10',
-			1189 => '10',
-			1192 => '10',
-			1195 => '10',
-			1198 => '13',
-			1201 => '13', // Freezing rain.
-
-		// Sleet / Snow.
-			1066 => '13',
-			1210 => '13',
-			1213 => '13',
-			1216 => '13',
-			1219 => '13',
-			1222 => '13',
-			1225 => '13',
-			1237 => '13',
-			1249 => '13',
-			1252 => '13',
-			1255 => '13',
-			1258 => '13',
-			1261 => '13',
-			1264 => '13',
-
-			// Thunder.
-			1087 => '11',
-			1273 => '11',
-			1276 => '11',
-			1279 => '11',
-			1282 => '11',
-		);
-
-		$icon = isset( $map[ $code ] ) ? $map[ $code ] : '01'; // fallback to clear.
-		return "{$icon}{$suffix}";
 	}
 
 	/**

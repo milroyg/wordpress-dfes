@@ -59,24 +59,46 @@ class JLTMA_CPT_Hook
             case 'condition':
 
                 $cond = [
-                    'jltma_hf_conditions'   => get_post_meta($post_id, 'master_template_jltma_hf_conditions', true),
-                    'jltma_hfc_singular'    => get_post_meta($post_id, 'master_template_jltma_hfc_singular', true),
-                    'jltma_hfc_singular_id' => get_post_meta($post_id, 'master_template_jltma_hfc_singular_id', true),
+                    'jltma_hf_conditions'     => get_post_meta($post_id, 'master_template_jltma_hf_conditions', true),
+                    'jltma_hfc_singular'      => get_post_meta($post_id, 'master_template_jltma_hfc_singular', true),
+                    'jltma_hfc_singular_id'   => get_post_meta($post_id, 'master_template_jltma_hfc_singular_id', true),
+                    'jltma_hfc_post_types_id' => get_post_meta($post_id, 'master_template_jltma_hfc_post_types_id', true),
                 ];
+
+                if (is_array($cond['jltma_hfc_singular_id'])) {
+                    $cond['jltma_hfc_singular_id'] = implode(", ", $cond['jltma_hfc_singular_id']);
+                }
+
+                if (is_array($cond['jltma_hfc_post_types_id'])) {
+                    $cond['jltma_hfc_post_types_id'] = $cond['jltma_hfc_post_types_id'] ;
+                }
 
                 echo ucwords(str_replace(
                     '_',
                     ' ',
                     $cond['jltma_hf_conditions']
-                        . (($cond['jltma_hf_conditions'] == 'singular')
-                            ? (($cond['jltma_hfc_singular'] != '')
-                                ? (' > ' . $cond['jltma_hfc_singular']
-                                    . (($cond['jltma_hfc_singular_id'] != '')
-                                        ? ' > ' . $cond['jltma_hfc_singular_id']
-                                        : ''))
-                                : '')
-                            : '')
+                    . (
+                        ($cond['jltma_hf_conditions'] == 'singular')
+                            ? (
+                                ($cond['jltma_hfc_singular'] != '')
+                                    ? (
+                                        ' > ' . $cond['jltma_hfc_singular']
+                                        . (
+                                            ($cond['jltma_hfc_singular_id'] != '')
+                                                ? ' > ' . $cond['jltma_hfc_singular_id']
+                                                : ''
+                                        )
+                                    )
+                                    : ''
+                            )
+                            : (
+                                ($cond['jltma_hfc_post_types_id'] != '')
+                                    ? ' > ' . $cond['jltma_hfc_post_types_id']
+                                    : ''
+                            )
+                    )
                 ));
+
 
                 break;
         }

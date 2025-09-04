@@ -7,10 +7,9 @@
  * @package Location_Weather
  */
 
-$current_icon = self::get_owm_icon( $weather_data['icon'], $is_daytime );
-$weather_icon = apply_filters( 'sp_lwp_weather_icon', LOCATION_WEATHER_URL . '/assets/images/icons/weather-static-icons/' . $current_icon . '.svg' );
+$weather_icon = apply_filters( 'sp_lwp_weather_icon', LOCATION_WEATHER_URL . '/assets/images/icons/weather-static-icons/' . $weather_data['icon'] . '.svg' );
 if ( 'forecast_icon_set_one' === $lw_current_icon_type ) {
-	$weather_icon = apply_filters( 'sp_lwp_weather_icon', LOCATION_WEATHER_URL . '/assets/images/icons/weather-icons/' . $current_icon . '.svg' );
+	$weather_icon = apply_filters( 'sp_lwp_weather_icon', LOCATION_WEATHER_URL . '/assets/images/icons/weather-icons/' . $weather_data['icon'] . '.svg' );
 }
 $weather_icon_size = $splw_meta['lw_current_icon_size'] ?? '58';
 

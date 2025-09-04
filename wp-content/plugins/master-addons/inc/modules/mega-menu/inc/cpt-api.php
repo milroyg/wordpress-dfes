@@ -12,18 +12,22 @@ class JLTMA_Megamenu_Cpt_Api
 
     public function __construct()
     {
-        $this->config("mastermega-content", "/(?P<type>\w+)/(?P<key>\w+(|[-]\w+))/");
+        $this->config("/mastermega-content", "/(?P<type>\w+)/(?P<key>[\w-]+)?(?:/(?P<id>\d+))?/?");
+        // $this->config("/mastermega-content", "/(?P<type>\w+)/(?P<key>[\w-]+)(?:/(?P<id>\d+))?/?"); 2 
+        // $this->config("/mastermega-content", "/(?P<type>\w+)/(?P<key>\w+(|[-]\w+))/"); 1 
         $this->init();
     }
+    
 
 
     public function get_jltma_content_editor()
     {
         $content_key = $this->request['key'];
         $content_type = $this->request['type'];
-
-        $builder_post_title = 'mastermega-content-' . $content_type . '-' . $content_key;
-
+        $menuitemId = $this->request['id'];
+        
+        $builder_post_title = 'mastermega-content-' . $content_type . '-' . $content_key . $menuitemId;
+        
         $builder_post_id    = Master_Addons_Helper::get_page_by_title( $builder_post_title, 'mastermega_content' );
 
         if (is_null($builder_post_id)) {
@@ -36,11 +40,13 @@ class JLTMA_Megamenu_Cpt_Api
             $builder_post_id = wp_insert_post($defaults);
 
             update_post_meta($builder_post_id, '_wp_page_template', 'elementor_canvas');
+            // _elementor_edit_mode builder
+            // _elementor_template_type wp-post
         } else {
             $builder_post_id = $builder_post_id->ID;
         }
-
-        $url = get_admin_url() . '/post.php?post=' . $builder_post_id . '&action=elementor';
+        
+        $url = get_admin_url() . 'post.php?post=' . $builder_post_id . '&action=elementor';
         wp_redirect($url);
         exit;
     }

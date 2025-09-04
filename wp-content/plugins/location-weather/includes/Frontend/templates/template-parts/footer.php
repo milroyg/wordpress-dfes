@@ -8,7 +8,7 @@
  */
 
 $lw_openweather_map_link = $splw_meta['lw-openweather-links'] ?? false;
-$url                     = 'weather_api' === $api_source ? 'https://www.weatherapi.com/weather/' : 'https://openweathermap.org/';
+$url                     = 'weather_api' === $api_source ? 'https://www.weatherapi.com/' : 'https://openweathermap.org/';
 $details_url             = 'weather_api' === $api_source ? 'https://www.weatherapi.com/weather/q/' . sanitize_title( $weather_data['city'] ) : 'https://openweathermap.org/city/' . $weather_data['city_id'];
 ?>
 <!-- weather detailed and updated html area start -->

@@ -126,7 +126,7 @@ if ( ! class_exists( 'SPLWT_Field_select' ) ) {
 							echo '</optgroup>';
 
 						} else {
-							$selected = ( in_array( $option_key, $this->value, true ) ) ? ' selected' : '';
+							$selected = ( in_array( $option_key, $this->value ) ) ? ' selected' : '';
 							if ( in_array( $option_key, $this->value ) ) {
 								$selected_value = $option_key;
 							}
@@ -151,7 +151,6 @@ if ( ! class_exists( 'SPLWT_Field_select' ) ) {
 			}
 
 			echo $this->field_after(); // phpcs:ignore
-
 		}
 
 		/**
@@ -164,8 +163,6 @@ if ( ! class_exists( 'SPLWT_Field_select' ) ) {
 			if ( ! wp_script_is( 'jquery-ui-sortable' ) ) {
 				wp_enqueue_script( 'jquery-ui-sortable' );
 			}
-
 		}
-
 	}
 }

@@ -50,7 +50,7 @@ class JLTMA_Extension_Container_Extras
 		$widget->start_controls_section(
 			'ma_el_section_advanced_container_extra',
 			array(
-				'label'     => JLTMA_BADGE . __(' Container Extra', 'master-addons' ),
+				'label'     => __('Container Extra', 'master-addons' ) . JLTMA_EXTENSION_BADGE,
 				'tab'       => Controls_Manager::TAB_ADVANCED
 			)
 		);

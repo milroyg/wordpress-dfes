@@ -148,7 +148,7 @@ class Premium_Media_Wheel extends Widget_Base {
 	}
 
 	public function has_widget_inner_wrapper(): bool {
-		return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+		return ! Helper_Functions::check_elementor_experiment( 'e_optimized_markup' );
 	}
 
 	/**
@@ -173,6 +173,8 @@ class Premium_Media_Wheel extends Widget_Base {
 		$this->add_advanced_controls();
 		$this->add_light_box_controls();
 
+		Helper_Functions::register_papro_promotion_controls( $this, 'adv-carousel' );
+
 		// style controls.
 		$this->add_img_style_controls();
 		$this->add_icon_style_controls();
@@ -191,6 +193,9 @@ class Premium_Media_Wheel extends Widget_Base {
 				'label' => __( 'Items', 'premium-addons-for-elementor' ),
 			)
 		);
+
+		$demo = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-advanced-carousel-widget/', 'adv-carousel', 'wp-editor', 'demo' );
+		Helper_Functions::add_templates_controls( $this, 'advanced-carousel', $demo );
 
 		$repeater = new Repeater();
 
@@ -2060,7 +2065,7 @@ class Premium_Media_Wheel extends Widget_Base {
 			array(
 				'label'      => __( 'Horizontal Position', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::SLIDER,
-				'size_units' => array( 'px' ),
+				'size_units' => array( 'px', '%', 'custom' ),
 				'range'      => array(
 					'px' => array(
 						'min'  => -500,
@@ -2081,7 +2086,7 @@ class Premium_Media_Wheel extends Widget_Base {
 			array(
 				'label'      => __( 'Vertical Position', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::SLIDER,
-				'size_units' => array( 'px', '%' ),
+				'size_units' => array( 'px', '%', 'custom' ),
 				'range'      => array(
 					'px' => array(
 						'min'  => -500,

@@ -444,8 +444,8 @@ class JLTMA_Nav_Menu extends Widget_Base
                     ),
                 ),
                 'default' => array(
-                    'value' => 'fas fa-chevron-down',
-                    'library' => 'fa-solid',
+                    'value' => 'eicon-nav-menu',
+                    'library' => 'eicon',
                 ),
                 'file' => '',
                 'conditions' => array(

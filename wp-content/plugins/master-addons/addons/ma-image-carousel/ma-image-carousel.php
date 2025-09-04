@@ -710,6 +710,12 @@ class JLTMA_Image_Carousel extends Widget_Base
 	{
 		$settings       = $this->get_settings_for_display();
 
+		// if ( \Elementor\Plugin::$instance->editor->is_edit_mode() ) {
+		// 	$this->add_render_attribute( 'link', [
+		// 		'class' => 'elementor-clickable',
+		// 	] );
+		// }
+
 		//Global Header Function
 		$this->jltma_render_swiper_header_attribute('image-carousel');
 

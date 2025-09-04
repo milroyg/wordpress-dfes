@@ -145,7 +145,7 @@ class Premium_Blog extends Widget_Base {
 	}
 
 	public function has_widget_inner_wrapper(): bool {
-		return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+		return ! Helper_Functions::check_elementor_experiment( 'e_optimized_markup' );
 	}
 
 	/**
@@ -361,15 +361,15 @@ class Premium_Blog extends Widget_Base {
 						$this->add_control(
 							$index . '_' . $key . '_filter_rule',
 							array(
-								/* translators: %s Taxnomy Label */
+								/* translators: %s Taxonomy Label */
 								'label'       => sprintf( __( '%s Filter Rule', 'premium-addons-for-elementor' ), $tax->label ),
 								'type'        => Controls_Manager::SELECT,
 								'default'     => 'IN',
 								'label_block' => true,
 								'options'     => array(
-									/* translators: %s: Taxnomy Label */
+									/* translators: %s: Taxonomy Label */
 									'IN'     => sprintf( __( 'Match %s', 'premium-addons-for-elementor' ), $tax->label ),
-									/* translators: %s: Taxnomy Label */
+									/* translators: %s: Taxonomy Label */
 									'NOT IN' => sprintf( __( 'Exclude %s', 'premium-addons-for-elementor' ), $tax->label ),
 								),
 								'condition'   => array(
@@ -382,7 +382,7 @@ class Premium_Blog extends Widget_Base {
 						$this->add_control(
 							'tax_' . $index . '_' . $key . '_filter',
 							array(
-								/* translators: %s Taxnomy Label */
+								/* translators: %s Taxonomy Label */
 								'label'       => sprintf( __( '%s Filter', 'premium-addons-for-elementor' ), $tax->label ),
 								'type'        => Controls_Manager::SELECT2,
 								'default'     => '',
@@ -846,8 +846,8 @@ class Premium_Blog extends Widget_Base {
 					),
 				),
 				'selectors' => array(
-					'{{WRAPPER}} .premium-blog-post-outer-container' => 'padding-right: calc( {{SIZE}}{{UNIT}}/2 ); padding-left: calc( {{SIZE}}{{UNIT}}/2 )',
-					'{{WRAPPER}} .premium-blog-wrap' => 'margin-left: calc( -{{SIZE}}{{UNIT}}/2 ); margin-right: calc( -{{SIZE}}{{UNIT}}/2 );',
+					'{{WRAPPER}} .premium-blog-post-outer-container' => 'padding-inline: calc( {{SIZE}}{{UNIT}}/2 );',
+					'{{WRAPPER}} .premium-blog-wrap' => 'margin-inline: calc( -{{SIZE}}{{UNIT}}/2 );',
 				),
 				'condition' => array(
 					'premium_blog_grid' => 'yes',
@@ -858,31 +858,36 @@ class Premium_Blog extends Widget_Base {
 		$this->add_responsive_control(
 			'premium_flip_text_align',
 			array(
-				'label'        => __( 'Alignment', 'premium-addons-for-elementor' ),
-				'type'         => Controls_Manager::CHOOSE,
-				'options'      => array(
+				'label'                => __( 'Alignment', 'premium-addons-for-elementor' ),
+				'type'                 => Controls_Manager::CHOOSE,
+				'options'              => array(
 					'left'    => array(
-						'title' => __( 'Left', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-text-align-left',
+						'title' => __( 'Start', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-text-align-right' : 'eicon-text-align-left',
 					),
 					'center'  => array(
 						'title' => __( 'Center', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-text-align-center',
 					),
 					'right'   => array(
-						'title' => __( 'Right', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-text-align-right',
+						'title' => __( 'End', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-text-align-left' : 'eicon-text-align-right',
 					),
 					'justify' => array(
 						'title' => __( 'Justify', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-text-align-justify',
 					),
 				),
-				'toggle'       => false,
-				'default'      => 'left',
-				'prefix_class' => 'premium-blog-align-',
-				'selectors'    => array(
+				'toggle'               => false,
+				'default'              => 'left',
+				'prefix_class'         => 'premium-blog-align-',
+				'selectors_dictionary' => array(
+					'left'  => 'start',
+					'right' => 'end',
+				),
+				'selectors'            => array(
 					'{{WRAPPER}} .premium-blog-content-wrapper' => 'text-align: {{VALUE}};',
+					'{{WRAPPER}} .post-categories , {{WRAPPER}} .premium-blog-post-tags-container ' => 'justify-content: {{VALUE}};',
 				),
 			)
 		);
@@ -1179,16 +1184,16 @@ class Premium_Blog extends Widget_Base {
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'flex-start' => array(
-						'title' => __( 'Left', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-text-align-left',
+						'title' => __( 'Start', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-text-align-right' : 'eicon-text-align-left',
 					),
 					'center'     => array(
 						'title' => __( 'Center', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-text-align-center',
 					),
 					'flex-end'   => array(
-						'title' => __( 'Right', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-text-align-right',
+						'title' => __( 'End', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-text-align-left' : 'eicon-text-align-right',
 					),
 				),
 				'default'   => 'center',
@@ -1478,22 +1483,26 @@ class Premium_Blog extends Widget_Base {
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'left'   => array(
-						'title' => __( 'Left', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-text-align-left',
+						'title' => __( 'Start', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-text-align-right' : 'eicon-text-align-left',
 					),
 					'center' => array(
 						'title' => __( 'Center', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-text-align-center',
 					),
 					'right'  => array(
-						'title' => __( 'Right', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-text-align-right',
+						'title' => __( 'End', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-text-align-left' : 'eicon-text-align-right',
 					),
 				),
 				'default'   => 'right',
 				'toggle'    => false,
 				'condition' => array(
 					'premium_blog_paging' => 'yes',
+				),
+				'selectors_dictionary' => array(
+					'left'   => 'start',
+					'right'  => 'end',
 				),
 				'selectors' => array(
 					'{{WRAPPER}} .premium-blog-pagination-container' => 'text-align: {{VALUE}}',
@@ -1534,6 +1543,8 @@ class Premium_Blog extends Widget_Base {
 		}
 
 		$this->end_controls_section();
+
+		Helper_Functions::register_papro_promotion_controls( $this, 'blog' );
 
 		$this->start_controls_section(
 			'premium_blog_filter_style',

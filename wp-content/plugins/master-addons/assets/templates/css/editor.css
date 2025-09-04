@@ -49,7 +49,7 @@
 }
 #ma-el-modal-template a,
 #ma-el-modal-template a:hover {
-    color: inherit;
+    color: #fff !important;
 }
 #ma-el-modal-template a.elementor-template-library-blank-footer-link {
     -webkit-transition: color 0.5s;
@@ -100,10 +100,9 @@
     height: 50px;
 }
 #ma-el-template-modal-header .ma-el-template-modal-header-back {
-    margin-left: -200px;
     background: 0 0;
     border: none;
-    padding: 15px 20px 15px 15px;
+    padding: 15px 20px 15px 0;
     line-height: 20px;
     font-size: 13px;
     font-weight: 700;
@@ -130,10 +129,10 @@
 }
 
 #ma-el-template-modal-header .jltma-live-preview-link {
-    margin-right: 15px;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 400;
+    margin-right: 25px;
+    color: #4b00e7 !important;
+    font-size: 16px;
+    font-weight: 500;
     -webkit-transition: color .3s;
     transition: color .3s;
 }
@@ -223,6 +222,7 @@
     display: block;
     width: 100%;
     height: 100%;
+    cursor: pointer;
 }
 #views-ma-el-template-modal-tabs-items .elementor-template-library-menu-item input:checked + span,
 #views-ma-el-template-modal-tabs-items .elementor-template-library-menu-item:hover span {
@@ -231,7 +231,18 @@
 #views-ma-el-template-modal-tabs-items .elementor-template-library-menu-item span {
     display: block;
     padding: 20px 19px 16px 19px;
+    color: #000;
 }
+@media (prefers-color-scheme: dark) {
+  #views-ma-el-template-modal-tabs-items .elementor-template-library-menu-item span {
+    color: #FFF;
+  }
+}
+
+/* #ma-el-template-modal-header #ma-el-template-modal-header-tabs{
+    justify-content: start !important;
+} */
+
 #ma-el-template-modal-header-tabs {
     display: flex;
     flex: 2;
@@ -341,7 +352,7 @@
 }
 #ma-el-template-library-content .ma-el-modal-template-filter-label input:checked + span,
 #ma-el-template-library-content .ma-el-modal-template-filter-label:hover span {
-    color: #fff;
+    color: #4b00e7;
 }
 #ma-el-template-library-content .ma-el-modal-template-filter-item:hover {
     cursor: pointer;

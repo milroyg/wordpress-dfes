@@ -17,7 +17,6 @@ class JLTMA_Header_Footer_CPT_API extends JLTMA_Header_Footer_Rest_API
         }
 
         $id = $this->request['id'];
-
         $open_editor = $this->request['open_editor'];
 
         $title = ($this->request['title'] == '') ? ('Master Addons Template #' . time()) : $this->request['title'];
@@ -27,6 +26,7 @@ class JLTMA_Header_Footer_CPT_API extends JLTMA_Header_Footer_Rest_API
         $jltma_hf_conditions        = ($type == 'section') ? '' : $this->request['jltma_hf_conditions'];
         $jltma_hfc_singular         = ($type == 'section') ? '' : $this->request['jltma_hfc_singular'];
         $jltma_hfc_singular_id      = ($type == 'section') ? '' : (array)$this->request['jltma_hfc_singular_id'];
+        $jltma_hfc_post_types_id      = ($type == 'section') ? '' : (array)$this->request['jltma_hfc_post_types_id'];
 
         $post_data = array(
             'post_title'    => $title,
@@ -49,25 +49,40 @@ class JLTMA_Header_Footer_CPT_API extends JLTMA_Header_Footer_Rest_API
         update_post_meta($id, 'master_template_jltma_hf_conditions', $jltma_hf_conditions);
         update_post_meta($id, 'master_template_jltma_hfc_singular', $jltma_hfc_singular);
         update_post_meta($id, 'master_template_jltma_hfc_singular_id', implode(", ", $jltma_hfc_singular_id));
+        update_post_meta($id, 'master_template_jltma_hfc_post_types_id', implode(", ", $jltma_hfc_post_types_id));
 
         if ($open_editor == 'true') {
             $url = get_admin_url() . '/post.php?post=' . $id . '&action=elementor';
             wp_redirect($url);
             exit;
         } else {
+
             $cond = ucwords(str_replace(
                 '_',
                 ' ',
                 $jltma_hf_conditions
-                    . (($jltma_hf_conditions == 'singular')
-                        ? (($jltma_hfc_singular != '')
-                            ? (' > ' . $jltma_hfc_singular
-                                . (($jltma_hfc_singular_id != '')
-                                    ? ' > ' . implode(", ", $jltma_hfc_singular_id)
-                                    : ''))
-                            : '')
-                        : '')
+                    . (
+                        ($jltma_hf_conditions == 'singular')
+                            ? (
+                                ($jltma_hfc_singular != '')
+                                    ? (
+                                        ' > ' . $jltma_hfc_singular
+                                        . (
+                                            ($jltma_hfc_singular_id != '')
+                                                ? ' > ' . implode(", ", $jltma_hfc_singular_id)
+                                                : ''
+                                        )
+                                    )
+                                    : ''
+                            )
+                            : (
+                                ($jltma_hfc_post_types_id != '')
+                                    ? ' > ' . implode(", ", $jltma_hfc_post_types_id)
+                                    : ''
+                            )
+                    )
             ));
+
 
             return [
                 'saved' => true,
@@ -98,6 +113,7 @@ class JLTMA_Header_Footer_CPT_API extends JLTMA_Header_Footer_Rest_API
                 'jltma_hf_conditions'   => get_post_meta($post->ID, 'master_template_jltma_hf_conditions', true),
                 'jltma_hfc_singular'    => get_post_meta($post->ID, 'master_template_jltma_hfc_singular', true),
                 'jltma_hfc_singular_id' => get_post_meta($post->ID, 'master_template_jltma_hfc_singular_id', true),
+                'jltma_hfc_post_types_id' => get_post_meta($post->ID, 'master_template_jltma_hfc_post_types_id', true),
             ];
         }
         return true;

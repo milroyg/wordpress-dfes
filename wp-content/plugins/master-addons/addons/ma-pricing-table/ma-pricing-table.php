@@ -383,10 +383,9 @@ class JLTMA_Pricing_Table extends Widget_Base
 				'label'            => esc_html__('Icon', 'master-addons' ),
 				'description'      => esc_html__('Please choose an icon from the list.', 'master-addons' ),
 				'type'             => Controls_Manager::ICONS,
-				'fa4compatibility' => 'icon',
 				'default'          => [
-					'value'   => 'fas fa-check',
-					'library' => 'solid',
+					'value'   => 'eicon-check',
+					'library' => 'eicon',
 				],
 				'render_type' => 'template',
 				'condition'   => [
@@ -721,6 +720,9 @@ class JLTMA_Pricing_Table extends Widget_Base
 				'selectors' => [
 					'{{WRAPPER}} .table-bg-pattern .jltma-price-table:before' => 'max-height: {{SIZE}}{{UNIT}};',
 				],
+				'condition' => [
+					'ma_el_pricing_table_layout' => 'five'
+					]
 			]
 		);
 
@@ -742,6 +744,9 @@ class JLTMA_Pricing_Table extends Widget_Base
 				'selectors' => [
 					'{{WRAPPER}} .table-bg-pattern .jltma-price-table:after' => 'top: {{SIZE}}{{UNIT}};',
 				],
+				'condition' => [
+					'ma_el_pricing_table_layout' => 'five'
+					]
 			]
 		);
 

@@ -68,7 +68,6 @@ class Admin_Notices {
 
 		self::$notices = array(
 			'pa-review',
-			'liquid-not'
 		);
 
 		if ( Helper_Functions::check_hide_notifications() ) {
@@ -133,7 +132,6 @@ class Admin_Notices {
 			return;
 		}
 
-		$this->get_liquid_notice();
 	}
 
 	/**
@@ -248,45 +246,6 @@ class Admin_Notices {
 			</div>
 			<div class="pa-notice-close">
 				<a href="<?php echo esc_url( $optout_url ); ?>"><span class="dashicons dashicons-dismiss"></span></a>
-			</div>
-		</div>
-
-		<?php
-	}
-
-	/**
-	 *
-	 * Shows admin notice for Animated Text widget.
-	 *
-	 * @since 4.11.14
-	 * @access public
-	 *
-	 * @return void
-	 */
-	public function get_liquid_notice() {
-
-		$option = get_option( 'liquid-not' );
-
-		if ( '1' === $option ) {
-			return;
-		}
-
-		$link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-liquid-glass-addon/', 'liquid-glass-notification', 'wp-dash', 'liquid-glass' );
-
-		?>
-
-		<div class="error pa-notice-wrap pa-new-feature-notice">
-			<div class="pa-img-wrap">
-				<img src="<?php echo PREMIUM_ADDONS_URL . 'admin/images/pa-logo-symbol.png'; ?>">
-			</div>
-			<div class="pa-text-wrap">
-				<p>
-					<strong><?php echo __( 'Elementor Liquid Glass Global Feature', 'premium-addons-for-elementor' ); ?></strong>
-					<?php echo sprintf( __( 'is now available in Premium Addons for Elementor. <a href="%s" target="_blank">Check it out now!</a>', 'premium-addons-for-elementor' ), $link ); ?>
-				</p>
-			</div>
-			<div class="pa-notice-close" data-notice="liquid-not">
-				<span class="dashicons dashicons-dismiss"></span>
 			</div>
 		</div>
 
@@ -583,7 +542,7 @@ class Admin_Notices {
 
 				<?php foreach ( $stories['banners'] as $index => $banner ) : ?>
 
-					<?php if ( $time < $banner['end'] ) : ?>
+					<?php if ( isset( $banner['end'] ) && $time < $banner['end'] ) : ?>
 
 						<div class="pa-stories-banner">
 							<div class="pa-story-img-container">

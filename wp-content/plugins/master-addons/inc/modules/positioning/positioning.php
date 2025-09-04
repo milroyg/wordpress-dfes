@@ -52,7 +52,7 @@ class JLTMA_Extension_Positioning
 		$widget->start_controls_section(
 			'ma_el_section_advanced_position',
 			array(
-				'label'     => JLTMA_BADGE . __(' Positioning', 'master-addons' ),
+				'label'     => __('Positioning ', 'master-addons' ) . JLTMA_EXTENSION_BADGE,
 				'tab'       => Controls_Manager::TAB_ADVANCED
 			)
 		);

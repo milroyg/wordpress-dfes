@@ -233,7 +233,9 @@ class JLTMA_Contact_Form_7 extends Widget_Base {
             'label'     => esc_html__( 'Text Color', 'master-addons' ),
             'type'      => Controls_Manager::COLOR,
             'selectors' => [
-                '{{WRAPPER}} .master-addons-cf7 .wpcf7-form-control.wpcf7-text, {{WRAPPER}} .master-addons-cf7 .wpcf7-form-control.wpcf7-textarea, {{WRAPPER}} .master-addons-cf7 .wpcf7-form-control.wpcf7-select' => 'color: {{VALUE}}',
+                '{{WRAPPER}} .master-addons-cf7 .wpcf7-form-control.wpcf7-text,
+					 {{WRAPPER}} .master-addons-cf7 .wpcf7-form-control.wpcf7-textarea, 
+					 {{WRAPPER}} .master-addons-cf7 .wpcf7-form-control.wpcf7-select' => 'color: {{VALUE}}',
             ],
         ] );
         $this->add_control( 'ma_cf7_field_padding', [
@@ -584,7 +586,7 @@ class JLTMA_Contact_Form_7 extends Widget_Base {
                 echo do_shortcode( '[contact-form-7 id="' . sanitize_text_field( $settings['ma_cf7_list'] ) . '" ]' );
                 ?>
 				</div>
-<?php 
+				<?php 
             }
         }
     }

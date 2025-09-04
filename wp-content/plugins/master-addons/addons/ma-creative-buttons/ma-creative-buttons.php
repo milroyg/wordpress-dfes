@@ -126,15 +126,14 @@ class JLTMA_Creative_Button extends Widget_Base {
             'show_external' => true,
         ] );
         $this->add_control( 'ma_el_creative_button_icon', [
-            'label'            => esc_html__( 'Icon', 'master-addons' ),
-            'description'      => esc_html__( 'Please choose an icon from the list.', 'master-addons' ),
-            'type'             => Controls_Manager::ICONS,
-            'fa4compatibility' => 'icon',
-            'default'          => [
-                'value'   => 'fas fa-external-link-alt',
-                'library' => 'solid',
+            'label'       => esc_html__( 'Icon', 'master-addons' ),
+            'description' => esc_html__( 'Please choose an icon from the list.', 'master-addons' ),
+            'type'        => Controls_Manager::ICONS,
+            'default'     => [
+                'value'   => 'eicon-editor-external-link',
+                'library' => 'eicon',
             ],
-            'render_type'      => 'template',
+            'render_type' => 'template',
         ] );
         $this->add_control( 'ma_el_creative_button_icon_alignment', [
             'label'     => esc_html__( 'Icon Position', 'master-addons' ),

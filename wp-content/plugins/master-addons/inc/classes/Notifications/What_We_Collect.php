@@ -97,6 +97,7 @@ if (!class_exists('What_We_Collect')) {
 			<div class="jltma-notice-review-box jltma-wwc">
 				<p>
 					<?php
+					// translators: %1$s: Improvement Notice for "Master Addons".
 					echo sprintf(
 						__('Want to help make <strong>%1$s</strong> even more awesome? Allow %1$s to collect non-sensitive diagnostic data and usage information.', 'master-addons'),
 						__('Master Addons', 'master-addons')
@@ -104,7 +105,9 @@ if (!class_exists('What_We_Collect')) {
 					?>
 					(<?php $this->what_we_collect_link(); ?>)</p>
 				<div class="jltma-wwc-content" style="display:none">
-					<?php echo sprintf(
+					<?php 
+					// translators: %1$s: Server Enviroment Details.
+					echo sprintf(
 						__('Server environment details (php, mysql, server, WordPress versions), Number of users in your site, Site language, Number of active and inactive plugins, Local or Production Site, IP Address, Site name and url, Your name and email address etc. No sensitive data is tracked. Learn more about our <a href="%1$s" target="_blank">Privacy Policy</a>, how we handle and collects your data.', 'master-addons'),
 						esc_url('https://master-addons.com/privacy-policy')
 					); ?>

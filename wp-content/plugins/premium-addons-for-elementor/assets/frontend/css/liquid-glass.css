@@ -302,3 +302,11 @@
 .premium-lq__shadow6 {
   box-shadow: 0px -20px 25px -15px rgba(255, 255, 255, 0.5) inset !important;
 }
+
+.premium-lq__shadow7 {
+  box-shadow: 0 0 40px 5px rgba(255, 255, 255, 0.6) inset !important;
+}
+
+.premium-lq__shadow8 {
+  box-shadow: 0 15px 15px -10px rgba(255, 255, 255, 0.45) inset !important;
+}

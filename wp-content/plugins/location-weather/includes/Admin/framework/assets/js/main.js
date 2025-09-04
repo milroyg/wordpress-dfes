@@ -1067,6 +1067,27 @@
 	};
 
 	//
+	// Field: sortable
+	//
+	$.fn.splwt_field_sortable = function () {
+		return this.each(function () {
+			var $sortable = $(this).find(".splwt-lite-sortable");
+
+			// $sortable.sortable({
+			// 	axis: "y",
+			// 	helper: "original",
+			// 	cursor: "move",
+			// 	placeholder: "widget-placeholder",
+			// 	update: function (event, ui) {
+			// 		$sortable.splwt_customizer_refresh();
+			// 	},
+			// });
+
+			$sortable.find(".splwt-lite-sortable-content").splwt_reload_script();
+		});
+	};
+
+	//
 	// Help Tooltip
 	//
 	$.fn.splwt_help = function () {
@@ -1292,6 +1313,7 @@
 				$this.children('.splwt-lite-field-spinner').splwt_field_spinner();
 				$this.children('.splwt-lite-field-switcher').splwt_field_switcher();
 				$this.children('.splwt-lite-field-slider').splwt_field_slider();
+				$this.children('.splwt-lite-field-sortable').splwt_field_sortable();
 
 				// Field colors
 				$this
@@ -1507,7 +1529,7 @@
 				'lw-desc-typo': { 'font-size': 16, 'line-height': 20, 'text-align': 'left', 'margin-top': 10, 'margin-bottom': 0, 'color': '#fff' },
 				'lw-weather-units-typo': { 'font-size': 14, 'line-height': 20, 'text-align': 'left', 'color': '#fff' },
 				'lw-forecast-typo': { 'font-size': 16, 'line-height': 20, 'text-align': 'center', 'margin-top': 0, 'margin-bottom': 0, 'color': '#fff' },
-				'lw_max_width': { 'all': 666 }, 'lw-weather-additional-data-margin': { 'top': 0, 'bottom': 0 },
+				'lw_max_width': { 'all': 800 }, 'lw-weather-additional-data-margin': { 'top': 0, 'bottom': 0 },
 				'lw_forecast-column': { 'all': 7 }
 			},
 		};
@@ -1724,14 +1746,16 @@
 		if (type.includes(str)) {
 			$(selector + ' .lw-pro-notice').hide();
 		} else {
-			var noticeText = "This is a <a href='https://locationweather.io/pricing/?ref=1' target='_blank'>Pro Feature!</a>";
+			var noticeText = "Unlock exclusive icons with <a href='https://locationweather.io/pricing/?ref=1' target='_blank'>Pro!</a>";
 			$(selector + ' .lw-pro-notice').html(noticeText).show();
 		}
 	}
 	// Event handler for changing the icon type
-	$('.weather-current-icon-type,.weather-icon-type').on('change', function () {
+	$('.weather-current-icon-type,.weather-icon-type,.weather-forecast-icon-type').on('change', function () {
 		if ($(this).hasClass('weather-current-icon-type')) {
 			updateIconType(".weather-current-icon-type", /forecast-icon-set\/(.+)\.svg/, ['forecast_icon_set_one', 'forecast_icon_set_two']);
+		} else if ($(this).hasClass('weather-forecast-icon-type')) {
+			updateIconType(".weather-forecast-icon-type", /forecast-icon-set\/(.+)\.svg/, ['forecast_icon_set_one', 'forecast_icon_set_two']);
 		} else if ($(this).hasClass('weather-icon-type')) {
 			updateIconType(".weather-icon-type", /icon-set\/(.+)\.svg/, 'icon_set_one');
 		}
@@ -1760,7 +1784,57 @@
 		if ($('input[name="sp_location_weather_layout[weather-view]"]:checked').is(':disabled')) {
 			$('input[name="sp_location_weather_layout[weather-view]"][value="' + lastSelectedOption + '"]').prop('checked', true);
 		}
+		$('input[name="sp_location_weather_generator[lw-forecast-type]"][value="hourly"]').prop('checked', true);
 	});
+
+	jQuery(function ($) {
+		// Cache selectors once
+		const selectors = {
+			radios: 'input[name="sp_location_weather_generator[lw-forecast-type]"]',
+			oneHour: 'input[name="sp_location_weather_generator[lw-number-forecast-hours]"]',
+			threeHour: 'select[name="sp_location_weather_generator[lw-number-forecast-three-hours]"]',
+			descOneHour: '.lw-number-forecast-hours .splwt-lite-desc-text',
+			descThreeHour: '.lw-number-forecast-three-hours .splwt-lite-desc-text',
+			descForecastType: '.lw-forecast-type .splwt-lite-desc-text',
+		};
+
+		const $radios = $(selectors.radios);
+		const $oneHourInput = $(selectors.oneHour);
+		const $threeHourInput = $(selectors.threeHour);
+		const $descOneHour = $(selectors.descOneHour);
+		const $descThreeHour = $(selectors.descThreeHour);
+		const $descForecastType = $(selectors.descForecastType);
+
+		let prevState = { forecastType: null, oneHour: null, threeHour: null };
+
+		function toggleProNotice() {
+			const forecastType = $radios.filter(':checked').val();
+			const oneHour = parseInt($oneHourInput.val(), 10) || 0;
+			const threeHour = parseInt($threeHourInput.val(), 10) || 0;
+
+			// Skip if no changes
+			if (
+				forecastType === prevState.forecastType &&
+				oneHour === prevState.oneHour &&
+				threeHour === prevState.threeHour
+			) return;
+
+			// Cache current state
+			prevState = { forecastType, oneHour, threeHour };
+			$descForecastType.toggle(forecastType === 'daily' || forecastType === 'both');
+			$descOneHour.toggle(forecastType === 'hourly' && oneHour > 8);
+			$descThreeHour.toggle(forecastType === 'hourly' && threeHour > 8);
+		}
+
+		// Bind once
+		$radios.on('change', toggleProNotice);
+		$oneHourInput.on('input change', toggleProNotice);
+		$threeHourInput.on('change', toggleProNotice);
+
+		// Initial run
+		toggleProNotice();
+	});
+	  
 
 	$('.splw-live-demo-icon').on('click', function (event) {
 		event.stopPropagation();

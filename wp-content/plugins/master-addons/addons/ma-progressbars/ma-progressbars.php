@@ -282,6 +282,34 @@ class JLTMA_Progress_Bars extends Widget_Base
 		);
 
 		$this->add_control(
+			'stats_title_align',
+			[
+				'label' 		=> __('Alignment', 'master-addons' ),
+				'type' 			=> Controls_Manager::CHOOSE,
+				'label_block' 	=> false,
+				'options' 		=> [
+					'left' 	=> [
+						'title' 	=> __('Left', 'master-addons' ),
+						'icon' 		=> 'eicon-h-align-left',
+					],
+					'center' 	=> [
+						'title' 	=> __('Default', 'master-addons' ),
+						'icon' 		=> 'eicon-h-align-center',
+					],
+					'right' 		=> [
+						'title' 		=> __('Right', 'master-addons' ),
+						'icon' 			=> 'eicon-h-align-right',
+					],
+				],
+				'default' 		 => 'left',
+				'style_transfer' => true,
+				'selectors' => [
+					'{{WRAPPER}} .jltma-stats-bars .jltma-stats-bar .jltma-stats-title' => 'text-align: {{VALUE}};'
+				]
+			]
+		);
+
+		$this->add_control(
 			'stats_title_color',
 			[
 				'label' => __('Color', 'master-addons' ),
@@ -313,62 +341,13 @@ class JLTMA_Progress_Bars extends Widget_Base
 			]
 		);
 
-
-		$this->add_control(
-			'stats_percentage_align',
-			[
-				'label' 		=> esc_html__('Alignment', 'master-addons' ),
-				'type' 			=> Controls_Manager::CHOOSE,
-				'label_block' 	=> false,
-				'options' 		=> [
-					'left' 	=> [
-						'title' 	=> esc_html__('Left', 'master-addons' ),
-						'icon' 		=> 'eicon-h-align-left',
-					],
-					'inherit' 	=> [
-						'title' 	=> esc_html__('Default', 'master-addons' ),
-						'icon' 		=> 'eicon-h-align-center',
-					],
-					'right' 		=> [
-						'title' 		=> esc_html__('Right', 'master-addons' ),
-						'icon' 			=> 'eicon-h-align-right',
-					],
-				],
-				'default' 		 => 'inherit',
-				'style_transfer' => true,
-				'selectors' => [
-					'{{WRAPPER}} .jltma-stats-bars .jltma-stats-bar .ma-el-stats-title span' => 'float: {{VALUE}};'
-				]
-			]
-		);
-
-		$this->add_control(
-			'stats_percentage_spacing',
-			[
-				'label' => __('Padding', 'master-addons' ),
-				'type' => Controls_Manager::DIMENSIONS,
-				'size_units' => ['px', '%', 'em'],
-				'default' => [
-					'top' => 0,
-					'right' => 0,
-					'bottom' => 0,
-					'left' => 5,
-					'unit' => 'px',
-				],
-				'selectors' => [
-					'{{WRAPPER}} .jltma-stats-bars .jltma-stats-bar .ma-el-stats-title span' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-				'isLinked' => false
-			]
-		);
-
 		$this->add_control(
 			'stats_percentage_color',
 			[
 				'label' => __('Color', 'master-addons' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .jltma-stats-bars .jltma-stats-bar .ma-el-stats-title span' => 'color: {{VALUE}};'
+					'{{WRAPPER}} .jltma-stats-bars .jltma-stats-bar .jltma-stats-title span' => 'color: {{VALUE}};'
 				],
 			]
 		);
@@ -377,7 +356,7 @@ class JLTMA_Progress_Bars extends Widget_Base
 			Group_Control_Typography::get_type(),
 			[
 				'name' => 'stats_percentage_typography',
-				'selector' => '{{WRAPPER}} .jltma-stats-bars .jltma-stats-bar .ma-el-stats-title span',
+				'selector' => '{{WRAPPER}} .jltma-stats-bars .jltma-stats-bar .jltma-stats-title span',
 			]
 		);
 

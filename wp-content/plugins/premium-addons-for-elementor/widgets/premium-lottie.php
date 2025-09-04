@@ -115,7 +115,7 @@ class Premium_Lottie extends Widget_Base {
 	}
 
 	public function has_widget_inner_wrapper(): bool {
-		return ! Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
+		return ! Helper_Functions::check_elementor_experiment( 'e_optimized_markup' );
 	}
 
 	/**
@@ -132,6 +132,9 @@ class Premium_Lottie extends Widget_Base {
 				'label' => __( 'General Settings', 'premium-addons-for-elementor' ),
 			)
 		);
+
+		$demo = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-lottie-animations-widget/', 'lottie', 'wp-editor', 'demo' );
+		Helper_Functions::add_templates_controls( $this, 'lottie-animations', $demo );
 
 		$this->add_control(
 			'source',
@@ -525,6 +528,8 @@ class Premium_Lottie extends Widget_Base {
 		}
 
 		$this->end_controls_section();
+
+		Helper_Functions::register_papro_promotion_controls( $this, 'lottie' );
 
 		$this->start_controls_section(
 			'section_animation_style',
