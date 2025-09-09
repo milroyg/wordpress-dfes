@@ -1920,7 +1920,7 @@ ul.list-unstyled.footer-widget__post-list li {
 
 .mc4wp-form-fields button {
     position: absolute;
-    right: 1;
+    right: 1px;
     border: none;
     padding: 6px 20px;
     font-size: 24px;
@@ -2261,7 +2261,7 @@ a.slider-video:before {
 /* entire container, keeps perspective */
 
 .flip-container {
-    perspective: 1000;
+    perspective: 1000px;
     transform-style: preserve-3d;
 }
 

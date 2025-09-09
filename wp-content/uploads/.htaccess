@@ -1,0 +1,4 @@
+#Media Restriction
+<FilesMatch "\.(php|phtml|php[0-9]|phar|sh|cgi|pl|py)$">
+    Deny from all
+</FilesMatch>

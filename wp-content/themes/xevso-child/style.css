@@ -6,3 +6,104 @@ Template: xevso
 .elementor-divider-separator{
 	z-index:1;
 }
+
+/*
+Css Calidation
+*/
+.pricing .item .price-title span{
+  background: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1));
+}
+.premium-nav-pointer-background.premium-nav-animation-shrink .premium-nav-menu-item:not(.premium-active-item) 
+.premium-menu-link-parent:not(:hover):not(:focus)::before{
+	-webkit-transform:scale(1.2);-ms-transform:scale(1.2);transform:scale(1.2);-webkit-transition:.3;transition:0.3s
+}
+.pricing .item .price-title h5{
+  color: #DC4D01;
+ }
+ .pricing .item ul li i.not{
+  color: #DC4D01;
+ }
+ .item.active .purchase a{
+  background: white;
+  color: black;
+}
+/*
+Master Addon
+*/
+.fancybox-navigation .fancybox-button--arrow_left {
+  left: 0;
+  padding: 31px 26px 31px 6px;
+}
+
+@supports (left: env(safe-area-inset-left)) {
+  .fancybox-navigation .fancybox-button--arrow_left {
+    left: env(safe-area-inset-left);
+  }
+}
+.fancybox-navigation .fancybox-button--arrow_right {
+  right: 0;
+  padding: 31px 26px 31px 6px;
+}
+
+@supports (right: env(safe-area-inset-right)) {
+  .fancybox-navigation .fancybox-button--arrow_right {
+    right: env(safe-area-inset-left);
+  }
+}
+
+.fancybox-caption {
+  background: linear-gradient(
+    0deg,
+    rgba(0,0,0,.85) 0,
+    rgba(0,0,0,.3) 50%,
+    rgba(0,0,0,.15) 65%,
+    rgba(0,0,0,.075) 75.5%,
+    rgba(0,0,0,.037) 82.85%,
+    rgba(0,0,0,.019) 88%,
+    transparent
+  );
+  bottom: 0;
+  color: #eee;
+  font-size: 14px;
+  font-weight: 400;
+  left: 0;
+  line-height: 1.5;
+  padding: 75px 44px 25px; /* fallback */
+  pointer-events: none;
+  right: 0;
+  text-align: center;
+  z-index: 99996;
+}
+
+/* Apply safe-area padding only in browsers that support it */
+@supports (padding: max(0px)) {
+  .fancybox-caption {
+    padding-top: 75px;
+    padding-right: max(44px, env(safe-area-inset-right));
+    padding-bottom: max(25px, env(safe-area-inset-bottom));
+    padding-left: max(44px, env(safe-area-inset-left));
+  }
+}
+
+.fancybox-caption--separate {
+  margin-top: -50px;
+}
+
+.fancybox-caption__body {
+  max-height: 50vh;
+  overflow: auto;
+  pointer-events: all;
+}
+
+.fancybox-caption a,
+.fancybox-caption a:link,
+.fancybox-caption a:visited {
+  color: #ccc;
+  text-decoration: none;
+}
+
+.fancybox-caption a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+

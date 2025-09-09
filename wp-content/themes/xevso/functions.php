@@ -89,13 +89,6 @@ function load_bootstrap_and_custom_css() {
 add_action('wp_enqueue_scripts', 'load_bootstrap_and_custom_css');
 
 
-function allow_json_uploads($mimes) {
-    $mimes['json'] = 'application/json';
-    return $mimes;
-}
-add_filter('upload_mimes', 'allow_json_uploads');
-
-
 function enqueue_leaflet_cluster_scripts() {
 	    if (is_page([9616, 9625])) {
      // Load Leaflet core
@@ -260,15 +253,15 @@ add_filter( 'rest_authentication_errors', function( $result ) {
 
 
 // Only apply on login page
-add_action('login_head', function () {
-    ob_start(function ($buffer) {
-        // Replace autocomplete attributes
-        $buffer = str_replace('autocomplete="username"', 'autocomplete="off"', $buffer);
-        $buffer = str_replace('autocomplete="current-password"', 'autocomplete="off"', $buffer);
-        $buffer = str_replace('<form', '<form autocomplete="off"', $buffer);
-        return $buffer;
-    });
-});
+// add_action('login_head', function () {
+//     ob_start(function ($buffer) {
+//         // Replace autocomplete attributes
+//         $buffer = str_replace('autocomplete="username"', 'autocomplete="off"', $buffer);
+//         $buffer = str_replace('autocomplete="current-password"', 'autocomplete="off"', $buffer);
+//         $buffer = str_replace('<form', '<form autocomplete="off"', $buffer);
+//         return $buffer;
+//     });
+// });
 
 // Remove the default inline style from AccessibleWP Toolbar : style present in body moves to head
 remove_action('wp_footer', 'acwp_iconsize_style');
