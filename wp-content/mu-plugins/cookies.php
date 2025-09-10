@@ -1,11 +1,4 @@
 <?php
-// /wp-content/mu-plugins/harden-cookies.php
-// Harden WP cookies by rewriting outgoing Set-Cookie headers.
-// - wordpress_sec_*  => SameSite=Strict
-// - wordpress_logged_in_* => SameSite=Lax
-// - PHPSESSID => SameSite=Strict
-// Ensures Secure and HttpOnly are present.
-
 add_action('send_headers', function() {
     // collect all Set-Cookie headers that were added so far
     $headers = headers_list();

@@ -85,13 +85,14 @@ add_action('init', function() {
         header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
     }
 
-    // Content Security Policy (CSP) for login page only
+// Content Security Policy (CSP) for login page only
     $csp = "default-src 'self'; ";
-    $csp .= "script-src 'self' 'unsafe-inline' https://code.jquery.com https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com https://challenges.cloudflare.com blob:; ";
+    $csp .= "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://code.jquery.com https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com https://challenges.cloudflare.com blob:; ";
     $csp .= "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; ";
     $csp .= "img-src 'self' data: https://dfes.goa.gov.in https://s.w.org https://secure.gravatar.com https://*.tile.openstreetmap.org https:; ";
     $csp .= "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:; ";
     $csp .= "frame-src 'self' https://www.google.com/ https://www.google.com/recaptcha/ https://challenges.cloudflare.com; ";
+
 
     header("Content-Security-Policy: $csp");
 // Harden PHP session cookies (if plugins call session_start)
