@@ -107,3 +107,84 @@ Master Addon
   text-decoration: underline;
 }
 
+.slick-list.dragging {
+    cursor: pointer !important;
+}
+
+
+.footer-widget-section h2 {
+    font-size: 24px;
+    line-height: 32px;
+    color: #000000;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.wp-block-search.wp-block-search__button-inside .wp-block-search__inside-wrapper {
+    width: 100%;
+    height: 40px;
+    padding: 0 15px;
+    border: 1px solid #ddd;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
+    outline: none;
+    font-family: josefin sans;
+    color: #000000;
+}
+.cta-butons .blob-btn {
+    padding: 10px 28px;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+ .header2-bottom .site-branding.site-logo-area {
+        padding: 6px 0px;
+        text-align: left;
+    }
+
+    /* Remove box-shadow on Elementor editor overlays for specific condition */
+.eac-conditions-no > .elementor-element-overlay > .elementor-editor-section-settings .elementor-editor-element-edit,
+.eac-conditions-no > .elementor-element-overlay > .elementor-editor-column-settings .elementor-editor-element-edit,
+.eac-conditions-no > .elementor-element-overlay > .elementor-editor-widget-settings .elementor-editor-element-edit,
+.eac-conditions-no > .elementor-element-overlay > .elementor-editor-container-settings .elementor-editor-element-edit {
+    box-shadow: none;
+}
+.jltma--advance-tab.four .jltma--advance-tab-nav li.active:after {
+  transform: translateY(1px);
+}
+
+.jltma-team-member-thumb [id^="animation_svg_"] {
+  animation: none;
+}
+.jltma-dropdown-toggle-border-type-default .jltma-nav-menu__toggle {
+  border-style: solid;
+}
+.jltma-team-member-thumb path {
+  d: none;
+}
+
+/* Clean up invalid SVG-related properties */
+.jltma-team-member-thumb .animation_svg_01_circle1,
+.jltma-team-member-thumb .animation_svg_01_circle2,
+.jltma-team-member-thumb .animation_svg_01_circle3,
+.jltma-team-member-thumb .animation_svg_01_circle4,
+.jltma-team-member-thumb .animation_svg_01_ellipse1,
+.jltma-team-member-thumb .animation_svg_01_ellipse2,
+.jltma-team-member-thumb #animation_svg_04_Circle1,
+.jltma-team-member-thumb #animation_svg_04_Circle2,
+.jltma-team-member-thumb #animation_svg_04_Circle3,
+.jltma-team-member-thumb #animation_svg_04_Circle4 {
+  all: unset !important; /* wipes the invalid CSS */
+}
+
+@font-face {
+  font-family: "flaticon";
+  src: url("./flaticon.woff2?fb4a2394759122d28aa20ce3f32a481c") format("woff2"),
+       url("./flaticon.woff?fb4a2394759122d28aa20ce3f32a481c") format("woff"),
+       url("./flaticon.ttf?fb4a2394759122d28aa20ce3f32a481c") format("truetype"),
+       url("./flaticon.eot?fb4a2394759122d28aa20ce3f32a481c#iefix") format("embedded-opentype"),
+       url("./flaticon.svg?fb4a2394759122d28aa20ce3f32a481c#flaticon") format("svg");
+}
