@@ -4,7 +4,7 @@ Tags: elementor, elementor templates, elementor addons, widgets for elementor, e
 Requires at least: 4.0
 Tested up to: 6.8.2
 Requires PHP: 7.0
-Stable tag: 2.0.9.6
+Stable tag: 2.0.9.7
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -353,6 +353,11 @@ Paste on your Local Computer
 
 
 == Changelog ==
+
+= 2.0.9.7 (23-09-2025) =
+* Fixed: Mobile nav menu toggle is not working properly in free version.
+* Security Patch: Freemius SDK updated for better security.
+
 = 2.0.9.6 (31-08-2025) =
 * Added: Dynamic Tags added on Image Hover Effects
 * Update: Master Addons Mega menu feature updated 

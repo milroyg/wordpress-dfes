@@ -249,6 +249,13 @@ class Master_Addons_Assets {
             JLTMA_VER,
             true
         );
+        wp_register_script(
+            'jltma-nav-menu',
+            JLTMA_URL . '/assets/js/addons/jltma-nav-menu.js',
+            ['jquery', 'elementor-frontend-modules'],
+            JLTMA_VER,
+            true
+        );
     }
 
     /**

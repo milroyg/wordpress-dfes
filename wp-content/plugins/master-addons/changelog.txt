@@ -1,4 +1,9 @@
 == Changelog ==
+
+= 2.0.9.7 (21-09-2025) =
+* Fixed: Mobile nav menu toggle is not working properly in free version.
+* Security Patch: Freemius SDK updated for better security.
+
 = 2.0.9.6 (31-08-2025) =
 * Added: Dynamic Tags added on Image Hover Effects
 * Update: Master Addons Mega menu feature updated 

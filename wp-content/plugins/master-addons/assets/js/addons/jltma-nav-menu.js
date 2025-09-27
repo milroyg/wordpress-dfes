@@ -85,6 +85,21 @@
             this.checkDropdown();
             this.onEdit();
             this.megaMenuClick();
+            this.checkSubmenuIndicators();
+            this.replaceSvgWithIcon();
+        }
+
+        replaceSvgWithIcon() {
+            var self = this;
+
+            // Find the SVG element in the toggle icon
+            var $svgElement = self.$element.find('.elementor-widget-ma-navmenu .jltma-nav-menu__toggle-container .jltma-nav-menu__toggle .jltma-toggle-icon svg.e-font-icon-svg');
+
+            // If SVG exists, replace it with the icon
+            if ($svgElement.length) {
+                var $iconElement = $('<i class="eicon-menu-bar"></i>');
+                $svgElement.replaceWith($iconElement);
+            }
         }
 
         megaMenuClick(){
@@ -95,6 +110,70 @@
                     $(this).find('.dropdown-menu.jltma-megamenu').toggleClass("show");
                 });
             }
+        }
+
+        checkSubmenuIndicators() {
+            var self = this;
+
+            function applyIndicatorLogic() {
+                var $navElement = self.$element.find('.elementor-widget-ma-navmenu nav.jltma-nav-menu__dropdown');
+
+                // If still not found, try broader selector
+                if (!$navElement.length) {
+                    $navElement = self.$element.find('nav.jltma-nav-menu__dropdown');
+                }
+
+                // Also check parent/child relationships
+                if (!$navElement.length) {
+                    $navElement = self.$element.closest('.elementor-widget-ma-navmenu').find('nav.jltma-nav-menu__dropdown');
+                }
+
+                if ($navElement.length) {
+                    var iconSubAttr = $navElement.attr('data-icon-sub');
+                    var $submenuIndicators = self.$element.find('.jltma-nav-menu__dropdown ul li a .jltma-submenu-indicator');
+
+                    if (iconSubAttr === '' || typeof iconSubAttr === 'undefined' || iconSubAttr === null) {
+                        $submenuIndicators.css('display', 'block');
+                    } else {
+                        $submenuIndicators.css('display', 'none');
+                    }
+
+                    // Handle click on menu items with children
+                    self.handleSubmenuClicks();
+
+                    return true; // Found and processed
+                }
+                return false; // Not found yet
+            }
+
+            // Try to apply immediately
+            if (!applyIndicatorLogic()) {
+                // If not found, use MutationObserver to watch for changes
+                var observer = new MutationObserver(function(mutations, obs) {
+                    if (applyIndicatorLogic()) {
+                        // Stop observing once we've found and processed the element
+                        obs.disconnect();
+                    }
+                });
+
+                // Start observing the widget element for changes
+                observer.observe(self.$element[0], {
+                    childList: true,
+                    subtree: true,
+                    attributes: true,
+                    attributeFilter: ['data-icon-sub']
+                });
+
+                // Disconnect observer after 5 seconds to prevent memory leaks
+                setTimeout(function() {
+                    observer.disconnect();
+                }, 5000);
+            }
+        }
+
+        handleSubmenuClicks() {
+            // This function is now empty as we'll modify the existing onParentClick instead
+            // to avoid conflicts with existing handlers
         }
 
 
@@ -459,22 +538,57 @@
         onParentClick(event) {
             this.checkPreventDefault(event, true);
             var $parentItem = this.getParentItem(event);
+            var $parentLi = $parentItem.parent();
+            var $nextItem = $parentItem.next();
+
+            // Prevent default action for menu items with children
+            if ($parentLi.hasClass('menu-item-has-children')) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
 
             if (!$parentItem.hasClass('active')) {
                 event.preventDefault();
             }
 
-            if( $parentItem.parent().hasClass('jltma-has-megamenu') && $parentItem.parent().hasClass('jltma-mobile-builder-content') ){
-                if ($parentItem.parent().children('.jltma-megamenu').is('ul') && !$parentItem.parent().children('.jltma-megamenu').is(':visible')) {
-                    $parentItem.parent().children('.jltma-megamenu').slideToggle('normal');
+            // Handle megamenu items
+            if ($parentLi.hasClass('jltma-has-megamenu') && $parentLi.hasClass('jltma-mobile-builder-content')) {
+                if ($parentLi.children('.jltma-megamenu').is('ul') && !$parentLi.children('.jltma-megamenu').is(':visible')) {
+                    $parentLi.children('.jltma-megamenu').slideToggle('normal');
                 }
-            }else{
+            } else {
+                // Handle regular dropdown menu items
+                if ($nextItem.is('ul')) {
+                    // Toggle the submenu instead of closing then opening
+                    if ($nextItem.is(':visible')) {
+                        // Closing submenu
+                        $nextItem.css('opacity', '0');
+                        $nextItem.children('li').children('a').css('visibility', 'hidden');
+                        $nextItem.slideUp('normal', function() {
+                            $parentLi.removeClass('jltma-submenu-open');
+                        });
+                    } else {
+                        // Opening submenu
+                        $parentLi.addClass('jltma-submenu-open');
+                        $nextItem.slideDown('normal', function() {
+                            // Apply opacity and visibility after slide down completes
+                            $nextItem.css('opacity', '1');
+                            // Only immediate child li > a elements get visibility
+                            $nextItem.children('li').children('a').css('visibility', 'visible');
+                        });
 
-                $parentItem.next().slideUp('normal');
-                var $nextItem = $parentItem.next();
-
-                if ($nextItem.is('ul') && !$nextItem.is(':visible')) {
-                    $parentItem.next().slideDown('normal');
+                        // Close other open submenus at the same level
+                        $parentLi.siblings('li.menu-item-has-children').each(function() {
+                            var $siblingSubmenu = $(this).children('ul');
+                            if ($siblingSubmenu.is(':visible')) {
+                                $siblingSubmenu.css('opacity', '0');
+                                $siblingSubmenu.children('li').children('a').css('visibility', 'hidden');
+                                $siblingSubmenu.slideUp('normal', function() {
+                                    $(this).parent().removeClass('jltma-submenu-open');
+                                });
+                            }
+                        });
+                    }
                 }
             }
         }
