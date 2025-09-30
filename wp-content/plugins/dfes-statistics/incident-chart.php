@@ -36,7 +36,7 @@ function incident_chart_admin_page() {
         exit;
     }
 
-    include(plugin_dir_path(__FILE__) . 'admin-page.php');
+    include(plugin_dir_path(__FILE__) . 'admin.php');
 }
 
 function incident_chart_fetch_and_cache_csv() {
