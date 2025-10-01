@@ -315,10 +315,10 @@ function renderChart(category) {
                         }
                     },
                     ticks: {
-                        autoSkip: false,
-                        maxTicksLimit: 20,
-                        maxRotation: 45,
-                        minRotation: 45
+                        autoSkip: true,      // skip some labels automatically
+      maxTicksLimit: 6,    // show only ~6 labels on mobile
+      maxRotation: 0,      // keep labels horizontal
+      minRotation: 0
                     }
                 },
                y: {

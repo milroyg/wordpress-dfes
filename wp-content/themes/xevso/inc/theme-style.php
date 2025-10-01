@@ -1,4 +1,5 @@
 <?php
+
 function xevso_assets() {
     $xevso_css_files = array(
         'bootstrap'            => xevso_ASSETS_DIR . 'bootstrap/bootstrap-min.css',
