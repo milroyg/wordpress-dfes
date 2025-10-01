@@ -55,3 +55,15 @@ add_filter('wp_nav_menu_objects', function ($items, $args) {
   }
   return $items;
 }, 10, 2);
+
+//Copy Paste Buffer
+ function my_custom_login_script() {
+        wp_enqueue_script(
+            'my-custom-login-script', // Handle for your script
+            get_template_directory_uri() . '/assets/copypastebuffer.js', // Path to your script
+            array('jquery'), // Dependencies (e.g., jQuery if needed)
+            null, // Version number (optional)
+            true // Load in the footer (recommended)
+        );
+    }
+    add_action('login_enqueue_scripts', 'my_custom_login_script');
