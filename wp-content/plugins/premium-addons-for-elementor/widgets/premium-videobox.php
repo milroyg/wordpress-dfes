@@ -18,11 +18,11 @@ use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Text_Shadow;
 use Elementor\Group_Control_Box_Shadow;
-use Elementor\Group_Control_Background;
 
 // PremiumAddons Classes.
 use PremiumAddons\Admin\Includes\Admin_Helper;
 use PremiumAddons\Includes\Helper_Functions;
+use PremiumAddons\Includes\Controls\Premium_Background;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // If this file is called directly, abort.
@@ -605,6 +605,22 @@ class Premium_Videobox extends Widget_Base {
 		);
 
 		$this->add_control(
+			'cc_load_policy',
+			array(
+				'label'     => esc_html__( 'Captions', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::SWITCHER,
+				'condition' => array(
+					'video_type' => array( 'youtube' ),
+					'controls'   => 'yes',
+				),
+				'condition' => array(
+					'premium_video_box_controls'   => 'yes',
+					'premium_video_box_video_type' => 'youtube',
+				),
+			)
+		);
+
+		$this->add_control(
 			'privacy_mode',
 			array(
 				'label'       => __( 'Privacy Mode', 'premium-addons-for-elementor' ),
@@ -1062,6 +1078,7 @@ class Premium_Videobox extends Widget_Base {
 				'selectors'            => array(
 					'{{WRAPPER}} .premium-video-box-container > div' => 'aspect-ratio: {{VALUE}}',
 				),
+				'frontend_available'   => true,
 			)
 		);
 
@@ -1446,7 +1463,7 @@ class Premium_Videobox extends Widget_Base {
 				'type'        => Controls_Manager::MEDIA,
 				'dynamic'     => array( 'active' => true ),
 				// 'default'     => array(
-				// 	'url' => Utils::get_placeholder_image_src(),
+				// 'url' => Utils::get_placeholder_image_src(),
 				// ),
 				'label_block' => true,
 			)
@@ -1916,7 +1933,7 @@ class Premium_Videobox extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'premium_video_box_play_icon_background_color',
 				'types'    => array( 'classic', 'gradient' ),
@@ -2696,7 +2713,9 @@ class Premium_Videobox extends Widget_Base {
 				$options .= '&autoplay=1';
 			}
 
-			if ( 'vimeo' === $video_type ) {
+			if ( 'youtube' === $video_type ) {
+				$options .= '&cc_load_policy=' . ( 'yes' === $settings['cc_load_policy'] ? '1' : '0' );
+			} elseif ( 'vimeo' === $video_type ) {
 
 				// Filter any paramters after link to be added later.
 				$query_string = wp_parse_url( $link, PHP_URL_QUERY );
@@ -3002,14 +3021,14 @@ class Premium_Videobox extends Widget_Base {
 						</div>
 							<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'image_container' ) ); ?>></div>
 							<?php if ( 'yes' === $sticky ) { ?>
-								<span class="premium-video-box-sticky-close"><i class="fas fa-times"></i></span>
+								<span class="premium-video-box-sticky-close"><i class="fas fa-times" aria-hidden="true"></i></span>
 							<?php } ?>
 							<?php if ( 'yes' === $settings['sticky_info_bar_switch'] && '' !== $settings['sticky_info_bar_text'] ) { ?>
 									<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'info_bar' ) ); ?>><?php echo wp_kses_post( $settings['sticky_info_bar_text'] ); ?></div>
 							<?php } ?>
 						<?php if ( 'yes' === $settings['premium_video_box_play_icon_switcher'] && 'yes' !== $autoplay && ! empty( $thumbnail ) ) : ?>
 							<div class="premium-video-box-play-icon-container">
-								<i class="premium-video-box-play-icon fa fa-play fa-lg"></i>
+								<i class="premium-video-box-play-icon fa fa-play fa-lg" aria-hidden="true"></i>
 							</div>
 						<?php endif; ?>
 						<?php if ( 'yes' === $settings['premium_video_box_video_text_switcher'] && ! empty( $settings['premium_video_box_description_text'] ) ) : ?>
@@ -3451,7 +3470,7 @@ class Premium_Videobox extends Widget_Base {
 							<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'image_container' . $id ) ); ?> ></div>
 							<?php if ( 'yes' === $settings['premium_video_box_play_icon_switcher'] ) : ?>
 								<div class="premium-video-box-play-icon-container">
-									<i class="premium-video-box-play-icon fa fa-play fa-lg"></i>
+									<i class="premium-video-box-play-icon fa fa-play fa-lg" aria-hidden="true"></i>
 								</div>
 							<?php endif; ?>
 						</div>
@@ -3537,17 +3556,14 @@ class Premium_Videobox extends Widget_Base {
 
 		$transient_name = sprintf( 'pa_videos_%s_%s', $source, $widget_id );
 
-		$response_json = false;
+		$response_json = get_transient( $transient_name );
 
 		if ( false === $response_json ) {
 
-			sleep( 2 );
+			$api_response = wp_remote_get( $api_url );
 
-			$api_response = rplg_urlopen( $api_url );
-
-			$response_data = $api_response['data'];
-
-			$response_json = rplg_json_decode( $response_data );
+			$response_json = wp_remote_retrieve_body( $api_response );
+			$response_json = json_decode( $response_json );
 
 			$transient = $settings['reload'];
 

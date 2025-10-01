@@ -254,7 +254,7 @@ class Splw_Help {
 					if ( isset( $plugin['active_installs'] ) ) {
 						?>
 						<div class="column-downloaded">
-						<?php echo number_format_i18n( $plugin['active_installs'] ) . esc_html__( '+ Active Installations', 'location-weather' ); ?>
+						<?php echo esc_html( number_format_i18n( $plugin['active_installs'] ) ) . esc_html__( '+ Active Installations', 'location-weather' ); ?>
 						</div>
 									<?php
 					}
@@ -695,7 +695,7 @@ class Splw_Help {
 							</div>
 						</div>
 						<div class="splw-about-img">
-							<img src="https://shapedplugin.com/wp-content/uploads/2024/01/shapedplugin-team.jpg" alt="">
+							<img src="<?php echo esc_url( LOCATION_WEATHER_ASSETS . '/images/shapedplugin-team.jpg' ); ?>" alt="ShapedPlugin Team">
 							<span>Team ShapedPlugin LLC at WordCamp Sylhet</span>
 						</div>
 					</div>

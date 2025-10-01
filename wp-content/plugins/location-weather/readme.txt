@@ -1,18 +1,19 @@
-=== Location Weather – Hourly, Daily Weather Forecast Widget and Weather Map ===
+=== Location Weather – WordPress Weather Forecast, AQI, Temperature and Weather Widget ===
 Contributors: shapedplugin, khalilu, rubel_miah, shamimmiashuhagh
-Tags: weather forecast, weather widget, live weather map, hourly forecast, daily forecast
+Tags: weather forecast, weather widget, local weather, temperature, live weather
 Requires at least: 5.0
-Tested up to: 6.8.2
-Stable tag: 2.1.3
+Tested up to: 6.8
+Stable tag: 2.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Best WordPress Weather Forecast plugin to Show Current Temperature & Weather, Daily & Hourly, Detailed Forecast up to 16 Days, and Weather Map.
+Customizable WordPress Weather Forecast plugin to display Current Temperature, Hourly & Daily Forecasts, up to 16-Day, Air Quality, & Live Weather Map
 
 == Description ==
 
+### WordPress Weather Forecast and Air Quality Plugin ###
 
-[__Location Weather__](https://locationweather.io)  is the most powerful and easy-to-use WordPress weather forecast plugin that allows you to create and display unlimited weather and forecasts anywhere on your WordPress website. The plugin uses [Open Weather Map API](https://openweathermap.org/api) to retrieve weather data.
+[__Location Weather__](https://locationweather.io)  is a feature-rich and flexible WordPress weather forecast plugin that allows you to display unlimited weather forecasts anywhere on your WordPress website. The plugin uses [Open Weather Map API](https://openweathermap.org/api) to retrieve weather data.
 
 Create a weather view, pick your location, choose the weather data, and customize the look and feel with a few clicks. Embed it with the automatically generated shortcode via copy and paste anywhere in posts, pages, text widgets, or directly in your theme's PHP files. You can show multiple different weather forecasts on the same page.
 
@@ -28,9 +29,14 @@ https://www.youtube.com/watch?v=OpfcigkrtDE&ab_channel=ShapedPlugin
 
 [__Vertical Card__](https://locationweather.io/demos/vertical-card/) | [__Horizontal__](https://locationweather.io/demos/horizontal/) | [__Tabs__](https://locationweather.io/demos/tabs/) | [__Table__](https://locationweather.io/demos/table/) | [__Map__](https://locationweather.io/demos/weather-map/) | [__Combined__](https://locationweather.io/demos/combined-weather/)
 
-## 👉 Open Weather Map API Key 🔑 ##
+## 👉 OpenWeather API Key 🔑 ##
 
-**Location Weather** retrieves the weather information from the [Open Weather Map](https://openweathermap.org/) (OWM) website, a free and paid Weather Data and Forecast API provider. So you will need to have an account & API key to use it to avoid running into call limits. [__Get your free Own API key!__](https://home.openweathermap.org/api_keys)
+The **Location Weather** plugin retrieves weather data from [Open Weather](https://openweathermap.org/) and also supports   [WeatherAPI](https://www.weatherapi.com/), which both provide reliable weather data with free and affordable plans.
+
+So you will need to have an account & API key to use it to avoid running into call limits. 
+
+* Open Weather [__Get your free Own API key!__](https://home.openweathermap.org/api_keys) or
+* WeatherAPI [__Get your free Own API key!__](https://www.weatherapi.com/signup.aspx) (new)
 
 If you don’t have an account, [follow the instructions](https://locationweather.io/docs/get-openweathermap-api-key/) on the plugin settings page to set up an account.
 
@@ -52,27 +58,27 @@ After finalizing your Weather View, integrate it into a WordPress post or page e
 
 ## 👉 Why Do You Need Location Weather? ##
 
-📈 **Increase Sales of Weather-Dependent Businesses**
+**Increase Sales of Weather-Dependent Businesses**
 
 Use the weather forecast data to the prospective customers to decide when buying seasonal products or choosing a travel destination.
 
-⏰ **Real-Time Weather Information**
+**Real-Time Weather Information**
 
 Users or visitors can access the website's current weather conditions, forecasts, and other weather-related information right from the website.
 
-🏏 **Better User Experience in Booking Outdoor Events**
+**Better User Experience in Booking Outdoor Events**
 
 Accurate weather forecasts make it easy to find the best date for the planned event and book it without leaving your website.
 
-🚀 **Boost Website Traffic and Conversions**
+**Boost Website Traffic and Conversions**
 
 People often search for weather information during significant weather events. Integrating a weather widget can attract more visitors to your site.
 
-👥 **Enhanced User Engagement**
+**Enhanced User Engagement**
 
 Weather information can encourage visitors to spend more time on your website, increasing overall user engagement and reducing bounce rates.
 
-🤝 **Strengthen Brand Trust and Reliability**
+**Strengthen Brand Trust and Reliability**
 
 A website that offers reliable and timely weather information can build trust with its audience and is a really credible source of information.
 
@@ -99,7 +105,7 @@ Weather updates can be beneficial for a wide range of businesses and websites. H
 * **Personal Blogs or Any Other Business or Organization Website**
 
 
-## 🌦 Weather Information – What You Can Show ##
+## Weather Information – What You Can Show ##
 
 You can display Current Temperature, Current Weather Conditions, National Weather Alerts, Hourly up to 48 hours, 3 Hourly up to 120 hours, Daily up to 16 days, and much more.
 
@@ -107,19 +113,19 @@ You can display Current Temperature, Current Weather Conditions, National Weathe
 
 * **Current Weather:**  Showcase real-time weather information about atmospheric conditions in a specific location. It typically includes details such as Temperature (High and Low), Humidity, Wind Speed and Direction, Precipitation, Atmospheric Pressure, etc.
 
-* **Daily Forecast (Pro):** Display daily weather forecast for up to 16 days with high/low temperatures and selectable weather condition icons.
+* **Hourly Forecast:** Display hourly weather forecast for up to 5 days with high/low temperatures and selectable weather condition icons.
 
-* **Hourly Forecast (Pro):** Display hourly weather forecast for up to 5 days with high/low temperatures and selectable weather condition icons.
+* **Daily Forecast (Pro):** Display daily weather forecast for up to 16 days with high/low temperatures and selectable weather condition icons.
 
 * **Detailed Forecast (Pro):** A detailed weather forecast provides comprehensive information about expected atmospheric conditions over several days. It covers temperature ranges, precipitation probabilities, humidity, wind details, barometric pressure, UV index, sunrise & sunset times, moon phase, and hourly breakdowns throughout the day.
 
 
-## 🗂 Beautiful Weather Layouts & Templates For A Quick Start ##
+## Beautiful Weather Layouts & Templates For A Quick Start ##
 
 Weather data items can be selected and styled individually. Select your location and pick your measurement system, time format, zone, and more required options. Choose from several layouts and templates, fonts, or weather icon sets. You can customize the look and feel with a few clicks. Here are a few key features:
 
-* Create and Display Unlimited Weather Showcases or Shortcodes Effortlessly
-* 6 Exclusive Weather Layouts ([__Vertical Card__](https://locationweather.io/demos/vertical-card/), [__Horizontal__](https://locationweather.io/demos/horizontal/), [__Tabs__](https://locationweather.io/demos/tabs/), [__Table__](https://locationweather.io/demos/table/), [__Map__](https://locationweather.io/demos/weather-map/), and [__Combined__](https://locationweather.io/demos/combined-weather/))
+* Create and Display Unlimited Weather Forecasts
+* 8 Beautiful Weather Layouts ([__Vertical Card__](https://locationweather.io/demos/vertical-card/), [__Horizontal__](https://locationweather.io/demos/horizontal/), [__Tabs__](https://locationweather.io/demos/tabs/), [__Table__](https://locationweather.io/demos/table/), [__Map__](https://locationweather.io/demos/weather-map/), and [__Combined__](https://locationweather.io/demos/combined-weather/))
 * 6 Vertical Card Ready to Use Templates
 * 4 Horizontal Ready to Use Templates
 * 2 Tabs Layouts **(Pro)**
@@ -138,7 +144,7 @@ Weather data items can be selected and styled individually. Select your location
 * Location Weather View Gutenberg Block
 
 
-## 🕹️ Weather Location – Pick a Location in Your Convenient Way ##
+## Weather Location – Pick a Location in Your Convenient Way ##
 
 **Location Weather** supports over **200,000 Cities** from **238+ Countries and Territories** worldwide. We hope you’ll find your location. Every location on Earth is also easily selectable via latitude/longitude (coordinates).
 
@@ -154,7 +160,7 @@ The OpenWeatherMap can specify the worldwide location:
 * Show/Hide Weather City/Location Name
 
 
-## 🌡️ Measurement Unit System – Choose Your Visitor's Preferred Weather Data Units ##
+## Measurement Unit System – Choose Your Visitor's Preferred Weather Data Units ##
 
 Temperature and other weather data are displayed in either Imperial (°F, in, mi) or Metric system (°C, mb, mm, km). Most countries use Celsius for temperature, but some still use Fahrenheit. So, use your visitors' preferred weather data units based on their local conventions:
 
@@ -177,7 +183,7 @@ Temperature and other weather data are displayed in either Imperial (°F, in, mi
 * Enable/Disable Preloader
 
 
-## ☔ Weather Forecast – Display Daily Weather Forecast for Up to 16 Days and Hourly Forecast for Up to 5 Days (PRO)🔥🔥🔥 ##
+## Weather Forecast – Display Daily Weather Forecast for Up to 16 Days and Hourly Forecast for Up to 5 Days (PRO) ##
 
 Display accurate and detailed weather forecast updates, including hourly and daily weather forecasts of any location worldwide.
 
@@ -195,7 +201,7 @@ Display accurate and detailed weather forecast updates, including hourly and dai
 * Interactive Weather Forecast Data Carousel
 
 
-## 📴 Show/Hide Weather Data As Per Your Need ##
+## Show/Hide Weather Data As Per Your Need ##
 
 The [__Location Weather__](https://locationweather.io/) plugin offers you many weather additional data and useful features. Use them as per your requirements:
 
@@ -231,7 +237,7 @@ The [__Location Weather__](https://locationweather.io/) plugin offers you many w
 * Link To Open Weather Map
 
 
-## 🎠 Full-featured Carousel for Weather Additional Data and Forecast Data (PRO) ##
+## Full-featured Carousel for Weather Additional Data and Forecast Data (PRO) ##
 
 You can enable a beautiful Carousel for Weather Additional Data and Forecast Data to save your space and interact well. Here are key Weather Data Carousel features:
 
@@ -248,7 +254,7 @@ You can enable a beautiful Carousel for Weather Additional Data and Forecast Dat
 See [Weather Data Carousel Live Demo](https://locationweather.io/demos/weather-carousel/) in Action!
 
 
-## 🎨 Highly Customizable – Stylize Your Weather Showcase on Your Way ##
+## Fully Customizable – Stylize Your Weather Showcase on Your Way ##
 
 Weather data items can be selected and styled individually. You can display your weather however you want with our powerful styling configurator. No coding skill is required:
 
@@ -272,24 +278,24 @@ Weather data items can be selected and styled individually. You can display your
 * Footer Margin Customization
 
 
-## 📱 Flat & Retina Responsive Design Adapts to Mobile Displays ##
+## Flat & Retina Responsive Design Adapts to Mobile Displays ##
 
 Minimalist and flat responsive design, fully vectorial (SVG/Webfont), for a perfect display on all devices. If the weather view or showcase is in a horizontal layout, the weather showcase will reformat to a vertical format for users who visit your page on a mobile device.
 
-## 🌐 We Speak Your Language ##
+## We Speak Your Language ##
 
 **Location Weather** plugin is fully localized language supported. You can easily translate with **PoEdit, WPML, Polylang, Loco Translate,** and more.
 
-## 🧩 Seamless Integration with Your Existing Themes, Plugins, Tools, and Page Builders ##
+## Seamless Integration with Your Existing Themes, Plugins, Tools, and Page Builders ##
 
 **Location Weather** works perfectly with popular WordPress Themes, Plugins, Tools, and Page Builders.
 
-## 📡 WordPress Multisite Supported ##
+## WordPress Multisite Supported ##
 
 **Location Weather** works perfectly with WordPress Multisite, both network-activated and activated on individual websites. The automatic updates also work for Multisite as well.
 
 
-## 📋 Additional Features: ##
+## Additional Features: ##
 
 * Location Weather Gutenberg Block
 * Export and Import Weather views
@@ -300,23 +306,23 @@ Minimalist and flat responsive design, fully vectorial (SVG/Webfont), for a perf
 * Regular Updates and Adding New Features
 
 
-## 🔗 Showcase – Several Live Websites ##
+## Showcase – Several Live Websites ##
 
 Here are the several live websites using Location Weather:
 
 * [__Browse Live Website Showcases__](https://locationweather.io/showcase/)
 
 
-## 🏆 Upgrade To Location Weather Pro! ##
+## Upgrade To Location Weather Pro! ##
 
 After going through the above features list, you can probably imagine [__Location Weather__](https://locationweather.io/) is the best WordPress Weather Forecast plugin in the market. So, do you want to unlock the advanced features?
 
 https://www.youtube.com/watch?v=lio26LDl5Sc&ab_channel=ShapedPlugin
 
-[__Upgrade To our Pro version Today!__](https://locationweather.io/pricing/) You’ll never regret it.✌️
+[__Upgrade To our Pro version Today!__](https://locationweather.io/pricing/) You’ll never regret it.
 
 
-## 🛟 Documentation and Support ##
+## Documentation and Support ##
 
 👉 For documentation, FAQs, and Tutorials, go to our [__Documentation__](https://locationweather.io/docs/)
 
@@ -328,29 +334,29 @@ https://www.youtube.com/watch?v=lio26LDl5Sc&ab_channel=ShapedPlugin
 
 👉 To learn more about the **Location Weather** plugin, visit our official website at [__LocationWeather.io__](https://locationweather.io/)
 
-👉 If you love the Location Weather plugin, please rate us on [__WordPress.org__](https://wordpress.org/support/plugin/location-weather/reviews/?filter=5#new-post)
+👉 If you love the Location Weather plugin, please rate us on [__WordPress.org__](https://wordpress.org/support/plugin/location-weather/reviews/)
 
 
-## 👨‍💻 Author – Backed By A Trusted Team ##
+## Author – Backed By A Trusted Team ##
 
-**Location Weather** plugin is designed and developed with love by the team behind [__ShapedPlugin LLC__](https://shapedplugin.com/), a dedicated WordPress plugin marketplace trusted by **2,88,000+** happy, active users worldwide. 🗺️🌏
+The **Location Weather** plugin is developed and maintained by [__ShapedPlugin LLC__](https://shapedplugin.com/)
 
 
-## 🔥 More Exciting Robust Plugins from the Team ShapedPlugin LLC ##
+## More Exciting Robust Plugins from the Team ShapedPlugin LLC ##
 
 If you like this powerful [__Location Weather__](https://locationweather.io/) plugin, consider checking out our more exciting professional plugins for your beautiful WordPress website and save time on development:
 
-👉 [__Real Testimonials__](https://wordpress.org/plugins/testimonial-free/) – Simply Collect, Manage, and Display Testimonials, Boost Sales Instantly!
+[__Real Testimonials__](https://wordpress.org/plugins/testimonial-free/) – Simply Collect, Manage, and Display Testimonials, Boost Sales Instantly!
 
-👉 [__WP Team__](https://wordpress.org/plugins/team-free/) – Display Your Team Members Smartly who are at the heart of your Company or Organization!
+[__Smart Team__](https://wordpress.org/plugins/team-free/) – Display Your Team Members Smartly who are at the heart of your Company or Organization!
 
-👉 [__WP Carousel__](https://wordpress.org/plugins/wp-carousel-free/) – The most powerful and user-friendly multi-purpose Carousel, Slider, & Gallery plugin for WordPress.
+[__WP Carousel__](https://wordpress.org/plugins/wp-carousel-free/) – Carousel, Slider, and Photo Gallery with Lightbox plugin. Create Image Carousel, Video Slider, Post Carousel, Post Grid, Product Carousel, and more.
 
-👉 [__Easy Accordion__](https://wordpress.org/plugins/easy-accordion-free/) – Minimize Customer Support by Offering Comprehensive FAQs.
+[__Easy Accordion__](https://wordpress.org/plugins/easy-accordion-free/) – Minimize Customer Support by Offering Comprehensive FAQs.
 
-👉 [__Logo Carousel__](https://wordpress.org/plugins/logo-carousel-free/) – To Represent the Brand and Enhance the Website's Credibility, Showcase a group of logo images with a Title, Description, Tooltips, Links, and Popup as a grid or in a carousel.
+[__Logo Carousel__](https://wordpress.org/plugins/logo-carousel-free/) – To Represent the Brand and Enhance the Website's Credibility, Showcase a group of logo images with a Title, Description, Tooltips, Links, and Popup as a grid or in a carousel.
 
-👉 [__Smart Post Show__](https://wordpress.org/plugins/post-carousel/) – To Make Your Content Stand Out and keep Visitors Engaged.
+[__Smart Post__](https://wordpress.org/plugins/post-carousel/) – To Make Your Content Stand Out and keep Visitors Engaged.
 
 
 
@@ -359,9 +365,9 @@ If you like this powerful [__Location Weather__](https://locationweather.io/) pl
 
 = MINIMUM REQUIREMENTS =
 
-* PHP 5.6 or later
+* PHP 7.4 or later
 * MySQL 5.6 or later
-* WordPress 4.7 or later
+* WordPress 5.0 or later
 
 **This section describes how to install the plugin and get it working**
 
@@ -393,6 +399,60 @@ You will now see the Post Carousel menu in your WordPress admin panel.
 The WordPress codex contains <a href="https://wordpress.org/documentation/article/manage-plugins/">instructions</a> on how to install a WordPress plugin.
 
 
+== Frequently Asked Questions ==
+
+= 1. What is Location Weather and what does it do? =
+
+Location Weather is an easy-to-use WordPress weather forecast plugin that lets you display real-time weather data—such as temperature, humidity, wind speed, and more—for any location on your website.
+
+= 2. What are the plugin requirements? =
+
+You need a **self-hosted WordPress site** running PHP 7.4 or higher.
+
+= 3. Do I need coding skills to use the plugin? =
+
+No coding skills are required. The plugin provides an intuitive interface, and you can configure everything from the WordPress admin area.
+
+= 4. What weather data can I show in the widget? =
+
+The free version of Location Weather lets you display the current temperature, a short description of the condition, pressure, humidity, wind speed with directional indicators, cloud coverage, visibility, and sunrise and sunset times.
+
+= 5. How many locations are supported? =
+
+The plugin supports over **200,000 cities** across **238 countries and territories**. You can also use latitude and longitude to set a custom location.
+
+= 6. Can I create and reuse unlimited weather displays? =
+
+Yes. You can create unlimited weather widgets/forecasts with different settings. The plugin also allows **export/import** of your configurations.
+
+= 7. Will the plugin slow down my website? =
+
+No. Location Weather is built with performance in mind and follows WordPress coding standards to ensure it runs smoothly without slowing down your site.
+
+= 8. Is it compatible with themes, multisite, and translations? =
+
+Yes. The plugin works with any theme that follows WordPress standards, is fully **multisite-compatible**, and is **translation-ready** (works with WPML, Polylang, Loco Translate, TranslatePress, etc.).
+
+= 9. Can I customize how the weather widget looks? =
+
+Yes. You can style fonts, text alignment, letter case, font sizes, colors, spacing, borders, box shadows, and more to match your site’s design.
+
+= 10. Does Location Weather work in Gutenberg and page builders? =
+
+Yes. The plugin includes a **Gutenberg block** and supports shortcodes. It also works with major page builders such as Elementor, Divi, Beaver Builder, Brizy, WPBakery, Oxygen, Themify, GeneratePress, and SiteOrigin.
+
+= 11. Which weather data sources does the plugin use? =
+
+**Location Weather** retrieves weather data from [OpenWeather](https://openweathermap.org/)and [WeatherAPI](https://www.weatherapi.com/), two trusted and widely used weather data providers.
+
+= 12. Do I need an API key to use OpenWeather or WeatherAPI? =
+
+Yes. Both services require a free API key. You can generate one by registering at [OpenWeather](https://openweathermap.org/api) or [WeatherAPI](https://www.weatherapi.com/) and then paste it into the plugin settings.
+
+= 13. Which service should I choose—OpenWeatherMap or WeatherAPI? =
+
+Both work great. **OpenWeatherMap** provides global coverage and detailed data, while **WeatherAPI** offers a generous free plan and can be more cost-effective. You can choose whichever best fits your needs.
+
 
 == Screenshots ==
 
@@ -414,6 +474,11 @@ The WordPress codex contains <a href="https://wordpress.org/documentation/articl
 
 
 == Changelog ==
+
+= 2.1.4 - Sep 06, 2025 =
+* Improved: Enhanced plugin security and data validation.
+* Improved: The Additional CSS and JS option.
+* Removed: The optional license tab.
 
 = 2.1.3 - Jul 23, 2025 =
 * Fix: The weather forecast did not display correctly when the shortcode was used on the blog home page.

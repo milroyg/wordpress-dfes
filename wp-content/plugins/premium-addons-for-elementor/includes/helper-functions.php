@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Helper_Functions {
 
 	/**
-	 * A list of safe tage for `validate_html_tag` method.
+	 * A list of safe tags for `validate_html_tag` method.
 	 */
 	const ALLOWED_HTML_WRAPPER_TAGS = array(
 		'article',
@@ -90,7 +90,7 @@ class Helper_Functions {
 	private static $js_dir = null;
 
 	/**
-	 * CSS fiels directory
+	 * CSS files directory
 	 *
 	 * @var js_dir
 	 */
@@ -546,33 +546,41 @@ class Helper_Functions {
 	 */
 	public static function get_vimeo_video_data( $video_id ) {
 
-		$vimeo_data = wp_remote_get( 'http://www.vimeo.com/api/v2/video/' . intval( $video_id ) . '.php' );
+		$vimeo_data = get_transient( 'premium_vimeo_' . $video_id );
 
-		if ( is_wp_error( $vimeo_data ) ) {
-			return false;
-		}
+		if( $vimeo_data === false ) {
 
-		if ( isset( $vimeo_data['response']['code'] ) ) {
+			$vimeo_data = wp_remote_get( 'http://www.vimeo.com/api/v2/video/' . intval( $video_id ) . '.php' );
 
-			if ( 200 === $vimeo_data['response']['code'] ) {
-
-				$response  = maybe_unserialize( $vimeo_data['body'] );
-				$thumbnail = isset( $response[0]['thumbnail_large'] ) ? $response[0]['thumbnail_large'] : false;
-
-				$data = array(
-					'src'      => $thumbnail,
-					'url'      => $response[0]['user_url'],
-					'portrait' => $response[0]['user_portrait_huge'],
-					'title'    => $response[0]['title'],
-					'user'     => $response[0]['user_name'],
-				);
-
-				return $data;
-
+			if ( is_wp_error( $vimeo_data ) ) {
+				return false;
 			}
+
+			if ( isset( $vimeo_data['response']['code'] ) ) {
+
+				if ( 200 === $vimeo_data['response']['code'] ) {
+
+					$response  = maybe_unserialize( $vimeo_data['body'] );
+					$thumbnail = isset( $response[0]['thumbnail_large'] ) ? $response[0]['thumbnail_large'] : false;
+
+					$data = array(
+						'src'      => $thumbnail,
+						'url'      => $response[0]['user_url'],
+						'portrait' => $response[0]['user_portrait_huge'],
+						'title'    => $response[0]['title'],
+						'user'     => $response[0]['user_name'],
+					);
+
+					set_transient( 'premium_vimeo_' . $video_id, $data, WEEK_IN_SECONDS );
+
+					return $data;
+
+				}
+			}
+
 		}
 
-		return false;
+		return $vimeo_data;
 	}
 
 	/**
@@ -604,15 +612,16 @@ class Helper_Functions {
 			$thumbnail_src = is_array( $vimeo ) ? $vimeo['src'] : '';
 
 		} elseif ( 'dailymotion' === $type ) {
-			$video_data = rplg_urlopen( 'https://api.dailymotion.com/video/' . $video_id . '?fields=thumbnail_url' );
+			$video_data = wp_remote_get( 'https://api.dailymotion.com/video/' . $video_id . '?fields=thumbnail_url' );
 
-			if ( isset( $video_data['code'] ) ) {
-				if ( 404 === $video_data['code'] ) {
-					return $thumbnail_src;
-				}
+			if ( is_wp_error( $video_data ) || 200 !== wp_remote_retrieve_response_code( $video_data ) ) {
+				return $thumbnail_src;
 			}
 
-			$thumbnail_src = rplg_json_decode( $video_data['data'] )->thumbnail_url;
+			$video_data = wp_remote_retrieve_body( $video_data );
+			$video_data = json_decode( $video_data );
+
+			$thumbnail_src = $video_data->thumbnail_url;
 		}
 
 		return $thumbnail_src;
@@ -679,15 +688,16 @@ class Helper_Functions {
 			self::get_installed_theme();
 		}
 
-		$url = add_query_arg(
-			array(
-				'utm_source'   => $source,
-				'utm_medium'   => $medium,
-				'utm_campaign' => $campaign,
-				'utm_term'     => self::$current_theme,
-			),
-			$link
+		$args = array(
+			'utm_source'   => $source,
+			'utm_medium'   => $medium,
+			'utm_campaign' => $campaign,
+			'utm_term'     => self::$current_theme,
 		);
+
+		$args = array_filter( $args );
+
+		$url = add_query_arg( $args, $link );
 
 		return $url;
 	}
@@ -717,7 +727,7 @@ class Helper_Functions {
 	 * @since 3.21.6
 	 * @access public
 	 *
-	 * @return boolen
+	 * @return boolean
 	 */
 	public static function check_papro_version() {
 		return defined( 'PREMIUM_PRO_ADDONS_VERSION' );
@@ -1208,7 +1218,7 @@ class Helper_Functions {
 	}
 
 	/**
-	 * Checks if Elementor PRO 3.8 or higher is activated && if the Loop expirement is activated.
+	 * Checks if Elementor PRO 3.8 or higher is activated && if the Loop experiment is activated.
 	 *
 	 * @since 4.9.45
 	 * @access public
@@ -1405,13 +1415,13 @@ class Helper_Functions {
 			if ( $score >= -0.2 ) {
 
 				?>
-					<span class="premium-fb-rev-star"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="<?php echo esc_attr( $star_size ); ?>" height="<?php echo esc_attr( $star_size ); ?>" viewBox="0 0 1792 1792"><path d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z" fill="<?php echo esc_attr( $fill_color ); ?>"></path></svg></span>
+					<span class="premium-fb-rev-star"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" version="1.1" width="<?php echo esc_attr( $star_size ); ?>" height="<?php echo esc_attr( $star_size ); ?>" viewBox="0 0 1792 1792"><path d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z" fill="<?php echo esc_attr( $fill_color ); ?>"></path></svg></span>
 				<?php
 			} elseif ( $score > -0.8 && $score < -0.2 ) {
 				?>
-					<span class="premium-fb-rev-star"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="<?php echo esc_attr( $star_size ); ?>" height="<?php echo esc_attr( $star_size ); ?>" viewBox="0 0 1792 1792"><path d="M1250 957l257-250-356-52-66-10-30-60-159-322v963l59 31 318 168-60-355-12-66zm452-262l-363 354 86 500q5 33-6 51.5t-34 18.5q-17 0-40-12l-449-236-449 236q-23 12-40 12-23 0-34-18.5t-6-51.5l86-500-364-354q-32-32-23-59.5t54-34.5l502-73 225-455q20-41 49-41 28 0 49 41l225 455 502 73q45 7 54 34.5t-24 59.5z" fill="<?php echo esc_attr( $fill_color ); ?>"></path></svg></span>
+					<span class="premium-fb-rev-star"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" version="1.1" width="<?php echo esc_attr( $star_size ); ?>" height="<?php echo esc_attr( $star_size ); ?>" viewBox="0 0 1792 1792"><path d="M1250 957l257-250-356-52-66-10-30-60-159-322v963l59 31 318 168-60-355-12-66zm452-262l-363 354 86 500q5 33-6 51.5t-34 18.5q-17 0-40-12l-449-236-449 236q-23 12-40 12-23 0-34-18.5t-6-51.5l86-500-364-354q-32-32-23-59.5t54-34.5l502-73 225-455q20-41 49-41 28 0 49 41l225 455 502 73q45 7 54 34.5t-24 59.5z" fill="<?php echo esc_attr( $fill_color ); ?>"></path></svg></span>
 			<?php } else { ?>
-					<span class="premium-fb-rev-star"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="<?php echo esc_attr( $star_size ); ?>" height="<?php echo esc_attr( $star_size ); ?>" viewBox="0 0 1792 1792"><path d="M1201 1004l306-297-422-62-189-382-189 382-422 62 306 297-73 421 378-199 377 199zm527-357q0 22-26 48l-363 354 86 500q1 7 1 20 0 50-41 50-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z" fill="<?php echo esc_attr( $empty_color ); ?>"></path></svg></span>
+					<span class="premium-fb-rev-star"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" version="1.1" width="<?php echo esc_attr( $star_size ); ?>" height="<?php echo esc_attr( $star_size ); ?>" viewBox="0 0 1792 1792"><path d="M1201 1004l306-297-422-62-189-382-189 382-422 62 306 297-73 421 378-199 377 199zm527-357q0 22-26 48l-363 354 86 500q1 7 1 20 0 50-41 50-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z" fill="<?php echo esc_attr( $empty_color ); ?>"></path></svg></span>
 					<?php
 			}
 		}
@@ -1451,19 +1461,19 @@ class Helper_Functions {
 
 		switch ( $style ) {
 			case 'line1':
-				$html = '<div class="premium-btn-line-wrap"><svg class="premium-btn-svg" width="100%" height="9" viewBox="0 0 101 9">
+				$html = '<div class="premium-btn-line-wrap"><svg class="premium-btn-svg" aria-hidden="true" width="100%" height="9" viewBox="0 0 101 9">
                 <path d="M.426 1.973C4.144 1.567 17.77-.514 21.443 1.48 24.296 3.026 24.844 4.627 27.5 7c3.075 2.748 6.642-4.141 10.066-4.688 7.517-1.2 13.237 5.425 17.59 2.745C58.5 3 60.464-1.786 66 2c1.996 1.365 3.174 3.737 5.286 4.41 5.423 1.727 25.34-7.981 29.14-1.294" pathLength="1"></path>
                 </svg></div>';
 				break;
 
 			case 'line3':
-				$html = '<div class="premium-btn-line-wrap"><svg class="premium-btn-svg" width="100%" height="18" viewBox="0 0 59 18">
+				$html = '<div class="premium-btn-line-wrap"><svg class="premium-btn-svg" aria-hidden="true" width="100%" height="18" viewBox="0 0 59 18">
                 <path d="M.945.149C12.3 16.142 43.573 22.572 58.785 10.842" pathLength="1"></path>
                 </svg></div>';
 				break;
 
 			case 'line4':
-				$html = '<svg class="premium-btn-svg" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+				$html = '<svg class="premium-btn-svg" aria-hidden="true" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
                 <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path>
                 </svg>';
 				break;
@@ -1759,6 +1769,11 @@ class Helper_Functions {
 
 		// If icon library is SVG, then go to Elementor. Used for widgets where this function is called in all cases.
 		if ( false === strpos( $icon['library'], 'fa-' ) ) {
+
+			if( is_string( $attributes ) ) {
+				$attributes = str_replace( '"', '', $attributes );
+			}
+
 			$svg_html = Icons_Manager::try_get_icon_html( $icon, wp_parse_args( $attributes, array( 'aria-hidden' => 'true' ) ) );
 
 			return $svg_html;

@@ -9,6 +9,10 @@
  * @subpackage Location_Weather/Admin/updates
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * Update DB version.
  */
@@ -79,4 +83,3 @@ if ( count( $shortcode_ids ) > 0 ) {
 		update_post_meta( $shortcode_id, 'sp_location_weather_generator', $splw_shortcode_meta );
 	}
 }
-

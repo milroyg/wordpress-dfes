@@ -14,7 +14,6 @@ use Elementor\Widget_Base;
 use Elementor\Icons_Manager;
 use Elementor\Control_Media;
 use Elementor\Controls_Manager;
-use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Css_Filter;
 use Elementor\Group_Control_Typography;
@@ -27,6 +26,7 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 // PremiumAddons Classes.
 use PremiumAddons\Includes\Helper_Functions;
 use PremiumAddons\Includes\Controls\Premium_Post_Filter;
+use PremiumAddons\Includes\Controls\Premium_Background;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // If this file is called directly, abort.
@@ -112,13 +112,36 @@ class Premium_Media_Wheel extends Widget_Base {
 	 * @return array JS script handles.
 	 */
 	public function get_script_depends() {
-		return array(
-			'pa-tweenmax',
-			'mousewheel-js',
-			'pa-flipster',
-			'prettyPhoto-js',
-			'premium-addons',
-		);
+
+		$is_edit = Helper_Functions::is_edit_mode();
+
+		$scripts = array();
+
+		if ( $is_edit ) {
+
+			$scripts = array_merge( $scripts, array( 'pa-tweenmax', 'mousewheel-js', 'pa-flipster', 'prettyPhoto-js' ) );
+
+		} else {
+			$settings = $this->get_settings();
+
+			if ( 'infinite' === $settings['media_wheel_animation'] ) {
+				$scripts[] = 'pa-tweenmax';
+			} else {
+				$scripts[] = 'pa-flipster';
+			}
+
+			if ( 'yes' === $settings['media_wheel_scroll'] ) {
+				$scripts[] = 'mousewheel-js';
+			}
+
+			if ( 'yes' === $settings['media_light_box'] ) {
+				$scripts[] = 'prettyPhoto-js';
+			}
+		}
+
+		$scripts[] = 'premium-addons';
+
+		return $scripts;
 	}
 
 	/**
@@ -238,7 +261,7 @@ class Premium_Media_Wheel extends Widget_Base {
 			)
 		);
 
-		$repeater->add_responsive_control(
+		$repeater->add_control(
 			'mw_image_fit',
 			array(
 				'label'     => __( 'Image Fit', 'premium-addons-for-elementor' ),
@@ -258,7 +281,7 @@ class Premium_Media_Wheel extends Widget_Base {
 			)
 		);
 
-		$repeater->add_responsive_control(
+		$repeater->add_control(
 			'mw_image_obj_pos',
 			array(
 				'label'     => __( 'Image Position', 'premium-addons-for-elementor' ),
@@ -788,7 +811,7 @@ class Premium_Media_Wheel extends Widget_Base {
 		);
 
 		$repeater->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'media_wheel_card_bg_color',
 				'types'    => array( 'classic', 'gradient' ),
@@ -1150,7 +1173,7 @@ class Premium_Media_Wheel extends Widget_Base {
 			)
 		);
 
-		$this->add_responsive_control(
+		$this->add_control(
 			'media_wheel_fading_color',
 			array(
 				'label'     => __( 'Fading Color', 'premium-addons-for-elementor' ),
@@ -1488,8 +1511,16 @@ class Premium_Media_Wheel extends Widget_Base {
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			array(
-				'name'     => 'desc_typography',
-				'selector' => '{{WRAPPER}} .premium-adv-carousel__media-desc',
+				'name'           => 'desc_typography',
+				'selector'       => '{{WRAPPER}} .premium-adv-carousel__media-desc',
+				'fields_options' => array(
+					'letter_spacing' => array(
+						'responsive' => false,
+					),
+					'word_spacing'   => array(
+						'responsive' => false,
+					),
+				),
 			)
 		);
 
@@ -1618,7 +1649,7 @@ class Premium_Media_Wheel extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'media_info_bg',
 				'types'    => array( 'classic', 'gradient' ),
@@ -1712,7 +1743,7 @@ class Premium_Media_Wheel extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'item_bg',
 				'types'    => array( 'classic', 'gradient' ),
@@ -2653,7 +2684,15 @@ class Premium_Media_Wheel extends Widget_Base {
 								$link = $item['media_wheel_custom_link']['url'];
 							}
 
-							echo '<a class="premium-adv-carousel__item-link" href="' . esc_url( $link ) . '" ' . esc_html( $target ) . '></a>';
+							$aria_label = '';
+
+							if ( ! empty( $item['item_name'] ) ) {
+								$aria_label = esc_attr( $item['item_name'] );
+							} elseif ( $media_info && ! empty( $item['media_title'] ) ) {
+								$aria_label = esc_attr( $item['media_title'] );
+							}
+
+							echo '<a class="premium-adv-carousel__item-link" aria-label="' . $aria_label . '" href="' . esc_url( $link ) . '" ' . esc_html( $target ) . '></a>';
 						}
 
 						?>

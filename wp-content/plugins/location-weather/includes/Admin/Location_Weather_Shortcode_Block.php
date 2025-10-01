@@ -12,6 +12,10 @@
 
 namespace ShapedPlugin\Weather\Admin;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * Elementor shortcode block.
  *
@@ -58,7 +62,6 @@ class Location_Weather_Shortcode_Block {
 			self::$_instance = new self();
 		}
 		return self::$_instance;
-
 	}
 
 	/**
@@ -171,9 +174,7 @@ class Location_Weather_Shortcode_Block {
 	public function init_widgets() {
 		// Register widget.
 		\Elementor\Plugin::instance()->widgets_manager->register( new ElementBlock\Location_Weather_Shortcode_Widget() );
-
 	}
-
 }
 
 Location_Weather_Shortcode_Block::instance();

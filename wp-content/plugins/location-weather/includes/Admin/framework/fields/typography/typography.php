@@ -351,9 +351,9 @@ if ( ! class_exists( 'SPLWT_Field_typography' ) ) {
 				echo '<div class="splwt-lite--block splwt-lite--block-margin">';
 				echo '<div class="splwt-lite--title">' . esc_html__( 'Margin Top', 'location-weather' ) . '</div>';
 				echo '<div class="splwt-lite--blocks lw-typo-margin">';
-				echo '<div class="splwt-lite--block splwt-lite--unit icon">' . '<i class="fa fa-long-arrow-up"></i>' . '</div>';
-				echo '<div class="splwt-lite--block"><input type="number" name="' . $this->field_name( '[margin-top]' ) . '" class="splwt-lite--margin-top splwt-lite--input splwt-lite-number" value="' . $this->value['margin-top'] . '" /></div>';
-				echo '<div class="splwt-lite--block splwt-lite--unit">' . $args['unit'] . '</div>';
+				echo '<div class="splwt-lite--block splwt-lite--unit icon"><i class="fa fa-long-arrow-up"></i></div>';
+				echo '<div class="splwt-lite--block"><input type="number" name="' . esc_attr( $this->field_name( '[margin-top]' ) ) . '" class="splwt-lite--margin-top splwt-lite--input splwt-lite-number" value="' . esc_attr( $this->value['margin-top'] ) . '" /></div>';
+				echo '<div class="splwt-lite--block splwt-lite--unit">' . esc_attr( $args['unit'] ) . '</div>';
 				echo '</div>';
 				echo '</div>';
 			}
@@ -363,9 +363,9 @@ if ( ! class_exists( 'SPLWT_Field_typography' ) ) {
 				echo '<div class="splwt-lite--block splwt-lite--block-margin">';
 				echo '<div class="splwt-lite--title">' . esc_html__( 'Margin Bottom', 'location-weather' ) . '</div>';
 				echo '<div class="splwt-lite--blocks lw-typo-margin">';
-				echo '<div class="splwt-lite--block splwt-lite--unit icon">' . '<i class="fa fa-long-arrow-down"></i>' . '</div>';
-				echo '<div class="splwt-lite--block"><input type="number" name="' . $this->field_name( '[margin-bottom]' ) . '" class="splwt-lite--margin-bottom splwt-lite--input splwt-lite-number" value="' . $this->value['margin-bottom'] . '" /></div>';
-				echo '<div class="splwt-lite--block splwt-lite--unit">' . $args['unit'] . '</div>';
+				echo '<div class="splwt-lite--block splwt-lite--unit icon"><i class="fa fa-long-arrow-down"></i></div>';
+				echo '<div class="splwt-lite--block"><input type="number" name="' . esc_attr( $this->field_name( '[margin-bottom]' ) ) . '" class="splwt-lite--margin-bottom splwt-lite--input splwt-lite-number" value="' . esc_attr( $this->value['margin-bottom'] ) . '" /></div>';
+				echo '<div class="splwt-lite--block splwt-lite--unit">' . esc_attr( $args['unit'] ) . '</div>';
 				echo '</div>';
 				echo '</div>';
 			}
@@ -397,7 +397,6 @@ if ( ! class_exists( 'SPLWT_Field_typography' ) ) {
 			echo '</div>';
 
 			echo wp_kses_post( $this->field_after() );
-
 		}
 
 		/**
@@ -434,8 +433,6 @@ if ( ! class_exists( 'SPLWT_Field_typography' ) ) {
 			$output .= '</select>';
 
 			return $output;
-
 		}
-
 	}
 }

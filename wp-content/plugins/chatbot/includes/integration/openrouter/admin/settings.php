@@ -11,7 +11,7 @@
                         <div id="wp-chatbot-openrouter-settings" class="tab-pane in active">
                           <div class="col-sm-12">  
                         
-                        <div class="row gx-0">
+                            <div class="row gx-0">
                                 <div class="mb-3">
                                     <div class="form-check form-switch my-4">
                                         <input class="form-check-input" type="checkbox" <?php echo (get_option('qcld_openrouter_enabled') == 1) ? esc_attr('checked','wpbot') :'';?>  role="switch" value="" id="<?php esc_attr_e('qcld_openrouter_enabled','wpbot'); ?>">
@@ -20,6 +20,15 @@
                                         </label>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row gx-0">
+                            <div class="form-check form-switch my-4">
+                                <input class="form-check-input" type="checkbox" <?php echo (get_option('opnrouter_context_awareness_enabled') == '1') ? esc_attr( 'checked','wpbot') :'';?>  role="switch" value="" id="opnrouter_is_context_awareness_enabled">
+                                <label class="form-check-label" for="opnrouter_is_context_awareness_enabled">
+                                <?php  esc_html_e( 'Context awareness','wpbot'); ?>
+                                </label>
+                      
+                            </div>
                             </div>
                             <div class="row gx-0">
                                 <div class="mb-3">
@@ -120,7 +129,7 @@
                                             </button>
                                         </h2>
                                     </div>
-                                    <div id="panelsStayOpen-collapseZero-openrouter" class="collapse show" aria-labelledby="panelsStayOpen-headingZero-openrouter" data-parent="#qcldopenaiaccordion">
+                                    <div id="panelsStayOpen-collapseZero-openrouter" class="collapse" aria-labelledby="panelsStayOpen-headingZero-openrouter" data-parent="#qcldopenaiaccordion">
                                         <div class="card-body-openrouter">
                                             <h5><?php esc_html_e( 'OpenRouter is an unified Interface or Aggregator for LLMs. You can choose from hundreds of different AI models from OpenAI to Deepseek or Claude to get AI responses.','wpbot');?></h5>
                                             <h5><?php esc_html_e( 'All you have to do is add the OpenRouter API Key and select an OpenRouter Model.','wpbot');?></h5>
@@ -135,4 +144,4 @@
                             </div>
                         </div>
                 </div>
-   
+   </div>

@@ -49,7 +49,7 @@ if ( ! class_exists( 'SPLWT_Field_tabbed' ) ) {
 				$tabbed_icon   = ( ! empty( $tab['icon'] ) ) ? $tab['icon'] : '';
 				$tabbed_active = ( empty( $key ) ) ? ' class="splwt-lite-tabbed-active"' : '';
 
-				echo '<a href="#"' . $tabbed_active . '>' . $tabbed_icon . esc_html( $tab['title'] ) . '</a>';
+				echo '<a href="#"' .wp_kses_post( $tabbed_active ) . '>' . $tabbed_icon . esc_html( $tab['title'] ) . '</a>'; // phpcs:ignore -- intentionally ignore escaped to support html.
 
 			}
 			echo '</div>';
@@ -79,8 +79,6 @@ if ( ! class_exists( 'SPLWT_Field_tabbed' ) ) {
 			echo '</div>';
 
 			echo wp_kses_post( $this->field_after() );
-
 		}
-
 	}
 }

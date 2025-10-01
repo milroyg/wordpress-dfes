@@ -7,6 +7,10 @@
  * @package Location_Weather
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 // check the weather data existence.
 if ( ! isset( $weather_data['temp'] ) ) {
 	return;

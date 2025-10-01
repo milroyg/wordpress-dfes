@@ -19,10 +19,10 @@ use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Css_Filter;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Text_Shadow;
-use Elementor\Group_Control_Background;
 
 // PremiumAddons Classes.
 use PremiumAddons\Includes\Helper_Functions;
+use PremiumAddons\Includes\Controls\Premium_Background;
 use PremiumAddons\Includes\Controls\Premium_Post_Filter;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -122,10 +122,17 @@ class Premium_Banner extends Widget_Base {
 	 * @return array JS script handles.
 	 */
 	public function get_script_depends() {
-		return array(
-			'pa-tilt',
-			'premium-addons',
-		);
+
+		$is_edit = Helper_Functions::is_edit_mode();
+
+		$scripts = array();
+		if ( $is_edit || ( ! $is_edit && 'yes' === $this->get_settings( 'mouse_tilt' ) ) ) {
+			$scripts[] = 'pa-tilt';
+		}
+
+		$scripts[] = 'premium-addons';
+
+		return $scripts;
 	}
 
 	/**
@@ -295,7 +302,7 @@ class Premium_Banner extends Widget_Base {
 			)
 		);
 
-		$this->add_responsive_control(
+		$this->add_control(
 			'image_fit',
 			array(
 				'label'     => __( 'Image Fit', 'premium-addons-for-elementor' ),
@@ -321,6 +328,7 @@ class Premium_Banner extends Widget_Base {
 				'label'        => __( 'Mouse Tilt', 'premium-addons-for-elementor' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'prefix_class' => 'premium-banner-tilt-',
+				'render_type'  => 'template',
 			)
 		);
 
@@ -718,7 +726,7 @@ class Premium_Banner extends Widget_Base {
 			)
 		);
 
-		$this->add_responsive_control(
+		$this->add_control(
 			'premium_banner_image_border_radius',
 			array(
 				'label'      => __( 'Border Radius', 'premium-addons-for-elementor' ),
@@ -1232,7 +1240,7 @@ class Premium_Banner extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'      => 'gradient_color',
 				'types'     => array( 'gradient' ),
@@ -1577,15 +1585,15 @@ class Premium_Banner extends Widget_Base {
 							var btnSVG = '';
 							switch ( settings.underline_style ) {
 								case 'line1':
-									btnSVG = '<div class="premium-btn-line-wrap"><svg class="premium-btn-svg" width="100%" height="9" viewBox="0 0 101 9"><path d="M.426 1.973C4.144 1.567 17.77-.514 21.443 1.48 24.296 3.026 24.844 4.627 27.5 7c3.075 2.748 6.642-4.141 10.066-4.688 7.517-1.2 13.237 5.425 17.59 2.745C58.5 3 60.464-1.786 66 2c1.996 1.365 3.174 3.737 5.286 4.41 5.423 1.727 25.34-7.981 29.14-1.294" pathLength="1"></path></svg></div>';
+									btnSVG = '<div class="premium-btn-line-wrap"><svg class="premium-btn-svg" aria-hidden="true" width="100%" height="9" viewBox="0 0 101 9"><path d="M.426 1.973C4.144 1.567 17.77-.514 21.443 1.48 24.296 3.026 24.844 4.627 27.5 7c3.075 2.748 6.642-4.141 10.066-4.688 7.517-1.2 13.237 5.425 17.59 2.745C58.5 3 60.464-1.786 66 2c1.996 1.365 3.174 3.737 5.286 4.41 5.423 1.727 25.34-7.981 29.14-1.294" pathLength="1"></path></svg></div>';
 									break;
 
 								case 'line3':
-									btnSVG = '<div class="premium-btn-line-wrap"><svg class="premium-btn-svg" width="100%" height="18" viewBox="0 0 59 18"><path d="M.945.149C12.3 16.142 43.573 22.572 58.785 10.842" pathLength="1"></path></svg></div>';
+									btnSVG = '<div class="premium-btn-line-wrap"><svg class="premium-btn-svg" aria-hidden="true" width="100%" height="18" viewBox="0 0 59 18"><path d="M.945.149C12.3 16.142 43.573 22.572 58.785 10.842" pathLength="1"></path></svg></div>';
 									break;
 
 								case 'line4':
-									btnSVG = '<svg class="premium-btn-svg" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path></svg>';
+									btnSVG = '<svg class="premium-btn-svg" aria-hidden="true" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path></svg>';
 									break;
 
 								default:

@@ -13,7 +13,7 @@ use Elementor\Icons_Manager;
 use Elementor\Control_Media;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
-use Elementor\Group_Control_Background;
+use PremiumAddons\Includes\Controls\Premium_Background;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Text_Shadow;
@@ -33,28 +33,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Module {
 
 	/**
-	 * Load Script
+	 * Check whether the scripts should be loaded.
 	 *
-	 * @var $load_script
+	 * @var boolean|null $load_script, initialized as null.
 	 */
 	private static $load_script = null;
 
 	/**
-	 * Class object
+	 * Holds the singleton instance of this class.
 	 *
-	 * @var instance
+	 * @var Module|null
 	 */
 	private static $instance = null;
 
 	/**
-	 * Class object
+	 * Holds the SVG shapes data for the module.
 	 *
-	 * @var instance
+	 * @var mixed|null $svg_shapes Stores SVG shapes, initialized as null.
 	 */
 	private $svg_shapes = null;
 
 	/**
-	 * Class Constructor Funcion.
+	 * Class Constructor Function.
 	 */
 	public function __construct() {
 
@@ -79,6 +79,8 @@ class Module {
 		add_action( 'elementor/element/container/section_layout/after_section_end', array( $this, 'register_controls' ), 10 );
 		add_action( 'elementor/container/print_template', array( $this, 'print_template' ), 10, 2 );
 		add_action( 'elementor/frontend/container/before_render', array( $this, 'before_render' ) );
+
+		add_action( 'wp_ajax_get_shape_divider_svg', array( $this, 'get_shape_divider_svg' ) );
 	}
 
 	/**
@@ -144,15 +146,6 @@ class Module {
 
 		$element->start_controls_tabs(
 			'premium_gdivider_tabs'
-		);
-
-		$element->add_control(
-			'premium_shapes_data',
-			array(
-				'label'   => __( 'Shapes Data', 'premium-addons-for-elementor' ),
-				'type'    => Controls_Manager::HIDDEN,
-				'default' => Helper_Functions::get_svg_shapes(),
-			)
 		);
 
 		$this->add_divider_content_controls( $element );
@@ -515,7 +508,7 @@ class Module {
 				'label'     => __( 'Animation Direction', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::SELECT,
 				'options'   => array(
-					'noraml'    => __( 'Normal', 'premium-addons-for-elementor' ),
+					'normal'    => __( 'Normal', 'premium-addons-for-elementor' ),
 					'reverse'   => __( 'Reverse', 'premium-addons-for-elementor' ),
 					'alternate' => __( 'Alternate', 'premium-addons-for-elementor' ),
 				),
@@ -693,7 +686,7 @@ class Module {
 			)
 		);
 
-		$element->add_responsive_control(
+		$element->add_control(
 			'premium_gdivider_opacity',
 			array(
 				'label'     => __( 'Opacity', 'premium-addons-for-elementor' ),
@@ -761,10 +754,9 @@ class Module {
 		<#
 			var isEnabled = 'yes' === settings.premium_global_divider_sw ? true : false;
 
-			if ( isEnabled && settings.premium_shapes_data ) {
+			if ( isEnabled ) {
 
                 var source = settings.premium_gdivider_source,
-                    shapesData = settings.premium_shapes_data,
 					shapeHTML = '',
 					customFill = 'color' !== settings.premium_gdivider_bg_type;
 
@@ -776,7 +768,8 @@ class Module {
 						'id': 'premium-shape-divider-fill-' + view.getID(),
 						'width': '0px',
 						'height': '0px',
-						'preserveAspectRatio': 'none'
+						'preserveAspectRatio': 'none',
+						'aria-hidden': 'true'
 					});
 
 					if ( imgFill && settings.premium_gdivider_image ) {
@@ -884,7 +877,10 @@ class Module {
                     var isProVersionActive = '<?php echo esc_html( $papro_activated ); ?>' === 'yes'
                         selectedShapeIndex = parseInt(settings.premium_gdivider_defaults.replace(/[^\d]/g, ''), 10);
 
-                    shapeHTML = (selectedShapeIndex <= 25 || isProVersionActive) ? shapesData[ settings.premium_gdivider_defaults ]['imagesmall'] : '';
+                    shapeHTML = (selectedShapeIndex <= 25 || isProVersionActive) ? '' : 'pro';
+
+					view.addRenderAttribute( 'paShapeDivider', 'data-shape', selectedShapeIndex );
+
 				}
 
 				function getContainerClasses() {
@@ -902,7 +898,7 @@ class Module {
 					return classes;
 				}
 
-				if ( '' !== shapeHTML ) {
+				if ( 'pro' !== shapeHTML ) {
 					view.addRenderAttribute( 'paShapeDivider', {
 						'id': 'premium-shape-divider-' + view.getID(),
 						'class': getContainerClasses(),
@@ -967,7 +963,6 @@ class Module {
 			}
 
 			$source           = $settings['premium_gdivider_source'];
-			$divider_settings = array();
 			$hidden_style     = 'visibility:hidden; position: absolute; opacity:0;';
 			$shape            = '';
 			$custom_fill      = 'color' !== $settings['premium_gdivider_bg_type'];
@@ -1014,7 +1009,7 @@ class Module {
 
 		$img_fill = 'image' === $settings['premium_gdivider_bg_type'];
 
-		$svg_html = '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" id="premium-shape-divider-fill-' . $id . '" width="0px" height="0px"><defs>';
+		$svg_html = '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true" id="premium-shape-divider-fill-' . $id . '" width="0px" height="0px"><defs>';
 
 		if ( $img_fill ) {
 			$img_src     = $settings['premium_gdivider_image']['url'];
@@ -1028,7 +1023,7 @@ class Module {
 
 			$svg_html .= '<pattern id="pa-shape-divider-fill-' . $id . '" patternUnits="userSpaceOnUse" width="100%" height="100%">' .
 
-			'<image href="' . esc_url( $img_src ) . '" x="' . $img_options['xpos'] . '" y="' . $img_options['ypos'] . '" width="' . $img_options['width'] . '" height="' . $img_options['height'] . '" ' . $img_options['aspect'] . '" />' .
+			'<image href="' . esc_url( $img_src ) . '" x="' . $img_options['xpos'] . '" y="' . $img_options['ypos'] . '" width="' . $img_options['width'] . '" height="' . $img_options['height'] . '" ' . $img_options['aspect'] . ' />' .
 
 			'</pattern>';
 		} else {
@@ -1062,6 +1057,32 @@ class Module {
 
 		$svg_html .= '</defs></svg>';
 		echo $svg_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+
+	/**
+	 * Get Shape Divider SVG
+	 *
+	 * @since 4.11.32
+	 * @access public
+	 */
+	public function get_shape_divider_svg() {
+
+		check_ajax_referer( 'pa-shape-nonce', 'nonce' );
+
+		if ( ! isset( $_POST['shape'] ) ) {
+			wp_send_json_error( 'No shape selected' );
+		}
+
+		$shape   = isset( $_POST['shape'] ) ? sanitize_text_field( wp_unslash( $_POST['shape'] ) ) : '';
+
+		$svg_shape = Helper_Functions::get_svg_shapes( $shape );
+
+		if ( empty( $svg_shape ) ) {
+			wp_send_json_error( 'Invalid shape' );
+		}
+
+		wp_send_json_success( array( 'shape' => $svg_shape ) );
+
 	}
 
 	/**

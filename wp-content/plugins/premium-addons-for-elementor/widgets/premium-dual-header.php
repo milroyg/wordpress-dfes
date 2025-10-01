@@ -14,10 +14,10 @@ use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Text_Shadow;
-use Elementor\Group_Control_Background;
 
 // PremiumAddons Classes.
 use PremiumAddons\Includes\Helper_Functions;
+use PremiumAddons\Includes\Controls\Premium_Background;
 use PremiumAddons\Includes\Controls\Premium_Post_Filter;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -74,10 +74,25 @@ class Premium_Dual_Header extends Widget_Base {
 	 * @return array JS script handles.
 	 */
 	public function get_script_depends() {
-		return array(
-			'pa-glass',
-			'premium-addons',
-		);
+
+		$is_edit = Helper_Functions::is_edit_mode();
+
+		$scripts = array();
+		if ( $is_edit ) {
+			$scripts[] = 'pa-glass';
+		} else {
+
+			$settings = $this->get_settings();
+
+			if ( 'none' !== $settings['first_lq_effect'] || 'none' !== $settings['second_lq_effect'] ) {
+				$scripts[] = 'pa-glass';
+			}
+
+		}
+
+		$scripts[] = 'premium-addons';
+
+		return $scripts;
 	}
 
 	/**
@@ -728,7 +743,7 @@ class Premium_Dual_Header extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'      => 'premium_dual_header_first_background',
 				'types'     => array( 'classic', 'gradient' ),
@@ -744,7 +759,7 @@ class Premium_Dual_Header extends Widget_Base {
 			array(
 				'label'        => __( 'Liquid Glass Effect', 'premium-addons-for-elementor' ),
 				'type'         => Controls_Manager::SELECT,
-				'description' => sprintf(
+				'description'  => sprintf(
 					/* translators: 1: `<a>` opening tag, 2: `</a>` closing tag. */
 					esc_html__( 'Important: Make sure this element has a semi-transparent background color to see the effect. See all presets from %1$shere%2$s.', 'premium-addons-for-elementor' ),
 					'<a href="https://premiumaddons.com/liquid-glass/" target="_blank">',
@@ -826,7 +841,7 @@ class Premium_Dual_Header extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'      => 'premium_dual_header_first_clipped_background',
 				'types'     => array( 'classic', 'gradient' ),
@@ -1028,7 +1043,7 @@ class Premium_Dual_Header extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'      => 'premium_dual_header_second_background',
 				'types'     => array( 'classic', 'gradient' ),
@@ -1044,7 +1059,7 @@ class Premium_Dual_Header extends Widget_Base {
 			array(
 				'label'        => __( 'Liquid Glass Effect', 'premium-addons-for-elementor' ),
 				'type'         => Controls_Manager::SELECT,
-				'description' => sprintf(
+				'description'  => sprintf(
 					/* translators: 1: `<a>` opening tag, 2: `</a>` closing tag. */
 					esc_html__( 'Important: Make sure this element has a semi-transparent background color to see the effect. See all presets from %1$shere%2$s.', 'premium-addons-for-elementor' ),
 					'<a href="https://premiumaddons.com/liquid-glass/" target="_blank">',
@@ -1126,7 +1141,7 @@ class Premium_Dual_Header extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'      => 'premium_dual_header_second_clipped_background',
 				'types'     => array( 'classic', 'gradient' ),

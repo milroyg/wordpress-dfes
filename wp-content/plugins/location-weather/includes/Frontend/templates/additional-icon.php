@@ -7,6 +7,10 @@
  * @package Location_Weather
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 $show_weather_icons        = ! empty( $splw_meta['lw-weather-icons'] );
 $show_weather_icon_wrapper = (
 	'vertical' === $layout &&

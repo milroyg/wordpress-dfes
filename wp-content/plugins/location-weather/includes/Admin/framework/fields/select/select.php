@@ -113,9 +113,7 @@ if ( ! class_exists( 'SPLWT_Field_select' ) ) {
 					}
 					$selected_value = '';
 					foreach ( $options as $option_key => $option ) {
-
 						if ( is_array( $option ) && ! empty( $option ) ) {
-
 							echo '<optgroup label="' . esc_attr( $option_key ) . '">';
 
 							foreach ( $option as $sub_key => $sub_value ) {
@@ -124,7 +122,6 @@ if ( ! class_exists( 'SPLWT_Field_select' ) ) {
 							}
 
 							echo '</optgroup>';
-
 						} else {
 							$selected = ( in_array( $option_key, $this->value ) ) ? ' selected' : '';
 							if ( in_array( $option_key, $this->value ) ) {
@@ -136,11 +133,11 @@ if ( ! class_exists( 'SPLWT_Field_select' ) ) {
 
 					echo '</select>';
 					if ( isset( $args['preview'] ) && $args['preview'] ) {
-						echo '<img src="' . SPLW::include_plugin_url( 'assets/images/icon-set/' . $selected_value . '.svg' ) . '" class="icon_preview">';
+						echo '<img src="' . esc_url( SPLW::include_plugin_url( 'assets/images/icon-set/' . $selected_value . '.svg' ) ) . '" class="icon_preview">';
 						echo '<div class="lw-pro-notice"></div>';
 					}
 					if ( isset( $args['forecast_preview'] ) && $args['forecast_preview'] ) {
-						echo '<img src="' . SPLW::include_plugin_url( 'assets/images/forecast-icon-set/' . $selected_value . '.svg' ) . '" class="forecast_icon_preview">';
+						echo '<img src="' . esc_url( SPLW::include_plugin_url( 'assets/images/forecast-icon-set/' . $selected_value . '.svg' ) ) . '" class="forecast_icon_preview">';
 						echo '<div class="lw-pro-notice"></div>';
 					}
 				} else {

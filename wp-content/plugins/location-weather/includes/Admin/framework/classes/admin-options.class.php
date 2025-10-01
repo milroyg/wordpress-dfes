@@ -176,7 +176,6 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 
 			// wp enqeueu for typography and output css.
 			parent::__construct();
-
 		}
 
 		/**
@@ -208,7 +207,7 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 					$parents[ $section['parent'] ][] = $section;
 					unset( $sections[ $key ] );
 				}
-				$count++;
+				++$count;
 			}
 
 			foreach ( $sections as $key => $section ) {
@@ -217,7 +216,7 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 					$section['subs'] = wp_list_sort( $parents[ $section['id'] ], array( 'priority' => 'ASC' ), 'ASC', true );
 				}
 				$result[] = $section;
-				$count++;
+				++$count;
 			}
 
 			return wp_list_sort( $result, array( 'priority' => 'ASC' ), 'ASC', true );
@@ -309,7 +308,6 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 					}
 				}
 			}
-
 		}
 
 		/**
@@ -331,7 +329,6 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 					)
 				);
 			}
-
 		}
 
 		/**
@@ -346,7 +343,6 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 			$default = ( isset( $this->args['defaults'][ $field['id'] ] ) ) ? $this->args['defaults'][ $field['id'] ] : $default;
 
 			return $default;
-
 		}
 
 		/**
@@ -367,8 +363,94 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 			if ( $this->args['save_defaults'] && empty( $tmp_options ) ) {
 				$this->save_options( $this->options );
 			}
-
 		}
+
+		/**
+		 * Sanitize Location Weather plugin options.
+		 *
+		 * @param array $options Raw options array.
+		 * @return array Sanitized options array.
+		 */
+		public function sanitize_options( $options ) {
+			if ( ! is_array( $options ) ) {
+				return array();
+			}
+
+			$sanitized = array();
+
+			foreach ( $options as $key => $value ) {
+				switch ( $key ) {
+
+					// --- splwt_transient ---
+					case 'splwt_transient':
+						$sanitized['splwt_transient'] = array();
+						if ( is_array( $value ) ) {
+							foreach ( $value as $sub_key => $sub_val ) {
+								$sanitized['splwt_transient'][ $sub_key ] = sanitize_text_field( $sub_val );
+							}
+						}
+						break;
+
+					// --- Nonce & Referer ---
+					case 'splwt_options_noncelocation_weather_settings':
+					case '_wp_http_referer':
+						$sanitized[ $key ] = sanitize_text_field( $value );
+						break;
+
+					// --- location_weather_settings ---
+					case 'location_weather_settings':
+						$sanitized['location_weather_settings'] = array();
+						if ( is_array( $value ) ) {
+							foreach ( $value as $sub_key => $sub_val ) {
+								switch ( $sub_key ) {
+									// Text fields (API source, keys).
+									case 'lw_api_source_type':
+									case 'open-api-key':
+									case 'weather-api-key':
+										$sanitized['location_weather_settings'][ $sub_key ] = sanitize_text_field( $sub_val );
+										break;
+
+									// Boolean-like values (checkbox, switches).
+									case 'splw_delete_on_remove':
+									case 'splw_skipping_cache':
+									case 'splw_enable_cache':
+										$sanitized['location_weather_settings'][ $sub_key ] = (int) $sub_val;
+										break;
+
+									// Cache time (nested array).
+									case 'splw_cache_time':
+										$sanitized['location_weather_settings']['splw_cache_time'] = array();
+										if ( is_array( $sub_val ) ) {
+											foreach ( $sub_val as $time_key => $time_val ) {
+												$sanitized['location_weather_settings']['splw_cache_time'][ $time_key ] = absint( $time_val );
+											}
+										}
+										break;
+
+									// Custom CSS/JS.
+									case 'splw_custom_css':
+									case 'splw_custom_js':
+										$sanitized['location_weather_settings'][ $sub_key ] = wp_strip_all_tags( $sub_val );
+										break;
+
+									// Fallback.
+									default:
+										$sanitized['location_weather_settings'][ $sub_key ] = sanitize_text_field( $sub_val );
+										break;
+								}
+							}
+						}
+						break;
+
+					// --- Fallback for unexpected fields ---
+					default:
+						$sanitized[ $key ] = is_scalar( $value ) ? sanitize_text_field( $value ) : '';
+						break;
+				}
+			}
+			return $sanitized;
+		}
+
 
 		/**
 		 * Set options.
@@ -377,132 +459,119 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 		 * @return bool
 		 */
 		public function set_options( $ajax = false ) {
+			// Retrieve nonce.
+			$nonce = '';
+			if ( $ajax && ! empty( $_POST['nonce'] ) ) {
+				// Nonce sent via AJAX request.
+				$nonce = sanitize_text_field( wp_unslash( $_POST['nonce'] ) );
+			} elseif ( ! empty( $_POST[ 'splwt_options_nonce' . $this->unique ] ) ) {
+				// Nonce sent via standard form (with unique field key).
+				$nonce = sanitize_text_field( wp_unslash( $_POST[ 'splwt_options_nonce' . $this->unique ] ) );
+			}
+
+			if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'splwt_options_nonce' ) ) {
+				return false;
+			}
 
 			// XSS ok.
 			// No worries, This "POST" requests is sanitizing in the below foreach. see #L337 - #L341.
-			$response = ( $ajax && ! empty( $_POST['data'] ) ) ? json_decode( wp_unslash( trim( $_POST['data'] ) ), true ) : $_POST; // phpcs:ignore
+			$response = ( $ajax && ! empty( $_POST['data'] ) ) ? json_decode( wp_unslash( trim( $_POST['data'] ) ), true ) : wp_unslash( $_POST ); // phpcs:ignore
+			$response = $this->sanitize_options( $response );
 
 			// Set variables.
 			$data      = array();
-			$noncekey  = 'splwt_options_nonce' . $this->unique;
-			$nonce     = ( ! empty( $response[ $noncekey ] ) ) ? $response[ $noncekey ] : '';
 			$options   = ( ! empty( $response[ $this->unique ] ) ) ? $response[ $this->unique ] : array();
 			$transient = ( ! empty( $response['splwt_transient'] ) ) ? $response['splwt_transient'] : array();
 
-			if ( wp_verify_nonce( $nonce, 'splwt_options_nonce' ) ) {
+			$importing  = false;
+			$section_id = ( ! empty( $transient['section'] ) ) ? $transient['section'] : '';
 
-				$importing  = false;
-				$section_id = ( ! empty( $transient['section'] ) ) ? $transient['section'] : '';
-
-				if ( ! $ajax && ! empty( $response['splwt_import_data'] ) ) {
-
-					// XSS ok.
-					// No worries, This "POST" requests is sanitizing in the below foreach. see #L337 - #L341.
-					$import_data  = json_decode( wp_unslash( trim( $response['splwt_import_data'] ) ), true );
-					$options      = ( is_array( $import_data ) && ! empty( $import_data ) ) ? $import_data : array();
-					$importing    = true;
-					$this->notice = esc_html__( 'Settings successfully imported.', 'location-weather' );
-
+			if ( ! empty( $transient['reset'] ) ) {
+				foreach ( $this->pre_fields as $field ) {
+					if ( ! empty( $field['id'] ) ) {
+						$data[ $field['id'] ] = $this->get_default( $field );
+					}
 				}
 
-				if ( ! empty( $transient['reset'] ) ) {
+				$this->notice = esc_html__( 'Default settings restored.', 'location-weather' );
+			} elseif ( ! empty( $transient['reset_section'] ) && ! empty( $section_id ) ) {
+				if ( ! empty( $this->pre_sections[ $section_id ]['fields'] ) ) {
 
-					foreach ( $this->pre_fields as $field ) {
+					foreach ( $this->pre_sections[ $section_id ]['fields'] as $field ) {
 						if ( ! empty( $field['id'] ) ) {
 							$data[ $field['id'] ] = $this->get_default( $field );
 						}
 					}
+				}
 
-					$this->notice = esc_html__( 'Default settings restored.', 'location-weather' );
+				$data = wp_parse_args( $data, $this->options );
 
-				} elseif ( ! empty( $transient['reset_section'] ) && ! empty( $section_id ) ) {
+				$this->notice = esc_html__( 'Default settings restored.', 'location-weather' );
+			} else {
 
-					if ( ! empty( $this->pre_sections[ $section_id ]['fields'] ) ) {
+				// sanitize and validate.
+				foreach ( $this->pre_fields as $field ) {
 
-						foreach ( $this->pre_sections[ $section_id ]['fields'] as $field ) {
-							if ( ! empty( $field['id'] ) ) {
-								$data[ $field['id'] ] = $this->get_default( $field );
-							}
+					if ( ! empty( $field['id'] ) ) {
+
+						$field_id    = $field['id'];
+						$field_value = isset( $options[ $field_id ] ) ? $options[ $field_id ] : '';
+
+						// Ajax and Importing doing wp_unslash already.
+						if ( ! $ajax && ! $importing ) {
+							$field_value = wp_unslash( $field_value );
 						}
-					}
 
-					$data = wp_parse_args( $data, $this->options );
+						// Sanitize "post" request of field.
+						if ( ! isset( $field['sanitize'] ) ) {
 
-					$this->notice = esc_html__( 'Default settings restored.', 'location-weather' );
+							if ( is_array( $field_value ) ) {
 
-				} else {
-
-					// sanitize and validate.
-					foreach ( $this->pre_fields as $field ) {
-
-						if ( ! empty( $field['id'] ) ) {
-
-							$field_id    = $field['id'];
-							$field_value = isset( $options[ $field_id ] ) ? $options[ $field_id ] : '';
-
-							// Ajax and Importing doing wp_unslash already.
-							if ( ! $ajax && ! $importing ) {
-								$field_value = wp_unslash( $field_value );
-							}
-
-							// Sanitize "post" request of field.
-							if ( ! isset( $field['sanitize'] ) ) {
-
-								if ( is_array( $field_value ) ) {
-
-									$data[ $field_id ] = wp_kses_post_deep( $field_value );
-
-								} else {
-
-									$data[ $field_id ] = wp_kses_post( $field_value );
-
-								}
-							} elseif ( isset( $field['sanitize'] ) && is_callable( $field['sanitize'] ) ) {
-
-								$data[ $field_id ] = call_user_func( $field['sanitize'], $field_value );
+								$data[ $field_id ] = wp_kses_post_deep( $field_value );
 
 							} else {
 
-								$data[ $field_id ] = $field_value;
+								$data[ $field_id ] = wp_kses_post( $field_value );
 
 							}
+						} elseif ( isset( $field['sanitize'] ) && is_callable( $field['sanitize'] ) ) {
 
-							// Validate "post" request of field.
-							if ( isset( $field['validate'] ) && is_callable( $field['validate'] ) ) {
+							$data[ $field_id ] = call_user_func( $field['sanitize'], $field_value );
 
-								$has_validated = call_user_func( $field['validate'], $field_value );
+						} else {
 
-								if ( ! empty( $has_validated ) ) {
+							$data[ $field_id ] = $field_value;
 
-									$data[ $field_id ]         = ( isset( $this->options[ $field_id ] ) ) ? $this->options[ $field_id ] : '';
-									$this->errors[ $field_id ] = $has_validated;
+						}
 
-								}
+						// Validate "post" request of field.
+						if ( isset( $field['validate'] ) && is_callable( $field['validate'] ) ) {
+
+							$has_validated = call_user_func( $field['validate'], $field_value );
+							if ( ! empty( $has_validated ) ) {
+								$data[ $field_id ]         = ( isset( $this->options[ $field_id ] ) ) ? $this->options[ $field_id ] : '';
+								$this->errors[ $field_id ] = $has_validated;
 							}
 						}
 					}
 				}
-
-				$data = apply_filters( "splwt_{$this->unique}_save", $data, $this );
-
-				do_action( "splwt_{$this->unique}_save_before", $data, $this );
-
-				$this->options = $data;
-
-				$this->save_options( $data );
-
-				do_action( "splwt_{$this->unique}_save_after", $data, $this );
-
-				if ( empty( $this->notice ) ) {
-					$this->notice = esc_html__( 'Settings saved.', 'location-weather' );
-				}
-
-				return true;
-
 			}
 
-			return false;
+			$data = apply_filters( "splwt_{$this->unique}_save", $data, $this );
 
+			do_action( "splwt_{$this->unique}_save_before", $data, $this );
+
+			$this->options = $data;
+
+			$this->save_options( $data );
+
+			do_action( "splwt_{$this->unique}_save_after", $data, $this );
+
+			if ( empty( $this->notice ) ) {
+				$this->notice = esc_html__( 'Settings saved.', 'location-weather' );
+			}
+
+			return true;
 		}
 
 		/**
@@ -524,7 +593,6 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 			}
 
 			do_action( "splwt_{$this->unique}_saved", $data, $this );
-
 		}
 
 		/**
@@ -549,7 +617,6 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 			}
 
 			return $this->options;
-
 		}
 
 		/**
@@ -558,15 +625,22 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 		 * @return void
 		 */
 		public function add_admin_menu() {
+			$args = $this->args;
 
-			extract( $this->args ); // phpcs:ignore
+			$menu_type       = $args['menu_type'] ?? '';
+			$menu_parent     = $args['menu_parent'] ?? '';
+			$menu_title      = $args['menu_title'] ?? '';
+			$menu_capability = $args['menu_capability'] ?? 'manage_options';
+			$menu_slug       = $args['menu_slug'] ?? '';
+			$menu_icon       = $args['menu_icon'] ?? '';
+			$menu_position   = $args['menu_position'] ?? null;
+			$sub_menu_title  = $args['sub_menu_title'] ?? '';
+			$menu_hidden     = $args['menu_hidden'] ?? false;
 
 			if ( 'submenu' === $menu_type ) {
-
 				$menu_page = call_user_func( 'add_submenu_page', $menu_parent, esc_attr( $menu_title ), esc_attr( $menu_title ), $menu_capability, $menu_slug, array( &$this, 'add_options_html' ) );
 
 			} else {
-
 				$menu_page = call_user_func( 'add_menu_page', esc_attr( $menu_title ), esc_attr( $menu_title ), $menu_capability, $menu_slug, array( &$this, 'add_options_html' ), $menu_icon, $menu_position );
 
 				if ( ! empty( $sub_menu_title ) ) {
@@ -590,7 +664,6 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 			}
 
 			add_action( 'load-' . $menu_page, array( &$this, 'add_page_on_load' ) );
-
 		}
 
 		/**
@@ -612,7 +685,6 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 					$screen->set_help_sidebar( $this->args['contextual_help_sidebar'] );
 				}
 			}
-
 		}
 
 		/**
@@ -734,7 +806,7 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 
 						echo '<li class="splwt-lite-tab-item">';
 
-						echo '<a href="#tab=' . esc_attr( $tab_id ) . '" data-tab-id="' . esc_attr( $tab_id ) . '" class="splwt-lite-arrow">' . $tab_icon . wp_kses_post( $tab['title'] . $tab_error ) . '</a>';
+						echo '<a href="#tab=' . esc_attr( $tab_id ) . '" data-tab-id="' . esc_attr( $tab_id ) . '" class="splwt-lite-arrow">' . wp_kses_post( $tab_icon . $tab['title'] . $tab_error ) . '</a>';
 
 						echo '<ul>';
 
@@ -744,7 +816,7 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 							$sub_error = $this->error_check( $sub );
 							$sub_icon  = ( ! empty( $sub['icon'] ) ) ? $sub['icon'] : '';
 
-							echo '<li><a href="#tab=' . esc_attr( $sub_id ) . '" data-tab-id="' . esc_attr( $sub_id ) . '">' . $sub_icon . wp_kses_post( $sub['title'] . $sub_error ) . '</a></li>';
+							echo '<li><a href="#tab=' . esc_attr( $sub_id ) . '" data-tab-id="' . esc_attr( $sub_id ) . '">' . wp_kses_post( $sub_icon . $sub['title'] . $sub_error ) . '</a></li>';
 
 						}
 
@@ -754,7 +826,7 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 
 					} else {
 
-						echo '<li class="splwt-lite-tab-item"><a href="#tab=' . esc_attr( $tab_id ) . '" data-tab-id="' . esc_attr( $tab_id ) . '">' . $tab_icon . wp_kses_post( $tab['title'] . $tab_error ) . '</a></li>';
+						echo '<li class="splwt-lite-tab-item"><a href="#tab=' . esc_attr( $tab_id ) . '" data-tab-id="' . esc_attr( $tab_id ) . '">' . wp_kses_post( $tab_icon . $tab['title'] . $tab_error ) . '</a></li>';
 
 					}
 				}
@@ -832,7 +904,6 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 			echo '</div>';
 
 			do_action( 'splwt_options_after' );
-
 		}
 	}
 }

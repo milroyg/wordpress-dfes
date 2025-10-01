@@ -7,16 +7,14 @@ namespace PremiumAddons\Widgets;
 
 // Elementor Classes.
 use Elementor\Plugin;
-use Elementor\Utils;
 use Elementor\Repeater;
 use Elementor\Widget_Base;
 use Elementor\Icons_Manager;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Image_Size;
-use Elementor\Group_Control_Background;
+use PremiumAddons\Includes\Controls\Premium_Background;
 use Elementor\Group_Control_Typography;
-use Elementor\Group_Control_Css_Filter;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Text_Shadow;
 use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
@@ -71,7 +69,6 @@ class Premium_Post_Ticker extends Widget_Base {
 		}
 
 		return $this->is_draw_enabled;
-
 	}
 
 	/**
@@ -168,22 +165,59 @@ class Premium_Post_Ticker extends Widget_Base {
 	 */
 	public function get_script_depends() {
 
-		$draw_scripts = $this->check_icon_draw() ? array(
-			'pa-tweenmax',
-			'pa-motionpath',
-		) : array();
+		$is_edit = Helper_Functions::is_edit_mode();
 
-		return array_merge(
-			$draw_scripts,
-			array(
-				'pa-glass',
-				'imagesloaded',
-				'isotope-js',
-				'pa-slick',
-				'lottie-js',
-				'premium-addons',
-			)
-		);
+		$scripts = array( 'pa-slick' );
+
+		if ( $is_edit ) {
+
+            $draw_scripts = $this->check_icon_draw() ? array( 'pa-tweenmax', 'pa-motionpath' ) : array();
+
+			$scripts = array_merge( $draw_scripts, array( 'pa-glass', 'lottie-js' ) );
+
+		} else {
+
+			$settings = $this->get_settings();
+
+			$draw_js = false;
+			$lottie_js = false;
+
+			if ( 'yes' === $settings['draw_svg'] ) {
+				array_push( $scripts, 'pa-tweenmax', 'pa-motionpath' );
+				$draw_js = true;
+			}
+
+			if ( 'lottie' === $settings['icon_type'] ) {
+				$scripts[] = 'lottie-js';
+				$lottie_js = true;
+			}
+
+			if ( ! empty( $settings['text_content'] ) ) {
+
+				foreach ( $settings['text_content'] as $item ) {
+
+					if ( ! $draw_js && 'yes' === $item['draw_svg'] ) {
+						array_push( $scripts, 'pa-tweenmax', 'pa-motionpath' );
+						$draw_js = true;
+					}
+
+					if ( ! $lottie_js && 'lottie' === $item['icon_type'] ) {
+						$scripts[] = 'lottie-js';
+						$lottie_js = true;
+					}
+
+
+				}
+			}
+
+			if ( 'none' !== $settings['post_lq_effect'] ) {
+				$scripts[] = 'pa-glass';
+			}
+		}
+
+		$scripts[] = 'premium-addons';
+
+		return $scripts;
 	}
 
 	/**
@@ -983,7 +1017,7 @@ class Premium_Post_Ticker extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'           => 'pointer_bg',
 				'description'    => __( 'Pointer Color', 'premium-addons-for-elementor' ),
@@ -1924,7 +1958,7 @@ class Premium_Post_Ticker extends Widget_Base {
 				'type'      => Controls_Manager::SWITCHER,
 				'condition' => array(
 					'fade!'   => 'yes',
-					'typing!'   => 'yes',
+					'typing!' => 'yes',
 					'layout!' => 'layout-4',
 				),
 			)
@@ -2140,7 +2174,7 @@ class Premium_Post_Ticker extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'           => 'ticker_title_bg',
 				'types'          => array( 'classic', 'gradient' ),
@@ -2265,7 +2299,7 @@ class Premium_Post_Ticker extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'date_bg',
 				'types'    => array( 'classic', 'gradient' ),
@@ -2633,7 +2667,7 @@ class Premium_Post_Ticker extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'pa_post_box_bg',
 				'types'    => array( 'classic', 'gradient' ),
@@ -2699,7 +2733,7 @@ class Premium_Post_Ticker extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'posts_container_background',
 				'types'    => array( 'classic', 'gradient' ),
@@ -3183,8 +3217,6 @@ class Premium_Post_Ticker extends Widget_Base {
 
 			if ( ! $req_data ) {
 
-				sleep( 2 );
-
 				$api_settings = array(
 					'id'          => $id,
 					'api_key'     => $api_key,
@@ -3248,8 +3280,6 @@ class Premium_Post_Ticker extends Widget_Base {
 			$req_data = get_transient( $transient_name );
 
 			if ( ! $req_data ) {
-
-				sleep( 2 );
 
 				$api_settings = array(
 					'id'          => $id,
@@ -3346,15 +3376,15 @@ class Premium_Post_Ticker extends Widget_Base {
 		$should_be_rtl = false;
 
 		if ( 'layout-4' !== $layout && ! $fade ) {
-			$is_reverse = isset( $settings['reverse'] ) && 'yes' === $settings['reverse'];
+			$is_reverse    = isset( $settings['reverse'] ) && 'yes' === $settings['reverse'];
 			$should_be_rtl = ( is_rtl() && ! $is_reverse ) || ( ! is_rtl() && $is_reverse );
 
 			// Special case: RTL + reversed + typing enabled
-                if ( is_rtl() && $is_reverse && $typing ) {
-                $should_be_rtl = true;
-            }
+			if ( is_rtl() && $is_reverse && $typing ) {
+				$should_be_rtl = true;
+			}
 
-            $this->add_render_attribute( 'inner-wrapper', 'dir', $should_be_rtl ? 'rtl' : 'ltr' );
+			$this->add_render_attribute( 'inner-wrapper', 'dir', $should_be_rtl ? 'rtl' : 'ltr' );
 		}
 
 		$slider_settings = array(
@@ -3369,7 +3399,7 @@ class Premium_Post_Ticker extends Widget_Base {
 			'slidesToShow' => $settings['slides_to_show'],
 			'pauseOnHover' => 'yes' === $settings['pause_on_hover'] ? true : false,
 			'animation'    => ! $infinite && ! $typing ? $settings['entrance_animation'] : '',
-			'shouldBeRtl' => $should_be_rtl,
+			'shouldBeRtl'  => $should_be_rtl,
 		);
 
 		if ( $auto_play ) {
@@ -3800,10 +3830,10 @@ class Premium_Post_Ticker extends Widget_Base {
 		?>
 		<div class="premium-post-ticker__arrows">
 			<a class="prev-arrow" type="button" role="button" aria-label="Previous">
-				<i class="<?php echo esc_attr( $prev ); ?>"></i>
+				<i class="<?php echo esc_attr( $prev ); ?>" aria-hidden="true"></i>
 			</a>
 			<a class="next-arrow" type="button" role="button" aria-label="Next">
-				<i class="<?php echo esc_attr( $next ); ?>"></i>
+				<i class="<?php echo esc_attr( $next ); ?>" aria-hidden="true"></i>
 			</a>
 		</div>
 		<?php

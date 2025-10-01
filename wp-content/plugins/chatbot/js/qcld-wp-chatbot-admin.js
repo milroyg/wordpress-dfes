@@ -153,9 +153,9 @@ $("#add-more-support-query").on('click',function () {
         
             '<div class="cxsc-settings-blocks">'+
 
-            '<p class="qc-opt-dcs-font">Support query </p>'+
+            '<p class="qc-opt-dcs-font qc-opt-dcs-font-faq">FAQ Query </p>'+
 
-            '<input type="text" class="form-control" name="support_query[]"  placeholder="Support query">'+
+            '<input type="text" class="form-control" name="support_query[]"  placeholder="FAQ Query">'+
 
             '<p class="qc-opt-dcs-font"><br><strong>Support answer</strong></p>'+
 
@@ -1221,30 +1221,7 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
         }
         var settingsOpenAi = document.getElementById("save_setting");
         if(settingsOpenAi){
-            document.getElementById("temperature").onchange = function() {
-                var x = document.getElementById("temperature");
-                x.value = x.value.toUpperCase();
-                updateTemp( x.value);
-            };
-            function updateTemp(n){
-                document.getElementById('temperatureout').textContent=n; 
-            };
-            document.getElementById("frequency_penalty").onchange = function() {
-                var x = document.getElementById("frequency_penalty");
-                x.value = x.value.toUpperCase();
-                updateFpenalty( x.value);
-            };
-            function updateFpenalty(n){
-                document.getElementById('frequency_penalty_out').textContent=n; 
-            };
-            document.getElementById("presence_penalty").onchange = function() {
-                var x = document.getElementById("presence_penalty");
-                x.value = x.value.toUpperCase();
-                updatePpenalty( x.value);
-            };
-            function updatePpenalty(n){
-                document.getElementById('presence_penalty_out').textContent=n; 
-            };
+
         
             $('.qcl-openai').on('change','#qcld_openai_prompt', function() {
               
@@ -1293,6 +1270,11 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
                 }else{
                     var is_page_suggestion_enabled = 0;
                 }
+                if($('#is_context_awareness_enabled').is(":checked")){
+                    var is_context_awareness_enabled = 1; 
+                }else{
+                    var is_context_awareness_enabled = 0;
+                }
                 var post_types = $.map($('input[name="site_search_posttypes[]"]:checked'), function(c){return c.value; });
                 var api_key = $( "input[name='api_key']" ).val();
                 var openai_engines = $("[id*='openai_engines'] :selected").val();
@@ -1316,16 +1298,16 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
                 $.ajax({
                     url:  ajax_object.ajax_url,
                     type:'POST',
-                    data:    ({action  : 'openai_settings_option',nonce: ajax_object.ajax_nonce,api_key: api_key,openai_engines:openai_engines,qcld_openai_prompt: qcld_openai_prompt,max_tokens:max_tokens,file_id:file_id,temperature:temperature,presence_penalty:presence_penalty,frequency_penalty:frequency_penalty,qcld_openai_prompt_custom: qcld_openai_prompt_custom,openai_exclude_keyword:openai_exclude_keyword,is_relevant_enabled:is_relevant_enabled,openai_include_keyword:openai_include_keyword,ai_enabled:is_ai_enabled,is_page_suggestion_enabled:is_page_suggestion_enabled,qcld_openai_system_content:qcld_openai_system_content,qcld_openai_append_content:qcld_openai_append_content,ai_only_mode: is_ai_only_mode,conversation_continuity:conversation_continuity,openai_post_type:openai_post_type}),
+                    data:    ({action  : 'openai_settings_option',nonce: ajax_object.ajax_nonce,api_key: api_key,openai_engines:openai_engines,qcld_openai_prompt: qcld_openai_prompt,max_tokens:max_tokens,file_id:file_id,temperature:temperature,presence_penalty:presence_penalty,frequency_penalty:frequency_penalty,qcld_openai_prompt_custom: qcld_openai_prompt_custom,openai_exclude_keyword:openai_exclude_keyword,is_relevant_enabled:is_relevant_enabled,openai_include_keyword:openai_include_keyword,ai_enabled:is_ai_enabled,is_page_suggestion_enabled:is_page_suggestion_enabled,is_context_awareness_enabled:is_context_awareness_enabled,qcld_openai_system_content:qcld_openai_system_content,qcld_openai_append_content:qcld_openai_append_content,ai_only_mode: is_ai_only_mode,conversation_continuity:conversation_continuity,openai_post_type:openai_post_type}),
                     
                     success: function(data){
                         $('#result').html(data);
                         Swal.fire({
                             title: 'Your settings are saved.',
-                                html: '<p style=font-size:14px>Please clear your browser <b>cache</b> and <b>cookies</b> both and reload the front end before testing. Alternatively, you can launch a new browser window in <b>Incognito</b>/Private mode (Ctrl+Shift+N in chrome) to test.</p><p><b>Do you want to disable Site Search so all responses come from the AI service?</b></p>',
+                                html: '<p style=font-size:14px>Please clear your browser <b>cache</b> and <b>cookies</b> both and reload the front end before testing. Alternatively, you can launch a new browser window in <b>Incognito</b>/Private mode (Ctrl+Shift+N in chrome) to test.</p><p></b></p>',
                                 width: 450,
                                 icon: 'success',
-                                confirmButtonText: 'Yes',
+                                confirmButtonText: 'Got it',
                                 confirmButtonWidth: 100,
                                 confirmButtonClass: 'btn btn-lg'     
                             }).then((result) => {
@@ -1378,6 +1360,11 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
                 }else{
                     var is_page_suggestion_enabled = 0;
                 }
+                if($('#is_context_awareness_enabled').is(":checked")){
+                    var is_context_awareness_enabled = 1; 
+                }else{
+                    var is_context_awareness_enabled = 0;
+                }
 
                 var api_key = $( "input[name='api_key']" ).val();
                 var openai_engines = $("[id*='openai_engines'] :selected").val();
@@ -1396,7 +1383,7 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
                 $.ajax({
                     url:  ajax_object.ajax_url,
                     type:'POST',
-                    data:    ({action  : 'openai_settings_option',nonce: ajax_object.ajax_nonce,api_key: api_key,openai_engines:openai_engines,qcld_openai_prompt: qcld_openai_prompt,max_tokens:max_tokens,file_id:file_id,temperature:temperature,presence_penalty:presence_penalty,frequency_penalty:frequency_penalty,qcld_openai_prompt_custom: qcld_openai_prompt_custom,openai_exclude_keyword:openai_exclude_keyword,is_relevant_enabled:is_relevant_enabled,openai_include_keyword:openai_include_keyword,ai_enabled:is_ai_enabled,is_page_suggestion_enabled:is_page_suggestion_enabled,ai_only_mode: is_ai_only_mode,conversation_continuity:conversation_continuity, disable_ss: 1,openai_post_type:post_types}),
+                    data:    ({action  : 'openai_settings_option',nonce: ajax_object.ajax_nonce,api_key: api_key,openai_engines:openai_engines,qcld_openai_prompt: qcld_openai_prompt,max_tokens:max_tokens,file_id:file_id,temperature:temperature,presence_penalty:presence_penalty,frequency_penalty:frequency_penalty,qcld_openai_prompt_custom: qcld_openai_prompt_custom,openai_exclude_keyword:openai_exclude_keyword,is_relevant_enabled:is_relevant_enabled,openai_include_keyword:openai_include_keyword,ai_enabled:is_ai_enabled,is_page_suggestion_enabled:is_page_suggestion_enabled,is_context_awareness_enabled:is_context_awareness_enabled,ai_only_mode: is_ai_only_mode,conversation_continuity:conversation_continuity, disable_ss: 1,openai_post_type:post_types}),
                     success: function(data){
                         $('#result').html(data);
                         location.reload();
@@ -1629,3 +1616,20 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    if(localStorage.getItem('qcld_general_settings_notice_closed') === '1') {
+      var notice = document.querySelector('.qcld-general-settings-connection-notic');
+      if(notice) notice.style.display = 'none';
+    }
+  });
+
+
+jQuery(".qcld-show-more-show-more").click(function () {
+        if(jQuery(".qcld-show-more-text").hasClass("qcld-show-more-show-more-height")) {
+            jQuery(this).html('<i class="fa fa-minus-circle" aria-hidden="true"></i>');
+        } else {
+            jQuery(this).html('<i class="fa fa-plus-circle" aria-hidden="true"></i>');
+        }
+
+        jQuery(".qcld-show-more-text").toggleClass("qcld-show-more-show-more-height");
+    }); 

@@ -18,20 +18,6 @@ if ( ! class_exists( 'SPLWT_Field_code_editor' ) ) {
 	 * @version 1.0.0
 	 */
 	class SPLWT_Field_code_editor extends SPLWT_Fields {
-
-		/**
-		 * Version
-		 *
-		 * @var string
-		 */
-		public $version = '5.41.0';
-		/**
-		 * Cdn_url
-		 *
-		 * @var string
-		 */
-		public $cdn_url = 'https://cdn.jsdelivr.net/npm/codemirror@';
-
 		/**
 		 * Column field constructor.
 		 *
@@ -51,13 +37,10 @@ if ( ! class_exists( 'SPLWT_Field_code_editor' ) ) {
 		 * @return void
 		 */
 		public function render() {
-
 			$default_settings = array(
 				'tabSize'     => 2,
 				'lineNumbers' => true,
 				'theme'       => 'default',
-				'mode'        => 'htmlmixed',
-				'cdnURL'      => $this->cdn_url . $this->version,
 			);
 
 			$settings = ( ! empty( $this->field['settings'] ) ) ? $this->field['settings'] : array();
@@ -66,7 +49,6 @@ if ( ! class_exists( 'SPLWT_Field_code_editor' ) ) {
 			echo $this->field_before(); // phpcs:ignore
 			echo '<textarea name="' . esc_attr( $this->field_name() ) . '"' . $this->field_attributes() . ' data-editor="' . esc_attr( json_encode( $settings ) ) . '">' . $this->value . '</textarea>'; // phpcs:ignore
 			echo $this->field_after(); // phpcs:ignore
-
 		}
 
 		/**
@@ -75,23 +57,9 @@ if ( ! class_exists( 'SPLWT_Field_code_editor' ) ) {
 		 * @return void
 		 */
 		public function enqueue() {
-
-			$page = ( ! empty( $_GET['page'] ) ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
-
-			// Do not loads CodeMirror in revslider page.
-			if ( in_array( $page, array( 'revslider' ), true ) ) {
-				return; }
-
-			if ( ! wp_script_is( 'splwt-lite-codemirror' ) ) {
-				wp_enqueue_script( 'splwt-lite-codemirror', esc_url( $this->cdn_url . $this->version . '/lib/codemirror.min.js' ), array( 'splwt-lite' ), $this->version, true );
-				wp_enqueue_script( 'splwt-lite-codemirror-loadmode', esc_url( $this->cdn_url . $this->version . '/addon/mode/loadmode.min.js' ), array( 'splwt-lite-codemirror' ), $this->version, true );
-			}
-
-			if ( ! wp_style_is( 'splwt-lite-codemirror' ) ) {
-				wp_enqueue_style( 'splwt-lite-codemirror', esc_url( $this->cdn_url . $this->version . '/lib/codemirror.min.css' ), array(), $this->version );
-			}
-
+			// Enqueue code-mirror.
+			wp_enqueue_script( 'code-editor' );
+			wp_enqueue_style( 'code-editor' );
 		}
-
 	}
 }

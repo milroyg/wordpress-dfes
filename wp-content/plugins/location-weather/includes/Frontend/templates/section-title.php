@@ -7,6 +7,10 @@
  * @package Location_Weather
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 ?>
 <!-- section title html area start -->
 <?php if ( $show_weather_title ) : ?>

@@ -7,6 +7,10 @@
 
 namespace ShapedPlugin\Weather\Frontend\Api\Aid;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * The city class representing a city object.
  */

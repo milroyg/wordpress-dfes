@@ -8,6 +8,10 @@
  * @subpackage Location_Weather/Admin/updates
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * Update DB version.
  */

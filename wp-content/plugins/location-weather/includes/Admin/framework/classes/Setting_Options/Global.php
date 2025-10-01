@@ -171,7 +171,7 @@ SPLW::createSection(
 				'title'    => __( 'Custom CSS', 'location-weather' ),
 				'settings' => array(
 					'mode'  => 'css',
-					'theme' => 'monokai',
+					'theme' => 'default',
 				),
 			),
 			array(
@@ -179,24 +179,9 @@ SPLW::createSection(
 				'type'     => 'code_editor',
 				'title'    => __( 'Custom JS', 'location-weather' ),
 				'settings' => array(
-					'theme' => 'monokai',
+					'theme' => 'default',
 					'mode'  => 'javascript',
 				),
-			),
-		),
-	)
-);
-
-// Custom license Field.
-SPLW::createSection(
-	$prefix,
-	array(
-		'title'  => __( 'License Key', 'location-weather' ),
-		'icon'   => '<i class="splwt-lite-tab-icon splwp-icon-key-01"></i>',
-		'fields' => array(
-			array(
-				'id'   => 'license_key',
-				'type' => 'license',
 			),
 		),
 	)

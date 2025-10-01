@@ -14,7 +14,6 @@ use Elementor\Icons_Manager;
 use Elementor\Control_Media;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
-use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Text_Shadow;
@@ -22,6 +21,7 @@ use Elementor\Group_Control_Text_Shadow;
 // Premium Addons Classes.
 use PremiumAddons\Admin\Includes\Admin_Helper;
 use PremiumAddons\Includes\Helper_Functions;
+use PremiumAddons\Includes\Controls\Premium_Background;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // If this file is called directly, abort.
@@ -47,7 +47,7 @@ class Module {
 	private static $instance = null;
 
 	/**
-	 * Class Constructor Funcion.
+	 * Class Constructor Function.
 	 */
 	public function __construct() {
 
@@ -436,6 +436,17 @@ class Module {
 			array(
 				'name'      => 'premium_tooltip_text_typo',
 				'selector'  => '.tooltipster-box.tooltipster-box-{{ID}} .premium-tooltip-content-wrapper-{{ID}} .premium-tootltip-text',
+				'fields_options' => array(
+					'line_height' => array(
+						'responsive' => false,
+					),
+					'letter_spacing' => array(
+						'responsive' => false,
+					),
+					'word_spacing' => array(
+						'responsive' => false,
+					),
+				),
 				'condition' => array(
 					'premium_tooltip_switcher' => 'yes',
 					'premium_tooltip_type'     => 'text',
@@ -488,7 +499,7 @@ class Module {
 			)
 		);
 
-		$element->add_responsive_control(
+		$element->add_control(
 			'premium_tooltip_icon_size',
 			array(
 				'label'     => __( 'Icon Size', 'premium-addons-for-elementor' ),
@@ -555,7 +566,7 @@ class Module {
 			)
 		);
 
-		$element->add_responsive_control(
+		$element->add_control(
 			'premium_tooltip_img_fit',
 			array(
 				'label'     => __( 'Image Fit', 'premium-addons-for-elementor' ),
@@ -590,7 +601,7 @@ class Module {
 		);
 
 		$element->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'      => 'premium_tooltip_container_bg',
 				'types'     => array( 'classic', 'gradient' ),

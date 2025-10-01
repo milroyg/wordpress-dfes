@@ -13,7 +13,6 @@ use Elementor\Group_Control_Image_Size;
 use Elementor\Repeater;
 use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
 use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
-use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Css_Filter;
@@ -22,6 +21,7 @@ use Elementor\Group_Control_Box_Shadow;
 // PremiumAddons Classes.
 use PremiumAddons\Includes\Premium_Template_Tags as Blog_Helper;
 use PremiumAddons\Includes\Helper_Functions;
+use PremiumAddons\Includes\Controls\Premium_Background;
 use PremiumAddons\Includes\Controls\Premium_Post_Filter;
 use PremiumAddons\Includes\Controls\Premium_Tax_Filter;
 
@@ -89,12 +89,30 @@ class Premium_Blog extends Widget_Base {
 	 * @return array JS script handles.
 	 */
 	public function get_script_depends() {
-		return array(
-			'imagesloaded',
-			'isotope-js',
-			'pa-slick',
-			'premium-addons',
-		);
+
+		$is_edit = Helper_Functions::is_edit_mode();
+
+		$scripts = array( 'imagesloaded' );
+
+		if ( $is_edit ) {
+
+			$scripts = array_merge( $scripts, array( 'isotope-js', 'pa-slick' ) );
+
+		} else {
+			$settings = $this->get_settings();
+
+			if ( 'masonry' === $settings['premium_blog_layout'] ) {
+				$scripts[] = 'isotope-js';
+			}
+
+			if ( 'yes' === $settings['premium_blog_carousel'] ) {
+				$scripts[] = 'pa-slick';
+			}
+		}
+
+		$scripts[] = 'premium-addons';
+
+		return $scripts;
 	}
 
 	/**
@@ -1479,9 +1497,9 @@ class Premium_Blog extends Widget_Base {
 		$this->add_responsive_control(
 			'premium_blog_pagination_align',
 			array(
-				'label'     => __( 'Alignment', 'premium-addons-for-elementor' ),
-				'type'      => Controls_Manager::CHOOSE,
-				'options'   => array(
+				'label'                => __( 'Alignment', 'premium-addons-for-elementor' ),
+				'type'                 => Controls_Manager::CHOOSE,
+				'options'              => array(
 					'left'   => array(
 						'title' => __( 'Start', 'premium-addons-for-elementor' ),
 						'icon'  => is_rtl() ? 'eicon-text-align-right' : 'eicon-text-align-left',
@@ -1495,16 +1513,16 @@ class Premium_Blog extends Widget_Base {
 						'icon'  => is_rtl() ? 'eicon-text-align-left' : 'eicon-text-align-right',
 					),
 				),
-				'default'   => 'right',
-				'toggle'    => false,
-				'condition' => array(
+				'default'              => 'right',
+				'toggle'               => false,
+				'condition'            => array(
 					'premium_blog_paging' => 'yes',
 				),
 				'selectors_dictionary' => array(
-					'left'   => 'start',
-					'right'  => 'end',
+					'left'  => 'start',
+					'right' => 'end',
 				),
-				'selectors' => array(
+				'selectors'            => array(
 					'{{WRAPPER}} .premium-blog-pagination-container' => 'text-align: {{VALUE}}',
 				),
 			)
@@ -1922,7 +1940,7 @@ class Premium_Blog extends Widget_Base {
 			)
 		);
 
-		$this->add_responsive_control(
+		$this->add_control(
 			'author_img_size',
 			array(
 				'label'     => __( 'Author Image Size', 'premium-addons-for-elementor' ),
@@ -2289,7 +2307,7 @@ class Premium_Blog extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'      => 'premium_blog_content_background_color',
 				'types'     => array( 'classic', 'gradient' ),

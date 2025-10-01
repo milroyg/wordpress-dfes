@@ -8,6 +8,10 @@
 
 namespace ShapedPlugin\Weather\Frontend\Api\WeatherApiData;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 use ShapedPlugin\Weather\Frontend\Api\Aid\City;
 use ShapedPlugin\Weather\Frontend\Api\Aid\Sun;
 use ShapedPlugin\Weather\Frontend\Api\Aid\Temperature;

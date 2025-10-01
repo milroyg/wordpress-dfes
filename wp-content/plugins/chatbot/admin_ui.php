@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div class="qcld-wp-chatbot-wrap-header-doc">
 
-    <a href="#" class="qcld-wp-chatbot-wrap--doc_logo">
+    <a href="https://wpbot.pro/docs/" target="_blank" class="qcld-wp-chatbot-wrap--doc_logo">
       <img style="width:100%" src="<?php echo esc_url( QCLD_wpCHATBOT_IMG_URL . '/doc.jpg' ); ?>" alt="Dialogflow CX"> 
     <div class="docs_icon"><i class="fa fa-book" aria-hidden="true"></i></div>
     
@@ -485,9 +485,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                   <h3 class="qcld-wpbot-main-tabs-title"><?php esc_html_e('General settings', 'wpbot'); ?></h3>
 
+                  <?php if( get_option( 'ai_enabled') != 1 && get_option('qcld_openrouter_enabled') !='1' ){ ?>
+                  <div class="qcld-general-settings-connection-notic">
+
+                                    <p>
+                  <?php esc_html_e( ' When you activate the plugin, by default only the Site search option will work. Site search displays links to your website pages that contain the keywords in the user query.','wpbot' ); ?>
+                      </p>
+                      <p> 
+                     <?php esc_html_e( 'Use ','wpbot' ); ?><a href="<?php echo esc_url(admin_url('admin.php?page=simple-text-response')); ?>"><b><?php esc_html_e( 'Simple Text Responses','wpbot' ); ?></b></a> <?php esc_html_e( ' or','wpbot' ); ?> <a href="<?php echo esc_url(admin_url('admin.php?page=wpbot_openAi')); ?>"><b><?php esc_html_e( 'Connect to an AI service','wpbot' ); ?> </b></a><?php esc_html_e( 'like OpenAI or OpenRouter. Openrouter supports all the major AI models like Anthropic, Google Gemini, Meta, Mistral, Cohere, xAI, Perplexity AI, DeepSeek etc. and also provides Free Credits.','wpbot' ); ?>
+                  
+                   </p>
+               
+                  <a class="qcld-general-settings-close" href="javascript:void(0);" onclick="this.parentElement.style.display='none'; localStorage.setItem('qcld_general_settings_notice_closed', '1');">×</a>
+                  </div>
+                  <?php } ?>
+
                   <div class="cxsc-settings-blocks-notic">
                     <p class="d-ib"><i class="fa fa-check-square-o" aria-hidden="true"></i> <?php esc_html_e('Please see the plugin`s Getting Started section for how to create interactions.', 'wpbot'); ?></p>
-                    <p class="d-ib"><i class="fa fa-check-square-o" aria-hidden="true"></i> <?php esc_html_e('You can change ALL the texts used by the ChatBot to YOUR language here -> ', 'wpbot'); ?><?php esc_html_e('Change Language', 'wpbot'); ?></p>
+                    <p class="d-ib"><i class="fa fa-check-square-o" aria-hidden="true"></i> <?php esc_html_e('You can change ALL the texts used by the ChatBot to YOUR language here to make it speak French, German, Spanish etc. -> Change Language', 'wpbot'); ?></p>
                     <p class="d-ib"><i class="fa fa-check-square-o" aria-hidden="true"></i> <?php esc_html_e('Please see the plugin`s Help and Debugging section to troubleshoot common issues.', 'wpbot'); ?></p>
                   </div>
           
@@ -694,15 +709,7 @@ if ( ! defined( 'ABSPATH' ) ) {
               <div class="row">
                 <div class="col-xs-12">
 
-
-
-
-
-
-
-
-
- <div class="panel panel-default">
+                 <div class="panel panel-default">
                           <div class="panel-heading" role="tab" id="headingTwoControl">
                               <h4 class="panel-title">
                               <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwoControl" aria-expanded="false" aria-controls="collapseTwoControl"> <?php esc_html_e('WPBot Loading Control Options', 'wpbot'); ?>  </a>
@@ -710,9 +717,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                           </div>
                           <div id="collapseTwoControl" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwoControl">
                               <div class="panel-body">
-                        
-
-
                   <h3 class="qcld-wpbot-main-tabs-title"><?php esc_html_e('WPBot Loading Control Options', 'wpbot'); ?></h3>
                   <div class="cxsc-settings-blocks cxsc-settings-blocks-style">
                     <div class="row">
@@ -1914,7 +1918,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                        <b> <?php esc_html_e('FAQ query ', 'wpbot'); ?> </b>
                       </p>
                       <input type="text" class="form-control" name="support_query[]"
-                         placeholder="<?php esc_html_e('FAQ query',  'wpbot' );  ?> " value="<?php echo $query; ?>">
+                         placeholder="<?php esc_html_e('FAQ query',  'wpbot' );  ?> " value="<?php echo esc_html( $query ); ?>">
                       <br>
                       <p>
                         <b><?php esc_html_e('FAQ answer', 'wpbot'); ?></b>
@@ -1949,10 +1953,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                   
                     <div class="cxsc-settings-blocks">
                       <p>
-                       <b> <?php esc_html_e('Support query', 'wpbot'); ?></b>
+                       <b> <?php esc_html_e('FAQ Query', 'wpbot'); ?></b>
                       </p>
                       <input type="text" class="form-control" name="support_query[]"
-                                                           placeholder="<?php esc_html_e('Support query ', 'wpbot'); ?> ">
+                                                           placeholder="<?php esc_html_e('FAQ Query ', 'wpbot'); ?> ">
                       <br>
                       <p class="qc-opt-dcs-font"><strong>
                         <?php esc_html_e('Support answer', 'wpbot'); ?>
@@ -2001,10 +2005,43 @@ if ( ! defined( 'ABSPATH' ) ) {
               <div class="notification-block-inner">
                 <div class="row">
                   <div class="col-xs-12">
-                    
-                    <div class="row">
+                  <div id="qcld-show-more-wrapper-box">
+                    <div class="qcld-show-more-text qcld-show-more-show-more-height">         
+                  <div class="row">
                       <div class="col-xs-12">
                         <h3 class="qcld-wpbot-main-tabs-title"><?php echo esc_attr('Predefined Intents'); ?></h3>
+                        <div class="row">
+                          <div class="col-xs-12">
+                           <div class="form-group"> 
+                          <h4 class="qc-opt-title">
+                              <?php esc_html_e('Site Search', 'wpbot'); ?>
+                            </h4>
+                            <div class="cxsc-settings-blocks">
+                              <input value="<?php echo esc_attr('1' ); ?>" id="disable_wp_chatbot_site_search" type="checkbox"
+                                     name="disable_wp_chatbot_site_search" <?php echo(get_option('disable_wp_chatbot_site_search') == 1 ? esc_attr('checked' ): ''); ?>>
+                              <label for="disable_wp_chatbot_site_search">
+                                <?php esc_html_e('Disable site search feature and button on Start Menu', 'wpbot'); ?>
+                              </label>
+                              </br><small><?php echo esc_html( '(You can disable searching post contents option below so it searches only the post Titles for most relevancy)'); ?></small></br>  
+                            </div>
+                            <div class="cxsc-settings-blocks">
+                              <input value="<?php echo esc_attr('1' ); ?>" id="enable_wp_chatbot_post_content" type="checkbox"
+                                    name="enable_wp_chatbot_post_content" <?php echo(get_option('enable_wp_chatbot_post_content') == 1 ? esc_attr('checked' ): ''); ?>>
+                              <label for="enable_wp_chatbot_post_content">
+                                <?php esc_html_e('Enable Searching Post Contents as well', 'wpbot'); ?>
+                              </label>
+                            </div>
+                          </div>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                          <h4 class="qc-opt-title">
+                            <?php esc_html_e('Button Label', 'wpbot'); ?>
+                          </h4>
+                          <input type="text" class="form-control qc-opt-dcs-font"
+                                                           name="qlcd_wp_chatbot_wildcard_site_search"
+                                                           value="<?php echo esc_attr((get_option('qlcd_wp_chatbot_wildcard_site_search') != '' ? get_option('qlcd_wp_chatbot_wildcard_site_search') : 'Site Search')); ?> ">
+                        </div>                     
                         <div class="row">
                           <div class="col-xs-12">
                             <div class="form-group">
@@ -2077,40 +2114,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                            name="qlcd_wp_chatbot_wildcard_support"
                                                            value="<?php echo esc_attr((get_option('qlcd_wp_chatbot_wildcard_support') != '' ? get_option('qlcd_wp_chatbot_wildcard_support') : 'FAQ')); ?> ">
                         </div>
-                        <div class="row">
-                          <div class="col-xs-12">
-                           <div class="form-group"> 
-                          <h4 class="qc-opt-title">
-                              <?php esc_html_e('Site Search', 'wpbot'); ?>
-                            </h4>
-                            <div class="cxsc-settings-blocks">
-                              <input value="<?php echo esc_attr('1' ); ?>" id="disable_wp_chatbot_site_search" type="checkbox"
-                                     name="disable_wp_chatbot_site_search" <?php echo(get_option('disable_wp_chatbot_site_search') == 1 ? esc_attr('checked' ): ''); ?>>
-                              <label for="disable_wp_chatbot_site_search">
-                                <?php esc_html_e('Disable site search feature and button on Start Menu', 'wpbot'); ?>
-                              </label>
-                              </br><small><?php echo esc_html( '(You can disable searching post contents option below so it searches only the post Titles for most relevancy)'); ?></small></br>  
-                            </div>
-                            <div class="cxsc-settings-blocks">
-                              <input value="<?php echo esc_attr('1' ); ?>" id="enable_wp_chatbot_post_content" type="checkbox"
-                                    name="enable_wp_chatbot_post_content" <?php echo(get_option('enable_wp_chatbot_post_content') == 1 ? esc_attr('checked' ): ''); ?>>
-                              <label for="enable_wp_chatbot_post_content">
-                                <?php esc_html_e('Enable Searching Post Contents as well', 'wpbot'); ?>
-                              </label>
-                            </div>
-                          </div>
-                           </div>
-                        </div>
-                        <div class="form-group">
-                          <h4 class="qc-opt-title">
-                            <?php esc_html_e('Button Label', 'wpbot'); ?>
-                          </h4>
-                          <input type="text" class="form-control qc-opt-dcs-font"
-                                                           name="qlcd_wp_chatbot_wildcard_site_search"
-                                                           value="<?php echo esc_attr((get_option('qlcd_wp_chatbot_wildcard_site_search') != '' ? get_option('qlcd_wp_chatbot_wildcard_site_search') : 'Site Search')); ?> ">
-                        </div>
+                        
                       </div>
                     </div>
+                  </div>
+                  <div class="qcld-show-more-show-more"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+                  </div>
                     <div class="qc_menu_setup_area">
                       <h3 class="qcld-wpbot-main-tabs-title"><?php esc_html_e('Menu Sorting & Customization Area', 'wpbot'); ?></h3>
                       <p style="color:red"><?php esc_html_e('Always open a new Incognito window (Ctrl+Shit+N in chrome) to test after making any change.', 'wpbot'); ?></p>
@@ -2234,7 +2243,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                      
                     </div>
                     </div>
-                </div>
+                
+
+              <div class="qcld-dialogflow-enable-notice">If you Enable DialogFlow but do not configure it properly, the ChatBot will not respond.</div>
+            </div>
                 
                 <div class="col-xs-12" id="wp-chatbot-dialflow-section">
                   <p><?php esc_html_e('Log in to DialogFlow Console from', 'wpbot'); ?> 

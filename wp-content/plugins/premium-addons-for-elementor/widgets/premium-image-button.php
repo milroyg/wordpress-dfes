@@ -16,7 +16,7 @@ use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Text_Shadow;
 use Elementor\Group_Control_Box_Shadow;
-use Elementor\Group_Control_Background;
+use PremiumAddons\Includes\Controls\Premium_Background;
 
 // PremiumAddons Classes.
 use PremiumAddons\Admin\Includes\Admin_Helper;
@@ -55,7 +55,6 @@ class Premium_Image_Button extends Widget_Base {
 		}
 
 		return $this->is_draw_enabled;
-
 	}
 
 	/**
@@ -103,18 +102,31 @@ class Premium_Image_Button extends Widget_Base {
 	 */
 	public function get_script_depends() {
 
-		$draw_scripts = $this->check_icon_draw() ? array(
-			'pa-tweenmax',
-			'pa-motionpath',
-		) : array();
+		$is_edit = Helper_Functions::is_edit_mode();
 
-		return array_merge(
-			$draw_scripts,
-			array(
-				'lottie-js',
-				'premium-addons',
-			)
-		);
+		$scripts = array();
+
+		if ( $is_edit ) {
+
+			$draw_scripts = $this->check_icon_draw() ? array( 'pa-tweenmax', 'pa-motionpath' ) : array();
+
+			$scripts = array_merge( $draw_scripts, array( 'lottie-js' ) );
+
+		} else {
+			$settings = $this->get_settings();
+
+			if ( 'yes' === $settings['draw_svg'] ) {
+				array_push( $scripts, 'pa-tweenmax', 'pa-motionpath' );
+			}
+
+			if ( 'animation' === $settings['icon_type'] || 'animation' === $settings['slide_icon_type'] ) {
+				$scripts[] = 'lottie-js';
+			}
+		}
+
+		$scripts[] = 'premium-addons';
+
+		return $scripts;
 	}
 
 	/**
@@ -448,7 +460,7 @@ class Premium_Image_Button extends Widget_Base {
 			)
 		);
 
-		$this->add_responsive_control(
+		$this->add_control(
 			'grow_speed',
 			array(
 				'label'     => __( 'Grow Animation Speed (Sec)', 'premium-addons-for-elementor' ),
@@ -1211,7 +1223,7 @@ class Premium_Image_Button extends Widget_Base {
 		}
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'           => 'premium_image_button_background',
 				'types'          => array( 'classic', 'gradient' ),
@@ -1483,7 +1495,7 @@ class Premium_Image_Button extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'           => 'premium_image_button_background_hover',
 				'types'          => array( 'classic', 'gradient' ),

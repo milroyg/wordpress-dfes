@@ -22,12 +22,12 @@ use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Css_Filter;
 use Elementor\Group_Control_Text_Shadow;
 use Elementor\Group_Control_Box_Shadow;
-use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Image_Size;
 
 // PremiumAddons Classes.
 use PremiumAddons\Includes\Helper_Functions;
 use PremiumAddons\Includes\Controls\Premium_Post_Filter;
+use PremiumAddons\Includes\Controls\Premium_Background;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -103,13 +103,30 @@ class Premium_Grid extends Widget_Base {
 	 * @return array JS script handles.
 	 */
 	public function get_script_depends() {
-		return array(
-			'pa-glass',
-			'imagesloaded',
-			'prettyPhoto-js',
-			'isotope-js',
-			'premium-addons',
-		);
+
+		$is_edit = Helper_Functions::is_edit_mode();
+
+		$scripts = array( 'imagesloaded', 'isotope-js' );
+
+		if ( $is_edit ) {
+
+			$scripts = array_merge( $scripts, array( 'pa-glass', 'prettyPhoto-js' ) );
+
+		} else {
+			$settings = $this->get_settings();
+
+			if ( 'yes' === $settings['premium_gallery_light_box'] && 'default' === $settings['premium_gallery_lightbox_type'] ) {
+				$scripts[] = 'prettyPhoto-js';
+			}
+
+			if ( 'none' !== $settings['filter_lq_effect'] ) {
+				$scripts[] = 'pa-glass';
+			}
+		}
+
+		$scripts[] = 'premium-addons';
+
+		return $scripts;
 	}
 
 	/**
@@ -373,7 +390,7 @@ class Premium_Grid extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'      => 'gradient_color',
 				'types'     => array( 'gradient' ),
@@ -1344,7 +1361,7 @@ class Premium_Grid extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'premium_gallery_general_background',
 				'types'    => array( 'classic', 'gradient' ),
@@ -1589,18 +1606,18 @@ class Premium_Grid extends Widget_Base {
 		$this->add_control(
 			'container_heading',
 			array(
-				'label' => __( 'Container', 'premium-addons-for-elementor' ),
-				'type'  => Controls_Manager::HEADING,
+				'label'     => __( 'Container', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 			)
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
-				'name'      => 'premium_gallery_content_background',
-				'types'     => array( 'classic', 'gradient' ),
-				'selector'  => '{{WRAPPER}} .premium-gallery-caption',
+				'name'     => 'premium_gallery_content_background',
+				'types'    => array( 'classic', 'gradient' ),
+				'selector' => '{{WRAPPER}} .premium-gallery-caption',
 			)
 		);
 
@@ -1964,15 +1981,15 @@ class Premium_Grid extends Widget_Base {
 		$this->add_control(
 			'filter_lq_effect',
 			array(
-				'label'        => __( 'Liquid Glass Effect', 'premium-addons-for-elementor' ),
-				'type'         => Controls_Manager::SELECT,
+				'label'       => __( 'Liquid Glass Effect', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::SELECT,
 				'description' => sprintf(
 					/* translators: 1: `<a>` opening tag, 2: `</a>` closing tag. */
 					esc_html__( 'Important: Make sure this element has a semi-transparent background color to see the effect. See all presets from %1$shere%2$s.', 'premium-addons-for-elementor' ),
 					'<a href="https://premiumaddons.com/liquid-glass/" target="_blank">',
 					'</a>'
 				),
-				'options'      => array(
+				'options'     => array(
 					'none'   => __( 'None', 'premium-addons-for-elementor' ),
 					'glass1' => __( 'Preset 01', 'premium-addons-for-elementor' ),
 					'glass2' => __( 'Preset 02', 'premium-addons-for-elementor' ),
@@ -1981,8 +1998,8 @@ class Premium_Grid extends Widget_Base {
 					'glass5' => apply_filters( 'pa_pro_label', __( 'Preset 05 (Pro)', 'premium-addons-for-elementor' ) ),
 					'glass6' => apply_filters( 'pa_pro_label', __( 'Preset 06 (Pro)', 'premium-addons-for-elementor' ) ),
 				),
-				'default'      => 'none',
-				'label_block'  => true,
+				'default'     => 'none',
+				'label_block' => true,
 			)
 		);
 
@@ -2299,7 +2316,7 @@ class Premium_Grid extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'premium_gallery_button_background',
 				'types'    => array( 'classic', 'gradient' ),
@@ -2391,7 +2408,7 @@ class Premium_Grid extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'premium_gallery_button_background_hover',
 				'types'    => array( 'classic', 'gradient' ),
@@ -2551,7 +2568,7 @@ class Premium_Grid extends Widget_Base {
 
 		$settings = $this->get_settings_for_display();
 
-		if( 'none' !== $settings['filter_lq_effect'] ) {
+		if ( 'none' !== $settings['filter_lq_effect'] ) {
 			$first .= ' premium-con-lq__' . $settings['filter_lq_effect'];
 		}
 
@@ -2583,7 +2600,7 @@ class Premium_Grid extends Widget_Base {
 							array(
 								'category',
 								'elementor-repeater-item-' . $category['_id'],
-								'none' !== $settings['filter_lq_effect'] ? 'premium-con-lq__' . $settings['filter_lq_effect'] : ''
+								'none' !== $settings['filter_lq_effect'] ? 'premium-con-lq__' . $settings['filter_lq_effect'] : '',
 							)
 						);
 
@@ -2989,7 +3006,7 @@ class Premium_Grid extends Widget_Base {
 	/**
 	 * Gets lightbox Title according to the Global Lightbox Settings.
 	 *
-	 * @param object $attachement  image(post) object.
+	 * @param object $attachment  image(post) object.
 	 *
 	 * @since 4.10.62
 	 *

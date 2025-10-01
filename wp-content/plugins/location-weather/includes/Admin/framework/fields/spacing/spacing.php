@@ -87,7 +87,7 @@ if ( ! class_exists( 'SPLWT_Field_spacing' ) ) {
 				$title       = ( ! empty( $args['all_title'] ) ) ? '<div class="splwt-lite--title">' . esc_html( $args['all_title'] ) . '</div>' : '';
 
 				echo '<div class="splwt-lite--input">';
-				echo $title;
+				echo $title; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo ( ! empty( $args['all_icon'] ) ) ? '<span class="splwt-lite--label splwt-lite--icon">' . wp_kses_post( $args['all_icon'] ) . '</span>' : '';
 				echo '<input type="number" name="' . esc_attr( $this->field_name( '[all]' ) ) . '" value="' . esc_attr( $value['all'] ) . '"' . $placeholder . ' class="splwt-lite-input-number splwt-lite--all' . esc_attr( $is_unit ) . '" />'; // phpcs:ignore
 				echo ( $unit ) ? '<span class="splwt-lite--label splwt-lite--unit">' . esc_attr( $args['units'][0] ) . '</span>' : '';

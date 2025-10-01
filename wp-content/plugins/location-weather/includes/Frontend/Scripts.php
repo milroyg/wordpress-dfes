@@ -7,6 +7,10 @@
 
 namespace ShapedPlugin\Weather\Frontend;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 use ShapedPlugin\Weather\Frontend;
 
 /**

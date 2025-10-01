@@ -61,20 +61,17 @@ if ( ! class_exists( 'SPLWT_Field_button_clean' ) ) {
 				$options = ( is_array( $options ) ) ? $options : array_filter( $this->field_data( $options, false, $args['query_args'] ) );
 
 				if ( is_array( $options ) && ! empty( $options ) ) {
-
 					echo '<div class="splwt-lite-siblings splwt-lite--button-group" data-multiple="' . esc_attr( $args['multiple'] ) . '">';
 
 					foreach ( $options as $key => $option ) {
-
 						$type    = ( $args['multiple'] ) ? 'checkbox' : 'radio';
 						$extra   = ( $args['multiple'] ) ? '[]' : '';
 						$active  = ( in_array( $key, $value ) || ( empty( $value ) && empty( $key ) ) ) ? ' splwt-lite--active' : '';
 						$checked = ( in_array( $key, $value ) || ( empty( $value ) && empty( $key ) ) ) ? ' checked' : '';
 
 						echo '<button class="splwt-lite--sibling splwt-lite-confirm splwt-lite--button' . esc_attr( $active ) . '" data-confirm="' . esc_html__( 'Are you sure to clean cache?', 'location-weather' ) . '">';
-						echo $option;
+						echo wp_kses_post( $option );
 						echo '</button>';
-
 					}
 
 					echo '</div>';
@@ -82,7 +79,6 @@ if ( ! class_exists( 'SPLWT_Field_button_clean' ) ) {
 				} else {
 
 					echo ! empty( $this->field['empty_message'] ) ? esc_attr( $this->field['empty_message'] ) : esc_html__( 'No data available.', 'location-weather' );
-
 				}
 			}
 

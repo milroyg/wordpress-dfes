@@ -5549,60 +5549,6 @@ div:is(#sp_lw_shortcode, #sp_lw_builder_option) .postbox-header .handle-actions 
 	flex-direction: column;
 }
 
-/* License activation */
-
-.splwt-lite-license {
-	padding: 80px 0;
-}
-
-.splwt-lite-license .splwt-lite-license-area {
-	display: inline-block;
-}
-
-.splwt-lite-license h3 {
-	font-size: 24px;
-	font-weight: 500;
-	margin-top: 0;
-	margin-bottom: 10px;
-}
-
-.splwt-lite-license p {
-	font-size: 16px;
-	margin-top: 0;
-	margin-bottom: 24px;
-	color: #666;
-}
-
-.splwt-lite-license .splwt-lite-license-key {
-	display: inline-block;
-	position: relative;
-	margin-right: 5px;
-}
-
-
-.splwt-lite-license .splwt-lite-license-key-input {
-	padding: 6px 14px;
-	min-width: 400px;
-}
-
-.splwt-lite-license .button-secondary {
-	min-height: 42px;
-	text-transform: uppercase;
-	padding: 6px 16px;
-}
-
-.splwt-lite-license .button-secondary:focus,
-.splwt-lite-license .splwt-lite-license-key-input:focus {
-	outline: none;
-	box-shadow: 0 0 0;
-}
-
-.splwt-lite-license .btn-license-save-activate {
-	color: #fff;
-	border-color: #1689de;
-	background: #1689de;
-	pointer-events: none;
-}
 .splwt-lite-upgrade-button {
 	padding: 14px 18px;
 	background: #2271b1;

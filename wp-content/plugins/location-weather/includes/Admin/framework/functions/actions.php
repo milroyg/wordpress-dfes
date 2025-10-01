@@ -52,7 +52,6 @@ if ( ! function_exists( 'splwt_get_icons' ) ) {
 		$content = ob_get_clean();
 
 		wp_send_json_success( array( 'content' => $content ) );
-
 	}
 	add_action( 'wp_ajax_splwt-get-icons', 'splwt_get_icons' );
 }
@@ -88,7 +87,6 @@ if ( ! function_exists( 'splwt_export' ) ) {
 		echo wp_json_encode( get_option( $unique ) );
 
 		die();
-
 	}
 	add_action( 'wp_ajax_splwt-export', 'splwt_export' );
 }
@@ -123,7 +121,6 @@ if ( ! function_exists( 'splwt_import_ajax' ) ) {
 		update_option( $unique, $data );
 
 		wp_send_json_success();
-
 	}
 	add_action( 'wp_ajax_splwt-import', 'splwt_import_ajax' );
 }
@@ -149,7 +146,6 @@ if ( ! function_exists( 'splwt_reset_ajax' ) ) {
 		delete_option( $unique );
 
 		wp_send_json_success();
-
 	}
 	add_action( 'wp_ajax_splwt-reset', 'splwt_reset_ajax' );
 }
@@ -177,12 +173,12 @@ if ( ! function_exists( 'lwp_clean_open_weather_transients' ) ) {
 		$wp_options = $wpdb->prefix . 'options';
 		if ( is_multisite() ) {
 			$wp_sitemeta = $wpdb->get_blog_prefix( BLOG_ID_CURRENT_SITE ) . 'sitemeta';
-			$wpdb->query( "DELETE FROM {$wp_sitemeta} WHERE `meta_key` LIKE ('%\_site_transient_sp_open_weather_%')" );
-			$wpdb->query( "DELETE FROM {$wp_sitemeta} WHERE `meta_key` LIKE ('%\_transient_timeout_sp_open_weather_%')" );
-				wp_send_json_success();
+			$wpdb->query( "DELETE FROM {$wp_sitemeta} WHERE `meta_key` LIKE ('%\_site_transient_sp_open_weather_%')" ); // phpcs:ignore -- intentionally used to remove specific transients.
+			$wpdb->query( "DELETE FROM {$wp_sitemeta} WHERE `meta_key` LIKE ('%\_transient_timeout_sp_open_weather_%')" );  // phpcs:ignore -- intentionally used to remove specific transients.
+			wp_send_json_success();
 		} else {
-			$wpdb->query( "DELETE FROM {$wp_options} WHERE `option_name` LIKE ('%\_transient_sp_open_weather_%')" );
-			$wpdb->query( "DELETE FROM {$wp_options} WHERE `option_name` LIKE ('%\_transient_timeout_sp_open_weather_%')" );
+			$wpdb->query( "DELETE FROM {$wp_options} WHERE `option_name` LIKE ('%\_transient_sp_open_weather_%')" ); // phpcs:ignore -- intentionally used to remove specific transients.
+			$wpdb->query( "DELETE FROM {$wp_options} WHERE `option_name` LIKE ('%\_transient_timeout_sp_open_weather_%')" ); // phpcs:ignore -- intentionally used to remove specific transients.
 				wp_send_json_success();
 		}
 	}
@@ -223,7 +219,6 @@ if ( ! function_exists( 'splwt_chosen_ajax' ) ) {
 		$options = SPLWT_Fields::field_data( $type, $term, $query );
 
 		wp_send_json_success( $options );
-
 	}
 	add_action( 'wp_ajax_splwt-chosen', 'splwt_chosen_ajax' );
 }

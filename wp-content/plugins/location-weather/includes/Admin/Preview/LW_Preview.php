@@ -11,6 +11,10 @@
 
 namespace ShapedPlugin\Weather\Admin\Preview;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 use ShapedPlugin\Weather\Frontend\Shortcode;
 use ShapedPlugin\Weather\Frontend\Scripts;
 
@@ -50,9 +54,7 @@ class LW_Preview {
 		}
 
 		$setting = array();
-		// XSS ok.
-		// No worries, This "POST" requests is sanitizing in the below array map.
-		$data = ! empty( $_POST['data'] ) ? wp_unslash( $_POST['data'] )  : ''; // phpcs:ignore
+		$data = ! empty( $_POST['data'] ) ?  wp_unslash( $_POST['data'] )  : ''; // phpcs:ignore
 		parse_str( $data, $setting );
 		// Shortcode id.
 		$post_id                     = $setting['post_ID'];

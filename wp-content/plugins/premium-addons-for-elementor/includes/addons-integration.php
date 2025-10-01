@@ -336,7 +336,8 @@ class Addons_Integration {
 			array(
 				'ajaxurl'      => esc_url( admin_url( 'admin-ajax.php' ) ),
 				'nonce'        => wp_create_nonce( 'pa-blog-widget-nonce' ),
-				'unused_nonce' => wp_create_nonce( 'pa-disable-unused' ),
+				'upgrade_link' => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro/', '', 'wp-editor', 'get-pro' )
+				// 'unused_nonce' => wp_create_nonce( 'pa-disable-unused' ),
 			)
 		);
 
@@ -876,6 +877,15 @@ class Addons_Integration {
 			array( 'jquery' ),
 			PREMIUM_ADDONS_VERSION,
 			true
+		);
+
+		wp_localize_script(
+			'pa-shape-divider',
+			'PaShapeDividerSettings',
+			array(
+				'ajaxurl' => esc_url( admin_url( 'admin-ajax.php' ) ),
+				'nonce'   => wp_create_nonce( 'pa-shape-nonce' ),
+			)
 		);
 
 		wp_localize_script(
@@ -1562,16 +1572,17 @@ class Addons_Integration {
 	public function get_template_content() {
 
 		$template = isset( $_GET['templateID'] ) ? sanitize_text_field( wp_unslash( $_GET['templateID'] ) ) : '';
+		$is_ID = isset( $_GET['is_id'] ) ? filter_var( $_GET['is_id'], FILTER_VALIDATE_BOOLEAN ) : false;
 
 		if ( empty( $template ) ) {
 			wp_send_json_error( 'Empty Template ID' );
 		}
 
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			wp_send_json_error( 'Insufficient user permission' );
-		}
+// 		if ( ! current_user_can( 'edit_posts' ) ) {
+// 			wp_send_json_error( 'Insufficient user permission' );
+// 		}
 
-		$template_content = Helper_Functions::render_elementor_template( $template );
+		$template_content = Helper_Functions::render_elementor_template( $template, $is_ID );
 
 		if ( empty( $template_content ) || ! isset( $template_content ) ) {
 			wp_send_json_error( 'Empty Content' );
@@ -1634,6 +1645,10 @@ class Addons_Integration {
 			$control_manager->controls_manager->register( new $premium_image_choose() );
 
 		}
+
+		$premium_background = __NAMESPACE__ . '\Controls\Premium_Background';
+
+		$control_manager->controls_manager->add_group_control( 'pa-background', new $premium_background() );
 	}
 
 	/**

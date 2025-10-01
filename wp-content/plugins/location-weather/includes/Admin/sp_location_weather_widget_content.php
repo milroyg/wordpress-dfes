@@ -7,6 +7,10 @@
 
 namespace ShapedPlugin\Weather\Admin;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * The location weather widget handler class.
  */
@@ -33,10 +37,12 @@ class sp_location_weather_widget_content extends \WP_Widget {
 	 * @return void
 	 */
 	public function widget( $args, $instance ) {
-		extract( $args ); // phpcs:ignore
+		$before_widget = isset( $args['before_widget'] ) ? $args['before_widget'] : '';
+		$after_widget  = isset( $args['after_widget'] ) ? $args['after_widget'] : '';
+		$before_title  = isset( $args['before_title'] ) ? $args['before_title'] : '';
+		$after_title   = isset( $args['after_title'] ) ? $args['after_title'] : '';
 
-		$title = apply_filters( 'widget_title', $instance['title'] );
-
+		$title                    = apply_filters( 'widget_title', $instance['title'] );
 		$weather_id               = esc_attr( uniqid() );
 		$location_weather_city    = esc_html( $instance['location_weather_city'] );
 		$location_weather_country = esc_html( $instance['location_weather_country'] );
@@ -96,7 +102,7 @@ class sp_location_weather_widget_content extends \WP_Widget {
 			});
 		}</script>";
 
-		echo $output;
+		echo $output; // phpcs:ignore -- Output is safe and escaped above.
 
 		echo wp_kses_post( $after_widget );
 	}

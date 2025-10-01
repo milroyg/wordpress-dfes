@@ -7,6 +7,10 @@
 
 namespace ShapedPlugin\Weather\Admin;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * The shortcode post type class.
  */

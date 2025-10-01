@@ -9,8 +9,6 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die; } // Cannot access directly.
 
-use ShapedPlugin\Weather\Admin\Splwi18n;
-
 if ( ! class_exists( 'SPLW' ) ) {
 	/**
 	 *
@@ -112,21 +110,9 @@ if ( ! class_exists( 'SPLW' ) ) {
 			add_action( 'init', array( 'SPLW', 'setup' ) );
 			add_action( 'switch_theme', array( 'SPLW', 'setup' ) );
 			add_action( 'admin_enqueue_scripts', array( 'SPLW', 'add_admin_enqueue_scripts' ) );
-			add_action( 'wp_enqueue_scripts', array( 'SPLW', 'add_typography_enqueue_styles' ), 80 );
 			add_action( 'wp_head', array( 'SPLW', 'add_custom_css' ), 80 );
 			add_filter( 'admin_body_class', array( 'SPLW', 'add_admin_body_class' ) );
 			// Init translation in framework.
-			add_action( 'init', array( 'SPLW', 'textdomain' ), 80 );
-		}
-
-		/**
-		 * Setup textdomain.
-		 *
-		 * @return void
-		 */
-		public static function textdomain() {
-			$plugin_i18n = new Splwi18n();
-			$plugin_i18n->load_text_domain();
 		}
 
 		/**
@@ -424,13 +410,8 @@ if ( ! class_exists( 'SPLW' ) ) {
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_script( 'wp-color-picker' );
 
-			// Font awesome 4 and 5 loader.
-			if ( apply_filters( 'splwt_fa4', false ) ) {
-				wp_enqueue_style( 'splwt-lite-fa', 'https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome' . $min . '.css', array(), '4.7.0', 'all' );
-			} else {
-				wp_enqueue_style( 'splwt-lite-fa5', 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all' . $min . '.css', array(), '5.14.0', 'all' );
-				wp_enqueue_style( 'splwt-lite-fa5-v4-shims', 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/v4-shims' . $min . '.css', array(), '5.14.0', 'all' );
-			}
+			// Font awesome ( 5 ) Icons.
+			wp_enqueue_style( 'splwt-fontawesome-icon', self::include_plugin_url( 'assets/css/font-awesome' . $min . '.css' ), array(), LOCATION_WEATHER_VERSION, 'all' );
 
 			// Main style.
 			wp_enqueue_style( 'splwt-lite', self::include_plugin_url( 'assets/css/style' . $min . '.css' ), array(), LOCATION_WEATHER_VERSION, 'all' );
@@ -510,41 +491,8 @@ if ( ! class_exists( 'SPLW' ) ) {
 		 * @return void
 		 */
 		public static function add_admin_footer_text() {
-			$default = 'Enjoying <b>Location Weather?</b> Please rate us <span class="splw-footer-text-star">★★★★★</span> on <a href="https://wordpress.org/support/plugin/location-weather/reviews/?filter=5" target="_blank"> WordPress.org</a>. Your positive feedback will help us grow more. Thank you! 😊';
+			$default = 'Enjoying <b>Location Weather?</b> Please rate us <span class="splw-footer-text-star">★★★★★</span> on <a href="https://wordpress.org/support/plugin/location-weather/reviews/" target="_blank"> WordPress.org</a>. Your positive feedback will help us grow more. Thank you! 😊';
 			echo wp_kses_post( $default );
-		}
-
-		/**
-		 * Add typography enqueue styles to front page
-		 *
-		 * @return void
-		 */
-		public static function add_typography_enqueue_styles() {
-
-			if ( ! empty( self::$webfonts ) ) {
-
-				if ( ! empty( self::$webfonts['enqueue'] ) ) {
-
-					$api    = '//fonts.googleapis.com/css';
-					$query  = array(
-						'family'  => implode( '%7C', self::$webfonts['enqueue'] ),
-						'display' => 'swap',
-					);
-					$handle = 'splwt-lite-google-web-fonts';
-
-					if ( ! empty( self::$subsets ) ) {
-						$query['subset'] = implode( ',', self::$subsets );
-					}
-
-					wp_enqueue_style( $handle, esc_url( add_query_arg( $query, $api ) ), array(), '1.0.0', null );
-
-				} else {
-
-					wp_enqueue_script( 'splwt-lite-google-web-fonts', esc_url( '//ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js' ), array(), '1.0.0', null );
-					wp_localize_script( 'splwt-lite-google-web-fonts', 'WebFontConfig', array( 'google' => array( 'families' => array_values( self::$webfonts['async'] ) ) ) );
-
-				}
-			}
 		}
 
 		/**

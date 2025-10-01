@@ -12,6 +12,10 @@
 
 namespace ShapedPlugin\Weather\Admin\ElementBlock;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 use ShapedPlugin\Weather\Frontend\Shortcode;
 use ShapedPlugin\Weather\Frontend\Scripts;
 

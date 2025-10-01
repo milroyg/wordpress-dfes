@@ -7,6 +7,10 @@
 
 namespace ShapedPlugin\Weather\Frontend\Api\Aid;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * The wind class representing a wind object.
  */

@@ -849,8 +849,8 @@ var wpwKits;
             var html = '';
             var responses = [];
             if(globalwpw.settings.obj.df_api_version=='v1'){
-                var messages = response.result.fulfillment.messages;
-                var action = response.result.actionIncomplete;
+                var messages = (response && response.result && response.result.fulfillment && response.result.fulfillment.messages) ? response.result.fulfillment.messages : [];
+                var action = (response && response.result && typeof response.result.actionIncomplete !== 'undefined') ? response.result.actionIncomplete : false;
                 jQuery.each( messages, function( key, message ) {
                     html = '';
                     i +=1;
@@ -874,8 +874,8 @@ var wpwKits;
                     }
                 })
             }else{
-                var messages = response.queryResult.fulfillmentMessages;
-                var actioncomplete = response.queryResult.allRequiredParamsPresent;
+                var messages = (response && response.queryResult && response.queryResult.fulfillmentMessages) ? response.queryResult.fulfillmentMessages : [];
+                var actioncomplete = (response && response.queryResult && typeof response.queryResult.allRequiredParamsPresent !== 'undefined') ? response.queryResult.allRequiredParamsPresent : false;
                 jQuery.each( messages, function( key, message ) {
                     html = '';
                     i +=1;
@@ -1342,6 +1342,44 @@ var wpwKits;
                 }
             })
         }
+        if(globalwpw.settings.obj.gemini_enabled == 1){
+            var customAappend = globalwpw.settings.obj.qcld_openrouter_append_content;
+            var customprepend = globalwpw.settings.obj.qcld_openrouter_prepend_content;
+            var customMessage = customprepend ? customprepend + ' ' + msg : msg;
+            customMessage = customAappend ? customMessage + ' ' + customAappend : customMessage;
+            
+            var data = {'action':'gemini_response','name':globalwpw.hasNameCookie,'keyword':customMessage};
+            wpwKits.ajax(data).done(function (res) {
+                var json=$.parseJSON(res);
+                
+                if(json.status=='success'){
+                    var serviceOffer=wpwKits.randomMsg(globalwpw.settings.obj.support_option_again);
+                    
+                    setTimeout(function(){
+                        wpwMsg.single(json.message);
+                        
+                        if((globalwpw.settings.obj.qcld_disable_repited_startmenu != "1")){
+                            if(globalwpw.settings.obj.disable_repeatative!=1){
+                                setTimeout(function(){
+                                        var serviceOffer=wpwKits.randomMsg(globalwpw.settings.obj.support_option_again);
+                                        if((globalwpw.settings.obj.qcld_disable_start_menu != "1")){
+                                            wpwMsg.single_nobg('<span class="qcld-chatbot-wildcard qcld_back_to_start"  data-wildcart="back">' + wpwKits.randomMsg(globalwpw.settings.obj.back_to_start) + '</span>');
+                                        }
+                                },globalwpw.settings.preLoadingTime)
+                            }else{
+                                setTimeout(function(){
+                                    if((globalwpw.settings.obj.qcld_disable_repited_startmenu != "1")){
+                                        wpwMsg.single_nobg('<span class="qcld-chatbot-wildcard qcld_back_to_start"  data-wildcart="back">' + wpwKits.randomMsg(globalwpw.settings.obj.back_to_start) + '</span>');
+                                    }
+                                }, globalwpw.settings.preLoadingTime*2);
+                            }
+                        }
+                    },globalwpw.settings.preLoadingTime)
+                }else{
+                    wpwMsg.single_nobg('<span class="qcld-chatbot-wildcard qcld_back_to_start"  data-wildcart="back">' + 'Sorry, I encountered an error processing your AI request. Please check api key and try again later.' + '</span>');
+                }
+            })
+        }
         },
         site_search:function(msg){
             msg1 = wpwKits.filterStopWords(msg);
@@ -1349,11 +1387,10 @@ var wpwKits;
             wpwKits.ajax(data).done(function (res) {
                 var json=$.parseJSON(res);
                
-               
                 if(json.status=='success'){
                    wpwMsg.triple_nobg( wp_chatbot_obj.found_result_message,json.html,'<span class="qcld-chatbot-wildcard"  data-wildcart="back">' + wpwKits.randomMsg(globalwpw.settings.obj.back_to_start) + '</span>' );
                 //    wpwMsg.single_nobg('<span class="qcld-chatbot-wildcard qcld_back_to_start"  data-wildcart="back">' + wpwKits.randomMsg(globalwpw.settings.obj.back_to_start) + '</span>');
-                }else if( (globalwpw.settings.obj.openai_enabled == 1) || (wp_chatbot_obj.openai_enabled == 1) || (globalwpw.settings.obj.openrouter_enabled == 1) || (wp_chatbot_obj.openrouter_enabled == 1) ){
+                }else if( (globalwpw.settings.obj.openai_enabled == 1) || (wp_chatbot_obj.openai_enabled == 1) || (globalwpw.settings.obj.openrouter_enabled == 1) || (wp_chatbot_obj.openrouter_enabled == 1) || (globalwpw.settings.obj.gemini_enabled == 1) || (wp_chatbot_obj.gemini_enabled == 1) ){
                     wpwTree.openai_reply(msg);
                 }else{
                     wpwMsg.double_nobg( wpwKits.randomMsg(wp_chatbot_obj.product_fail ),'<span class="qcld-chatbot-wildcard qcld_back_to_start"  data-wildcart="back">' + wpwKits.randomMsg(globalwpw.settings.obj.back_to_start) + '</span>');
@@ -1543,12 +1580,13 @@ var wpwKits;
                             // }
                             wpwKits.ajax(data).done(function (response) {
                                 var json=$.parseJSON(response);
+                                
                                 if(json.status=='fail' && json.data !==''){
-                                   
+
                                     if(wp_chatbot_obj.disable_site_search != 1){
                                         wpwTree.site_search(msg)
                                     }
-                                    else if( (globalwpw.settings.obj.openai_enabled == 1) || (wp_chatbot_obj.openai_enabled == 1) || (globalwpw.settings.obj.openrouter_enabled == 1) || (wp_chatbot_obj.openrouter_enabled == 1) ){
+                                    else if( (globalwpw.settings.obj.openai_enabled == 1) || (wp_chatbot_obj.openai_enabled == 1) || (globalwpw.settings.obj.openrouter_enabled == 1) || (wp_chatbot_obj.openrouter_enabled == 1) || (globalwpw.settings.obj.gemini_enabled == 1) || (wp_chatbot_obj.gemini_enabled == 1) ){
                                         wpwTree.openai_reply(msg)
                                     }else{
                                         wpwMsg.single(globalwpw.settings.obj.empty_filter_msg);
@@ -2110,6 +2148,128 @@ var wpwKits;
                 wpwKits.scrollTo();
             });
         });
+                //search load more
+                $(document).on('click', '.wp-chatbot-loadmore', function(e){
+                    e.preventDefault();
+                    var obj = $(this);
+        
+                    var keyword = obj.attr('data-keyword');
+                    var post_type = obj.attr('data-post_type');
+                    var page = obj.attr('data-page');
+                    obj.text('Loading...');
+                    var data = {'action':'wpbo_search_site_pagination','name':globalwpw.hasNameCookie,'keyword':keyword,'language': globalwpw.settings.obj.language,'type': post_type, 'page': page};
+                    // if($(globalwpw.settings.messageLastChild+' .wp-chatbot-comment-loader').length==0){
+                    //     $(globalwpw.settings.messageContainer).append(wpwKits.botPreloader());
+                    // }
+                    wpwKits.ajax(data).done(function (res) {
+                        
+                        var json=$.parseJSON(res);
+                        if(json.status=='success'){
+                            $('span[data-wildcart="back"]').remove();
+                            wpwMsg.single(json.html);
+                            // Hide the comment loader after response inside parent .wp-chatbot-paragraph
+                            // Hide the entire li.wp-chatbot-msg if its .wp-chatbot-paragraph only contains the loader image (and is hidden)
+
+                            setTimeout(function(){
+                                if((globalwpw.settings.obj.qcld_disable_repited_startmenu != "1")){
+                                wpwMsg.single_nobg('<span class="qcld-chatbot-wildcard qcld_back_to_start"  data-wildcart="back">' + wpwKits.randomMsg(globalwpw.settings.obj.back_to_start) + '</span>');
+                                }
+                            },globalwpw.settings.preLoadingTime)
+        
+                            obj.remove();
+                        }else{
+                            
+                            if(globalwpw.counter == globalwpw.settings.obj.no_result_attempt_count || globalwpw.settings.obj.no_result_attempt_count == 0 ){
+                                
+                                wpwMsg.single(json.html);
+                                if(globalwpw.settings.obj.disable_repeatative!=1){
+                                    if ( wpwKits.render( globalwpw.settings.obj.no_result_attempt_message ) != '' ) {
+                                        setTimeout(function(){
+                                            wpwMsg.single(wpwKits.render( globalwpw.settings.obj.no_result_attempt_message ));
+                                        },globalwpw.settings.preLoadingTime)
+                                    } else {
+                                        setTimeout(function(){
+                                            var serviceOffer=wpwKits.randomMsg(globalwpw.settings.obj.support_option_again);
+                                            if((globalwpw.settings.obj.qcld_disable_start_menu != "1")){
+                                                if(typeof(globalwpw.wildcards) != 'undefined' && (globalwpw.wildcards != '')){
+                                                    wpwMsg.double_nobg(serviceOffer,globalwpw.wildcards);
+                                                }else{
+                                                    wpwMsg.single(serviceOffer);
+                                                }
+                                                
+                                            }
+        
+                                        },globalwpw.settings.preLoadingTime)
+                                    }
+                                }
+                                globalwpw.counter = 0;
+                                
+                            }else{
+                                globalwpw.counter++;
+                                wpwTree.df_reply(res);
+                            }
+        
+                        }
+                        globalwpw.wildCard=0;
+                        
+                    });
+        
+        
+                })
+        
+                //search load more
+                $(document).on('click', '.wp-chatbot-loadmore2', function(e){
+                    e.preventDefault();
+                    var obj = $(this);
+        
+                    var keyword = obj.attr('data-keyword');
+                    
+                    var page = obj.attr('data-page');
+        
+                    var search_type = obj.attr('data-search-type');
+                    obj.text(globalwpw.settings.obj.loading.en_US);
+        
+                    if( search_type == 'default-wp-search' ){
+                        var data = {'action':'wpbo_default_search_pagination2','name':globalwpw.hasNameCookie,'keyword':keyword, 'page': page, search_type:'default-wp-search'};
+                    }else{
+                        var data = {'action':'wpbo_search_site_pagination2','name':globalwpw.hasNameCookie,'keyword':keyword, 'page': page};
+                    }
+                    if($(globalwpw.settings.messageLastChild+' .wp-chatbot-comment-loader').length==0){
+                        $(globalwpw.settings.messageContainer).append(wpwKits.botPreloader());
+                    }
+                    wpwKits.ajax(data).done(function (res) {
+                        var json=$.parseJSON(res);
+                        if(json.status=='success'){
+                            $('span[data-wildcart="back"]').remove();
+                            
+                            wpwMsg.single_nobg(json.html);
+        
+                            setTimeout(function(){
+                                if((globalwpw.settings.obj.qcld_disable_repited_startmenu != "1")){
+                                    wpwMsg.single_nobg('<span class="qcld-chatbot-wildcard qcld_back_to_start"  data-wildcart="back">' + wpwKits.randomMsg(globalwpw.settings.obj.back_to_start) + '</span>');
+                                }
+                            },globalwpw.settings.preLoadingTime)
+        
+                            obj.remove();
+                        }else{
+                            
+                            if(globalwpw.counter == globalwpw.settings.obj.no_result_attempt_count || globalwpw.settings.obj.no_result_attempt_count == 0 ){
+                                
+                                wpwMsg.single(json.html);
+                                wpwTree.start_menu_settings();
+                                globalwpw.counter = 0;
+                                
+                            }else{
+                                globalwpw.counter++;
+                                wpwTree.df_reply(res);
+                            }
+        
+                        }
+                        globalwpw.wildCard=0;
+                    });
+        
+        
+                });
         /*Products details part **/
         // if(globalwpw.settings.obj.open_product_detail!=1){
         // $(document).on('click','.wp-chatbot-product a',function (e) {

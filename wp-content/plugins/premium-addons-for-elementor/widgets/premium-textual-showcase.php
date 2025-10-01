@@ -14,7 +14,6 @@ use Elementor\Icons_Manager;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Image_Size;
-use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Css_Filter;
 use Elementor\Group_Control_Box_Shadow;
@@ -24,6 +23,7 @@ use Elementor\Group_Control_Text_Shadow;
 use PremiumAddons\Includes\Helper_Functions;
 use PremiumAddons\Admin\Includes\Admin_Helper;
 use PremiumAddons\Includes\Controls\Premium_Post_Filter;
+use PremiumAddons\Includes\Controls\Premium_Background;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // If this file is called directly, abort.
@@ -57,7 +57,6 @@ class Premium_Textual_Showcase extends Widget_Base {
 		}
 
 		return $this->is_draw_enabled;
-
 	}
 
 	/**
@@ -119,19 +118,46 @@ class Premium_Textual_Showcase extends Widget_Base {
 	 */
 	public function get_script_depends() {
 
-		$draw_scripts = $this->check_icon_draw() ? array(
-			'pa-tweenmax',
-			'pa-motionpath',
-		) : array();
+		$is_edit = Helper_Functions::is_edit_mode();
 
-		return array_merge(
-			$draw_scripts,
-			array(
-				'pa-glass',
-				'lottie-js',
-				'premium-addons',
-			)
-		);
+		$scripts = array();
+
+		if ( $is_edit ) {
+
+			$draw_scripts = $this->check_icon_draw() ? array( 'pa-tweenmax', 'pa-motionpath' ) : array();
+
+			$scripts = array_merge( $draw_scripts, array( 'pa-glass', 'lottie-js' ) );
+
+		} else {
+			$settings = $this->get_settings();
+
+			if ( ! empty( $settings['content'] ) ) {
+				foreach ( $settings['content'] as $item ) {
+
+					if ( 'yes' === $item['draw_svg'] || 'yes' === $item['draw_svg_hov'] ) {
+						array_push( $scripts, 'pa-tweenmax', 'pa-motionpath' );
+						$draw_js = true;
+					}
+
+					if ( 'lottie' === $item['item_type'] || 'lottie' === $item['item_type_hov'] ) {
+						$scripts[] = 'lottie-js';
+						$lottie_js = true;
+					}
+
+					if ( 'none' !== $item['item_lq_effect'] ) {
+						$scripts[] = 'pa-glass';
+					}
+
+					if ( isset( $draw_js ) && isset( $lottie_js ) ) {
+						break;
+					}
+				}
+			}
+		}
+
+		$scripts[] = 'premium-addons';
+
+		return $scripts;
 	}
 
 	/**
@@ -353,7 +379,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 			)
 		);
 
-		$repeater->add_responsive_control(
+		$repeater->add_control(
 			'item_img_fit',
 			array(
 				'label'     => __( 'Image Fit', 'premium-addons-for-elementor' ),
@@ -804,7 +830,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 			)
 		);
 
-		$repeater->add_responsive_control(
+		$repeater->add_control(
 			'opacity',
 			array(
 				'label'     => __( 'Opacity', 'premium-addons-for-elementor' ),
@@ -982,7 +1008,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 			)
 		);
 
-		$repeater->add_responsive_control(
+		$repeater->add_control(
 			'item_img_fit_hov',
 			array(
 				'label'     => __( 'Image Fit', 'premium-addons-for-elementor' ),
@@ -1433,7 +1459,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 			)
 		);
 
-		$repeater->add_responsive_control(
+		$repeater->add_control(
 			'opacity_hov',
 			array(
 				'label'     => __( 'Opacity', 'premium-addons-for-elementor' ),
@@ -1705,7 +1731,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 			)
 		);
 
-		$repeater->add_responsive_control(
+		$repeater->add_control(
 			'line_stroke_width',
 			array(
 				'label'       => __( 'Line Thickness', 'premium-addons-for-elementor' ),
@@ -1722,7 +1748,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 			)
 		);
 
-		$repeater->add_responsive_control(
+		$repeater->add_control(
 			'anim_speed',
 			array(
 				'label'       => __( 'Animation Speed', 'premium-addons-for-elementor' ),
@@ -1808,7 +1834,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 			)
 		);
 
-		$repeater->add_responsive_control(
+		$repeater->add_control(
 			'rotate',
 			array(
 				'label'      => __( 'Rotate (deg)', 'premium-addons-for-elementor' ),
@@ -1855,7 +1881,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 		);
 
 		$repeater->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'item_background',
 				'types'    => array( 'classic', 'gradient' ),
@@ -2184,7 +2210,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'cont_background',
 				'types'    => array( 'classic', 'gradient' ),
@@ -2551,7 +2577,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 		$effects_svg = apply_filters(
 			'pa_showcase_highlights',
 			array(
-				'strikethrough' => '<svg class="outline-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150" preserveAspectRatio="none"><path d="M3,75h493.5"></path></svg>',
+				'strikethrough' => '<svg class="outline-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150" preserveAspectRatio="none"><path d="M3,75h493.5"></path></svg>',
 			)
 		);
 

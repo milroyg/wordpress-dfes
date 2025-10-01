@@ -13,7 +13,7 @@ use Elementor\Utils;
 use Elementor\Control_Media;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
-use Elementor\Group_Control_Background;
+use PremiumAddons\Includes\Controls\Premium_Background;
 use Elementor\Group_Control_Image_Size;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Css_Filter;
@@ -1065,7 +1065,7 @@ class Woo_CTA extends Widget_Base {
 		}
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'           => 'woo_cta_button_background',
 				'types'          => array( 'classic', 'gradient' ),
@@ -1245,7 +1245,7 @@ class Woo_CTA extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'           => 'woo_cta_button_background_hover',
 				'types'          => array( 'classic', 'gradient' ),
@@ -1603,7 +1603,7 @@ class Woo_CTA extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'variation_table_background',
 				'types'    => array( 'classic', 'gradient' ),
@@ -1663,7 +1663,7 @@ class Woo_CTA extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'variation_table_background_hover',
 				'types'    => array( 'classic', 'gradient' ),
@@ -2296,8 +2296,8 @@ class Woo_CTA extends Widget_Base {
 										<div class="quantity-grouped-wrapper">
 											<input type="number" class="grouped_product_qty" name="<?php echo wp_kses_post( $child_id ); ?>" value="0" min="0" max="<?php echo esc_attr( $max_stock ); ?>" aria-label="Product quantity">
 											<div class="add-to-cart-icons-quantity-wrapper">
-												<i type="button" class="fas fa-plus quantity-button g-plus"></i>
-												<i type="button" class="fas fa-minus quantity-button g-minus"></i>
+												<i type="button" class="fas fa-plus quantity-button g-plus" aria-hidden="true"></i>
+												<i type="button" class="fas fa-minus quantity-button g-minus" aria-hidden="true"></i>
 											</div>
 										</div>
 									</div>
@@ -2355,8 +2355,8 @@ class Woo_CTA extends Widget_Base {
 				<div class="quantity-input-wrapper">
 					<input type="number" class="product-quantity"  value="1" min="1" max="<?php echo esc_attr( $max_stock ); ?>"  aria-label="Product quantity">
 						<div class="add-to-cart-icons-quantity-wrapper">
-							<i type="button" class="fas fa-plus quantity-button plus"></i>
-							<i type="button" class="fas fa-minus quantity-button minus"></i>
+							<i type="button" class="fas fa-plus quantity-button plus" aria-hidden="true"></i>
+							<i type="button" class="fas fa-minus quantity-button minus" aria-hidden="true"></i>
 						</div>
 				</div>
 				<?php endif; ?>

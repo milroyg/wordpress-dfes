@@ -3,9 +3,9 @@ Contributors: cozmoslabs, razvan.mo, madalin.ungureanu, sareiodata, cristophor
 Donate link: https://www.translatepress.com/
 Tags: translate, translation, multilingual, automatic translation, bilingual, front-end translation, google translate, language
 Requires at least: 3.1.0
-Tested up to: 6.8.1
-Requires PHP: 5.6.20
-Stable tag: 2.9.19
+Tested up to: 6.8.2
+Requires PHP: 7.4
+Stable tag: 2.10.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,12 +28,13 @@ https://www.youtube.com/watch?v=pUlYisvBm8g
 * Translate all your website content directly from the front-end, in a friendly user interface (translations are displayed in real-time).
 * Fully compatible with all themes and plugins
 * Live preview of your translated pages, as you edit them.
+* Automatic translation support through [TranslatePress AI Free](https://translatepress.com/ai-free/?utm_source=wp.org&utm_medium=tp-description-page&utm_campaign=TPFree), with a 2.000 AI words limit.
+* Integrates with Google Translate, allowing you to set up unlimited automatic translations using your own Google API key.
+* Fully customizable language switcher that you can display as a menu item, a floating dropdown, or place anywhere else using the Language Switcher block, or the **[language-switcher]** shortcode.
 * [Image translation](https://translatepress.com/docs/image-translation/?utm_source=wp.org&utm_medium=tp-description-page&utm_campaign=TPFree) support, for [translating images, sliders and other media](https://translatepress.com/translate-images-in-wordpress/?utm_source=wp.org&utm_medium=tp-description-page&utm_campaign=TPFree).
 * Support for both manual and automatic translation
 * Ability to [translate dynamic strings](https://translatepress.com/translate-dynamic-strings-wordpress/?utm_source=wp.org&utm_medium=tp-description-page&utm_campaign=TPFree) (gettext) added by WordPress, plugins and themes.
-* Integrates with Google Translate, allowing you to set up Automatic Translation using your own Google API key.
 * Translate larger html blocks by merging strings into translation blocks.
-* Place language switchers anywhere using shortcode **[language-switcher]**, WP menu item or as a floating dropdown.
 * Editorial control allowing you to publish your language only when all your translations are done
 * Conditional display content shortcode based on language [trp_language language="en_US"] English content only [/trp_language]
 * Possibility to [edit gettext strings](https://translatepress.com/edit-plugin-strings/?utm_source=wp.org&utm_medium=tp-description-page&utm_campaign=TPFree) from themes and plugins from English to English, without adding another language. Basically a string-replace functionality.
@@ -59,7 +60,7 @@ TranslatePress - Multilingual has a range of [premium Add-ons](https://translate
 
 **Pro Add-ons** (available in the [premium versions](https://translatepress.com/pricing/?utm_source=wp.org&utm_medium=tp-description-page&utm_campaign=TPFree) only)
 
-* [TranslatePress AI](https://translatepress.com/ai/?utm_source=wp.org&utm_medium=tp-description-page&utm_campaign=TPFree) - automatically translate your entire website without extra platforms to sign up for, API keys and additional translation costs. Each premium version includes a set number of AI translated words you can use to instantly translate your site, saving you both time and money.
+* Full [TranslatePress AI](https://translatepress.com/ai/?utm_source=wp.org&utm_medium=tp-description-page&utm_campaign=TPFree) access - automatically translate your entire website without extra platforms to sign up for, API keys, and additional translation costs. Each premium version includes a set number of AI translated words you can use to instantly translate your site, saving you both time and money.
 * [Extra Languages](https://translatepress.com/docs/addons/multiple-languages/?utm_source=wp.org&utm_medium=tp-description-page&utm_campaign=TPFree) - allows you to add an unlimited number of translation languages, with the possibility to publish languages later after you complete the translation
 * [SEO Pack](https://translatepress.com/docs/addons/seo-pack/?utm_source=wp.org&utm_medium=tp-description-page&utm_campaign=TPFree) - lets you translate meta information (like page title, description, url slug, image alt tag, Twitter and Facebook Social Graph tags & more) for boosting your multilingual SEO and increase traffic. Works with all popular SEO plugins.
 * [Translator Accounts](https://translatepress.com/docs/addons/translator-accounts/?utm_source=wp.org&utm_medium=tp-description-page&utm_campaign=TPFree) - create or allow existing users to translate the site without admin rights
@@ -141,6 +142,84 @@ For more information please check out our [documentation](https://translatepress
 
 
 == Changelog ==
+= 2.10.6 =
+* Added Opposite Language mode for language switcher shortcode
+* Added Manual Translation Only - advanced option for better control over character spending by translating only the pages visited in the Translation Editor.
+* Improved performance when loading html pages with large inline scripts and styles, while also minimizing the potential for JS errors
+* Improved accessibility and fixed minor UI issues of the Translation Editor
+* Improved reliability of detecting WP crons by using wp_doing_cron function
+* Fixed some cases with missing GET parameters on internal links for translated pages
+* Fixed JS issue when opposite language option is active in language switcher
+* Fixed CSS issue with shortcode language switcher where arrow appeared twice when opacity was less than 1
+* Fixed some CSS issues with flags
+
+= 2.10.5 =
+* Fixed bug that made unnecessary site lookup calls to TP AI
+
+= 2.10.4 =
+* Added compatibility with Breakdance theme
+* Fixed WooCommerce product names for variable products having missing attributes in the cart when using woocommerce_cart shortcode
+* Fixed canonical links not being translated properly on archive pages when SEOPress plugin was active
+* Fixed compatibility issue between Visual Composer and the language switcher customizer
+* Fixed flag hiding option not applying properly in the new language switcher
+* Fixed CSS issue by explicitly declaring flag height in the new language switcher
+* Fixed php warning for new installations in some cases
+
+= 2.10.3 =
+* Fixed vulnerability when Advanced option Filter Gettext wrapping from post meta was active
+* Fixed Stripe forms from Event Tickets plugin not working on additional languages
+* Fixed previewing draft posts when the new language switcher is active
+* Fixed a compatibility issue between Elementor and the new language switcher
+* Fixed wrong flags from the new language switcher for a few languages including Catalan, Welsh and Galician
+* Added title attributes for the new LS
+* Use default fonts instead of Google fonts for the new LS
+* Minor CSS tweaks for the new LS
+
+= 2.10.2 =
+* Fixed an error occurring when WP Rocket plugin is active
+* Fixed broken front-end layout when Automatic User Language Detection was enabled and the new language switcher was active
+
+= 2.10.1 =
+* Fixed an edge case bug with rendering the new language switcher in shortcode
+
+= 2.10 =
+* New feature: Language Switcher customization from TranslatePress Settings. Explore pre-made templates, switch colors, flag styles, spacing, layouts & more
+* Added compatibility with LiteSpeed Cache and its ESI feature
+
+= 2.9.24 =
+* Fixed bug with custom REST API endpoints
+* Fixed issue caused by product name function
+* Refined debug data shown in the license page area
+
+= 2.9.23 =
+* Fixed gettext detection on WordPress block themes
+* Improved messages and notifications in TranslatePress
+* Add low Translation Words remaining notification for non-free licenses
+* Fixed edge case fatal error in WP back-end
+
+= 2.9.22 =
+* Fixed bug introduced in previous version blocking automatic translation through TP AI and Google Translate
+* Fixed license activation message not appearing on certain setups
+
+= 2.9.21 =
+* Added shortcodes [language-exclude] and [language-include] that allow content restricted in specific languages
+* Improved back-end messages informing what features are available depending on license
+
+= 2.9.20 =
+* Added support for WordPress search REST API
+* Added compatibility with WP Bakery Editor
+* Fixed translating WooCommerce product through REST API
+* Fixed bug where sitemaps were getting translated
+* Fixed JS error in Translation Editor triggered by missing href attributes on anchor links in previewed pages
+* Fixed caching issues on license activation
+* Fixed edge case issue with wrong translated links for unset href attributes
+* Fixed home page triggering 404 when using {{home}} wildcard in 'Translate Only Certain Paths' and 'Use a Subdirectory for the Default Language' is enabled
+* Improved license activation messaging
+* Improved code around product name detection
+* Improved notifications when paid user installs only the free version
+* Improved unsupported language message when API key was invalid
+* Made the notice about Gettext being disabled dismissible in Translation Editor
+
 = 2.9.19 =
 * Improved license status notices upon activation
 * Fixed sitemap issues occurring when languages are reordered so that the default language is not first

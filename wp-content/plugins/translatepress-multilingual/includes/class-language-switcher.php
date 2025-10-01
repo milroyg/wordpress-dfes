@@ -207,9 +207,8 @@ class TRP_Language_Switcher{
      * Hooked on wp_footer.
      */
     public function add_floater_language_switcher() {
-
         // Check if floater language switcher is active and return if not
-        if( $this->settings['trp-ls-floater'] != 'yes' ) {
+        if( $this->settings['trp-ls-floater'] !== 'yes' ) {
             return;
         }
 
@@ -381,6 +380,8 @@ class TRP_Language_Switcher{
 
     /**
      * Return flag html.
+     *
+     * @important This function is used in WP Rocket plugin. Please don't remove it or change its signature.
      *
      * @param string $language_code         Language code.
      * @param string $language_name         Language full name or shortname.

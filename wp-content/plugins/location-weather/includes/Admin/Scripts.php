@@ -7,6 +7,10 @@
 
 namespace ShapedPlugin\Weather\Admin;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * Script class used to hold the style and script for admin.
  */

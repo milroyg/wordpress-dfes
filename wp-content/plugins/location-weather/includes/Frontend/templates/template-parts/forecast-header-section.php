@@ -12,6 +12,10 @@
  * @package Location_Weather
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 $labels = array(
 	'temperature'   => __( 'Temperature', 'location-weather' ),
 	'humidity'      => __( 'Humidity', 'location-weather' ),

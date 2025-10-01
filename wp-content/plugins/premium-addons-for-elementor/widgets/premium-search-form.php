@@ -14,7 +14,7 @@ use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
 use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
-use Elementor\Group_Control_Background;
+use PremiumAddons\Includes\Controls\Premium_Background;
 use Elementor\Group_Control_Text_Shadow;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Css_Filter;
@@ -117,11 +117,30 @@ class Premium_Search_Form extends Widget_Base {
 	 * @return array JS script handles.
 	 */
 	public function get_script_depends() {
-		return array(
-			'pa-glass',
-			'pa-slick',
-			'premium-addons',
-		);
+
+		$is_edit = Helper_Functions::is_edit_mode();
+
+		$scripts = array();
+
+		if ( $is_edit ) {
+
+			$scripts = array( 'pa-glass', 'pa-slick' );
+
+		} else {
+			$settings = $this->get_settings();
+
+			if ( 'none' !== $settings['post_lq_effect'] ) {
+				$scripts[] = 'pa-glass';
+			}
+
+			if ( 'yes' === $settings['carousel'] ) {
+				$scripts[] = 'pa-slick';
+			}
+		}
+
+		$scripts[] = 'premium-addons';
+
+		return $scripts;
 	}
 
 	/**
@@ -325,16 +344,16 @@ class Premium_Search_Form extends Widget_Base {
 		$this->add_control(
 			'search_in',
 			array(
-				'label'        => __( 'Search In', 'premium-addons-for-elementor' ),
-				'label_block'  => true,
-				'type'         => Controls_Manager::SELECT,
-				'options'      => array(
-					'title'  => __( 'Post Title', 'premium-addons-for-elementor' ),
+				'label'       => __( 'Search In', 'premium-addons-for-elementor' ),
+				'label_block' => true,
+				'type'        => Controls_Manager::SELECT,
+				'options'     => array(
+					'title'       => __( 'Post Title', 'premium-addons-for-elementor' ),
 					'description' => __( 'Post Description', 'premium-addons-for-elementor' ),
-					'both' => __( 'Title & Description', 'premium-addons-for-elementor' ),
+					'both'        => __( 'Title & Description', 'premium-addons-for-elementor' ),
 				),
-				'default'      => 'both',
-				'condition'    => array(
+				'default'     => 'both',
+				'condition'   => array(
 					'custom_search_query' => 'yes',
 					'query_type'          => 'post',
 				),
@@ -1840,7 +1859,7 @@ class Premium_Search_Form extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'btn_background',
 				'types'    => array( 'classic', 'gradient' ),
@@ -1930,7 +1949,7 @@ class Premium_Search_Form extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'btn_background_hover',
 				'types'    => array( 'classic', 'gradient' ),
@@ -2278,7 +2297,7 @@ class Premium_Search_Form extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'post_background',
 				'types'    => array( 'classic', 'gradient' ),
@@ -2289,15 +2308,15 @@ class Premium_Search_Form extends Widget_Base {
 		$this->add_control(
 			'post_lq_effect',
 			array(
-				'label'        => __( 'Liquid Glass Effect', 'premium-addons-for-elementor' ),
-				'type'         => Controls_Manager::SELECT,
+				'label'       => __( 'Liquid Glass Effect', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::SELECT,
 				'description' => sprintf(
 					/* translators: 1: `<a>` opening tag, 2: `</a>` closing tag. */
 					esc_html__( 'Important: Make sure this element has a semi-transparent background color to see the effect. See all presets from %1$shere%2$s.', 'premium-addons-for-elementor' ),
 					'<a href="https://premiumaddons.com/liquid-glass/" target="_blank">',
 					'</a>'
 				),
-				'options'      => array(
+				'options'     => array(
 					'none'   => __( 'None', 'premium-addons-for-elementor' ),
 					'glass1' => __( 'Preset 01', 'premium-addons-for-elementor' ),
 					'glass2' => __( 'Preset 02', 'premium-addons-for-elementor' ),
@@ -2306,8 +2325,8 @@ class Premium_Search_Form extends Widget_Base {
 					'glass5' => apply_filters( 'pa_pro_label', __( 'Preset 05 (Pro)', 'premium-addons-for-elementor' ) ),
 					'glass6' => apply_filters( 'pa_pro_label', __( 'Preset 06 (Pro)', 'premium-addons-for-elementor' ) ),
 				),
-				'default'      => 'none',
-				'label_block'  => true,
+				'default'     => 'none',
+				'label_block' => true,
 			)
 		);
 
@@ -2361,7 +2380,7 @@ class Premium_Search_Form extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'post_background_hover',
 				'types'    => array( 'classic', 'gradient' ),
@@ -2428,7 +2447,7 @@ class Premium_Search_Form extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'content_background_color',
 				'types'    => array( 'classic', 'gradient' ),
@@ -2605,7 +2624,7 @@ class Premium_Search_Form extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'posts_container_background',
 				'types'    => array( 'classic', 'gradient' ),

@@ -1,10 +1,10 @@
-=== Cool Timeline - Horizontal & Vertical Timeline ===
+﻿=== Cool Timeline (Horizontal & Vertical Timeline) ===
 Contributors: narinder-singh,satindersingh,coolplugins
 Tags: timeline, history, roadmap, horizontal timeline, vertical timeline
 Donate link: https://cooltimeline.com
 Requires at least:5.0
 Tested up to: 6.8.2
-Stable tag:3.0.5
+Stable tag:3.0.8
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -13,34 +13,21 @@ Showcase your story or company history, events, and roadmap in an interactive ti
 
 == Description ==
 
+### Horizontal & Vertical Timeline, History Timeline Slider
+
 https://youtu.be/wvD2-m0FEcE
 
-**Cool Timeline** is an advanced WordPress plugin that helps you easily create timelines for your website. You can use it to display your **company’s history, product roadmaps, personal stories**, or key events in a vertical layout.
+Cool Timeline is an advanced WordPress plugin that helps you easily create timeline sliders for your website. You can use it to display your company’s history, product roadmaps, personal stories, or key events in a vertical layout.
 
-## Using Cool Timeline, you can create timeline stories in two ways:
+Using Cool Timeline, you can create timeline stories in two ways:
+
 1. **Gutenberg Timeline Block:** Add and manage timeline stories easily using the built-in block in the WordPress editor. Great for showing steps, events, or roadmaps with a clean design.
 2. **Shortcode-Based Classic Timelines:** Using the classic editor? Just add a simple shortcode to display your timeline on any page or post and customize it the way you like.
 
-### Check Our Timeline Plugin Demos
-
-* **Cool Timeline \[Free]** – Create vertical history timelines using a simple shortcode in the classic editor. [View Demo](https://cooltimeline.com/demo/cool-timeline-free/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=view_free_demo)
-* **Cool Timeline PRO \[PRO]** – Add advanced features like horizontal layout, multiple timelines, and advance timeline blocks . [View Demo](https://cooltimeline.com/demo/cool-timeline-pro/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=view_pro_demo)
-
-* **Timeline Widget For Elementor \[Free]** – Build vertical and horizontal timelines visually inside Elementor. [View Demo](https://cooltimeline.com/demo/elementor-timeline/free/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=twea_free_demo)
-
-* **Timeline Widget For Elementor PRO \[PRO]** – Unlock more layouts, skins, and styling options for Elementor timelines. [View Demo](https://cooltimeline.com/demo/elementor-timeline-widget/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=twea_pro_demo)
-
-* **Timeline Block For Gutenberg \[Free]** – Design beautiful vertical timelines using Gutenberg blocks. [View Demo](https://cooltimeline.com/demo/gutenberg-timeline-block/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbg_demo)
-
-* **Timeline Block For Gutenberg PRO \[PRO]** – Add advanced timeline layouts and extra design controls in the block editor. [View Demo](https://cooltimeline.com/demo/timeline-block-pro/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbg_demo)
-
-* **Timeline Module For Divi** – Add stunning timelines to Divi pages using a dedicated module. [View Plugin](https://wordpress.org/plugins/timeline-module-for-divi/)
-* **Timeline Module Pro For Divi \[PRO]** – Extend Divi’s timeline module with extra styles, layouts, and customizations. [View Demo](https://cooltimeline.com/divi/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tmdivi_free_demo)
-
 ### Key Features
-* **Timeline Designs:** Display your stories in a stunning vertical timeline or horizontal layout.
+* **Timeline Slider:** Display your stories in a stunning vertical or horizontal timeline layout.
 * **Gutenberg and Classic Editor Support:** Create timelines easily using the Gutenberg block or a simple shortcode. This works with both new and classic WordPress editors.
-* **Smart Shortcode Generator:** Use shortcodes to display timelines anywhere on your site without needing the code.
+* **Smart Shortcode Generator:** Use shortcodes to display timeline slider anywhere on your site without needing the code.
     * **Cool Timeline Shortcode:**
 [cool-timeline layout="default" skin="default" date-format="F j" icons="YES" show-posts="20" order="DESC" story-content="full"]
 * **Works with Page Builders:** Compatible with popular page builders like Gutenberg, WPBakery, and Classic Editor. Elementor and Divi users can also create timelines with additional plugins.
@@ -52,8 +39,10 @@ https://youtu.be/wvD2-m0FEcE
 * **Pagination:** Set how many stories you want to display per page to easily manage multiple timelines.
 * **Icons or Dots:** Highlight events using custom icons or simple dots to visually distinguish each story on the timeline.
 * **Content Alignment:** Align your timeline content left, right, or center to match your website’s style and improve readability.
-* **Multiple Timelines:** Create and manage several timelines on one site, like company history, product updates, or personal stories.
+* **Multiple Timelines:** Create and manage several timeline sliders on one site, like company history, product updates, or personal stories.
 * **Animation Effects:** Add subtle animations to your timeline items as they appear, making the overall experience more interactive and engaging.
+
+[🔗Check Free Version Demos](https://cooltimeline.com/demo/cool-timeline-free/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=view_free_demos)
 
 ## Where can you use the Cool Timeline?
 
@@ -73,16 +62,17 @@ https://youtu.be/wvD2-m0FEcE
 - **Startup Journey:** Share your startup’s timeline, from idea conception to growth and scaling phases.
 - **Sports Achievements:** Highlight key moments and accomplishments in an athlete’s or team’s career.
 
-## Cool Timeline Pro Features  
+= Cool Timeline Pro Features =
 
 Upgrading to the **Cool Timeline Pro** plugin unlocks the advanced features like access to multiple layouts, including Horizontal layout, Category-Based Timelines, Ajax Load More, Multimedia ( images, videos & slideshow), and more:
 
-* **Timeline Designs:** Cool Timeline Pro offers 4 layout types
+* **Timeline Slider Designs:** Cool Timeline Pro offers 4 layout types
       * Vertical Timeline
       * Vertical Compact Timeline
       * Vertical One-Side Timeline
       * Horizontal Timeline
-   *Each with 6+ design styles like Classic, Modern, Elegant, etc., and 3 skins (Light, Dark, Colorful). [Check All Demos](https://cooltimeline.com/demo/cool-timeline-pro/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=view_pro_demo%22%20target=%22_blank%22).
+
+Each with 6+ design styles like Classic, Modern, Elegant, etc., and 3 skins (Light, Dark, Colorful). [Check All Demos](https://cooltimeline.com/demo/cool-timeline-pro/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=view_pro_demo).
 
 * **Advance Customization:** Set different colors for each timeline story, making your timeline more visually interesting.
 * **Add Images & Videos:** Make your timeline stories more interactive by adding images, videos, and slideshows.
@@ -101,6 +91,13 @@ Upgrading to the **Cool Timeline Pro** plugin unlocks the advanced features like
 * **Premium Support:** Get dedicated support as a Pro user for any help or questions.
 
 🔗[Check Pro Version Demos](https://cooltimeline.com/demo/cool-timeline-pro/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=view_pro_demos) | [Get Pro](https://cooltimeline.com/plugin/cool-timeline-pro/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=get_pro#pricing)
+
+= Check Our Other Timeline Plugins =
+* **Timeline Widget For Elementor:** Showcase your company history, product roadmap, and personal journey in vertical & horizontal layout directly inside Elementor. [View Demo](https://cooltimeline.com/demo/elementor-timeline/free/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=twea_free_demo)
+* **Timeline Block For Gutenberg:** Create interactive timelines directly within the WordPress Block Editor to display step-by-step tutorials, a company’s history, and a product roadmap. [View Demo](https://cooltimeline.com/demo/gutenberg-timeline-block/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbg_free_demo)
+* **Timeline Builder:** Create a small timeline inside the Gutenberg block editor using a vertical or horizontal timeline. [View Demo](https://cooltimeline.com/demo/timeline-builder-pro/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbp_view_demo)
+* **Timeline Module Pro For Divi:** Showcase your personal story or company history using stunning vertical or horizontal timelines directly inside the Divi Builder. [View Demo](https://cooltimeline.com/divi/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tmdivi_pro_demo)
+
 
 == Installation ==
 
@@ -142,12 +139,15 @@ Certainly! Here are the improved installation steps and guidelines for the Cool 
 Creating a timeline is easy. Simply create posts, set images, and assign dates to them. The plugin will automatically organize your posts in chronological order, either ascending or descending, based on your preference.
 
 = Can I choose any historical date/year? =
-The year starts from 1970 in the free version but in [pro version](https://cooltimeline.com/buy-cool-timeline-pro/) you can choose any historical year from 1000 to 2050 to create a story inside Cool Timeline or you can also add custom text instead of date/year.
+The year starts from 1970 in the free version but in [pro version](https://cooltimeline.com/plugin/cool-timeline-pro/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=faqs) you can choose any historical year from 1000 to 2050 to create a story inside Cool Timeline or you can also add custom text instead of date/year.
 
 = What is plugin shortcode & how can we use it? =
 Here is the full shortcode of the Cool Timeline plugin:-
 
 > [cool-timeline layout="default" skin="default" date-format="F j" icons="YES" show-posts="20" animation="FadeInOut" order="DESC" story-content="full"]
+
+= Can I use the timeline slider for blog posts or projects? =
+Of course! The timeline slider can display blog posts, project steps, or product roadmaps, making it flexible for different use cases.
 
 = Is the plugin responsive and mobile-friendly? =
 Yes, the Cool Timeline plugin is fully responsive and ensures that your timelines look great on any device.
@@ -156,9 +156,9 @@ Yes, the Cool Timeline plugin is fully responsive and ensures that your timeline
 Yes, Cool Timeline includes an advanced Timeline Block for Gutenberg, allowing you to easily create elegant timelines using pre-made presets.
 
 = Can I create multiple timelines based on different categories? =
-The timeline category option is only available in our Pro version so you need to purchase Pro if you want to create category-specific **multiple timelines**.
+The timeline category option is only available in our Pro version, so you need to purchase Pro if you want to create category-specific **multiple timelines**.
 
-= What is the Horizontal Roadmap Timeline? =
+= What is the Horizontal Roadmap Timeline Slider? =
  The Horizontal Roadmap Timeline design allows you to represent your project or company plans and phases in a visually compelling horizontal format.
 
 = Is it possible to create both horizontal & vertical timelines? =
@@ -194,6 +194,21 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 7. Create any type of timeline using Cool Timeline PRO.
 
 == Changelog ==
+
+= Version 3.0.8 | 22 Sep 2025 =
+
+* **Fixed:** Fatal error caused by incorrect folder path.
+
+= Version 3.0.7 | 22 Sep 2025 =
+
+* **Improved:** Other plugin recommendations.
+* **Improved:** Rating div styling.
+
+= Version 3.0.6 | 25 August 2025 =
+
+* **Fixed:** Addressed security vulnerabilities.
+* **Improved:** Enhanced overall code quality.
+* **Improved:** UTM link updates.
 
 = Version 3.0.5 | 09 July 2025 =
 
@@ -396,7 +411,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * **Updated:** Gutenberg Timeline block code and libraries
 * **Updated:** Deprecated libraries from the timeline block
 * **Updated:** tested up to 5.8
-
+<strong>More:- check <a target="_blank" href="https://bitbucket.org/!api/2.0/snippets/CoolHappy/7XXdBp/91a4ecee991e51318af6635e383e96f7b125dbc5/files/changelog">changelog.txt</a> file here.</strong>
 == Upgrade Notice ==
 
 = 1.1.8 =

@@ -5,7 +5,7 @@ Donate Link: https://premiumaddons.com/?utm_source=wp-repo&utm_medium=link&utm_c
 Requires at least: 5.0
 Tested Up To: 6.8.2
 Requires PHP: 7.4
-Stable Tag: 4.11.31
+Stable Tag: 4.11.40
 License: GPL v3.0
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -19,6 +19,12 @@ Supercharge your [Elementor Page Builder](https://wordpress.org/plugins/elemento
 
 ### Useful Links
 [Support](https://my.leap13.com/contact-support/) | [Docs](https://premiumaddons.com/docs/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) | [Video Tutorials](https://www.youtube.com/channel/UCXcJ9BeO2sKKHor7Q9VglTQ) | [Facebook Group](https://facebook.com/groups/premiumAddons) | [Upgrade to Pro](https://premiumaddons.com/pro/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme)
+
+### New: Image Carousel Option
+We have recently added Source option in our Premium Carousel widget which helps you to create an image carousel/slider in a second jus by selecting the images you want from site's media library.
+
+### New: Performance and Speed Improvements
+Premium Addons for Elementor is now much faster than ever. Only the required JS files will be loaded on your page to boost your page loading speed and site performance. All the editor loading issues have been fixed to make your site faster and minimize the time it takes for Elementor editor to load.
 
 ### New: Liquid Glass Addon
 Select between 6 attractive liquid glass and glassmorphism effects to be applied on any Elementor widget or container. It has also been added to be applied on specific parts inside our elements. [Check it out now!](https://premiumaddons.com/elementor-liquid-glass-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme).
@@ -38,7 +44,7 @@ Add animated shape dividers for Elementor flexbox containers. You can select bet
 ### Advanced Media Carousel Widget
 You can now create carousel using images, videos, Elementor templates to create the carousel you want. Select between four animations and dozens of customization options. [Check it out now!](https://premiumaddons.com/elementor-advanced-carousel-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme).
 
-### New: Magazine Bundle
+### Magazine Bundle
 Smart Post Listing, Weather, World Clock, News Ticker, Tags Cloud and Recent Posts Notification widgets newly added to create the magazine website you ever dreamed. [Check it out now!](https://premiumaddons.com/elementor-news-magazine-widgets-bundle/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme).
 
 ### Elementor Navigation/Mega Menu Widget
@@ -236,6 +242,57 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 14. Premium Progress Bar Widget
 
 == Changelog ==
+
+= 4.11.40 =
+
+- New: Gallery option in Carousel widget to create image carousel much easier.
+- Tweak: Code improvements for better performance.
+- Fixed: SVG Draw not working when draw option is disabled.
+- Fixed: Link not working in Animated Text widget.
+
+= 4.11.39 =
+
+- Tweak: Load JS libraries only when needed for Contact Form, Dual Heading, Lottie Animation, Media Grid, News Ticker, Mega Menu and SVG Draw widgets.
+- Fixed: Close Icon not showing in Recent Posts Notification widget.
+- Fixed: Bullet List alignment issue.
+
+= 4.11.38 =
+
+- New: Load JS libraries only when needed to improve loading speed.
+- Fixed: Returning Visitor Display Condition not working correctly.
+- Fixed: View Cart string not being translated in Woo Mini Products Listing widget.
+
+= 4.11.37 =
+
+- New: Added Slide Bullet and Translate Bullet effects in Bullet List widget.
+- Tweak: Added Sort By select in Premium Templates.
+- Tweak: Improved compatibility between Bullet List, Weather Forecast and WPML translation plugin.
+- Fixed: Accessibility issue in Advanced Carousel widget.
+- Fixed: Gradient Effect not working in Bullet List widget.
+
+= 4.11.36 =
+
+- Tweak: Improved compatibility between Dynamic Assets feature and LiteSpeed caching plugin.
+- Tweak: Compatibility with Elementor v3.32.
+
+= 4.11.35 =
+
+- Tweak: Code improvements in Tooltips addon, Advanced Carousel and Textual Showcase widgets for better performance and faster loading speed.
+- Tweak: Make arrows in Carousel widget accessible via keyboard.
+- Fixed: Thin Circle navigation dot icon not working in Carousel widget.
+
+= 4.11.34 =
+
+- Tweak: Code improvements in all widgets for better performance and faster loading speed.
+
+= 4.11.33 =
+
+- Tweak: Code improvements in Dynamic Assets feature for better performance and faster loading speed.
+- Tweak: Loading speed improvements in Video Box and News Ticker widgets.
+
+= 4.11.32 =
+
+- Tweak: Code improvements in Animated Shape Divider addon for better performance and faster loading speed.
 
 = 4.11.31 =
 

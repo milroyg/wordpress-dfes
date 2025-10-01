@@ -7,6 +7,10 @@
  * @package Location_Weather
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 $city_name             = ! empty( $custom_name ) ? $custom_name : $weather_data['city'] . ', ' . $weather_data['country'];
 $separator             = ', ';
 $show_location_address = isset( $splw_meta['lw-location-address'] ) ? $splw_meta['lw-location-address'] : true;

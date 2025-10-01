@@ -14,7 +14,6 @@ use Elementor\Repeater;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
-use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Text_Shadow;
 use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
@@ -24,6 +23,7 @@ use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 use PremiumAddons\Includes\Helper_Functions;
 use PremiumAddons\Includes\Pa_Nav_Menu_Walker;
 use PremiumAddons\Includes\Controls\Premium_Post_Filter;
+use PremiumAddons\Includes\Controls\Premium_Background;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // If this file is called directly, abort.
@@ -92,12 +92,44 @@ class Premium_Nav_Menu extends Widget_Base {
 	 * @return array JS script handles.
 	 */
 	public function get_script_depends() {
-		return array(
-			'pa-glass',
-			'lottie-js',
-			'pa-headroom',
-			'pa-menu',
-		);
+
+		$is_edit = Helper_Functions::is_edit_mode();
+
+		$scripts = array();
+
+		if ( $is_edit ) {
+
+			$scripts = array( 'lottie-js', 'pa-glass', 'pa-headroom' );
+
+		} else {
+			$settings = $this->get_settings();
+
+			if( 'wordpress_menu' === $settings['menu_type'] ) {
+				$scripts[] = 'lottie-js';
+			} elseif ( ! empty( $settings['menu_items'] ) ) {
+
+				foreach ( $settings['menu_items'] as $item ) {
+
+					if ( 'animation' === $item['icon_type'] ) {
+						$scripts[] = 'lottie-js';
+						break;
+					}
+
+				}
+			}
+
+			if ( 'yes' === $settings['pa_sticky_on_scroll'] ) {
+				$scripts[] = 'pa-headroom';
+			}
+
+			if ( 'none' !== $settings['item_lq_effect'] || 'none' !== $settings['submenu_lq_effect'] || 'none' !== $settings['mega_lq_effect'] ) {
+				$scripts[] = 'pa-glass';
+			}
+		}
+
+		$scripts[] = 'pa-menu';
+
+		return $scripts;
 	}
 
 	/**
@@ -1536,7 +1568,7 @@ class Premium_Nav_Menu extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'pa_sticky_bg',
 				'types'    => array( 'classic', 'gradient' ),
@@ -2372,7 +2404,7 @@ class Premium_Nav_Menu extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'pa_ver_toggler_bg',
 				'types'    => array( 'classic', 'gradient' ),
@@ -2398,7 +2430,7 @@ class Premium_Nav_Menu extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'pa_ver_toggler_bg_hov',
 				'types'    => array( 'classic', 'gradient' ),
@@ -2520,7 +2552,7 @@ class Premium_Nav_Menu extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'pa_nav_menu_background',
 				'types'    => array( 'classic', 'gradient' ),
@@ -2853,7 +2885,7 @@ class Premium_Nav_Menu extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'pa_ham_menu_background',
 				'types'    => array( 'classic', 'gradient' ),
@@ -3505,7 +3537,7 @@ class Premium_Nav_Menu extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'pa_nav_item_bg',
 				'types'    => array( 'classic', 'gradient' ),
@@ -3628,7 +3660,7 @@ class Premium_Nav_Menu extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'pa_nav_item_bg_hover',
 				'types'    => array( 'classic', 'gradient' ),
@@ -3746,7 +3778,7 @@ class Premium_Nav_Menu extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'pa_nav_item_bg_active',
 				'types'    => array( 'classic', 'gradient' ),
@@ -3887,7 +3919,7 @@ class Premium_Nav_Menu extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'pa_sub_bg',
 				'types'    => array( 'classic', 'gradient' ),
@@ -4011,7 +4043,7 @@ class Premium_Nav_Menu extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'pa_sub_mega_bg',
 				'types'    => array( 'classic', 'gradient' ),
@@ -4195,7 +4227,7 @@ class Premium_Nav_Menu extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'pa_sub_item_bg',
 				'types'    => array( 'classic', 'gradient' ),
@@ -4292,7 +4324,7 @@ class Premium_Nav_Menu extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'           => 'pa_sub_item_bg_hover',
 				'types'          => array( 'classic', 'gradient' ),
@@ -4403,7 +4435,7 @@ class Premium_Nav_Menu extends Widget_Base {
 		);
 
 		$this->add_group_control(
-			Group_Control_Background::get_type(),
+			Premium_Background::get_type(),
 			array(
 				'name'     => 'pa_sub_item_bg_active',
 				'types'    => array( 'classic', 'gradient' ),
@@ -4751,7 +4783,7 @@ class Premium_Nav_Menu extends Widget_Base {
 
 		$menu_type = $settings['menu_type'];
 
-		$menu_id = 'wordpress_menu' === $menu_type ? $settings['pa_nav_menus'] : false;
+		$menu_id = ( 'wordpress_menu' === $menu_type && isset( $settings['pa_nav_menus'] ) ) ? $settings['pa_nav_menus'] : false;
 
 		$render_mobile_menu = 'yes' === $settings['render_mobile_menu'] || in_array( $settings['pa_nav_menu_layout'], array( 'slide', 'dropdown' ), true );
 
@@ -5283,7 +5315,7 @@ class Premium_Nav_Menu extends Widget_Base {
 
 					if ( 'submenu' === $menu_items[ $index + 1 ]['item_type'] && $has_icon ) {
 						$icon_class   = 'premium-dropdown-icon ' . esc_attr( $settings['submenu_icon']['value'] );
-						$html_output .= sprintf( '<i class="%1$s"></i>', $icon_class );
+						$html_output .= sprintf( '<i class="%1$s" aria-hidden="true"></i>', $icon_class );
 					}
 				}
 

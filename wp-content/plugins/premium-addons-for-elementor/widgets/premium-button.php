@@ -114,19 +114,35 @@ class Premium_Button extends Widget_Base {
 	 */
 	public function get_script_depends() {
 
-		$draw_scripts = $this->check_icon_draw() ? array(
-			'pa-tweenmax',
-			'pa-motionpath',
-		) : array();
+		$is_edit = Helper_Functions::is_edit_mode();
 
-		return array_merge(
-			$draw_scripts,
-			array(
-				'lottie-js',
-				'pa-glass',
-				'premium-addons',
-			)
-		);
+		$scripts = array();
+
+		if ( $is_edit ) {
+
+			$draw_scripts = $this->check_icon_draw() ? array( 'pa-tweenmax', 'pa-motionpath' ) : array();
+
+			$scripts = array_merge( $draw_scripts, array( 'lottie-js', 'pa-glass' ) );
+
+		} else {
+			$settings = $this->get_settings();
+
+			if ( 'yes' === $settings['draw_svg'] ) {
+				array_push( $scripts, 'pa-tweenmax', 'pa-motionpath' );
+			}
+
+			if ( 'animation' === $settings['icon_type'] || 'animation' === $settings['slide_icon_type'] ) {
+				$scripts[] = 'lottie-js';
+			}
+
+			if ( 'none' !== $settings['btn_lq_effect'] ) {
+				$scripts[] = 'pa-glass';
+			}
+		}
+
+		$scripts[] = 'premium-addons';
+
+		return $scripts;
 	}
 
 	/**
@@ -456,7 +472,7 @@ class Premium_Button extends Widget_Base {
 			)
 		);
 
-		$this->add_responsive_control(
+		$this->add_control(
 			'grow_speed',
 			array(
 				'label'     => __( 'Grow Animation Speed (Sec)', 'premium-addons-for-elementor' ),

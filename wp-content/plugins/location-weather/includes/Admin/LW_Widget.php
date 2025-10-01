@@ -7,6 +7,10 @@
 
 namespace ShapedPlugin\Weather\Admin;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  *  Location Weather Pro Widget class.
  *
@@ -67,11 +71,11 @@ class LW_Widget extends \WP_Widget {
 
 		if ( count( $shortcodes ) > 0 ) {
 
-			echo sprintf( '<p><label>%s</label>', esc_html__( 'Select Shortcode:', 'location-weather' ) );
-			echo sprintf( '<select class="widefat" name="%s">', esc_attr( $this->get_field_name( 'shortcode_id' ) ) );
+			printf( '<p><label>%s</label>', esc_html__( 'Select Shortcode:', 'location-weather' ) );
+			printf( '<select class="widefat" name="%s">', esc_attr( $this->get_field_name( 'shortcode_id' ) ) );
 			foreach ( $shortcodes as $shortcode ) {
 				$selected = $shortcode->id === $shortcode_id ? 'selected="selected"' : '';
-				echo sprintf(
+				printf(
 					'<option value="%1$d" %3$s>%2$s</option>',
 					esc_attr( $shortcode->id ),
 					esc_html( $shortcode->title ),
@@ -82,7 +86,7 @@ class LW_Widget extends \WP_Widget {
 
 		} else {
 			/* translators: %1$s: anchor tag start, %2$s: anchor tag end. */
-			printf( '<p>' . __( 'You did not generate any weather yet. %1$sclick here%2$s to generate a new location weather now.', 'location-weather' ) . '</p>', '<a href="' . esc_url( admin_url( 'post-new.php?post_type=location_weather' ) ) . '">', '</a>' );
+			printf( '<p>' . esc_html__( 'You did not generate any weather yet. %1$sclick here%2$s to generate a new location weather now.', 'location-weather' ) . '</p>', '<a href="' . esc_url( admin_url( 'post-new.php?post_type=location_weather' ) ) . '">', '</a>' );
 		}
 	}
 
@@ -129,5 +133,4 @@ class LW_Widget extends \WP_Widget {
 			$shortcodes
 		);
 	}
-
 }

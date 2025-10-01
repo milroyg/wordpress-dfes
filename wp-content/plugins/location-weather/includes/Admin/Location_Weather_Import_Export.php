@@ -42,12 +42,15 @@ if ( ! class_exists( 'Location_Weather_Import_Export' ) ) {
 				if ( ! empty( $shortcodes ) ) {
 					foreach ( $shortcodes as $shortcode ) {
 						$shortcode_export = array(
-							'title'       => $shortcode->post_title,
-							'original_id' => $shortcode->ID,
+							'title'       => sanitize_text_field( $shortcode->post_title ),
+							'original_id' => absint( $shortcode->ID ),
 							'meta'        => array(),
 						);
 						foreach ( get_post_meta( $shortcode->ID ) as $metakey => $value ) {
-							$shortcode_export['meta'][ $metakey ] = $value[0];
+							$meta_key                              = sanitize_key( $metakey );
+							$meta_value                            = is_serialized( $value[0] ) ? $value[0] : sanitize_text_field( $value[0] );
+							$shortcode_export['meta'][ $meta_key ] = $meta_value;
+							// $shortcode_export['meta'][ $metakey ] = $value[0];
 						}
 						$export['shortcode'][] = $shortcode_export;
 						unset( $shortcode_export );
@@ -72,6 +75,12 @@ if ( ! class_exists( 'Location_Weather_Import_Export' ) ) {
 				wp_send_json_error( array( 'error' => esc_html__( 'Error: Invalid nonce verification.', 'location-weather' ) ), 401 );
 			}
 
+			// Check user capabilities.
+			$_capability = apply_filters( 'splw_import_export_user_capability', 'manage_options' );
+			if ( ! current_user_can( $_capability ) ) {
+				wp_send_json_error( array( 'error' => esc_html__( 'You do not have permission to export.', 'location-weather' ) ) );
+			}
+
 			$shortcode_ids = '';
 			if ( isset( $_POST['splw_ids'] ) ) {
 				$shortcode_ids = is_array( $_POST['splw_ids'] ) ? wp_unslash( array_map( 'absint', $_POST['splw_ids'] ) ) : sanitize_text_field( wp_unslash( $_POST['splw_ids'] ) );
@@ -80,7 +89,7 @@ if ( ! class_exists( 'Location_Weather_Import_Export' ) ) {
 			if ( is_wp_error( $export ) ) {
 				wp_send_json_error(
 					array(
-						'message' => $export->get_error_message(),
+						'message' => esc_html( $export->get_error_message() ),
 					),
 					400
 				);
@@ -111,7 +120,7 @@ if ( ! class_exists( 'Location_Weather_Import_Export' ) ) {
 				try {
 					$new_shortcode_id = wp_insert_post(
 						array(
-							'post_title'  => isset( $shortcode['title'] ) ? $shortcode['title'] : '',
+							'post_title'  => isset( $shortcode['title'] ) ? sanitize_text_field( $shortcode['title'] ) : '',
 							'post_status' => 'publish',
 							'post_type'   => 'location_weather',
 						),
@@ -162,13 +171,15 @@ if ( ! class_exists( 'Location_Weather_Import_Export' ) ) {
 				wp_send_json_error( array( 'error' => esc_html__( 'Error: Invalid nonce verification.', 'location-weather' ) ), 401 );
 			}
 
+			// Check user capabilities.
+			$_capability = apply_filters( 'splw_import_export_user_capability', 'manage_options' );
+			if ( ! current_user_can( $_capability ) ) {
+				wp_send_json_error( array( 'error' => esc_html__( 'You do not have permission to import.', 'location-weather' ) ) );
+			}
+
 			// Don't worry sanitize after JSON decode below.
 			// phpcs:ignore
 			$data       = isset( $_POST['shortcode'] ) ? wp_kses_data( wp_unslash( $_POST['shortcode'] ) ) : '';
-			$data         = json_decode( $data );
-			$data         = json_decode( $data, true );
-			$import_value = apply_filters( 'sp_location_weather_allow_import_tags', false );
-			$shortcodes   = $import_value ? $data['shortcode'] : wp_kses_post_deep( $data['shortcode'] );
 			if ( ! $data ) {
 				wp_send_json_error(
 					array(
@@ -178,12 +189,38 @@ if ( ! class_exists( 'Location_Weather_Import_Export' ) ) {
 				);
 			}
 
-			$status = $this->import( $shortcodes );
+			// Decode JSON with error checking.
+			$decoded_data = json_decode( $data, true );
+			if ( is_string( $decoded_data ) ) {
+				$decoded_data = json_decode( $decoded_data, true );
+			}
+			if ( json_last_error() !== JSON_ERROR_NONE ) {
+				wp_send_json_error(
+					array(
+						'message' => esc_html__( 'Invalid JSON data.', 'location-weather' ),
+					),
+					400
+				);
+			}
+
+			// Check if shortcode key exists and is valid.
+			if ( ! isset( $decoded_data['shortcode'] ) || ! is_array( $decoded_data['shortcode'] ) ) {
+				wp_send_json_error(
+					array(
+						'message' => esc_html__( 'Invalid shortcode data structure.', 'location-weather' ),
+					),
+					400
+				);
+			}
+
+			$import_value = apply_filters( 'sp_location_weather_allow_import_tags', false );
+			$shortcodes   = $import_value ? $decoded_data['shortcode'] : wp_kses_post_deep( $decoded_data['shortcode'] );
+			$status       = $this->import( $shortcodes );
 
 			if ( is_wp_error( $status ) ) {
 				wp_send_json_error(
 					array(
-						'message' => $status->get_error_message(),
+						'message' => esc_html( $status->get_error_message() ),
 					),
 					400
 				);

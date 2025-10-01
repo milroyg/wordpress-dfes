@@ -12,6 +12,10 @@
  * @package Location_Weather
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 if ( $forecast_data ) :
 	$separator = 'three-hour' === $hourly_type ? '/' : '';
 	echo '<div class="lw-forecast-wrapper">';
