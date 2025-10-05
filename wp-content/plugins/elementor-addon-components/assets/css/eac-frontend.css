@@ -333,7 +333,7 @@ a.skip-link.screen-reader-text:focus {
 .eac-conditions-no>.elementor-element-overlay>.elementor-editor-column-settings .elementor-editor-element-edit,
 .eac-conditions-no>.elementor-element-overlay>.elementor-editor-widget-settings .elementor-editor-element-edit,
 .eac-conditions-no>.elementor-element-overlay>.elementor-editor-container-settings .elementor-editor-element-edit {
-	box-shadow: '';
+	box-shadow: none;
 }
 
 /**------------------------------------------*/

@@ -700,7 +700,7 @@
   display: inline-block;
   line-height: 32px;
   padding: 0 25px;
-  background: gradient;
+  background: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1));
   color: white;
   text-transform: uppercase;
   border-radius: 16px;
@@ -716,7 +716,7 @@
 .pricing .item .price-title h5{
   font-family: josefin;
   font-weight: 700;
-  color: deep-orange;
+  color: #DC4D01;
   text-transform: capitalize;
   padding-bottom: 5px;
 }
@@ -742,7 +742,7 @@
   color: rgba(255, 88, 51, 0.6);
 }
 .pricing .item ul li i.not{
-  color: deep-orange;
+  color: #DC4D01;
 }
 .pricing .item .purchase{
   box-shadow: 1px 0 61px rgba(0, 0, 0, 0.2);
@@ -792,7 +792,7 @@
 }
 .item.active .purchase a{
   background: white;
-  color: dark;
+  color: black;
 }
 /* ======== Home Services CSS End ======== */
 .blog_area_two .post-single:hover .blog-contents_inner {
