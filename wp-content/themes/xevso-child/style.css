@@ -27,29 +27,6 @@ Css Validation
   background: white;
   color: black;
 }
-/*
-Master Addon
-*/
-.fancybox-navigation .fancybox-button--arrow_left {
-  left: 0;
-  padding: 31px 26px 31px 6px;
-}
-
-@supports (left: env(safe-area-inset-left)) {
-  .fancybox-navigation .fancybox-button--arrow_left {
-    left: env(safe-area-inset-left);
-  }
-}
-.fancybox-navigation .fancybox-button--arrow_right {
-  right: 0;
-  padding: 31px 26px 31px 6px;
-}
-
-@supports (right: env(safe-area-inset-right)) {
-  .fancybox-navigation .fancybox-button--arrow_right {
-    right: env(safe-area-inset-left);
-  }
-}
 
 .fancybox-caption {
   background: linear-gradient(
