@@ -52,37 +52,6 @@ Css Validation
   z-index: 99996;
 }
 
-/* Apply safe-area padding only in browsers that support it */
-@supports (padding: max(0px)) {
-  .fancybox-caption {
-    padding-top: 75px;
-    padding-right: max(44px, env(safe-area-inset-right));
-    padding-bottom: max(25px, env(safe-area-inset-bottom));
-    padding-left: max(44px, env(safe-area-inset-left));
-  }
-}
-
-.fancybox-caption--separate {
-  margin-top: -50px;
-}
-
-.fancybox-caption__body {
-  max-height: 50vh;
-  overflow: auto;
-  pointer-events: all;
-}
-
-.fancybox-caption a,
-.fancybox-caption a:link,
-.fancybox-caption a:visited {
-  color: #ccc;
-  text-decoration: none;
-}
-
-.fancybox-caption a:hover {
-  color: #fff;
-  text-decoration: underline;
-}
 
 .slick-list.dragging {
     cursor: pointer !important;
@@ -138,9 +107,6 @@ Css Validation
 }
 .jltma-dropdown-toggle-border-type-default .jltma-nav-menu__toggle {
   border-style: solid;
-}
-.jltma-team-member-thumb path {
-  d: none;
 }
 
 /* Clean up invalid SVG-related properties */
