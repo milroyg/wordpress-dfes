@@ -8,7 +8,7 @@ require_once get_template_directory() . '/inc/live-vehicle.php';
 
 add_action('wp_enqueue_scripts', function () {
   wp_enqueue_style('xevso-parent-style', get_template_directory_uri() . '/style.css');
-  wp_dequeue_style('bootstrap');
+  // wp_dequeue_style('bootstrap');
   wp_dequeue_script('bootstrap');
   wp_enqueue_style('bootstrap5', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
   wp_enqueue_script('chart-js', 'https://cdn.jsdelivr.net/npm/chart.js');
@@ -24,7 +24,7 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_script('leaflet-markercluster-js', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js', ['leaflet-js'], null, true);
   }
 
-}, 20);
+},20);
 
 add_filter('script_loader_tag', function ($tag, $handle, $src) {
   if ($handle === 'leaflet-js') {
