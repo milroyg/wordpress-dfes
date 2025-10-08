@@ -6,6 +6,22 @@ require_once get_template_directory() . '/inc/dmrp-map.php';
 //Live Vehicle
 require_once get_template_directory() . '/inc/live-vehicle.php';
 
+add_action('admin_enqueue_scripts', function() {
+    // Remove WP's bundled TinyMCE
+    wp_deregister_script('tinymce');
+    wp_deregister_script('wp-tinymce');
+
+    // Register & enqueue the latest version
+    wp_register_script(
+        'tinymce',
+        'https://cdn.jsdelivr.net/npm/tinymce@8.1.2/tinymce.min.js',
+        [],
+        null,
+        true
+    );
+    wp_enqueue_script('tinymce');
+});
+
 add_action('wp_enqueue_scripts', function () {
   wp_enqueue_style('xevso-parent-style', get_template_directory_uri() . '/style.css');
   // wp_dequeue_style('bootstrap');
