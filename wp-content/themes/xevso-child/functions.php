@@ -73,13 +73,78 @@ add_filter('wp_nav_menu_objects', function ($items, $args) {
 }, 10, 2);
 
 //Copy Paste Buffer
- function my_custom_login_script() {
-        wp_enqueue_script(
-            'my-custom-login-script', // Handle for your script
-            get_template_directory_uri() . '/assets/copypastebuffer.js', // Path to your script
-            array('jquery'), // Dependencies (e.g., jQuery if needed)
-            null, // Version number (optional)
-            true // Load in the footer (recommended)
-        );
+
+function my_custom_login_script() {
+    // 1️⃣ Load CryptoJS (encryption library)
+    wp_enqueue_script(
+        'crypto-js',
+        'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js',
+        [],
+        null,
+        true
+    );
+
+    // 2️⃣ Load copy-paste protection script
+    wp_enqueue_script(
+        'copy-paste-buffer',
+        get_template_directory_uri() . '/assets/copypastebuffes.js',
+        ['jquery'],
+        null,
+        true
+    );
+
+    // 3️⃣ Load encryption script (depends on crypto-js + jQuery)
+    wp_enqueue_script(
+        'encrypt-login',
+        get_template_directory_uri() . '/assets/encrypt_login.js',
+        ['jquery', 'crypto-js'],
+        null,
+        true
+    );
+}
+add_action('login_enqueue_scripts', 'my_custom_login_script');
+
+// 📌 Decrypt AES-encrypted login values before authentication
+add_filter('authenticate', function($user, $username, $password) {
+    // Only decrypt if data looks encrypted (starts with "U2Fsd")
+    if (strpos($username, 'U2Fsd') === 0 || strpos($password, 'U2Fsd') === 0) {
+        require_once ABSPATH . 'wp-includes/class-phpass.php';
+        require_once ABSPATH . 'wp-includes/pluggable.php';
+
+        // AES Key must match the one in encrypt_login.js
+        $key = "my32charsecretkeymy32charsecretkey";
+
+        // Decrypt both fields
+        $username = my_aes_decrypt($username, $key);
+        $password = my_aes_decrypt($password, $key);
     }
-    add_action('login_enqueue_scripts', 'my_custom_login_script');
+
+    // Now try to authenticate again with decrypted credentials
+    return wp_authenticate_username_password(null, $username, $password);
+}, 10, 3);
+
+// 🔐 PHP AES decryption (CryptoJS-compatible)
+function my_aes_decrypt($ciphertext, $passphrase) {
+    if (strpos($ciphertext, 'U2FsdGVkX1') !== 0) {
+        return $ciphertext; // not encrypted
+    }
+
+    $data = base64_decode($ciphertext);
+    $salt = substr($data, 8, 8);
+    $key_iv = my_aes_evp_bytes($passphrase, $salt);
+    $key = substr($key_iv, 0, 32);
+    $iv = substr($key_iv, 32, 16);
+
+    return openssl_decrypt(substr($data, 16), 'AES-256-CBC', $key, OPENSSL_RAW_DATA, $iv);
+}
+
+// 🔑 Helper for deriving key/IV like CryptoJS
+function my_aes_evp_bytes($pass, $salt) {
+    $data = '';
+    $d = '';
+    while (strlen($data) < 48) {
+        $d = md5($d . $pass . $salt, true);
+        $data .= $d;
+    }
+    return substr($data, 0, 48);
+}
