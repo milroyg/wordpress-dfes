@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 2.0.9.8 (06-10-2025) =
+* Fixed: display condition for logged out user only. Thanks [@hamiddavodi](https://wordpress.org/support/topic/display-element-only-for-logged-out-users/) for informing about the issue.
+* Fixed: Wrapper link is not working in Safari browser Thanks [@adzpz](https://wordpress.org/support/topic/wrapper-link-not-working-on-safari-ipad/) for informing about the issue.
+* UX Improvement : UX Improved for notice. 
+
 = 2.0.9.7 (21-09-2025) =
 * Fixed: Mobile nav menu toggle is not working properly in free version.
 * Security Patch: Freemius SDK updated for better security.

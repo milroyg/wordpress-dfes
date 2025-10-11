@@ -87,7 +87,7 @@ function my_custom_login_script() {
     // 2️⃣ Load copy-paste protection script
     wp_enqueue_script(
         'copy-paste-buffer',
-        get_template_directory_uri() . '/assets/copypastebuffes.js',
+        get_template_directory_uri() . '/assets/copypastebuffer.js',
         ['jquery'],
         null,
         true

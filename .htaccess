@@ -6,6 +6,12 @@ Options -Indexes
 	IndexIgnore *
 </IfModule>
 # BEGIN WordPress
+
+    # Block WordPress xmlrpc.php requests
+    <Files xmlrpc.php>
+        Order Deny,Allow
+        Deny from all
+    </Files>
 # The directives (lines) between "BEGIN WordPress" and "END WordPress" are
 # dynamically generated, and should only be modified via WordPress filters.
 # Any changes to the directives between these markers will be overwritten.

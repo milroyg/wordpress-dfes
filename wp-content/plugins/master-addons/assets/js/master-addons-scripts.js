@@ -3284,7 +3284,13 @@
         // Wrapper Link
         MA_Wrapper_Link: function ($scope, $)
         {
+            // First, unbind any existing handlers to prevent multiple bindings
+            $('body').off('click.onWrapperLink', '[data-jltma-wrapper-link]');
+
+            // Now bind the handler
             $('body').on('click.onWrapperLink', '[data-jltma-wrapper-link]', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
                 var $wrapper = $(this),
                   data = $wrapper.data("jltma-wrapper-link"),
                   id = $wrapper.data("id"),
@@ -3298,12 +3304,17 @@
                 anchor.style.display = "none";
                 document.body.appendChild(anchor);
                 anchorReal = document.getElementById(anchor.id);
-                anchorReal.click();
-
-                timeout = setTimeout(function () {
-                    document.body.removeChild(anchorReal);
-                    clearTimeout(timeout);
-                });
+                
+                // anchorReal.click();
+                if (data && data.url) {
+                    if (data.is_external) {
+                        // For external links, use window.open for better Safari compatibility
+                        window.open(data.url, '_blank', data.nofollow ? 'noopener,noreferrer' : 'noopener');
+                    } else {
+                        // For internal links, use location.href for better Safari/iPad compatibility
+                        window.location.href = data.url;
+                    }
+                }
             });
         },
 

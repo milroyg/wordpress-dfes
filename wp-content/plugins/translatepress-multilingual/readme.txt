@@ -1,11 +1,11 @@
-﻿=== Translate Multilingual sites - TranslatePress ===
+=== Translate Multilingual sites - TranslatePress ===
 Contributors: cozmoslabs, razvan.mo, madalin.ungureanu, sareiodata, cristophor
 Donate link: https://www.translatepress.com/
 Tags: translate, translation, multilingual, automatic translation, bilingual, front-end translation, google translate, language
 Requires at least: 3.1.0
-Tested up to: 6.8.2
+Tested up to: 6.8.3
 Requires PHP: 7.4
-Stable tag: 2.10.6
+Stable tag: 2.10.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -90,7 +90,7 @@ TranslatePress - Multilingual has a range of [premium Add-ons](https://translate
 
 = Demo Site =
 
-You can test out TranslatePress - Multilingual plugin by [visiting our demo site](https://demo.translatepress.com/)
+You can test out TranslatePress - Multilingual plugin by [visiting our demo site](https://demo.translatepress.com/?utm_source=wp.org&utm_medium=tp-description-page&utm_campaign=TPFree)
 
 == Installation ==
 
@@ -111,7 +111,7 @@ TranslatePress - Multilingual plugin works out of the box with WooCommerce, cust
 
 = How is it different from other multilingual & translation plugins like WPML or Polylang? =
 
-TranslatePress is easier to use and more intuitive altogether. No more switching between the editor, string translation interfaces or badly translated plugins. You can now translate the full page content directly from the front-end. This makes TranslatePress a great alternative to plugins like Polylang and WPML. For more details check out this [WordPress Translation Plugin Comparison: TranslatePress vs WPML vs Polylang vs Gtranslate](https://translatepress.com/wordpress-translation-plugin-comparison-translatepress-vs-free-and-paid-alternatives/translate-woocommerce-products-translatepress/?utm_source=wp.org&utm_medium=tp-description-page&utm_campaign=TPFree).
+TranslatePress is easier to use and more intuitive altogether. No more switching between the editor, string translation interfaces or badly translated plugins. You can now translate the full page content directly from the front-end. This makes TranslatePress a great alternative to plugins like Polylang and WPML. For more details check out this [WordPress Translation Plugin Comparison: TranslatePress vs WPML vs Polylang vs Gtranslate](https://translatepress.com/wordpress-translation-plugin-comparison-translatepress-vs-free-and-paid-alternatives/?utm_source=wp.org&utm_medium=tp-description-page&utm_campaign=TPFree).
 
 = How do I start to translate my WordPress site? =
 
@@ -142,6 +142,14 @@ For more information please check out our [documentation](https://translatepress
 
 
 == Changelog ==
+= 2.10.7 =
+* Fixed a security vulnerability regarding shortcodes in emails
+* Fixed unnecessary non-costly calls to TranslatePress AI when having unsupported languages
+* Fixed translating gettext strings from WooCommerce emails
+* Fixed sending admin WooCommerce emails in user's language instead of admin's language
+* Fixed WooCommerce emails not being having user-inputted text translated when using checkout WooCommerce block
+* Fixed search filter in Emails tab from String Translation
+
 = 2.10.6 =
 * Added Opposite Language mode for language switcher shortcode
 * Added Manual Translation Only - advanced option for better control over character spending by translating only the pages visited in the Translation Editor.

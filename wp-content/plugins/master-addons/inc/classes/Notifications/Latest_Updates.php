@@ -40,8 +40,8 @@ if (!class_exists('Latest_Updates')) {
                  */
 
                 '<h3 class="jltma-update-head">' . JLTMA . ' <span><small><em>v' . esc_html(JLTMA_VER) . '</em></small>' . __(' has some updates..', 'master-addons') . '</span></h3><br>', // %3$s
-                __('<span class="dashicons dashicons-yes"></span> <span class="jltma-changes-list"> Mobile nav menu toggle is not working properly in free version. </span><br>', 'master-addons'),
-                __('<span class="dashicons dashicons-yes"></span> <span class="jltma-changes-list"> Freemius SDK updated for better security. </span><br>', 'master-addons')
+                __('<span class="dashicons dashicons-yes"></span> <span class="jltma-changes-list"> display condition for logged out user only </span><br>', 'master-addons'),
+                __('<span class="dashicons dashicons-yes"></span> <span class="jltma-changes-list"> Wrapper link is not working in Safari browser </span><br>', 'master-addons')
             );
             printf(wp_kses_post($jltma_changelog_message));
 

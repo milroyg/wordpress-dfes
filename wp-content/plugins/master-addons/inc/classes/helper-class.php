@@ -151,6 +151,7 @@ class Master_Addons_Helper
 				'btn_color'        => '#CC22FF',
 				'notice'           => '',
 				'notice_timestamp' => '',
+				'show_for_premium' => 'false',
 			),
 			$data
 		);
@@ -2224,7 +2225,6 @@ class Master_Addons_Helper
 		ob_start();
 		$upgrade_data = new Pro_Upgrade();
 		// $image_url = esc_url($upgrade_data->get_content('image_url')),
-		// pretty_log( 'Data Looking for ',  $upgrade_data->slug);
 
 		// return sprintf(
 		// 	'<div class="jltma-pro-notice">

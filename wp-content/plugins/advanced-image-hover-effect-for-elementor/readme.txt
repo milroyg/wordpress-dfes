@@ -1,15 +1,15 @@
-=== Advanced Image Hover Effect – Elementor Addon ===
+=== Advanced Image Hover Effect for Elementor ===
 Contributors: kapasias
 Tags: elementor, addons, elementor widget, image hover effects, hover effect
 Donate link: https://paypal.me/jasonbasedanimation?locale.x=en_GB
 Requires at least: 5.7.0
 Tested up to: 6.8
 Requires PHP: 5.6
-Stable tag: 1.11.16
+Stable tag: 1.11.18
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Best Elementor Addons for Image Hover effect. Create Awesome Image Hover Effects with built in 25+ effect.
+Best Addons for Image Hover effect for Elementor. Create Awesome Image Hover Effects with built in 25+ effect.
 
 == Description ==
 
@@ -19,10 +19,9 @@ Create Awesome Image Hover Effects as Box Layout. Use 20+ layout with animations
 
 > Advanced Image Hover Effect for Elementor <a href="https://tastewp.com/new/?pre-installed-plugin-slug=elementor,essential-classy-addons-for-elementor,advanced-image-hover-effect-for-elementor,include-lottie-animation-for-elementor,advanced-chart-for-elementor,html-custom-skin-loop-build-using-elementor?pre-installed-theme-slug=hello-elementor" target="_blank">Try Testing Environment</a>
 <br/>
-> Supercharge your Elementor Page Builder with Highly customizable <a href="https://ecaddons.com/" target="_blank">Free Essential Classy Addons For Elementor</a><br/>
-[Landing Page](https://kapasias.com/advanced-image-hover-effect-for-elementor/)
+> Supercharge your website with Highly customizable <a href="https://ecaddons.com/" target="_blank">Free Essential Classy Addons For Elementor</a>
 
-[Layout 1](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-1-for-elementor/) | [Layout 2](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-2-for-elementor/) | [Layout 3](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-3-for-elementor/) | [Layout 4](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-4-for-elementor/) | [Layout 5](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-5-for-elementor/) | [Layout 6](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-6-for-elementor/) | [Layout 7](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-7-for-elementor/) | [Layout 8](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-8-for-elementor/) | [Layout 9](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-9-for-elementor/) | [Layout 10](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-10-for-elementor/) | [Layout 11](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-11-for-elementor/) | [Layout 12](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-12-for-elementor/) | [Layout 13](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-13-for-elementor/) | [Layout 14](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-14-for-elementor/) | [Layout 15](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-15-for-elementor/) | [Layout 16](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-16-for-elementor/) | [Layout 17](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-17-for-elementor/) | [Layout 18](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-18-for-elementor/) | [Layout 19](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-19-for-elementor/) | [Layout 20](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-20-for-elementor/) | [Layout 21](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-21-for-elementor/) | [Layout 22](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-22-for-elementor/) | [Layout 23](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-23-for-elementor/) | [Layout 24](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-24-for-elementor/) | [Layout 25](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-25-for-elementor/) | [Layout 26](https://kapasias.com/advanced-image-hover-effect-for-elementor/advanced-image-hover-effect-layout-26-for-elementor/)
+[Demo](https://ecaddons.com/elements/image-hover-effect/)
 
 Advanced Image Hover Effect for [Elementor Page Builder](https://elementor.com) is the best in class addon that lets you set customized you box layout. It gives attention to detail by allowing you to change background, set borders and offers a number of other features. This free plugin has over 20+ effects. It creates an interactive space for the users to your website. 
 
@@ -38,7 +37,7 @@ The widget add-on is designed for use by beginners and advanced users. You can e
 
 Check below demo pages.
 
-<a href="https://kapasias.com/advanced-image-hover-effect-for-elementor/" target="_blank">Demo</a>
+<a href="https://ecaddons.com/elements/image-hover-effect/" target="_blank">Demo</a>
 
 = Features =
 
@@ -54,7 +53,7 @@ Check below demo pages.
 
 = Customizations = 
 
-Advanced Image Hover Effect for Elementor comes with CSS3 styles that add stunning hover effects to your box layout. If you’ve got multiple layout to be displayed, then you can simply copy the style and paste it onto another layout, It's elementor functionality. You also have the option to duplicate the layout. The Advanced Image Hover Effect are fully responsive, and can accommodate to very small and extra-large devices. They’re designed using flexible and robust CSS. 
+Advanced Image Hover Effect for Elementor comes with CSS3 styles that add stunning hover effects to your box layout. If you’ve got multiple layout to be displayed, then you can simply copy the style and paste it onto another layout. You also have the option to duplicate the layout. The Advanced Image Hover Effect are fully responsive, and can accommodate to very small and extra-large devices. They’re designed using flexible and robust CSS. 
 
 = Seo Friendly = 
 
@@ -119,6 +118,10 @@ No. Elementor is a live frontend website builder,and we create plugin based on e
 
 == Changelog ==
 
+= 1.11.18 =
+* Compatibility : Elementor 3.32
+* Fix : Few minor bugfix and improvements
+
 = 1.11.16 =
 * Compatibility : Elementor 3.30
 
@@ -162,75 +165,6 @@ No. Elementor is a live frontend website builder,and we create plugin based on e
 = 1.11.5 =
 * SVG Icon Dynamic Style Improved
 * Few minor fix and improvements
-
-= 1.11.4 =
-* Elementor 3.19 Compatibility
-* Few minor bugfix and improvements
-
-= 1.11.3 =
-* Wordpress 6.4 Compatibility
-* Elementor 3.17 Compatibility
-* Few minor bugfix and improvements
-
-= 1.11.2 =
-* Wordpress 6.3 Compatibility
-* Elementor 3.16 Compatibility
-* Few minor bugfix and improvements
-
-= 1.11.1 =
-* Elementor 3.15 Compatibility
-* Few minor bugfix and improvements
-
-= 1.11 =
-* Wordpress 6.2 Compatibility
-* Few minor bugfix and improvements
-
-= 1.10 =
-* Elementor 3.13 Compatibility
-* Few minor bugfix and improvements
-
-= 1.9 =
-* Few minor bugfix and improvements
-
-= 1.8 =
-* Elementor 3.10 Compatibility
-* Compress CSS
-* Notice Extend 100 days
-* Few minor bugfix and improvements
-
-= 1.7 =
-* Elementor 3.7 Compatibility
-
-= 1.6 =
-* Wordpress 6.0 Compatibility
-
-= 1.5 =
-* Elementor 3.6 Compatibility
-
-= 1.4 =
-* Elementor Tag Updated
-* Minor Bug Fix
-
-= 1.3 =
-* Elementor Tag Updated
-* Minor Bug Fix
-
-= 1.2 =
-* Elementor Tag Updated
-* Security related to HTML tags validation
-* Minor Bug Fix
-
-= 1.1 =
-* New Added Six(6) Layout
-* Zoom Effect layouts for cretive boxes
-* Image Styling option
-* Background height and related dynamic options
-* Rotate options in Layout 20
-* Minor Bug Fix
-
-
-= 1.0.0 =
-* Initial version
 
 == Upgrade Notice ==
 

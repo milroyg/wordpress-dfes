@@ -2,9 +2,9 @@
 Contributors: jwthemeltd, litonice13, masteraddons, nisan92
 Tags: elementor, elementor templates, elementor addons, widgets for elementor, elementor widgets
 Requires at least: 4.0
-Tested up to: 6.8.2
+Tested up to: 6.8.3
 Requires PHP: 7.0
-Stable tag: 2.0.9.7
+Stable tag: 2.0.9.8
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -353,6 +353,11 @@ Paste on your Local Computer
 
 
 == Changelog ==
+
+= 2.0.9.8 (06-10-2025) =
+* Fixed: display condition for logged out user only. Thanks [@hamiddavodi](https://wordpress.org/support/topic/display-element-only-for-logged-out-users/) for informing about the issue.
+* Fixed: Wrapper link is not working in Safari browser Thanks [@adzpz](https://wordpress.org/support/topic/wrapper-link-not-working-on-safari-ipad/) for informing about the issue.
+* UX Improvement : UX Improved for notice. 
 
 = 2.0.9.7 (23-09-2025) =
 * Fixed: Mobile nav menu toggle is not working properly in free version.

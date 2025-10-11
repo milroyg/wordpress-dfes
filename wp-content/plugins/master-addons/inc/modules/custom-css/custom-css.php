@@ -25,12 +25,12 @@ class JLTMA_Extension_Custom_CSS
 
 	public function __construct()
 	{
-
-		// Add new controls to advanced tab globally
-		add_action("elementor/element/after_section_end", array($this, 'jltma_add_section_custom_css_controls'), 25, 3);
-
-		// Render the custom CSS
 		if (!defined('ELEMENTOR_PRO_VERSION')) {
+			
+			// Add new controls to advanced tab globally
+			add_action("elementor/element/after_section_end", array($this, 'jltma_add_section_custom_css_controls'), 25, 3);
+			
+			// Render the custom CSS
 			add_action('elementor/element/parse_css', array($this, 'jltma_add_post_css'), 10, 2);
 		}
 	}
