@@ -2,7 +2,7 @@
 # This file is distributed under the GPL V3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Embed Any Document 2.7.7\n"
+"Project-Id-Version: Embed Any Document \n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/embed-any-document\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Awsm Innovations <hello@awsm.in>\n"

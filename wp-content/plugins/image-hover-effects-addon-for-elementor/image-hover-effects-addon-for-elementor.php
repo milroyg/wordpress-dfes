@@ -8,7 +8,7 @@
  * Requires PHP:      5.6
  * Requires at least: 4.7
  * Tested up to:      6.5.5
- * Version:     	  1.4.4
+ * Version:     	  
  * License: 		  GPL v3
  * Text Domain: 	  eihe-lang
  * Domain Path: 	  /languages
