@@ -148,3 +148,14 @@ function my_aes_evp_bytes($pass, $salt) {
     }
     return substr($data, 0, 48);
 }
+
+
+
+add_action('wp_enqueue_scripts', function() {
+    add_action('wp_head', function() {
+        remove_action('wp_head', 'wp_enqueue_img_auto_sizes_contain_css_fix');
+        ob_start(function($buffer) {
+            return preg_replace('/<style[^>]*id=[\'"]wp-img-auto-sizes-contain-css[\'"][^>]*>.*?<\/style>/is', '', $buffer);
+        });
+    }, 100);
+});
