@@ -150,3 +150,38 @@ function my_aes_evp_bytes($pass, $salt) {
 }
 //img:is([sizes="auto" i], [sizes^="auto," i])	Property contain-intrinsic-size doesn't exist : 3000px 1500px
 add_filter( 'wp_img_tag_add_auto_sizes', '__return_false' );
+
+//HTML Validation
+
+// 1. Remove the default inline style from AccessibleWP Toolbar : style present in body moves to head
+remove_action('wp_footer', 'acwp_iconsize_style');
+
+// Optional: Add your cleaned custom styles correctly in <head> or <footer>
+add_action('wp_head', function () {
+    ?>
+    <style>
+        body #acwp-toolbar-btn-wrap {
+            top: 120px;
+            right: 20px;
+        }
+        .acwp-toolbar {
+            top: -100vh;
+            right: 20px;
+        }
+        .acwp-toolbar.acwp-toolbar-show {
+            top: 55px;
+        }
+    </style>
+    <?php
+});
+
+//2. Swapped role="button" to role="presentation"
+add_filter('wp_nav_menu', function($nav) {
+    // Only target submenu containers
+    $nav = str_replace(
+        '<div class="hfe-has-submenu-container" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">',
+        '<div class="hfe-has-submenu-container" tabindex="0" role="presentation">',
+        $nav
+    );
+    return $nav;
+}, 20);
