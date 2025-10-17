@@ -216,3 +216,26 @@ add_action('wp_enqueue_scripts', function () {
 
     wp_enqueue_script('eac-image-gallery');
 }, 20); 
+
+add_action('wp_head', function() {
+    ?>
+    <style id='ctl_common_style-inline-css' type='text/css'>
+        .ctl-wrapper {
+            --ctw-first-story-color: #3d3d3d;
+            --ctw-second-story-color: #0f4c81;
+            --ctw-cbx-des-background: #f4f4f4;
+            --ctw-ybx-bg: #f3501d;
+            --ctw-line-bg: #16203b;
+            --ctw-cbx-title-font-family: Maven Pro;
+            --ctw-cbx-title-font-weight: 700;
+            --ctw-cbx-title-font-size: 20px;
+            --ctw-cbx-desc-font-family: Maven Pro;
+            --ctw-cbx-desc-font-weight: normal;
+            --ctw-cbx-desc-font-size: 16px;
+            --ctw-cbx-date-font-family: Maven Pro;
+            --ctw-cbx-date-font-weight: 700;
+            --ctw-cbx-date-font-size: 21px;
+        }
+    </style>
+    <?php
+}, 1);
