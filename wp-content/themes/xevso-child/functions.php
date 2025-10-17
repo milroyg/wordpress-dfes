@@ -29,6 +29,8 @@ add_action('wp_enqueue_scripts', function () {
   wp_enqueue_style('bootstrap5', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
   wp_enqueue_script('chart-js', 'https://cdn.jsdelivr.net/npm/chart.js');
   wp_enqueue_script('bootstrap5', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js', array(), null, true);
+   wp_dequeue_script('eac-image-gallery');
+    wp_deregister_script('eac-image-gallery');
 
   if (is_page([9616, 9625])) {
     // Load Leaflet core
@@ -185,3 +187,32 @@ add_filter('wp_nav_menu', function($nav) {
     );
     return $nav;
 }, 20);
+
+//3. Script consists of two type attribute creating a duplicate tag.
+add_action('wp_enqueue_scripts', function () {
+    // Build correct plugin path dynamically
+    $plugin_path = '/wp-content/plugins/elementor-addon-components/assets/js/elementor/eac-image-gallery.min.js';
+    $script_url  = site_url($plugin_path);
+
+    // Re-register properly as module
+    wp_register_script(
+        'eac-image-gallery-js',
+        $script_url,
+        ['jquery'],
+        '1.0.0',
+        true
+    );
+
+    add_filter('script_loader_tag', function ($tag, $handle, $src) {
+        if ($handle === 'eac-image-gallery-js') {
+            return sprintf(
+                '<script type="module" src="%s" id="%s"></script>',
+                esc_url($src),
+                esc_attr($handle)
+            );
+        }
+        return $tag;
+    }, 10, 3);
+
+    wp_enqueue_script('eac-image-gallery-js');
+}, 20); 
