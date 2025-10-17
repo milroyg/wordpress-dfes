@@ -214,5 +214,5 @@ add_action('wp_enqueue_scripts', function () {
         return $tag;
     }, 10, 3);
 
-    wp_enqueue_script('eac-image-gallery-js');
+    wp_enqueue_script('eac-image-gallery');
 }, 20); 
