@@ -148,3 +148,5 @@ function my_aes_evp_bytes($pass, $salt) {
     }
     return substr($data, 0, 48);
 }
+//img:is([sizes="auto" i], [sizes^="auto," i])	Property contain-intrinsic-size doesn't exist : 3000px 1500px
+add_filter( 'wp_img_tag_add_auto_sizes', '__return_false' );
