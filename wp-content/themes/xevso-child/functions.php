@@ -196,7 +196,7 @@ add_action('wp_enqueue_scripts', function () {
 
     // Re-register properly as module
     wp_register_script(
-        'eac-image-gallery-js',
+        'eac-image-gallery',
         $script_url,
         ['jquery'],
         '1.0.0',
@@ -204,7 +204,7 @@ add_action('wp_enqueue_scripts', function () {
     );
 
     add_filter('script_loader_tag', function ($tag, $handle, $src) {
-        if ($handle === 'eac-image-gallery-js') {
+        if ($handle === 'eac-image-gallery') {
             return sprintf(
                 '<script type="module" src="%s" id="%s"></script>',
                 esc_url($src),
@@ -217,25 +217,18 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_script('eac-image-gallery');
 }, 20); 
 
-add_action('wp_head', function() {
-    ?>
-    <style id='ctl_common_style-inline-css' type='text/css'>
-        .ctl-wrapper {
-            --ctw-first-story-color: #3d3d3d;
-            --ctw-second-story-color: #0f4c81;
-            --ctw-cbx-des-background: #f4f4f4;
-            --ctw-ybx-bg: #f3501d;
-            --ctw-line-bg: #16203b;
-            --ctw-cbx-title-font-family: Maven Pro;
-            --ctw-cbx-title-font-weight: 700;
-            --ctw-cbx-title-font-size: 20px;
-            --ctw-cbx-desc-font-family: Maven Pro;
-            --ctw-cbx-desc-font-weight: normal;
-            --ctw-cbx-desc-font-size: 16px;
-            --ctw-cbx-date-font-family: Maven Pro;
-            --ctw-cbx-date-font-weight: 700;
-            --ctw-cbx-date-font-size: 21px;
+
+//4. Moved Timeline plugin (ctl_common_style-inline-css) <style> body to head
+add_action('template_redirect', function() {
+    ob_start(function($buffer) {
+        // Move ctl_common_style-inline-css from body to head
+        if (preg_match("/<style id='ctl_common_style-inline-css'[^>]*>.*?<\/style>/s", $buffer, $matches)) {
+            // Remove from body
+            $buffer = str_replace($matches[0], '', $buffer);
+
+            // Inject into head: replace <head> with <head> + style
+            $buffer = preg_replace("/<head([^>]*)>/i", "<head$1>\n" . $matches[0], $buffer, 1);
         }
-    </style>
-    <?php
-}, 1);
+        return $buffer;
+    });
+});
