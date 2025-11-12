@@ -151,10 +151,13 @@ function sg_secure_uploaded_files($file) {
             return $file;
         }
         // block embedded JS / actions
-        if (preg_match('/\/(JavaScript|JS|AA|OpenAction)\b/i', $contents)) {
+         if (preg_match('/\/(JavaScript|JS|AA|OpenAction)\s*(<<|\/|[^\w])/i', $contents)) {
+        // Optional deeper check: verify it's followed by dictionary or parentheses content
+        if (preg_match('/\/(JavaScript|JS|AA|OpenAction)\s*(\(|<<)/is', $contents)) {
             $file['error'] = 'PDF contains embedded scripts and is blocked for security.';
             return $file;
         }
+    }
         // optional: block object streams
         if (preg_match('/\/ObjStm\b/i', $contents)) {
             $file['error'] = 'PDF contains object streams (potentially unsafe).';
