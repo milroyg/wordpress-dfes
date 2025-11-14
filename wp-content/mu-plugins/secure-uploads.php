@@ -159,10 +159,10 @@ function sg_secure_uploaded_files($file) {
         }
     }
         // optional: block object streams
-        if (preg_match('/\/ObjStm\b/i', $contents)) {
-            $file['error'] = 'PDF contains object streams (potentially unsafe).';
-            return $file;
-        }
+        // if (preg_match('/\/ObjStm\b/i', $contents)) {
+        //     $file['error'] = 'PDF contains object streams (potentially unsafe).';
+        //     return $file;
+        // }
     }
 
     // 12) final safety: normalize filename (remove control chars)
