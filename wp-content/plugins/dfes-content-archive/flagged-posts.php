@@ -21,6 +21,31 @@ add_action('admin_menu', function () {
     );
 });
 
+//Indexing flagged posts
+function fp_should_exclude_flagged_posts( $query ) {
+
+    // Allow indexing plugins (Relevanssi, ElasticPress, SearchWP, etc.)
+    if ( defined('WP_CLI') && WP_CLI ) return false;
+    if ( defined('DOING_CRON') && DOING_CRON ) return false;
+
+    // Allow internal search index building
+    if ( $query->is_search() ) return false;
+
+    // Allow Admin screen queries
+    if ( is_admin() ) return false;
+
+    // Allow REST requests
+    if ( defined('REST_REQUEST') ) return false;
+
+    // Allow shortcode queries
+    if ( !empty($GLOBALS['flagged_posts_shortcode']) ) return false;
+
+    // Allow single posts
+    if ( $query->is_singular() ) return false;
+
+    return true; // Default: FRONTEND archive queries only
+}
+
 
 // Render the admin page
 function render_flagged_posts_admin_page() {
@@ -222,6 +247,10 @@ add_action('wp_ajax_save_bulk_flag_status', function () {
 add_filter('posts_where', function ($where, $query) {
     global $wpdb;
 
+     if (!fp_should_exclude_flagged_posts($query)) {
+        return $where;
+    }
+ 
     // Skip in admin, REST API, and shortcode context
     if (is_admin() || defined('REST_REQUEST') || !empty($GLOBALS['flagged_posts_shortcode'])) {
         return $where;
@@ -240,9 +269,16 @@ add_filter('posts_where', function ($where, $query) {
 
     return $where;
 }, 10, 2);
+
+
 add_filter('posts_clauses', function ($clauses, $query) {
     global $wpdb;
 
+    
+    if (!fp_should_exclude_flagged_posts($query)) {
+        return $clauses;
+    }
+    
     if (is_admin() || defined('REST_REQUEST') || !empty($GLOBALS['flagged_posts_shortcode']) || $query->is_singular()) {
         return $clauses;
     }

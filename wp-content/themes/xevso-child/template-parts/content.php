@@ -73,13 +73,7 @@ $gallery_ids = explode( ',', $postgallerys );
 				<?php
 				if ( 'post' === get_post_type() ) :
 					?>
-					<div class="xevso-post-meta">
-						<ul>
-							<?php if ( is_singular() ) : ?>
-							<li class="xevso-cat"><?php /* xevso_post_cat(); */ ?></li>
-							<?php endif; ?>
-						</ul>
-					</div>
+				
 				<?php endif; 
 				?>
 			</div>

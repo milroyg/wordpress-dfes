@@ -58,9 +58,9 @@ if(array_key_exists('xevso_meta_custom_title', $xevso_commonMeta)){
 					</h2>
 				</div>
 				<?php if(function_exists('bcn_display')) : ?>
-					<div class="breadcrumb-bcn">
-						<?php bcn_display();?>
-					</div>
+					<!-- <div class="breadcrumb-bcn">
+						<?php/* bcn_display();*/?>
+					</div> -->
 				<?php endif; ?>
 			</div>
 		</div>

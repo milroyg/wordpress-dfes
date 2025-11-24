@@ -85,7 +85,7 @@ $gallery_ids = explode( ',', $postgallerys );
 			</div>
 			<div class="post-summery">
 				
-<!-- 				<h2><?php/* the_title();*/ ?></h2> -->
+<!-- 				<h2><?php/* the_title()*/?></h2> -->
 				<?php the_content(); ?>
 			</div>
 			<?php /* if( has_tag() or function_exists( 'xevso_post_share_social' ) ) : ?>

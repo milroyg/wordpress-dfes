@@ -131,3 +131,8 @@ Css Validation
        url("./flaticon.eot?fb4a2394759122d28aa20ce3f32a481c#iefix") format("embedded-opentype"),
        url("./flaticon.svg?fb4a2394759122d28aa20ce3f32a481c#flaticon") format("svg");
 }
+
+img.attachment-post-thumbnail.size-post-thumbnail.wp-post-image {
+    width: 500px;
+    height: 300px;
+}
