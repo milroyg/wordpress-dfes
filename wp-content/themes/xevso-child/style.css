@@ -136,3 +136,8 @@ img.attachment-post-thumbnail.size-post-thumbnail.wp-post-image {
     width: 500px;
     height: 300px;
 }
+@media print{
+  header{
+    display:none;
+  }
+}
