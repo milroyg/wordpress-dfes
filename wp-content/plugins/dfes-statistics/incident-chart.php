@@ -180,9 +180,9 @@ if ($csv_file_path && file_exists($csv_file_path)) {
         <table id="incident-table" class="wp-list-table widefat striped">
             <thead>
                 <tr>
-                    <th>Incident Type</th>
-                    <th>Count</th>
-                    <th>Percentage</th>
+                    <th scope="col">Incident Type</th>
+                    <th scope="col">Count</th>
+                    <th scope="col">Percentage</th>
                 </tr>
             </thead>
             <tbody></tbody>
