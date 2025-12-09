@@ -732,6 +732,11 @@ class TRP_Plugin_Updater{
         }
     }
 
+    /*
+     * This is triggered on admin_init inside class-translate-press.php
+     * It's stupid and should be refactored so it's in the same flow as the license_page() function in TRP_LICENSE_PAGE class
+     * The messages are duplicated in the includes/onboarding/class-license.php since we can't use this function as it is
+     */
     public function activate_license() {
 
         // listen for our activate button to be clicked
@@ -826,6 +831,11 @@ class TRP_Plugin_Updater{
                                     break;
                                 case 'item_name_mismatch' :
                                     $message[] = __( '<p><strong>License key mismatch.</strong> The license you entered doesn’t match the TranslatePress version you have installed.</p><p>Please check that you’ve installed the correct version for your license from your TranslatePress account.</p>' , 'translatepress-multilingual' );
+
+                                    if( !empty( $license_data->item_name ) && urldecode( $license_data->item_name ) === 'TranslatePress' ) {
+                                        $message[] = "<p>" . __( 'If you have only the free plugin installed but added a paid license, please install the paid plugin from your TranslatePress account.' , 'translatepress-multilingual' ) . "</p>";
+                                    }
+
                                     break;
                                 case 'no_activations_left':
 

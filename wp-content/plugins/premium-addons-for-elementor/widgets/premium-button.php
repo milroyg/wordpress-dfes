@@ -6,7 +6,6 @@
 namespace PremiumAddons\Widgets;
 
 // Elementor Classes.
-use Elementor\Plugin;
 use Elementor\Icons_Manager;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -151,10 +150,10 @@ class Premium_Button extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
-		return array( 'pa', 'premium', 'premium button', 'cta', 'call', 'link', 'btn', 'pa', 'premium' );
+		return array( 'pa', 'premium', 'premium button', 'cta', 'call', 'link', 'btn' );
 	}
 
 	protected function is_dynamic_content(): bool {
@@ -881,23 +880,23 @@ class Premium_Button extends Widget_Base {
 		$this->add_control(
 			'premium_button_icon_position',
 			array(
-				'label'       => __( 'Icon Position', 'premium-addons-for-elementor' ),
-				'type'        => Controls_Manager::SELECT,
-				'default'     => 'before',
-				'options'     => array(
+				'label'                => __( 'Icon Position', 'premium-addons-for-elementor' ),
+				'type'                 => Controls_Manager::SELECT,
+				'default'              => 'before',
+				'options'              => array(
 					'before' => __( 'Before', 'premium-addons-for-elementor' ),
 					'after'  => __( 'After', 'premium-addons-for-elementor' ),
 				),
-				'label_block' => true,
-				'condition'   => array(
+				'label_block'          => true,
+				'condition'            => array(
 					'premium_button_icon_switcher' => 'yes',
 					'premium_button_hover_effect!' => 'style4',
 				),
 				'selectors_dictionary' => array(
-					'before'  => 'row',
-					'after' => 'row-reverse',
+					'before' => 'row',
+					'after'  => 'row-reverse',
 				),
-				'selectors'   => array(
+				'selectors'            => array(
 					'{{WRAPPER}} .premium-button-text-icon-wrapper' => 'flex-direction: {{VALUE}}',
 				),
 			)
@@ -1876,13 +1875,4 @@ class Premium_Button extends Widget_Base {
 		<?php
 	}
 
-	/**
-	 * Render Button widget output in the editor.
-	 *
-	 * Written as a Backbone JavaScript template and used to generate the live preview.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 */
-	protected function content_template() {}
 }

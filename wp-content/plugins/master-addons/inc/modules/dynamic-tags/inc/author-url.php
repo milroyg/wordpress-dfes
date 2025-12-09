@@ -30,7 +30,7 @@ class JLTMA_Author_URL extends Data_Tag
 
 	public function get_title()
 	{
-		return esc_html__('Author URL', 'master-addons' );
+		return esc_html__('MA Author URL', 'master-addons' );
 	}
 
 	public function get_panel_template_setting_key()

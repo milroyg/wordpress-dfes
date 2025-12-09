@@ -64,6 +64,12 @@ echo esc_html__( 'Extensions', 'master-addons' );
 							<div class="jltma-master-addons-features-container mt-0 is-flex">
 								<?php 
 foreach ( JLTMA_Addon_Extensions::$jltma_extensions['jltma-extensions']['extension'] as $key => $extension ) {
+    // Check if Elementor Pro is active and this is a conflicting extension
+    // $is_elementor_pro_active = defined('ELEMENTOR_PRO_VERSION');
+    // $is_dynamic_tags = ($extension['key'] === 'dynamic-tags');
+    // $is_custom_css = ($extension['key'] === 'custom-css');
+    // $is_disabled_due_to_pro = ($is_elementor_pro_active && ($is_dynamic_tags || $is_custom_css));
+    $is_disabled_due_to_pro = false;
     ?>
 
 									<div class="jltma-master-addons-dashboard-checkbox">
@@ -75,12 +81,32 @@ foreach ( JLTMA_Addon_Extensions::$jltma_extensions['jltma-extensions']['extensi
         echo '<span class="jltma-pro-ribbon">Pro</span>';
     }
     ?>
+												<?php 
+    if ( $is_disabled_due_to_pro ) {
+        echo '<span class="jltma-pro-ribbon" style="background: #ff6b6b;">Disabled</span>';
+    }
+    ?>
 											</div>
 
 											<div class="jltma-master-addons-content-inner">
 												<div class="jltma-master-addons-features-title">
 													<?php 
     echo esc_html__( $extension['title'] );
+    ?>
+													<?php 
+    if ( $is_disabled_due_to_pro ) {
+        ?>
+														<small style="display: block; color: #ff6b6b; font-size: 11px; margin-top: 5px;">
+															<?php 
+        if ( $is_dynamic_tags ) {
+            echo esc_html__( 'Disabled: Elementor Pro Dynamic Tags is active', 'master-addons' );
+        } elseif ( $is_custom_css ) {
+            echo esc_html__( 'Disabled: Elementor Pro Custom CSS is active', 'master-addons' );
+        }
+        ?>
+														</small>
+													<?php 
+    }
     ?>
 												</div> <!-- jltma_master_addons-features-title -->
 												<div class="jltma-addons-tooltip inline-block">
@@ -97,7 +123,11 @@ foreach ( JLTMA_Addon_Extensions::$jltma_extensions['jltma-extensions']['extensi
 												<label for="<?php 
     echo esc_attr( $extension['key'] );
     ?>" class="switch switch-text switch-primary switch-pill <?php 
-    if ( !ma_el_fs()->can_use_premium_code__premium_only() && isset( $extension['is_pro'] ) && $extension['is_pro'] ) {
+    if ( $is_disabled_due_to_pro ) {
+        // Specifically for Dynamic Tags when Elementor Pro is active
+        echo "elementor-pro-conflict disabled";
+    } elseif ( !ma_el_fs()->can_use_premium_code__premium_only() && isset( $extension['is_pro'] ) && $extension['is_pro'] ) {
+        // For Pro extensions when not in premium mode
         echo "ma-el-pro disabled";
     }
     ?>">
@@ -107,14 +137,20 @@ foreach ( JLTMA_Addon_Extensions::$jltma_extensions['jltma-extensions']['extensi
 
 														<input type="checkbox" id="<?php 
     echo esc_attr( $extension['key'] );
-    ?>" class="jltma-switch-input " name="<?php 
+    ?>" class="jltma-switch-input" name="<?php 
     echo esc_attr( $extension['key'] );
     ?>"
 														<?php 
-    if ( !ma_el_fs()->can_use_premium_code__premium_only() && isset( $extension['is_pro'] ) && $extension['is_pro'] ) {
+    if ( $is_disabled_due_to_pro ) {
+        // Only disable Dynamic Tags when Elementor Pro is active
         checked( 0, $this->jltma_get_extension_settings[$extension['key']], false );
-        echo "disabled";
+        echo " disabled";
+    } elseif ( isset( $extension['is_pro'] ) && $extension['is_pro'] ) {
+        // For Pro extensions when not in premium mode
+        checked( 0, $this->jltma_get_extension_settings[$extension['key']], false );
+        echo " disabled";
     } else {
+        // Free extensions - check their saved state
         checked( 1, $this->jltma_get_extension_settings[$extension['key']], true );
     }
     ?> />

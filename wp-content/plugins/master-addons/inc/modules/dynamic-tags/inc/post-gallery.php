@@ -19,7 +19,7 @@ class JLTMA_Post_Gallery extends Data_Tag
 
 	public function get_title()
 	{
-		return esc_html__('Post Image Attachments', 'master-addons' );
+		return esc_html__('MA Post Image Attachments', 'master-addons' );
 	}
 
 	public function get_categories()

@@ -917,6 +917,24 @@ class Premium_Icon_List extends Widget_Base {
 		}
 
 		$repeater_list->add_control(
+			'icon_bg',
+			array(
+				'label'     => __( 'Icon Background', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} {{CURRENT_ITEM}} .premium-bullet-list-wrapper i ,
+					 {{WRAPPER}} {{CURRENT_ITEM}} .premium-bullet-list-wrapper svg,
+					  {{WRAPPER}} {{CURRENT_ITEM}} .premium-bullet-list-wrapper img ,
+					   {{WRAPPER}} {{CURRENT_ITEM}} .premium-bullet-list-icon-text p' => 'background-color: {{VALUE}}',
+				),
+				'condition' => array(
+					'show_icon'         => 'yes',
+					'show_global_style' => 'yes',
+				),
+			)
+		);
+
+		$repeater_list->add_control(
 			'text_icon_color',
 			array(
 				'label'     => __( 'Icon/Text Color', 'premium-addons-for-elementor' ),
@@ -1310,28 +1328,28 @@ class Premium_Icon_List extends Widget_Base {
 		$this->add_responsive_control(
 			'text_align',
 			array(
-				'label'     => __( 'Text Alignment', 'premium-addons-for-elementor' ),
-				'type'      => Controls_Manager::CHOOSE,
+				'label'       => __( 'Text Alignment', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::CHOOSE,
 				'description' => __( 'Aligns the <b>title and description</b> inside each list item.', 'premium-addons-for-elementor' ),
-				'options'   => array(
-					'start' => array(
+				'options'     => array(
+					'start'  => array(
 						'title' => __( 'Left', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-text-align-left',
 					),
-					'center'     => array(
+					'center' => array(
 						'title' => __( 'Center', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-text-align-center',
 					),
-					'end'   => array(
+					'end'    => array(
 						'title' => __( 'Right', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-text-align-right',
 					),
 				),
-				'selectors' => array(
+				'selectors'   => array(
 					'{{WRAPPER}} .premium-bullet-list-content .premium-bullet-list-text-wrapper > span' => 'align-self: {{VALUE}}; text-align: {{VALUE}};',
 				),
-				'toggle'    => false,
-				'default'   => 'start',
+				'toggle'      => false,
+				'default'     => 'start',
 			)
 		);
 

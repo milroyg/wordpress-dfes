@@ -18,7 +18,7 @@ class JLTMA_Site_Tagline extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('Site Tagline', 'master-addons' );
+		return esc_html__('MA Site Tagline', 'master-addons' );
 	}
 
 	public function get_group()

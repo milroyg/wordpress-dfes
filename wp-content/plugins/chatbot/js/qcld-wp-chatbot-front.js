@@ -435,23 +435,56 @@ jQuery(function ($) {
                 }
             }
             function showing_proactive_msg(msg){
+                var enableleReactions = globalwpw.settings.obj.skip_chat_reactions_menu;
+                var eanleeReport = globalwpw.settings.obj.enable_chat_report_menu;
+                var enableshare = globalwpw.settings.obj.enable_chat_share_menu;
+                var likeTxt = globalwpw.settings.obj.qlcd_wp_chatbot_like_text;
+                var disLikeTxt = globalwpw.settings.obj.qlcd_wp_chatbot_dislike_text;
+                var reportTxt = globalwpw.settings.obj.qlcd_wp_chatbot_report_text;
+                var sharetTxt = globalwpw.settings.obj.qlcd_wp_chatbot_share_text;
+                console.log(globalwpw.settings);
+                console.log(enableleReactions);
                 //first open then chatboard
                 if(localStorage.getItem("wpwHitory") && ! $('.wp-chatbot-operation-option[data-option="chat"]').parent().hasClass('wp-chatbot-operation-active')){
-                    $('.wp-chatbot-messages-wrapper').html(localStorage.getItem("wpwHitory"));
-                    $('.wp-chatbot-operation-option').each(function(){
-                        if($(this).attr('data-option')=='chat'){
-                            $(this).parent().addClass('wp-chatbot-operation-active');
-                        }else{
-                            $(this).parent().removeClass('wp-chatbot-operation-active');
-                        }
-                    });
-                }
-                var msgContent='<li class="wp-chatbot-msg">' +
-                    '<div class="wp-chatbot-avatar">'+
-                    '<img src="'+wpChatBotVar.agent_image_path+'" alt="">'+
-                    '</div>'+
-                    '<div class="wp-chatbot-agent">'+ wpChatBotVar.agent+'</div>'
-                    +'<div class="wp-chatbot-paragraph"><img class="wp-chatbot-comment-loader" src="'+wpChatBotVar.image_path+'comment.gif" alt="Typing..." /></div></li>';
+                        $('.wp-chatbot-messages-wrapper').html(localStorage.getItem("wpwHitory"));
+                        $('.wp-chatbot-operation-option').each(function(){
+                            if($(this).attr('data-option')=='chat'){
+                                $(this).parent().addClass('wp-chatbot-operation-active');
+                            }else{
+                                $(this).parent().removeClass('wp-chatbot-operation-active');
+                            }
+                        });
+                    }
+                    var msgContent='<li class="wp-chatbot-msg">' +
+                        '<div class="wp-chatbot-avatar">'+
+                        '<img src="'+wpChatBotVar.agent_image_path+'" alt="">'+
+                        '</div>'+
+                        '<div class="wp-chatbot-agent">'+ wpChatBotVar.agent+'</div>'
+                        +'<div class="wp-chatbot-paragraph"><img class="wp-chatbot-comment-loader" src="'+wpChatBotVar.image_path+'comment.gif" alt="Typing..." /></div>'+
+                            '<div class="qcld-like-dislike-icon">' +
+                (enableleReactions == 1 
+                    ? '<a href="#" title="' + (likeTxt?.en_US || 'Like') + '"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a>' +
+                        '<a href="#" title="' + (disLikeTxt?.en_US || 'Dislike') + '"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a>'
+                    : '') +
+
+                (eanleeReport == 1 
+                    ? '<a href="#" title="' + (reportTxt?.en_US || 'Report') + '"><i class="fa fa-commenting-o" aria-hidden="true"></i></a>'
+                    : '') +
+
+                (enableshare == 1 
+                    ? '<div class="qcld-share">' +
+                        '<a href="#" class="share-toggle" title="' + (sharetTxt?.en_US || 'Share') + '"><i class="fa fa-share-alt" aria-hidden="true"></i></a>' +
+                        '<div class="share-menu" style="display:none;">' +
+                            '<a href="#" class="share-fb"><i class="fa fa-facebook"></i></a>' +
+                            '<a href="#" class="share-wa"><i class="fa fa-whatsapp"></i></a>' +
+                            '<a href="#" class="share-x"><i class="fa fa-twitter"></i></a>' +
+                            '<a href="#" class="share-email"><i class="fa fa-envelope"></i></a>' +
+                        '</div>' +
+                    '</div>'
+                    : '') +
+            '</div>' +
+                    '</li>';
+                    
                     $('#wp-chatbot-messages-container').append(msgContent);
                 //Scroll to the last message
                 $('.wp-chatbot-ball-inner').animate({ scrollTop: $('.wp-chatbot-messages-wrapper').prop("scrollHeight")}, 'slow').parent().find('.slimScrollBar').css({'top':$('.wp-chatbot-ball-inner').height()+'px'});
@@ -462,6 +495,15 @@ jQuery(function ($) {
                 }, 2000);
             }
             function  showing_proactive_double_msg(secondMsg) {
+                var enableleReactions = globalwpw.settings.obj.skip_chat_reactions_menu;
+                var eanleeReport = globalwpw.settings.obj.enable_chat_report_menu;
+                var enableshare = globalwpw.settings.obj.enable_chat_share_menu;
+                var likeTxt = globalwpw.settings.obj.qlcd_wp_chatbot_like_text;
+                var disLikeTxt = globalwpw.settings.obj.qlcd_wp_chatbot_dislike_text;
+                var reportTxt = globalwpw.settings.obj.qlcd_wp_chatbot_report_text;
+                var sharetTxt = globalwpw.settings.obj.qlcd_wp_chatbot_share_text;
+                console.log(globalwpw.settings);
+                console.log(enableleReactions);
                 //first open then chatboard
                 if(localStorage.getItem("wpwHitory")){
                     $('.wp-chatbot-messages-wrapper').html(localStorage.getItem("wpwHitory"));
@@ -479,7 +521,30 @@ jQuery(function ($) {
                     '<img src="'+wpChatBotVar.agent_image_path+'" alt="">'+
                     '</div>'+
                     '<div class="wp-chatbot-agent">'+ wpChatBotVar.agent+'</div>'
-                    +'<div class="wp-chatbot-paragraph"><img class="wp-chatbot-comment-loader" src="'+wpChatBotVar.image_path+'comment.gif" alt="Typing..." /></div></li>';
+                    +'<div class="wp-chatbot-paragraph"><img class="wp-chatbot-comment-loader" src="'+wpChatBotVar.image_path+'comment.gif" alt="Typing..." /></div>'+
+                     '<div class="qcld-like-dislike-icon">' +
+              (enableleReactions == 1 
+                  ? '<a href="#" title="' + (likeTxt?.en_US || 'Like') + '"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a>' +
+                    '<a href="#" title="' + (disLikeTxt?.en_US || 'Dislike') + '"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a>'
+                  : '') +
+
+              (eanleeReport == 1 
+                  ? '<a href="#" title="' + (reportTxt?.en_US || 'Report') + '"><i class="fa fa-commenting-o" aria-hidden="true"></i></a>'
+                  : '') +
+
+              (enableshare == 1 
+                  ? '<div class="qcld-share">' +
+                      '<a href="#" class="share-toggle" title="' + (sharetTxt?.en_US || 'Share') + '"><i class="fa fa-share-alt" aria-hidden="true"></i></a>' +
+                      '<div class="share-menu" style="display:none;">' +
+                          '<a href="#" class="share-fb"><i class="fa fa-facebook"></i></a>' +
+                          '<a href="#" class="share-wa"><i class="fa fa-whatsapp"></i></a>' +
+                          '<a href="#" class="share-x"><i class="fa fa-twitter"></i></a>' +
+                          '<a href="#" class="share-email"><i class="fa fa-envelope"></i></a>' +
+                      '</div>' +
+                  '</div>'
+                  : '') +
+          '</div>' +
+          '</li>';
                 $('#wp-chatbot-messages-container').append(msgContent);
                 //Scroll to the last message
                 $('.wp-chatbot-ball-inner').animate({ scrollTop: $('.wp-chatbot-messages-wrapper').prop("scrollHeight")}, 'slow').parent().find('.slimScrollBar').css({'top':$('.wp-chatbot-ball-inner').height()+'px'});

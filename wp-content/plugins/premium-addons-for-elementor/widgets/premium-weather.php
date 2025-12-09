@@ -56,6 +56,13 @@ class Premium_Weather extends Widget_Base {
 	public $settings = null;
 
 	/**
+	 * Check Premium Addons Pro Version.
+	 *
+	 * @var bool $papro_activated
+	 */
+	private $papro_activated;
+
+	/**
 	 * Check Icon Draw Option.
 	 *
 	 * @since 4.9.26
@@ -290,7 +297,7 @@ class Premium_Weather extends Widget_Base {
 	 */
 	private function add_general_section_controls() {
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$this->papro_activated = Helper_Functions::check_papro_version();
 
 		$this->start_controls_section(
 			'pa_weather_general_section',
@@ -357,7 +364,7 @@ class Premium_Weather extends Widget_Base {
 			)
 		);
 
-		if ( ! $papro_activated ) {
+		if ( ! $this->papro_activated ) {
 
 			$get_pro = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro', 'weather-widget', 'wp-editor', 'get-pro' );
 
@@ -510,7 +517,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'current_weather_heading',
 			array(
-				'label'     => esc_html__( 'Current Weather', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Current Weather', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -574,7 +581,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'display_options_heading',
 			array(
-				'label'     => esc_html__( 'Display Options', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Display Options', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 				'condition' => array(
@@ -954,8 +961,6 @@ class Premium_Weather extends Widget_Base {
 
 	private function add_daily_forecast_section() {
 
-		$papro_activated = apply_filters( 'papro_activated', false );
-
 		$this->start_controls_section(
 			'pa_daily_forecast_section',
 			array(
@@ -974,7 +979,7 @@ class Premium_Weather extends Widget_Base {
 			)
 		);
 
-		if ( ! $papro_activated ) {
+		if ( ! $this->papro_activated ) {
 
 			$get_pro = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro', 'weather-widget', 'wp-editor', 'get-pro' );
 
@@ -1147,8 +1152,6 @@ class Premium_Weather extends Widget_Base {
 
 	private function add_custom_icons_section() {
 
-		$papro_activated = apply_filters( 'papro_activated', false );
-
 		$this->start_controls_section(
 			'pa_custom_icon_section',
 			array(
@@ -1164,7 +1167,7 @@ class Premium_Weather extends Widget_Base {
 			)
 		);
 
-		if ( ! $papro_activated ) {
+		if ( ! $this->papro_activated ) {
 
 			$get_pro = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro', 'weather-widget', 'wp-editor', 'get-pro' );
 
@@ -1502,7 +1505,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_current_temp',
 			array(
-				'label' => esc_html__( 'Temperature', 'premium-addons-for-elementor' ),
+				'label' => __( 'Temperature', 'premium-addons-for-elementor' ),
 				'type'  => Controls_Manager::HEADING,
 			)
 		);
@@ -1589,7 +1592,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_current_temp_unit',
 			array(
-				'label'     => esc_html__( 'Temperature Unit', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Temperature Unit', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -1622,7 +1625,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_current_desc',
 			array(
-				'label'     => esc_html__( 'Description', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Description', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -1704,9 +1707,7 @@ class Premium_Weather extends Widget_Base {
 			)
 		);
 
-		$papro_activated = apply_filters( 'papro_activated', false );
-
-		if ( $papro_activated ) {
+		if ( $this->papro_activated ) {
 			$this->add_control(
 				'temp_icon_stroke',
 				array(
@@ -1794,7 +1795,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_current_conatainer',
 			array(
-				'label'     => esc_html__( 'Container', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Container', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -1994,7 +1995,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_forecast_date',
 			array(
-				'label'     => esc_html__( 'Date', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Date', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -2037,7 +2038,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_forecast_temp_max',
 			array(
-				'label'     => esc_html__( 'Max Temperature', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Max Temperature', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -2077,7 +2078,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_forecast_temp_min',
 			array(
-				'label'     => esc_html__( 'Min Temperature', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Min Temperature', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -2151,7 +2152,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'forecast_icon',
 			array(
-				'label'     => esc_html__( 'Weather Icon', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Weather Icon', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 				'condition' => array(
@@ -2176,9 +2177,7 @@ class Premium_Weather extends Widget_Base {
 			)
 		);
 
-		$papro_activated = apply_filters( 'papro_activated', false );
-
-		if ( $papro_activated ) {
+		if ( $this->papro_activated ) {
 			$this->add_control(
 				'forecast_icon_stroke',
 				array(
@@ -2279,7 +2278,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_forecast_cont',
 			array(
-				'label'     => esc_html__( 'Item Container', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Item Container', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -2349,7 +2348,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_forecast_cont_outer',
 			array(
-				'label'     => esc_html__( 'Outer Container', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Outer Container', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -2435,7 +2434,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_hourly_date',
 			array(
-				'label'     => esc_html__( 'Hours', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Hours', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -2478,7 +2477,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_hourly_temp_max',
 			array(
-				'label'     => esc_html__( 'Weather Details', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Weather Details', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -2549,7 +2548,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'hourly_icon',
 			array(
-				'label'     => esc_html__( 'Weather Icon', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Weather Icon', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -2568,9 +2567,7 @@ class Premium_Weather extends Widget_Base {
 			)
 		);
 
-		$papro_activated = apply_filters( 'papro_activated', false );
-
-		if ( $papro_activated ) {
+		if ( $this->papro_activated ) {
 			$this->add_control(
 				'hourly_icon_stroke',
 				array(
@@ -2650,7 +2647,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_hourly_cont',
 			array(
-				'label'     => esc_html__( 'Item Container', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Item Container', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -2720,7 +2717,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_hourly_cont_outer',
 			array(
-				'label'     => esc_html__( 'Outer Container', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Outer Container', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -2919,7 +2916,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_hourly_arrows_heading',
 			array(
-				'label'     => esc_html__( 'Hourly Forecast Arrows', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Hourly Forecast Arrows', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -2973,7 +2970,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_daily_arrows_heading',
 			array(
-				'label'     => esc_html__( 'Daily Forecast Arrows', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Daily Forecast Arrows', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -3037,7 +3034,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_arrows_heading_hov',
 			array(
-				'label'     => esc_html__( 'Hourly Forecast Arrows', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Hourly Forecast Arrows', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -3089,7 +3086,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_daily_arrows_heading_hov',
 			array(
-				'label'     => esc_html__( 'Daily Forecast Arrows', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Daily Forecast Arrows', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -3189,7 +3186,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_weather_tabs',
 			array(
-				'label'     => esc_html__( 'Tabs', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Tabs', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -3381,7 +3378,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_weather_tabs_icons',
 			array(
-				'label'     => esc_html__( 'Icons Row', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Icons Row', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -3456,7 +3453,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_weather_tabs_date',
 			array(
-				'label'     => esc_html__( 'Hours', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Hours', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -3484,7 +3481,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_weather_tabs_details',
 			array(
-				'label'     => esc_html__( 'Weather Details', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Weather Details', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -3565,7 +3562,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'tabs_forecast_icon',
 			array(
-				'label'     => esc_html__( 'Weather Icon', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Weather Icon', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -3584,9 +3581,7 @@ class Premium_Weather extends Widget_Base {
 			)
 		);
 
-		$papro_activated = apply_filters( 'papro_activated', false );
-
-		if ( $papro_activated ) {
+		if ( $this->papro_activated ) {
 			$this->add_control(
 				'tabs_forecast_icon_stroke',
 				array(
@@ -3651,7 +3646,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_weather_tabs_notice',
 			array(
-				'label'     => esc_html__( 'Notice', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Notice', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -3671,7 +3666,7 @@ class Premium_Weather extends Widget_Base {
 		$this->add_control(
 			'pa_weather_tabs_cont',
 			array(
-				'label'     => esc_html__( 'Container', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Container', 'premium-addons-for-elementor' ),
 				'separator' => 'before',
 				'type'      => Controls_Manager::HEADING,
 			)
@@ -3752,9 +3747,9 @@ class Premium_Weather extends Widget_Base {
 
 		$settings = $this->get_settings_for_display();
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$this->papro_activated = Helper_Functions::check_papro_version();
 
-		if ( ! $papro_activated ) {
+		if ( ! $this->papro_activated ) {
 
 			$settings['forecast_carousel_sw'] = false;
 			$settings['forecast_days']        = false;

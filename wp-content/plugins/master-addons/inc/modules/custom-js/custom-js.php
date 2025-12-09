@@ -123,6 +123,10 @@ class JLTMA_Extension_Custom_JS
 
     public function jltma_element_custom_js()
     {
+        if (!class_exists('\Elementor\Plugin') || !\Elementor\Plugin::$instance) {
+            return;
+        }
+
         if (!current_user_can('edit_posts')) {
             return;
         }
@@ -177,6 +181,10 @@ class JLTMA_Extension_Custom_JS
 
     public function jltma_page_custom_js()
     {
+        if (!class_exists('\Elementor\Plugin') || !\Elementor\Plugin::$instance) {
+            return;
+        }
+
         if (!current_user_can('edit_posts')) {
             return;
         }

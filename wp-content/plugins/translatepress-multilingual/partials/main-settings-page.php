@@ -26,7 +26,7 @@
                                 </option>
                             <?php }?>
                         </select>
-                        <span class="trp-description-text"><?php esc_html_e( 'Select the original language of your content.', 'translatepress-multilingual' ); ?></span>
+                        <span class="trp-description-text"><?php esc_html_e( 'Select the language your content is written in.', 'translatepress-multilingual' ); ?></span>
                     </div>
                 </div>
 
@@ -39,6 +39,27 @@
 
                 <?php do_action( 'trp_language_selector', $languages ); ?>
 
+            </div>
+
+
+            <div class="trp-settings-container">
+                <h3 class="trp-settings-primary-heading"><?php esc_html_e( 'Re-run Setup Wizard', 'translatepress-multilingual' ); ?></h3>
+                <div class="trp-settings-separator"></div>
+
+                <div class="trp-settings-options__wrapper">
+
+                    <label for="trp-re-run-setup-wizard">
+
+                        <span class="trp-description-text"><?php esc_html_e('The Setup wizard allows you to quickly setup TranslatePress. You can initiate it at any time.', 'translatepress-multilingual'); ?>
+                        </span>
+
+                    </label>
+
+                    <a href="<?php echo esc_url( admin_url('admin.php?page=trp-onboarding&step=welcome') ) ?>" class="button-primary trp-submit-btn" id="trp-re-run-setup">
+                        <?php esc_html_e( 'Re-run Setup Wizard', 'translatepress-multilingual' ); ?>
+                    </a>
+
+                </div>
             </div>
 
             <div class="trp-settings-container">

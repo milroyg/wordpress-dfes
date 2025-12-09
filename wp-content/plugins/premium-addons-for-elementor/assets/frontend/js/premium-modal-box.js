@@ -33,9 +33,9 @@
 				}, settings.delay * 1000);
 			});
 
-		} else if ("exit" === settings.trigger) {
+		} else if ("exit" === settings.trigger || settings.show_on_exit) {
 
-			if (elementorFrontend.config.user) {
+			if (elementorFrontend.config.user && !settings.show_on_exit) {
 
 				$modalElem.find(".premium-modal-box-modal").modal(modalOptions);
 			} else {

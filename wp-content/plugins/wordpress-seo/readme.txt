@@ -4,8 +4,8 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 6.8
-Stable tag: 26.1.1
+Tested up to: 6.9
+Stable tag: 26.5
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
@@ -303,55 +303,40 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 26.1.1 =
+= 26.5 =
 
-Release date: 2025-10-08
+Release date: 2025-12-02
 
-#### Other
-
-* Updates an outdated piece of copy.
-
-= 26.1 =
-
-Release date: 2025-10-07
-
-Yoast SEO 26.1 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+**New:** Yoast SEO includes the necessary updates to support the Site Kit by Google integration for all Premium users, with Yoast SEO (free) support following soon. [Read the full release post here](https://yoa.st/54u).
 
 #### Enhancements
 
-* Improves the UX of the `llms.txt` settings page, by informing the user that they have to save their changes in order for the file to be generated.
-* Introduces the option to add an Ahrefs verification code via the Yoast Settings page.
+* Integrates the Yoast SEO tab into the Elementor Editor's Elements panel sidebar to provide enhanced access to SEO settings.
+* Makes the _keyphrase density assessment_ and _keyphrase in subheadings assessment_  available when no content has been added.
 
 #### Bugfixes
 
-* Fixes a bug where the `llms.txt` opt-in would hide behind the WordPress sidebar when on RTL language.
+* Fixes a bug where table backgrounds in the RSS settings and Semrush related keyphrases tables would expand beyond the rounded corners in Firefox.
 
 #### Other
 
-* Introduces the `Yoast\WP\SEO\should_invalidate_opcache` filter that disables opcache invalidation on plugin upgrade.
-* Lets users know about the new `Yoast SEO AI+` plan and related features.
-* Updates the `Site features` page to include icons instead of images.
+* Relocates the introduction notification to point to the Yoast SEO tab within the Elements panel sidebar of the Elementor Editor for better user guidance.
+* Sets the _WordPress tested up to_ version to 6.9.
 
-= 26.0 =
+= 26.4 =
 
-Release date: 2025-09-23
-
-Yoast SEO 26.0 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
-
-#### Enhancements
-
-* Opens the `Advanced` Settings' section when clicking the `Customize llms.txt file` button.
+Release date: 2025-11-18
 
 #### Bugfixes
 
-* Fixes a bug where a string in the AI Generate usage counter tooltip was missing in RTL languages.
+* Fixes a bug for users who have the Site Kit integration enabled, where a fatal error would be thrown for edge cases, like when custom code intervened with the default WP login flow.
+* Fixes a bug in the Settings page where the advanced tab would close when selecting one of its options or other options after visiting the advanced tab.
 
 #### Other
 
-* Adds an introduction which would show after 14 days of the plugin activation or update.
-* Adds safety check when accessing an array to avoid PHP warnings when getting the upgrade campaign for Wincher integration. Props to [@bor0](https://github.com/bor0).
-* Allow changing the main image ID through a filter `wpseo_schema_main_image_id`. Props to [@JoryHogeveen](https://github.com/JoryHogeveen).
-* Ensures compatibility with the recent Wincher API changes.
+* Adds a button for using AI to generate custom an SEO title or meta description in the pre-publish sidebar of the block editor, if all recent posts have been using default SEO data.
+* Adds the Yoast siblings and subpages premium blocks to the Yoast custom blocks menu tab in pages.
+* Improves performance when author archives are disabled and an author is created. Props to [ErikBrendel](https://github.com/ErikBrendel).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

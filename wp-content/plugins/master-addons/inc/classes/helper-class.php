@@ -1034,53 +1034,60 @@ class Master_Addons_Helper
 	}
 
 
-
-	public static function ma_el_blog_get_post_settings($settings)
-	{
+	/**
+	 * Build post query arguments from widget settings.
+	 *
+	 * @param array $settings Widget settings array.
+	 * @return array Post query arguments.
+	 */
+	public static function ma_el_blog_get_post_settings( $settings ) {
+		$post_args = array();
 
 		$authors = $settings['ma_el_blog_users'];
 
-		if (!empty($authors)) {
-			$post_args['author'] = implode(',', $authors);
+		if ( ! empty( $authors ) ) {
+			$post_args['author'] = implode( ',', $authors );
 		}
 
-		$post_args['category'] = $settings['ma_el_blog_categories'];
-
-		$post_args['tag__in'] = $settings['ma_el_blog_tags'];
-
-		$post_args['post__not_in']  = $settings['ma_el_blog_posts_exclude'];
-
-		$post_args['order'] = $settings['ma_el_blog_order'];
-
-		$post_args['orderby'] = $settings['ma_el_blog_order_by'];
-
-		$post_args['posts_per_page'] = $settings['ma_el_blog_posts_per_page'];
-		// $post_args['posts_per_page'] = $settings['ma_el_blog_total_posts_number'];
-
+		$post_args['post_type']           = $settings['ma_el_post_grid_type'];
+		$post_args['category']            = $settings['ma_el_blog_categories'];
+		$post_args['tag__in']             = $settings['ma_el_blog_tags'];
+		$post_args['post__not_in']        = $settings['ma_el_blog_posts_exclude'];
+		$post_args['order']               = $settings['ma_el_blog_order'];
+		$post_args['orderby']             = $settings['ma_el_blog_order_by'];
+		$post_args['posts_per_page']      = $settings['ma_el_blog_posts_per_page'];
 		$post_args['ignore_sticky_posts'] = $settings['ma_el_post_grid_ignore_sticky'];
 
 		return $post_args;
 	}
 
-	public static function ma_el_blog_get_post_data($args, $paged, $new_offset)
-	{
+	/**
+	 * Get post data for blog elements.
+	 *
+	 * @param array $args       Query arguments for get_posts.
+	 * @param int   $paged      Current page number.
+	 * @param int   $new_offset Offset for pagination.
+	 * @return array Array of post objects.
+	 */
+	public static function ma_el_blog_get_post_data( $args, $paged, $new_offset ) {
 		$defaults = array(
-			'author'                => '',
-			'category'              => '',
-			'orderby'               => '',
-			'posts_per_page'        => 1,
-			'paged'                 => $paged,
-			'offset'                => $new_offset,
-			'ignore_sticky_posts'   => 1,
+			'author'              => '',
+			'category'            => '',
+			'orderby'             => '',
+			'posts_per_page'      => 1,
+			'paged'               => $paged,
+			'offset'              => $new_offset,
+			'ignore_sticky_posts' => 1,
 		);
 
-		$atts = wp_parse_args($args, $defaults);
+		$query_args = wp_parse_args( $args, $defaults );
 
-		$posts = get_posts($atts);
+		$posts = get_posts( $query_args );
+
+		wp_reset_postdata();
 
 		return $posts;
 	}
-
 
 
 	public static function ma_el_get_excerpt_by_id($post_id, $excerpt_length, $excerpt_type, $exceprt_text, $excerpt_src, $excerpt_icon, $excerpt_icon_align, $read_more_link)

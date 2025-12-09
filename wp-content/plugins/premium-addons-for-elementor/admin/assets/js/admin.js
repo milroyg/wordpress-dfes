@@ -530,7 +530,7 @@
 						elementName = $(this).prev().attr('name').replace('premium-', '');
 
 					var colorArr = ['#FF7800', '#6C9800', '#00BCF1', '#F7C230', '#006CE7'],
-						redirectionLink = " https://premiumaddons.com/pro/?utm_source=" + elementName + "&utm_medium=wp-dash-pro&utm_campaign=get-pro&utm_term=" + settings.theme,
+						redirectionLink = " https://premiumaddons.com/pro/?utm_source=" + elementName + "&utm_medium=wp-dash-pro&utm_campaign=get-pro&utm_term=" + settings.theme + '#get-pa-pro',
 						iconClass = $(this).parent().prev().find('.pa-element-icon').attr('class'),
 						iconColor = colorArr[Math.floor(Math.random() * colorArr.length)],
 						demoLink = isFeature ? $(this).parents('.pa-section-outer-wrap').find('> a').attr('href') : $(this).parents('.pa-switcher').find('.pa-demo-link').attr('href'),

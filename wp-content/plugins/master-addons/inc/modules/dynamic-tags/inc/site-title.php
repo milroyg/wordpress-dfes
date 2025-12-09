@@ -18,7 +18,7 @@ class JLTMA_Site_Title extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('Site Title', 'master-addons' );
+		return esc_html__('MA Site Title', 'master-addons' );
 	}
 
 	public function get_group()

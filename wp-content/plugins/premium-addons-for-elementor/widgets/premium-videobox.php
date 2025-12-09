@@ -153,7 +153,7 @@ class Premium_Videobox extends Widget_Base {
 		);
 
 		$demo = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-video-box-widget/', 'video-box', 'wp-editor', 'demo' );
-    	Helper_Functions::add_templates_controls( $this, 'video-box', $demo );
+		Helper_Functions::add_templates_controls( $this, 'video-box', $demo );
 
 		$this->add_control(
 			'premium_video_box_video_type',
@@ -327,7 +327,6 @@ class Premium_Videobox extends Widget_Base {
 			array(
 				'label'       => __( 'Title HTML Tag', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::SELECT,
-				'default'     => 'h4',
 				'options'     => array(
 					'h1'   => 'H1',
 					'h2'   => 'H2',
@@ -335,9 +334,10 @@ class Premium_Videobox extends Widget_Base {
 					'h4'   => 'H4',
 					'h5'   => 'H5',
 					'h6'   => 'H6',
-					'span' => 'Span',
-					'p'    => 'P',
+					'span' => 'span',
+					'p'    => 'p',
 				),
+				'default'     => 'h4',
 				'label_block' => true,
 				'condition'   => array(
 					'youtube_list'                 => 'yes',
@@ -422,6 +422,7 @@ class Premium_Videobox extends Widget_Base {
 				),
 				'prefix_class' => 'premium-videobox-',
 				'default'      => 'layout1',
+				'render_type'  => 'template',
 				'condition'    => array(
 					'premium_video_box_video_type' => 'youtube',
 					'youtube_list'                 => 'yes',
@@ -435,6 +436,17 @@ class Premium_Videobox extends Widget_Base {
 				'label'       => __( 'First Column Width', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::SLIDER,
 				'render_type' => 'template',
+				'size_units'  => array( '%' ),
+				'default'     => array(
+					'size' => 60,
+					'unit' => '%',
+				),
+				'range'       => array(
+					'%' => array(
+						'min' => 0,
+						'max' => 100,
+					),
+				),
 				'condition'   => array(
 					'youtube_list'                 => 'yes',
 					'premium_video_box_video_type' => 'youtube',
@@ -454,6 +466,17 @@ class Premium_Videobox extends Widget_Base {
 				'label'       => __( 'Video Height (%)', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::SLIDER,
 				'render_type' => 'template',
+				'size_units'  => array( '%' ),
+				'default'     => array(
+					'size' => 32,
+					'unit' => '%',
+				),
+				'range'       => array(
+					'%' => array(
+						'min' => 0,
+						'max' => 100,
+					),
+				),
 				'condition'   => array(
 					'youtube_list'                 => 'yes',
 					'premium_video_box_video_type' => 'youtube',
@@ -1651,7 +1674,27 @@ class Premium_Videobox extends Widget_Base {
 		$this->start_controls_section(
 			'video_background',
 			array(
-				'label' => __( 'Background Image', 'premium-addons-for-elementor' ),
+				'label'      => __( 'Background Image', 'premium-addons-for-elementor' ),
+				'conditions' => array(
+					'relation' => 'and',
+					'terms'    => array(
+						array(
+							'relation' => 'or',
+							'terms'    => array(
+								array(
+									'name'     => 'premium_video_box_video_type',
+									'operator' => '!==',
+									'value'    => 'youtube',
+								),
+								array(
+									'name'     => 'youtube_list',
+									'operator' => '!==',
+									'value'    => 'yes',
+								),
+							),
+						),
+					),
+				),
 			)
 		);
 
@@ -1708,6 +1751,10 @@ class Premium_Videobox extends Widget_Base {
 				'label'       => __( 'Video Height', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::SLIDER,
 				'label_block' => true,
+				'default'     => array(
+					'size' => 50,
+					'unit' => '%',
+				),
 				'condition'   => array(
 					'background_image[url]!' => '',
 				),
@@ -3000,6 +3047,7 @@ class Premium_Videobox extends Widget_Base {
 		}
 
 		?>
+
 
 		<?php if ( ! empty( $settings['background_image']['url'] ) ) : ?>
 			<img <?php echo wp_kses_post( $this->get_render_attribute_string( 'background' ) ); ?>>

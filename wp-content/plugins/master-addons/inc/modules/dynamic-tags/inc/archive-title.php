@@ -21,7 +21,7 @@ class JLTMA_Archive_Title extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('Archive Title', 'master-addons' );
+		return esc_html__('MA Archive Title', 'master-addons' );
 	}
 
 	public function get_group()

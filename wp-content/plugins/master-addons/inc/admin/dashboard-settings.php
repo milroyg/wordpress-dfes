@@ -395,7 +395,10 @@ class Master_Addons_Admin_Settings
 
 		foreach (self::jltma_addons_extensions_array() as $value) {
 
-			if (isset($settings[$value])) {
+			// Force disable dynamic-tags and custom-css if Elementor Pro is active
+			if ( ($value === 'dynamic-tags-s' || $value === 'custom-css-s') && defined('ELEMENTOR_PRO_VERSION')) {
+				$this->maad_el_extension_settings[$value] = 0;
+			} elseif (isset($settings[$value])) {
 				$this->maad_el_extension_settings[$value] = 1;
 			} else {
 				$this->maad_el_extension_settings[$value] = 0;

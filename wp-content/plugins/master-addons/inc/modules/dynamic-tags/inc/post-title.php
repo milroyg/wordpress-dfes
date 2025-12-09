@@ -18,7 +18,7 @@ class JLTMA_Post_Title extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('Post Title', 'master-addons' );
+		return esc_html__('MA Post Title', 'master-addons' );
 	}
 
 	public function get_group()

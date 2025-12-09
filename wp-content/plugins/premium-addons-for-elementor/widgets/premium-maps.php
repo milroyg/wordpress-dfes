@@ -94,7 +94,7 @@ class Premium_Maps extends Widget_Base {
 	 */
 	public function get_style_depends() {
 
-		$icons_css = apply_filters( 'papro_activated', false ) ? array( 'elementor-icons' ) : array();
+		$icons_css = Helper_Functions::check_papro_version() ? array( 'elementor-icons' ) : array();
 
 		return array_merge(
 			$icons_css,
@@ -346,7 +346,7 @@ class Premium_Maps extends Widget_Base {
 
 		$get_pro = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro', 'maps-widget', 'wp-editor', 'get-pro' );
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		if ( ! $papro_activated ) {
 			$repeater->add_control(
@@ -1154,7 +1154,7 @@ class Premium_Maps extends Widget_Base {
 	 */
 	protected function render() {
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		$settings = $this->get_settings_for_display();
 
@@ -1391,7 +1391,7 @@ class Premium_Maps extends Widget_Base {
 						<?php endif; ?>
 
 						<div class='premium-maps-info-img'>
-							<img src='<?php echo esc_attr( $pin['pin_img']['url'] ); ?>' alt='<?php echo esc_attr( $pin['pin_img']['alt'] ); ?>'>
+							<img src='<?php echo esc_attr( $pin['pin_img']['url'] ); ?>' alt='<?php echo esc_attr( isset( $pin['pin_img']['alt'] ) ? $pin['pin_img']['alt'] : '' ); ?>'>
 						</div>
 
 

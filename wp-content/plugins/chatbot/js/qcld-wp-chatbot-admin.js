@@ -195,9 +195,9 @@ $(document).on('click','.wp-chatbot-remove-support',function () {
             {
               type: 'POST', // 'POST' here so that _upload_ progress _also_ makes sense; 
                             // Change to 'GET' if you need. 
-              url: ajax_object.ajax_url, data: {
+              url: qcld_gemini_admin_data.ajax_url, data: {
                   'action': 'qcld_wp_chatbot_gc_client_download',
-                  'nonce': ajax_object.ajax_nonce,
+                  'nonce': qcld_gemini_admin_data.ajax_nonce,
               },
               beforeSend: function()
               {
@@ -212,9 +212,9 @@ $(document).on('click','.wp-chatbot-remove-support',function () {
                         {
                             type: 'POST', // 'POST' here so that _upload_ progress _also_ makes sense; 
                                         // Change to 'GET' if you need. 
-                            url: ajax_object.ajax_url, data: {
+                            url: qcld_gemini_admin_data.ajax_url, data: {
                                 'action': 'qcld_wp_chatbot_gc_client_extract',
-                                'nonce': ajax_object.ajax_nonce
+                                'nonce': qcld_gemini_admin_data.ajax_nonce
                             },
                             beforeSend: function()
                             {
@@ -391,10 +391,10 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
             var data = {
 
                 'action': 'qcld_wb_chatboot_delete_all_options',
-                'wpnonce': ajax_object.ajax_nonce,
+                'wpnonce': qcld_gemini_admin_data.ajax_nonce,
             };
 
-            jQuery.post(ajax_object.ajax_url, data, function (response) {
+            jQuery.post(qcld_gemini_admin_data.ajax_url, data, function (response) {
 
                 alert(response);
 
@@ -475,7 +475,7 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
 
     //Custom Icon
 
-    $('.wp_chatbot_custom_icon_button').click(function(e) {
+    $('.qcld_chatbot_custom_icon_button').click(function(e) {
 
         e.preventDefault();
 
@@ -517,10 +517,10 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
             {
               type: 'POST', // 'POST' here so that _upload_ progress _also_ makes sense; 
                             // Change to 'GET' if you need. 
-              url: ajax_object.ajax_url, data: {
+              url: qcld_gemini_admin_data.ajax_url, data: {
                 'action': 'qcld_wp_df_api_call',
                 'dfquery': 'hi',
-                'nonce': ajax_object.ajax_nonce,
+                'nonce': qcld_gemini_admin_data.ajax_nonce,
                 'sessionid': 'wpwBot_df_201sdf8071'
               },
               beforeSend: function()
@@ -741,7 +741,7 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
 
 
 
-        wpChatbotIndexLoader.html('<img class="wp-chatbot-comment-loader" src="'+ajax_object.image_path+'comment.gif" alt="..." />');
+        wpChatbotIndexLoader.html('<img class="wp-chatbot-comment-loader" src="'+qcld_gemini_admin_data.image_path+'comment.gif" alt="..." />');
 
         wpChatbotIndexProcess.html( wpChatbotIndexProcessed + '%' );
 
@@ -765,12 +765,12 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
 
             type: 'POST',
 
-            url: ajax_object.ajax_url,
+            url: qcld_gemini_admin_data.ajax_url,
 
             data: {
 
                 action: 'qcld-wp-chabot-reindex',
-                'nonce': ajax_object.ajax_nonce
+                'nonce': qcld_gemini_admin_data.ajax_nonce
 
             },
 
@@ -872,10 +872,10 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
     function qcld_wb_chatbot_cancelSync() {
         $.ajax( {
             method: 'post',
-            url: ajax_object.ajax_url,
+            url: qcld_gemini_admin_data.ajax_url,
             data: {
                 action: 'qcld-wp-chabot-cancel-index',
-                'nonce': ajax_object.ajax_nonce
+                'nonce': qcld_gemini_admin_data.ajax_nonce
             }
         });
     }
@@ -1079,7 +1079,7 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
                 $('.success-message').html('File is Proccesing');
                 $('.success-message').show();
                 $.ajax({
-                    url: ajax_object.ajax_url,
+                    url: qcld_gemini_admin_data.ajax_url,
                     type: 'post',
                     contentType: false,
                     processData: false,
@@ -1119,7 +1119,7 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
                         jQuery('.error-message').hide();
                     },5000); 
                 $.ajax({
-                    url:  ajax_object.ajax_url,
+                    url:  qcld_gemini_admin_data.ajax_url,
                     type: 'POST',
                     dataType: "JSON",
                     data:  {
@@ -1133,7 +1133,7 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
                 
             });
             $.ajax({
-                url:  ajax_object.ajax_url,				
+                url:  qcld_gemini_admin_data.ajax_url,				
                 type: "POST",
                 dataType: "JSON",
                 data: {
@@ -1159,7 +1159,7 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
                 $('#qcld-ft-modal').modal();
             })
             $.ajax({
-                url: ajax_object.ajax_url,					
+                url: qcld_gemini_admin_data.ajax_url,					
                 type: "POST",
                 dataType: "JSON",
                 data: {
@@ -1183,7 +1183,7 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
                 return this.value;
             }).get();
             $.ajax({
-                url: ajax_object.ajax_url,					
+                url: qcld_gemini_admin_data.ajax_url,					
                 type: "POST",
                 dataType: "JSON",
                 data: {
@@ -1208,9 +1208,9 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
                 var file_id = $("input[name='file_id']" ).val();
                 
                 $.ajax({
-                    url:  ajax_object.ajax_url,
+                    url:  qcld_gemini_admin_data.ajax_url,
                     type:'POST',
-                    data:    ({action  : '',nonce: ajax_object.ajax_nonce,file_id:file_id}),
+                    data:    ({action  : '',nonce: qcld_gemini_admin_data.ajax_nonce,file_id:file_id}),
                     success: function(data){
                         $('#result').html(data);
                         location.reload();
@@ -1296,9 +1296,9 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
                 }).get();
 
                 $.ajax({
-                    url:  ajax_object.ajax_url,
+                    url:  qcld_gemini_admin_data.ajax_url,
                     type:'POST',
-                    data:    ({action  : 'openai_settings_option',nonce: ajax_object.ajax_nonce,api_key: api_key,openai_engines:openai_engines,qcld_openai_prompt: qcld_openai_prompt,max_tokens:max_tokens,file_id:file_id,temperature:temperature,presence_penalty:presence_penalty,frequency_penalty:frequency_penalty,qcld_openai_prompt_custom: qcld_openai_prompt_custom,openai_exclude_keyword:openai_exclude_keyword,is_relevant_enabled:is_relevant_enabled,openai_include_keyword:openai_include_keyword,ai_enabled:is_ai_enabled,is_page_suggestion_enabled:is_page_suggestion_enabled,is_context_awareness_enabled:is_context_awareness_enabled,qcld_openai_system_content:qcld_openai_system_content,qcld_openai_append_content:qcld_openai_append_content,ai_only_mode: is_ai_only_mode,conversation_continuity:conversation_continuity,openai_post_type:openai_post_type}),
+                    data:    ({action  : 'openai_settings_option',nonce: qcld_gemini_admin_data.ajax_nonce,api_key: api_key,openai_engines:openai_engines,qcld_openai_prompt: qcld_openai_prompt,max_tokens:max_tokens,file_id:file_id,temperature:temperature,presence_penalty:presence_penalty,frequency_penalty:frequency_penalty,qcld_openai_prompt_custom: qcld_openai_prompt_custom,openai_exclude_keyword:openai_exclude_keyword,is_relevant_enabled:is_relevant_enabled,openai_include_keyword:openai_include_keyword,ai_enabled:is_ai_enabled,is_page_suggestion_enabled:is_page_suggestion_enabled,is_context_awareness_enabled:is_context_awareness_enabled,qcld_openai_system_content:qcld_openai_system_content,qcld_openai_append_content:qcld_openai_append_content,ai_only_mode: is_ai_only_mode,conversation_continuity:conversation_continuity,openai_post_type:openai_post_type}),
                     
                     success: function(data){
                         $('#result').html(data);
@@ -1313,11 +1313,11 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     $.ajax({
-                                        url: ajax_object.ajax_url,
+                                        url: qcld_gemini_admin_data.ajax_url,
                                         type: 'POST',
                                         data: {
                                             action: 'update_settings_option',
-                                            nonce: ajax_object.ajax_nonce,
+                                            nonce: qcld_gemini_admin_data.ajax_nonce,
                                             disable_ss: 1
                                         },
                               
@@ -1381,9 +1381,9 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
                 var frequency_penalty = $("input[name='frequency_penalty']" ).val();
 
                 $.ajax({
-                    url:  ajax_object.ajax_url,
+                    url:  qcld_gemini_admin_data.ajax_url,
                     type:'POST',
-                    data:    ({action  : 'openai_settings_option',nonce: ajax_object.ajax_nonce,api_key: api_key,openai_engines:openai_engines,qcld_openai_prompt: qcld_openai_prompt,max_tokens:max_tokens,file_id:file_id,temperature:temperature,presence_penalty:presence_penalty,frequency_penalty:frequency_penalty,qcld_openai_prompt_custom: qcld_openai_prompt_custom,openai_exclude_keyword:openai_exclude_keyword,is_relevant_enabled:is_relevant_enabled,openai_include_keyword:openai_include_keyword,ai_enabled:is_ai_enabled,is_page_suggestion_enabled:is_page_suggestion_enabled,is_context_awareness_enabled:is_context_awareness_enabled,ai_only_mode: is_ai_only_mode,conversation_continuity:conversation_continuity, disable_ss: 1,openai_post_type:post_types}),
+                    data:    ({action  : 'openai_settings_option',nonce: qcld_gemini_admin_data.ajax_nonce,api_key: api_key,openai_engines:openai_engines,qcld_openai_prompt: qcld_openai_prompt,max_tokens:max_tokens,file_id:file_id,temperature:temperature,presence_penalty:presence_penalty,frequency_penalty:frequency_penalty,qcld_openai_prompt_custom: qcld_openai_prompt_custom,openai_exclude_keyword:openai_exclude_keyword,is_relevant_enabled:is_relevant_enabled,openai_include_keyword:openai_include_keyword,ai_enabled:is_ai_enabled,is_page_suggestion_enabled:is_page_suggestion_enabled,is_context_awareness_enabled:is_context_awareness_enabled,ai_only_mode: is_ai_only_mode,conversation_continuity:conversation_continuity, disable_ss: 1,openai_post_type:post_types}),
                     success: function(data){
                         $('#result').html(data);
                         location.reload();
@@ -1397,9 +1397,9 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
         $('.qcl-openai').on('click', '#qcld_check_connection', function(){
             jQuery('#rotationloader').css('display','inline-block'); 
             $.ajax({
-                url: ajax_object.ajax_url,
+                url: qcld_gemini_admin_data.ajax_url,
                 type:'POST',
-                data:    ({action  : 'openai_troubleshooting',nonce:ajax_object.ajax_nonce}),
+                data:    ({action  : 'openai_troubleshooting',nonce:qcld_gemini_admin_data.ajax_nonce}),
                 success: function(data){
                     
                     $('#result').html(data);
@@ -1457,11 +1457,11 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
                 qcld_seo_img_size: qcld_seo_img_size,
                 qcld_seo_num_images: qcld_seo_num_images,
                 action: 'qcld_openai_image_generate',
-                nonce: ajax_object.ajax_url,
+                nonce: qcld_gemini_admin_data.ajax_url,
             };
          
             $.ajax({
-                url: ajax_object.ajax_url,
+                url: qcld_gemini_admin_data.ajax_url,
                 data: data,
                 type: 'POST',
                 dataType: 'JSON',
@@ -1508,7 +1508,7 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
                     action                          : 'qcld_openai_image_generate_url' 
                 };
                 $.ajax({
-                    url: ajax_object.ajax_url,
+                    url: qcld_gemini_admin_data.ajax_url,
                     data: data,
                     type: 'POST',
                     dataType: 'JSON',
@@ -1566,7 +1566,7 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
         $('#qcld_article_keyword_suggestion').prop("disabled",true);
         $('#linkbait_article_keyword_data').html('');
         $.ajax({
-          url: ajax_object.ajax_url,
+          url: qcld_gemini_admin_data.ajax_url,
           method: 'POST',
           data: {
               'action': 'openai_keyword_suggestion_content',
@@ -1632,4 +1632,53 @@ jQuery(".qcld-show-more-show-more").click(function () {
         }
 
         jQuery(".qcld-show-more-text").toggleClass("qcld-show-more-show-more-height");
-    }); 
+}); 
+
+ function qcld_wpbot_languageChange_from_center(langCode) {
+        switch (langCode) {
+            case "not_mine":
+                setTimeout(() => {
+                     jQuery("#waring-message").show()
+                     jQuery("#waring-message").html('<span style="padding: 7px; color: #fff; background: #dc3545;border-radius:5px"> ** Please change the texts below to your language manually so that the ChatBot can speak in your language</span><br>')
+                }, 500);
+                
+                break;
+            default:
+                 setTimeout(() => {
+                    jQuery("#waring-message").hide()
+                }, 500);
+                
+                jQuery.ajax({
+                    url: qcld_gemini_admin_data.ajax_url, // e.g., 'wp-admin/admin-ajax.php'
+                    type: 'POST',
+                    data: {
+                        'action': 'qcld_change_language_from_center',
+                        'language'  : langCode,
+                    },// Expecting JSON response from PHP
+                })
+                .done(function(response) {
+                    // If PHP returns a JSON object
+                    if (response.success === false || response.error) {
+                    } else {
+                        jQuery.each( response.data.data, function(key, value) {
+                            if (Array.isArray( value )) {
+                                const textareas = jQuery('.wp-chatbot-lng-items').find('input[name="' + key + '[]"]');
+                                textareas.each(function(index) {
+                                    if (index < value.length) {
+                                        jQuery(this).val(value[index]);
+                                    }
+                                });
+                            }else{
+                                jQuery('input[name="' + key + '"]').val(value);
+                            }
+                        });
+                        jQuery("#submit-language").click();
+                    //   processResponse(response.data); 
+                    }
+                })
+                .fail(function(jqXHR, textStatus, errorThrown) {
+                    console.error('AJAX Fail:', textStatus, errorThrown);
+                });
+        }
+    }
+

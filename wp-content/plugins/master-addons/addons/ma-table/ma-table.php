@@ -406,7 +406,6 @@ class JLTMA_Dynamic_Table extends Widget_Base
         $repeater->end_controls_tab();
 
 
-
         $repeater->start_controls_tab('ma_el_table_body_tab_options', ['label' => __('Options', 'master-addons')]);
         $repeater->add_control(
             'colspannumber',
@@ -574,7 +573,24 @@ class JLTMA_Dynamic_Table extends Widget_Base
 
 
 
+        // Responsive settings section
+        $this->start_controls_section(
+            'ma_el_table_settings_section',
+            [
+                'label' => __('Settings', 'master-addons'),
+            ]
+        );
+        $this->add_control(
+            'ma_el_table_body_responsiveness',
+            [
+                'label' => __('Responsive Table?', 'master-addons'),
+                'type' => Controls_Manager::SWITCHER,
+                'default' => 'yes',
+                'return_value' => 'yes'
+            ]
+        );
 
+        $this->end_controls_section();
 
 
         /**
@@ -926,7 +942,8 @@ class JLTMA_Dynamic_Table extends Widget_Base
             [
                 'jltma-table',
                 'table',
-                ('yes' === $settings['ma_el_table_body_striped_bg']) ? "table-striped" : ""
+                ('yes' === $settings['ma_el_table_body_striped_bg']) ? "table-striped" : "",
+                ('yes' !== $settings['ma_el_table_body_responsiveness']) ? "not-responsive" : ""
             ]
         );
         ?>

@@ -555,7 +555,7 @@ class Admin_Helper {
 	 */
 	public function insert_action_links( $links ) {
 
-		$is_papro_active = apply_filters( 'papro_activated', false );
+		$is_papro_active = Helper_Functions::check_papro_version();
 
 		$settings_link = sprintf( '<a href="%1$s">%2$s</a>', admin_url( 'admin.php?page=' . self::$page_slug . '#tab=elements' ), __( 'Settings', 'premium-addons-for-elementor' ) );
 
@@ -565,9 +565,9 @@ class Admin_Helper {
 
 		if ( ! $is_papro_active ) {
 
-			$link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro', 'plugins-page', 'wp-dash', 'get-pro' );
+			$link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/black-friday/#bfdeals', 'plugins-page', 'wp-dash', 'get-pro' );
 
-			$pro_link = sprintf( '<a href="%s" target="_blank" style="color: #FF6000; font-weight: bold;">%s</a>', $link, __( 'Go Pro (10% OFF)', 'premium-addons-for-elementor' ) );
+			$pro_link = sprintf( '<a href="%s" target="_blank" style="color: #FF6000; font-weight: bold;">%s</a>', $link, __( 'Save $105', 'premium-addons-for-elementor' ) );
 			array_push( $new_links, $pro_link );
 		}
 
@@ -638,7 +638,7 @@ class Admin_Helper {
 				'href'     => '#tab=elements',
 				'template' => PREMIUM_ADDONS_PATH . 'admin/includes/templates/modules-settings',
 			),
-			'addons'        => array(
+			'addons'          => array(
 				'id'       => 'addons',
 				'slug'     => $slug . '#tab=addons',
 				'title'    => __( 'Global Addons', 'premium-addons-for-elementor' ),
@@ -675,7 +675,7 @@ class Admin_Helper {
 			),
 		);
 
-		if( ! Helper_Functions::check_papro_version() ) {
+		if ( ! Helper_Functions::check_papro_version() ) {
 
 			self::$tabs['license'] = array(
 				'id'       => 'license',
@@ -742,16 +742,16 @@ class Admin_Helper {
 			);
 		}
 
-		$is_papro_active = apply_filters( 'papro_activated', false );
+		$is_papro_active = Helper_Functions::check_papro_version();
 
 		if ( ! $is_papro_active ) {
 			call_user_func(
 				'add_submenu_page',
 				self::$page_slug,
-				'<span style="color: #FF6000;" class="pa_pro_upgrade">Upgrade To Pro!</span>',
-				'<span style="color: #FF6000;" class="pa_pro_upgrade">Upgrade To Pro!</span>',
+				'<span style="color: #FF6000;" class="pa_pro_upgrade">Get PRO (Up to $105 OFF)</span>',
+				'<span style="color: #FF6000;" class="pa_pro_upgrade">Get PRO (Up to $105 OFF)</span>',
 				'manage_options',
-				'https://premiumaddons.com/pro/',
+				'https://premiumaddons.com/pro/#get-pa-pro',
 				''
 			);
 		}
@@ -836,10 +836,14 @@ class Admin_Helper {
 		<div class="papro-admin-notice">
 			<?php if ( ! $show_logo ) : ?>
 				<div class="papro-admin-notice-left">
-					<div class="papro-admin-notice-logo">
-						<img class="pa-notice-logo" src="<?php echo esc_attr( PREMIUM_ADDONS_URL . 'admin/images/papro-notice-logo.png' ); ?>">
-					</div>
-					<a href="https://premiumaddons.com" target="_blank"></a>
+
+
+						<div class="papro-admin-notice-logo">
+							<img class="pa-notice-logo" src="<?php echo esc_attr( PREMIUM_ADDONS_URL . 'admin/images/papro-notice-logo.png' ); ?>">
+						</div>
+
+						<a href="https://premiumaddons.com/" target="_blank"></a>
+
 				</div>
 			<?php endif; ?>
 
@@ -851,16 +855,15 @@ class Admin_Helper {
 					<div class="papro-admin-notice-right">
 						<div class="papro-admin-notice-info">
 							<h4>
-								<?php echo esc_html( $banner_content['title'] ); ?>
+								<?php echo wp_kses_post( $banner_content['title'] ); ?>
 							</h4>
 							<p>
-								<?php echo esc_html( $banner_content['desc'] ); ?>
-								<span class="papro-sale-notice"><?php echo wp_kses_post( __( 'save 10% on Lifetime!', 'premium-addons-for-elementor' ) ); ?></span>
+								<?php echo wp_kses_post( $banner_content['desc'] ); ?>
 							</p>
 						</div>
 						<div class="papro-admin-notice-cta">
 							<a class="papro-notice-btn" href="<?php echo esc_url( $banner_content['cta'] ); ?>" target="_blank">
-								<?php echo esc_html( $banner_content['btn'] ); ?>
+								<?php echo wp_kses_post( $banner_content['btn'] ); ?>
 							</a>
 						</div>
 					</div>
@@ -878,28 +881,25 @@ class Admin_Helper {
 	 */
 	public function get_banner_strings() {
 
-		if ( ! Helper_Functions::check_papro_version() ) {
+		$license_info = get_transient( 'pa_license_info' );
+
+		if ( ! Helper_Functions::check_papro_version() || ! $license_info ) {
 			return array(
 				'title' => __( 'Get Premium Addons PRO', 'premium-addons-for-elementor' ),
-				'desc'  => __( 'Supercharge your Elementor with PRO Widgets & Addons that you won\'t find anywhere else.', 'premium-addons-for-elementor' ),
+				'desc'  => __( 'Supercharge your Elementor with PRO Widgets & Addons that you won\'t find anywhere else.', 'premium-addons-for-elementor' ) . '<span class="papro-sale-notice">' . __( 'save up to $105!', 'premium-addons-for-elementor' ) . '</span>',
 				'btn'   => __( 'Get Pro', 'premium-addons-for-elementor' ),
-				'cta'   => 'https://premiumaddons.com/get/papro',
+				'cta'   => 'https://premiumaddons.com/get/papro/#get-pa-pro',
 			);
-		}
 
-		$papro_status = get_transient( 'pa_license_check' );
+		} if( isset( $license_info['id'] ) && '4' !== $license_info['id'] ) {
 
-		if ( ! $papro_status ) {
-			return;
-		}
-
-		if ( 'invalid' === $papro_status ) {
+			$upgrade_link = Helper_Functions::get_campaign_link( 'http://premiumaddons.com/docs/upgrade-premium-addons-license/', 'dashboard-banner', 'wp-dash', 'upgrade-pro' );
 
 			return array(
-				'title' => __( 'You\'re Missing Out on the Official Pro Version!', 'premium-addons-for-elementor' ),
-				'desc'  => __( 'It looks like you\'re using Premium Addons Pro, but it was not purchased from our official website. Get official version to receive updates, support and use Premium Templates!', 'premium-addons-for-elementor' ),
-				'btn'   => __( 'Get Pro', 'premium-addons-for-elementor' ),
-				'cta'   => 'https://premiumaddons.com/validate/papro',
+				'title' => __( 'Upgrade to Lifetime!', 'premium-addons-for-elementor' ),
+				'desc'  => __( 'Pay only the difference and enjoy an <span class="papro-sale-notice"> EXTRA 35% OFF</span> when you upgrade your Premium Addons Pro license to Lifetime — no renewals, no hassle, just lifetime access forever.', 'premium-addons-for-elementor' ),
+				'btn'   => __( 'Upgrade Now', 'premium-addons-for-elementor' ),
+				'cta'   => $upgrade_link,
 			);
 
 		}
@@ -929,6 +929,10 @@ class Admin_Helper {
 
 		update_option( 'pa_save_settings', $elements );
 
+		// Clear cache and static property.
+		wp_cache_delete( 'pa_elements', 'premium_addons' );
+		self::$enabled_elements = null;
+
 		// Save the global addons only if it's the second run.
 		$is_second_run = get_option( 'pa_complete_wizard' ) ? false : true;
 		if ( $is_second_run ) {
@@ -955,7 +959,7 @@ class Admin_Helper {
 			'premium-cross-domain',
 			'premium-duplicator',
 			'premium-wrapper-link',
-			'premium-assets-generator'
+			'premium-assets-generator',
 		);
 
 		$features = array();
@@ -1198,24 +1202,34 @@ class Admin_Helper {
 	 */
 	public static function get_enabled_elements() {
 
-		if ( null === self::$enabled_elements ) {
+		$cache_key = 'pa_elements';
+		$cached    = wp_cache_get( $cache_key, 'premium_addons' );
 
-			$defaults = self::get_default_keys();
-
-			$enabled_keys = get_option( 'pa_save_settings', $defaults );
-
-			foreach ( $defaults as $key => $value ) {
-
-				if ( 'pa_mc_temp' !== $key && ! isset( $enabled_keys[ $key ] ) ) {
-					$defaults[ $key ] = 0;
-				} elseif ( 'pa_mc_temp' === $key && isset( $enabled_keys[ $key ] ) && $enabled_keys[ $key ] ) {
-					$defaults[ $key ] = 1;
-				}
-			}
-
-			self::$enabled_elements = $defaults;
-
+		if ( false !== $cached ) {
+			self::$enabled_elements = $cached;
+			return self::$enabled_elements;
 		}
+
+		// Check static property as fallback for multiple calls in same request.
+		if ( null !== self::$enabled_elements ) {
+			return self::$enabled_elements;
+		}
+
+		$defaults = self::get_default_keys();
+
+		$enabled_keys = get_option( 'pa_save_settings', $defaults );
+
+		foreach ( $defaults as $key => $value ) {
+
+			if ( 'pa_mc_temp' !== $key && ! isset( $enabled_keys[ $key ] ) ) {
+				$defaults[ $key ] = 0;
+			} elseif ( 'pa_mc_temp' === $key && isset( $enabled_keys[ $key ] ) && $enabled_keys[ $key ] ) {
+				$defaults[ $key ] = 1;
+			}
+		}
+
+		self::$enabled_elements = $defaults;
+		wp_cache_set( $cache_key, $defaults, 'premium_addons', HOUR_IN_SECONDS );
 
 		return self::$enabled_elements;
 	}
@@ -1709,7 +1723,7 @@ class Admin_Helper {
 			$response = wp_remote_get(
 				$request,
 				array(
-					'timeout'   => 15,
+					'timeout'   => 5,
 					'sslverify' => true,
 				)
 			);

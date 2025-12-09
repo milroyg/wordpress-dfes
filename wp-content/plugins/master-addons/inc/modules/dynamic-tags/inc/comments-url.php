@@ -19,7 +19,7 @@ class JLTMA_Comments_URL extends Data_Tag
 
 	public function get_title()
 	{
-		return esc_html__('Comments URL', 'master-addons' );
+		return esc_html__('MA Comments URL', 'master-addons' );
 	}
 
 	public function get_group()

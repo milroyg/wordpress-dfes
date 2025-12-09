@@ -176,6 +176,11 @@ class Manage_API {
 					'location-weather'
 				),
 			);
+		} elseif ( ! empty( $data->error->code ) && 1003 === $data->error->code ) {
+			return array(
+				'code'    => 1003,
+				'message' => $data->error->message ?? '',
+			);
 		}
 		// Check if weather is day.
 		$current_weather_data  = new CurrentWeatherData( $data, $units );
@@ -327,7 +332,7 @@ class Manage_API {
 				return "id=$query";
 			case is_string( $query ) && strpos( $query, 'zip:' ) === 0:
 				$sub_query = str_replace( 'zip:', '', $query );
-				return 'zip=' . urlencode( $sub_query );
+				return 'q=' . urlencode( $sub_query );
 			case is_string( $query ):
 				return 'q=' . urlencode( $query );
 			default:

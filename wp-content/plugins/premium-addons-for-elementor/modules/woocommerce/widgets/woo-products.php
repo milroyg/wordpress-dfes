@@ -190,7 +190,7 @@ class Woo_Products extends Widget_Base {
 	 */
 	protected function register_controls() {
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		$pro_skins = ! $papro_activated ? array( 'grid-7', 'grid-8', 'grid-9', 'grid-10', 'grid-11' ) : array( '' );
 
@@ -933,9 +933,9 @@ class Woo_Products extends Widget_Base {
 		$this->add_responsive_control(
 			'pagination_align',
 			array(
-				'label'                => __( 'Alignment', 'premium-addons-for-elementor' ),
-				'type'                 => Controls_Manager::CHOOSE,
-				'options'              => array(
+				'label'     => __( 'Alignment', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::CHOOSE,
+				'options'   => array(
 					'flex-start' => array(
 						'title' => __( 'Start', 'premium-addons-for-elementor' ),
 						'icon'  => is_rtl() ? 'eicon-text-align-right' : 'eicon-text-align-left',
@@ -949,12 +949,12 @@ class Woo_Products extends Widget_Base {
 						'icon'  => is_rtl() ? 'eicon-text-align-left' : 'eicon-text-align-right',
 					),
 				),
-				'default'              => 'center',
-				'selectors'            => array(
+				'default'   => 'center',
+				'selectors' => array(
 					'{{WRAPPER}} .premium-woo-products-pagination .page-numbers'  => 'justify-content: {{VALUE}}',
 				),
-				'toggle'               => false,
-				'condition'            => array(
+				'toggle'    => false,
+				'condition' => array(
 					'pagination' => 'yes',
 				),
 			)

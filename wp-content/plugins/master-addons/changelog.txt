@@ -1,9 +1,23 @@
 == Changelog ==
+= 2.0.9.9.3 (07-12-2025) =
+* Fixed: Post Types Pagination issue fixed
+
+= 2.0.9.9.2 (06-12-2025) =
+* Fixed: Fatal error "Class Elementor\Plugin not found" in Custom JS module when Elementor is not active.
+
+= 2.0.9.9.1 (06-12-2025) =
+* Fixed: Custom Post Types not showing on Blog Element. Thanks [@hamiddavodi](https://wordpress.org/support/topic/blog-widget-does-not-work-properly/) for informing about the issue.
+
+= 2.0.9.9 (29-10-2025) =
+* Fixed: display condition for terms and archive.
+* Fixed: Dynamic tags showing twice for widgets.
+* UX Improvement : Gallery slider ui and ui improvement.
+* Improvement: Dynamic table has option to set non responsive
 
 = 2.0.9.8 (06-10-2025) =
 * Fixed: display condition for logged out user only. Thanks [@hamiddavodi](https://wordpress.org/support/topic/display-element-only-for-logged-out-users/) for informing about the issue.
 * Fixed: Wrapper link is not working in Safari browser Thanks [@adzpz](https://wordpress.org/support/topic/wrapper-link-not-working-on-safari-ipad/) for informing about the issue.
-* UX Improvement : UX Improved for notice. 
+* UX Improvement : UX Improved for notice.
 
 = 2.0.9.7 (21-09-2025) =
 * Fixed: Mobile nav menu toggle is not working properly in free version.
@@ -11,7 +25,7 @@
 
 = 2.0.9.6 (31-08-2025) =
 * Added: Dynamic Tags added on Image Hover Effects
-* Update: Master Addons Mega menu feature updated 
+* Update: Master Addons Mega menu feature updated
 * Fixed: Animated Gradient Background extension not working issue fixed
 * Fixed: Particles background not working issue fixed, also working on Editor Mode
 * Fixed: Background Slider not working issue fixed, working on both editor and frontend

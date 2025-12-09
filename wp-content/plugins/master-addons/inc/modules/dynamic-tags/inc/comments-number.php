@@ -20,7 +20,7 @@ class JLTMA_Comments_Number extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('Comments Number', 'master-addons' );
+		return esc_html__('MA Comments Number', 'master-addons' );
 	}
 
 	public function get_group()

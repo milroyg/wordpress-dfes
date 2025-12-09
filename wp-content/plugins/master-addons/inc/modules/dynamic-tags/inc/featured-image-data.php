@@ -34,7 +34,7 @@ class JLTMA_Featured_Image_Data extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('Featured Image Data', 'master-addons' );
+		return esc_html__('MA Featured Image Data', 'master-addons' );
 	}
 
 	private function get_attacment()

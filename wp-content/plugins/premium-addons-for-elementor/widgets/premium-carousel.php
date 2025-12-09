@@ -209,14 +209,14 @@ class Premium_Carousel extends Widget_Base {
 		$this->add_control(
 			'full_width_img',
 			array(
-				'label'     => __( 'Full Width', 'premium-addons-for-elementor' ),
-				'type'      => Controls_Manager::SWITCHER,
-				'default'   => 'yes',
+				'label'       => __( 'Full Width', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::SWITCHER,
+				'default'     => 'yes',
 				'description' => __( 'Make images take full width of the slide', 'premium-addons-for-elementor' ),
-				'selectors' => array(
+				'selectors'   => array(
 					'{{WRAPPER}} .premium-carousel-template img' => 'width: 100%',
 				),
-				'condition' => array(
+				'condition'   => array(
 					'source' => 'gallery',
 				),
 			)
@@ -385,6 +385,19 @@ class Premium_Carousel extends Widget_Base {
 				),
 				'condition'   => array(
 					'premium_carousel_slider_type' => 'horizontal',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'premium_carousel_item_spacing',
+			array(
+				'label'              => __( 'Spacing', 'premium-addons-for-elementor' ),
+				'type'               => Controls_Manager::DIMENSIONS,
+				'size_units'         => array( 'px', 'em', '%', 'custom' ),
+				'allowed_dimensions' => array( 'left', 'right' ),
+				'selectors'          => array(
+					'{{WRAPPER}} .premium-carousel-template' => 'margin-left: {{LEFT}}{{UNIT}}; margin-right: {{RIGHT}}{{UNIT}};',
 				),
 			)
 		);
@@ -1984,7 +1997,7 @@ class Premium_Carousel extends Widget_Base {
 				}
 				?>
 				<div class="premium-carousel-nav-arrow-prev">
-					<a type="button" data-role="none" class="<?php echo esc_attr( $vertical_alignment ); ?> carousel-prev" aria-label="Previous" role="button" href="#">
+					<a type="button" data-role="none" class="<?php echo esc_attr( $vertical_alignment ); ?> carousel-prev" aria-label="Previous" role="button">
 						<?php if ( 'yes' !== $settings['custom_left_arrow'] ) { ?>
 							<i class="<?php echo esc_attr( $icon_prev_class ); ?>" aria-hidden="true"></i>
 							<?php
@@ -1995,7 +2008,7 @@ class Premium_Carousel extends Widget_Base {
 					</a>
 					</div>
 					<div class="premium-carousel-nav-arrow-next">
-						<a type="button" data-role="none" class="<?php echo esc_attr( $vertical_alignment ); ?> carousel-next" aria-label="Next" role="button" href="#">
+						<a type="button" data-role="none" class="<?php echo esc_attr( $vertical_alignment ); ?> carousel-next" aria-label="Next" role="button">
 							<?php if ( 'yes' !== $settings['custom_right_arrow'] ) { ?>
 								<i class="<?php echo esc_attr( $icon_next_class ); ?>" aria-hidden="true"></i>
 								<?php

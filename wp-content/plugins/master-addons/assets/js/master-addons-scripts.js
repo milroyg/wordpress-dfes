@@ -1573,7 +1573,7 @@
                         arrowPrev           : '.jltma-arrow--prev',
                         arrowNext           : '.jltma-arrow--next',
                         effect              : elementSettings.jltma_gallery_slider_effect,
-                        speed               : elementSettings.speed ? elementSettings.speed.size                                                                                                                       : 500,
+                        speed               : elementSettings.jltma_gallery_slider_speed ? elementSettings.jltma_gallery_slider_speed                                                                                  : 500,
                         resistance          : elementSettings.resistance ? elementSettings.resistance.size                                                                                                             : 0.25,
                         keyboard            : {
                             // enabled: "yes" === slider_data.jltma_slider_keyboard ? true : false
@@ -1608,7 +1608,7 @@
                         autoplay       : 'yes' === elementSettings.jltma_gallery_slider_thumb_autoplay ? true : false,
                         autoplaySpeed  : 'yes' === elementSettings.jltma_gallery_slider_thumb_autoplay && elementSettings.jltma_gallery_slider_thumb_autoplay_speed ? elementSettings.jltma_gallery_slider_thumb_autoplay_speed.size: false,
                         stopOnHover    : 'yes' === elementSettings.jltma_gallery_slider_thumb_pause_on_hover,
-                        speed          : elementSettings.jltma_gallery_slider_thumb_speed ? elementSettings.jltma_gallery_slider_thumb_speed.size : 500,
+                        speed          : elementSettings.jltma_gallery_slider_thumb_speed ? elementSettings.jltma_gallery_slider_thumb_speed : 500,
                         slidesPerView  : elementSettings.jltma_gallery_slider_thumb_items_mobile,
                         slidesPerColumn: 'vertical' === elementSettings.carousel_orientation ? 1 : elementSettings.carousel_slides_per_column_mobile,
                         slidesPerGroup : elementSettings.carousel_slides_to_scroll_mobile,

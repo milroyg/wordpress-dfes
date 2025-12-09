@@ -238,7 +238,7 @@ class Premium_Modalbox extends Widget_Base {
 		);
 
 		$demo = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/modal-box-widget-for-elementor-page-builder/', 'modal-box', 'wp-editor', 'demo' );
-    	Helper_Functions::add_templates_controls( $this, 'modal-box', $demo );
+		Helper_Functions::add_templates_controls( $this, 'modal-box', $demo );
 
 		$this->add_control(
 			'premium_modal_box_display_on',
@@ -260,13 +260,34 @@ class Premium_Modalbox extends Widget_Base {
 		);
 
 		$this->add_control(
+			'show_again_exit',
+			array(
+				'label'     => apply_filters( 'pa_pro_label', __( 'Show Again on Page Exit (Pro)', 'premium-addons-for-elementor' ) ),
+				'type'      => Controls_Manager::SWITCHER,
+				'condition' => array(
+					'premium_modal_box_display_on!' => 'exit',
+				),
+			)
+		);
+
+		$this->add_control(
 			'page_exit_notice',
 			array(
 				'raw'             => __( 'When you are logged in, the modal box will normally show on page load. To try this option, you need to be logged out. This option uses localstorage to show the modal box for the first time only.', 'premium-addons-for-elementor' ),
 				'type'            => Controls_Manager::RAW_HTML,
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
-				'condition'       => array(
-					'premium_modal_box_display_on' => 'exit',
+				'conditions'      => array(
+					'relation' => 'or',
+					'terms'    => array(
+						array(
+							'name'  => 'premium_modal_box_display_on',
+							'value' => 'exit',
+						),
+						array(
+							'name'  => 'show_again_exit',
+							'value' => 'yes',
+						),
+					),
 				),
 			)
 		);
@@ -2384,13 +2405,13 @@ class Premium_Modalbox extends Widget_Base {
 
 		$settings = $this->get_settings_for_display();
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		$trigger = $settings['premium_modal_box_display_on'];
 
 		if ( ! $papro_activated || version_compare( PREMIUM_PRO_ADDONS_VERSION, '2.9.26', '<' ) ) {
 
-			if ( 'exit' === $trigger ) {
+			if ( 'exit' === $trigger || 'yes' === $settings['show_again_exit'] ) {
 
 				?>
 				<div class="premium-error-notice">
@@ -2538,7 +2559,8 @@ class Premium_Modalbox extends Widget_Base {
 		}
 
 		$modal_settings = array(
-			'trigger' => $trigger,
+			'trigger'      => $trigger,
+			'show_on_exit' => 'yes' === $settings['show_again_exit'],
 		);
 
 		if ( 'pageload' === $trigger ) {

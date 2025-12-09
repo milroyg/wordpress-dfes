@@ -20,7 +20,7 @@ class JLTMA_Pages_Url extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('Pages URL', 'master-addons' );
+		return esc_html__('MA Pages URL', 'master-addons' );
 	}
 
 	public function get_group()

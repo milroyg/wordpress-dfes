@@ -3,7 +3,7 @@
  * The admin notices file.
  *
  * @package    Location Weather.
- * @subpackage Location Weather/admin/views/notices
+ * @subpackage Location Weather/Admin
  * @author     ShapedPlugin<support@shapedplugin.com>
  */
 
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * This class is responsive for all kinds of admin facing notices.
+ * This class is responsible for all kinds of admin facing notices.
  */
 class Admin_Notices {
 

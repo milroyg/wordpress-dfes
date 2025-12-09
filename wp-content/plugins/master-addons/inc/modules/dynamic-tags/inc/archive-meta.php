@@ -19,7 +19,7 @@ class JLTMA_Archive_Meta extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('Archive Meta', 'master-addons' );
+		return esc_html__('MA Archive Meta', 'master-addons' );
 	}
 
 	public function get_group()

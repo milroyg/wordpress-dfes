@@ -40,7 +40,7 @@ $out_of_stock = 'outofstock' === get_post_meta( $product_id, '_stock_status', tr
 
 ?>
 <li class="<?php echo esc_attr( $wc_classes ); ?>">
-	<div class="premium-woo-product-wrapper <?php echo esc_attr( 'premium-con-lq__' . $this->get_option_value('product_lq_effect') ) ?>">
+	<div class="premium-woo-product-wrapper <?php echo esc_attr( 'premium-con-lq__' . $this->get_option_value( 'product_lq_effect' ) ); ?>">
 		<?php
 
 		echo '<div class="premium-woo-product-thumbnail">';
@@ -79,7 +79,9 @@ $out_of_stock = 'outofstock' === get_post_meta( $product_id, '_stock_status', tr
 			woocommerce_template_loop_product_link_close();
 
 		if ( 'yes' === $quick_view ) {
-			echo '<div class="premium-woo-qv-container"><span class="premium-woo-qv-btn" data-product-id="' . esc_attr( $product_id ) . '">Quick View</span></div>';
+			echo '<div class="premium-woo-qv-container"><span class="premium-woo-qv-btn" data-product-id="' . esc_attr( $product_id ) . '">
+			'. esc_html( apply_filters( 'premium_woo_product_quick_view', __( 'Quick View', 'premium-addons-for-elementor' ) ) ) .'
+			</span></div>';
 		}
 
 		echo '</div>';

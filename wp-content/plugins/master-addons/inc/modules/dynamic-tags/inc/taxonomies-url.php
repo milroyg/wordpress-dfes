@@ -21,7 +21,7 @@ class JLTMA_Taxonomies_Url extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('Taxonomies URL', 'master-addons' );
+		return esc_html__('MA Taxonomies URL', 'master-addons' );
 	}
 
 	public function get_group()

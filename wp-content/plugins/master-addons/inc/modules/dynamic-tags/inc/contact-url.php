@@ -20,7 +20,7 @@ class JLTMA_Contact_URL extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('Contact URL', 'master-addons' );
+		return esc_html__('MA Contact URL', 'master-addons' );
 	}
 
 	public function get_group()

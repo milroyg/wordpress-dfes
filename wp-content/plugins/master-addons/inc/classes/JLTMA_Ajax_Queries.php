@@ -162,6 +162,73 @@ class JLTMA_Ajax_Queries
         return $results;
     }
 
+    // Gets value titles for 'terms' query type - for saved values
+    protected function get_value_titles_for_terms($data)
+    {
+        $results = [];
+
+        if (empty($data['id'])) {
+            return $results;
+        }
+
+        $term_ids = is_array($data['id']) ? $data['id'] : array($data['id']);
+
+        foreach ($term_ids as $term_id) {
+            $term = get_term($term_id);
+
+            if ($term && !is_wp_error($term)) {
+                $taxonomy = get_taxonomy($term->taxonomy);
+                $results[ $term_id ] = $taxonomy->labels->singular_name . ': ' . $term->name;
+            }
+        }
+
+        return $results;
+    }
+
+    // Gets value titles for 'posts' query type - for saved values
+    protected function get_value_titles_for_posts($data)
+    {
+        $results = [];
+
+        if (empty($data['id'])) {
+            return $results;
+        }
+
+        $post_ids = is_array($data['id']) ? $data['id'] : array($data['id']);
+
+        foreach ($post_ids as $post_id) {
+            $post = get_post($post_id);
+
+            if ($post) {
+                $results[ $post_id ] = $post->post_title;
+            }
+        }
+
+        return $results;
+    }
+
+    // Gets value titles for 'authors' query type - for saved values
+    protected function get_value_titles_for_authors($data)
+    {
+        $results = [];
+
+        if (empty($data['id'])) {
+            return $results;
+        }
+
+        $author_ids = is_array($data['id']) ? $data['id'] : array($data['id']);
+
+        foreach ($author_ids as $author_id) {
+            $author = get_user_by('id', $author_id);
+
+            if ($author) {
+                $results[ $author_id ] = $author->display_name;
+            }
+        }
+
+        return $results;
+    }
+
 
     // Restrict Content
     public function jltma_restrict_content()

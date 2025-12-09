@@ -181,9 +181,8 @@ class Assets_Manager {
 							array_push( $pa_elems, $widget_type );
 
 							if ( 'premium-woo-products' === $widget_type ) {
-								$papro_activated = apply_filters( 'papro_activated', false );
 
-								if ( $papro_activated ) {
+								if ( Helper_Functions::check_papro_version() ) {
 									array_push( $pa_elems, 'premium-woo-products-pro' );
 								}
 							}
@@ -502,7 +501,7 @@ class Assets_Manager {
 			$elements       = array_merge( $elements, $common_assets );
 			$indep_elements = array(
 				'premium-world-clock',
-				'premium-svg-drawer'
+				'premium-svg-drawer',
 			);
 
 		} else {
@@ -525,7 +524,7 @@ class Assets_Manager {
 				'premium-addon-pricing-table',
 				'premium-addon-image-separator',
 				'premium-notifications',
-				'premium-site-logo'
+				'premium-site-logo',
 			);
 
 		}
@@ -546,7 +545,7 @@ class Assets_Manager {
 
 		$file_content = Utils::file_get_contents( Helper_Functions::get_safe_path( $path ) );
 
-		if( ! $file_content ) {
+		if ( ! $file_content ) {
 			return 'empty';
 		}
 
@@ -587,9 +586,7 @@ class Assets_Manager {
 
 		$is_pro = self::is_pro_widget( $element );
 
-		$papro_activated = apply_filters( 'papro_activated', false ) && version_compare( PREMIUM_PRO_ADDONS_VERSION, '2.7.1', '>' );
-
-		if ( ! $papro_activated && $is_pro ) {
+		if ( ! Helper_Functions::check_papro_version() && $is_pro ) {
 			return false;
 		}
 

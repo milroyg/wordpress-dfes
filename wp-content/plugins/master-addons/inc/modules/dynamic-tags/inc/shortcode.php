@@ -19,7 +19,7 @@ class JLTMA_Shortcode extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('Shortcode', 'master-addons' );
+		return esc_html__('MA Shortcode', 'master-addons' );
 	}
 
 	public function get_group()

@@ -20,7 +20,7 @@ class JLTMA_Current_Date_Time extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('Current Date Time', 'master-addons' );
+		return esc_html__('MA Current Date Time', 'master-addons' );
 	}
 
 	public function get_group()

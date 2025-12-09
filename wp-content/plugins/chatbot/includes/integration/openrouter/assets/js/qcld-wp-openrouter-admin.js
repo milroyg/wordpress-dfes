@@ -69,11 +69,11 @@ jQuery(document).ready(function($) {
             var qcld_openrouter_prepend_content = jQuery('#qcld_openrouter_prepend_content').val();
             var post_openrouter_types = $.map($('input[name="site_openrouter_search_posttypes[]"]:checked'), function(c){return c.value; });
             $.ajax({
-                url: ajax_object.ajax_url,
+                url: qcld_gemini_admin_data.ajax_url,
                 type:'POST',
                 data: {
                     action: 'qcld_openrouter_settings_option',
-                    nonce: ajax_object.ajax_nonce,
+                    nonce: qcld_gemini_admin_data.ajax_nonce,
                     openrouter_api_key: qcld_openrouter_api_key,
                     openrouter_model: qcld_openrouter_model,
                     openrouter_enabled: openrouter_enabled,
@@ -96,11 +96,11 @@ jQuery(document).ready(function($) {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
-                                url: ajax_object.ajax_url,
+                                url: qcld_gemini_admin_data.ajax_url,
                                 type: 'POST',
                                 data: {
                                     action: 'update_settings_option',
-                                    nonce: ajax_object.ajax_nonce,
+                                    nonce: qcld_gemini_admin_data.ajax_nonce,
                                     disable_ss: 1
                                 },
                       

@@ -2404,8 +2404,39 @@ input:focus {
     box-shadow: none !important;
     outline: none !important;
 }
+
+.wp-chatbot-wrap .qc-opt-language-title{
+	font-weight: bold !important;
+    color: #5b4e96 !important;
+    font-size: 16px;
+}
+
+button.qcld_chatbot_custom_icon_button.button, button.wp_chatbot_custom_agent_button.button {
+    padding: 2px 20px;
+    width: auto;
+    font-size: 14px;
+    font-weight: 500;
+    color: #988FBD;
+    border-radius: 8px;
+    background: #fff;
+    color: #5B4E96;
+    text-decoration: none;
+    margin: 0;
+    border: 2px solid #5B4E96;
+
+}
+
+button.qcld_chatbot_custom_icon_button.button:hover, button.wp_chatbot_custom_agent_button.button:hover {
+    background: #5B4E96;
+    color: #fff;
+    border: 2px solid #5B4E96;
+
+}
+
+
 @media (min-width: 993px) and (max-width: 1350px) {
 .wp-chatbot-admin-upgrade-pro-sidebar {
     width: 25%;
 }
 }
+

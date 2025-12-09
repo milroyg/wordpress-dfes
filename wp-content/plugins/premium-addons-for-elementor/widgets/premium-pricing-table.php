@@ -651,7 +651,25 @@ class Premium_Pricing_Table extends Widget_Base {
 				'selectors' => array(
 					'{{WRAPPER}} .premium-pricing-slashed-price-value' => 'order: {{VALUE}}',
 				),
+				'condition' => array(
+					'price_effects!' => 'effect-1',
+				),
 			)
+		);
+
+		$this->add_control(
+			'price_effects',
+			array(
+				'label'        => __( 'Discount Reveal Effect', 'premium-addons-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'effect-1',
+				'default'      => '',
+				'prefix_class' => 'pa-bt-effect__',
+				'render_type'  => 'template',
+				'condition'    => array(
+					'premium_pricing_table_slashed_price_value!' => '',
+				),
+			),
 		);
 
 		$this->add_control(
@@ -1154,6 +1172,40 @@ class Premium_Pricing_Table extends Widget_Base {
 			);
 		}
 
+		$this->add_responsive_control(
+			'premium_pricing_table_list_align',
+			array(
+				'label'                => __( 'Alignment', 'premium-addons-for-elementor' ),
+				'type'                 => Controls_Manager::CHOOSE,
+				'separator'            => 'before',
+				'options'              => array(
+					'left'   => array(
+						'title' => __( 'Left', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center' => array(
+						'title' => __( 'Center', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'right'  => array(
+						'title' => __( 'Right', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'prefix_class'         => 'premium-pricing-features-',
+				'selectors_dictionary' => array(
+					'left'   => 'start',
+					'center' => 'center',
+					'right'  => 'end',
+				),
+				'toggle'               => false,
+				'selectors'            => array(
+					'{{WRAPPER}} .premium-pricing-list .premium-pricing-list-item' => 'justify-content: {{VALUE}}',
+				),
+				'default'              => 'center',
+			)
+		);
+
 		$this->add_control(
 			'featured_order',
 			array(
@@ -1612,7 +1664,7 @@ class Premium_Pricing_Table extends Widget_Base {
 		);
 
 		$this->add_responsive_control(
-			'premium_pricing_table_list_align',
+			'pa_pt_alignment',
 			array(
 				'label'                => __( 'Content Alignment', 'premium-addons-for-elementor' ),
 				'type'                 => Controls_Manager::CHOOSE,
@@ -1631,7 +1683,6 @@ class Premium_Pricing_Table extends Widget_Base {
 						'icon'  => 'eicon-text-align-right',
 					),
 				),
-				'prefix_class'         => 'premium-pricing-features-',
 				'selectors_dictionary' => array(
 					'left'   => 'start',
 					'center' => 'center',
@@ -1639,7 +1690,8 @@ class Premium_Pricing_Table extends Widget_Base {
 				),
 				'toggle'               => false,
 				'selectors'            => array(
-					'{{WRAPPER}} .premium-pricing-list .premium-pricing-list-item, {{WRAPPER}} .premium-pricing-price-container, {{WRAPPER}} .premium-pricing-icon-container' => 'justify-content: {{VALUE}}',
+					'{{WRAPPER}} .premium-pricing-price-container, {{WRAPPER}} .premium-pricing-icon-container' => 'justify-content: {{VALUE}}',
+					'{{WRAPPER}} .premium-pricing-list' => 'justify-self: {{VALUE}}',
 					'{{WRAPPER}} .premium-pricing-table-container' => 'text-align: {{VALUE}}',
 				),
 				'default'              => 'center',
@@ -2029,11 +2081,14 @@ class Premium_Pricing_Table extends Widget_Base {
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			array(
-				'name'     => 'slashed_price_typo',
-				'global'   => array(
+				'name'      => 'slashed_price_typo',
+				'global'    => array(
 					'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
 				),
-				'selector' => '{{WRAPPER}} .premium-pricing-slashed-price-value',
+				'selector'  => '{{WRAPPER}} .premium-pricing-slashed-price-value',
+				'condition' => array(
+					'price_effects!' => 'effect-1',
+				),
 			)
 		);
 
@@ -2045,6 +2100,9 @@ class Premium_Pricing_Table extends Widget_Base {
 				'size_units' => array( 'px', 'em', '%' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-pricing--slashed-price-value' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+				'condition'  => array(
+					'price_effects!' => 'effect-1',
 				),
 			)
 		);
@@ -2075,12 +2133,15 @@ class Premium_Pricing_Table extends Widget_Base {
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			array(
-				'label'    => __( 'Typography', 'premium-addons-for-elementor' ),
-				'name'     => 'currency_typo',
-				'global'   => array(
+				'label'     => __( 'Typography', 'premium-addons-for-elementor' ),
+				'name'      => 'currency_typo',
+				'global'    => array(
 					'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
 				),
-				'selector' => '{{WRAPPER}} .premium-pricing-price-currency',
+				'selector'  => '{{WRAPPER}} .premium-pricing-price-currency',
+				'condition' => array(
+					'price_effects!' => 'effect-1',
+				),
 			)
 		);
 
@@ -2109,6 +2170,9 @@ class Premium_Pricing_Table extends Widget_Base {
 					'{{WRAPPER}} .premium-pricing-price-currency' => 'vertical-align: {{VALUE}};',
 				),
 				'label_block' => false,
+				'condition'   => array(
+					'price_effects!' => 'effect-1',
+				),
 			)
 		);
 
@@ -2121,6 +2185,9 @@ class Premium_Pricing_Table extends Widget_Base {
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-pricing-price-currency' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 					'separator' => 'after',
+				),
+				'condition'  => array(
+					'price_effects!' => 'effect-1',
 				),
 			)
 		);
@@ -2156,7 +2223,42 @@ class Premium_Pricing_Table extends Widget_Base {
 				'global'   => array(
 					'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
 				),
-				'selector' => '{{WRAPPER}} .premium-pricing-price-value',
+				'selector' => '{{WRAPPER}} .premium-pricing-price-value ,
+				{{WRAPPER}}.pa-bt-effect__effect-1 .premium-pricing-price-value ,
+				{{WRAPPER}}.pa-bt-effect__effect-1 .premium-pricing-price-currency ,
+				{{WRAPPER}}.pa-bt-effect__effect-1 .premium-pricing-slashed-price-value ',
+			)
+		);
+
+		$this->add_control(
+			'pa_price_background_color',
+			array(
+				'label'     => __( 'Background Color', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
+				'global'    => array(
+					'default' => Global_Colors::COLOR_TEXT,
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .premium-pricing-actual-wrapper'  => 'background-color: {{VALUE}};',
+				),
+				'condition' => array(
+					'price_effects' => 'effect-1',
+				),
+			)
+		);
+
+		$this->add_control(
+			'pa_price_border_radius',
+			array(
+				'label'      => __( 'Border Radius', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em', '%', 'custom' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .premium-pricing-actual-wrapper' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+				'condition'  => array(
+					'price_effects' => 'effect-1',
+				),
 			)
 		);
 
@@ -2167,7 +2269,25 @@ class Premium_Pricing_Table extends Widget_Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', 'em', '%' ),
 				'selectors'  => array(
-					'{{WRAPPER}} .premium-pricing-price-value' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .premium-pricing-price-value ' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+				'condition'  => array(
+					'price_effects!' => 'effect-1',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'pa_pricing_price_reveal_padding',
+			array(
+				'label'      => __( 'Padding', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em', '%' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .premium-pricing-actual-wrapper, {{WRAPPER}} .premium-pricing-slashed-price-value ' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+				'condition'  => array(
+					'price_effects' => 'effect-1',
 				),
 			)
 		);
@@ -3339,8 +3459,11 @@ class Premium_Pricing_Table extends Widget_Base {
 
 		$this->add_inline_editing_attributes( 'premium_pricing_table_description_text', 'advanced' );
 		$this->add_render_attribute( 'premium_pricing_table_description_text', 'class', 'premium-pricing-description-container' );
+		$has_title = 'yes' === $settings['premium_pricing_table_title_switcher'];
 
-		$title_tag = Helper_Functions::validate_html_tag( $settings['premium_pricing_table_title_size'] );
+		if ( $has_title ) {
+			$title_tag = Helper_Functions::validate_html_tag( $settings['premium_pricing_table_title_size'] );
+		}
 
 		$link_type = $settings['premium_pricing_table_button_url_type'];
 
@@ -3482,6 +3605,9 @@ class Premium_Pricing_Table extends Widget_Base {
 			}
 		}
 
+		$has_slashed_price = ! empty( $settings['premium_pricing_table_slashed_price_value'] );
+		$has_effect        = ( 'effect-1' === $settings['price_effects'] ) && $has_slashed_price;
+
 		?>
 
 	<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'container' ) ); ?>>
@@ -3532,7 +3658,7 @@ class Premium_Pricing_Table extends Widget_Base {
 			<?php
 		endif;
 
-		if ( 'yes' === $settings['premium_pricing_table_title_switcher'] ) :
+		if ( $has_title ) :
 			?>
 			<<?php echo wp_kses_post( $title_tag ) . ' ' . wp_kses_post( $this->get_render_attribute_string( 'premium_pricing_table_title_text' ) ); ?>>
 				<?php echo wp_kses_post( $settings['premium_pricing_table_title_text'] ); ?>
@@ -3540,6 +3666,9 @@ class Premium_Pricing_Table extends Widget_Base {
 		<?php endif; ?>
 		<?php if ( 'yes' === $settings['premium_pricing_table_price_switcher'] ) : ?>
 		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'price_container' ) ); ?>>
+			<?php if ( $has_effect ) { ?>
+				<div class="premium-pricing-reveal-wrapper">
+			<?php } ?>
 
 			<?php if ( ! empty( $settings['premium_pricing_table_slashed_price_value'] ) ) : ?>
 				<strike class="premium-pricing-slashed-price-value">
@@ -3547,12 +3676,22 @@ class Premium_Pricing_Table extends Widget_Base {
 				</strike>
 			<?php endif; ?>
 
+			<?php if ( $has_effect ) { ?>
+				<div class="premium-pricing-actual-wrapper">
+			<?php } ?>
+
 			<?php if ( ! empty( $settings['premium_pricing_table_price_currency'] ) ) : ?>
 				<span class="premium-pricing-price-currency"><?php echo wp_kses_post( $settings['premium_pricing_table_price_currency'] ); ?></span>
 			<?php endif; ?>
 			<?php if ( ! empty( $settings['premium_pricing_table_price_value'] ) ) : ?>
 				<span class="premium-pricing-price-value"><?php echo wp_kses_post( $settings['premium_pricing_table_price_value'] ); ?></span>
 			<?php endif; ?>
+
+			<?php if ( $has_effect ) { ?>
+				</div>
+				</div>
+				<div class='separate-duration-wrapper'>
+			<?php } ?>
 
 			<?php if ( ! empty( $settings['premium_pricing_table_price_separator'] ) ) : ?>
 				<span class="premium-pricing-price-separator">
@@ -3565,6 +3704,9 @@ class Premium_Pricing_Table extends Widget_Base {
 					<?php echo wp_kses_post( $settings['premium_pricing_table_price_duration'] ); ?>
 				</span>
 			<?php endif; ?>
+			<?php if ( $has_effect ) { ?>
+				</div>
+			<?php } ?>
 		</div>
 			<?php
 		endif;

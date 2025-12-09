@@ -60,14 +60,13 @@ if(!class_exists('qcld_wpopenai_addons')){
             $this->define_constants();
             $this->includes();
             add_action('wp_ajax_openai_settings_option', [$this, 'openai_settings_option_callback']);
-            add_action('wp_ajax_update_settings_option', [$this, 'update_settings_option_callback']);
-            add_action('wp_ajax_openai_response',[$this,'openai_response_callback']);
-            add_action('wp_ajax_nopriv_openai_response', [$this, 'openai_response_callback']);
+            add_action('wp_ajax_update_settings_option', [$this, 'qcld_update_settings_option_callback']);
+            add_action('wp_ajax_qcld_openai_response',[$this,'qcld_openai_response_callback']);
+            add_action('wp_ajax_nopriv_qcld_openai_response', [$this, 'qcld_openai_response_callback']);
             add_action('wp_ajax_openai_troubleshooting',[$this,'openai_troubleshooting']);
             if (is_admin() && !empty($_GET["page"]) && (($_GET["page"] == "openai-panel_dashboard") || ($_GET["page"] == "openai-panel_file") || ($_GET["page"] == "openai-panel_help"))) {
                 add_action('admin_enqueue_scripts', array($this, 'qcld_wb_chatbot_admin_scripts'));
             }
-    
      
         }
 
@@ -128,26 +127,7 @@ if(!class_exists('qcld_wpopenai_addons')){
             require_once( QCLD_wpCHATBOT_PLUGIN_DIR_PATH . "includes/Parsedown.php" );
             
         }
-        // public function openai_file_delete_callback(){
-        //     $file_id = sanitize_text_field($_POST['file_id']);
-        //     $url = 'https://api.openai.com/v1/files/'. $file_id;
-        //     $apt_key = "Authorization: Bearer ". get_option('open_ai_api_key');
-        //     $ch = curl_init();
-        //     curl_setopt($ch, CURLOPT_URL, $url);
-        //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        //     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-        //     $headers = array(
-        //         $apt_key,
-        //     );
-        //     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        //     $result = curl_exec($ch);
-        //     if (curl_errno($ch)) {
-        //         echo 'Error:' . curl_error($ch);
-        //     }
-        //     curl_close($ch);
-        //    wp_send_json( json_decode($result));
-		//    wp_die();
-        // }
+  
       
         public function buildFormBody( $fields, $boundary )
         {
@@ -363,8 +343,7 @@ if(!class_exists('qcld_wpopenai_addons')){
                
                 return $result; 
                 if (curl_errno($ch)) {
-                    // phpcs:ignore
-                    echo 'Error:' . curl_error($ch);
+                    echo esc_html('Error: ' . curl_error($ch));
                 }
                 curl_close($ch);
             }else{
@@ -468,13 +447,14 @@ if(!class_exists('qcld_wpopenai_addons')){
             return false;
     
         }
-        public function openai_response_callback() {
-            // $nonce =  sanitize_text_field($_POST['nonce']);
-            // if (! wp_verify_nonce($nonce,'qcsecretbotnonceval123qc')) {
-            //     wp_send_json(array('success' => false, 'msg' => esc_html__('Failed in Security check', 'sm')));
-            //     wp_die();
-
-            // }else{
+        public function qcld_openai_response_callback() {
+             if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['nonce'] ), 'wp_chatbot' ) ) {
+                    wp_send_json_error([
+                        'status'  => 'error',
+                        'message' => esc_html__( 'Security check failed. Unauthorized request.', 'chatbot' )
+                    ]);
+                    wp_die();
+                }
                 $response['status'] = 'success';
                 $response['message'] ='A preset message';
                 $OpenAI =  new qcld_wp_OpenAI();
@@ -532,8 +512,11 @@ if(!class_exists('qcld_wpopenai_addons')){
                             }
                         }
                     } else {
-                        // Fallback to current page info
-                        $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                        // Fallback to current page info.
+                        $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+                        $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+                        $request_uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+                        $current_url = esc_url_raw($scheme . '://' . $host . $request_uri);
                         
                         if ( is_singular() ) {
                             $page_title = get_the_title();
@@ -599,7 +582,7 @@ if(!class_exists('qcld_wpopenai_addons')){
                             if($this->qcld_include_keyword_exist($keyword) == false){
                             
                                 $response['message'] = 'Sorry, No result found!';
-                                echo json_encode($response);
+                                echo wp_json_encode($response);
                                 wp_die();
                             }else{
                                 array_push($gptkeyword, array(
@@ -613,27 +596,27 @@ if(!class_exists('qcld_wpopenai_addons')){
                             $gptkeyword
                         );   
                         $mess = json_decode($res); 
-                        $Parsedown = new Parsedown();
+                        $Qcld_Parsedown = new Qcld_Parsedown();
                         $msg = $mess->output[0]->content[0]->text;
                         if( $msg == null || empty($msg) ){
                             $msg = $mess->output[1]->content[0]->text;
                         }
-                        $msg = $Parsedown->text($msg);
+                        $msg = $Qcld_Parsedown->text($msg);
                   
                         $response['message'] = $msg ;
                         if(($response['message'] == 'DUH.') || ($response['message'] == 'DUH')){
                             $response['message'] = 'Sorry, No result found!';
                         }else{
-                            $Parsedown = new Parsedown();
+                            $Qcld_Parsedown = new Qcld_Parsedown();
                             $msg = $mess->output[0]->content[0]->text;
                             if( $msg == null || empty($msg) ){
                                 $msg = $mess->output[1]->content[0]->text;
                             }
-                            $msg = $Parsedown->text($msg);
+                            $msg = $Qcld_Parsedown->text($msg);
                             $response['message'] = $msg . $relevant_pagelinks;
                         }
                    
-                echo json_encode($response);
+                echo wp_json_encode($response);
                 wp_die();
             //}
         }
@@ -641,7 +624,7 @@ if(!class_exists('qcld_wpopenai_addons')){
 		    $nonce =  sanitize_text_field($_POST['nonce']);
 
             if (! wp_verify_nonce($nonce,'wp_chatbot')) {
-                wp_send_json(array('success' => false, 'msg' => esc_html__('Failed in Security check', 'sm')));
+                wp_send_json(array('success' => false, 'msg' => esc_html__('Failed in Security check', 'chatbot')));
                 wp_die();
 
             }else{
@@ -673,7 +656,16 @@ if(!class_exists('qcld_wpopenai_addons')){
 
                 $qcld_openai_prompt_custom = isset( $_POST['qcld_openai_prompt_custom'] ) ? sanitize_text_field($_POST['qcld_openai_prompt_custom']) : '';
            
-                update_option( 'qcld_openai_relevant_post', $_POST['openai_post_type'] );
+                $openai_post_types = array();
+                if (isset($_POST['openai_post_type'])) {
+                    $raw_post_types = wp_unslash($_POST['openai_post_type']);
+                    if (is_array($raw_post_types)) {
+                        $openai_post_types = array_map('sanitize_text_field', $raw_post_types);
+                    } else {
+                        $openai_post_types = sanitize_text_field($raw_post_types);
+                    }
+                }
+                update_option('qcld_openai_relevant_post', $openai_post_types);
 
                 $conversation_continuity = sanitize_text_field($_POST['conversation_continuity']);
 				$qcld_openai_system_content = sanitize_text_field($_POST['qcld_openai_system_content']);
@@ -756,10 +748,10 @@ if(!class_exists('qcld_wpopenai_addons')){
                 }
                 $tem = get_option( 'openai_temperature', $temperature );
             
-                echo json_encode($ai_enabled);wp_die();
+                echo wp_json_encode($ai_enabled);wp_die();
             
         }
-        public function update_settings_option_callback(){
+        public function qcld_update_settings_option_callback(){
             update_option('disable_wp_chatbot_site_search',1);
             update_option('enable_wp_chatbot_post_content', '');
         }
@@ -775,7 +767,7 @@ if(!class_exists('qcld_wpopenai_addons')){
 				wp_send_json(
 					array(
 						'success' => false,
-						'msg'     => esc_html__( 'Failed in Security check', 'sm' ),
+						'msg'     => esc_html__( 'Failed in Security check', 'chatbot' ),
 					)
 				);
 				wp_die();
@@ -799,9 +791,9 @@ if(!class_exists('qcld_wpopenai_addons')){
 					wp_send_json(
 						array(
 							'success' => true,
-							'title'   => esc_html__( 'success', 'sm' ),
-							'icon'    => esc_html__( 'success', 'sm' ),
-							'msg'     => esc_html__( $msg, 'sm' ),
+							'title'   => esc_html__( 'success', 'chatbot' ),
+							'icon'    => esc_html__( 'success', 'chatbot' ),
+							'msg'     => esc_html( $msg ),
 						)
 					);
 				} else {
@@ -809,9 +801,9 @@ if(!class_exists('qcld_wpopenai_addons')){
 					wp_send_json(
 						array(
 							'success' => true,
-							'title'   => esc_html__( 'Error', 'sm' ),
-							'icon'    => esc_html__( 'error', 'sm' ),
-							'msg'     => esc_html__( json_decode( $res )->error->message, 'sm' ),
+							'title'   => esc_html__( 'Error', 'chatbot' ),
+							'icon'    => esc_html__( 'error', 'chatbot' ),
+							'msg'     => esc_html( json_decode( $res )->error->message ),
 						)
 					);
 				}

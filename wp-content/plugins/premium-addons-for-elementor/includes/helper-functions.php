@@ -7,7 +7,6 @@ namespace PremiumAddons\Includes;
 
 // Premium Addons Pro Classes.
 use PremiumAddonsPro\Includes\White_Label\Helper;
-
 use PremiumAddons\Admin\Includes\Admin_Helper;
 
 // Elementor Classes.
@@ -548,7 +547,7 @@ class Helper_Functions {
 
 		$vimeo_data = get_transient( 'premium_vimeo_' . $video_id );
 
-		if( $vimeo_data === false ) {
+		if ( $vimeo_data === false ) {
 
 			$vimeo_data = wp_remote_get( 'http://www.vimeo.com/api/v2/video/' . intval( $video_id ) . '.php' );
 
@@ -577,7 +576,6 @@ class Helper_Functions {
 
 				}
 			}
-
 		}
 
 		return $vimeo_data;
@@ -1594,7 +1592,7 @@ class Helper_Functions {
 							__( 'Widget Demo', 'premium-addons-for-elementor' ) .
 						'</a>
 						<a class="premium-promote-upgrade premium-widget-blocks elementor-button elementor-button-default" href="#" data-keyword="' . esc_attr( $keyword ) . '">' .
-							__( 'Premade Templates', 'premium-addons-for-elementor' ) .
+							__( 'Templates', 'premium-addons-for-elementor' ) .
 						'</a>
 					</div>
 				</div>',
@@ -1615,7 +1613,7 @@ class Helper_Functions {
 
 		if ( ! self::check_papro_version() ) {
 
-			$pro_link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro/', $keyword, 'wp-editor', 'get-pro' );
+			$pro_link = self::get_campaign_link( 'https://premiumaddons.com/pro/#get-pa-pro', $keyword, 'wp-editor', 'get-pro' );
 
 			$element->start_controls_section(
 				'section_pro_features_field',
@@ -1630,7 +1628,7 @@ class Helper_Functions {
 					'type'        => Controls_Manager::NOTICE,
 					'notice_type' => 'info',
 					'dismissible' => false,
-					'content'     => __( '<b>Build smarter and faster</b> with premium widgets, 580+ container blocks, and advanced customization controls — all available in the <a href="'. esc_url( $pro_link ) .'" target="_blank">PA Pro</a>. Use the code <b>SUMMER10</b> to get 10% OFF on Lifetime license.', 'premium-addons-for-elementor' ),
+					'content'     => __( '<b>Build smarter and faster</b> with premium widgets, 580+ container blocks, and advanced customization controls — all available in the <a href="' . esc_url( $pro_link ) . '" target="_blank">PA Pro</a>. <b>Save up to $105!</b>.', 'premium-addons-for-elementor' ),
 				)
 			);
 
@@ -1652,7 +1650,7 @@ class Helper_Functions {
 
 		$class = '';
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = self::check_papro_version();
 
 		if ( ! $papro_activated && ! in_array( $settings['premium_button_hover_effect'], array( 'none', 'style1', 'style2' ) ) ) {
 			return '';
@@ -1770,7 +1768,7 @@ class Helper_Functions {
 		// If icon library is SVG, then go to Elementor. Used for widgets where this function is called in all cases.
 		if ( false === strpos( $icon['library'], 'fa-' ) ) {
 
-			if( is_string( $attributes ) ) {
+			if ( is_string( $attributes ) ) {
 				$attributes = str_replace( '"', '', $attributes );
 			}
 
@@ -1898,5 +1896,92 @@ class Helper_Functions {
 		$template_content = $frontend->get_builder_content_for_display( $id, true );
 
 		return $template_content;
+	}
+
+	/**
+	 * Get Device Type
+	 *
+	 * @since 4.11.50
+	 * @access public
+	 *
+	 * @return string device type.
+	 */
+	public static function get_device_type() {
+
+		static $device_type = null;
+
+		// Return cached result if already detected.
+		if ( null !== $device_type ) {
+			return $device_type;
+		}
+
+		// Default to desktop.
+		$device_type = 'desktop';
+
+		// Only load Device_Detector if not already loaded.
+		if ( ! class_exists( 'PremiumAddons\Includes\Helpers\Device_Detector' ) ) {
+			require_once PREMIUM_ADDONS_PATH . 'includes/helpers/device-detector.php';
+		}
+
+		$detect = new Helpers\Device_Detector();
+
+		// Detect device type with priority: tablet > mobile > desktop.
+		if ( $detect->isTablet() ) {
+			$device_type = 'tablet';
+		} elseif ( $detect->isMobile() ) {
+			$device_type = 'mobile';
+		}
+
+		return $device_type;
+	}
+
+	/**
+	 * Get Widget Class Name
+	 *
+	 * @since 4.11.51
+	 * @access public
+	 *
+	 * @param string $widget_key Widget slug/key, e.g. 'premium-banner'.
+	 * @return string|false Fully-qualified class name on success, false on failure.
+	 */
+	public static function get_widget_class_name( $widget_key ) {
+
+		static $classes_list = null;
+
+		$default_namespace = 'PremiumAddons\\Widgets\\';
+
+		// load the map once.
+		if ( null === $classes_list ) {
+
+			$map_file = PREMIUM_ADDONS_PATH . 'includes/helpers/widget-class-map.php';
+
+			if ( file_exists( $map_file ) ) {
+
+				$map = include $map_file;
+				$classes_list = is_array( $map ) ? $map : [];
+			} else {
+				$classes_list = [];
+			}
+		}
+
+		if ( empty( $widget_key ) || ! is_string( $widget_key ) ) {
+			return false;
+		}
+
+		if ( ! isset( $classes_list[ $widget_key ] ) ) {
+			return false;
+		}
+
+		$class_name = $classes_list[ $widget_key ];
+
+		if ( is_string( $class_name ) && false !== strpos( $class_name, '\\' ) ) {
+			return $class_name;
+		}
+
+		// Otherwise treat as short class name and prepend the default namespace.
+		$short_class = (string) $class_name;
+		$full_class = rtrim( $default_namespace, '\\' ) . '\\' . ltrim( $short_class, '\\' );
+
+		return $full_class;
 	}
 }

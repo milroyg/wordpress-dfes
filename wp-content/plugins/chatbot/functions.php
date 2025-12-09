@@ -5,8 +5,8 @@
  */
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 add_action('wp_footer', 'wp_chatbot_load_footer_html');
-add_action( 'admin_footer', 'qc_style_for_hide_iframe');
-function qc_style_for_hide_iframe(){
+add_action( 'admin_footer', 'qcld_style_for_hide_iframe');
+function qcld_style_for_hide_iframe(){
 ?>
     <script>
         jQuery( document ).ready(function() {
@@ -28,9 +28,8 @@ function wp_chatbot_load_footer_html(){
         ?>
         <style>
             <?php if(get_option('wp_chatbot_custom_css')!="") {
-                //Sanitization to be checked
-                // phpcs:ignore
-                echo sanitize_text_field(get_option('wp_chatbot_custom_css'));
+     
+                echo get_option('wp_chatbot_custom_css');
             }
             ?>
         </style>
@@ -62,26 +61,26 @@ function wp_chatbot_load_footer_html(){
                 <div class="wp-chatbot-integration-button-container">
                     <?php if (get_option('enable_wp_chatbot_skype_floating_icon') == 1) { ?>
                         <a href="skype:<?php echo esc_attr(get_option('enable_wp_chatbot_skype_id')); ?>?chat"><span
-                                    class="inetegration-skype-btn" title="<?php esc_attr_e('Skype', 'wpchatbot'); ?>"> </span></a>
+                                    class="inetegration-skype-btn" title="<?php esc_attr_e('Skype', 'chatbot'); ?>"> </span></a>
                     <?php } ?>
                     <?php if (get_option('enable_wp_chatbot_floating_whats') == 1) { ?>
                         <a href="<?php echo esc_url('https://api.whatsapp.com/send?phone=' . get_option('qlcd_wp_chatbot_whats_num')); ?>"
                            target="_blank"><span class="intergration-whats"
-                                                 title="<?php esc_html_e('WhatsApp', 'wpchatbot'); ?>"></span></a>
+                                                 title="<?php esc_html_e('WhatsApp', 'chatbot'); ?>"></span></a>
                     <?php } ?>
                     <?php if (get_option('enable_wp_chatbot_floating_viber') == 1) { ?>
                         <a href="<?php echo esc_url('https://live.viber.com/#/' . get_option('qlcd_wp_chatbot_viber_acc')); ?>"
                            target="_blank"><span class="intergration-viber"
-                                                 title="<?php esc_html_e('Viber', 'wpchatbot'); ?>"></span></a>
+                                                 title="<?php esc_html_e('Viber', 'chatbot'); ?>"></span></a>
                     <?php } ?>
                     <?php if (get_option('enable_wp_chatbot_floating_phone') == 1 && get_option('qlcd_wp_chatbot_phone') != "") { ?>
                         <a href="tel:<?php echo esc_attr(get_option('qlcd_wp_chatbot_phone')); ?>"><span
                                     class="intergration-phone"
-                                    title="<?php esc_html_e('Phone', 'wpchatbot'); ?>"> </span></a>
+                                    title="<?php esc_html_e('Phone', 'chatbot'); ?>"> </span></a>
                     <?php } ?>
                     <?php if (get_option('enable_wp_chatbot_floating_link') == 1 && get_option('qlcd_wp_chatbot_weblink') != "") { ?>
                         <a href="<?php echo esc_url(get_option('qlcd_wp_chatbot_weblink')); ?>" target="_blank"><span
-                                    class="intergration-weblink" title="<?php esc_html_e('Web Link', 'wpchatbot'); ?>"></span></a>
+                                    class="intergration-weblink" title="<?php esc_html_e('Web Link', 'chatbot'); ?>"></span></a>
                     <?php } ?>
                 </div>
             </div>
@@ -96,7 +95,7 @@ function wp_chatbot_load_footer_html(){
             if (file_exists(QCLD_wpCHATBOT_PLUGIN_DIR_PATH . '/templates/' . $qcld_wb_chatbot_theme . '/template.php')) {
                 require_once(QCLD_wpCHATBOT_PLUGIN_DIR_PATH . '/templates/' . $qcld_wb_chatbot_theme . '/template.php');
             } else {
-                echo "<h2>" . esc_html__('No wpWBot Theme Found!', 'wpchatbot') . "</h2>";
+                echo "<h2>" . esc_html__('No wpWBot Theme Found!', 'chatbot') . "</h2>";
             }
             ?>
             <?php
@@ -105,7 +104,7 @@ function wp_chatbot_load_footer_html(){
                 <div id="wp-chatbot-notification-container" class="wp-chatbot-notification-container">
                     <div class="wp-chatbot-notification-controller"> 
                         <span class="wp-chatbot-notification-close">
-                            <?php esc_html_e('X', 'wpchatbot'); ?>
+                            <?php esc_html_e('X', 'chatbot'); ?>
                         </span>
                     </div>
                     <?php
@@ -195,9 +194,9 @@ function wp_chatbot_load_footer_html(){
         
         <?php
 
-        if ( get_transient( 'bot_clear_cache' ) ) {
+        if ( get_transient( 'qcld_bot_clear_cache' ) ) {
             echo  '<script type="text/javascript">var wpbot_clear_cache = 1 </script>';
-            delete_transient( 'bot_clear_cache' );
+            delete_transient( 'qcld_bot_clear_cache' );
         }
 
     }else{
@@ -839,7 +838,7 @@ function qcld_wb_chatbot_product_details(){
     }
     $product_image .= '</ul></div>';
     $product_price = '<p class="wp-chatbot-product-price" id="wp-chatbot-product-price">' . $product->get_price_html() . '</p>';
-    $product_sku = '<p class="wp-chatbot-product-sku"> ' . __('SKU', 'wpchatbot') . ' : ' . $product->get_sku() . '</p>';
+    $product_sku = '<p class="wp-chatbot-product-sku"> ' . __('SKU', 'chatbot') . ' : ' . $product->get_sku() . '</p>';
     //if ( $product->is_in_stock() || $product->is_purchasable() )
     //Handle variable product start
     $variations = "";
@@ -908,9 +907,9 @@ function qcld_wb_chatbot_product_details(){
     wp_send_json($response);
 }
 //Add to cart for variable product.
-add_action('wp_ajax_variable_add_to_cart', 'qcld_wb_chatbot_variable_add_to_cart');
-add_action('wp_ajax_nopriv_variable_add_to_cart', 'qcld_wb_chatbot_variable_add_to_cart');
-function qcld_wb_chatbot_variable_add_to_cart(){
+add_action('wp_ajax_qcld_variable_add_to_cart', 'qcld_variable_add_to_cart');
+add_action('wp_ajax_nopriv_qcld_variable_add_to_cart', 'qcld_variable_add_to_cart');
+function qcld_variable_add_to_cart(){
     $product_id = stripslashes($_POST['p_id']);
     $quantity = stripslashes($_POST['quantity']);
     $variations_id = stripslashes($_POST['variations_id']);
@@ -978,12 +977,12 @@ function qcld_wb_chatbot_support_email(){
     } else {
         //build email body
         $bodyContent = "";
-        $bodyContent .= '<p><strong>' . __('Support Request Details', 'wpchatbot') . ':</strong></p><hr>';
-        $bodyContent .= '<p>' . __('Name', 'wpchatbot') . ' : ' . $name . '</p>';
-        $bodyContent .= '<p>' . __('Email', 'wpchatbot') . ' : ' . $email . '</p>';
-        $bodyContent .= '<p>' . __('Subject', 'wpchatbot') . ' : ' . $subject . '</p>';
-        $bodyContent .= '<p>' . __('Message', 'wpchatbot') . ' : ' . $message . '</p>';
-        $bodyContent .= '<p>' . __('Mail Generated on', 'wpchatbot') . ': ' . current_time('F j, Y, g:i a') . '</p>';
+        $bodyContent .= '<p><strong>' . __('Support Request Details', 'chatbot') . ':</strong></p><hr>';
+        $bodyContent .= '<p>' . __('Name', 'chatbot') . ' : ' . $name . '</p>';
+        $bodyContent .= '<p>' . __('Email', 'chatbot') . ' : ' . $email . '</p>';
+        $bodyContent .= '<p>' . __('Subject', 'chatbot') . ' : ' . $subject . '</p>';
+        $bodyContent .= '<p>' . __('Message', 'chatbot') . ' : ' . $message . '</p>';
+        $bodyContent .= '<p>' . __('Mail Generated on', 'chatbot') . ': ' . current_time('F j, Y, g:i a') . '</p>';
         $to = $toEmail;
         $body = $bodyContent;
         $headers = array();
@@ -997,7 +996,7 @@ function qcld_wb_chatbot_support_email(){
         }
 		
     }
-    echo json_encode($response);
+    echo wp_json_encode($response);
     die();
 }
 //Support Phone
@@ -1026,12 +1025,12 @@ function qcld_wb_chatbot_support_phone(){
     $response['message'] = str_replace('\\', '',wp_kses_post(get_option('qlcd_wp_chatbot_phone_fail')));
         //build email body
         $bodyContent = "";
-        $bodyContent .= '<p><strong>' . __('Support Request Details', 'wpchatbot') . ':</strong></p><hr>';
-        $bodyContent .= '<p>' . __('Name', 'wpchatbot') . ' : ' . $name . '</p>';
-        $bodyContent .= '<p>' . __('Phone', 'wpchatbot') . ' : ' . $phone . '</p>';
-        $bodyContent .= '<p>' . __('Subject', 'wpchatbot') . ' : ' . $subject . '</p>';
-        $bodyContent .= '<p>' . __('Message', 'wpchatbot') . ' : ' . __(' Call me at ', 'wpchatbot'). $phone . '</p>';
-        $bodyContent .= '<p>' . __('Mail Generated on', 'wpchatbot') . ': ' . current_time('F j, Y, g:i a') . '</p>';
+        $bodyContent .= '<p><strong>' . __('Support Request Details', 'chatbot') . ':</strong></p><hr>';
+        $bodyContent .= '<p>' . __('Name', 'chatbot') . ' : ' . $name . '</p>';
+        $bodyContent .= '<p>' . __('Phone', 'chatbot') . ' : ' . $phone . '</p>';
+        $bodyContent .= '<p>' . __('Subject', 'chatbot') . ' : ' . $subject . '</p>';
+        $bodyContent .= '<p>' . __('Message', 'chatbot') . ' : ' . __(' Call me at ', 'chatbot'). $phone . '</p>';
+        $bodyContent .= '<p>' . __('Mail Generated on', 'chatbot') . ': ' . current_time('F j, Y, g:i a') . '</p>';
         $to = $toEmail;
         $body = $bodyContent;
         $headers = array();
@@ -1043,7 +1042,7 @@ function qcld_wb_chatbot_support_phone(){
             $response['status'] = 'success';
             $response['message'] = str_replace('\\', '',wp_kses_post(get_option('qlcd_wp_chatbot_phone_sent')));
         }
-    echo json_encode($response);
+    echo wp_json_encode($response);
     die();
 }
 // Order Status part. removed
@@ -1109,10 +1108,10 @@ function get_order_by_username($user_name){
         $response['message'] .= wp_kses_post(wpb_randmom_message_handle(unserialize(get_option('qlcd_wp_chatbot_order_found'))));
         $order_html .= '<div class="wp-chatbot-orders-container">
             <div class="wp-chatbot-orders-header">
-                <div class="order-id">' . __('ID', 'wpchatbot') . '</div> 
-                <div class="order-date">' . __('Date', 'wpchatbot') . ' </div>
-                <div class="order-items">' . __('Items', 'wpchatbot') . '</div>
-                <div class="order-status">' . __('Status', 'wpchatbot') . '</div>
+                <div class="order-id">' . __('ID', 'chatbot') . '</div> 
+                <div class="order-date">' . __('Date', 'chatbot') . ' </div>
+                <div class="order-items">' . __('Items', 'chatbot') . '</div>
+                <div class="order-status">' . __('Status', 'chatbot') . '</div>
             </div>';
         foreach ($customer_orders as $order) {
             //Formatting order summery
@@ -1310,7 +1309,7 @@ function qcld_wb_chatbot_recently_viewed_shortcode(){
         $html .= '</ul></div>';
     } else {
         $html .= '<div class="wp-chatbot-products-area">';
-        $html .= '<p style="text-align: center">' . __('You have no products', 'wpchatbot') . ' !';
+        $html .= '<p style="text-align: center">' . __('You have no products', 'chatbot') . ' !';
         $html .= '</div>';
     }
     return $html;
@@ -1525,7 +1524,7 @@ function qcld_wb_chatbot_checkout_page(){
     wp_send_json($response);
 }
 //_dynamic_intent
-function qc_dynamic_intent(){
+function qcld_dynamic_intent(){
     global $wpdb;
     $intents = array();
  
@@ -1751,15 +1750,15 @@ function qcld_wpbot_is_active_chat_history(){
 
 }
 
-function qc_wpbot_input_validation( $data ) {
+function qcld_wpbot_input_validation( $data ) {
 	$data = html_entity_decode($data);
 	$data = trim($data);
 	$data = stripslashes($data);
 	$data = htmlspecialchars($data);
 	return $data;
 }
-add_action('wp_ajax_small_talk_import', 'small_talk_import');
-function small_talk_import(){
+add_action('wp_ajax_qcld_small_talk_import', 'qcld_small_talk_import');
+function qcld_small_talk_import(){
 
     global $wpdb;
 
@@ -1806,3 +1805,26 @@ function qcld_wpbot_meta_tags() {
 }
 add_action('wp_footer', 'qcld_wpbot_meta_tags', 100);
 
+if ( ! function_exists( 'qcld_change_language_from_center' ) ) {
+	add_action( 'wp_ajax_qcld_change_language_from_center', 'qcld_change_language_from_center' );
+	add_action( 'wp_ajax_nopriv_qcld_change_language_from_center', 'qcld_change_language_from_center' );
+	function qcld_change_language_from_center() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => 'Unauthorized.' ) );
+		}
+		$plugin_path = plugin_dir_path( __FILE__ );
+		include $plugin_path . 'includes/admin/settings-fields.php';
+		$json_file_path = $plugin_path . 'includes/language center.json'; // Adjust path as needed
+		
+   		$json_string = file_get_contents( $json_file_path );
+		   if ( isset( $_POST['language'] ) ) {
+			    $language = sanitize_text_field( wp_unslash( $_POST['language'] ) );
+			    $language_array= json_decode($json_string)->$language;
+                update_option( 'wp_chatbot_language_center_language', $language );
+			    wp_send_json_success( array( 'message' => true, 'data' => $language_array, 'language' => $language ) );
+		    } else {
+			    wp_send_json_error( array( 'message' => 'Language not specified.' ) );
+
+		    }
+	}
+}

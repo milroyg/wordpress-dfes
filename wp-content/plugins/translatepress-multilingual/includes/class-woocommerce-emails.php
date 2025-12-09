@@ -38,6 +38,7 @@ class TRP_Woocommerce_Emails{
             add_action( 'woocommerce_order_status_pending_to_completed_notification', array( $this, 'store_email_order_id' ), 5, 1 );
             add_action( 'woocommerce_order_status_failed_to_completed_notification', array( $this, 'store_email_order_id' ), 5, 1 );
             add_action( 'woocommerce_order_status_cancelled_to_completed_notification', array( $this, 'store_email_order_id' ), 5, 1 );
+            add_action( 'woocommerce_order_status_failed_notification', array( $this, 'store_email_order_id' ), 5, 1 );
 
             // WooCommerce emails when resent by admin
             add_action( 'woocommerce_before_resend_order_emails', array( $this, 'prepare_order_id_for_resend_emails' ), 5, 2 );
@@ -295,6 +296,9 @@ class TRP_Woocommerce_Emails{
         // If at least one core handler is already attached, return
         if ( has_filter( 'gettext', [ $pg, 'woocommerce_process_gettext_strings_no_context' ] ) )
             return;
+
+        if ( !$trp->get_component( 'machine_translator') || get_class( $trp->get_component( 'machine_translator' ) ) === TRP_Machine_Translator::class )
+            $trp->init_machine_translation(); // Machine translator should be initialized by the get_trp_instance() call. In the case of cron jobs, it is not - so we initialize it here manually.
 
         // Bypass processing_gettext_is_needed usual checks. Otherwise, the below method calls wouldn't go through
         add_filter( 'trp_processing_gettext_is_needed', '__return_true' );

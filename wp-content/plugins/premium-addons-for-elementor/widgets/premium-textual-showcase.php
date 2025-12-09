@@ -226,7 +226,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 	 */
 	private function add_general_controls() {
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		$this->start_controls_section(
 			'sect_gen_controls',
@@ -333,7 +333,6 @@ class Premium_Textual_Showcase extends Widget_Base {
 				'label'       => __( 'HTML Tag', 'premium-addons-for-elementor' ),
 				'description' => __( 'Select an HTML tag for the text.', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::SELECT,
-				'default'     => 'span',
 				'options'     => array(
 					'h1'   => 'H1',
 					'h2'   => 'H2',
@@ -345,6 +344,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 					'span' => 'span',
 					'p'    => 'p',
 				),
+				'default'     => 'span',
 				'label_block' => true,
 				'condition'   => array(
 					'item_type' => 'text',
@@ -788,7 +788,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 			array(
 				'label'      => __( 'Width', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::SLIDER,
-				'size_units' => array( 'px', 'em', '%' ),
+				'size_units' => array( 'px', 'em', '%', 'vw', 'custom' ),
 				'range'      => array(
 					'px' => array(
 						'min' => 1,
@@ -814,7 +814,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 			array(
 				'label'      => __( 'Height', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::SLIDER,
-				'size_units' => array( 'px', 'em' ),
+				'size_units' => array( 'px', 'em', '%' ),
 				'range'      => array(
 					'px' => array(
 						'min' => 1,
@@ -962,7 +962,6 @@ class Premium_Textual_Showcase extends Widget_Base {
 				'label'       => __( 'HTML Tag', 'premium-addons-for-elementor' ),
 				'description' => __( 'Select an HTML tag for the text.', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::SELECT,
-				'default'     => 'span',
 				'options'     => array(
 					'h1'   => 'H1',
 					'h2'   => 'H2',
@@ -974,6 +973,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 					'span' => 'span',
 					'p'    => 'p',
 				),
+				'default'     => 'span',
 				'label_block' => true,
 				'condition'   => array(
 					'item_type_hov' => 'text',
@@ -2279,7 +2279,7 @@ class Premium_Textual_Showcase extends Widget_Base {
 
 		$settings = $this->get_settings_for_display();
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		if ( ! $papro_activated || version_compare( PREMIUM_PRO_ADDONS_VERSION, '2.9.10', '<' ) ) {
 

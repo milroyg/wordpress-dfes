@@ -37,8 +37,6 @@ if ( ! class_exists( 'Premium_Templates_Assets' ) ) {
 		 */
 		public function __construct() {
 
-			add_action( 'elementor/preview/enqueue_styles', array( $this, 'enqueue_preview_styles' ) );
-
 			add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'editor_scripts' ), 0 );
 
 			add_action( 'elementor/editor/after_enqueue_styles', array( $this, 'editor_styles' ) );
@@ -63,19 +61,6 @@ if ( ! class_exists( 'Premium_Templates_Assets' ) ) {
 				PREMIUM_ADDONS_VERSION,
 				'all'
 			);
-		}
-
-		/**
-		 * Preview Styles
-		 *
-		 * Enqueue required templates CSS file.
-		 *
-		 * @since 3.6.0
-		 * @access public
-		 */
-		public function enqueue_preview_styles() {
-
-
 		}
 
 		/**

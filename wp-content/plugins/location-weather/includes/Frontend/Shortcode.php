@@ -149,7 +149,7 @@ class Shortcode {
 
 			case 'city_id':
 				$city_id = $splw_meta['lw-city-id'] ?? '';
-				$query   = ! empty( $city_id ) ? (int) $city_id : 2643743;
+				$query   = ! empty( $city_id ) ? $city_id : 2643743;
 				break;
 
 			case 'latlong':
@@ -189,7 +189,7 @@ class Shortcode {
 			$weather_api_data = Manage_API::weather_api_data( $api_query, $weather_units, $lw_language, $appid, $shortcode_id, $number_of_hours, $hourly_type );
 
 			// Api call error check.
-			if ( is_array( $weather_api_data ) && isset( $weather_api_data['code'] ) && ( 1006 === $weather_api_data['code'] || 2006 === $weather_api_data['code'] ) ) {
+			if ( is_array( $weather_api_data ) && isset( $weather_api_data['code'] ) && ( 1006 === $weather_api_data['code'] || 1003 === $weather_api_data['code'] || 2006 === $weather_api_data['code'] ) ) {
 				$weather_error_status = sprintf( '<div id="splw-location-weather-%1$s" class="splw-main-wrapper"><div class="splw-weather-title">%2$s</div><div class="splw-lite-wrapper"><div class="splw-warning">%3$s</div> <div class="splw-weather-attribution"><a href = "https://www.weatherapi.com/docs/key.aspx" target="_blank">' . __( 'Weather from WeatherAPI ', 'location-weather' ) . '</a></div></div></div>', esc_attr( $shortcode_id ), esc_html( get_the_title( $shortcode_id ) ), $weather_api_data['message'] );
 				echo $weather_error_status; // phpcs:ignore
 				return;

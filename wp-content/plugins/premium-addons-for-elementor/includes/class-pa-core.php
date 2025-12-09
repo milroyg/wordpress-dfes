@@ -62,6 +62,8 @@ if ( ! class_exists( 'PA_Core' ) ) {
 			}
 
 			Addons_Integration::get_instance();
+
+			include_once PREMIUM_ADDONS_PATH . 'includes/cm-pointer.php';
 		}
 
 		/**
@@ -108,7 +110,7 @@ if ( ! class_exists( 'PA_Core' ) ) {
 					)
 				);
 
-                set_transient( 'pa_activation_redirect', true, 30 );
+				set_transient( 'pa_activation_redirect', true, 30 );
 			}
 		}
 

@@ -17,11 +17,11 @@ jQuery(document).ready(function($) {
             var qcld_gemini_prepend_content = jQuery('#qcld_gemini_prepend_content').val();
             var post_gemini_types = $.map($('input[name="site_gemini_search_posttypes[]"]:checked'), function(c){return c.value; });
             $.ajax({
-                url: ajax_object.ajax_url,
+                url: qcld_gemini_admin_data.ajax_url,
                 type:'POST',
                 data: {
                     action: 'qcld_gemini_settings_option',
-                    nonce: ajax_object.ajax_nonce,
+                    nonce: qcld_gemini_admin_data.ajax_nonce,
                     gemini_api_key: qcld_gemini_api_key,
                     gemini_model: qcld_gemini_model,
                     gemini_enabled: gemini_enabled,
@@ -44,11 +44,11 @@ jQuery(document).ready(function($) {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
-                                url: ajax_object.ajax_url,
+                                url: qcld_gemini_admin_data.ajax_url,
                                 type: 'POST',
                                 data: {
                                     action: 'update_settings_option',
-                                    nonce: ajax_object.ajax_nonce,
+                                    nonce: qcld_gemini_admin_data.ajax_nonce,
                                     disable_ss: 1
                                 },
                       

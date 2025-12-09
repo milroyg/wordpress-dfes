@@ -10,7 +10,10 @@ class JLTMA_Extension_Dynamic_Tags
 
 	public function __construct()
 	{
+		// Don't load if Elementor Pro is active as it already has dynamic tags
 		add_action('elementor/dynamic_tags/register', [$this, 'jltma_register_dynamic_tags']);
+		// if (!defined('ELEMENTOR_PRO_VERSION')) {
+		// }
 	}
 
 	/**
@@ -246,7 +249,6 @@ class JLTMA_Extension_Dynamic_Tags
 			}
 		}
 	}
-
 
 	public static function get_instance()
 	{

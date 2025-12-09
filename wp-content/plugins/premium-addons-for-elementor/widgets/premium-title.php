@@ -130,7 +130,8 @@ class Premium_Title extends Widget_Base {
 			$settings = $this->get_settings();
 
 			if ( 'yes' === $settings['draw_svg'] ) {
-				array_push( $scripts, 'pa-tweenmax', 'pa-motionpath' );
+				$scripts[] = 'pa-tweenmax';
+				$scripts[] = 'pa-motionpath';
 			}
 
 			if ( 'animation' === $settings['icon_type'] ) {
@@ -142,7 +143,7 @@ class Premium_Title extends Widget_Base {
 			}
 		}
 
-        $scripts[] = 'premium-addons';
+		$scripts[] = 'premium-addons';
 
 		return $scripts;
 	}
@@ -633,7 +634,6 @@ class Premium_Title extends Widget_Base {
 			array(
 				'label'     => __( 'HTML Tag', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::SELECT,
-				'default'   => 'h2',
 				'options'   => array(
 					'h1'   => 'H1',
 					'h2'   => 'H2',
@@ -644,6 +644,7 @@ class Premium_Title extends Widget_Base {
 					'div'  => 'div',
 					'span' => 'span',
 				),
+				'default'   => 'h2',
 				'separator' => 'before',
 			)
 		);
@@ -2181,7 +2182,6 @@ class Premium_Title extends Widget_Base {
 						$letters_html = '<span class="premium-letters-container"' . $this->get_render_attribute_string( 'premium_title_text' ) . '>';
 						$title_array  = preg_split( '//u', $settings['premium_title_text'], -1, PREG_SPLIT_NO_EMPTY );
 					foreach ( $title_array as $key => $letter ) :
-						$key           = $key++;
 						$letters_html .= '<span class="premium-title-style9-letter" data-letter-index="' . esc_attr( $key + 1 ) . '" data-letter="' . esc_attr( $letter ) . '">' . $letter . '</span>';
 					endforeach;
 						$the_title = $letters_html . '</span>';

@@ -32,7 +32,7 @@ if (!class_exists('Latest_Updates')) {
         public function notice_content()
         {
             $jltma_changelog_message = sprintf(
-                __('%3$s %4$s %5$s <br> <strong>Check Changelogs for </strong> <a href="%1$s" target="__blank">%2$s</a>', 'master-addons'),
+                __('%3$s %4$s %5$s %6$s %7$s <br> <strong>Check Changelogs for </strong> <a href="%1$s" target="__blank">%2$s</a>', 'master-addons'),
                 esc_url_raw('https://master-addons.com/changelogs'),
                 __('More Details', 'master-addons'),
                 /** Changelog Items
@@ -40,10 +40,13 @@ if (!class_exists('Latest_Updates')) {
                  */
 
                 '<h3 class="jltma-update-head">' . JLTMA . ' <span><small><em>v' . esc_html(JLTMA_VER) . '</em></small>' . __(' has some updates..', 'master-addons') . '</span></h3><br>', // %3$s
-                __('<span class="dashicons dashicons-yes"></span> <span class="jltma-changes-list"> display condition for logged out user only </span><br>', 'master-addons'),
-                __('<span class="dashicons dashicons-yes"></span> <span class="jltma-changes-list"> Wrapper link is not working in Safari browser </span><br>', 'master-addons')
+                __('<span class="dashicons dashicons-yes"></span> <span class="jltma-changes-list"> Fixed: display condition for terms and archive.</span><br>', 'master-addons'),
+                __('<span class="dashicons dashicons-yes"></span> <span class="jltma-changes-list"> Fixed: Dynamic tags showing twice for widgets</span><br>', 'master-addons'),
+                __('<span class="dashicons dashicons-yes"></span> <span class="jltma-changes-list"> UX Improvement : Gallery slider ui and ui improvement.</span><br>', 'master-addons'),
+                __('<span class="dashicons dashicons-yes"></span> <span class="jltma-changes-list"> UX Improvement : Custom css and dynamic tags will be disabled if elementor pro is active. </span><br>', 'master-addons')
             );
             printf(wp_kses_post($jltma_changelog_message));
+
 
         }
         /**

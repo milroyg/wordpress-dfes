@@ -19,7 +19,7 @@ class JLTMA_Archive_Description extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('Archive Description', 'master-addons' );
+		return esc_html__('MA Archive Description', 'master-addons' );
 	}
 
 	public function get_group()

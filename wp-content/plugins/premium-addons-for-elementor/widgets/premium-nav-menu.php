@@ -105,7 +105,7 @@ class Premium_Nav_Menu extends Widget_Base {
 		} else {
 			$settings = $this->get_settings();
 
-			if( 'wordpress_menu' === $settings['menu_type'] ) {
+			if ( 'wordpress_menu' === $settings['menu_type'] ) {
 				$scripts[] = 'lottie-js';
 			} elseif ( ! empty( $settings['menu_items'] ) ) {
 
@@ -115,7 +115,6 @@ class Premium_Nav_Menu extends Widget_Base {
 						$scripts[] = 'lottie-js';
 						break;
 					}
-
 				}
 			}
 
@@ -279,7 +278,7 @@ class Premium_Nav_Menu extends Widget_Base {
 
 		$get_pro = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro', 'menu-widget', 'wp-editor', 'get-pro' );
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		if ( ! $papro_activated ) {
 			$this->add_control(
@@ -1459,7 +1458,7 @@ class Premium_Nav_Menu extends Widget_Base {
 			)
 		);
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		if ( $papro_activated ) {
 			if ( version_compare( PREMIUM_PRO_ADDONS_VERSION, '2.8.9', '>' ) ) {
@@ -4788,15 +4787,13 @@ class Premium_Nav_Menu extends Widget_Base {
 
 		$render_mobile_menu = 'yes' === $settings['render_mobile_menu'] || in_array( $settings['pa_nav_menu_layout'], array( 'slide', 'dropdown' ), true );
 
-		$papro_activated = apply_filters( 'papro_activated', false ) && version_compare( PREMIUM_PRO_ADDONS_VERSION, '2.8.9', '>' );
+		$papro_activated = Helper_Functions::check_papro_version() && version_compare( PREMIUM_PRO_ADDONS_VERSION, '2.8.9', '>' );
 
 		$rn_badges_enabled = ( $papro_activated && 'yes' === $settings['rn_badge_enabled'] ) ? true : false;
 
 		if ( 'wordpress_menu' === $menu_type ) {
 
-			$is_valid = $this->is_valid_menu( $menu_id );
-
-			if ( ! $is_valid ) {
+			if ( ! $this->is_valid_menu( $menu_id ) ) {
 				?>
 					<div class="premium-error-notice">
 						<?php echo esc_html( __( 'This is an empty menu. Please make sure your menu has items.', 'premium-addons-for-elementor' ) ); ?>
@@ -5139,7 +5136,7 @@ class Premium_Nav_Menu extends Widget_Base {
 
 		$settings = $this->get_settings_for_display();
 
-		$papro_activated = apply_filters( 'papro_activated', false );
+		$papro_activated = Helper_Functions::check_papro_version();
 
 		$badge_effect = $settings['sub_badge_hv_effects'];
 

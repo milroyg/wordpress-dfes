@@ -902,8 +902,12 @@ class Premium_Progressbar extends Widget_Base {
 		$this->add_control(
 			'premium_progressbar_speed',
 			array(
-				'label' => __( 'Speed (milliseconds)', 'premium-addons-for-elementor' ),
-				'type'  => Controls_Manager::NUMBER,
+				'label'       => __( 'Speed (milliseconds)', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::NUMBER,
+				'render_type' => 'template',
+				'selectors'   => array(
+					'{{WRAPPER}} .premium-progressbar-hf-circle-progress' => 'transition-duration: {{VALUE}}ms',
+				),
 			)
 		);
 

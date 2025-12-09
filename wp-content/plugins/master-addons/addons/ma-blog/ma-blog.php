@@ -339,16 +339,6 @@ class JLTMA_Blog extends Widget_Base
 			]
 		);
 
-
-		$this->add_control(
-			'ma_el_blog_total_posts_number',
-			[
-				'label' => __('Total Number of Posts', 'master-addons'),
-				'type' => Controls_Manager::NUMBER,
-				'default' => wp_count_posts()->publish
-			]
-		);
-
 		$this->add_control(
 			'ma_el_blog_posts_per_page',
 			[
@@ -2850,20 +2840,18 @@ class JLTMA_Blog extends Widget_Base
 
 						<div class="jltma-blog-pagination">
 							<?php
-							$count_posts = wp_count_posts();
-							$published_posts = $count_posts->publish;
+							$count_posts = wp_count_posts($settings['ma_el_post_grid_type']);
+							$total_posts = $count_posts->publish;
 
-							$total_posts = !empty($settings['ma_el_blog_total_posts_number']) ? $settings['ma_el_blog_total_posts_number'] : $published_posts;
-
-							$page_tot = ceil(($total_posts - $offset) / $settings['ma_el_blog_posts_per_page']);
-							if ($page_tot > 1) {
+							$page_total = ceil(($total_posts - $offset) / $settings['ma_el_blog_posts_per_page']);
+							if ($page_total > 1) {
 								$big = 999999999;
 								echo paginate_links(
 									array(
 										'base' => str_replace($big, '%#%', get_pagenum_link(999999999, false)),
 										'format' => '?paged=%#%',
 										'current' => max(1, $paged),
-										'total' => $page_tot,
+										'total' => $page_total,
 										'prev_next' => true,
 										'prev_text' => sprintf("&lsaquo; %s", $settings['ma_el_blog_prev_text']),
 										'next_text' => sprintf("%s &rsaquo;", $settings['ma_el_blog_next_text']),
