@@ -366,8 +366,11 @@ add_shortcode('flagged_posts', function () {
     echo '<div class="archive-list-style"><ul class="archive-year-list">';
     foreach ($by_year as $year => $items) {
         echo '<li class="year-item">';
-        echo '<span class="toggle-year" data-target="year-' . $year . '">▶</span> <strong>' . esc_html($year) . '</strong> (' . count($items) . ')';
-        echo '<ul id="year-' . $year . '" class="posts hidden">';
+echo '<button  class="toggle-year"  data-target="year-' . $year . '"  aria-expanded="false"  aria-controls="year-' . $year . '" >▶</button> 
+      <strong>' . esc_html($year) . '</strong> (' . count($items) . ')';
+
+echo '<ul id="year-' . $year . '" class="posts hidden">';
+
 
         foreach ($items as $post) {
             $post_id = $post->ID;

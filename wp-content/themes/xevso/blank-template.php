@@ -71,7 +71,7 @@ if(array_key_exists('xevso_meta_custom_title', $xevso_commonMeta)){
 		</div>
 	</div>
 <?php endif; ?>
-<div class="default-page-section blank-page <?php if(!empty($xevso_page_container)){ echo esc_attr($xevso_page_container);}?>">
+<div class="default-page-section blank-page   <?php if(!empty($xevso_page_container)){ echo esc_attr($xevso_page_container);}?>" id="content">
 	<div class="<?php echo esc_attr($xevso_pageColumnRow); ?>">
 		<?php
 		if($xevso_pageLayout == 'left-sidebar' && is_active_sidebar($xevso_selectedSidebar)){

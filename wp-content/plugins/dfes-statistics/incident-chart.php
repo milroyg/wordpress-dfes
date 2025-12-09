@@ -162,7 +162,7 @@ if ($csv_file_path && file_exists($csv_file_path)) {
 
     ob_start();
     ?>
-    <div class="incident-chart-container">
+    <div class="incident-chart-container" role="region" aria-label="Statistics" tabindex="-1">
         <h3>Select Criteria</h3>
         <label for="category-filter" class="screen-reader-text">Select Incident Category</label>
         <select id="category-filter" name="category-filter">
@@ -173,11 +173,11 @@ if ($csv_file_path && file_exists($csv_file_path)) {
             <?php endforeach; ?>
         </select>
 
-        <canvas id="incident-chart" width="800" height="400"></canvas>
+        <canvas id="incident-chart" width="800" height="400" role="img" aria-label="Incident Chart"></canvas>
     </div>
 
     <div class="incident-table-container">
-        <table id="incident-table" class="wp-list-table widefat striped">
+        <table id="incident-table" class="wp-list-table widefat striped" aria-describedby="incident-chart">
             <thead>
                 <tr>
                     <th scope="col">Incident Type</th>
@@ -436,11 +436,18 @@ function renderTable() {
 
 
         const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${row.label}</td>
-            <td>${totalFigure.toLocaleString()}<br>2003-2024</td>
-              <td style="color: ${row.color}; font-weight: bold;">${row.percentage} ${row.arrow}</td>
-        `;
+        tr.tabIndex = 0;
+       tr.innerHTML = `
+    <td scope="row">${row.label}</td>
+    <td>
+        <span class="value">${totalFigure.toLocaleString()}</span>
+        <span class="period" style="display:block;">2003–2024</span>
+    </td>
+    <td style="color: ${row.color}; font-weight: bold;">
+        ${row.percentage} ${row.arrow}
+    </td>
+`;
+
         tbody.appendChild(tr);
     }
 }

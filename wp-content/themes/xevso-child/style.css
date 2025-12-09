@@ -137,7 +137,41 @@ img.attachment-post-thumbnail.size-post-thumbnail.wp-post-image {
     height: 300px;
 }
 @media print{
-  header{
+  header, footer{
     display:none;
   }
+  .footer-width-fixer{
+    display: none;
+  }
 }
+
+/* Navigation scroll bar  */
+/* Mobile only */
+@media (max-width: 768px) {
+  .hfe-nav-menu {
+    max-height: 50vh;
+    overflow-y: auto !important;
+  }
+}
+.menu-item-has-children.submenu-open > .sub-menu {
+    display: block !important;
+    height: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* 1. MOUSE HOVER – keep original hover behavior */
+#navmenu ul li:hover > ul.sub-menu {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+}
+
+nav:focus-within .submenu,
+nav .menu-item:focus-within .sub-menu {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+} 
+
+

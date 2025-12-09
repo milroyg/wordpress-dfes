@@ -85,7 +85,7 @@ if(array_key_exists('xevso_meta_custom_title', $xevso_commonMeta)){
 		</div>
 	</div>
 <?php endif; ?>
-<div class="default-page-section">
+<div class="default-page-section" id="content">
 	<div class="container">
 		<div class="row">
 			<?php
