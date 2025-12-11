@@ -19,5 +19,7 @@
 <body <?php body_class(); ?>>
 <?php do_action( 'wp_body_open' ); ?>
 <div id="page" class="hfeed site">
+<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'xevso' ); ?></a>
 
 <?php do_action( 'hfe_header' ); ?>
+	

@@ -136,12 +136,38 @@ img.attachment-post-thumbnail.size-post-thumbnail.wp-post-image {
     width: 500px;
     height: 300px;
 }
+@page {
+  margin: 12.7mm; /* 0.5 inch */
+}
 @media print{
-  header, footer{
-    display:none;
+   header, footer, .footer-width-fixer {
+    display: none !important;
   }
-  .footer-width-fixer{
-    display: none;
+
+  nav, .sidebar, .no-print {
+    display: none !important;
+  }
+
+  body {
+    /* background: #fff !important;
+    color: #000 !important; */
+    font-size: 12pt;
+  }
+
+  .content {  
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+  }
+
+  .section, .block {
+    page-break-inside: avoid;
+  }
+    * {
+    overflow: visible !important;
   }
 }
 
@@ -152,6 +178,31 @@ img.attachment-post-thumbnail.size-post-thumbnail.wp-post-image {
     max-height: 50vh;
     overflow-y: auto !important;
   }
+  /* #map-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box; 
+} */
+#map-container {
+   display: inline-block !important;
+}
+/* Fix the map element itself */
+#dmrpmap {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 400px !important;
+    display: inline-block !important;
+    position: relative !important;
+    visibility: visible !important;
+    box-sizing: border-box;
+    
+}
+/* Fix inner Leaflet elements */
+/* #dmrpmap .leaflet-container,
+#dmrpmap .leaflet-pane {
+    width: 100% !important;
+    height: 100% !important;
+} */
 }
 .menu-item-has-children.submenu-open > .sub-menu {
     display: block !important;
@@ -173,5 +224,10 @@ nav .menu-item:focus-within .sub-menu {
     visibility: visible !important;
     opacity: 1 !important;
 } 
+:focus {
+    outline: 3px solid #1976D2 !important;
+    outline-offset: 3px;
+}
+
 
 

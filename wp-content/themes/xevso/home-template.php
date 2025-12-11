@@ -4,7 +4,7 @@
 */
 get_header();
 ?>
-<div class="xevso-black-template">
+<div class="xevso-black-template" id="content">
       <?php
       while ( have_posts() ) : the_post();
             the_content();
