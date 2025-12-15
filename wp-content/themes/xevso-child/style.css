@@ -228,6 +228,11 @@ nav .menu-item:focus-within .sub-menu {
     outline: 3px solid #1976D2 !important;
     outline-offset: 3px;
 }
-
+.ctl-vertical-wrapper .ctl-pagination a {
+    color: #000000 !important; 
+}
+span.page-numbers.ctl-page-num {
+    color: black;
+}
 
 
