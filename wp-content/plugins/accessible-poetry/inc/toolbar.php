@@ -20,7 +20,7 @@ function acwp_toolbar_component() {
         </button>
     </div>
     
-    <div id="acwp-toolbar" class="acwp-toolbar <?php echo $side . ' ' . $noanimation . ' ' . $style; ?>" aria-label="<?php _e('Accessibility Toolbar Toggle View', 'acwp'); ?>">
+    <div id="acwp-toolbar" class="acwp-toolbar <?php echo $side . ' ' . $noanimation . ' ' . $style; ?>" role="navigation" aria-label="<?php _e('Accessibility Toolbar Toggle View', 'acwp'); ?>">
         <div id="acwp-toolbar-module">
             <?php acwp_toolbar_header(); ?>
             

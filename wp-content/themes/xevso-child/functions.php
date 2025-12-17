@@ -232,3 +232,7 @@ add_action('template_redirect', function() {
         return $buffer;
     });
 });
+
+//HTML validation
+//Remove <p>,<br> HTML validation in CF7
+add_filter('wpcf7_autop_or_not', '__return_false');
