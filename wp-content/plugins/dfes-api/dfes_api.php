@@ -12,7 +12,8 @@ Author: Milroy Gomes
 register_activation_hook(__FILE__, 'dfes_api_on_activate');
 register_deactivation_hook(__FILE__, 'dfes_api_on_deactivate');
 
-function dfes_api_on_activate() {
+function dfes_api_on_activate()
+{
     dfes_api_create_tables();
     dfes_api_create_log_table();
     dfes_api_seed_default_options();
@@ -22,13 +23,14 @@ function dfes_api_on_activate() {
         wp_schedule_event(time(), 'hourly', 'dfes_purge_old_records');
     }
 
-     // Schedule log cleanup daily
+    // Schedule log cleanup daily
     if (!wp_next_scheduled('dfes_notifications_log_cleanup')) {
         wp_schedule_event(time(), 'daily', 'dfes_notifications_log_cleanup');
     }
 }
 
-function dfes_api_on_deactivate() {
+function dfes_api_on_deactivate()
+{
     wp_clear_scheduled_hook('dfes_purge_old_records');
 }
 
@@ -37,7 +39,8 @@ function dfes_api_on_deactivate() {
 // =============================
 add_action('plugins_loaded', 'dfes_api_register_hooks');
 
-function dfes_api_register_hooks() {
+function dfes_api_register_hooks()
+{
     // Rewrite rules
     add_action('init', 'dfes_api_add_rewrite_rules');
 
@@ -57,7 +60,8 @@ function dfes_api_register_hooks() {
 // =============================
 // 3️⃣ DB TABLE CREATION
 // =============================
-function dfes_api_create_tables() {
+function dfes_api_create_tables()
+{
     global $wpdb;
 
     $charset_collate = $wpdb->get_charset_collate();
@@ -99,7 +103,7 @@ function dfes_api_create_tables() {
     ) $charset_collate;";
 
     $stations_table = $prefix . 'dfes_contact_stations';
-$sql3 = "CREATE TABLE $stations_table (
+    $sql3 = "CREATE TABLE $stations_table (
     id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
     contact_id BIGINT(20) UNSIGNED NOT NULL,
     station VARCHAR(100) NOT NULL,
@@ -113,12 +117,13 @@ $sql3 = "CREATE TABLE $stations_table (
     dbDelta($sql1);
     dbDelta($sql2);
     dbDelta($sql3);
-    
-    
+
+
 }
 
 
-function dfes_api_create_log_table() {
+function dfes_api_create_log_table()
+{
     global $wpdb;
     $table = $wpdb->prefix . 'dfes_notifications_log';
     $charset_collate = $wpdb->get_charset_collate();
@@ -146,21 +151,26 @@ function dfes_api_create_log_table() {
 // =============================
 // 4️⃣ REWRITE RULES & QUERY VARS
 // =============================
-function dfes_api_add_rewrite_rules() {
+function dfes_api_add_rewrite_rules()
+{
     add_rewrite_rule('^dfes/data/live/update/?$', 'index.php?dfes_update=1', 'top');
     add_rewrite_rule('^disaster-management/live-calls/data/?$', 'index.php?dfes_live_calls=1', 'top');
+    add_rewrite_rule('^disaster-management/live-calls/geojson/?$', 'index.php?dfes_live_calls_geojson=1', 'top');
 }
 
-function dfes_api_add_query_vars($vars) {
+function dfes_api_add_query_vars($vars)
+{
     $vars[] = 'dfes_update';
     $vars[] = 'dfes_live_calls';
+    $vars[] = 'dfes_live_calls_geojson';
     return $vars;
 }
 
 // =============================
 // 5️⃣ TEMPLATE REDIRECT HANDLER
 // =============================
-function dfes_api_template_redirect_handler() {
+function dfes_api_template_redirect_handler()
+{
     if (get_query_var('dfes_update')) {
         $request = new WP_REST_Request('GET');
         foreach ($_REQUEST as $key => $value) {
@@ -171,7 +181,51 @@ function dfes_api_template_redirect_handler() {
     }
 
     if (get_query_var('dfes_live_calls')) {
-        $response = dfes_api_fetch_live_calls(new WP_REST_Request('GET'));
+        $data = dfes_api_fetch_live_calls(new WP_REST_Request('GET'));
+        $response = new WP_REST_Response($data, 200);
+        wp_send_json($response->get_data(), $response->get_status());
+    }
+
+    if (get_query_var('dfes_live_calls_geojson')) {
+        $raw = json_decode(file_get_contents('wp-content/uploads/revenue_villages.json'), TRUE);
+        $villages = [];
+        foreach ($raw as $item) {
+            $villages[$item['taluka']][$item['village']] = $item['wkt'];
+        }
+
+        $features = [];
+        $data = dfes_api_fetch_live_calls(new WP_REST_Request('GET'));
+        foreach ($data as $item) {
+            if (isset($villages[$params['taluka']]) and isset($villages[$params['taluka']][$params['village']])) {
+                [
+                    $long,
+                    $lat,
+                ] = explode(' ', $villages[$item['taluka']][$item['village']]);
+                $lat = str_replace(')', '', $lat);
+                $lon = str_replace('POINT(', '', $long);
+                $lat = floatval($lat) + mt_rand(-100, 100) / 10000;
+                $lon = floatval($lon) + mt_rand(-100, 100) / 10000;
+            } else {
+                $lat = $lon = NULL;
+            }
+
+            $features[] = [
+                'type' => "Feature",
+                'geometry' => [
+                    'type' => "Point",
+                    'coordinates' => [$lon, $lat]
+                ],
+                'properties' => $item
+            ];
+        }
+
+        $geojson_data = (object) [
+            'type' => "FeatureCollection",
+            'name' => 'DFES Live Calls',
+            'crs' => ['type' => "name", 'properties' => ['name' => "urn:ogc:def:crs:OGC:1.3:CRS84"]],
+            'features' => $data
+        ];
+        $response = new WP_REST_Response($geojson_data, 200);
         wp_send_json($response->get_data(), $response->get_status());
     }
 }
@@ -179,31 +233,32 @@ function dfes_api_template_redirect_handler() {
 // =============================
 // 6️⃣ API HANDLER - INSERT/UPDATE
 // =============================
-function dfes_api_handle_request(WP_REST_Request $request) {
+function dfes_api_handle_request(WP_REST_Request $request)
+{
     global $wpdb;
     $table_name = $wpdb->prefix . 'dfes_incidents';
     $params = $request->get_params();
 
     // Sanitize
-    $dsr_id        = sanitize_text_field($params['dsr_id'] ?? '');
-    $date          = sanitize_text_field($params['date'] ?? '');
-    $outtime       = sanitize_text_field($params['outtime'] ?? '');
-    $intime        = sanitize_text_field($params['intime'] ?? '');
-    $station       = sanitize_text_field($params['station'] ?? '');
-    $call_type     = sanitize_text_field($params['call_type'] ?? '');
+    $dsr_id = sanitize_text_field($params['dsr_id'] ?? '');
+    $date = sanitize_text_field($params['date'] ?? '');
+    $outtime = sanitize_text_field($params['outtime'] ?? '');
+    $intime = sanitize_text_field($params['intime'] ?? '');
+    $station = sanitize_text_field($params['station'] ?? '');
+    $call_type = sanitize_text_field($params['call_type'] ?? '');
     $activity_live = sanitize_text_field($params['activity_live'] ?? '');
-    $near          = sanitize_text_field($params['near'] ?? '');
-    $at            = sanitize_text_field($params['at'] ?? '');
-    $vehicle       = sanitize_text_field($params['vehicle'] ?? '');
-    $taluka        = sanitize_text_field($params['taluka'] ?? '');
-    $village       = sanitize_text_field($params['village'] ?? '');
-    $activity_sms  = sanitize_text_field($params['activity_sms'] ?? '');
+    $near = sanitize_text_field($params['near'] ?? '');
+    $at = sanitize_text_field($params['at'] ?? '');
+    $vehicle = sanitize_text_field($params['vehicle'] ?? '');
+    $taluka = sanitize_text_field($params['taluka'] ?? '');
+    $village = sanitize_text_field($params['village'] ?? '');
+    $activity_sms = sanitize_text_field($params['activity_sms'] ?? '');
 
     // Time validation
     date_default_timezone_set('Asia/Kolkata');
     $current_timestamp = time();
-    $input_timestamp   = intval($date);
-    $one_hour_before   = $current_timestamp - 3600;
+    $input_timestamp = intval($date);
+    $one_hour_before = $current_timestamp - 3600;
 
     if ($input_timestamp < $one_hour_before) {
         return new WP_REST_Response(['status' => 'error', 'message' => 'OUTDATED TIME - Data not stored.'], 400);
@@ -223,43 +278,44 @@ function dfes_api_handle_request(WP_REST_Request $request) {
         );
 
         // Do NOT send notifications on update
-        return new WP_REST_Response(['status'=>'success','message'=>'Data updated','data'=>$params],200);
+        return new WP_REST_Response(['status' => 'success', 'message' => 'Data updated', 'data' => $params], 200);
     } else {
         $wpdb->insert(
             $table_name,
-            compact('dsr_id','date','outtime','intime','station','call_type','activity_live','near','at','vehicle','taluka','village','activity_sms')
+            compact('dsr_id', 'date', 'outtime', 'intime', 'station', 'call_type', 'activity_live', 'near', 'at', 'vehicle', 'taluka', 'village', 'activity_sms')
         );
 
         // ✅ Schedule async notifications on insert (non-blocking)
         $payload = array(
-            'station'       => $station,
-            'outtime'       => $outtime,
+            'station' => $station,
+            'outtime' => $outtime,
             'activity_live' => $activity_live,
-            'near'          => $near,
-            'at'            => $at,
-            'village'       => $village,
-            'dsr_id'        => $dsr_id,
+            'near' => $near,
+            'at' => $at,
+            'village' => $village,
+            'dsr_id' => $dsr_id,
         );
         wp_schedule_single_event(time(), 'dfes_send_notifications_event', array($payload, time()));
 
-        return new WP_REST_Response(['status'=>'success','message'=>'Data inserted'],201);
+        return new WP_REST_Response(['status' => 'success', 'message' => 'Data inserted'], 201);
     }
 }
 
 // =============================
 // 7️⃣ ASYNC NOTIFICATIONS + HELPERS
 // =============================
-function dfes_send_notifications_async($payload, $scheduled_at) {
+function dfes_send_notifications_async($payload, $scheduled_at)
+{
     $settings = get_option('dfes_settings', array());
     $notify_all = !empty($settings['notify_all']);
 
-    $station       = sanitize_text_field($payload['station'] ?? '');
-    $outtime       = sanitize_text_field($payload['outtime'] ?? '');
+    $station = sanitize_text_field($payload['station'] ?? '');
+    $outtime = sanitize_text_field($payload['outtime'] ?? '');
     $activity_live = sanitize_text_field($payload['activity_live'] ?? '');
-    $near          = sanitize_text_field($payload['near'] ?? '');
-    $at            = sanitize_text_field($payload['at'] ?? '');
-    $village       = sanitize_text_field($payload['village'] ?? '');
-    $dsr_id        = sanitize_text_field($payload['dsr_id'] ?? '');
+    $near = sanitize_text_field($payload['near'] ?? '');
+    $at = sanitize_text_field($payload['at'] ?? '');
+    $village = sanitize_text_field($payload['village'] ?? '');
+    $dsr_id = sanitize_text_field($payload['dsr_id'] ?? '');
 
     // Compose one message
     $message = "Fire Station: $station\nTime: $outtime\nIncident: $activity_live\nNear: $near\nAt: $at\nArea: $village\nDFES,Goa.";
@@ -273,24 +329,25 @@ function dfes_send_notifications_async($payload, $scheduled_at) {
 
     foreach ($contacts as $c) {
         $mobile = $c['phone_number'];
-        $email  = $c['email'];
+        $email = $c['email'];
 
         if (!empty($mobile)) {
-           dfes_send_sms($mobile, $message, $station, $dsr_id);
+            dfes_send_sms($mobile, $message, $station, $dsr_id);
         }
         if (!empty($email)) {
             dfes_send_email_wp($email, "DFES Incident Alert - $station", $message, $station, $dsr_id);
         }
     }
 }  // Fetch contacts (notify_all or station-specific with FIND_IN_SET)
-  
+
 
 /**
  * Return active contacts. If $notify_all is true, returns all active contacts.
  * 
  * 
  */
-function dfes_get_contacts_for_station($station) {
+function dfes_get_contacts_for_station($station)
+{
     global $wpdb;
     $contacts_table = $wpdb->prefix . 'dfes_contacts';
     $stations_table = $wpdb->prefix . 'dfes_contact_stations';
@@ -311,13 +368,14 @@ function dfes_get_contacts_for_station($station) {
 // -----------------------------
 // Seed Default Options
 // -----------------------------
-function dfes_api_seed_default_options() {
+function dfes_api_seed_default_options()
+{
     $current = get_option('dfes_settings', []);
 
     $defaults = [
-        'active'   => '',
+        'active' => '',
         'gateways' => [],
-        'logging_enabled'  => 1 
+        'logging_enabled' => 1
     ];
 
     // Merge defaults so we don’t override existing data
@@ -327,7 +385,8 @@ function dfes_api_seed_default_options() {
 // -----------------------------
 // Send SMS via Active Gateway
 // -----------------------------
-function dfes_send_sms($mobile, $message, $station = '', $dsr_id = '') {
+function dfes_send_sms($mobile, $message, $station = '', $dsr_id = '')
+{
     $all = get_option('dfes_settings', ['active' => '', 'gateways' => []]);
     $log_on = !empty($all['logging_enabled']);
 
@@ -340,20 +399,20 @@ function dfes_send_sms($mobile, $message, $station = '', $dsr_id = '') {
 
     $gw = $all['gateways'][$all['active']];
     $base_url = $gw['base_url'];
-    $params   = $gw['params'];
+    $params = $gw['params'];
 
     $body = [];
     foreach ($params as $param) {
         $body[$param['key']] = strtr($param['value'], [
-            '{mobile}'  => '91' . preg_replace('/\D/', '', $mobile),
+            '{mobile}' => '91' . preg_replace('/\D/', '', $mobile),
             '{message}' => $message,
             '{station}' => $station,
-            '{dsr_id}'  => $dsr_id,
+            '{dsr_id}' => $dsr_id,
         ]);
     }
 
     $response = wp_remote_post($base_url, [
-        'body'    => $body,
+        'body' => $body,
         'timeout' => 20,
     ]);
 
@@ -369,7 +428,7 @@ function dfes_send_sms($mobile, $message, $station = '', $dsr_id = '') {
             $dsr_id,
             $message,
             $success ? 'success' : 'error',
-            $success ? '' : (is_wp_error($response) ? $response->get_error_message() : "HTTP $code: " . substr($body_response,0,500))
+            $success ? '' : (is_wp_error($response) ? $response->get_error_message() : "HTTP $code: " . substr($body_response, 0, 500))
         );
     }
 
@@ -381,9 +440,10 @@ function dfes_send_sms($mobile, $message, $station = '', $dsr_id = '') {
 // -----------------------------
 // Send Email
 // -----------------------------
-function dfes_send_email_wp($to, $subject, $message, $station, $dsr_id) {
+function dfes_send_email_wp($to, $subject, $message, $station, $dsr_id)
+{
     $settings = get_option('dfes_settings', array());
-    $log_on     = !empty($settings['logging_enabled']);
+    $log_on = !empty($settings['logging_enabled']);
 
     $headers = array();
     if ($from_email) {
@@ -400,7 +460,8 @@ function dfes_send_email_wp($to, $subject, $message, $station, $dsr_id) {
     return $ok;
 }
 
-function dfes_log_notification_event($channel, $recipient, $station, $dsr_id, $message, $status, $error_message = '') {
+function dfes_log_notification_event($channel, $recipient, $station, $dsr_id, $message, $status, $error_message = '')
+{
     $settings = get_option('dfes_settings', array());
     if (empty($settings['logging_enabled'])) {
         return;
@@ -408,7 +469,7 @@ function dfes_log_notification_event($channel, $recipient, $station, $dsr_id, $m
 
     // ✅ Only log errors
     if (strtolower($status) === 'success') {
-        return; 
+        return;
     }
 
     global $wpdb;
@@ -417,13 +478,13 @@ function dfes_log_notification_event($channel, $recipient, $station, $dsr_id, $m
     $wpdb->insert(
         $table,
         array(
-            'created_at'    => current_time('mysql', true),
-            'channel'       => sanitize_text_field($channel),
-            'recipient'     => sanitize_text_field($recipient),
-            'station'       => sanitize_text_field($station),
-            'dsr_id'        => sanitize_text_field($dsr_id),
-            'message'       => $message, // Keep raw in case HTML/debug needed
-            'status'        => sanitize_text_field($status),
+            'created_at' => current_time('mysql', true),
+            'channel' => sanitize_text_field($channel),
+            'recipient' => sanitize_text_field($recipient),
+            'station' => sanitize_text_field($station),
+            'dsr_id' => sanitize_text_field($dsr_id),
+            'message' => $message, // Keep raw in case HTML/debug needed
+            'status' => sanitize_text_field($status),
             'error_message' => $error_message,
         )
     );
@@ -434,7 +495,8 @@ function dfes_log_notification_event($channel, $recipient, $station, $dsr_id, $m
 // =============================
 // 8️⃣ API HANDLER - LAST 24 HOURS
 // =============================
-function dfes_api_fetch_live_calls(WP_REST_Request $request) {
+function dfes_api_fetch_live_calls(WP_REST_Request $request)
+{
     global $wpdb;
     $table_name = $wpdb->prefix . 'dfes_incidents';
 
@@ -452,31 +514,32 @@ function dfes_api_fetch_live_calls(WP_REST_Request $request) {
     }
 
     // Transform keys
-    $retitled = array_map(function($row) {
+    $retitled = array_map(function ($row) {
         return [
-            'dsr_id'      => $row['dsr_id'],
+            'dsr_id' => $row['dsr_id'],
             'date' => !empty($row['date']) ? date('d-m-Y', $row['date']) : null,
-            'outtime'     => $row['outtime'],
-            'intime'      => $row['intime'],
-            'station'     => $row['station'],
-            'type'        => $row['call_type'],
+            'outtime' => $row['outtime'],
+            'intime' => $row['intime'],
+            'station' => $row['station'],
+            'type' => $row['call_type'],
             'description' => $row['activity_live'],
-            'near'        => $row['near'],
-            'at'          => $row['at'],
-            'vehicle'     => $row['vehicle'],
-            'taluka'      => $row['taluka'],
-            'village'     => $row['village'],
-            'activity_sms'=> $row['activity_sms']
+            'near' => $row['near'],
+            'at' => $row['at'],
+            'vehicle' => $row['vehicle'],
+            'taluka' => $row['taluka'],
+            'village' => $row['village'],
+            'activity_sms' => $row['activity_sms']
         ];
     }, $results);
 
-    return new WP_REST_Response($retitled, 200);
+    return $retitled;
 }
 
 // =============================
 // 9️⃣ CRON - PURGE OLD RECORDS
 // =============================
-function dfes_api_purge_old_records() {
+function dfes_api_purge_old_records()
+{
     global $wpdb;
     $table_name = $wpdb->prefix . 'dfes_incidents';
 
@@ -492,7 +555,8 @@ function dfes_api_purge_old_records() {
 // =============================
 add_action('dfes_notifications_log_cleanup', 'dfes_cleanup_old_logs');
 
-function dfes_cleanup_old_logs() {
+function dfes_cleanup_old_logs()
+{
     global $wpdb;
     $table = $wpdb->prefix . 'dfes_notifications_log';
 
