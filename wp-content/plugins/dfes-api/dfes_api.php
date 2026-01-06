@@ -215,7 +215,7 @@ function dfes_api_template_redirect_handler()
                     'type' => "Point",
                     'coordinates' => [$lon, $lat]
                 ],
-                'properties' => $features
+                'properties' => $item
             ];
         }
 
@@ -223,7 +223,7 @@ function dfes_api_template_redirect_handler()
             'type' => "FeatureCollection",
             'name' => 'DFES Live Calls',
             'crs' => ['type' => "name", 'properties' => ['name' => "urn:ogc:def:crs:OGC:1.3:CRS84"]],
-            'features' => $data
+            'features' => $features
         ];
         $response = new WP_REST_Response($geojson_data, 200);
         wp_send_json($response->get_data(), $response->get_status());
