@@ -215,7 +215,7 @@ function dfes_api_template_redirect_handler()
                     'type' => "Point",
                     'coordinates' => [$lon, $lat]
                 ],
-                'properties' => $item
+                'properties' => $features
             ];
         }
 
