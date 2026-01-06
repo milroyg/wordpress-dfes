@@ -196,7 +196,7 @@ function dfes_api_template_redirect_handler()
         $features = [];
         $data = dfes_api_fetch_live_calls(new WP_REST_Request('GET'));
         foreach ($data as $item) {
-            if (isset($villages[$params['taluka']]) and isset($villages[$params['taluka']][$params['village']])) {
+            if (isset($villages[$item['taluka']]) and isset($villages[$item['taluka']][$item['village']])) {
                 [
                     $long,
                     $lat,
