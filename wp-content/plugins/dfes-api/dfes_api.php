@@ -193,7 +193,7 @@ function dfes_api_template_redirect_handler()
         $features = [];
         $data = dfes_api_fetch_live_calls(new WP_REST_Request('GET'));
         foreach ($data as $item) {
-            if (isset($villages[$params['taluka']]) and isset($villages[$params['taluka']][$params['village']])) {
+            if (isset($villages[$item['taluka']]) and isset($villages[$item['taluka']][$item['village']])) {
                 [
                     $long,
                     $lat,
@@ -220,7 +220,7 @@ function dfes_api_template_redirect_handler()
             'type' => "FeatureCollection",
             'name' => 'DFES Live Calls',
             'crs' => ['type' => "name", 'properties' => ['name' => "urn:ogc:def:crs:OGC:1.3:CRS84"]],
-            'features' => $data
+            'features' => $features
         ];
         $response = new WP_REST_Response($geojson_data, 200);
         wp_send_json($response->get_data(), $response->get_status());
