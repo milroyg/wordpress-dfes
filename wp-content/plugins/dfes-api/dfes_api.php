@@ -50,9 +50,6 @@ function dfes_api_register_hooks()
     // Template redirects
     add_action('template_redirect', 'dfes_api_template_redirect_handler');
 
-    // Cron purge
-    add_action('dfes_purge_old_records', 'dfes_api_purge_old_records');
-
     // Async notifications
     add_action('dfes_send_notifications_event', 'dfes_send_notifications_async', 10, 2);
 }
@@ -538,18 +535,25 @@ function dfes_api_fetch_live_calls(WP_REST_Request $request)
 // =============================
 // 9️⃣ CRON - PURGE OLD RECORDS
 // =============================
+// Cron purge
+add_action('dfes_purge_old_records', 'dfes_api_purge_old_records');
+
 function dfes_api_purge_old_records()
 {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'dfes_incidents';
+    $table = $wpdb->prefix . 'dfes_incidents';
 
-    date_default_timezone_set('Asia/Kolkata');
-    $cutoff = time() - (24 * 60 * 60);
+    $cutoff = time() - (5 * 60); // 5 minutes ago
 
-    $wpdb->query(
-        $wpdb->prepare("DELETE FROM $table_name WHERE date < %d", $cutoff)
+
+    $deleted = $wpdb->query(
+        $wpdb->prepare("DELETE FROM $table WHERE CAST(date AS UNSIGNED) < %d", $cutoff)
     );
+
+    error_log("DFES Purge Deleted Rows: " . intval($deleted));
 }
+
+
 // =============================
 //  CRON - CLEANUP NOTIFICATION LOGS
 // =============================

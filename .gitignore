@@ -2020,5 +2020,7 @@ wp-content/uploads/elementor/css/post-6882.css
 wp-content/uploads/elementor/css/post-9.css
 wp-content/uploads/elementor/css/post-6882.css
 wp-content/uploads/elementor/css/post-9267.css
-# Ignore cache or Elementor generated CSS
-/wp-content/uploads/elementor/css/
+# Ignore cache or Elementor generated CS/
+.htaccess
+wp-content/uploads/
+wp-content/cache/

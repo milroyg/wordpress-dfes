@@ -3,49 +3,55 @@ Theme Name: Xevso Child
 Template: xevso
 */
 
-.elementor-divider-separator{
-	z-index:1;
+.elementor-divider-separator {
+  z-index: 1;
 }
 
 /*
 Css Validation
 */
-.pricing .item .price-title span{
-  background: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1));
+.pricing .item .price-title span {
+  background: linear-gradient(to right, rgba(255, 0, 0, 0), rgba(255, 0, 0, 1));
 }
-.premium-nav-pointer-background.premium-nav-animation-shrink .premium-nav-menu-item:not(.premium-active-item) 
-.premium-menu-link-parent:not(:hover):not(:focus)::before{
-	-webkit-transform:scale(1.2);-ms-transform:scale(1.2);transform:scale(1.2);-webkit-transition:.3;transition:0.3s
+
+.premium-nav-pointer-background.premium-nav-animation-shrink .premium-nav-menu-item:not(.premium-active-item) .premium-menu-link-parent:not(:hover):not(:focus)::before {
+  -webkit-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  transform: scale(1.2);
+  -webkit-transition: .3;
+  transition: 0.3s
 }
-.pricing .item .price-title h5{
+
+.pricing .item .price-title h5 {
   color: #DC4D01;
- }
- .pricing .item ul li i.not{
+}
+
+.pricing .item ul li i.not {
   color: #DC4D01;
- }
- .item.active .purchase a{
+}
+
+.item.active .purchase a {
   background: white;
   color: black;
 }
 
 .fancybox-caption {
-  background: linear-gradient(
-    0deg,
-    rgba(0,0,0,.85) 0,
-    rgba(0,0,0,.3) 50%,
-    rgba(0,0,0,.15) 65%,
-    rgba(0,0,0,.075) 75.5%,
-    rgba(0,0,0,.037) 82.85%,
-    rgba(0,0,0,.019) 88%,
-    transparent
-  );
+  background: linear-gradient(0deg,
+      rgba(0, 0, 0, .85) 0,
+      rgba(0, 0, 0, .3) 50%,
+      rgba(0, 0, 0, .15) 65%,
+      rgba(0, 0, 0, .075) 75.5%,
+      rgba(0, 0, 0, .037) 82.85%,
+      rgba(0, 0, 0, .019) 88%,
+      transparent);
   bottom: 0;
   color: #eee;
   font-size: 14px;
   font-weight: 400;
   left: 0;
   line-height: 1.5;
-  padding: 75px 44px 25px; /* fallback */
+  padding: 75px 44px 25px;
+  /* fallback */
   pointer-events: none;
   right: 0;
   text-align: center;
@@ -54,50 +60,52 @@ Css Validation
 
 
 .slick-list.dragging {
-    cursor: pointer !important;
+  cursor: pointer !important;
 }
 
 
 .footer-widget-section h2 {
-    font-size: 24px;
-    line-height: 32px;
-    color: #000000;
-    font-weight: 700;
-    text-transform: capitalize;
+  font-size: 24px;
+  line-height: 32px;
+  color: #000000;
+  font-weight: 700;
+  text-transform: capitalize;
 }
 
 .wp-block-search.wp-block-search__button-inside .wp-block-search__inside-wrapper {
-    width: 100%;
-    height: 40px;
-    padding: 0 15px;
-    border: 1px solid #ddd;
-    transition: all linear 0.3s;
-    -webkit-transition: all linear 0.3s;
-    -moz-transition: all linear 0.3s;
-    -ms-transition: all linear 0.3s;
-    -o-transition: all linear 0.3s;
-    outline: none;
-    font-family: josefin sans;
-    color: #000000;
+  width: 100%;
+  height: 40px;
+  padding: 0 15px;
+  border: 1px solid #ddd;
+  transition: all linear 0.3s;
+  -webkit-transition: all linear 0.3s;
+  -moz-transition: all linear 0.3s;
+  -ms-transition: all linear 0.3s;
+  -o-transition: all linear 0.3s;
+  outline: none;
+  font-family: josefin sans;
+  color: #000000;
 }
+
 .cta-butons .blob-btn {
-    padding: 10px 28px;
-    font-weight: 500;
-    font-size: 15px;
+  padding: 10px 28px;
+  font-weight: 500;
+  font-size: 15px;
 }
 
- .header2-bottom .site-branding.site-logo-area {
-        padding: 6px 0px;
-        text-align: left;
-    }
-
-    /* Remove box-shadow on Elementor editor overlays for specific condition */
-.eac-conditions-no > .elementor-element-overlay > .elementor-editor-section-settings .elementor-editor-element-edit,
-.eac-conditions-no > .elementor-element-overlay > .elementor-editor-column-settings .elementor-editor-element-edit,
-.eac-conditions-no > .elementor-element-overlay > .elementor-editor-widget-settings .elementor-editor-element-edit,
-.eac-conditions-no > .elementor-element-overlay > .elementor-editor-container-settings .elementor-editor-element-edit {
-    box-shadow: none;
+.header2-bottom .site-branding.site-logo-area {
+  padding: 6px 0px;
+  text-align: left;
 }
+
+/* Remove box-shadow on Elementor editor overlays for specific condition */
+.eac-conditions-no>.elementor-element-overlay>.elementor-editor-section-settings .elementor-editor-element-edit,
+.eac-conditions-no>.elementor-element-overlay>.elementor-editor-column-settings .elementor-editor-element-edit,
+.eac-conditions-no>.elementor-element-overlay>.elementor-editor-widget-settings .elementor-editor-element-edit,
+.eac-conditions-no>.elementor-element-overlay>.elementor-editor-container-settings .elementor-editor-element-edit {
+  box-shadow: none;
+}
+
 .jltma--advance-tab.four .jltma--advance-tab-nav li.active:after {
   transform: translateY(1px);
 }
@@ -105,6 +113,7 @@ Css Validation
 .jltma-team-member-thumb [id^="animation_svg_"] {
   animation: none;
 }
+
 .jltma-dropdown-toggle-border-type-default .jltma-nav-menu__toggle {
   border-style: solid;
 }
@@ -120,31 +129,40 @@ Css Validation
 .jltma-team-member-thumb #animation_svg_04_Circle2,
 .jltma-team-member-thumb #animation_svg_04_Circle3,
 .jltma-team-member-thumb #animation_svg_04_Circle4 {
-  all: unset !important; /* wipes the invalid CSS */
+  all: unset !important;
+  /* wipes the invalid CSS */
 }
 
 @font-face {
   font-family: "flaticon";
   src: url("./flaticon.woff2?fb4a2394759122d28aa20ce3f32a481c") format("woff2"),
-       url("./flaticon.woff?fb4a2394759122d28aa20ce3f32a481c") format("woff"),
-       url("./flaticon.ttf?fb4a2394759122d28aa20ce3f32a481c") format("truetype"),
-       url("./flaticon.eot?fb4a2394759122d28aa20ce3f32a481c#iefix") format("embedded-opentype"),
-       url("./flaticon.svg?fb4a2394759122d28aa20ce3f32a481c#flaticon") format("svg");
+    url("./flaticon.woff?fb4a2394759122d28aa20ce3f32a481c") format("woff"),
+    url("./flaticon.ttf?fb4a2394759122d28aa20ce3f32a481c") format("truetype"),
+    url("./flaticon.eot?fb4a2394759122d28aa20ce3f32a481c#iefix") format("embedded-opentype"),
+    url("./flaticon.svg?fb4a2394759122d28aa20ce3f32a481c#flaticon") format("svg");
 }
 
 img.attachment-post-thumbnail.size-post-thumbnail.wp-post-image {
-    width: 500px;
-    height: 300px;
+  width: 500px;
+  height: 300px;
 }
+
 @page {
-  margin: 12.7mm; /* 0.5 inch */
+  margin: 12.7mm;
+  /* 0.5 inch */
 }
-@media print{
-   header, footer, .footer-width-fixer {
+
+@media print {
+
+  header,
+  footer,
+  .footer-width-fixer {
     display: none !important;
   }
 
-  nav, .sidebar, .no-print {
+  nav,
+  .sidebar,
+  .no-print {
     display: none !important;
   }
 
@@ -154,19 +172,24 @@ img.attachment-post-thumbnail.size-post-thumbnail.wp-post-image {
     font-size: 12pt;
   }
 
-  .content {  
+  .content {
     width: 100% !important;
     max-width: 100% !important;
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     page-break-after: avoid;
   }
 
-  .section, .block {
+  .section,
+  .block {
     page-break-inside: avoid;
   }
-    * {
+
+  * {
     overflow: visible !important;
   }
 }
@@ -178,16 +201,18 @@ img.attachment-post-thumbnail.size-post-thumbnail.wp-post-image {
     max-height: 50vh;
     overflow-y: auto !important;
   }
+
   /* #map-container {
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box; 
 } */
-#map-container {
-   display: inline-block !important;
-}
-/* Fix the map element itself */
-#dmrpmap {
+  #map-container {
+    display: inline-block !important;
+  }
+
+  /* Fix the map element itself */
+  #dmrpmap {
     width: 100% !important;
     height: 100% !important;
     min-height: 400px !important;
@@ -195,44 +220,69 @@ img.attachment-post-thumbnail.size-post-thumbnail.wp-post-image {
     position: relative !important;
     visibility: visible !important;
     box-sizing: border-box;
-    
-}
-/* Fix inner Leaflet elements */
-/* #dmrpmap .leaflet-container,
+
+  }
+
+  /* Fix inner Leaflet elements */
+  /* #dmrpmap .leaflet-container,
 #dmrpmap .leaflet-pane {
     width: 100% !important;
     height: 100% !important;
 } */
 }
-.menu-item-has-children.submenu-open > .sub-menu {
-    display: block !important;
-    height: auto !important;
-    opacity: 1 !important;
-    visibility: visible !important;
+
+.menu-item-has-children.submenu-open>.sub-menu {
+  display: block !important;
+  height: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 /* 1. MOUSE HOVER – keep original hover behavior */
-#navmenu ul li:hover > ul.sub-menu {
-    display: block;
-    visibility: visible;
-    opacity: 1;
+#navmenu ul li:hover>ul.sub-menu {
+  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 
 nav:focus-within .submenu,
 nav .menu-item:focus-within .sub-menu {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-} 
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
 :focus {
-    outline: 3px solid #1976D2 !important;
-    outline-offset: 3px;
+  outline: 3px solid #1976D2 !important;
+  outline-offset: 3px;
 }
+
 .ctl-vertical-wrapper .ctl-pagination a {
-    color: #000000 !important; 
+  color: #000000 !important;
 }
+
 span.page-numbers.ctl-page-num {
-    color: black;
+  color: black;
 }
 
-
+/*Skip link */
+.skip-link.skip-link-sticky {
+  position: fixed !important;
+  top: 10px !important;
+  left: 10px !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 10px 14px !important;
+  background: #ffffffff !important;
+  color: blightskyblue !important;
+  border-radius: 6px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .25) !important;
+  z-index: 999999 !important;
+  clip: auto !important;
+  clip-path: none !important;
+  display: inline-block !important;
+  z
+}

@@ -8,18 +8,28 @@
 
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
+
 <head>
-	<meta charset="<?php bloginfo( 'charset' ); ?>" />
+	<meta charset="<?php bloginfo('charset'); ?>" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="profile" href="http://gmpg.org/xfn/11" />
-	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
+	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 	<?php wp_head(); ?>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var skipLink = document.querySelector('.skip-link');
+			if (skipLink) {
+				skipLink.addEventListener('focus', function () {
+					this.classList.add('skip-link-sticky');
+				});
+			}
+		});
+	</script>
 </head>
 
 <body <?php body_class(); ?>>
-<?php do_action( 'wp_body_open' ); ?>
-<div id="page" class="hfeed site">
-<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'xevso' ); ?></a>
+	<?php do_action('wp_body_open'); ?>
+	<div id="page" class="hfeed site">
+		<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e('Skip to content', 'xevso'); ?></a>
 
-<?php do_action( 'hfe_header' ); ?>
-	
+		<?php do_action('hfe_header'); ?>

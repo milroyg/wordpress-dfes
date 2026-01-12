@@ -1,0 +1,23 @@
+/* Maximizes the iframe within the admin content area */
+#wpcontent,
+#wpbody-content,
+#wpbody,
+.auto-fold #wpcontent {
+    padding: 0 !important;
+}
+
+.wrap {
+    margin: 0;
+    padding: 0;
+}
+
+#wpfooter {
+    display: none;
+}
+
+.dmp-iframe {
+    width: 100%;
+    height: calc(100vh - 32px);
+    border: none;
+    display: block;
+}
