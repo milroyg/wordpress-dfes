@@ -15,16 +15,6 @@
 	<link rel="profile" href="http://gmpg.org/xfn/11" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 	<?php wp_head(); ?>
-	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-			var skipLink = document.querySelector('.skip-link');
-			if (skipLink) {
-				skipLink.addEventListener('focus', function () {
-					this.classList.add('skip-link-sticky');
-				});
-			}
-		});
-	</script>
 </head>
 
 <body <?php body_class(); ?>>

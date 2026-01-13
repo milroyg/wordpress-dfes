@@ -74,18 +74,18 @@ if (array_key_exists('xevso_meta_custom_title', $xevso_commonMeta)) {
 
 				<?php
 
-				if (function_exists('bcn_display')): ?> 
-							<div class="breadcrumb-bcn">
-								<?php bcn_display(); ?>
-							</div>
-					<?php endif;
+				if (function_exists('bcn_display')): ?>
+					<div class="breadcrumb-bcn">
+						<?php bcn_display(); ?>
+					</div>
+				<?php endif;
 
 				?>
 			</div>
 		</div>
 	</div>
 <?php endif; ?>
-<div class="default-page-section" id="content">
+<main class="default-page-section" id="content">
 	<div class="container">
 		<div class="row">
 			<?php
@@ -131,5 +131,5 @@ if (array_key_exists('xevso_meta_custom_title', $xevso_commonMeta)) {
 			} ?>
 		</div>
 	</div>
-</div>
+</main>
 <?php get_footer(); ?>
