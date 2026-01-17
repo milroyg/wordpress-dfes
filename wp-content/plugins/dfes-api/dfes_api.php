@@ -222,6 +222,7 @@ function dfes_api_template_redirect_handler()
             'crs' => ['type' => "name", 'properties' => ['name' => "urn:ogc:def:crs:OGC:1.3:CRS84"]],
             'features' => $features
         ];
+        header("Access-Control-Allow-Origin: *");
         $response = new WP_REST_Response($geojson_data, 200);
         wp_send_json($response->get_data(), $response->get_status());
     }
