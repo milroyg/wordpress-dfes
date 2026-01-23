@@ -62,8 +62,6 @@ if ( ! class_exists( 'SPLWT_Field_color_group' ) ) {
 			}
 
 			echo wp_kses_post( $this->field_after() );
-
 		}
-
 	}
 }

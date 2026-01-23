@@ -54,7 +54,6 @@ if ( ! class_exists( 'SPLWT_Field_slider' ) ) {
 			);
 
 			$is_unit = ( ! empty( $args['unit'] ) ) ? ' splwt-lite--is-unit' : '';
-
 			echo wp_kses_post( $this->field_before() );
 
 			echo '<div class="splwt-lite--wrap">';
@@ -74,7 +73,6 @@ if ( ! class_exists( 'SPLWT_Field_slider' ) ) {
 		 * @return void
 		 */
 		public function enqueue() {
-
 			if ( ! wp_script_is( 'jquery-ui-slider' ) ) {
 				wp_enqueue_script( 'jquery-ui-slider' );
 			}

@@ -30,6 +30,7 @@ class MA_Control_Visual_Select extends Base_Data_Control
 	{
 		wp_enqueue_style('master-addons-editor', JLTMA_URL . '/assets/css/master-addons-editor.css');
 		wp_enqueue_script('master-visual-select', JLTMA_ADMIN_ASSETS . 'js/visual-select.js', array('jquery'), JLTMA_VER, true);
+		// wp_enqueue_script( 'jltma-macy', JLTMA_URL . '/assets/vendor/macy/macy.js', ['jquery'], JLTMA_VER, true );
 		wp_enqueue_script('master-addons-editor', JLTMA_ADMIN_ASSETS . 'js/editor.js', array('jquery'), JLTMA_VER, true);
 	}
 

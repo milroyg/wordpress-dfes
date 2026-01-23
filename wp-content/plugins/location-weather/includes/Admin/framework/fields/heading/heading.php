@@ -18,7 +18,6 @@ if ( ! class_exists( 'SPLWT_Field_heading' ) ) {
 	 * SP_EAP_Field_heading
 	 */
 	class SPLWT_Field_heading extends SPLWT_Fields {
-
 		/**
 		 * Field constructor.
 		 *

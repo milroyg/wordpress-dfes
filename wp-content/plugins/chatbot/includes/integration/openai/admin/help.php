@@ -44,6 +44,22 @@
         </div>
         </div>
     </div>
+    	<div class="card">
+		<div class="card-header">
+			<h2 class="">
+				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#panelsStayOpen-collapseOne-compare" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne-compare">
+					<?php esc_html_e( 'Fine Tuning VS GPT Assistants VS RAG', 'wpchatbot' ); ?>
+				</button>
+			</h2>
+		</div>
+		<div id="panelsStayOpen-collapseOne-compare" class=" collapse" aria-labelledby="panelsStayOpen-headingOne-compare">
+			<div class="card-body">
+				<p>
+				<?php echo esc_html__( 'We suggest using GPT Assistants or RAG instead of Fine Tuning as Fine Tuning requires a lot of properly formatted data and GPT Assistants are easier to set up. You can still use your website data to train the bot.', 'wpchatbot' ); ?>
+				</p></br>
+			</div>
+		</div>
+	</div>
     <div class="card">
         <div class="card-header">
             <h2 class="mb-0">
@@ -136,6 +152,37 @@
         </div>
         </div>
     </div>
+    		<div class="card">
+		<div class="card-header">
+			<h2 class="mb-0" id="panelsStayOpen-OpenAI-RAG">
+				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#panelsStayOpen-OpenAI-RAG-collapse" aria-expanded="false" aria-controls="panelsStayOpen-OpenAI-RAG">
+					<?php esc_html_e( 'OpenAI RAG', 'wpchatbot' ); ?>
+				</button>
+			</h2>
+		</div>
+		<div id="panelsStayOpen-OpenAI-RAG-collapse" class=" collapse" aria-labelledby="panelsStayOpen-OpenAI-RAG">
+		<div class="card-body">
+			
+		<p><?php esc_html_e( 'To Embed OpenAI', 'wpchatbot' ); ?></p>
+		<p><?php esc_html_e( 'Enable RAG from the settings panel', 'wpchatbot' ); ?></p>
+			<ul>
+				<li>
+					<ol>
+						<li><?php esc_html_e( 'Enable RAG from the settings panel', 'wpchatbot' ); ?></li>
+						<li><?php esc_html_e( 'Click “Embed All Selected Sources” button, after selecting the sources from the', 'wpchatbot' ); ?> <a href="<?php echo admin_url('admin.php?page=wpbot_openAi#ai-knowledge-base-tab'); ?>" target="_blank">knowledgebase tab</a></li>
+						<li><?php esc_html_e( '(Optional) Upload PDFs or CSV files for embedding', 'wpchatbot' ); ?></li>
+						<li><?php esc_html_e( 'The system automatically stores embeddings in the database', 'wpchatbot' ); ?></li>
+						<li><?php esc_html_e( 'User questions will now be answered using your site’s knowledge base', 'wpchatbot' ); ?></li> 
+						<li><?php esc_html_e( 'You need to configure the OpenAI API key, AI Model and System Command under the main OpenAI Settings', 'wpchatbot' ); ?></li> 
+					</ol>
+				</li>
+			<ul>
+		</p>
+		<b><?php esc_html_e( 'You can update or re-embed content at any time without retraining.', 'wpchatbot' ); ?></b></br>
+
+		</div>
+	</div>
+	</div>
     <div class="card">
         <div class="card-header">
             <h2 class="">

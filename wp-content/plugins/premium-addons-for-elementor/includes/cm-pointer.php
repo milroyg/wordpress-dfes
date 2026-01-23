@@ -10,7 +10,7 @@ add_action(
 	'in_admin_header',
 	function () {
 
-		if ( Helper_Functions::check_papro_version() || time() > strtotime( '09:59:59pm 8th December, 2025' ) || ( $GLOBALS["pagenow"] !== 'index.php' && get_current_screen()->id !== 'toplevel_page_premium-addons' ) || get_transient( 'pa_cm25_pointer_dismiss' ) ) {
+		if ( Helper_Functions::check_papro_version() || time() > strtotime( '09:59:59pm 25th December, 2025' ) || ( $GLOBALS["pagenow"] !== 'index.php' && get_current_screen()->id !== 'toplevel_page_premium-addons' ) || get_transient( 'pa_cm25_pointer_dismiss' ) ) {
 			return;
 		}
 
@@ -33,7 +33,7 @@ add_action(
                         jQuery('#toplevel_page_premium-addons').pointer(
                             {
                                 content:
-                                    "<h3 style='font-weight: 600;'>Premium Addons: Cyber Monday</h3>" +
+                                    "<h3 style='font-weight: 600;'>SALE ENDS TODAY!</h3>" +
                                     "<p style='margin: 1em 0;'>Unlock the full power of Elementor with 90+ advanced elements and 580+ templates. Build smarter and faster.</p>" +
                                     "<p><a class='button button-primary' href='https://premiumaddons.com/black-friday/#bfdeals' target='_blank'>Save $105 Now</a></p>",
 

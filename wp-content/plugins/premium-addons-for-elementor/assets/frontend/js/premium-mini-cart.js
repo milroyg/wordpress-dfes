@@ -11,6 +11,9 @@
 		var triggerEvent = settings.trigger,
 			type = settings.type,
 			id = $scope.data('id'),
+			openAutomatically = settings.openAutomatically,
+			cartDelay = settings.cartDelay,
+			cartDebounce = false,
 			hoverTimeout,
 			paodometer,
 			paSubtotalOdometer;
@@ -29,6 +32,32 @@
 			setTimeout(function () {
 				initCrossSellsCarousel();
 			}, 0);
+		}
+
+		/**
+		 * Open the cart automatically on page load if it's caused by a product being added to the cart only.
+		 */
+		if (openAutomatically && PAWooMCartSettings.productAddedToCart) {
+			setTimeout(function () {
+				if (!$scope.find('.pa-woo-mc__content-wrapper-' + id).hasClass('pa-woo-mc__open')) {
+					toggleMiniCart();
+				}
+			}, cartDelay || 0);
+		}
+
+		if (openAutomatically) {
+			if (!cartDebounce) {
+				elementorFrontend.elements.$body.on('added_to_cart', function (event, data) {
+					setTimeout(function () {
+						var $contentWrapper = $scope.find('.pa-woo-mc__content-wrapper-' + id);
+
+						if (!$contentWrapper.hasClass('pa-woo-mc__open')) {
+							toggleMiniCart(event, data);
+						}
+						cartDebounce = true;
+					}, cartDelay || 0);
+				});
+			}
 		}
 
 		// Reinitialize the event listeners after the mini cart is refreshed.
@@ -259,7 +288,7 @@
 		*/
 		function initCartContentEvents() {
 
-			$('.pa-woo-mc__qty-btn').on('click', function (e) {
+			$scope.find('.pa-woo-mc__qty-btn').off('click.paQtyBtn').on('click.paQtyBtn', function (e) {
 				e.stopPropagation();
 
 				var $input = $(this).parent().find('.pa-woo-mc__input')[0],
@@ -289,7 +318,7 @@
 			});
 
 			// update item quantity.
-			$scope.find('.pa-woo-mc__input').on('change', function () {
+			$scope.find('.pa-woo-mc__input').off('change.paQtyInput').on('change.paQtyInput', function () {
 
 				var itemKey = $(this).attr('name').replace('cart-', ''),
 					newQty = $(this).val();
@@ -304,13 +333,13 @@
 			});
 
 			// delete cart item.
-			$scope.find('.pa-woo-mc__remove-item').on('click.paRemoveCartItem', function (e) {
+			$scope.find('.pa-woo-mc__remove-item').off('click.paRemoveCartItem').on('click.paRemoveCartItem', function (e) {
 				e.stopPropagation();
 				var itemKey = $(this).data('pa-item-key').replace('cart-', '');
 				sendCartAjax('pa_delete_cart_item', itemKey, false);
 			});
 
-			$scope.find('.pa-woo-mc__input').on('click', function (e) {
+			$scope.find('.pa-woo-mc__input').off('click.paQtyInputClick').on('click.paQtyInputClick', function (e) {
 				e.stopPropagation();
 			});
 
@@ -459,12 +488,14 @@
 					var mcContent = ".premium-tabs-nav-list-item, .pa-woo-mc__content-wrapper, .pa-woo-mc__content-wrapper *, .pa-woo-mc__inner-container, .pa-woo-mc__inner-container *";
 
 					if (!$(event.target).is(mcContent)) {
-						if ('menu' === type) {
-							$scope.find('.pa-woo-mc__content-wrapper-' + id).removeClass('pa-woo-mc__open');
-						} else {
-							$(".pa-woo-mc__overlay-" + id).addClass("premium-addons__v-hidden");
-							$scope.find('.pa-woo-mc__content-wrapper-' + id).removeClass('pa-woo-mc__open');
+
+						if ('menu' !== type) {
+							// $(".pa-woo-mc__overlay-" + id).addClass("premium-addons__v-hidden");
+							$(".pa-woo-mc__overlay").addClass("premium-addons__v-hidden");
 						}
+
+						// $scope.find('.pa-woo-mc__content-wrapper-' + id).removeClass('pa-woo-mc__open');
+						$('.pa-woo-mc__content-wrapper').removeClass('pa-woo-mc__open');
 					}
 				});
 			}
@@ -477,6 +508,7 @@
 				$scope.find('.pa-woo-mc__content-wrapper-' + id).removeClass('pa-woo-mc__open');
 			});
 
+			// coupon toggler.
 			if (settings.coupon) {
 
 				$scope.find('.pa-woo-mc__coupon-toggler').click(function () {

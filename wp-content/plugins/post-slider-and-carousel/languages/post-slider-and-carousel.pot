@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Post Slider and Carousel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-20 04:53+0000\n"
+"POT-Creation-Date: 2026-01-04 12:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -1070,11 +1070,11 @@ msgid ""
 msgstr ""
 
 #. Author URI of the plugin
-msgid "https://premium.infornweb.com"
+msgid "https://infornweb.com"
 msgstr ""
 
 #. URI of the plugin
-msgid "https://premium.infornweb.com/post-slider-and-carousel-pro/"
+msgid "https://infornweb.com/post-slider-and-carousel-pro/"
 msgstr ""
 
 #: includes/admin/shortcode-support/shortcode-fields.php:671

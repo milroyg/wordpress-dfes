@@ -9,6 +9,7 @@ namespace MasterAddons\Modules;
  */
 if (!defined('ABSPATH')) exit; // If this file is called directly, abort.
 
+if (!class_exists('MasterAddons\Modules\JLTMA_Extension_Post_Page_Duplicator')) {
 class JLTMA_Extension_Post_Page_Duplicator
 {
 
@@ -173,5 +174,8 @@ class JLTMA_Extension_Post_Page_Duplicator
 		}
 	}
 }
+}
 
-JLTMA_Extension_Post_Page_Duplicator::get_instance();
+if (class_exists('MasterAddons\Modules\JLTMA_Extension_Post_Page_Duplicator')) {
+	JLTMA_Extension_Post_Page_Duplicator::get_instance();
+}

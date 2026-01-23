@@ -15,7 +15,7 @@ if((isset($wpchatbot_pro_master_init) && $wpchatbot_pro_master_init->is_valid())
             <div class="error-message alert alert-danger"></div>
             <input type="file" (change)="fileEvent($event)" class="inputfile" id="openfileinput_gpt" style="display:none"/>
             <label for="openfileinput_gpt" class="huge ui grey button">
-                <i class="fa fa-upload"></i> 
+                <span class="dashicons dashicons-cloud-upload"></span>
                 <?php esc_html_e('Upload JSONL GPT 3.5','chatbot'); ?>
             </label>
         </form>  

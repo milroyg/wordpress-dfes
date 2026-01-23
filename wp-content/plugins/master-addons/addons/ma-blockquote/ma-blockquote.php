@@ -73,6 +73,19 @@ class JLTMA_Blockquote extends Widget_Base
 			]
 		);
 
+
+		$this->add_control(
+			'quote_author_show',
+			[
+				'label'        => __('Show Author', 'master-addons' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __('On', 'master-addons' ),
+				'label_off'    => __('Off', 'master-addons' ),
+				'default'      => 'yes'
+			]
+		);
+
+
 		$this->add_control(
 			'jltma_blockquote_author',
 			[
@@ -80,6 +93,9 @@ class JLTMA_Blockquote extends Widget_Base
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
 				'default'     => esc_html__('Scott Adams', 'master-addons' ),
+				'condition'   => [
+					'quote_author_show' => 'yes'
+				]
 			]
 		);
 
@@ -113,12 +129,26 @@ class JLTMA_Blockquote extends Widget_Base
 		$this->add_responsive_control(
 			'text_align',
 			[
-				'label'       => __('Text Alignment', 'master-addons' ),
+				'label'       => __('Content Alignment', 'master-addons' ),
 				'type'        => Controls_Manager::CHOOSE,
-				'default'     => 'inherit',
-				'options'     => Master_Addons_Helper::jltma_content_alignment(),
+				'default'     => 'left',
+				'options'     => [
+					'left' => [
+						'title' => __('Left', 'master-addons'),
+						'icon'  => 'eicon-text-align-left',
+					],
+					'center' => [
+						'title' => __('Center', 'master-addons'),
+						'icon'  => 'eicon-text-align-center',
+					],
+					'right' => [
+						'title' => __('Right', 'master-addons'),
+						'icon'  => 'eicon-text-align-right',
+					],
+				],
 				'selectors' => [
-					'{{WRAPPER}} .jltma-blockquote' => 'text-align: {{VALUE}};'
+					'{{WRAPPER}} .jltma-blockquote' => 'text-align: {{VALUE}};',
+					'{{WRAPPER}} .jltma-blockquote cite' => 'justify-content: {{VALUE}};'
 				]
 			]
 		);
@@ -126,7 +156,7 @@ class JLTMA_Blockquote extends Widget_Base
 		$this->add_control(
 			'text_color',
 			[
-				'label'     => __('Text Color', 'master-addons' ),
+				'label'     => __('Quote Text Color', 'master-addons' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .jltma-blockquote p' => 'color: {{VALUE}};'
@@ -138,9 +168,9 @@ class JLTMA_Blockquote extends Widget_Base
 			Group_Control_Typography::get_type(),
 			[
 				'name'     => 'text_typography',
-                'global' => [
-                    'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
-                ],
+				'global' => [
+						'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
+				],
 				'selector' => '{{WRAPPER}} .jltma-blockquote p'
 			]
 		);
@@ -192,6 +222,44 @@ class JLTMA_Blockquote extends Widget_Base
 				]
 			]
 		);
+
+
+		$this->add_control(
+			'jltma_quote_author_styles',
+			[
+				'label' => __('Authors', 'master-addons' ),
+				'type'  => Controls_Manager::HEADING,
+			]
+		);
+
+		$this->add_control(
+			'author_text_color',
+			[
+				'label'     => __('Author Text Color', 'master-addons' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blockquote cite' => 'color: {{VALUE}};'
+				],
+				'condition' => [
+					'quote_author_show' => 'yes'
+				]
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name'     => 'author_typography',
+				'global' => [
+						'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
+				],
+				'selector' => '{{WRAPPER}} .jltma-blockquote cite',
+				'condition' => [
+					'quote_author_show' => 'yes'
+				]
+			]
+		);
+
 		$this->end_controls_section();
 	}
 
@@ -208,41 +276,63 @@ class JLTMA_Blockquote extends Widget_Base
 			]
 		);
 
-		$this->add_control(
-			'quote_symbol',
-			[
-				'label'        => __('Show quote symbol', 'master-addons' ),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => __('On', 'master-addons' ),
-				'label_off'    => __('Off', 'master-addons' ),
-				'default'      => 'yes'
-			]
-		);
 
 		$this->add_control(
 			'quote_symbol_color',
 			[
-				'label'     => __('Quote symbol color', 'master-addons' ),
+				'label'     => __('Author Symbol Color', 'master-addons' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .jltma-blockquote cite:before' => 'color: {{VALUE}};'
+					'{{WRAPPER}} .jltma-blockquote .jltma-quote-symbol' => 'background: {{VALUE}};'
 				],
 				'condition' => [
-					'quote_symbol' => 'yes'
+					'quote_symbol_author' => 'yes'
 				]
 			]
 		);
 
-		$this->add_group_control(
-			Group_Control_Typography::get_type(),
+		$this->add_responsive_control(
+			'quote_symbol_width',
 			[
-				'name'      => 'quote_symbol_typography',
-				'global' => [
-					'default' => Global_Typography::TYPOGRAPHY_TEXT,
+				'label'      => __('Width', 'master-addons' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => ['px'],
+				'range'      => [
+					'px' => [
+						'min' => 5,
+						'max' => 50,
+					],
 				],
-				'selector'  => '{{WRAPPER}} .jltma-blockquote cite:before',
+				'selectors'  => [
+					'{{WRAPPER}} .jltma-blockquote .jltma-quote-symbol' => 'width: {{SIZE}}{{UNIT}};',
+				],
 				'condition' => [
-					'quote_symbol' => 'yes'
+					'quote_symbol_author' => 'yes'
+				]
+			]
+		);
+
+		$this->add_responsive_control(
+			'quote_symbol_height',
+			[
+				'label'      => __('Height', 'master-addons' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => ['px'],
+				'range'      => [
+					'px' => [
+						'min' => 2,
+						'max' => 20,
+					],
+				],
+				'default'    => [
+					'unit' => 'px',
+					'size' => 5,
+				],
+				'selectors'  => [
+					'{{WRAPPER}} .jltma-blockquote .jltma-quote-symbol' => 'height: {{SIZE}}{{UNIT}};',
+				],
+				'condition' => [
+					'quote_symbol_author' => 'yes'
 				]
 			]
 		);
@@ -254,11 +344,60 @@ class JLTMA_Blockquote extends Widget_Base
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', 'em', '%'],
 				'selectors'  => [
-					'{{WRAPPER}} .jltma-blockquote cite:before' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-blockquote .jltma-quote-symbol' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+				'condition' => [
+					'quote_symbol_author' => 'yes'
 				]
 			]
 		);
 
+		$this->end_controls_section();
+	}
+	
+	
+	protected function jltma_blockquote_symbols(){
+		
+		$this->start_controls_section(
+			'jltma_blockquote_symbols',
+			[
+				'label' => esc_html__('Quote Symbols', 'master-addons' ),
+			]
+		);
+		
+		$this->add_control(
+			'quote_symbol',
+			[
+				'label'        => __('Show Start Symbol', 'master-addons' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __('On', 'master-addons' ),
+				'label_off'    => __('Off', 'master-addons' ),
+				'default'      => 'yes'
+			]
+		);
+
+		$this->add_control(
+			'quote_symbol_end',
+			[
+				'label'        => __('Show End Symbol', 'master-addons' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __('On', 'master-addons' ),
+				'label_off'    => __('Off', 'master-addons' ),
+				'default'      => 'yes'
+			]
+		);
+
+		$this->add_control(
+			'quote_symbol_author',
+			[
+				'label'        => __('Show Author Symbol', 'master-addons' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __('On', 'master-addons' ),
+				'label_off'    => __('Off', 'master-addons' ),
+				'default'      => 'yes'
+			]
+		);
+		
 		$this->end_controls_section();
 	}
 
@@ -267,6 +406,7 @@ class JLTMA_Blockquote extends Widget_Base
 	{
 
 		$this->jltma_blockquote_content_section();
+		$this->jltma_blockquote_symbols();
 		$this->jltma_quote_text_section();
 		$this->jltma_quote_symbol_section();
 
@@ -317,15 +457,32 @@ class JLTMA_Blockquote extends Widget_Base
 	protected function render()
 	{
 		$settings = $this->get_settings_for_display();
+
+		$classes = ['wp-block-quote', 'jltma-blockquote'];
+
+		if ($settings['quote_symbol'] === 'yes') {
+			$classes[] = 'jltma-show-start-symbol';
+		}
+		if ($settings['quote_symbol_end'] === 'yes') {
+			$classes[] = 'jltma-show-end-symbol';
+		}
+
+		$show_author = $settings['quote_author_show'] === 'yes';
+		$show_author_symbol = $settings['quote_symbol_author'] === 'yes';
 ?>
 
-		<blockquote class="wp-block-quote jltma-blockquote">
+		<blockquote class="<?php echo esc_attr(implode(' ', $classes)); ?>">
 			<p class="jltma-text">
 				<?php echo $this->parse_text_editor($settings['jltma_blockquote_text']); ?>
 			</p>
-			<cite>
-				<?php echo $this->parse_text_editor($settings['jltma_blockquote_author']); ?>
-			</cite>
+			<?php if ($show_author) : ?>
+				<cite>
+					<?php if ($show_author_symbol) : ?>
+						<span class="jltma-quote-symbol"></span>
+					<?php endif; ?>
+					<?php echo $this->parse_text_editor($settings['jltma_blockquote_author']); ?>
+				</cite>
+			<?php endif; ?>
 		</blockquote>
 
 <?php }

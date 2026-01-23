@@ -19044,9 +19044,11 @@
 			animItem.addEventListener('DOMLoaded', function () {
 
 				// Delay animation start
-				setTimeout(function () {
-					animItem.play();
-				}, delay);
+				if (!trigger && !scroll && !viewPort && !click) {
+					setTimeout(function () {
+						animItem.play();
+					}, delay);
+				}
 
 				if (scroll || viewPort) {
 
@@ -19091,7 +19093,11 @@
 
 					var shouldReset = $lottie.data("lottie-reset");
 
-					$elem.hover(function () {
+					// Find parent button to attach hover listener, not the Lottie container itself.
+					var $button = $elem.closest('.premium-button, .premium-image-button'),
+						$hoverTarget = $button.length ? $button : $elem;
+
+					$hoverTarget.hover(function () {
 						animItem.play();
 					}, function () {
 						animItem.pause();

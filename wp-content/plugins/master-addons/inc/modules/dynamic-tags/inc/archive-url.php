@@ -30,7 +30,7 @@ class JLTMA_Archive_URL extends Data_Tag
 
 	public function get_title()
 	{
-		return esc_html__('MA Archive URL', 'master-addons' );
+		return esc_html__('Archive URL', 'master-addons' );
 	}
 
 	public function get_panel_template()

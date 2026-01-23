@@ -20,7 +20,7 @@ class Splw_Help {
 	 *
 	 * @var object
 	 */
-	private static $_instance;
+	private static $instance;
 
 	/**
 	 * Plugins Path variable.
@@ -69,11 +69,11 @@ class Splw_Help {
 	 * @return object
 	 */
 	public static function getInstance() {
-		if ( ! self::$_instance ) {
-			self::$_instance = new Splw_Help();
+		if ( ! self::$instance ) {
+			self::$instance = new Splw_Help();
 		}
 
-		return self::$_instance;
+		return self::$instance;
 	}
 
 	/**

@@ -395,13 +395,13 @@ class JLTMA_Progress_Bars extends Widget_Base
 
 			$child_output .= $this->parse_text_editor($stats_bar['stats_title']);
 
-			$child_output .= '<span>' . esc_attr($stats_bar['percentage_value']) . '%</span>';
-
 			$child_output .= '</div>';
 
 			$child_output .= '<div class="jltma-stats-bar-wrap">';
 
-			$child_output .= '<div ' . esc_attr($color_style) . ' class="jltma-stats-bar-content" data-perc="' . esc_attr($stats_bar['percentage_value']) . '"></div>';
+			$child_output .= '<div ' . esc_attr($color_style) . ' class="jltma-stats-bar-content" data-perc="' . esc_attr($stats_bar['percentage_value']) . '">';
+			$child_output .= '<span class="jltma-stats-percentage">' . esc_attr($stats_bar['percentage_value']) . '%</span>';
+			$child_output .= '</div>';
 
 			$child_output .= '<div class="jltma-stats-bar-bg"></div>';
 

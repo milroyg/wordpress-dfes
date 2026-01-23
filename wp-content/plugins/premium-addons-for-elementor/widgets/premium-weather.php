@@ -316,6 +316,9 @@ class Premium_Weather extends Widget_Base {
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
 				'description' => 'Get your OpenWeatherMap API Key by signing up <a href="https://openweathermap.org/" target="_blank">here</a>',
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -1305,6 +1308,8 @@ class Premium_Weather extends Widget_Base {
 			++$doc_index;
 
 		}
+
+		Helper_Functions::register_element_feedback_controls( $this );
 
 		$this->end_controls_section();
 	}
@@ -4499,8 +4504,9 @@ class Premium_Weather extends Widget_Base {
 
 			if ( ! empty( $icon['img']['url'] ) ) {
 				$img_src = wp_get_attachment_image_src( $icon['img']['id'], $icon['size'] );
+				$alt_text = isset( $icon['img']['alt'] ) ? $icon['img']['alt'] : '';
 				?>
-			<img src="<?php echo esc_url( $img_src[0] ); ?>" alt="<?php echo esc_attr( $icon['img']['alt'] ); ?>">
+			<img src="<?php echo esc_url( $img_src[0] ); ?>" alt="<?php echo esc_attr( $alt_text ); ?>">
 				<?php
 			}
 		} else {
@@ -4610,8 +4616,6 @@ class Premium_Weather extends Widget_Base {
 						}
 					}
 				} else {
-
-					$source = $icon['lottie_source'];
 
 					$lottie_url  = $icon['pa_lottie_url'];
 					$custom_icon = array(

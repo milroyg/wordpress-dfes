@@ -19,7 +19,7 @@ class JLTMA_Post_ID extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('MA Post ID', 'master-addons' );
+		return esc_html__('Post ID', 'master-addons' );
 	}
 
 	public function get_group()

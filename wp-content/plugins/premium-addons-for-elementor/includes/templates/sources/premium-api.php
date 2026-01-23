@@ -79,7 +79,7 @@ class Premium_Templates_Source_Api extends Premium_Templates_Source_Base {
 			$api_url . $tab,
 			array(
 				'timeout'   => 10,
-				'sslverify' => false,
+				'sslverify' => true,
 			)
 		);
 
@@ -121,7 +121,7 @@ class Premium_Templates_Source_Api extends Premium_Templates_Source_Base {
 			$api_url . $tab,
 			array(
 				'timeout'   => 20,
-				'sslverify' => false,
+				'sslverify' => true,
 			)
 		);
 
@@ -163,7 +163,7 @@ class Premium_Templates_Source_Api extends Premium_Templates_Source_Base {
 			$api_url . $tab,
 			array(
 				'timeout'   => 20,
-				'sslverify' => false,
+				'sslverify' => true,
 			)
 		);
 
@@ -309,7 +309,7 @@ class Premium_Templates_Source_Api extends Premium_Templates_Source_Base {
 			$request,
 			array(
 				'timeout'   => 20,
-				'sslverify' => false,
+				'sslverify' => true,
 			)
 		);
 

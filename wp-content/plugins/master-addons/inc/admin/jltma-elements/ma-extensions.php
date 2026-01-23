@@ -146,12 +146,12 @@ if (!class_exists('JLTMA_Addon_Extensions')) {
                             'is_pro'   => true
                         ],
                         [
-                            'key'      => 'header-footer-comment',
-                            // 'title'    => esc_html__('Header,Footer,Comment Form', 'master-addons' ),
-                            'title'    => 'Header,Footer,Comment Form',
+                            'key'      => 'theme-builder',
+                            // 'title'    => esc_html__('Theme Builder', 'master-addons' ),
+                            'title'    => 'Theme Builder',
                             'class'    => 'MasterHeaderFooter\Master_Header_Footer',
-                            'demo_url' => 'https://master-addons.com/demos/header-footer-comment-builder/',
-                            'docs_url' => 'https://master-addons.com/docs/addons/header-footer-comment-builder/',
+                            'demo_url' => 'https://master-addons.com/demos/theme-builder/',
+                            'docs_url' => 'https://master-addons.com/docs/addons/theme-builder/',
                             'tuts_url' => '',
                             'is_pro'   => false
                         ],
@@ -234,6 +234,46 @@ if (!class_exists('JLTMA_Addon_Extensions')) {
                             'docs_url' => 'https://master-addons.com/docs/addons/tooltip-extension-for-elementor/',
                             'tuts_url' => 'https://www.youtube.com/watch?v=x-9tBsm6yCg',
                             'is_pro'   => true
+                        ],
+                        [
+                            'key'      => 'patterns',
+                            // 'title'    => esc_html__('Patterns', 'master-addons' ),
+                            'title'    => 'Patterns',
+                            'class'    => 'MasterAddons\Modules\JLTMA_Extension_Patterns',
+                            // 'demo_url' => 'https://master-addons.com/demos/ext-patterns/',
+                            'demo_url' => '',
+                            // 'docs_url' => 'https://master-addons.com/docs/addons/patterns-extension-for-elementor/',
+                            'docs_url' => '',
+                            'tuts_url' => '',
+                            'is_pro'   => false
+                        ],
+                        // [
+                        //     'key'      => 'blur-effects',
+                        //     // 'title'    => esc_html__('Blur Effects', 'master-addons' ),
+                        //     'title'    => 'Glassmorphism Effect',
+                        //     'class'    => 'MasterAddons\Modules\JLTMA_Extension_Blur_Effects',
+                        //     'demo_url' => '',
+                        //     'docs_url' => '',
+                        //     'tuts_url' => '',
+                        //     'is_pro'   => true
+                        // ],
+                        [
+                            'key'      => 'grid-line',
+                            'title'    => 'Grid Line',
+                            'class'    => 'MasterAddons\Modules\JLTMA_Grid_Line',
+                            'demo_url' => '',
+                            'docs_url' => '',
+                            'tuts_url' => '',
+                            'is_pro'   => true
+                        ],
+                        [
+                            'key'      => 'which-element',
+                            'title'    => 'Which Element',
+                            'class'    => 'MasterAddons\Modules\JLTMA_Extension_Which_Element',
+                            'demo_url' => '',
+                            'docs_url' => '',
+                            'tuts_url' => '',
+                            'is_pro'   => false
                         ],
                         // [
                         //     'key'      => 'magic-copy',

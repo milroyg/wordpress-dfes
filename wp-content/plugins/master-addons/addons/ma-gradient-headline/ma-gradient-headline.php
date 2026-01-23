@@ -573,6 +573,12 @@ class JLTMA_Gradient_Headline extends Widget_Base
 	{
 		$settings = $this->get_settings_for_display();
 
+		// Whitelist allowed HTML tags to prevent XSS
+		$allowed_tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'span', 'p'];
+		$title_tag = in_array($settings['title_html_tag'], $allowed_tags, true)
+			? $settings['title_html_tag']
+			: 'h2';
+
 		$this->add_inline_editing_attributes('jltma_gradient_heading_title', 'basic');
 		$this->add_render_attribute('jltma_gradient_heading_title', 'class', 'jltma-gradient-headline');
 
@@ -586,7 +592,7 @@ class JLTMA_Gradient_Headline extends Widget_Base
 
 		printf(
 			'<%1$s %2$s>%3$s</%1$s>',
-			tag_escape($settings['title_html_tag']),
+			esc_html($title_tag),
 			$this->get_render_attribute_string('jltma_gradient_heading_title'),
 			$title
 		);

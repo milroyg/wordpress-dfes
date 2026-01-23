@@ -41,9 +41,7 @@ if ( ! function_exists( 'qcld_wpbot_free_include_promo_page_scripts' ) ) {
 	function qcld_wpbot_free_include_promo_page_scripts( ) {   
 
 
-        if( isset($_GET["page"]) && !empty($_GET["page"]) && (   $_GET["page"] == "wpbot_support_page"  ) ){
-
-            wp_enqueue_style( 'qcld-support-fontawesome-css', qcld_wpbot_free_support_url . "css/font-awesome.min.css");                              
+        if( isset($_GET["page"]) && !empty($_GET["page"]) && (   $_GET["page"] == "wpbot_support_page"  ) ){                            
             wp_enqueue_style( 'qcld-support-style-css', qcld_wpbot_free_support_url . "css/style.css");
 
             wp_enqueue_script( 'jquery' );

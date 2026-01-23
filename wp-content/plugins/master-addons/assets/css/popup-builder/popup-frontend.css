@@ -1,0 +1,521 @@
+/**
+ * Master Addons - Modal Popup Frontend Styles
+ * Frontend CSS for Popup Builder
+ *
+ * @package MasterAddons
+ * @subpackage PopupBuilder
+ */
+/* ============================================================
+   Popup Base Styles
+   ============================================================ */
+body:not(.elementor-editor-active) .jltma-template-popup {
+  display: none;
+}
+
+.jltma-template-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99999999;
+}
+
+.jltma-template-popup-inner {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ============================================================
+   Popup Container
+   ============================================================ */
+.jltma-popup-container {
+  position: relative;
+}
+.jltma-popup-container > div {
+  width: 100%;
+}
+
+.jltma-popup-custom-position .jltma-popup-container {
+  position: fixed !important;
+  -webkit-transform: none !important;
+      -ms-transform: none !important;
+          transform: none !important;
+  margin: 0 !important;
+}
+
+.jltma-popup-container-inner {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  background: #ffffff;
+  padding: 0 !important;
+}
+.jltma-popup-container-inner > div {
+  width: 100%;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   Popup Overlay
+   ============================================================ */
+.jltma-popup-image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+}
+
+.jltma-popup-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* ============================================================
+   Close Button
+   ============================================================ */
+.jltma-popup-close-btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 99;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  cursor: pointer;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 20px;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.jltma-popup-close-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+  -webkit-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+.jltma-popup-close-btn i {
+  font-size: 16px;
+  line-height: 1;
+  color: #ffffff;
+}
+.jltma-popup-close-btn.jltma-popup-close-top-left {
+  top: 15px;
+  right: auto;
+  left: 15px;
+}
+.jltma-popup-close-btn.jltma-popup-close-top-right {
+  top: 15px;
+  right: 15px;
+  left: auto;
+}
+.jltma-popup-close-btn.jltma-popup-close-inside-top-left {
+  top: 15px;
+  right: auto;
+  left: 15px;
+  position: absolute;
+}
+.jltma-popup-close-btn.jltma-popup-close-inside-top-right {
+  top: 15px;
+  right: 15px;
+  left: auto;
+  position: absolute;
+}
+
+/* ============================================================
+   Notification Bar Style
+   ============================================================ */
+.jltma-popup-notification.jltma-template-popup,
+.jltma-popup-notification .jltma-template-popup-inner {
+  height: auto !important;
+}
+
+.jltma-popup-notification .jltma-popup-overlay {
+  display: none !important;
+}
+
+.jltma-popup-notification .jltma-popup-container .slideInDown {
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+}
+
+.jltma-popup-notification .jltma-popup-container {
+  width: 100% !important;
+  -webkit-box-align: start !important;
+  -ms-flex-align: start !important;
+  align-items: flex-start !important;
+}
+
+/* ============================================================
+   Perfect Scrollbar Styles
+   ============================================================ */
+.jltma-popup-container-inner.ps-container.ps-active-y > .ps-scrollbar-y-rail,
+.jltma-popup-container-inner.ps.ps--active-y > .ps__rail-y {
+  display: block;
+  background-color: transparent;
+}
+
+.jltma-popup-container-inner.ps-container > .ps-scrollbar-y-rail,
+.jltma-popup-container-inner.ps > .ps__rail-y {
+  display: none;
+  position: absolute;
+  right: 3px;
+  width: 3px;
+}
+
+.jltma-popup-container-inner.ps-container > .ps-scrollbar-y-rail > .ps-scrollbar-y,
+.jltma-popup-container-inner.ps > .ps__rail-y > .ps__thumb-y {
+  position: absolute;
+  cursor: pointer;
+  right: 0;
+  width: 3px;
+}
+
+.jltma-popup-container .ps-scrollbar-x-rail {
+  display: none !important;
+}
+
+/* ============================================================
+   Trigger Button
+   ============================================================ */
+.jltma-popup-trigger-button {
+  display: inline-block;
+  font-size: 14px;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  cursor: pointer;
+}
+.jltma-popup-trigger-button svg {
+  display: block;
+}
+
+/* ============================================================
+   Position Classes
+   ============================================================ */
+.jltma-popup-position-center-center .jltma-template-popup-inner {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.jltma-popup-custom-position .jltma-template-popup-inner {
+  -webkit-box-align: unset !important;
+  -ms-flex-align: unset !important;
+  align-items: unset !important;
+  -webkit-box-pack: unset !important;
+  -ms-flex-pack: unset !important;
+  justify-content: unset !important;
+}
+
+.jltma-popup-position-center-left .jltma-template-popup-inner {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.jltma-popup-position-center-right .jltma-template-popup-inner {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.jltma-popup-position-top-left .jltma-template-popup-inner {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.jltma-popup-position-top-center .jltma-template-popup-inner {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.jltma-popup-position-top-right .jltma-template-popup-inner {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.jltma-popup-position-bottom-left .jltma-template-popup-inner {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.jltma-popup-position-bottom-center .jltma-template-popup-inner {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.jltma-popup-position-bottom-right .jltma-template-popup-inner {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+/* ============================================================
+   Animation Classes
+   ============================================================ */
+.jltma-popup-container.animated {
+  -webkit-animation-duration: 0.4s;
+  animation-duration: 0.4s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+/* Fade Animation */
+@-webkit-keyframes jltmaFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes jltmaFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.jltma-popup-container.fade {
+  -webkit-animation-name: jltmaFadeIn;
+  animation-name: jltmaFadeIn;
+}
+
+/* Zoom Animation */
+@-webkit-keyframes jltmaZoomIn {
+  from {
+    opacity: 0;
+    -webkit-transform: scale(0.3);
+    transform: scale(0.3);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes jltmaZoomIn {
+  from {
+    opacity: 0;
+    -webkit-transform: scale(0.3);
+    transform: scale(0.3);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+.jltma-popup-container.zoom {
+  -webkit-animation-name: jltmaZoomIn;
+  animation-name: jltmaZoomIn;
+}
+
+/* Slide Animations */
+@-webkit-keyframes jltmaSlideInLeft {
+  from {
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes jltmaSlideInLeft {
+  from {
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.jltma-popup-container.slide-from-left {
+  -webkit-animation-name: jltmaSlideInLeft;
+  animation-name: jltmaSlideInLeft;
+}
+
+@-webkit-keyframes jltmaSlideInRight {
+  from {
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes jltmaSlideInRight {
+  from {
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.jltma-popup-container.slide-from-right {
+  -webkit-animation-name: jltmaSlideInRight;
+  animation-name: jltmaSlideInRight;
+}
+
+@-webkit-keyframes jltmaSlideInTop {
+  from {
+    -webkit-transform: translateY(-100%);
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes jltmaSlideInTop {
+  from {
+    -webkit-transform: translateY(-100%);
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.jltma-popup-container.slide-from-top {
+  -webkit-animation-name: jltmaSlideInTop;
+  animation-name: jltmaSlideInTop;
+}
+
+@-webkit-keyframes jltmaSlideInBottom {
+  from {
+    -webkit-transform: translateY(100%);
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes jltmaSlideInBottom {
+  from {
+    -webkit-transform: translateY(100%);
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.jltma-popup-container.slide-from-bottom {
+  -webkit-animation-name: jltmaSlideInBottom;
+  animation-name: jltmaSlideInBottom;
+}
+
+/* ============================================================
+   Responsive Styles
+   ============================================================ */
+@media (max-width: 1024px) {
+  .jltma-template-popup {
+    z-index: 999999;
+  }
+}
+@media (max-width: 768px) {
+  .jltma-popup-container {
+    max-width: 95%;
+  }
+  .jltma-popup-close-btn {
+    font-size: 18px;
+  }
+}
+@media (max-width: 480px) {
+  .jltma-popup-container {
+    max-width: 98%;
+  }
+}
+/* ============================================================
+   Helper Classes
+   ============================================================ */
+.jltma-template-popup-show,
+.jltma-popup-open {
+  display: block !important;
+}
+
+body.jltma-popup-open {
+  overflow: hidden;
+}

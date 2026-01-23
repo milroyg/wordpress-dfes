@@ -26,10 +26,10 @@ class JLTMA_Extension_Custom_CSS
 	public function __construct()
 	{
 		if (!defined('ELEMENTOR_PRO_VERSION')) {
-			
+
 			// Add new controls to advanced tab globally
 			add_action("elementor/element/after_section_end", array($this, 'jltma_add_section_custom_css_controls'), 25, 3);
-			
+
 			// Render the custom CSS
 			add_action('elementor/element/parse_css', array($this, 'jltma_add_post_css'), 10, 2);
 		}
@@ -43,7 +43,12 @@ class JLTMA_Extension_Custom_CSS
 		if ('section_custom_css_pro' !== $section_id) {
 			return;
 		}
+
 		// if (!defined('ELEMENTOR_PRO_VERSION')) { return; }
+
+		if (!current_user_can('edit_posts')) {
+			return;
+		}
 
 			$widget->start_controls_section(
 				'jltma_custom_css_section',
@@ -91,10 +96,6 @@ class JLTMA_Extension_Custom_CSS
 
 	public function jltma_add_post_css($post_css, $element)
 	{
-		if (!current_user_can('edit_posts')) {
-			return;
-		}
-
 		$element_settings = $element->get_settings();
 
 		if (empty($element_settings['custom_css'])) {

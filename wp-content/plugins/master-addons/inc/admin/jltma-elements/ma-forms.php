@@ -53,7 +53,7 @@ if (!class_exists('JLTMA_Addon_Forms')) {
                             'demo_url' => 'https://master-addons.com/demos/wp-forms/',
                             'docs_url' => 'https://master-addons.com/docs/addons/how-to-edit-contact-form-7/',
                             'tuts_url' => 'https://www.youtube.com/watch?v=1fU6lWniRqo',
-                            'is_pro'   => false
+                            'is_pro'   => true
                         ],
                         [
                             'key'      => 'caldera-forms',

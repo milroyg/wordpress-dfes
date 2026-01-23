@@ -4,7 +4,7 @@ Donate link: https://www.wpbot.pro/
 Tags: chatbot, chatgpt, live chat, AI, live support
 Requires at least: 4.6
 Tested up to: 6.9
-Stable tag: 7.5.4
+Stable tag: 7.7.2
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.wpbot.pro/
@@ -17,7 +17,6 @@ WPBot is the most feature rich <strong>AI ChatBot for WordPress</strong> website
 
 This ChatBot can be also be powered by <strong>OpenAI ChatGPT</strong>, <strong>OpenRouter (GPT, Claude, Gemini, Grok, Cohere, DeepSeek, Mistral, Llama etc.)</strong>, or <strong>DialogFlow</strong>. Or simply use the <strong>built-in features</strong> to provide Automated Live Support, Lead Generation, and collect data without <strong>any extra cost</strong>. Own and Manage this Native WordPress ChatBot directly from your WordPress Dashboard for improving live customer support efficiency and user conversions.
 
-> Cyber Monday Sale! Use coupon code <strong>monday</strong> and grab the Pro version now!
 > <strong> for Advanced Features [Upgrade to WPBot Pro](https://www.wpbot.pro/) now!
 > [Support, Bug Report, Feature Requests](https://www.wpbot.pro/free-support/) | [ChatBot for WordPress](https://www.wpbot.pro/) Demo
 
@@ -66,6 +65,7 @@ WPBot Free version provides the following ChatBot features:
 * Integrate with OpenAI ChatGPT for responses based on keywords you define
 * Integrate with OpenRouter and use OpenAI, Anthropic, Google DeepMind, Meta, Mistral, Cohere, xAI, Perplexity AI, DeepSeek or any other popular AI services. Also offers free credits
 * Integrate with Google Gemini
+* Supports RAG and Vector Database Embedding of Website Contents
 * Display links to the relevant web pages on your website with all GPT responses
 * Option for users can <strong>Like, Dislike, Share, or Report</strong> ChatBot responses
 
@@ -159,6 +159,8 @@ WPBot Pro version is a multi-language supported chatbot. It is an affordable cha
 <strong>AI & OpenAI ChatGPT Integration</strong>
 * Integrate with OpenAI so the WPBot can answer any questions
 * <strong>Train</strong> and Fine Tune OpenAI ChatGPT 
+* <strong>RAG Vector Database embedding</strong> of your website contents
+* RAG Vector Embed by uploading training data as <strong>PDFs, XMLs, CSV, Sitemap link</strong>
 * Fine tune with your Website data (pages, posts and custom post types)
 * GPT Assistant support. Upload ChatBot Generated Website data, <strong>PDFs</strong> or any document to train ChatGPT
 * Generate and Upload website contents as JSON file to your GPT Assistant for AI training
@@ -356,6 +358,64 @@ Images, GIFs and Youtube Videos are supprted in the pro version. Pro version als
 13. WPBot Conversational Form Builder
 
 == Changelog ==
+
+= 7.7.2 =
+# Fixed site search loader
+# Added STR to RAG
+
+= 7.7.1 =
+# Improved Admin UI
+
+= 7.7.0 =
+# End Sale
+
+= 7.6.9 =
+# Improved CSS
+
+= 7.6.8 =
+# Added RAG for OpenRouter and Gemini
+# Updated chat reaction options default enable
+
+= 7.6.7 =
+# Introducing RAG
+
+= 7.6.6 =
+# Admin area updated
+
+= 7.6.5 =
+# Admin area updated
+
+= 7.6.4 =
+# Horizontal theme design updated
+
+= 7.6.3 =
+# New year Sale
+
+= 7.6.2 =
+# Fixed default template width
+
+= 7.6.1 =
+# Fixed an issue with the name variable
+
+= 7.6.0 =
+# Increased width for theme 1
+
+= 7.5.9 =
+# Admin area updated
+
+= 7.5.8 =
+# Fixed a warning
+
+= 7.5.7 =
+# Dash Icons updated
+
+= 7.5.6 =
+# End sale
+
+= 7.5.5 =
+# Removed fontawesome icon library
+# Added Wordpress dashicons icon library
+# fixed the  wpdb::prepare() warning
 
 = 7.5.4 =
 # Fixed some warnings

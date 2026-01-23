@@ -19,7 +19,7 @@ class JLTMA_Post_Date extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('MA Post Date', 'master-addons' );
+		return esc_html__('Post Date', 'master-addons' );
 	}
 
 	public function get_group()

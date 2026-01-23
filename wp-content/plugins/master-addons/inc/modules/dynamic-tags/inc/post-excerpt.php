@@ -19,7 +19,7 @@ class JLTMA_Post_Excerpt extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('MA Post Excerpt', 'master-addons' );
+		return esc_html__('Post Excerpt', 'master-addons' );
 	}
 
 	public function get_group()

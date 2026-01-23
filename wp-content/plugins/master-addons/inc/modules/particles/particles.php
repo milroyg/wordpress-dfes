@@ -4,6 +4,7 @@ namespace MasterAddons\Modules;
 
 use \Elementor\Controls_Manager;
 
+if (!class_exists('MasterAddons\Modules\JLTMA_Extension_Particles')) {
 class JLTMA_Extension_Particles
 {
 
@@ -392,5 +393,8 @@ class JLTMA_Extension_Particles
     return self::$_instance;
   }
 }
+}
 
-JLTMA_Extension_Particles::instance();
+if (class_exists('MasterAddons\Modules\JLTMA_Extension_Particles')) {
+  JLTMA_Extension_Particles::instance();
+}

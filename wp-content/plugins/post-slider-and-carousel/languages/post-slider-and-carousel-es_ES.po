@@ -441,7 +441,7 @@ msgid "https://demo.infornweb.com/post-slider-and-carousel/"
 msgstr ""
 
 #. Author URI of the plugin
-msgid "https://premium.infornweb.com"
+msgid "https://infornweb.com"
 msgstr ""
 
 #: includes/admin/shortcode-support/shortcode-fields.php:464

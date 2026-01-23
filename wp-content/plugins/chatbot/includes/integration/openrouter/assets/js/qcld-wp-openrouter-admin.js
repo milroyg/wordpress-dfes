@@ -67,6 +67,7 @@ jQuery(document).ready(function($) {
             var qcld_openrouter_model = jQuery('#qcld_openrouter_model').val();
             var qcld_openrouter_append_content = jQuery('#qcld_openrouter_append_content').val();
             var qcld_openrouter_prepend_content = jQuery('#qcld_openrouter_prepend_content').val();
+            var is_page_rag_enabled = jQuery("#is_page_rag_enabled_openrouter").is(":checked") ? 1 : 0;
             var post_openrouter_types = $.map($('input[name="site_openrouter_search_posttypes[]"]:checked'), function(c){return c.value; });
             $.ajax({
                 url: qcld_gemini_admin_data.ajax_url,
@@ -81,7 +82,8 @@ jQuery(document).ready(function($) {
                     opnrouter_is_context_awareness_enabled: opnrouter_is_context_awareness_enabled,
                     qcld_openrouter_append_content: qcld_openrouter_append_content,
                     qcld_openrouter_prepend_content: qcld_openrouter_prepend_content,
-                    openai_post_type:post_openrouter_types
+                    openai_post_type:post_openrouter_types,
+                    is_page_rag_enabled: is_page_rag_enabled
                 },
                 success: function(data){
                     $('#result').html(data);

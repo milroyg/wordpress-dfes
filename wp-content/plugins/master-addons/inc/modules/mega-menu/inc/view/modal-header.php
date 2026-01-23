@@ -1,6 +1,6 @@
 <div class="jltma-pop-contents-head">
     <div class="jltma-pop-close float-left">
-        <button class="close-btn" data-dismiss="modal">x</button>
+        <button class="close-btn" data-dismiss="modal"><span class="dashicons dashicons-no-alt"></span></button>
     </div>
     <div class="jltma-pop-save float-right">
         <input type="hidden" id="jltma-menu-modal-menu-id">

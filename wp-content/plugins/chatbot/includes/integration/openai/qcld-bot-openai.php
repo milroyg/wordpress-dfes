@@ -61,6 +61,7 @@ if(!class_exists('qcld_wpopenai_addons')){
             $this->includes();
             add_action('wp_ajax_openai_settings_option', [$this, 'openai_settings_option_callback']);
             add_action('wp_ajax_update_settings_option', [$this, 'qcld_update_settings_option_callback']);
+            add_action('wp_ajax_qcld_rag_settings_option', array($this, 'rag_settings_option_callback'));
             add_action('wp_ajax_qcld_openai_response',[$this,'qcld_openai_response_callback']);
             add_action('wp_ajax_nopriv_qcld_openai_response', [$this, 'qcld_openai_response_callback']);
             add_action('wp_ajax_openai_troubleshooting',[$this,'openai_troubleshooting']);
@@ -222,6 +223,7 @@ if(!class_exists('qcld_wpopenai_addons')){
         //     echo wp_send_json([$response]);
         //     wp_die();
         // }
+
         public function openai_finetune_create($file_id,$ft_suffix,$ft_engines){
             $apt_key = "Authorization: Bearer ". get_option('open_ai_api_key');
             $headers = array(
@@ -447,6 +449,7 @@ if(!class_exists('qcld_wpopenai_addons')){
             return false;
     
         }
+
         public function qcld_openai_response_callback() {
              if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['nonce'] ), 'wp_chatbot' ) ) {
                     wp_send_json_error([
@@ -464,6 +467,18 @@ if(!class_exists('qcld_wpopenai_addons')){
 
                 // Build context-aware system instructions
                 $system_content = get_option('qcld_openai_system_content');
+                
+                // RAG Integration
+                if (get_option('is_page_rag_enabled') == '1') {
+                    $rag_context_text = Qcld_Bot_Rag::instance()->run_rag_search($keyword);
+                    if (!empty($rag_context_text) && $rag_context_text != "No knowledge base found.") {
+                         $rag_context = "Relevant Knowledge Base Information:\n";
+                         $rag_context .= $rag_context_text;
+                         $rag_context .= "\n\nUse the above information to answer the user's question. If the answer is not in the Knowledge Base, rely on your general knowledge but mention that this information is not in the local knowledge base.";
+                         $system_content .= "\n\n" . $rag_context;
+                    }
+                }
+
                 if ( get_option('context_awareness_enabled') == '1' ) {
                     $site_name = get_bloginfo('name');
                     $site_desc = get_bloginfo('description');
@@ -648,7 +663,7 @@ if(!class_exists('qcld_wpopenai_addons')){
                 $ai_enabled = sanitize_text_field($_POST['ai_enabled']);
                 $suggestion_enabled = sanitize_text_field($_POST['is_page_suggestion_enabled']);
                 $context_awareness_enabled = sanitize_text_field($_POST['is_context_awareness_enabled']);
-
+                $is_page_rag_enabled = sanitize_text_field($_POST['is_page_rag_enabled']);
 
 
                 $is_relevant_enabled = sanitize_text_field($_POST['is_relevant_enabled']);
@@ -721,6 +736,7 @@ if(!class_exists('qcld_wpopenai_addons')){
                 update_option('qcld_openai_relevant_enabled',$is_relevant_enabled);
                 update_option('page_suggestion_enabled',$suggestion_enabled);
                 update_option('context_awareness_enabled',$context_awareness_enabled);
+                update_option('is_page_rag_enabled',$is_page_rag_enabled);
 
 
                 if($file_id  != ''){
@@ -751,10 +767,56 @@ if(!class_exists('qcld_wpopenai_addons')){
                 echo wp_json_encode($ai_enabled);wp_die();
             
         }
+        public function rag_settings_option_callback()
+		{
+
+			$is_rag_enabled = sanitize_text_field($_POST['is_page_rag_enabled']);
+            $rag_embed_pages = sanitize_text_field($_POST['rag_embed_pages'] ?? 0);
+            $rag_embed_posts = sanitize_text_field($_POST['rag_embed_posts'] ?? 0);
+            $rag_embed_str = sanitize_text_field($_POST['rag_embed_str'] ?? 0);
+            $rag_auto_sync_enabled = sanitize_text_field($_POST['rag_auto_sync_enabled'] ?? 0);
+         
+            $rag_embed_cpts = isset($_POST['rag_embed_cpts']) ? $_POST['rag_embed_cpts'] : [];
+            if(is_array($rag_embed_cpts)){
+                $rag_embed_cpts = array_map('sanitize_text_field', $rag_embed_cpts);
+            }
+
+			update_option('is_page_rag_enabled', $is_rag_enabled);
+            update_option('rag_embed_pages', $rag_embed_pages);
+            update_option('rag_embed_str', $rag_embed_str);
+            update_option('rag_embed_posts', $rag_embed_posts);
+            update_option('rag_auto_sync_enabled', $rag_auto_sync_enabled);
+            update_option('rag_embed_cpts', $rag_embed_cpts);
+
+            if($is_rag_enabled == 1){
+                update_option('is_asst_enabled', 0);
+            }
+
+			echo json_encode($is_rag_enabled);
+			wp_die();
+		}
         public function qcld_update_settings_option_callback(){
-            update_option('disable_wp_chatbot_site_search',1);
-            update_option('enable_wp_chatbot_post_content', '');
+        // Verify nonce for CSRF protection
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field($_POST['nonce']) : '';
+        if (!wp_verify_nonce($nonce, 'wp_chatbot')) {
+            wp_send_json_error(array('message' => esc_html__('Security check failed', 'chatbot')));
+            wp_die();
         }
+        
+    // Check user capability - only administrators can modify settings
+    if (!current_user_can('manage_options')) {
+        wp_send_json_error(array('message' => esc_html__('Unauthorized access', 'chatbot')));
+        wp_die();
+    }
+    
+    // Proceed with option updates
+    update_option('disable_wp_chatbot_site_search', 1);
+    update_option('enable_wp_chatbot_post_content', '');
+    
+    // Send success response
+    wp_send_json_success(array('message' => esc_html__('Settings updated successfully', 'chatbot')));
+    wp_die();
+}
         public function qcpd_remove_wa_stopwords($query, $stopwords){
 			
             return preg_replace('/\b('.implode('|',$stopwords).')\b/','',$query);

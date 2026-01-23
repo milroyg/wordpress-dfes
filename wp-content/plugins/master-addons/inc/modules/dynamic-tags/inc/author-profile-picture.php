@@ -20,7 +20,7 @@ class JLTMA_Author_Profile_Picture extends Data_Tag
 
 	public function get_title()
 	{
-		return esc_html__('MA Author Profile Picture', 'master-addons' );
+		return esc_html__('Author Profile Picture', 'master-addons' );
 	}
 
 	public function get_group()

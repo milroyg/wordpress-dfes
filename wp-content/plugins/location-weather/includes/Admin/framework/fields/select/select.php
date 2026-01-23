@@ -115,7 +115,6 @@ if ( ! class_exists( 'SPLWT_Field_select' ) ) {
 					foreach ( $options as $option_key => $option ) {
 						if ( is_array( $option ) && ! empty( $option ) ) {
 							echo '<optgroup label="' . esc_attr( $option_key ) . '">';
-
 							foreach ( $option as $sub_key => $sub_value ) {
 								$selected = ( in_array( $sub_key, $this->value, true ) ) ? ' selected' : '';
 								echo '<option value="' . esc_attr( $sub_key ) . '" ' . esc_attr( $selected ) . '>' . esc_attr( $sub_value ) . '</option>';
@@ -143,7 +142,6 @@ if ( ! class_exists( 'SPLWT_Field_select' ) ) {
 				} else {
 
 					echo ! empty( $this->field['empty_message'] ) ? esc_attr( $this->field['empty_message'] ) : esc_html__( 'No data available.', 'location-weather' );
-
 				}
 			}
 
@@ -156,7 +154,6 @@ if ( ! class_exists( 'SPLWT_Field_select' ) ) {
 		 * @return void
 		 */
 		public function enqueue() {
-
 			if ( ! wp_script_is( 'jquery-ui-sortable' ) ) {
 				wp_enqueue_script( 'jquery-ui-sortable' );
 			}

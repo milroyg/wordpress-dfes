@@ -22,7 +22,7 @@ class JLTMA_Post_Terms extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('MA Post Terms', 'master-addons' );
+		return esc_html__('Post Terms', 'master-addons' );
 	}
 
 	public function get_group()
@@ -39,7 +39,7 @@ class JLTMA_Post_Terms extends Tag
 	{
 		$taxonomy_filter_args = [
 			'show_in_nav_menus' => true,
-			'object_type' => [get_post_type()],
+			'public' => true,
 		];
 
 		/**

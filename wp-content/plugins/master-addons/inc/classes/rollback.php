@@ -2,6 +2,8 @@
 
 namespace MasterAddons\Inc;
 
+use MasterAddons\Inc\Helper\Master_Addons_Helper;
+
 if (!defined('ABSPATH')) exit;
 
 class Master_Addons_Rollback
@@ -11,7 +13,7 @@ class Master_Addons_Rollback
 
 	protected $version;
 
-	protected $plugin_name = JLTMA;
+	protected $plugin_name;
 
 	protected $plugin_slug;
 
@@ -19,6 +21,7 @@ class Master_Addons_Rollback
 
 	public function __construct($args = [])
 	{
+		$this->plugin_name = Master_Addons_Helper::jltma_premium() ?  JLTMA_PRO : JLTMA ;
 		add_action('admin_post_master_addons_rollback', [$this, 'jltma_post_addons_rollback']);
 
 		foreach ($args as $key => $value) {

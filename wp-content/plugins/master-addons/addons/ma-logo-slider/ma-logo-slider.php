@@ -846,14 +846,17 @@ class JLTMA_Logo_Slider extends Widget_Base
 							<figcaption <?php $this->print_render_attribute_string('item_click'); ?> >
 								<?php
 									if (trim($item['jltma_logo_slider_brand_name']) != '') {
-										$brand_title_tag = 'h5';
-										$brand_title_tag = ($settings['title_html_tag']) ? esc_attr($settings['title_html_tag']) : 'h5';
+										// Whitelist allowed HTML tags to prevent XSS
+										$allowed_tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'span', 'p'];
+										$brand_title_tag = ($settings['title_html_tag'] && in_array($settings['title_html_tag'], $allowed_tags, true))
+											? $settings['title_html_tag']
+											: 'h5';
 										$repeater_key_brand_name = $repeater_key . 'brand_name';
 										$this->add_render_attribute($repeater_key_brand_name, 'class', 'jltma-logo-slider-brand-name');
 										?>
-											<<?php echo esc_attr($brand_title_tag); ?> <?php $this->print_render_attribute_string($repeater_key_brand_name); ?>> 
+											<<?php echo esc_html($brand_title_tag); ?> <?php $this->print_render_attribute_string($repeater_key_brand_name); ?>>
 												<?php echo esc_html($item['jltma_logo_slider_brand_name']); ?>
-											</<?php echo esc_attr($brand_title_tag); ?>>
+											</<?php echo esc_html($brand_title_tag); ?>>
 										<?php
 									}
 									if (trim($item['jltma_logo_slider_brand_description']) != '') {

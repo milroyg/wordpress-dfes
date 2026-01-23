@@ -6,15 +6,35 @@ use Elementor\Utils;
 use Elementor\Icons_Manager;
 use MasterAddons\Inc\Classes\Pro_Upgrade;
 
-class Master_Addons_Helper
-{
+class Master_Addons_Helper {
+
+		public static function upgrade_to_pro( $content = '' ){
+			// Adds a direct checkout link in the free version.
+			if (!self::jltma_premium()) {
+				return apply_filters('master_addons/upgrade_pro', sprintf(
+					'%1$s <a href="%2$s" target="_blank">%3$s</a>',
+					($content) ? $content : '',
+					ma_el_fs()->checkout_url(),
+					__('Upgrade Now', 'master-addons')
+				));
+			}
+	}
+	
+	// Adds a direct checkout link in the free version.
+	public static function unlock_pro_feature( $content = '' ){
+		$default_message = '<span class="pro-feature"> Upgrade to <a href="https://master-addons.com/pricing" target="_blank">Pro Version</a> to unlock this feature.</span>';
+		$message = !empty($content) ? $content : $default_message;
+		return apply_filters('master_addons/upgrade_pro', $message);
+	}
 
 	/**
 	 * Remove spaces from Plugin Slug
 	 */
-	public static function jltma_slug_cleanup()
-	{
-		return str_replace('-', '_', strtolower(JLTMA_SLUG));
+	public static function jltma_slug_cleanup() {
+		if ( self::jltma_premium() && defined( 'JLTMA_PRO_SLUG' ) ) {
+			return str_replace( '-', '_', strtolower( JLTMA_PRO_SLUG ) );
+		}
+		return str_replace( '-', '_', strtolower( JLTMA_SLUG ) );
 	}
 
 	/**
@@ -22,28 +42,46 @@ class Master_Addons_Helper
 	 *
 	 * @return DateTimeImmutable
 	 */
-	public static function jltma_current_datetime()
-	{
-		if (function_exists('current_datetime')) {
+	public static function jltma_current_datetime() {
+		if ( function_exists( 'current_datetime' ) ) {
 			return current_datetime();
 		}
 
-		return new \DateTimeImmutable('now', self::jltma_wp_timezone());
+		return new \DateTimeImmutable( 'now', self::jltma_wp_timezone() );
 	}
 
+	/**
+	 * Add Pro upgrade notice control to any Elementor widget/extension
+	 *
+	 * @param object $element The Elementor element (widget, section, etc.)
+	 * @param string $control_id Optional custom control ID
+	 * @param string $message Optional custom message
+	 * @return void
+	 */
+	public static function jltma_upgrade_to_popup($element, $control_id = 'jltma_editor_upgrade_notice', $message = ''){
+		if (!self::jltma_premium()) {
+			$element->add_control(
+				$control_id,
+				[
+					'label' => '',
+					'type' => \Elementor\Controls_Manager::RAW_HTML,
+					'raw' => !empty($message) ? $message : self::jltma_pro_notice_html(),
+				]
+			);
+		}
+	}
 
 	/**
 	 * Function jltma_wp_timezone() compability for wp version < 5.3
 	 *
 	 * @return DateTimeZone
 	 */
-	public static function jltma_wp_timezone()
-	{
-		if (function_exists('wp_timezone')) {
+	public static function jltma_wp_timezone() {
+		if ( function_exists( 'wp_timezone' ) ) {
 			return wp_timezone();
 		}
 
-		return new \DateTimeZone(self::jltma_wp_timezone_string());
+		return new \DateTimeZone( self::jltma_wp_timezone_string() );
 	}
 	public static function jltma_load_svg( $icon ) {
 
@@ -60,8 +98,8 @@ class Master_Addons_Helper
 		return $svg;
 	}
 
-	public static function get_plugin_name($full = false) {
-		return class_exists('\MasterAddons\Inc\Classes\Master_Addons_White_Label') ? \MasterAddons\Inc\Classes\Master_Addons_White_Label::get_plugin_name($full) : __('Master Addons', 'master-addons');
+	public static function get_plugin_name( $full = false ) {
+		return apply_filters( 'jltma_white_label_plugin_name', __( 'Master Addons', 'master-addons' ), $full );
 	}
 
 	/**
@@ -69,12 +107,11 @@ class Master_Addons_Helper
 	 *
 	 * @return string
 	 */
-	public static function api_endpoint()
-	{
+	public static function api_endpoint() {
 		$api_endpoint_url = 'https://bo.jeweltheme.com';
-		$api_endpoint     = apply_filters('jltma_endpoint', $api_endpoint_url);
+		$api_endpoint     = apply_filters( 'jltma_endpoint', $api_endpoint_url );
 
-		return trailingslashit($api_endpoint);
+		return trailingslashit( $api_endpoint );
 	}
 
 	/**
@@ -82,12 +119,11 @@ class Master_Addons_Helper
 	 *
 	 * @return string
 	 */
-	public static function crm_endpoint()
-	{
+	public static function crm_endpoint() {
 		$crm_endpoint_url = 'https://bo.jeweltheme.com/wp-json/jlt-api/v1/subscribe'; // Endpoint .
-		$crm_endpoint     = apply_filters('jltma_crm_crm_endpoint', $crm_endpoint_url);
+		$crm_endpoint     = apply_filters( 'jltma_crm_crm_endpoint', $crm_endpoint_url );
 
-		return trailingslashit($crm_endpoint);
+		return trailingslashit( $crm_endpoint );
 	}
 
 	/**
@@ -95,12 +131,11 @@ class Master_Addons_Helper
 	 *
 	 * @return string
 	 */
-	public static function crm_survey_endpoint()
-	{
+	public static function crm_survey_endpoint() {
 		$crm_feedback_endpoint_url = 'https://bo.jeweltheme.com/wp-json/jlt-api/v1/survey'; // Endpoint .
-		$crm_feedback_endpoint     = apply_filters('jltma_crm_crm_endpoint', $crm_feedback_endpoint_url);
+		$crm_feedback_endpoint     = apply_filters( 'jltma_crm_crm_endpoint', $crm_feedback_endpoint_url );
 
-		return trailingslashit($crm_feedback_endpoint);
+		return trailingslashit( $crm_feedback_endpoint );
 	}
 
 	/**
@@ -108,22 +143,21 @@ class Master_Addons_Helper
 	 *
 	 * @return string
 	 */
-	public static function jltma_wp_timezone_string()
-	{
-		$timezone_string = get_option('timezone_string');
+	public static function jltma_wp_timezone_string() {
+		$timezone_string = get_option( 'timezone_string' );
 
-		if ($timezone_string) {
+		if ( $timezone_string ) {
 			return $timezone_string;
 		}
 
-		$offset  = (float) get_option('gmt_offset');
+		$offset  = (float) get_option( 'gmt_offset' );
 		$hours   = (int) $offset;
-		$minutes = ($offset - $hours);
+		$minutes = ( $offset - $hours );
 
-		$sign      = ($offset < 0) ? '-' : '+';
-		$abs_hour  = abs($hours);
-		$abs_mins  = abs($minutes * 60);
-		$tz_offset = sprintf('%s%02d:%02d', $sign, $abs_hour, $abs_mins);
+		$sign      = ( $offset < 0 ) ? '-' : '+';
+		$abs_hour  = abs( $hours );
+		$abs_mins  = abs( $minutes * 60 );
+		$tz_offset = sprintf( '%s%02d:%02d', $sign, $abs_hour, $abs_mins );
 
 		return $tz_offset;
 	}
@@ -137,11 +171,10 @@ class Master_Addons_Helper
 	 *
 	 * @author Jewel Theme <support@jeweltheme.com>
 	 */
-	public static function get_merged_data($data, $start_date = '', $end_data = '')
-	{
+	public static function get_merged_data( $data, $start_date = '', $end_data = '' ) {
 		$_data = shortcode_atts(
 			array(
-				'image_url'        => JLTMA_IMAGE_DIR . 'promo-image.png',
+				'image_url'        => JLTMA_IMAGE_DIR . 'ma-fallback.png',
 				'start_date'       => $start_date,
 				'end_date'         => $end_data,
 				'counter_time'     => '',
@@ -156,8 +189,8 @@ class Master_Addons_Helper
 			$data
 		);
 
-		if (empty($_data['image_url'])) {
-			$_data['image_url'] = JLTMA_IMAGE_DIR . 'promo-image.png';
+		if ( empty( $_data['image_url'] ) ) {
+			$_data['image_url'] = JLTMA_IMAGE_DIR . 'ma-fallback.png';
 		}
 
 		return $_data;
@@ -171,9 +204,8 @@ class Master_Addons_Helper
 	 *
 	 * @author Jewel Theme <support@jeweltheme.com>
 	 */
-	public static function wp_kses_atts_map(array $attrs)
-	{
-		return array_fill_keys(array_values($attrs), true);
+	public static function wp_kses_atts_map( array $attrs ) {
+		return array_fill_keys( array_values( $attrs ), true );
 	}
 
 	/**
@@ -183,61 +215,75 @@ class Master_Addons_Helper
 	 *
 	 * @author Jewel Theme <support@jeweltheme.com>
 	 */
-	public static function wp_kses_custom($content)
-	{
-		$allowed_tags = wp_kses_allowed_html('post');
+	public static function wp_kses_custom( $content ) {
+		$allowed_tags = wp_kses_allowed_html( 'post' );
 
 		$custom_tags = array(
-			'select'         => self::wp_kses_atts_map(array('class', 'id', 'style', 'width', 'height', 'title', 'data', 'name', 'autofocus', 'disabled', 'multiple', 'required', 'size')),
-			'input'          => self::wp_kses_atts_map(array('class', 'id', 'style', 'width', 'height', 'title', 'data', 'name', 'autofocus', 'disabled', 'required', 'size', 'type', 'checked', 'readonly', 'placeholder', 'value', 'maxlength', 'min', 'max', 'multiple', 'pattern', 'step', 'autocomplete')),
-			'textarea'       => self::wp_kses_atts_map(array('class', 'id', 'style', 'width', 'height', 'title', 'data', 'name', 'autofocus', 'disabled', 'required', 'rows', 'cols', 'wrap', 'maxlength')),
-			'option'         => self::wp_kses_atts_map(array('class', 'id', 'label', 'disabled', 'label', 'selected', 'value')),
-			'optgroup'       => self::wp_kses_atts_map(array('disabled', 'label', 'class', 'id')),
-			'form'           => self::wp_kses_atts_map(array('class', 'id', 'data', 'style', 'width', 'height', 'accept-charset', 'action', 'autocomplete', 'enctype', 'method', 'name', 'novalidate', 'rel', 'target')),
-			'svg'            => self::wp_kses_atts_map(array('class', 'xmlns', 'viewbox', 'width', 'height', 'fill', 'aria-hidden', 'aria-labelledby', 'role')),
-			'rect'           => self::wp_kses_atts_map(array('rx', 'width', 'height', 'fill')),
-			'path'           => self::wp_kses_atts_map(array('d', 'fill')),
-			'g'              => self::wp_kses_atts_map(array('fill')),
-			'defs'           => self::wp_kses_atts_map(array('fill')),
-			'linearGradient' => self::wp_kses_atts_map(array('id', 'x1', 'x2', 'y1', 'y2', 'gradientUnits')),
-			'stop'           => self::wp_kses_atts_map(array('stop-color', 'offset', 'stop-opacity')),
-			'style'          => self::wp_kses_atts_map(array('type')),
-			'div'            => self::wp_kses_atts_map(array('class', 'id', 'style')),
-			'ul'             => self::wp_kses_atts_map(array('class', 'id', 'style')),
-			'li'             => self::wp_kses_atts_map(array('class', 'id', 'style')),
-			'label'          => self::wp_kses_atts_map(array('class', 'for')),
-			'span'           => self::wp_kses_atts_map(array('class', 'id', 'style')),
-			'h1'             => self::wp_kses_atts_map(array('class', 'id', 'style')),
-			'h2'             => self::wp_kses_atts_map(array('class', 'id', 'style')),
-			'h3'             => self::wp_kses_atts_map(array('class', 'id', 'style')),
-			'h4'             => self::wp_kses_atts_map(array('class', 'id', 'style')),
-			'h5'             => self::wp_kses_atts_map(array('class', 'id', 'style')),
-			'h6'             => self::wp_kses_atts_map(array('class', 'id', 'style')),
-			'a'              => self::wp_kses_atts_map(array('class', 'href', 'target', 'rel')),
-			'p'              => self::wp_kses_atts_map(array('class', 'id', 'style', 'data')),
-			'table'          => self::wp_kses_atts_map(array('class', 'id', 'style')),
-			'thead'          => self::wp_kses_atts_map(array('class', 'id', 'style')),
-			'tbody'          => self::wp_kses_atts_map(array('class', 'id', 'style')),
-			'tr'             => self::wp_kses_atts_map(array('class', 'id', 'style')),
-			'th'             => self::wp_kses_atts_map(array('class', 'id', 'style')),
-			'td'             => self::wp_kses_atts_map(array('class', 'id', 'style')),
-			'i'              => self::wp_kses_atts_map(array('class', 'id', 'style')),
-			'button'         => self::wp_kses_atts_map(array('class', 'id')),
-			'nav'            => self::wp_kses_atts_map(array('class', 'id', 'style')),
-			'time'           => self::wp_kses_atts_map(array('datetime')),
+			'select'         => self::wp_kses_atts_map( array( 'class', 'id', 'style', 'width', 'height', 'title', 'data', 'name', 'autofocus', 'disabled', 'multiple', 'required', 'size' ) ),
+			'input'          => self::wp_kses_atts_map( array( 'class', 'id', 'style', 'width', 'height', 'title', 'data', 'name', 'autofocus', 'disabled', 'required', 'size', 'type', 'checked', 'readonly', 'placeholder', 'value', 'maxlength', 'min', 'max', 'multiple', 'pattern', 'step', 'autocomplete' ) ),
+			'textarea'       => self::wp_kses_atts_map( array( 'class', 'id', 'style', 'width', 'height', 'title', 'data', 'name', 'autofocus', 'disabled', 'required', 'rows', 'cols', 'wrap', 'maxlength' ) ),
+			'option'         => self::wp_kses_atts_map( array( 'class', 'id', 'label', 'disabled', 'label', 'selected', 'value' ) ),
+			'optgroup'       => self::wp_kses_atts_map( array( 'disabled', 'label', 'class', 'id' ) ),
+			'form'           => self::wp_kses_atts_map( array( 'class', 'id', 'data', 'style', 'width', 'height', 'accept-charset', 'action', 'autocomplete', 'enctype', 'method', 'name', 'novalidate', 'rel', 'target' ) ),
+			'svg'            => self::wp_kses_atts_map( array( 'class', 'xmlns', 'viewbox', 'width', 'height', 'fill', 'aria-hidden', 'aria-labelledby', 'role' ) ),
+			'rect'           => self::wp_kses_atts_map( array( 'rx', 'width', 'height', 'fill' ) ),
+			'path'           => self::wp_kses_atts_map( array( 'd', 'fill' ) ),
+			'g'              => self::wp_kses_atts_map( array( 'fill' ) ),
+			'defs'           => self::wp_kses_atts_map( array( 'fill' ) ),
+			'linearGradient' => self::wp_kses_atts_map( array( 'id', 'x1', 'x2', 'y1', 'y2', 'gradientUnits' ) ),
+			'stop'           => self::wp_kses_atts_map( array( 'stop-color', 'offset', 'stop-opacity' ) ),
+			'style'          => self::wp_kses_atts_map( array( 'type' ) ),
+			'div'            => self::wp_kses_atts_map( array( 'class', 'id', 'style' ) ),
+			'ul'             => self::wp_kses_atts_map( array( 'class', 'id', 'style' ) ),
+			'li'             => self::wp_kses_atts_map( array( 'class', 'id', 'style' ) ),
+			'label'          => self::wp_kses_atts_map( array( 'class', 'for' ) ),
+			'span'           => self::wp_kses_atts_map( array( 'class', 'id', 'style' ) ),
+			'h1'             => self::wp_kses_atts_map( array( 'class', 'id', 'style' ) ),
+			'h2'             => self::wp_kses_atts_map( array( 'class', 'id', 'style' ) ),
+			'h3'             => self::wp_kses_atts_map( array( 'class', 'id', 'style' ) ),
+			'h4'             => self::wp_kses_atts_map( array( 'class', 'id', 'style' ) ),
+			'h5'             => self::wp_kses_atts_map( array( 'class', 'id', 'style' ) ),
+			'h6'             => self::wp_kses_atts_map( array( 'class', 'id', 'style' ) ),
+			'a'              => self::wp_kses_atts_map( array( 'class', 'href', 'target', 'rel' ) ),
+			'p'              => self::wp_kses_atts_map( array( 'class', 'id', 'style', 'data' ) ),
+			'table'          => self::wp_kses_atts_map( array( 'class', 'id', 'style' ) ),
+			'thead'          => self::wp_kses_atts_map( array( 'class', 'id', 'style' ) ),
+			'tbody'          => self::wp_kses_atts_map( array( 'class', 'id', 'style' ) ),
+			'tr'             => self::wp_kses_atts_map( array( 'class', 'id', 'style' ) ),
+			'th'             => self::wp_kses_atts_map( array( 'class', 'id', 'style' ) ),
+			'td'             => self::wp_kses_atts_map( array( 'class', 'id', 'style' ) ),
+			'i'              => self::wp_kses_atts_map( array( 'class', 'id', 'style' ) ),
+			'button'         => self::wp_kses_atts_map( array( 'class', 'id' ) ),
+			'nav'            => self::wp_kses_atts_map( array( 'class', 'id', 'style' ) ),
+			'time'           => self::wp_kses_atts_map( array( 'datetime' ) ),
 			'br'             => array(),
 			'strong'         => array(),
 			'style'          => array(),
-			'img'            => self::wp_kses_atts_map(array('class', 'src', 'alt', 'height', 'width', 'srcset', 'id', 'loading')),
+			'img'            => self::wp_kses_atts_map( array( 'class', 'src', 'alt', 'height', 'width', 'srcset', 'id', 'loading' ) ),
 		);
 
-		$allowed_tags = array_merge_recursive($allowed_tags, $custom_tags);
+		$allowed_tags = array_merge_recursive( $allowed_tags, $custom_tags );
 
-		return wp_kses(stripslashes_deep($content), $allowed_tags);
+		return wp_kses( stripslashes_deep( $content ), $allowed_tags );
 	}
 
-	public static function jltma_elementor()
-	{
+	/**
+	 * Validate HTML tag name to prevent XSS
+	 *
+	 * Only allows safe HTML tags from a whitelist.
+	 * Returns default tag if provided tag is not in whitelist.
+	 *
+	 * @since 2.0.7.1
+	 * @param string $tag The HTML tag to validate
+	 * @param string $default Default tag to return if validation fails (default: 'div')
+	 * @return string Safe HTML tag name
+	 */
+	public static function jltma_validate_html_tag($tag, $default = 'div') {
+		$allowed_tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'span', 'p', 'header', 'footer', 'section', 'article', 'aside', 'nav', 'main'];
+		return in_array($tag, $allowed_tags, true) ? $tag : $default;
+	}
+
+	public static function jltma_elementor() {
 		return \Elementor\Plugin::$instance;
 	}
 
@@ -246,11 +292,10 @@ class Master_Addons_Helper
 	 *
 	 * @since 1.5.7
 	 */
-	public static function is_woocommerce_active()
-	{
+	public static function is_woocommerce_active() {
 		return in_array(
 			'woocommerce/woocommerce.php',
-			apply_filters('active_plugins', get_option('active_plugins'))
+			apply_filters( 'active_plugins', get_option( 'active_plugins' ) )
 		);
 	}
 
@@ -258,33 +303,33 @@ class Master_Addons_Helper
 	/**
 	 * Get data if isset.
 	 * Retrieves data with selected key if isset.
+	 *
 	 * @param array|object $data Data to check.
-	 * @param string $key Data key to look for.
-	 * @param string $else Default value if key is not found.
+	 * @param string       $key Data key to look for.
+	 * @param string       $else Default value if key is not found.
 	 *
 	 * @return mixed Data with selected key, default value otherwise.
 	 */
-	public static function get_if_isset($data, $key, $else = '')
-	{
-		if ('object' === gettype($data)) {
-			return isset($data->{$key}) ? $data->{$key} : $else;
+	public static function get_if_isset( $data, $key, $else = '' ) {
+		if ( 'object' === gettype( $data ) ) {
+			return isset( $data->{$key} ) ? $data->{$key} : $else;
 		}
 
-		return isset($data[$key]) ? $data[$key] : $else;
+		return isset( $data[ $key ] ) ? $data[ $key ] : $else;
 	}
 
 	/**
 	 * Get data if not empty.
 	 * Retrieves data with selected key if not empty.
-	 * @param array $data Array of data.
+	 *
+	 * @param array  $data Array of data.
 	 * @param string $key Data key to look for.
 	 * @param string $else Default value if key is empty.
 	 *
 	 * @return mixed Data with selected key, default value otherwise.
 	 */
-	public static function get_if_not_empty($data, $key, $else = '')
-	{
-		return (!empty($data[$key])) ? $data[$key] : $else;
+	public static function get_if_not_empty( $data, $key, $else = '' ) {
+		return ( ! empty( $data[ $key ] ) ) ? $data[ $key ] : $else;
 	}
 
 
@@ -293,37 +338,36 @@ class Master_Addons_Helper
 	 *
 	 * If `$haystack` is array - checks if `$needle` is in
 	 * `$haystack` array, or if they are equal otherwise.
+	 *
 	 * @param string $needle Test value.
-	 * @param mixed $haystack Array or value to check.
+	 * @param mixed  $haystack Array or value to check.
 	 * @return bool True if `$needle` is in array or equal to
 	 * `$haystack`, false otherwise.
 	 */
-	public static function in_array_or_equal($needle, $haystack)
-	{
-		if (is_array($haystack)) {
-			return in_array($needle, $haystack, true);
+	public static function in_array_or_equal( $needle, $haystack ) {
+		if ( is_array( $haystack ) ) {
+			return in_array( $needle, $haystack, true );
 		}
 
 		return $needle === $haystack;
 	}
 
-	public static function generate_html_tag($name, $attributes = array(), $content = false)
-	{
-		if (is_array($attributes)) {
+	public static function generate_html_tag( $name, $attributes = array(), $content = false ) {
+		if ( is_array( $attributes ) ) {
 			$attributes_array = array();
 
-			foreach ($attributes as $key => $value) {
-				$attributes_array[] = sprintf("{$key}=\"%s\"", esc_attr($value));
+			foreach ( $attributes as $key => $value ) {
+				$attributes_array[] = sprintf( "{$key}=\"%s\"", esc_attr( $value ) );
 			}
 
-			$attributes = sprintf(' %s', implode(' ', $attributes_array));
+			$attributes = sprintf( ' %s', implode( ' ', $attributes_array ) );
 		} else {
 			$attributes = " {$attributes}";
 		}
 
 		$tag = "<{$name}{$attributes}>";
 
-		if ($content) {
+		if ( $content ) {
 			$tag .= "{$content}</{$name}>";
 		}
 
@@ -333,27 +377,27 @@ class Master_Addons_Helper
 	/**
 	 * Get class name.
 	 * Converts string to valid class name.
+	 *
 	 * @param string $name The name string.
 	 * @return array The class name.
 	 */
-	public static function generate_class_name($name)
-	{
-		return str_replace('-', '_', ucwords($name, '-'));
+	public static function generate_class_name( $name ) {
+		return str_replace( '-', '_', ucwords( $name, '-' ) );
 	}
 
 
 	/**
 	 * Unset key by value.
 	 * Unset array items by value.
+	 *
 	 * @param string $needle The searchable value.
-	 * @param array $haystack The array to search.
+	 * @param array  $haystack The array to search.
 	 *
 	 * @return array The filtered array.
 	 */
-	public static function unset_items_by_value($needle, $haystack)
-	{
-		foreach (array_keys($haystack, $needle, true) as $key) {
-			unset($haystack[$key]);
+	public static function unset_items_by_value( $needle, $haystack ) {
+		foreach ( array_keys( $haystack, $needle, true ) as $key ) {
+			unset( $haystack[ $key ] );
 		}
 
 		return $haystack;
@@ -368,13 +412,12 @@ class Master_Addons_Helper
 	 *
 	 * @return bool True if it's a WordPress ajax request, false otherwise.
 	 */
-	public static function is_ajax()
-	{
-		if (function_exists('wp_doing_ajax')) {
+	public static function is_ajax() {
+		if ( function_exists( 'wp_doing_ajax' ) ) {
 			return wp_doing_ajax();
 		}
 
-		return defined('DOING_AJAX') && DOING_AJAX;
+		return defined( 'DOING_AJAX' ) && DOING_AJAX;
 	}
 
 	/**
@@ -384,8 +427,7 @@ class Master_Addons_Helper
 	 *
 	 * @return array Responsive breakpoints.
 	 */
-	public static function get_breakpoints()
-	{
+	public static function get_breakpoints() {
 		return self::jltma_elementor()->breakpoints->get_breakpoints();
 	}
 
@@ -394,13 +436,13 @@ class Master_Addons_Helper
 	 *
 	 * Whether the current request is elementor preview mode or
 	 * WordPress preview.
+	 *
 	 * @param int $post_id Post ID.
 	 *
 	 * @return bool True if it's a preview request, false otherwise.
 	 */
-	public static function is_preview($post_id = 0)
-	{
-		return self::is_preview_mode($post_id) || is_preview();
+	public static function is_preview( $post_id = 0 ) {
+		return self::is_preview_mode( $post_id ) || is_preview();
 	}
 
 	/**
@@ -410,14 +452,12 @@ class Master_Addons_Helper
 	 *
 	 * @return bool True if it's an elementor preview mode, false otherwise.
 	 */
-	public static function is_preview_mode($post_id = 0)
-	{
-		return self::jltma_elementor()->preview->is_preview_mode($post_id);
+	public static function is_preview_mode( $post_id = 0 ) {
+		return self::jltma_elementor()->preview->is_preview_mode( $post_id );
 	}
 
-	public static function jltma_is_edit_mode($post_id = 0)
-	{
-		if (self::jltma_elementor()->preview->is_preview_mode() || self::jltma_elementor()->editor->is_edit_mode($post_id)) {
+	public static function jltma_is_edit_mode( $post_id = 0 ) {
+		if ( self::jltma_elementor()->preview->is_preview_mode() || self::jltma_elementor()->editor->is_edit_mode( $post_id ) ) {
 			return true;
 		}
 		return false;
@@ -427,70 +467,68 @@ class Master_Addons_Helper
 	/**
 	 * Retrive the list of Contact Form 7 Forms [ if plugin activated ]
 	 */
-
-	public static function maad_el_retrive_cf7()
-	{
-		if (function_exists('wpcf7')) {
-			$wpcf7_form_list = get_posts(array(
-				'post_type' => 'wpcf7_contact_form',
-				'showposts' => 999,
-			));
-			$options = array();
-			$options[0] = esc_html__('Select a Form', 'master-addons');
-			if (!empty($wpcf7_form_list) && !is_wp_error($wpcf7_form_list)) {
-				foreach ($wpcf7_form_list as $post) {
-					$options[$post->ID] = $post->post_title;
+	public static function maad_el_retrive_cf7() {
+		if ( function_exists( 'wpcf7' ) ) {
+			$wpcf7_form_list = get_posts(
+				array(
+					'post_type' => 'wpcf7_contact_form',
+					'showposts' => 999,
+				)
+			);
+			$options         = array();
+			$options[0]      = esc_html__( 'Select a Form', 'master-addons' );
+			if ( ! empty( $wpcf7_form_list ) && ! is_wp_error( $wpcf7_form_list ) ) {
+				foreach ( $wpcf7_form_list as $post ) {
+					$options[ $post->ID ] = $post->post_title;
 				}
 			} else {
-				$options[0] = esc_html__('Create a Form First', 'master-addons');
+				$options[0] = esc_html__( 'Create a Form First', 'master-addons' );
 			}
 			return $options;
 		}
 	}
 
-	public static function get_page_template_options($type = '')
-	{
+	public static function get_page_template_options( $type = '' ) {
 
-		$page_templates = self::ma_get_page_templates($type);
+		$page_templates = self::ma_get_page_templates( $type );
 
-		$options[-1]   = __('Select', 'master-addons');
+		$options[-1] = __( 'Select', 'master-addons' );
 
-		if (count($page_templates)) {
-			foreach ($page_templates as $id => $name) {
-				$options[$id] = $name;
+		if ( count( $page_templates ) ) {
+			foreach ( $page_templates as $id => $name ) {
+				$options[ $id ] = $name;
 			}
 		} else {
-			$options['no_template'] = __('No saved templates found!', 'master-addons');
+			$options['no_template'] = __( 'No saved templates found!', 'master-addons' );
 		}
 
 		return $options;
 	}
 
 
-	public static function ma_get_page_templates($type = '')
-	{
-		$args = [
-			'post_type'         => 'elementor_library',
-			'posts_per_page'    => -1,
-		];
+	public static function ma_get_page_templates( $type = '' ) {
+		$args = array(
+			'post_type'      => 'elementor_library',
+			'posts_per_page' => -1,
+		);
 
-		if ($type) {
-			$args['tax_query'] = [
-				[
+		if ( $type ) {
+			$args['tax_query'] = array(
+				array(
 					'taxonomy' => 'elementor_library_type',
 					'field'    => 'slug',
-					'terms' => $type,
-				]
-			];
+					'terms'    => $type,
+				),
+			);
 		}
 
-		$page_templates = get_posts($args);
+		$page_templates = get_posts( $args );
 
 		$options = array();
 
-		if (!empty($page_templates) && !is_wp_error($page_templates)) {
-			foreach ($page_templates as $post) {
-				$options[$post->ID] = $post->post_title;
+		if ( ! empty( $page_templates ) && ! is_wp_error( $page_templates ) ) {
+			foreach ( $page_templates as $post ) {
+				$options[ $post->ID ] = $post->post_title;
 			}
 		}
 		return $options;
@@ -498,23 +536,22 @@ class Master_Addons_Helper
 
 
 	// Get all forms of Ninja Forms plugin
-	public static function ma_el_get_ninja_forms()
-	{
-		if (class_exists('Ninja_Forms')) {
+	public static function ma_el_get_ninja_forms() {
+		if ( class_exists( 'Ninja_Forms' ) ) {
 			$options = array();
 
 			$contact_forms = Ninja_Forms()->form()->get_forms();
 
-			if (!empty($contact_forms) && !is_wp_error($contact_forms)) {
+			if ( ! empty( $contact_forms ) && ! is_wp_error( $contact_forms ) ) {
 
 				$i = 0;
 
-				foreach ($contact_forms as $form) {
-					if ($i == 0) {
-						$options[0] = esc_html__('Select a Contact form', 'master-addons');
+				foreach ( $contact_forms as $form ) {
+					if ( $i == 0 ) {
+						$options[0] = esc_html__( 'Select a Contact form', 'master-addons' );
 					}
-					$options[$form->get_id()] = $form->get_setting('title');
-					$i++;
+					$options[ $form->get_id() ] = $form->get_setting( 'title' );
+					++$i;
 				}
 			}
 		} else {
@@ -526,28 +563,27 @@ class Master_Addons_Helper
 
 
 	// Get all forms of WPForms plugin
-	public static function ma_el_get_wpforms_forms()
-	{
-		if (class_exists('WPForms')) {
+	public static function ma_el_get_wpforms_forms() {
+		if ( class_exists( 'WPForms' ) ) {
 			$options = array();
 
 			$args = array(
-				'post_type'         => 'wpforms',
-				'posts_per_page'    => -1
+				'post_type'      => 'wpforms',
+				'posts_per_page' => -1,
 			);
 
-			$contact_forms = get_posts($args);
+			$contact_forms = get_posts( $args );
 
-			if (!empty($contact_forms) && !is_wp_error($contact_forms)) {
+			if ( ! empty( $contact_forms ) && ! is_wp_error( $contact_forms ) ) {
 
 				$i = 0;
 
-				foreach ($contact_forms as $post) {
-					if ($i == 0) {
-						$options[0] = esc_html__('Select a Contact form', 'master-addons');
+				foreach ( $contact_forms as $post ) {
+					if ( $i == 0 ) {
+						$options[0] = esc_html__( 'Select a Contact form', 'master-addons' );
 					}
-					$options[$post->ID] = $post->post_title;
-					$i++;
+					$options[ $post->ID ] = $post->post_title;
+					++$i;
 				}
 			}
 		} else {
@@ -559,45 +595,45 @@ class Master_Addons_Helper
 
 
 	// get weForms
-	public static function ma_el_get_weforms()
-	{
-		$wpuf_form_list = get_posts(array(
-			'post_type' => 'wpuf_contact_form',
-			'showposts' => 999,
-		));
+	public static function ma_el_get_weforms() {
+		$wpuf_form_list = get_posts(
+			array(
+				'post_type' => 'wpuf_contact_form',
+				'showposts' => 999,
+			)
+		);
 
 		$options = array();
 
-		if (!empty($wpuf_form_list) && !is_wp_error($wpuf_form_list)) {
-			$options[0] = esc_html__('Select weForm', 'master-addons');
-			foreach ($wpuf_form_list as $post) {
-				$options[$post->ID] = $post->post_title;
+		if ( ! empty( $wpuf_form_list ) && ! is_wp_error( $wpuf_form_list ) ) {
+			$options[0] = esc_html__( 'Select weForm', 'master-addons' );
+			foreach ( $wpuf_form_list as $post ) {
+				$options[ $post->ID ] = $post->post_title;
 			}
 		} else {
-			$options[0] = esc_html__('Create a Form First', 'master-addons');
+			$options[0] = esc_html__( 'Create a Form First', 'master-addons' );
 		}
 
 		return $options;
 	}
 
 	// Get forms of Caldera plugin
-	public static function ma_el_get_caldera_forms()
-	{
-		if (class_exists('Caldera_Forms')) {
+	public static function ma_el_get_caldera_forms() {
+		if ( class_exists( 'Caldera_Forms' ) ) {
 			$options = array();
 
-			$contact_forms = \Caldera_Forms_Forms::get_forms(true, true);
+			$contact_forms = \Caldera_Forms_Forms::get_forms( true, true );
 
-			if (!empty($contact_forms) && !is_wp_error($contact_forms)) {
+			if ( ! empty( $contact_forms ) && ! is_wp_error( $contact_forms ) ) {
 
 				$i = 0;
 
-				foreach ($contact_forms as $form) {
-					if ($i == 0) {
-						$options[0] = esc_html__('Select a Contact form', 'master-addons');
+				foreach ( $contact_forms as $form ) {
+					if ( $i == 0 ) {
+						$options[0] = esc_html__( 'Select a Contact form', 'master-addons' );
 					}
-					$options[$form['ID']] = $form['name'];
-					$i++;
+					$options[ $form['ID'] ] = $form['name'];
+					++$i;
 				}
 			}
 		} else {
@@ -609,23 +645,22 @@ class Master_Addons_Helper
 
 
 	// Get forms of Gravity Forms plugin
-	public static function ma_el_get_gravity_forms()
-	{
-		if (class_exists('GFCommon')) {
+	public static function ma_el_get_gravity_forms() {
+		if ( class_exists( 'GFCommon' ) ) {
 			$options = array();
 
-			$contact_forms = \RGFormsModel::get_forms(null, 'title');
+			$contact_forms = \RGFormsModel::get_forms( null, 'title' );
 
-			if (!empty($contact_forms) && !is_wp_error($contact_forms)) {
+			if ( ! empty( $contact_forms ) && ! is_wp_error( $contact_forms ) ) {
 
 				$i = 0;
 
-				foreach ($contact_forms as $form) {
-					if ($i == 0) {
-						$options[0] = esc_html__('Select a Contact form', 'master-addons');
+				foreach ( $contact_forms as $form ) {
+					if ( $i == 0 ) {
+						$options[0] = esc_html__( 'Select a Contact form', 'master-addons' );
 					}
-					$options[$form->id] = $form->title;
-					$i++;
+					$options[ $form->id ] = $form->title;
+					++$i;
 				}
 			}
 		} else {
@@ -643,122 +678,116 @@ class Master_Addons_Helper
 	 *
 	 * @return bool True if Elementor Pro is active, false otherwise.
 	 */
-	public static function is_elementor_pro()
-	{
-		return class_exists('ElementorPro\Plugin');
+	public static function is_elementor_pro() {
+		return class_exists( 'ElementorPro\Plugin' );
 	}
 
 	// Content Alignments
-	public static function jltma_content_alignment()
-	{
-		$content_alignment = [
-			'left'      => [
-				'title' => __('Left', 'master-addons'),
-				'icon' => 'eicon-text-align-left',
-			],
-			'center'    => [
-				'title' => __('Center', 'master-addons'),
-				'icon' => 'eicon-text-align-center',
-			],
-			'right'     => [
-				'title' => __('Right', 'master-addons'),
-				'icon' => 'eicon-text-align-right',
-			],
-		];
+	public static function jltma_content_alignment() {
+		$content_alignment = array(
+			'left'   => array(
+				'title' => __( 'Left', 'master-addons' ),
+				'icon'  => 'eicon-text-align-left',
+			),
+			'center' => array(
+				'title' => __( 'Center', 'master-addons' ),
+				'icon'  => 'eicon-text-align-center',
+			),
+			'right'  => array(
+				'title' => __( 'Right', 'master-addons' ),
+				'icon'  => 'eicon-text-align-right',
+			),
+		);
 		return $content_alignment;
 	}
 
 	// Justify Content Alignments
-	public static function jltma_content_alignments()
-	{
-		$content_alignment = [
-			'left'      => [
-				'title' => __('Left', 'master-addons'),
-				'icon' => 'eicon-text-align-left',
-			],
-			'center'    => [
-				'title' => __('Center', 'master-addons'),
-				'icon' => 'eicon-text-align-center',
-			],
-			'right'     => [
-				'title' => __('Right', 'master-addons'),
-				'icon' => 'eicon-text-align-right',
-			],
-			'justify' => [
-				'title' => __('Justify', 'master-addons'),
+	public static function jltma_content_alignments() {
+		$content_alignment = array(
+			'left'    => array(
+				'title' => __( 'Left', 'master-addons' ),
+				'icon'  => 'eicon-text-align-left',
+			),
+			'center'  => array(
+				'title' => __( 'Center', 'master-addons' ),
+				'icon'  => 'eicon-text-align-center',
+			),
+			'right'   => array(
+				'title' => __( 'Right', 'master-addons' ),
+				'icon'  => 'eicon-text-align-right',
+			),
+			'justify' => array(
+				'title' => __( 'Justify', 'master-addons' ),
 				'icon'  => 'eicon-text-align-justify',
-			],
-		];
+			),
+		);
 		return $content_alignment;
 	}
 
 	// Justify Flex Content Alignments
-	public static function jltma_content_flex_alignments()
-	{
-		$content_alignment = [
-			'flex-start'      => [
-				'title' => __('Left', 'master-addons'),
-				'icon' => 'eicon-text-align-left',
-			],
-			'center'    => [
-				'title' => __('Center', 'master-addons'),
-				'icon' => 'eicon-text-align-center',
-			],
-			'flex-end'     => [
-				'title' => __('Right', 'master-addons'),
-				'icon' => 'eicon-text-align-right',
-			],
-			'space-between' => [
-				'title' => __('Justify', 'master-addons'),
+	public static function jltma_content_flex_alignments() {
+		$content_alignment = array(
+			'flex-start'    => array(
+				'title' => __( 'Left', 'master-addons' ),
+				'icon'  => 'eicon-text-align-left',
+			),
+			'center'        => array(
+				'title' => __( 'Center', 'master-addons' ),
+				'icon'  => 'eicon-text-align-center',
+			),
+			'flex-end'      => array(
+				'title' => __( 'Right', 'master-addons' ),
+				'icon'  => 'eicon-text-align-right',
+			),
+			'space-between' => array(
+				'title' => __( 'Justify', 'master-addons' ),
 				'icon'  => 'eicon-text-align-justify',
-			],
-		];
+			),
+		);
 		return $content_alignment;
 	}
 
 	// Heading Tags
-	public static function jltma_heading_tags()
-	{
-		$heading_tags = [
-			'h1'  => [
-				'title' => __('H1', 'master-addons'),
-				'icon'  => 'eicon-editor-h1'
-			],
-			'h2'  => [
-				'title' => __('H2', 'master-addons'),
-				'icon'  => 'eicon-editor-h2'
-			],
-			'h3'  => [
-				'title' => __('H3', 'master-addons'),
-				'icon'  => 'eicon-editor-h3'
-			],
-			'h4'  => [
-				'title' => __('H4', 'master-addons'),
-				'icon'  => 'eicon-editor-h4'
-			],
-			'h5'  => [
-				'title' => __('H5', 'master-addons'),
-				'icon'  => 'eicon-editor-h5'
-			],
-			'h6'  => [
-				'title' => __('H6', 'master-addons'),
-				'icon'  => 'eicon-editor-h6'
-			]
-		];
+	public static function jltma_heading_tags() {
+		$heading_tags = array(
+			'h1' => array(
+				'title' => __( 'H1', 'master-addons' ),
+				'icon'  => 'eicon-editor-h1',
+			),
+			'h2' => array(
+				'title' => __( 'H2', 'master-addons' ),
+				'icon'  => 'eicon-editor-h2',
+			),
+			'h3' => array(
+				'title' => __( 'H3', 'master-addons' ),
+				'icon'  => 'eicon-editor-h3',
+			),
+			'h4' => array(
+				'title' => __( 'H4', 'master-addons' ),
+				'icon'  => 'eicon-editor-h4',
+			),
+			'h5' => array(
+				'title' => __( 'H5', 'master-addons' ),
+				'icon'  => 'eicon-editor-h5',
+			),
+			'h6' => array(
+				'title' => __( 'H6', 'master-addons' ),
+				'icon'  => 'eicon-editor-h6',
+			),
+		);
 
 		return $heading_tags;
 	}
 
 
 	// Escape Heading Tags
-	public static function jltma_escape_tags($tag, $default = 'span', $extra = [])
-	{
+	public static function jltma_escape_tags( $tag, $default = 'span', $extra = array() ) {
 
-		$supports = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'span', 'p'];
+		$supports = array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'span', 'p' );
 
-		$supports = array_merge($supports, $extra);
+		$supports = array_merge( $supports, $extra );
 
-		if (!in_array($tag, $supports, true)) {
+		if ( ! in_array( $tag, $supports, true ) ) {
 			return $default;
 		}
 
@@ -766,41 +795,39 @@ class Master_Addons_Helper
 	}
 
 	// Title Tags
-	public static function jltma_title_tags()
-	{
-		$title_tags = [
-			'h1'     => esc_html__('H1', 'master-addons'),
-			'h2'     => esc_html__('H2', 'master-addons'),
-			'h3'     => esc_html__('H3', 'master-addons'),
-			'h4'     => esc_html__('H4', 'master-addons'),
-			'h5'     => esc_html__('H5', 'master-addons'),
-			'h6'     => esc_html__('H6', 'master-addons'),
-			'div'    => esc_html__('div', 'master-addons'),
-			'span'   => esc_html__('span', 'master-addons'),
-			'p'      => esc_html__('p', 'master-addons'),
-			'button' => esc_html__('button', 'master-addons'),
-			'a'      => esc_html__('a', 'master-addons'),
-		];
+	public static function jltma_title_tags() {
+		$title_tags = array(
+			'h1'     => esc_html__( 'H1', 'master-addons' ),
+			'h2'     => esc_html__( 'H2', 'master-addons' ),
+			'h3'     => esc_html__( 'H3', 'master-addons' ),
+			'h4'     => esc_html__( 'H4', 'master-addons' ),
+			'h5'     => esc_html__( 'H5', 'master-addons' ),
+			'h6'     => esc_html__( 'H6', 'master-addons' ),
+			'div'    => esc_html__( 'div', 'master-addons' ),
+			'span'   => esc_html__( 'span', 'master-addons' ),
+			'p'      => esc_html__( 'p', 'master-addons' ),
+			'button' => esc_html__( 'button', 'master-addons' ),
+			'a'      => esc_html__( 'a', 'master-addons' ),
+		);
 
 		return $title_tags;
 	}
 
 
 	// Master Addons Position
-	public static function ma_el_content_positions()
-	{
-		$position_options = [
-			''              => esc_html__('Default', 'master-addons'),
-			'top-left'      => esc_html__('Top Left', 'master-addons'),
-			'top-center'    => esc_html__('Top Center', 'master-addons'),
-			'top-right'     => esc_html__('Top Right', 'master-addons'),
-			'center'        => esc_html__('Center', 'master-addons'),
-			'center-left'   => esc_html__('Center Left', 'master-addons'),
-			'center-right'  => esc_html__('Center Right', 'master-addons'),
-			'bottom-left'   => esc_html__('Bottom Left', 'master-addons'),
-			'bottom-center' => esc_html__('Bottom Center', 'master-addons'),
-			'bottom-right'  => esc_html__('Bottom Right', 'master-addons'),
-		];
+	public static function ma_el_content_positions() {
+		$position_options = array(
+			''              => esc_html__( 'Default', 'master-addons' ),
+			'top-left'      => esc_html__( 'Top Left', 'master-addons' ),
+			'top-center'    => esc_html__( 'Top Center', 'master-addons' ),
+			'top-right'     => esc_html__( 'Top Right', 'master-addons' ),
+			'center'        => esc_html__( 'Center', 'master-addons' ),
+			'center-left'   => esc_html__( 'Center Left', 'master-addons' ),
+			'center-right'  => esc_html__( 'Center Right', 'master-addons' ),
+			'bottom-left'   => esc_html__( 'Bottom Left', 'master-addons' ),
+			'bottom-center' => esc_html__( 'Bottom Center', 'master-addons' ),
+			'bottom-right'  => esc_html__( 'Bottom Right', 'master-addons' ),
+		);
 
 		return $position_options;
 	}
@@ -808,174 +835,169 @@ class Master_Addons_Helper
 
 
 	// Master Addons Transition
-	public static function ma_el_transition_options()
-	{
-		$transition_options = [
-			''                    => __('None', 'master-addons'),
-			'fade'                => __('Fade', 'master-addons'),
-			'scale-up'            => __('Scale Up', 'master-addons'),
-			'scale-down'          => __('Scale Down', 'master-addons'),
-			'slide-top'           => __('Slide Top', 'master-addons'),
-			'slide-bottom'        => __('Slide Bottom', 'master-addons'),
-			'slide-left'          => __('Slide Left', 'master-addons'),
-			'slide-right'         => __('Slide Right', 'master-addons'),
-			'slide-top-small'     => __('Slide Top Small', 'master-addons'),
-			'slide-bottom-small'  => __('Slide Bottom Small', 'master-addons'),
-			'slide-left-small'    => __('Slide Left Small', 'master-addons'),
-			'slide-right-small'   => __('Slide Right Small', 'master-addons'),
-			'slide-top-medium'    => __('Slide Top Medium', 'master-addons'),
-			'slide-bottom-medium' => __('Slide Bottom Medium', 'master-addons'),
-			'slide-left-medium'   => __('Slide Left Medium', 'master-addons'),
-			'slide-right-medium'  => __('Slide Right Medium', 'master-addons'),
-		];
+	public static function ma_el_transition_options() {
+		$transition_options = array(
+			''                    => __( 'None', 'master-addons' ),
+			'fade'                => __( 'Fade', 'master-addons' ),
+			'scale-up'            => __( 'Scale Up', 'master-addons' ),
+			'scale-down'          => __( 'Scale Down', 'master-addons' ),
+			'slide-top'           => __( 'Slide Top', 'master-addons' ),
+			'slide-bottom'        => __( 'Slide Bottom', 'master-addons' ),
+			'slide-left'          => __( 'Slide Left', 'master-addons' ),
+			'slide-right'         => __( 'Slide Right', 'master-addons' ),
+			'slide-top-small'     => __( 'Slide Top Small', 'master-addons' ),
+			'slide-bottom-small'  => __( 'Slide Bottom Small', 'master-addons' ),
+			'slide-left-small'    => __( 'Slide Left Small', 'master-addons' ),
+			'slide-right-small'   => __( 'Slide Right Small', 'master-addons' ),
+			'slide-top-medium'    => __( 'Slide Top Medium', 'master-addons' ),
+			'slide-bottom-medium' => __( 'Slide Bottom Medium', 'master-addons' ),
+			'slide-left-medium'   => __( 'Slide Left Medium', 'master-addons' ),
+			'slide-right-medium'  => __( 'Slide Right Medium', 'master-addons' ),
+		);
 
 		return $transition_options;
 	}
 
 
 	// Master Addons Animations
-	public static function jltma_animation_options()
-	{
-		$transition_options = [
-			''                             =>  esc_html__('None', 'master-addons'),
-			'jltma-fade-in'                =>  esc_html__('Fade In', 'master-addons'),
-			'jltma-fade-in-down'           =>  esc_html__('Fade In Down', 'master-addons'),
-			'jltma-fade-in-down-1'         =>  esc_html__('Fade In Down 1', 'master-addons'),
-			'jltma-fade-in-down-2'         =>  esc_html__('Fade In Down 2', 'master-addons'),
-			'jltma-fade-in-up'             =>  esc_html__('Fade In Up', 'master-addons'),
-			'jltma-fade-in-up-1'           =>  esc_html__('Fade In Up 1', 'master-addons'),
-			'jltma-fade-in-up-2'           =>  esc_html__('Fade In Up 2', 'master-addons'),
-			'jltma-fade-in-left'           =>  esc_html__('Fade In Left', 'master-addons'),
-			'jltma-fade-in-left-1'         =>  esc_html__('Fade In Left 1', 'master-addons'),
-			'jltma-fade-in-left-2'         =>  esc_html__('Fade In Left 2', 'master-addons'),
-			'jltma-fade-in-right'          =>  esc_html__('Fade In Right', 'master-addons'),
-			'jltma-fade-in-right-1'        =>  esc_html__('Fade In Right 1', 'master-addons'),
-			'jltma-fade-in-right-2'        =>  esc_html__('Fade In Right 2', 'master-addons'),
+	public static function jltma_animation_options() {
+		$transition_options = array(
+			''                             => esc_html__( 'None', 'master-addons' ),
+			'jltma-fade-in'                => esc_html__( 'Fade In', 'master-addons' ),
+			'jltma-fade-in-down'           => esc_html__( 'Fade In Down', 'master-addons' ),
+			'jltma-fade-in-down-1'         => esc_html__( 'Fade In Down 1', 'master-addons' ),
+			'jltma-fade-in-down-2'         => esc_html__( 'Fade In Down 2', 'master-addons' ),
+			'jltma-fade-in-up'             => esc_html__( 'Fade In Up', 'master-addons' ),
+			'jltma-fade-in-up-1'           => esc_html__( 'Fade In Up 1', 'master-addons' ),
+			'jltma-fade-in-up-2'           => esc_html__( 'Fade In Up 2', 'master-addons' ),
+			'jltma-fade-in-left'           => esc_html__( 'Fade In Left', 'master-addons' ),
+			'jltma-fade-in-left-1'         => esc_html__( 'Fade In Left 1', 'master-addons' ),
+			'jltma-fade-in-left-2'         => esc_html__( 'Fade In Left 2', 'master-addons' ),
+			'jltma-fade-in-right'          => esc_html__( 'Fade In Right', 'master-addons' ),
+			'jltma-fade-in-right-1'        => esc_html__( 'Fade In Right 1', 'master-addons' ),
+			'jltma-fade-in-right-2'        => esc_html__( 'Fade In Right 2', 'master-addons' ),
 
 			// Slide Animation
-			'jltma-slide-from-right'       =>  esc_html__('Slide From Right', 'master-addons'),
-			'jltma-slide-from-left'        =>  esc_html__('Slide From Left', 'master-addons'),
-			'jltma-slide-from-top'         =>  esc_html__('Slide From Top', 'master-addons'),
-			'jltma-slide-from-bot'         =>  esc_html__('Slide From Bottom', 'master-addons'),
+			'jltma-slide-from-right'       => esc_html__( 'Slide From Right', 'master-addons' ),
+			'jltma-slide-from-left'        => esc_html__( 'Slide From Left', 'master-addons' ),
+			'jltma-slide-from-top'         => esc_html__( 'Slide From Top', 'master-addons' ),
+			'jltma-slide-from-bot'         => esc_html__( 'Slide From Bottom', 'master-addons' ),
 
 			// Mask Animation
-			'jltma-mask-from-top'          =>  esc_html__('Mask From Top', 'master-addons'),
-			'jltma-mask-from-bot'          =>  esc_html__('Mask From Bottom', 'master-addons'),
-			'jltma-mask-from-left'         =>  esc_html__('Mask From Left', 'master-addons'),
-			'jltma-mask-from-right'        =>  esc_html__('Mask From Right', 'master-addons'),
+			'jltma-mask-from-top'          => esc_html__( 'Mask From Top', 'master-addons' ),
+			'jltma-mask-from-bot'          => esc_html__( 'Mask From Bottom', 'master-addons' ),
+			'jltma-mask-from-left'         => esc_html__( 'Mask From Left', 'master-addons' ),
+			'jltma-mask-from-right'        => esc_html__( 'Mask From Right', 'master-addons' ),
 
-			'jltma-rotate-in'              =>  esc_html__('Rotate In', 'master-addons'),
-			'jltma-rotate-in-down-left'    =>  esc_html__('Rotate In Down Left', 'master-addons'),
-			'jltma-rotate-in-down-left-1'  =>  esc_html__('Rotate In Down Left 1', 'master-addons'),
-			'jltma-rotate-in-down-left-2'  =>  esc_html__('Rotate In Down Left 2', 'master-addons'),
-			'jltma-rotate-in-down-right'   =>  esc_html__('Rotate In Down Right', 'master-addons'),
-			'jltma-rotate-in-down-right-1' =>  esc_html__('Rotate In Down Right 1', 'master-addons'),
-			'jltma-rotate-in-down-right-2' =>  esc_html__('Rotate In Down Right 2', 'master-addons'),
-			'jltma-rotate-in-up-left'      =>  esc_html__('Rotate In Up Left', 'master-addons'),
-			'jltma-rotate-in-up-left-1'    =>  esc_html__('Rotate In Up Left 1', 'master-addons'),
-			'jltma-rotate-in-up-left-2'    =>  esc_html__('Rotate In Up Left 2', 'master-addons'),
-			'jltma-rotate-in-up-right'     =>  esc_html__('Rotate In Up Right', 'master-addons'),
-			'jltma-rotate-in-up-right-1'   =>  esc_html__('Rotate In Up Right 1', 'master-addons'),
-			'jltma-rotate-in-up-right-2'   =>  esc_html__('Rotate In Up Right 2', 'master-addons'),
+			'jltma-rotate-in'              => esc_html__( 'Rotate In', 'master-addons' ),
+			'jltma-rotate-in-down-left'    => esc_html__( 'Rotate In Down Left', 'master-addons' ),
+			'jltma-rotate-in-down-left-1'  => esc_html__( 'Rotate In Down Left 1', 'master-addons' ),
+			'jltma-rotate-in-down-left-2'  => esc_html__( 'Rotate In Down Left 2', 'master-addons' ),
+			'jltma-rotate-in-down-right'   => esc_html__( 'Rotate In Down Right', 'master-addons' ),
+			'jltma-rotate-in-down-right-1' => esc_html__( 'Rotate In Down Right 1', 'master-addons' ),
+			'jltma-rotate-in-down-right-2' => esc_html__( 'Rotate In Down Right 2', 'master-addons' ),
+			'jltma-rotate-in-up-left'      => esc_html__( 'Rotate In Up Left', 'master-addons' ),
+			'jltma-rotate-in-up-left-1'    => esc_html__( 'Rotate In Up Left 1', 'master-addons' ),
+			'jltma-rotate-in-up-left-2'    => esc_html__( 'Rotate In Up Left 2', 'master-addons' ),
+			'jltma-rotate-in-up-right'     => esc_html__( 'Rotate In Up Right', 'master-addons' ),
+			'jltma-rotate-in-up-right-1'   => esc_html__( 'Rotate In Up Right 1', 'master-addons' ),
+			'jltma-rotate-in-up-right-2'   => esc_html__( 'Rotate In Up Right 2', 'master-addons' ),
 
-			'jltma-zoom-in'                =>  esc_html__('Zoom In', 'master-addons'),
-			'jltma-zoom-in-1'              =>  esc_html__('Zoom In 1', 'master-addons'),
-			'jltma-zoom-in-2'              =>  esc_html__('Zoom In 2', 'master-addons'),
-			'jltma-zoom-in-3'              =>  esc_html__('Zoom In 3', 'master-addons'),
+			'jltma-zoom-in'                => esc_html__( 'Zoom In', 'master-addons' ),
+			'jltma-zoom-in-1'              => esc_html__( 'Zoom In 1', 'master-addons' ),
+			'jltma-zoom-in-2'              => esc_html__( 'Zoom In 2', 'master-addons' ),
+			'jltma-zoom-in-3'              => esc_html__( 'Zoom In 3', 'master-addons' ),
 
-			'jltma-scale-up'               =>  esc_html__('Scale Up', 'master-addons'),
-			'jltma-scale-up-1'             =>  esc_html__('Scale Up 1', 'master-addons'),
-			'jltma-scale-up-2'             =>  esc_html__('Scale Up 2', 'master-addons'),
+			'jltma-scale-up'               => esc_html__( 'Scale Up', 'master-addons' ),
+			'jltma-scale-up-1'             => esc_html__( 'Scale Up 1', 'master-addons' ),
+			'jltma-scale-up-2'             => esc_html__( 'Scale Up 2', 'master-addons' ),
 
-			'jltma-scale-down'             =>  esc_html__('Scale Down', 'master-addons'),
-			'jltma-scale-down-1'           =>  esc_html__('Scale Down 1', 'master-addons'),
-			'jltma-scale-down-2'           =>  esc_html__('Scale Down 2', 'master-addons'),
+			'jltma-scale-down'             => esc_html__( 'Scale Down', 'master-addons' ),
+			'jltma-scale-down-1'           => esc_html__( 'Scale Down 1', 'master-addons' ),
+			'jltma-scale-down-2'           => esc_html__( 'Scale Down 2', 'master-addons' ),
 
-			'jltma-flip-in-down'           =>  esc_html__('Flip In Down', 'master-addons'),
-			'jltma-flip-in-down-1'         =>  esc_html__('Flip In Down 1', 'master-addons'),
-			'jltma-flip-in-down-2'         =>  esc_html__('Flip In Down 2', 'master-addons'),
-			'jltma-flip-in-up'             =>  esc_html__('Flip In Up', 'master-addons'),
-			'jltma-flip-in-up-1'           =>  esc_html__('Flip In Up 1', 'master-addons'),
-			'jltma-flip-in-up-2'           =>  esc_html__('Flip In Up 2', 'master-addons'),
-			'jltma-flip-in-left'           =>  esc_html__('Flip In Left', 'master-addons'),
-			'jltma-flip-in-left-1'         =>  esc_html__('Flip In Left 1', 'master-addons'),
-			'jltma-flip-in-left-2'         =>  esc_html__('Flip In Left 2', 'master-addons'),
-			'jltma-flip-in-left-3'         =>  esc_html__('Flip In Left 3', 'master-addons'),
-			'jltma-flip-in-right'          =>  esc_html__('Flip In Right', 'master-addons'),
-			'jltma-flip-in-right-1'        =>  esc_html__('Flip In Right 1', 'master-addons'),
-			'jltma-flip-in-right-2'        =>  esc_html__('Flip In Right 2', 'master-addons'),
-			'jltma-flip-in-right-3'        =>  esc_html__('Flip In Right 3', 'master-addons'),
+			'jltma-flip-in-down'           => esc_html__( 'Flip In Down', 'master-addons' ),
+			'jltma-flip-in-down-1'         => esc_html__( 'Flip In Down 1', 'master-addons' ),
+			'jltma-flip-in-down-2'         => esc_html__( 'Flip In Down 2', 'master-addons' ),
+			'jltma-flip-in-up'             => esc_html__( 'Flip In Up', 'master-addons' ),
+			'jltma-flip-in-up-1'           => esc_html__( 'Flip In Up 1', 'master-addons' ),
+			'jltma-flip-in-up-2'           => esc_html__( 'Flip In Up 2', 'master-addons' ),
+			'jltma-flip-in-left'           => esc_html__( 'Flip In Left', 'master-addons' ),
+			'jltma-flip-in-left-1'         => esc_html__( 'Flip In Left 1', 'master-addons' ),
+			'jltma-flip-in-left-2'         => esc_html__( 'Flip In Left 2', 'master-addons' ),
+			'jltma-flip-in-left-3'         => esc_html__( 'Flip In Left 3', 'master-addons' ),
+			'jltma-flip-in-right'          => esc_html__( 'Flip In Right', 'master-addons' ),
+			'jltma-flip-in-right-1'        => esc_html__( 'Flip In Right 1', 'master-addons' ),
+			'jltma-flip-in-right-2'        => esc_html__( 'Flip In Right 2', 'master-addons' ),
+			'jltma-flip-in-right-3'        => esc_html__( 'Flip In Right 3', 'master-addons' ),
 
-			'jltma-pulse'                  =>  esc_html__('Pulse In 1', 'master-addons'),
-			'jltma-pulse1'                 =>  esc_html__('Pulse In 2', 'master-addons'),
-			'jltma-pulse2'                 =>  esc_html__('Pulse In 3', 'master-addons'),
-			'jltma-pulse3'                 =>  esc_html__('Pulse In 4', 'master-addons'),
-			'jltma-pulse4'                 =>  esc_html__('Pulse In 5', 'master-addons'),
+			'jltma-pulse'                  => esc_html__( 'Pulse In 1', 'master-addons' ),
+			'jltma-pulse1'                 => esc_html__( 'Pulse In 2', 'master-addons' ),
+			'jltma-pulse2'                 => esc_html__( 'Pulse In 3', 'master-addons' ),
+			'jltma-pulse3'                 => esc_html__( 'Pulse In 4', 'master-addons' ),
+			'jltma-pulse4'                 => esc_html__( 'Pulse In 5', 'master-addons' ),
 
-			'jltma-pulse-out-1'            =>  esc_html__('Pulse Out 1', 'master-addons'),
-			'jltma-pulse-out-2'            =>  esc_html__('Pulse Out 2', 'master-addons'),
-			'jltma-pulse-out-3'            =>  esc_html__('Pulse Out 3', 'master-addons'),
-			'jltma-pulse-out-4'            =>  esc_html__('Pulse Out 4', 'master-addons'),
+			'jltma-pulse-out-1'            => esc_html__( 'Pulse Out 1', 'master-addons' ),
+			'jltma-pulse-out-2'            => esc_html__( 'Pulse Out 2', 'master-addons' ),
+			'jltma-pulse-out-3'            => esc_html__( 'Pulse Out 3', 'master-addons' ),
+			'jltma-pulse-out-4'            => esc_html__( 'Pulse Out 4', 'master-addons' ),
 
 			// Specials
-			'jltma-shake'                  =>  esc_html__('Shake', 'master-addons'),
-			'jltma-bounce-in'              =>  esc_html__('Bounce In', 'master-addons'),
-			'jltma-jack-in-box'            =>  esc_html__('Jack In the Box', 'master-addons')
-		];
+			'jltma-shake'                  => esc_html__( 'Shake', 'master-addons' ),
+			'jltma-bounce-in'              => esc_html__( 'Bounce In', 'master-addons' ),
+			'jltma-jack-in-box'            => esc_html__( 'Jack In the Box', 'master-addons' ),
+		);
 
 		return $transition_options;
 	}
 
 
-	public static function get_installed_theme()
-	{
+	public static function get_installed_theme() {
 
 		$theme = wp_get_theme();
 
-		if ($theme->parent()) {
+		if ( $theme->parent() ) {
 
-			$theme_name = $theme->parent()->get('Name');
+			$theme_name = $theme->parent()->get( 'Name' );
 		} else {
 
-			$theme_name = $theme->get('Name');
+			$theme_name = $theme->get( 'Name' );
 		}
 
-		$theme_name = sanitize_key($theme_name);
+		$theme_name = sanitize_key( $theme_name );
 
 		return $theme_name;
 	}
 
 
-	public static function ma_el_get_post_types()
-	{
+	public static function ma_el_get_post_types() {
 		$post_type_args = array(
 			'public'            => true,
-			'show_in_nav_menus' => true
+			'show_in_nav_menus' => true,
 		);
 
-		$post_types = get_post_types($post_type_args, 'objects');
+		$post_types = get_post_types( $post_type_args, 'objects' );
 		$post_lists = array();
-		foreach ($post_types as $post_type) {
-			$post_lists[$post_type->name] = $post_type->labels->singular_name;
+		foreach ( $post_types as $post_type ) {
+			$post_lists[ $post_type->name ] = $post_type->labels->singular_name;
 		}
 		return $post_lists;
 	}
 
 
-	public static function ma_el_blog_post_type_categories()
-	{
+	public static function ma_el_blog_post_type_categories() {
 		$terms = get_terms(
 			array(
-				'taxonomy' => 'category',
+				'taxonomy'   => 'category',
 				'hide_empty' => true,
 			)
 		);
 
 		$options = array();
 
-		if (!empty($terms) && !is_wp_error($terms)) {
-			foreach ($terms as $term) {
-				$options[$term->term_id] = $term->name;
+		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+			foreach ( $terms as $term ) {
+				$options[ $term->term_id ] = $term->name;
 			}
 		}
 
@@ -983,31 +1005,29 @@ class Master_Addons_Helper
 	}
 
 
-	public static function ma_el_blog_post_type_tags()
-	{
+	public static function ma_el_blog_post_type_tags() {
 		$tags = get_tags();
 
 		$options = array();
 
-		if (!empty($tags) && !is_wp_error($tags)) {
-			foreach ($tags as $tag) {
-				$options[$tag->term_id] = $tag->name;
+		if ( ! empty( $tags ) && ! is_wp_error( $tags ) ) {
+			foreach ( $tags as $tag ) {
+				$options[ $tag->term_id ] = $tag->name;
 			}
 		}
 
 		return $options;
 	}
 
-	public static function ma_el_blog_post_type_users()
-	{
+	public static function ma_el_blog_post_type_users() {
 		$users = get_users();
 
 		$options = array();
 
-		if (!empty($users) && !is_wp_error($users)) {
-			foreach ($users as $user) {
-				if ($user->display_name !== 'wp_update_service') {
-					$options[$user->ID] = $user->display_name;
+		if ( ! empty( $users ) && ! is_wp_error( $users ) ) {
+			foreach ( $users as $user ) {
+				if ( $user->display_name !== 'wp_update_service' ) {
+					$options[ $user->ID ] = $user->display_name;
 				}
 			}
 		}
@@ -1015,18 +1035,19 @@ class Master_Addons_Helper
 		return $options;
 	}
 
-	public static function ma_el_blog_posts_list()
-	{
-		$list = get_posts(array(
-			'post_type'         => 'post',
-			'posts_per_page'    => -1,
-		));
+	public static function ma_el_blog_posts_list() {
+		$list = get_posts(
+			array(
+				'post_type'      => 'post',
+				'posts_per_page' => -1,
+			)
+		);
 
 		$options = array();
 
-		if (!empty($list) && !is_wp_error($list)) {
-			foreach ($list as $post) {
-				$options[$post->ID] = $post->post_title;
+		if ( ! empty( $list ) && ! is_wp_error( $list ) ) {
+			foreach ( $list as $post ) {
+				$options[ $post->ID ] = $post->post_title;
 			}
 		}
 
@@ -1034,41 +1055,28 @@ class Master_Addons_Helper
 	}
 
 
-	/**
-	 * Build post query arguments from widget settings.
-	 *
-	 * @param array $settings Widget settings array.
-	 * @return array Post query arguments.
-	 */
 	public static function ma_el_blog_get_post_settings( $settings ) {
+
 		$post_args = array();
 
-		$authors = $settings['ma_el_blog_users'];
+		$authors = $settings['ma_el_blog_users'] ?? [];
 
 		if ( ! empty( $authors ) ) {
 			$post_args['author'] = implode( ',', $authors );
 		}
 
-		$post_args['post_type']           = $settings['ma_el_post_grid_type'];
-		$post_args['category']            = $settings['ma_el_blog_categories'];
-		$post_args['tag__in']             = $settings['ma_el_blog_tags'];
-		$post_args['post__not_in']        = $settings['ma_el_blog_posts_exclude'];
-		$post_args['order']               = $settings['ma_el_blog_order'];
-		$post_args['orderby']             = $settings['ma_el_blog_order_by'];
-		$post_args['posts_per_page']      = $settings['ma_el_blog_posts_per_page'];
-		$post_args['ignore_sticky_posts'] = $settings['ma_el_post_grid_ignore_sticky'];
+		$post_args['post_type']           = $settings['ma_el_post_grid_type'] ?? $settings['ma_el_timeline_post_type'] ?? 'post';
+		$post_args['category']            = $settings['ma_el_blog_categories'] ?? $settings['ma_el_timeline_categories'] ?? '';
+		$post_args['tag__in']             = $settings['ma_el_blog_tags'] ?? $settings['ma_el_timeline_tags'] ?? '';
+		$post_args['post__not_in']        = $settings['ma_el_blog_posts_exclude'] ?? $settings['ma_el_timeline_posts_exclude'] ?? '';
+		$post_args['order']               = $settings['ma_el_blog_order'] ?? $settings['ma_el_timeline_order'] ?? 'DESC';
+		$post_args['orderby']             = $settings['ma_el_blog_order_by'] ?? $settings['ma_el_timeline_order_by'] ?? 'date';
+		$post_args['posts_per_page']      = $settings['ma_el_blog_posts_per_page'] ?? $settings['ma_el_timeline_posts_per_page'] ?? 10;
+		$post_args['ignore_sticky_posts'] = $settings['ma_el_post_grid_ignore_sticky'] ?? $settings['ma_el_timeline_ignore_sticky'] ?? 1;
 
 		return $post_args;
 	}
 
-	/**
-	 * Get post data for blog elements.
-	 *
-	 * @param array $args       Query arguments for get_posts.
-	 * @param int   $paged      Current page number.
-	 * @param int   $new_offset Offset for pagination.
-	 * @return array Array of post objects.
-	 */
 	public static function ma_el_blog_get_post_data( $args, $paged, $new_offset ) {
 		$defaults = array(
 			'author'              => '',
@@ -1081,131 +1089,133 @@ class Master_Addons_Helper
 		);
 
 		$query_args = wp_parse_args( $args, $defaults );
-
 		$posts = get_posts( $query_args );
-
 		wp_reset_postdata();
 
 		return $posts;
 	}
 
 
-	public static function ma_el_get_excerpt_by_id($post_id, $excerpt_length, $excerpt_type, $exceprt_text, $excerpt_src, $excerpt_icon, $excerpt_icon_align, $read_more_link)
-	{
 
-		$the_post = get_post($post_id);
+	public static function ma_el_get_excerpt_by_id( $post_id, $excerpt_length, $excerpt_type, $exceprt_text, $excerpt_src, $excerpt_icon, $excerpt_icon_align, $read_more_link ) {
+
+		$the_post = get_post( $post_id );
 
 		$the_excerpt = null;
 
-		if ($the_post) {
-			$the_excerpt = ($excerpt_src) ? $the_post->post_content : $the_post->post_excerpt;
+		if ( $the_post ) {
+			$the_excerpt = ( $excerpt_src ) ? $the_post->post_content : $the_post->post_excerpt;
 		}
 
-		$the_excerpt = strip_tags(strip_shortcodes($the_excerpt));
+		$the_excerpt = strip_tags( strip_shortcodes( $the_excerpt ) );
 
-		$words = explode(' ', $the_excerpt, $excerpt_length + 1);
+		$words = explode( ' ', $the_excerpt, $excerpt_length + 1 );
 
-		if ($excerpt_icon) {
+		if ( $excerpt_icon ) {
 
-			$migrated = isset($settings['__fa4_migrated'][$excerpt_icon]);
-			$is_new   = empty($settings['icon']) && \Elementor\Icons_Manager::is_migration_allowed();
+			$migrated = isset( $settings['__fa4_migrated'][ $excerpt_icon ] );
+			$is_new   = empty( $settings['icon'] ) && \Elementor\Icons_Manager::is_migration_allowed();
 
-			if ($is_new || $migrated) {
-				$excerpt_icon = \Elementor\Icons_Manager::render_icon($settings[$excerpt_icon], ['aria-hidden' => 'true', 'class' => 'blog_excerpt_icon']);
+			if ( $is_new || $migrated ) {
+				$excerpt_icon = \Elementor\Icons_Manager::render_icon(
+					$settings[ $excerpt_icon ],
+					array(
+						'aria-hidden' => 'true',
+						'class'       => 'blog_excerpt_icon',
+					)
+				);
 			} else {
-				$excerpt_icon = '<i class="' . esc_attr($settings['icon']) . '" aria-hidden="true"></i>';
+				$excerpt_icon = '<i class="' . esc_attr( $settings['icon'] ) . '" aria-hidden="true"></i>';
 			}
 		}
 
-		if (count($words) > $excerpt_length) :
-			array_pop($words);
+		if ( count( $words ) > $excerpt_length ) :
+			array_pop( $words );
 
-			if ('three_dots' == $excerpt_type) {
-				array_push($words, '…');
-			} else {
+			if ( 'three_dots' == $excerpt_type ) {
+				array_push( $words, '…' );
+				$the_excerpt = '<p>' . implode( ' ', $words ) . '</p>';
+			} elseif ( 'read_more_link' == $excerpt_type || $read_more_link ) {
+				// Excerpt text in paragraph
+				$the_excerpt = '<p>' . implode( ' ', $words ) . '</p>';
 
-				if ($read_more_link) {
-					if ($excerpt_icon_align == "left") {
-						array_push($words, '<br> <a href="' . get_permalink(
-							$post_id
-						) . '" class="jltma-post-btn"> <i class="' . esc_attr($excerpt_icon) . '"></i>' . esc_html($exceprt_text) . '</a>');
-					} elseif ($excerpt_icon_align == "right") {
-						array_push($words, '<br> <a href="' . get_permalink($post_id) . '" class="jltma-post-btn">' . esc_html($exceprt_text) . ' <i class="' . esc_attr($excerpt_icon) . '"></i></a>');
-					} else {
-						array_push($words, '<br> <a href="' . get_permalink($post_id) . '" class="jltma-post-btn">' . esc_html($exceprt_text) . '</a>');
-					}
+				// Read More button outside paragraph
+				if ( $excerpt_icon_align == 'left' ) {
+					$the_excerpt .= '<a href="' . get_permalink( $post_id ) . '" class="jltma-post-btn"><i class="' . esc_attr( $excerpt_icon ) . '"></i>' . esc_html( $exceprt_text ) . '</a>';
+				} elseif ( $excerpt_icon_align == 'right' ) {
+					$the_excerpt .= '<a href="' . get_permalink( $post_id ) . '" class="jltma-post-btn">' . esc_html( $exceprt_text ) . ' <i class="' . esc_attr( $excerpt_icon ) . '"></i></a>';
+				} else {
+					$the_excerpt .= '<a href="' . get_permalink( $post_id ) . '" class="jltma-post-btn">' . esc_html( $exceprt_text ) . '</a>';
 				}
+			} else {
+				$the_excerpt = '<p>' . implode( ' ', $words ) . '</p>';
 			}
-
-			$the_excerpt = '<p>' . implode(' ', $words) . '</p>';
 		endif;
 
 		return $the_excerpt;
 	}
 
 
-	public static function jltma_custom_message($title, $content)
-	{
+	public static function jltma_custom_message( $title, $content ) {
 		ob_start(); ?>
 
 		<div class="elementor-alert elementor-alert-danger" role="alert">
 			<span class="elementor-alert-title">
-				<?php echo /* translators: %s: Title */ sprintf(esc_html__('%s !', 'master-addons'), $title); ?>
+				<?php /* translators: %s: Title */ printf( esc_html__( '%s !', 'master-addons' ), $title ); ?>
 			</span>
 			<span class="elementor-alert-description">
-				<?php echo /* translators: %s: Content */ sprintf(esc_html__('%s &nbsp;', 'master-addons'), $content); ?>
+				<?php /* translators: %s: Content */ printf( esc_html__( '%s &nbsp;', 'master-addons' ), $content ); ?>
 			</span>
 		</div>
 
-	<?php
-		$notice =  ob_get_clean();
-		echo wp_kses_post($notice);
+		<?php
+		$notice = ob_get_clean();
+		echo wp_kses_post( $notice );
 	}
 
-	public static function jltma_render_alert($message, $type = 'warning', $admin_only = true)
-	{
-		echo self::get_elementor_alert($message, $type, $admin_only);
+	public static function jltma_render_alert( $message, $type = 'warning', $admin_only = true ) {
+		echo self::get_elementor_alert( $message, $type, $admin_only );
 	}
 
-	public static function get_elementor_alert($message, $type = 'warning', $admin_only = true)
-	{
-		if ($admin_only && !is_admin()) {
+	public static function get_elementor_alert( $message, $type = 'warning', $admin_only = true ) {
+		if ( $admin_only && ! is_admin() ) {
 			return;
 		}
 
-		return sprintf('<div class="elementor-alert elementor-alert-%2$s">%1$s</div>', $message, esc_attr($type));
+		return sprintf( '<div class="elementor-alert elementor-alert-%2$s">%1$s</div>', $message, esc_attr( $type ) );
 	}
 
-	public static function jltma_elementor_plugin_missing_notice($args)
-	{
+	public static function jltma_elementor_plugin_missing_notice( $args ) {
 
 		// default params
 		$defaults = array(
 			'plugin_name' => '',
-			'echo'        => true
+			'echo'        => true,
 		);
-		$args = wp_parse_args($args, $defaults);
+		$args     = wp_parse_args( $args, $defaults );
 
 		ob_start();
-	?>
+		?>
 		<div class="elementor-alert elementor-alert-danger" role="alert">
 			<span class="elementor-alert-title">
-				<?php echo /* translators: %s: Plugin Name */ sprintf(esc_html__('"%s" Plugin is Not Activated!', 'master-addons'), esc_html($args['plugin_name'])); ?>
+				<?php /* translators: %s: Plugin Name */ printf( esc_html__( '"%s" Plugin is Not Activated!', 'master-addons' ), esc_html( $args['plugin_name'] ) ); ?>
 			</span>
 			<span class="elementor-alert-description">
-				<?php esc_html_e(
+				<?php
+				esc_html_e(
 					'In order to use this element, you need to install and activate this plugin.',
 					'master-addons'
-				); ?>
+				);
+				?>
 			</span>
 		</div>
 
 		<?php
 
-		$notice =  ob_get_clean();
+		$notice = ob_get_clean();
 
-		if (wp_validate_boolean($args['echo'])) {
-			echo wp_kses_post($notice);
+		if ( wp_validate_boolean( $args['echo'] ) ) {
+			echo wp_kses_post( $notice );
 		} else {
 			return $notice;
 		}
@@ -1213,17 +1223,16 @@ class Master_Addons_Helper
 
 
 
-	public static function jltma_user_roles()
-	{
+	public static function jltma_user_roles() {
 
 		global $wp_roles;
 
 		$all_roles  = $wp_roles->roles;
-		$user_roles = [];
+		$user_roles = array();
 
-		if (!empty($all_roles)) {
-			foreach ($all_roles as $key => $value) {
-				$user_roles[$key] = $all_roles[$key]['name'];
+		if ( ! empty( $all_roles ) ) {
+			foreach ( $all_roles as $key => $value ) {
+				$user_roles[ $key ] = $all_roles[ $key ]['name'];
 			}
 		}
 
@@ -1231,20 +1240,19 @@ class Master_Addons_Helper
 	}
 
 
-	public static function jltma_warning_messaage($message, $type = 'warning', $close = true)
-	{ ?>
+	public static function jltma_warning_messaage( $message, $type = 'warning', $close = true ) { ?>
 
-		<div class="ma-el-alert elementor-alert elementor-alert-<?php echo esc_attr($type); ?>" role="alert">
+		<div class="ma-el-alert elementor-alert elementor-alert-<?php echo esc_attr( $type ); ?>" role="alert">
 
-			<span class="elementor-alert-title">
-				<?php echo __('Sorry !!!', 'master-addons'); ?>
-			</span>
+			<!-- <span class="elementor-alert-title">
+				<?php //echo __( 'Sorry !!!', 'master-addons' ); ?>
+			</span> -->
 
 			<span class="elementor-alert-description">
-				<?php echo wp_kses_post($message); ?>
+				<?php echo wp_kses_post( $message ); ?>
 			</span>
 
-			<?php if ($close) : ?>
+			<?php if ( $close ) : ?>
 				<button type="button" class="elementor-alert-dismiss" data-dismiss="alert" aria-label="Close">X</button>
 			<?php endif; ?>
 
@@ -1254,20 +1262,19 @@ class Master_Addons_Helper
 	}
 
 	// Check if True/False
-	public static function jltma_is_true($var)
-	{
-		if (is_bool($var)) {
+	public static function jltma_is_true( $var ) {
+		if ( is_bool( $var ) ) {
 			return $var;
 		}
 
-		if (is_string($var)) {
-			$var = strtolower($var);
-			if (in_array($var, array('yes', 'on', 'true', 'checked'))) {
+		if ( is_string( $var ) ) {
+			$var = strtolower( $var );
+			if ( in_array( $var, array( 'yes', 'on', 'true', 'checked' ) ) ) {
 				return true;
 			}
 		}
 
-		if (is_numeric($var)) {
+		if ( is_numeric( $var ) ) {
 			return (bool) $var;
 		}
 
@@ -1276,20 +1283,19 @@ class Master_Addons_Helper
 
 
 	// Get all forms of Formidable Forms plugin
-	public static function jltma_elements_lite_get_formidable_forms()
-	{
-		if (class_exists('FrmForm')) {
+	public static function jltma_elements_lite_get_formidable_forms() {
+		if ( class_exists( 'FrmForm' ) ) {
 			$options = array();
 
-			$forms = FrmForm::get_published_forms(array(), 999, 'exclude');
-			if (count($forms)) {
+			$forms = FrmForm::get_published_forms( array(), 999, 'exclude' );
+			if ( count( $forms ) ) {
 				$i = 0;
-				foreach ($forms as $form) {
-					if (0 === $i) {
-						$options[0] = esc_html__('Select a Contact form', 'master-addons');
+				foreach ( $forms as $form ) {
+					if ( 0 === $i ) {
+						$options[0] = esc_html__( 'Select a Contact form', 'master-addons' );
 					}
-					$options[$form->id] = $form->name;
-					$i++;
+					$options[ $form->id ] = $form->name;
+					++$i;
 				}
 			}
 		} else {
@@ -1301,22 +1307,21 @@ class Master_Addons_Helper
 
 
 	// Get all forms of Fluent Forms plugin
-	public static function jltma_elements_lite_get_fluent_forms()
-	{
+	public static function jltma_elements_lite_get_fluent_forms() {
 		$options = array();
 
-		if (function_exists('wpFluentForm')) {
+		if ( function_exists( 'wpFluentForm' ) ) {
 
 			global $wpdb;
 
-			$result = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}fluentform_forms");
-			if ($result) {
-				$options[0] = esc_html__('Select a Contact Form', 'master-addons');
-				foreach ($result as $form) {
-					$options[$form->id] = $form->title;
+			$result = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}fluentform_forms" );
+			if ( $result ) {
+				$options[0] = esc_html__( 'Select a Contact Form', 'master-addons' );
+				foreach ( $result as $form ) {
+					$options[ $form->id ] = $form->title;
 				}
 			} else {
-				$options[0] = esc_html__('No forms found!', 'master-addons');
+				$options[0] = esc_html__( 'No forms found!', 'master-addons' );
 			}
 		}
 
@@ -1325,19 +1330,20 @@ class Master_Addons_Helper
 
 
 	// Tooltip Icon &
-	public static function jltma_admin_tooltip_info($info_name, $info_url, $info_icon)
-	{
+	public static function jltma_admin_tooltip_info( $info_name, $info_url, $info_icon ) {
 
-		if (!empty($info_url)) { ?>
+		if ( ! empty( $info_url ) ) {
+			?>
 			<div class="jltma-tooltip-item tooltip-top">
-				<i class="<?php echo esc_attr($info_icon); ?>"></i>
+				<i class="<?php echo esc_attr( $info_icon ); ?>"></i>
 				<div class="jltma-tooltip-text">
-					<a href="<?php echo esc_url($info_url); ?>" class="jltma-tooltip-content" target="_blank">
-						<?php echo /* translators: %s: Content */ sprintf(esc_html__('%s &nbsp;', 'master-addons'), $info_name); ?>
+					<a href="<?php echo esc_url( $info_url ); ?>" class="jltma-tooltip-content" target="_blank">
+						<?php /* translators: %s: Content */ printf( esc_html__( '%s &nbsp;', 'master-addons' ), $info_name ); ?>
 					</a>
 				</div>
 			</div>
-<?php }
+			<?php
+		}
 	}
 
 	/**
@@ -1347,38 +1353,39 @@ class Master_Addons_Helper
 	 *
 	 * @since 1.4.8
 	 */
-	public static function get_taxonomies_options()
-	{
+	public static function get_taxonomies_options() {
 
-		$options = [];
+		$options = array();
 
-		$taxonomies = get_taxonomies(array(
-			'show_in_nav_menus' => true
-		), 'objects');
+		$taxonomies = get_taxonomies(
+			array(
+				'show_in_nav_menus' => true,
+			),
+			'objects'
+		);
 
-		if (empty($taxonomies)) {
-			$options[''] = __('No taxonomies found', 'master-addons');
+		if ( empty( $taxonomies ) ) {
+			$options[''] = __( 'No taxonomies found', 'master-addons' );
 			return $options;
 		}
 
-		foreach ($taxonomies as $taxonomy) {
-			$options[$taxonomy->name] = $taxonomy->label;
+		foreach ( $taxonomies as $taxonomy ) {
+			$options[ $taxonomy->name ] = $taxonomy->label;
 		}
 
 		return $options;
 	}
 
 
-	public static function get_page_by_title($page_title, $post_type = 'page')
-	{
+	public static function get_page_by_title( $page_title, $post_type = 'page' ) {
 		$query = new \WP_Query(
 			array(
 				'post_type' => $post_type,
-				'title' => $page_title,
+				'title'     => $page_title,
 			)
 		);
 
-		if (!empty($query->post)) {
+		if ( ! empty( $query->post ) ) {
 			$page_got_by_title = $query->post;
 		} else {
 			$page_got_by_title = null;
@@ -1387,57 +1394,54 @@ class Master_Addons_Helper
 		return $page_got_by_title;
 	}
 
-	public static function jltma_post_types_category_slug()
-	{
+	public static function jltma_post_types_category_slug() {
 
-		$post_types = [
-			'category' => esc_html__('Post', 'master-addons')
-		];
+		$post_types = array(
+			'category' => esc_html__( 'Post', 'master-addons' ),
+		);
 
-		if (class_exists('WooCommerce')) {
-			$post_types['product_cat'] = esc_html__('Product', 'master-addons');
+		if ( class_exists( 'WooCommerce' ) ) {
+			$post_types['product_cat'] = esc_html__( 'Product', 'master-addons' );
 		}
 
-		//other post types taxonomies here
+		// other post types taxonomies here
 
-		return apply_filters('jltma_post_types_category_slug', $post_types);
+		return apply_filters( 'jltma_post_types_category_slug', $post_types );
 	}
 
 
-	public static function jltma_set_global_authordata()
-	{
+	public static function jltma_set_global_authordata() {
 		global $authordata;
-		if (!isset($authordata->ID)) {
-			$post = get_post();
-			$authordata = get_userdata($post->post_author); // WPCS: override ok.
+		if ( ! isset( $authordata->ID ) ) {
+			$post       = get_post();
+			$authordata = get_userdata( $post->post_author ); // WPCS: override ok.
 		}
 	}
 
 
-	public static function jltma_get_taxonomies($args = [], $output = 'names', $operator = 'and')
-	{
+	public static function jltma_get_taxonomies( $args = array(), $output = 'names', $operator = 'and' ) {
 		global $wp_taxonomies;
 
-		$field = ('names' === $output) ? 'name' : false;
+		$field = ( 'names' === $output ) ? 'name' : false;
 
 		// Handle 'object_type' separately.
-		if (isset($args['object_type'])) {
+		if ( isset( $args['object_type'] ) ) {
 			$object_type = (array) $args['object_type'];
-			unset($args['object_type']);
+			unset( $args['object_type'] );
 		}
 
-		$taxonomies = wp_filter_object_list($wp_taxonomies, $args, $operator);
+		$taxonomies = wp_filter_object_list( $wp_taxonomies, $args, $operator );
 
-		if (isset($object_type)) {
-			foreach ($taxonomies as $tax => $tax_data) {
-				if (!array_intersect($object_type, $tax_data->object_type)) {
-					unset($taxonomies[$tax]);
+		if ( isset( $object_type ) ) {
+			foreach ( $taxonomies as $tax => $tax_data ) {
+				if ( ! array_intersect( $object_type, $tax_data->object_type ) ) {
+					unset( $taxonomies[ $tax ] );
 				}
 			}
 		}
 
-		if ($field) {
-			$taxonomies = wp_list_pluck($taxonomies, $field);
+		if ( $field ) {
+			$taxonomies = wp_list_pluck( $taxonomies, $field );
 		}
 
 		return $taxonomies;
@@ -1445,115 +1449,113 @@ class Master_Addons_Helper
 
 
 
-	public static function is_plugin_installed($plugin_slug, $plugin_file)
-	{
+	public static function is_plugin_installed( $plugin_slug, $plugin_file ) {
 		$installed_plugins = get_plugins();
-		return isset($installed_plugins[$plugin_file]);
+		return isset( $installed_plugins[ $plugin_file ] );
 	}
 
 
 	// Get Page Title
-	public static function jltma_get_page_title($include_context = true)
-	{
+	public static function jltma_get_page_title( $include_context = true ) {
 		$title = '';
 
-		if (is_singular()) {
+		if ( is_singular() ) {
 			/* translators: %s: Search term. */
 			$title = get_the_title();
 
-			if ($include_context) {
-				$post_type_obj = get_post_type_object(get_post_type());
-				$title = sprintf('%s: %s', $post_type_obj->labels->singular_name, $title);
+			if ( $include_context ) {
+				$post_type_obj = get_post_type_object( get_post_type() );
+				$title         = sprintf( '%s: %s', $post_type_obj->labels->singular_name, $title );
 			}
-		} elseif (is_search()) {
+		} elseif ( is_search() ) {
 			/* translators: %s: Search term. */
-			$title = sprintf(__('Search Results for: %s', 'master-addons'), get_search_query());
+			$title = sprintf( __( 'Search Results for: %s', 'master-addons' ), get_search_query() );
 
-			if (get_query_var('paged')) {
+			if ( get_query_var( 'paged' ) ) {
 				/* translators: %s is the page number. */
-				$title .= sprintf(__('&nbsp;&ndash; Page %s', 'master-addons'), get_query_var('paged'));
+				$title .= sprintf( __( '&nbsp;&ndash; Page %s', 'master-addons' ), get_query_var( 'paged' ) );
 			}
-		} elseif (is_category()) {
-			$title = single_cat_title('', false);
+		} elseif ( is_category() ) {
+			$title = single_cat_title( '', false );
 
-			if ($include_context) {
+			if ( $include_context ) {
 				/* translators: Category archive title. 1: Category name */
-				$title = sprintf(__('Category: %s', 'master-addons'), $title);
+				$title = sprintf( __( 'Category: %s', 'master-addons' ), $title );
 			}
-		} elseif (is_tag()) {
-			$title = single_tag_title('', false);
-			if ($include_context) {
+		} elseif ( is_tag() ) {
+			$title = single_tag_title( '', false );
+			if ( $include_context ) {
 				/* translators: Tag archive title. 1: Tag name */
-				$title = sprintf(__('Tag: %s', 'master-addons'), $title);
+				$title = sprintf( __( 'Tag: %s', 'master-addons' ), $title );
 			}
-		} elseif (is_author()) {
+		} elseif ( is_author() ) {
 			$title = '<span class="vcard">' . get_the_author() . '</span>';
 
-			if ($include_context) {
+			if ( $include_context ) {
 				/* translators: Author archive title. 1: Author name */
-				$title = sprintf(__('Author: %s', 'master-addons'), $title);
+				$title = sprintf( __( 'Author: %s', 'master-addons' ), $title );
 			}
-		} elseif (is_year()) {
-			$title = get_the_date(_x('Y', 'yearly archives date format', 'master-addons'));
+		} elseif ( is_year() ) {
+			$title = get_the_date( _x( 'Y', 'yearly archives date format', 'master-addons' ) );
 
-			if ($include_context) {
+			if ( $include_context ) {
 				/* translators: Yearly archive title. 1: Year */
-				$title = sprintf(__('Year: %s', 'master-addons'), $title);
+				$title = sprintf( __( 'Year: %s', 'master-addons' ), $title );
 			}
-		} elseif (is_month()) {
-			$title = get_the_date(_x('F Y', 'monthly archives date format', 'master-addons'));
+		} elseif ( is_month() ) {
+			$title = get_the_date( _x( 'F Y', 'monthly archives date format', 'master-addons' ) );
 
-			if ($include_context) {
+			if ( $include_context ) {
 				/* translators: Monthly archive title. 1: Month name and year */
-				$title = sprintf(__('Month: %s', 'master-addons'), $title);
+				$title = sprintf( __( 'Month: %s', 'master-addons' ), $title );
 			}
-		} elseif (is_day()) {
-			$title = get_the_date(_x('F j, Y', 'daily archives date format', 'master-addons'));
+		} elseif ( is_day() ) {
+			$title = get_the_date( _x( 'F j, Y', 'daily archives date format', 'master-addons' ) );
 
-			if ($include_context) {
+			if ( $include_context ) {
 				/* translators: Daily archive title. 1: Date */
-				$title = sprintf(__('Day: %s', 'master-addons'), $title);
+				$title = sprintf( __( 'Day: %s', 'master-addons' ), $title );
 			}
-		} elseif (is_tax('post_format')) {
-			if (is_tax('post_format', 'post-format-aside')) {
-				$title = _x('Asides', 'post format archive title', 'master-addons');
-			} elseif (is_tax('post_format', 'post-format-gallery')) {
-				$title = _x('Galleries', 'post format archive title', 'master-addons');
-			} elseif (is_tax('post_format', 'post-format-image')) {
-				$title = _x('Images', 'post format archive title', 'master-addons');
-			} elseif (is_tax('post_format', 'post-format-video')) {
-				$title = _x('Videos', 'post format archive title', 'master-addons');
-			} elseif (is_tax('post_format', 'post-format-quote')) {
-				$title = _x('Quotes', 'post format archive title', 'master-addons');
-			} elseif (is_tax('post_format', 'post-format-link')) {
-				$title = _x('Links', 'post format archive title', 'master-addons');
-			} elseif (is_tax('post_format', 'post-format-status')) {
-				$title = _x('Statuses', 'post format archive title', 'master-addons');
-			} elseif (is_tax('post_format', 'post-format-audio')) {
-				$title = _x('Audio', 'post format archive title', 'master-addons');
-			} elseif (is_tax('post_format', 'post-format-chat')) {
-				$title = _x('Chats', 'post format archive title', 'master-addons');
+		} elseif ( is_tax( 'post_format' ) ) {
+			if ( is_tax( 'post_format', 'post-format-aside' ) ) {
+				$title = _x( 'Asides', 'post format archive title', 'master-addons' );
+			} elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) {
+				$title = _x( 'Galleries', 'post format archive title', 'master-addons' );
+			} elseif ( is_tax( 'post_format', 'post-format-image' ) ) {
+				$title = _x( 'Images', 'post format archive title', 'master-addons' );
+			} elseif ( is_tax( 'post_format', 'post-format-video' ) ) {
+				$title = _x( 'Videos', 'post format archive title', 'master-addons' );
+			} elseif ( is_tax( 'post_format', 'post-format-quote' ) ) {
+				$title = _x( 'Quotes', 'post format archive title', 'master-addons' );
+			} elseif ( is_tax( 'post_format', 'post-format-link' ) ) {
+				$title = _x( 'Links', 'post format archive title', 'master-addons' );
+			} elseif ( is_tax( 'post_format', 'post-format-status' ) ) {
+				$title = _x( 'Statuses', 'post format archive title', 'master-addons' );
+			} elseif ( is_tax( 'post_format', 'post-format-audio' ) ) {
+				$title = _x( 'Audio', 'post format archive title', 'master-addons' );
+			} elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
+				$title = _x( 'Chats', 'post format archive title', 'master-addons' );
 			}
-		} elseif (is_post_type_archive()) {
-			$title = post_type_archive_title('', false);
+		} elseif ( is_post_type_archive() ) {
+			$title = post_type_archive_title( '', false );
 
-			if ($include_context) {
+			if ( $include_context ) {
 				/* translators: Post type archive title. 1: Post type name */
-				$title = sprintf(__('Archives: %s', 'master-addons'), $title);
+				$title = sprintf( __( 'Archives: %s', 'master-addons' ), $title );
 			}
-		} elseif (is_tax()) {
-			$title = single_term_title('', false);
+		} elseif ( is_tax() ) {
+			$title = single_term_title( '', false );
 
-			if ($include_context) {
-				$tax = get_taxonomy(get_queried_object()->taxonomy);
+			if ( $include_context ) {
+				$tax = get_taxonomy( get_queried_object()->taxonomy );
 				/* translators: Taxonomy term archive title. 1: Taxonomy singular name, 2: Current taxonomy term */
-				$title = sprintf(__('%1$s: %2$s', 'master-addons'), $tax->labels->singular_name, $title);
+				$title = sprintf( __( '%1$s: %2$s', 'master-addons' ), $tax->labels->singular_name, $title );
 			}
-		} elseif (is_404()) {
-			$title = __('Page Not Found', 'master-addons');
+		} elseif ( is_404() ) {
+			$title = __( 'Page Not Found', 'master-addons' );
 		} // End if().
 
-		$title = apply_filters('jltma/core_elements/get_the_archive_title', $title);
+		$title = apply_filters( 'jltma/core_elements/get_the_archive_title', $title );
 
 		return $title;
 	}
@@ -1561,28 +1563,27 @@ class Master_Addons_Helper
 
 
 	// Archive URL
-	public static function jltma_get_the_archive_url()
-	{
+	public static function jltma_get_the_archive_url() {
 		$url = '';
-		if (is_category() || is_tag() || is_tax()) {
-			$url = get_term_link(get_queried_object());
-		} elseif (is_author()) {
-			$url = get_author_posts_url(get_queried_object_id());
-		} elseif (is_year()) {
-			$url = get_year_link(get_query_var('year'));
-		} elseif (is_month()) {
-			$url = get_month_link(get_query_var('year'), get_query_var('monthnum'));
-		} elseif (is_day()) {
-			$url = get_day_link(get_query_var('year'), get_query_var('monthnum'), get_query_var('day'));
-		} elseif (is_post_type_archive()) {
-			$url = get_post_type_archive_link(get_post_type());
+		if ( is_category() || is_tag() || is_tax() ) {
+			$url = get_term_link( get_queried_object() );
+		} elseif ( is_author() ) {
+			$url = get_author_posts_url( get_queried_object_id() );
+		} elseif ( is_year() ) {
+			$url = get_year_link( get_query_var( 'year' ) );
+		} elseif ( is_month() ) {
+			$url = get_month_link( get_query_var( 'year' ), get_query_var( 'monthnum' ) );
+		} elseif ( is_day() ) {
+			$url = get_day_link( get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
+		} elseif ( is_post_type_archive() ) {
+			$url = get_post_type_archive_link( get_post_type() );
 		}
 
 		return $url;
 	}
 
 	public static function jltma_blend_options() {
-		$blend_options = [
+		$blend_options = array(
 			'multiply'    => esc_html__( 'Multiply', 'master-addons' ),
 			'screen'      => esc_html__( 'Screen', 'master-addons' ),
 			'overlay'     => esc_html__( 'Overlay', 'master-addons' ),
@@ -1598,73 +1599,68 @@ class Master_Addons_Helper
 			'saturation'  => esc_html__( 'Saturation', 'master-addons' ),
 			'color'       => esc_html__( 'Color', 'master-addons' ),
 			'luminosity'  => esc_html__( 'Luminosity', 'master-addons' ),
-		];
+		);
 
 		return $blend_options;
 	}
 
-	public static function jltma_carousel_navigation_position()
-	{
-		$position_options = [
-			'top-left'      => esc_html__('Top Left', 'master-addons'),
-			'top-center'    => esc_html__('Top Center', 'master-addons'),
-			'top-right'     => esc_html__('Top Right', 'master-addons'),
-			'center'        => esc_html__('Center', 'master-addons'),
-			'bottom-left'   => esc_html__('Bottom Left', 'master-addons'),
-			'bottom-center' => esc_html__('Bottom Center', 'master-addons'),
-			'bottom-right'  => esc_html__('Bottom Right', 'master-addons'),
-		];
+	public static function jltma_carousel_navigation_position() {
+		$position_options = array(
+			'top-left'      => esc_html__( 'Top Left', 'master-addons' ),
+			'top-center'    => esc_html__( 'Top Center', 'master-addons' ),
+			'top-right'     => esc_html__( 'Top Right', 'master-addons' ),
+			'center'        => esc_html__( 'Center', 'master-addons' ),
+			'bottom-left'   => esc_html__( 'Bottom Left', 'master-addons' ),
+			'bottom-center' => esc_html__( 'Bottom Center', 'master-addons' ),
+			'bottom-right'  => esc_html__( 'Bottom Right', 'master-addons' ),
+		);
 
 		return $position_options;
 	}
 
 
-	public static function jltma_carousel_pagination_position()
-	{
-		$position_options = [
-			'top-left'      => esc_html__('Top Left', 'master-addons'),
-			'top-center'    => esc_html__('Top Center', 'master-addons'),
-			'top-right'     => esc_html__('Top Right', 'master-addons'),
-			'bottom-left'   => esc_html__('Bottom Left', 'master-addons'),
-			'bottom-center' => esc_html__('Bottom Center', 'master-addons'),
-			'bottom-right'  => esc_html__('Bottom Right', 'master-addons'),
-		];
+	public static function jltma_carousel_pagination_position() {
+		$position_options = array(
+			'top-left'      => esc_html__( 'Top Left', 'master-addons' ),
+			'top-center'    => esc_html__( 'Top Center', 'master-addons' ),
+			'top-right'     => esc_html__( 'Top Right', 'master-addons' ),
+			'bottom-left'   => esc_html__( 'Bottom Left', 'master-addons' ),
+			'bottom-center' => esc_html__( 'Bottom Center', 'master-addons' ),
+			'bottom-right'  => esc_html__( 'Bottom Right', 'master-addons' ),
+		);
 
 		return $position_options;
 	}
 
-	public static function jltma_get_preloadable_previews()
-	{
-		$position_options = [
-			'no'                   => esc_html__('Blank', 'master-addons'),
-			'yes'                  => esc_html__('Blurred placeholder image', 'master-addons'),
-			'progress-box'         => esc_html__('In-progress box animation', 'master-addons'),
-			'simple-spinner'       => esc_html__('Loading spinner (blue)', 'master-addons'),
-			'simple-spinner-light' => esc_html__('Loading spinner (light)', 'master-addons'),
-			'simple-spinner-dark'  => esc_html__('Loading spinner (dark)', 'master-addons')
-		];
+	public static function jltma_get_preloadable_previews() {
+		$position_options = array(
+			'no'                   => esc_html__( 'Blank', 'master-addons' ),
+			'yes'                  => esc_html__( 'Blurred placeholder image', 'master-addons' ),
+			'progress-box'         => esc_html__( 'In-progress box animation', 'master-addons' ),
+			'simple-spinner'       => esc_html__( 'Loading spinner (blue)', 'master-addons' ),
+			'simple-spinner-light' => esc_html__( 'Loading spinner (light)', 'master-addons' ),
+			'simple-spinner-dark'  => esc_html__( 'Loading spinner (dark)', 'master-addons' ),
+		);
 		return $position_options;
 	}
 
-	public static function jltma_get_array_value($array, $key, $default = '')
-	{
-		return isset($array[$key]) ? $array[$key] : $default;
+	public static function jltma_get_array_value( $array, $key, $default = '' ) {
+		return isset( $array[ $key ] ) ? $array[ $key ] : $default;
 	}
 
 
 
-	public static function render_image($image_id, $settings, $class = "")
-	{
+	public static function render_image( $image_id, $settings, $class = '' ) {
 		$image_size = $settings;
 
-		if ('custom' === $image_size) {
-			$image_src = \Elementor\Group_Control_Image_Size::get_attachment_image_src($image_id, $image_size, $settings);
+		if ( 'custom' === $image_size ) {
+			$image_src = \Elementor\Group_Control_Image_Size::get_attachment_image_src( $image_id, $image_size, $settings );
 		} else {
-			$image_src = wp_get_attachment_image_src($image_id, $image_size);
+			$image_src = wp_get_attachment_image_src( $image_id, $image_size );
 			$image_src = $image_src[0];
 		}
 
-		return sprintf('<img src="%s"  class="%s" alt="%s" />', esc_url($image_src), esc_attr($class), esc_html(get_post_meta($image_id, '_wp_attachment_image_alt', true)));
+		return sprintf( '<img src="%s"  class="%s" alt="%s" />', esc_url( $image_src ), esc_attr( $class ), esc_html( get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ) );
 	}
 
 
@@ -1676,83 +1672,78 @@ class Master_Addons_Helper
 	 * @since  2.1.0
 	 * @return \Elementor\Plugin|$instace
 	 */
-	public static function jltma_pro_locked_html()
-	{
+	public static function jltma_pro_locked_html() {
 		return '<div class="elementor-nerd-box">
 			<i class="elementor-nerd-box-icon eicon-hypster"></i>
 			<div class="elementor-nerd-box-title">' .
-			__('Oups, hang on!', 'master-addons') .
+			__( 'Oups, hang on!', 'master-addons' ) .
 			'</div>
 			<div class="elementor-nerd-box-message">' .
-			__('This feature is only available if you have Master Addons Pro.', 'master-addons') .
+			__( 'This feature is only available if you have Master Addons Pro.', 'master-addons' ) .
 			'</div>
 			<a class="elementor-nerd-box-link elementor-button elementor-button-default elementor-go-pro" href="https://master-addons.com/pricing" target="_blank">' .
-			__('Go Pro', 'master-addons') .
+			__( 'Go Pro', 'master-addons' ) .
 			'</a>
 		</div>';
 	}
 
 
-	public static function jltma_tooltip_options()
-	{
-		return [
-			'' => esc_html__('Top (Default)', 'master-addons'),
+	public static function jltma_tooltip_options() {
+		return array(
+			''             => esc_html__( 'Top (Default)', 'master-addons' ),
 
-			'top-start' => esc_html__('Top Start', 'master-addons'),
-			'top-end'   => esc_html__('Top End', 'master-addons'),
+			'top-start'    => esc_html__( 'Top Start', 'master-addons' ),
+			'top-end'      => esc_html__( 'Top End', 'master-addons' ),
 
-			'right'       => esc_html__('Right', 'master-addons'),
-			'right-start' => esc_html__('Right Start', 'master-addons'),
-			'right-end'   => esc_html__('Right End', 'master-addons'),
+			'right'        => esc_html__( 'Right', 'master-addons' ),
+			'right-start'  => esc_html__( 'Right Start', 'master-addons' ),
+			'right-end'    => esc_html__( 'Right End', 'master-addons' ),
 
-			'bottom'       => esc_html__('Bottom', 'master-addons'),
-			'bottom-start' => esc_html__('Bottom Start', 'master-addons'),
-			'bottom-end'   => esc_html__('Bottom End', 'master-addons'),
+			'bottom'       => esc_html__( 'Bottom', 'master-addons' ),
+			'bottom-start' => esc_html__( 'Bottom Start', 'master-addons' ),
+			'bottom-end'   => esc_html__( 'Bottom End', 'master-addons' ),
 
-			'left'       => esc_html__('Left', 'master-addons'),
-			'left-start' => esc_html__('Left Start', 'master-addons'),
-			'left-end'   => esc_html__('Left End', 'master-addons'),
+			'left'         => esc_html__( 'Left', 'master-addons' ),
+			'left-start'   => esc_html__( 'Left Start', 'master-addons' ),
+			'left-end'     => esc_html__( 'Left End', 'master-addons' ),
 
-			'auto'       => esc_html__('Auto', 'master-addons'),
-			'auto-start' => esc_html__('Auto Start', 'master-addons'),
-			'auto-end'   => esc_html__('Auto End', 'master-addons'),
-		];
+			'auto'         => esc_html__( 'Auto', 'master-addons' ),
+			'auto-start'   => esc_html__( 'Auto Start', 'master-addons' ),
+			'auto-end'     => esc_html__( 'Auto End', 'master-addons' ),
+		);
 	}
 
-	public static function jltma_tooltip_animations()
-	{
-		return [
-			'none'         => esc_html__('None', 'master-addons'),
-			''             => esc_html__('Fade', 'master-addons'),
-			'shift-away'   => esc_html__('Shift-Away', 'master-addons'),
-			'shift-toward' => esc_html__('Shift-Toward', 'master-addons'),
-			'scale'        => esc_html__('Scale', 'master-addons'),
-			'perspective'  => esc_html__('Perspective', 'master-addons'),
-			'fill'         => esc_html__('Fill Effect', 'master-addons'),
-		];
+	public static function jltma_tooltip_animations() {
+		return array(
+			'none'         => esc_html__( 'None', 'master-addons' ),
+			''             => esc_html__( 'Fade', 'master-addons' ),
+			'shift-away'   => esc_html__( 'Shift-Away', 'master-addons' ),
+			'shift-toward' => esc_html__( 'Shift-Toward', 'master-addons' ),
+			'scale'        => esc_html__( 'Scale', 'master-addons' ),
+			'perspective'  => esc_html__( 'Perspective', 'master-addons' ),
+			'fill'         => esc_html__( 'Fill Effect', 'master-addons' ),
+		);
 	}
 
-	public static function jltma_placeholder_images()
-	{
+	public static function jltma_placeholder_images() {
 		$demo_images =
-			[
-				'id'    =>  0,
-				'url'   =>  Utils::get_placeholder_image_src(),
-			];
+			array(
+				'id'  => 0,
+				'url' => Utils::get_placeholder_image_src(),
+			);
 		return $demo_images;
 	}
 
-	public static function find_widget_elements_by_id($elements, $id)
-	{
+	public static function find_widget_elements_by_id( $elements, $id ) {
 		static $widget = null;
 
-		foreach ($elements as $element) {
-			if ($id === $element['id']) {
+		foreach ( $elements as $element ) {
+			if ( $id === $element['id'] ) {
 				$widget = $element;
 
 				break;
-			} elseif (isset($element['elements'])) {
-				self::find_widget_elements_by_id($element['elements'], $id);
+			} elseif ( isset( $element['elements'] ) ) {
+				self::find_widget_elements_by_id( $element['elements'], $id );
 			}
 		}
 
@@ -1760,13 +1751,11 @@ class Master_Addons_Helper
 	}
 
 
-	public static function get_client_ip_as_key()
-	{
-		return str_replace('.', '_', self::get_client_ip());
+	public static function get_client_ip_as_key() {
+		return str_replace( '.', '_', self::get_client_ip() );
 	}
 
-	public static function get_client_ip()
-	{
+	public static function get_client_ip() {
 		$ip = self::IP_LOCAL;
 
 		$server_ip_keys = array(
@@ -1779,33 +1768,32 @@ class Master_Addons_Helper
 			'HTTP_FORWARDED',
 		);
 
-		foreach ($server_ip_keys as $key) {
-			if (isset($_SERVER[$key]) && filter_var($_SERVER[$key], FILTER_VALIDATE_IP)) {
-				$ip = $_SERVER[$key];
+		foreach ( $server_ip_keys as $key ) {
+			if ( isset( $_SERVER[ $key ] ) && filter_var( $_SERVER[ $key ], FILTER_VALIDATE_IP ) ) {
+				$ip = $_SERVER[ $key ];
 
 				break;
 			}
 		}
 
-		return apply_filters('jltma_elementor/utils/client_ip', $ip);
+		return apply_filters( 'jltma_elementor/utils/client_ip', $ip );
 	}
 
 
-	public static function short_number($number)
-	{
+	public static function short_number( $number ) {
 		$abbrevs = array(
 			12 => 'T',
-			9 => 'B',
-			6 => 'M',
-			3 => 'K',
-			0 => '',
+			9  => 'B',
+			6  => 'M',
+			3  => 'K',
+			0  => '',
 		);
 
-		foreach ($abbrevs as $exponent => $abbrev) {
-			if (abs($number) >= pow(10, $exponent)) {
-				$display = $number / pow(10, $exponent);
-				$decimals = ($exponent >= 3 && round($display) < 100) ? 1 : 0;
-				$number = number_format($display, $decimals) . $abbrev;
+		foreach ( $abbrevs as $exponent => $abbrev ) {
+			if ( abs( $number ) >= pow( 10, $exponent ) ) {
+				$display  = $number / pow( 10, $exponent );
+				$decimals = ( $exponent >= 3 && round( $display ) < 100 ) ? 1 : 0;
+				$number   = number_format( $display, $decimals ) . $abbrev;
 				break;
 			}
 		}
@@ -1813,19 +1801,18 @@ class Master_Addons_Helper
 		return $number;
 	}
 
-	public static function array_merge_recursive($array1, $array2)
-	{
+	public static function array_merge_recursive( $array1, $array2 ) {
 		$merged = $array1;
 
-		foreach ($array2 as $key => &$value) {
-			if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
-				$merged[$key] = self::array_merge_recursive($merged[$key], $value);
-			} elseif (is_numeric($key)) {
-				if (!in_array($value, $merged, true)) {
+		foreach ( $array2 as $key => &$value ) {
+			if ( is_array( $value ) && isset( $merged[ $key ] ) && is_array( $merged[ $key ] ) ) {
+				$merged[ $key ] = self::array_merge_recursive( $merged[ $key ], $value );
+			} elseif ( is_numeric( $key ) ) {
+				if ( ! in_array( $value, $merged, true ) ) {
 					$merged[] = $value;
 				}
 			} else {
-				$merged[$key] = $value;
+				$merged[ $key ] = $value;
 			}
 		}
 
@@ -1835,42 +1822,38 @@ class Master_Addons_Helper
 	/**
 	 * Get current elementor document id
 	 *
-	 *
 	 * @return int|false
 	 */
-	public static function get_document_id()
-	{
+	public static function get_document_id() {
 		$document = self::jltma_elementor()->documents->get_current();
 
-		if ($document) {
+		if ( $document ) {
 			return $document->get_main_id();
 		}
 
 		return $document;
 	}
 
-	public static function get_ob_html($callback)
-	{
-		if (!is_callable($callback)) {
+	public static function get_ob_html( $callback ) {
+		if ( ! is_callable( $callback ) ) {
 			return '';
 		}
 
 		ob_start();
 
-		call_user_func($callback);
+		call_user_func( $callback );
 
 		return ob_get_clean();
 	}
 
-	public static function render_icon($icon_setting, $attributes = array())
-	{
-		if (empty($icon_setting['value'])) {
+	public static function render_icon( $icon_setting, $attributes = array() ) {
+		if ( empty( $icon_setting['value'] ) ) {
 			return;
 		}
 
 		echo '<span class="jltma-wrap-icon">';
 
-		Icons_Manager::render_icon($icon_setting, $attributes);
+		Icons_Manager::render_icon( $icon_setting, $attributes );
 
 		echo '</span>';
 	}
@@ -1879,14 +1862,16 @@ class Master_Addons_Helper
 	 * Render Icon
 	 *
 	 * Used to render Icon for \Elementor\Controls_Manager::ICONS
+	 *
 	 * @param array $icon Icon Type, Icon value
 	 * @param array $attributes Icon HTML Attributes
 	 */
-	public static function get_render_icon($icon_setting, $attributes = array())
-	{
-		return self::get_ob_html(function () use ($icon_setting, $attributes) {
-			self::render_icon($icon_setting, $attributes);
-		});
+	public static function get_render_icon( $icon_setting, $attributes = array() ) {
+		return self::get_ob_html(
+			function () use ( $icon_setting, $attributes ) {
+				self::render_icon( $icon_setting, $attributes );
+			}
+		);
 	}
 
 
@@ -1898,41 +1883,39 @@ class Master_Addons_Helper
 	 *
 	 * @return string Control id that prepared for css vars.
 	 */
-	public static function prepare_css_var($control_id, $value = '')
-	{
-		$var_key = '--' . str_replace('_', '-', $control_id);
+	public static function prepare_css_var( $control_id, $value = '' ) {
+		$var_key = '--' . str_replace( '_', '-', $control_id );
 
-		if (empty($value)) {
+		if ( empty( $value ) ) {
 			return $var_key;
 		}
 
 		return $var_key . ': ' . $value . ';';
 	}
 
-	public static function get_available_image_sizes()
-	{
-		$glob_sizes = wp_get_additional_image_sizes();
+	public static function get_available_image_sizes() {
+		$glob_sizes  = wp_get_additional_image_sizes();
 		$image_sizes = get_intermediate_image_sizes();
-		$sizes = array();
+		$sizes       = array();
 
-		if (is_array($image_sizes) && $image_sizes) {
-			foreach ($image_sizes as $size) {
-				if (in_array($size, array('thumbnail', 'medium', 'medium_large', 'large'), true)) {
-					$sizes[$size] = array(
-						'width' => get_option("{$size}_size_w"),
-						'height' => get_option("{$size}_size_h"),
-						'crop' => (bool) get_option("{$size}_crop"),
+		if ( is_array( $image_sizes ) && $image_sizes ) {
+			foreach ( $image_sizes as $size ) {
+				if ( in_array( $size, array( 'thumbnail', 'medium', 'medium_large', 'large' ), true ) ) {
+					$sizes[ $size ] = array(
+						'width'  => get_option( "{$size}_size_w" ),
+						'height' => get_option( "{$size}_size_h" ),
+						'crop'   => (bool) get_option( "{$size}_crop" ),
 					);
-				} elseif (isset($glob_sizes[$size])) {
-					$sizes[$size] = array(
-						'width' => $glob_sizes[$size]['width'],
-						'height' => $glob_sizes[$size]['height'],
-						'crop' => $glob_sizes[$size]['crop'],
+				} elseif ( isset( $glob_sizes[ $size ] ) ) {
+					$sizes[ $size ] = array(
+						'width'  => $glob_sizes[ $size ]['width'],
+						'height' => $glob_sizes[ $size ]['height'],
+						'crop'   => $glob_sizes[ $size ]['crop'],
 					);
 				}
 
-				if (0 === (int) $sizes[$size]['width'] || 0 === (int) $sizes[$size]['height']) {
-					unset($sizes[$size]);
+				if ( 0 === (int) $sizes[ $size ]['width'] || 0 === (int) $sizes[ $size ]['height'] ) {
+					unset( $sizes[ $size ] );
 				}
 			}
 		}
@@ -1940,9 +1923,8 @@ class Master_Addons_Helper
 		return $sizes;
 	}
 
-	public static function jltma_animate_class($addon_animate, $effect, $delay)
-	{
-		if ($addon_animate == 'on') :
+	public static function jltma_animate_class( $addon_animate, $effect, $delay ) {
+		if ( $addon_animate == 'on' ) :
 			$animate_class = ' animate-in" data-anim-type="' . $effect . '" data-anim-delay="' . $delay . '"';
 		else :
 			$animate_class = '"';
@@ -1952,59 +1934,58 @@ class Master_Addons_Helper
 
 
 
-	public static function jltma_post_type_query($source, $posts_source, $posts_type, $categories, $categories_post_type, $order, $orderby, $pagination, $pagination_type, $num_posts, $num_posts_page)
-	{
+	public static function jltma_post_type_query( $source, $posts_source, $posts_type, $categories, $categories_post_type, $order, $orderby, $pagination, $pagination_type, $num_posts, $num_posts_page ) {
 
-		if ($orderby == 'views') {
-			$orderby = 'meta_value_num';
+		if ( $orderby == 'views' ) {
+			$orderby    = 'meta_value_num';
 			$view_order = 'views';
 		} else {
 			$view_order = '';
 		}
 
-		if ($source == 'post_type') {
+		if ( $source == 'post_type' ) {
 			$posts_source = 'all_posts';
 		}
 
-		if ($posts_source == 'all_posts') {
+		if ( $posts_source == 'all_posts' ) {
 
 			$query = 'post_type=Post&post_status=publish&ignore_sticky_posts=1&orderby=' . $orderby . '&order=' . $order . '';
 
 			// CUSTOM POST TYPE
-			if ($source == 'post_type') {
+			if ( $source == 'post_type' ) {
 				$query .= '&post_type=' . $posts_type . '';
 			}
 
-			if ($view_order == 'views') {
+			if ( $view_order == 'views' ) {
 				$query .= '&meta_key=wpb_post_views_count';
 			}
 
 			// CATEGORIES POST TYPE
-			if ($categories_post_type != '' && !empty($categories_post_type) && $source == 'post_type') {
-				$taxonomy_names = get_object_taxonomies($posts_type);
-				$query .= '&' . $taxonomy_names[0] . '=' . $categories_post_type . '';
+			if ( $categories_post_type != '' && ! empty( $categories_post_type ) && $source == 'post_type' ) {
+				$taxonomy_names = get_object_taxonomies( $posts_type );
+				$query         .= '&' . $taxonomy_names[0] . '=' . $categories_post_type . '';
 			}
 
 			// CATEGORIES POSTS
-			if ($categories != '' && $categories != 'all' && !empty($categories) && $source == 'wp_posts') {
+			if ( $categories != '' && $categories != 'all' && ! empty( $categories ) && $source == 'wp_posts' ) {
 				$query .= '&category_name=' . $categories . '';
 			}
 
-			if ($pagination == 'yes' || $pagination == 'load-more') {
+			if ( $pagination == 'yes' || $pagination == 'load-more' ) {
 				$query .= '&posts_per_page=' . $num_posts_page . '';
 			} else {
-				if ($num_posts == '') {
+				if ( $num_posts == '' ) {
 					$num_posts = '-1';
 				}
 				$query .= '&posts_per_page=' . $num_posts . '';
 			}
 
 			// PAGINATION
-			if ($pagination == 'yes' || $pagination == 'load-more') {
-				if (get_query_var('paged')) {
-					$paged = get_query_var('paged');
-				} elseif (get_query_var('page')) {
-					$paged = get_query_var('page');
+			if ( $pagination == 'yes' || $pagination == 'load-more' ) {
+				if ( get_query_var( 'paged' ) ) {
+					$paged = get_query_var( 'paged' );
+				} elseif ( get_query_var( 'page' ) ) {
+					$paged = get_query_var( 'page' );
 				} else {
 					$paged = 1;
 				}
@@ -2014,11 +1995,10 @@ class Master_Addons_Helper
 
 		} else { // IF STICKY
 
-
-			if ($pagination == 'yes' || $pagination == 'load-more') {
+			if ( $pagination == 'yes' || $pagination == 'load-more' ) {
 				$num_posts = $num_posts_page;
 			} else {
-				if ($num_posts == '') {
+				if ( $num_posts == '' ) {
 					$num_posts = '-1';
 				}
 				$num_posts = $num_posts;
@@ -2026,10 +2006,10 @@ class Master_Addons_Helper
 
 			// PAGINATION
 
-			if (get_query_var('paged')) {
-				$paged = get_query_var('paged');
-			} elseif (get_query_var('page')) {
-				$paged = get_query_var('page');
+			if ( get_query_var( 'paged' ) ) {
+				$paged = get_query_var( 'paged' );
+			} elseif ( get_query_var( 'page' ) ) {
+				$paged = get_query_var( 'page' );
 			} else {
 				$paged = 1;
 			}
@@ -2038,9 +2018,9 @@ class Master_Addons_Helper
 
 			/* STICKY POST DA FARE ARRAY PER SCRITTURA IN ARRAY */
 
-			$sticky = get_option('sticky_posts');
-			$sticky = array_slice($sticky, 0, 5);
-			if ($view_order == 'views') {
+			$sticky = get_option( 'sticky_posts' );
+			$sticky = array_slice( $sticky, 0, 5 );
+			if ( $view_order == 'views' ) {
 				$query = array(
 					'post_type'           => 'post',
 					'post_status'         => 'publish',
@@ -2051,7 +2031,7 @@ class Master_Addons_Helper
 					'meta_key'            => 'wpb_post_views_count',
 					'paged'               => $paged,
 					'post__in'            => $sticky,
-					'ignore_sticky_posts' => 1
+					'ignore_sticky_posts' => 1,
 				);
 			} else {
 				$query = array(
@@ -2063,7 +2043,7 @@ class Master_Addons_Helper
 					'posts_per_page'      => $num_posts,
 					'paged'               => $paged,
 					'post__in'            => $sticky,
-					'ignore_sticky_posts' => 1
+					'ignore_sticky_posts' => 1,
 				);
 			}
 		} // #all_posts
@@ -2073,55 +2053,51 @@ class Master_Addons_Helper
 
 
 	/** Get Category **/
-
-	public static function jltma_get_category($source, $posts_type, $css_link, $limit = 1)
-	{
+	public static function jltma_get_category( $source, $posts_type, $css_link, $limit = 1 ) {
 		$separator = ' ';
-		$output = '';
-		$count = 1;
-		if ($source == 'wp_posts') {
+		$output    = '';
+		$count     = 1;
+		if ( $source == 'wp_posts' ) {
 			$categories = get_the_category();
-			if ($categories) {
-				foreach ($categories as $category) {
-					$output .= '<a href="' . get_category_link($category->term_id) . '" title="' . esc_attr( /* translators: %s: Categories */sprintf(__("View all posts in %s", "master-addons"), $category->name)) . '" ' . $css_link . '>' . esc_html($category->cat_name) . '</a>' . esc_html($separator);
-					if ($count == $limit) {
+			if ( $categories ) {
+				foreach ( $categories as $category ) {
+					$output .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . esc_attr( /* translators: %s: Categories */sprintf( __( 'View all posts in %s', 'master-addons' ), $category->name ) ) . '" ' . $css_link . '>' . esc_html( $category->cat_name ) . '</a>' . esc_html( $separator );
+					if ( $count == $limit ) {
 						break;
 					}
-					$count++;
+					++$count;
 				}
 			}
-		} elseif ($source == 'post_type') {
+		} elseif ( $source == 'post_type' ) {
 			global $post;
-			$taxonomy_names = get_object_taxonomies($posts_type);
-			$term_list = wp_get_post_terms($post->ID, $taxonomy_names);
-			if ($term_list) {
-				foreach ($term_list as $tax_term) {
-					$output .= '<a href="' . esc_attr(get_term_link($tax_term, $posts_type)) . '" title="' . esc_attr(sprintf(__("View all posts in %s", "master-addons"), $tax_term->name)) . '" ' . $css_link . '>' . esc_html($tax_term->name) . '</a>' . esc_html($separator);
+			$taxonomy_names = get_object_taxonomies( $posts_type );
+			$term_list      = wp_get_post_terms( $post->ID, $taxonomy_names );
+			if ( $term_list ) {
+				foreach ( $term_list as $tax_term ) {
+					$output .= '<a href="' . esc_attr( get_term_link( $tax_term, $posts_type ) ) . '" title="' . esc_attr( sprintf( __( 'View all posts in %s', 'master-addons' ), $tax_term->name ) ) . '" ' . $css_link . '>' . esc_html( $tax_term->name ) . '</a>' . esc_html( $separator );
 				}
 			}
 		}
-		$return = trim($output, $separator);
+		$return = trim( $output, $separator );
 		return $return;
 	}
 
 
 	/** Get Author **/
-	public static function jltma_get_author($css_link)
-	{
-		$return = '<a href="' . get_author_posts_url(get_the_author_meta('ID')) . '" ' . $css_link . '>' . get_the_author_meta('display_name') . '</a>';
+	public static function jltma_get_author( $css_link ) {
+		$return = '<a href="' . get_author_posts_url( get_the_author_meta( 'ID' ) ) . '" ' . $css_link . '>' . get_the_author_meta( 'display_name' ) . '</a>';
 		return $return;
 	}
 
 	/** Get Blog Exceprt */
-	public static function jltma_get_blogs_excerpt($excerpt = 'default', $readmore = 'on', $css_link = '')
-	{
+	public static function jltma_get_blogs_excerpt( $excerpt = 'default', $readmore = 'on', $css_link = '' ) {
 		global $post;
-		if ($excerpt == 'default') :
+		if ( $excerpt == 'default' ) :
 			$return = get_the_excerpt();
 		else :
-			$return = substr(get_the_excerpt(), 0, $excerpt);
-			if ($readmore == 'on') :
-				$return .= '<a class="article-read-more" href="' . get_permalink($post->ID) . '" ' . $css_link . '>' . esc_html__('Read More', 'master-addons') . '</a>';
+			$return = substr( get_the_excerpt(), 0, $excerpt );
+			if ( $readmore == 'on' ) :
+				$return .= '<a class="article-read-more" href="' . get_permalink( $post->ID ) . '" ' . $css_link . '>' . esc_html__( 'Read More', 'master-addons' ) . '</a>';
 			else :
 				$return .= '...';
 			endif;
@@ -2131,25 +2107,23 @@ class Master_Addons_Helper
 
 
 	/** Post Social Share **/
-	public static function jltma_post_social_share($css_link)
-	{
+	public static function jltma_post_social_share( $css_link ) {
 
 		$return = '<div class="container-social">
-			<a target="_blank" href="http://www.facebook.com/sharer.php?u=' . get_the_permalink() . '&amp;t=' . get_the_title() . '" title="' . esc_html__('Click to share this post on Facebook', 'master-addons') . '" ' . $css_link . '><i class="fa fa-facebook"></i></a>
-			<a target="_blank" href="http://twitter.com/home?status=' . get_the_permalink() . '" title="' . esc_html__('Click to share this post on Twitter', 'master-addons') . '"><i class="fa fa-twitter" ' . $css_link . '></i></a>
-			<a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=' . get_the_permalink() . '" title="' . esc_html__('Click to share this post on Linkedin', 'master-addons') . '"><i class="fa fa-linkedin" ' . $css_link . '></i></a></div>';
+			<a target="_blank" href="http://www.facebook.com/sharer.php?u=' . get_the_permalink() . '&amp;t=' . get_the_title() . '" title="' . esc_html__( 'Click to share this post on Facebook', 'master-addons' ) . '" ' . $css_link . '><i class="fa fa-facebook"></i></a>
+			<a target="_blank" href="http://twitter.com/home?status=' . get_the_permalink() . '" title="' . esc_html__( 'Click to share this post on Twitter', 'master-addons' ) . '"><i class="fa fa-twitter" ' . $css_link . '></i></a>
+			<a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=' . get_the_permalink() . '" title="' . esc_html__( 'Click to share this post on Linkedin', 'master-addons' ) . '"><i class="fa fa-linkedin" ' . $css_link . '></i></a></div>';
 
 		return $return;
 	}
 
 	/** Check Post Format **/
-	public static function jltma_check_post_format()
-	{
+	public static function jltma_check_post_format() {
 		global $post;
-		$format = get_post_format_string(get_post_format());
-		if ($format == 'Video') :
+		$format = get_post_format_string( get_post_format() );
+		if ( $format == 'Video' ) :
 			$return = '<span class="fpg-format-type fa fa-play-circle-o"></span>';
-		elseif ($format == 'Audio') :
+		elseif ( $format == 'Audio' ) :
 			$return = '<span class="fpg-format-type fa fa-headphones"></span>';
 		else :
 			$return = '';
@@ -2158,14 +2132,13 @@ class Master_Addons_Helper
 	}
 
 	/** Get Thumbnails **/
-	public static function jltma_get_thumb($thumbs_size = 'thumbnail')
-	{
+	public static function jltma_get_thumb( $thumbs_size = 'thumbnail' ) {
 		global $post;
 		$link = get_the_permalink();
-		if (has_post_thumbnail()) {
-			$id_post = get_the_id();
-			$single_image = wp_get_attachment_image_src(get_post_thumbnail_id($id_post), $thumbs_size);
-			$return = '<a href="' . esc_url($link) . '"><img class="fpg-thumbs" src="' . $single_image[0] . '" alt="' . get_the_title() . '"></a>';
+		if ( has_post_thumbnail() ) {
+			$id_post      = get_the_id();
+			$single_image = wp_get_attachment_image_src( get_post_thumbnail_id( $id_post ), $thumbs_size );
+			$return       = '<a href="' . esc_url( $link ) . '"><img class="fpg-thumbs" src="' . $single_image[0] . '" alt="' . get_the_title() . '"></a>';
 		} else {
 			$return = '';
 		}
@@ -2174,31 +2147,28 @@ class Master_Addons_Helper
 
 
 	/** Get Blog Thumbnails **/
-	public static function jltma_get_blogs_thumb($columns, $post_id)
-	{
+	public static function jltma_get_blogs_thumb( $columns, $post_id ) {
 		global $post;
-		if ($columns == '1') :
-			$return = self::jltma_get_thumb('large');
-		elseif ($columns == '2') :
-			$return = self::jltma_get_thumb('medium');
+		if ( $columns == '1' ) :
+			$return = self::jltma_get_thumb( 'large' );
+		elseif ( $columns == '2' ) :
+			$return = self::jltma_get_thumb( 'medium' );
 		else :
-			$return = self::jltma_get_thumb('small');
+			$return = self::jltma_get_thumb( 'small' );
 		endif;
 		return $return;
 	}
 
 	// Get Template Part
-	public static function jltma_get_template_part($jltma_template, $jltma_data = array())
-	{
-		extract($jltma_data);
-		include JLTMA_PATH . '/inc/post-templates/' . $jltma_template . '.php';
+	public static function jltma_get_template_part( $jltma_template, $jltma_data = array() ) {
+		extract( $jltma_data );
+		include JLTMA_PATH . 'inc/post-templates/' . $jltma_template . '.php';
 	}
 
 	// Get Featured Image URL
-	public static function jltma_get_featured_image_url()
-	{
-		$featured_image_full_url = wp_get_attachment_image_src(get_post_thumbnail_id(), 'full');
-		if (isset($featured_image_full_url[0]) && strlen($featured_image_full_url[0]) > 0) {
+	public static function jltma_get_featured_image_url() {
+		$featured_image_full_url = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full' );
+		if ( isset( $featured_image_full_url[0] ) && strlen( $featured_image_full_url[0] ) > 0 ) {
 			return $featured_image_full_url[0];
 		} else {
 			return false;
@@ -2206,20 +2176,20 @@ class Master_Addons_Helper
 	}
 
 	// Get Featured Image URL
-	public static function jltma_excerpt_truncate($jltma_string, $jltma_length = 80, $jltma_etc = '... ', $jltma_break_words = false, $jltma_middle = false)
-	{
-		if ($jltma_length == 0)
+	public static function jltma_excerpt_truncate( $jltma_string, $jltma_length = 80, $jltma_etc = '... ', $jltma_break_words = false, $jltma_middle = false ) {
+		if ( $jltma_length == 0 ) {
 			return '';
+		}
 
-		if (mb_strlen($jltma_string, 'utf8') > $jltma_length) {
-			$jltma_length -= mb_strlen($jltma_etc, 'utf8');
-			if (!$jltma_break_words && !$jltma_middle) {
-				$jltma_string = preg_replace('/\s+\S+\s*$/su', '', mb_substr($jltma_string, 0, $jltma_length + 1, 'utf8'));
+		if ( mb_strlen( $jltma_string, 'utf8' ) > $jltma_length ) {
+			$jltma_length -= mb_strlen( $jltma_etc, 'utf8' );
+			if ( ! $jltma_break_words && ! $jltma_middle ) {
+				$jltma_string = preg_replace( '/\s+\S+\s*$/su', '', mb_substr( $jltma_string, 0, $jltma_length + 1, 'utf8' ) );
 			}
-			if (!$jltma_middle) {
-				return mb_substr($jltma_string, 0, $jltma_length, 'utf8') . $jltma_etc;
+			if ( ! $jltma_middle ) {
+				return mb_substr( $jltma_string, 0, $jltma_length, 'utf8' ) . $jltma_etc;
 			} else {
-				return mb_substr($jltma_string, 0, $jltma_length / 2, 'utf8') . $jltma_etc . mb_substr($jltma_string, -$jltma_length / 2, utf8);
+				return mb_substr( $jltma_string, 0, $jltma_length / 2, 'utf8' ) . $jltma_etc . mb_substr( $jltma_string, -$jltma_length / 2, utf8 );
 			}
 		} else {
 			return $jltma_string;
@@ -2227,82 +2197,301 @@ class Master_Addons_Helper
 	}
 
 
-	public static function jltma_pro_notice_html() {
+	public static function jltma_pro_notice_html( $args = array() ) {
+
+		$defaults = array(
+			'show_icon'    => true,
+			'show_heading' => true,
+		);
+		$args = wp_parse_args( $args, $defaults );
+
+		// Get Pro_Upgrade instance to access promo data
+		$pro_upgrade = new \MasterAddons\Inc\Classes\Pro_Upgrade();
+
+		// Check if campaign is active, otherwise use fallback
+		if ( 'FALSE' === $pro_upgrade->get_content( 'is_campaign' ) ) {
+			$notice   = 'Use "SPECIAL40" to Get Flat 40% OFF';
+			$btn_url  = 'https://master-addons.com/pricing/';
+			$btn_text = 'GET THE DEAL';
+		} else {
+			$notice   = $pro_upgrade->get_content( 'notice' );
+			$btn_url  = $pro_upgrade->get_content( 'button_url' );
+			$btn_text = $pro_upgrade->get_content( 'button_text' );
+		}
+
+		$end_date = $pro_upgrade->counter_date();
 
 		ob_start();
-		$upgrade_data = new Pro_Upgrade();
-		// $image_url = esc_url($upgrade_data->get_content('image_url')),
+		?>
+		<div class="jltma-upgrade-banner" id="jltma-upgrade-banner">
+			<div class="jltma-upgrade-banner-content">
+				<?php if ( $args['show_icon'] ) : ?>
+				<!-- Crown Icon with Speech Bubble Tail -->
+				<div class="jltma-upgrade-banner-icon-wrapper">
+					<div class="jltma-upgrade-banner-icon">
+						<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M6 30V26L3 12L12 18L20 8L28 18L37 12L34 26V30H6Z" fill="white"/>
+							<circle cx="20" cy="22" r="2.5" fill="#6814cd"/>
+						</svg>
+					</div>
+				</div>
+				<?php endif; ?>
 
-		// return sprintf(
-		// 	'<div class="jltma-pro-notice">
-		// 		<img src="%s" alt="%s" />
-		// 		<div class="jltma-pro-notice-content">
-		// 			<h4>%s</h4>
-		// 			<a target="__blank" rel="nofollow" class="elementor-button elementor-button-default" href="%s">%s</a>
-		// 		</div>
-		// 	</div>',
-		// 	esc_url_raw( JLTMA_IMAGE_DIR . 'promo-image.png' ),
-		// 	esc_attr(__('Upgrade Notice', 'master-addons')),
-		// 	__('Upgrade to premium plan and unlock every feature!', 'master-addons'),
-		// 	esc_url('https://master-addons.com/pricing'),
-		// 	__('Upgrade Master Addons', 'master-addons')
-		// );
+				<?php if ( $args['show_heading'] ) : ?>
+				<!-- Main Heading -->
+				<h2 class="jltma-upgrade-banner-title"><?php echo esc_html__( 'Upgrade to unlock every powerful feature and faster performance', 'master-addons' ); ?></h2>
+				<?php endif; ?>
 
-		// $banner_image = '';
-		// if(!empty($upgrade_data->get_content('image_url'))) {
-			// $banner_image = $upgrade_data->get_content('image_url');
-		// } else {
-			$banner_image = JLTMA_IMAGE_DIR . 'promo-image.png';
-		// }
-
-
-		$notice_html = '<div class="jltma-upgrade-banner" id="jltma-upgrade-banner">
-
-			<div class="jltma-upgrade-banner-overlay"></div>
-
-			<div class="jltma-upgrade-banner-modal" style="background-image: url(' . $banner_image . '); --jltma-upgrade-banner-color: ' . esc_attr($upgrade_data->get_content('btn_color')) . ';">
-
-				<!-- content section  -->
-				<div class="jltma-upgrade-banner-modal-footer">
-
-					<!-- countdown  -->
-					<div class="jltma-upgrade-banner-countdown" >';
-
-				//  if (!empty($upgrade_data->get_content('notice'))) {
-					$notice_html .=	"<span data-counter='notice' style='color:#F4B740; font-size:14px; padding-bottom:20px; font-style:italic;'>" . esc_html__('Notice:', 'master-addons') . " " . $upgrade_data->get_content('notice') . "</span>";
-				// }
-
-				$notice_html .=	'<span class="jltma-upgrade-banner-countdown-text">' . esc_html__('Offer Ends In', 'master-addons') . '</span>
-						<div class="jltma-upgrade-banner-countdown-time">
-							<div>
-								<span data-counter="days">00</span>
-								<span>' . esc_html__('Days', 'master-addons') . '</span>
-							</div>
-							<span>:</span>
-							<div>
-								<span data-counter="hours">00</span>
-								<span>' . esc_html__('Hours', 'master-addons') . '</span>
-							</div>
-							<span>:</span>
-							<div>
-								<span data-counter="minutes">00</span>
-								<span>' . esc_html__('Minutes', 'master-addons') . '</span>
-							</div>
-							<span>:</span>
-							<div>
-								<span data-counter="seconds">00</span>
-								<span>' . esc_html__('Seconds', 'master-addons') . '</span>
-							</div>
+				<!-- Countdown Timer -->
+				<div class="jltma-popup-countdown" style="display: none;">
+					<?php if ( ! empty( $notice ) ) { ?>
+						<span data-counter="notice" style="color:#F4B740; font-size:14px; padding-bottom:20px; font-style:italic;">
+							<?php echo esc_html__( 'Notice:', 'master-addons' ); ?> <?php echo esc_html( $notice ); ?>
+						</span>
+					<?php } ?>
+					<span class="jltma-popup-countdown-text"><?php echo esc_html__( 'Offer Ends In', 'master-addons' ); ?></span>
+					<div class="jltma-popup-countdown-time">
+						<div>
+							<span data-counter="days">00</span>
+							<span><?php echo esc_html__( 'Days', 'master-addons' ); ?></span>
+						</div>
+						<span>:</span>
+						<div>
+							<span data-counter="hours">00</span>
+							<span><?php echo esc_html__( 'Hours', 'master-addons' ); ?></span>
+						</div>
+						<span>:</span>
+						<div>
+							<span data-counter="minutes">00</span>
+							<span><?php echo esc_html__( 'Minutes', 'master-addons' ); ?></span>
+						</div>
+						<span>:</span>
+						<div>
+							<span data-counter="seconds">00</span>
+							<span><?php echo esc_html__( 'Seconds', 'master-addons' ); ?></span>
 						</div>
 					</div>
-
-					<!-- button  -->
-					<a class="jltma-upgrade-banner-button" target="_blank" href="' . esc_url($upgrade_data->get_content('button_url')) . '">' . esc_html($upgrade_data->get_content('button_text')) . '</a>
 				</div>
-			</div>
-		</div>';
 
+				<!-- Upgrade Button -->
+				<a class="jltma-upgrade-banner-button" target="_blank" href="https://master-addons.com/pricing"><?php echo esc_html__( 'Upgrade Now', 'master-addons' ); ?></a>
+			</div>
+		</div>
+
+		<script>
+		(function() {
+			var $container = jQuery('#jltma-upgrade-banner');
+
+			// Update Counter
+			function updateCounter(seconds) {
+				const $counter = $container.find(".jltma-popup-countdown-time");
+				const $days = $counter.find("[data-counter='days']");
+				const $hours = $counter.find("[data-counter='hours']");
+				const $minutes = $counter.find("[data-counter='minutes']");
+				const $seconds = $counter.find("[data-counter='seconds']");
+				const days = Math.floor(seconds / (3600 * 24));
+				seconds -= days * 3600 * 24;
+				const hrs = Math.floor(seconds / 3600);
+				seconds -= hrs * 3600;
+				const mnts = Math.floor(seconds / 60);
+				seconds -= mnts * 60;
+
+				$days.text(days);
+				$hours.text(hrs);
+				$minutes.text(mnts);
+				$seconds.text(seconds);
+			}
+
+			// initCounter
+			function initCounter(last_date) {
+				const countdown = () => {
+					// system time
+					const now = new Date().getTime();
+
+					// set end time to 11:59:59 PM
+					const endDate = new Date(last_date);
+					endDate.setHours(23);
+					endDate.setMinutes(59);
+					endDate.setSeconds(59);
+
+					const seconds = Math.floor((endDate.getTime() - now) / 1000);
+
+					if (seconds < 0) {
+						return false;
+					}
+
+					updateCounter(seconds);
+					return true;
+				}
+
+				let result = countdown();
+
+				if (result) {
+					$container.find(".jltma-popup-countdown").show(0);
+				} else {
+					$container.find(".jltma-popup-countdown").hide(0);
+				}
+
+				// update counter every 1 second
+				const counter = setInterval(() => {
+					const result = countdown();
+					if (!result) {
+						clearInterval(counter);
+						$container.find(".jltma-popup-countdown").hide(0);
+					}
+				}, 1000);
+			}
+
+			// Initialize countdown when DOM is ready
+			jQuery(document).ready(function() {
+				initCounter('<?php echo esc_attr( $end_date ); ?>');
+			});
+		})();
+		</script>
+		<?php
+
+		$notice_html = ob_get_clean();
 		return $notice_html;
-		ob_get_clean();
+	}
+
+
+	public static function jltma_premium(){
+		// Direct check using Freemius - more reliable than filter
+		if (function_exists('ma_el_fs')) {
+			return ma_el_fs()->can_use_premium_code__premium_only();
+		}
+		return apply_filters('master_addons/is_premium', false);
+	}
+
+	/**
+	 * Get widget statistics for admin dashboard
+	 * Returns counts for all widgets, core, third party, and active widgets
+	 *
+	 * @return array Statistics array with totals and percentages
+	 */
+	public static function jltma_get_widget_stats() {
+		// Include element definition files
+		$elements_file = JLTMA_PATH . 'inc/admin/jltma-elements/ma-elements.php';
+		$extensions_file = JLTMA_PATH . 'inc/admin/jltma-elements/ma-extensions.php';
+		$forms_file = JLTMA_PATH . 'inc/admin/jltma-elements/ma-forms.php';
+		$third_party_file = JLTMA_PATH . 'inc/admin/jltma-elements/ma-third-party-plugins.php';
+
+		if (file_exists($elements_file)) include_once $elements_file;
+		if (file_exists($extensions_file)) include_once $extensions_file;
+		if (file_exists($forms_file)) include_once $forms_file;
+		if (file_exists($third_party_file)) include_once $third_party_file;
+
+		// Get saved settings
+		$element_settings = get_option('maad_el_save_settings', []);
+		$extension_settings = get_option('ma_el_extensions_save_settings', []);
+
+		// Initialize counters
+		$core_widgets = [];
+		$third_party_widgets = [];
+
+		// Collect core elements
+		if (class_exists('MasterAddons\Admin\Dashboard\Addons\Elements\JLTMA_Addon_Elements')) {
+			$elements = \MasterAddons\Admin\Dashboard\Addons\Elements\JLTMA_Addon_Elements::$jltma_elements;
+			if (isset($elements['jltma-addons']['elements'])) {
+				foreach ($elements['jltma-addons']['elements'] as $element) {
+					if (isset($element['key'])) {
+						$core_widgets[] = [
+							'key' => $element['key'],
+							'type' => 'element'
+						];
+					}
+				}
+			}
+		}
+
+		// Collect extensions
+		if (class_exists('MasterAddons\Admin\Dashboard\Addons\Extensions\JLTMA_Addon_Extensions')) {
+			$extensions = \MasterAddons\Admin\Dashboard\Addons\Extensions\JLTMA_Addon_Extensions::$jltma_extensions;
+			if (isset($extensions['jltma-extensions']['extension'])) {
+				foreach ($extensions['jltma-extensions']['extension'] as $extension) {
+					if (isset($extension['key'])) {
+						$core_widgets[] = [
+							'key' => $extension['key'],
+							'type' => 'extension'
+						];
+					}
+				}
+			}
+		}
+
+		// Collect forms
+		if (class_exists('MasterAddons\Admin\Dashboard\Addons\Elements\JLTMA_Addon_Forms')) {
+			$forms = \MasterAddons\Admin\Dashboard\Addons\Elements\JLTMA_Addon_Forms::$jltma_forms;
+			if (isset($forms['jltma-forms']['elements'])) {
+				foreach ($forms['jltma-forms']['elements'] as $form) {
+					if (isset($form['key'])) {
+						$core_widgets[] = [
+							'key' => $form['key'],
+							'type' => 'element'
+						];
+					}
+				}
+			}
+		}
+
+		// Collect third party plugins
+		if (class_exists('MasterAddons\Admin\Dashboard\Addons\Extensions\JLTMA_Third_Party_Extensions')) {
+			$third_party = \MasterAddons\Admin\Dashboard\Addons\Extensions\JLTMA_Third_Party_Extensions::$jltma_third_party_plugins;
+			if (isset($third_party['jltma-plugins']['plugin'])) {
+				foreach ($third_party['jltma-plugins']['plugin'] as $plugin) {
+					if (isset($plugin['key'])) {
+						$third_party_widgets[] = [
+							'key' => $plugin['key'],
+							'type' => 'third_party'
+						];
+					}
+				}
+			}
+		}
+
+		// Calculate active counts
+		$core_active = 0;
+		$core_total = count($core_widgets);
+		foreach ($core_widgets as $widget) {
+			$settings = ($widget['type'] === 'extension') ? $extension_settings : $element_settings;
+			if (isset($settings[$widget['key']]) && $settings[$widget['key']] == 1) {
+				$core_active++;
+			}
+		}
+
+		$third_party_active = 0;
+		$third_party_total = count($third_party_widgets);
+		// Third party plugins don't have the same active/inactive mechanism
+
+		// Calculate totals
+		$all_total = $core_total + $third_party_total;
+		$all_active = $core_active + $third_party_active;
+
+		return [
+			'all' => [
+				'total' => $all_total,
+				'active' => $all_active,
+				'inactive' => $all_total - $all_active,
+				'percentage' => $all_total > 0 ? round(($all_active / $all_total) * 100) : 0
+			],
+			'core' => [
+				'total' => $core_total,
+				'active' => $core_active,
+				'inactive' => $core_total - $core_active,
+				'percentage' => $core_total > 0 ? round(($core_active / $core_total) * 100) : 0
+			],
+			'third_party' => [
+				'total' => $third_party_total,
+				'active' => $third_party_active,
+				'inactive' => $third_party_total - $third_party_active,
+				'percentage' => $third_party_total > 0 ? round(($third_party_active / $third_party_total) * 100) : 0
+			],
+			'active' => [
+				'total' => $all_active,
+				'active' => $all_active,
+				'inactive' => 0,
+				'percentage' => 100
+			]
+		];
 	}
 }

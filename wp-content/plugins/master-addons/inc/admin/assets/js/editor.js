@@ -199,8 +199,228 @@
         } );
 
         elementor.addControlView( 'jltma_query', JLTMA_ControlQuery );
-	} );
 
-    !function(t){t(document).ready(function(){"jltma_custom_bp_data"in window&&t("#custom_breakpoints_page").length&&new Vue({el:"#custom_breakpoints_page",data:{show_pro_message:!1,disable_add_breakpoint:!1,default_devices:["desktop","tablet","mobile"],breakpoints:[]},computed:{total_custom_breakpoints(){return this.breakpoints.filter(function(t){return!this.in_array(t.key,this.default_devices)}.bind(this)).length},sorted_breakpoints(){var t;return t=(t=(t=this.breakpoints.map(function(t,e){return"max"in t&&(t.max=Number(t.max)),t})).sort(function(t,e){return"desktop"==e.key?-1:t.max<e.max?-1:1})).map(function(e,i){var a=t[i-1];return e.min=a?a.max+1:0,e.max>0&&e.max<=e.min&&(e.max=e.min+1),e})}},mounted(){this.isPro=!!jltma_custom_bp_data.is_pro,this.breakpoints=window.jltma_custom_bp_data.breakpoints.map(function(t,e){return t.isRecent=!1,t}),this.form_submits()},methods:{in_array:(t,e)=>e.indexOf(t)>-1,breakpoint_limit_checker(){return!this.isPro&&(this.total_custom_breakpoints>1?(this.show_pro_message=!0,this.disable_add_breakpoint=!0,!0):(this.show_pro_message=!1,this.disable_add_breakpoint=!1,!1))},input_focused(t){this.breakpoints.forEach(function(t){this.$set(t,"isRecent",!1)}.bind(this)),this.$set(t,"isRecent",!0)},add_breakpoint(){var t=this;if(!this.breakpoint_limit_checker()){this.breakpoints.forEach(function(e){t.$set(e,"isRecent",!1)});var e={key:Math.random().toString(36).substr(2,9),name:"Test",min:0,max:0,isDraft:!0,isRecent:!0};this.$set(this.breakpoints,this.breakpoints.length,e)}},remove_breakpoint(t){var e=this.breakpoints.findIndex(function(e){return e.key==t});this.breakpoints.splice(e,1),this.breakpoint_limit_checker()},breakpoint_update(t,e){e.max=Number(t.target.value)},get_form_data(){return this.breakpoints.filter(function(t){return!this.in_array(t.key,this.default_devices)}.bind(this)).map(function(t){return{label:t.name,default_value:t.max,direction:"max"}}.bind(this))},form_submits(){this.form_submit_import_breakpoints(),this.form_submit_reset_form(),this.form_submit_save_breakpoints()},form_submit_import_breakpoints(){jQuery("#elementor_settings_import_form").on("submit",function(t){t.preventDefault();var e=new FormData(jQuery(this)[0]);return jQuery.ajax({url:masteraddons.ajaxurl,type:"POST",data:e,dataType:"json",async:!0,cache:!1,contentType:!1,enctype:"multipart/form-data",processData:!1,success:function(t){"ok"==t&&(jQuery("#elementor_import_success").slideDown(),setTimeout(function(){window.location.reload()},1e3))}}),!1})},form_submit_reset_form(){jQuery("#elementor_settings_reset_form").on("submit",function(e){e.preventDefault();new FormData(jQuery(this)[0]);var i=t("#reset_form").val();return jQuery.ajax({url:masteraddons.ajaxurl,type:"POST",data:{security:i,action:"jltma_mcb_reset_settings"},dataType:"json",async:!0,cache:!1,success:function(t){"ok"==t&&(jQuery("#reset_success").slideDown(),setTimeout(function(){window.location.reload()},1e3))}}),!1})},form_submit_save_breakpoints(){var e=this;jQuery("#jlmta-cbp-form").on("submit",function(i){i.preventDefault();var a=t(this);a.addClass("loading"),t.ajax({url:masteraddons.ajaxurl,method:"POST",data:{form_fields:e.get_form_data(),security:t("#breakpoints_form").val(),action:"jltma_mcb_save_settings"},success:function(t){a.prepend('<div class="updated"><p>Saved Breakpoints</p></div>'),setTimeout(function(){a.removeClass("loading"),a.find(".updated").remove()},700)},error:function(t){console.log("failed",t)}})})}}})})}(jQuery);
+
+        /**
+         * Disable Pro-Restricted Switcher Controls
+         * Handles switcher controls with .jltma-pro-disabled class in description
+         * Uses MutationObserver to watch for DOM changes
+         */
+        function jltmaHandleProRestrictedSwitchers() {
+            // Keep track of already processed controls to avoid duplicate processing
+            var processedControls = new Set();
+
+            // Function to disable pro-restricted switchers
+            function disableProSwitchers() {
+                // Find all switcher controls that have .jltma-pro-disabled in their description
+                jQuery('.elementor-control-type-switcher').each(function() {
+                    var $control = jQuery(this);
+
+                    // Create unique identifier for this control
+                    var controlId = $control.attr('data-control-name') || $control.index();
+
+                    // Skip if already processed
+                    if (processedControls.has(controlId)) {
+                        return;
+                    }
+
+                    var $description = $control.find('.elementor-control-field-description');
+
+                    // Check if description contains the pro-disabled class
+                    if ($description.find('.jltma-pro-disabled').length > 0) {
+                        var $switcherInput = $control.find('input[type="checkbox"]');
+                        var $switcherLabel = $control.find('.elementor-switch');
+                        
+                        // Add disabled class for styling
+                        $control.addClass('jltma-switcher-disabled');
+                        $switcherLabel.addClass('jltma-switcher-disabled');
+
+                        // Prevent the switcher from being toggled
+                        $switcherInput.prop('disabled', true);
+
+                        // Add click handler to show upgrade popup
+                        $switcherLabel.off('click.jltma-pro').on('click.jltma-pro', function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            jQuery('.jltma-upgrade-popup').fadeIn(200);
+                            return false;
+                        });
+
+                        // Also prevent label click
+                        $control.find('label').off('click.jltma-pro').on('click.jltma-pro', function(e) {
+                            if ($switcherLabel.hasClass('jltma-switcher-disabled')) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                jQuery('.jltma-upgrade-popup').fadeIn(200);
+                                return false;
+                            }
+                        });
+
+                        // Mark as processed
+                        processedControls.add(controlId);
+                    }
+                });
+            }
+
+            // Setup MutationObserver to watch for DOM changes
+            function setupObserver() {
+                // Target the Elementor panel content area
+                var targetNode = document.querySelector('#elementor-panel-content-wrapper');
+
+                if (!targetNode) {
+                    // If panel not ready, try again in 500ms
+                    setTimeout(setupObserver, 500);
+                    return;
+                }
+
+                // Create observer instance
+                var observer = new MutationObserver(function(mutations) {
+                    // Check if any mutations added nodes
+                    var shouldProcess = false;
+                    mutations.forEach(function(mutation) {
+                        if (mutation.addedNodes.length > 0) {
+                            shouldProcess = true;
+                        }
+                    });
+
+                    // If nodes were added, process switchers
+                    if (shouldProcess) {
+                        disableProSwitchers();
+                    }
+                });
+
+                // Observer configuration
+                var config = {
+                    childList: true,      // Watch for child additions/removals
+                    subtree: true,        // Watch entire subtree
+                    attributes: false     // Don't watch attribute changes
+                };
+
+                // Start observing
+                observer.observe(targetNode, config);
+
+                // Run initial check
+                disableProSwitchers();
+            }
+
+            // Also use interval as fallback for dynamic content
+            function startIntervalCheck() {
+                setInterval(function() {
+                    disableProSwitchers();
+                }, 1000); // Check every second
+            }
+
+            // Initialize when Elementor is ready
+            jQuery(window).on('elementor:init', function() {
+                setTimeout(function() {
+                    setupObserver();
+                    startIntervalCheck();
+                }, 1000);
+            });
+
+            // Fallback: Start even if elementor:init doesn't fire
+            setTimeout(function() {
+                setupObserver();
+                startIntervalCheck();
+            }, 2000);
+        }
+
+        // Initialize the pro-restricted switcher handler
+        jltmaHandleProRestrictedSwitchers();
+
+
+        /**
+         * Pro Widget Promotion Dialog Handler
+         * Customizes the Elementor promotion dialog for Master Addons pro widgets
+         */
+        function jltmaProWidgetPromotionHandler() {
+            if (typeof parent.document === 'undefined') {
+                return false;
+            }
+
+            parent.document.addEventListener('mousedown', function(e) {
+                var widgets = parent.document.querySelectorAll('.elementor-element--promotion');
+
+                if (widgets.length > 0) {
+                    for (var i = 0; i < widgets.length; i++) {
+                        if (widgets[i].contains(e.target)) {
+                            var dialog = parent.document.querySelector('#elementor-element--promotion__dialog');
+                            var icon = widgets[i].querySelector('.icon > i');
+
+                            if (!dialog || !icon) {
+                                break;
+                            }
+
+                            var iconClass = icon.classList.toString();
+
+                            // Check if this is a Master Addons widget (has jltma icon class)
+                            if (iconClass.indexOf('jltma') >= 0) {
+                                // Hide default Elementor Pro button
+                                var defaultButton = dialog.querySelector('.dialog-buttons-action');
+                                if (defaultButton) {
+                                    defaultButton.style.display = 'none';
+                                }
+
+                                e.stopImmediatePropagation();
+
+                                // Check if our custom button already exists
+                                if (dialog.querySelector('.jltma-dialog-buttons-action') === null) {
+                                    // Create custom upgrade button
+                                    var button = document.createElement('a');
+                                    var buttonText = document.createTextNode('Upgrade Master Addons');
+                                    button.setAttribute('href', 'https://master-addons.com/pricing/');
+                                    button.setAttribute('target', '_blank');
+                                    button.classList.add(
+                                        'dialog-button',
+                                        'dialog-action',
+                                        'dialog-buttons-action',
+                                        'elementor-button',
+                                        'go-pro',
+                                        'elementor-button-success',
+                                        'jltma-dialog-buttons-action'
+                                    );
+                                    button.style.display = "block";
+                                    button.style.textAlign = "center";
+                                    button.appendChild(buttonText);
+
+                                    // Insert after the hidden default button
+                                    if (defaultButton) {
+                                        defaultButton.insertAdjacentHTML('afterend', button.outerHTML);
+                                    }
+                                } else {
+                                   // Remove default button
+                                    const btnWrapper = document.querySelector('.dialog-buttons-buttons-wrapper > button');
+                                    btnWrapper.style.display  = 'none';
+                                    
+                                    // Show existing custom button
+                                    dialog.querySelector('.jltma-dialog-buttons-action').style.display = 'block';
+                                }
+                            } else {
+                                // Not a Master Addons widget - show default button
+                                var defaultBtn = dialog.querySelector('.dialog-buttons-action:not(.jltma-dialog-buttons-action)');
+                                if (defaultBtn) {
+                                    defaultBtn.style.display = '';
+                                }
+
+                                // Hide our custom button if it exists
+                                var jltmaBtn = dialog.querySelector('.jltma-dialog-buttons-action');
+                                if (jltmaBtn !== null) {
+                                    jltmaBtn.style.display = 'none';
+                                }
+                            }
+
+                            // Stop loop
+                            break;
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize pro widget promotion handler
+        jltmaProWidgetPromotionHandler();
+
+
+	} );
 
 })(jQuery, window, document);

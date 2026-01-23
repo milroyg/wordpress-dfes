@@ -18,6 +18,7 @@ class JLTMA_Control_Query extends Control_Select2
 
 	public function enqueue()
 	{
+		// wp_enqueue_script( 'jltma-macy', JLTMA_URL . '/assets/vendor/macy/macy.js', ['jquery'], JLTMA_VER, true );
 		wp_enqueue_script('master-addons-editor', JLTMA_ADMIN_ASSETS . 'js/editor.js', ['jquery'], JLTMA_VER, true);
 	}
 

@@ -131,7 +131,7 @@
             <a class="btn btn-success" id="save_setting"><?php esc_html_e( 'Save settings','chatbot');?></a>
         </div>
         <div class="mb-3 form-check">
-            <a class="btn btn-warning" id="qcld_check_connection"><?php esc_html_e( 'Check Connection  ','chatbot');?><i class="fa fa-spinner" id="rotationloader"></i></a> <?php echo esc_html('Save the Settings first and then press the Check Connection button'); ?><br/>
+            <a class="btn btn-warning" id="qcld_check_connection"><?php esc_html_e( 'Check Connection  ','chatbot');?><i class="dashicons dashicons-image-rotate" id="rotationloader"></i></a> <?php echo esc_html('Save the Settings first and then press the Check Connection button'); ?><br/>
             <div id="qcld_openAI_trubleshooter"></div>
         </div>
         <div class="alert alert-danger"> 

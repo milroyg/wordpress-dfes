@@ -34,7 +34,6 @@ if ( ! function_exists( 'splwt_array_search' ) ) {
 		}
 
 		return $results;
-
 	}
 }
 
@@ -67,4 +66,3 @@ if ( ! function_exists( 'splwt_wp_editor_api' ) ) {
 		return version_compare( $wp_version, '4.8', '>=' );
 	}
 }
-

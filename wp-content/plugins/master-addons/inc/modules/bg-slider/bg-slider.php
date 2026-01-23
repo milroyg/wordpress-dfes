@@ -7,6 +7,7 @@ use \Elementor\Controls_Manager;
 use \Elementor\Group_Control_Image_Size;
 use \Elementor\Group_Control_Background;
 
+if (!class_exists('MasterAddons\Modules\JLTMA_Extension_Background_Slider')) {
 class JLTMA_Extension_Background_Slider
 {
 	private static $_instance = null;
@@ -488,5 +489,8 @@ class JLTMA_Extension_Background_Slider
 		return self::$_instance;
 	}
 }
+}
 
-JLTMA_Extension_Background_Slider::get_instance();
+if (class_exists('MasterAddons\Modules\JLTMA_Extension_Background_Slider')) {
+	JLTMA_Extension_Background_Slider::get_instance();
+}

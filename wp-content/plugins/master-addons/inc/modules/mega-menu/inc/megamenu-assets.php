@@ -49,56 +49,53 @@ class JLTMA_Megamenu_Assets
 
             // Stylesheets
             wp_enqueue_style('wp-color-picker');
-            // $jltma_get_icons_library_settings = get_option('jltma_icons_library_save_settings', []);
 
-            $megamenu_icons = [
-                'linecons' =>[
-                    'enqueue'       => [JLTMA_ASSETS . 'fonts/simple-line-icons/simple-line-icons.css'],
-                ],
-                'fa4' =>[
-                    'enqueue'       => ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css']
-                ],
-                'fab' =>[
-                    'enqueue'       => ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/brands.min.css']
-                ],
-                'far' => [
-                    'enqueue'       => ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/regular.min.css']
-                ],
-                'fas' => [
-                    'enqueue'       => ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/solid.min.css']
-                ],
-                'Genericons' =>[
-                    'enqueue'       => ['https://cdnjs.cloudflare.com/ajax/libs/genericons/3.1/genericons.min.css']
-                ],
-                'Linearicons' =>[
-                    'enqueue'       => [JLTMA_ASSETS . 'fonts/linear-icons/linear-icons.css']
-                ],
-                'Icomoon' => [
-                    'enqueue_need'       => ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css']
-                ],
-                'Themify' => [
-                    'enqueue_need'       => ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css']
-                ]
-            ];
-            foreach($megamenu_icons as $key => $iconfont ){
-                if(array_key_exists('enqueue',$iconfont )){
-                    foreach( $iconfont['enqueue'] as $number => $file){
-                        wp_enqueue_style('mega-menu-font-' .$key . '-' . $number, $file);
-                    }
-                }
+            // Enqueue Font Awesome
+            $fa_url = '';
+            if (defined('ELEMENTOR_ASSETS_URL')) {
+                $fa_url = ELEMENTOR_ASSETS_URL . 'lib/font-awesome/css/all.min.css';
+            }
+
+            // Always register and enqueue Font Awesome
+            if (!empty($fa_url)) {
+                wp_register_style('jltma-font-awesome', $fa_url, [], JLTMA_VER);
+                wp_enqueue_style('jltma-font-awesome');
+            } else {
+                // Fallback to CDN if Elementor not available
+                wp_register_style(
+                    'jltma-font-awesome',
+                    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
+                    [],
+                    '6.5.1'
+                );
+                wp_enqueue_style('jltma-font-awesome');
+            }
+
+            // Enqueue icon libraries using Icon Library Helper
+            if (class_exists('\MasterAddons\Admin\WidgetBuilder\Icon_Library_Helper')) {
+                $icon_helper = \MasterAddons\Admin\WidgetBuilder\Icon_Library_Helper::get_instance();
+                $icon_helper->enqueue_icon_libraries();
             }
 
             wp_enqueue_style('mega-menu-style', JLTMA_URL . '/assets/megamenu/css/megamenu.css');
-            // Scripts
-            wp_enqueue_script('icon-picker', JLTMA_URL . '/assets/megamenu/js/icon-picker.js', array('jquery'), JLTMA_VER, true);
-            wp_enqueue_script('mega-menu-admin', JLTMA_URL . '/assets/megamenu/js/mega-script.js', array('jquery', 'wp-color-picker', 'icon-picker'), JLTMA_VER, true);
 
+            // Scripts
+            wp_enqueue_script('mega-menu-admin', JLTMA_URL . '/assets/megamenu/js/mega-script.js', array('jquery', 'wp-color-picker'), JLTMA_VER, true);
+
+            // Localize icon library data for mega menu
+            $icon_config = [];
+            if (class_exists('\MasterAddons\Admin\WidgetBuilder\Icon_Library_Helper')) {
+                $icon_helper = \MasterAddons\Admin\WidgetBuilder\Icon_Library_Helper::get_instance();
+                $icon_config = $icon_helper->get_icon_library_config();
+            }
 
             // Localize Scripts
             $localize_menu_data = array(
-                'resturl'       => get_rest_url() . 'masteraddons/v2/'
+                'resturl'       => get_rest_url() . 'masteraddons/v2/',
+                'iconLibrary'   => $icon_config,
+                'pluginUrl'     => JLTMA_URL
             );
-            wp_localize_script('mega-menu-admin', 'masteraddons', $localize_menu_data);
+            wp_localize_script('mega-menu-admin', 'masteraddons_megamenu', $localize_menu_data);
         }
     }
 

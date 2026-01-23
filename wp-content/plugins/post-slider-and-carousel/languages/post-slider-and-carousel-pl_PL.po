@@ -1067,5 +1067,5 @@ msgid "InfornWeb"
 msgstr ""
 
 #. Author URI of the plugin
-msgid "https://premium.infornweb.com"
+msgid "https://infornweb.com"
 msgstr ""

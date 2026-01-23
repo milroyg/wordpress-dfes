@@ -56,7 +56,6 @@ if ( ! class_exists( 'SPLWT_Field_sortable' ) ) {
 
 			// Set sort by by saved-value or default-value.
 			if ( ! empty( $this->value ) ) {
-
 				foreach ( $this->value as $key => $value ) {
 					$pre_sortby[ $key ] = $pre_fields[ $key ];
 				}
@@ -67,7 +66,6 @@ if ( ! class_exists( 'SPLWT_Field_sortable' ) ) {
 					$pre_sortby = array_merge( $pre_sortby, $diff );
 				}
 			} else {
-
 				foreach ( $pre_fields as $key => $value ) {
 					$pre_sortby[ $key ] = $value;
 				}
@@ -88,13 +86,11 @@ if ( ! class_exists( 'SPLWT_Field_sortable' ) ) {
 				echo '</div>';
 
 				echo '</div>';
-
 			}
 
 			echo '</div>';
 
 			echo wp_kses_post( $this->field_after() );
-
 		}
 
 		/**
@@ -107,8 +103,6 @@ if ( ! class_exists( 'SPLWT_Field_sortable' ) ) {
 			if ( ! wp_script_is( 'jquery-ui-sortable' ) ) {
 				wp_enqueue_script( 'jquery-ui-sortable' );
 			}
-
 		}
-
 	}
 }

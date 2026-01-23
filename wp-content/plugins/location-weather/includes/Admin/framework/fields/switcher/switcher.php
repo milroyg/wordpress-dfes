@@ -38,7 +38,6 @@ if ( ! class_exists( 'SPLWT_Field_switcher' ) ) {
 		 * @return void
 		 */
 		public function render() {
-
 			$active     = ( ! empty( $this->value ) ) ? ' splwt-lite--active' : '';
 			$text_on    = ( ! empty( $this->field['text_on'] ) ) ? $this->field['text_on'] : esc_html__( 'On', 'location-weather' );
 			$text_off   = ( ! empty( $this->field['text_off'] ) ) ? $this->field['text_off'] : esc_html__( 'Off', 'location-weather' );
@@ -56,8 +55,6 @@ if ( ! class_exists( 'SPLWT_Field_switcher' ) ) {
 			echo ( ! empty( $this->field['label'] ) ) ? '<span class="splwt-lite--label">' . esc_attr( $this->field['label'] ) . '</span>' : '';
 
 			echo $this->field_after(); // phpcs:ignore
-
 		}
-
 	}
 }

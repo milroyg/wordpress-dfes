@@ -20,7 +20,7 @@ class JLTMA_User_Info extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('MA User Info', 'master-addons' );
+		return esc_html__('User Info', 'master-addons' );
 	}
 
 	public function get_group()

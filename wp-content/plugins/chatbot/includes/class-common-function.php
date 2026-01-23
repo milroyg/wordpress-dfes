@@ -5,6 +5,15 @@
 class Qcld_WPBot_Common_Functions {
 
 
+    private static $instance = null;
+
+    public static function instance() {
+        if ( is_null( self::$instance ) ) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
     private function __construct() {
         add_action('wp_ajax_wpbot_save_feedback', array( $this, 'wpbot_save_feedback') );
         add_action('wp_ajax_nopriv_wpbot_save_feedback', array( $this,'wpbot_save_feedback') );
@@ -127,4 +136,10 @@ class Qcld_WPBot_Common_Functions {
 
 
     
+
 }
+
+/**
+ * Instantiate the class
+ */
+Qcld_WPBot_Common_Functions::instance();

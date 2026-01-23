@@ -22,6 +22,7 @@ if (!defined('ABSPATH')) {
 /**
  * Master Addons: Content Reading Progress bar & Scroll Indicator
  */
+if (!class_exists('MasterAddons\Modules\JLTMA_Extension_Reading_Progress_Bar')) {
 class JLTMA_Extension_Reading_Progress_Bar
 {
 
@@ -170,7 +171,6 @@ class JLTMA_Extension_Reading_Progress_Bar
 
 	public function jltma_reading_progress_bar_styles()
 	{
-
 		if (did_action('elementor/loaded')) {
 
 			$page_settings_manager = \Elementor\Core\Settings\Manager::get_settings_managers('page');
@@ -182,10 +182,12 @@ class JLTMA_Extension_Reading_Progress_Bar
 			$jltma_r_p_b_animation_speed  	= $page_settings_model->get_settings('jltma_reading_progress_bar_animation_speed');
 			$jltma_rbp_position  			= $page_settings_model->get_settings('jltma_reading_progress_bar_position');
 
-			$jltma_r_p_b_custom_css = "";
+			// $jltma_r_p_b_custom_css = "";
 
-			if ($jltma_r_p_b_bg_color != "" && $jltma_r_p_b_fill_color != "") {
-				$jltma_r_p_b_custom_css = ".ma-el-page-scroll-indicator{ background: {$jltma_r_p_b_bg_color};}
+			$jltma_r_p_b_custom_css = ".ma-el-page-scroll-indicator{ position: sticky;}";
+			if ($jltma_r_p_b_fill_color != "") {
+				if(!$jltma_r_p_b_bg_color) $jltma_r_p_b_bg_color = 'transparent';
+				$jltma_r_p_b_custom_css .= ".ma-el-page-scroll-indicator{ background: {$jltma_r_p_b_bg_color};}
 					.ma-el-scroll-indicator{ background: {$jltma_r_p_b_fill_color};}
 					.ma-el-page-scroll-indicator, .ma-el-scroll-indicator{ height: {$jltma_r_p_b_height['size']}px;}";
 			}
@@ -253,15 +255,17 @@ class JLTMA_Extension_Reading_Progress_Bar
 			} // Enable Progress Bar
 
 
-			$jltma_r_p_b_height  			= esc_attr($page_settings_model->get_settings('jltma_reading_progress_bar_height')['size']);
+			$jltma_r_p_b_height_setting  	= $page_settings_model->get_settings('jltma_reading_progress_bar_height');
+			$jltma_r_p_b_height  			= esc_attr($jltma_r_p_b_height_setting['size'] ?? 4);
 			$jltma_r_p_b_bg_color  			= esc_attr($page_settings_model->get_settings('jltma_reading_progress_bar_bg_color'));
 			$jltma_r_p_b_fill_color  		= esc_attr($page_settings_model->get_settings('jltma_reading_progress_bar_fill_color'));
 			$jltma_r_p_b_animation_speed  	= $page_settings_model->get_settings('jltma_reading_progress_bar_animation_speed');
 			$jltma_rbp_position  			= sanitize_text_field($page_settings_model->get_settings('jltma_reading_progress_bar_position'));
 
 			$jltma_r_p_b_custom_css = "";
-
-			if ($jltma_r_p_b_bg_color != "" && $jltma_r_p_b_fill_color != "") {
+			$jltma_r_p_b_custom_css .= ".ma-el-page-scroll-indicator{ position: fixed; width: 100%; z-index: 999;}";
+			if ( $jltma_r_p_b_fill_color != "") {
+				if(!$jltma_r_p_b_bg_color) $jltma_r_p_b_bg_color = 'transparent';
 				$jltma_r_p_b_custom_css .= ".ma-el-page-scroll-indicator{ background: {$jltma_r_p_b_bg_color};}
 					.ma-el-scroll-indicator{ background: {$jltma_r_p_b_fill_color};}
 					.ma-el-page-scroll-indicator, .ma-el-scroll-indicator{ height: {$jltma_r_p_b_height}px;}";
@@ -271,15 +275,15 @@ class JLTMA_Extension_Reading_Progress_Bar
 				if ($jltma_rbp_position == "top") {
 					$jltma_r_p_b_custom_css .= '.ma-el-page-scroll-indicator{top:0px;}';
 				} else {
-					$jltma_r_p_b_custom_css .= '.ma-el-page-scroll-indicator{top:inherit !important; bottom:0;}';
+					$jltma_r_p_b_custom_css .= '.ma-el-page-scroll-indicator{top:auto; bottom:0;}';
 				}
 			}
 
 			if (Master_Addons_Helper::jltma_elementor()->editor->is_edit_mode() || Master_Addons_Helper::jltma_elementor()->preview->is_preview_mode()) {
 				if ($jltma_rbp_position == "top") {
-					$jltma_r_p_b_custom_css .= '.ma-el-page-scroll-indicator{top:0px;}';
+					$jltma_r_p_b_custom_css .= '.ma-el-page-scroll-indicator{top:32px;}';
 				} else {
-					$jltma_r_p_b_custom_css .= '.ma-el-page-scroll-indicator{top:inherit !important; bottom:0;}';
+					$jltma_r_p_b_custom_css .= '.ma-el-page-scroll-indicator{top:auto ; bottom:0;}';
 				}
 			}
 
@@ -296,5 +300,8 @@ class JLTMA_Extension_Reading_Progress_Bar
 		return self::$_instance;
 	}
 }
+}
 
-JLTMA_Extension_Reading_Progress_Bar::instance();
+if (class_exists('MasterAddons\Modules\JLTMA_Extension_Reading_Progress_Bar')) {
+	JLTMA_Extension_Reading_Progress_Bar::instance();
+}

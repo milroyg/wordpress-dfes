@@ -40,7 +40,7 @@ if (!class_exists('Master_Addons_Structure_Section')) {
 		{
 			return array(
 				'class' => 'Master_Addons_Section_Document',
-				'file'  => JLTMA_PATH . '/inc/templates/documents/section.php',
+				'file'  => JLTMA_PATH . 'inc/templates/documents/section.php',
 			);
 		}
 

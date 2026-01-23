@@ -21,7 +21,7 @@ class JLTMA_Page_Title extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('MA Page Title', 'master-addons' );
+		return esc_html__('Page Title', 'master-addons' );
 	}
 
 	public function get_group()

@@ -38,7 +38,7 @@ $new_layout_url		= add_query_arg( array('page' => 'psacp-layout'), 'admin.php' )
 									<h3 class="psacp-custom-size"><?php esc_html_e('Next Steps', 'post-slider-and-carousel'); ?></h3> 
 									<ul>
 										<li><a href="#usages-of-psacp"><span class="dashicons dashicons-welcome-widgets-menus"></span> <?php esc_html_e('Usages', 'post-slider-and-carousel'); ?></a></li>	
-										<li><a href="https://premium.infornweb.com/post-slider-and-carousel-pro/" target="_blank"><span class="dashicons dashicons-welcome-view-site"></span> <?php esc_html_e('Premium Demo', 'post-slider-and-carousel'); ?></a></li>
+										<li><a href="https://infornweb.com/post-slider-and-carousel-pro/" target="_blank"><span class="dashicons dashicons-welcome-view-site"></span> <?php esc_html_e('Premium Demo', 'post-slider-and-carousel'); ?></a></li>
 									</ul>
 								</div>
 								<div class="psacp-cnt-grid-3 psacp-columns">
@@ -72,21 +72,21 @@ $new_layout_url		= add_query_arg( array('page' => 'psacp-layout'), 'admin.php' )
 											<h4 class="psacp-custom-size"><span class="dashicons dashicons-yes-alt"></span> <?php esc_html_e('Display latest post on home page from blog', 'post-slider-and-carousel'); ?></h4>
 											<div class="psacp-box-content">
 												<p><?php esc_html_e('You can display latest post from your blog on home page. You can use 5+ layout for this e.g. slider view OR Carousel View etc.', 'post-slider-and-carousel'); ?></p>
-												<p><?php echo sprintf( __('Check sample %sSlider%s, %sCarousel%s and %sPartial Slide%s created with Post Slider and Carousel.', 'post-slider-and-carousel'), '<a href="https://premium.infornweb.com/post-slider-and-carousel-pro-slider-demo/" target="_blank">', '</a>', '<a href="https://premium.infornweb.com/post-slider-and-carousel-pro-carousel-demo/" target="_blank">', '</a>', '<a href="https://premium.infornweb.com/post-slider-and-carousel-pro-partial-slide-demo/" target="_blank">', '</a>' ); ?></p>
+												<p><?php echo sprintf( __('Check sample %sSlider%s, %sCarousel%s and %sPartial Slide%s created with Post Slider and Carousel.', 'post-slider-and-carousel'), '<a href="https://infornweb.com/post-slider-and-carousel-pro-slider-demo/" target="_blank">', '</a>', '<a href="https://infornweb.com/post-slider-and-carousel-pro-carousel-demo/" target="_blank">', '</a>', '<a href="https://infornweb.com/post-slider-and-carousel-pro-partial-slide-demo/" target="_blank">', '</a>' ); ?></p>
 											</div>
 										</div>
 										<div class="psacp-getting-started psacp-box">
 											<h4 class="psacp-custom-size"><span class="dashicons dashicons-yes-alt"></span> <?php esc_html_e('Display Featured and Trending Post', 'post-slider-and-carousel'); ?></h4>
 											<div class="psacp-box-content">
 												<p><?php esc_html_e('Highlights your Featured and most Popular/Trending post. You can use 5+ layout for this e.g. slider view OR Carousel View and Grid Box Slider View etc.', 'post-slider-and-carousel'); ?></p>
-												<p><?php echo sprintf( __('Check sample %sDemo%s created with Blog Designer Pack.', 'post-slider-and-carousel'), '<a href="https://premium.infornweb.com/post-slider-and-carousel-pro-featured-and-trending-post/" target="_blank">', '</a>' ); ?></p>
+												<p><?php echo sprintf( __('Check sample %sDemo%s created with Blog Designer Pack.', 'post-slider-and-carousel'), '<a href="https://infornweb.com/post-slider-and-carousel-pro-featured-and-trending-post/" target="_blank">', '</a>' ); ?></p>
 											</div>
 										</div>
 										<div class="psacp-getting-started psacp-box">
 											<h4 class="psacp-custom-size"><span class="dashicons dashicons-yes-alt"></span> <?php esc_html_e('Widget Demo', 'post-slider-and-carousel'); ?></h4>
 											<div class="psacp-box-content">
 												<p><?php esc_html_e('Display widget demo created with  Post Slider and Carousel.', 'post-slider-and-carousel'); ?></p>
-												<p><?php echo sprintf( __('Check widget %sDemo%s created with  Post Slider and Carousel.', 'post-slider-and-carousel'), '<a href="https://premium.infornweb.com/post-slider-and-carousel-pro-widget-demo/" target="_blank">', '</a>' ); ?></p>
+												<p><?php echo sprintf( __('Check widget %sDemo%s created with  Post Slider and Carousel.', 'post-slider-and-carousel'), '<a href="https://infornweb.com/post-slider-and-carousel-pro-widget-demo/" target="_blank">', '</a>' ); ?></p>
 											</div>
 										</div>
 										

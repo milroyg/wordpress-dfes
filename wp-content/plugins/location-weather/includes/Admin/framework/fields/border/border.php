@@ -198,8 +198,6 @@ if ( ! class_exists( 'SPLWT_Field_border' ) ) {
 			}
 
 			echo $this->field_after(); // phpcs:ignore
-
 		}
-
 	}
 }

@@ -163,7 +163,7 @@ if ( ! class_exists( 'CTL_Loop_Helpers' ) ) {
 				$layout      = $this->attributes['layout'];
 				$title_class = 'story-' . $post_id;
 				$re_more     = ( ( isset( $this->settings['display_readmore'] ) && 'yes' === $this->settings['display_readmore'] ) || 'horizontal' === $layout );
-				$output     .= '<!-- ' . $this->tm_type . ' Title --><div class="ctl-title ' . esc_attr( $title_class ) . '" >';
+				$output     .= '<!-- ' . $this->tm_type . ' Title --><div class="ctl-title ' . esc_attr( $title_class ) . '" aria-label="2">';
 				$output     .= $re_more ? $this->get_story_link( $post_id ) : '';
 				$output     .= esc_html( get_the_title( $post_id ) );
 				$output     .= $re_more ? '</a>' : '';

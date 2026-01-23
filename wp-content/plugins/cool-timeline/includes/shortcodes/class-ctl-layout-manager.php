@@ -198,7 +198,11 @@ if ( ! class_exists( 'CTL_Layout_Manager' ) ) {
 					<div class="ctl-end"></div>
 					<?php
 					if ( $this->wp_query->max_num_pages > 1 ) {
-						$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+						$paged = max(
+							1,
+							get_query_var( 'paged' ),
+							get_query_var( 'page' )
+						);
 						echo CTL_Helpers::ctl_pagination( $this->wp_query, $paged, $svg_icon );
 					}
 					?>

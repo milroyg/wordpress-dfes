@@ -20,7 +20,7 @@ class JLTMA_Post_Time extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('MA Post Time', 'master-addons' );
+		return esc_html__('Post Time', 'master-addons' );
 	}
 
 	public function get_group()

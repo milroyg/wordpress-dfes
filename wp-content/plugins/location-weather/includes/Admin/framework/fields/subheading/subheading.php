@@ -38,10 +38,7 @@ if ( ! class_exists( 'SPLWT_Field_subheading' ) ) {
 		 * @return void
 		 */
 		public function render() {
-
 			echo ( ! empty( $this->field['content'] ) ) ? wp_kses_post( $this->field['content'] ) : '';
-
 		}
-
 	}
 }

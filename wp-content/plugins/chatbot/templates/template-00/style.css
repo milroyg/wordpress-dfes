@@ -1022,10 +1022,6 @@ span.qcld-chatbot-product-category, span.qcld-chatbot-support-items, span.qcld-c
     color: #3289c8;
 }
 
-.chat-container.wp-chatbot-msg-flat {
-    box-shadow: none !important;
-    background: none !important;
-}
 
 .wp-chatbot-textanimation span:hover {
     color: rgb(50 137 200);

@@ -103,11 +103,32 @@
         }
 
         megaMenuClick(){
-            // Menu Settings Megamenu Trigger Effect
-            if ($('.jltma-has-megamenu').hasClass('jltma-megamenu-click')) {
-                $('.jltma-megamenu-click').on('click', function (e) {
+            var self = this;
+
+            // Menu Settings Megamenu Trigger Effect - Click mode
+            var $clickMenuItems = self.$element.find('.jltma-megamenu-click');
+
+            if ($clickMenuItems.length) {
+                // Bind click on the menu item link (not the li itself)
+                $clickMenuItems.find('> a').off('click.megamenu').on('click.megamenu', function (e) {
                     e.preventDefault();
-                    $(this).find('.dropdown-menu.jltma-megamenu').toggleClass("show");
+                    e.stopPropagation();
+
+                    var $parentLi = $(this).parent('.jltma-megamenu-click');
+                    var $megamenu = $parentLi.find('> .dropdown-menu.jltma-megamenu');
+
+                    // Close other open menus
+                    $clickMenuItems.not($parentLi).find('> .dropdown-menu.jltma-megamenu').removeClass('show');
+
+                    // Toggle current menu
+                    $megamenu.toggleClass('show');
+                });
+
+                // Close menu when clicking outside
+                $(document).off('click.megamenu-outside').on('click.megamenu-outside', function(e) {
+                    if (!$(e.target).closest('.jltma-megamenu-click').length) {
+                        $clickMenuItems.find('> .dropdown-menu.jltma-megamenu').removeClass('show');
+                    }
                 });
             }
         }
@@ -226,8 +247,11 @@
                 mainItemTextWrap = ' ' + selectors.mainItemTextWrap;
             }
 
+            // Main menu icons
             if ('' !== $mainMenu.data(mainDataIcon)) {
-                $mainMenu.find(' > ul > li' + selectors.itemHasChildrenLink + mainItemTextWrap).append("<span class=\"".concat(classes.menuArrow, " ").concat($mainMenu.data(mainDataIcon), "\"></span>"));
+                var mainIcon = $mainMenu.data(mainDataIcon);
+                var iconHtml = "<span class=\"".concat(classes.menuArrow, " ").concat(mainIcon, "\"></span>");
+                $mainMenu.find(' > ul > li' + selectors.itemHasChildrenLink + mainItemTextWrap).append(iconHtml);
             }
 
             var settings = this.getElementSettings();

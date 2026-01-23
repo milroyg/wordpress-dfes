@@ -23,7 +23,6 @@ class Post_Type {
 		add_action( 'init', array( $this, 'register_post_type' ) );
 	}
 
-
 	/**
 	 * Register Location Weather Post Type.
 	 *

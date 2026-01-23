@@ -30,11 +30,6 @@ class bcn_breadcrumb_trail
 	//Default constructor
 	public function __construct()
 	{
-		//@see https://core.trac.wordpress.org/ticket/10527
-		if(!is_textdomain_loaded('breadcrumb-navxt'))
-		{
-			load_plugin_textdomain('breadcrumb-navxt', false, 'breadcrumb-navxt/languages');
-		}
 		$this->trail = &$this->breadcrumbs;
 		//Initialize with default option values
 		$this->opt = array(
@@ -79,6 +74,7 @@ class bcn_breadcrumb_trail
 			'apost_page_root' => get_option('page_on_front'),
 			//Paged options
 			//The template for paged breadcrumb
+			/* translators: %htitle%: The page title which may contain HTML, in this case it should be a number as it is when on a paginated archive */
 			'Hpaged_template' => sprintf('<span class="%%type%%">%1$s</span>', esc_attr__('Page %htitle%', 'breadcrumb-navxt')),
 			//Should we try filling out paged information
 			'bpaged_display' => false,
@@ -120,10 +116,13 @@ class bcn_breadcrumb_trail
 			//Search page options
 			//The breadcrumb template for search breadcrumbs
 			'Hsearch_template' => sprintf('<span property="itemListElement" typeof="ListItem"><span property="name">%1$s</span><meta property="position" content="%%position%%"></span>',
+					/* translators: %1$s: The searched phrase */
 					sprintf(esc_attr__('Search results for &#39;%1$s&#39;', 'breadcrumb-navxt'),
+					/* translators: %title%: The searched phrase */
 					sprintf('<a property="item" typeof="WebPage" title="%1$s" href="%%link%%" class="%%type%%" bcn-aria-current>%%htitle%%</a>', esc_attr__('Go to the first page of search results for %title%.', 'breadcrumb-navxt')))),
 			//The breadcrumb template for search breadcrumbs, used when an anchor is not necessary
 			'Hsearch_template_no_anchor' => sprintf('<span class="%%type%%">%1$s</span>',
+					/* translators: %1$s: The searched phrase */
 					sprintf(esc_attr__('Search results for &#39;%1$s&#39;', 'breadcrumb-navxt'), '%htitle%')),
 			//Tag related stuff
 			//The breadcrumb template for tag breadcrumbs
@@ -138,10 +137,12 @@ class bcn_breadcrumb_trail
 			//Author page stuff
 			//The anchor template for author breadcrumbs
 			'Hauthor_template' => sprintf('<span property="itemListElement" typeof="ListItem"><span property="name">%1$s</span><meta property="position" content="%%position%%"></span>',
+				/* translators: %1$s: The post author name the current archive is for */
 				sprintf(esc_attr__('Articles by: %1$s', 'breadcrumb-navxt'),
 				sprintf('<a title="%1$s" href="%%link%%" class="%%type%%" bcn-aria-current>%%htitle%%</a>', esc_attr__('Go to the first page of posts by %title%.', 'breadcrumb-navxt')))),
 			//The anchor template for author breadcrumbs, used when anchors are not needed
 			'Hauthor_template_no_anchor' => sprintf('<span class="%%type%%">%1$s</span>',
+				/* translators: %1$s: The post author name the current archive is for */
 				sprintf(esc_attr__('Articles by: %1$s', 'breadcrumb-navxt'), '%htitle%')),
 			//Which of the various WordPress display types should the author breadcrumb display
 			'Eauthor_name' => 'display_name',
@@ -518,7 +519,7 @@ class bcn_breadcrumb_trail
 		//If we did not get a WP_Post object, warn developer and return early
 		if(!($post instanceof WP_Post))
 		{
-			_doing_it_wrong(__CLASS__ . '::' . __FUNCTION__, __('$post global is not of type WP_Post', 'breadcrumb-navxt'), '5.1.1');
+			_doing_it_wrong(__CLASS__ . '::' . __FUNCTION__, esc_html__('$post global is not of type WP_Post', 'breadcrumb-navxt'), '5.1.1');
 			return;
 		}
 		//If this is the current item or if we're allowing private posts in the trail add a breadcrumb
@@ -573,7 +574,7 @@ class bcn_breadcrumb_trail
 	{
 		if(!($term instanceof WP_Term))
 		{
-			_doing_it_wrong(__CLASS__ . '::' . __FUNCTION__, __('$term global is not of type WP_Term', 'breadcrumb-navxt'), '7.0.3');
+			_doing_it_wrong(__CLASS__ . '::' . __FUNCTION__, esc_html__('$term global is not of type WP_Term', 'breadcrumb-navxt'), '7.0.3');
 			return;
 		}
 		//Place the breadcrumb in the trail, uses the constructor to set the title, template, and type, get a pointer to it in return
@@ -1227,8 +1228,8 @@ class bcn_breadcrumb_trail
 		//Set trail order based on reverse flag
 		$this->order($reverse);
 		//The main compiling loop
-		$trail_str = $this->display_loop($this->breadcrumbs, $linked, $reverse, $template, $outer_template, $this->opt['hseparator']);
-		return $trail_str;
+		$trail_str_escaped = $this->display_loop($this->breadcrumbs, $linked, $reverse, $template, $outer_template, $this->opt['hseparator']);
+		return $trail_str_escaped;
 	}
 	/**
 	 * This function assembles the breadcrumbs in the breadcrumb trail in accordance with the passed in template
@@ -1253,7 +1254,7 @@ class bcn_breadcrumb_trail
 			$position = $last_position;
 		}
 		//Initialize the string which will hold the assembled trail
-		$trail_str = '';
+		$trail_str_escaped = '';
 		foreach($breadcrumbs as $key => $breadcrumb)
 		{
 			//Blank the separator if we are dealing with what is the last breadcrumb in the assembled trail
@@ -1263,7 +1264,7 @@ class bcn_breadcrumb_trail
 			}
 			if(is_array($breadcrumb))
 			{
-				$trail_str .= sprintf($outer_template, 
+				$trail_str_escaped .= sprintf($outer_template, 
 						$this->display_loop($breadcrumb, $linked, $reverse, $template, $outer_template, $this->opt['hseparator_higher_dim'], $depth + 1), $separator);
 			}
 			else if($breadcrumb instanceof bcn_breadcrumb)
@@ -1279,14 +1280,11 @@ class bcn_breadcrumb_trail
 				{
 					$attribs .= sprintf(' %1$s="%2$s"', esc_attr($attrib), esc_attr(implode(' ', $value)));
 				}
-				//Filter li_attributes adding attributes to the li element
-				//TODO: Remove the bcn_li_attributes filter
-				$attribs = apply_filters_deprecated('bcn_li_attributes', array($attribs, $breadcrumb->get_types(), $breadcrumb->get_id()), '6.0.0', 'bcn_display_attributes');
-				//TODO: Deprecate this filter in favor of just using bcn_display_attributes_array
-				$attribs = apply_filters('bcn_display_attributes', $attribs, $breadcrumb->get_types(), $breadcrumb->get_id());
+				//TODO: Remove this filter in favor of just using bcn_display_attributes_array
+				$attribs = apply_filters_deprecated('bcn_display_attributes', array($attribs, $breadcrumb->get_types(), $breadcrumb->get_id()), '7.5.1', 'bcn_display_attribute_array');
 				$separator = apply_filters('bcn_display_separator', $separator, $position, $last_position, $depth);
 				//Assemble the breadcrumb
-				$trail_str .= sprintf($template, $breadcrumb->assemble($linked, $position, ($key === 0)), $separator, $attribs);
+				$trail_str_escaped .= sprintf($template, $breadcrumb->assemble($linked, $position, ($key === 0)), wp_kses($separator, apply_filters('bcn_allowed_html', wp_kses_allowed_html('post'))), $attribs);
 			}
 			if($reverse)
 			{
@@ -1297,7 +1295,7 @@ class bcn_breadcrumb_trail
 				$position++;
 			}
 		}
-		return $trail_str;
+		return $trail_str_escaped;
 	}
 	/**
 	 * This functions outputs or returns the breadcrumb trail in Schema.org BreadcrumbList compliant JSON-LD
@@ -1311,11 +1309,11 @@ class bcn_breadcrumb_trail
 	{
 		//Set trail order based on reverse flag
 		$this->order($reverse);
-		$trail_str = (object)array(
+		$trail_str_escaped = (object)array(
 			'@context' => 'http://schema.org',
 			'@type' => 'BreadcrumbList',
 			'itemListElement' => $this->json_ld_loop($reverse));
-		return $trail_str;
+		return $trail_str_escaped;
 	}
 	/**
 	 * This function assembles all of the breadcrumbs into an object ready for json_encode
@@ -1330,11 +1328,11 @@ class bcn_breadcrumb_trail
 		{
 			$position = count($this->breadcrumbs);
 		}
-		$breadcrumbs = array();
+		$breadcrumbs_escaped= array();
 		//Loop around our breadcrumbs, call the JSON-LD assembler
 		foreach($this->breadcrumbs as $breadcrumb)
 		{
-			$breadcrumbs[] = $breadcrumb->assemble_json_ld($position);
+			$breadcrumbs_escaped[] = $breadcrumb->assemble_json_ld($position);
 			if($reverse)
 			{
 				$position--;
@@ -1344,7 +1342,7 @@ class bcn_breadcrumb_trail
 				$position++;
 			}
 		}
-		return $breadcrumbs;
+		return $breadcrumbs_escaped;
 	}
 	/**
 	 * Deprecated functions, don't use these

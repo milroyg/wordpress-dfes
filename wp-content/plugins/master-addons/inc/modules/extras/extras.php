@@ -14,6 +14,7 @@ if (!defined('ABSPATH')) {
 	exit;
 } // Exit if accessed directly.
 
+if (!class_exists('MasterAddons\Modules\JLTMA_Extension_Container_Extras')) {
 class JLTMA_Extension_Container_Extras
 {
 
@@ -196,5 +197,8 @@ class JLTMA_Extension_Container_Extras
 		return self::$instance;
 	}
 }
+}
 
-JLTMA_Extension_Container_Extras::get_instance();
+if (class_exists('MasterAddons\Modules\JLTMA_Extension_Container_Extras')) {
+	JLTMA_Extension_Container_Extras::get_instance();
+}

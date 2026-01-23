@@ -5,76 +5,49 @@ namespace MasterAddons\Admin\Dashboard\Addons;
 use MasterAddons\Master_Elementor_Addons;
 use MasterAddons\Admin\Dashboard\Addons\Elements\JLTMA_Addon_Marketing;
 use MasterAddons\Inc\Helper\Master_Addons_Helper;
-// include_once JLTMA_PATH . '/inc/admin/jltma-elements/ma-marketing.php';
+
+// include_once JLTMA_PATH . 'inc/admin/jltma-elements/ma-marketing.php';
 ?>
 
 <div class="jltma-master-addons-features-list">
 
-    <h3><?php 
-echo esc_html__( 'Marketing', 'master-addons' );
-?></h3>
+    <h3><?php echo esc_html__('Marketing', 'master-addons'); ?></h3>
 
     <div class="jltma-master-addons-features-container is-flex">
-        <?php 
-foreach ( JLTMA_Addon_Marketing::$jltma_marketing['jltma-marketing']['elements'] as $key => $widget ) {
-    ?>
+        <?php foreach (JLTMA_Addon_Marketing::$jltma_marketing['jltma-marketing']['elements'] as $key => $widget) : ?>
 
             <div class="jltma-master-addons-dashboard-checkbox">
                 <div class="jltma-master-addons-dashboard-checkbox-content">
 
                     <div class="jltma-master-addons-features-ribbon">
-                        <?php 
-    if ( !ma_el_fs()->can_use_premium_code__premium_only() && isset( $widget['is_pro'] ) && $widget['is_pro'] ) {
-        echo '<span class="jltma-pro-ribbon">Pro</span>';
-    }
-    ?>
+                        <?php echo apply_filters('master_addons/addons/pro_ribbon', !empty($widget['is_pro']) ? '<span class="jltma-pro-ribbon">Pro</span>' : '', $widget); ?>
                     </div>
 
                     <div class="jltma-master-addons-content-inner">
                         <div class="jltma-master-addons-features-title">
-                            <?php 
-    echo esc_html__( $widget['title'] );
-    ?>
+                            <?php echo esc_html__($widget['title']); ?>
                         </div> <!-- master-addons-el-title-content -->
 
                         <div class="jltma-addons-tooltip inline-block">
-                            <?php 
-    Master_Addons_Helper::jltma_admin_tooltip_info( 'Demo', $widget['demo_url'], 'eicon-device-desktop' );
-    Master_Addons_Helper::jltma_admin_tooltip_info( 'Documentation', $widget['docs_url'], 'eicon-info-circle-o' );
-    Master_Addons_Helper::jltma_admin_tooltip_info( 'Video Tutorial', $widget['tuts_url'], 'eicon-video-camera' );
-    ?>
+                            <?php
+                            Master_Addons_Helper::jltma_admin_tooltip_info('Demo', $widget['demo_url'], 'eicon-device-desktop');
+                            Master_Addons_Helper::jltma_admin_tooltip_info('Documentation', $widget['docs_url'], 'eicon-info-circle-o');
+                            Master_Addons_Helper::jltma_admin_tooltip_info('Video Tutorial', $widget['tuts_url'], 'eicon-video-camera');
+                            ?>
                         </div>
                     </div> <!-- .master-addons-el-title -->
 
-                    <div class="jltma-master-addons_feature-switchbox">
-                        <label for="<?php 
-    echo esc_attr( $widget['key'] );
-    ?>" class="switch switch-text switch-primary switch-pill <?php 
-    if ( !ma_el_fs()->can_use_premium_code__premium_only() && isset( $widget['is_pro'] ) && $widget['is_pro'] ) {
-        echo "ma-el-pro disabled";
-    }
-    ?>">
-
-                            <?php 
-    ?>
-
-                                <input type="checkbox" id="<?php 
-    echo esc_attr( $widget['key'] );
-    ?>" class="jltma-switch-input " name="<?php 
-    echo esc_attr( $widget['key'] );
-    ?>"
-                                <?php 
-    if ( !ma_el_fs()->can_use_premium_code__premium_only() && isset( $widget['is_pro'] ) && $widget['is_pro'] ) {
-        checked( 0, $this->jltma_get_element_settings[$widget['key']], false );
-        echo "disabled";
-    } else {
-        checked( 1, $this->jltma_get_element_settings[$widget['key']], true );
-    }
-    ?> />
-
-                            <?php 
-    ?>
-
+                    <div class="jltma-master-addons_feature-switchbox <?php echo apply_filters('master_addons/addons/pro_switchbox_class', '', $widget); ?>">
+                        <label for="<?php echo esc_attr($widget['key']); ?>" class="switch switch-text switch-primary switch-pill <?php echo apply_filters('master_addons/addons/pro_label_class', '', $widget); ?>">
+                            <?php
+                            echo apply_filters(
+                                'master_addons/addons/pro_checkbox_render',
+                                '<input type="checkbox" id="' . esc_attr($widget['key']) . '" class="jltma-switch-input" name="' . esc_attr($widget['key']) . '" ' .
+                                    (!empty($widget['is_pro']) ? ' disabled' : checked(1, $this->jltma_get_element_settings[$widget['key']], false)) . '>',
+                                $widget,
+                                $this->jltma_get_element_settings[$widget['key']]
+                            );
+                            ?>
                             <span data-on="On" data-off="Off" class="jltma-switch-label"></span>
                             <span class="jltma-switch-handle"></span>
                         </label>
@@ -82,10 +55,7 @@ foreach ( JLTMA_Addon_Marketing::$jltma_marketing['jltma-marketing']['elements']
                 </div>
             </div>
 
-        <?php 
-}
-?>
+        <?php endforeach; ?>
     </div>
 
 </div> <!--  .master_addons_feature-->
-<?php 

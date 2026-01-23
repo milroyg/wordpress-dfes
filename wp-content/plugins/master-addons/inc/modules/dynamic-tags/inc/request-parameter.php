@@ -19,7 +19,7 @@ class JLTMA_Request_Parameter extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('MA Request Parameter', 'master-addons' );
+		return esc_html__('Request Parameter', 'master-addons' );
 	}
 
 	public function get_group()

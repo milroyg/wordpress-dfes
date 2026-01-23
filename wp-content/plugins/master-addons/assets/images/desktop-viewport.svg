@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" class="devices-elementor-svg">
+	<!-- frame -->
+	<rect class="back-shape frame" fill="#000000" x="0" y="0" width="1024" height="680" rx="15" ry="15" vector-effect="non-scaling-stroke"></rect>
+
+	<!-- stand base -->
+	<rect class="back-shape stand-base" fill="#000000" x="412" y="768" width="200" height="15" rx="7.5" vector-effect="non-scaling-stroke"></rect>
+
+	<!-- stand neck -->
+	<rect class="back-shape stand-neck" fill="#000000" x="497" y="680" width="30" height="88" vector-effect="non-scaling-stroke"></rect>
+
+	<!-- screen inner -->
+	<rect class="screen-inner" fill="#1e1e1e" x="20" y="20" width="984" height="640" vector-effect="non-scaling-stroke"></rect>
+</svg>

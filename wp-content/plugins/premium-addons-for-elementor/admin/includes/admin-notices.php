@@ -68,7 +68,7 @@ class Admin_Notices {
 
 		self::$notices = array(
 			'pa-review',
-			'bf25-last-not'
+			'bf25-last-not',
 		);
 
 		if ( Helper_Functions::check_hide_notifications() ) {
@@ -92,7 +92,7 @@ class Admin_Notices {
 
 		$this->handle_review_notice();
 
-		if ( defined( 'ELEMENTOR_VERSION' ) && get_transient( 'pa_activation_redirect' ) ) {
+		if ( Helper_Functions::check_elementor_version() && get_transient( 'pa_activation_redirect' ) ) {
 
 			delete_transient( 'pa_activation_redirect' );
 
@@ -139,7 +139,6 @@ class Admin_Notices {
 		}
 
 		// $this->get_black_friday_notice();
-
 	}
 
 	/**
@@ -178,7 +177,7 @@ class Admin_Notices {
 	public function required_plugins_check() {
 
 		// Early return if Elementor is already active.
-		if ( defined( 'ELEMENTOR_VERSION' ) ) {
+		if ( Helper_Functions::check_elementor_version() ) {
 			return;
 		}
 
@@ -272,9 +271,9 @@ class Admin_Notices {
 
 	public function get_black_friday_notice() {
 
-        $time     = time();
+		$time = time();
 
-        if ( $time > 1765497600 || '1' === get_option( 'bf25-last-not' ) ) {
+		if ( $time > 1765497600 || '1' === get_option( 'bf25-last-not' ) ) {
 			return;
 		}
 
@@ -286,13 +285,13 @@ class Admin_Notices {
 
 		$promotion_type = 'new';
 
-        if ( $is_papro_active ) {
+		if ( $is_papro_active ) {
 
 			$license_data = get_transient( 'pa_license_info' );
 
-            if( isset( $license_data['status'] ) && 'valid' === $license_data['status'] ) {
+			if ( isset( $license_data['status'] ) && 'valid' === $license_data['status'] ) {
 
-				if( isset( $license_data['id'] ) && '4' === $license_data['id'] ) {
+				if ( isset( $license_data['id'] ) && '4' === $license_data['id'] ) {
 					return;
 				} else {
 
@@ -300,9 +299,7 @@ class Admin_Notices {
 
 					$link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/upgrade-premium-addons-license/', 'wp-dash', 'bf25-notification', 'cm25' );
 				}
-
-            }
-
+			}
 		}
 
 		$message = $this->get_promotion_message( $promotion_type );
@@ -343,14 +340,14 @@ class Admin_Notices {
 		if ( 'upgrade' === $type ) {
 			return array(
 				'message' => __( 'Get a <b>FLAT 35% OFF</b> when you upgrade to <b>Premium Addons Pro Lifetime</b>. Use code <b>BFUL2025</b> at checkout – <b>expires soon!</b>', 'premium-addons-for-elementor' ),
-				'cta'    => __( 'Upgrade Now', 'premium-addons-for-elementor' ),
+				'cta'     => __( 'Upgrade Now', 'premium-addons-for-elementor' ),
 			);
 
 		}
 
 		return array(
 			'message' => __( '<b>Cyber Monday – Save Up To $105 on Premium Addons Pro</b>.', 'premium-addons-for-elementor' ),
-			'cta'    => __( 'Catch The Deal', 'premium-addons-for-elementor' ),
+			'cta'     => __( 'Catch The Deal', 'premium-addons-for-elementor' ),
 		);
 	}
 
@@ -528,7 +525,7 @@ class Admin_Notices {
 	 */
 	public function get_pa_stories() {
 
-		$stories = get_transient( 'pa_stories_bf' );
+		$stories = get_transient( 'pa_stories_' . PREMIUM_ADDONS_VERSION );
 
 		if ( ! $stories ) {
 
@@ -543,14 +540,14 @@ class Admin_Notices {
 			);
 
 			if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-				set_transient( 'pa_stories_bf', true, WEEK_IN_SECONDS );
+				set_transient( 'pa_stories_' . PREMIUM_ADDONS_VERSION, true, WEEK_IN_SECONDS );
 				return false;
 			}
 
 			$body    = wp_remote_retrieve_body( $response );
 			$stories = json_decode( $body, true );
 
-			set_transient( 'pa_stories_bf', $stories, WEEK_IN_SECONDS );
+			set_transient( 'pa_stories_' . PREMIUM_ADDONS_VERSION, $stories, WEEK_IN_SECONDS );
 
 		}
 
@@ -588,22 +585,23 @@ class Admin_Notices {
 		$papro_path = 'premium-addons-pro/premium-addons-pro-for-elementor.php';
 
 		$license_data = get_transient( 'pa_license_info' );
-		$highlight = false;
+		$highlight    = false;
 
-		if( isset( $license_data['status'] ) && 'valid' === $license_data['status'] ) {
+		if ( isset( $license_data['status'] ) && 'valid' === $license_data['status'] ) {
 
-			if( isset( $license_data['id'] ) && '4' !== $license_data['id'] ) {
+			if ( isset( $license_data['id'] ) && '4' !== $license_data['id'] ) {
 
 				$highlight = true;
-				array_unshift( $stories['posts'], array(
-					'title' => 'Switch to Premium Addons Pro Lifetime, Pay the Difference & Save 35% Today!',
-					'link'  => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/upgrade-premium-addons-license/', 'wp-dash', 'bf25-dash-widget', 'cm25' ),
-				) );
+				array_unshift(
+					$stories['posts'],
+					array(
+						'title' => 'Switch to Premium Addons Pro Lifetime, Pay the Difference & Save 30% Today!',
+						'link'  => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/upgrade-premium-addons-license/', 'wp-dash', 'xmas25-dash-widget', 'xmas25' ),
+					)
+				);
 
 			}
-
 		}
-
 
 		?>
 			<style>
@@ -671,7 +669,7 @@ class Admin_Notices {
 							<div class="pa-story-img-container">
 								<img src="<?php echo esc_url( $banner['image'] ); ?>" alt="<?php echo esc_attr( $banner['description'] ); ?>">
 							</div>
-							<a href="<?php echo esc_url( Helper_Functions::get_campaign_link( $banner['link'], 'wp-dash', 'dash-widget', 'cm25' ) ); ?>" target="_blank" title="<?php echo esc_attr( $banner['description'] ); ?>"></a>
+							<a href="<?php echo esc_url( Helper_Functions::get_campaign_link( $banner['link'], 'wp-dash', 'dash-widget', 'xmas25' ) ); ?>" target="_blank" title="<?php echo esc_attr( $banner['description'] ); ?>"></a>
 						</div>
 
 					<?php endif; ?>
@@ -686,7 +684,7 @@ class Admin_Notices {
 				<?php foreach ( $stories['posts'] as $index => $post ) : ?>
 
 					<div class="pa-news-post">
-						<a style="<?php echo 0 === $index && $highlight ? 'color: #93003f' : '' ?>" target="_blank" href="<?php echo esc_url( $post['link'] ); ?>">
+						<a style="<?php echo 0 === $index && $highlight ? 'color: #93003f' : ''; ?>" target="_blank" href="<?php echo esc_url( $post['link'] ); ?>">
 							<?php echo wp_kses_post( $post['title'] ); ?>
 						</a>
 					</div>
@@ -697,7 +695,7 @@ class Admin_Notices {
 
 			<div class="pa-dashboard-widget-block">
 				<div class="pa-footer-bar">
-					<a href="https://my.leap13.com/contact-support" target="_blank" style="color: #27ae60">
+					<a href="https://wordpress.org/support/plugin/premium-addons-for-elementor/" target="_blank" style="color: #27ae60">
 						Need Help?
 						<span aria-hidden="true" class="dashicons dashicons-external"></span>
 					</a>

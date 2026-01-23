@@ -179,6 +179,7 @@ if ( ! class_exists( 'CTL_Helpers' ) ) {
 		 * @param int      $paged current page number.
 		 */
 		public static function ctl_pagination( $wp_query, $paged, $fontawesome ) {
+			$paged = max( 1, absint( $paged ) );
 			$output   = '';
 			$numpages = $wp_query->max_num_pages;
 			if ( ! $numpages ) {

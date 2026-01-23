@@ -463,22 +463,22 @@ jQuery(function ($) {
                         +'<div class="wp-chatbot-paragraph"><img class="wp-chatbot-comment-loader" src="'+wpChatBotVar.image_path+'comment.gif" alt="Typing..." /></div>'+
                             '<div class="qcld-like-dislike-icon">' +
                 (enableleReactions == 1 
-                    ? '<a href="#" title="' + (likeTxt?.en_US || 'Like') + '"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a>' +
-                        '<a href="#" title="' + (disLikeTxt?.en_US || 'Dislike') + '"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a>'
+                    ? '<a href="#" title="' + (likeTxt?.en_US || 'Like') + '"><i class="dashicons dashicons-thumbs-up" ></i></a>' +
+                        '<a href="#" title="' + (disLikeTxt?.en_US || 'Dislike') + '"><i class="dashicons dashicons-thumbs-down"></i></a>'
                     : '') +
 
                 (eanleeReport == 1 
-                    ? '<a href="#" title="' + (reportTxt?.en_US || 'Report') + '"><i class="fa fa-commenting-o" aria-hidden="true"></i></a>'
+                    ? '<a href="#" title="' + (reportTxt?.en_US || 'Report') + '"><i class="dashicons dashicons-admin-comments"></i></a>'
                     : '') +
 
                 (enableshare == 1 
                     ? '<div class="qcld-share">' +
-                        '<a href="#" class="share-toggle" title="' + (sharetTxt?.en_US || 'Share') + '"><i class="fa fa-share-alt" aria-hidden="true"></i></a>' +
+                        '<a href="#" class="share-toggle" title="' + (sharetTxt?.en_US || 'Share') + '"><i class="dashicons dashicons-share" aria-hidden="true"></i></a>' +
                         '<div class="share-menu" style="display:none;">' +
-                            '<a href="#" class="share-fb"><i class="fa fa-facebook"></i></a>' +
-                            '<a href="#" class="share-wa"><i class="fa fa-whatsapp"></i></a>' +
-                            '<a href="#" class="share-x"><i class="fa fa-twitter"></i></a>' +
-                            '<a href="#" class="share-email"><i class="fa fa-envelope"></i></a>' +
+                            '<a href="#" class="share-fb"><i class="dashicons dashicons-facebook"></i></a>' +
+                            '<a href="#" class="share-wa"><i class="dashicons dashicons-whatsapp"></i></a>' +
+                            '<a href="#" class="share-x"><i class="dashicons dashicons-twitter"></i></a>' +
+                            '<a href="#" class="share-email"><i class="dashicons dashicons-email-alt"></i></a>' +
                         '</div>' +
                     '</div>'
                     : '') +
@@ -524,22 +524,22 @@ jQuery(function ($) {
                     +'<div class="wp-chatbot-paragraph"><img class="wp-chatbot-comment-loader" src="'+wpChatBotVar.image_path+'comment.gif" alt="Typing..." /></div>'+
                      '<div class="qcld-like-dislike-icon">' +
               (enableleReactions == 1 
-                  ? '<a href="#" title="' + (likeTxt?.en_US || 'Like') + '"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a>' +
-                    '<a href="#" title="' + (disLikeTxt?.en_US || 'Dislike') + '"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a>'
+                  ? '<a href="#" title="' + (likeTxt?.en_US || 'Like') + '"><i class="dashicons dashicons-thumbs-up"></i></a>' +
+                    '<a href="#" title="' + (disLikeTxt?.en_US || 'Dislike') + '"><i class="dashicons dashicons-thumbs-down"></i></a>'
                   : '') +
 
               (eanleeReport == 1 
-                  ? '<a href="#" title="' + (reportTxt?.en_US || 'Report') + '"><i class="fa fa-commenting-o" aria-hidden="true"></i></a>'
+                  ? '<a href="#" title="' + (reportTxt?.en_US || 'Report') + '"><i class="dashicons dashicons-admin-comments"></i></a>'
                   : '') +
 
               (enableshare == 1 
                   ? '<div class="qcld-share">' +
-                      '<a href="#" class="share-toggle" title="' + (sharetTxt?.en_US || 'Share') + '"><i class="fa fa-share-alt" aria-hidden="true"></i></a>' +
+                      '<a href="#" class="share-toggle" title="' + (sharetTxt?.en_US || 'Share') + '"><i class="dashicons dashicons-share"></i></a>' +
                       '<div class="share-menu" style="display:none;">' +
-                          '<a href="#" class="share-fb"><i class="fa fa-facebook"></i></a>' +
-                          '<a href="#" class="share-wa"><i class="fa fa-whatsapp"></i></a>' +
-                          '<a href="#" class="share-x"><i class="fa fa-twitter"></i></a>' +
-                          '<a href="#" class="share-email"><i class="fa fa-envelope"></i></a>' +
+                          '<a href="#" class="share-fb"><i class="dashicons dashicons-facebook"></i></a>' +
+                          '<a href="#" class="share-wa"><i class="dashicons dashicons-whatsapp"></i></a>' +
+                          '<a href="#" class="share-x"><i class="dashicons dashicons-twitter"></i></a>' +
+                          '<a href="#" class="share-email"><i class="dashicons dashicons-email-alt"></i></a>' +
                       '</div>' +
                   '</div>'
                   : '') +

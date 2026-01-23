@@ -19,7 +19,7 @@ class JLTMA_Author_Name extends Tag
 
 	public function get_title()
 	{
-		return esc_html__('MA Author Name', 'master-addons' );
+		return esc_html__('Author Name', 'master-addons' );
 	}
 
 	public function get_group()

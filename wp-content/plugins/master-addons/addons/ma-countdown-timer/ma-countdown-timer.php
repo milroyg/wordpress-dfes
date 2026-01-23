@@ -76,10 +76,27 @@ class JLTMA_Countdown_Timer extends Widget_Base
 			[
 				'label'       => esc_html__('Countdown Date & Time', 'master-addons' ),
 				'type'        => Controls_Manager::DATE_TIME,
-				'default'     => date("Y/m/d", strtotime("+ 52 week")),
+				'default'     => date("Y-m-d H:i:s", strtotime("+ 52 week")),
 				'description' => esc_html__('Set Datetime here', 'master-addons' ),
 			]
 		);
+		// Repeat countdown feature - Pro version overrides via filter
+		$repeat_countdown_controls = apply_filters('master_addons/addons/countdown/repeat', [
+			[
+				'control_id' => 'ma_el_countdown_repeat_pro',
+				'args'       => [
+					'type'            => Controls_Manager::RAW_HTML,
+					'raw'             => Master_Addons_Helper::upgrade_to_pro('Repeat Countdown available on'),
+					'content_classes' => 'jltma-editor-doc-links',
+				],
+			],
+		]);
+
+		// Add all controls from the filter
+		foreach ($repeat_countdown_controls as $control) {
+			$this->add_control($control['control_id'], $control['args']);
+		}
+		
 
 		$this->end_controls_section();
 
@@ -989,6 +1006,47 @@ class JLTMA_Countdown_Timer extends Widget_Base
 
 
 
+	/**
+	 * Calculate current interval end time for repeating countdown
+	 * Shows only the interval duration (e.g., 20 seconds) repeatedly until original time is reached
+	 */
+	private function calculate_current_interval_end($original_datetime, $reset_duration_seconds, $widget_id) {
+		// Parse the datetime string properly accounting for WordPress timezone
+		$datetime_obj = new \DateTime($original_datetime, wp_timezone());
+		$original_timestamp = $datetime_obj->getTimestamp();
+
+		// Get current timestamp in WordPress timezone
+		$current_datetime = new \DateTime('now', wp_timezone());
+		$current_timestamp = $current_datetime->getTimestamp();
+
+		// If we've passed the original end time, return current time (will show as 0)
+		if ($current_timestamp >= $original_timestamp) {
+			return $current_timestamp;
+		}
+
+		// Get or set the start time for this widget's current interval
+		$transient_key = 'jltma_countdown_interval_' . $widget_id;
+		$interval_start = get_transient($transient_key);
+
+		// If no interval is set or the interval has expired
+		if ($interval_start === false || $current_timestamp >= ($interval_start + $reset_duration_seconds)) {
+			// Start a new interval from current time
+			$interval_start = $current_timestamp;
+			set_transient($transient_key, $interval_start, $reset_duration_seconds + 10);
+		}
+
+		// Calculate the end time of the current interval
+		// This will be current time + interval duration
+		$interval_end = $interval_start + $reset_duration_seconds;
+
+		// Make sure we don't go past the original end time
+		if ($interval_end > $original_timestamp) {
+			$interval_end = $original_timestamp;
+		}
+
+		return $interval_end;
+	}
+
 	protected function render()
 	{
 		$settings = $this->get_settings_for_display();
@@ -1001,6 +1059,37 @@ class JLTMA_Countdown_Timer extends Widget_Base
 		$attr_markup = '';
 		$date_attr   = array();
 		$data_attr   = '';
+
+		// Check if infinite countdown is enabled
+		$is_infinite = !empty($settings['ma_el_countdown_time_infinitive']) && $settings['ma_el_countdown_time_infinitive'] === 'yes';
+
+		// Calculate server-side interval for infinite countdown
+		if ($is_infinite) {
+			// Calculate reset duration in seconds
+			$reset_years = isset($settings['ma_el_countdown_reset_years']) ? intval($settings['ma_el_countdown_reset_years']) : 0;
+			$reset_months = isset($settings['ma_el_countdown_reset_months']) ? intval($settings['ma_el_countdown_reset_months']) : 0;
+			$reset_days = isset($settings['ma_el_countdown_reset_days']) ? intval($settings['ma_el_countdown_reset_days']) : 0;
+			$reset_hours = isset($settings['ma_el_countdown_reset_hour']) ? intval($settings['ma_el_countdown_reset_hour']) : 0;
+			$reset_minutes = isset($settings['ma_el_countdown_reset_minute']) ? intval($settings['ma_el_countdown_reset_minute']) : 0;
+			$reset_seconds = isset($settings['ma_el_countdown_reset_second']) ? intval($settings['ma_el_countdown_reset_second']) : 0;
+
+			// Convert to seconds (approximate for months/years)
+			$reset_duration_seconds = ($reset_years * 365 * 24 * 60 * 60) +
+									 ($reset_months * 30 * 24 * 60 * 60) +
+									 ($reset_days * 24 * 60 * 60) +
+									 ($reset_hours * 60 * 60) +
+									 ($reset_minutes * 60) +
+									 $reset_seconds;
+
+			// Calculate current interval end time on server
+			// Use widget ID to track intervals per widget instance
+			$widget_id = $this->get_id();
+			$current_interval_end = $this->calculate_current_interval_end($countdown_time, $reset_duration_seconds, $widget_id);
+
+			$datetime_for_display = new \DateTime('@' . $current_interval_end);
+			$datetime_for_display->setTimezone(wp_timezone());
+			$countdown_time = $datetime_for_display->format('Y-m-d H:i:s');
+		}
 
 		$datetime = explode(" ", $countdown_time);
 
@@ -1038,7 +1127,7 @@ class JLTMA_Countdown_Timer extends Widget_Base
 				'title'   => $settings['ma_el_label_min'] ?? __('Minutes','master-addons'),
 			),
 			'sec' => array(
-				'value'   => !empty($time[1]) ? $time[1] : '',
+				'value'   => !empty($time[2]) ? $time[2] : '',
 				'display' => $settings['ma_el_show_sec'],
 				'title'   => $settings['ma_el_label_sec'] ?? __('Seconds','master-addons')
 			),
@@ -1074,6 +1163,11 @@ class JLTMA_Countdown_Timer extends Widget_Base
 					$attr_markup .= '<span class="jltma-countdown-seperator">' . esc_html($seperator) . '</span>';
 				}
 			}
+		}
+		// Add infinite countdown flag (server handles interval calculation)
+		// The current interval end time is already calculated server-side above
+		if (!empty($settings['ma_el_countdown_time_infinitive']) && $settings['ma_el_countdown_time_infinitive'] === 'yes') {
+			$this->add_render_attribute('jltma_countdown_keys', 'data-countdown-infinite', 'yes');
 		}
 
 		$this->add_render_attribute(

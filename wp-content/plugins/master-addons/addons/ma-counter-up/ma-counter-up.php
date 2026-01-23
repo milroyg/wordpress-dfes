@@ -214,7 +214,7 @@ class JLTMA_Counter_Up extends Widget_Base
 			]
 		);
 
-		$this->add_control(
+		$this->add_responsive_control(
 			'column',
 			[
 				'label'   => esc_html__('Columns', 'master-addons' ),
@@ -226,6 +226,9 @@ class JLTMA_Counter_Up extends Widget_Base
 					'3' => esc_html__('3 Columns', 'master-addons' ),
 					'2' => esc_html__('2 Columns', 'master-addons' ),
 					'1' => esc_html__('1 Column', 'master-addons' ),
+				],
+				'selectors' => [
+					'{{WRAPPER}} .jltma-counterup-column' => 'width: calc(100% / {{VALUE}});',
 				],
 			]
 		);
@@ -324,7 +327,7 @@ class JLTMA_Counter_Up extends Widget_Base
 		$this->start_controls_section(
 			'jltma_counterup_box_style_section',
 			[
-				'label' => esc_html__('Counter up Box Style', 'master-addons' ),
+				'label' => esc_html__('Counter Up Box Style', 'master-addons' ),
 				'tab'   => Controls_Manager::TAB_STYLE
 			]
 		);
@@ -485,17 +488,40 @@ class JLTMA_Counter_Up extends Widget_Base
 			]
 		);
 
-		//  counterup number typography
-		$this->add_group_control(
-			Group_Control_Typography::get_type(),
+		// counterup number Prefix
+		$this->add_control(
+			'jltma_counterup_number_prefix_style',
 			[
-				'name'     => 'jltma_counterup_number_typography',
-				'global'   => [
-					'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
+				'label'     => esc_html__('Number Prefix', 'master-addons' ),
+				'type'      => Controls_Manager::HEADING,
+				'separator' => 'before'
+			]
+		);
+
+		//  counterup number color
+		$this->add_control(
+			'jltma_counterup_number_prefix_color',
+			[
+				'type'   => Controls_Manager::COLOR,
+				'label'  => esc_html__('Color', 'master-addons' ),
+				'global' => [
+					'default' => Global_Colors::COLOR_PRIMARY,
 				],
-				'selector' => '{{WRAPPER}} .jltma-counterup h3.jltma-counter-up-number',
-				'exclude'  => [
-					'text_transform', // font_family, font_size, font_weight, text_transform, font_style, text_decoration, line_height, letter_spacing
+				'default'   => '#333',
+				'selectors' => [
+					'{{WRAPPER}} .jltma-counterup h3.jltma-counter-up-number-prefix' => 'color: {{VALUE}};'
+				],
+			]
+		);
+
+		// Counter Up number typography
+		$this->add_control(
+			'jltma_counterup_number_prefix_size',
+			[
+				'label'  => esc_html__('Size', 'master-addons' ),
+				'type' => Controls_Manager::SLIDER,
+				'selectors' => [ 
+					'{{WRAPPER}} .jltma-counterup h3.jltma-counter-up-number-prefix' => 'font-size: {{SIZE}}{{UNIT}};'
 				]
 			]
 		);
@@ -620,8 +646,6 @@ class JLTMA_Counter_Up extends Widget_Base
 		$id_int   = substr($this->get_id_int(), 0, 3);
 
 		if (is_array($settings['jltma_counterup_contents'])) :
-			$column = 12 / $settings['column'];
-			$column = 'jltma-col-' . esc_attr($column);
 			echo '<div class="jltma-counterup-items jltma-row">';
 
 			foreach ($settings['jltma_counterup_contents'] as $index => $list) :
@@ -634,7 +658,7 @@ class JLTMA_Counter_Up extends Widget_Base
 					'style' => ['background-color:', $list['background']]
 				]);
 
-				echo '<div class="' . esc_attr($column) . ' jltma-counterup-column">';
+				echo '<div class="jltma-counterup-column">';
 				echo '<div class="jltma-counterup jltma-counterup-icon-' . esc_attr($settings['jltma_counterup_icon_align']) . '"  ' . $this->get_render_attribute_string($title_settings_key) . '>';
 				echo '<span class="jltma-counterup-icon counterup-icon-text-' . esc_attr($settings['jltma_counterup_icon_align']) . '">';
 
@@ -654,7 +678,7 @@ class JLTMA_Counter_Up extends Widget_Base
 				echo '</span>';
 				if (!empty($list['number']) || ($list['title'])) :
 					echo '<div class="jltma-counterup-content">';
-					$list['number'] ? printf('<div class="jltma-counter-up-number-section"><h3>%1$s</h3><h3 class="jltma-counter-up-number">%2$s</h3><h3>%3$s</h3></div>', $this->parse_text_editor($list['number_prefix']), esc_attr($list['number']), $this->parse_text_editor($list['number_suffix'])) : '';
+					$list['number'] ? printf('<div class="jltma-counter-up-number-section"><h3 class="jltma-counter-up-number-prefix">%1$s</h3><h3 class="jltma-counter-up-number">%2$s</h3><h3 class="jltma-counter-up-number-prefix">%3$s</h3></div>', $this->parse_text_editor($list['number_prefix']), esc_attr($list['number']), $this->parse_text_editor($list['number_suffix'])) : '';
 					$list['title'] ? printf('<span class="jltma-counterup-title">%s</span>', $this->parse_text_editor($list['title'])) : '';
 					echo '</div>';
 				endif;

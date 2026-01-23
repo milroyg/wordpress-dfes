@@ -30,7 +30,7 @@ class JLTMA_Post_Featured_Image extends Data_Tag
 
 	public function get_title()
 	{
-		return esc_html__('MA Featured Image', 'master-addons' );
+		return esc_html__('Featured Image', 'master-addons' );
 	}
 
 	public function get_value(array $options = [])

@@ -1769,7 +1769,6 @@ wp-chatbot-editor-container input::placeholder {
 }
 
 .qcld-like-dislike-icon i {
-    font: normal normal normal 14px / 1 FontAwesome !important;
     color: #1d73b4;
 }
 
@@ -1899,6 +1898,8 @@ ul.wp-chatbot-messages-container>li.wp-chatbot-msg .chat-container .wp-chatbot-p
     isolation: inherit;
 }
 
+
+
 ul.wp-chatbot-messages-container>li.wp-chatbot-msg .chat-container {
     box-shadow: inset 1px 1px 0 rgb(255 255 255 / 75%), inset 0 0 5px rgb(255 255 255 / 76%);
     background: rgb(255 255 255 / 30%);
@@ -1913,9 +1914,6 @@ ul.wp-chatbot-messages-container>li.wp-chatbot-msg .chat-container {
 }
 
 
-.qcld-like-dislike-icon a i {
-    padding: 0 6px;
-}
 
 .qcld-like-dislike-icon i.fa.fa-thumbs-o-up.liked {
     position: relative;
@@ -1963,4 +1961,34 @@ ul.wp-chatbot-messages-container>li.wp-chatbot-msg .chat-container {
 
 .qcld-like-dislike-icon a {
     outline: none !important;
+}
+
+
+.qcld-like-dislike-icon a {
+    padding: 0 10px 0 0;
+}
+
+.qcld-like-dislike-icon .share-menu a {
+    padding: 0 0 0 0 !important;
+}
+
+.qcld-like-dislike-icon i {
+    color: #ffffff;
+}
+
+.wp-chatbot-textanimation ul {
+    margin: 12px 0 8px 20px !important;
+    padding: 0;
+}
+.qcld-like-dislike-icon i {
+    color: #1e74b3;
+}
+.qcld-like-dislike-icon a i {
+    font-size: 16px;
+    padding: 0;
+    height: auto;
+}
+.qcld-like-dislike-icon a {
+    padding: 0 5px 0 0;
+        height: 15px;
 }

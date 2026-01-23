@@ -101,8 +101,6 @@ if ( ! class_exists( 'SPLWT_Field_radio' ) ) {
 
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $this->field_after();
-
 		}
-
 	}
 }

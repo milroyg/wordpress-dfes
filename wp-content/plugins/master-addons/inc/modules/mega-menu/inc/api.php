@@ -43,9 +43,14 @@ class JLTMA_Megamenu_Api
 
     public function get_get_menuitem_settings()
     {
-        // if (!current_user_can('manage_options')) {
-        //     return;
-        // }
+        // Verify user permissions
+        if (!current_user_can('edit_posts')) {
+            return new \WP_Error(
+                'rest_forbidden',
+                esc_html__('Sorry, you are not allowed to do that.', 'master-addons'),
+                array('status' => 401)
+            );
+        }
 
         $menu_item_id = $this->request['menu_id'];
         $data = get_post_meta($menu_item_id, JLTMA_Megamenu_Options::$jltma_menuitem_settings_key, true);

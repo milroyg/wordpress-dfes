@@ -19,7 +19,7 @@ class JLTMA_Site_Logo extends Data_Tag
 
 	public function get_title()
 	{
-		return esc_html__('MA Site Logo', 'master-addons' );
+		return esc_html__('Site Logo', 'master-addons' );
 	}
 
 	public function get_group()

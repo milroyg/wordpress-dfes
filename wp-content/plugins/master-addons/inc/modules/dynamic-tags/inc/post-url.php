@@ -20,7 +20,7 @@ class JLTMA_Post_URL extends Data_Tag
 
 	public function get_title()
 	{
-		return esc_html__('MA Post URL', 'master-addons' );
+		return esc_html__('Post URL', 'master-addons' );
 	}
 
 	public function get_group()

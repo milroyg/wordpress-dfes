@@ -31,7 +31,7 @@ class JLTMA_Megamenu_Nav_Walker extends \Walker_Nav_Menu
             "menu_icon_color"          => '',
             "menu_width_type"          => 'default',
             "menu_width_size"          => '1000px',
-            // "menu_transition" => 'fade',
+            "menu_transition"          => '',
             "menu_badge_text"                  => '',
             "menu_badge_color"                 => '',
             "menu_badge_background"            => '',
@@ -149,9 +149,9 @@ class JLTMA_Megamenu_Nav_Walker extends \Walker_Nav_Menu
             $class_names .= ' jltma-megamenu-' . $item_meta['menu_trigger_effect'];
         }
 
-        // if( $item_meta['menu_transition'] !=""){
-        //     $class_names .= ' jltma-megamenu-transition-' . $item_meta['menu_transition'];
-        // }
+        if ($item_meta['menu_transition'] != "") {
+            $class_names .= ' ' . $item_meta['menu_transition'];
+        }
 
 
         if ($item_meta['menu_mobile_submenu_content_type'] == 'builder_content') {
@@ -180,24 +180,35 @@ class JLTMA_Megamenu_Nav_Walker extends \Walker_Nav_Menu
 
         $submenu_indicator = '';
 
-
-
         // New
         if ($depth === 0) {
             $atts['class'] = 'jltma-menu-nav-link nav-link';
         }
-        // if ($depth === 0 && in_array('menu-item-has-children', $classes)) {
-        //     $atts['data-toggle']   = 'dropdown';
-        //     // $atts['class']       .= ' jltma-menu-dropdown-toggle';
-        //     $atts['class']       .= ' jltma-menu-dropdown-toggle';
-        // }
-        if (in_array('menu-item-has-children', $classes)) {
-            $atts['data-toggle']    = 'dropdown';
-            $atts['class']          = ' jltma-menu-dropdown-toggle';
-        }
 
         if (in_array('menu-item-has-children', $classes) || $is_megamenu_item == true) {
-            $submenu_indicator    .= '<span class="jltma-submenu-indicator"></span>';
+            $atts['data-toggle']    = 'dropdown';
+            $atts['class']         .= ' jltma-menu-dropdown-toggle';
+        }
+
+        // Build submenu indicator with mega menu icon if set
+        if (in_array('menu-item-has-children', $classes) || $is_megamenu_item == true) {
+            $indicator_icon = '';
+            // Check if mega menu has icon set
+            if ($this->is_megamenu($menu_obj) == 1 && !empty($item_meta['menu_icon'])) {
+                // Only apply color style if explicitly set (not default brand color)
+                $icon_style = '';
+                if (!empty($item_meta['menu_icon_color']) && $item_meta['menu_icon_color'] !== '#6814cd') {
+                    $icon_style = 'color:' . $item_meta['menu_icon_color'] . ';';
+                }
+                $v = explode('|', $item_meta['menu_icon']);
+                $menu_icon_class = isset($v[1]) ? $v[0] . ' ' . $v[1] : $item_meta['menu_icon'];
+                if (!empty($icon_style)) {
+                    $indicator_icon = '<i class="' . esc_attr($menu_icon_class) . '" style="' . esc_attr($icon_style) . '"></i>';
+                } else {
+                    $indicator_icon = '<i class="' . esc_attr($menu_icon_class) . '"></i>';
+                }
+            }
+            $submenu_indicator = '<span class="jltma-submenu-indicator">' . $indicator_icon . '</span>';
         }
         if ($depth > 0) {
             $manual_class = array_values($classes)[0] . ' ' . 'dropdown-item';
@@ -229,21 +240,8 @@ class JLTMA_Megamenu_Nav_Walker extends \Walker_Nav_Menu
             if ($item_meta['menu_badge_text'] != '') {
                 $badge_style = 'background:' . $item_meta['menu_badge_background'] . '; color:' . $item_meta['menu_badge_color'];
                 $badge_carret_style = 'border-top-color:' . $item_meta['menu_badge_background'];
-                $item_output .= '<span style="' . $badge_style . '" class="jltma-menu-badge">' . $item_meta['menu_badge_text'] . '<i style="' . $badge_carret_style . '" class="jltma-menu-badge-arrow"></i></span>';
+                $item_output .= '<span style="' . $badge_style . '; padding: 0px 7px;font-size: 10px;border-radius: 10px;position: absolute;right: 3px;top: -7px;" class="jltma-menu-badge">' . $item_meta['menu_badge_text'] . '<i style="' . $badge_carret_style . '" class="jltma-menu-badge-arrow"></i></span>';
             }
-
-            // add menu icon & style
-            if ($item_meta['menu_icon'] != '') {
-                $icon_style = 'color:' . $item_meta['menu_icon_color'];
-
-                $v = explode('|', $item_meta['menu_icon']);
-                $menu_icon =  $v[0] . ' ' . $v[1];
-
-                $item_output .= '<i class="jltma-menu-icon ' . $menu_icon . '" style="' . $icon_style . '" ></i>';
-            }
-
-
-
 
             if ($item_meta['menu_disable_description'] == "1") {
                 $item_output .= (!empty($item->description) and 0 == $depth)
@@ -278,12 +276,13 @@ class JLTMA_Megamenu_Nav_Walker extends \Walker_Nav_Menu
 
                 $item_meta = $this->get_item_meta($item->ID);
 
-                // if( $item_meta['menu_transition'] !=""){
-                //     $menu_transition = $item_meta['menu_transition'];
-                // }
+                $menu_transition = 'fade-up';
+                if ($item_meta['menu_transition'] != "") {
+                    $menu_transition = $item_meta['menu_transition'];
+                }
 
                 if ($item_meta['menu_enable'] == 1 && class_exists('Elementor\Plugin')) {
-                    $width = '600px';
+                    $width = 'max-content';
                     if( $item_meta['menu_width_type'] == 'custom_width' ){
                         if( $item_meta['menu_width_size'] != '' ){
                             $width = $item_meta['menu_width_size'];
@@ -295,7 +294,61 @@ class JLTMA_Megamenu_Nav_Walker extends \Walker_Nav_Menu
 
                     $builder_post_title = 'mastermega-content-megamenu-menuitem' . $item->ID;
                     $builder_post    = Master_Addons_Helper::get_page_by_title( $builder_post_title, 'mastermega_content' );
-                    $output .= '<ul class="dropdown-menu jltma-megamenu fade-up" style="width:'.$width.'">';
+
+                    // Get Elementor page settings for background
+                    $megamenu_style = 'width:'.$width.';';
+                    if ($builder_post != null) {
+                        $page_settings = get_post_meta($builder_post->ID, '_elementor_page_settings', true);
+                        if (!empty($page_settings) && is_array($page_settings)) {
+                            // Handle background color
+                            if (!empty($page_settings['background_background'])) {
+                                if ($page_settings['background_background'] === 'classic' && !empty($page_settings['background_color'])) {
+                                    $megamenu_style .= 'background-color:' . esc_attr($page_settings['background_color']) . ';';
+                                }
+                                // Handle gradient background
+                                if ($page_settings['background_background'] === 'gradient') {
+                                    $gradient_color = !empty($page_settings['background_color']) ? $page_settings['background_color'] : '#fff';
+                                    $gradient_color_b = !empty($page_settings['background_color_b']) ? $page_settings['background_color_b'] : '#000';
+                                    $gradient_type = !empty($page_settings['background_gradient_type']) ? $page_settings['background_gradient_type'] : 'linear';
+                                    $gradient_angle = !empty($page_settings['background_gradient_angle']['size']) ? $page_settings['background_gradient_angle']['size'] : 180;
+                                    $gradient_position = !empty($page_settings['background_gradient_position']) ? $page_settings['background_gradient_position'] : 'center center';
+
+                                    if ($gradient_type === 'linear') {
+                                        $megamenu_style .= 'background:linear-gradient(' . esc_attr($gradient_angle) . 'deg, ' . esc_attr($gradient_color) . ', ' . esc_attr($gradient_color_b) . ');';
+                                    } else {
+                                        $megamenu_style .= 'background:radial-gradient(at ' . esc_attr($gradient_position) . ', ' . esc_attr($gradient_color) . ', ' . esc_attr($gradient_color_b) . ');';
+                                    }
+                                }
+                            }
+                            // Handle background image
+                            if (!empty($page_settings['background_image']['url'])) {
+                                $megamenu_style .= 'background-image:url(' . esc_url($page_settings['background_image']['url']) . ');';
+                                if (!empty($page_settings['background_position'])) {
+                                    $megamenu_style .= 'background-position:' . esc_attr($page_settings['background_position']) . ';';
+                                }
+                                if (!empty($page_settings['background_size'])) {
+                                    $megamenu_style .= 'background-size:' . esc_attr($page_settings['background_size']) . ';';
+                                }
+                                if (!empty($page_settings['background_repeat'])) {
+                                    $megamenu_style .= 'background-repeat:' . esc_attr($page_settings['background_repeat']) . ';';
+                                }
+                            }
+                            // Handle padding
+                            if (!empty($page_settings['padding'])) {
+                                $padding = $page_settings['padding'];
+                                if (!empty($padding['top']) || !empty($padding['right']) || !empty($padding['bottom']) || !empty($padding['left'])) {
+                                    $unit = !empty($padding['unit']) ? $padding['unit'] : 'px';
+                                    $megamenu_style .= 'padding:' .
+                                        (isset($padding['top']) ? $padding['top'] : '0') . $unit . ' ' .
+                                        (isset($padding['right']) ? $padding['right'] : '0') . $unit . ' ' .
+                                        (isset($padding['bottom']) ? $padding['bottom'] : '0') . $unit . ' ' .
+                                        (isset($padding['left']) ? $padding['left'] : '0') . $unit . ';';
+                                }
+                            }
+                        }
+                    }
+
+                    $output .= '<ul class="dropdown-menu jltma-megamenu ' . esc_attr($menu_transition) . '" style="' . esc_attr($megamenu_style) . '">';
                     if ($builder_post != null) {
                         $elementor = \Elementor\Plugin::instance();
                         $output .= $elementor->frontend->get_builder_content_for_display($builder_post->ID);

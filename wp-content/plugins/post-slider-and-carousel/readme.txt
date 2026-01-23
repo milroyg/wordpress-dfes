@@ -1,10 +1,10 @@
 ﻿=== Post Slider and Post Carousel with Post Vertical Scrolling Widget - A Responsive Post Slider ===
-Contributors: infornweb, pluginandplay
+Contributors: infornweb, aadhya9
 Tags: post slider, post carousel, blog, recent post, vertical post scrolling
 Requires at least: 4.7
 Requires PHP: 5.4
 Tested up to: 6.9
-Stable tag: 3.5.3
+Stable tag: 3.5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,10 +18,10 @@ Post Slider and Post Carousel having 2 shortcodes with 2 designs for each shortc
 
 View [FREE DEMO](https://demo.infornweb.com/post-slider-and-carousel/) for more details.
 
-Checkout [Premium Version Demo](https://premium.infornweb.com/post-slider-and-carousel-pro/) | [Buy Premium Version](https://premium.infornweb.com/post-slider-and-carousel-pro/) for more designs and options.
+Checkout [Premium Version Demo](https://infornweb.com/post-slider-and-carousel-pro/) | [Buy Premium Version](https://infornweb.com/post-slider-and-carousel-pro/) for more designs and options.
 
 > 🌟 <strong>Premium Version</strong> supports Custom Post Type, Custom Taxonomy, Custom Tags, Featured Post, Trending Post, Grid Box Slider, Partially Visible Slider, Post Filtering with Categories Or Tags, Lazy load as well as many cool features.
-> You can get [Post Slider and Carousel Premium here](https://premium.infornweb.com/post-slider-and-carousel-pro/)!
+> You can get [Post Slider and Carousel Premium here](https://infornweb.com/post-slider-and-carousel-pro/)!
 
 = ✅ Post Slider and Post Carousel is perfect for: =
 
@@ -158,7 +158,7 @@ However, using Post Slider and Post Carousel plugin you can design your page as 
 > * 100% Multi language.
 > * Many more other features also.
 >
-> View [PRO DEMO and Features](https://premium.infornweb.com/post-slider-and-carousel-pro/) for additional information.
+> View [PRO DEMO and Features](https://infornweb.com/post-slider-and-carousel-pro/) for additional information.
 >
 
 = ✅ Post Filtering with Categories Or Tags =
@@ -185,9 +185,9 @@ Logo credit : [Freepik](https://www.freepik.com/free-vector/abstract-colorful-le
 
 If you find Post Slider and Carousel with Widget – A Responsive Post Slider plugin useful, please leave a good rating and consider checking out our other plugins:
 
-* <a href="https://premium.infornweb.com/news-blog-designer-pack-pro/" rel="friend" title="News & Blog Designer Pack - WordPress Blog Plugin">News & Blog Designer Pack Pro</a> - A WordPress Blog & News Plugin
-* <a href="https://premium.infornweb.com/logo-showcase-with-slick-slider-pro/" rel="friend" title="Logo Showcase with Slick Slider – Logo Carousel, Logo Slider & Logo Grid">Logo Showcase with Slick Slider</a> - Logo Carousel, Logo Slider & Logo Grid Plugin
-* <a href="https://premium.infornweb.com/post-list-designer-pro/" rel="friend" title="Posts List Designer by Category - List Category Posts Or Recent Posts">Posts List Designer by Category</a> - Display Posts by Category in a List View
+* <a href="https://infornweb.com/news-blog-designer-pack-pro/" rel="friend" title="News & Blog Designer Pack - WordPress Blog Plugin">News & Blog Designer Pack Pro</a> - A WordPress Blog & News Plugin
+* <a href="https://infornweb.com/logo-showcase-with-slick-slider-pro/" rel="friend" title="Logo Showcase with Slick Slider – Logo Carousel, Logo Slider & Logo Grid">Logo Showcase with Slick Slider</a> - Logo Carousel, Logo Slider & Logo Grid Plugin
+* <a href="https://infornweb.com/post-list-designer-pro/" rel="friend" title="Posts List Designer by Category - List Category Posts Or Recent Posts">Posts List Designer by Category</a> - Display Posts by Category in a List View
 
 == Installation ==
 
@@ -217,6 +217,9 @@ Yes, Post Slider and Carousel will work with any WordPress themes, but may requi
 2. Post Carousel Designs.
 
 == Changelog ==
+
+= 3.5.4 (04 Jan, 2026) =
+* [*] Updated plugin website links.
 
 = 3.5.3 (04 Dec, 2025) =
 * [*] Check compatibility with WordPress 6.9

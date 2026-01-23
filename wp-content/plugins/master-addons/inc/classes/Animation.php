@@ -9,8 +9,9 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-class Animation
-{
+if (!class_exists('MasterAddons\Inc\Classes\Animation')) {
+    class Animation
+    {
     /**
      * Register widget controls.
      *
@@ -786,4 +787,5 @@ class Animation
 
         return $class;
     }
-}
+    } // End class Animation
+} // End class_exists check

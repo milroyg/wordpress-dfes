@@ -22,7 +22,7 @@ use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 
 // PremiumAddons Classes.
 use PremiumAddons\Includes\Helper_Functions;
-use PremiumAddons\Includes\Pa_Nav_Menu_Walker;
+use PremiumAddons\Includes\Helpers\Pa_Nav_Menu_Walker;
 use PremiumAddons\Includes\Controls\Premium_Post_Filter;
 use PremiumAddons\Includes\Controls\Premium_Background;
 
@@ -1528,6 +1528,8 @@ class Premium_Nav_Menu extends Widget_Base {
 			++$doc_index;
 
 		}
+
+		Helper_Functions::register_element_feedback_controls( $this );
 
 		$this->end_controls_section();
 	}

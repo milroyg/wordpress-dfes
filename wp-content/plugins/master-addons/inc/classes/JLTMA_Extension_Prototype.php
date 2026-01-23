@@ -3,15 +3,16 @@
 namespace MasterAddons\Inc\Classes;
 
 use Elementor\Controls_Manager;
+use MasterAddons\Inc\Helper\Master_Addons_Helper;
 
 // Exit if accessed directly.
 if (!defined('ABSPATH')) {
     exit;
 };
 
-
-class JLTMA_Extension_Prototype
-{
+if (!class_exists('MasterAddons\Inc\Classes\JLTMA_Extension_Prototype')) {
+    class JLTMA_Extension_Prototype
+    {
 
     private static $instance = null;
 
@@ -37,6 +38,18 @@ class JLTMA_Extension_Prototype
     public $common_sections_actions = array(
         array(
             'element' => 'common',
+            'action' => '_section_style',
+        ),
+        array(
+            'element' => 'container',
+            'action' => '_section_style',
+        ),
+        array(
+            'element' => 'section',
+            'action' => '_section_style',
+        ),
+        array(
+            'element' => 'column',
             'action' => '_section_style',
         )
     );
@@ -158,7 +171,7 @@ class JLTMA_Extension_Prototype
     {
         $section_title = '';
         // If the extension is premium, add a badge to the section title
-        if (ma_el_fs()->can_use_premium_code__premium_only() && $this->is_premium) {
+        if (Master_Addons_Helper::jltma_premium() && $this->is_premium) {
             $section_title = sprintf(__('%s ', 'master-addons'), $this->name );
         } elseif( $this->is_premium ){
             $section_title = sprintf(__('%s <span class="jltma_pro_text">%s<span>', 'master-addons'), $this->name, __('Pro', 'master-addons') );
@@ -210,6 +223,7 @@ class JLTMA_Extension_Prototype
         }
         return self::$instance;
     }
-}
+    } // End class JLTMA_Extension_Prototype
+} // End class_exists check
 
-JLTMA_Extension_Prototype::get_instance();
+// Don't auto-instantiate - let the plugin initialization handle this

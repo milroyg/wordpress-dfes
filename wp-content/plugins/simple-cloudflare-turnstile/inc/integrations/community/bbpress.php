@@ -44,7 +44,7 @@ function cfturnstile_bbpress_register_check() {
 	if(!cfturnstile_whitelisted()) {
 		$guest_only = get_option('cfturnstile_bbpress_guest_only');
 		if (!$guest_only || ($guest_only && !is_user_logged_in())) {
-			if ('POST' === $_SERVER['REQUEST_METHOD'] && isset($_POST['cf-turnstile-response'])) {
+			if ('POST' === $_SERVER['REQUEST_METHOD']) {
 				$check = cfturnstile_check();
 				$success = $check['success'];
 				if ($success != true) {

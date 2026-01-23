@@ -152,7 +152,9 @@ if(!class_exists('qcld_wpopenrouter_addons')){
                             $openai_post_types = sanitize_text_field($raw_post_types);
                         }
                     }
+                    $is_page_rag_enabled = sanitize_text_field($_POST['is_page_rag_enabled']);
                     update_option('qcld_openai_relevant_post', $openai_post_types);
+                    update_option('is_page_rag_enabled', $is_page_rag_enabled);
                     
                     update_option('qcld_openrouter_append_content', $qcld_openrouter_append_content);
                     update_option('qcld_openrouter_prepend_content', $qcld_openrouter_prepend_content);
@@ -257,6 +259,21 @@ if(!class_exists('qcld_wpopenrouter_addons')){
                     );
                 }
             }
+
+            // RAG Integration
+            if (get_option('is_page_rag_enabled') == '1') {
+                $rag_context_text = Qcld_Bot_Rag::instance()->run_rag_search($keyword);
+                if (!empty($rag_context_text) && $rag_context_text != "No knowledge base found.") {
+                        $rag_context = "Relevant Knowledge Base Information:\n";
+                        $rag_context .= $rag_context_text;
+                        $rag_context .= "\n\nUse the above information to answer the user's question. If the answer is not in the Knowledge Base, rely on your general knowledge but mention that this information is not in the local knowledge base.";
+                        
+                        $messages[] = array(
+                            'role' => 'system',
+                            'content' => $rag_context
+                        );
+                }
+            }
             
             // Add user message
             $messages[] = array(
@@ -332,9 +349,27 @@ if(!class_exists('qcld_wpopenrouter_addons')){
             wp_die();
         }
         public function qcld_update_settings_option_callback(){
-            update_option('disable_wp_chatbot_site_search',1);
-            update_option('enable_wp_chatbot_post_content', '');
-        }
+    // Verify nonce for CSRF protection
+    $nonce = isset($_POST['nonce']) ? sanitize_text_field($_POST['nonce']) : '';
+    if (!wp_verify_nonce($nonce, 'wp_chatbot')) {
+        wp_send_json_error(array('message' => esc_html__('Security check failed', 'chatbot')));
+        wp_die();
+    }
+    
+    // Check user capability - only administrators can modify settings
+    if (!current_user_can('manage_options')) {
+        wp_send_json_error(array('message' => esc_html__('Unauthorized access', 'chatbot')));
+        wp_die();
+    }
+    
+    // Proceed with option updates
+    update_option('disable_wp_chatbot_site_search', 1);
+    update_option('enable_wp_chatbot_post_content', '');
+    
+    // Send success response
+    wp_send_json_success(array('message' => esc_html__('Settings updated successfully', 'chatbot')));
+    wp_die();
+}
     }
 
     /**

@@ -16,6 +16,7 @@ if (!defined('ABSPATH')) {
 	exit;
 } // Exit if accessed directly.
 
+if (!class_exists('MasterAddons\Modules\Extension_Pseudo_Elements')) {
 class Extension_Pseudo_Elements
 {
 
@@ -287,5 +288,8 @@ class Extension_Pseudo_Elements
 		return self::$instance;
 	}
 }
+}
 
-Extension_Pseudo_Elements::get_instance();
+if (class_exists('MasterAddons\Modules\Extension_Pseudo_Elements')) {
+	Extension_Pseudo_Elements::get_instance();
+}

@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.9
-Stable tag: 26.5
+Stable tag: 26.8
 Requires PHP: 7.4
 
 Improve your SEO with real-time feedback, schema, and clear guidance. Upgrade for AI tools, Google Docs integration, and 24/7 support, no hidden fees.
@@ -303,40 +303,51 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 26.5 =
+= 26.8 =
 
-Release date: 2025-12-02
+Release date: 2026-01-20
 
-**New:** Yoast SEO includes the necessary updates to support the Site Kit by Google integration for all Premium users, with Yoast SEO (free) support following soon. [Read the full release post here](https://yoa.st/54u).
+Yoast SEO 26.8 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
 
 #### Enhancements
 
-* Integrates the Yoast SEO tab into the Elementor Editor's Elements panel sidebar to provide enhanced access to SEO settings.
-* Makes the _keyphrase density assessment_ and _keyphrase in subheadings assessment_  available when no content has been added.
+* Adds a schema settings page to allow users more control over the Yoast Schema Framework API.
+* Implements a new, easy-to-use design for the site features settings.
 
 #### Bugfixes
 
-* Fixes a bug where table backgrounds in the RSS settings and Semrush related keyphrases tables would expand beyond the rounded corners in Firefox.
+* Fixes a bug where inserting Yoast blocks via Content blocks collapsible was not possible when editing in `template-locked` mode inside Block Editor.
+* Fixes a bug where the alert for signing up to the newsletter didn't support rtl direction for buttons and inputs in RTL languages.
+* Fixes a bug where the assessments highlighting feature did not work when editing in template-locked mode in the Block Editor.
+* Fixes a bug where the Search and Social appearance modals looked off on WordPress 7.0 or with Gutenberg 22.3.0.
+* Fixes a bug where WordPress link classes were not being recognized when Yoast SEO was active. Props to [benoitchantre](https://github.com/benoitchantre).
 
 #### Other
 
-* Relocates the introduction notification to point to the Yoast SEO tab within the Elements panel sidebar of the Elementor Editor for better user guidance.
-* Sets the _WordPress tested up to_ version to 6.9.
+* Adds an opt-in notification for the task list feature on the general page.
+* Improves the translatability of some tasks' title in the task list.
+* Replaces Yoast product logos with new designs across the plugin’s interface.
+* Updates the product URL inside the marker presenter for Yoast SEO and Yoast SEO Premium.
 
-= 26.4 =
+= 26.7 =
 
-Release date: 2025-11-18
+Release date: 2026-01-07
+
+*New:* Yoast SEO (free) now includes full access to the Site Kit by Google integration in your Dashboard. [Read the full release post here](https://yoa.st/551).
+
+#### Enhancements
+
+* Changes the Schema output to render `Article` entities even when the `publisher` property is left empty.
+* Rolls out the Site Kit integration for all Yoast users.
 
 #### Bugfixes
 
-* Fixes a bug for users who have the Site Kit integration enabled, where a fatal error would be thrown for edge cases, like when custom code intervened with the default WP login flow.
-* Fixes a bug in the Settings page where the advanced tab would close when selecting one of its options or other options after visiting the advanced tab.
+* Fixes a bug where the Yoast AI consent modal would incorrectly pop up when interacting with unrelated buttons or fields on Profile setting page.
 
 #### Other
 
-* Adds a button for using AI to generate custom an SEO title or meta description in the pre-publish sidebar of the block editor, if all recent posts have been using default SEO data.
-* Adds the Yoast siblings and subpages premium blocks to the Yoast custom blocks menu tab in pages.
-* Improves performance when author archives are disabled and an author is created. Props to [ErikBrendel](https://github.com/ErikBrendel).
+* Hides the llms.txt task in multisites, since the feature is disabled in such setups.
+* Increases disabling opcache invalidation on plugin upgrade, now applied to a bigger subset of the userbase.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

@@ -635,6 +635,13 @@ class Header_Footer_Elementor {
 
 		require_once HFE_DIR . 'inc/hfe-functions.php';
 		require_once HFE_DIR . 'inc/class-hfe-rollback.php';
+		// Load Post Duplicator if enabled
+		if ( function_exists( 'get_option' ) ) {
+			$widgets = get_option( '_hfe_widgets', array() );
+			if ( isset( $widgets['Post_Duplicator'] ) && 'disabled' !== $widgets['Post_Duplicator'] ) {
+				require_once HFE_DIR . 'inc/class-hfe-post-duplicator.php';
+			}
+		}
 
 		// Load Elementor Canvas Compatibility.
 		require_once HFE_DIR . 'inc/class-hfe-elementor-canvas-compat.php';

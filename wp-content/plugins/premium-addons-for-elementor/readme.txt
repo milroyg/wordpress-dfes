@@ -1,21 +1,23 @@
 === Premium Addons for Elementor - Powerful Elementor Templates & Widgets ===
 Contributors: Leap13, Rimoun
-Tags: elementor, elementor addons, widgets, elementor elements, elementor templates
+Tags: elementor, elementor addons, elementor widgets, elementor mega menu, elementor templates
 Donate Link: https://premiumaddons.com/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme
 Requires at least: 5.0
-Tested Up To: 6.8.3
+Tested Up To: 6.9
 Requires PHP: 7.4
-Stable Tag: 4.11.53
+Stable Tag: 4.11.65
 License: GPL v3.0
 License URI: https://opensource.org/licenses/GPL-3.0
 
-90+ Elementor widgets and 580+ templates. It includes elements like Nav Mega Menu, Carousel, Blog, WooCommerce widgets, Display Conditions.
+Elementor Carousel, Mega Menu, Posts List/Slider, Media Gallery, WooCommerce Widgets, Display Conditions, Premade Templates & more.
 
 == Description ==
 
-Supercharge your [Elementor Page Builder](https://wordpress.org/plugins/elementor/) with 90+ highly customizable addons and widgets, 550+ pre-made templates that will give you the ability to build sophisticated websites in less time with no coding required. Both Elementor and Premium Addons plugins take your WordPress website to the next level.
+**Premium Addons for Elementor** supercharges your [Elementor Page Builder](https://wordpress.org/plugins/elementor/) with 90+ Elementor widgets, 550+ pre-made Elementor templates that will give you the ability to build sophisticated websites in less time with no coding required. Both Elementor and Premium Addons plugins take your WordPress website to the next level.
 
-[**Check The Widgets & Addons Demo Pages**](https://premiumaddons.com/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=demos)
+It has Elementor elements like **Carousel, Blog Posts List/Slider, Mega Menu Builder, Testimonials, WooCommerce, Search Form, Posts/News Ticker, etc.**
+
+[**Check Elementor Widgets & Addons Demo Pages**](https://premiumaddons.com/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=demos)
 
 ### Useful Links
 [Support](https://my.leap13.com/contact-support/) | [Docs](https://premiumaddons.com/docs/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=docs) | [Video Tutorials](https://www.youtube.com/channel/UCXcJ9BeO2sKKHor7Q9VglTQ) | [Facebook Group](https://facebook.com/groups/premiumAddons) | [Upgrade to Pro](https://premiumaddons.com/pro/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=upgrade-pro)
@@ -254,6 +256,79 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 14. Premium Progress Bar Widget
 
 == Changelog ==
+
+= 4.11.65 - 21/1/2026 =
+
+- Tweak: Added Glow Effect option for Play Icon in Video Box widget.
+
+= 4.11.64 - 14/1/2026 =
+
+- Tweak: Added Container ID option in Carousel widget to get slides from containers on the same page for better usability.
+- Tweak: Added Play on Hover option for Lottie Animation icons in Button and Image Button widgets.
+- Fixed: Carousel layout not working for Skins 7 & 11 in Woo Products Listing widget.
+- Fixed: Equal Height addon not applied on window resize.
+- Fixed: Security issue in plugin settings dashboard page.
+
+= 4.11.63 - 5/1/2026 =
+
+- Tweak: Added Marquee effect to Blog and Woo Products Listing widgets.
+- Tweak: Added Overflow Slides option for Carousel in Blog and Woo Products Listing widgets.
+- Tweak: Added Custom Position option for Navigation arrows in Blog and Woo Products Listing widgets.
+- Fixed: PHP Warning in Woo Products Listing widget.
+
+= 4.11.62 - 29/12/2025 =
+
+- New: Added option to play Floating Effects addon animations on Hover.
+- Fixed: Woo Mini Cart is opened on page load.
+
+= 4.11.61 - 23/12/2025 =
+
+- Fixed: AJAX Search widget not working.
+
+= 4.11.60 - 22/12/2025 =
+
+- New: Added Links to add links to Gallery images in Carousel widget.
+- New: Added Equal Height option for Gallery images in Carousel widget.
+- Tweak: Compatibility between Media Grid widget and lazyload images plugins.
+- Fixed: Lightbox loading icon is not centered.
+
+= 4.11.59 - 21/12/2025 =
+
+- New: Added Focused Word option in Title widget.
+- New: Added 6 hover effects in Title widget.
+- Tweak: Controls organized in Title widget for better UX.
+- Fixed: Console error in SVG Draw widget.
+
+= 4.11.58 - 17/12/2025 =
+
+- Tweak: Core improvements for faster dashboard, editor and frontend loading speed.
+
+= 4.11.57 - 16/12/2025 =
+
+- Fixed: Styling broken for widgets depending on Elementor templates when Elements Cache is enabled.
+- Fixed: Image icons are stretched in Bullet List widget.
+
+= 4.11.56 - 14/12/2025 =
+
+- New: Show banner to disable unused widgets for faster editor loading speed.
+- Tweak: Added responsive control to Zoom control in Google Maps widget.
+- Fixed: Console error warning when dynamic asset is enabled.
+
+= 4.11.55 - 10/12/2025 =
+
+- New: Now, you can send feedback or feature requests from widgets settings -> Help & Docs tab.
+
+= 4.11.54 - 10/12/2025 =
+
+- Tweak: Core improved for better performance and loading speed.
+- Tweak: Dynamic Assets Generate optimized for faster loading speed.
+- Tweak: Banner widget code refactored for better performance.
+- Tweak: Added Open on Cart Update option in Woo Mini Cart widget.
+- Tweak: Image Button hover transition improved.
+- Tweak: Security Enhancement.
+- Fixed: PHP warning in Weather Forecast widget.
+- Fixed: Free Shipping conflict with multi shipping zones in Woo Mini Cart widget.
+- Fixed: Conflicts between dynamic assets and caching plugins.
 
 = 4.11.53 - 30/11/2025 =
 
@@ -506,7 +581,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 - Tweak: Submenu Trigger option in Mega Menu widget.
 - Fixed: Error while saving Elementor templates after Elementor v3.29.
 - Fixed: Icons from custom icons are not showing in some widgets.
-- Fixed: Security issue in Coutdown widget.
+- Fixed: Security issue in Countdown widget.
 
 = 4.11.8 - 17/05/2025 =
 

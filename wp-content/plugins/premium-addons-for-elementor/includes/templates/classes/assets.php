@@ -93,6 +93,7 @@ if ( ! class_exists( 'Premium_Templates_Assets' ) ) {
 				apply_filters(
 					'premium-templates-core/assets/editor/localize',
 					array(
+						'nonce'   => wp_create_nonce( 'pa-templates-nonce' ),
 						'Elementor_Version'   => ELEMENTOR_VERSION,
 						'PremiumTemplatesBtn' => $button,
 						'modalRegions'        => $this->get_modal_region(),

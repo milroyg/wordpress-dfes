@@ -328,7 +328,7 @@ class JLTMA_Pricing_Table extends Widget_Base
 			[
 				'label'   => __('Period', 'master-addons' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => __('Monthly', 'master-addons' ),
+				'default' => __('/ Month', 'master-addons' ),
 			]
 		);
 
@@ -413,8 +413,8 @@ class JLTMA_Pricing_Table extends Widget_Base
 				'label'     => __('Icon Color', 'master-addons' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .jltma-price-table-details li{{CURRENT_ITEM}} i'        => 'color: {{VALUE}}',
-					'{{WRAPPER}} .jltma-price-table-details li{{CURRENT_ITEM}} svg path' => 'stroke: {{VALUE}}',
+					'{{WRAPPER}} .jltma-price-table-details li{{CURRENT_ITEM}} i' => 'color: {{VALUE}}',
+					'{{WRAPPER}} .jltma-price-table-details li{{CURRENT_ITEM}} svg' => 'fill: {{VALUE}}; color: {{VALUE}};',
 				],
 			]
 		);
@@ -431,8 +431,8 @@ class JLTMA_Pricing_Table extends Widget_Base
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}} .jltma-price-table-details li{{CURRENT_ITEM}} i,
-					{{WRAPPER}} .jltma-price-table-details li{{CURRENT_ITEM}} svg path' => 'font-size: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-price-table-details li{{CURRENT_ITEM}} i' => 'font-size: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-price-table-details li{{CURRENT_ITEM}} svg' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
 				],
 			]
 		);
@@ -444,8 +444,8 @@ class JLTMA_Pricing_Table extends Widget_Base
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', '%', 'em'],
 				'selectors'  => [
-					'{{WRAPPER}} .jltma-price-table-details li{{CURRENT_ITEM}} i,
-					{{WRAPPER}} .jltma-price-table-details li{{CURRENT_ITEM}} svg path' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-price-table-details li{{CURRENT_ITEM}} i' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-price-table-details li{{CURRENT_ITEM}} svg' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			]
 		);
@@ -457,8 +457,8 @@ class JLTMA_Pricing_Table extends Widget_Base
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', '%', 'em'],
 				'selectors'  => [
-					'{{WRAPPER}} .jltma-price-table-details li{{CURRENT_ITEM}} i,
-					{{WRAPPER}} .jltma-price-table-details li{{CURRENT_ITEM}} svg path' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-price-table-details li{{CURRENT_ITEM}} i' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-price-table-details li{{CURRENT_ITEM}} svg' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			]
 		);
@@ -1161,21 +1161,21 @@ class JLTMA_Pricing_Table extends Widget_Base
 			]
 		);
 
-		$this->add_control(
-			'ma_el_pricing_table_period_position',
-			[
-				'label'   => __('Position', 'master-addons' ),
-				'type'    => Controls_Manager::SELECT,
-				'options' => [
-					'below'  => 'Below',
-					'beside' => 'Beside',
-				],
-				'default'   => 'below',
-				'condition' => [
-					'ma_el_pricing_table_period!' => '',
-				],
-			]
-		);
+		// $this->add_control(
+		// 	'ma_el_pricing_table_period_position',
+		// 	[
+		// 		'label'   => __('Position', 'master-addons' ),
+		// 		'type'    => Controls_Manager::SELECT,
+		// 		'options' => [
+		// 			'below'  => 'Below',
+		// 			'beside' => 'Beside',
+		// 		],
+		// 		'default'   => 'below',
+		// 		'condition' => [
+		// 			'ma_el_pricing_table_period!' => '',
+		// 		],
+		// 	]
+		// );
 
 		$this->end_controls_section();
 
@@ -1220,6 +1220,18 @@ class JLTMA_Pricing_Table extends Widget_Base
 				'size_units' => ['px', '%', 'em'],
 				'selectors'  => [
 					'{{WRAPPER}} .jltma-price-table-details' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'ma_el_pricing_table_features_list_margin',
+			[
+				'label'      => __('Margin', 'master-addons' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => ['px', '%', 'em'],
+				'selectors'  => [
+					'{{WRAPPER}} .jltma-price-table-details' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			]
 		);
@@ -1307,8 +1319,8 @@ class JLTMA_Pricing_Table extends Widget_Base
 					'ma_el_pricing_table_list_divider' => 'yes',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .jltma-price-table-details li:before' => 'border-top-style: {{VALUE}};',
-					'{{WRAPPER}} .jltma-pricing-tables.table-active-zoom .jltma-price-table-details li' => 'border-bottom-style: {{VALUE}};',
+					'{{WRAPPER}} .jltma-price-table-details li .jltma-tooltip-content:after' => 'border-top-style: {{VALUE}};',
+					'{{WRAPPER}} .jltma-pricing-tables.table-active-zoom .jltma-price-table-details li .jltma-tooltip-content:after' => 'border-bottom-style: {{VALUE}};',
 				],
 			]
 		);
@@ -1323,8 +1335,8 @@ class JLTMA_Pricing_Table extends Widget_Base
 					'ma_el_pricing_table_list_divider' => 'yes',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .jltma-price-table-details li:before' => 'border-top-color: {{VALUE}};',
-					'{{WRAPPER}} .jltma-pricing-tables.table-active-zoom .jltma-price-table-details li' => 'border-bottom-color: {{VALUE}};',
+					'{{WRAPPER}} .jltma-price-table-details li .jltma-tooltip-content:after' => 'border-top-color: {{VALUE}};',
+					'{{WRAPPER}} .jltma-pricing-tables.table-active-zoom .jltma-price-table-details li .jltma-tooltip-content:after' => 'border-bottom-color: {{VALUE}};',
 				],
 			]
 		);
@@ -1332,7 +1344,7 @@ class JLTMA_Pricing_Table extends Widget_Base
 		$this->add_control(
 			'ma_el_pricing_table_divider_height',
 			[
-				'label'   => __('height', 'master-addons' ),
+				'label'   => __('Height', 'master-addons' ),
 				'type'    => Controls_Manager::SLIDER,
 				'default' => [
 					'size' => 2,
@@ -1348,8 +1360,8 @@ class JLTMA_Pricing_Table extends Widget_Base
 					'ma_el_pricing_table_list_divider' => 'yes',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .jltma-price-table-details li:before' => 'border-top-width: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .jltma-pricing-tables.table-active-zoom .jltma-price-table-details li' => 'border-bottom-width: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-price-table-details li .jltma-tooltip-content:after' => 'border-top-width: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-pricing-tables.table-active-zoom .jltma-price-table-details li .jltma-tooltip-content:after' => 'border-bottom-width: {{SIZE}}{{UNIT}};',
 				],
 			]
 		);
@@ -1359,7 +1371,16 @@ class JLTMA_Pricing_Table extends Widget_Base
 			[
 				'label'     => __('Width', 'master-addons' ),
 				'type'      => Controls_Manager::SLIDER,
+				'size_units' => ['%', 'px'],
+				'default' => [
+					'size' => 100,
+					'unit' => '%',
+				],
 				'range' => [
+					'%' => [
+						'min' => 10,
+						'max' => 100,
+					],
 					'px' => [
 						'min' => 45,
 						'max' => 1000,
@@ -1369,8 +1390,8 @@ class JLTMA_Pricing_Table extends Widget_Base
 					'ma_el_pricing_table_list_divider' => 'yes',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .jltma-price-table-details li:before' => 'width: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .jltma-pricing-tables.table-active-zoom .jltma-price-table-details li' => 'width: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-price-table-details li .jltma-tooltip-content:after' => 'width: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-pricing-tables.table-active-zoom .jltma-price-table-details li .jltma-tooltip-content:after' => 'width: {{SIZE}}{{UNIT}};',
 				],
 			]
 		);
@@ -1381,12 +1402,12 @@ class JLTMA_Pricing_Table extends Widget_Base
 				'label'   => __('Gap', 'master-addons' ),
 				'type'    => Controls_Manager::SLIDER,
 				'default' => [
-					'size' => 15,
+					'size' => -5,
 					'unit' => 'px',
 				],
 				'range' => [
 					'px' => [
-						'min' => 1,
+						'min' => -50,
 						'max' => 50,
 					],
 				],
@@ -1394,8 +1415,8 @@ class JLTMA_Pricing_Table extends Widget_Base
 					'ma_el_pricing_table_list_divider' => 'yes',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .jltma-price-table-details li:before' => 'margin-top: {{SIZE}}{{UNIT}}; margin-bottom: {{SIZE}}{{UNIT}}',
-					'{{WRAPPER}} .jltma-pricing-tables.table-active-zoom .jltma-price-table-details li' => 'margin-top: {{SIZE}}{{UNIT}}; margin-bottom: {{SIZE}}{{UNIT}}',
+					'{{WRAPPER}} .jltma-price-table-details li .jltma-tooltip-content:after' => 'bottom: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-pricing-tables.table-active-zoom .jltma-price-table-details li .jltma-tooltip-content:after' => 'bottom: {{SIZE}}{{UNIT}};',
 				],
 			]
 		);
@@ -1780,11 +1801,19 @@ class JLTMA_Pricing_Table extends Widget_Base
 		$this->add_group_control(
 			Group_Control_Background::get_type(),
 			[
-				'name'      => 'ma_el_pricing_table_button_background_color',
-				'selector'  => '{{WRAPPER}} .jltma-price-table-btn',
-				'condition' => [
+				'name'        => 'ma_el_pricing_table_button_background_color',
+				'selector'    => '{{WRAPPER}} .jltma-price-table-btn',
+				'render_type' => 'template',
+				'condition'   => [
 					'ma_el_pricing_table_button_text!' => '',
-				]
+				],
+				'fields_options' => [
+					'color' => [
+						'selectors' => [
+							'{{SELECTOR}}' => 'background-color: {{VALUE}}; background-image: none;',
+						],
+					],
+				],
 			]
 		);
 
@@ -1900,16 +1929,21 @@ class JLTMA_Pricing_Table extends Widget_Base
 			]
 		);
 
-		$this->add_control(
-			'ma_el_pricing_table_button_background_hover_color',
+		$this->add_group_control(
+			Group_Control_Background::get_type(),
 			[
-				'label'     => __('Background Color', 'master-addons' ),
-				'type'      => Controls_Manager::COLOR,
-				'selectors' => [
-					'{{WRAPPER}} .jltma-price-table-btn:hover' => 'background-color: {{VALUE}};',
-				],
-				'condition' => [
+				'name'        => 'ma_el_pricing_table_button_background_hover',
+				'selector'    => '{{WRAPPER}} .jltma-price-table-btn:hover',
+				'render_type' => 'template',
+				'condition'   => [
 					'ma_el_pricing_table_button_text!' => '',
+				],
+				'fields_options' => [
+					'color' => [
+						'selectors' => [
+							'{{SELECTOR}}' => 'background-color: {{VALUE}}; background-image: none;',
+						],
+					],
 				],
 			]
 		);
@@ -2216,10 +2250,16 @@ class JLTMA_Pricing_Table extends Widget_Base
 				}
 			} ?>
 
-			<?php if (!empty($settings['ma_el_pricing_table_heading'])) : ?>
-				<<?php echo esc_attr($settings['ma_el_pricing_table_heading_tag']); ?> class="jltma-price-table-title">
+			<?php if (!empty($settings['ma_el_pricing_table_heading'])) :
+				// Whitelist allowed HTML tags to prevent XSS
+				$allowed_tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'span', 'p'];
+				$heading_tag = in_array($settings['ma_el_pricing_table_heading_tag'], $allowed_tags, true)
+					? $settings['ma_el_pricing_table_heading_tag']
+					: 'h3';
+			?>
+				<<?php echo esc_html($heading_tag); ?> class="jltma-price-table-title">
 					<?php echo $this->parse_text_editor($settings['ma_el_pricing_table_heading']); ?>
-				</<?php echo esc_attr($settings['ma_el_pricing_table_heading_tag']); ?>>
+				</<?php echo esc_html($heading_tag); ?>>
 			<?php endif; ?>
 
 			<?php if (!empty($settings['ma_el_pricing_table_sub_heading'])) { ?>
@@ -2302,7 +2342,7 @@ class JLTMA_Pricing_Table extends Widget_Base
 			$fraction_part = $price[1];
 		}
 
-		$period_position = $settings['ma_el_pricing_table_period_position'];
+		$period_position = $settings['ma_el_pricing_table_period_position'] ?? 'beside';
 		$period_class    = ($period_position == 'below') ? ' jltma-price-table-period-position-below' : ' jltma-price-table-period-position-beside';
 		$period_element  = '<span class="jltma-price-table-period elementor-typo-excluded' . esc_attr($period_class) . '">' . esc_attr($settings['ma_el_pricing_table_period']) . '</span>';
 
@@ -2402,7 +2442,11 @@ class JLTMA_Pricing_Table extends Widget_Base
 			<ul>
 				<?php foreach ($settings['ma_el_pricing_table_features_list'] as $item) {
 
-					$this->add_render_attribute('features', 'class', 'jltma-price-table-feature-text', true);
+					// Always add the repeater item class for CSS selectors to work
+					$this->add_render_attribute('features', 'class', [
+						'jltma-price-table-feature-text',
+						'elementor-repeater-item-' . esc_attr($item['_id'])
+					], true);
 
 					// Tooltip settings
 					if ($item['ma_el_pricing_table_tooltip_text']) {
@@ -2411,8 +2455,7 @@ class JLTMA_Pricing_Table extends Widget_Base
 							'class',
 							[
 								'jltma-tooltip-item',
-								'tooltip-' . esc_attr($item['ma_el_pricing_table_tooltip_placement']),
-								'elementor-repeater-item-' . esc_attr($item['_id'])
+								'tooltip-' . esc_attr($item['ma_el_pricing_table_tooltip_placement'])
 							]
 						);
 					}
@@ -2480,7 +2523,12 @@ class JLTMA_Pricing_Table extends Widget_Base
 		$button_size      = ($settings['ma_el_pricing_table_button_size']) ? 'elementor-size-' . esc_attr($settings['ma_el_pricing_table_button_size']) : '';
 		$button_animation = (!empty($settings['button_hover_animation'])) ? ' elementor-animation-' . esc_attr($settings['ma_el_pricing_table_button_hover_animation']) : '';
 
-		$button_bg_color = ($settings['ma_el_pricing_table_head_color_scheme']) ? $settings['ma_el_pricing_table_head_color_scheme'] : '';
+		// Only use default gradient class if no custom background is set
+		$button_bg_color = '';
+		$has_custom_bg = !empty($settings['ma_el_pricing_table_button_background_color_background']);
+		if (!$has_custom_bg && !empty($settings['ma_el_pricing_table_head_color_scheme'])) {
+			$button_bg_color = $settings['ma_el_pricing_table_head_color_scheme'];
+		}
 
 		$this->add_render_attribute(
 			'button',

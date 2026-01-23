@@ -65,12 +65,8 @@ function cfturnstile_cf7_verify_recaptcha($result) {
 
 		$message = cfturnstile_failed_message();
 
-		if (empty($data['cf-turnstile-response'])) {
-			$result->invalidate(array('type' => 'captcha', 'name' => 'cf-turnstile'), $message);
-			return $result;
-		}
-
-		$check = cfturnstile_check();
+		$token = isset($data['cf-turnstile-response']) ? $data['cf-turnstile-response'] : '';
+		$check = cfturnstile_check($token);
 		$success = $check['success'];
 		if ($success != true) {
 			$result->invalidate(array('type' => 'captcha', 'name' => 'cf-turnstile'), $message);

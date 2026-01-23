@@ -38,7 +38,6 @@ if ( ! class_exists( 'SPLWT_Field_text' ) ) {
 		 * @return void
 		 */
 		public function render() {
-
 			$type = ( ! empty( $this->field['attributes']['type'] ) ) ? $this->field['attributes']['type'] : 'text';
 
 			echo $this->field_before(); // phpcs:ignore
@@ -46,8 +45,6 @@ if ( ! class_exists( 'SPLWT_Field_text' ) ) {
 			echo '<input type="' . esc_attr( $type ) . '" name="' . esc_attr( $this->field_name() ) . '" value="' . esc_attr( $this->value ) . '"' . $this->field_attributes() . ' />'; // phpcs:ignore
 
 			echo $this->field_after(); // phpcs:ignore
-
 		}
-
 	}
 }

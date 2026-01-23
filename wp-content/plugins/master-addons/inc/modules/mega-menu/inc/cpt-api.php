@@ -22,10 +22,13 @@ class JLTMA_Megamenu_Cpt_Api
 
     public function get_jltma_content_editor()
     {
+        // Permission check handled by is_user_logged_in() callback
+        // Elementor editor will enforce its own permissions
+
         $content_key = $this->request['key'];
         $content_type = $this->request['type'];
         $menuitemId = $this->request['id'];
-        
+
         $builder_post_title = 'mastermega-content-' . $content_type . '-' . $content_key . $menuitemId;
         
         $builder_post_id    = Master_Addons_Helper::get_page_by_title( $builder_post_title, 'mastermega_content' );

@@ -35,6 +35,16 @@ if (!class_exists('JLTMA_Addon_Elements')) {
                             'tuts_url' => 'https://www.youtube.com/watch?v=iY2q1jtSV5o',
                             'is_pro'   => false
                         ],
+                        // [
+                        //     // 'title'    => esc_html__('Dual Button', 'master-addons' ),
+                        //     'title'    => 'Dual Button',
+                        //     'key'      => 'ma-dual-button',
+                        //     'class'    => 'MasterAddons\Addons\JLTMA_Dual_Button',
+                        //     'demo_url' => '',
+                        //     'docs_url' => '',
+                        //     'tuts_url' => '',
+                        //     'is_pro'   => false
+                        // ],                        
                         [
                             // 'title'    => esc_html__('Dual Heading', 'master-addons'),
                             'title'    => 'Dual Heading',
@@ -425,6 +435,24 @@ if (!class_exists('JLTMA_Addon_Elements')) {
                             'tuts_url' => '',
                             'is_pro'   => false
                         ],
+                        [
+                            'title'    => 'Off-Canvas Content',
+                            'key'      => 'ma-off-canvas-content',
+                            'class'    => 'MasterAddons\Addons\JLTMA_Off_Canvas_Content',
+                            'demo_url' => '',
+                            'docs_url' => '',
+                            'tuts_url' => '',
+                            'is_pro'   => true
+                        ],
+                        // [
+                        //     'title'    => 'Popup Trigger',
+                        //     'key'      => 'ma-popup-trigger',
+                        //     'class'    => 'MasterAddons\Addons\JLTMA_Popup_Trigger',
+                        //     'demo_url' => '',
+                        //     'docs_url' => '',
+                        //     'tuts_url' => '',
+                        //     'is_pro'   => true
+                        // ],                        
                         // [
                         //     // 'title'    => esc_html__('Devices', 'master-addons' ),
                         //     'title'    => 'Devices',
@@ -522,16 +550,6 @@ if (!class_exists('JLTMA_Addon_Elements')) {
                         //     'is_pro'   => false
                         // ],
 
-                        // [
-                        //     'title'    => esc_html__('Dual Button', 'master-addons' ),
-                        //     'title'    => 'Dual Button',
-                        //     'key'      => 'ma-dual-button',
-                        //     'class'    => 'MasterAddons\Addons\JLTMA_Dual_Button',
-                        //     'demo_url' => '',
-                        //     'docs_url' => '',
-                        //     'tuts_url' => '',
-                        //     'is_pro'   => false
-                        // ],
                         // [
                         //     'title'    => esc_html__('Social Share', 'master-addons' ),
                         //     'title'    => 'Social Share',

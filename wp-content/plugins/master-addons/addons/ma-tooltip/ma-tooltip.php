@@ -195,7 +195,7 @@ class JLTMA_Tooltip extends Widget_Base
 		$this->add_control(
 			'jltma_tootltip_tag',
 			[
-				'label'              => esc_html__('Placement', 'master-addons'),
+				'label'              => esc_html__('HTML Tag', 'master-addons'),
 				'type'               => Controls_Manager::SELECT,
 				'default'            => 'button',
 				'label_block'        => false,
@@ -912,7 +912,12 @@ class JLTMA_Tooltip extends Widget_Base
 	{
 		$settings = $this->get_settings_for_display();
 
-    $align = $settings['tooltip_style_section_align'];
+		// Ensure dependencies are loaded
+		wp_enqueue_script('jltma-popper');
+		wp_enqueue_script('jltma-tippy');
+		wp_enqueue_style('jltma-tippy');
+
+		$align = $settings['tooltip_style_section_align'];
 		$this->add_render_attribute(
 			'jltma_tooltip_wrapper',
 			[
@@ -939,9 +944,13 @@ class JLTMA_Tooltip extends Widget_Base
 
 		$this->add_render_attribute('jltma_tooltips', 'class', 'jltma-tooltip-item');
 
-		$jltma_tootltip_tag = !empty($settings['jltma_tootltip_tag']) ? $settings['jltma_tootltip_tag'] : 'button';
+		// Whitelist allowed HTML tags to prevent XSS
+		$allowed_tags = ['button', 'a', 'span', 'div', 'p'];
+		$jltma_tootltip_tag = (!empty($settings['jltma_tootltip_tag']) && in_array($settings['jltma_tootltip_tag'], $allowed_tags, true))
+			? $settings['jltma_tootltip_tag']
+			: 'button';
 ?>
-		<<?php echo esc_attr($jltma_tootltip_tag); ?> <?php echo $this->get_render_attribute_string('jltma_tooltip_wrapper'); ?>>
+		<<?php echo esc_html($jltma_tootltip_tag); ?> <?php echo $this->get_render_attribute_string('jltma_tooltip_wrapper'); ?>>
 			<?php if ($settings['ma_el_tooltip_type'] === 'text') { ?>
 				<?php echo $this->parse_text_editor(Master_Addons_Helper::wp_kses_custom($settings['ma_el_tooltip_content'])) ?>
 				<?php } elseif ($settings['ma_el_tooltip_type'] === 'icon') {
@@ -955,7 +964,7 @@ class JLTMA_Tooltip extends Widget_Base
 			} elseif ($settings['ma_el_tooltip_type'] === 'image') { ?>
 				<img src="<?php echo esc_url($settings['ma_el_tooltip_img_content']['url']); ?>">
 			<?php } ?>
-		</<?php echo esc_attr($jltma_tootltip_tag); ?>>
+		</<?php echo esc_html($jltma_tootltip_tag); ?>>
 <?php
 
 	}

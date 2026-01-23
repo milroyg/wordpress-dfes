@@ -32,7 +32,6 @@ class Admin_Bar {
 		add_action( 'admin_bar_menu', array( $this, 'add_toolbar_items' ), 500 );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_assets' ) );
-
 	}
 
 	public function enqueue_frontend_assets() {

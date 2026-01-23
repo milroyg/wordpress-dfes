@@ -248,12 +248,13 @@ class JLTMA_Ajax_Queries
                 }
             }
 
-            // Password Protecion
+            // Password Protection
             if ($_POST['restrict_type'] == 'password') {
-                if ($_POST['content_pass'] !== $output['jltma_restrict_content_pass']) {
+                if ($_POST['content_pass'] !== $output['ma_el_restrict_content_pass']) {
+                    $error_msg = isset($_POST['error_message']) ? stripslashes(sanitize_text_field($_POST['error_message'])) : __('Incorrect password.', 'master-addons');
                     die(json_encode(array(
                         "result" => "validate",
-                        "output" => /* translators: %s: Error message */ sprintf(__('%1$s &nbsp;', 'master-addons' ), wp_kses_post($_POST['error_message']))
+                        "output" => $error_msg
                     )));
                 }
             }
@@ -326,7 +327,7 @@ class JLTMA_Ajax_Queries
     public function jltma_domain_checker()
     {
 
-        require_once JLTMA_PATH . '/inc/classes/class-jltma-domain-checker.php';
+        require_once JLTMA_PATH . 'inc/classes/class-jltma-domain-checker.php';
 
         $succes_msg = wp_kses_post($_POST['succes_msg']);
         $error_msg = wp_kses_post($_POST['error_msg']);

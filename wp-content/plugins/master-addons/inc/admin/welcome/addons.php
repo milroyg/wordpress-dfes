@@ -14,9 +14,9 @@ use MasterAddons\Master_Elementor_Addons;
                 <div class="jltma-addons-dashboard-tabs-wrapper">
                     <div id="jltma-addons-elements" class="jltma-addons-dashboard-header-left">
                         <?php
-                        include_once JLTMA_PATH . '/inc/admin/welcome/addons-elements.php';
-                        include_once JLTMA_PATH . '/inc/admin/welcome/addons-forms.php';
-                        include_once JLTMA_PATH . '/inc/admin/welcome/addons-marketing.php';
+                        include_once JLTMA_PATH . 'inc/admin/welcome/addons-elements.php';
+                        include_once JLTMA_PATH . 'inc/admin/welcome/addons-forms.php';
+                        include_once JLTMA_PATH . 'inc/admin/welcome/addons-marketing.php';
                         ?>
                     </div>
                 </div> <!-- .jltma-addons-tab-dashboard-tabs-wrapper-->

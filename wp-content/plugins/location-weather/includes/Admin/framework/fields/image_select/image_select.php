@@ -43,7 +43,6 @@ if ( ! class_exists( 'SPLWT_Field_image_select' ) ) {
 		 * @return void
 		 */
 		public function render() {
-
 			$args = wp_parse_args(
 				$this->field,
 				array(
@@ -54,19 +53,15 @@ if ( ! class_exists( 'SPLWT_Field_image_select' ) ) {
 			);
 
 			$inline = ( $args['inline'] ) ? ' splwt-lite--inline-list' : '';
-
-			$value = ( is_array( $this->value ) ) ? $this->value : array_filter( (array) $this->value );
-
+			$value  = ( is_array( $this->value ) ) ? $this->value : array_filter( (array) $this->value );
 			echo wp_kses_post( $this->field_before() );
 
 			if ( ! empty( $args['options'] ) ) {
-
 				echo '<div class="splwt-lite-siblings splwt-lite--image-group' . esc_attr( $inline ) . '" data-multiple="' . esc_attr( $args['multiple'] ) . '">';
 
 				$num = 1;
 
 				foreach ( $args['options'] as $key => $option ) {
-
 					$type          = ( $args['multiple'] ) ? 'checkbox' : 'radio';
 					$extra         = ( $args['multiple'] ) ? '[]' : '';
 					$active        = ( in_array( $key, $value ) ) ? ' splwt-lite--active' : '';
@@ -90,11 +85,9 @@ if ( ! class_exists( 'SPLWT_Field_image_select' ) ) {
 						echo '<p class="text-center">' . esc_html( $option['name'] ) . '<a href="' . esc_url( $option['option_demo_url'] ) . '" tooltip="Demo" class="splw-live-demo-icon" target="_blank"><i class="splwp-icon-external-link"></i></a></p>';
 					}
 					echo '</div>';
-
 				}
 
 				echo '</div>';
-
 			}
 
 			echo wp_kses_post( $this->field_after() );

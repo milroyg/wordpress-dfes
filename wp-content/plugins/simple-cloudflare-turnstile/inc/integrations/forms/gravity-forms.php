@@ -52,8 +52,8 @@ if(get_option('cfturnstile_gravity')) {
       return $validation_result;
     }
     
-    // if not a POST request or no cf-turnstile-response, return
-    if ('POST' !== $_SERVER['REQUEST_METHOD'] || !isset($_POST['cf-turnstile-response'])) {
+    // If not a POST request return
+    if ('POST' !== $_SERVER['REQUEST_METHOD']) {
       $_SESSION['cf-turnstile-response'] = cfturnstile_failed_message();
       $validation_result['is_valid'] = false;
       add_filter('gform_validation_message_' . $form['id'], 'cfturnstile_gravity_validation_message', 10, 2);

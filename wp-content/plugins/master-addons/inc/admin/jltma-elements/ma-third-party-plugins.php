@@ -36,6 +36,14 @@ if (!class_exists('JLTMA_Third_Party_Extensions')) {
                     ]
                 ]
             ];
+
+            // Filter out any empty or invalid plugin entries
+            self::$jltma_third_party_plugins['jltma-plugins']['plugin'] = array_filter(
+                self::$jltma_third_party_plugins['jltma-plugins']['plugin'],
+                function($plugin) {
+                    return !empty($plugin) && isset($plugin['key']) && isset($plugin['title']);
+                }
+            );
         }
 
         public static function get_instance()

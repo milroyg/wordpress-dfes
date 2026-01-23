@@ -234,6 +234,35 @@ class JLTMA_Advanced_Image extends Widget_Base
 			)
 		);
 
+		$this->add_responsive_control(
+			'ma_el_adv_image_ribbon_width',
+			array(
+				'label'      => __('Ribbon Width', 'master-addons' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => array('px', '%'),
+				'range' => array(
+					'px' => array(
+						'min'  => 50,
+						'max'  => 500,
+						'step' => 1
+					),
+					'%' => array(
+						'min'  => 10,
+						'max'  => 100,
+						'step' => 1
+					)
+				),
+				'selectors'   => array(
+					'{{WRAPPER}} .jltma-ribbon-wrapper.jltma-corner-ribbon' => 'width: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-ribbon-wrapper.jltma-simple-ribbon' => 'min-width: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-ribbon-wrapper.jltma-cross-ribbon' => 'min-width: {{SIZE}}{{UNIT}};',
+				),
+				'condition'   => array(
+					'ma_el_adv_image_display_ribbon' => 'yes'
+				)
+			)
+		);
+
 		$this->end_controls_section();
 
 
@@ -453,7 +482,8 @@ class JLTMA_Advanced_Image extends Widget_Base
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array('px', 'em', '%'),
 				'selectors'  => array(
-					'{{WRAPPER}} .jltma-media-image,{{WRAPPER}} .jltma-media-image img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-media-image' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}; overflow: hidden;',
+					'{{WRAPPER}} .jltma-media-image img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 				'separator' => 'after'
 			)
@@ -649,6 +679,130 @@ class JLTMA_Advanced_Image extends Widget_Base
 				'name' => 'ma_el_adv_ribbon_text_shadow',
 				'label' => __('Text Shadow', 'master-addons' ),
 				'selector' => '{{WRAPPER}} .jltma-ribbon-wrapper span',
+			)
+		);
+
+		$this->add_responsive_control(
+			'ma_el_adv_ribbon_position_top',
+			array(
+				'label'      => __('Position Top', 'master-addons' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => array('px', '%'),
+				'range' => array(
+					'px' => array(
+						'min'  => -200,
+						'max'  => 500,
+						'step' => 1
+					),
+					'%' => array(
+						'min'  => -100,
+						'max'  => 100,
+						'step' => 1
+					)
+				),
+				'selectors'   => array(
+					'{{WRAPPER}} .jltma-ribbon-wrapper.top-left' => 'top: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-ribbon-wrapper.top-right' => 'top: {{SIZE}}{{UNIT}};',
+				),
+				'condition'   => array(
+					'ma_el_adv_image_ribbon_position' => array('top-left', 'top-right')
+				)
+			)
+		);
+
+		$this->add_responsive_control(
+			'ma_el_adv_ribbon_position_bottom',
+			array(
+				'label'      => __('Position Bottom', 'master-addons' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => array('px', '%'),
+				'range' => array(
+					'px' => array(
+						'min'  => -200,
+						'max'  => 500,
+						'step' => 1
+					),
+					'%' => array(
+						'min'  => -100,
+						'max'  => 100,
+						'step' => 1
+					)
+				),
+				'selectors'   => array(
+					'{{WRAPPER}} .jltma-ribbon-wrapper.bottom-left' => 'bottom: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-ribbon-wrapper.bottom-right' => 'bottom: {{SIZE}}{{UNIT}};',
+				),
+				'condition'   => array(
+					'ma_el_adv_image_ribbon_position' => array('bottom-left', 'bottom-right')
+				)
+			)
+		);
+
+		$this->add_responsive_control(
+			'ma_el_adv_ribbon_position_left',
+			array(
+				'label'      => __('Position Left', 'master-addons' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => array('px', '%'),
+				'range' => array(
+					'px' => array(
+						'min'  => -200,
+						'max'  => 500,
+						'step' => 1
+					),
+					'%' => array(
+						'min'  => -100,
+						'max'  => 100,
+						'step' => 1
+					)
+				),
+				'selectors'   => array(
+					'{{WRAPPER}} .jltma-ribbon-wrapper.top-left' => 'left: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-ribbon-wrapper.bottom-left' => 'left: {{SIZE}}{{UNIT}};',
+				),
+				'condition'   => array(
+					'ma_el_adv_image_ribbon_position' => array('top-left', 'bottom-left')
+				)
+			)
+		);
+
+		$this->add_responsive_control(
+			'ma_el_adv_ribbon_position_right',
+			array(
+				'label'      => __('Position Right', 'master-addons' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => array('px', '%'),
+				'range' => array(
+					'px' => array(
+						'min'  => -200,
+						'max'  => 500,
+						'step' => 1
+					),
+					'%' => array(
+						'min'  => -100,
+						'max'  => 100,
+						'step' => 1
+					)
+				),
+				'selectors'   => array(
+					'{{WRAPPER}} .jltma-ribbon-wrapper.top-right' => 'right: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .jltma-ribbon-wrapper.bottom-right' => 'right: {{SIZE}}{{UNIT}};',
+				),
+				'condition'   => array(
+					'ma_el_adv_image_ribbon_position' => array('top-right', 'bottom-right')
+				)
+			)
+		);
+
+		$this->add_responsive_control(
+			'ma_el_adv_ribbon_border_radius',
+			array(
+				'label'      => __('Border Radius', 'master-addons' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array('px', '%', 'em'),
+				'selectors'  => array(
+					'{{WRAPPER}} .jltma-ribbon-wrapper' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
 			)
 		);
 
@@ -1454,7 +1608,9 @@ class JLTMA_Advanced_Image extends Widget_Base
 	{
 		if (is_numeric($attach_id)) {
 			$image_url = wp_get_attachment_image_src($attach_id, $featured_img_size);
-			return $image_url[0];
+			if ($image_url && isset($image_url[0])) {
+				return $image_url[0];
+			}
 		}
 		return '';
 	}

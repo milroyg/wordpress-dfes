@@ -17,6 +17,7 @@ if (!defined('ABSPATH')) {
 } // Exit if accessed directly.
 
 
+if (!class_exists('MasterAddons\Modules\JLTMA_Extension_Wrapper_Link')) {
 class JLTMA_Extension_Wrapper_Link
 {
 
@@ -94,5 +95,8 @@ class JLTMA_Extension_Wrapper_Link
         return self::$instance;
     }
 }
+}
 
-JLTMA_Extension_Wrapper_Link::get_instance();
+if (class_exists('MasterAddons\Modules\JLTMA_Extension_Wrapper_Link')) {
+    JLTMA_Extension_Wrapper_Link::get_instance();
+}

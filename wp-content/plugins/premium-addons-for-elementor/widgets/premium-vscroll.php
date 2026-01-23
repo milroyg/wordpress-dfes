@@ -86,7 +86,22 @@ class Premium_Vscroll extends Widget_Base {
 	}
 
 	protected function is_dynamic_content(): bool {
-		return false;
+
+		$is_edit = Plugin::instance()->editor->is_edit_mode();
+
+		if( $is_edit ) {
+			return false;
+		}
+
+		$content_type     = $this->get_settings('content_type');
+        $is_dynamic_content = false;
+
+		if( 'templates' === $content_type ) {
+			$is_dynamic_content = true;
+		}
+
+		return $is_dynamic_content;
+
 	}
 
 	/**
@@ -625,6 +640,8 @@ class Premium_Vscroll extends Widget_Base {
 				'content_classes' => 'editor-pa-doc',
 			)
 		);
+
+		Helper_Functions::register_element_feedback_controls( $this );
 
 		$this->end_controls_section();
 

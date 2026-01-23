@@ -18,7 +18,6 @@ if ( ! class_exists( 'SPLWT_Field_color' ) ) {
 	 * @version 1.0.0
 	 */
 	class SPLWT_Field_color extends SPLWT_Fields {
-
 		/**
 		 * Column field constructor.
 		 *
@@ -38,13 +37,11 @@ if ( ! class_exists( 'SPLWT_Field_color' ) ) {
 		 * @return void
 		 */
 		public function render() {
-
 			$default_attr = ( ! empty( $this->field['default'] ) ) ? ' data-default-color="' . esc_attr( $this->field['default'] ) . '"' : '';
 
 			echo $this->field_before(); // phpcs:ignore
 			echo '<input type="text" name="' . esc_attr( $this->field_name() ) . '" value="' . esc_attr( $this->value ) . '" class="splwt-lite-color"' . $default_attr . $this->field_attributes() . '/>'; // phpcs:ignore
 			echo $this->field_after(); // phpcs:ignore
-
 		}
 	}
 }

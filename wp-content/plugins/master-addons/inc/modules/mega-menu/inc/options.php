@@ -42,7 +42,8 @@ class JLTMA_Megamenu_Options
         $data = (isset($data['menu_location_' . $menu_id])) ? $data['menu_location_' . $menu_id] : [];
 
         $response = array(
-            "menu_id" => $menu_id
+            "menu_id" => $menu_id,
+            "is_enabled" => isset($data['is_enabled']) ? $data['is_enabled'] : '0'
         );
         echo json_encode($response);
         die();
@@ -116,15 +117,16 @@ class JLTMA_Megamenu_Options
         $data = $this->get_option(self::$jltma_menu_settings_key, []);
         $data = (isset($data['menu_location_' . $menu_id])) ? $data['menu_location_' . $menu_id] : [];
 ?>
-        <div class="master-mega-menu-accordion d-flex justify-content-between" id="jltma-megamenu-options">
-            <div class="font-weight-bold">
+        <div class="master-mega-menu-accordion" style="display: flex; align-items: center; justify-content: space-between;" id="jltma-megamenu-options">
+            <div style="font-weight: 600;">
                 <?php _e("Enable Mega Menu", "master-addons" ) ?>
             </div>
-            <div class="jltma-checkbox-container">
+            <div class="jltma-checkbox-container" style="display: flex; align-items: center;">
                 <input type='checkbox' id="jltma-menu-metabox-input-is-enabled" class='jltma-menu-metabox-input-is-enabled' name='is_enabled' value='1' <?php checked((isset($data['is_enabled']) ? $data['is_enabled'] : ''), '1'); ?> />
                 <label for="jltma-menu-metabox-input-is-enabled">
                     <?php _e("Enable Mega Menu?", "master-addons" ) ?>
                 </label>
+                <span class="spinner"></span>
             </div>
         </div>
         <div class="jltma-notice p-2 mt-2 mb-1 bg-success text-white" style="display: none;"></div>

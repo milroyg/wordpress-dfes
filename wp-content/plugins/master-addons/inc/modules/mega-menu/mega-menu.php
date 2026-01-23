@@ -4,6 +4,7 @@ namespace MasterAddons\Modules\MegaMenu;
 
 defined('ABSPATH') || exit;
 
+if (!class_exists('MasterAddons\Modules\MegaMenu\Master_Menu')) {
 class Master_Menu
 {
 
@@ -86,14 +87,17 @@ class Master_Menu
         return self::$_instance;
     }
 }
+}
 
 /*
 * Returns Instanse of the Master Mega Menu
 */
-if (!function_exists('jltma_megamenu')) {
+if (!function_exists('MasterAddons\Modules\MegaMenu\jltma_megamenu')) {
     function jltma_megamenu()
     {
-        return Master_Menu::get_instance();
+        if (class_exists('MasterAddons\Modules\MegaMenu\Master_Menu')) {
+            return Master_Menu::get_instance();
+        }
     }
 }
 
@@ -102,7 +106,7 @@ jltma_megamenu();
 /* Re-write flus */
 register_activation_hook(__FILE__, 'jltma_flush_rewrites');
 register_deactivation_hook(__FILE__, 'jltma_flush_rewrites');
-if (!function_exists('jltma_flush_rewrites')) {
+if (!function_exists('MasterAddons\Modules\MegaMenu\jltma_flush_rewrites')) {
     function jltma_flush_rewrites()
     {
         flush_rewrite_rules();

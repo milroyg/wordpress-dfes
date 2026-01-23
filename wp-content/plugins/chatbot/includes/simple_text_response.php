@@ -214,7 +214,7 @@ global $wpdb;
 
 
     </div>
-    <div class="qcld-show-more-show-more"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+    <div class="qcld-show-more-show-more"><i class="dashicons dashicons-plus-alt" aria-hidden="true"></i></div>
     </div>
 
     <div id="poststuff">
@@ -522,9 +522,9 @@ table.form-table-str.form-table th {
 <script type="text/javascript">  
 jQuery(".qcld-show-more-show-more").click(function () {
         if(jQuery(".qcld-show-more-text").hasClass("qcld-show-more-show-more-height")) {
-            jQuery(this).html('<i class="fa fa-minus-circle" aria-hidden="true"></i>');
+            jQuery(this).html('<i class="dashicons dashicons-remove" aria-hidden="true"></i>');
         } else {
-            jQuery(this).html('<i class="fa fa-plus-circle" aria-hidden="true"></i>');
+            jQuery(this).html('<i class="dashicons dashicons-plus-alt" aria-hidden="true"></i>');
         }
 
         jQuery(".qcld-show-more-text").toggleClass("qcld-show-more-show-more-height");

@@ -57,6 +57,8 @@
                     headerActions: "#ma-el-template-modal-header-actions"
                 },
                 onCloseModalClick: function() {
+                    // Add elementor-editor-active class to body when closing modal
+                    e('body').removeClass('elementor-editor-preview').addClass('elementor-editor-active');
                     t.closeModal()
                 }
             }), a.TabModel = Backbone.Model.extend({
@@ -82,22 +84,39 @@
             }), a.KeywordsView = Marionette.ItemView.extend({
                 id: "elementor-template-library-filter",
                 template: "#views-ma-el-template-modal-keywords",
-                ui: {
-                    keywords: ".ma-el-library-keywords"
-                },
-                events: {
-                    "change @ui.keywords": "onSelectKeyword"
-                },
-                onSelectKeyword: function(e) {
-                    var a = e.currentTarget.selectedOptions[0].value;
-                    t.setFilter("keyword", a)
-                },
                 onRender: function() {
-                    this.$(".ma-el-library-keywords").select2({
-                        placeholder: "Choose a Widget",
-                        allowClear: !0,
-                        width: 260
-                    })
+                    var self = this;
+                    // Add click handler for keywords filter action button
+                    setTimeout(function() {
+                        jQuery(".ma-el-keywords-filter-action").off("click").on("click", function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            jQuery(".ma-el-keywords-filters-container").toggleClass("active");
+                        });
+                        
+                        // Add click handler for keyword items
+                        jQuery(".ma-el-keywords-filter-item").off("click").on("click", function(e) {
+                            e.preventDefault();
+                            var keywordValue = jQuery(this).data("keyword");
+                            var keywordTitle = jQuery(this).text();
+                            
+                            // Update filter
+                            t.setFilter("keyword", keywordValue);
+                            
+                            // Update selected text
+                            jQuery("#ma-el-keywords-selected-filter").text(keywordTitle);
+                            
+                            // Remove active class
+                            jQuery(".ma-el-keywords-filters-container").removeClass("active");
+                        });
+                        
+                        // Close dropdown when clicking outside
+                        jQuery(document).off("click.keywordsDropdown").on("click.keywordsDropdown", function(e) {
+                            if (!jQuery(e.target).closest(".ma-el-keywords-filters-wrap").length) {
+                                jQuery(".ma-el-keywords-filters-container").removeClass("active");
+                            }
+                        });
+                    }, 100);
                 }
             }), a.ModalPreviewView = Marionette.ItemView.extend({
                 template: "#views-ma-el-template-modal-preview",
@@ -137,6 +156,17 @@
                     contentTemplates: ".ma-el-templates-list",
                     contentFilters: ".ma-el-filters-list",
                     contentKeywords: ".ma-el-keywords-list"
+                },
+                onRender: function() {
+                    // Add search functionality
+                    var self = this;
+                    setTimeout(function() {
+                        jQuery("#ma-el-template-search-input").off("input").on("input", function() {
+                            var searchTerm = jQuery(this).val().toLowerCase();
+                            // Trigger search filter
+                            t.setFilter("search", searchTerm);
+                        });
+                    }, 100);
                 }
             }), a.LibraryLoadingView = Marionette.ItemView.extend({
                 id: "ma-el-modal-template-library-loading",
@@ -177,6 +207,7 @@
                         },
                         success: function(e) {
                             e.license ? (console.log("%c !", "color: #7a7a7a; background-color: #eee;"), t.closeModal(), elementor.channels.data.trigger("$e.run( 'document/import' )", a), null !== t.atIndex && (r.at = t.atIndex), elementor.config.version < "3.0.0" ? elementor.sections.currentView.addChildModel(e.content, r) : elementor.previewView.addChildModel(e.content, r), elementor.channels.data.trigger("template:after:insert", a), t.atIndex = null) : t.layout.showLicenseError()
+                            jQuery('body').removeClass('elementor-editor-preview').addClass('elementor-editor-active');
                         },
                         error: function(e) {
                             console.log(e);
@@ -222,22 +253,26 @@
                 }
             }), a.FiltersItemView = Marionette.ItemView.extend({
                 template: "#views-ma-el-template-modal-filters-item",
-                className: function() {
-                    return "ma-el-modal-template-filter-item"
-                },
-                ui: function() {
+                tagName: "li",
+                className: "ma-el-modal-template-filter-item",
+                attributes: function() {
                     return {
-                        filterLabels: ".ma-el-modal-template-filter-label"
+                        "data-filter": this.model.get("slug")
                     }
                 },
                 events: function() {
                     return {
-                        "click @ui.filterLabels": "onFilterClick"
+                        "click": "onFilterClick"
                     }
                 },
                 onFilterClick: function(e) {
-                    var a = jQuery(e.target);
-                    jQuery(".ma-el-library-keywords").val(""), t.setFilter("category", a.val()), t.setFilter("keyword", "")
+                    var filterValue = this.model.get("slug");
+                    var filterTitle = this.model.get("title");
+                    jQuery(".ma-el-library-keywords").val(""), t.setFilter("category", filterValue), t.setFilter("keyword", "");
+                    // Update selected filter text
+                    jQuery("#ma-el-modal-selected-filter").text(filterTitle);
+                    // Remove active class
+                    jQuery(".ma-el-modal-filters-container").removeClass("active");
                 }
             }), a.ModalTabsItemView = Marionette.ItemView.extend({
                 template: "#views-ma-el-template-modal-tabs-item",
@@ -265,9 +300,26 @@
             }), a.FiltersCollectionView = Marionette.CompositeView.extend({
                 id: "ma-el-modal-template-library-filters",
                 template: "#views-ma-el-template-modal-filters",
-                childViewContainer: "#ma-el-modal-filters-container",
+                childViewContainer: "#ma-el-modal-filters-container ul",
                 getChildView: function(e) {
                     return a.FiltersItemView
+                },
+                onRender: function() {
+                    // Add click handler for filter action button
+                    var self = this;
+                    setTimeout(function() {
+                        jQuery(".ma-el-modal-filter-action").off("click").on("click", function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            jQuery(".ma-el-modal-filters-container").toggleClass("active");
+                        });
+                        // Close dropdown when clicking outside
+                        jQuery(document).off("click.filterDropdown").on("click.filterDropdown", function(e) {
+                            if (!jQuery(e.target).closest(".ma-el-modal-filters-wrap").length) {
+                                jQuery(".ma-el-modal-filters-container").removeClass("active");
+                            }
+                        });
+                    }, 100);
                 }
             }), a.ModalTabsCollectionView = Marionette.CompositeView.extend({
                 template: "#views-ma-el-template-modal-tabs",
@@ -287,24 +339,69 @@
                 },
                 filter: function(e) {
                     var a = t.getFilter("category"),
-                        o = t.getFilter("keyword");
-                    return !a && !o || (o && !a ? _.contains(e.get("keywords"), o) : a && !o ? _.contains(e.get("categories"), a) : _.contains(e.get("categories"), a) && _.contains(e.get("keywords"), o))
+                        o = t.getFilter("keyword"),
+                        s = t.getFilter("search");
+                    
+                    // Check category and keyword filters
+                    var matchesFilters = !a && !o || (o && !a ? _.contains(e.get("keywords"), o) : a && !o ? _.contains(e.get("categories"), a) : _.contains(e.get("categories"), a) && _.contains(e.get("keywords"), o));
+                    
+                    // Apply search filter if present
+                    if (s && s.length > 0) {
+                        var title = (e.get("title") || e.get("name") || "").toLowerCase();
+                        var matchesSearch = title.indexOf(s) !== -1;
+                        return matchesFilters && matchesSearch;
+                    }
+                    
+                    return matchesFilters;
                 },
                 getChildView: function(e) {
                     return a.ModalTemplateItemView
                 },
                 onRenderCollection: function() {
+                    var self = this;
                     var e = this.$childViewContainer,
-                        o = this.$childViewContainer.children(),
                         n = t.getTab();
-                    "master_page" !== n && "local" !== n && e.imagesLoaded(function() {}).done(function() {
-                        setTimeout(function() {
+
+                    // Skip masonry - now handled by Macy instance in assets.php
+                    // This prevents double initialization and conflicting breakpoints
+                    console.log("Skipping Marionette masonry initialization - Macy handles layout");
+                    return;
+
+                    // DISABLED CODE BELOW - Macy from assets.php now handles all layout
+                    /*
+                    // Skip masonry for master_page and local tabs
+                    if ("master_page" === n || "local" === n) {
+                        return;
+                    }
+
+                    // Use a timeout to ensure DOM is ready
+                    setTimeout(function() {
+                        // Get fresh children after DOM is ready
+                        var o = e.children();
+
+                        if (o.length === 0) {
+                            console.log("No template items found in container");
+                            return;
+                        }
+
+                        console.log("Found " + o.length + " template items");
+
+                        // Wait for images to load before applying masonry
+                        e.imagesLoaded(function() {
                             a.masonry.init({
                                 container: e,
                                 items: o
-                            })
-                        }, 200)
-                    })
+                            });
+                        }).fail(function() {
+                            // If images fail to load, still apply masonry
+                            console.log("Some images failed to load, still applying masonry");
+                            a.masonry.init({
+                                container: e,
+                                items: o
+                            });
+                        });
+                    }, 100);
+                    */
                 }
             }), a.ModalLoadingView = Marionette.ItemView.extend({
                 id: "ma-el-modal-loading",
@@ -368,14 +465,82 @@
             })
         },
         masonry: {
-            self: {},
-            elements: {},
+            instance: null,
             init: function(t) {
-                var a = this;
-                a.settings = e.extend(a.getDefaultSettings(), t), a.elements = a.getDefaultElements(), a.run()
+                // DISABLED: Masonry layout now handled by Macy instance in assets.php
+                // This prevents conflicting breakpoints (520: 2 vs 520: 1)
+                console.log('Marionette masonry.init() called but disabled - Macy from assets.php handles layout');
+                return;
+
+                // ORIGINAL CODE BELOW - DISABLED
+                /*
+                var self = this;
+
+                if (self.instance && typeof self.instance.remove === 'function') {
+                    self.instance.remove();
+                    self.instance = null;
+                }
+
+                // Check if Macy is available in the global scope
+                if (typeof window.Macy === 'undefined') {
+                    console.warn('Macy library not loaded, using fallback masonry layout');
+                    self.fallbackMasonry(t);
+                    return;
+                }
+
+                // Get the DOM element from jQuery object
+                var containerElement = t.container && t.container.length ? t.container[0] : null;
+
+                if (!containerElement) {
+                    console.error('Container element not found for Macy initialization', t.container);
+                    return;
+                }
+
+
+                // Initialize Macy with the container element
+                try {
+                    self.instance = window.Macy({
+                        container: containerElement,
+                        waitForImages: true,
+                        margin: 30,
+                        columns: 5,
+                        trueOrder: false,
+                        breakAt: {
+                            1370: 4,
+                            940: 3,
+                            520: 2,
+                            400: 1
+                        }
+                    });
+
+                    // Force immediate recalculation
+                    if (self.instance && typeof self.instance.reInit === 'function') {
+                        self.instance.reInit();
+                    }
+
+                    setTimeout(function() {
+                        if (self.instance && typeof self.instance.recalculate === 'function') {
+                            self.instance.recalculate(true);
+                        }
+                    }, 300);
+
+                    setTimeout(function() {
+                        if (self.instance && typeof self.instance.recalculate === 'function') {
+                            self.instance.recalculate(true);
+                        }
+                    }, 600);
+                } catch (error) {
+                    console.error('Error initializing Macy:', error);
+                    self.fallbackMasonry(t);
+                }
+                */
             },
-            getSettings: function(e) {
-                return e ? this.settings[e] : this.settings
+            fallbackMasonry: function(t) {
+                console.log("Hello");
+                var self = this;
+                self.settings = e.extend(self.getDefaultSettings(), t);
+                self.elements = self.getDefaultElements();
+                self.runFallback();
             },
             getDefaultSettings: function() {
                 return {
@@ -387,16 +552,18 @@
             },
             getDefaultElements: function() {
                 return {
-                    $container: jQuery(this.getSettings("container")),
-                    $items: jQuery(this.getSettings("items"))
+                    $container: jQuery(this.settings.container),
+                    $items: jQuery(this.settings.items)
                 }
             },
-            run: function() {
+            runFallback: function() {
                 var e = [],
                     t = this.elements.$container.position().top,
-                    a = this.getSettings(),
+                    a = this.settings,
                     o = a.columnsCount;
-                t += parseInt(this.elements.$container.css("margin-top"), 10), this.elements.$container.height(""), this.elements.$items.each(function(n) {
+                t += parseInt(this.elements.$container.css("margin-top"), 10);
+                this.elements.$container.height("");
+                this.elements.$items.each(function(n) {
                     var i = Math.floor(n / o),
                         l = n % o,
                         r = jQuery(this),
@@ -404,9 +571,15 @@
                         d = r[0].getBoundingClientRect().height + a.verticalSpaceBetween;
                     if (i) {
                         var m = s.top - t - e[l];
-                        m -= parseInt(r.css("margin-top"), 10), m *= -1, r.css("margin-top", m + "px"), e[l] += d
-                    } else e.push(d)
-                }), this.elements.$container.height(Math.max.apply(Math, e))
+                        m -= parseInt(r.css("margin-top"), 10);
+                        m *= -1;
+                        r.css("margin-top", m + "px");
+                        e[l] += d;
+                    } else {
+                        e.push(d);
+                    }
+                });
+                this.elements.$container.height(Math.max.apply(Math, e));
             }
         }
     }, t = {
@@ -474,7 +647,12 @@
             let e = setInterval(() => {
                 window.elementor.$previewContents.find(".elementor-add-new-section").length && (this.initMasterTempsButton(), clearInterval(e))
             }, 100);
-            window.elementor.$previewContents.on("click.addMasterTemplate", ".ma-el-add-section-btn", _.bind(this.showTemplatesModal, this)), this.channels = {
+            window.elementor.$previewContents.on("click.addMasterTemplate", ".ma-el-add-section-btn", _.bind(function() {
+                // Toggle editor classes on button click
+                this.toggleEditorMode();
+                // Also show the templates modal
+                this.showTemplatesModal();
+            }, this)), this.channels = {
                 templates: Backbone.Radio.channel("MASTER_EDITOR:templates"),
                 tabs: Backbone.Radio.channel("MASTER_EDITOR:tabs"),
                 layout: Backbone.Radio.channel("MASTER_EDITOR:layout")
@@ -483,14 +661,37 @@
         initMasterTempsButton: function() {
             var a = window.elementor.$previewContents.find(".elementor-add-new-section"),
                 o = '<div class="elementor-add-section-area-button ma-el-add-section-btn"><div class="jltma-editor-icon"></div></div>';
-            a.length && i.MasterAddonsEditorBtn && e(o).prependTo(a), window.elementor.$previewContents.on("click.addMasterTemplate", ".elementor-editor-section-settings .elementor-editor-element-add", function() {
+
+            // Insert button after AI button if it exists, otherwise prepend
+            a.length && i.MasterAddonsEditorBtn && a.each(function() {
+                var $section = e(this);
+                var $aiButton = $section.find('.e-ai-layout-button');
+                if ($aiButton.length) {
+                    e(o).insertAfter($aiButton);
+                } else {
+                    e(o).prependTo($section);
+                }
+            });
+
+            window.elementor.$previewContents.on("click.addMasterTemplate", ".elementor-editor-section-settings .elementor-editor-element-add", function() {
+                t.toggleEditorMode();
                 var a = e(this).closest(".elementor-top-section"),
                     n = a.data("model-cid");
                 elementor.config.version < "3.0.0" ? window.elementor.sections.currentView.collection.length && e.each(window.elementor.sections.currentView.collection.models, function(e, a) {
                     n === a.cid && (t.atIndex = e)
                 }) : elementor.previewView.collection.length && e.each(elementor.previewView.collection.models, function(e, a) {
                     n === a.cid && (t.atIndex = e)
-                }), i.MasterAddonsEditorBtn && a.prev(".elementor-add-section").find(".elementor-add-new-section").prepend(o)
+                });
+
+                if (i.MasterAddonsEditorBtn) {
+                    var $addSection = a.prev(".elementor-add-section").find(".elementor-add-new-section");
+                    var $aiButton = $addSection.find('.e-ai-layout-button');
+                    if ($aiButton.length) {
+                        e(o).insertAfter($aiButton);
+                    } else {
+                        $addSection.prepend(o);
+                    }
+                }
             })
         },
         getFilter: function(e) {
@@ -529,7 +730,25 @@
             }), []
         },
         showTemplatesModal: function() {
-            this.getModal().show(), this.layout || (this.layout = new a.ModalLayoutView, this.layout.showLoadingView()), this.setTab(this.defaultTab, !0), this.requestTemplates(this.defaultTab), this.setPreview("initial")
+            jQuery('body').addClass("master-addons-template-popup-loaded");
+            var modal = this.getModal();
+            modal.show();
+            // Prevent outside click from closing the modal
+            setTimeout(function() {
+                // Remove click events from overlay/mask
+                e('.dialog-widget-content').off('click');
+                e('.dialog-lightbox-widget').off('click');
+                e('.dialog-lightbox-widget-content').off('click');
+                // Prevent clicks on overlay from propagating
+                e('.dialog-widget-content, .dialog-lightbox-widget').on('click', function(event) {
+                    if (event.target === this) {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        return false;
+                    }
+                });
+            }, 100);
+            this.layout || (this.layout = new a.ModalLayoutView, this.layout.showLoadingView()), this.setTab(this.defaultTab, !0), this.requestTemplates(this.defaultTab), this.setPreview("initial")
         },
         requestTemplates: function(t) {
             var o = this,
@@ -556,13 +775,103 @@
         },
         closeModal: function() {
             this.getModal().hide()
+            jQuery('body').removeClass("master-addons-template-popup-loaded");
         },
         getModal: function() {
             return this.modal || (this.modal = elementor.dialogsManager.createWidget("lightbox", {
                 id: "ma-el-modal-template",
                 className: "elementor-templates-modal",
-                closeButton: !1
+                closeButton: !1,
+                closeOnOutsideClick: !1,
+                closeOnEscKey: !1,
+                hide: {
+                    onOutsideClick: !1,
+                    onEscKeyPress: !1
+                }
             })), this.modal
+        },
+        editorCheck: function() {
+            return e('body').hasClass('elementor-editor-active') ? true : false;
+        },
+        toggleEditorMode: function() {
+            var body = e('body');
+
+            // When opening template modal, always set to preview mode
+            body.removeClass('elementor-editor-active').addClass('elementor-editor-preview');
+            body.removeClass('master-addons-template-popup-loaded');
         }
-    }, e(window).on("elementor:init", t.init)
+    }, e(window).on("elementor:init", t.init);
+
+    // Template Cache Refresh Handler for Elementor Editor
+    e(document).on('click', '#ma-el-template-cache-refresh', function(event) {
+        event.preventDefault();
+
+        var $button = e(this);
+        var $icon = $button.find('i');
+
+        // Add updating state
+        $button.addClass('updating');
+        $icon.removeClass('eicon-sync').addClass('eicon-loading eicon-animation-spin');
+
+        // Perform cache refresh
+        e.ajax({
+            type: 'POST',
+            url: ajaxurl,
+            data: {
+                action: 'jltma_refresh_templates_cache',
+                _wpnonce: MasterAddonsData.refresh_cache_nonce
+            },
+            success: function(response) {
+                if (response.success) {
+                    console.log('Template cache refreshed successfully');
+
+                    // Update cache count if cache status element exists
+                    var $cacheStatus = e('#ma-el-template-cache-status');
+                    if ($cacheStatus.length && response.data.total_templates) {
+                        var newCount = response.data.total_templates;
+                        $cacheStatus.find('.cache-count').text(newCount);
+                        $cacheStatus.attr('title', 'Cache Status: ' + newCount + ' templates cached');
+                        if (newCount > 0) {
+                            $cacheStatus.show();
+                        } else {
+                            $cacheStatus.hide();
+                        }
+                    }
+
+                    // Reset button state
+                    $button.removeClass('updating');
+                    $icon.removeClass('eicon-loading eicon-animation-spin').addClass('eicon-sync');
+
+                    // Force refresh of current tab content by reloading templates
+                    setTimeout(function() {
+                        if (t && t.getTab) {
+                            var currentTab = t.getTab();
+                            // Clear cached data for current tab
+                            if (t.tabs && t.tabs[currentTab]) {
+                                t.tabs[currentTab].data = null;
+                            }
+                            // Request fresh templates
+                            t.requestTemplates(currentTab);
+                        }
+                    }, 500);
+
+                    // Show success feedback
+                    $button.attr('title', 'Cache refreshed successfully!');
+                    setTimeout(function() {
+                        $button.attr('title', 'Refresh Cache');
+                    }, 3000);
+
+                } else {
+                    console.error('Failed to refresh template cache:', response.data ? response.data.message : 'Unknown error');
+                    $button.removeClass('updating');
+                    $icon.removeClass('eicon-loading eicon-animation-spin').addClass('eicon-sync');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX error refreshing template cache:', error);
+                $button.removeClass('updating');
+                $icon.removeClass('eicon-loading eicon-animation-spin').addClass('eicon-sync');
+            }
+        });
+    });
 }(jQuery);

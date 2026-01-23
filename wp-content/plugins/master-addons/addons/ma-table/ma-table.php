@@ -673,12 +673,14 @@ class JLTMA_Dynamic_Table extends Widget_Base
             ]
         );
 
-        $this->add_group_control(
-            Group_Control_Background::get_type(),
+        $this->add_control(
+            'ma_el_table_background',
             [
-                'name' => 'ma_el_table_background',
-                'types' => ['classic', 'gradient'],
-                'selector' => '{{WRAPPER}} .jltma-table'
+                'label' => __('Background Color', 'master-addons'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table tr:nth-of-type(even) td' => 'background-color: {{VALUE}};',
+                ]
             ]
         );
 
@@ -702,6 +704,23 @@ class JLTMA_Dynamic_Table extends Widget_Base
                 'selector' => '{{WRAPPER}} .jltma-table td,{{WRAPPER}} .jltma-table th',
             ]
         );
+
+        $this->add_control(
+            'ma_el_table_border_radius',
+            [
+                'label' => __('Border Radius', 'master-addons'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table' => 'border-collapse: separate; border-spacing: 0;',
+                    '{{WRAPPER}} .jltma-table thead tr:first-child th:first-child' => 'border-top-left-radius: {{TOP}}{{UNIT}};',
+                    '{{WRAPPER}} .jltma-table thead tr:first-child th:last-child' => 'border-top-right-radius: {{RIGHT}}{{UNIT}};',
+                    '{{WRAPPER}} .jltma-table tbody tr:last-child td:first-child' => 'border-bottom-left-radius: {{BOTTOM}}{{UNIT}};',
+                    '{{WRAPPER}} .jltma-table tbody tr:last-child td:last-child' => 'border-bottom-right-radius: {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
         $this->end_controls_section();
 
 
@@ -722,6 +741,7 @@ class JLTMA_Dynamic_Table extends Widget_Base
             [
                 'label' => __('Background Color', 'master-addons'),
                 'type' => Controls_Manager::COLOR,
+                'default' => '#020817',
                 'selectors' => [
                     '{{WRAPPER}} .jltma-table .jltma-table-header th' => 'background-color: {{VALUE}};',
                 ]
@@ -782,8 +802,9 @@ class JLTMA_Dynamic_Table extends Widget_Base
                 'label' => __('Alignment', 'master-addons'),
                 'type' => Controls_Manager::CHOOSE,
                 'options' => Master_Addons_Helper::jltma_content_alignments(),
+                'default' => 'left',
                 'selectors' => [
-                    '{{WRAPPER}} .jltma-table .jltma-table-header th' => 'text-align: {{VALUE}};',
+                    '{{WRAPPER}} .jltma-table .jltma-table-header th' => 'text-align: {{VALUE}} !important;',
                 ],
             ]
         );

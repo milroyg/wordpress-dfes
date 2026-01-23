@@ -44,6 +44,5 @@ if ( ! class_exists( 'SPLWT_Field_preview' ) ) {
 		public function render() {
 			echo '<div class="sp_location_weather-preview-box"><div id="sp_location_weather-preview-box"></div></div>';
 		}
-
 	}
 }

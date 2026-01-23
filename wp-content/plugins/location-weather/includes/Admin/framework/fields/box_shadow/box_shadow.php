@@ -139,7 +139,6 @@ if ( ! class_exists( 'SPLWT_Field_box_shadow' ) ) {
 			}
 
 			echo wp_kses_post( $this->field_after() );
-
 		}
 	}
 }

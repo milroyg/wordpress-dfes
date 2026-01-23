@@ -16,6 +16,8 @@
 		if ($carouselElem.find(".item-wrapper").length < 1)
 			return;
 
+		addSlideContent();
+
 		function slideToShow(slick) {
 
 			var slidesToShow = slick.options.slidesToShow,
@@ -34,6 +36,36 @@
 
 			return slidesToShow;
 
+		}
+
+		/**
+		 * Used to add the template content to the carousel slide when the template source is an exisitng template on the page.
+		 */
+		function addSlideContent() {
+			$scope.find(".premium-carousel-template[data-template-src]").each(function () {
+				var containerID = $(this).data("template-src");
+
+				var $templateContent = $('#' + containerID);
+
+				if (!$templateContent.length) {
+					$(this).html(
+						'<div class="premium-error-notice"><span>Container with ID <b>' +
+						containerID +
+						"</b> does not exist on this page. Please make sure that container ID is properly set from section settings -> Advanced tab -> CSS ID.<span></div>"
+					);
+
+					return;
+				}
+
+				if (!elementorFrontend.isEditMode()) {
+					$(this).append($templateContent);
+				} else {
+					$scope.find(".elementor-element-overlay")
+						.remove();
+					$(this).append($templateContent.clone(true));
+				}
+
+			});
 		}
 
 		$carouselElem.on("init", function (event) {
@@ -128,7 +160,6 @@
 		if (settings.carouselNavigation === "progress") {
 			runProgress();
 		}
-
 
 		$scope.find(".premium-carousel-hidden").removeClass("premium-carousel-hidden");
 		$carouselElem.find(".premium-carousel-nav-arrow-prev").remove();
@@ -322,6 +353,11 @@
 	};
 
 	$(window).on('elementor/frontend/init', function () {
+
+		if ('undefined' !== typeof paElementsHandler && paElementsHandler.isElementAlreadyExists('paCarousel')) {
+			return false;
+		}
+
 		elementorFrontend.hooks.addAction('frontend/element_ready/premium-carousel-widget.default', PremiumCarouselHandler);
 	});
 })(jQuery);

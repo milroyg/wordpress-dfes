@@ -20,7 +20,11 @@
         };
     };
 
-    $window.on('elementor/frontend/init', function () {
+    var initTooltips = function () {
+        if (typeof tippy === 'undefined' || (typeof elementorModules === 'undefined' && typeof elementorFrontend === 'undefined')) {
+            setTimeout(initTooltips, 100);
+            return;
+        }
 
         var ModuleHandler = elementorModules.frontend.handlers.Base,
             MA_Element_Tooltip;
@@ -49,54 +53,139 @@
             },
 
             run: function () {
-                var options = this.getDefaultSettings();
-                var widgetID = this.$element.data('id');
-                var widgetContainer = document.querySelector('.elementor-element-' + widgetID);
-
-                if (this.settings('tooltip_text')) {
-                    options.content = this.settings('tooltip_text');
-                }
-
-                options.arrow = !!this.settings('tooltip_arrow');
-                options.followCursor = !!this.settings('tooltip_follow_cursor');
-
-                if (this.settings('tooltip_placement')) {
-                    options.placement = this.settings('tooltip_placement');
-                }
-
-                if (this.settings('tooltip_trigger')) {
-                    if (this.settings('tooltip_custom_trigger')) {
-                        options.triggerTarget = document.querySelector(this.settings('tooltip_custom_trigger'));
-                    } else {
-                        options.trigger = this.settings('tooltip_trigger');
+                try {
+                    var options = this.getDefaultSettings();
+                    var widgetID = this.$element.data('id');
+                    
+                    if (!widgetID || !this.settings('tooltip_enable')) {
+                        return;
                     }
-                }
-
-                if (this.settings('tooltip_duration')) {
-                    options.duration = this.settings('tooltip_duration.sizes.from');
-                }
-
-                if (this.settings('tooltip_animation')) {
-                    if (this.settings('tooltip_animation') === 'fill') {
-                        options.animateFill = true;
-                    } else {
-                        options.animation = this.settings('tooltip_animation');
+                    
+                    // Safe DOM element selection with validation
+                    var widgetContainer = null;
+                    try {
+                        widgetContainer = document.querySelector('.elementor-element-' + widgetID);
+                        if (!widgetContainer || !widgetContainer.nodeType || widgetContainer.nodeType !== 1) {
+                            return;
+                        }
+                        
+                        // Ensure it's not a jQuery object
+                        if (widgetContainer.jquery) {
+                            widgetContainer = widgetContainer[0];
+                            if (!widgetContainer || !widgetContainer.nodeType) {
+                                return;
+                            }
+                        }
+                    } catch (error) {
+                        return;
                     }
-                }
-                if (this.settings('tooltip_x_offset.size') || this.settings('tooltip_y_offset.size')) {
-                    options.offset = [this.settings('tooltip_x_offset.size') || 0, this.settings('tooltip_y_offset.size') || 0];
-                }
-                if (this.settings('tooltip_enable')) {
+
+                    // Cleanup existing instance
+                    if (this.instance) {
+                        try {
+                            this.instance.destroy();
+                        } catch (error) {
+                            // Silent cleanup
+                        }
+                        this.instance = null;
+                    }
+
+                    // Validate and set tooltip content
+                    var tooltipText = this.settings('tooltip_text');
+                    if (!tooltipText || typeof tooltipText !== 'string' || !tooltipText.trim()) {
+                        return;
+                    }
+                    options.content = tooltipText;
+
+                    options.arrow = !!this.settings('tooltip_arrow');
+                    options.followCursor = !!this.settings('tooltip_follow_cursor');
+
+                    if (this.settings('tooltip_placement')) {
+                        options.placement = this.settings('tooltip_placement');
+                    }
+
+                    if (this.settings('tooltip_trigger')) {
+                        if (this.settings('tooltip_custom_trigger')) {
+                            try {
+                                var customTrigger = document.querySelector(this.settings('tooltip_custom_trigger'));
+                                if (customTrigger && customTrigger.nodeType === 1) {
+                                    options.triggerTarget = customTrigger;
+                                }
+                            } catch (error) {
+                                // Use default trigger
+                            }
+                        } else {
+                            options.trigger = this.settings('tooltip_trigger');
+                        }
+                    }
+
+                    if (this.settings('tooltip_duration')) {
+                        var duration = parseInt(this.settings('tooltip_duration')) || 300;
+                        options.duration = Math.max(100, Math.min(5000, duration));
+                    }
+
+                    if (this.settings('tooltip_animation')) {
+                        if (this.settings('tooltip_animation') === 'fill') {
+                            options.animateFill = true;
+                        } else {
+                            options.animation = this.settings('tooltip_animation');
+                        }
+                    }
+                    
+                    // Safe offset parsing
+                    var xOffset = 0, yOffset = 0;
+                    try {
+                        if (this.settings('tooltip_x_offset') && this.settings('tooltip_x_offset').size !== undefined) {
+                            xOffset = parseInt(this.settings('tooltip_x_offset').size) || 0;
+                        }
+                        if (this.settings('tooltip_y_offset') && this.settings('tooltip_y_offset').size !== undefined) {
+                            yOffset = parseInt(this.settings('tooltip_y_offset').size) || 0;
+                        }
+                    } catch (error) {
+                        xOffset = 0;
+                        yOffset = 0;
+                    }
+                    options.offset = [xOffset, yOffset];
+
+                    // Security and performance options
                     options.theme = 'jltma-widget-tippy-' + widgetID;
-                    this.instance = tippy(widgetContainer, options);
+                    options.allowHTML = false;
+                    options.hideOnClick = true;
+                    options.appendTo = function() {
+                        try {
+                            return (typeof elementorFrontend !== 'undefined' && elementorFrontend.isEditMode()) 
+                                ? document.body : 'parent';
+                        } catch (error) {
+                            return 'parent';
+                        }
+                    };
+
+                    // Initialize tooltip with error handling
+                    try {
+                        this.instance = tippy(widgetContainer, options);
+                    } catch (error) {
+                        // Silent fail for production
+                    }
+                } catch (error) {
+                    // Silent fail for production
                 }
             }
         });
 
-        elementorFrontend.hooks.addAction('frontend/element_ready/widget', function ($scope) {
-            elementorFrontend.elementsHandler.addHandler(MA_Element_Tooltip, {
-                $element: $scope
+        if (typeof elementorFrontend !== 'undefined' && elementorFrontend.hooks) {
+            elementorFrontend.hooks.addAction('frontend/element_ready/widget', function ($scope) {
+                elementorFrontend.elementsHandler.addHandler(MA_Element_Tooltip, {
+                    $element: $scope
+                });
             });
-        });
-    });
+        }
+    };
+
+    // Initialize for both frontend and editor
+    if (typeof elementorFrontend !== 'undefined') {
+        $window.on('elementor/frontend/init', initTooltips);
+    }
+    
+    // Initialize immediately for editor context
+    $window.ready(initTooltips);
 })(jQuery, window.elementorFrontend);

@@ -41,6 +41,17 @@ class Master_Addons_Templates_Source_Api extends Master_Addons_Templates_Source_
 			return array();
 		}
 
+		// Try enhanced file-based cache first
+		if (class_exists('MasterAddons\Inc\Templates\Classes\Master_Addons_Templates_Cache_Manager')) {
+			$cache_manager = \MasterAddons\Inc\Templates\Classes\Master_Addons_Templates_Cache_Manager::get_instance();
+			$cached_templates = $cache_manager->get_cached_templates($tab);
+			
+			if ($cached_templates !== false) {
+				return array_values($cached_templates);
+			}
+		}
+
+		// Fallback to existing transient cache
 		$cached = $this->get_templates_cache();
 
 		if (!empty($cached[$tab])) {
@@ -141,6 +152,17 @@ class Master_Addons_Templates_Source_Api extends Master_Addons_Templates_Source_
 			return false;
 		}
 
+		// Update thumbnail URLs to use cache folder first, then remote fallback
+		foreach ($body['templates'] as &$template) {
+			if (class_exists('JLTMA_Template_Kit_Cache')) {
+				$cache_manager = JLTMA_Template_Kit_Cache::get_instance();
+				$cached_thumbnail = $cache_manager->get_kit_thumbnail_url('', $template['title'], $template['thumbnail']);
+				if ($cached_thumbnail) {
+					$template['thumbnail'] = $cached_thumbnail;
+				}
+			}
+		}
+
 		return $body['templates'];
 	}
 
@@ -217,6 +239,17 @@ class Master_Addons_Templates_Source_Api extends Master_Addons_Templates_Source_
 			return array();
 		}
 
+		// Try enhanced file-based cache first
+		if (class_exists('MasterAddons\Inc\Templates\Classes\Master_Addons_Templates_Cache_Manager')) {
+			$cache_manager = \MasterAddons\Inc\Templates\Classes\Master_Addons_Templates_Cache_Manager::get_instance();
+			$cached_categories = $cache_manager->get_cached_categories($tab);
+			
+			if ($cached_categories !== false) {
+				return $this->prepare_categories($cached_categories);
+			}
+		}
+
+		// Fallback to existing transient cache
 		$cached = $this->get_categories_cache();
 
 		if (!empty($cached[$tab])) {
@@ -262,6 +295,17 @@ class Master_Addons_Templates_Source_Api extends Master_Addons_Templates_Source_
 			return array();
 		}
 
+		// Try enhanced file-based cache first
+		if (class_exists('MasterAddons\Inc\Templates\Classes\Master_Addons_Templates_Cache_Manager')) {
+			$cache_manager = \MasterAddons\Inc\Templates\Classes\Master_Addons_Templates_Cache_Manager::get_instance();
+			$cached_keywords = $cache_manager->get_cached_keywords($tab);
+			
+			if ($cached_keywords !== false) {
+				return $cached_keywords;
+			}
+		}
+
+		// Fallback to existing transient cache
 		$cached = $this->get_keywords_cache();
 
 		if (!empty($cached[$tab])) {
@@ -292,6 +336,16 @@ class Master_Addons_Templates_Source_Api extends Master_Addons_Templates_Source_
 
 		if (!$tab) {
 			$tab = isset($_REQUEST['tab']) ? sanitize_key($_REQUEST['tab']) : false;
+		}
+
+		// Try enhanced file-based cache first
+		if (class_exists('MasterAddons\Inc\Templates\Classes\Master_Addons_Templates_Cache_Manager')) {
+			$cache_manager = \MasterAddons\Inc\Templates\Classes\Master_Addons_Templates_Cache_Manager::get_instance();
+			$cached_template = $cache_manager->get_cached_template($id, $tab);
+			
+			if ($cached_template !== false) {
+				return $cached_template;
+			}
 		}
 
 		$license_key = Templates\master_addons_templates()->config->get('key');
@@ -347,12 +401,20 @@ class Master_Addons_Templates_Source_Api extends Master_Addons_Templates_Source_
 			$content = $this->process_export_import_content($content, 'on_import');
 		}
 
-		return array(
+		$result = array(
 			'page_settings' => array(),
 			'type'          => $type,
 			'license'       => $license,
 			'content'       => $content
 		);
+
+		// Cache the successful result
+		if (class_exists('MasterAddons\Inc\Templates\Classes\Master_Addons_Templates_Cache_Manager')) {
+			$cache_manager = \MasterAddons\Inc\Templates\Classes\Master_Addons_Templates_Cache_Manager::get_instance();
+			$cache_manager->cache_template_data($id, $tab, $result);
+		}
+
+		return $result;
 	}
 
 	public function transient_lifetime()

@@ -13,8 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div class="qcld-wp-chatbot-wrap-header">
 
-    <a href="#" class="qcld-wp-chatbot-wrap-site__logo"><img style="width:100%" src="<?php echo esc_url( QCLD_wpCHATBOT_IMG_URL . '/chatbot.png' ); ?>" alt="Dialogflow CX"> WPBot Control Panel </a>
+    <div class="qcld-wp-chatbot-wrap-header-logo"><a href="#" class="qcld-wp-chatbot-wrap-site__logo"><img style="width:100%" src="<?php echo esc_url( QCLD_wpCHATBOT_IMG_URL . '/chatbot.png' ); ?>" alt="Dialogflow CX"> WPBot Control Panel </a>
     <p><strong>Core Version:</strong> v<?php echo QCLD_wpCHATBOT_VERSION; ?></p>
+    </div>
     <ul class="qcld-wp-chatbot-wrap-version-wrapper">
         <li>
      <a class="wpchatbot-Upgrade" href="https://www.wpbot.pro/" target="_blank">Upgrade To Pro</a> 
@@ -27,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     <a href="https://wpbot.pro/docs/" target="_blank" class="qcld-wp-chatbot-wrap--doc_logo">
       <img style="width:100%" src="<?php echo esc_url( QCLD_wpCHATBOT_IMG_URL . '/doc.jpg' ); ?>" alt="Dialogflow CX"> 
-    <div class="docs_icon"><i class="fa fa-book" aria-hidden="true"></i></div>
+    <div class="docs_icon"><span class="dashicons dashicons-media-document"></span></div>
     
     </a>
     
@@ -55,41 +56,41 @@ if ( ! defined( 'ABSPATH' ) ) {
       <div class="wp-chatbot-tabs wp-chatbot-tabs-style-flip">
         <nav>
           <ul>
-            <li class="tab-current" tab-data="started"><a href="<?php echo esc_url($action).'&tab=started' ?>"> <span class="wpwbot-admin-tab-icon"> <i class="fa fa-get-pocket"> </i> </span> <span class="wpwbot-admin-tab-name">
+            <li class="tab-current" tab-data="started"><a href="<?php echo esc_url($action).'&tab=started' ?>"> <span class="wpwbot-admin-tab-icon"> <span class="dashicons dashicons-admin-home"></span> </span> <span class="wpwbot-admin-tab-name">
               <?php esc_html_e('Getting Started', 'chatbot'); ?>
               </span> </a></li>
-            <li  tab-data="general"><a href="<?php echo esc_url($action) .'&tab=general' ?>"> <span class="wpwbot-admin-tab-icon"> <i class="fa fa-toggle-on"> </i> </span> <span class="wpwbot-admin-tab-name">
+            <li  tab-data="general"><a href="<?php echo esc_url($action) .'&tab=general' ?>"> <span class="wpwbot-admin-tab-icon"> <span class="dashicons dashicons-admin-generic"></span></span> <span class="wpwbot-admin-tab-name">
               <?php esc_html_e('General settings', 'chatbot'); ?>
               </span> </a></li>
-            <li tab-data="language"><a href="<?php echo esc_url($action) .'&tab=language' ?>"> <span class="wpwbot-admin-tab-icon"> <i class="fa fa-language"></i> </span> <span class="wpwbot-admin-tab-name">
+            <li tab-data="language"><a href="<?php echo esc_url($action) .'&tab=language' ?>"> <span class="wpwbot-admin-tab-icon"> <span class="dashicons dashicons-translation"></span> </span> <span class="wpwbot-admin-tab-name">
               <?php esc_html_e('Change Language', 'chatbot'); ?>
               </span> </a></li>
-            <li tab-data="social"><a href="<?php echo esc_url($action) .'&tab=social' ?>"> <span class="wpwbot-admin-tab-icon"> <i class="fa fa-share"></i> </span> <span class="wpwbot-admin-tab-name">
+            <li tab-data="social"><a href="<?php echo esc_url($action) .'&tab=social' ?>"> <span class="wpwbot-admin-tab-icon"> <span class="dashicons dashicons-image-filter"></span> </span> <span class="wpwbot-admin-tab-name">
               <?php esc_html_e('Button Configurations', 'chatbot'); ?>
               </span> </a></li>
-           <div class="cxsc-settings_openai_border"> <a href="<?php echo esc_url( $action) .'_openAi' ?>"> <span class="wpwbot-admin-tab-icon"> <i class="fa fa-gear"></i> 
+           <div class="cxsc-settings_openai_border"> <a href="<?php echo esc_url( $action) .'_openAi' ?>"> <span class="wpwbot-admin-tab-icon"> <span class="dashicons dashicons-update"></span>
             </span> <span class=""> <?php esc_html_e('AI Settings', 'chatbot'); ?> </span> 
             </a>
 </div>
 
 
  
-            <li tab-data="themes"><a href="<?php echo esc_url($action) .'&tab=themes' ?>"> <span class="wpwbot-admin-tab-icon"> <i class="fa fa-random"></i> </span> <span class="wpwbot-admin-tab-name">
+            <li tab-data="themes"><a href="<?php echo esc_url($action) .'&tab=themes' ?>"> <span class="wpwbot-admin-tab-icon"> <span class="dashicons dashicons-share-alt"></span> </span> <span class="wpwbot-admin-tab-name">
               <?php esc_html_e('Icons & Themes', 'chatbot'); ?>
               </span> </a></li>
-            <li tab-data="support"><a href="<?php echo esc_url($action).'&tab=support' ?>"> <span class="wpwbot-admin-tab-icon"> <i class="fa fa-life-ring"></i> </span> <span class="wpwbot-admin-tab-name">
+            <li tab-data="support"><a href="<?php echo esc_url($action).'&tab=support' ?>"> <span class="wpwbot-admin-tab-icon"> <span class="dashicons dashicons-info-outline"></span> </span> <span class="wpwbot-admin-tab-name">
               <?php esc_html_e('FAQ Builder', 'chatbot'); ?>
               </span> </a></li>
-            <li tab-data="startmenu"><a href="<?php echo esc_url($action).'&tab=startmenu' ?>"> <span class="wpwbot-admin-tab-icon"> <i class="fa fa-bars"></i> </span> <span class="wpwbot-admin-tab-name"><?php esc_html_e('Start Menu', 'chatbot'); ?></span> </a></li>
+            <li tab-data="startmenu"><a href="<?php echo esc_url($action).'&tab=startmenu' ?>"> <span class="wpwbot-admin-tab-icon"> <span class="dashicons dashicons-menu"></span> </span> <span class="wpwbot-admin-tab-name"><?php esc_html_e('Start Menu', 'chatbot'); ?></span> </a></li>
             
       
-         <li tab-data="ai"><a href="<?php echo esc_url($action).'&tab=ai' ?>"> <span class="wpwbot-admin-tab-icon"> <i class="fa fa-500px"></i> </span> <span class="wpwbot-admin-tab-name">
+         <li tab-data="ai"><a href="<?php echo esc_url($action).'&tab=ai' ?>"> <span class="wpwbot-admin-tab-icon"> <span class="dashicons dashicons-format-chat"></span> </span> <span class="wpwbot-admin-tab-name">
               <?php esc_html_e('Dialogflow', 'chatbot'); ?>
               </span> </a></li>
             
    
             <li tab-data="<?php echo esc_url('rpl'); ?>" class="conversational"><a href="<?php echo esc_url($action).'&tab=rpl' ?>"> 
-              <span class="wpwbot-admin-tab-icon"> <i class="fa fa-plug"></i> 
+              <span class="wpwbot-admin-tab-icon"> <span class="dashicons dashicons-feedback"></span>
             </span> <span class="wpwbot-admin-tab-name"> <?php  esc_html_e('Conversational Form', 'chatbot'); ?> 
             </span> 
           </a>
@@ -99,7 +100,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
             <li tab-data="custom_css"> <a href="<?php echo esc_url($action).'&tab=ai'?>"> 
-              <span class="wpwbot-admin-tab-icon"> <i class="fa fa-code"></i> 
+              <span class="wpwbot-admin-tab-icon"> <span class="dashicons dashicons-editor-code"></span>
             </span> <span class="wpwbot-admin-tab-name"> <?php esc_html_e('Custom CSS', 'chatbot'); ?></span> 
           </a>
             </li>
@@ -503,9 +504,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                   <?php } ?>
 
                   <div class="cxsc-settings-blocks-notic">
-                    <p class="d-ib"><i class="fa fa-check-square-o" aria-hidden="true"></i> <?php esc_html_e('Please see the plugin`s Getting Started section for how to create interactions.', 'chatbot'); ?></p>
-                    <p class="d-ib"><i class="fa fa-check-square-o" aria-hidden="true"></i> <?php esc_html_e('You can change ALL the texts used by the ChatBot to YOUR language here to make it speak French, German, Spanish etc. -> Change Language', 'chatbot'); ?></p>
-                    <p class="d-ib"><i class="fa fa-check-square-o" aria-hidden="true"></i> <?php esc_html_e('Please see the plugin`s Help and Debugging section to troubleshoot common issues.', 'chatbot'); ?></p>
+                    <p class="d-ib"><i class="dashicons dashicons-yes-alt" aria-hidden="true"></i> <?php esc_html_e('Please see the plugin`s Getting Started section for how to create interactions.', 'chatbot'); ?></p>
+                    <p class="d-ib"><i class="dashicons dashicons-yes-alt" aria-hidden="true"></i> <?php esc_html_e('You can change ALL the texts used by the ChatBot to YOUR language here to make it speak French, German, Spanish etc. -> Change Language', 'chatbot'); ?></p>
+                    <p class="d-ib"><i class="dashicons dashicons-yes-alt" aria-hidden="true"></i> <?php esc_html_e('Please see the plugin`s Help and Debugging section to troubleshoot common issues.', 'chatbot'); ?></p>
                   </div>
           
                   <b>
@@ -662,7 +663,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                   <div class="cxsc-settings-blocks">
                     <select name="wpbot_preloading_time" id="wpbot_preloading_time">
                       <?php $current_preloading_time = get_option('wpbot_preloading_time'); ?>
-                      <option value="100" <?php selected($current_preloading_time, '100'); ?>><?php esc_html_e('0 Second', 'chatbot'); ?></option>
+                      <option value="100" <?php selected($current_preloading_time, '100'); ?>><?php esc_html_e('0.1 Second', 'chatbot'); ?></option>
                       <option value="500" <?php selected($current_preloading_time, '500'); ?>><?php esc_html_e('0.5 Second', 'chatbot'); ?></option>
                       <option value="1000" <?php selected($current_preloading_time, '1000'); ?>><?php esc_html_e('1 Second', 'chatbot'); ?></option>
                       <option value="2000" <?php selected($current_preloading_time, '2000'); ?>><?php esc_html_e('2 Second', 'chatbot'); ?></option>
@@ -1355,7 +1356,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <h4 class="qc-opt-title"> <?php echo esc_html__( 'Enable Chat Reactions for analytics (Like & Dislike)', 'chatbot' ); ?> </h4>
                           <div class="cxsc-settings-blocks">
                             <input value="1" id="skip_chat_reactions_menu" type="checkbox"
-                                name="skip_chat_reactions_menu" <?php echo( get_option( 'skip_chat_reactions_menu' ) == 1 ? 'checked' : '' ); ?>>
+                                name="skip_chat_reactions_menu" <?php echo( get_option( 'skip_chat_reactions_menu', 1 ) == 1 ? 'checked' : '' ); ?>>
                               <label for="skip_chat_reactions_menu"><?php echo esc_html__( 'Enable Chat Reactions for analytics (Like & Dislike)', 'chatbot' ); ?> </label>
                           </div>
                       </div>
@@ -1380,7 +1381,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <h4 class="qc-opt-title"> <?php echo esc_html__( 'Enable Reporting Message', 'wpchatbot' ); ?> </h4>
                           <div class="cxsc-settings-blocks">
                             <input value="1" id="enable_chat_report_menu" type="checkbox"
-                                name="enable_chat_report_menu" <?php echo( get_option( 'enable_chat_report_menu' ) == 1 ? 'checked' : '' ); ?>>
+                                name="enable_chat_report_menu" <?php echo( get_option( 'enable_chat_report_menu', 1 ) == 1 ? 'checked' : '' ); ?>>
                               <label for="enable_chat_report_menu"><?php echo esc_html__( 'Enable Reporting Message', 'wpchatbot' ); ?> </label>
                           </div>
                       </div>
@@ -1396,7 +1397,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                       <h4 class="qc-opt-title"> <?php echo esc_html__( 'Enable Chat Share', 'wpchatbot' ); ?> </h4>
                         <div class="cxsc-settings-blocks">
                           <input value="1" id="enable_chat_share_menu" type="checkbox"
-                              name="enable_chat_share_menu" <?php echo( get_option( 'enable_chat_share_menu' ) == 1 ? 'checked' : '' ); ?>>
+                              name="enable_chat_share_menu" <?php echo( get_option( 'enable_chat_share_menu', 1 ) == 1 ? 'checked' : '' ); ?>>
                             <label for="enable_chat_share_menu"><?php echo esc_html__( 'Enable Chat Share', 'wpchatbot' ); ?> </label>
                         </div>
                     </div>
@@ -2037,7 +2038,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                           ?>
                 <div class="row"> <span class="pull-right"> </span>
                   <div class="col-xs-12">
-                    <button type="button" class="btn btn-danger btn-sm wp-chatbot-remove-support pull-right"> <i class="fa fa-times" aria-hidden="true"></i> </button>
+                    <button type="button" class="btn btn-danger btn-sm wp-chatbot-remove-support pull-right"> <span class="dashicons dashicons-clock"></span></button>
                    
                     <div class="cxsc-settings-blocks cxsc-settings-faq-blocks">
                       <p>
@@ -2075,7 +2076,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         ?>
                 <div class="row"> <span class="pull-right"> </span>
                   <div class="col-xs-12">
-                    <button type="button" class="btn btn-danger btn-sm wp-chatbot-remove-support pull-right"> <i class="fa fa-times" aria-hidden="true"></i> </button>
+                    <button type="button" class="btn btn-danger btn-sm wp-chatbot-remove-support pull-right"> <span class="dashicons dashicons-clock"></span> </button>
                   
                     <div class="cxsc-settings-blocks">
                       <p>
@@ -2111,7 +2112,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <div class="col-sm-6 text-right">
                   <button class="btn btn-success btn-sm" type="button"
                                                 id="add-more-support-query">
-                <i class="fa fa-plus" aria-hidden="true"></i>
+               <span class="dashicons dashicons-plus"></span>
 
                   </button>
                 </div>
@@ -2244,7 +2245,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                       </div>
                     </div>
                   </div>
-                  <div class="qcld-show-more-show-more"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+                  <div class="qcld-show-more-show-more"><i class="dashicons dashicons-plus-alt" aria-hidden="true"></i></div>
                   </div>
                     <div class="qc_menu_setup_area">
                       <h3 class="qcld-wpbot-main-tabs-title"><?php esc_html_e('Menu Sorting & Customization Area', 'chatbot'); ?></h3>

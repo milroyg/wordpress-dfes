@@ -99,7 +99,6 @@ if ( ! class_exists( 'SPLWT_Field_checkbox' ) ) {
 				} else {
 
 					echo ! empty( $this->field['empty_message'] ) ? esc_attr( $this->field['empty_message'] ) : esc_html__( 'No data available.', 'location-weather' );
-
 				}
 			} else {
 
@@ -108,12 +107,9 @@ if ( ! class_exists( 'SPLWT_Field_checkbox' ) ) {
 				echo '<input type="checkbox" name="_pseudo" class="splwt-lite--checkbox"' . esc_attr( checked( $this->value, 1, false ) ) . '/>';
 				echo ( ! empty( $this->field['label'] ) ) ? '<span class="splwt-lite--text">' . esc_attr( $this->field['label'] ) . '</span>' : '';
 				echo '</label>';
-
 			}
 
 			echo $this->field_after(); // phpcs:ignore
-
 		}
-
 	}
 }

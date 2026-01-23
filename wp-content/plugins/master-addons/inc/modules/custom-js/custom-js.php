@@ -74,6 +74,11 @@ class JLTMA_Extension_Custom_JS
         if (!current_user_can('unfiltered_html')) {
             return;
         }
+
+        if (!current_user_can('edit_posts')) {
+            return;
+        }
+
         $controls->start_controls_section(
             'jtlma_section_custom_js',
             [
@@ -124,10 +129,6 @@ class JLTMA_Extension_Custom_JS
     public function jltma_element_custom_js()
     {
         if (!class_exists('\Elementor\Plugin') || !\Elementor\Plugin::$instance) {
-            return;
-        }
-
-        if (!current_user_can('edit_posts')) {
             return;
         }
 
@@ -182,10 +183,6 @@ class JLTMA_Extension_Custom_JS
     public function jltma_page_custom_js()
     {
         if (!class_exists('\Elementor\Plugin') || !\Elementor\Plugin::$instance) {
-            return;
-        }
-
-        if (!current_user_can('edit_posts')) {
             return;
         }
 

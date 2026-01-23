@@ -14,8 +14,9 @@ if (!defined('ABSPATH')) {
  *
  * @author Jewel Theme <support@jeweltheme.com>
  */
-class Feedback
-{
+if (!class_exists('MasterAddons\Inc\Classes\Feedback')) {
+    class Feedback
+    {
 
     use User_Data;
 
@@ -243,4 +244,5 @@ class Feedback
         </script>
 <?php
     }
-}
+    } // End class Feedback
+} // End class_exists check

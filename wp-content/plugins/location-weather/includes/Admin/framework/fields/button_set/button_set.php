@@ -44,7 +44,6 @@ if ( ! class_exists( 'SPLWT_Field_button_set' ) ) {
 		 * @return void
 		 */
 		public function render() {
-
 			$args = wp_parse_args(
 				$this->field,
 				array(
@@ -68,7 +67,6 @@ if ( ! class_exists( 'SPLWT_Field_button_set' ) ) {
 					echo '<div class="splwt-lite-siblings splwt-lite--button-group" data-multiple="' . esc_attr( $args['multiple'] ) . '">';
 
 					foreach ( $options as $key => $option ) {
-
 						$type    = ( $args['multiple'] ) ? 'checkbox' : 'radio';
 						$extra   = ( $args['multiple'] ) ? '[]' : '';
 						$active  = ( in_array( $key, $value ) || ( empty( $value ) && empty( $key ) ) ) ? ' splwt-lite--active' : '';
@@ -78,21 +76,15 @@ if ( ! class_exists( 'SPLWT_Field_button_set' ) ) {
 						echo '<input type="' . esc_attr( $type ) . '" name="' . esc_attr( $this->field_name( $extra ) ) . '" value="' . esc_attr( $key ) . '"' . $this->field_attributes() . esc_attr( $checked ) . '/>'; // phpcs:ignore
 						echo wp_kses_post( $option );
 						echo '</div>';
-
 					}
 
 					echo '</div>';
-
 				} else {
-
 					echo ! empty( $this->field['empty_message'] ) ? esc_attr( $this->field['empty_message'] ) : esc_html__( 'No data available.', 'location-weather' );
-
 				}
 			}
 
 			echo $this->field_after(); // phpcs:ignore
-
 		}
-
 	}
 }

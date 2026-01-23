@@ -1116,7 +1116,7 @@ class Widget_Divider extends Widget_Base {
 
 		?>
 		<div <?php $this->print_render_attribute_string( 'wrapper' ); ?>>
-			<div class="elementor-divider-separator">
+			<span class="elementor-divider-separator">
 			<?php if ( $has_icon ) : ?>
 				<div class="elementor-icon elementor-divider__element">
 					<?php
@@ -1134,7 +1134,7 @@ class Widget_Divider extends Widget_Base {
 				echo $settings['text']; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 				</<?php Utils::print_validated_html_tag( $settings['html_tag'] ); ?>>
 			<?php endif; ?>
-			</div>
+			</span>
 		</div>
 		<?php
 	}

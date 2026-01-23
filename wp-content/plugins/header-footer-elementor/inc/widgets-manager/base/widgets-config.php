@@ -275,6 +275,19 @@ class Widgets_Config {
 				'is_pro'      => false,
 				'demo_url'    => 'https://ultimateelementor.com/widgets/counter/',
 			],
+			'Post_Duplicator'         => [
+				'slug'        => 'hfe-post-duplicator',
+				'title'       => __( 'Duplicator', 'header-footer-elementor' ),
+				'description' => __( 'Adds one-click duplication support for posts and pages..', 'header-footer-elementor' ),
+				'keywords'    => [ 'uael', 'hfe', 'duplicate', 'copy', 'clone', 'post', 'page' ],
+				'icon'        => 'hfe-icon-cdcp',
+				'title_url'   => '#',
+				'default'     => false,
+				'doc_url'     => 'https://ultimateelementor.com/docs/duplicator/?utm_source=plugin-editor&utm_medium=need-help-button&utm_campaign=uae-documentation',
+				'category'    => 'extension',
+				'is_pro'      => false,
+				'demo_url'    => 'https://ultimateelementor.com/widgets/duplicator/',
+			],
 		];
 
 		return apply_filters( 'hfe_widgets_data', self::$widget_list );

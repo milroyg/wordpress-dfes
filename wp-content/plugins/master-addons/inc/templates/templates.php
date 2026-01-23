@@ -9,6 +9,7 @@
 namespace MasterAddons\Inc\Templates;
 
 use MasterAddons\Inc\Templates\Types;
+use MasterAddons\Inc\Helper\Master_Addons_Helper;
 
 if (!defined('ABSPATH')) exit;
 
@@ -28,6 +29,8 @@ if (!class_exists('Master_Templates')) {
 
 		public function __construct()
 		{
+			// Initialize Template Kits system
+			// $this->load_template_kits();
 			add_action('init', array($this, 'init'));
 		}
 
@@ -49,16 +52,18 @@ if (!class_exists('Master_Templates')) {
 
 		private function load_files()
 		{
+			require JLTMA_PATH . 'inc/templates/classes/config.php';
+			require JLTMA_PATH . 'inc/templates/classes/assets.php';
+			require JLTMA_PATH . 'inc/templates/classes/manager.php';
+			require JLTMA_PATH . 'inc/templates/types/manager.php';
+			require JLTMA_PATH . 'inc/templates/classes/api.php';
 
-			require JLTMA_PATH . '/inc/templates/classes/config.php';
+			// Cache Manager
+			require JLTMA_PATH . 'inc/templates/classes/template-library-cache-manager.php';
+			require JLTMA_PATH . 'inc/templates/classes/template-kit-cache-manager.php';
 
-			require JLTMA_PATH . '/inc/templates/classes/assets.php';
-
-			require JLTMA_PATH . '/inc/templates/classes/manager.php';
-
-			require JLTMA_PATH . '/inc/templates/types/manager.php';
-
-			require JLTMA_PATH . '/inc/templates/classes/api.php';
+			// Load Template Library
+			require JLTMA_PATH . 'inc/templates/library/template-library.php';
 		}
 
 
@@ -96,6 +101,15 @@ if (!class_exists('Master_Templates')) {
 			$this->temp_manager = new Classes\Master_Addons_Templates_Manager();
 		}
 
+
+		/**
+		 * Load Template Kits system
+		 */
+		private function load_template_kits() {
+			if (file_exists(JLTMA_PATH . 'inc/templates/kits/init.php')) {
+				require_once JLTMA_PATH . 'inc/templates/kits/init.php';
+			}
+		}
 
 		public static function get_instance()
 		{

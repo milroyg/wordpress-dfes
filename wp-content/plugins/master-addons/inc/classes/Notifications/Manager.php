@@ -34,10 +34,18 @@ class Manager extends Data
 		// Register Subscribe Notice .
 		$this->register(new Subscribe());
 
-		// // Register What we Collect Notice .
+		// Register What we Collect Notice .
 		$this->register(new What_We_Collect());
 
-		// // Register Upgrade_Notice Notice for managing all notices .
+		// Register Upgrade_Notice Notice for managing all notices .
 		$this->register(new Upgrade_Notice());
+
+		// Register New_Features_Notice with confetti animation.
+		// $this->register(new New_Features_Notice());
+
+		// Register Pro_Sale_Notice with confetti animation.
+		// if(ma_el_fs()->is_free_plan() ){
+		// 	$this->register(new Pro_Sale_Notice());
+		// }
 	}
 }

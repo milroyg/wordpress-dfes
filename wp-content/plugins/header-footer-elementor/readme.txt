@@ -1,21 +1,21 @@
 === Ultimate Addons for Elementor ===  
 Contributors: @brainstormforce
-Tags: elementor, elementor addon, elementor widget, elementor template, header footer builder
+Tags: elementor, elementor addons, elementor widgets, elementor template, header footer builder
 Requires at least: 5.0  
 Tested up to: 6.9
 Requires PHP: 7.4  
-Stable tag: 2.7.0
+Stable tag: 2.8.2
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
-Powerful Elementor addon with InfoCard, Fancy Heading, Before/After Slider, Price Box, FAQ Schema, WooCommerce widgets & Header-Footer builder.
+Powerful Elementor addon with advanced Elementor widgets, templates, WooCommerce widgets & Header-Footer builder to build professional websites faster.
 
 == Description ==
-**Ultimate Addons for Elementor (UAE)** is a powerful yet lightweight plugin that extends Elementors capabilities with purposely built **widgets**, **blocks**, and **features** that help you build better websites—without adding complexity. 
+**Ultimate Addons for Elementor (UAE)** is a lightweight yet powerful Elementor addons plugin that extends Elementors capabilities with purposely built advanced **Elementor widgets**, **templates**, and **site-building features**. 
 
 UAE has evolved into a trusted Elementor Addons used by **over 2 million websites** to design creative sections directly within Elementor—no coding required. 
 
-The **free version of UAE** includes a hand-picked set of essential widgets like **Info Card**, **Navigation Menu** and more—widgets that are genuinely useful for most websites. It also enables you to design headers and footers visually and adds features that improve your design process without cluttering your interface.
+The **free version of UAE** includes a hand-picked set of essential widgets like **Basic Posts**, **Info Card**, **Duplicator**, **Navigation Menu** and more—widgets that are genuinely useful for most websites. It also enables you to design headers and footers visually, and includes time-saving tools like **Post Duplicator**, improving your design process without cluttering your interface.
 
 When you're ready to go further, [UAE Pro](https://ultimateelementor.com/?utm_source=wprepo&utm_medium=uaelite) unlocks a library of **50+ premium widgets**, **200+ pre-designed section blocks**, and advanced features like [Cross-Site Copy-Paste](https://ultimateelementor.com/widgets/cross-site-copy-paste/?utm_source=wprepo&utm_medium=uaelite), [Advanced Display Conditions](https://ultimateelementor.com/widgets/display-conditions/?utm_source=wprepo&utm_medium=uaelite), Form Stylers for popular form plugins, and visual effects like [Particle Backgrounds](https://ultimateelementor.com/widgets/particle-backgrounds/?utm_source=wprepo&utm_medium=uaelite). 
 
@@ -31,7 +31,7 @@ https://www.youtube.com/watch?v=6xH5n6YYNJE
 
 Ultimate Addons for Elementor equips you with tools that make page design faster, cleaner, and more creative. Whether you're just starting your web design journey or building complex websites for clients, UAE can help. 
 
-### Here’s why over 2 million people trust UAE:###
+### Why Over 2 Million Websites Use Ultimate Addons for Elementor: ###
 
 * **Create Engaging Designs:** Build visually stunning sections with widgets that go beyond basic blocks. From Before/After sliders to particle backgrounds, everything is built to captivate, engage, and convert.
 
@@ -50,6 +50,12 @@ Ultimate Addons for Elementor equips you with tools that make page design faster
 * **Extend Elementor Without Plugin Overload:** UAE packs multiple high-utility widgets into one lightweight plugin. Avoid installing multiple third-party plugins that slow down your site or create conflicts.
 
 ### Free Widgets in Ultimate Addons for Elementor ###
+
+* **[Basic Post](https://ultimateelementor.com/widgets/basic-posts/?utm_source=wprepo&utm_medium=uaelite)** – Display a list of your latest blog posts with layout options and styling controls.
+
+* **[Woo Product Grid](https://ultimateelementor.com/widgets/woo-product-grid/?utm_source=wprepo&utm_medium=uaelite)** – Showcase WooCommerce products in a responsive, customizable grid layout.
+
+* **[Counter](https://ultimateelementor.com/widgets/counter/?utm_source=wprepo&utm_medium=uaelite)** – Add animated number counters to highlight stats, achievements, or milestones.
 
 * **[Navigation Menu](https://ultimateelementor.com/widgets/navigation/?utm_source=wprepo&utm_medium=uaelite)** – With this powerful Elementor nav menu addon (widget), you can build responsive menus that match your style.
 
@@ -75,22 +81,27 @@ Ultimate Addons for Elementor equips you with tools that make page design faster
 
 * **[Copyright](https://ultimateelementor.com/widgets/copyright/?utm_source=wprepo&utm_medium=uaelite)** – Easily add site-wide copyright or legal text in the footer.
 
+* **[Post Duplicator](https://ultimateelementor.com/widgets/duplicator/?utm_source=wprepo&utm_medium=uaelite&utm_campaign=wp-repo-uaelite)** – Instantly duplicate posts, pages, headers, footers, and custom blocks to speed up content creation and safely experiment with layouts.
+
 Note: You can refer to our [step-by-step guide](https://ultimateelementor.com/docs/getting-started-with-ultimate-addons-for-elementor-lite/) that will help you set headers and footers quickly.
 
 ### How these Elementor widgets help: ###
 
-* Build complete headers and footers directly within Elementor
-* Avoid relying on theme settings or extra plugins
-* Keep your design consistent on all devices
-* Improve usability, accessibility, and SEO
+* Design full headers and footers visually, no need for theme settings or extra plugins
+* Create consistent layouts that look great on every device
+* Boost productivity using essential, ready-to-use widgets and a powerful Post Duplicator to instantly clone posts or pages and jump-start new content.
+* Improve user experience, accessibility, and on-page SEO
+* Seamlessly works with any WordPress theme for complete design freedom
 
-The free UAE widgets give you a strong foundation to build a professional website and they work beautifully with any WordPress theme.
+The free widgets in UAE give you a solid starting point to build fast, functional, and visually appealing websites, whether you're designing a landing page, a portfolio, or a complete site layout.
 
 **🚀 [Upgrade to Ultimate Addons for Elementor Pro](https://ultimateelementor.com/pricing/?utm_source=wprepo&utm_medium=uaelite) and unlock limitless possibilities!**
 
 ### Content and Interaction Widgets ###
 
 Create compelling, high-converting layouts with powerful content widgets designed for Elementor. UAE widgets help you deliver clear, engaging content experiences that are both informative and interactive. Great for business sites, blogs, service pages, and portfolios.
+
+* **[SVG Animator](https://ultimateelementor.com/widgets/svg-animator/?utm_source=wprepo&utm_medium=uaelite)** – Animate SVG illustrations with ease using this widget. Great for adding visual interest and motion to your designs.
 
 * **[Advanced Heading](https://ultimateelementor.com/widgets/advanced-heading/?utm_source=wprepo&utm_medium=uaelite)** – Design eye-catching headlines with layered styles and dynamic effects.
 
@@ -299,6 +310,19 @@ You can report the issue through our [Bug Bounty Program](https://brainstormforc
 ---
 
 == Changelog ==
+= 2.8.2 =
+- Improvement: Updated Internal libraries to improve stability and compatibility.
+- Improvement: Updated Dashboard settings UI for better usability and configuration.
+
+= 2.8.1 =
+- Improvement: Package dependencies updated for better security.
+
+= 2.8.0 =
+- Added: UAE Duplicator extension that allows duplicating pages, posts, headers, footers, and custom blocks with ease.
+
+= 2.7.1 =
+- Improvement: Compatibility with latest Elementor and Elementor Pro 3.34 version.
+
 = 2.7.0 =
 - New: Added Counter Widget – Enables animated number counters with customizable styling options.
 

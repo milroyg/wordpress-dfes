@@ -94,7 +94,6 @@ if ( ! class_exists( 'SPLWT_Field_spacing' ) ) {
 				echo '</div>';
 
 			} else {
-
 				$properties = array();
 
 				foreach ( array( 'top', 'right', 'bottom', 'left' ) as $prop ) {
@@ -115,7 +114,6 @@ if ( ! class_exists( 'SPLWT_Field_spacing' ) ) {
 					echo '<input type="number" name="' . esc_attr( $this->field_name( '[' . $property . ']' ) ) . '" value="' . esc_attr( $value[ $property ] ) . '"' . $placeholder . ' class="splwt-lite-input-number' . esc_attr( $is_unit ) . ' splwt-lite--' . esc_attr( $property ) . '" />'; // phpcs:ignore
 					echo ( $unit ) ? '<span class="splwt-lite--label splwt-lite--unit">' . esc_attr( $args['units'][0] ) . '</span>' : '';
 					echo '</div>';
-
 				}
 			}
 
@@ -129,7 +127,6 @@ if ( ! class_exists( 'SPLWT_Field_spacing' ) ) {
 				echo '<input type="number" name="' . esc_attr( $this->field_name( '[horizontal]' ) ) . '" value="' . esc_attr( $value['horizontal'] ) . '" placeholder="' . esc_attr( $placeholder ) . '" class="splwt-lite-input-number splwt-lite--all' . esc_attr( $is_unit ) . '" />';
 				echo ( $unit ) ? '<span class="splwt-lite--label splwt-lite--unit">' . esc_attr( $args['units'][0] ) . '</span>' : '';
 				echo '</div>';
-
 			}
 
 			if ( ! empty( $args['unit'] ) && ! empty( $args['show_units'] ) && count( $args['units'] ) > 1 ) {
@@ -146,7 +143,6 @@ if ( ! class_exists( 'SPLWT_Field_spacing' ) ) {
 			echo '</div>';
 
 			echo $this->field_after(); // phpcs:ignore
-
 		}
 	}
 }

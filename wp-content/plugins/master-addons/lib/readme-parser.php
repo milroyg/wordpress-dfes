@@ -4,7 +4,7 @@ if (!defined('WORDPRESS_README_MARKDOWN')) {
 	if (defined('AUTOMATTIC_README_MARKDOWN'))
 		define('WORDPRESS_README_MARKDOWN', AUTOMATTIC_README_MARKDOWN);
 	else
-		define('WORDPRESS_README_MARKDOWN', JLTMA_PATH . '/lib/markdown.php');
+		define('WORDPRESS_README_MARKDOWN', JLTMA_PATH . 'lib/markdown.php');
 }
 
 class WordPress_Readme_Parser

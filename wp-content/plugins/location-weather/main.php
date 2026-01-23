@@ -13,7 +13,7 @@
  * Plugin URI:        https://locationweather.io/?ref=1
  * Author:            ShapedPlugin LLC
  * Author URI:        https://shapedplugin.com/
- * Version:           2.1.5
+ * Version:           2.1.6
  * Requires at least: 5.0
  * Requires PHP:      7.4
  * License:           GPL v2 or later
@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'LOCATION_WEATHER_FILE', __FILE__ );
 define( 'LOCATION_WEATHER_URL', plugins_url( '', LOCATION_WEATHER_FILE ) );
 define( 'LOCATION_WEATHER_ASSETS', LOCATION_WEATHER_URL . '/assets' );
-define( 'LOCATION_WEATHER_VERSION', '2.1.5' );
+define( 'LOCATION_WEATHER_VERSION', '2.1.6' );
 
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
 if ( ! ( is_plugin_active( 'location-weather-pro/main.php' ) || is_plugin_active_for_network( 'location-weather-pro/main.php' ) ) ) {
@@ -55,7 +55,7 @@ final class Location_Weather {
 	 *
 	 * @var string
 	 */
-	public $version = '2.1.5';
+	public $version = '2.1.6';
 
 	/**
 	 * The unique slug of this plugin.

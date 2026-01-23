@@ -149,7 +149,7 @@ $("#add-more-support-query").on('click',function () {
         var firsBlock='<div class="row">'+
 
             '<div class="col-xs-12">'+
-            '<button type="button"  class="btn btn-danger btn-sm wp-chatbot-remove-support pull-right"><i class="fa fa-times" aria-hidden="true"></i></button>'+
+            '<button type="button"  class="btn btn-danger btn-sm wp-chatbot-remove-support pull-right"><i class="dashicons dashicons-clock" aria-hidden="true"></i></button>'+
         
             '<div class="cxsc-settings-blocks">'+
 
@@ -255,7 +255,7 @@ $(document).on('click','.wp-chatbot-remove-support',function () {
 
             '<div class="col-xs-12">'+
 
-            '<button type="button"  class="btn btn-danger btn-sm wp-chatbot-remove-notification pull-right"><i class="fa fa-times" aria-hidden="true"></i></button><br>'+
+            '<button type="button"  class="btn btn-danger btn-sm wp-chatbot-remove-notification pull-right"><i class="dashicons dashicons-clock" aria-hidden="true"></i></button><br>'+
 
             '<div class="cxsc-settings-blocks">'+
 
@@ -917,7 +917,7 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
             '</div>'+
             '<div class="wp-chatbot-hours-remove">'+
             '<button type="button" class="btn btn-danger btn-sm wp-chatbot-hours-remove-btn ">'+
-            '<i class="fa fa-times" aria-hidden="true"></i>'+
+            '<i class="dashicons dashicons-clock" aria-hidden="true"></i>'+
             '</button>'+
             '</div>'+
             '</div>';
@@ -1275,6 +1275,11 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
                 }else{
                     var is_context_awareness_enabled = 0;
                 }
+                if($('#is_page_rag_enabled').is(":checked")){
+                    var is_page_rag_enabled = 1; 
+                }else{
+                    var is_page_rag_enabled = 0;
+                }
                 var post_types = $.map($('input[name="site_search_posttypes[]"]:checked'), function(c){return c.value; });
                 var api_key = $( "input[name='api_key']" ).val();
                 var openai_engines = $("[id*='openai_engines'] :selected").val();
@@ -1298,7 +1303,7 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
                 $.ajax({
                     url:  qcld_gemini_admin_data.ajax_url,
                     type:'POST',
-                    data:    ({action  : 'openai_settings_option',nonce: qcld_gemini_admin_data.ajax_nonce,api_key: api_key,openai_engines:openai_engines,qcld_openai_prompt: qcld_openai_prompt,max_tokens:max_tokens,file_id:file_id,temperature:temperature,presence_penalty:presence_penalty,frequency_penalty:frequency_penalty,qcld_openai_prompt_custom: qcld_openai_prompt_custom,openai_exclude_keyword:openai_exclude_keyword,is_relevant_enabled:is_relevant_enabled,openai_include_keyword:openai_include_keyword,ai_enabled:is_ai_enabled,is_page_suggestion_enabled:is_page_suggestion_enabled,is_context_awareness_enabled:is_context_awareness_enabled,qcld_openai_system_content:qcld_openai_system_content,qcld_openai_append_content:qcld_openai_append_content,ai_only_mode: is_ai_only_mode,conversation_continuity:conversation_continuity,openai_post_type:openai_post_type}),
+                    data:    ({action  : 'openai_settings_option',nonce: qcld_gemini_admin_data.ajax_nonce,api_key: api_key,openai_engines:openai_engines,qcld_openai_prompt: qcld_openai_prompt,max_tokens:max_tokens,file_id:file_id,temperature:temperature,presence_penalty:presence_penalty,frequency_penalty:frequency_penalty,qcld_openai_prompt_custom: qcld_openai_prompt_custom,openai_exclude_keyword:openai_exclude_keyword,is_relevant_enabled:is_relevant_enabled,openai_include_keyword:openai_include_keyword,ai_enabled:is_ai_enabled,is_page_suggestion_enabled:is_page_suggestion_enabled,is_context_awareness_enabled:is_context_awareness_enabled,qcld_openai_system_content:qcld_openai_system_content,qcld_openai_append_content:qcld_openai_append_content,ai_only_mode: is_ai_only_mode,conversation_continuity:conversation_continuity,openai_post_type:openai_post_type,is_page_rag_enabled:is_page_rag_enabled}),
                     
                     success: function(data){
                         $('#result').html(data);
@@ -1394,6 +1399,360 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
 
             }) //Additional Code - 04-12-2023 ends here
         }
+                var settingsRag = document.getElementById("save_rag_setting");
+        if (settingsRag) {
+            $('.qcl-openai').on('click', '#save_rag_setting', function () {
+                if ($('#is_page_rag_enabled').is(":checked")) {
+                    var is_page_rag_enabled = 1;
+                } else {
+                    var is_page_rag_enabled = 0;
+                }
+
+                var rag_embed_pages = $('#rag_embed_pages').is(':checked') ? 1 : 0;
+                var rag_embed_posts = $('#rag_embed_posts').is(':checked') ? 1 : 0;
+                var rag_auto_sync_enabled = $('#rag_auto_sync_enabled').is(':checked') ? 1 : 0;
+                var rag_embed_str = $('#rag_embed_str').is(':checked') ? 1 : 0;
+                
+                var rag_embed_cpts = [];
+                $('.rag_embed_cpts_checkbox:checked').each(function() {
+                    rag_embed_cpts.push($(this).val());
+                });
+
+                $.ajax({
+                    url: qcld_gemini_admin_data.ajax_url,
+                    type: 'POST',
+                    data: ({ 
+                        action: 'qcld_rag_settings_option', 
+                        nonce: qcld_gemini_admin_data.ajax_nonce, 
+                        is_page_rag_enabled: is_page_rag_enabled,
+                        rag_embed_pages: rag_embed_pages,
+                        rag_embed_posts: rag_embed_posts,
+                        rag_auto_sync_enabled: rag_auto_sync_enabled,
+                        rag_embed_str: rag_embed_str,
+                        rag_embed_cpts: rag_embed_cpts
+                    }),
+                    success: function (data) {
+                        $('#result').html(data);
+                        Swal.fire({
+                            title: 'Your settings are saved.',
+                            html: '<p style=font-size:14px>Please clear your browser <b>cache</b> and <b>cookies</b> both and reload the front end before testing. Alternatively, you can launch a new browser window in <b>Incognito</b>/Private mode (Ctrl+Shift+N in chrome) to test.</p>',
+                            width: 450,
+                            icon: 'success',
+                            confirmButtonText: 'Got it',
+                            confirmButtonWidth: 100,
+                            confirmButtonClass: 'btn btn-lg'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: qcld_gemini_admin_data.ajax_url,
+                                    type: 'POST',
+                                    data: {
+                                        action: '',
+                                        nonce: qcld_gemini_admin_data.ajax_nonce,
+                                        disable_ss: 1
+                                    },
+
+                                });
+                            }
+                        });
+
+                        location.reload();
+                    }
+                });
+            })
+            
+            $('.qcl-openai').on('click', '#rag_embed_btn', function (e) {
+                e.preventDefault();
+                var btn = $(this);
+                var originalText = btn.text();
+                btn.text('Saving settings...');
+                
+                if ($('#is_page_rag_enabled').is(":checked")) {
+                    var is_page_rag_enabled = 1;
+                } else {
+                    var is_page_rag_enabled = 0;
+                }
+
+                var rag_embed_pages = $('#rag_embed_pages').is(':checked') ? 1 : 0;
+                var rag_embed_posts = $('#rag_embed_posts').is(':checked') ? 1 : 0;
+                var rag_auto_sync_enabled = $('#rag_auto_sync_enabled').is(':checked') ? 1 : 0;
+                var rag_embed_str = $('#rag_embed_str').is(':checked') ? 1 : 0;
+                
+                var rag_embed_cpts = [];
+                $('.rag_embed_cpts_checkbox:checked').each(function() {
+                    rag_embed_cpts.push($(this).val());
+                });
+
+                $.ajax({
+                    url: qcld_gemini_admin_data.ajax_url,
+                    type: 'POST',
+                    data: ({ 
+                        action: 'qcld_rag_settings_option', 
+                        nonce: qcld_gemini_admin_data.ajax_nonce, 
+                        is_page_rag_enabled: is_page_rag_enabled,
+                        rag_embed_pages: rag_embed_pages,
+                        rag_embed_posts: rag_embed_posts,
+                        rag_auto_sync_enabled: rag_auto_sync_enabled,
+                        rag_embed_str: rag_embed_str,
+                        rag_embed_cpts: rag_embed_cpts
+                    }),
+                    success: function (data) {
+                        btn.text('Embedding...');
+                        $('#rag_embed_form').submit();
+                    }
+                });
+            })
+
+            // Delete Document
+            $('.qcl-openai').on('click', '.rag-delete-doc', function () {
+                var id = $(this).data('id');
+                
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: qcld_gemini_admin_data.ajax_url,
+                            type: 'POST',
+                            data: {
+                                action: 'qcld_rag_delete_document',
+                                nonce: qcld_gemini_admin_data.ajax_nonce,
+                                id: id
+                            },
+                            success: function (res) {
+                                if (res.success) {
+                                    $('#rag-doc-' + id).remove();
+                                    Swal.fire('Deleted!', res.data, 'success');
+                                } else {
+                                    Swal.fire('Error', res.data, 'error');
+                                }
+                            }
+                        });
+                    }
+                })
+            });
+
+            // Select All Checkbox
+            $('.qcl-openai').on('change', '#rag-select-all', function() {
+                $('.rag-doc-checkbox').prop('checked', $(this).prop('checked'));
+            });
+
+            // Bulk Actions (Apply)
+            $('.qcl-openai').on('click', '#rag-apply-bulk-action', function() {
+                var action = $('#rag-bulk-action-selector').val();
+                if (action !== 'delete') {
+                    Swal.fire('Info', 'Please select a valid bulk action.', 'info');
+                    return;
+                }
+
+                var selectedIds = [];
+                $('.rag-doc-checkbox:checked').each(function() {
+                    selectedIds.push($(this).val());
+                });
+
+                if (selectedIds.length === 0) {
+                    Swal.fire('Warning', 'Please select at least one document.', 'warning');
+                    return;
+                }
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Delete " + selectedIds.length + " selected documents? This cannot be undone!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete selected!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: qcld_gemini_admin_data.ajax_url,
+                            type: 'POST',
+                            data: {
+                                action: 'qcld_rag_bulk_delete_documents',
+                                nonce: qcld_gemini_admin_data.ajax_nonce,
+                                ids: selectedIds
+                            },
+                            success: function(res) {
+                                if (res.success) {
+                                    selectedIds.forEach(function(id) {
+                                        $('#rag-doc-' + id).remove();
+                                    });
+                                    $('#rag-select-all').prop('checked', false);
+                                    $('#rag-bulk-action-selector').val('-1');
+                                    Swal.fire('Deleted!', res.data, 'success');
+                                } else {
+                                    Swal.fire('Error', res.data, 'error');
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Delete All Documents
+            $('.qcl-openai').on('click', '#rag-delete-all', function() {
+                Swal.fire({
+                    title: 'CRITICAL WARNING!',
+                    text: "This will delete ALL documents in your Knowledge Base. This action is IRREVERSIBLE!",
+                    icon: 'error',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'YES, DELETE EVERYTHING!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: qcld_gemini_admin_data.ajax_url,
+                            type: 'POST',
+                            data: {
+                                action: 'qcld_rag_delete_all_documents',
+                                nonce: qcld_gemini_admin_data.ajax_nonce
+                            },
+                            success: function(res) {
+                                if (res.success) {
+                                    $('#rag-knowledge-base-list').html('<tr><td colspan="6">No documents found in knowledge base.</td></tr>');
+                                    $('#rag-select-all').prop('checked', false);
+                                    Swal.fire('Cleared!', res.data, 'success');
+                                } else {
+                                    Swal.fire('Error', res.data, 'error');
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Edit Document - Open Modal
+            $('.qcl-openai').on('click', '.rag-edit-doc', function () {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: qcld_gemini_admin_data.ajax_url,
+                    type: 'POST',
+                    data: {
+                        action: 'qcld_rag_get_document',
+                        nonce: qcld_gemini_admin_data.ajax_nonce,
+                        id: id
+                    },
+                    success: function (res) {
+                        if (res.success) {
+                            $('#edit-doc-id').val(res.data.id);
+                            $('#edit-doc-title').val(res.data.title);
+                            $('#edit-doc-content').val(res.data.content);
+                            $('#rag-edit-modal').show();
+                        } else {
+                            Swal.fire('Error', res.data, 'error');
+                        }
+                    }
+                });
+            });
+
+            // Close Edit Modal
+            $(document).on('click', '#close-edit-modal', function () {
+                $('#rag-edit-modal').hide();
+            });
+
+            // Manual Sync Document
+        $(document).on('click', '.rag-sync-doc', function(e) {
+            e.preventDefault();
+            var btn = $(this);
+            var docId = btn.data('id');
+            
+            if (!confirm('Are you sure you want to re-sync this document from its source?')) {
+                return;
+            }
+            
+            btn.prop('disabled', true).text('Syncing...');
+            
+            $.post(qcld_gemini_admin_data.ajax_url, {
+                action: 'qcld_rag_manual_sync',
+                nonce: qcld_gemini_admin_data.ajax_nonce,
+                id: docId
+            }, function(response) {
+                btn.prop('disabled', false).text('Sync');
+                if (response.success) {
+                    alert(response.data.message);
+                    location.reload();
+                } else {
+                    alert('Error: ' + response.data.message);
+                }
+            });
+        });
+
+            // Save Edit Document
+            $(document).on('click', '#save-edit-doc', function () {
+                var id = $('#edit-doc-id').val();
+                var title = $('#edit-doc-title').val();
+                var content = $('#edit-doc-content').val();
+                var btn = $(this);
+                
+                btn.prop('disabled', true).text('Saving...');
+                
+                $.ajax({
+                    url: qcld_gemini_admin_data.ajax_url,
+                    type: 'POST',
+                    data: {
+                        action: 'qcld_rag_update_document',
+                        nonce: qcld_gemini_admin_data.ajax_nonce,
+                        id: id,
+                        title: title,
+                        content: content
+                    },
+                    success: function (res) {
+                        btn.prop('disabled', false).text('Save Changes');
+                        if (res.success) {
+                            $('#rag-edit-modal').hide();
+                            Swal.fire('Updated!', res.data, 'success').then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire('Error', res.data, 'error');
+                        }
+                    }
+                });
+            });
+        }
+                    // Delete Document
+            $('.qcl-openai').on('click', '.rag-delete-doc', function () {
+                var id = $(this).data('id');
+                
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: qcld_gemini_admin_data.ajax_url,
+                            type: 'POST',
+                            data: {
+                                action: 'qcld_rag_delete_document',
+                                nonce: qcld_gemini_admin_data.ajax_nonce,
+                                id: id
+                            },
+                            success: function (res) {
+                                if (res.success) {
+                                    $('#rag-doc-' + id).remove();
+                                    Swal.fire('Deleted!', res.data, 'success');
+                                } else {
+                                    Swal.fire('Error', res.data, 'error');
+                                }
+                            }
+                        });
+                    }
+                })
+            });
+
         $('.qcl-openai').on('click', '#qcld_check_connection', function(){
             jQuery('#rotationloader').css('display','inline-block'); 
             $.ajax({
@@ -1416,6 +1775,32 @@ $(document).on('click','.wp-chatbot-lng-item-remove',function () {
                 }
             });
         })
+                $('#ai-provider-selector').on('change', function () {
+            var selected = $(this).val();
+            $('.ai-settings-provider').hide();
+            $('#' + selected + '-settings').show();
+            $('#rag-settings').hide(); // Ensure RAG is hidden when switching providers
+        });
+
+        if (window.location.hash.indexOf('#ai-knowledge-base-tab') === 0) {
+            $('.ai-settings-provider').hide();
+            $('#rag-settings').show();
+        }
+
+        $('#ai-knowledge-base-tab').on('click', function (e) {
+            e.preventDefault();
+            $('.ai-settings-provider').hide();
+            $('#rag-settings').show();
+            window.location.hash = 'ai-knowledge-base-tab';
+            // Optional: Reset selector or add visual indication
+        });
+        $('#ai-knowledge-base-tab-openai').on('click', function (e) {
+            e.preventDefault();
+            $('.ai-settings-provider').hide();
+            $('#rag-settings').show();
+            window.location.hash = 'ai-knowledge-base-tab';
+            // Optional: Reset selector or add visual indication
+        });
         });
         
     $(document).on('click', '.qcld_botopenai_generate_image', function (e) {
@@ -1626,9 +2011,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 jQuery(".qcld-show-more-show-more").click(function () {
         if(jQuery(".qcld-show-more-text").hasClass("qcld-show-more-show-more-height")) {
-            jQuery(this).html('<i class="fa fa-minus-circle" aria-hidden="true"></i>');
+            jQuery(this).html('<i class="dashicons dashicons-remove" aria-hidden="true"></i>');
         } else {
-            jQuery(this).html('<i class="fa fa-plus-circle" aria-hidden="true"></i>');
+            jQuery(this).html('<i class="dashicons dashicons-plus-alt" aria-hidden="true"></i>');
         }
 
         jQuery(".qcld-show-more-text").toggleClass("qcld-show-more-show-more-height");

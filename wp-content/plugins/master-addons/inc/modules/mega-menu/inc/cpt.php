@@ -16,6 +16,55 @@ class JLTMA_Megamenu_Cpt
         } else {
             $this->post_types();
         }
+
+        // Auto-enable post type in Elementor settings
+        add_filter('elementor/utils/get_public_post_types', [$this, 'add_to_elementor_post_types']);
+
+        // If Elementor is already loaded, register immediately
+        if (did_action('elementor/init')) {
+            $this->register_with_elementor();
+        } else {
+            add_action('elementor/init', [$this, 'register_with_elementor']);
+        }
+    }
+
+    /**
+     * Add mastermega_content to Elementor's public post types filter
+     */
+    public function add_to_elementor_post_types($post_types)
+    {
+        $post_types['mastermega_content'] = 'mastermega_content';
+        return $post_types;
+    }
+
+    /**
+     * Register post type with Elementor and enable in Post Types settings
+     */
+    public function register_with_elementor()
+    {
+        $post_type = 'mastermega_content';
+
+        // Add Elementor support to the post type
+        add_post_type_support($post_type, 'elementor');
+
+        // Get existing Elementor CPT support option (grab all saved settings first)
+        $cpt_support = get_option('elementor_cpt_support');
+
+        // If option doesn't exist yet, initialize with defaults
+        if ($cpt_support === false) {
+            $cpt_support = ['post', 'page'];
+        }
+
+        // Ensure it's an array
+        if (!is_array($cpt_support)) {
+            $cpt_support = ['post', 'page'];
+        }
+
+        // Add our post type if not already in the list
+        if (!in_array($post_type, $cpt_support)) {
+            $cpt_support[] = $post_type;
+            update_option('elementor_cpt_support', $cpt_support);
+        }
     }
 
     public function post_types()

@@ -56,5 +56,4 @@ function lw_sanitize_text( $value ) {
 
 	$safe_text = filter_var( $value, FILTER_SANITIZE_STRING );
 	return $safe_text;
-
 }

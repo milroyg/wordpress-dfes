@@ -15,6 +15,7 @@ if (!defined('ABSPATH')) {
 	exit;
 } // Exit if accessed directly.
 
+if (!class_exists('MasterAddons\Modules\JLTMA_Extension_Positioning')) {
 class JLTMA_Extension_Positioning
 {
 
@@ -265,5 +266,8 @@ class JLTMA_Extension_Positioning
 		return self::$instance;
 	}
 }
+}
 
-JLTMA_Extension_Positioning::get_instance();
+if (class_exists('MasterAddons\Modules\JLTMA_Extension_Positioning')) {
+	JLTMA_Extension_Positioning::get_instance();
+}

@@ -525,6 +525,12 @@
                 strokeTrailWidth = $progressBarWrapper.data('progress-bar-stroke-trail-width'),
                 color = $progressBarWrapper.data('stroke-color'),
                 trailColor = $progressBarWrapper.data('stroke-trail-color');
+
+            // Clear existing ldBar SVG before re-initializing (for Elementor editor)
+            $progressBarWrapper.find('svg').remove();
+            $progressBarWrapper.find('.ldBar-label').remove();
+            $progressBarWrapper.removeClass('ldBar');
+
             Master_Addons.animatedProgressbar(id, type, value, color, trailColor, strokeWidth, strokeTrailWidth);
         },
 
@@ -572,12 +578,12 @@
                 tippy(this, {
                     allowHTML: false,
                     theme: 'jltma-pricing-table-tippy-' + widgetID,
+                    appendTo: document.body,
                 });
             });
         },
 
 
-        
 
         // Dynamic Data Tables
         JLTMA_Data_Table: function ($scope, $)
@@ -1102,7 +1108,7 @@
                     queue: false
                 }
             };
-            
+
             var adata = Object.assign({}, optValues);
 
             if (layoutMode === 'fitRows')
@@ -2061,131 +2067,71 @@
         //Master Addons: News Ticker
         MA_NewsTicker: function ($scope, $)
         {
-
             try
             {
-                (function ($)
-                {
-                    $(window).load(function (e)
-                    {
+                var newsTickerWrapper = $scope.find(".jltma-news-ticker"),
+                    tickerType = newsTickerWrapper.data('tickertype'),
+                    tickerid = newsTickerWrapper.data('tickerid'),
+                    feedUrl = newsTickerWrapper.data('feedurl'),
+                    feedAnimation = newsTickerWrapper.data('feedanimation'),
+                    limitPosts = newsTickerWrapper.data('limitposts'),
+                    tickerStyleEffect = newsTickerWrapper.data('scroll') || 'slide-h',
+                    autoplay = newsTickerWrapper.data('autoplay'),
+                    timer = newsTickerWrapper.data('timer') || 3000;
 
-                        var newsTickerWrapper = $scope.find(".jltma-news-ticker"),
-                            tickerType = newsTickerWrapper.data('tickertype'),
-                            tickerid = newsTickerWrapper.data('tickerid'),
-                            feedUrl = newsTickerWrapper.data('feedurl'),
-                            feedAnimation = newsTickerWrapper.data('feedanimation'),
-                            limitPosts = newsTickerWrapper.data('limitposts'),
-                            tickerStyleEffect = newsTickerWrapper.data('scroll'),
-                            autoplay = newsTickerWrapper.data('autoplay'),
-                            timer = newsTickerWrapper.data('timer');
+                var swiperContainer = $scope.find(".jltma-ticker-content-inner.swiper")[0];
 
-                        if (tickerType === "content")
-                        {
+                if (!swiperContainer) return;
 
-                            $("#" + tickerid + "").breakingNews({
-                                effect: "" + tickerStyleEffect + "",
-                                autoplay: autoplay,
-                                timer: timer,
-                                border: false,
-                                feed: false,
-                                feedlabels: false
-                            });
-                        }
+                var swiperOptions = {
+                    loop: true,
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                    speed: 500,
+                    navigation: {
+                        nextEl: $scope.find('.jltma-ticker-next')[0],
+                        prevEl: $scope.find('.jltma-ticker-prev')[0],
+                    },
+                };
 
-                        if (tickerType === "feed")
-                        {
+                // Configure based on scroll type
+                if (tickerStyleEffect === 'slide-v') {
+                    // Vertical slide
+                    swiperOptions.direction = 'vertical';
+                } else if (tickerStyleEffect === 'scroll-h') {
+                    // Continuous horizontal scroll (marquee effect)
+                    swiperOptions.direction = 'horizontal';
+                    swiperOptions.freeMode = {
+                        enabled: true,
+                        momentum: false,
+                    };
+                    swiperOptions.speed = 5000;
+                    swiperOptions.autoplay = {
+                        delay: 0,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true,
+                    };
+                } else {
+                    // Default: Horizontal slide (slide-h)
+                    swiperOptions.direction = 'horizontal';
+                }
 
-                            jQuery(function ($)
-                            {
+                // Add autoplay if enabled (for non-scroll modes)
+                if (autoplay && tickerStyleEffect !== 'scroll-h') {
+                    swiperOptions.autoplay = {
+                        delay: timer,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true,
+                    };
+                }
 
-                                var feed_container = $("#" + tickerid + ' .jltma-ticker-content-inner');
+                // Initialize Swiper
+                var tickerSwiper = new Swiper(swiperContainer, swiperOptions);
 
-                                $(feed_container).rss(feedUrl,
-                                    {
-                                        // how many entries do you want?
-                                        // default: 4
-                                        // valid values: any integer
-                                        limit: limitPosts,
-
-                                        // want to offset results being displayed?
-                                        // default: false
-                                        // valid values: any integer
-                                        offsetStart: false, // offset start point
-                                        offsetEnd: false, // offset end point
-
-                                        // will request the API via https
-                                        // default: false
-                                        // valid values: false, true
-                                        ssl: true,
-
-
-                                        // which server should be requested for feed parsing
-                                        // the server implementation is here: https://github.com/sdepold/feedr
-                                        // default: feedrapp.info
-                                        // valid values: any string
-                                        // host: 'my-own-feedr-instance.com',
-
-
-                                        // option to seldomly render ads
-                                        // ads help covering the costs for the feedrapp server hosting and future improvements
-                                        // default: true
-                                        // valid values: false, true
-                                        support: false,
-
-
-                                        // formats the date with moment.js (optional)
-                                        // default: 'dddd MMM Do'
-                                        // valid values: see http://momentjs.com/docs/#/displaying/
-                                        dateFormat: 'MMMM Do, YYYY',
-
-
-                                        // localizes the date with moment.js (optional)
-                                        // default: 'en'
-                                        dateLocale: 'de',
-
-
-                                        // outer template for the html transformation
-                                        // default: "<ul>{entries}</ul>"
-                                        // valid values: any string
-
-
-                                        layoutTemplate: '<ul class="jltma-ticker-content-items">{entries}</ul>',
-
-                                        // inner template for each entry
-                                        // default: '<li><a href="{url}">[{author}@{date}] {title}</a><br/>{shortBodyPlain}</li>'
-                                        // valid values: any string
-                                        // entryTemplate: '<p>{title}</p>',
-                                        // entryTemplate: '<li><a href="{url}">[{author}@{date}] {title}</a>{teaserImage}{shortBodyPlain}</li>'
-                                        entryTemplate: '<li> {teaserImage} <a href="{url}"> {title}</a></li>',
-
-                                        // the effect, which is used to let the entries appear
-                                        // default: 'show'
-                                        // valid values: 'show', 'slide', 'slideFast', 'slideSynced', 'slideFastSynced'
-                                        effect: feedAnimation,
-
-                                    }, function ()
-                                {
-
-                                    $("#" + tickerid + "").breakingNews({
-                                        effect: "" + tickerStyleEffect + "",
-                                        autoplay: autoplay,
-                                        timer: timer
-                                    });
-                                })
-                            });
-
-                        }
-
-                    }); // End of Window load
-
-                })(jQuery);
             } catch (e)
             {
-                //We can also throw from try block and catch it here
-                // No Error Show
+                console.log('News Ticker Error:', e);
             }
-
-
         },
 
 
@@ -2558,59 +2504,535 @@
         /* MA Tooltip */
         MA_Tooltip: function ($scope, $)
         {
-            var elementSettings = getElementSettings($scope),
-                scopeId = $scope.data('id'),
-                $currentTooltip = '#jltma-tooltip-' + scopeId,
-                $jltma_el_tooltip_text = elementSettings.ma_el_tooltip_text ? stripTags(elementSettings.ma_el_tooltip_text) : 'This is the tooltip text',
-                $jltma_el_tooltip_direction = elementSettings.jltma_tooltip_follow_cursor ? elementSettings.jltma_tooltip_follow_cursor : elementSettings.ma_el_tooltip_direction,
-                $jltma_tooltip_animation = elementSettings.jltma_tooltip_animation ? elementSettings.jltma_tooltip_animation : '',
-                $jltma_tooltip_arrow = elementSettings.jltma_tooltip_arrow ? elementSettings.jltma_tooltip_arrow : true,
-                $jltma_tooltip_duration = elementSettings.jltma_tooltip_duration ? elementSettings.jltma_tooltip_duration : 300,
-                $jltma_tooltip_delay = elementSettings.jltma_tooltip_delay ? elementSettings.jltma_tooltip_delay : 300,
-                $jltma_el_tooltip_text_width = elementSettings.ma_el_tooltip_text_width ? elementSettings.ma_el_tooltip_text_width : '200px',
-                $jltma_tooltip_arrow_type = elementSettings.jltma_tooltip_arrow_type ? elementSettings.jltma_tooltip_arrow_type : 'sharp',
-                $jltma_tooltip_distance = elementSettings.jltma_tooltip_distance ? elementSettings.jltma_tooltip_distance : 10,
-                $jltma_tooltip_trigger = elementSettings.jltma_tooltip_trigger ? elementSettings.jltma_tooltip_trigger : 'mouseenter',
-                $animateFill = elementSettings.jltma_tooltip_animation == "fill" ? true : false;
+            'use strict';
 
-            var $ma_tooltip = $scope.find('.jltma-tooltip');
-
-            if (!$ma_tooltip.length)
-            {
+            // Input validation
+            if (!$scope || !$scope.length || !$ || typeof getElementSettings !== 'function') {
                 return;
             }
 
-            var tooltipConfig = {
-                content: $jltma_el_tooltip_text,
-                animation: $jltma_tooltip_animation,
-                arrow: $jltma_tooltip_arrow,
-                arrowType: $jltma_tooltip_arrow_type,
-                duration: $jltma_tooltip_duration,
-                distance: $jltma_tooltip_distance,
-                delay: $jltma_tooltip_delay,
-                size: $jltma_el_tooltip_text_width,
-                trigger: $jltma_tooltip_trigger,
-                animateFill: $animateFill,
-                flipOnUpdate: true,
-                maxWidth: $jltma_el_tooltip_text_width,
-                zIndex: 999,
-                allowHTML: false,
-                theme: 'jltma-image-filter-tippy-' + scopeId,
-                interactive: true,
-                appendTo: 'parent',
-                onShow(instance) {
-                    var tippyPopper = instance.popper;
-                    jQuery(tippyPopper).attr('data-tippy-popper-id', scopeId);
+            // Check if tippy is available with retry mechanism
+            if (typeof tippy === 'undefined') {
+                var retryCount = ($scope.data('ma-tooltip-retry') || 0) + 1;
+                if (retryCount <= 10) { // Max 10 retries (1 second total)
+                    $scope.data('ma-tooltip-retry', retryCount);
+                    setTimeout(function() {
+                        Master_Addons.MA_Tooltip($scope, $);
+                    }, 100);
                 }
-            };
-            if ($jltma_el_tooltip_direction === "yes") {
-                tooltipConfig.followCursor = true;  // Use followCursor if "yes"
-            } else {
-                tooltipConfig.placement = $jltma_el_tooltip_direction;  // Use placement if it's not "yes"
+                return;
             }
 
-            // Initialize Tippy with the dynamic configuration
-            tippy($currentTooltip, tooltipConfig);
+            // Clear retry counter on success
+            $scope.removeData('ma-tooltip-retry');
+
+            var elementSettings = getElementSettings($scope),
+                scopeId = $scope.data('id'),
+                currentTooltipElement = null;
+
+            // Validate scope ID
+            if (!scopeId || typeof scopeId !== 'string') {
+                return;
+            }
+
+            // Secure element selection with validation
+            try {
+                currentTooltipElement = document.getElementById('jltma-tooltip-' + scopeId);
+
+                // Fallback with additional validation
+                if (!currentTooltipElement) {
+                    var $fallbackElement = $scope.find('#jltma-tooltip-' + scopeId);
+                    if ($fallbackElement && $fallbackElement.length > 0) {
+                        var fallbackEl = $fallbackElement[0];
+                        if (fallbackEl && fallbackEl.nodeType === 1) {
+                            currentTooltipElement = fallbackEl;
+                        }
+                    }
+                }
+
+                // Final validation of selected element
+                if (!currentTooltipElement || !currentTooltipElement.nodeType || currentTooltipElement.nodeType !== 1) {
+                    return;
+                }
+
+                // Ensure it's not a jQuery object
+                if (currentTooltipElement.jquery) {
+                    currentTooltipElement = currentTooltipElement[0];
+                    if (!currentTooltipElement || !currentTooltipElement.nodeType) {
+                        return;
+                    }
+                }
+            } catch (error) {
+                return;
+            }
+
+            var initTooltip = function() {
+                try {
+                    // Prevent multiple simultaneous initializations
+                    if (currentTooltipElement && currentTooltipElement._maTooltipInitializing) {
+                        return;
+                    }
+
+                    // Validate element settings
+                    if (!elementSettings || typeof elementSettings !== 'object') {
+                        return;
+                    }
+
+                    // Sanitize and validate tooltip text
+                    var tooltipText = elementSettings.ma_el_tooltip_text;
+                    if (!tooltipText || typeof tooltipText !== 'string') {
+                        return; // Don't create tooltip without content
+                    }
+
+                    // Mark as initializing
+                    if (currentTooltipElement) {
+                        currentTooltipElement._maTooltipInitializing = true;
+                    }
+
+                    // Sanitize and validate all settings with proper defaults
+                    var $jltma_el_tooltip_text = stripTags(tooltipText),
+                        $jltma_el_tooltip_direction = elementSettings.ma_el_tooltip_direction || 'top',
+                        $jltma_tooltip_animation = elementSettings.jltma_tooltip_animation || 'shift-away',
+                        $jltma_tooltip_arrow = elementSettings.jltma_tooltip_arrow !== false,
+                        $jltma_tooltip_duration = parseInt(elementSettings.jltma_tooltip_duration) || 300,
+                        $jltma_tooltip_delay = parseInt(elementSettings.jltma_tooltip_delay) || 300,
+                        $jltma_tooltip_arrow_type = elementSettings.jltma_tooltip_arrow_type || 'sharp',
+                        $jltma_tooltip_trigger = elementSettings.jltma_tooltip_trigger || 'mouseenter',
+                        $jltma_tooltip_custom_trigger = elementSettings.jltma_tooltip_custom_trigger,
+                        $animateFill = elementSettings.jltma_tooltip_animation === "fill";
+
+                    // Validate numeric values within safe ranges
+                    $jltma_tooltip_duration = Math.max(100, Math.min(5000, $jltma_tooltip_duration));
+                    $jltma_tooltip_delay = Math.max(0, Math.min(5000, $jltma_tooltip_delay));
+
+                    // Parse offset values safely
+                    var $jltma_tooltip_x_offset = 0, $jltma_tooltip_y_offset = 0;
+                    try {
+                        if (elementSettings.jltma_tooltip_x_offset && elementSettings.jltma_tooltip_x_offset.size !== undefined) {
+                            $jltma_tooltip_x_offset = parseInt(elementSettings.jltma_tooltip_x_offset.size) || 0;
+                        }
+                        if (elementSettings.jltma_tooltip_y_offset && elementSettings.jltma_tooltip_y_offset.size !== undefined) {
+                            $jltma_tooltip_y_offset = parseInt(elementSettings.jltma_tooltip_y_offset.size) || 0;
+                        }
+                    } catch (error) {
+                        $jltma_tooltip_x_offset = 0;
+                        $jltma_tooltip_y_offset = 0;
+                    }
+
+                    // Parse width safely
+                    var $jltma_el_tooltip_text_width = 200;
+                    try {
+                        if (elementSettings.ma_el_tooltip_text_width && elementSettings.ma_el_tooltip_text_width.size) {
+                            $jltma_el_tooltip_text_width = parseInt(elementSettings.ma_el_tooltip_text_width.size) || 200;
+                        }
+                    } catch (error) {
+                        $jltma_el_tooltip_text_width = 200;
+                    }
+
+                    // Final element and content validation
+                    if (!currentTooltipElement || !currentTooltipElement.nodeType || currentTooltipElement.nodeType !== 1) {
+                        return;
+                    }
+
+                    if (!$jltma_el_tooltip_text || !$jltma_el_tooltip_text.trim()) {
+                        return;
+                    }
+
+                    // Check for extension tooltip conflicts
+                    try {
+                        var parentElement = currentTooltipElement.parentElement;
+                        if (parentElement && parentElement.classList && parentElement.classList.contains('jltma-tooltip-element')) {
+                            // Skip if extension tooltip is already handling this element
+                            return;
+                        }
+                    } catch (error) {
+                        // Continue with initialization
+                    }
+
+                    // Build secure tooltip configuration
+                    var tooltipConfig = {
+                        content: $jltma_el_tooltip_text,
+                        animation: $jltma_tooltip_animation,
+                        arrow: $jltma_tooltip_arrow,
+                        duration: [$jltma_tooltip_duration, $jltma_tooltip_delay],
+                        trigger: $jltma_tooltip_trigger,
+                        animateFill: $animateFill,
+                        flipOnUpdate: true,
+                        maxWidth: Math.max(50, Math.min(1000, $jltma_el_tooltip_text_width)),
+                        zIndex: 999,
+                        allowHTML: false, // Security: disable HTML by default
+                        theme: 'jltma-tooltip-tippy-' + scopeId,
+                        interactive: true,
+                        hideOnClick: true,
+                        offset: [
+                            Math.max(-500, Math.min(500, $jltma_tooltip_x_offset)),
+                            Math.max(-500, Math.min(500, $jltma_tooltip_y_offset))
+                        ],
+                        appendTo: function() {
+                            try {
+                                return (typeof elementorFrontend !== 'undefined' && elementorFrontend.isEditMode())
+                                    ? document.body : 'parent';
+                            } catch (error) {
+                                return 'parent';
+                            }
+                        },
+                        onShow: function(instance) {
+                            try {
+                                if (instance && instance.popper && typeof jQuery !== 'undefined') {
+                                    jQuery(instance.popper).attr('data-tippy-popper-id', scopeId);
+                                }
+                            } catch (error) {
+                                // Silent fail
+                            }
+                        },
+                        onCreate: function(instance) {
+                            try {
+                                // Ensure the instance reference element is properly set
+                                if (instance && instance.reference && !instance.reference.nodeType) {
+                                    // If reference is not a proper DOM element, try to fix it
+                                    if (instance.reference.jquery) {
+                                        instance.reference = instance.reference[0];
+                                    }
+                                }
+                            } catch (error) {
+                                // Silent fail
+                            }
+                        },
+                        onDestroy: function() {
+                            // Cleanup when tooltip is destroyed
+                            if (currentTooltipElement) {
+                                currentTooltipElement._tippyInstance = null;
+                            }
+                        }
+                    };
+
+                    // Handle arrow type securely
+                    if ($jltma_tooltip_arrow && $jltma_tooltip_arrow_type === 'round') {
+                        try {
+                            if (typeof tippy !== 'undefined' && tippy.roundArrow) {
+                                tooltipConfig.arrow = tippy.roundArrow;
+                            }
+                        } catch (error) {
+                            tooltipConfig.arrow = true;
+                        }
+                    }
+
+                    // Handle placement/follow cursor
+                    if (elementSettings.jltma_tooltip_follow_cursor === 'yes' || elementSettings.jltma_tooltip_follow_cursor === true) {
+                        tooltipConfig.followCursor = true;
+                    } else if ($jltma_el_tooltip_direction && typeof $jltma_el_tooltip_direction === 'string') {
+                        // Validate placement value
+                        var validPlacements = ['top', 'bottom', 'left', 'right', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'left-start', 'left-end', 'right-start', 'right-end', 'auto'];
+                        if (validPlacements.indexOf($jltma_el_tooltip_direction) !== -1) {
+                            tooltipConfig.placement = $jltma_el_tooltip_direction;
+                        }
+                    }
+
+                    // Handle custom trigger with security
+                    if ($jltma_tooltip_trigger === 'manual' && $jltma_tooltip_custom_trigger && typeof $jltma_tooltip_custom_trigger === 'string') {
+                        try {
+                            // Sanitize selector to prevent XSS
+                            var sanitizedSelector = $jltma_tooltip_custom_trigger.replace(/[<>'"]/g, '');
+                            var customTriggerEl = document.querySelector(sanitizedSelector);
+
+                            if (customTriggerEl && customTriggerEl.nodeType === 1) {
+                                tooltipConfig.trigger = 'manual';
+                                tooltipConfig.hideOnClick = false;
+
+                                // Store event handler reference for cleanup
+                                var customClickHandler = function() {
+                                    // Get the instance from the actual tooltip element
+                                    var targetEl = currentTooltipElement;
+                                    if (targetEl && targetEl.jquery) {
+                                        targetEl = targetEl[0];
+                                    }
+
+                                    var instance = targetEl ? targetEl._tippyInstance : null;
+                                    if (instance && instance.state) {
+                                        if (instance.state.isVisible) {
+                                            instance.hide();
+                                        } else {
+                                            instance.show();
+                                            setTimeout(function() {
+                                                if (instance && !instance.state.isDestroyed) {
+                                                    instance.hide();
+                                                }
+                                            }, 1500);
+                                        }
+                                    }
+                                };
+
+                                customTriggerEl.addEventListener('click', customClickHandler);
+
+                                // Store reference for cleanup
+                                if (!currentTooltipElement._maTooltipCleanup) {
+                                    currentTooltipElement._maTooltipCleanup = [];
+                                }
+                                currentTooltipElement._maTooltipCleanup.push({
+                                    element: customTriggerEl,
+                                    event: 'click',
+                                    handler: customClickHandler
+                                });
+                            }
+                        } catch (error) {
+                            // Silent fail for production
+                        }
+                    }
+
+                    // Comprehensive cleanup of all existing tooltip instances
+                    try {
+                        // Find and destroy all existing tippy instances for this element
+                        var allTippySelectors = [
+                            '[data-tippy-popper-id="' + scopeId + '"]',
+                            '.tippy-popper[data-tippy-root]',
+                            '.tippy-box[data-theme*="' + scopeId + '"]'
+                        ];
+
+                        allTippySelectors.forEach(function(selector) {
+                            try {
+                                var instances = document.querySelectorAll(selector);
+                                instances.forEach(function(popper) {
+                                    if (popper && popper.parentNode) {
+                                        popper.parentNode.removeChild(popper);
+                                    }
+                                });
+                            } catch (error) {
+                                // Silent cleanup
+                            }
+                        });
+
+                        // Cleanup current element's tippy instances
+                        if (currentTooltipElement._tippyInstance) {
+                            currentTooltipElement._tippyInstance.destroy();
+                            currentTooltipElement._tippyInstance = null;
+                        }
+
+                        if (currentTooltipElement._tippy) {
+                            currentTooltipElement._tippy.destroy();
+                            currentTooltipElement._tippy = null;
+                        }
+
+                        // Clean up previous event listeners
+                        if (currentTooltipElement._maTooltipCleanup) {
+                            currentTooltipElement._maTooltipCleanup.forEach(function(cleanup) {
+                                try {
+                                    cleanup.element.removeEventListener(cleanup.event, cleanup.handler);
+                                } catch (error) {
+                                    // Silent cleanup
+                                }
+                            });
+                            currentTooltipElement._maTooltipCleanup = [];
+                        }
+                    } catch (error) {
+                        // Silent cleanup
+                    }
+
+                    // Final pre-initialization validation
+                    if (!currentTooltipElement || !currentTooltipElement.nodeType || currentTooltipElement.nodeType !== 1) {
+                        return;
+                    }
+
+                    // Sanitize appendTo function for TippyJS compatibility
+                    var sanitizedConfig = {};
+                    for (var key in tooltipConfig) {
+                        if (tooltipConfig.hasOwnProperty(key)) {
+                            sanitizedConfig[key] = tooltipConfig[key];
+                        }
+                    }
+
+                    if (typeof sanitizedConfig.appendTo === 'function') {
+                        try {
+                            var appendToResult = sanitizedConfig.appendTo();
+                            if (appendToResult === 'parent') {
+                                sanitizedConfig.appendTo = 'parent';
+                            } else if (appendToResult && appendToResult.nodeType) {
+                                sanitizedConfig.appendTo = appendToResult;
+                            } else {
+                                sanitizedConfig.appendTo = 'parent';
+                            }
+                        } catch (error) {
+                            sanitizedConfig.appendTo = 'parent';
+                        }
+                    }
+
+                    // Initialize Tippy with comprehensive error handling
+                    try {
+                        // Ensure we have a native DOM element, not jQuery object
+                        var nativeElement = currentTooltipElement;
+                        if (nativeElement && nativeElement.jquery) {
+                            nativeElement = nativeElement[0];
+                        }
+
+                        // Final validation that it's a proper DOM element
+                        if (!nativeElement || !nativeElement.nodeType || nativeElement.nodeType !== 1) {
+                            throw new Error('Invalid DOM element for tooltip');
+                        }
+
+                        var tippyInstance = tippy(nativeElement, sanitizedConfig);
+
+                        if (tippyInstance && Array.isArray(tippyInstance) && tippyInstance.length > 0) {
+                            // Store reference on the native element
+                            nativeElement._tippyInstance = tippyInstance[0];
+                            currentTooltipElement._tippyInstance = tippyInstance[0];
+
+                            // Mark as successfully initialized
+                            $scope.data('ma-tooltip-active', true);
+                        }
+                    } catch (error) {
+                        // Silent fail for production - tooltip functionality is not critical
+                        return;
+                    } finally {
+                        // Always clear the initializing flag
+                        if (currentTooltipElement) {
+                            currentTooltipElement._maTooltipInitializing = false;
+                        }
+                    }
+
+                } catch (error) {
+                    // Catch any unexpected errors in initTooltip
+                    if (currentTooltipElement) {
+                        currentTooltipElement._maTooltipInitializing = false;
+                    }
+                    return;
+                }
+            }; // end initTooltip function
+
+            // Initialize tooltip
+            initTooltip();
+
+            // Production-ready editor change detection
+            if (typeof elementorFrontend !== 'undefined' && elementorFrontend.isEditMode()) {
+                try {
+                    $scope.data('ma-tooltip-initialized', true);
+
+                    // Debounced change handler for performance
+                    var changeTimeout = null;
+                    var isChanging = false;
+
+                    var handleTooltipChange = function() {
+                        // Prevent overlapping changes
+                        if (isChanging) {
+                            return;
+                        }
+
+                        if (changeTimeout) {
+                            clearTimeout(changeTimeout);
+                        }
+
+                        changeTimeout = setTimeout(function() {
+                            try {
+                                isChanging = true;
+
+                                // Update element settings
+                                elementSettings = getElementSettings($scope);
+
+                                // Global cleanup of any orphaned tooltip instances
+                                var orphanedTooltips = document.querySelectorAll('.tippy-popper:not([data-tippy-popper-id])');
+                                orphanedTooltips.forEach(function(tooltip) {
+                                    if (tooltip.parentNode) {
+                                        tooltip.parentNode.removeChild(tooltip);
+                                    }
+                                });
+
+                                // Clean reinitialize
+                                initTooltip();
+
+                                changeTimeout = null;
+
+                                // Add extra delay before allowing next change
+                                setTimeout(function() {
+                                    isChanging = false;
+                                }, 100);
+                            } catch (error) {
+                                isChanging = false;
+                                // Silent fail for production
+                            }
+                        }, 200); // Increased debounce time
+                    };
+
+                    // Register proper Elementor handler for change detection
+                    if (typeof elementorModules !== 'undefined' &&
+                        elementorModules.frontend &&
+                        elementorModules.frontend.handlers &&
+                        elementorModules.frontend.handlers.Base) {
+
+                        var MATooltipEditorHandler = elementorModules.frontend.handlers.Base.extend({
+                            onElementChange: function(propertyName) {
+                                if (propertyName && typeof propertyName === 'string' && (
+                                    propertyName.indexOf('ma_el_tooltip') === 0 ||
+                                    propertyName.indexOf('jltma_tooltip') === 0
+                                )) {
+                                    handleTooltipChange();
+                                }
+                            },
+                            onDestroy: function() {
+                                // Cleanup on handler destruction
+                                if (changeTimeout) {
+                                    clearTimeout(changeTimeout);
+                                }
+                                if (currentTooltipElement && currentTooltipElement._tippyInstance) {
+                                    try {
+                                        currentTooltipElement._tippyInstance.destroy();
+                                    } catch (error) {
+                                        // Silent cleanup
+                                    }
+                                }
+                            }
+                        });
+
+                        // Register the handler
+                        try {
+                            elementorFrontend.elementsHandler.addHandler(MATooltipEditorHandler, {
+                                $element: $scope
+                            });
+                        } catch (error) {
+                            // Fallback to manual cleanup registration
+                            $scope.one('remove', function() {
+                                if (changeTimeout) {
+                                    clearTimeout(changeTimeout);
+                                }
+                                if (currentTooltipElement && currentTooltipElement._tippyInstance) {
+                                    try {
+                                        currentTooltipElement._tippyInstance.destroy();
+                                    } catch (error) {
+                                        // Silent cleanup
+                                    }
+                                }
+                            });
+                        }
+                    }
+                } catch (error) {
+                    // Silent fail for production - editor functionality is not critical for frontend
+                }
+            }
+
+            // Global cleanup on page unload for memory management
+            if (typeof window !== 'undefined' && window.addEventListener) {
+                var cleanupTooltip = function() {
+                    if (currentTooltipElement) {
+                        if (currentTooltipElement._tippyInstance) {
+                            try {
+                                currentTooltipElement._tippyInstance.destroy();
+                            } catch (error) {
+                                // Silent cleanup
+                            }
+                        }
+                        if (currentTooltipElement._maTooltipCleanup) {
+                            currentTooltipElement._maTooltipCleanup.forEach(function(cleanup) {
+                                try {
+                                    cleanup.element.removeEventListener(cleanup.event, cleanup.handler);
+                                } catch (error) {
+                                    // Silent cleanup
+                                }
+                            });
+                        }
+                    }
+                };
+
+                // Register cleanup events
+                window.addEventListener('beforeunload', cleanupTooltip);
+                window.addEventListener('pagehide', cleanupTooltip);
+            }
         },
 
         /**** MA Twitter Slider ****/
@@ -2666,7 +3088,7 @@
 
             // Check if particles are enabled - either through class or data attribute or wrapper
             if ($scope.hasClass('jltma-particle-yes') || $scope.attr('data-jltma-particle') || $scope.find('.jltma-particle-wrapper').attr('data-jltma-particles-editor')) {
-                
+
                 let element_type = $scope.data('element_type');
                 let sectionID = encodeURIComponent($scope.data('id'));
                 let particlesJSON;
@@ -2681,47 +3103,47 @@
                 }
 
                 if (('section' === element_type || 'column' === element_type || 'container' === element_type) && particlesJSON) {
-                    
+
                     // Frontend
                     if (!isElementorEditor()) {
                         // Create wrapper for frontend
                         $scope.prepend('<div class="jltma-particle-wrapper" id="jltma-particle-' + sectionID + '"></div>');
-                        
+
                         try {
                             let parsedData = JSON.parse(particlesJSON);
                             particlesJS('jltma-particle-' + sectionID, parsedData);
-                            
+
                             // Dispatch resize events to ensure proper rendering
                             setTimeout(function() {
                                 window.dispatchEvent(new Event('resize'));
                             }, 500);
-                            
+
                             setTimeout(function() {
                                 window.dispatchEvent(new Event('resize'));
                             }, 1500);
                         } catch(e) {
-                            console.warn('Invalid particle JSON:', e);
+                            // console.warn('Invalid particle JSON:', e);
                         }
-                        
+
                     // Editor
                     } else {
                         if ($scope.hasClass('jltma-particle-yes')) {
                             try {
                                 let parsedData = JSON.parse(particlesJSON);
                                 particlesJS('jltma-particle-' + sectionID, parsedData);
-                                
+
                                 // Set z-index for columns in editor
                                 $scope.find('.elementor-column').css('z-index', 9);
-                                
+
                                 setTimeout(function() {
                                     window.dispatchEvent(new Event('resize'));
                                 }, 500);
-                                
+
                                 setTimeout(function() {
                                     window.dispatchEvent(new Event('resize'));
                                 }, 1500);
                             } catch(e) {
-                                console.warn('Invalid particle JSON:', e);
+                                // console.warn('Invalid particle JSON:', e);
                             }
                         } else {
                             // Remove wrapper if particles are disabled
@@ -2780,7 +3202,7 @@
                 ma_el_cover = $scope.attr('data-ma-el-bg-slider-cover');
                 ma_el_delay = $scope.attr('data-ma-el-bs-slider-delay');
                 ma_el_timer = $scope.attr('data-ma-el-bs-slider-timer');
-                
+
                 if (ma_el_custom_overlay == 'yes') {
                     ma_el_overlay = jltma_scripts.plugin_url + '/assets/vendor/vegas/overlays/00.png';
                 } else {
@@ -2800,7 +3222,7 @@
                 ma_el_cover = slider_wrapper.attr('data-ma-el-bg-slider-cover');
                 ma_el_delay = slider_wrapper.attr('data-ma-el-bs-slider-delay');
                 ma_el_timer = slider_wrapper.attr('data-ma-el-bs-slider-timer');
-                
+
                 if (ma_el_custom_overlay == 'yes') {
                     ma_el_overlay = jltma_scripts.plugin_url + '/assets/vendor/vegas/overlays/00.png';
                 } else {
@@ -2848,14 +3270,15 @@
 
         MA_AnimatedGradient: function ($scope, $)
         {
-            
+
             if ($scope.hasClass('ma-el-animated-gradient-yes'))
             {
                 let color = $scope.data('color') || $scope.attr('data-color');
                 let angle = $scope.data('angle') || $scope.attr('data-angle');
                 let duration = $scope.data('duration') || $scope.attr('data-duration') || '6s';
-                
-                
+                let smoothness = parseInt($scope.data('smoothness') || $scope.attr('data-smoothness') || 3);
+                let easing = $scope.data('easing') || $scope.attr('data-easing') || 'cubic-bezier(0.4, 0.0, 0.2, 1)';
+
                 if (!color || !angle) {
                     return;
                 }
@@ -2870,17 +3293,29 @@
                 let animationName = 'jltma-animated-gradient-' + Math.random().toString(36).substring(2, 11);
                 let keyframes = `@keyframes ${animationName} {`;
                 let totalSteps = colors.length;
-                
+
                 // Create keyframes with proper timing distribution
                 for (let i = 0; i <= totalSteps; i++) {
                     let percentage = (i / totalSteps) * 100;
                     let currentColorIndex = i % colors.length;
                     let nextColorIndex = (i + 1) % colors.length;
-                    
-                    // Create smooth transition between current and next color
-                    keyframes += `${percentage}% { background: linear-gradient(${angle}, ${colors[currentColorIndex].trim()}, ${colors[nextColorIndex].trim()}); }`;
+
+                    // Main keyframe at start of segment
+                    keyframes += `${percentage.toFixed(2)}% { background: linear-gradient(${angle}, ${colors[currentColorIndex].trim()}, ${colors[nextColorIndex].trim()}); }`;
+
+                    // Add intermediate keyframes for smooth transitions (based on smoothness setting)
+                    if (i < totalSteps) {
+                        let segmentSize = (100 / totalSteps);
+
+                        for (let j = 1; j <= smoothness; j++) {
+                            let interpPercentage = percentage + (segmentSize * (j / (smoothness + 1)));
+                            let interpColorIndex = nextColorIndex;
+                            let interpNextColorIndex = (nextColorIndex + 1) % colors.length;
+                            keyframes += `${interpPercentage.toFixed(2)}% { background: linear-gradient(${angle}, ${colors[interpColorIndex].trim()}, ${colors[interpNextColorIndex].trim()}); }`;
+                        }
+                    }
                 }
-                
+
                 keyframes += '}';
 
                 // Add keyframes to document
@@ -2890,7 +3325,7 @@
 
                 // Apply the animation
                 $scope.css({
-                    'animation': `${animationName} ${duration} ease-in-out infinite`,
+                    'animation': `${animationName} ${duration} ${easing} infinite`,
                     'background-size': '400% 400%'
                 });
 
@@ -2902,32 +3337,44 @@
                         let editorColor = editorGradient.data('color') || editorGradient.attr('data-color');
                         let editorAngle = editorGradient.data('angle') || editorGradient.attr('data-angle');
                         let editorDuration = editorGradient.data('duration') || editorGradient.attr('data-duration') || '6s';
-                        
+
                         if (editorColor && editorAngle) {
                             let editorColors = editorColor.split(',');
                             if (editorColors.length >= 2) {
                                 let editorAnimationName = 'jltma-animated-gradient-editor-' + Math.random().toString(36).substring(2, 11);
                                 let editorKeyframes = `@keyframes ${editorAnimationName} {`;
                                 let totalSteps = editorColors.length;
-                                
+
                                 // Create keyframes with proper timing distribution
                                 for (let i = 0; i <= totalSteps; i++) {
                                     let percentage = (i / totalSteps) * 100;
                                     let currentColorIndex = i % editorColors.length;
                                     let nextColorIndex = (i + 1) % editorColors.length;
-                                    
-                                    // Create smooth transition between current and next color
-                                    editorKeyframes += `${percentage}% { background: linear-gradient(${editorAngle}, ${editorColors[currentColorIndex].trim()}, ${editorColors[nextColorIndex].trim()}); }`;
+
+                                    // Main keyframe
+                                    editorKeyframes += `${percentage.toFixed(2)}% { background: linear-gradient(${editorAngle}, ${editorColors[currentColorIndex].trim()}, ${editorColors[nextColorIndex].trim()}); }`;
+
+                                    // Add intermediate keyframes for smooth transitions (based on smoothness setting)
+                                    if (i < totalSteps) {
+                                        let segmentSize = (100 / totalSteps);
+
+                                        for (let j = 1; j <= smoothness; j++) {
+                                            let interpPercentage = percentage + (segmentSize * (j / (smoothness + 1)));
+                                            let interpColorIndex = nextColorIndex;
+                                            let interpNextColorIndex = (nextColorIndex + 1) % editorColors.length;
+                                            editorKeyframes += `${interpPercentage.toFixed(2)}% { background: linear-gradient(${editorAngle}, ${editorColors[interpColorIndex].trim()}, ${editorColors[interpNextColorIndex].trim()}); }`;
+                                        }
+                                    }
                                 }
-                                
+
                                 editorKeyframes += '}';
-                                
+
                                 let editorStyle = document.createElement('style');
                                 editorStyle.textContent = editorKeyframes;
                                 document.head.appendChild(editorStyle);
 
                                 editorGradient.css({
-                                    'animation': `${editorAnimationName} ${editorDuration} ease-in-out infinite`,
+                                    'animation': `${editorAnimationName} ${editorDuration} ${easing} infinite`,
                                     'background-size': '400% 400%'
                                 });
                             }
@@ -3082,8 +3529,11 @@
                         min: $wrapper.data("countdown-min"),
                         sec: $wrapper.data("countdown-sec")
                     },
-
+                    isInfinite = $wrapper.data("countdown-infinite") === 'yes',
+                    // Target date is calculated server-side for infinite mode
+                    // This ensures all users see synchronized countdown
                     targetDate = new Date(data.year, data.month, data.day, data.hour, data.min, data.sec);
+
                 var $year = $wrapper.find('.jltma-countdown-year'),
                     $month = $wrapper.find('.jltma-countdown-month'),
                     $day = $wrapper.find('.jltma-countdown-day'),
@@ -3091,18 +3541,52 @@
                     $min = $wrapper.find('.jltma-countdown-min'),
                     $sec = $wrapper.find('.jltma-countdown-sec');
 
-                setInterval(function ()
+                // Store interval ID so we can clear it if needed
+                var countdownInterval = setInterval(function ()
                 {
-                    var diffTime = (Date.parse(targetDate) - Date.parse(new Date())) / 1000;
+                    var currentTime = new Date();
+                    var diffTime = (Date.parse(targetDate) - Date.parse(currentTime)) / 1000;
 
-                    if (diffTime < 0) return;
+                    // If countdown is complete
+                    if (diffTime <= 0) {
+                        // Stop the countdown and show zeros
+                        $year.text(0);
+                        $month.text(0);
+                        $day.text(0);
+                        $hour.text(0);
+                        $min.text(0);
+                        $sec.text(0);
 
-                    $year.text(Math.floor(diffTime / (31536000))); // 1 year = 3153600 second
-                    $month.text(Math.floor((diffTime / 2592000) % 12)); // 1 month = 2592000 second
-                    $day.text(Math.floor((diffTime / 86400) % 365)); // 1 day = 86400 second
-                    $hour.text(Math.floor((diffTime / 3600) % 24)); // 1 hour = 3600 second
-                    $min.text(Math.floor((diffTime / 60) % 60)); // 1 min  = 60 second
-                    $sec.text(Math.floor((diffTime) % 60));
+                        // For infinite mode, keep showing zeros
+                        // User must reload page to see next interval
+                        clearInterval(countdownInterval);
+                        return;
+                    }
+
+                    // Calculate time components correctly
+                    var totalSeconds = diffTime;
+
+                    var years = Math.floor(totalSeconds / 31536000); // 365 days
+                    totalSeconds %= 31536000;
+
+                    var months = Math.floor(totalSeconds / 2592000); // 30 days
+                    totalSeconds %= 2592000;
+
+                    var days = Math.floor(totalSeconds / 86400); // 24 hours
+                    totalSeconds %= 86400;
+
+                    var hours = Math.floor(totalSeconds / 3600); // 60 minutes
+                    totalSeconds %= 3600;
+
+                    var minutes = Math.floor(totalSeconds / 60); // 60 seconds
+                    var seconds = Math.floor(totalSeconds % 60);
+
+                    $year.text(years);
+                    $month.text(months);
+                    $day.text(days);
+                    $hour.text(hours);
+                    $min.text(minutes);
+                    $sec.text(seconds);
                 }, 1e3)
             }, $countdownWidget.each(function ()
             {
@@ -3201,6 +3685,11 @@
             {
                 if (elementSettings.enabled_rellax)
                 {
+                    // Check if Rellax library is available
+                    if (typeof Rellax === 'undefined') {
+                        // console.warn('MA Rellax: Rellax library is not loaded');
+                        return;
+                    }
 
                     currentDevice = elementorFrontend.getCurrentDeviceMode();
 
@@ -3212,18 +3701,25 @@
                         setting_speed = 'speed_rellax_' + currentDevice;
                     }
 
-                    if (eval('elementSettings.' + setting_speed + '.size'))
-                        value_speed = eval('elementSettings.' + setting_speed + '.size');
-
+                    try {
+                        if (eval('elementSettings.' + setting_speed + '.size'))
+                            value_speed = eval('elementSettings.' + setting_speed + '.size');
+                    } catch (error) {
+                        // Use default value if setting evaluation fails
+                    }
 
                     var rellaxId = '#rellax-' + $scope.data('id');
 
-                    if ($(rellaxId).length)
-                        rellax = new Rellax(rellaxId, {
-                            speed: value_speed
+                    if ($(rellaxId).length) {
+                        try {
+                            rellax = new Rellax(rellaxId, {
+                                speed: value_speed
+                            });
+                            isRellax = true;
+                        } catch (error) {
+                            // console.error('MA Rellax: Failed to initialize Rellax:', error);
                         }
-                        );
-                    isRellax = true;
+                    }
                 };
             };
 
@@ -3304,7 +3800,7 @@
                 anchor.style.display = "none";
                 document.body.appendChild(anchor);
                 anchorReal = document.getElementById(anchor.id);
-                
+
                 // anchorReal.click();
                 if (data && data.url) {
                     if (data.is_external) {
@@ -3323,7 +3819,6 @@
          */
         MA_Restrict_Content_Ajax: function ($scope, $)
         {
-
             Master_Addons.getElementSettings = getElementSettings($scope);
 
             var $restrictwrapper = $scope.find('.jltma-restrict-content-wrap').eq(0),
@@ -3357,7 +3852,6 @@
                     empty_bday: $age_wrapper.data('empty-bday') ? $age_wrapper.data('empty-bday') : "",
                     non_exist_bday: $age_wrapper.data('non-exist-bday') ? $age_wrapper.data('non-exist-bday') : ""
                 };
-
 
             //Check it the user has been accpeted the agreement
             if (localStorage.getItem($storageID))
@@ -3461,7 +3955,6 @@
 
                                 if (result['result'] == 'success')
                                 {
-
                                     $('#restrict-content-' + $scopeId).removeClass('d-none').addClass('d-block');
 
                                     //Custom Classes add/remove
@@ -3842,22 +4335,22 @@
         },
 
     };
-    
+
     function filter_fancy_box(element) {
         $(element).find('.jltma-fancybox').each(function () {
             const rawCaption = $(this).data('caption');
             // console.log("Raw Caption : " , rawCaption );
             // const caption = rawCaption;
-            
+
             function decodeEntities(str) {
                 if (!str) return '';
                 const txt = document.createElement('textarea');
                 txt.innerHTML = str;
                 return txt.value;
             }
-            
+
             const caption = decodeEntities(rawCaption);
-            
+
             // Stronger XSS checks
             const hasDangerousAttr   = /\son\w+\s*=/i.test(caption);     // any onXXX=
             const hasScriptTag       = /<\s*script/i.test(caption);     // <script>
@@ -3869,8 +4362,8 @@
             // console.log("hasJsProto : " , hasJsProto );
             // // console.log("hasEncodedSymbols : " , hasEncodedSymbols );
             // console.log(" Check result", caption && (hasDangerousAttr || hasScriptTag || hasJsProto ));
-            
-            
+
+
 
             if (caption && (hasDangerousAttr || hasScriptTag || hasJsProto )) {
                 // console.log($(this).attr('data-caption'));
@@ -3888,7 +4381,7 @@
         const observer = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 mutation.addedNodes.forEach((node) => {
-                    if (node.nodeType === 1) { 
+                    if (node.nodeType === 1) {
                         filter_fancy_box(node);
                     }
                 });
@@ -3943,7 +4436,7 @@
         elementorFrontend.hooks.addAction('frontend/element_ready/jltma-gallery-slider.default', Master_Addons.MA_Gallery_Slider);
 
         elementorFrontend.hooks.addAction('frontend/element_ready/ma-el-image-comparison.default', Master_Addons.MA_Image_Comparison);
-        elementorFrontend.hooks.addAction('frontend/element_ready/jltma-restrict-content.default', Master_Addons.MA_Restrict_Content);
+        elementorFrontend.hooks.addAction('frontend/element_ready/ma-el-restrict-content.default', Master_Addons.MA_Restrict_Content);
         // elementorFrontend.hooks.addAction('frontend/element_ready/ma-navmenu.default', Master_Addons.MA_Nav_Menu);
         elementorFrontend.hooks.addAction('frontend/element_ready/ma-search.default', Master_Addons.MA_Header_Search);
         elementorFrontend.hooks.addAction('frontend/element_ready/ma-progressbars.default', Master_Addons.ProgressBars);
@@ -3958,13 +4451,13 @@
         elementorFrontend.hooks.addAction('frontend/element_ready/ma-pricing-table.default', Master_Addons.MA_Pricing_Table);
         // elementorFrontend.hooks.addAction('frontend/element_ready/jltma-offcanvas-menu.default', Master_Addons.MA_Offcanvas_Menu);
 
-        
 
         if (elementorFrontend.isEditMode())
         {
             elementorFrontend.hooks.addAction('frontend/element_ready/ma-headlines.default', Master_Addons.MA_Animated_Headlines);
             elementorFrontend.hooks.addAction('frontend/element_ready/ma-piecharts.default', Master_Addons.MA_PieCharts);
             elementorFrontend.hooks.addAction('frontend/element_ready/ma-progressbars.default', Master_Addons.ProgressBars);
+            elementorFrontend.hooks.addAction('frontend/element_ready/ma-progressbar.default', Master_Addons.MA_ProgressBar);
             elementorFrontend.hooks.addAction('frontend/element_ready/ma-news-ticker.default', Master_Addons.MA_NewsTicker);
             // elementorFrontend.hooks.addAction('frontend/element_ready/ma-image-filter-gallery.default', Master_Addons.MA_Image_Filter_Gallery);
             elementorFrontend.hooks.addAction('frontend/element_ready/jltma-gallery-slider.default', Master_Addons.MA_Gallery_Slider);

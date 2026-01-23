@@ -26,7 +26,7 @@ if (!class_exists('Master_Addons_Templates_Types')) {
 		public function register_types()
 		{
 
-			$base_path = JLTMA_PATH . '/inc/templates/types/';
+			$base_path = JLTMA_PATH . 'inc/templates/types/';
 
 			require $base_path . 'base.php';
 
@@ -72,58 +72,72 @@ if (!class_exists('Master_Addons_Templates_Types')) {
 
 		public function get_types_for_popup()
 		{
-
-			//				$result = array();
-			$result = array(
-				'master_pages' => array(
-					'title' => __('Ready Pages', 'master-addons' ),
-					'data' => [],
-					'sources' => array('master-addons', 'master-api'),
-					'settings' => array(
-						'show_title' => true,
-						'show_keywords' => true
+			// Check if we're in popup builder context
+			$current_post_type = get_post_type();
+			$is_popup_builder = false;
+			if( isset($_GET['action'] )&& $_GET['action'] === 'jltma_get_templates' && $_GET['tab'] === 'master_popups'){
+				$is_popup_builder = true;
+			}else{
+				// Check if we're editing a popup post type or if the post type is related to popups
+				if ( $current_post_type === 'jltma_popup' || $current_post_type === 'popupbuilder' ||
+					(isset($_GET['post']) && get_post_type($_GET['post']) === 'jltma_popup') ||
+					(isset($_GET['post']) && get_post_type($_GET['post']) === 'popupbuilder') ||
+					(isset($_GET['page']) && strpos($_GET['page'], 'popup') !== false)) {
+					$is_popup_builder = true;
+				}
+	
+				// Also check if we're in Elementor editor and editing a popup
+				if (isset($_GET['action']) && $_GET['action'] === 'elementor' &&
+					isset($_GET['post']) && (get_post_type($_GET['post']) === 'ma_popup' || get_post_type($_GET['post']) === 'jltma_popup' || get_post_type($_GET['post']) === 'popupbuilder')) {
+					$is_popup_builder = true;
+				}
+			}
+	
+			// If we're in popup builder context, only show the Popups tab
+			if ($is_popup_builder) {
+				$result = array(
+					'master_popups' => array(
+						'title' => __('Popups', 'master-addons'),
+						'data' => [],
+						'sources' => array('master-addons', 'master-api'),
+						'settings' => array(
+							'show_title' => true,
+							'show_keywords' => true
+						)
 					)
-				),
-				//					'master_popups' =>array(
-				//						'title' => __('Popups', 'master-addons' ) ,
-				//						'data' =>[],
-				//						'sources' => array( 'master-addons','master-api' ),
-				//						'settings' =>array(
-				//							'show_title' =>true,
-				//							'show_keywords' =>true
-				//						)
-				//					),
-				'master_headers' => array(
-					'title' => __('Headers', 'master-addons' ),
-					'data' => [],
-					'sources' => array('master-addons', 'master-api'),
-					'settings' => array(
-						'show_title' => true,
-						'show_keywords' => true
-					)
-				),
-				'master_footers' => array(
-					'title' => __('Footers', 'master-addons' ),
-					'data' => [],
-					'sources' => array('master-addons', 'master-api'),
-					'settings' => array(
-						'show_title' => true,
-						'show_keywords' => true
-					)
-				),
-
-				//					'master_woocommerce' =>array(
-				//						'title' => __('WooCommerce', 'master-addons' ) ,
-				//						'data' =>[],
-				//						'sources' => array( 'master-addons','master-api' ),
-				//						'settings' =>array(
-				//							'show_title' =>true,
-				//							'show_keywords' =>true
-				//						)
-				//					),
-
-
-			);
+				);
+			} else {
+				// Show normal tabs for other contexts
+				$result = array(
+					'master_pages' => array(
+						'title' => __('Ready Pages', 'master-addons' ),
+						'data' => [],
+						'sources' => array('master-addons', 'master-api'),
+						'settings' => array(
+							'show_title' => true,
+							'show_keywords' => true
+						)
+					),
+					'master_headers' => array(
+						'title' => __('Headers', 'master-addons' ),
+						'data' => [],
+						'sources' => array('master-addons', 'master-api'),
+						'settings' => array(
+							'show_title' => true,
+							'show_keywords' => true
+						)
+					),
+					'master_footers' => array(
+						'title' => __('Footers', 'master-addons' ),
+						'data' => [],
+						'sources' => array('master-addons', 'master-api'),
+						'settings' => array(
+							'show_title' => true,
+							'show_keywords' => true
+						)
+					),
+				);
+			}
 
 			foreach ($this->types as $id => $structure) {
 				$result[$id] = array(
@@ -132,6 +146,9 @@ if (!class_exists('Master_Addons_Templates_Types')) {
 					'sources'  => $structure->get_sources(),
 					'settings' => $structure->library_settings(),
 				);
+			}
+			if( $is_popup_builder ){
+				unset($result['master_section']);
 			}
 			return $result;
 		}

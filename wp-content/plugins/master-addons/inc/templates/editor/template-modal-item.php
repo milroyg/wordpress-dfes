@@ -10,7 +10,7 @@
         <div class="elementor-template-library-template-preview">
             <i class="fa fa-search-plus"></i>
         </div>
-        <img src="{{ thumbnail }}" alt="{{ title }}">
+        <img src="{{ thumbnail }}" alt="{{ title }}" class="ma-el-template-image" onerror="this.src='<?php echo JLTMA_IMAGE_DIR; ?>placeholder.png'">
         <div class="elementor-template-library-template-name">{{{ title }}}</div>
     </div>
 </div>

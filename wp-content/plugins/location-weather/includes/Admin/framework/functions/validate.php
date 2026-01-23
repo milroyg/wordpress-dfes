@@ -23,7 +23,6 @@ if ( ! function_exists( 'splwt_validate_email' ) ) {
 		if ( ! filter_var( $value, FILTER_VALIDATE_EMAIL ) ) {
 			return esc_html__( 'Please enter a valid email address.', 'location-weather' );
 		}
-
 	}
 }
 
@@ -39,7 +38,6 @@ if ( ! function_exists( 'splwt_validate_numeric' ) ) {
 		if ( ! is_numeric( $value ) ) {
 			return esc_html__( 'Please enter a valid number.', 'location-weather' );
 		}
-
 	}
 }
 
@@ -57,7 +55,6 @@ if ( ! function_exists( 'splwt_validate_required' ) ) {
 		if ( empty( $value ) ) {
 			return esc_html__( 'This field is required.', 'location-weather' );
 		}
-
 	}
 }
 
@@ -75,7 +72,6 @@ if ( ! function_exists( 'splwt_validate_url' ) ) {
 		if ( ! filter_var( $value, FILTER_VALIDATE_URL ) ) {
 			return esc_html__( 'Please enter a valid URL.', 'location-weather' );
 		}
-
 	}
 }
 
@@ -97,7 +93,6 @@ if ( ! function_exists( 'splwt_customize_validate_email' ) ) {
 		}
 
 		return $validity;
-
 	}
 }
 
@@ -120,7 +115,6 @@ if ( ! function_exists( 'splwt_customize_validate_numeric' ) ) {
 		}
 
 		return $validity;
-
 	}
 }
 
@@ -142,7 +136,6 @@ if ( ! function_exists( 'splwt_customize_validate_required' ) ) {
 		}
 
 		return $validity;
-
 	}
 }
 
@@ -164,6 +157,5 @@ if ( ! function_exists( 'splwt_customize_validate_url' ) ) {
 		}
 
 		return $validity;
-
 	}
 }

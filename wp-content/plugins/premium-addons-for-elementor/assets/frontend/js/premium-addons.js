@@ -1452,6 +1452,8 @@
 			if ($carouselElem.find(".item-wrapper").length < 1)
 				return;
 
+			addSlideContent();
+
 			function slideToShow(slick) {
 
 				var slidesToShow = slick.options.slidesToShow,
@@ -1470,6 +1472,36 @@
 
 				return slidesToShow;
 
+			}
+
+			/**
+			 * Used to add the template content to the carousel slide when the template source is an exisitng template on the page.
+			 */
+			function addSlideContent() {
+				$scope.find(".premium-carousel-template[data-template-src]").each(function () {
+					var containerID = $(this).data("template-src");
+
+					var $templateContent = $('#' + containerID);
+
+					if (!$templateContent.length) {
+						$(this).html(
+							'<div class="premium-error-notice"><span>Container with ID <b>' +
+							containerID +
+							"</b> does not exist on this page. Please make sure that container ID is properly set from section settings -> Advanced tab -> CSS ID.<span></div>"
+						);
+
+						return;
+					}
+
+					if (!elementorFrontend.isEditMode()) {
+						$(this).append($templateContent);
+					} else {
+						$scope.find(".elementor-element-overlay")
+							.remove();
+						$(this).append($templateContent.clone(true));
+					}
+
+				});
 			}
 
 			$carouselElem.on("init", function (event) {
@@ -1915,6 +1947,7 @@
 						loading: '.premium-loading-feed',
 						blogElement: '.premium-blog-wrap',
 						blogFilterTabs: '.premium-blog-filter',
+						marqueeWrapper: '.premium-marquee-wrapper',
 						contentWrapper: '.premium-blog-content-wrapper',
 						blogPost: '.premium-blog-post-outer-container',
 						metaSeparators: '.premium-blog-meta-separator',
@@ -1933,7 +1966,8 @@
 						$activeCat: this.$element.find(selectors.activeCat),
 						$filterLinks: this.$element.find(selectors.filterLinks),
 						$blogPost: this.$element.find(selectors.blogPost),
-						$contentWrapper: this.$element.find(selectors.contentWrapper)
+						$contentWrapper: this.$element.find(selectors.contentWrapper),
+						$marqueeWrapper: this.$element.find(selectors.marqueeWrapper)
 					};
 
 				return elements;
@@ -1968,13 +2002,15 @@
 
 					layoutSettings.slidesToScroll = settings.slides_to_scroll;
 					layoutSettings.spacing = parseInt(settings.premium_blog_carousel_spacing);
-					layoutSettings.autoPlay = 'yes' === settings.premium_blog_carousel_play ? true : false;
-					layoutSettings.arrows = 'yes' === settings.premium_blog_carousel_arrows ? true : false;
-					layoutSettings.fade = 'yes' === settings.premium_blog_carousel_fade ? true : false;
-					layoutSettings.center = 'yes' === settings.premium_blog_carousel_center ? true : false;
-					layoutSettings.dots = 'yes' === settings.premium_blog_carousel_dots ? true : false;
+					layoutSettings.autoPlay = 'yes' === settings.premium_blog_carousel_play;
+					layoutSettings.arrows = 'yes' === settings.premium_blog_carousel_arrows;
+					layoutSettings.fade = 'yes' === settings.premium_blog_carousel_fade;
+					layoutSettings.center = 'yes' === settings.premium_blog_carousel_center;
+					layoutSettings.dots = 'yes' === settings.premium_blog_carousel_dots;
+					layoutSettings.overflowSlides = 'yes' === settings.overflow_slides;
 					layoutSettings.speed = '' !== settings.carousel_speed ? parseInt(settings.carousel_speed) : 300;
 					layoutSettings.autoplaySpeed = '' !== settings.premium_blog_carousel_autoplay_speed ? parseInt(settings.premium_blog_carousel_autoplay_speed) : 5000;
+					layoutSettings.arrows_position = settings.arrows_position;
 
 				}
 
@@ -2011,20 +2047,18 @@
 					$blogElement = this.elements.$blogElement,
 					$activeCategory = this.elements.$activeCat.data('filter'),
 					$filterTabs = this.elements.$blogFilterTabs.length,
-					pagination = $blogElement.data("pagination");
+					pagination = $blogElement.data("pagination"),
+					layout = this.settings.layout;
 
 				this.settings.activeCategory = $activeCategory;
 				this.settings.filterTabs = $filterTabs;
 
-
-
+				// Handle categories/tags filter tabs.
 				if (this.settings.filterTabs) {
 					this.filterTabs();
 
 					var url = new URL(window.location.href),
 						filterIndex = url.searchParams.get(this.settings.flag);
-
-					console.log(filterIndex);
 
 					if (filterIndex) {
 						this.triggerFilerTabs(filterIndex);
@@ -2032,7 +2066,13 @@
 
 				}
 
-				if ("masonry" === this.settings.layout && !this.settings.carousel) {
+				if ("masonry" !== layout && this.settings.equalHeight)
+					$blogElement.imagesLoaded(function () {
+						_this.forceEqualHeight();
+					});
+
+				// Run masony layout.
+				if ("masonry" === layout && !this.settings.carousel) {
 
 					$blogElement.imagesLoaded(function () {
 
@@ -2047,21 +2087,18 @@
 						}
 
 					});
-					//
-				}
 
-				if (this.settings.carousel) {
+				} else if (this.settings.carousel) {
 					$blogElement.slick(this.getSlickSettings());
 
+					// Show the carousel after initializing slick to avoid unstyled content flash.
 					$blogElement.removeClass("premium-carousel-hidden");
+				} else if ("marquee" === layout) {
+
+					this.buildMarqueeLayout();
 				}
 
-				if ("even" === this.settings.layout && this.settings.equalHeight) {
-					$blogElement.imagesLoaded(function () {
-						_this.forceEqualHeight();
-					});
-				}
-
+				//Handle pagination click events.
 				if (pagination) {
 					this.paginate();
 				}
@@ -2069,6 +2106,116 @@
 				if (this.settings.infinite && $blogElement.is(":visible")) {
 					this.getInfiniteScrollPosts();
 				}
+
+			},
+
+			buildMarqueeLayout: function () {
+
+				var settings = this.getElementSettings(),
+					$blogElement = this.elements.$blogElement,
+					$marqueeWrapper = this.elements.$marqueeWrapper,
+					scrollDir = settings.marquee_direction;
+
+				$blogElement.css({
+					'overflow': 'hidden',
+				});
+
+				this.cloneItems();
+				var horAlignWidth = this.setHorizontalWidth();
+
+				var fullWidth = horAlignWidth;
+				if ('normal' === scrollDir) {
+
+					var animation = gsap.to($marqueeWrapper, {
+						x: -fullWidth,
+						duration: settings.marquee_speed,
+						ease: "none",
+						repeat: -1,
+						modifiers: {
+							x: gsap.utils.unitize(x => parseFloat(x) % fullWidth)
+						}
+
+					});
+				} else {
+
+					gsap.set($marqueeWrapper[0], { x: -fullWidth });
+
+					var animation = gsap.to($marqueeWrapper, {
+						x: 0,
+						duration: settings.marquee_speed,
+						ease: "none",
+						repeat: -1,
+						modifiers: {
+							x: gsap.utils.unitize(x => {
+								var value = parseFloat(x);
+								return value > 0 ? value - fullWidth : value;
+							})
+						}
+					});
+				}
+
+
+				// Show the marquee after initializing GSAP to avoid unstyled content flash.
+				$blogElement.removeClass("premium-carousel-hidden");
+
+				// Make it draggable.
+				var isDraggable = 'yes' === this.getElementSettings('marquee_draggable') && !elementorFrontend.isEditMode();
+				if (isDraggable) {
+
+					Draggable.create($marqueeWrapper, {
+						type: 'x',
+						inertia: false,
+						onPress: function () {
+							animation.pause();
+						},
+						onDragEnd: function () {
+							animation.invalidate().restart();
+						},
+						onDrag: function () {
+							// Wrap position for seamless loop
+							const currentX = gsap.getProperty($marqueeWrapper[0], 'x');
+							if (currentX > 0) {
+								gsap.set($marqueeWrapper[0], { x: currentX - fullWidth });
+							} else if (currentX < -fullWidth) {
+								gsap.set($marqueeWrapper[0], { x: currentX + fullWidth });
+							}
+						}
+					});
+
+				}
+
+				// Pause animation on hover.
+				this.$element.hover(function () {
+					animation.pause();
+				}, function () {
+					animation.play();
+				})
+
+			},
+
+			cloneItems: function () {
+				var $marqueeWrapper = this.elements.$marqueeWrapper,
+					$items = $marqueeWrapper.find('.premium-blog-post-outer-container'),
+					docFragment = new DocumentFragment();
+
+				$items.each(function () {
+					var clone = $(this).clone(true, true)[0];
+					docFragment.appendChild(clone);
+				});
+
+				$marqueeWrapper.append(docFragment);
+			},
+
+			setHorizontalWidth: function () {
+
+				var slidesSpacing = parseFloat(getComputedStyle(this.elements.$marqueeWrapper[0]).getPropertyValue('--pa-marquee-spacing')) || 0,
+					fullWidth = 0,
+					$posts = this.$element.find('.premium-blog-post-outer-container'),
+					slideWidth = $posts[0].offsetWidth;
+
+				fullWidth = (slideWidth + slidesSpacing) * ($posts.length / 2);
+
+				return fullWidth;
 
 			},
 
@@ -2125,8 +2272,8 @@
 					prevArrow = settings.arrows ? '<a type="button" data-role="none" class="carousel-arrow carousel-prev" aria-label="Previous" role="button" style=""><i class="fas fa-angle-left" aria-hidden="true"></i></a>' : '',
 					nextArrow = settings.arrows ? '<a type="button" data-role="none" class="carousel-arrow carousel-next" aria-label="Next" role="button" style=""><i class="fas fa-angle-right" aria-hidden="true"></i></a>' : '';
 
-				return {
-					infinite: true,
+				var carouselOptions = {
+					infinite: !settings.overflowSlides,
 					slidesToShow: cols,
 					slidesToScroll: settings.slidesToScroll || cols,
 					responsive: [{
@@ -2148,17 +2295,24 @@
 					rows: 0,
 					speed: settings.speed,
 					autoplaySpeed: settings.autoplaySpeed,
+					arrows: settings.arrows,
 					nextArrow: nextArrow,
 					prevArrow: prevArrow,
-					fade: settings.fade,
-					centerMode: settings.center,
+					fade: settings.fade && !settings.overflowSlides,
+					centerMode: settings.center && !settings.overflowSlides,
 					centerPadding: settings.spacing + "px",
 					draggable: true,
 					dots: settings.dots,
 					customPaging: function () {
 						return '<i class="fas fa-circle"></i>';
 					}
+				};
+
+				if ('default' !== settings.arrows_position) {
+					carouselOptions.appendArrows = this.$element.find(".premium-carousel-arrows-wrapper");
 				}
+
+				return carouselOptions;
 
 			},
 
@@ -2817,7 +2971,8 @@
 		/****** Premium Grow Effect Handler ******/
 		var PremiumButtonHandler = function ($scope, $) {
 
-			var $btnGrow = $scope.find('.premium-button-style6-bg');
+			var $btnGrow = $scope.find('.premium-button-style6-bg'),
+				$basicBtn = $scope.find('.premium-image-button-none');
 
 			if ($btnGrow.length !== 0 && $scope.hasClass('premium-mouse-detect-yes')) {
 				$scope.on('mouseenter mouseleave', '.premium-button-style6', function (e) {
@@ -2834,6 +2989,23 @@
 				});
 			}
 
+			// Fix: Small gap appears when hover background color is the same as the border color && border-radius is applied.
+			if ($basicBtn.length) {
+				var btnHoverAttr = getComputedStyle($basicBtn[0], '::after'),
+					hoverStyle = {},
+					bgColor = btnHoverAttr.backgroundColor,
+					bgImage = btnHoverAttr.backgroundImage;
+
+				if (bgColor) {
+					hoverStyle['background-color'] = bgColor;
+				}
+
+				if (bgImage && (bgImage.startsWith("linear-gradient") || bgImage.startsWith("radial-gradient"))) {
+					hoverStyle['background-image'] = bgImage;
+				}
+
+				$basicBtn.hover(function () { $(this).css(hoverStyle); }, function () { $(this).css({ 'background-color': '', 'background-image': '' }); });
+			}
 		};
 
 		var PremiumMaskHandler = function ($scope, $) {
@@ -2975,7 +3147,15 @@
 					if (lastPathIndex == 0)
 						lastPathIndex = 1;
 
-					var fillSpeed = settings.svg_fill_speed ? settings.svg_fill_speed.size : 1;
+					var fillSpeed = parseFloat(
+						settings &&
+						settings.svg_fill_speed &&
+						settings.svg_fill_speed.size
+					);
+
+					if (!fillSpeed || isNaN(fillSpeed)) {
+						fillSpeed = 1;
+					}
 
 					timeLine.to($paths, fillSpeed, {
 						fill: settings.svg_color,

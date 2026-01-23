@@ -43,8 +43,6 @@ if ( ! class_exists( 'SPLWT_Field_notice' ) ) {
 			$style = ( ! empty( $this->field['style'] ) ) ? $this->field['style'] : 'normal';
 
 			echo ( ! empty( $this->field['content'] ) ) ? '<div class="splwt-lite-notice splwt-lite-notice-' . esc_attr( $style ) . '">' . wp_kses_post( $this->field['content'] ) . '</div>' : '';
-
 		}
-
 	}
 }

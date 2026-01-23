@@ -517,19 +517,22 @@ class Premium_Maps extends Widget_Base {
 			)
 		);
 
-		$this->add_control(
+		$this->add_responsive_control(
 			'premium_maps_map_zoom',
 			array(
-				'label'   => __( 'Zoom', 'premium-addons-for-elementor' ),
-				'type'    => Controls_Manager::SLIDER,
-				'default' => array(
+				'label'     => __( 'Zoom', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::SLIDER,
+				'default'   => array(
 					'size' => 12,
 				),
-				'range'   => array(
+				'range'     => array(
 					'px' => array(
 						'min' => 0,
 						'max' => 22,
 					),
+				),
+				'selectors' => array(
+					'{{WRAPPER}}' => '--pa-map-zoom: {{SIZE}}',
 				),
 			)
 		);
@@ -723,6 +726,8 @@ class Premium_Maps extends Widget_Base {
 				'content_classes' => 'editor-pa-doc',
 			)
 		);
+
+		Helper_Functions::register_element_feedback_controls( $this );
 
 		$this->end_controls_section();
 
@@ -1216,17 +1221,27 @@ class Premium_Maps extends Widget_Base {
 
 			$ip_address = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 
-			$env = unserialize( rplg_urlopen( "http://www.geoplugin.net/php.gp?ip=$ip_address" )['data'] );
+			$env = wp_remote_get(
+				'https://api.findip.net/' . $ip_address . '/?token=e21d68c353324af0af206c907e77ff97',
+				array(
+					'timeout'   => 15,
+					'sslverify' => false,
+				)
+			);
 
-			$centerlat = isset( $env['geoplugin_latitude'] ) ? $env['geoplugin_latitude'] : $centerlat;
+			if ( is_wp_error( $env ) || empty( $env ) ) {
+				return; // localhost.
+			}
 
-			$centerlong = isset( $env['geoplugin_longitude'] ) ? $env['geoplugin_longitude'] : $centerlong;
+			$env = json_decode( wp_remote_retrieve_body( $env ), true );
 
+			$centerlat = isset( $env['location']['latitude'] ) ? $env['location']['latitude'] : $centerlat;
+
+			$centerlong = isset( $env['location']['longitude'] ) ? $env['location']['longitude'] : $centerlong;
 		}
 
 		$map_settings = array(
 			'mapId'             => $settings['premium_map_id'],
-			'zoom'              => $settings['premium_maps_map_zoom']['size'],
 			'maptype'           => $settings['premium_maps_map_type'],
 			'streetViewControl' => $street_view,
 			'centerlat'         => $centerlat,
