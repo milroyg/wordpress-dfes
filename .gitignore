@@ -1,6 +1,7 @@
 # Ignore uploads & cache
 wp-content/cache/
 wp-content/upgrade/
+wp-content/uploads/elementor/
 
 # Ignore log files
 *.log
