@@ -4487,13 +4487,10 @@ class Mini_Cart extends Widget_Base {
 		$this->add_control(
 			'pa_btn_bg_progress',
 			array(
-				'label'     => __( 'Value Indicator Color', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Fill Color', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
-					'{{WRAPPER}} .pa-woo-mc__progressbar-wrapper progress::-webkit-progress-value' => 'background-color: {{VALUE}};',
-					'{{WRAPPER}} .pa-woo-mc__progressbar-wrapper progress::-moz-progress-bar' => 'background-color: {{VALUE}};',
-					'{{WRAPPER}}' => '@-webkit-keyframes progress-bar-move { 0% { background-position: 0 0; } 100% { background-position: 30px 30px; } } @keyframes progress-bar-move { 0% { background-position: 0 0; } 100% { background-position: 30px 30px; } }',
-					'{{WRAPPER}} .pa-woo-mc__progressbar::-webkit-progress-bar' => 'background-color: #e6e6e6; background-image: -webkit-linear-gradient(315deg, rgba(255, 255, 255, 0.7) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.7) 50%, rgba(255, 255, 255, 0.7) 75%, transparent 75%, transparent); background-size: 30px 30px; animation: progress-bar-move 2s linear infinite reverse;',
+					'{{WRAPPER}} .pa-woo-mc__progressbar-fill' => 'background-color: {{VALUE}};',
 				),
 				'condition' => array(
 					'mc_progressbar' => 'yes',
@@ -5555,7 +5552,9 @@ class Mini_Cart extends Widget_Base {
 							<div class="pa-woo-mc__progressbar-wrapper" data-pa-progress-txt="<?php echo wp_kses_data( $this->format_free_shipping_txt( $settings, $free_shipping_threshold, $raw_subtotal ) ); ?>" data-pa-progress-threshold="<?php echo esc_attr( $free_shipping_threshold ); ?>" data-pa-progress-complete="<?php echo esc_attr( $settings['complete_txt'] ); ?>">
 								<span class="pa-woo-mc__subtotal-placeholder" style="display:none"><?php echo esc_html( $raw_subtotal ); ?></span>
 								<span class="pa-woo-mc__progress-heading"></span>
-								<progress class="pa-woo-mc__progressbar" value="<?php echo esc_attr( $this->get_purchase_percentage( $free_shipping_threshold ) ); ?>" max="100"></progress>
+								<div class="pa-woo-mc__progressbar" role="progressbar" aria-valuenow="<?php echo esc_attr( $this->get_purchase_percentage( $free_shipping_threshold ) ); ?>" aria-valuemin="0" aria-valuemax="100">
+									<div class="pa-woo-mc__progressbar-fill" style="width: <?php echo esc_attr( $this->get_purchase_percentage( $free_shipping_threshold ) ); ?>%;"></div>
+								</div>
 							</div>
 						<?php endif; ?>
 				<?php } ?>

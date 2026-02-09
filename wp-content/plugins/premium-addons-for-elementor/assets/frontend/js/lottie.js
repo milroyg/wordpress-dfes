@@ -18736,7 +18736,7 @@
 							instance = new premiumLottieAnimations($item);
 							instance.init();
 
-							lottieOvserver.unobserve(entry.target); // to only excecute the callback func once.
+							lottieOvserver.unobserve(entry.target); // to only execute the callback func once.
 						}
 					});
 				});
@@ -18780,7 +18780,7 @@
 			entries.forEach(function (entry) {
 				if (entry.isIntersecting) {
 					generateLottieAnimation();
-					lottieAddonOvserver.unobserve(entry.target); // to only excecute the callback func once.
+					lottieAddonOvserver.unobserve(entry.target); // to only execute the callback func once.
 
 				}
 			});

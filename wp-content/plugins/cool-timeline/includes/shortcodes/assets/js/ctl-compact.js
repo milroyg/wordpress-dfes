@@ -68,10 +68,15 @@ class ctlCompact {
 				topPosDiff =
 					jQuery(element).position().top -
 					jQuery(element).prev().position().top;
-				if (topPosDiff < 40) {
+					
+					const iconWrp=element.querySelector('.ctl-icon,.ctl-icondot');
+					const expectedSize=iconWrp.offsetHeight + 12;
+				
+					if (topPosDiff < expectedSize) {
+						const gapSize=expectedSize - topPosDiff -5;
 					jQuery(element)
 						.removeClass('ctl-compact-up')
-						.addClass('ctl-compact-down');
+						.addClass('ctl-compact-down').css('--ctw-compact-top-spacing',`${gapSize}px`);
 					jQuery(element)
 						.prev()
 						.removeClass('ctl-compact-down')

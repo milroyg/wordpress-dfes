@@ -264,7 +264,7 @@
 
 							}, 1000 * (animationSpeed + animationDelay));
 
-							eleObserver.unobserve(entry.target); // to only excecute the callback func once.
+							eleObserver.unobserve(entry.target); // to only execute the callback func once.
 						}
 					});
 				});

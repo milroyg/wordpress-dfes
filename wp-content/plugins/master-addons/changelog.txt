@@ -1,4 +1,7 @@
 == Changelog ==
+= 2.1.1 (25-01-2026) =
+Fixed: Timeline icon not showing issue fixed.
+
 = 2.1.0 (11-01-2026) =
 
 **WHITE LABEL**

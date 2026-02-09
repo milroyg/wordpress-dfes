@@ -361,7 +361,7 @@ function download_tiktok_video( $video_url, $video_id, $geturl = false ) {
 		CURLOPT_SSL_VERIFYHOST => 2, // Enable SSL verification
 		CURLOPT_SSL_VERIFYPEER => true, // Enable SSL verification
 		CURLOPT_TIMEOUT        => 30,
-		CURLOPT_MAXFILESIZE    => 10 * 1024 * 1024, // 10MB limit
+		CURLOPT_MAXFILESIZE    => 50 * 1024 * 1024, // 50MB limit
 	);
 
 	curl_setopt_array( $ch, $options );
@@ -374,9 +374,9 @@ function download_tiktok_video( $video_url, $video_id, $geturl = false ) {
 	// return new WP_Error( 'download_failed', 'Failed to download video' );
 	// }
 
-	if ( strlen( $data ) > 10 * 1024 * 1024 ) {
+	if ( strlen( $data ) > 50 * 1024 * 1024 ) {
 		curl_close( $ch );
-		return new WP_Error( 'file_too_large', 'Video is larger than 10MB' );
+		return new WP_Error( 'file_too_large', 'Video is larger than 50MB' );
 	}
 
 	curl_close( $ch );

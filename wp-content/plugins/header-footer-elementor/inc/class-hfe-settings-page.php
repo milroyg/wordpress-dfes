@@ -360,7 +360,7 @@ class HFE_Settings_Page {
 			$siteurl    = $this->fetch_site_url();
 			$show_theme_support = 'no';
 			$hfe_theme_status   = get_option( 'hfe_is_theme_supported', false );
-			$analytics_status   = get_option( 'uae_analytics_optin', false );
+			$analytics_status   = get_option( 'uae_usage_optin', false );
 	
 			if ( ( ! current_theme_supports( 'header-footer-elementor' ) ) && ! $hfe_theme_status ) {
 				$show_theme_support = 'yes';

@@ -272,7 +272,16 @@
 					progressVal = parseFloat(((subtotal / freeShippingThreshold) * 100).toFixed(2)),
 					completeTxt = $scope.find('.pa-woo-mc__progressbar-wrapper').data('pa-progress-complete');
 
-				$scope.find('.pa-woo-mc__progressbar').attr('value', progressVal);
+				// Ensure progress value is between [0 - 100]
+				if (progressVal > 100) {
+					progressVal = 100;
+				} else if (progressVal < 0) {
+					progressVal = 0;
+				}
+
+				// Update the progress bar fill width
+				$scope.find('.pa-woo-mc__progressbar-fill').css('width', progressVal + '%');
+				$scope.find('.pa-woo-mc__progressbar').attr('aria-valuenow', progressVal);
 
 				// update its message if the purchase threshold is met.
 				if ((subtotal >= freeShippingThreshold) && completeTxt) {

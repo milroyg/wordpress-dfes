@@ -163,7 +163,7 @@
 							PremiumProgressDotsHandler($(entry.target));
 						}
 
-						eleObserver.unobserve(entry.target); // to only excecute the callback func once.
+						eleObserver.unobserve(entry.target); // to only execute the callback func once.
 					}
 				});
 			});
@@ -973,7 +973,7 @@
 
 							$(iconElement).addClass("animated " + iconElement.data("animation"));
 
-							eleObserver.unobserve(entry.target); // to only excecute the callback func once.
+							eleObserver.unobserve(entry.target); // to only execute the callback func once.
 						}
 					});
 				});
@@ -1260,7 +1260,7 @@
 
 								}, 1000 * (animationSpeed + animationDelay));
 
-								eleObserver.unobserve(entry.target); // to only excecute the callback func once.
+								eleObserver.unobserve(entry.target); // to only execute the callback func once.
 							}
 						});
 					});
@@ -1455,9 +1455,9 @@
 			addSlideContent();
 
 			function slideToShow(slick) {
-
 				var slidesToShow = slick.options.slidesToShow,
 					windowWidth = $(window).width();
+
 				if (windowWidth > settings.tabletBreak) {
 					slidesToShow = settings.slidesDesk;
 				}
@@ -1471,11 +1471,10 @@
 				}
 
 				return slidesToShow;
-
 			}
 
 			/**
-			 * Used to add the template content to the carousel slide when the template source is an exisitng template on the page.
+			 * Used to add the template content to the carousel slide when the template source is an existing template on the page.
 			 */
 			function addSlideContent() {
 				$scope.find(".premium-carousel-template[data-template-src]").each(function () {
@@ -1525,19 +1524,20 @@
 
 			$carouselElem.find(".premium-carousel-inner").slick(getSlickOptions(settings));
 
-			function getSlickOptions(settings) {
+			if (settings.hasNavSlider) {
 
-				var appearance = settings.appearance;
+				var isVerticalNav = $scope.hasClass('pa-thumb-nav-pos-row') || $scope.hasClass('pa-thumb-nav-pos-row-reverse');
 
-				var options = {
-					vertical: settings.vertical,
-					slidesToScroll: 'all' === appearance ? settings.slidesDesk : 1,
-					slidesToShow: settings.slidesToShow,
+				var navOptions = {
+					rows: 0, // uses the DIVs we added directly without wrapping it in extra DIVs to create a grid layout, the Divs class will be alongside the slick-slide class.
+					vertical: isVerticalNav,
+					slidesToScroll: 1,
+					slidesToShow: settings.slidesDesk,
 					responsive: [{
 						breakpoint: settings.tabletBreak,
 						settings: {
 							slidesToShow: settings.slidesTab,
-							slidesToScroll: 'all' === appearance ? settings.slidesTab : 1,
+							slidesToScroll: settings.slidesTab,
 							swipe: settings.touchMove,
 						}
 					},
@@ -1545,40 +1545,106 @@
 						breakpoint: settings.mobileBreak,
 						settings: {
 							slidesToShow: settings.slidesMob,
-							slidesToScroll: 'all' === appearance ? settings.slidesMob : 1,
+							slidesToScroll: settings.slidesMob,
 							swipe: settings.touchMove,
 						}
 					}
 					],
+					draggable: settings.draggable,
+					infinite: true,
+					autoplay: settings.thumbAutoplay,
+					autoplaySpeed: settings.thumbAutoplaySpeed,
+					arrows: settings.arrows,
+					prevArrow: $carouselElem.find(".premium-carousel-nav-arrow-prev").html(),
+					nextArrow: $carouselElem.find(".premium-carousel-nav-arrow-next").html(),
+					dots: false,
+					focusOnSelect: true,
+					pauseOnHover: settings.pauseOnHover,
+					// rtl: !isVerticalNav && elementorFrontend.config.is_rtl,
+					rtl: false, // false as it causes issues in RTL mode with the .slick-current class
+					centerMode: settings.centerMode,
+					centerPadding: computedStyle.getPropertyValue('--pa-thumb-slider-center-padding') + 'px',
+					asNavFor: $carouselElem.find(".premium-carousel-inner")
+				};
+
+				if (settings.arrowCustomPos) {
+					navOptions.appendArrows = $carouselElem.find(".premium-carousel-arrows-wrapper");
+				}
+
+				$scope.find('#premium-carousel-nav-' + widgetID).slick(navOptions);
+			}
+
+			function getSlickOptions(settings) {
+
+				var options = {
+					vertical: settings.vertical,
 					useTransform: true,
 					fade: settings.fade,
 					infinite: settings.infinite,
 					speed: settings.speed,
-					autoplay: settings.autoplay,
-					autoplaySpeed: settings.autoplaySpeed,
 					rows: 0,
 					draggable: settings.draggable,
-					rtl: elementorFrontend.config.is_rtl,
-					adaptiveHeight: settings.adaptiveHeight,
-					pauseOnHover: settings.pauseOnHover,
-					centerMode: settings.centerMode,
-					centerPadding: computedStyle.getPropertyValue('--pa-carousel-center-padding') + 'px',
-					arrows: settings.arrows,
-					prevArrow: $carouselElem.find(".premium-carousel-nav-arrow-prev").html(),
-					nextArrow: $carouselElem.find(".premium-carousel-nav-arrow-next").html(),
-					dots: settings.dots,
-					variableWidth: settings.variableWidth,
-					cssEase: settings.cssEase,
-					customPaging: function () {
-						var customDot = $carouselElem.find(".premium-carousel-nav-dot").html();
-						return customDot;
-					},
-					carouselNavigation: settings.carouselNavigation,
-					templatesNumber: settings.templatesNumber,
-				}
+					rtl: !settings.vertical && elementorFrontend.config.is_rtl
+				};
 
-				if (settings.arrowCustomPos) {
-					options.appendArrows = $carouselElem.find(".premium-carousel-arrows-wrapper");
+				if (settings.hasNavSlider) {
+					Object.assign(options, {
+						slidesToShow: 1,
+						slidesToScroll: 1,
+						autoplay: false,
+						arrows: false,
+						autoplay: false,
+						centerMode: false,
+						asNavFor: '#premium-carousel-nav-' + widgetID
+					});
+
+				} else {
+					var appearance = settings.appearance;
+
+					Object.assign(options, {
+						vertical: settings.vertical,
+						slidesToScroll: 'all' === appearance ? settings.slidesDesk : 1,
+						slidesToShow: settings.slidesToShow,
+						responsive: [{
+							breakpoint: settings.tabletBreak,
+							settings: {
+								slidesToShow: settings.slidesTab,
+								slidesToScroll: 'all' === appearance ? settings.slidesTab : 1,
+								swipe: settings.touchMove,
+							}
+						},
+						{
+							breakpoint: settings.mobileBreak,
+							settings: {
+								slidesToShow: settings.slidesMob,
+								slidesToScroll: 'all' === appearance ? settings.slidesMob : 1,
+								swipe: settings.touchMove,
+							}
+						}
+						],
+						autoplay: settings.autoplay,
+						autoplaySpeed: settings.autoplaySpeed,
+						adaptiveHeight: settings.adaptiveHeight,
+						pauseOnHover: settings.pauseOnHover,
+						centerMode: settings.centerMode,
+						centerPadding: computedStyle.getPropertyValue('--pa-carousel-center-padding') + 'px',
+						dots: settings.dots,
+						variableWidth: settings.variableWidth,
+						cssEase: settings.cssEase,
+						arrows: settings.arrows,
+						prevArrow: $carouselElem.find(".premium-carousel-nav-arrow-prev").html(),
+						nextArrow: $carouselElem.find(".premium-carousel-nav-arrow-next").html(),
+						customPaging: function () {
+							var customDot = $carouselElem.find(".premium-carousel-nav-dot").html();
+							return customDot;
+						},
+						carouselNavigation: settings.carouselNavigation,
+						templatesNumber: settings.templatesNumber,
+					});
+
+					if (settings.arrowCustomPos) {
+						options.appendArrows = $carouselElem.find(".premium-carousel-arrows-wrapper");
+					}
 				}
 
 				return options;
@@ -1730,6 +1796,7 @@
 							maxHeight = $(this).height();
 						}
 					});
+
 					$carouselElem.find(".slick-slide").each(function () {
 						if ($(this).height() < maxHeight) {
 							$(this).css("margin", Math.ceil(
@@ -1738,6 +1805,7 @@
 					});
 				});
 			}
+
 			var marginFix = {
 				element: $("a.ver-carousel-arrow"),
 				getWidth: function () {
@@ -1753,9 +1821,12 @@
 					}
 				}
 			};
-			marginFix.setWidth();
-			marginFix.element = $("a.carousel-arrow");
-			//marginFix.setWidth("horizontal");
+
+			if (!settings.hasNavSlider) {
+				marginFix.setWidth();
+				marginFix.element = $("a.carousel-arrow");
+				//marginFix.setWidth("horizontal");
+			}
 
 			$(document).ready(function () {
 
@@ -1860,11 +1931,41 @@
 			if (!settings) {
 				return;
 			}
+			addModalBoxContent($scope);
 
 			var modalOptions = {
 				backdrop: isDismissible ? true : "static",
 				keyboard: isDismissible
 			};
+
+			function addModalBoxContent($scope) {
+
+				var $modalTemplate = $scope.find('.premium-modalbox-template[data-template-src]').first();
+
+				if (!$modalTemplate.length) {
+					return;
+				}
+
+				var containerID = $modalTemplate.data('template-src'),
+					$templateContent = $('#' + containerID);
+
+				if (!$templateContent.length) {
+					$(this).html(
+						'<div class="premium-error-notice"><span>Container with ID <b>' +
+						containerID +
+						'</b> does not exist on this page. Please make sure that container ID is properly set from section settings -> Advanced tab -> CSS ID.</span></div>'
+					);
+					return;
+				}
+
+				if (!elementorFrontend.isEditMode()) {
+					$modalTemplate.append($templateContent);
+				} else {
+					$scope.find('.elementor-element-overlay').remove();
+					$modalTemplate.append($templateContent.clone(true));
+				}
+			}
+
 
 			// Disable dismiss behavior if not dismissible.
 			if (!isDismissible) {
@@ -1923,7 +2024,7 @@
 								$modal.css("opacity", "1").addClass("animated " + $modal.data("modal-animation"));
 							}, animationDelay * 1000);
 
-							eleObserver.unobserve(entry.target); // to only excecute the callback func once.
+							eleObserver.unobserve(entry.target); // to only execute the callback func once.
 						}
 					});
 				}, {
@@ -2814,7 +2915,7 @@
 		};
 
 		/****** Premium Bullet List Handler ******/
-		var PremiumBulletListHandler = ModuleHandler.extend({
+		var PremiumBulletListHandler = elementorModules.frontend.handlers.Base.extend({
 
 			getDefaultSettings: function () {
 
@@ -2844,15 +2945,39 @@
 				this.addRandomBadges();
 
 				var self = this;
+				var settings = this.getElementSettings();
+
 				if (!this.$element.is(':visible') && this.$element.closest('.premium-mega-nav-item').length > 0)
 					this.$element.closest('.premium-mega-nav-item').find('.premium-menu-link').on('click', function () {
 						self.addRandomBadges();
 					});
 
-				$(window).on('resize', self.handleAlignment);
+				$(window).on('resize.paHandleAlignment', self.handleAlignment);
 
+				if (!this.elements.$listItems.data("list-animation") && settings.show_connector === 'yes') {
+					// Update connectors on load
+					setTimeout(function () { self.updateBulletConnectors(); }, 100);
+
+					// observe items size.
+					if (typeof ResizeObserver !== 'undefined') {
+						self.paResizeObserver = new ResizeObserver(() => {
+							self.updateBulletConnectors();
+						});
+
+						// Observe all relevant items
+						self.elements.$items.each(function () {
+							self.paResizeObserver.observe(this);
+						});
+					}
+				}
 			},
-
+			unbindEvents: function () {
+				if (this.paResizeObserver) {
+					this.paResizeObserver.disconnect();
+					this.paResizeObserver = null;
+				}
+				$(window).off('resize.paHandleAlignment', this.handleAlignment);
+			},
 			run: function () {
 
 				this.handleAlignment();
@@ -2890,19 +3015,15 @@
 								element.css("opacity", "1").addClass("animated " + $listItems.data("list-animation"));
 							}, delay);
 
-							eleObserver.unobserve(entry.target); // to only excecute the callback func once.
+							eleObserver.unobserve(entry.target); // to only execute the callback func once.
 						}
 					});
 				});
 
 				$items.each(function (index, item) {
-
 					if ($listItems.data("list-animation") && " " != $listItems.data("list-animation")) {
-
 						eleObserver.observe($(item)[0]); // we need to apply this on each item
-
 					}
-
 				});
 			},
 
@@ -2914,9 +3035,8 @@
 
 				$element.addClass('premium-bullet-list-' + listAlignment);
 
-				if (['flex-end', 'flex-start'].includes(listAlignment)) {
-					var transformOrigin = 'flex-start' === listAlignment ? 'left' : 'right';
-					$element.find('.pa-has-text-bullet:not(.premium-bullet-list-wrapper-top)').css('transform-origin', transformOrigin);
+				if ('flex-end' === listAlignment) {
+					$element.find('.pa-has-text-bullet:not(.premium-bullet-list-wrapper-top)').css('transform-origin', 'right');
 				}
 			},
 
@@ -2952,20 +3072,51 @@
 							var randomIndex = Math.floor(Math.random() * notBadgedItems.length),
 								wasBadgedBefore = $(notBadgedItems[randomIndex]).siblings('.premium-bullet-list-badge').length > 0;
 
-
 							if (!wasBadgedBefore) {
 								$(notBadgedItems[randomIndex]).after(badgeText);
 							}
-
-
 						}
-
 					}
 				})
 
 				this.$element.addClass('randomb-applied');
-			}
+			},
 
+			updateBulletConnectors: function () {
+				const elements = this.elements;
+
+				if (!elements || !elements.$items || !elements.$items.length) {
+					return;
+				}
+
+				elements.$items.each((index, item) => {
+					const wrapper = item.querySelector('.premium-bullet-list-wrapper');
+					const nextItem = elements.$items[index + 1];
+
+					// last item || no bullet list.
+					if (!wrapper || !nextItem) {
+						if (wrapper) {
+							wrapper.style.setProperty('--pa-connector-height', '0px');
+						}
+						return;
+					}
+
+					const nextWrapper = nextItem.querySelector('.premium-bullet-list-wrapper');
+
+					if (!nextWrapper) {
+						wrapper.style.setProperty('--pa-connector-height', '0px');
+						return;
+					}
+
+					const currentRect = wrapper.getBoundingClientRect();
+					const nextRect = nextWrapper.getBoundingClientRect();
+
+					// Distance from bottom of current icon to top of next icon
+					const height = Math.max(0, nextRect.top - currentRect.bottom);
+
+					wrapper.style.setProperty('--pa-connector-height', `${height}px`);
+				});
+			}
 		});
 
 		/****** Premium Grow Effect Handler ******/
@@ -3051,7 +3202,7 @@
 							$($scope).addClass('premium-mask-active');
 						}
 
-						eleObserver.unobserve(entry.target); // to only excecute the callback func once.
+						eleObserver.unobserve(entry.target); // to only execute the callback func once.
 					}
 				});
 			});
@@ -3252,7 +3403,7 @@
 							entries.forEach(function (entry) {
 								if (entry.isIntersecting) {
 									_this.renderWordCloud();
-									eleObserver.unobserve(entry.target); // to only excecute the callback func once.
+									eleObserver.unobserve(entry.target); // to only execute the callback func once.
 								}
 							});
 						});
@@ -4464,7 +4615,7 @@
 						entries.forEach(function (entry) {
 							if (entry.isIntersecting) {
 								runInfiniteAnimation();
-								wheelObserver.unobserve(entry.target); // to only excecute the callback func once.
+								wheelObserver.unobserve(entry.target); // to only execute the callback func once.
 							}
 						});
 					});
@@ -4554,7 +4705,7 @@
 
 								$carouselContainer.focusWithoutScrolling();
 
-								eleObserver.unobserve(entry.target); // to only excecute the callback func once.
+								eleObserver.unobserve(entry.target); // to only execute the callback func once.
 							}
 						});
 					});
@@ -4613,6 +4764,37 @@
 							$video.css("visibility", "visible");
 						}
 					});
+				});
+			}
+			addSlideContent();
+
+			/**
+			 * Used to add the template content to the carousel slide when the template source is an exisitng template on the page.
+			 */
+			function addSlideContent() {
+				$scope.find(".premium-adv-carousel__item--container[data-template-src]").each(function () {
+					var containerID = $(this).data("template-src");
+
+					var $templateContent = $('#' + containerID);
+
+					if (!$templateContent.length) {
+						$(this).html(
+							'<div class="premium-error-notice"><span>Container with ID <b>' +
+							containerID +
+							"</b> does not exist on this page. Please make sure that container ID is properly set from section settings -> Advanced tab -> CSS ID.<span></div>"
+						);
+
+						return;
+					}
+
+					if (!elementorFrontend.isEditMode()) {
+						$(this).append($templateContent);
+					} else {
+						$scope.find(".elementor-element-overlay")
+							.remove();
+						$(this).append($templateContent.clone(true));
+					}
+
 				});
 			}
 
@@ -4858,25 +5040,26 @@
 					rtl = this.elements.$multipleTestimonials.data("rtl"),
 					colsNumber = 'skin4' !== settings.skin ? parseInt(100 / settings.testimonials_per_row.substr(0, settings.testimonials_per_row.indexOf('%'))) : 1,
 					colsTablet = 'skin4' !== settings.skin ? parseInt(100 / settings.testimonials_per_row_tablet.substr(0, settings.testimonials_per_row_tablet.indexOf('%'))) : 1,
-					colsMobile = 'skin4' !== settings.skin ? parseInt(100 / settings.testimonials_per_row_mobile.substr(0, settings.testimonials_per_row_mobile.indexOf('%'))) : 1;
+					colsMobile = 'skin4' !== settings.skin ? parseInt(100 / settings.testimonials_per_row_mobile.substr(0, settings.testimonials_per_row_mobile.indexOf('%'))) : 1,
+					slidesToScroll = parseFloat(getComputedStyle(this.$element[0]).getPropertyValue('--pa-carousel-slides'));
 
 				return Object.assign(this.getSettings('slick'), {
 
 					slide: '.premium-testimonial-container',
 					slidesToShow: colsNumber,
-					slidesToScroll: colsNumber,
+					slidesToScroll: slidesToScroll || colsNumber,
 					responsive: [{
 						breakpoint: 1025,
 						settings: {
 							slidesToShow: colsTablet,
-							slidesToScroll: 1
+							slidesToScroll: slidesToScroll || 1
 						}
 					},
 					{
 						breakpoint: 768,
 						settings: {
 							slidesToShow: colsMobile,
-							slidesToScroll: 1
+							slidesToScroll: slidesToScroll || 1
 						}
 					}
 					],
@@ -4886,7 +5069,8 @@
 					speed: 500,
 					// arrows: 'skin4' !== settings.skin ? true : false,
 					arrows: true,
-					fade: 'skin4' === settings.skin ? true : false
+					fade: 'skin4' === settings.skin ? true : false,
+					accessibility: false
 
 				});
 
@@ -4961,7 +5145,8 @@
 							speed: 500,
 							autoplay: settings.carousel_play,
 							autoplaySpeed: settings.speed || 5000,
-							rtl: false
+							rtl: false,
+							accessibility: false
 						});
 
 						$multipleTestimonials.slick('slickGoTo', 1);
@@ -5001,12 +5186,11 @@
 		var PremiumTextualShowcaseHandler = function ($scope, $) {
 
 			var trigger = $scope.find('.pa-txt-sc__outer-container').hasClass('pa-trigger-on-viewport') ? 'viewport' : 'hover',
-				hasGrowEffect = $scope.find('.pa-txt-sc__effect-grow').length;
+				hasGrowEffect = $scope.find('.pa-txt-sc__effect-grow').length,
+				entranceAnimation = $scope.find('.pa-txt-sc__outer-container').data('list-animation');
 
 			// Using IntersectionObserverAPI.
-			$scope.off('.PaTextualHandler');
-
-			var eleObserver = new IntersectionObserver(function (entries) {
+			var itemObserver = new IntersectionObserver(function (entries) {
 				entries.forEach(function (entry) {
 					if (entry.isIntersecting) {
 
@@ -5018,13 +5202,27 @@
 							triggerItemsEffects();
 						}
 
-						eleObserver.unobserve(entry.target); // to only excecute the callback func once.
+						if (entranceAnimation) {
+							var element = $(entry.target),
+								delay = element.data('delay');
+
+							setTimeout(function () {
+								element.css("opacity", "1").addClass("animated " + entranceAnimation);
+							}, delay);
+						}
+
+						itemObserver.unobserve(entry.target); // to only execute the callback func once.
 					}
 				});
 			});
 
-			eleObserver.observe($scope[0]);
+			if (entranceAnimation) {
+				$scope.find('.pa-txt-sc__item-container').each(function (index, item) {
+					itemObserver.observe($(item)[0]); // we need to apply this on each item
+				});
+			}
 
+			$scope.off('.PaTextualHandler');
 			if ('viewport' !== trigger) {
 				$scope.on("mouseenter.PaTextualHandler mouseleave.PaTextualHandler", function () {
 					triggerItemsEffects();

@@ -864,8 +864,15 @@
   background-image: -webkit-linear-gradient(315deg, rgba(255, 255, 255, 0.7) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.7) 50%, rgba(255, 255, 255, 0.7) 75%, transparent 75%, transparent);
   background-size: 30px 30px;
   animation: progress-bar-move 2s linear infinite reverse;
-  -webkit-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+  position: relative;
+}
+.pa-woo-mc__progressbar-fill {
+  height: 100%;
+  background-color: #ff5733;
+  -webkit-transition: width 0.5s linear;
+  transition: width 0.5s linear;
+  background-image: none;
 }
 .pa-woo-mc__progress-heading {
   font-size: 14px;
@@ -1459,7 +1466,6 @@ svg:not(:root).pa-woo-mc__qty-btn {
     -ms-transform: translateX(0%);
     transform: translateX(0%);
   }
-  /*Progressbar*/
   .pa-woo-mc_slide-right.pa-woo-mc-mobile__mw-center .pa-woo-mc__menu {
     -webkit-transform: translateX(-55%);
     -ms-transform: translateX(-55%);

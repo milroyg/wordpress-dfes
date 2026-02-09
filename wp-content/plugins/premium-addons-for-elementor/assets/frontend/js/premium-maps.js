@@ -39,7 +39,7 @@ jQuery(window).on("elementor/frontend/init", function () {
 					entries.forEach(function (entry) {
 						if (entry.isIntersecting) {
 							premiumMap = newMap(mapElement, mapSettings, mapStyle);
-							eleObserver.unobserve(entry.target); // to only excecute the callback func once.
+							eleObserver.unobserve(entry.target); // to only execute the callback func once.
 						}
 					});
 				}, {

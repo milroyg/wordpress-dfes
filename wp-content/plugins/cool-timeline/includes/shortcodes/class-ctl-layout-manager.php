@@ -146,6 +146,7 @@ if ( ! class_exists( 'CTL_Layout_Manager' ) ) {
 						<div id="ctl-slider-container" class="ctl-slider-container swiper-container swiper-container-horizontal">
 							<!-- Timeline Container -->
 							<div class="ctl-slider-wrapper ctl-timeline-container swiper-wrapper">
+							<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 							<?php echo $response['HTML']; ?>
 							</div>
 							<span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
@@ -153,10 +154,12 @@ if ( ! class_exists( 'CTL_Layout_Manager' ) ) {
 					</div>
 					<!-- Swiper Next button -->
 					<div class="ctl-button-prev swiper-button-disabled" tabindex="0" role="button" aria-label="Previous slide" aria-disabled="true">
+						<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						<?php echo $swiper_left_arrow; ?>
 					</div>
 					<!-- Swiper Previous Button -->
 					<div class="ctl-button-next" tabindex="0" role="button" aria-label="Next slide" aria-disabled="false">
+						<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						<?php echo $swiper_right_arrow; ?>
 					</div>
 					<!-- Swiper Horizontal line -->
@@ -193,6 +196,7 @@ if ( ! class_exists( 'CTL_Layout_Manager' ) ) {
 					<div class="ctl-timeline ctl-timeline-container" data-animation="<?php echo esc_attr( $attributes['config']['animation'] ); ?>">
 						<!-- Center Line -->
 						<div class="ctl-inner-line" role="presentation"></div>
+						<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						<?php echo $response['HTML']; ?>
 					</div>
 					<div class="ctl-end"></div>
@@ -203,6 +207,7 @@ if ( ! class_exists( 'CTL_Layout_Manager' ) ) {
 							get_query_var( 'paged' ),
 							get_query_var( 'page' )
 						);
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						echo CTL_Helpers::ctl_pagination( $this->wp_query, $paged, $svg_icon );
 					}
 					?>

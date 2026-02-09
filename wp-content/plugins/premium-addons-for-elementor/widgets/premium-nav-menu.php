@@ -1915,7 +1915,7 @@ class Premium_Nav_Menu extends Widget_Base {
 		$this->add_responsive_control(
 			'pa_mobile_toggle_pos',
 			array(
-				'label'     => __( 'Toggle Button Position', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Button Position', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					$align_left  => array(
@@ -2022,7 +2022,7 @@ class Premium_Nav_Menu extends Widget_Base {
 		$this->add_responsive_control(
 			'pa_ham_menu_width',
 			array(
-				'label'       => __( 'Toggle Menu Width', 'premium-addons-for-elementor' ),
+				'label'       => __( 'Menu Width', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::SLIDER,
 				'separator'   => 'before',
 				'label_block' => true,
@@ -2041,6 +2041,59 @@ class Premium_Nav_Menu extends Widget_Base {
 				'condition'   => array(
 					'pa_toggle_full!' => 'yes',
 				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'pa_toggle_menu_height',
+			array(
+				'label'       => __( 'Menu Max Height', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::SLIDER,
+				'separator'   => 'before',
+				'label_block' => true,
+				'size_units'  => array( 'px', 'vh', 'custom' ),
+				'range'       => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 1000,
+					),
+				),
+				'selectors'   => array(
+					'{{WRAPPER}}.premium-nav-sticky-yes.premium-sticky-active.premium-ham-dropdown .premium-mobile-menu-container,
+					 {{WRAPPER}}.premium-ham-dropdown .premium-stretch-dropdown .premium-mobile-menu-container' => 'max-height: {{SIZE}}{{UNIT}};',
+				),
+				'conditions' => array(
+					'terms' => array(
+						array(
+							'name'     => 'pa_toggle_full',
+							'operator' => '===',
+							'value'    => 'yes',
+						),
+						array(
+							'relation' => 'or',
+							'terms'    => array(
+								array(
+									'name'  => 'pa_nav_menu_layout',
+									'value' => 'dropdown',
+								),
+								array(
+									'relation' => 'and',
+									'terms'    => array(
+										array(
+											'name'  => 'pa_mobile_menu_layout',
+											'value' => 'dropdown',
+										),
+										array(
+											'name'     => 'pa_nav_menu_layout',
+											'operator' => 'in',
+											'value'    => array( 'hor', 'ver' ),
+										),
+									),
+								),
+							),
+						)
+					)
+				)
 			)
 		);
 

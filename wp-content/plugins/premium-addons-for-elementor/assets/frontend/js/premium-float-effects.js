@@ -87,7 +87,7 @@
 					entries.forEach(function (entry) {
 						if (entry.isIntersecting) {
 							_this.applyEffects(eleSettings);
-							eleObserver.unobserve(entry.target); // to only excecute the callback func once.
+							eleObserver.unobserve(entry.target); // to only execute the callback func once.
 						}
 					});
 				});

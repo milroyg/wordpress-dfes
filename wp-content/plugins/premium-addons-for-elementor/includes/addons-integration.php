@@ -205,26 +205,6 @@ class Addons_Integration {
 	}
 
 	/**
-	 * Register Old Scripts
-	 *
-	 * @since 4.9.0
-	 * @access public
-	 *
-	 * @param string $directory script directory.
-	 * @param string $suffix file suffix.
-	 */
-	public function register_old_scripts( $directory, $suffix ) {
-
-		wp_register_script(
-			'premium-addons',
-			PREMIUM_ADDONS_URL . 'assets/frontend/' . $directory . '/premium-addons' . $suffix . '.js',
-			array( 'jquery' ),
-			PREMIUM_ADDONS_VERSION,
-			true
-		);
-	}
-
-	/**
 	 * Enqueue Preview CSS files
 	 *
 	 * @since 2.9.0

@@ -452,6 +452,23 @@ class Premium_Testimonials extends Widget_Base {
 			)
 		);
 
+		$this->add_responsive_control(
+			'slides_to_scroll',
+			array(
+				'label'       => __( 'Slides To Scroll', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::NUMBER,
+				'render_type' => 'template',
+				'selectors'   => array(
+					'{{WRAPPER}}' => '--pa-carousel-slides: {{VALUE}}',
+				),
+				'condition'   => array(
+					'multiple' => 'yes',
+					'carousel' => 'yes',
+					'skin!'    => 'skin4',
+				),
+			)
+		);
+
 		$this->add_control(
 			'carousel_play',
 			array(

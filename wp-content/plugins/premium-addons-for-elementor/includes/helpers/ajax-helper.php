@@ -42,13 +42,12 @@ trait AJAX_Helper {
 		add_action( 'wp_ajax_pa_send_element_feedback', array( $this, 'send' ) );
 
 		// Get Posts Query AJAX Handler.
-		add_action( 'wp_ajax_pa_get_posts',  array( $this, 'get_posts_query' ) );
+		add_action( 'wp_ajax_pa_get_posts', array( $this, 'get_posts_query' ) );
 		add_action( 'wp_ajax_nopriv_pa_get_posts', array( $this, 'get_posts_query' ) );
 
 		// Search Results AJAX Handler.
 		add_action( 'wp_ajax_premium_get_search_results', array( $this, 'get_search_results' ) );
 		add_action( 'wp_ajax_nopriv_premium_get_search_results', array( $this, 'get_search_results' ) );
-
 	}
 
 	/**
@@ -71,14 +70,25 @@ trait AJAX_Helper {
 			wp_send_json_error( __( 'Empty Post Type.', 'premium-addons-for-elementor' ) );
 		}
 
-		$list = get_posts(
-			array(
-				'post_type'              => $post_type,
-				'posts_per_page'         => -1,
-				'update_post_term_cache' => false,
-				'update_post_meta_cache' => false,
-			)
+		$args = array(
+			'post_type'              => $post_type,
+			'posts_per_page'         => -1,
+			'update_post_term_cache' => false,
+			'update_post_meta_cache' => false,
 		);
+
+		// Exclude the premium-grid and loop-items templates for 'elementor_library' source.
+		if ( in_array( 'elementor_library', $post_type, true ) ) {
+			$args['meta_query'] = array(
+				array(
+					'key'     => '_elementor_template_type',
+					'value'   => array( 'premium-grid', 'loop-item' ),
+					'compare' => 'NOT IN',
+				),
+			);
+		}
+
+		$list = get_posts( $args );
 
 		$options = array();
 
@@ -182,8 +192,8 @@ trait AJAX_Helper {
 		// Check if post is published or user has permission to view
 		if ( 'publish' !== $post->post_status ) {
 			$current_user_id = get_current_user_id();
-			$is_author = ( $current_user_id === (int) $post->post_author );
-			$is_admin = current_user_can( 'manage_options' );
+			$is_author       = ( $current_user_id === (int) $post->post_author );
+			$is_admin        = current_user_can( 'manage_options' );
 
 			if ( ! $is_admin && ! $is_author ) {
 				wp_send_json_error( 'Permission denied' );
@@ -326,7 +336,7 @@ trait AJAX_Helper {
 
 		$user_msg = isset( $_POST['user_message'] ) ? sanitize_text_field( wp_unslash( $_POST['user_message'] ) ) : '';
 
-		if( empty( $user_msg ) ) {
+		if ( empty( $user_msg ) ) {
 			wp_send_json_error( array( 'message' => esc_html__( 'Message cannot be empty.', 'premium-addons-for-elementor' ) ) );
 		}
 
@@ -334,14 +344,14 @@ trait AJAX_Helper {
 
 		$email = $user->user_email;
 
-		if( empty( $email ) ) {
+		if ( empty( $email ) ) {
 			wp_send_json_error( array( 'message' => esc_html__( 'User email not found.', 'premium-addons-for-elementor' ) ) );
 		}
 
 		$element = isset( $_POST['element_name'] ) ? sanitize_text_field( wp_unslash( $_POST['element_name'] ) ) : '';
 
 		$body = array(
-			'email' => $email,
+			'email'   => $email,
 			'element' => $element,
 			'message' => $user_msg,
 		);
@@ -377,7 +387,6 @@ trait AJAX_Helper {
 		}
 
 		wp_send_json_success( ( $response['body'] ) );
-
 	}
 
 	/**
@@ -409,5 +418,4 @@ trait AJAX_Helper {
 		$myinstance = new Premium_Template_Tags();
 		$myinstance->get_search_results();
 	}
-
 }

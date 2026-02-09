@@ -1,5 +1,10 @@
 /**************** Premium Video Box ************/
 /***********************************************/
+.elementor-widget-premium-addon-video-box {
+  width: 100%;
+  max-width: 100%;
+}
+
 .premium-video-box-transform {
   -webkit-transform: none !important;
   -ms-transform: none !important;
