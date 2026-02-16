@@ -220,13 +220,13 @@ class JLTMA_Changelogs extends Widget_Base
 		<div id="jltma-changelog-<?php echo esc_attr($this->get_id()); ?>" class="jltma-changelog">
 			<?php if ($settings['ma_el_changelog_heading']) { ?>
 				<h2 class="jltma-changelog-heading">
-					<?php echo $this->parse_text_editor($settings['ma_el_changelog_heading']); ?>
+					<?php echo esc_html($this->parse_text_editor($settings['ma_el_changelog_heading'])); ?>
 				</h2>
 			<?php } ?>
 
 			<?php if ($settings['ma_el_changelog_main_title']) { ?>
 				<h3 class="jltma-changelog-title">
-					<?php echo $this->parse_text_editor($settings['ma_el_changelog_main_title']); ?>
+					<?php echo esc_html($this->parse_text_editor($settings['ma_el_changelog_main_title'])); ?>
 				</h3>
 			<?php } ?>
 

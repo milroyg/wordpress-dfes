@@ -650,7 +650,7 @@ class JLTMA_Call_to_Action extends Widget_Base
 
 									<div class="jltma-media-body">
 										<h3 class="jltma-call-action-title">
-											<?php echo $this->parse_text_editor($settings['ma_el_call_to_action_title']); ?>
+											<?php echo wp_kses_post($this->parse_text_editor($settings['ma_el_call_to_action_title'])); ?>
 										</h3>
 										<p class="jltma-call-action-description">
 											<?php echo $this->parse_text_editor($settings['ma_el_call_to_action_content_desc']); ?>
@@ -660,7 +660,7 @@ class JLTMA_Call_to_Action extends Widget_Base
 								</div>
 							<?php } else { ?>
 								<h3 class="jltma-call-action-title">
-									<?php echo $this->parse_text_editor($settings['ma_el_call_to_action_title']); ?>
+									<?php echo wp_kses_post($this->parse_text_editor($settings['ma_el_call_to_action_title'])); ?>
 								</h3>
 
 								<p class="jltma-call-action-description">
@@ -671,7 +671,7 @@ class JLTMA_Call_to_Action extends Widget_Base
 						</div>
 						<div class="jltma-col-3 text-right">
 							<a <?php echo $this->get_render_attribute_string('jltma_cta_link'); ?>>
-								<?php echo $this->parse_text_editor($settings['ma_el_call_to_action_button_text']); ?>
+								<?php echo esc_html($this->parse_text_editor($settings['ma_el_call_to_action_button_text'])); ?>
 							</a>
 						</div>
 					</div>

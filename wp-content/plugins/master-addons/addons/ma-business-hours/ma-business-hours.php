@@ -1684,7 +1684,7 @@ class JLTMA_Business_Hours extends Widget_Base
 											<div class="jltma-business-hour-content-bottom">
 
 												<a <?php echo $this->get_render_attribute_string('ma_el_bh_btn_link'); ?>>
-													<?php echo $settings['ma_el_bh_table_btn_text']; ?>
+													<?php echo esc_html($settings['ma_el_bh_table_btn_text']); ?>
 													<i class="eicon-arrow-right"></i>
 												</a>
 											</div>
@@ -1697,7 +1697,7 @@ class JLTMA_Business_Hours extends Widget_Base
 										) { ?>
 											<div class="jltma-business-hour-content-bottom">
 												<a <?php echo $this->get_render_attribute_string('ma_el_bh_btn_link'); ?>>
-													<?php echo  $settings['ma_el_bh_table_btn_text']; ?>
+													<?php echo esc_html($settings['ma_el_bh_table_btn_text']); ?>
 												</a>
 											</div>
 										<?php } ?>
@@ -1709,7 +1709,7 @@ class JLTMA_Business_Hours extends Widget_Base
 										) { ?>
 											<div class="jltma-business-hour-content-bottom">
 												<a <?php echo $this->get_render_attribute_string('ma_el_bh_normal_btn'); ?>>
-													<?php echo  $settings['ma_el_bh_table_btn_text']; ?>
+													<?php echo esc_html($settings['ma_el_bh_table_btn_text']); ?>
 													<i class="eicon-arrow-right"></i>
 												</a>
 											</div><!-- /.jltma-business-hour-content-bottom -->

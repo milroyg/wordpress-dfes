@@ -1223,12 +1223,12 @@ class JLTMA_Infobox extends Widget_Base
 								<?php if ($settings['ma_el_infobox_title_link']['url']) { ?>
 									<a href="<?php echo esc_url_raw($settings['ma_el_infobox_title_link']['url']); ?>" <?php echo $this->get_render_attribute_string('ma_el_infobox_title_link_attr'); ?>>
 										<h3 class="jltma-infobox-content-title">
-											<?php echo $this->parse_text_editor($settings['ma_el_infobox_title']); ?>
+											<?php echo esc_html($this->parse_text_editor($settings['ma_el_infobox_title'])); ?>
 										</h3>
 									</a>
 								<?php } else { ?>
 									<h3 class="jltma-infobox-content-title">
-										<?php echo $this->parse_text_editor($settings['ma_el_infobox_title']); ?>
+										<?php echo esc_html($this->parse_text_editor($settings['ma_el_infobox_title'])); ?>
 									</h3>
 								<?php } ?>
 
@@ -1248,12 +1248,12 @@ class JLTMA_Infobox extends Widget_Base
 						<?php if ($settings['ma_el_infobox_title_link']['url']) { ?>
 							<a href="<?php echo esc_url_raw($settings['ma_el_infobox_title_link']['url']); ?>" <?php echo $this->get_render_attribute_string('ma_el_infobox_title_link_attr'); ?>>
 								<h3 class="jltma-infobox-content-title">
-									<?php echo $this->parse_text_editor($settings['ma_el_infobox_title']); ?>
+									<?php echo esc_html($this->parse_text_editor($settings['ma_el_infobox_title'])); ?>
 								</h3>
 							</a>
 						<?php } else { ?>
 							<h3 class="jltma-infobox-content-title">
-								<?php echo $this->parse_text_editor($settings['ma_el_infobox_title']); ?>
+								<?php echo esc_html($this->parse_text_editor($settings['ma_el_infobox_title'])); ?>
 							</h3>
 						<?php } ?>
 

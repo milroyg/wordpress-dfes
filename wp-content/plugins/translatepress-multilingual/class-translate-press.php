@@ -76,7 +76,7 @@ class TRP_Translate_Press{
         define( 'TRP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
         define( 'TRP_PLUGIN_BASE', plugin_basename( __DIR__ . '/index.php' ) );
         define( 'TRP_PLUGIN_SLUG', 'translatepress-multilingual' );
-        define( 'TRP_PLUGIN_VERSION', '3.0.8' );
+        define( 'TRP_PLUGIN_VERSION', '3.1' );
 
 	    wp_cache_add_non_persistent_groups(array('trp'));
 
@@ -154,6 +154,7 @@ class TRP_Translate_Press{
         require_once TRP_PLUGIN_DIR . 'includes/gutenberg-blocks/class-gutenberg-blocks.php';
         require_once TRP_PLUGIN_DIR . 'includes/class-onboarding.php';
         require_once TRP_PLUGIN_DIR . 'includes/class-language-switcher-tab.php';
+        require_once TRP_PLUGIN_DIR . 'includes/class-support-chat.php';
 
         if ( did_action( 'elementor/loaded' ) )
             require_once TRP_PLUGIN_DIR . 'includes/class-elementor-language-for-blocks.php';
@@ -343,7 +344,6 @@ class TRP_Translate_Press{
         $this->loader->add_action( 'wp_ajax_trp_process_js_strings_in_translation_editor', $this->translation_render, 'process_js_strings_in_translation_editor' );
         $this->loader->add_filter( 'trp_skip_selectors_from_dynamic_translation', $this->translation_render, 'skip_base_attributes_from_dynamic_translation', 10, 1 );
 
-        $this->loader->add_action( 'admin_notices', $this->upgrade, 'show_admin_notice_minimum_pro_version_required' );
 	    $this->loader->add_action( 'admin_menu', $this->upgrade, 'register_menu_page' );
         $this->loader->add_action( 'admin_init', $this->upgrade, 'show_admin_error_message' );
 	    $this->loader->add_action( 'admin_init', $this->upgrade, 'show_admin_notice' );
@@ -445,6 +445,7 @@ class TRP_Translate_Press{
         $this->loader->add_filter( 'template_include', $this->translation_manager, 'translation_editor', 99999 );
         $this->loader->add_filter( 'option_date_format', $this->translation_manager, 'filter_the_date' );
         $this->loader->add_action( 'wp_enqueue_scripts', $this->translation_manager, 'enqueue_preview_scripts_and_styles' );
+        $this->loader->add_action( 'admin_init', $this->translation_manager, 'maybe_dismiss_admin_bar_notification' );
         $this->loader->add_action( 'admin_bar_menu', $this->translation_manager, 'add_shortcut_to_translation_editor', 90, 1 );
         $this->loader->add_action( 'admin_head', $this->translation_manager, 'add_styling_to_admin_bar_button', 10 );
         $this->loader->add_action( 'wp_head', $this->translation_manager, 'add_styling_to_admin_bar_button', 10 );

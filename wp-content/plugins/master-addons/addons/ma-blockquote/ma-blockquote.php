@@ -473,14 +473,14 @@ class JLTMA_Blockquote extends Widget_Base
 
 		<blockquote class="<?php echo esc_attr(implode(' ', $classes)); ?>">
 			<p class="jltma-text">
-				<?php echo $this->parse_text_editor($settings['jltma_blockquote_text']); ?>
+				<?php echo wp_kses_post($this->parse_text_editor($settings['jltma_blockquote_text'])); ?>
 			</p>
 			<?php if ($show_author) : ?>
 				<cite>
 					<?php if ($show_author_symbol) : ?>
 						<span class="jltma-quote-symbol"></span>
 					<?php endif; ?>
-					<?php echo $this->parse_text_editor($settings['jltma_blockquote_author']); ?>
+					<?php echo esc_html($this->parse_text_editor($settings['jltma_blockquote_author'])); ?>
 				</cite>
 			<?php endif; ?>
 		</blockquote>

@@ -1190,7 +1190,7 @@ class JLTMA_Flipbox extends Widget_Base
 
 							<?php if (!empty($settings['front_title'])) { ?>
 								<<?php echo esc_html($front_title_tag); ?> <?php echo $this->get_render_attribute_string('front-icon-title'); ?>>
-									<?php echo $this->parse_text_editor($settings['front_title']); ?>
+									<?php echo wp_kses_post($this->parse_text_editor($settings['front_title'])); ?>
 								</<?php echo esc_html($front_title_tag); ?>>
 							<?php } ?>
 

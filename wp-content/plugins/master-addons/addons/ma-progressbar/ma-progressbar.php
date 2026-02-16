@@ -370,7 +370,7 @@ class JLTMA_Progress_Bar extends Widget_Base
 
 		<div <?php echo $this->get_render_attribute_string('ma-el-progress-bar') ?> data-progress-bar>
 			<h6 class="jltma-progress-bar-title">
-				<?php echo $this->parse_text_editor($settings['ma_el_progress_bar_title']); ?>
+				<?php echo esc_html($this->parse_text_editor($settings['ma_el_progress_bar_title'])); ?>
 			</h6>
 		</div>
 

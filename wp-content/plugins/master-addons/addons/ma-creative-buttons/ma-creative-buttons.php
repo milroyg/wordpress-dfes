@@ -734,7 +734,7 @@ class JLTMA_Creative_Button extends Widget_Base
 				}
 				?>
 				<span>
-					<?php echo $this->parse_text_editor($settings['creative_button_text']); ?>
+					<?php echo esc_html($this->parse_text_editor($settings['creative_button_text'])); ?>
 				</span>
 				<?php
 				// Icon After Text

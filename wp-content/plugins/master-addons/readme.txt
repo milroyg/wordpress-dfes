@@ -4,7 +4,7 @@ Tags: elementor, elementor templates, elementor addons, widgets for elementor, e
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.0
-Stable tag: 2.1.1
+Stable tag: 2.1.2
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -346,6 +346,19 @@ Paste on your Local Computer
 3. Activate the "Master Addons for Elementor" Plugin through the 'Plugins' menu in WordPress 
 
 == Changelog ==
+= 2.1.2 (15-02-2026) =
+* Security: Stored Cross-Site Scripting (XSS) vulnerability in 15 widget settings across 10 widgets
+* Security: Business Hours widget - unescaped `ma_el_bh_table_btn_text` output
+* Security: Creative Links widget - unescaped `creative_link_text` output
+* Security: Call to Action widget - unescaped `ma_el_call_to_action_title` and `ma_el_call_to_action_button_text` output
+* Security: Flipbox widget - unescaped `front_title` output
+* Security: Infobox widget - unescaped `ma_el_infobox_title` output
+* Security: Progress Bar widget - unescaped `ma_el_progress_bar_title` output
+* Security: Blockquote widget - unescaped `jltma_blockquote_text` and `jltma_blockquote_author` output
+* Security: Dual Heading widget - unescaped `ma_el_dual_first_heading`, `ma_el_dual_second_heading`, and `ma_el_dual_heading_description` output
+* Security: Creative Buttons widget - unescaped `creative_button_text` output
+* Security: Changelog widget - unescaped `ma_el_changelog_heading` and `ma_el_changelog_main_title` output
+
 = 2.1.1 (25-01-2026) =
 Fixed: Timeline icon not showing issue fixed.
 

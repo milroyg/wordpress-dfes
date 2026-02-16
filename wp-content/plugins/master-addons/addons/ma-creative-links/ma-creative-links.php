@@ -747,9 +747,9 @@ class JLTMA_Creative_Links extends Widget_Base
 
 					// Text content
 					if ($effect === 'jltma-cl-effect-10') {
-						echo '<span>' . $this->parse_text_editor($settings['creative_link_text']) . '</span>';
+						echo '<span>' . esc_html($this->parse_text_editor($settings['creative_link_text'])) . '</span>';
 					} else {
-						echo '<span class="jltma-creative-link-text">' . $this->parse_text_editor($settings['creative_link_text']) . '</span>';
+						echo '<span class="jltma-creative-link-text">' . esc_html($this->parse_text_editor($settings['creative_link_text'])) . '</span>';
 					}
 
 					// Alternative text for effect 9

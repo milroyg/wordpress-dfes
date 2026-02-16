@@ -8,9 +8,9 @@
  * Author URI: https://master-addons.com
  * Text Domain: master-addons
  * Domain Path: /languages
- * Version: 2.1.1
- * Elementor tested up to: 3.34.2
- * Elementor Pro tested up to: 3.34.2
+ * Version: 2.1.2
+ * Elementor tested up to: 3.35.4
+ * Elementor Pro tested up to: 3.35.4
  * Wordfence Vendor Key: qgxtflvqaabgarz4gu9nozmceloswzrg
  *
  */

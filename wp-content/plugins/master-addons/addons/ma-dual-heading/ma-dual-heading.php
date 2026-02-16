@@ -687,11 +687,11 @@ class JLTMA_Dual_Heading extends Widget_Base
 							<?php } ?>
 
 							<span class="jltma-first-heading">
-								<?php echo $this->parse_text_editor($settings['ma_el_dual_first_heading']); ?>
+								<?php echo esc_html($this->parse_text_editor($settings['ma_el_dual_first_heading'])); ?>
 							</span>
 
 							<span class="jltma-second-heading">
-								<?php echo $this->parse_text_editor($settings['ma_el_dual_second_heading']); ?>
+								<?php echo esc_html($this->parse_text_editor($settings['ma_el_dual_second_heading'])); ?>
 							</span>
 
 							<?php if (isset($settings['ma_el_dual_heading_title_link']['url']) && $settings['ma_el_dual_heading_title_link']['url'] != "") { ?>
@@ -700,7 +700,7 @@ class JLTMA_Dual_Heading extends Widget_Base
 					</<?php echo Utils::print_validated_html_tag( $settings['title_html_tag'] ); ?>>
 
 					<?php if ($settings['ma_el_dual_heading_description'] != "") : ?>
-						<p class="jltma-dual-heading-description"><?php echo $this->parse_text_editor($settings['ma_el_dual_heading_description']); ?></p>
+						<p class="jltma-dual-heading-description"><?php echo wp_kses_post($this->parse_text_editor($settings['ma_el_dual_heading_description'])); ?></p>
 					<?php endif; ?>
 				</div>
 			</div>
