@@ -6,7 +6,7 @@ require_once get_template_directory() . '/inc/dmrp-map.php';
 //Live Vehicle
 require_once get_template_directory() . '/inc/live-vehicle.php';
 
-add_action('admin_enqueue_scripts', function() {
+add_action('admin_enqueue_scripts', function () {
     // Remove WP's bundled TinyMCE
     wp_deregister_script('tinymce');
     wp_deregister_script('wp-tinymce');
@@ -23,60 +23,61 @@ add_action('admin_enqueue_scripts', function() {
 });
 
 add_action('wp_enqueue_scripts', function () {
-  wp_enqueue_style('xevso-parent-style', get_template_directory_uri() . '/style.css');
-  // wp_dequeue_style('bootstrap');
-  wp_dequeue_script('bootstrap');
-  wp_enqueue_style('bootstrap5', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
-  wp_enqueue_script('chart-js', 'https://cdn.jsdelivr.net/npm/chart.js');
-  wp_enqueue_script('bootstrap5', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js', array(), null, true);
-   wp_dequeue_script('eac-image-gallery');
+    wp_enqueue_style('xevso-parent-style', get_template_directory_uri() . '/style.css');
+    // wp_dequeue_style('bootstrap');
+    wp_dequeue_script('bootstrap');
+    wp_enqueue_style('bootstrap5', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
+    wp_enqueue_script('chart-js', 'https://cdn.jsdelivr.net/npm/chart.js');
+    wp_enqueue_script('bootstrap5', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js', array(), null, true);
+    wp_dequeue_script('eac-image-gallery');
     wp_deregister_script('eac-image-gallery');
 
-  if (is_page([9616, 9625])) {
-    // Load Leaflet core
-    wp_enqueue_style('leaflet-css', get_template_directory_uri() . '/assets/css/leaflet.css', [], '1.9.4');
-    wp_enqueue_script('leaflet-js', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', [], null, true);
-    // Load MarkerCluster plugin
-    wp_enqueue_style('leaflet-markercluster-css', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css');
-    wp_enqueue_style('leaflet-markercluster-default-css', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css');
-    wp_enqueue_script('leaflet-markercluster-js', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js', ['leaflet-js'], null, true);
-  }
+    if (is_page([9616, 9625])) {
+        // Load Leaflet core
+        wp_enqueue_style('leaflet-css', get_template_directory_uri() . '/assets/css/leaflet.css', [], '1.9.4');
+        wp_enqueue_script('leaflet-js', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', [], null, true);
+        // Load MarkerCluster plugin
+        wp_enqueue_style('leaflet-markercluster-css', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css');
+        wp_enqueue_style('leaflet-markercluster-default-css', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css');
+        wp_enqueue_script('leaflet-markercluster-js', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js', ['leaflet-js'], null, true);
+    }
 
-},20);
+}, 20);
 
 add_filter('script_loader_tag', function ($tag, $handle, $src) {
-  if ($handle === 'leaflet-js') {
-    $integrity = 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=';
-    return '<script src="' . esc_url($src) . '" integrity="' . esc_attr($integrity) . '" crossorigin=""></script>';
-  }
-  return $tag;
+    if ($handle === 'leaflet-js') {
+        $integrity = 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=';
+        return '<script src="' . esc_url($src) . '" integrity="' . esc_attr($integrity) . '" crossorigin=""></script>';
+    }
+    return $tag;
 }, 10, 3);
 
 add_filter('style_loader_tag', function ($html, $handle, $href, $media) {
-  if ($handle === 'leaflet-css') {
-    $integrity = 'sha256-V3EH7RVdB4sO7/yu12GB6tryHbOuqdqnqeV+ewWGAN8=';
-    return '<link rel="stylesheet" href="' . esc_url($href) . '" integrity="' . esc_attr($integrity) . '" crossorigin="anonymous" media="' . esc_attr($media) . '" />';
-  }
-  return $html;
+    if ($handle === 'leaflet-css') {
+        $integrity = 'sha256-V3EH7RVdB4sO7/yu12GB6tryHbOuqdqnqeV+ewWGAN8=';
+        return '<link rel="stylesheet" href="' . esc_url($href) . '" integrity="' . esc_attr($integrity) . '" crossorigin="anonymous" media="' . esc_attr($media) . '" />';
+    }
+    return $html;
 }, 10, 4);
 
 //Hide Konkani 
 add_filter('wp_nav_menu_objects', function ($items, $args) {
-  foreach ($items as $key => $item) {
-    // Check if the menu item is Konkani using ID or class
-    if (
-      (isset($item->ID) && $item->ID == 10058) || // By menu item ID
-      (isset($item->classes) && in_array('lang-item-kok', $item->classes)) // By class
-    ) {
-      unset($items[$key]);
+    foreach ($items as $key => $item) {
+        // Check if the menu item is Konkani using ID or class
+        if (
+            (isset($item->ID) && $item->ID == 10058) || // By menu item ID
+            (isset($item->classes) && in_array('lang-item-kok', $item->classes)) // By class
+        ) {
+            unset($items[$key]);
+        }
     }
-  }
-  return $items;
+    return $items;
 }, 10, 2);
 
 //Copy Paste Buffer
 
-function my_custom_login_script() {
+function my_custom_login_script()
+{
     // 1️⃣ Load CryptoJS (encryption library)
     wp_enqueue_script(
         'crypto-js',
@@ -107,7 +108,7 @@ function my_custom_login_script() {
 add_action('login_enqueue_scripts', 'my_custom_login_script');
 
 // 📌 Decrypt AES-encrypted login values before authentication
-add_filter('authenticate', function($user, $username, $password) {
+add_filter('authenticate', function ($user, $username, $password) {
     // Only decrypt if data looks encrypted (starts with "U2Fsd")
     if (strpos($username, 'U2Fsd') === 0 || strpos($password, 'U2Fsd') === 0) {
         require_once ABSPATH . 'wp-includes/class-phpass.php';
@@ -126,7 +127,8 @@ add_filter('authenticate', function($user, $username, $password) {
 }, 10, 3);
 
 // 🔐 PHP AES decryption (CryptoJS-compatible)
-function my_aes_decrypt($ciphertext, $passphrase) {
+function my_aes_decrypt($ciphertext, $passphrase)
+{
     if (strpos($ciphertext, 'U2FsdGVkX1') !== 0) {
         return $ciphertext; // not encrypted
     }
@@ -141,7 +143,8 @@ function my_aes_decrypt($ciphertext, $passphrase) {
 }
 
 // 🔑 Helper for deriving key/IV like CryptoJS
-function my_aes_evp_bytes($pass, $salt) {
+function my_aes_evp_bytes($pass, $salt)
+{
     $data = '';
     $d = '';
     while (strlen($data) < 48) {
@@ -151,7 +154,7 @@ function my_aes_evp_bytes($pass, $salt) {
     return substr($data, 0, 48);
 }
 //img:is([sizes="auto" i], [sizes^="auto," i])	Property contain-intrinsic-size doesn't exist : 3000px 1500px
-add_filter( 'wp_img_tag_add_auto_sizes', '__return_false' );
+add_filter('wp_img_tag_add_auto_sizes', '__return_false');
 
 //HTML Validation
 
@@ -166,10 +169,12 @@ add_action('wp_head', function () {
             top: 120px;
             right: 20px;
         }
+
         .acwp-toolbar {
             top: -100vh;
             right: 20px;
         }
+
         .acwp-toolbar.acwp-toolbar-show {
             top: 55px;
         }
@@ -178,7 +183,7 @@ add_action('wp_head', function () {
 });
 
 //2. Swapped role="button" to role="presentation"
-add_filter('wp_nav_menu', function($nav) {
+add_filter('wp_nav_menu', function ($nav) {
     // Only target submenu containers
     $nav = str_replace(
         '<div class="hfe-has-submenu-container" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">',
@@ -192,7 +197,7 @@ add_filter('wp_nav_menu', function($nav) {
 add_action('wp_enqueue_scripts', function () {
     // Build correct plugin path dynamically
     $plugin_path = '/wp-content/plugins/elementor-addon-components/assets/js/elementor/eac-image-gallery.min.js';
-    $script_url  = site_url($plugin_path);
+    $script_url = site_url($plugin_path);
 
     // Re-register properly as module
     wp_register_script(
@@ -215,12 +220,12 @@ add_action('wp_enqueue_scripts', function () {
     }, 10, 3);
 
     wp_enqueue_script('eac-image-gallery');
-}, 20); 
+}, 20);
 
 
 //4. Moved Timeline plugin (ctl_common_style-inline-css) <style> body to head
-add_action('template_redirect', function() {
-    ob_start(function($buffer) {
+add_action('template_redirect', function () {
+    ob_start(function ($buffer) {
         // Move ctl_common_style-inline-css from body to head
         if (preg_match("/<style id='ctl_common_style-inline-css'[^>]*>.*?<\/style>/s", $buffer, $matches)) {
             // Remove from body
@@ -233,6 +238,75 @@ add_action('template_redirect', function() {
     });
 });
 
-//HTML validation
-//Remove <p>,<br> HTML validation in CF7
+
+// Remove <p>,<br> HTML validation in CF7
 add_filter('wpcf7_autop_or_not', '__return_false');
+
+// Allow Editors to manage Cool Timeline
+add_action('admin_menu', function () {
+    global $menu, $submenu;
+
+    // Change main menu capability
+    if (isset($menu)) {
+        foreach ($menu as $key => $item) {
+            if (isset($item[2]) && $item[2] === 'cool-plugins-timeline-addon') {
+                $menu[$key][1] = 'edit_pages';
+            }
+        }
+    }
+
+    // Change submenu capabilities
+    if (isset($submenu['cool-plugins-timeline-addon'])) {
+        foreach ($submenu['cool-plugins-timeline-addon'] as $key => $item) {
+            // Check if the item is an array and has the capability set
+            if (is_array($item) && isset($item[1])) {
+                $submenu['cool-plugins-timeline-addon'][$key][1] = 'edit_pages';
+            }
+        }
+    }
+}, 999);
+
+// Fix Cool Timeline conflict with older Codestar Framework (v2.2.4 vs v2.2.8)
+add_action('init', function () {
+    // Manually load the datetime field class if it's missing (v2.2.4 doesn't have it)
+    if (class_exists('CSF') && !class_exists('CSF_Field_datetime')) {
+        $datetime_file = WP_PLUGIN_DIR . '/cool-timeline/admin/codestar-framework/fields/datetime/datetime.php';
+        if (file_exists($datetime_file)) {
+            require_once $datetime_file;
+        }
+    }
+}, 1);
+
+add_action('admin_enqueue_scripts', function () {
+    // specific to Cool Timeline pages/post type
+    $screen = get_current_screen();
+    if ($screen && (strpos($screen->id, 'cool_timeline') !== false || $screen->post_type === 'cool_timeline')) {
+
+        // Deregister old CSF scripts (from standalone plugin)
+        wp_deregister_script('csf');
+        wp_deregister_script('csf-plugins');
+        wp_deregister_style('csf');
+
+        // Register Cool Timeline's CSF scripts (v2.2.8) which support datetime field
+        $ctl_csf_url = WP_PLUGIN_URL . '/cool-timeline/admin/codestar-framework/assets';
+        $ctl_csf_ver = '2.2.8';
+
+        wp_enqueue_style('csf', $ctl_csf_url . '/css/style.min.css', array(), $ctl_csf_ver, 'all');
+        wp_enqueue_script('csf-plugins', $ctl_csf_url . '/js/plugins.min.js', array(), $ctl_csf_ver, true);
+        wp_enqueue_script('csf', $ctl_csf_url . '/js/main.min.js', array('csf-plugins'), $ctl_csf_ver, true);
+
+        // localized script for csf (from v2.2.8)
+        wp_localize_script('csf', 'csf_vars', array(
+            'color_palette' => apply_filters('csf_color_palette', array()),
+            'i18n' => array(
+                'confirm' => esc_html__('Are you sure?', 'csf'),
+                'typing_text' => esc_html__('Please enter %s or more characters', 'csf'),
+                'searching_text' => esc_html__('Searching...', 'csf'),
+                'no_results_text' => esc_html__('No results found.', 'csf'),
+            ),
+        ));
+    }
+}, 100);
+// Fix timing issue: Re-run CSF setup to pick up Cool Timeline's late-registered options
+add_action('init', array('CSF', 'setup'), 999);
+
