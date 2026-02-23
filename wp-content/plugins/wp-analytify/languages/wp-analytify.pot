@@ -1,0 +1,2744 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Analytify - Google Analytics Dashboard\n"
+"POT-Creation-Date: 2026-02-03 13:56+0500\n"
+"PO-Revision-Date: 2017-01-24 09:42+0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Poedit 3.8\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: wp-analytify.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: analytify-general.php:243
+#, php-format
+msgid ""
+"%1$s Oops, Try to %2$s Reset %3$s Authentication. %4$s %7$s %4$s %5$s Don't "
+"worry, This error message is only visible to Administrators. %6$s %2$s"
+msgstr ""
+
+#: analytify-general.php:328 analytify-general.php:443
+#, php-format
+msgid ""
+"%1$s Oops, Something went wrong. %2$s %5$s %2$s %3$s Don't worry, This error "
+"message is only visible to Administrators. %4$s %2$s "
+msgstr ""
+
+#: analytify-general.php:336 analytify-general.php:449
+#, php-format
+msgid ""
+"%1$s Oops, Try to %3$s Reset %4$s Authentication. %2$s %7$s %2$s %5$s Don't "
+"worry, This error message is only visible to Administrators. %6$s %2$s"
+msgstr ""
+
+#: analytify-general.php:344 analytify-general.php:455
+#, php-format
+msgid ""
+"%1$s Oops! %2$s %5$s %2$s %3$s Don't worry, This error message is only "
+"visible to Administrators. %4$s %2$s"
+msgstr ""
+
+#: analytify-general.php:829 analytify-general.php:840
+msgid "No URL found for the selected stream"
+msgstr ""
+
+#: analytify-general.php:1029
+msgid ""
+"Analytify gets GA4 keyword stats from Search Console. Make sure the site is "
+"verified and you have owner access."
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:114
+#: classes/analytify-rest/endpoints-general.php:39
+#: inc/class-analytify-post-columns.php:78
+#: inc/class-analytify-post-columns.php:86
+#: inc/class-analytify-post-columns.php:315
+#: views/default/admin/single-general-stats.php:30
+msgid "Sessions"
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:116
+#: classes/analytify-rest/endpoints-general.php:40
+msgid ""
+"A session is a time period in which a user is actively engaged with your "
+"website."
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:120
+#: classes/analytify-rest/endpoints-dimensions.php:132
+#: classes/analytify-rest/endpoints-dimensions.php:147
+#: classes/analytify-rest/endpoints-general.php:45
+#: views/default/admin/single-general-stats.php:38
+msgid "Visitors"
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:122
+#: classes/analytify-rest/endpoints-general.php:46
+msgid "Users who complete a minimum of one session on your website."
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:126
+#: classes/analytify-rest/endpoints-general.php:51
+msgid "Page Views"
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:128
+msgid "Total number of Page Views, these include repeated views."
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:132
+msgid "Avg. Time on Page"
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:134
+#: classes/analytify-rest/endpoints-general.php:58
+#: views/default/admin/single-general-stats.php:57
+msgid "Total time that a single user spends on your website."
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:138
+#: classes/analytify-rest/endpoints-content.php:107
+#: classes/analytify-rest/endpoints-general.php:63
+#: views/default/admin/single-general-stats.php:62
+msgid "Bounce Rate"
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:140
+#: classes/analytify-rest/endpoints-general.php:64
+msgid ""
+"Percentage of single page visits (i.e number of visits in which a visitor "
+"leaves your website from the landing page without browsing your website)."
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:144
+msgid "% New sessions"
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:146
+msgid ""
+"A new session is a time period when a new user comes to your website and is "
+"actively engaged with your website."
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:150
+#: classes/analytify-rest/endpoints-dimensions.php:585
+#: classes/analytify-rest/endpoints-general.php:83
+msgid "Engaged Sessions"
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:152
+msgid ""
+"Number of page views by a user during a single session. Repeated views are "
+"counted."
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:167
+#: classes/analytify-rest/endpoints-general.php:217
+msgid "New vs Returning Visitors"
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:170
+#: classes/analytify-rest/endpoints-general.php:221
+msgid "New"
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:174
+#: classes/analytify-rest/endpoints-general.php:226
+msgid "Returning"
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:190
+#: classes/analytify-rest/endpoints-general.php:240
+msgid "Devices of Visitors"
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:193
+#: classes/analytify-rest/endpoints-general.php:244
+msgid "Mobile"
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:197
+#: classes/analytify-rest/endpoints-general.php:248
+msgid "Tablet"
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:201
+#: classes/analytify-rest/endpoints-general.php:252
+msgid "Desktop"
+msgstr ""
+
+#: classes/abstracts/analytify-report-abstract.php:218
+msgid "Total Time Spent"
+msgstr ""
+
+#: classes/analytify-dashboard-widget.php:46
+msgid "Google Analytics Dashboard By Analytify"
+msgstr ""
+
+#: classes/analytify-dashboard-widget.php:74
+msgid "View All Analytics on the WordPress Dashboard"
+msgstr ""
+
+#: classes/analytify-dashboard-widget.php:75
+msgid ""
+"Once you install Analytify Dashboard Widget Addon, this dashboard widget "
+"will be filled with Analytics."
+msgstr ""
+
+#: classes/analytify-dashboard-widget.php:78
+#: classes/analytify-dashboard-widget.php:82
+msgid "Activate Dashboard Add-on"
+msgstr ""
+
+#: classes/analytify-dashboard-widget.php:81
+msgid "Install Dashboard Add-on Free"
+msgstr ""
+
+#: classes/analytify-dashboard-widget.php:148
+msgid "You do not have permission to activate plugins."
+msgstr ""
+
+#: classes/analytify-dashboard-widget.php:160
+msgid "Plugin activated successfully."
+msgstr ""
+
+#: classes/analytify-email/render.php:30
+msgid "Send Email Report"
+msgstr ""
+
+#: classes/analytify-email/render.php:34
+msgid "Enter Recipient Email"
+msgstr ""
+
+#: classes/analytify-email/scheduler.php:103
+#, php-format
+msgid "Weekly Engagement Summary of %s"
+msgstr ""
+
+#: classes/analytify-email/scheduler.php:106
+#, php-format
+msgid "Monthly Engagement Summary of %s"
+msgstr ""
+
+#: classes/analytify-email/scheduler.php:134
+msgid "Please find below your Google Analytics report for the noted period."
+msgstr ""
+
+#: classes/analytify-email/scheduler.php:259
+msgid " Report"
+msgstr ""
+
+#: classes/analytify-email/settings.php:33
+msgid "Email"
+msgstr ""
+
+#: classes/analytify-email/settings.php:53
+msgid "Disable Email Reporting"
+msgstr ""
+
+#: classes/analytify-email/settings.php:54
+msgid "This option will stop sending all email reports, including test emails."
+msgstr ""
+
+#: classes/analytify-email/settings.php:59
+msgid "Sender Email Address"
+msgstr ""
+
+#: classes/analytify-email/settings.php:60
+msgid "Sender Email Address."
+msgstr ""
+
+#: classes/analytify-email/settings.php:68
+msgid "Receiver Email Address"
+msgstr ""
+
+#: classes/analytify-email/settings.php:105
+msgid "Analytify detailed report sent!"
+msgstr ""
+
+#: classes/analytify-email/single-send.php:258
+msgid "Analytics Report"
+msgstr ""
+
+#: classes/analytify-logs.php:110
+msgid "Analytify Logs"
+msgstr ""
+
+#: classes/analytify-logs.php:172
+msgid "Action failed. Please refresh the page and retry."
+msgstr ""
+
+#: classes/analytify-report-core.php:224 classes/analytify-report-core.php:228
+#: classes/analytify-rest-api.php:172
+#: classes/analytify-rest/endpoints-general.php:416
+msgid "%"
+msgstr ""
+
+#: classes/analytify-rest-api.php:58
+#: classes/analytify-rest/endpoints-content.php:182
+#: inc/analytics-dashboard.php:110
+#: views/default/admin/single-general-stats.php:25
+msgid "General Statistics"
+msgstr ""
+
+#: classes/analytify-rest-api.php:72
+#: classes/analytify-rest/endpoints-content.php:192
+#: views/default/admin/single-depth-stats.php:28
+msgid "Scroll Depth Reach"
+msgstr ""
+
+#: classes/analytify-rest-api.php:77
+#: classes/analytify-rest/endpoints-content.php:197
+msgid "Scroll Percentage"
+msgstr ""
+
+#: classes/analytify-rest-api.php:82
+#: classes/analytify-rest/endpoints-content.php:202
+msgid "Total Reached"
+msgstr ""
+
+#: classes/analytify-rest-api.php:105
+#: classes/analytify-rest/endpoints-general.php:364
+#, php-format
+msgid "Total time visitors spent on your site: %s."
+msgstr ""
+
+#: classes/analytify-rest-api.php:174
+#: classes/analytify-rest/endpoints-general.php:418
+#, php-format
+msgid "%s days ago"
+msgstr ""
+
+#: classes/analytify-rest/bootstrap.php:181
+msgid "Invalid endpoint."
+msgstr ""
+
+#: classes/analytify-rest/endpoints-content.php:86
+msgid "#"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-content.php:92 inc/analytify-widgets.php:48
+msgid "Title"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-content.php:97
+msgid "Views"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-content.php:102
+msgid "Avg. Time"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-content.php:114
+msgid "Top pages and posts."
+msgstr ""
+
+#: classes/analytify-rest/endpoints-content.php:143
+msgid "No sections found."
+msgstr ""
+
+#: classes/analytify-rest/endpoints-content.php:149
+#, php-format
+msgid "Displaying Analytics of this page from %1$s to %2$s."
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:46
+msgid "View All Top Countries"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:47
+msgid "View All Top Cities"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:127
+msgid "Top Countries"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:142
+msgid "Top Cities"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:157
+#: classes/analytify-settings/fields.php:122 inc/analytics-dashboard.php:189
+msgid "Geographic Stats"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:159
+msgid "High"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:160
+msgid "Low"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:168
+msgid "Top countries and cities."
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:299
+msgid "Browsers statistics"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:304
+#: classes/analytify-rest/endpoints-dimensions.php:319
+#: classes/analytify-rest/endpoints-dimensions.php:334
+msgid "Visits"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:314
+msgid "Operating system statistics"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:329
+msgid "Mobile device statistics"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:346
+msgid "Top browsers and operating systems."
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:370
+msgid "Unable To Fetch Reports"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:371
+#: classes/analytify-utils/analytify-utils-ui.php:135
+msgid "Status:"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:371
+#: classes/analytify-utils/analytify-utils-ui.php:138
+msgid "Message:"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:387
+msgid "Keywords"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:392
+msgid "Impressions"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:397
+msgid "Clicks"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:408
+msgid "Total Clicks"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:409
+msgid "Ranked keywords."
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:475
+#: classes/analytify-rest/endpoints-dimensions.php:534
+msgid "Total Visits"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:476
+msgid "Number of visitors coming from Social Channels."
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:535
+msgid "Top referrers to your website."
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:575
+msgid "Page / Title / Link"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:580
+msgid "User Engagement Duration"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-dimensions.php:590
+msgid "Engagement Rate"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-general.php:52
+msgid ""
+"Page Views are the total number of Pageviews, these include repeated views."
+msgstr ""
+
+#: classes/analytify-rest/endpoints-general.php:57
+msgid "Avg. Time on Site"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-general.php:70
+msgid "Pages per Session"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-general.php:71
+msgid ""
+"Pages per Session is the number of pages viewed by a user during a single "
+"session. Repeated views are counted."
+msgstr ""
+
+#: classes/analytify-rest/endpoints-general.php:76
+msgid "% New Sessions"
+msgstr ""
+
+#: classes/analytify-rest/endpoints-general.php:77
+msgid "A new session is when a new user comes to your website."
+msgstr ""
+
+#: classes/analytify-rest/endpoints-general.php:84
+msgid ""
+"The number of sessions that lasted longer than 10 seconds, or had a "
+"conversion event, or had 2 or more page views."
+msgstr ""
+
+#: classes/analytify-rest/endpoints-general.php:290
+msgid "Browser Breakdown"
+msgstr ""
+
+#: classes/analytify-sanitize.php:48
+#, php-format
+msgid "%1$s was not expecting data to be an array."
+msgstr ""
+
+#: classes/analytify-sanitize.php:67
+#, php-format
+msgid "%1$s was expecting an array but got something else: \"%2$s\""
+msgstr ""
+
+#: classes/analytify-sanitize.php:72
+#, php-format
+msgid "%1$s was expecting a string but got something else: \"%2$s\""
+msgstr ""
+
+#: classes/analytify-sanitize.php:77
+#, php-format
+msgid ""
+"%1$s was expecting a string for key sanitization but got something else: "
+"\"%2$s\""
+msgstr ""
+
+#: classes/analytify-sanitize.php:82
+#, php-format
+msgid "%1$s was expecting a valid key but got something else: \"%2$s\""
+msgstr ""
+
+#: classes/analytify-sanitize.php:88
+#, php-format
+msgid ""
+"%1$s was expecting a string for text sanitization but got something else: "
+"\"%2$s\""
+msgstr ""
+
+#: classes/analytify-sanitize.php:93
+#, php-format
+msgid "%1$s was expecting text but got something else: \"%2$s\""
+msgstr ""
+
+#: classes/analytify-sanitize.php:99
+#, php-format
+msgid "%1$s was expecting serialized data but got something else: \"%2$s\""
+msgstr ""
+
+#: classes/analytify-sanitize.php:104
+#, php-format
+msgid "%1$s was expecting a valid numeric but got something else: \"%2$s\""
+msgstr ""
+
+#: classes/analytify-sanitize.php:110
+#, php-format
+msgid "%1$s was expecting an integer but got something else: \"%2$s\""
+msgstr ""
+
+#: classes/analytify-sanitize.php:116 classes/analytify-sanitize.php:121
+#, php-format
+msgid ""
+"%1$s was expecting a positive number (int) but got something else: \"%2$s\""
+msgstr ""
+
+#: classes/analytify-sanitize.php:126 classes/analytify-sanitize.php:131
+#, php-format
+msgid ""
+"%1$s was expecting a negative number (int) but got something else: \"%2$s\""
+msgstr ""
+
+#: classes/analytify-sanitize.php:136 classes/analytify-sanitize.php:141
+#, php-format
+msgid "%1$s was expecting 0 (int) but got something else: \"%2$s\""
+msgstr ""
+
+#: classes/analytify-sanitize.php:146
+#, php-format
+msgid "%1$s was expecting an empty value but got something else: \"%2$s\""
+msgstr ""
+
+#: classes/analytify-sanitize.php:151
+#, php-format
+msgid ""
+"%1$s was expecting a string for URL sanitization but got something else: "
+"\"%2$s\""
+msgstr ""
+
+#: classes/analytify-sanitize.php:156
+#, php-format
+msgid "%1$s was expecting a URL but got something else: \"%2$s\""
+msgstr ""
+
+#: classes/analytify-sanitize.php:162
+#, php-format
+msgid ""
+"%1$s was expecting a string for bool sanitization but got something else: "
+"\"%2$s\""
+msgstr ""
+
+#: classes/analytify-sanitize.php:167
+#, php-format
+msgid "%1$s was expecting a bool but got something else: \"%2$s\""
+msgstr ""
+
+#: classes/analytify-sanitize.php:172
+#, php-format
+msgid "Unknown sanitization rule \"%1$s\" supplied by %2$s"
+msgstr ""
+
+#: classes/analytify-settings/definitions.php:73 inc/promotions.php:87
+msgid "Authentication"
+msgstr ""
+
+#: classes/analytify-settings/definitions.php:78 inc/promotions.php:88
+msgid "Profile"
+msgstr ""
+
+#: classes/analytify-settings/definitions.php:84 inc/promotions.php:89
+msgid "Admin"
+msgstr ""
+
+#: classes/analytify-settings/definitions.php:90
+msgid "Tracking"
+msgstr ""
+
+#: classes/analytify-settings/definitions.php:95
+#: classes/class-wp-analytify-compatibility-upgrade.php:328
+#: inc/analytify-go-pro.php:133
+msgid "Events Tracking"
+msgstr ""
+
+#: classes/analytify-settings/definitions.php:99
+#: classes/class-wp-analytify-compatibility-upgrade.php:337
+#: inc/analytify-go-pro.php:135
+msgid "Custom Dimensions"
+msgstr ""
+
+#: classes/analytify-settings/definitions.php:103
+msgid "Forms Tracking"
+msgstr ""
+
+#: classes/analytify-settings/definitions.php:107
+#: classes/class-wp-analytify-compatibility-upgrade.php:355
+msgid "Google Ads Tracking"
+msgstr ""
+
+#: classes/analytify-settings/definitions.php:114 inc/promotions.php:92
+msgid "Advanced"
+msgstr ""
+
+#: classes/analytify-settings/definitions.php:120 inc/promotions.php:93
+#: wp-analytify.php:1098
+msgid "Help"
+msgstr ""
+
+#: classes/analytify-settings/definitions.php:141
+msgid "Unknown Tab"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:34
+msgid "GA Tracking ID"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:35
+msgid "Manually add the Tracking ID that looks a like"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:35
+msgid "Our default tracking method is newly recommended"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:35
+msgid "Global Site Tag (gtag.js)"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:35
+msgid "by Google Analytics."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:43
+msgid "Install Google Analytics tracking code"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:44
+msgid ""
+"Insert Google Analytics (GA) JavaScript code between the HEADER tags in your "
+"website. Uncheck this option if you have already inserted the GA code."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:50
+msgid "Exclude users from tracking"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:51
+msgid "Don't insert the tracking code for the above user roles."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:58
+msgid "Profile for posts (Backend/Front-end)"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:59
+msgid ""
+"Select your Google Analytics website profile/stream for Analytify front-end/"
+"back-end statistics. <br /><strong>Note:</strong> GA4 properties from the "
+"above list."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:67
+msgid "Profile for dashboard"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:71
+#, php-format
+msgid ""
+"Select your Google Analytics website profile/stream for Analytify dashboard "
+"statistics. Note: Not seeing new GA4 properties in the above list? See %s."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:75
+msgid "why and how to fix it"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:84
+msgid "Hide profiles list"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:85
+msgid ""
+"Hide the selection of profiles for the back-end/front-end dashboard and "
+"posts. You might want to do this so clients cannot see other profiles "
+"available."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:92
+msgid "Enable analytics under posts/pages (wp-admin)"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:93
+msgid "Disable if you don't want to load statistics on all pages by default."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:98
+msgid "Display analytics to roles (posts & pages)"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:99
+msgid ""
+"Show analytics under posts and pages to the above selected user roles only."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:106
+msgid "Analytics on post types"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:108
+msgid "Show Analytics under the above post types only"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:108
+#, php-format
+msgid ""
+"Show analytics below these post types only. Buy %1$sPremium%1$s version for "
+"Custom Post Types."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:115
+msgid "Edit posts/pages analytics panels"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:117
+msgid "Select which statistic panels you want to display under posts/pages."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:117
+#, php-format
+msgid ""
+"Select which statistic panels you want to display under posts/pages. Only "
+"\"General Stats\" will visible in Free Version. Buy %1$sPremium%2$s version "
+"to see the full statistics."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:121
+msgid "General Stats"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:123 inc/analytics-dashboard.php:225
+msgid "System Stats"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:124
+msgid "Keywords Stats"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:125
+msgid "Social Media Stats"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:126
+msgid "Referrers Stats"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:127
+#: classes/analytify-settings/fields.php:208
+msgid "Scroll Depth"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:128
+#: classes/analytify-settings/fields.php:214
+msgid "Video Tracking"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:129
+msgid "Entrance Exits Stats"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:134
+msgid "Exclude analytics on specific pages"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:135
+msgid ""
+"Enter a comma-separated list of the post/page ID's you do not want to "
+"display analytics for. For example: 21,44,66"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:143
+msgid "Data Streams"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:144
+msgid "Choose GA4 data/web stream to use for website tracking."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:150
+msgid "Measurement Protocol Secret"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:151
+msgid ""
+"Analytify creates measurement protocol secret itself, however you can also "
+"create your own secret key."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:157
+msgid "Setup Custom API keys?"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:159
+#, php-format
+msgid ""
+"It is highly recommended by Google to use your own API keys. %1$sYou need to "
+"create a Project in Google %2$s. %3$sHere is a short %4$svideo guide%5$s to "
+"get your own ClientID, Client Secret and Redirect URL and enter them in "
+"below inputs."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:165
+msgid "Client ID"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:166
+msgid "Your Client ID"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:173
+msgid "Client secret"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:174
+msgid "Your Client Secret"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:181
+msgid "Redirect URL"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:183
+#, php-format
+msgid ""
+"( Redirect URL is very important when you are using your own keys. Paste "
+"this into the above field: %1$s )"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:195
+msgid "Host Google Analytics Locally"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:196
+msgid ""
+"Hosting Google Analytics locally may improve your site speed and other core "
+"web vitals."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:201
+msgid "Track User ID"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:203
+#, php-format
+msgid ""
+"Detailed information about Track User ID in Google Analytics can be found "
+"%1$shere%2$s."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:209
+msgid ""
+"Track page scroll depth percentage. This will help you figure out the most "
+"highlighted area of the page. Percentage events are fired at the 25%, 50%, "
+"75%, and 100% scrolling points"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:215
+msgid ""
+"Track embedded video interactions such as play, pause, and completion. This "
+"will help you understand user engagement with video content."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:220
+msgid "Demographic & Interest Tracking"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:221
+msgid ""
+"This allows you to view extra dimensions about users: Age, gender, affinity "
+"categories, in-market segments, etc."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:226
+msgid "Page Not Found (404)"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:227
+msgid "Track all 404 pages."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:232
+msgid "JavaScript Errors"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:233
+msgid "Track all JavaScript errors."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:238
+msgid "AJAX Errors"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:239
+msgid "Track all AJAX errors."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:244
+msgid "Setup Cross-domain Tracking"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:246
+#, php-format
+msgid ""
+"This will add the %1$s tag to your tracking code. Read this %2$sguide%3$s "
+"for more information."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:252
+msgid "Domain"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:253
+msgid "All the linked domains separated by a comma"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:260
+msgid "Reauthentication Email Alert"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:261
+msgid ""
+"Get an email notification when your site needs you to sign in again due to a "
+"Google error or revoked refresh token."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:267
+msgid "Remove All Data On Uninstall"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:268
+msgid ""
+"Upon uninstall, this will remove all defined settings and their data from "
+"your website and reset them to default."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:273
+msgid "Custom JavaScript Code"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:274
+msgid ""
+"This will add inline tracking code before sending the pageview hit to Google "
+"Analytics."
+msgstr ""
+
+#: classes/analytify-settings/fields.php:279
+msgid "Custom CSS Code"
+msgstr ""
+
+#: classes/analytify-settings/fields.php:280
+msgid "This will add inline css code in admin dashboard pages of Analytify"
+msgstr ""
+
+#: classes/analytify-settings/render.php:258
+msgid "Type"
+msgstr ""
+
+#: classes/analytify-settings/render.php:330
+#: classes/analytify-settings/render.php:340
+msgid "Name"
+msgstr ""
+
+#: classes/analytify-settings/render.php:330
+#: classes/analytify-settings/render.php:348
+msgid "Email Address"
+msgstr ""
+
+#: classes/analytify-settings/render.php:355
+msgid "Add Receiver"
+msgstr ""
+
+#: classes/analytify-settings/render.php:367
+msgid "Path (example: /refer/)"
+msgstr ""
+
+#: classes/analytify-settings/render.php:367
+msgid "Label (example: loginpress link)"
+msgstr ""
+
+#: classes/analytify-settings/render.php:376
+#: classes/analytify-settings/render.php:395
+msgid "/refer/"
+msgstr ""
+
+#: classes/analytify-settings/render.php:383
+#: classes/analytify-settings/render.php:403
+msgid "loginpress link"
+msgstr ""
+
+#: classes/analytify-settings/render.php:410
+msgid "Affiliates can't be empty!"
+msgstr ""
+
+#: classes/analytify-settings/render.php:410
+msgid "Add Affiliate Link"
+msgstr ""
+
+#: classes/analytify-settings/render.php:463
+#, php-format
+msgid ""
+"%5$s%1$sDaily Limit Exceeded:%2$s This Indicates that user has exceeded the "
+"daily quota (either per project or per view (profile)). Please %3$sfollow "
+"this tutorial%4$s to fix this issue. let us know this issue (if it still "
+"doesn't work) in the Help tab of Analytify->settings page.%6$s"
+msgstr ""
+
+#: classes/analytify-settings/render.php:466
+#: classes/analytify-settings/render.php:472
+#: classes/analytify-settings/render.php:481
+msgid "Insufficient Permissions:"
+msgstr ""
+
+#: classes/analytify-settings/render.php:466
+#: classes/analytify-settings/render.php:472
+#: classes/analytify-settings/render.php:481
+msgid "Check out"
+msgstr ""
+
+#: classes/analytify-settings/render.php:466
+#: classes/analytify-settings/render.php:472
+#: classes/analytify-settings/render.php:481
+msgid "this guide here"
+msgstr ""
+
+#: classes/analytify-settings/render.php:466
+#: classes/analytify-settings/render.php:472
+#: classes/analytify-settings/render.php:481
+msgid "to setup it properly."
+msgstr ""
+
+#: classes/analytify-settings/render.php:469
+msgid ""
+"An unexpected error occurred while getting profiles list from the Google "
+"Analytics account."
+msgstr ""
+
+#: classes/analytify-settings/render.php:469
+msgid "let us know this issue from the Help tab."
+msgstr ""
+
+#: classes/analytify-settings/render.php:576
+msgid "Choose Image"
+msgstr ""
+
+#: classes/analytify-settings/render.php:582
+msgid "Remove Logo"
+msgstr ""
+
+#: classes/analytify-settings/render.php:597
+msgid "Choose File"
+msgstr ""
+
+#: classes/analytify-settings/render.php:642
+msgid "Set up a liaison between Analytify & your Google Analytics account."
+msgstr ""
+
+#: classes/analytify-settings/render.php:658
+msgid "Log in with your Google Analytics Account"
+msgstr ""
+
+#: classes/analytify-settings/render.php:662
+#, php-format
+msgid ""
+"It is required to %1$sSet up your account%2$s and a website profile at "
+"%3$sGoogle Analytics%4$s to see Analytify Dashboard reports."
+msgstr ""
+
+#: classes/analytify-settings/render.php:690
+msgid "Support"
+msgstr ""
+
+#: classes/analytify-settings/render.php:695
+#, php-format
+msgid ""
+"As this is a free plugin, Post all of your questions to the %1$s "
+"WordPress.org support forum %2$s. Response time can range from a couple of "
+"days to a week as this is a free support."
+msgstr ""
+
+#: classes/analytify-settings/render.php:705
+#, php-format
+msgid ""
+"If you want a %1$s timely response via email from a developer %2$s who works "
+"on this plugin, %3$s upgrade to Analytify Pro %4$s &&send us an email."
+msgstr ""
+
+#: classes/analytify-settings/render.php:717
+#, php-format
+msgid "If you've found a bug, please %1$s submit an issue at Github %2$s."
+msgstr ""
+
+#: classes/analytify-settings/render.php:729
+msgid "Diagnostic Information"
+msgstr ""
+
+#: classes/analytify-settings/render.php:735
+msgid "Download Diagnostic Log"
+msgstr ""
+
+#: classes/analytify-settings/render.php:736
+msgid "View Error Logs"
+msgstr ""
+
+#: classes/analytify-settings/render.php:741
+msgid "Tools"
+msgstr ""
+
+#: classes/analytify-settings/render.php:745
+msgid "Export Settings"
+msgstr ""
+
+#: classes/analytify-settings/render.php:746
+msgid "Export the Analytify settings file in JSON format."
+msgstr ""
+
+#: classes/analytify-settings/render.php:749
+msgid "Download Export File"
+msgstr ""
+
+#: classes/analytify-settings/render.php:753
+msgid "Import Settings"
+msgstr ""
+
+#: classes/analytify-settings/render.php:754
+msgid "Select the export file and click on Upload Import File button."
+msgstr ""
+
+#: classes/analytify-settings/render.php:755
+msgid ""
+"This will not include your Google authentication, you might need to "
+"authenticate again after import."
+msgstr ""
+
+#: classes/analytify-settings/render.php:759
+msgid "Upload Import File"
+msgstr ""
+
+#: classes/analytify-settings/render.php:762
+msgid "Import completed successfully!"
+msgstr ""
+
+#: classes/analytify-settings/render.php:763
+msgid "Reloading settings page to reflect settings.."
+msgstr ""
+
+#: classes/analytify-settings/render.php:769
+#: inc/class-analytify-adminbar.php:55
+msgid "Refresh Statistics"
+msgstr ""
+
+#: classes/analytify-settings/render.php:770
+msgid "Clear cached data to update your analytics with the latest stats."
+msgstr ""
+
+#: classes/analytify-settings/render.php:776
+msgid "Refresh All Stats"
+msgstr ""
+
+#: classes/analytify-settings/render.php:781
+msgid "Factory Reset"
+msgstr ""
+
+#: classes/analytify-settings/render.php:782
+msgid ""
+"Restore all settings to their defaults. This will log you out and remove any "
+"saved configurations."
+msgstr ""
+
+#: classes/analytify-settings/render.php:785
+msgid "Reset Plugin Settings"
+msgstr ""
+
+#: classes/analytify-settings/render.php:796
+msgid ""
+"Are you sure you want to reset the plugin? This will delete all settings and "
+"data. This cannot be undone."
+msgstr ""
+
+#: classes/analytify-settings/render.php:814
+msgid "Plugin reset successfully. Reloading..."
+msgstr ""
+
+#: classes/analytify-settings/render.php:817
+msgid "Error resetting plugin."
+msgstr ""
+
+#: classes/analytify-settings/render.php:824
+msgid "Error resetting plugin. Please try again."
+msgstr ""
+
+#: classes/analytify-settings/render.php:836
+#, php-format
+msgid "Videos %1$s (Subscribe To Our Youtube Channel) %2$s"
+msgstr ""
+
+#: classes/analytify-settings/render.php:873
+msgid "Explore Email Notifications addon"
+msgstr ""
+
+#: classes/analytify-settings/render.php:876
+msgid "Explore Analytify Pro"
+msgstr ""
+
+#: classes/analytify-settings/render.php:876
+msgid "Email Notifications bundle"
+msgstr ""
+
+#: classes/analytify-settings/render.php:883
+msgid "Unlock weekly and monthly reports"
+msgstr ""
+
+#: classes/analytify-settings/render.php:884
+msgid ""
+"Email notifications add-on extends the Analytify Pro, and enables more "
+"control on customizing Analytics Email reports for your websites, delivers "
+"Analytics summaries straight in your inbox weekly and monthly."
+msgstr ""
+
+#: classes/analytify-settings/render.php:886
+msgid "Add your logo"
+msgstr ""
+
+#: classes/analytify-settings/render.php:887
+msgid "Choose your own metrics to display in reports"
+msgstr ""
+
+#: classes/analytify-settings/render.php:888
+msgid "Edit Email Subject"
+msgstr ""
+
+#: classes/analytify-settings/render.php:889
+msgid "Add personal note"
+msgstr ""
+
+#: classes/analytify-settings/render.php:890
+msgid "Schedule weekly reports"
+msgstr ""
+
+#: classes/analytify-settings/render.php:891
+msgid "Schedule monthly reports"
+msgstr ""
+
+#: classes/analytify-settings/render.php:908
+msgid "Test Email"
+msgstr ""
+
+#: classes/analytify-settings/render.php:909
+msgid "Note: Please save changes before sending a test email."
+msgstr ""
+
+#: classes/analytify-utils/analytify-utils-core.php:79 inc/utils.php:166
+msgctxt "Hour Time"
+msgid "h"
+msgstr ""
+
+#: classes/analytify-utils/analytify-utils-core.php:82 inc/utils.php:169
+msgctxt "Minute Time"
+msgid "m"
+msgstr ""
+
+#: classes/analytify-utils/analytify-utils-core.php:85 inc/utils.php:172
+msgctxt "Second Time"
+msgid "s"
+msgstr ""
+
+#: classes/analytify-utils/analytify-utils-ui.php:35
+msgid "Today"
+msgstr ""
+
+#: classes/analytify-utils/analytify-utils-ui.php:36
+msgid "Yesterday"
+msgstr ""
+
+#: classes/analytify-utils/analytify-utils-ui.php:37
+msgid "Last 7 days"
+msgstr ""
+
+#: classes/analytify-utils/analytify-utils-ui.php:38
+msgid "Last 14 days"
+msgstr ""
+
+#: classes/analytify-utils/analytify-utils-ui.php:39
+msgid "Last 30 days"
+msgstr ""
+
+#: classes/analytify-utils/analytify-utils-ui.php:40
+msgid "This month"
+msgstr ""
+
+#: classes/analytify-utils/analytify-utils-ui.php:41
+msgid "Last month"
+msgstr ""
+
+#: classes/analytify-utils/analytify-utils-ui.php:42
+msgid "Last 3 months"
+msgstr ""
+
+#: classes/analytify-utils/analytify-utils-ui.php:43
+msgid "Last 6 months"
+msgstr ""
+
+#: classes/analytify-utils/analytify-utils-ui.php:44
+msgid "Last year"
+msgstr ""
+
+#: classes/analytify-utils/analytify-utils-ui.php:45
+msgid "Custom Range"
+msgstr ""
+
+#: classes/analytify-utils/analytify-utils-ui.php:45
+msgid "Select a custom date"
+msgstr ""
+
+#: classes/analytify-utils/analytify-utils-ui.php:89
+msgid "From:"
+msgstr ""
+
+#: classes/analytify-utils/analytify-utils-ui.php:91
+msgid "To:"
+msgstr ""
+
+#: classes/analytify-utils/analytify-utils-ui.php:102
+#: inc/analytics-reports.php:287
+msgid "View Stats"
+msgstr ""
+
+#: classes/class-analytify-user-optout.php:71
+msgid "Click here to opt-out."
+msgstr ""
+
+#: classes/class-analytify-user-optout.php:87
+msgid "Thanks. Google Analytics data collection is disabled for you."
+msgstr ""
+
+#: classes/class-analytify-user-optout.php:133
+msgid "Click here to opt-in."
+msgstr ""
+
+#: classes/class-analytify-user-optout.php:148
+msgid "Thanks. Google Analytics data collection is enabled for you."
+msgstr ""
+
+#: classes/class-wp-analytify-compatibility-upgrade.php:329
+msgid ""
+"This Add-on will track custom events in a unique and intuitive way which is "
+"very understandable even for non-technical WordPress users."
+msgstr ""
+
+#: classes/class-wp-analytify-compatibility-upgrade.php:338
+msgid ""
+"With the Custom Dimensions addon you can view data which can be segmented "
+"and organized according to your businesses."
+msgstr ""
+
+#: classes/class-wp-analytify-compatibility-upgrade.php:346
+msgid "AMP"
+msgstr ""
+
+#: classes/class-wp-analytify-compatibility-upgrade.php:347
+msgid ""
+"Analytify's AMP Addon will enable accurate reporting and tracking of mobile "
+"visitors to your AMP pages."
+msgstr ""
+
+#: classes/class-wp-analytify-compatibility-upgrade.php:356
+msgid "This Addon Tracks Google Ads Conversions for Woocommerce and EDD."
+msgstr ""
+
+#: inc/admin-notices.php:48
+#, php-format
+msgid ""
+"%1$sNote:%2$s Please update to the latest Analytify Pro version to manage "
+"all modules/addons from %3$s here %4$s."
+msgstr ""
+
+#: inc/admin-notices.php:90 inc/core-traits/functions-class.php:30
+#, php-format
+msgid ""
+"%1$sAttention:%2$s Switch to GA4 (Google Analytics 4), Your current version "
+"of Google Analytics (UA) is outdated and no longer tracks data. %3$sFollow "
+"the guide%4$s."
+msgstr ""
+
+#: inc/admin-notices.php:118
+#, php-format
+msgid ""
+"%1$sNotice:%2$s Please update the following plugins to make them work with "
+"the Analytify 5.0.0 smoothly. %3$s"
+msgstr ""
+
+#: inc/admin-notices.php:140
+msgid "Analytify statistics refreshed"
+msgstr ""
+
+#: inc/admin-notices.php:155 inc/ajax-traits/utility.php:27
+#: inc/ajax-traits/utility.php:410 inc/ajax-traits/utility.php:423
+#: inc/ajax-traits/utility.php:436 inc/ajax-traits/utility.php:471
+#: inc/ajax-traits/utility.php:498 inc/ajax-traits/utility.php:525
+#: inc/ajax-traits/utility.php:540 inc/core-traits/profile-helpers.php:174
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+#: inc/admin-notices.php:161 inc/core-traits/profile-helpers.php:180
+msgid "Security check failed."
+msgstr ""
+
+#: inc/admin-notices.php:192 inc/admin-notices.php:218
+#, php-format
+msgid ""
+"Kindly note that Rank Math Self-Hosted Analytics JS File Feature is "
+"available in %1$s Analytify %2$s as well. We recommend using Analytify for "
+"this functionality."
+msgstr ""
+
+#: inc/ajax-traits/utility.php:30
+msgid "rated"
+msgstr ""
+
+#: inc/ajax-traits/utility.php:584
+msgid "No cheating, huh!"
+msgstr ""
+
+#: inc/analytics-dashboard.php:44 views/default/admin/addons-promo.php:23
+msgid "View Changelog"
+msgstr ""
+
+#: inc/analytics-dashboard.php:60
+msgid "Overview Dashboard"
+msgstr ""
+
+#: inc/analytics-dashboard.php:63 inc/analytics-dashboard.php:66
+msgid "Export PDF Report"
+msgstr ""
+
+#: inc/analytics-dashboard.php:113
+msgid "Export General Stats"
+msgstr ""
+
+#: inc/analytics-dashboard.php:147
+msgid "Top pages by views"
+msgstr ""
+
+#: inc/analytics-dashboard.php:148
+msgid "View All Top Pages"
+msgstr ""
+
+#: inc/analytics-dashboard.php:262
+msgid "Dismiss"
+msgstr ""
+
+#: inc/analytics-dashboard.php:264
+msgid "Upgrade to Pro"
+msgstr ""
+
+#: inc/analytics-dashboard.php:268
+msgid "Premium feature"
+msgstr ""
+
+#: inc/analytics-dashboard.php:269
+msgid "Upgrade Now"
+msgstr ""
+
+#: inc/analytics-dashboard.php:286
+msgid "Keywords (How People Are Finding Your Website)"
+msgstr ""
+
+#: inc/analytics-dashboard.php:324
+msgid "Social Network"
+msgstr ""
+
+#: inc/analytics-dashboard.php:364
+msgid "Top Referrers"
+msgstr ""
+
+#: inc/analytics-dashboard.php:365
+msgid "View All Top Referrers"
+msgstr ""
+
+#: inc/analytics-dashboard.php:404
+msgid "What's happening when users come to your site"
+msgstr ""
+
+#: inc/analytics-dashboard.php:447
+msgid "You must be authenticated to see the Analytics Dashboard."
+msgstr ""
+
+#: inc/analytics-dashboard.php:450
+msgid "You don't have access to Analytify Dashboard."
+msgstr ""
+
+#: inc/analytics-reports.php:82
+msgid "Analytify - Stats of this Post/Page"
+msgstr ""
+
+#: inc/analytics-reports.php:113
+msgid "This post is excluded and will NOT show Analytics."
+msgstr ""
+
+#: inc/analytics-reports.php:147
+msgid "You are not allowed to see stats"
+msgstr ""
+
+#: inc/analytics-reports.php:190 inc/analytics-reports.php:201
+#: inc/analytics-reports.php:232
+msgid "Failed"
+msgstr ""
+
+#: inc/analytics-reports.php:268 inc/analytics-reports.php:287
+msgid "View Stats of"
+msgstr ""
+
+#: inc/analytify-authentication.php:245
+#, php-format
+msgid "[%s] Analytify: Google Analytics Token Refresh Failed"
+msgstr ""
+
+#: inc/analytify-authentication.php:251
+#, php-format
+msgid ""
+"Hello,\n"
+"\n"
+"Your Google Analytics token refresh has failed on %1$s (%2$s).\n"
+"\n"
+"Error details: %3$s\n"
+"\n"
+"Please re-authenticate your Google Analytics connection in the Analytify "
+"settings to restore functionality.\n"
+"\n"
+"You can access the settings here: %4$s\n"
+"\n"
+"This is an automated notification from Analytify."
+msgstr ""
+
+#: inc/analytify-deactivate-form.php:99
+msgid "Quick feedback about Analytify (Google Analytics for WordPress)"
+msgstr ""
+
+#: inc/analytify-deactivate-form.php:102
+#: lib/wpb-sdk/views/wpb-sdk-deactivate-form.php:111
+msgid "If you have a moment, please let us know why you are deactivating:"
+msgstr ""
+
+#: inc/analytify-deactivate-form.php:109
+msgid "I upgraded to Analytify Pro"
+msgstr ""
+
+#: inc/analytify-deactivate-form.php:111
+msgid ""
+"No need to deactivate this Analytify Core version. Pro version works as an "
+"add-on with Core version."
+msgstr ""
+
+#: inc/analytify-deactivate-form.php:118
+#: lib/wpb-sdk/views/wpb-sdk-deactivate-form.php:116
+msgid "I only needed the plugin for a short period"
+msgstr ""
+
+#: inc/analytify-deactivate-form.php:127
+#: lib/wpb-sdk/views/wpb-sdk-deactivate-form.php:123
+msgid "I found a better plugin"
+msgstr ""
+
+#: inc/analytify-deactivate-form.php:130
+#: lib/wpb-sdk/views/wpb-sdk-deactivate-form.php:127
+msgid "Kindly tell us the name of plugin"
+msgstr ""
+
+#: inc/analytify-deactivate-form.php:137
+#: lib/wpb-sdk/views/wpb-sdk-deactivate-form.php:134
+msgid "The plugin broke my site"
+msgstr ""
+
+#: inc/analytify-deactivate-form.php:146
+#: lib/wpb-sdk/views/wpb-sdk-deactivate-form.php:141
+msgid "The plugin suddenly stopped working"
+msgstr ""
+
+#: inc/analytify-deactivate-form.php:155
+#: lib/wpb-sdk/views/wpb-sdk-deactivate-form.php:148
+msgid "I no longer need the plugin"
+msgstr ""
+
+#: inc/analytify-deactivate-form.php:164
+#: lib/wpb-sdk/views/wpb-sdk-deactivate-form.php:155
+msgid "It's a temporary deactivation. I'm just debugging an issue."
+msgstr ""
+
+#: inc/analytify-deactivate-form.php:173
+#: lib/wpb-sdk/views/wpb-sdk-deactivate-form.php:162
+msgid "Other"
+msgstr ""
+
+#: inc/analytify-deactivate-form.php:176
+#: lib/wpb-sdk/views/wpb-sdk-deactivate-form.php:166
+msgid "Kindly tell us the reason so we can improve."
+msgstr ""
+
+#: inc/analytify-deactivate-form.php:181
+#: lib/wpb-sdk/views/wpb-sdk-deactivate-form.php:175
+msgid "Anonymous feedback"
+msgstr ""
+
+#: inc/analytify-deactivate-form.php:186 inc/promotions.php:53
+#: lib/wpb-sdk/views/wpb-sdk-deactivate-form.php:182
+msgid "Cancel"
+msgstr ""
+
+#: inc/analytify-ga4-core.php:333
+msgid ""
+"Error: Invalid or missing Google Analytics token. Please re-authenticate."
+msgstr ""
+
+#: inc/analytify-ga4-core.php:340
+msgid "Error: Unable to authenticate with Google Analytics."
+msgstr ""
+
+#: inc/analytify-ga4-core.php:356
+msgid ""
+"Error: Token expired and could not be refreshed. Please re-authenticate."
+msgstr ""
+
+#: inc/analytify-ga4-core.php:370
+msgid "Notice: You must authenticate to access your web profiles."
+msgstr ""
+
+#: inc/analytify-go-pro.php:124
+msgid "Dashboards (Advanced)"
+msgstr ""
+
+#: inc/analytify-go-pro.php:125 inc/analytify-go-pro.php:166
+msgid "Analytics under Posts (admin)"
+msgstr ""
+
+#: inc/analytify-go-pro.php:126
+msgid "Email Notifications (addon)"
+msgstr ""
+
+#: inc/analytify-go-pro.php:127 inc/analytify-go-pro.php:168
+msgid "Analytics under Pages (admin)"
+msgstr ""
+
+#: inc/analytify-go-pro.php:128
+msgid "Comparison Stats (Visitors & Views monthly/yearly)"
+msgstr ""
+
+#: inc/analytify-go-pro.php:129
+msgid "Real-Time Live Stats"
+msgstr ""
+
+#: inc/analytify-go-pro.php:130
+msgid "ShortCodes"
+msgstr ""
+
+#: inc/analytify-go-pro.php:131
+msgid "Analytics under Custom Post Types (front/admin)"
+msgstr ""
+
+#: inc/analytify-go-pro.php:132
+msgid "404 Page, Ajax & JS Error Stats"
+msgstr ""
+
+#: inc/analytify-go-pro.php:134
+msgid "Google AMP Support"
+msgstr ""
+
+#: inc/analytify-go-pro.php:136
+msgid "Authors Tracking (addon)"
+msgstr ""
+
+#: inc/analytify-go-pro.php:137
+msgid "Forms Tracking (addon)"
+msgstr ""
+
+#: inc/analytify-go-pro.php:138
+msgid "Priority Email Support"
+msgstr ""
+
+#: inc/analytify-go-pro.php:152 inc/analytify-go-pro.php:153
+#: inc/analytify-go-pro.php:154 inc/analytify-go-pro.php:155
+msgid "Similar but limited"
+msgstr ""
+
+#: inc/analytify-go-pro.php:165 wp-analytify.php:1070
+msgid "Dashboards"
+msgstr ""
+
+#: inc/analytify-go-pro.php:167
+msgid "Email Notifications"
+msgstr ""
+
+#: inc/analytify-go-pro.php:169 inc/analytify-go-pro.php:170
+#: inc/analytify-go-pro.php:171 inc/analytify-go-pro.php:172
+#: inc/analytify-go-pro.php:173
+msgid "No"
+msgstr ""
+
+#: inc/analytify-go-pro.php:174 inc/analytify-go-pro.php:175
+msgid "Only Tracking"
+msgstr ""
+
+#: inc/analytify-go-pro.php:176
+msgid "WordPress.org Forum Support"
+msgstr ""
+
+#: inc/analytify-go-pro.php:185
+#, php-format
+msgid "%1$sUpgrade Now%2$s use %3$s discount code for 60&#37; OFF "
+msgstr ""
+
+#: inc/analytify-logs.php:75
+msgid "Delete log"
+msgstr ""
+
+#: inc/analytify-logs.php:86
+#, php-format
+msgid "%1$s at %2$s"
+msgstr ""
+
+#: inc/analytify-logs.php:91
+msgid "View"
+msgstr ""
+
+#: inc/analytify-logs.php:104
+msgid "There are currently no logs to view."
+msgstr ""
+
+#: inc/analytify-optin-form.php:25
+msgid "Welcome to Google Analytics by Analytify"
+msgstr ""
+
+#: inc/analytify-optin-form.php:33
+#, php-format
+msgid ""
+"Hey %2$s,  %4$s If you opt-in some data about your installation of Analytify "
+"will be sent to analytify.io (This doesn't include stats)%4$s and You will "
+"receive new feature updates, security notifications etc %7$sNo Spam, I "
+"promise.%8$s %4$s%4$s Help us %5$sImprove Google Analytics by Analytify%6$s "
+"%4$s %4$s "
+msgstr ""
+
+#: inc/analytify-optin-form.php:47
+msgid "Allow and Continue  "
+msgstr ""
+
+#: inc/analytify-optin-form.php:48
+msgid "Skip This Step"
+msgstr ""
+
+#: inc/analytify-optin-form.php:50
+msgid "What permissions are being granted?"
+msgstr ""
+
+#: inc/analytify-optin-form.php:52
+msgid "Your Website Overview"
+msgstr ""
+
+#: inc/analytify-optin-form.php:53
+msgid ""
+"Your Site URL, WordPress & PHP version, plugins & themes. This data lets us "
+"make sure this plugin always stays compatible with the most popular plugins "
+"and themes."
+msgstr ""
+
+#: inc/analytify-optin-form.php:55
+msgid "Your Profile Overview"
+msgstr ""
+
+#: inc/analytify-optin-form.php:56
+msgid "Your name and email address."
+msgstr ""
+
+#: inc/analytify-optin-form.php:58
+msgid "Admin Notices"
+msgstr ""
+
+#: inc/analytify-optin-form.php:59
+msgid "Updates, Announcement, Marketing. No Spam, I promise."
+msgstr ""
+
+#: inc/analytify-optin-form.php:61
+msgid "Plugin Actions"
+msgstr ""
+
+#: inc/analytify-optin-form.php:62
+msgid ""
+"Active, Deactive, Uninstallation and How you use this plugin's features and "
+"settings. This is limited to usage data. It does not include any of your "
+"sensitive Google Analytics data, such as traffic. This data helps us learn "
+"which features are most popular, so we can improve the plugin further."
+msgstr ""
+
+#: inc/analytify-optin-form.php:107
+msgid "Getting Started"
+msgstr ""
+
+#: inc/analytify-optin-form.php:110
+msgid "What's New"
+msgstr ""
+
+#: inc/analytify-optin-form.php:113
+msgid "Credits"
+msgstr ""
+
+#: inc/analytify-optin-form.php:121
+#, php-format
+msgid ""
+"Getting started with Analytify, plugin settings are very easy to use and "
+"ready to go in minutes. If there is something you don't understand or "
+"confusing, do ask us on %1$sWordPress.org support forum%2$s without "
+"hesitation."
+msgstr ""
+
+#: inc/analytify-optin-form.php:134
+msgid "Step 1: Authentication"
+msgstr ""
+
+#: inc/analytify-optin-form.php:135
+msgid ""
+"You must have a registered Google Analytics account and setup your website "
+"profiles to use with Analytify on your WordPress based sites. Click on Login "
+"button and It will redirect you to separate Google access page. Allow this "
+"plugin to fetch the data from Google Analytics and It will take you back to "
+"your profile tab."
+msgstr ""
+
+#: inc/analytify-optin-form.php:144
+msgid "Step 2: Setting up profiles"
+msgstr ""
+
+#: inc/analytify-optin-form.php:149
+msgid "Profile Tab"
+msgstr ""
+
+#: inc/analytify-optin-form.php:150
+msgid ""
+"This tab section consists of many important settings. After Authentication, "
+"Setup your profiles here. All of the options are easy to understand."
+msgstr ""
+
+#: inc/analytify-optin-form.php:152
+msgid "a) Install Google Analytics tracking code"
+msgstr ""
+
+#: inc/analytify-optin-form.php:153
+msgid ""
+"First, you need to check if you want to install Google Analytics tracking "
+"code by Analytify or uncheck it if you have already installed it manually or "
+"via some other way. "
+msgstr ""
+
+#: inc/analytify-optin-form.php:155
+msgid "b) Exclude users from tracking"
+msgstr ""
+
+#: inc/analytify-optin-form.php:156
+msgid ""
+"Usually Administrators don't want to track themselves. So, this option can "
+"be commonly used if you want to exclude your special users from tracking "
+"data."
+msgstr ""
+
+#: inc/analytify-optin-form.php:158
+msgid "c) Tracking code type"
+msgstr ""
+
+#: inc/analytify-optin-form.php:159
+msgid ""
+"Google recommends to use Analytics.js (Universal Tracking) now. So, we "
+"recommend to use this option."
+msgstr ""
+
+#: inc/analytify-optin-form.php:161
+msgid "d) Profile for posts (Backend/Front-end)"
+msgstr ""
+
+#: inc/analytify-optin-form.php:162
+msgid ""
+"Select your website profile for wp-admin edit pages and Front-end pages. "
+"Select profile which matches your current WordPress website."
+msgstr ""
+
+#: inc/analytify-optin-form.php:164
+msgid "e) Profile for Dashboard"
+msgstr ""
+
+#: inc/analytify-optin-form.php:165
+msgid ""
+"Select your website profile for Dashboard Stats. You can select your any "
+"Website profile. It will show Analytics for your selected website profile."
+msgstr ""
+
+#: inc/analytify-optin-form.php:172
+msgid "Step 3: Display Statistics at front-end pages"
+msgstr ""
+
+#: inc/analytify-optin-form.php:178
+msgid "Front Tab"
+msgstr ""
+
+#: inc/analytify-optin-form.php:183
+#, php-format
+msgid ""
+"In version %4$s, We have introduced the %1$s New Front-end Analytics%2$s "
+"which will fetch the stats like backend but with an awesome UI for front-end "
+"stats. It was a long awaited feature which was under development since 1.0 "
+"but finally It is here. It can be customized (if you are good at CSS) "
+"according to your website look and feel. %3$s Below are it's important "
+"options: "
+msgstr ""
+
+#: inc/analytify-optin-form.php:193 inc/analytify-optin-form.php:374
+msgid "Disable front-end"
+msgstr ""
+
+#: inc/analytify-optin-form.php:194 inc/analytify-optin-form.php:376
+msgid ""
+"We introduced the ability to disable the front-end stats on the full site. "
+"Check it, if you don't want to load Analytics at all. Remember, you can use "
+"Shortcodes still."
+msgstr ""
+
+#: inc/analytify-optin-form.php:196 inc/analytify-optin-form.php:240
+#: inc/analytify-optin-form.php:379
+msgid "Display Analytics to Users"
+msgstr ""
+
+#: inc/analytify-optin-form.php:201
+#, php-format
+msgid "Show %1$sfront-end%2$s Analytics to selected user roles only."
+msgstr ""
+
+#: inc/analytify-optin-form.php:210 inc/analytify-optin-form.php:254
+#: inc/analytify-optin-form.php:393
+msgid "Analytics on Post types"
+msgstr ""
+
+#: inc/analytify-optin-form.php:211 inc/analytify-optin-form.php:255
+#: inc/analytify-optin-form.php:394
+msgid ""
+"Show Analytics under the selected post types only. You can select your "
+"custom post types as well."
+msgstr ""
+
+#: inc/analytify-optin-form.php:213 inc/analytify-optin-form.php:396
+msgid "Front-end Analytics panels"
+msgstr ""
+
+#: inc/analytify-optin-form.php:214 inc/analytify-optin-form.php:397
+msgid ""
+"Select which Stats panels you want to display at front-end. We recommend to "
+"use upto 8 Panels for better page speed."
+msgstr ""
+
+#: inc/analytify-optin-form.php:218 inc/analytify-optin-form.php:262
+#: inc/analytify-optin-form.php:401
+msgid "Exclude Analytics on specific pages"
+msgstr ""
+
+#: inc/analytify-optin-form.php:219 inc/analytify-optin-form.php:263
+#: inc/analytify-optin-form.php:402
+msgid "Select posts or pages on which you don't want to show Analytics."
+msgstr ""
+
+#: inc/analytify-optin-form.php:226
+msgid "Step 4: Display Statistics under Edit pages (backend)"
+msgstr ""
+
+#: inc/analytify-optin-form.php:232
+msgid "Admin Tab"
+msgstr ""
+
+#: inc/analytify-optin-form.php:233
+msgid ""
+"Admin tab section is to manage the Analytics panels under EDIT screen of "
+"post/pages in wp-admin."
+msgstr ""
+
+#: inc/analytify-optin-form.php:237
+msgid "Disable Analytics under posts/pages."
+msgstr ""
+
+#: inc/analytify-optin-form.php:238
+msgid ""
+"Check it, If you don't want to load Stats by default on all pages. If you "
+"disable it, you can still fetch the stats under each post/page on single "
+"click."
+msgstr ""
+
+#: inc/analytify-optin-form.php:245
+#, php-format
+msgid "Show %1$s Google %2$s Analytics to selected user roles only."
+msgstr ""
+
+#: inc/analytify-optin-form.php:257
+msgid "Edit pages/posts Analytics panels"
+msgstr ""
+
+#: inc/analytify-optin-form.php:258
+msgid ""
+"Select which Stats panels you want to display at backend. We recommend to "
+"use upto 10 Panels for better page speed."
+msgstr ""
+
+#: inc/analytify-optin-form.php:271
+msgid "Licensing"
+msgstr ""
+
+#: inc/analytify-optin-form.php:274
+msgid ""
+"We have a year based pricing model as we think this is the best model to "
+"keep our normal lives easier and down the costs of support servers etc. You "
+"need a valid license key if you want to get support and updates in the "
+"future for a year. After a year, you will get discount to renew your "
+"license. "
+msgstr ""
+
+#: inc/analytify-optin-form.php:282
+msgid "New features"
+msgstr ""
+
+#: inc/analytify-optin-form.php:288
+msgid "Simple Authentication"
+msgstr ""
+
+#: inc/analytify-optin-form.php:290
+msgid "You don't need to worry about copy and paste access code any more. "
+msgstr ""
+
+#: inc/analytify-optin-form.php:293
+msgid "Translation ready"
+msgstr ""
+
+#: inc/analytify-optin-form.php:298
+#, php-format
+msgid ""
+"Analytify %1$s contains all the strings ready to translate in any language. "
+"%2$s Click here %3$s to start translating this plugin into your language and "
+"don't forget to share your language files with us to ease for other users."
+msgstr ""
+
+#: inc/analytify-optin-form.php:317
+msgid "Analytify Shortcodes"
+msgstr ""
+
+#: inc/analytify-optin-form.php:322
+#, php-format
+msgid ""
+"Analytify shortcodes can be used for multiple purposes. It gives you more "
+"flexibility than the front-end statistics. You can disable front-end stats "
+"and use these shortcodes in any of your pages/posts to show Analytics in "
+"tabular style. If you are familiar with CSS, It can be easily modified to "
+"match with your website look and feel. %1$s Following are two types of "
+"shortcodes:"
+msgstr ""
+
+#: inc/analytify-optin-form.php:328
+msgid "a) Simple:"
+msgstr ""
+
+#: inc/analytify-optin-form.php:333
+#, php-format
+msgid ""
+"Simple Analytify shortcode returns you only the numbers i.e results. It is "
+"useful when you want results of only 1 Metrics and can apply permissions "
+"using roles. You can fetch numbers of %1$s Sessions, Pageviews, Bounce Rate "
+"and Users %2$s etc"
+msgstr ""
+
+#: inc/analytify-optin-form.php:340
+msgid "b) Advanced:"
+msgstr ""
+
+#: inc/analytify-optin-form.php:345
+#, php-format
+msgid ""
+"With this Advanced option, You can choose %1$s more than 1 Metrics and "
+"Dimensions, Sort the results, get maximum rows, apply permissions and fetch "
+"Analytics with specified start-date and end-date. %2$s Advanced shortcode "
+"returns results in table form which can be styled according to your website."
+msgstr ""
+
+#: inc/analytify-optin-form.php:359
+msgid "Front-end Statistics"
+msgstr ""
+
+#: inc/analytify-optin-form.php:364
+#, php-format
+msgid ""
+"We have introduced the %1$s New Front-end Analytics %2$s which will fetch "
+"the stats like backend but with an awesome UI for front-end stats. It was a "
+"long awaited feature which was under development but finally It is here. It "
+"can be customized (if you are good at CSS) according to your website look "
+"and feel. %3$s below are it's important options: "
+msgstr ""
+
+#: inc/analytify-optin-form.php:384
+#, php-format
+msgid "Show %1$s front-end %2$s Analytics to selected user roles only."
+msgstr ""
+
+#: inc/analytify-optin-form.php:469
+msgctxt "as in terms and conditions"
+msgid "Terms"
+msgstr ""
+
+#: inc/analytify-optin-form.php:469
+msgctxt "as in privacy policy"
+msgid "Privacy"
+msgstr ""
+
+#: inc/analytify-optin-form.php:470
+msgid "Go to Analytify Settings"
+msgstr ""
+
+#: inc/analytify-optin-form.php:471
+msgid "View the Full Changelog"
+msgstr ""
+
+#: inc/analytify-utilities.php:65
+#, php-format
+msgid "Invalid nonce for: %s"
+msgstr ""
+
+#: inc/analytify-utilities.php:77
+#, php-format
+msgid "Access denied for: %s"
+msgstr ""
+
+#: inc/analytify-utilities.php:157
+msgid "No Activity During This Period."
+msgstr ""
+
+#: inc/analytify-widgets.php:24
+msgid "Analytify Live Stats"
+msgstr ""
+
+#: inc/analytify-widgets.php:25
+msgid "It shows Live Stats of your site."
+msgstr ""
+
+#: inc/analytify-widgets.php:53
+msgid "Description:"
+msgstr ""
+
+#: inc/class-analytify-adminbar.php:50
+msgid "Analytify QuickLinks"
+msgstr ""
+
+#: inc/class-analytify-adminbar.php:54 inc/promotions.php:90
+msgid "Dashboard"
+msgstr ""
+
+#: inc/class-analytify-adminbar.php:60 wp-analytify.php:1085
+msgid "Settings"
+msgstr ""
+
+#: inc/class-analytify-ajax.php:41 inc/class-analytify-ajax.php:67
+msgid "Sorry, you are not allowed to edit this item."
+msgstr ""
+
+#: inc/class-analytify-logging.php:47
+msgid "Logs"
+msgstr ""
+
+#: inc/class-analytify-post-columns.php:99
+#: inc/class-analytify-post-columns.php:295
+msgid "7 Days"
+msgstr ""
+
+#: inc/class-analytify-post-columns.php:100
+#: inc/class-analytify-post-columns.php:296
+msgid "30 Days"
+msgstr ""
+
+#: inc/class-analytify-post-columns.php:101
+#: inc/class-analytify-post-columns.php:297
+msgid "90 Days"
+msgstr ""
+
+#: inc/class-analytify-post-columns.php:102
+#: inc/class-analytify-post-columns.php:150
+#: inc/class-analytify-post-columns.php:298
+msgid "Last Year"
+msgstr ""
+
+#: inc/class-analytify-post-columns.php:103
+#: inc/class-analytify-post-columns.php:151
+#: inc/class-analytify-post-columns.php:299
+msgid "All Time"
+msgstr ""
+
+#: inc/class-analytify-post-columns.php:145
+msgid "Session Date Range:"
+msgstr ""
+
+#: inc/class-analytify-post-columns.php:147
+msgid "Last 7 Days"
+msgstr ""
+
+#: inc/class-analytify-post-columns.php:148
+msgid "Last 30 Days"
+msgstr ""
+
+#: inc/class-analytify-post-columns.php:149
+msgid "Last 90 Days"
+msgstr ""
+
+#: inc/core-traits/admin-footer.php:36
+#, php-format
+msgid ""
+"If you like %1$s Analytify %2$s please leave us a %5$s %3$s %6$s rating. "
+"%4$s A huge thank you from %1$s WPBrigade %2$s in advance!"
+msgstr ""
+
+#: inc/core-traits/admin-footer.php:53
+msgid "Thank you for tracking with Analytify."
+msgstr ""
+
+#: inc/core-traits/functions-class.php:62
+#, php-format
+msgid ""
+"%1$s Dashboard can't be loaded until you select your website profile %2$s "
+"here%3$s."
+msgstr ""
+
+#: inc/gdpr-compliance.php:70
+msgid "Analytify - Exclude from Analytics"
+msgstr ""
+
+#: inc/gdpr-compliance.php:92
+msgid "Exclude this page from Analytics tracking"
+msgstr ""
+
+#: inc/page-addons.php:441 inc/page-addons.php:476 inc/page-addons.php:551
+#, php-format
+msgid "%1$s Deactivate add-on %2$s"
+msgstr ""
+
+#: inc/page-addons.php:451 inc/page-addons.php:491 inc/page-addons.php:555
+#: inc/page-addons.php:559
+#, php-format
+msgid "%1$s Activate add-on %2$s"
+msgstr ""
+
+#: inc/page-addons.php:497
+#, php-format
+msgid "%1$s Download %2$s"
+msgstr ""
+
+#: inc/page-addons.php:500 inc/page-addons.php:563
+#, php-format
+msgid "%1$s Get this add-on %2$s"
+msgstr ""
+
+#: inc/page-addons.php:595
+msgid "Activating..."
+msgstr ""
+
+#: inc/page-addons.php:602
+msgid "Activated"
+msgstr ""
+
+#: inc/page-addons.php:611
+msgid "Deactivating..."
+msgstr ""
+
+#: inc/page-addons.php:618
+msgid "Deactivated"
+msgstr ""
+
+#: inc/page-addons.php:625
+msgid "Something Went Wrong"
+msgstr ""
+
+#: inc/page-addons.php:682
+msgid "Extend the functionality of Analytify with these awesome Add-ons"
+msgstr ""
+
+#: inc/page-addons.php:817
+msgid ""
+"Unable to load addons. Please check your internet connection and try "
+"refreshing the page."
+msgstr ""
+
+#: inc/promotions.php:48
+msgid "We're sorry to see you go!"
+msgstr ""
+
+#: inc/promotions.php:49
+msgid ""
+"Before you deactivate Analytify, would you mind sharing why you're leaving?"
+msgstr ""
+
+#: inc/promotions.php:50
+msgid "Please share your feedback..."
+msgstr ""
+
+#: inc/promotions.php:52
+msgid "Submit & Deactivate"
+msgstr ""
+
+#: inc/promotions.php:91
+msgid "Frontend"
+msgstr ""
+
+#: inc/promotions.php:117
+#, php-format
+msgid ""
+"Please <a href=\"%s\">select your website profile</a> to view Analytics."
+msgstr ""
+
+#: inc/promotions.php:134
+#, php-format
+msgid ""
+"Analytify now supports GA4! <a href=\"%s\">Click here</a> to learn more "
+"about the new features."
+msgstr ""
+
+#: inc/promotions.php:231
+msgid "How's Analytify going, impressed?"
+msgstr ""
+
+#: inc/promotions.php:232
+msgid ""
+"We hope you've enjoyed using Analytify! Would you consider leaving us a 5-"
+"star review on WordPress.org?"
+msgstr ""
+
+#: inc/promotions.php:234
+msgid "Sure! I'd love to!"
+msgstr ""
+
+#: inc/promotions.php:235
+msgid "I've already left a 5-star review"
+msgstr ""
+
+#: inc/promotions.php:236
+msgid "Maybe Later"
+msgstr ""
+
+#: inc/promotions.php:237
+msgid "Never show again"
+msgstr ""
+
+#: inc/promotions.php:318
+msgid "Rate Analytify 5 Stars on WordPress.org"
+msgstr ""
+
+#: inc/promotions.php:318
+msgid "Rate 5 Stars"
+msgstr ""
+
+#: inc/scripts-styles.php:123 inc/scripts-styles.php:259
+msgid "No activity during this period."
+msgstr ""
+
+#: inc/scripts-styles.php:124
+msgid "Something went wrong. Please try again later single."
+msgstr ""
+
+#: inc/scripts-styles.php:164
+msgid "Previous Month"
+msgstr ""
+
+#: inc/scripts-styles.php:165
+msgid "Next Month"
+msgstr ""
+
+#: inc/scripts-styles.php:167
+msgid "January"
+msgstr ""
+
+#: inc/scripts-styles.php:168
+msgid "February"
+msgstr ""
+
+#: inc/scripts-styles.php:169
+msgid "March"
+msgstr ""
+
+#: inc/scripts-styles.php:170
+msgid "April"
+msgstr ""
+
+#: inc/scripts-styles.php:171
+msgid "May"
+msgstr ""
+
+#: inc/scripts-styles.php:172
+msgid "June"
+msgstr ""
+
+#: inc/scripts-styles.php:173
+msgid "July"
+msgstr ""
+
+#: inc/scripts-styles.php:174
+msgid "August"
+msgstr ""
+
+#: inc/scripts-styles.php:175
+msgid "September"
+msgstr ""
+
+#: inc/scripts-styles.php:176
+msgid "October"
+msgstr ""
+
+#: inc/scripts-styles.php:177
+msgid "November"
+msgstr ""
+
+#: inc/scripts-styles.php:178
+msgid "December"
+msgstr ""
+
+#: inc/scripts-styles.php:181
+msgid "Sunday"
+msgstr ""
+
+#: inc/scripts-styles.php:182
+msgid "Monday"
+msgstr ""
+
+#: inc/scripts-styles.php:183
+msgid "Tuesday"
+msgstr ""
+
+#: inc/scripts-styles.php:184
+msgid "Wednesday"
+msgstr ""
+
+#: inc/scripts-styles.php:185
+msgid "Thursday"
+msgstr ""
+
+#: inc/scripts-styles.php:186
+msgid "Friday"
+msgstr ""
+
+#: inc/scripts-styles.php:187
+msgid "Saturday"
+msgstr ""
+
+#: inc/scripts-styles.php:190
+msgid "Sun"
+msgstr ""
+
+#: inc/scripts-styles.php:191
+msgid "Mon"
+msgstr ""
+
+#: inc/scripts-styles.php:192
+msgid "Tue"
+msgstr ""
+
+#: inc/scripts-styles.php:193
+msgid "Wed"
+msgstr ""
+
+#: inc/scripts-styles.php:194
+msgid "Thu"
+msgstr ""
+
+#: inc/scripts-styles.php:195
+msgid "Fri"
+msgstr ""
+
+#: inc/scripts-styles.php:196
+msgid "Sat"
+msgstr ""
+
+#: inc/scripts-styles.php:260
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: inc/scripts-styles.php:391
+msgid "Please enter your license key."
+msgstr ""
+
+#: inc/scripts-styles.php:392
+msgid ""
+"A problem occurred when trying to register the license, please try again."
+msgstr ""
+
+#: inc/scripts-styles.php:393
+msgid "A problem occurred when trying to check the license, please try again."
+msgstr ""
+
+#: inc/scripts-styles.php:394
+msgid ""
+"Your license has been activated. You will now receive automatic updates and "
+"access to email support."
+msgstr ""
+
+#: lib/logs/class-analytify-logger.php:124
+#, php-format
+msgid "%1$s was called with an invalid level \"%2$s\"."
+msgstr ""
+
+#: lib/wpb-sdk/views/wpb-sdk-deactivate-form.php:108
+msgid "Quick feedback about "
+msgstr ""
+
+#: lib/wpb-sdk/views/wpb-sdk-deactivate-form.php:128
+msgid "What's the plugin's name?"
+msgstr ""
+
+#: lib/wpb-sdk/views/wpb-sdk-deactivate-form.php:167
+msgid "Would you like to share what's other reason?"
+msgstr ""
+
+#: views/default/admin/single-depth-stats.php:30
+msgid "Total Reach"
+msgstr ""
+
+#: views/default/admin/single-depth-stats.php:54
+msgid "No records found"
+msgstr ""
+
+#: views/default/admin/single-general-stats.php:33
+msgid ""
+"A session is a time period in which a user is actively engaged with your "
+"Website."
+msgstr ""
+
+#: views/default/admin/single-general-stats.php:41
+msgid "Users, who complete a minimum one session on your website or content."
+msgstr ""
+
+#: views/default/admin/single-general-stats.php:46
+msgid "Page views"
+msgstr ""
+
+#: views/default/admin/single-general-stats.php:49
+msgid ""
+"Page Views are the total number of Page views, Viewed by visitors including "
+"repeated views."
+msgstr ""
+
+#: views/default/admin/single-general-stats.php:54
+msgid "Avg. time on Page"
+msgstr ""
+
+#: views/default/admin/single-general-stats.php:65
+msgid ""
+"Percentage of Single page visits (i.e Number of visits in which a visitor "
+"leaves your website from the landing page without browsing your website)."
+msgstr ""
+
+#: views/default/admin/single-general-stats.php:71
+msgid "Did you know that Average Session Duration of this page is"
+msgstr ""
+
+#: views/email/general-stats-single.php:111
+#: views/email/general-stats-single.php:114
+#: views/email/general-stats-single.php:117
+#: views/email/general-stats-single.php:124
+#: views/email/general-stats-single.php:127 views/email/general-stats.php:497
+#: views/email/general-stats.php:500 views/email/general-stats.php:503
+#: views/email/general-stats.php:512
+msgid "checkmark"
+msgstr ""
+
+#: views/email/general-stats-single.php:137 views/email/general-stats.php:526
+msgid "Buy Email Notifications addon"
+msgstr ""
+
+#: views/email/general-stats-single.php:141 views/email/general-stats.php:530
+msgid "Upgrade to Analytify Pro + Email Notifications bundle"
+msgstr ""
+
+#: views/email/general-stats.php:303
+msgid "Avg time on site"
+msgstr ""
+
+#: views/email/general-stats.php:330
+msgid "Pages/Session"
+msgstr ""
+
+#: views/email/general-stats.php:440
+msgid "Returning visitors"
+msgstr ""
+
+#: wp-analytify.php:328
+msgid "A critical file is missing:"
+msgstr ""
+
+#: wp-analytify.php:328
+msgid "The Analytify plugin needs to be deactivated && re-installed."
+msgstr ""
+
+#: wp-analytify.php:465
+#, php-format
+msgid ""
+"Sorry, you are not allowed as nonce verification failed. %1$sClick here to "
+"return to the Dashboard%2$s."
+msgstr ""
+
+#: wp-analytify.php:589 wp-analytify.php:717
+#, php-format
+msgid "%2$s This code is added by Analytify (%1$s) %4$s %3$s"
+msgstr ""
+
+#: wp-analytify.php:691 wp-analytify.php:784
+#, php-format
+msgid "%2$s This code is added by Analytify (%1$s) %3$s"
+msgstr ""
+
+#: wp-analytify.php:852
+#, php-format
+msgid "%1$s Explore Premium Features %2$s"
+msgstr ""
+
+#: wp-analytify.php:1032
+msgid "Activate"
+msgstr ""
+
+#: wp-analytify.php:1069
+msgid " Dashboards"
+msgstr ""
+
+#: wp-analytify.php:1084
+msgid " Settings"
+msgstr ""
+
+#: wp-analytify.php:1097
+msgid " Help"
+msgstr ""
+
+#: wp-analytify.php:1112
+msgid " License"
+msgstr ""
+
+#: wp-analytify.php:1113
+msgid "License"
+msgstr ""
+
+#: wp-analytify.php:1126
+msgid " list of all Add-ons"
+msgstr ""
+
+#: wp-analytify.php:1127
+msgid "Add-ons"
+msgstr ""
+
+#: wp-analytify.php:1139
+msgid " PRO vs FREE"
+msgstr ""
+
+#: wp-analytify.php:1140
+msgid "PRO vs FREE"
+msgstr ""
+
+#: wp-analytify.php:1151
+msgid "Analytify Promo"
+msgstr ""
+
+#: wp-analytify.php:1284
+#, php-format
+msgid "%1$s %2$s %3$s Authentication Cleared login again. %4$s %5$s %6$s"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Analytify Dashboard"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid ""
+"https://analytify.io/?ref=27&utm_source=wp-org&utm_medium=plugin-"
+"header&utm_campaign=pro-upgrade&utm_content=plugin-uri"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Analytify brings a brand new and modern feeling of Google Analytics superbly "
+"integrated within the WordPress."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Analytify"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid ""
+"https://analytify.io/?ref=27&utm_source=wp-org&utm_medium=plugin-"
+"header&utm_campaign=pro-upgrade&utm_content=author-uri"
+msgstr ""
