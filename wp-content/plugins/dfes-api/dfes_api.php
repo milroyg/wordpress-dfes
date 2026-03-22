@@ -118,7 +118,6 @@ function dfes_api_create_tables()
 
 }
 
-
 function dfes_api_create_log_table()
 {
     global $wpdb;
@@ -302,11 +301,8 @@ function dfes_api_handle_request(WP_REST_Request $request)
 // =============================
 // 7️⃣ ASYNC NOTIFICATIONS + HELPERS
 // =============================
-function dfes_send_notifications_async($payload, $scheduled_at)
+function dfes_send_notifications_async($payload)
 {
-    $settings = get_option('dfes_settings', array());
-    $notify_all = !empty($settings['notify_all']);
-
     $station = sanitize_text_field($payload['station'] ?? '');
     $outtime = sanitize_text_field($payload['outtime'] ?? '');
     $activity_live = sanitize_text_field($payload['activity_live'] ?? '');
@@ -336,8 +332,7 @@ function dfes_send_notifications_async($payload, $scheduled_at)
             dfes_send_email_wp($email, "DFES Incident Alert - $station", $message, $station, $dsr_id);
         }
     }
-}  // Fetch contacts (notify_all or station-specific with FIND_IN_SET)
-
+}
 
 /**
  * Return active contacts. If $notify_all is true, returns all active contacts.
@@ -386,7 +381,6 @@ function dfes_api_seed_default_options()
 function dfes_send_sms($mobile, $message, $station = '', $dsr_id = '')
 {
     $all = get_option('dfes_settings', ['active' => '', 'gateways' => []]);
-    $log_on = !empty($all['logging_enabled']);
 
     if (empty($all['active']) || empty($all['gateways'][$all['active']])) {
         if ($log_on) {
@@ -418,22 +412,10 @@ function dfes_send_sms($mobile, $message, $station = '', $dsr_id = '')
     $body_response = wp_remote_retrieve_body($response);
     $success = !is_wp_error($response) && ($code >= 200 && $code < 300);
 
-    if ($log_on) {
-        dfes_log_notification_event(
-            'sms',
-            $mobile,
-            $station,
-            $dsr_id,
-            $message,
-            $success ? 'success' : 'error',
-            $success ? '' : (is_wp_error($response) ? $response->get_error_message() : "HTTP $code: " . substr($body_response, 0, 500))
-        );
-    }
+  dfes_log_notification_event('sms', $mobile, $station, $dsr_id, $message, $success ? 'success' : 'error', $success ? '' : (is_wp_error($response) ? $response->get_error_message() : "HTTP $code: " . substr($body_response, 0, 500)));
 
     return $success;
 }
-
-
 
 // -----------------------------
 // Send Email
@@ -441,20 +423,12 @@ function dfes_send_sms($mobile, $message, $station = '', $dsr_id = '')
 function dfes_send_email_wp($to, $subject, $message, $station, $dsr_id)
 {
     $settings = get_option('dfes_settings', array());
-    $log_on = !empty($settings['logging_enabled']);
-
     $headers = array();
-    if ($from_email) {
-        $headers[] = 'From: ' . ($from_name ? $from_name : 'DFES Goa') . " <{$from_email}>";
-    }
+    $headers[] = 'From: ' . ($settings['from_name'] ? $settings['from_name'] : 'DFES Goa') . " <{$settings['from_email']}>";
     $headers[] = 'Content-Type: text/plain; charset=UTF-8';
 
     $ok = wp_mail($to, $subject, $message, $headers);
-
-    if ($log_on) {
-        dfes_log_notification_event('email', $to, $station, $dsr_id, $message, $ok ? 'success' : 'error', $ok ? '' : 'wp_mail returned false');
-    }
-
+    dfes_log_notification_event('email', $to, $station, $dsr_id, $message, $ok ? 'success' : 'error', $ok ? '' : 'wp_mail returned false');
     return $ok;
 }
 
@@ -487,8 +461,6 @@ function dfes_log_notification_event($channel, $recipient, $station, $dsr_id, $m
         )
     );
 }
-
-
 
 // =============================
 // 8️⃣ API HANDLER - LAST 24 HOURS
@@ -541,17 +513,9 @@ add_action('dfes_purge_old_records', 'dfes_api_purge_old_records');
 
 function dfes_api_purge_old_records()
 {
-    global $wpdb;
-    $table = $wpdb->prefix . 'dfes_incidents';
-
-    $cutoff = time() - (5 * 60); // 5 minutes ago
-
-
-    $deleted = $wpdb->query(
-        $wpdb->prepare("DELETE FROM $table WHERE CAST(date AS UNSIGNED) < %d", $cutoff)
-    );
-
-    error_log("DFES Purge Deleted Rows: " . intval($deleted));
+  global $wpdb;
+  $wpdb->query("DROP TABLE " . $wpdb->prefix . 'dfes_incidents');
+  error_log("DFES Purge Deleted Table");
 }
 
 
@@ -562,11 +526,8 @@ add_action('dfes_notifications_log_cleanup', 'dfes_cleanup_old_logs');
 
 function dfes_cleanup_old_logs()
 {
-    global $wpdb;
-    $table = $wpdb->prefix . 'dfes_notifications_log';
-
-    // Delete records older than 30 days
-    $wpdb->query("DELETE FROM $table WHERE created_at < DATE_SUB(UTC_TIMESTAMP(), INTERVAL 1 DAY)");
+  global $wpdb;
+  $wpdb->query("DELETE FROM {$wpdb->prefix}dfes_notifications_log WHERE created_at < DATE_SUB(UTC_TIMESTAMP(), INTERVAL 1 DAY)");// Delete records older than 1 day
 }
 
 // =============================

@@ -4,18 +4,18 @@
  */
 
 // Load Leaflet and MarkerCluster only when shortcode is present
-add_action('wp_enqueue_scripts', function () {
-    if (is_singular() && has_shortcode(get_post()->post_content, 'dmrp_map')) {
-//         Leaflet core
-       wp_enqueue_style('leaflet-css', get_template_directory_uri() . '/assets/css/leaflet.css', [], '1.9.4');
-        wp_enqueue_script('leaflet-js', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', [], '1.9.4', true);
+ add_action('wp_enqueue_scripts', function () {
+     if (is_singular() && has_shortcode(get_post()->post_content, 'dmrp_map')) {
+        // Leaflet core
+         wp_enqueue_style('leaflet-css', get_template_directory_uri() . '/assets/css/leaflet.css', [], '1.9.4');
+         wp_enqueue_script('leaflet-js', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', [], '1.9.4', true);
 
-        // MarkerCluster plugin
-        wp_enqueue_style('leaflet-markercluster-css', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css', [], '1.5.3');
-        wp_enqueue_script('leaflet-markercluster-js', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js', ['leaflet-js'], '1.5.3', true);
+         // MarkerCluster plugin
+         wp_enqueue_style('leaflet-markercluster-css', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css', [], '1.5.3');
+         wp_enqueue_script('leaflet-markercluster-js', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js', ['leaflet-js'], '1.5.3', true);
 
-	}
-});
+     }
+ });
 
 // Register the shortcode
 add_shortcode('dmrp_map', function () {
