@@ -1,9 +1,10 @@
 <?php
+
 /* Template for tam_pdf posts: clean redirect to open PDF in new tab */
-$pdf_url = get_post_meta(get_the_ID(), 'tam_pdf_link', true);
+$pdf_url = get_post_meta(get_the_ID(), 'tam_pdf_link', TRUE);
 
 if ($pdf_url) :
-?>
+  ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,6 +34,6 @@ if ($pdf_url) :
 </html>
 <?php
 else :
-    wp_redirect(home_url());
-    exit;
+  wp_redirect(home_url());
+  exit;
 endif;
