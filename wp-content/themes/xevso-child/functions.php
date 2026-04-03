@@ -22,35 +22,23 @@ add_action('admin_enqueue_scripts', function () {
     wp_enqueue_script('tinymce');
 });
 
-add_action('wp_enqueue_scripts', function () {
-    wp_enqueue_style('xevso-parent-style', get_template_directory_uri() . '/style.css');
-    // wp_dequeue_style('bootstrap');
-    wp_dequeue_script('bootstrap');
-    wp_enqueue_style('bootstrap5', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
-    wp_enqueue_script('chart-js', 'https://cdn.jsdelivr.net/npm/chart.js');
-    wp_enqueue_script('bootstrap5', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js', array(), null, true);
-    wp_dequeue_script('eac-image-gallery');
-    wp_deregister_script('eac-image-gallery');
+add_action('wp_enqueue_scripts', function() {
+  wp_dequeue_script('bootstrap');
+  wp_dequeue_script('eac-image-gallery');
+  wp_deregister_script('eac-image-gallery');
 
-    if (is_page([9616, 9625])) {
-        // Load Leaflet core
-        wp_enqueue_style('leaflet-css', get_template_directory_uri() . '/assets/css/leaflet.css', [], '1.9.4');
-        wp_enqueue_script('leaflet-js', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', [], null, true);
-        // Load MarkerCluster plugin
-        wp_enqueue_style('leaflet-markercluster-css', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css');
-        wp_enqueue_style('leaflet-markercluster-default-css', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css');
-        wp_enqueue_script('leaflet-markercluster-js', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js', ['leaflet-js'], null, true);
-    }
+  wp_register_script_module('eac-image-gallery', site_url('/wp-content/plugins/elementor-addon-components/assets/js/elementor/eac-image-gallery.min.js'), ['jquery'], '1.0.0', TRUE);
+  wp_enqueue_script('chart-js', 'https://cdn.jsdelivr.net/npm/chart.js');
+  wp_enqueue_script('bootstrap5', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js', [], NULL, TRUE);
+  wp_enqueue_script('leaflet-js', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', [], NULL, TRUE);
+  wp_enqueue_script('markercluster-js', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js', ['leaflet-js'], NULL, TRUE);
 
+  wp_enqueue_style('xevso-parent-style', get_template_directory_uri() . '/style.css');
+  wp_enqueue_style('leaflet-css', get_template_directory_uri() . '/assets/css/leaflet.css', [], '1.9.4');
+  wp_enqueue_style('bootstrap5', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
+  wp_enqueue_style('leaflet-markercluster-css', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css');
+  wp_enqueue_style('leaflet-markercluster-default-css', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css');
 }, 20);
-
-add_filter('script_loader_tag', function ($tag, $handle, $src) {
-    if ($handle === 'leaflet-js') {
-        $integrity = 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=';
-        return '<script src="' . esc_url($src) . '" integrity="' . esc_attr($integrity) . '" crossorigin=""></script>';
-    }
-    return $tag;
-}, 10, 3);
 
 add_filter('style_loader_tag', function ($html, $handle, $href, $media) {
     if ($handle === 'leaflet-css') {
@@ -73,8 +61,6 @@ add_filter('wp_nav_menu_objects', function ($items, $args) {
     }
     return $items;
 }, 10, 2);
-
-//Copy Paste Buffer
 
 function my_custom_login_script()
 {
@@ -193,36 +179,6 @@ add_filter('wp_nav_menu', function ($nav) {
     return $nav;
 }, 20);
 
-//3. Script consists of two type attribute creating a duplicate tag.
-add_action('wp_enqueue_scripts', function () {
-    // Build correct plugin path dynamically
-    $plugin_path = '/wp-content/plugins/elementor-addon-components/assets/js/elementor/eac-image-gallery.min.js';
-    $script_url = site_url($plugin_path);
-
-    // Re-register properly as module
-    wp_register_script(
-        'eac-image-gallery',
-        $script_url,
-        ['jquery'],
-        '1.0.0',
-        true
-    );
-
-    add_filter('script_loader_tag', function ($tag, $handle, $src) {
-        if ($handle === 'eac-image-gallery') {
-            return sprintf(
-                '<script type="module" src="%s" id="%s"></script>',
-                esc_url($src),
-                esc_attr($handle)
-            );
-        }
-        return $tag;
-    }, 10, 3);
-
-    wp_enqueue_script('eac-image-gallery');
-}, 20);
-
-
 //4. Moved Timeline plugin (ctl_common_style-inline-css) <style> body to head
 add_action('template_redirect', function () {
     ob_start(function ($buffer) {
@@ -310,3 +266,19 @@ add_action('admin_enqueue_scripts', function () {
 // Fix timing issue: Re-run CSF setup to pick up Cool Timeline's late-registered options
 add_action('init', array('CSF', 'setup'), 999);
 
+function add_multiple_sri_attributes($tag, $handle, $src) {
+  $scripts_to_protect = [
+    'chart-js' => 'sha384-jb8JQMbMoBUzgWatfe6COACi2ljcDdZQ2OxczGA3bGNeWe+6DChMTBJemed7ZnvJ',
+    'bootstrap5' => 'sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz',
+    'leaflet-js' => 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=',
+    'markercluster-js'   => 'sha384-eXVCORTRlv4FUUgS/xmOyr66XBVraen8ATNLMESp92FKXLAMiKkerixTiBvXriZr'
+  ];
+
+  if (array_key_exists($handle, $scripts_to_protect)) {
+    $hash = $scripts_to_protect[$handle];
+    $tag = str_replace(' src', " integrity='{$hash}' crossorigin='anonymous' src", $tag);
+  }
+
+  return $tag;
+}
+add_filter('script_loader_tag', 'add_multiple_sri_attributes', 10, 3);
