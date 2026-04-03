@@ -108,7 +108,7 @@ function acwp_toolbar_footer() {
             <?php if($sitemap_link && $sitemap_link != '') : ?>
             <li><a href="<?php echo $sitemap_link; ?>"><?php echo $sitemap_text;?></a></li>
             <?php endif; ?>
-            <li><?php _e('Powered with', 'acwp'); ?> <?php echo $icon;?> <?php _e('by', 'acwp');?> <a href="<?php echo $url;?>" target="_blank"><?php echo $cnr; ?></a></li>
+            <li><?php _e('Powered with', 'acwp'); ?> <?php echo $icon;?> <?php _e('by', 'acwp');?> <a href="<?php echo $url;?>" target="_blank" rel="noopener noreferrer nofollow"><?php echo $cnr; ?></a></li>
         </ul>
     </div>
     <?php
