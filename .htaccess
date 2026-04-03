@@ -20,7 +20,7 @@ RewriteRule ^\.git(/.*|$) - [L,R=404,NC]
 # Any changes to the directives between these markers will be overwritten.
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteCond %{HTTP_HOST} ^dfes.goa.gov.in [NC]
+    RewriteCond %{HTTP_HOST} !^dfes.goa.gov.in [NC]
     RewriteRule ^(.*)$ https://dfes.goa.gov.in/$1 [L,R=301]
 
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
@@ -45,7 +45,7 @@ RewriteRule ^\.git(/.*|$) - [L,R=404,NC]
     Header set Cross-Origin-Resource-Policy "same-origin"
 
     # 5. Content-Security-Policy (CSP) with frame-ancestors
-    Header set Content-Security-Policy "frame-ancestors 'self';"
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none'; frame-ancestors 'self';"
 </IfModule>
 
 ErrorDocument 404 /wp-content/themes/xevso-child/404.php

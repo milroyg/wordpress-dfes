@@ -186,7 +186,7 @@
       };
       x$.append = function(n){
         var r;
-        return this.appendChild(r = document.createElementNS("http://www.w3.og/2000/svg", n));
+        return this.appendChild(r = document.createElementNS("http://www.w3.org/2000/svg", n));
       };
       x$.attr = function(n, v){
         if (v != null) {
