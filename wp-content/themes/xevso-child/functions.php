@@ -27,7 +27,7 @@ add_action('wp_enqueue_scripts', function() {
   wp_dequeue_script('eac-image-gallery');
   wp_deregister_script('eac-image-gallery');
 
-  wp_register_script_module('eac-image-gallery', site_url('/wp-content/plugins/elementor-addon-components/assets/js/elementor/eac-image-gallery.min.js'), ['jquery'], '1.0.0', TRUE);
+  wp_register_script_module('eac-image-gallery', site_url('/wp-content/plugins/elementor-addon-components/assets/js/elementor/eac-image-gallery.min.js'), ['jquery'], '1.0.0');
   wp_enqueue_script('chart-js', 'https://cdn.jsdelivr.net/npm/chart.js');
   wp_enqueue_script('bootstrap5', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js', [], NULL, TRUE);
   wp_enqueue_script('leaflet-js', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', [], NULL, TRUE);
