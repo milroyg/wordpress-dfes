@@ -20,12 +20,32 @@ RewriteRule ^\.git(/.*|$) - [L,R=404,NC]
 # Any changes to the directives between these markers will be overwritten.
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteCond %{HTTP_HOST} ^dfes.goa.gov.in [NC]
+    RewriteRule ^(.*)$ https://dfes.goa.gov.in/$1 [L,R=301]
+
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
     RewriteBase /
     RewriteRule ^index\.php$ - [L]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule . /index.php [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    # 1. Referrer-Policy
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # 2. Cross-Origin-Embedder-Policy (COEP)
+    Header set Cross-Origin-Embedder-Policy "require-corp"
+
+    # 3. Cross-Origin-Opener-Policy (COOP)
+    Header set Cross-Origin-Opener-Policy "same-origin"
+
+    # 4. Cross-Origin-Resource-Policy (CORP)
+    Header set Cross-Origin-Resource-Policy "same-origin"
+
+    # 5. Content-Security-Policy (CSP) with frame-ancestors
+    Header set Content-Security-Policy "frame-ancestors 'self';"
 </IfModule>
 
 ErrorDocument 404 /wp-content/themes/xevso-child/404.php
