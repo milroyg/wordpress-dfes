@@ -35,17 +35,21 @@ RewriteRule ^\.git(/.*|$) - [L,R=404,NC]
     # 1. Referrer-Policy
     Header set Referrer-Policy "strict-origin-when-cross-origin"
 
-    # 2. Cross-Origin-Embedder-Policy (COEP)
-    Header set Cross-Origin-Embedder-Policy "require-corp"
+    # 2. COEP: Change from 'require-corp' to 'unsafe-none'
+    # This allows the page to load cross-origin resources that don't have CORP headers.
+    Header set Cross-Origin-Embedder-Policy "unsafe-none"
 
-    # 3. Cross-Origin-Opener-Policy (COOP)
-    Header set Cross-Origin-Opener-Policy "same-origin"
+    # 3. COOP: Change from 'same-origin' to 'same-origin-allow-popups'
+    # This is more flexible for external integrations.
+    Header set Cross-Origin-Opener-Policy "same-origin-allow-popups"
 
-    # 4. Cross-Origin-Resource-Policy (CORP)
-    Header set Cross-Origin-Resource-Policy "same-origin"
+    # 4. CORP: Change from 'same-origin' to 'cross-origin'
+    # CRITICAL: This explicitly tells the browser it is safe for other domains (like Google)
+    # to read this resource.
+    Header set Cross-Origin-Resource-Policy "cross-origin"
 
-    # 5. Content-Security-Policy (CSP) with frame-ancestors
-    Header set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none'; frame-ancestors 'self';"
+    Header set Access-Control-Allow-Origin "https://docs.google.com"
+    Header set Access-Control-Allow-Methods "GET, OPTIONS"
 </IfModule>
 
 ErrorDocument 404 /wp-content/themes/xevso-child/404.php
