@@ -538,11 +538,25 @@ $secure = ( 'https' === parse_url( wp_login_url(), PHP_URL_SCHEME ) );
   ]);
 
 if ( SITECOOKIEPATH !== COOKIEPATH ) {
-	setcookie( TEST_COOKIE, 'WP Cookie check', 0, SITECOOKIEPATH, COOKIE_DOMAIN, $secure, true );
+	setcookie( TEST_COOKIE, 'WP Cookie check', [
+    'expires' => 0,
+    'path' => SITECOOKIEPATH,
+    'domain' => COOKIE_DOMAIN,
+    'secure' => $secure,
+    'httponly' => TRUE,
+    'samesite' => 'Lax',
+  ]);
 }
 
 if ( isset( $_GET['wp_lang'] ) ) {
-	setcookie( 'wp_lang', sanitize_text_field( $_GET['wp_lang'] ), 0, COOKIEPATH, COOKIE_DOMAIN, $secure, true );
+	setcookie( 'wp_lang', sanitize_text_field( $_GET['wp_lang'] ), [
+    'expires' => 0,
+    'path' => COOKIEPATH,
+    'domain' => COOKIE_DOMAIN,
+    'secure' => $secure,
+    'httponly' => TRUE,
+    'samesite' => 'Lax',
+  ]);
 }
 
 /**

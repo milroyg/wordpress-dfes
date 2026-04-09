@@ -75,7 +75,7 @@ function acc_userway_admin_script() {
                         // Set a timeout of 0.5 seconds before setting the cookie
                         setTimeout(function() {
                             // Set a cookie that the notice was dismissed
-                            document.cookie = "acc_userway_activation_notice_dismissed=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+                            document.cookie = "acc_userway_activation_notice_dismissed=true; SameSite=Value; Secure; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
                         }, 500);
                     });
                 } else {

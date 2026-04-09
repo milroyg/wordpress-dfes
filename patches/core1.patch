@@ -1,0 +1,45 @@
+diff --git a/wp-content/plugins/accessible-poetry/inc/notifications.php b/wp-content/plugins/accessible-poetry/inc/notifications.php
+index 479f679c..72445233 100644
+--- a/wp-content/plugins/accessible-poetry/inc/notifications.php
++++ b/wp-content/plugins/accessible-poetry/inc/notifications.php
+@@ -75,7 +75,7 @@ function acc_userway_admin_script() {
+                         // Set a timeout of 0.5 seconds before setting the cookie
+                         setTimeout(function() {
+                             // Set a cookie that the notice was dismissed
+-                            document.cookie = "acc_userway_activation_notice_dismissed=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
++                            document.cookie = "acc_userway_activation_notice_dismissed=true; SameSite=Value; Secure; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+                         }, 500);
+                     });
+                 } else {
+diff --git a/wp-login.php b/wp-login.php
+index a7617ab8..ce74482a 100644
+--- a/wp-login.php
++++ b/wp-login.php
+@@ -538,11 +538,25 @@ $secure = ( 'https' === parse_url( wp_login_url(), PHP_URL_SCHEME ) );
+   ]);
+ 
+ if ( SITECOOKIEPATH !== COOKIEPATH ) {
+-	setcookie( TEST_COOKIE, 'WP Cookie check', 0, SITECOOKIEPATH, COOKIE_DOMAIN, $secure, true );
++	setcookie( TEST_COOKIE, 'WP Cookie check', [
++    'expires' => 0,
++    'path' => SITECOOKIEPATH,
++    'domain' => COOKIE_DOMAIN,
++    'secure' => $secure,
++    'httponly' => TRUE,
++    'samesite' => 'Lax',
++  ]);
+ }
+ 
+ if ( isset( $_GET['wp_lang'] ) ) {
+-	setcookie( 'wp_lang', sanitize_text_field( $_GET['wp_lang'] ), 0, COOKIEPATH, COOKIE_DOMAIN, $secure, true );
++	setcookie( 'wp_lang', sanitize_text_field( $_GET['wp_lang'] ), [
++    'expires' => 0,
++    'path' => COOKIEPATH,
++    'domain' => COOKIE_DOMAIN,
++    'secure' => $secure,
++    'httponly' => TRUE,
++    'samesite' => 'Lax',
++  ]);
+ }
+ 
+ /**
