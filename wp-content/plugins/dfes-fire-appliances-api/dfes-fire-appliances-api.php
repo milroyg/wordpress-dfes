@@ -29,8 +29,6 @@ class DFES_Fire_Appliances_API {
       'fetch_and_cache_data',
     ]);
     add_filter('cron_schedules', [$this, 'add_cron_schedules']);
-    register_activation_hook(__FILE__, [$this, 'activate']);
-    register_deactivation_hook(__FILE__, [$this, 'deactivate']);
 
     add_action('init', [$this, 'add_rewrite_rules']);
     add_filter('query_vars', [$this, 'add_query_vars']);
@@ -48,6 +46,10 @@ class DFES_Fire_Appliances_API {
   public function activate() {
     $this->add_rewrite_rules();
     flush_rewrite_rules();
+
+    // Ensure the schedule is added to the list before scheduling
+    add_filter('cron_schedules', [$this, 'add_cron_schedules']);
+
     if (!wp_next_scheduled('dfes_fire_appliances_cron_event')) {
       wp_schedule_event(time(), 'every_minute', 'dfes_fire_appliances_cron_event');
     }
@@ -59,11 +61,23 @@ class DFES_Fire_Appliances_API {
     flush_rewrite_rules();
   }
 
+  public static function plugin_activate() {
+    $instance = new self();
+    $instance->activate();
+  }
+
+  public static function plugin_deactivate() {
+    $instance = new self();
+    $instance->deactivate();
+  }
+
   public function add_cron_schedules($schedules) {
-    $schedules['every_minute'] = [
-      'interval' => 60,
-      'display' => __('Every Minute'),
-    ];
+    if (!isset($schedules['every_minute'])) {
+      $schedules['every_minute'] = [
+        'interval' => 60,
+        'display' => __('Every Minute'),
+      ];
+    }
     return $schedules;
   }
 
@@ -231,6 +245,7 @@ class DFES_Fire_Appliances_API {
   }
 
   public function fetch_and_cache_data() {
+    error_log('DFES Cron: Running fetch_and_cache_data');
     try {
       $auth_token = $this->generate_access_token();
       $json_data = $this->fetch_live_data($auth_token);
@@ -276,3 +291,6 @@ class DFES_Fire_Appliances_API {
 }
 
 new DFES_Fire_Appliances_API();
+
+register_activation_hook(__FILE__, ['DFES_Fire_Appliances_API', 'plugin_activate']);
+register_deactivation_hook(__FILE__, ['DFES_Fire_Appliances_API', 'plugin_deactivate']);
