@@ -68,16 +68,16 @@ class DFES_Fire_Appliances_API {
   }
 
   public function add_rewrite_rules() {
-    add_rewrite_rule('^goa-fire-trucks\.geojson$', 'index.php?dfes_geojson=1', 'top');
+    add_rewrite_rule('^dfes-goa-fire-appliance-api\.geojson$', 'index.php?dfes_fire_appliance_geojson=1', 'top');
   }
 
   public function add_query_vars($vars) {
-    $vars[] = 'dfes_geojson';
+    $vars[] = 'dfes_fire_appliance_geojson';
     return $vars;
   }
 
   public function handle_geojson_output() {
-    if (get_query_var('dfes_geojson')) {
+    if (get_query_var('dfes_fire_appliance_geojson')) {
       $data = get_option($this->option_name);
       if (!$data) {
         $data = [
