@@ -269,9 +269,10 @@ add_action('init', array('CSF', 'setup'), 999);
 function add_multiple_sri_attributes($tag, $handle, $src) {
   $scripts_to_protect = [
     'chart-js' => 'sha384-jb8JQMbMoBUzgWatfe6COACi2ljcDdZQ2OxczGA3bGNeWe+6DChMTBJemed7ZnvJ',
+    'crypto-js' => 'sha384-S3wQ/l0OsbJoFeJC81UIr3JOlx/OzNJpRt1bV+yhpWQxPAahfpQtpxBSfn+Isslc',
     'bootstrap5' => 'sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz',
-    'leaflet-js' => 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=',
-    'markercluster-js'   => 'sha384-eXVCORTRlv4FUUgS/xmOyr66XBVraen8ATNLMESp92FKXLAMiKkerixTiBvXriZr'
+    'leaflet-js' => 'sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH',
+    'markercluster-js'   => 'sha384-eXVCORTRlv4FUUgS/xmOyr66XBVraen8ATNLMESp92FKXLAMiKkerixTiBvXriZr',
   ];
 
   if (array_key_exists($handle, $scripts_to_protect)) {
@@ -282,3 +283,17 @@ function add_multiple_sri_attributes($tag, $handle, $src) {
   return $tag;
 }
 add_filter('script_loader_tag', 'add_multiple_sri_attributes', 10, 3);
+
+function add_style_sri_attributes($tag, $handle, $href, $media) {
+  $styles_to_protect = [
+    'bootstrap5' => 'sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM',
+    'leaflet-markercluster-css' => 'sha384-pmjIAcz2bAn0xukfxADbZIb3t8oRT9Sv0rvO+BR5Csr6Dhqq+nZs59P0pPKQJkEV',
+    'leaflet-markercluster-default-css' => 'sha384-wgw+aLYNQ7dlhK47ZPK7FRACiq7ROZwgFNg0m04avm4CaXS+Z9Y7nMu8yNjBKYC+',
+  ];
+  if (array_key_exists($handle, $styles_to_protect)) {
+    $hash = $styles_to_protect[$handle];
+    $tag = str_replace(' href', " integrity='{$hash}' crossorigin='anonymous' href", $tag);
+  }
+  return $tag;
+}
+add_filter('style_loader_tag', 'add_style_sri_attributes', 10, 4);
