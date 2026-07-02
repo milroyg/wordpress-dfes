@@ -191,9 +191,9 @@ function incident_chart_shortcode() {
            aria-describedby="incident-chart">
       <thead>
       <tr>
-        <th scope="col">Incident Type</th>
-        <th scope="col">Count</th>
-        <th scope="col">Percentage</th>
+        <th scope="col" style="text-align:center">Incident Type</th>
+        <th scope="col" style="text-align:center">Count</th>
+        <th scope="col" style="text-align:center">Percentage</th>
       </tr>
       </thead>
       <tbody></tbody>
@@ -376,7 +376,7 @@ function incident_chart_shortcode() {
             keys: ['1. Number of Fire Calls'],
             percentage: '136% ',
             arrow: '<span style="color:green">▲</span>',
-            color: ' #990000',
+            color: 'green',
           },
           {
             label: 'Emergencies',
@@ -449,7 +449,6 @@ function incident_chart_shortcode() {
     <td scope="row">${row.label}</td>
     <td>
         <span class="value">${totalFigure.toLocaleString()}</span>
-        <span class="period" style="display:block;">2003–2024</span>
     </td>
     <td style="color: ${row.color}; font-weight: bold;">
         ${row.percentage} ${row.arrow}

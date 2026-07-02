@@ -48,20 +48,6 @@ add_filter('style_loader_tag', function ($html, $handle, $href, $media) {
     return $html;
 }, 10, 4);
 
-//Hide Konkani 
-add_filter('wp_nav_menu_objects', function ($items, $args) {
-    foreach ($items as $key => $item) {
-        // Check if the menu item is Konkani using ID or class
-        if (
-            (isset($item->ID) && $item->ID == 10058) || // By menu item ID
-            (isset($item->classes) && in_array('lang-item-kok', $item->classes)) // By class
-        ) {
-            unset($items[$key]);
-        }
-    }
-    return $items;
-}, 10, 2);
-
 function my_custom_login_script()
 {
     // 1️⃣ Load CryptoJS (encryption library)
