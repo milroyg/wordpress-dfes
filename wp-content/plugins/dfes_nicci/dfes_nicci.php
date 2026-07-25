@@ -29,7 +29,7 @@ function dfes_nicci_enqueue_scripts() {
         let scriptText = await response.text();
     
         // 2. String parse & Regex replacement (Fix your errors here)
-        scriptText = scriptText.replace(/$/g, 'jQuery');
+        scriptText = scriptText.replace(/\$/g, 'jQuery');
     
         // 3. Create a Blob URL and append as a script tag
         const blob = new Blob([scriptText], { type: 'application/javascript' });
