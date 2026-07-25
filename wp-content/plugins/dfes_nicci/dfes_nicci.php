@@ -41,9 +41,9 @@ function dfes_nicci_enqueue_scripts() {
 add_action( 'wp_enqueue_scripts', 'dfes_nicci_enqueue_scripts' );
 
 /**
- * Register shortcode [dfes_nicci]
+ * Inject the chatbot container into the footer.
  */
-function dfes_nicci_shortcode() {
-    return '<div id="ContentNicci"></div>';
+function dfes_nicci_inject_container() {
+    echo '<div id="ContentNicci"></div>';
 }
-add_shortcode( 'dfes_nicci', 'dfes_nicci_shortcode' );
+add_action( 'wp_footer', 'dfes_nicci_inject_container' );
