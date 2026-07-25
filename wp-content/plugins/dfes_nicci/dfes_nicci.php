@@ -24,7 +24,7 @@ function dfes_nicci_enqueue_scripts() {
       try {
         // 1. Fetch the third-party script as plain text
         const response = await fetch(scriptUrl);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) throw new Error(`HTTP error! status: ` + response.status);
         
         let scriptText = await response.text();
     
