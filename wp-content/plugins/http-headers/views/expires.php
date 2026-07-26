@@ -5,24 +5,24 @@ if (!defined('ABSPATH')) {
 ?>
 <tr>
 	<th scope="row">Expires
-		<p class="description"><?php _e('The Expires header contains the date/time after which the response is considered stale.', 'http-headers'); ?></p>
-		<p class="description"><?php _e('Invalid dates, like the value 0, represent a date in the past and mean that the resource is already expired.', 'http-headers'); ?></p>
-	    <p class="description"><?php _e("If there is a Cache-Control header with the 'max-age' or 's-max-age' directive in the response, the Expires header is ignored.", 'http-headers'); ?></p>
-		<p class="description"><?php _e('* Works only in Apache mode', 'http-headers'); ?></p>
+		<p class="description"><?php esc_html_e('The Expires header contains the date/time after which the response is considered stale.', 'http-headers'); ?></p>
+		<p class="description"><?php esc_html_e('Invalid dates, like the value 0, represent a date in the past and mean that the resource is already expired.', 'http-headers'); ?></p>
+	    <p class="description"><?php esc_html_e("If there is a Cache-Control header with the 'max-age' or 's-max-age' directive in the response, the Expires header is ignored.", 'http-headers'); ?></p>
+		<p class="description"><?php esc_html_e('* Works only in Apache mode', 'http-headers'); ?></p>
 
         <hr>
-        <p class="description"><?php _e('Read more at', 'http-headers'); ?>
-            <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expires"><?php _e('MDN Web Docs', 'http-headers'); ?></a>
+        <p class="description"><?php esc_html_e('Read more at', 'http-headers'); ?>
+            <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expires"><?php esc_html_e('MDN Web Docs', 'http-headers'); ?></a>
         </p>
 	</th>
 	<td>
         <fieldset>
         	<legend class="screen-reader-text">Expires</legend>
 	    <?php
-        $expires = get_option('hh_expires', 0);
-        foreach ($bools as $k => $v)
+        $http_headers_expires = get_option('hh_expires', 0);
+        foreach ($http_headers_bools as $http_headers_k => $http_headers_v)
         {
-        	?><p><label><input type="radio" class="http-header" name="hh_expires" value="<?php echo $k; ?>"<?php checked($expires, $k); ?> /> <?php echo $v; ?></label></p><?php
+        	?><p><label><input type="radio" class="http-header" name="hh_expires" value="<?php echo esc_attr($http_headers_k); ?>"<?php checked($http_headers_expires, $http_headers_k); ?> /> <?php echo esc_html($http_headers_v); ?></label></p><?php
         }
         ?>
 		</fieldset>
@@ -32,7 +32,7 @@ if (!defined('ABSPATH')) {
 		<?php do_settings_sections( 'http-headers-exp' ); ?>
 		<table>
 		<?php 
-		$types = array(
+		$http_headers_types = array(
 			'default',
 			'text/css',
 			'text/javascript',
@@ -45,7 +45,7 @@ if (!defined('ABSPATH')) {
 			'application/javascript',
 			'application/x-icon',
 		);
-		$items = array(
+		$http_headers_items = array(
 			'invalid_0_date' => '0 (invalid date)',
 			'access_1_hour' => 'Access +1 hour',
 			'access_6_hours' => 'Access +6 hours',
@@ -70,27 +70,27 @@ if (!defined('ABSPATH')) {
 			'modification_6_months' => 'Modification +6 months',
 			'modification_1_year' => 'Modification +1 year',
 		);
-		$expires_value = get_option('hh_expires_value');
-		$expires_type = get_option('hh_expires_type');
-		if (!$expires_value)
+		$http_headers_expires_value = get_option('hh_expires_value');
+		$http_headers_expires_type = get_option('hh_expires_type');
+		if (!$http_headers_expires_value)
 		{
-			$expires_value = array();
+			$http_headers_expires_value = array();
 		}
-		if (!$expires_type)
+		if (!$http_headers_expires_type)
 		{
-			$expires_type = array();
+			$http_headers_expires_type = array();
 		}
-		foreach ($types as $type) {
+		foreach ($http_headers_types as $http_headers_type) {
 			?>
 			<tr>
-				<td><input type="checkbox" class="http-header-value" name="hh_expires_type[<?php echo $type; ?>]" value="1"<?php echo !is_array($expires_type) || !array_key_exists($type, $expires_type) ? NULL : ' checked'; ?><?php echo $expires == 1 ? NULL : ' readonly'; ?>></td>
-				<td><?php echo $type; ?></td>
+				<td><input type="checkbox" class="http-header-value" name="hh_expires_type[<?php echo esc_attr($http_headers_type); ?>]" value="1"<?php echo !is_array($http_headers_expires_type) || !array_key_exists($http_headers_type, $http_headers_expires_type) ? NULL : ' checked'; ?><?php echo $http_headers_expires == 1 ? NULL : ' readonly'; ?>></td>
+				<td><?php echo esc_html($http_headers_type); ?></td>
 				<td>
-					<select class="http-header-value" name="hh_expires_value[<?php echo $type; ?>]"<?php echo $expires == 1 ? NULL : ' readonly'; ?>>
+					<select class="http-header-value" name="hh_expires_value[<?php echo esc_attr($http_headers_type); ?>]"<?php echo $http_headers_expires == 1 ? NULL : ' readonly'; ?>>
 					<?php 
-					foreach ($items as $k => $v) {
-					    $val_type = !empty($expires_value[$type]) ? $expires_value[$type] : '';
-					    ?><option value="<?php echo $k; ?>"<?php selected($val_type, $k); ?>><?php echo $v; ?></option><?php
+					foreach ($http_headers_items as $http_headers_k => $http_headers_v) {
+					    $http_headers_val_type = !empty($http_headers_expires_value[$http_headers_type]) ? $http_headers_expires_value[$http_headers_type] : '';
+					    ?><option value="<?php echo esc_attr($http_headers_k); ?>"<?php selected($http_headers_val_type, $http_headers_k); ?>><?php echo esc_html($http_headers_v); ?></option><?php
 					}
 					?>
 					</select>

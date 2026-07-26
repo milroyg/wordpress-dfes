@@ -19,13 +19,6 @@ class CoolTimelinePosttypeFree {
 		add_action( 'post_submitbox_misc_actions', array( $postTypeCls, 'ctl_submitbox_metabox' ) );
 	}
 
-	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		 // Setup your plugin object here
-	}
-
 	// Register Cool Timeline Post Type
 	public function cooltimeline_custom_post_type() {
 		$labels = array(
@@ -70,7 +63,9 @@ class CoolTimelinePosttypeFree {
 	}
 
 	// custom columns for all stories
-	public function add_new_cool_timeline_columns( $gallery_columns ) {
+	public function add_new_cool_timeline_columns( $columns ) {
+		unset( $columns );
+
 		$new_columns['cb']         = '<input type="checkbox" />';
 		$new_columns['title']      = _x( 'Story Title', 'column name', 'cool-timeline' );
 		$new_columns['story_year'] = __( 'Story Year', 'cool-timeline' );
@@ -83,7 +78,9 @@ class CoolTimelinePosttypeFree {
 	// clt column handlers
 	public function ctl_custom_columns( $column, $post_id ) {
 		$ctl_story_type = get_post_meta( $post_id, 'story_type', true );
-		$ctl_story_date = isset( $ctl_story_type['ctl_story_date'] ) ? sanitize_text_field( $ctl_story_type['ctl_story_date'] ) : ''; // Sanitize input
+		$ctl_story_date = ( is_array( $ctl_story_type ) && isset( $ctl_story_type['ctl_story_date'] ) )
+        ? sanitize_text_field( $ctl_story_type['ctl_story_date'] )
+        : '';
 		switch ( $column ) {
 			case 'story_year':
 				$story_timestamp = strtotime( $ctl_story_date );
@@ -124,16 +121,36 @@ class CoolTimelinePosttypeFree {
 	}
 
 	public function ctl_submitbox_metabox() {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ( isset( $_REQUEST['post'] ) && get_post_type( intval( $_REQUEST['post'] ) ) == 'cool_timeline' ||
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		isset( $_REQUEST['post_type'] ) && sanitize_text_field( wp_unslash( $_REQUEST['post_type'] ) ) == 'cool_timeline' ) {
-			$html  = '<div class="misc-pub-section ctl-notice">';
-			$html .= '<span style="font-weight:bold;">*Please select story Date / Year from settings below the story content.';
-			$html .= ' <a href="#ctl_post_meta"><br/>- Timeline Story Settings (Date/Year)</a>';
-			$html .= '</span>';
-			$html .= '</div>';
-			echo wp_kses_post( $html );
+
+		$is_cool_timeline = false;
+	
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended	 
+		if ( isset( $_GET['post'] ) ) {		
+			$post_id = intval( wp_unslash( $_GET['post'] ) );
+	
+			if ( 'cool_timeline' === get_post_type( $post_id ) ) {
+				$is_cool_timeline = true;
+			}
+		}
+		
+		if ( isset( $_GET['post_type'] ) ) {
+			$post_type = sanitize_text_field( wp_unslash( $_GET['post_type'] ) );
+	
+			if ( 'cool_timeline' === $post_type ) {
+				$is_cool_timeline = true;
+			}
+		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+	
+		if ( $is_cool_timeline ) {
+			?>
+			<div class="misc-pub-section ctl-notice">
+				<span style="font-weight:bold;">
+					<?php esc_html_e( '*Please select story Date / Year from settings below the story content.', 'cool-timeline' ); ?>
+					<a href="#ctl_post_meta"><br/>- <?php esc_html_e( 'Timeline Story Settings (Date/Year)', 'cool-timeline' ); ?></a>
+				</span>
+			</div>
+			<?php
 		}
 	}
 

@@ -6,7 +6,8 @@
  * Centralizing constants here makes them easier to manage and update.
  *
  * @package WP_Analytify
- * @since 8.1.0
+ * @since 8.0.0
+ * @version 9.1.0
  */
 
 // Exit if accessed directly.
@@ -19,11 +20,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 // ============================================================================.
 
 if ( ! defined( 'ANALYTIFY_VERSION' ) ) {
-	define( 'ANALYTIFY_VERSION', '8.1.0' );
+	define( 'ANALYTIFY_VERSION', '9.1.0' );
 }
 
 if ( ! defined( 'WP_ANALYTIFY_PLUGIN_VERSION' ) ) {
-	define( 'WP_ANALYTIFY_PLUGIN_VERSION', '8.1.0' );
+	define( 'WP_ANALYTIFY_PLUGIN_VERSION', '9.1.0' );
 }
 
 if ( ! defined( 'WP_ANALYTIFY_ID' ) ) {
@@ -36,6 +37,18 @@ if ( ! defined( 'ANALYTIFY_NICK' ) ) {
 
 if ( ! defined( 'ANALYTIFY_PRODUCT_NAME' ) ) {
 	define( 'ANALYTIFY_PRODUCT_NAME', 'Analytify WordPress Plugin' );
+}
+
+if ( ! defined( 'WP_ANALYTIFY_USER_META_PREFIX' ) ) {
+	define( 'WP_ANALYTIFY_USER_META_PREFIX', 'wp_analytify_' );
+}
+// Nested key under wp-analytify-authentication for OAuth “connected as” email display.
+// Both use defined() guards so site-specific or drop-in code may predefine without PHP notices.
+if ( ! defined( 'ANALYTIFY_AUTHENTICATION_OPTION_NAME' ) ) {
+	define( 'ANALYTIFY_AUTHENTICATION_OPTION_NAME', 'wp-analytify-authentication' );
+}
+if ( ! defined( 'ANALYTIFY_GOOGLE_OAUTH_EMAIL_KEY' ) ) {
+	define( 'ANALYTIFY_GOOGLE_OAUTH_EMAIL_KEY', 'google_oauth_connected_email' );
 }
 
 // ============================================================================.
@@ -103,14 +116,23 @@ if ( ! defined( 'WP_ANALYTIFY_TOKEN_URL' ) ) {
 // GOOGLE API SCOPES & PERMISSIONS.
 // ============================================================================.
 
-// Basic read & write scope.
+// Basic read & write + identity (id_token + userinfo.email for “connected as …” in settings).
 if ( ! defined( 'WP_ANALYTIFY_SCOPE' ) ) {
-	define( 'WP_ANALYTIFY_SCOPE', 'https://www.googleapis.com/auth/analytics.readonly https://www.googleapis.com/auth/analytics.edit' );
+	define(
+		'WP_ANALYTIFY_SCOPE',
+		'https://www.googleapis.com/auth/analytics.readonly https://www.googleapis.com/auth/analytics.edit '
+		. 'openid email https://www.googleapis.com/auth/userinfo.email'
+	);
 }
 
 // Full read & write and extra permissions.
 if ( ! defined( 'WP_ANALYTIFY_SCOPE_FULL' ) ) {
-	define( 'WP_ANALYTIFY_SCOPE_FULL', 'https://www.googleapis.com/auth/analytics.readonly https://www.googleapis.com/auth/analytics https://www.googleapis.com/auth/analytics.edit https://www.googleapis.com/auth/webmasters' );
+	define(
+		'WP_ANALYTIFY_SCOPE_FULL',
+		'https://www.googleapis.com/auth/analytics.readonly https://www.googleapis.com/auth/analytics '
+		. 'https://www.googleapis.com/auth/analytics.edit https://www.googleapis.com/auth/webmasters '
+		. 'openid email https://www.googleapis.com/auth/userinfo.email'
+	);
 }
 
 // ============================================================================.
@@ -123,6 +145,11 @@ if ( ! defined( 'ANALYTIFY_DEV_KEY' ) ) {
 
 if ( ! defined( 'WP_ANALYTIFY_GA_ADMIN_API_BASE' ) ) {
 	define( 'WP_ANALYTIFY_GA_ADMIN_API_BASE', 'https://analyticsadmin.googleapis.com/v1alpha' );
+}
+
+// v1beta base used for acknowledgeUserDataCollection (required before creating MP secrets).
+if ( ! defined( 'WP_ANALYTIFY_GA_ADMIN_API_BASE_V1BETA' ) ) {
+	define( 'WP_ANALYTIFY_GA_ADMIN_API_BASE_V1BETA', 'https://analyticsadmin.googleapis.com/v1beta' );
 }
 
 // ============================================================================.

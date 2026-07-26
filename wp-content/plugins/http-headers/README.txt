@@ -3,9 +3,9 @@ Contributors: zinoui
 Donate link: https://paypal.me/Dimitar81
 Tags: custom headers, http headers, security headers, cors headers, csp header
 Requires at least: 3.2
-Tested up to: 6.7.1
+Tested up to: 6.9
 Requires PHP: 5.3
-Stable tag: 1.19.2
+Stable tag: 1.19.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,23 @@ These HTTP headers are being used in production services by popular websites as 
 Updates are on they way, so stay tuned at [@DimitarIvanov](https://twitter.com/DimitarIvanov)
 
 == Changelog ==
+
+= 1.19.5 =
+*Release Date - 27th April, 2026*
+
+* Fixed: Global updated_option Nonce Redirect Bug
+
+= 1.19.4 =
+*Release Date - 25th April, 2026*
+
+* Security vulnerabilities addressed
+* Coding best practices applied
+
+= 1.19.3 =
+*Release Date - 25th April, 2026*
+
+* Security vulnerabilities addressed
+* Coding best practices applied
 
 = 1.19.2 =
 *Release Date - 22nd December, 2024*

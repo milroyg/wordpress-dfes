@@ -31,11 +31,17 @@ trait Analytify_AJAX_Utility {
 	}
 
 	/**
-	 * Fetch log for diagnostic information
+	 * Fetch log for diagnostic information (AJAX).
+	 *
+	 * Outputs plain-text diagnostic info for the Help tab. Requires manage_options and fetch-log nonce.
+	 * Uses analytify_get_logger() only when available; logs exceptions via ->warning().
 	 *
 	 * @return void
+	 * @since 8.1.1
+	 * @since 9.0.0 Docblock and logger guard (function_exists/method_exists).
 	 */
 	public static function fetch_log() {
+		$logger = function_exists( 'analytify_get_logger' ) ? analytify_get_logger() : null;
 
 		// Verify nonce for security.
 		check_ajax_referer( 'fetch-log', 'nonce' );
@@ -62,8 +68,16 @@ trait Analytify_AJAX_Utility {
 
 		} catch ( Exception $e ) {
 			// Log the error for debugging.
-			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Intentional logging for diagnostics.
-			error_log( 'Analytify diagnostic error: ' . $e->getMessage() );
+			if ( $logger && method_exists( $logger, 'warning' ) ) {
+				$logger->warning(
+					'Exception in fetch_log diagnostic generation.',
+					array(
+						'source' => 'fetch_log',
+						'error'  => $e->getMessage(),
+						'trace'  => $e->getTraceAsString(),
+					)
+				);
+			}
 			echo 'Error generating diagnostic information: ' . esc_html( $e->getMessage() );
 		}
 
@@ -88,6 +102,7 @@ trait Analytify_AJAX_Utility {
 	 * </code>
 	 *
 	 * @return void
+	 * @version 9.0.0
 	 */
 	public static function output_diagnostic_info() {
 		global $wpdb;
@@ -277,21 +292,68 @@ trait Analytify_AJAX_Utility {
 
 		if ( class_exists( 'WP_Analytify_Pro_Base' ) ) {
 
-			$analytify_active_modules = array();
+			$analytify_modules    = get_option( 'wp_analytify_modules' );
+			$analytify_pro_addons = get_option( 'wp_analytify_pro_addons' );
 
-			$analytify_modules = get_option( 'wp_analytify_modules' );
+			if ( ! is_array( $analytify_modules ) ) {
+				$analytify_modules = array();
+			}
+			if ( ! is_array( $analytify_pro_addons ) ) {
+				$analytify_pro_addons = array();
+			}
 
-			foreach ( $analytify_modules as $module ) {
-				if ( 'active' === $module['status'] ) {
-					$analytify_active_modules[] = $module['title'];
+			// Active modules and bundled add-ons (slug – title only; everything here is active).
+			$analytify_active_extensions = array();
+			$active_slug_seen            = array();
+
+			foreach ( $analytify_modules as $mod_key => $module ) {
+				if ( ! is_array( $module ) || empty( $module['status'] ) || 'active' !== $module['status'] ) {
+					continue;
+				}
+				$slug  = isset( $module['slug'] ) ? (string) $module['slug'] : ( is_string( $mod_key ) ? $mod_key : '' );
+				$title = isset( $module['title'] ) ? (string) $module['title'] : '';
+				$line  = ( $slug && $title ) ? $slug . ' – ' . $title : ( '' !== $title ? $title : $slug );
+				if ( '' === $line ) {
+					continue;
+				}
+				$analytify_active_extensions[] = $line;
+				if ( '' !== $slug ) {
+					$active_slug_seen[ $slug ] = true;
 				}
 			}
 
-			echo "-- Active Modules --\r\n \r\n";
+			foreach ( $analytify_pro_addons as $addon_slug => $addon ) {
+				if ( ! is_string( $addon_slug ) || '' === $addon_slug ) {
+					continue;
+				}
+				if ( ! is_array( $addon ) || empty( $addon['status'] ) || 'active' !== $addon['status'] ) {
+					continue;
+				}
+				if ( isset( $active_slug_seen[ $addon_slug ] ) ) {
+					continue;
+				}
+				$name = isset( $addon['name'] ) ? (string) $addon['name'] : '';
+				$line = ( $addon_slug && $name ) ? $addon_slug . ' – ' . $name : ( '' !== $name ? $name : $addon_slug );
+				if ( '' === $line ) {
+					continue;
+				}
+				$analytify_active_extensions[]   = $line;
+				$active_slug_seen[ $addon_slug ] = true;
+			}
 
-			if ( $analytify_active_modules ) {
-				foreach ( $analytify_active_modules as $analytify_module ) {
-					printf( "%s \r\n", esc_html( $analytify_module ) );
+			if ( ! function_exists( 'is_plugin_active' ) && defined( 'ABSPATH' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/plugin.php';
+			}
+			if ( function_exists( 'is_plugin_active' )
+				&& is_plugin_active( 'analytify-analytics-dashboard-widget/wp-analytify-dashboard.php' ) ) {
+				$analytify_active_extensions[] = 'analytify-analytics-dashboard-widget – Analytics Dashboard widget';
+			}
+
+			echo "-- Active modules & add-ons --\r\n \r\n";
+
+			if ( $analytify_active_extensions ) {
+				foreach ( $analytify_active_extensions as $analytify_extension_line ) {
+					printf( "%s \r\n", esc_html( $analytify_extension_line ) );
 				}
 			} else {
 				echo "- None - \r\n";
@@ -306,6 +368,11 @@ trait Analytify_AJAX_Utility {
 			echo esc_html( $authentication_date ) . " \r\n";
 			echo "\r\n";
 		}
+
+		echo "-- Tracking Mode --\r\n \r\n";
+		$tracking_mode = defined( 'WP_ANALYTIFY_TRACKING_MODE' ) ? WP_ANALYTIFY_TRACKING_MODE : 'Not set';
+		echo 'Tracking Mode: ' . esc_html( $tracking_mode ) . "\r\n";
+		echo "\r\n";
 
 		echo "-- Analytify Profile Setting --\r\n \r\n";
 
@@ -468,25 +535,37 @@ trait Analytify_AJAX_Utility {
 	 */
 	public static function optin_yes() {
 		if ( ! current_user_can( 'manage_options' ) || ! check_ajax_referer( 'analytify_optin_page_nonce', 'optin_yes_nonce' ) ) {
-			wp_send_json_error( __( 'You do not have permission to perform this action.', 'wp-analytify' ), 403 );
+			wp_die(
+				'<p>' . esc_html__( 'Sorry, you are not allowed to edit this item.', 'wp-analytify' ) . '</p>',
+				'',
+				array( 'response' => 403 )
+			);
 		}
 
-		$sdk_data = get_option( 'wpb_sdk_wp-analytify', array() );
-		if ( ! is_array( $sdk_data ) ) {
-			$sdk_data = array();
-		}
+		delete_user_meta( get_current_user_id(), '_analytify_optin_verified' );
 
-		$sdk_data['communication']   = 'yes';
-		$sdk_data['diagnostic_info'] = 'yes';
-		$sdk_data['extensions']      = 'yes';
+		$sdk_data = array(
+			'communication'   => '1',
+			'diagnostic_info' => '1',
+			'extensions'      => '1',
+			'user_skip'       => '0',
+		);
+		update_option( 'wpb_sdk_wp-analytify', wp_json_encode( $sdk_data ) );
 
-		$sdk_data_json = wp_json_encode( $sdk_data );
-		update_option( 'wpb_sdk_wp-analytify', $sdk_data_json );
-
+		// Track opt-in.
 		update_site_option( '_analytify_optin', 'yes' );
 
-		wp_send_json_success();
+		$slug = 'wp-analytify';
+		$id   = '1';
+
+		// Instantiate the Logger class.
+		$wpb = \WPBRIGADE_Logger::instance( $id, $slug, true );
+		$wpb->log_activation( $slug );
+
+		// This is needed for the AJAX request to complete.
+		wp_die( '' );
 	}
+
 
 	/**
 	 * Opt-out yes
@@ -503,9 +582,9 @@ trait Analytify_AJAX_Utility {
 			$sdk_data = array();
 		}
 
-		$sdk_data['communication']   = 'no';
-		$sdk_data['diagnostic_info'] = 'no';
-		$sdk_data['extensions']      = 'no';
+		$sdk_data['communication']   = '0';
+		$sdk_data['diagnostic_info'] = '0';
+		$sdk_data['extensions']      = '0';
 
 		$sdk_data_json = wp_json_encode( $sdk_data );
 		update_option( 'wpb_sdk_wp-analytify', $sdk_data_json );
@@ -525,7 +604,24 @@ trait Analytify_AJAX_Utility {
 			wp_send_json_error( __( 'You do not have permission to perform this action.', 'wp-analytify' ), 403 );
 		}
 
+		$sdk_data = array(
+			'communication'   => '0',
+			'diagnostic_info' => '0',
+			'extensions'      => '0',
+			'user_skip'       => '1',
+		);
+		update_option( 'wpb_sdk_wp-analytify', wp_json_encode( $sdk_data ) );
+
 		update_site_option( '_analytify_optin', 'skip' );
+
+		$slug = 'wp-analytify';
+		$id   = '1';
+
+		if ( class_exists( '\WPBRIGADE_Logger' ) ) {
+			$wpb = \WPBRIGADE_Logger::instance( $id, $slug, true );
+			$wpb->log_activation( $slug );
+		}
+
 		wp_send_json_success();
 	}
 
@@ -533,6 +629,7 @@ trait Analytify_AJAX_Utility {
 	 * Create json file for export settings.
 	 *
 	 * @return void
+	 * @version 9.1.0
 	 */
 	public static function export_settings() {
 		// Check if the user has the required capability.
@@ -543,10 +640,12 @@ trait Analytify_AJAX_Utility {
 		check_ajax_referer( 'import-export', 'nonce' );
 
 		$profile_settings = get_option( 'wp-analytify-profile' );
+		if ( ! is_array( $profile_settings ) ) {
+			$profile_settings = array();
+		}
+
 		// Remove authentication values.
-		unset( $profile_settings['profile_for_posts'] );
-		unset( $profile_settings['profile_for_dashboard'] );
-		unset( $profile_settings['hide_profiles_list'] );
+		unset( $profile_settings['profile_for_posts'], $profile_settings['profile_for_dashboard'], $profile_settings['hide_profiles_list'] );
 
 		$settings = array(
 			'wp-analytify-profile'  => $profile_settings,
@@ -556,14 +655,19 @@ trait Analytify_AJAX_Utility {
 		);
 
 		if ( class_exists( 'WP_Analytify_Pro_Base' ) ) {
-			$settings['wp-analytify-dashboard']         = get_option( 'wp-analytify-dashboard' );
-			$settings['wp-analytify-events-tracking']   = get_option( 'wp-analytify-events-tracking' );
-			$settings['wp-analytify-custom-dimensions'] = get_option( 'wp-analytify-custom-dimensions' );
+			$settings['wp-analytify-dashboard']          = get_option( 'wp-analytify-dashboard' );
+			$settings['wp-analytify-events-tracking']    = get_option( 'wp-analytify-events-tracking' );
+			$settings['wp-analytify-custom-dimensions']  = get_option( 'wp-analytify-custom-dimensions' );
+			$settings['analytify-pixels-tracking']       = get_option( 'analytify-pixels-tracking' );
+			$settings['analytify-google-ads-tracking']   = get_option( 'analytify-google-ads-tracking' );
+			$settings['analytify_pmpro_track_events']    = get_option( 'analytify_pmpro_track_events' );
+			$settings['analytify_pmpro_track_purchases'] = get_option( 'analytify_pmpro_track_purchases' );
 		}
 
 		if ( class_exists( 'Analytify_Addon_Forms' ) ) {
 			$settings['wp-analytify-forms'] = get_option( 'wp-analytify-forms' );
 		}
+
 		// JSON encode the sanitized settings.
 		$settings = wp_json_encode( $settings );
 
@@ -573,9 +677,12 @@ trait Analytify_AJAX_Utility {
 	}
 
 	/**
-	 * Transfer json file data to settings.
+	 * Transfer JSON file data to settings.
+	 *
+	 * On invalid JSON, uses guarded logger (null-safe); never logs file content.
 	 *
 	 * @return void
+	 * @version 9.1.0
 	 */
 	public static function import_settings() {
 		check_ajax_referer( 'import-export', 'nonce' );
@@ -591,15 +698,31 @@ trait Analytify_AJAX_Utility {
 		$file_content  = $imp_tmp_name ? file_get_contents( $imp_tmp_name ) : '';
 		$settings_json = json_decode( $file_content ? $file_content : '', true );
 
-		if ( json_last_error() !== JSON_ERROR_NONE ) {
+		if ( json_last_error() !== JSON_ERROR_NONE || ! is_array( $settings_json ) ) {
+			// Guarded logger: null-safe; do not log file content (may contain sensitive settings).
+			$logger = function_exists( 'analytify_get_logger' ) ? analytify_get_logger() : null;
+			if ( $logger && method_exists( $logger, 'error' ) ) {
+				$logger->error(
+					'Settings import failed. Invalid JSON data.',
+					array(
+						'source'     => 'import_settings',
+						'json_error' => json_last_error_msg(),
+					)
+				);
+			}
 			echo 'failed';
+			wp_die();
 		}
 
 		foreach ( $settings_json as $setting => $value_array ) {
 			$old_value_array = get_option( $setting );
 
+			if ( ! is_array( $value_array ) ) {
+				continue;
+			}
+
 			if ( ! empty( $value_array ) ) {
-				if ( 'wp-analytify-profile' === $setting && ! empty( $old_value_array ) ) { // For profile tab settings update except authentication values.
+				if ( 'wp-analytify-profile' === $setting && is_array( $old_value_array ) && ! empty( $old_value_array ) ) { // For profile tab settings update except authentication values.
 					$old_value_array['install_ga_code']        = $value_array['install_ga_code'];
 					$old_value_array['exclude_users_tracking'] = $value_array['exclude_users_tracking'];
 					update_option( $setting, $old_value_array );

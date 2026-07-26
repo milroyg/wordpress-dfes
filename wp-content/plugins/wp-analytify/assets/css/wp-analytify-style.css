@@ -1,13 +1,15 @@
 .wpanalytify .notification-message.error-notice {
 	border-left: 4px solid #dd3d36;
 	background-color: #fff;
-	display: inline-block;
+	display: block;
+	max-width: fit-content;
 }
 
 .wpanalytify .notification-message.success-notice {
 	border-left: 4px solid #7ad03a;
 	background-color: #fff;
-	display: inline-block;
+	display: block;
+	max-width: fit-content;
 }
 
 .wpanalytify .licence-status {

@@ -2,10 +2,11 @@
 /**
  * Admin Notices Component for WP Analytify
  *
- * This file contains all admin notice and promotion related functions
+ * This file contains all admin notices and promotion-related functions
  * that were previously in the main plugin file.
  *
  * @package WP_Analytify
+ * @version 8.1.1
  * @since 8.0.0
  */
 
@@ -36,6 +37,19 @@ class Analytify_Admin_Notices {
 	}
 
 	/**
+	 * Resolve the plugin instance.
+	 *
+	 * Returns the injected instance when available, otherwise falls back
+	 * to the global $wp_analytify set by the bootstrap file.
+	 *
+	 * @since 8.1.1
+	 * @return WP_Analytify|null
+	 */
+	private function analytify_get_plugin_instance() {
+		return $this->analytify ? $this->analytify : $GLOBALS['wp_analytify'];
+	}
+
+	/**
 	 * Display pro update notice
 	 *
 	 * @version 7.0.5
@@ -45,7 +59,7 @@ class Analytify_Admin_Notices {
 		if ( defined( 'ANALYTIFY_PRO_VERSION' ) && version_compare( ANALYTIFY_PRO_VERSION, '6.0.0', '<' ) ) {
 			$class   = 'wp-analytify-danger';
 			$message = sprintf( // translators: Update notice.
-				esc_html__( '%1$sNote:%2$s Please update to the latest Analytify Pro version to manage all modules/addons from %3$s here %4$s.', 'wp-analytify' ),
+				esc_html__( '%1$sNote:%2$s Please update to the latest Analytify Pro version to manage all modules/add-ons from %3$s here %4$s.', 'wp-analytify' ),
 				'<b>',
 				'</b>',
 				'<a href="' . esc_url( admin_url( 'admin.php?page=analytify-addons' ) ) . '">',
@@ -58,33 +72,13 @@ class Analytify_Admin_Notices {
 	/**
 	 * Display GA4 update notice
 	 *
-	 * @version 7.0.5
+	 * @version 8.1.1
 	 * @return void
 	 */
 	public function addons_ga4_update_notice() {
-		// Use instance property if available, otherwise fall back to global.
-		$analytify = $this->analytify;
-		if ( ! $analytify ) {
-			global $wp_analytify;
-			$analytify = $wp_analytify;
-		}
+		$analytify = $this->analytify_get_plugin_instance();
 
-		// Check if GA4 mode is enabled.
-		$is_ga4 = false;
-		if ( $analytify ) {
-			// Use reflection to access protected property.
-			if ( property_exists( $analytify, 'is_reporting_in_ga4' ) ) {
-				$reflection = new ReflectionClass( $analytify );
-				$property   = $reflection->getProperty( 'is_reporting_in_ga4' );
-				$property->setAccessible( true );
-				$is_ga4 = $property->getValue( $analytify );
-			} else {
-				// Property doesn't exist, check alternative methods.
-				$is_ga4 = get_option( 'analytify_ga4_mode', false );
-			}
-		}
-
-		if ( $analytify && ! $is_ga4 ) {
+		if ( $analytify && ! $this->analytify_is_ga4_enabled() ) {
 			$class   = 'wp-analytify-danger';
 			$message = sprintf( // translators: GA4 update notice.
 				esc_html__( '%1$sAttention:%2$s Switch to GA4 (Google Analytics 4), Your current version of Google Analytics (UA) is outdated and no longer tracks data. %3$sFollow the guide%4$s.', 'wp-analytify' ),
@@ -96,20 +90,7 @@ class Analytify_Admin_Notices {
 			analytify_notice( $message, $class );
 		}
 
-		$analytify_pages = array(
-			'toplevel_page_analytify-dashboard',
-			'analytify_page_analytify-settings',
-			'analytify_page_analytify-goals',
-			'analytify_page_analytify-woocommerce',
-			'analytify_page_analytify-authors',
-			'edd-dashboard',
-			'dashboard',
-			'analytify_page_analytify-dimensions',
-			'analytify_page_analytify-campaigns',
-			'analytify_page_analytify-addons',
-		);
-		$current_screen  = get_current_screen() ? get_current_screen()->base : '';
-		if ( in_array( $current_screen, $analytify_pages, true ) ) {
+		if ( $this->analytify_is_analytify_screen() ) {
 
 			$addons_update_todo = WPANALYTIFY_Utils::get_addons_to_upgmdate();
 			if ( ! empty( $addons_update_todo ) ) {
@@ -124,6 +105,74 @@ class Analytify_Admin_Notices {
 			}
 		}
 	}
+
+	/**
+	 * Display Measurement Protocol Secret missing notice
+	 *
+	 * @since 8.1.1
+	 * @version 8.1.2
+	 * @return void
+	 */
+	public function analytify_measurement_protocol_secret_notice() {
+
+		// Only show to users who can manage options.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		// Only show notice if GA4 mode is enabled.
+		if ( ! $this->analytify_is_ga4_enabled() ) {
+			return;
+		}
+
+		// Only show on Analytify pages.
+		if ( ! $this->analytify_is_analytify_screen() ) {
+			return;
+		}
+
+		// Check if a profile is selected first.
+		$profile_settings = get_option( 'wp-analytify-profile' );
+		if ( empty( $profile_settings ) || ! isset( $profile_settings['profile_for_dashboard'] ) ) {
+			return;
+		}
+
+		$analytify = $this->analytify_get_plugin_instance();
+
+		// Check if Measurement Protocol Secret is missing (must be a non-empty string; API can mistakenly store full response array).
+		$mp_secret = '';
+		if ( $analytify && isset( $analytify->settings ) ) {
+			$raw = $analytify->settings->get_option(
+				'measurement_protocol_secret',
+				'wp-analytify-advanced',
+				''
+			);
+			if ( is_string( $raw ) ) {
+				$mp_secret = $raw;
+			} elseif ( is_array( $raw ) && isset( $raw['secretValue'] ) && is_string( $raw['secretValue'] ) ) {
+				$mp_secret = $raw['secretValue'];
+			}
+		}
+
+		// Show notice if secret is empty.
+		if ( '' === $mp_secret ) {
+			$class = 'wp-analytify-danger';
+
+			$message = sprintf(
+				/* translators: 1: Opening <b> tag, 2: Closing </b> tag, 3: Opening <a> tag with URL, 4: Closing </a> tag. */
+				esc_html__(
+					'%1$sWarning:%2$s Measurement Protocol Secret is missing, so server-side event tracking for WooCommerce, Forms, and other integrations is disabled. %3$sConfigure it here%4$s, complete the GA4 User Data Collection Acknowledgement, and reauthenticate Google Analytics in Analytify settings.',
+					'wp-analytify'
+				),
+				'<b>',
+				'</b>',
+				'<a href="' . esc_url( admin_url( 'admin.php?page=analytify-settings' ) ) . '#wp-analytify-advanced">',
+				'</a>'
+			);
+
+			analytify_notice( $message, $class );
+		}
+	}
+
 
 	/**
 	 * Display cache clear notice
@@ -144,7 +193,7 @@ class Analytify_Admin_Notices {
 	}
 
 	/**
-	 * Dismiss rank math notice
+	 * Dismiss the Rank Math notice
 	 *
 	 * @version 7.0.5
 	 * @return void
@@ -242,5 +291,45 @@ class Analytify_Admin_Notices {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Check if GA4 mode is enabled.
+	 *
+	 * @since 8.1.1
+	 * @version 9.1.0
+	 * @return bool
+	 */
+	private function analytify_is_ga4_enabled() {
+		if ( class_exists( 'WPANALYTIFY_Utils' ) && method_exists( 'WPANALYTIFY_Utils', 'get_ga_mode' ) ) {
+			return 'ga4' === WPANALYTIFY_Utils::get_ga_mode();
+		}
+
+		return (bool) get_option( 'analytify_ga4_mode', false );
+	}
+
+	/**
+	 * Check if current screen is Analytify page.
+	 *
+	 * @since 8.1.1
+	 * @version 8.1.2
+	 * @return bool
+	 */
+	private function analytify_is_analytify_screen() {
+		$analytify_pages = array(
+			'toplevel_page_analytify-dashboard',
+			'analytify_page_analytify-settings',
+			'analytify_page_analytify-goals',
+			'analytify_page_analytify-woocommerce',
+			'analytify_page_analytify-authors',
+			'edd-dashboard',
+			'dashboard',
+			'analytify_page_analytify-dimensions',
+			'analytify_page_analytify-campaigns',
+			'analytify_page_analytify-addons',
+		);
+
+		$current_screen = get_current_screen() ? get_current_screen()->base : '';
+		return in_array( $current_screen, $analytify_pages, true );
 	}
 }

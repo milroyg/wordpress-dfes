@@ -27,6 +27,7 @@ trait Analytify_Settings_Render {
 	 * @since 1.0.0
 	 * @param array<string, mixed> $args Field arguments.
 	 * @return void
+	 * @version 9.1.0
 	 */
 	public function callback_text( $args ) {
 		$option_value = $this->get_option( $args['id'], $args['section'], $args['std'] );
@@ -40,10 +41,43 @@ trait Analytify_Settings_Render {
 			$value = $option_value;
 		}
 
-		$value = esc_attr( $value );
-		$size  = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
-		$type  = isset( $args['type'] ) ? $args['type'] : 'text';
-		$html  = sprintf( '<input type="%1$s" class="%2$s-text" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s"/>', esc_attr( $type ), esc_attr( $size ), esc_attr( $args['section'] ), esc_attr( $args['id'] ), $value );
+		$value        = esc_attr( $value );
+		$size         = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
+		$type         = isset( $args['type'] ) ? $args['type'] : 'text';
+		$extra_attrs  = '';
+		$input_format = isset( $args['input_format'] ) ? $args['input_format'] : '';
+
+		if ( ! empty( $input_format ) ) {
+			$extra_attrs .= sprintf( ' data-input-format="%s"', esc_attr( $input_format ) );
+
+			if ( 'digits' === $input_format ) {
+				$extra_attrs .= ' inputmode="numeric" pattern="[0-9]*"';
+			}
+		}
+
+		if ( ! empty( $args['maxlength'] ) ) {
+			$extra_attrs .= sprintf( ' maxlength="%d"', absint( $args['maxlength'] ) );
+		}
+
+		$html = sprintf(
+			'<input type="%1$s" class="%2$s-text" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s"%6$s/>',
+			esc_attr( $type ),
+			esc_attr( $size ),
+			esc_attr( $args['section'] ),
+			esc_attr( $args['id'] ),
+			$value,
+			$extra_attrs
+		);
+
+		if ( ! empty( $args['tooltip'] ) ) {
+			$tooltip_text = is_string( $args['tooltip'] ) ? $args['tooltip'] : $args['desc'];
+			$html        .= sprintf( '<span class="dashicons dashicons-editor-help setting-more-info" title="%1$s"></span>', esc_attr( $tooltip_text ) );
+
+			if ( $tooltip_text === $args['desc'] ) {
+				$args['desc'] = '';
+			}
+		}
+
 		$html .= $this->get_field_description( $args );
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML is properly escaped above
 	}
@@ -98,6 +132,7 @@ trait Analytify_Settings_Render {
 	 *
 	 * @param array<string, mixed> $args Field arguments.
 	 * @return void
+	 * @version 9.1.0
 	 */
 	public function callback_checkbox( $args ) {
 		$option_value = $this->get_option( $args['id'], $args['section'], $args['std'] );
@@ -120,11 +155,17 @@ trait Analytify_Settings_Render {
 		$html                  .= sprintf( '<label for="%1$s[%2$s]"></label>', esc_attr( $args['section'] ), esc_attr( $args['id'] ) );
 		$html                  .= sprintf( '<input type="hidden" name="%1$s[%2$s]" value="%3$s" />', esc_attr( $args['section'] ), esc_attr( $args['id'] ), esc_attr( $defalut_value ) );
 		$html                  .= sprintf( '<div class="toggle"><input type="checkbox" class="checkbox" id="%1$s%2$s[%3$s]" name="%1$s%2$s[%3$s]" value="on" %4$s %5$s /><span class="btn-nob"></span><span class="texts"></span><span class="bg"></span></div>', esc_attr( $checkbox_name_override ), esc_attr( $args['section'] ), esc_attr( $args['id'] ), checked( $checkbox_value, 'on', false ), esc_attr( $is_disabled ) );
-		if ( $args['tooltip'] ) {
-			$html .= sprintf( '<span class="dashicons dashicons-editor-help setting-more-info" title="%1$s"></span>', esc_attr( $args['desc'] ) );
-		} else {
-			$html .= $this->get_field_description( $args );
+
+		if ( ! empty( $args['tooltip'] ) ) {
+			$tooltip_text = is_string( $args['tooltip'] ) ? $args['tooltip'] : $args['desc'];
+			$html        .= sprintf( '<span class="dashicons dashicons-editor-help setting-more-info" title="%1$s"></span>', esc_attr( $tooltip_text ) );
+
+			if ( $tooltip_text === $args['desc'] ) {
+				$args['desc'] = '';
+			}
 		}
+
+		$html .= $this->get_field_description( $args );
 		$html .= '</fieldset>';
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML is properly escaped above
 	}
@@ -641,12 +682,31 @@ trait Analytify_Settings_Render {
 		ob_start();
 		echo '<div class="inside">' . esc_html__( 'Set up a liaison between Analytify & your Google Analytics account.', 'wp-analytify' ) . '</div>';
 		if ( get_option( 'pa_google_token' ) ) {
+			$analytify_google_email = '';
+			if ( isset( $GLOBALS['WP_ANALYTIFY'] ) && is_object( $GLOBALS['WP_ANALYTIFY'] ) ) {
+				$analytify_google_email = $GLOBALS['WP_ANALYTIFY']->analytify_get_connected_google_account_email();
+			}
 			?>
 			<div class="inside"></div>
 			<table class="form-table"><form action="" method="post"><tbody><tr>
 			<?php wp_nonce_field( 'analytify_analytics_logout', 'analytify_analytics_logout_nonce' ); ?>
 			<th scope="row"><label class="pt-20">Google Authentication</label></th>
 			<td><input type="submit" class="button-primary" value="Logout" name="wp_analytify_log_out" />
+			<?php if ( is_string( $analytify_google_email ) && is_email( $analytify_google_email ) ) : ?>
+			<p class="description analytify-google-account-email">
+				<?php
+				printf(
+					/* translators: %s: Google account email address used for OAuth. */
+					esc_html__( 'Logged in with %s', 'wp-analytify' ),
+					'<strong>' . esc_html( $analytify_google_email ) . '</strong>'
+				);
+				?>
+			</p>
+			<?php else : ?>
+			<p class="description analytify-google-account-email analytify-google-account-email--unavailable">
+				<?php esc_html_e( 'Google account is connected; the sign-in email could not be shown.', 'wp-analytify' ); ?>
+			</p>
+			<?php endif; ?>
 			<p class="description">You have allowed your site to access the data from your Google Analytics account. Click on logout button to disconnect or re-authenticate.</p></td>
 			</tr></tbody></form></table>
 			<?php
@@ -702,7 +762,7 @@ trait Analytify_Settings_Render {
 					<p class="upgrade-to-pro">
 					<?php
 					printf( // translators: Upgrade to Pro.
-						esc_html__( 'If you want a %1$s timely response via email from a developer %2$s who works on this plugin, %3$s upgrade to Analytify Pro %4$s &&send us an email.', 'wp-analytify' ),
+						esc_html__( 'If you want a %1$s timely response via email from a developer %2$s who works on this plugin, %3$s upgrade to Analytify Pro %4$s & send us an email.', 'wp-analytify' ),
 						'<strong>',
 						'</strong>',
 						'<a href="' . esc_url( analytify_get_update_link( 'https://analytify.io/', '?utm_source=analytify-lite&amp;utm_medium=help-tab&amp;utm_content=support-upgrade&amp;utm_campaign=pro-upgrade' ) ) . '" target="_blank">',
@@ -732,6 +792,7 @@ trait Analytify_Settings_Render {
 			<div class="wp-analytify-view-error-log">
 			</div>
 			<div class="wp-analytify-view-error-log">
+				<button id="analytify-copy-diagnostic" class="button"><?php esc_html_e( 'Copy to Clipboard', 'wp-analytify' ); ?></button>
 				<button id="analytify-download-diagnostic" class="button"><?php esc_html_e( 'Download Diagnostic Log', 'wp-analytify' ); ?></button>
 				<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=analytify-logs' ) ); ?>"><?php esc_html_e( 'View Error Logs', 'wp-analytify' ); ?></a>
 			</div>
@@ -754,11 +815,12 @@ trait Analytify_Settings_Render {
 					<p><?php esc_html_e( 'Select the export file and click on Upload Import File button.', 'wp-analytify' ); ?></p>
 					<p><?php esc_html_e( 'This will not include your Google authentication, you might need to authenticate again after import.', 'wp-analytify' ); ?></p>
 					<form id="analytify-import-form">
-						<input id="analytify-import-settings" type="file" title="Upload Import File">
+						<input id="analytify-import-settings" type="file" accept=".json,application/json" title="Upload Import File">
 						<button id="analytify-import-submit" type="submit" class="button" data-nonce="<?php echo esc_attr( wp_create_nonce( 'import-export' ) ); ?>">
 						<?php esc_html_e( 'Upload Import File', 'wp-analytify' ); ?>
 						</button>
 					</form>
+					<p class="analytify-import-error" role="alert"></p>
 					<p class="analytify-import-notice"><?php esc_html_e( 'Import completed successfully!', 'wp-analytify' ); ?></p>
 					<p class="analytify-import-notice"><?php esc_html_e( 'Reloading settings page to reflect settings..', 'wp-analytify' ); ?></p>
 				</div>

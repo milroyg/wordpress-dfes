@@ -14,12 +14,12 @@ if ( ! check_ajax_referer( 'ctl_preview', 'nonce', false ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'CTL_Shortcode_Preivew' ) ) {
+if ( ! class_exists( 'CTL_Shortcode_Preview' ) ) {
 	/**
 	 * CTL Preview Assets Class.
 	 */
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
-	class CTL_Shortcode_Preivew {
+	class CTL_Shortcode_Preview {
 		/**
 		 * Member Variable
 		 *
@@ -57,6 +57,19 @@ if ( ! class_exists( 'CTL_Shortcode_Preivew' ) ) {
 		 * @param array $data shortcode array.
 		 */
 		public function ctl_create_shortcode( $data ) {
+
+			if ( ! is_array( $data ) ) {
+				$data = array();
+			}
+
+			$allowed_shortcode_tag = 'cool-timeline';
+			$incoming_type         = isset( $data['shortcodeType'] ) && is_string( $data['shortcodeType'] )
+				? sanitize_key( $data['shortcodeType'] )
+				: '';
+
+			if ( $allowed_shortcode_tag !== $incoming_type ) {
+				$data['shortcodeType'] = $allowed_shortcode_tag;
+			}
 
 			$shortcode_type = $this->ctl_shortcode_filter( $data['shortcodeType'] );
 			$shortcode      = '[' . $shortcode_type;
@@ -107,10 +120,9 @@ if ( ! class_exists( 'CTL_Shortcode_Preivew' ) ) {
 			$style                               = $custom_style::render_global_style( $color_style );
 			$style                              .= $custom_style::ctl_global_typography( $ctl_options_arr );
 			$style                              .= $this->ctl_preview_custom_css();
-			$custom_css                          = isset( $ctl_options_arr['custom_styles'] ) ? $ctl_options_arr['custom_styles'] : '';
-			$custom_css                          = preg_replace( '/\\\\/', '', $custom_css );
+			$custom_css                          = isset( $ctl_options_arr['custom_styles'] ) ? $custom_style::sanitize_custom_css( $ctl_options_arr['custom_styles'] ) : '';
 			$final_css                           = $custom_style::clt_minify_css( $style );
-			$this->assets_object['custom_style'] = $final_css;
+			$this->assets_object['custom_style'] = $custom_css . ' ' . $final_css;
 		}
 
 		/**
@@ -124,7 +136,7 @@ if ( ! class_exists( 'CTL_Shortcode_Preivew' ) ) {
 			.ctl-wrapper .ctp-media-slider img{
 				width: 100% !important
 			}
-			.ctl-wrapper .ctl-slider-wrapper,.ctl-wrapper .ctl-story,ctl_load_more_pagination,.ctl-category-container,.ctl-navigation-bar{
+			.ctl-wrapper .ctl-slider-wrapper,.ctl-wrapper .ctl-story,.ctl_load_more_pagination,.ctl-category-container,.ctl-navigation-bar{
 				pointer-events: none
 			}';
 			return $style;

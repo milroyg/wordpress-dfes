@@ -66,6 +66,7 @@ class Analytify_Loader {
 			'analytify-admin-ui',
 			'ga4-property-management',
 			'plugin-lifecycle',
+			'class-analytify-license-sticky-notice',
 		);
 
 		foreach ( $component_files as $component ) {
@@ -95,10 +96,14 @@ class Analytify_Loader {
 		$this->components['ga4_property_management'] = new Analytify_GA4_Property_Management( $this->analytify );
 		$this->components['plugin_lifecycle']        = new Analytify_Plugin_Lifecycle( $this->analytify );
 
+		if ( class_exists( 'Analytify_License_Sticky_Notice', false ) ) {
+			$this->components['license_sticky_notice'] = new Analytify_License_Sticky_Notice();
+			$this->components['license_sticky_notice']->init();
+		}
+
 		// Set up component hooks - register admin notices and scripts immediately.
 		$this->setup_admin_notice_hooks();
 		$this->setup_scripts_hooks();
-		$this->setup_lifecycle_hooks();
 		add_action( 'init', array( $this, 'setup_other_component_hooks' ), 20 );
 
 		do_action( 'analytify_components_loaded', $this->components );
@@ -107,7 +112,7 @@ class Analytify_Loader {
 	/**
 	 * Set up admin notice hooks immediately
 	 *
-	 * @version 7.0.5
+	 * @version 8.1.1
 	 * @return void
 	 */
 	private function setup_admin_notice_hooks() {
@@ -119,6 +124,7 @@ class Analytify_Loader {
 			add_action( 'admin_notices', array( $admin_notices, 'pro_update_notice' ), 10 );
 			add_action( 'admin_notices', array( $admin_notices, 'analytify_admin_notice' ), 10 );
 			add_action( 'admin_notices', array( $admin_notices, 'addons_ga4_update_notice' ), 10 );
+			add_action( 'admin_notices', array( $admin_notices, 'analytify_measurement_protocol_secret_notice' ), 10 );
 			add_action( 'admin_notices', array( $admin_notices, 'analytify_cache_clear_notice' ), 10 );
 
 			// AJAX handlers.
@@ -144,22 +150,6 @@ class Analytify_Loader {
 			add_action( 'wp_enqueue_scripts', array( $scripts_styles, 'front_scripts' ) );
 			add_action( 'admin_head', array( $scripts_styles, 'add_dashboard_inline_styles' ) );
 			add_action( 'admin_head', array( $scripts_styles, 'add_dashboard_inline_scripts' ) );
-		}
-	}
-
-	/**
-	 * Set up lifecycle hooks immediately
-	 *
-	 * @version 7.0.5
-	 * @return void
-	 */
-	private function setup_lifecycle_hooks() {
-		// Plugin lifecycle hooks - register immediately.
-		if ( isset( $this->components['plugin_lifecycle'] ) ) {
-			$lifecycle = $this->components['plugin_lifecycle'];
-			register_activation_hook( ( defined( 'WP_ANALYTIFY_PLUGIN_DIR' ) ? WP_ANALYTIFY_PLUGIN_DIR : dirname( __DIR__ ) ) . '/wp-analytify.php', array( $lifecycle, 'activate' ) );
-			register_deactivation_hook( ( defined( 'WP_ANALYTIFY_PLUGIN_DIR' ) ? WP_ANALYTIFY_PLUGIN_DIR : dirname( __DIR__ ) ) . '/wp-analytify.php', array( $lifecycle, 'deactivate' ) );
-			add_action( 'wp_wpb_sdk_after_uninstall', array( $lifecycle, 'uninstall' ) );
 		}
 	}
 
@@ -210,14 +200,7 @@ class Analytify_Loader {
 			add_action( 'admin_init', array( $profile_management, 'update_profile_list_summary_on_update' ), 1 );
 		}
 
-		// GDPR compliance hooks.
-		if ( isset( $this->components['gdpr_compliance'] ) ) {
-			$gdpr_compliance = $this->components['gdpr_compliance'];
-
-			// GDPR compliance hooks.
-			add_action( 'init', array( $gdpr_compliance, 'init_gdpr_compliance' ), 1 );
-			add_action( 'add_meta_boxes', array( $gdpr_compliance, 'add_exclusion_meta_box' ) );
-		}
+		// GDPR: {@see Analytify_GDPR_Compliance} registers init + add_meta_boxes in its constructor.
 
 		// Module manager hooks.
 		if ( isset( $this->components['module_manager'] ) ) {

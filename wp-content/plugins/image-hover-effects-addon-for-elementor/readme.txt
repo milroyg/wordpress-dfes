@@ -4,8 +4,8 @@ Donate Link: https://imagehoverpro.blocksera.com
 Tags: elementor, addons, elementor widget, image hover effects, css effects
 Requires PHP: 5.6
 Requires at least: 4.7
-Tested up to: 6.5.5
-Stable tag: 1.4.4
+Tested up to: 7.0
+Stable tag: 1.4.5
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -114,6 +114,9 @@ Yes, but you need to remove this plugin and install pro version after purchase.
 
 
 == Changelog ==
+
+= 1.4.5 =
+* WP 7.0 Compatibility update
 
 = 1.4.4 =
 * Minor security fix

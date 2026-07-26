@@ -179,9 +179,28 @@ class Analytify_Utils {
 	}
 
 	/**
+	 * Whether the current user is a subscriber blocked from Analytify admin UI.
+	 *
+	 * @since 9.1.0
+	 * @version 9.1.0
+	 * @return bool
+	 */
+	public static function is_subscriber_blocked_from_analytify() {
+		if ( ! is_user_logged_in() ) {
+			return false;
+		}
+
+		$user  = wp_get_current_user();
+		$roles = (array) $user->roles;
+
+		return in_array( 'subscriber', $roles, true ) && ! in_array( 'administrator', $roles, true );
+	}
+
+	/**
 	 * Check current user role - Legacy function from main file
 	 *
 	 * @since 1.2.2
+	 * @version 9.1.0
 	 * @param array<string, mixed> $access_level selected access level.
 	 * @return boolean
 	 */
@@ -191,6 +210,10 @@ class Analytify_Utils {
 		$access_level = (array) $access_level;
 
 		if ( is_user_logged_in() && ! empty( $access_level ) ) {
+
+			if ( self::is_subscriber_blocked_from_analytify() ) {
+				return false;
+			}
 
 			global $current_user;
 			$roles = $current_user->roles;

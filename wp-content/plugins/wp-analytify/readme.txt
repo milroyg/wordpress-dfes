@@ -1,10 +1,10 @@
-=== Analytify - Google Analytics Dashboard For WordPress (GA4 analytics made easy) ===
+=== Analytify - Google Analytics Dashboard For WordPress (GA4 analytics tracking) ===
 Contributors: hiddenpearls
 Donate link: https://paypal.me/Analytify
 Tags: google analytics, google analytics dashboard, google analytics 4, WordPress Analytics, analytics
 Requires at least: 4.0
-Tested up to: 6.9
-Stable tag: 8.1.0
+Tested up to: 7.0
+Stable tag: 9.1.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -112,8 +112,22 @@ If you want to show your stats to your user on the frontend side of your website
 
 **GDPR Compatible Plugins**
 
-* CookieYes
-* Cookie Notice & Compliance.
+* CookieYes (script blocking via plugin integration).
+* Cookie Notice & Compliance (Hu-manity.co) — head tracking blocked in PHP until cookies are accepted.
+* Any custom or third-party consent tool — use the hooks below (no core code changes required).
+
+**Consent integration hooks (custom / third-party cookie plugins)**
+
+* `analytify_consent_server_blocks_tracking` — return `true` when your plugin knows the visitor has not consented (PHP), so Analytify does not print gtag in the head. Example: read your consent cookie in the filter callback.
+* `analytify_consent_defer_gtag` — return `true` to load GA4 gtag only after consent in the browser (opt-in; default off for all sites).
+* `analytify_consent_ready_dom_events` — array of `document` event names that trigger deferred gtag (defaults to `analytifyConsentGranted` only). Add your CMP’s event names (e.g. after the user accepts cookies).
+* `analytify_consent_deferred_js_loader_name` — name of the global function (default `analytifyLoadGtagAfterConsent`) your front-end can call to load gtag immediately after consent.
+* `analytify_consent_deferred_expose_global_loader` — return `false` to stop registering the global loader (events only).
+* Legacy: `analytify_ccv_consent_event_name` — merge one extra event name (string) into the deferred event list.
+
+After consent, custom scripts may run: `document.dispatchEvent(new Event('analytifyConsentGranted'));` or `window.analytifyLoadGtagAfterConsent()` when the global loader is enabled.
+
+When **CookieYes** is active, Analytify outputs **Google Consent Mode v2** defaults (`denied` until the CMP updates consent) before loading gtag.js. Turn off with `analytify_gtag_consent_defaults_enabled` or `analytify_output_gtag_consent_defaults` if your CMP already prints the same defaults.
 
 **OTHER FEATURES YOU CAN GET BY CONNECTING YOUR SITE WITH GOOGLE ANALYTICS PLUGIN FOR WORDPRESS**
 
@@ -302,6 +316,60 @@ We listen to each of our users and are active (Monday to Friday) at the <a href=
 
 
 == Changelog ==
+
+= 9.1.0 – 2026-07-15 =
+* New Feature: Introduced new export dashboard reports to Excel, PDF, or CSV.
+* New Feature: Show which Google account is connected under Authentication settings.
+* Enhancement: Better compatibility with cookie consent plugins, including support for Google's latest consent standards.
+* Enhancement: Added a tooltip to the Browser Breakdown chart.
+* Enhancement: Review notice is now dismissed/snoozed per user instead of site-wide, and only shown to users with dashboard access.
+* Enhancement: Limited dashboard access for Subscriber accounts.
+* Enhancement: Smoother setup when connecting your Google Analytics account.
+* Enhancement: Improved reliability of comparison data in scheduled email reports.
+* Bug Fix: New vs. Returning Users now shows exact counts instead of rounded numbers.
+* Bug Fix: Fixed 404, JavaScript, and AJAX error (Advanced settings) tracking.
+* Security: Hardened CSV export to prevent unsafe file content when opened in Excel or Sheets.
+* Security: Improved account verification email security.
+* Compatibility: Compatible with PHP 8.5.
+* Compatibility: Compatible with WordPress 7.0.
+
+= 9.0.2 – 2026-05-12 =
+* Bug Fix: Resolved Dutch, French, and Spanish translation issues.
+* Enhancement: Refactored and optimized code for improved maintainability and performance.
+
+= 9.0.1 – 2026-05-01 =
+* Security: Bundled jsPDF and html2canvas locally for dashboard PDF exports; updated versions.
+* Enhancement: Minor dashboard asset loading cleanup and improvements.
+
+= 9.0.0 – 2026-04-29 =
+* New Feature: Introduced new paid module Pixels Tracking.
+* New Feature: Introduced new paid module LifterLMS Tracking.
+* New Feature: Introduced new paid module LearnDash Tracking.
+* New Feature: Introduced new paid module Paid Memberships Pro Tracking.
+* New Feature: Added custom dimensions to support enhanced `tel:` link tracking ahead of Enhanced Tel Link Analytics reports.
+* New Feature: Custom date range for scheduled email reports, including “yesterday” and safer scheduling.
+* New Feature: Exclude selected URL query parameters from tracking (Advanced).
+* Enhancement: Locally hosted GA serves minified `gtag.min.js` and drops legacy `gtag.js` handling.
+* Enhancement: Switched from `error_log` to Analytify logger; improved diagnostic log and debugging UX.
+* Enhancement: “Send Email” reports: loading states, strings, and more reliable background sends.
+* Enhancement: Code re-factorization and improvements.
+* Enhancement: Pie chart sizing and spacing on the dashboard.
+* Bug Fix: YouTube video tracking script error and noisy console output.
+* Bug Fix: General Stats email template styling and safer comparison label escaping.
+* Bug Fix: Measurement Protocol GA4 class reference so MP events load and send correctly.
+* Compatibility: Compatible with WordPress 7.0
+
+= 8.1.3 – 2026-03-17 =
+* Security: Added nonce verification and capability checks to prevent CSRF attacks.
+
+= 8.1.2 - 2026-03-09 =
+* Enhancement: Improve GA4 Measurement Protocol reliability by fixing secret handling and auto‑acknowledging User Data Collection.
+
+= 8.1.1 - 2026-02-27 =
+* Enhancement: Fixed mislabeled “Engaged Sessions” metric in single post/page analytics—restored correct “Pages / Session” label and added a proper Engaged Sessions box.
+* Enhancement: Added the `analytify_session_date_range` filter to control session date range analytics on the dashboard screen.
+* Enhancement: Added an admin notice when Measurement ID is not set for E-Commerce users.
+* Enhancement: Minor bug fixes and code improvements.
 
 = 8.1.0 - 2026-02-09 =
 * Enhancement: Improve Search Console domain detection — handle trailing slashes, prefer domains with data, fallback to accepted domains.
@@ -1147,7 +1215,7 @@ We listen to each of our users and are active (Monday to Friday) at the <a href=
 
 == Upgrade Notice ==
 
-= 8.1.0 =
+= 9.1.0 =
 * Important Release, Update carefully. Report us back if you face any issues. Thanks for using Analytify.
 
 == Notes ==

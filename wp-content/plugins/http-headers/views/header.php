@@ -11,11 +11,14 @@ include dirname(__FILE__) . '/includes/breadcrumbs.inc.php';
 	    <table class="form-table hh-table">
 			<tbody>
 			<?php
-			$header_file = sprintf('%s/%s.php', dirname(__FILE__), basename($_GET['header']));
-			if (is_file($header_file))
-			{
-				include $header_file;
-			}
+            if (isset($_GET['header']))
+            {
+	            $http_headers_header_file = sprintf('%s/%s.php', dirname(__FILE__), basename(sanitize_text_field(wp_unslash($_GET['header']))));
+	            if (is_file($http_headers_header_file))
+	            {
+		            include $http_headers_header_file;
+	            }
+            }
 			?>
 			</tbody>
 		</table>

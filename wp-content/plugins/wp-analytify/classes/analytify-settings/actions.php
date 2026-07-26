@@ -99,6 +99,8 @@ trait Analytify_Settings_Actions {
 					'class'             => isset( $option['class'] ) ? $option['class'] : '',
 					'type'              => $type,
 					'tooltip'           => isset( $option['tooltip'] ) ? $option['tooltip'] : true,
+					'input_format'      => isset( $option['input_format'] ) ? $option['input_format'] : '',
+					'maxlength'         => isset( $option['maxlength'] ) ? $option['maxlength'] : '',
 				);
 				$callback_method = 'callback_' . $type;
 				if ( method_exists( $this, $callback_method ) ) {

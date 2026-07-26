@@ -4,9 +4,9 @@ if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit();
 }
 
-$options = include dirname(__FILE__) . '/views/includes/options.inc.php';
+$http_headers_options = include dirname(__FILE__) . '/views/includes/options.inc.php';
 
-foreach ($options as $option)
+foreach ($http_headers_options as $http_headers_option)
 {
-	delete_option( $option[0] );
+	delete_option( $http_headers_option[0] );
 }

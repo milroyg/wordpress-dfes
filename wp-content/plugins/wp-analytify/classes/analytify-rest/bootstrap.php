@@ -156,8 +156,6 @@ trait Analytify_Rest_Bootstrap {
 		$this->end_date    = $request->get_param( 'ed' ) ? $request->get_param( 'ed' ) : wp_date( 'Y-m-d', current_time( 'timestamp' ) ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested -- current_time is acceptable for date calculations
 		$this->date_differ = $request->get_param( 'd_diff' );
 		$this->post_id     = $request->get_param( 'post_id' );
-		if ( $this->date_differ ) {
-			update_option( 'analytify_date_differ', $this->date_differ ); }
 		switch ( $request_type ) {
 			case 'general-stats':
 				return new WP_REST_Response( $this->general_stats() );

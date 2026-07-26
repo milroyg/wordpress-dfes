@@ -34,8 +34,26 @@ if ( ! class_exists( 'CTL_Helpers' ) ) {
 			if ( ! in_array( $current_page_id, $ctl_shortcode_page_ids ) ) {
 				$ctl_shortcode_page_ids[] = $current_page_id;
 				update_option( 'ctl_shortcode_page_ids', $ctl_shortcode_page_ids );
-				$ctl_used_layout[ $current_page_id ][] = $layout == 'default' ? 'vertical' : $layout;
+
+				$ctl_used_layout = get_option( 'ctl_layout_used', array() );
+				if ( ! is_array( $ctl_used_layout ) ) {
+					$ctl_used_layout = array();
+				}
+				$ctl_used_layout[ $current_page_id ][] = $layout == 'default' ? 'vertical' : sanitize_text_field($layout);
 				update_option( 'ctl_layout_used', $ctl_used_layout );
+			}else{
+				$ctl_used_layout = get_option( 'ctl_layout_used', array() );
+				if ( ! is_array( $ctl_used_layout ) ) {
+					$ctl_used_layout = array();
+				}
+
+				if ( ! isset( $ctl_used_layout[ $current_page_id ] ) ) {
+					$ctl_used_layout[ $current_page_id ][] = $layout == 'default' ? 'vertical' : sanitize_text_field($layout);
+					update_option( 'ctl_layout_used', $ctl_used_layout );
+				}else if(!in_array($layout, $ctl_used_layout[ $current_page_id ])){
+					$ctl_used_layout[ $current_page_id ][] = $layout == 'default' ? 'vertical' : sanitize_text_field($layout);
+					update_option( 'ctl_layout_used', $ctl_used_layout );
+				}
 			}
 		}
 
@@ -45,33 +63,16 @@ if ( ! class_exists( 'CTL_Helpers' ) ) {
 		 * @param string $story_date get story date.
 		 */
 		public static function ctlfree_generate_custom_timestamp( $story_date ) {
+			$story_timestamp = 0;
 
 			if ( ! empty( $story_date ) ) {
 				$ctl_story_date = strtotime( $story_date );
 				if ( $ctl_story_date !== false ) {
 					$story_timestamp = gmdate( 'YmdHi', $ctl_story_date );
 				}
-				return $story_timestamp;
 			}
-		}
 
-		/**
-		 * Get post type from url
-		 */
-		public static function ctl_get_ctp() {
-			global $post, $typenow, $current_screen;
-			if ( $post && $post->post_type ) {
-				return $post->post_type;
-			} elseif ( $typenow ) {
-				return $typenow;
-			} elseif ( $current_screen && $current_screen->post_type ) {
-				return $current_screen->post_type;
-					// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-					} elseif ( isset( $_REQUEST['post_type'] ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			return sanitize_text_field( wp_unslash( $_REQUEST['post_type'] ) );
-			}
-			return null;
+			return $story_timestamp;
 		}
 
 		/**
@@ -128,7 +129,7 @@ if ( ! class_exists( 'CTL_Helpers' ) ) {
                    $read_more_link
                );
  
-          // ✅ Run embed + shortcode filters
+          // Run embed + shortcode filters.
               // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
               $excerpt = apply_filters( 'the_content', $excerpt );
 
@@ -146,28 +147,15 @@ if ( ! class_exists( 'CTL_Helpers' ) ) {
 		 * @param object $settings Timeline settings object.
 		 */
 		public static function timeline_before_content( $settings ) {
-			$output         = '';
-			$title_text     = $settings['timeline_title'];
-			$timeline_image = $settings['timeline_image'];
-			$title_tag      = $settings['timeline_title_tag'];
+			$output     = '';
+			$title_text = isset( $settings['timeline_title'] ) ? $settings['timeline_title'] : '';
+			$title_tag  = isset( $settings['timeline_title_tag'] ) ? $settings['timeline_title_tag'] : 'h2';
+			$title_tag  = strtolower( $title_tag );
+			$title_tag  = in_array( $title_tag, array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ), true ) ? $title_tag : 'h2';
 
-			// if ( ! empty( $timeline_image['id'] ) || ( 'yes' === $title_enable && ! empty( $title_text ) ) ) {
 			if ( ! empty( $title_text ) ) {
 				$output .= '<div class="ctl-before-content">';
-
-				// if ( ! empty( $timeline_image['id'] ) ) {
-				// $user_avatar = wp_get_attachment_image_src( $timeline_image['id'], 'ctl_avatar' );
-				// $output     .= sprintf(
-				// '<div class="ctl-avatar"><span title="%s"><img src="%s" alt="%s"></span></div>',
-				// esc_attr( $title_text ),
-				// esc_url( $user_avatar[0] ),
-				// esc_attr( $title_text )
-				// );
-				// }
-
-				if ( ! empty( $title_text ) ) {
-					$output .= '<div class="timeline-main-title"><' . $title_tag . '>' . esc_html( $title_text ) . '</' . $title_tag . '></div>';
-				}
+				$output .= '<div class="timeline-main-title"><' . esc_attr( $title_tag ) . '>' . esc_html( $title_text ) . '</' . esc_attr( $title_tag ) . '></div>';
 
 				$output .= '</div>';
 			}

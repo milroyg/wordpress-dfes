@@ -1,11 +1,13 @@
 <?php
-if (!defined('ABSPATH')) {
-    exit();
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
-if (!class_exists('CTL_CRONJOB')) {
-    class CTL_CRONJOB
-    {
+if ( ! class_exists( 'CTL_CRONJOB' ) ) {
+
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+    class CTL_CRONJOB{
     
 
         public function __construct() {
@@ -18,21 +20,19 @@ if (!class_exists('CTL_CRONJOB')) {
         
         function ctl_cron_extra_data_autoupdater() {
        
-                if (class_exists('CTL_CRONJOB')) {
-                    CTL_CRONJOB::ctl_send_data();
-                }
+                CTL_CRONJOB::ctl_send_data();
 
         }
            
        static public function ctl_send_data() {
                    
             $feedback_url = CTL_FEEDBACK_API.'wp-json/coolplugins-feedback/v1/site';
-            require_once CTL_PLUGIN_DIR . 'admin/cpfm-feedback/users-feedback.php';
-            
-            if (!defined('CTL_PLUGIN_DIR')  ) {
-                
+
+            if ( ! defined( 'CTL_PLUGIN_DIR' ) ) {
                 return;
             }
+
+            require_once CTL_PLUGIN_DIR . 'admin/cpfm-feedback/users-feedback.php';
            
             $extra_data_details = CoolTimeline::ctl_get_user_info();
        
@@ -75,8 +75,6 @@ if (!class_exists('CTL_CRONJOB')) {
                 return;
             }
             
-            $response_body  = wp_remote_retrieve_body($response);
-            $decoded        = json_decode($response_body, true);
             if (!wp_next_scheduled('ctl_extra_data_update')) {
 
                 wp_schedule_event(time(), 'every_30_days', 'ctl_extra_data_update');

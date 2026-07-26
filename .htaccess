@@ -48,7 +48,7 @@ RewriteRule ^\.git(/.*|$) - [L,R=404,NC]
     # to read this resource.
     Header set Cross-Origin-Resource-Policy "same-origin"
 
-    SetEnvIf Origin "https://(docs\.google\.com|amche\.in)$" AllowedOrigin=$0
+    SetEnvIf Origin "https://(docs\.google\.com|amche\.in|niccicms\.raj\.nic\.in)$" AllowedOrigin=$0
     Header set Access-Control-Allow-Origin %{AllowedOrigin}e env=AllowedOrigin
     Header merge Vary Origin
 

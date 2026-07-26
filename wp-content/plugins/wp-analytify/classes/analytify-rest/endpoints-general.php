@@ -219,12 +219,12 @@ trait Analytify_Rest_Endpoints_General {
 			'stats'  => array(
 				'new'       => array(
 					'label'    => __( 'New', 'wp-analytify' ),
-					'number'   => WPANALYTIFY_Utils::pretty_numbers( $new_vs_returning_data['new']['users'] ),
+					'number'   => $new_vs_returning_data['new']['users'],
 					'sessions' => WPANALYTIFY_Utils::pretty_numbers( $new_vs_returning_data['new']['sessions'] ),
 				),
 				'returning' => array(
 					'label'    => __( 'Returning', 'wp-analytify' ),
-					'number'   => WPANALYTIFY_Utils::pretty_numbers( $new_vs_returning_data['returning']['users'] ),
+					'number'   => $new_vs_returning_data['returning']['users'],
 					'sessions' => WPANALYTIFY_Utils::pretty_numbers( $new_vs_returning_data['returning']['sessions'] ),
 				),
 			),
@@ -287,10 +287,11 @@ trait Analytify_Rest_Endpoints_General {
 		}
 
 		$chart_description['browser_breakdown'] = array(
-			'title'  => esc_html__( 'Browser Breakdown', 'wp-analytify' ),
-			'type'   => 'PIE',
-			'stats'  => $browser_breakdown_stats,
-			'colors' => ( function () use ( $browser_colors ) {
+			'title'       => esc_html__( 'Browser Breakdown', 'wp-analytify' ),
+			'description' => esc_html__( 'Top 3 Browsers by Sessions.', 'wp-analytify' ),
+			'type'        => 'PIE',
+			'stats'       => $browser_breakdown_stats,
+			'colors'      => ( function () use ( $browser_colors ) {
 				$filtered_colors = apply_filters( 'analytify_browser_breakdown_chart_colors', array() );
 				return ! empty( $filtered_colors ) ? $filtered_colors : $browser_colors;
 			} )(),

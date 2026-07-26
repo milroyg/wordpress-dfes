@@ -5,20 +5,20 @@ if (!defined('ABSPATH')) {
 ?>
 <tr>
 	<th scope="row">Access-Control-Allow-Credentials
-		<p class="description"><?php _e('The Access-Control-Allow-Credentials header indicates whether the response to request can be exposed when the credentials flag is true.', 'http-headers'); ?></p>
+		<p class="description"><?php esc_html_e('The Access-Control-Allow-Credentials header indicates whether the response to request can be exposed when the credentials flag is true.', 'http-headers'); ?></p>
         <hr>
-        <p class="description"><?php _e('Read more at', 'http-headers'); ?>
-            <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials"><?php _e('MDN Web Docs', 'http-headers'); ?></a>
+        <p class="description"><?php esc_html_e('Read more at', 'http-headers'); ?>
+            <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials"><?php esc_html_e('MDN Web Docs', 'http-headers'); ?></a>
         </p>
 	</th>
 	<td>
 		<fieldset>
 			<legend class="screen-reader-text">Access-Control-Allow-Credentials</legend>
 	        <?php
-	        $access_control_allow_credentials = get_option('hh_access_control_allow_credentials', 0);
-	        foreach ($bools as $k => $v)
+	        $http_headers_access_control_allow_credentials = get_option('hh_access_control_allow_credentials', 0);
+	        foreach ($http_headers_bools as $http_headers_k => $http_headers_v)
 	        {
-	        	?><p><label><input type="radio" class="http-header" name="hh_access_control_allow_credentials" value="<?php echo $k; ?>"<?php checked($access_control_allow_credentials, $k); ?> /> <?php echo $v; ?></label></p><?php
+	        	?><p><label><input type="radio" class="http-header" name="hh_access_control_allow_credentials" value="<?php echo esc_attr($http_headers_k); ?>"<?php checked($http_headers_access_control_allow_credentials, $http_headers_k); ?> /> <?php echo esc_html($http_headers_v); ?></label></p><?php
 	        }
 	        ?>
 		</fieldset>
@@ -26,12 +26,12 @@ if (!defined('ABSPATH')) {
 	<td>
 		<?php settings_fields( 'http-headers-acac' ); ?>
 		<?php do_settings_sections( 'http-headers-acac' ); ?>
-		<select name="hh_access_control_allow_credentials_value" class="http-header-value"<?php echo $access_control_allow_credentials == 1 ? NULL : ' readonly'; ?>>
+		<select name="hh_access_control_allow_credentials_value" class="http-header-value"<?php echo $http_headers_access_control_allow_credentials == 1 ? NULL : ' readonly'; ?>>
 		<?php
-		$items = array('true');
-		$access_control_allow_credentials_value = get_option('hh_access_control_allow_credentials_value');
-		foreach ($items as $item) {
-			?><option value="<?php echo $item; ?>"<?php selected($access_control_allow_credentials_value, $item); ?>><?php echo $item; ?></option><?php
+		$http_headers_items = array('true');
+		$http_headers_access_control_allow_credentials_value = get_option('hh_access_control_allow_credentials_value');
+		foreach ($http_headers_items as $http_headers_item) {
+			?><option value="<?php echo esc_attr($http_headers_item); ?>"<?php selected($http_headers_access_control_allow_credentials_value, $http_headers_item); ?>><?php echo esc_html($http_headers_item); ?></option><?php
 		}
 		?>
 		</select>

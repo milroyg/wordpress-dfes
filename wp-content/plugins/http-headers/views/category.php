@@ -8,236 +8,236 @@ include dirname(__FILE__) . '/includes/breadcrumbs.inc.php';
 <table class="hh-index-table">
 	<thead>
 		<tr>
-			<th><?php _e('Header', 'http-headers'); ?></th>
-			<th style="width: 45%"><?php _e('Value', 'http-headers'); ?></th>
-			<th class="hh-status"><?php _e('Status', 'http-headers'); ?></th>
+			<th><?php esc_html_e('Header', 'http-headers'); ?></th>
+			<th style="width: 45%"><?php esc_html_e('Value', 'http-headers'); ?></th>
+			<th class="hh-status"><?php esc_html_e('Status', 'http-headers'); ?></th>
 			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 	<?php 
-	foreach ($headers as $index => $item)
+	foreach ($http_headers_headers as $http_headers_index => $http_headers_item)
 	{
-		if ($_GET['category'] != $item[2])
+		if (!isset($_GET['category']) || $_GET['category'] != $http_headers_item[2])
 		{
 			continue;
 		}
 		
-		$key = $item[1];
+		$http_headers_key = $http_headers_item[1];
 		
-		$option = get_option($key, 0);
-		$isOn = (int) $option === 1;
-		$value = NULL;
-		if ($isOn)
+		$http_headers_option = get_option($http_headers_key, 0);
+		$http_headers_isOn = (int) $http_headers_option === 1;
+		$http_headers_value = NULL;
+		if ($http_headers_isOn)
 		{
-			$value = get_option($key .'_value');
-			if (is_string($value))
+			$http_headers_value = get_option($http_headers_key .'_value');
+			if (is_string($http_headers_value))
             {
-	            $value = esc_html($value);
+	            $http_headers_value = esc_html($http_headers_value);
             }
-			switch ($key)
+			switch ($http_headers_key)
 			{
 				case 'hh_age':
-					$value = (int) $value;
+					$http_headers_value = (int) $http_headers_value;
 					break;
 				case 'hh_p3p':
-					if (!empty($value))
+					if (!empty($http_headers_value))
 					{
-						$value = sprintf('CP="%s"', join(' ', array_keys($value)));
+						$http_headers_value = sprintf('CP="%s"', join(' ', array_keys($http_headers_value)));
 					}
 					break;
 				case 'hh_x_xxs_protection':
-					if ($value == '1; report=') {
-						$value .= esc_html(get_option('hh_x_xxs_protection_uri'));
+					if ($http_headers_value == '1; report=') {
+						$http_headers_value .= esc_html(get_option('hh_x_xxs_protection_uri'));
 					}
 					break;
 				case 'hh_x_powered_by':
 					if (get_option('hh_x_powered_by_option') == 'unset') {
-						$value = '[Unset]';
+						$http_headers_value = '[Unset]';
 					}
 					break;
 				case 'hh_x_frame_options':
-					$value = strtoupper($value);
-					if ($value == 'ALLOW-FROM')
+					$http_headers_value = strtoupper($http_headers_value);
+					if ($http_headers_value == 'ALLOW-FROM')
 					{
-						$value .= ' ' . esc_html(get_option('hh_x_frame_options_domain'));
+						$http_headers_value .= ' ' . esc_html(get_option('hh_x_frame_options_domain'));
 					}
 					break;
 				case 'hh_strict_transport_security':
-					$tmp = array();
-					$hh_strict_transport_security_max_age = get_option('hh_strict_transport_security_max_age');
-					if ($hh_strict_transport_security_max_age !== false)
+					$http_headers_tmp = array();
+					$http_headers_hh_strict_transport_security_max_age = get_option('hh_strict_transport_security_max_age');
+					if ($http_headers_hh_strict_transport_security_max_age !== false)
 					{
-						$tmp[] = sprintf('max-age=%u', $hh_strict_transport_security_max_age);
+						$http_headers_tmp[] = sprintf('max-age=%u', $http_headers_hh_strict_transport_security_max_age);
 						if (get_option('hh_strict_transport_security_sub_domains'))
 						{
-							$tmp[] = 'includeSubDomains';
+							$http_headers_tmp[] = 'includeSubDomains';
 						}
 						if (get_option('hh_strict_transport_security_preload'))
 						{
-							$tmp[] = 'preload';
+							$http_headers_tmp[] = 'preload';
 						}
 					} else {
-						$tmp = array(get_option('hh_strict_transport_security_value'));
+						$http_headers_tmp = array(get_option('hh_strict_transport_security_value'));
 					}
-					if (!empty($tmp))
+					if (!empty($http_headers_tmp))
 					{
-						$value = join('; ', $tmp);
+						$http_headers_value = join('; ', $http_headers_tmp);
 					}
 					break;
 				case 'hh_timing_allow_origin':
-					if ($value == 'origin')
+					if ($http_headers_value == 'origin')
 					{
-						$value = esc_html(get_option('hh_timing_allow_origin_url'));
+						$http_headers_value = esc_html(get_option('hh_timing_allow_origin_url'));
 					}
 					break;
 				case 'hh_access_control_allow_origin':
-					if ($value == 'origin')
+					if ($http_headers_value == 'origin')
 					{
-					    $value = join('<br>', array_map('esc_html', get_option('hh_access_control_allow_origin_url', array())));
+					    $http_headers_value = join('<br>', array_map('esc_html', get_option('hh_access_control_allow_origin_url', array())));
 					}
 					break;
 				case 'hh_access_control_expose_headers':
 				case 'hh_access_control_allow_headers':
 				case 'hh_access_control_allow_methods':
-					$value = join(', ', array_keys($value));
+					$http_headers_value = join(', ', array_keys($http_headers_value));
 					break;
 				case 'hh_content_security_policy':
-				    $value = build_csp_value($value, true);
+				    $http_headers_value = http_headers_build_csp_value($http_headers_value, true);
 					if (get_option('hh_content_security_policy_report_only')) {
-						$item[0] .= '-Report-Only';
+						$http_headers_item[0] .= '-Report-Only';
 					}
 					break;
 				case 'hh_content_encoding':
-					$value = !$value ? null : join(', ', array_keys($value));
+					$http_headers_value = !$http_headers_value ? null : join(', ', array_keys($http_headers_value));
 					
-					$ext = get_option('hh_content_encoding_ext');
-					if (!empty($ext)) {
-						$ext = join(', ', array_keys($ext));
-						$value .= (!empty($value) ? '<br>' : null) . $ext;
+					$http_headers_ext = get_option('hh_content_encoding_ext');
+					if (!empty($http_headers_ext)) {
+						$http_headers_ext = join(', ', array_keys($http_headers_ext));
+						$http_headers_value .= (!empty($http_headers_value) ? '<br>' : null) . $http_headers_ext;
 					}
-					$module = get_option('hh_content_encoding_module');
-					switch ($module) {
+					$http_headers_module = get_option('hh_content_encoding_module');
+					switch ($http_headers_module) {
 					    case 'brotli_deflate':
-					        $enc = 'br, gzip';
+					        $http_headers_enc = 'br, gzip';
 					        break;
 					    case 'brotli':
-					        $enc = 'br';
+					        $http_headers_enc = 'br';
 					        break;
 					    case 'deflate':
 					    default:
-					        $enc = 'gzip';
+					        $http_headers_enc = 'gzip';
 					        break;
 					}
 					
-					$value = !empty($value) ? sprintf('%s (%s)', $enc, $value) : $enc;
+					$http_headers_value = !empty($http_headers_value) ? sprintf('%s (%s)', $http_headers_enc, $http_headers_value) : $http_headers_enc;
 					break;
 				case 'hh_vary':
-					$value = !$value ? null : join(', ', array_keys($value));
+					$http_headers_value = !$http_headers_value ? null : join(', ', array_keys($http_headers_value));
 					break;
 				case 'hh_www_authenticate':
-					$value = esc_html(get_option('hh_www_authenticate_type'));
+					$http_headers_value = esc_html(get_option('hh_www_authenticate_type'));
 					break;
 				case 'hh_cache_control':
-					$tmp = array();
-					foreach ($value as $k => $v) {
-						if (in_array($k, array('max-age', 's-maxage', 'stale-while-revalidate', 'stale-if-error'))) {
-							if (strlen($v) > 0) {
-								$tmp[] = sprintf("%s=%u", $k, $v);
+					$http_headers_tmp = array();
+					foreach ($http_headers_value as $http_headers_k => $http_headers_v) {
+						if (in_array($http_headers_k, array('max-age', 's-maxage', 'stale-while-revalidate', 'stale-if-error'))) {
+							if (strlen($http_headers_v) > 0) {
+								$http_headers_tmp[] = sprintf("%s=%u", $http_headers_k, $http_headers_v);
 							}
 						} else {
-							$tmp[] = $k;
+							$http_headers_tmp[] = $http_headers_k;
 						}
 					}
-					$value = join(', ', $tmp);
+					$http_headers_value = join(', ', $http_headers_tmp);
 					break;
 				case 'hh_expires':
-					$tmp = array();
-					$types = get_option('hh_expires_type', array());
-					foreach ($types as $type => $whatever) {
-						list($base, $period, $suffix) = explode('_', $value[$type]);
-						if (in_array($base, array('access', 'modification'))) {
-							$tmp[] = $type != 'default'
-								? sprintf('%s = "%s plus %u %s"', $type, $base, $period, $suffix)
-								: sprintf('default = "%s plus %u %s"', $base, $period, $suffix);
-						} elseif ($base == 'invalid') {
-							$tmp[] = $type != 'default'
-								? sprintf('%s = A0', $type)
+					$http_headers_tmp = array();
+					$http_headers_types = get_option('hh_expires_type', array());
+					foreach ($http_headers_types as $http_headers_type => $http_headers_whatever) {
+						list($http_headers_base, $http_headers_period, $http_headers_suffix) = explode('_', $http_headers_value[$http_headers_type]);
+						if (in_array($http_headers_base, array('access', 'modification'))) {
+							$http_headers_tmp[] = $http_headers_type != 'default'
+								? sprintf('%s = "%s plus %u %s"', $http_headers_type, $http_headers_base, $http_headers_period, $http_headers_suffix)
+								: sprintf('default = "%s plus %u %s"', $http_headers_base, $http_headers_period, $http_headers_suffix);
+						} elseif ($http_headers_base == 'invalid') {
+							$http_headers_tmp[] = $http_headers_type != 'default'
+								? sprintf('%s = A0', $http_headers_type)
 								: sprintf('default = A0');
 						}
 					}
-					$value = join('<br>', $tmp);
+					$http_headers_value = join('<br>', $http_headers_tmp);
 					break;
 				case 'hh_cookie_security':
-				    if (is_array($value)) {
-				        if (isset($value['SameSite']) && !is_samesite_supported()) {
-				            unset($value['SameSite']);
+				    if (is_array($http_headers_value)) {
+				        if (isset($http_headers_value['SameSite']) && !http_headers_is_samesite_supported()) {
+				            unset($http_headers_value['SameSite']);
                         }
                     }
-					$value = is_array($value) && !empty($value)
-                        ? '&#10004; ' . join(' &#10004; ', array_keys($value))
+					$http_headers_value = is_array($http_headers_value) && !empty($http_headers_value)
+                        ? '&#10004; ' . join(' &#10004; ', array_keys($http_headers_value))
                         : NULL;
 					break;
 				case 'hh_expect_ct':
-					$tmp = array();
-					$tmp[] = sprintf('max-age=%u', get_option('hh_expect_ct_max_age'));
+					$http_headers_tmp = array();
+					$http_headers_tmp[] = sprintf('max-age=%u', get_option('hh_expect_ct_max_age'));
 					if (get_option('hh_expect_ct_enforce') == 1) {
-						$tmp[] = 'enforce';
+						$http_headers_tmp[] = 'enforce';
 					}
-					$tmp[] = sprintf('report-uri="%s"', esc_html(get_option('hh_expect_ct_report_uri')));
-					$value = join(', ', $tmp); 
+					$http_headers_tmp[] = sprintf('report-uri="%s"', esc_html(get_option('hh_expect_ct_report_uri')));
+					$http_headers_value = join(', ', $http_headers_tmp); 
 					break;
 				case 'hh_custom_headers':
-					$_names = array($item[0]);
-					$_values = array('&nbsp;');
-					foreach ($value['name'] as $key => $name)
+					$http_headers__names = array($http_headers_item[0]);
+					$http_headers__values = array('&nbsp;');
+					foreach ($http_headers_value['name'] as $http_headers_key => $http_headers_name)
 					{
-						if (!empty($name) && !empty($value['value'][$key]))
+						if (!empty($http_headers_name) && !empty($http_headers_value['value'][$http_headers_key]))
 						{
-							$_names[] = '<p class="hh-p">&nbsp;&nbsp;&nbsp;&nbsp;'.$name.'</p>';
-							$_values[] = '<p class="hh-p">'.esc_html($value['value'][$key]).'</p>';
+							$http_headers__names[] = '<p class="hh-p">&nbsp;&nbsp;&nbsp;&nbsp;'.esc_html($http_headers_name).'</p>';
+							$http_headers__values[] = '<p class="hh-p">'.esc_html($http_headers_value['value'][$http_headers_key]).'</p>';
 						}
 					}
-					$item[0] = join('', $_names);
-					$value = join('', $_values);
+					$http_headers_item[0] = join('', $http_headers__names);
+					$http_headers_value = join('', $http_headers__values);
 					break;
 				case 'hh_report_to':
-				    $value = esc_html(get_http_header('report_to'));
+				    $http_headers_value = esc_html(http_headers_get_http_header('report_to'));
 				    break;
 				case 'hh_nel':
-				    $value = esc_html(get_http_header('nel'));
+				    $http_headers_value = esc_html(http_headers_get_http_header('nel'));
 				    break;
 				case 'hh_feature_policy':
-				    $value = esc_html(get_http_header('feature_policy'));
+				    $http_headers_value = esc_html(http_headers_get_http_header('feature_policy'));
 					break;
 				case 'hh_permissions_policy':
-				    $value = esc_html(get_http_header('permissions_policy'));
+				    $http_headers_value = esc_html(http_headers_get_http_header('permissions_policy'));
 				    break;
 				case 'hh_x_robots_tag':
-					$value = esc_html(get_http_header('x_robots_tag'));
+					$http_headers_value = esc_html(http_headers_get_http_header('x_robots_tag'));
 					break;
 				case 'hh_clear_site_data':
-				    $value = '"' . join('", "', array_keys($value)) . '"';
+				    $http_headers_value = '"' . join('", "', array_keys($http_headers_value)) . '"';
 				    break;
                 case 'hh_content_type':
-                    $tmp = array();
-                    foreach ($value as $key => $val)  {
-                        $tmp[] = sprintf(".%s => %s", $key, $val);
+                    $http_headers_tmp = array();
+                    foreach ($http_headers_value as $http_headers_key => $http_headers_val)  {
+                        $http_headers_tmp[] = sprintf(".%s => %s", $http_headers_key, $http_headers_val);
                     }
-                    $value = join("<br>", $tmp);
+                    $http_headers_value = join("<br>", $http_headers_tmp);
                     break;
 				default:
-					$value = !is_array($value) ? $value : join(', ', $value);
+					$http_headers_value = !is_array($http_headers_value) ? $http_headers_value : join(', ', $http_headers_value);
 			}
 		}
-		$status = $isOn ? __('On', 'http-headers') : __('Off', 'http-headers');
+		$http_headers_status = $http_headers_isOn ? __('On', 'http-headers') : __('Off', 'http-headers');
 		?>
-		<tr<?php echo $isOn ? ' class="active"' : NULL; ?>>
-			<td><?php echo $item[0]; ?></td>
-			<td><?php echo $value; ?></td>
-			<td class="hh-status hh-status-<?php echo $isOn ? 'on' : 'off'; ?>"><span><?php echo $status; ?></span></td>
-			<td><a href="<?php echo get_admin_url(); ?>options-general.php?page=http-headers&header=<?php 
-				echo $index; ?>"><?php _e('Edit', 'http-headers'); ?></a></td>
+		<tr<?php echo $http_headers_isOn ? ' class="active"' : NULL; ?>>
+			<td><?php echo $http_headers_item[0]; ?></td>
+			<td><?php echo $http_headers_value; ?></td>
+			<td class="hh-status hh-status-<?php echo $http_headers_isOn ? 'on' : 'off'; ?>"><span><?php echo esc_html($http_headers_status); ?></span></td>
+			<td><a href="<?php echo esc_url(get_admin_url()); ?>options-general.php?page=http-headers&header=<?php
+				echo esc_attr($http_headers_index); ?>"><?php esc_html_e('Edit', 'http-headers'); ?></a></td>
 		</tr>
 		<?php
 	}

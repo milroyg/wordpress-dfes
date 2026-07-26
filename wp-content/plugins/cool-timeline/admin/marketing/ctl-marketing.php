@@ -6,12 +6,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'Ctl_Marketing_Controllers' ) ) {
 
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
     class Ctl_Marketing_Controllers {
 
         private static $instance = null;
 
         /**
-         * ✅ Singleton instance
+         *  Singleton instance
          */
         public static function get_instance() {
             if ( self::$instance === null ) {
@@ -21,7 +22,7 @@ if ( ! class_exists( 'Ctl_Marketing_Controllers' ) ) {
         }
 
         /**
-         * ✅ Constructor
+         *  Constructor
          *
          * Initializes hooks and actions.
          */
@@ -53,112 +54,68 @@ if ( ! class_exists( 'Ctl_Marketing_Controllers' ) ) {
             return false;
         }
 
-        public function show_marketing_notices(){
-           
+        public function show_marketing_notices() {
 
-           
-            $is_tec_settings = (
-                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-                ( isset( $_GET['page'] ) && sanitize_key( wp_unslash( $_GET['page'] ) ) === 'cool-plugins-timeline-addon' )
-                // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-                || ( isset( $_GET['post_type'] ) && sanitize_key( wp_unslash( $_GET['post_type'] ) ) === 'cool_timeline' )
-                // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-                || ( isset( $_GET['page'] ) && sanitize_key( wp_unslash( $_GET['page'] ) ) === 'twae-welcome-page' )
-                // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-                || ( isset( $_GET['page'] ) && sanitize_key( wp_unslash( $_GET['page'] ) ) === 'cool_timeline_settings' )
-                || ( isset( $_SERVER['PHP_SELF'] ) && strpos( sanitize_text_field( wp_unslash( $_SERVER['PHP_SELF'] ) ), 'plugins.php' ) !== false )
+            $is_tec_settings = $this->is_timeline_admin_screen();
 
-            );
-
-                if ( $is_tec_settings ) {
-        // enqueue your marketing.js script here
-        wp_enqueue_script(
-            'ctl-marketing',
-            CTL_PLUGIN_URL . 'admin/marketing/ctl-marketing.js',
-            array( 'jquery' ),
-            CTL_V,
-            true
-        );
-                 }
-                 $active_plugins = get_option( 'active_plugins', [] );
-                 $divi_pro_path = 'timeline-module-pro-for-divi/timeline-module-pro-for-divi.php';
-                 $Timeline_Widget_pro_path = 'timeline-widget-addon-for-elementor-pro/timeline-widget-addon-pro-for-elementor.php';
-                $all_plugins = get_plugins();
-                $is_divi_pro_path = isset($all_plugins[$divi_pro_path]);
-                $is_Timeline_Widget_pro_path =isset($all_plugins[$Timeline_Widget_pro_path]);
+            if ( $is_tec_settings ) {
+                $this->enqueue_marketing_script();
+            }
+            $active_plugins              = get_option( 'active_plugins', [] );
+            $divi_pro_path               = 'timeline-module-pro-for-divi/timeline-module-pro-for-divi.php';
+            $timeline_widget_pro_path    = 'timeline-widget-addon-for-elementor-pro/timeline-widget-addon-pro-for-elementor.php';
+            $all_plugins                 = get_plugins();
+            $is_divi_pro_path            = isset( $all_plugins[ $divi_pro_path ] );
+            $is_timeline_widget_pro_path = isset( $all_plugins[ $timeline_widget_pro_path ] );
             // Only call the admin-notice helper if it's available to avoid fatal.
             if ( function_exists( 'ctl_free_create_admin_notice' ) ) {
-                 $nonce  = esc_attr( wp_create_nonce( 'twae_install_nonce' ) );
+                $install_nonce = wp_create_nonce( 'twae_install_nonce' );
              
-                if ( self::is_theme_activate( 'Divi' ) && $is_tec_settings && !$is_divi_pro_path  && !defined('TM_DIVI_PRO_V') && !in_array('timeline-module-for-divi/timeline-module-for-divi.php', $active_plugins, true) ) {
+                if ( $this->should_show_divi_notice( $is_tec_settings, $is_divi_pro_path, $active_plugins ) ) {
                     
 
 
                     $button_label = esc_html__( 'Install Timeline Module for Divi', 'cool-timeline' );
 
-                    /* translators: 1: opening strong tag, 2: closing strong tag, 3: opening link tag, 4: closing link tag */
                     $message_text = sprintf(
-                        wp_kses_post(
-                             /* translators: 1: opening strong tag, 2: closing strong tag, 3: opening link tag, 4: closing link tag */
-                            __( 'We noticed you’re using %1$sDivi Page Builder%2$s. Try our latest %3$sTimeline Module For Divi%4$s plugin to showcase your life story or %1$scompany history%2$s.', 'cool-timeline' )
-                        ),
+                        /* translators: 1: opening strong tag, 2: closing strong tag, 3: opening link tag, 4: closing link tag */
+                        __( 'We noticed you’re using %1$sDivi Page Builder%2$s. Try our latest %3$sTimeline Module For Divi%4$s plugin to showcase your life story or %1$scompany history%2$s.', 'cool-timeline' ),
                         '<strong>',
                         '</strong>',
-                        '<a href="https://wordpress.org/plugins/timeline-module-for-divi/" target="_blank">',
+                        '<a href="https://wordpress.org/plugins/timeline-module-for-divi/" target="_blank" rel="noopener noreferrer">',
                         '</a>'
+                    );
+                    $message_text = wp_kses_post( $message_text );
+
+                    $notice_message = sprintf(
+                        '<div class="ctl-new-mkt-notice ctl-divi-notice" style="display:flex !important;">
+                            <div style="width:fit-content;">
+                                <button type="button" style="padding:2px 10px; margin-right:5px;" class="button button-primary ctl-install-plugin" data-plugin="%1$s" data-nonce="%2$s">%3$s</button>
+                            </div>
+                            <div>%4$s</div>
+                        </div>',
+                        esc_attr( 'timeline-divi' ),
+                        esc_attr( $install_nonce ),
+                        $button_label,
+                        $message_text
                     );
                     
                     ctl_free_create_admin_notice(
                         array(
                             'id' => 'ctl-divi-module-notice',
-                            'message' => '
-                                <div class="ctl-new-mkt-notice ctl-divi-notice" style="display:flex !important;">
-                                    <div style="width:fit-content;">
-                                        <button
-                                            style="padding:2px 10px; margin-right:5px;"
-                                            class="button button-primary ctl-install-plugin"
-                                            data-plugin="timeline-divi"
-                                            data-nonce="' . esc_attr( $nonce ) . '">
-                                            ' . $button_label . '
-                                        </button>
-                                    </div>
-                                    <div>' . $message_text . '</div>
-                                </div>',
+                            'message' => $notice_message,
                             'review_interval' => 3,
                             'plugin_name'     => 'Timeline Module For Divi',
                         )
                     );
                     
 
-
-                    // ctl_free_create_admin_notice(
-
-                        
-                    //     array(
-                    //         'id'              => 'ctl-divi-module-notice',
-                    //         'message'         => __(
-                    //             '<div class="ctl-new-mkt-notice ctl-divi-notice" style=" display:flex !important;">
-                    //                 <div style="width:fit-content;">
-                    //                   <button style="padding:2px 10px; margin-right:5px;"
-                    //                      class="button button-primary ctl-install-plugin"
-                    //                      data-plugin="timeline-divi"
-                    //                   data-nonce="' . $nonce . '">    Install Timeline Module for Divi
-                    //                  </button>
-                    //                 </div>
-                    //                 <div>We noticed you&rsquo;re using <strong>Divi Page Builder</strong>. Try our latest <a href="https://wordpress.org/plugins/timeline-module-for-divi/" target="_blank"><strong> Timeline Module For Divi</strong></a> plugin to showcase your life story or <strong>company history</strong>.</div>
-                    //             </div>',
-                    //             'cool-timeline'
-                    //         ),
-                    //         'review_interval' => 3,
-                    //         'plugin_name'     => 'Timeline Module For Divi',
-                    //     )
-                    // );
                 }
 
                 if ( did_action( 'elementor/loaded' ) ) {
                     $old_user_ele_install_notice = get_option( 'dismiss_ele_addon_notice', 'no' );
 
-                    if ( $old_user_ele_install_notice === 'no' && $is_tec_settings && !$is_Timeline_Widget_pro_path && !defined( 'TWAE_PRO_VERSION' ) ) {
+                    if ( $this->should_show_elementor_notice( $is_tec_settings, $is_timeline_widget_pro_path, $old_user_ele_install_notice ) ) {
                         ctl_free_create_admin_notice(
                             array(
                                 'id'      => 'ctl-elementor-addon-notice',
@@ -178,39 +135,93 @@ if ( ! class_exists( 'Ctl_Marketing_Controllers' ) ) {
                     }
                 }
 
-                // Plugin review notice file
-                ctl_free_create_admin_notice(
-                    array(
-                        'id'              => 'ctl_review_box',
-                        'slug'            => 'ctl',
-                        'review'          => true,
-                        'review_url' => esc_url(
-                            'https://wordpress.org/support/plugin/cool-timeline/reviews/#new-post'
-                        ),
-                        'plugin_name'     => 'Cool Timeline',
-                        'review_interval' => 3,
-                    )
-                );
+                $this->add_review_notice();
             } // end function_exists check
+        }
+
+        private function is_timeline_admin_screen() {
+            // Read-only admin screen detection for conditional script enqueue (no state change; nonce not required).
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            $admin_page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            $post_type  = isset( $_GET['post_type'] ) ? sanitize_key( wp_unslash( $_GET['post_type'] ) ) : '';
+
+            return (
+                'cool-plugins-timeline-addon' === $admin_page
+                || 'cool_timeline' === $post_type
+                || 'twae-welcome-page' === $admin_page
+                || 'cool_timeline_settings' === $admin_page
+                || ( isset( $_SERVER['PHP_SELF'] ) && false !== strpos( sanitize_text_field( wp_unslash( $_SERVER['PHP_SELF'] ) ), 'plugins.php' ) )
+            );
+        }
+
+        private function enqueue_marketing_script() {
+            wp_enqueue_script(
+                'ctl-marketing',
+                CTL_PLUGIN_URL . 'admin/marketing/ctl-marketing.js',
+                array( 'jquery' ),
+                CTL_V,
+                true
+            );
+        }
+
+        private function should_show_divi_notice( $is_tec_settings, $is_divi_pro_path, $active_plugins ) {
+            return (
+                self::is_theme_activate( 'Divi' )
+                && $is_tec_settings
+                && ! $is_divi_pro_path
+                && ! defined( 'TM_DIVI_PRO_V' )
+                && ! in_array( 'timeline-module-for-divi/timeline-module-for-divi.php', $active_plugins, true )
+            );
+        }
+
+        private function should_show_elementor_notice( $is_tec_settings, $is_timeline_widget_pro_path, $old_user_ele_install_notice ) {
+            return (
+                'no' === $old_user_ele_install_notice
+                && $is_tec_settings
+                && ! $is_timeline_widget_pro_path
+                && ! defined( 'TWAE_PRO_VERSION' )
+            );
+        }
+
+        private function add_review_notice() {
+            ctl_free_create_admin_notice(
+                array(
+                    'id'              => 'ctl_review_box',
+                    'slug'            => 'ctl',
+                    'review'          => true,
+                    'review_url'      => esc_url(
+                        'https://wordpress.org/support/plugin/cool-timeline/reviews/#new-post'
+                    ),
+                    'plugin_name'     => 'Cool Timeline',
+                    'review_interval' => 3,
+                )
+            );
         }
 
         public function ctl_install_plugin() {
 
-            if ( ! current_user_can( 'install_plugins' ) ) {
-                $status['errorMessage'] = __( 'Sorry, you are not allowed to install plugins on this site.','cool-timeline' );
-                wp_send_json_error( $status );
-            }
-
             check_ajax_referer( 'twae_install_nonce' );
 
+            if ( ! current_user_can( 'install_plugins' ) ) {
+                return wp_send_json_error(
+                    array(
+                        'errorMessage' => __( 'Sorry, you are not allowed to install plugins on this site.', 'cool-timeline' ),
+                    )
+                );
+               
+                
+            }
+
             if ( empty( $_POST['slug'] ) ) {
-                wp_send_json_error(
+                return wp_send_json_error(
                     array(
                         'slug'         => '',
                         'errorCode'    => 'no_plugin_specified',
                         'errorMessage' => __( 'No plugin specified.','cool-timeline' ),
                     )
                 );
+                
             }
 
             $plugin_slug = sanitize_key( wp_unslash( $_POST['slug'] ) );
@@ -221,12 +232,13 @@ if ( ! class_exists( 'Ctl_Marketing_Controllers' ) ) {
 				'timeline-module-pro-for-divi/timeline-module-pro-for-divi.php',
 			);
 			if ( ! in_array( $plugin_slug, $allowed_slugs, true ) ) {
-				wp_send_json_error( array(
+				return wp_send_json_error( array(
 					'slug'         => $plugin_slug,
 					'errorCode'    => 'plugin_not_allowed',
 					// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 					'errorMessage' => __( 'This plugin cannot be installed from here.', 'ctl' ),
 				));
+                
 			}
 
             $status = array(
@@ -234,111 +246,16 @@ if ( ! class_exists( 'Ctl_Marketing_Controllers' ) ) {
                 'slug'    => $plugin_slug,
             );
 
-            require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-            require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-            require_once ABSPATH . 'wp-admin/includes/plugin.php';  
-        
-            $api = plugins_api(
-                'plugin_information',
-                array(
-                    'slug'   => $plugin_slug,
-                    'fields' => array(
-                        'sections' => false,
-                    ),
-                )
-            );
+            require_once __DIR__ . '/../class-ctl-plugin-installer.php';
 
-            if ( is_wp_error( $api ) ) {
-                $status['errorMessage'] = $api->get_error_message();
-                wp_send_json_error( $status );
+            $installer = new CTL_Plugin_Installer();
+            $result    = $installer->install_and_activate( $plugin_slug, $status );
+
+            if ( $result['success'] ) {
+                wp_send_json_success( $result['data'] );
             }
 
-            $status['pluginName'] = $api->name;
-
-            $skin     = new WP_Ajax_Upgrader_Skin();
-            $upgrader = new Plugin_Upgrader( $skin );
-            $result   = $upgrader->install( $api->download_link );
-
-            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                $status['debug'] = $skin->get_upgrade_messages();
-            }
-
-            if ( is_wp_error( $result ) ) {
-
-                $status['errorCode']    = $result->get_error_code();
-                $status['errorMessage'] = $result->get_error_message();
-                wp_send_json_error( $status );
-
-            } elseif ( is_wp_error( $skin->result ) ) {
-
-                if ( $skin->result->get_error_message() === 'Destination folder already exists.' ) {
-
-                    $install_status = install_plugin_install_status( $api );
-                    $pagenow        = isset( $_POST['pagenow'] ) ? sanitize_key( $_POST['pagenow'] ) : '';
-
-                    if ( current_user_can( 'activate_plugin', $install_status['file'] ) ) {
-
-                        $network_wide      = ( is_multisite() && 'import' !== $pagenow );
-                        $activation_result = activate_plugin( $install_status['file'], '', $network_wide );
-
-                        if ( is_wp_error( $activation_result ) ) {
-
-                            $status['errorCode']    = $activation_result->get_error_code();
-                            $status['errorMessage'] = $activation_result->get_error_message();
-                            wp_send_json_error( $status );
-
-                        } else {
-
-                            $status['activated'] = true;
-
-                        }
-                        wp_send_json_success( $status );
-                    }
-                } else {
-
-                    $status['errorCode']    = $skin->result->get_error_code();
-                    $status['errorMessage'] = $skin->result->get_error_message();
-                    wp_send_json_error( $status );
-                }
-
-            } elseif ( $skin->get_errors()->has_errors() ) {
-
-                $status['errorMessage'] = $skin->get_error_messages();
-                wp_send_json_error( $status );
-
-            } elseif ( is_null( $result ) ) {
-
-                global $wp_filesystem;
-
-                $status['errorCode']    = 'unable_to_connect_to_filesystem';
-                $status['errorMessage'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.','cool-timeline' );
-
-                if ( $wp_filesystem instanceof WP_Filesystem_Base && is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->has_errors() ) {
-                    $status['errorMessage'] = esc_html( $wp_filesystem->errors->get_error_message() );
-                }
-
-                wp_send_json_error( $status );
-            }
-
-            $install_status = install_plugin_install_status( $api );
-            $pagenow        = isset( $_POST['pagenow'] ) ? sanitize_key( $_POST['pagenow'] ) : '';
-
-            // 🔄 Auto-activate the plugin right after successful install
-            if ( current_user_can( 'activate_plugin', $install_status['file'] ) && is_plugin_inactive( $install_status['file'] ) ) {
-
-                $network_wide      = ( is_multisite() && 'import' !== $pagenow );
-                $activation_result = activate_plugin( $install_status['file'], '', $network_wide );
-
-                if ( is_wp_error( $activation_result ) ) {
-                    $status['errorCode']    = $activation_result->get_error_code();
-                    $status['errorMessage'] = $activation_result->get_error_message();
-                    wp_send_json_error( $status );
-                } else {
-                    $status['activated'] = true;
-                }
-            }
-
-            wp_send_json_success( $status );
+            return wp_send_json_error( $result['data'] );
         
         }
     }

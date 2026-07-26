@@ -101,7 +101,7 @@ trait Analytify_Email_Settings {
 			$class   = 'wp-analytify-danger';
 			$message = esc_html( 'Analytify email reports and test emails disabled.' );
 		} else {
-			$class   = 'wp-analytify-success';
+			$class   = 'wp-analytify-success wp-analytify-email-report-sent';
 			$message = esc_html__( 'Analytify report sent.', 'wp-analytify' );
 		}
 

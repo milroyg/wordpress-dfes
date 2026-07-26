@@ -26,10 +26,12 @@ echo '<h1> <img id="analytify-logo-text" src="' . esc_url( plugins_url( 'assets/
 
 	echo '<div id="analytify-splash-main" class="analytify-splash-box">';
 	echo '<div class="step-wrapper">';
-if ( 'no' === get_site_option( '_analytify_optin' ) || ! get_site_option( '_analytify_optin' ) ) {
+	$analytify_optin_site_flag = get_site_option( '_analytify_optin' );
+	// Show consent when user has not completed opt-in, including after "Skip" (stored as skip).
+if ( ! $analytify_optin_site_flag || 'no' === $analytify_optin_site_flag || 'skip' === $analytify_optin_site_flag ) {
 	echo "<div class='first-step step'>";
 	echo '<p id="analytify-splash-main-text">' . sprintf(
-			// translators: Opt-in notice.
+		// translators: Opt-in notice.
 		esc_html__( 'Hey %2$s,  %4$s If you opt-in some data about your installation of Analytify will be sent to analytify.io (This doesn\'t include stats)%4$s and You will receive new feature updates, security notifications etc %7$sNo Spam, I promise.%8$s %4$s%4$s Help us %5$sImprove Google Analytics by Analytify%6$s %4$s %4$s ', 'wp-analytify' ),
 		'<br>',
 		'<strong>' . esc_html( $name ) . '</strong>',
@@ -49,17 +51,17 @@ if ( 'no' === get_site_option( '_analytify_optin' ) || ! get_site_option( '_anal
 	echo '<div id="analytify-splash-permissions" class="analytify-splash-box">';
 	echo '<a id="analytify-splash-permissions-toggle" href="#" >' . esc_html__( 'What permissions are being granted?', 'wp-analytify' ) . '</a>';
 	echo '<div id="analytify-splash-permissions-dropdown" style="display: none;">';
-		echo '<h3>' . esc_html__( 'Your Website Overview', 'wp-analytify' ) . '</h3>';
-		echo '<p>' . esc_html__( 'Your Site URL, WordPress & PHP version, plugins & themes. This data lets us make sure this plugin always stays compatible with the most popular plugins and themes.', 'wp-analytify' ) . '</p>';
+	echo '<h3>' . esc_html__( 'Your Website Overview', 'wp-analytify' ) . '</h3>';
+	echo '<p>' . esc_html__( 'Your Site URL, WordPress & PHP version, plugins & themes. This data lets us make sure this plugin always stays compatible with the most popular plugins and themes.', 'wp-analytify' ) . '</p>';
 
-		echo '<h3>' . esc_html__( 'Your Profile Overview', 'wp-analytify' ) . '</h3>';
-		echo '<p>' . esc_html__( 'Your name and email address.', 'wp-analytify' ) . '</p>';
+	echo '<h3>' . esc_html__( 'Your Profile Overview', 'wp-analytify' ) . '</h3>';
+	echo '<p>' . esc_html__( 'Your name and email address.', 'wp-analytify' ) . '</p>';
 
-		echo '<h3>' . esc_html__( 'Admin Notices', 'wp-analytify' ) . '</h3>';
-		echo '<p>' . esc_html__( 'Updates, Announcement, Marketing. No Spam, I promise.', 'wp-analytify' ) . '</p>';
+	echo '<h3>' . esc_html__( 'Admin Notices', 'wp-analytify' ) . '</h3>';
+	echo '<p>' . esc_html__( 'Updates, Announcement, Marketing. No Spam, I promise.', 'wp-analytify' ) . '</p>';
 
-		echo '<h3>' . esc_html__( 'Plugin Actions', 'wp-analytify' ) . '</h3>';
-		echo '<p>' . esc_html__( "Active, Deactive, Uninstallation and How you use this plugin's features and settings. This is limited to usage data. It does not include any of your sensitive Google Analytics data, such as traffic. This data helps us learn which features are most popular, so we can improve the plugin further.", 'wp-analytify' ) . '</p>';
+	echo '<h3>' . esc_html__( 'Plugin Actions', 'wp-analytify' ) . '</h3>';
+	echo '<p>' . esc_html__( "Active, Deactive, Uninstallation and How you use this plugin's features and settings. This is limited to usage data. It does not include any of your sensitive Google Analytics data, such as traffic. This data helps us learn which features are most popular, so we can improve the plugin further.", 'wp-analytify' ) . '</p>';
 	echo '</div>';
 	echo '</div>';
 	echo '</div>';

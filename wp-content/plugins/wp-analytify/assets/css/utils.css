@@ -1,5 +1,5 @@
 .analytify_page_analytify-settings .wrap .notice{
-	margin: 15px 0 15px;
+	margin: 10px 0 10px;
 }
 /* Analytify Notice */
 .wrap .wp-analytify-notification{
@@ -8,8 +8,9 @@
 
 .wp-analytify-notification{
 	padding: 8px 9px;
-	margin: 10px 10px 10px 10px;
+	margin: 10px;
 	position: relative;
+	box-sizing: border-box;
 }
 .wp-analytify-notice-logo{
 	width: 25px;
@@ -63,13 +64,17 @@
 .wp-analytify-notification.wp-analytify-success{
 	border:1px solid #c3c4c7;
 	border-left: 4px solid #00a32a;
-	background: #eff4f0;
+	background: #fff;
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
 	-webkit-box-align: center;
 		-ms-flex-align: center;
 			align-items: center;
+}
+
+.wp-analytify-notification.wp-analytify-success.wp-analytify-email-report-sent {
+	background: #ffffff;
 }
 /* Close Button Styling */
 .wp-analytify-notice-dismiss {

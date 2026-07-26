@@ -2,12 +2,12 @@
 if (!defined('ABSPATH')) {
     exit;
 }
-$bools = array(
+$http_headers_bools = array(
     0 => __('Off', 'http-headers'), 
     1 => __('On', 'http-headers'),
 );
 
-$categories = array(
+$http_headers_categories = array(
 	'security' => __('Security', 'http-headers'),
     'access-control' => __('Access control', 'http-headers'),
     'authentication' => __('Authentication', 'http-headers'),
@@ -16,7 +16,7 @@ $categories = array(
     'misc' => __('Miscellaneous', 'http-headers'),
 );
 
-$headers = array(
+$http_headers_headers = array(
 	'x-frame-options' => array('X-Frame-Options', 'hh_x_frame_options', 'security'),
 	'x-xss-protection' => array('X-XSS-Protection', 'hh_x_xxs_protection', 'security'),
 	'x-content-type-options' => array('X-Content-Type-Options', 'hh_x_content_type_options', 'security'),
@@ -59,7 +59,7 @@ $headers = array(
 	'x-robots-tag' => array('X-Robots-Tag', 'hh_x_robots_tag', 'misc'),
 );
 
-$headers_list = array(
+$http_headers_list = array(
     'Accept',
     'Accept-Charset',
     'Accept-Encoding',
@@ -111,14 +111,14 @@ $headers_list = array(
     'X-WP-Nonce',
 );
 
-$cors_safe_request_headers = array(
+$http_headers_cors_safe_request_headers = array(
     'Accept',
     'Accept-Language',
     'Content-Language',
     'Content-Type',
 );
 
-$cors_safe_response_headers = array(
+$http_headers_cors_safe_response_headers = array(
     'Cache-Control',
     'Content-Language',
     'Content-Type',

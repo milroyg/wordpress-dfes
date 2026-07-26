@@ -99,28 +99,6 @@ trait Analytify_Utils_GA {
 		$name = WP_ANALYTIFY_FUNCTIONS::ga_reporting_property_info( 'stream_name' );
 		$url  = WP_ANALYTIFY_FUNCTIONS::ga_reporting_property_info( 'url' );
 
-		// If no reporting property info, try to get it from selected data stream.
-		if ( ! $name || ! $url ) {
-			$advanced_settings = get_option( 'wp-analytify-advanced', array() );
-
-			if ( isset( $advanced_settings['ga4_web_data_stream'] ) && ! empty( $advanced_settings['ga4_web_data_stream'] ) ) {
-				// Try to update reporting property info.
-				if ( class_exists( 'Analytify_Profile_Management' ) ) {
-					$profile_mgmt = new Analytify_Profile_Management( null );
-
-					// Use reflection to call the private method.
-					$reflection = new ReflectionClass( $profile_mgmt );
-					$method     = $reflection->getMethod( 'update_reporting_property_info' );
-					$method->setAccessible( true );
-					$method->invoke( $profile_mgmt, $advanced_settings['ga4_web_data_stream'] );
-
-					// Try again after update.
-					$name = WP_ANALYTIFY_FUNCTIONS::ga_reporting_property_info( 'stream_name' );
-					$url  = WP_ANALYTIFY_FUNCTIONS::ga_reporting_property_info( 'url' );
-				}
-			}
-		}
-
 		if ( $name && $url ) {
 			?>
 			<span class="analytify_stats_of">
@@ -233,12 +211,82 @@ trait Analytify_Utils_GA {
 	}
 
 	/**
+	 * Dashboard GA4 custom dimensions created on property connect.
+	 *
+	 * @since 9.1.0
+	 * @version 9.1.0
+	 *
+	 * @return array<int, array{parameter_name: string, display_name: string, scope: string}>
+	 */
+	public static function required_dashboard_dimensions(): array {
+		return array(
+			array(
+				'parameter_name' => 'page_title',
+				'display_name'   => 'Page Title',
+				'scope'          => 'EVENT',
+			),
+			array(
+				'parameter_name' => 'page_path',
+				'display_name'   => 'Page Path',
+				'scope'          => 'EVENT',
+			),
+			array(
+				'parameter_name' => 'user_type',
+				'display_name'   => 'User Type',
+				'scope'          => 'USER',
+			),
+			array(
+				'parameter_name' => 'device_category',
+				'display_name'   => 'Device Category',
+				'scope'          => 'EVENT',
+			),
+			array(
+				'parameter_name' => 'country',
+				'display_name'   => 'Country',
+				'scope'          => 'EVENT',
+			),
+			array(
+				'parameter_name' => 'source',
+				'display_name'   => 'Source',
+				'scope'          => 'EVENT',
+			),
+			array(
+				'parameter_name' => 'medium',
+				'display_name'   => 'Medium',
+				'scope'          => 'EVENT',
+			),
+			array(
+				'parameter_name' => 'campaign',
+				'display_name'   => 'Campaign',
+				'scope'          => 'EVENT',
+			),
+			array(
+				'parameter_name' => 'landing_page',
+				'display_name'   => 'Landing Page',
+				'scope'          => 'EVENT',
+			),
+			array(
+				'parameter_name' => 'exit_page',
+				'display_name'   => 'Exit Page',
+				'scope'          => 'EVENT',
+			),
+		);
+	}
+
+	/**
 	 * Get required dimensions for GA4.
 	 *
-	 * @version 7.0.5
-	 * @return array<string, mixed> List of GA4 custom dimensions.
+	 * Register these in GA4 Admin custom definitions (Event scope) so reports work.
+	 * Enhanced Tel Link Analytics uses wpa_category, wpa_link_action, wpa_link_label,
+	 * wpa_device_category, wpa_click_hour, wpa_click_day, wpa_traffic_source, plus the
+	 * standard dimension country (not listed here).
+	 *
+	 * @since 1.0.0
+	 * @version 9.1.0
+	 *
+	 * @return array
 	 */
-	public static function required_dimensions() {
+	public static function required_dimensions(): array {
 		$dimensions = array(
 			array(
 				'parameter_name' => 'wpa_author',
@@ -296,11 +344,6 @@ trait Analytify_Utils_GA {
 				'scope'          => 1,
 			),
 			array(
-				'parameter_name' => 'wpa_category',
-				'display_name'   => 'WPA Category',
-				'scope'          => 1,
-			),
-			array(
 				'parameter_name' => 'wpa_affiliate_label',
 				'display_name'   => 'WPA Affiliate Label',
 				'scope'          => 1,
@@ -346,11 +389,6 @@ trait Analytify_Utils_GA {
 				'scope'          => 1,
 			),
 			array(
-				'parameter_name' => 'wpa_seo_score',
-				'display_name'   => 'WPA Seo Score',
-				'scope'          => 1,
-			),
-			array(
 				'parameter_name' => 'wpa_percentage',
 				'display_name'   => 'WPA Percentage',
 				'scope'          => 1,
@@ -383,6 +421,41 @@ trait Analytify_Utils_GA {
 			array(
 				'parameter_name' => 'wpa_archive_type',
 				'display_name'   => 'WPA Archive Type',
+				'scope'          => 1,
+			),
+			array(
+				'parameter_name' => 'wpa_llms_post_type',
+				'display_name'   => 'WPA LLMS Post Type',
+				'scope'          => 1,
+			),
+			array(
+				'parameter_name' => 'wpa_llms_instructor',
+				'display_name'   => 'WPA LLMS Instructor',
+				'scope'          => 1,
+			),
+			array(
+				'parameter_name' => 'wpa_device_category',
+				'display_name'   => 'WPA Device Category',
+				'scope'          => 1,
+			),
+			array(
+				'parameter_name' => 'wpa_click_hour',
+				'display_name'   => 'WPA Click Hour',
+				'scope'          => 1,
+			),
+			array(
+				'parameter_name' => 'wpa_click_day',
+				'display_name'   => 'WPA Click Day',
+				'scope'          => 1,
+			),
+			array(
+				'parameter_name' => 'wpa_traffic_source',
+				'display_name'   => 'WPA Traffic Source',
+				'scope'          => 1,
+			),
+			array(
+				'parameter_name' => 'wpa_country_code',
+				'display_name'   => 'WPA Country Code',
 				'scope'          => 1,
 			),
 

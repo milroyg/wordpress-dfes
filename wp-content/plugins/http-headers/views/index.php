@@ -6,41 +6,41 @@ if (!defined('ABSPATH')) {
 <div class="wrap">
 	<h1>HTTP Headers</h1>
 	<?php 
-	$check = check_web_server_requirements();
-	if ($check !== true) {
+	$http_headers_check = http_headers_check_web_server_requirements();
+	if ($http_headers_check !== true) {
 	    ?>
 	    <div class="notice notice-error">
-	    	<h2><?php _e('Error!', 'http-headers'); ?></h2>
+	    	<h2><?php esc_html_e('Error!', 'http-headers'); ?></h2>
 	    	<?php 
-	    	if ($check == -1) {
-	    	    ?><p><?php _e('The following file was not found. Please make sure the file exists and has write permissions:', 'http-headers'); ?> <code><?php echo get_web_server_filename(); ?></code></p><?php
-	    	} elseif ($check == -2) {
-	    	    ?><p><?php _e('Please make sure the following file has write permissions:', 'http-headers'); ?> <code><?php echo get_web_server_filename(); ?></code></p><?php
+	    	if ($http_headers_check == -1) {
+	    	    ?><p><?php esc_html_e('The following file was not found. Please make sure the file exists and has write permissions:', 'http-headers'); ?> <code><?php echo esc_html(http_headers_get_web_server_filename()); ?></code></p><?php
+	    	} elseif ($http_headers_check == -2) {
+	    	    ?><p><?php esc_html_e('Please make sure the following file has write permissions:', 'http-headers'); ?> <code><?php echo esc_html(http_headers_get_web_server_filename()); ?></code></p><?php
 	    	}
 	    	?>
 	    </div>
 	    <?php
 	}
-	$check = check_php_requirements();
-	if ($check !== true) {
+	$http_headers_check = http_headers_check_php_requirements();
+	if ($http_headers_check !== true) {
 	    ?>
 	    <div class="notice notice-warning">
-	    	<h2><?php _e('Warning!', 'http-headers'); ?></h2>
+	    	<h2><?php esc_html_e('Warning!', 'http-headers'); ?></h2>
 	    	<?php 
-	    	if ($check == -1) {
-	    	    ?><p><?php _e('The following file was not found. Please make sure the file exists and has write permissions:', 'http-headers'); ?> <code><?php echo get_user_ini_filename(); ?></code></p><?php
-	    	} elseif ($check == -2) {
-	    	    ?><p><?php _e('Please make sure the following file has write permissions:', 'http-headers'); ?> <code><?php echo get_user_ini_filename(); ?></code></p><?php
+	    	if ($http_headers_check == -1) {
+	    	    ?><p><?php esc_html_e('The following file was not found. Please make sure the file exists and has write permissions:', 'http-headers'); ?> <code><?php echo esc_html(http_headers_get_user_ini_filename()); ?></code></p><?php
+	    	} elseif ($http_headers_check == -2) {
+	    	    ?><p><?php esc_html_e('Please make sure the following file has write permissions:', 'http-headers'); ?> <code><?php echo esc_html(http_headers_get_user_ini_filename()); ?></code></p><?php
 	    	}
 	    	?>
 	    </div>
 	    <?php
 	}
 	?>
-	<p><?php _e('Quick links', 'http-headers'); ?>: 
-		<a href="<?php echo get_admin_url(); ?>options-general.php?page=http-headers&amp;tab=advanced"><?php _e('Advanced settings', 'http-headers'); ?></a>,
-		<a href="<?php echo get_admin_url(); ?>options-general.php?page=http-headers&amp;tab=manual"><?php _e('Manual setup', 'http-headers'); ?></a>,
-		<a href="<?php echo get_admin_url(); ?>options-general.php?page=http-headers&amp;tab=inspect"><?php _e('Inspect headers', 'http-headers'); ?></a>
+	<p><?php esc_html_e('Quick links', 'http-headers'); ?>:
+		<a href="<?php echo esc_url(get_admin_url()); ?>options-general.php?page=http-headers&amp;tab=advanced"><?php esc_html_e('Advanced settings', 'http-headers'); ?></a>,
+		<a href="<?php echo esc_url(get_admin_url()); ?>options-general.php?page=http-headers&amp;tab=manual"><?php esc_html_e('Manual setup', 'http-headers'); ?></a>,
+		<a href="<?php echo esc_url(get_admin_url()); ?>options-general.php?page=http-headers&amp;tab=inspect"><?php esc_html_e('Inspect headers', 'http-headers'); ?></a>
 	</p>
 	<?php 
 	if (isset($_GET['header']) && !empty($_GET['header']))

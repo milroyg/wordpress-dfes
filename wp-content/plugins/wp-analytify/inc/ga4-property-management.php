@@ -38,7 +38,7 @@ class Analytify_GA4_Property_Management {
 	/**
 	 * Setup property for tracking and reporting.
 	 *
-	 * @version 7.0.5
+	 * @version 9.1.0
 	 * @param integer $property_id Property ID.
 	 * @param string  $mode Mode.
 	 *
@@ -161,8 +161,9 @@ class Analytify_GA4_Property_Management {
 	/**
 	 * List dimensions that need creation
 	 *
-	 * @version 7.0.5
-	 * @return array<string, mixed>
+	 * @since 7.0.5
+	 * @version 9.1.0
+	 * @return array
 	 */
 	private function analytify_list_dimensions_needs_creation() {
 		if ( method_exists( $this->analytify, 'analytify_list_dimensions_needs_creation' ) ) {
@@ -174,7 +175,8 @@ class Analytify_GA4_Property_Management {
 	/**
 	 * Create dimension
 	 *
-	 * @version 7.0.5
+	 * @since 7.0.5
+	 * @version 9.1.0
 	 * @param string $parameter_name Parameter name.
 	 * @param string $display_name Display name.
 	 * @param string $scope Scope.

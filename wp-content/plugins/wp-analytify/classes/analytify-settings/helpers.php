@@ -58,7 +58,7 @@ trait Analytify_Settings_Helpers {
 	 */
 	public function get_field_description( $args ) {
 		if ( isset( $args['desc'] ) && ! empty( $args['desc'] ) ) {
-			$desc = sprintf( '<p class="description">%s</p>', $args['desc'] );
+			$desc = sprintf( '<p class="description">%s</p>', wp_kses_post( $args['desc'] ) );
 		} else {
 			$desc = '';
 		}
@@ -72,8 +72,12 @@ trait Analytify_Settings_Helpers {
 	 * @return mixed
 	 */
 	public function sanitize_options( $options ) {
-		if ( ! $options ) {
-			return; }
+		if ( ! is_array( $options ) ) {
+			return $options;
+		}
+
+		$this->analytify_settings_merge_oauth_email_for_sanitize( $options );
+
 		foreach ( $options as $option_slug => $option_value ) {
 			$sanitize_callback = $this->get_sanitize_callback( $option_slug );
 			if ( $sanitize_callback ) {
@@ -82,6 +86,48 @@ trait Analytify_Settings_Helpers {
 			}
 		}
 		return $options;
+	}
+
+	/**
+	 * Preserve plugin-managed Google OAuth email when saving the authentication option.
+	 *
+	 * The settings form only registers `manual_ua_code`; the email key is not user-editable.
+	 * Any posted value for that key is removed, then a valid value is copied from the DB row.
+	 * Corrupt non-array DB values are ignored (no indexing notices).
+	 *
+	 * @since 9.1.0
+	 * @param array<string, mixed> $options Options being sanitized (modified by reference).
+	 * @return void
+	 */
+	private function analytify_settings_merge_oauth_email_for_sanitize( array &$options ) {
+		if ( ! array_key_exists( 'manual_ua_code', $options ) ) {
+			return;
+		}
+		if ( ! defined( 'ANALYTIFY_AUTHENTICATION_OPTION_NAME' ) || ! defined( 'ANALYTIFY_GOOGLE_OAUTH_EMAIL_KEY' ) ) {
+			return;
+		}
+
+		$email_key = ANALYTIFY_GOOGLE_OAUTH_EMAIL_KEY;
+		unset( $options[ $email_key ] );
+
+		$prev_auth = get_option( ANALYTIFY_AUTHENTICATION_OPTION_NAME, array() );
+		if ( ! is_array( $prev_auth ) || ! isset( $prev_auth[ $email_key ] ) || ! is_string( $prev_auth[ $email_key ] ) ) {
+			return;
+		}
+
+		$kept = sanitize_email( $prev_auth[ $email_key ] );
+		if ( is_email( $kept ) ) {
+			$options[ $email_key ] = $kept;
+			return;
+		}
+
+		$logger = function_exists( 'analytify_get_logger' ) ? analytify_get_logger() : null;
+		if ( $logger && method_exists( $logger, 'debug' ) ) {
+			$logger->debug(
+				'Analytify: omitted invalid stored Google OAuth email while saving authentication options.',
+				array( 'source' => 'analytify_settings_merge_oauth_email_for_sanitize' )
+			);
+		}
 	}
 
 	/**

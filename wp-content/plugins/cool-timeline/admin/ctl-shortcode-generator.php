@@ -8,24 +8,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'CSF_free_shortcode_generator' ) ) {
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 	class CSF_free_shortcode_generator {
 
-
-		/**
-		 * The unique instance of the plugin.
-		 */
-		private static $instance;
-
-		/**
-		 * Gets an instance of our plugin.
-		 */
-		public static function get_instance() {
-			if ( null === self::$instance ) {
-				self::$instance = new self();
-			}
-
-			return self::$instance;
-		}
 
 		/**
 		 * The Constructor
@@ -33,11 +18,10 @@ if ( ! class_exists( 'CSF_free_shortcode_generator' ) ) {
 		public function __construct() {
 			 // register actions
 
-			$this->CSF_free_shortcode_generator();
+			$this->init_shortcode_generator();
 			add_action( 'admin_print_styles', array( $this, 'ctl_custom_shortcode_style' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'ctl_preview_script' ) );
 		}
-
 
 		public function ctl_custom_shortcode_style() {
 			echo '<style>
@@ -60,10 +44,6 @@ if ( ! class_exists( 'CSF_free_shortcode_generator' ) ) {
         margin: 0px 1px -3px 0;
         width: 20px;
         }
-        #wp-content-wrap a[data-modal-id="ctl_timeline_shortcode"] {
-       // background: #000;
-       // border-color: #000;
-        }
         .csf-shortcode-single .csf-modal-content {
             height: 655px !important;
 
@@ -71,12 +51,9 @@ if ( ! class_exists( 'CSF_free_shortcode_generator' ) ) {
         
         #csf-modal-ctl_timeline_shortcode .csf-modal-inner {
             height: 500px !important;
-            // overflow: auto;          
         }
         #csf-modal-ctl_timeline_shortcode .csf-modal-content {            
-            // overflow: hidden !important; 
             height:400px !important;        
-            // min-height: -webkit-fill-available;
         }   
                      
         #ctl_preview{
@@ -100,25 +77,27 @@ if ( ! class_exists( 'CSF_free_shortcode_generator' ) ) {
 			);
 		}
 
-		public function CSF_free_shortcode_generator() {
-					// Sanitize input data
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$id        = isset( $_GET['post'] ) ? intval( $_GET['post'] ) : '';
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$post_type = isset( $_GET['post_type'] ) ? sanitize_text_field( wp_unslash( $_GET['post_type'] ) ) : get_post_type( $id );
+		public function init_shortcode_generator() {
+
+		
+			// Sanitize input data (read-only admin screen detection).
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$id = isset( $_GET['post'] ) ? intval( wp_unslash( $_GET['post'] ) ) : 0;
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$post_type = isset( $_GET['post_type'] ) ? sanitize_key( wp_unslash( $_GET['post_type'] ) ) : get_post_type( $id );
 
 			// change block name if older block exists in current page condition start
 			$block_name = 'ctl-gutenberg-block';
-			if ( $id != '' ) {
+			if ( $id > 0 ) {
 				$ctl_post_id  = (int) $id;
 				$all_blocks   = array();
 				$post_content = get_post( $ctl_post_id );
-				if ( $post_content != null ) {
+				if ( null !== $post_content ) {
 					$parse_data = parse_blocks( $post_content->post_content );
 					foreach ( $parse_data as $parse ) {
-						if ( $parse['blockName'] != null ) {
+						if ( isset( $parse['blockName'] ) && null !== $parse['blockName'] ) {
 							array_push( $all_blocks, $parse['blockName'] );
-						};
+						}
 					};
 				};
 
@@ -315,7 +294,7 @@ if ( ! class_exists( 'CSF_free_shortcode_generator' ) ) {
 											array(
 												'id'      => 'preview',
 												'type'    => 'content',
-												'content' => '<iframe id="ctl_preview" name="my_iframe" src="' . CTL_PLUGIN_URL . 'includes/shortcodes/class-ctl-shortcode-preview.php' . '" title="preview iframe" scrolling="auto" frameborder="0" data-preloader="' . CTL_PLUGIN_URL . 'assets/images/clt-preloader.gif"></iframe>',
+												'content' => '<iframe id="ctl_preview" name="my_iframe" src="' . esc_url( CTL_PLUGIN_URL . 'includes/shortcodes/class-ctl-shortcode-preview.php' ) . '" title="preview iframe" scrolling="auto" frameborder="0" data-preloader="' . esc_url( CTL_PLUGIN_URL . 'assets/images/clt-preloader.gif' ) . '"></iframe>',
 											),
 										),
 									),

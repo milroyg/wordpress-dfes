@@ -28,13 +28,6 @@ if ( ! class_exists( 'CTL_Assets_Loader' ) ) {
 		public $ctl_attr = array();
 
 		/**
-		 * Timeline setting option array
-		 *
-		 * @var ctl_options
-		 */
-		public $ctl_options = array();
-
-		/**
 		 * CTL_Assets_Loader Constructor Function
 		 */
 		public function __construct() {
@@ -50,9 +43,6 @@ if ( ! class_exists( 'CTL_Assets_Loader' ) ) {
 		 * @param object $attr timeline attributes.
 		 */
 		public function ctl_global_assets( $attr ) {
-			// Load common assets required for all cases.
-			$this->ctl_common_assets();
-
 			// Fontawesome not equeued if icons dot or none.
 			$icons = isset( $attr['icons'] ) && ( 'yes' === $attr['icons'] || 'YES' === $attr['icons'] ) ? true : false;
 
@@ -136,7 +126,7 @@ if ( ! class_exists( 'CTL_Assets_Loader' ) ) {
 					if ( isset( $post_content_typo['type'] )
 					&& 'google' === $post_content_typo['type'] ) {
 						$fonts = $post_content_typo['font-family'];
-						if ( $fonts && 'inhert' !== $fonts ) {
+						if ( $fonts && 'inherit' !== $fonts ) {
 							if ( 'Raleway' === $fonts ) {
 								$fonts = 'Raleway:100';
 							}
@@ -180,7 +170,7 @@ if ( ! class_exists( 'CTL_Assets_Loader' ) ) {
 			wp_register_style( 'ctl_horizontal_style', CTL_PLUGIN_URL . "includes/shortcodes/assets/css/ctl-horizontal-timeline$minified_file.css", null, CTL_V, 'all' );
 			wp_register_script( 'ctl_common_script', CTL_PLUGIN_URL . "includes/shortcodes/assets/js/ctl-scripts$minified_file.js", array( 'jquery' ), CTL_V, true );
 			wp_register_script( 'ctl_compact_script', CTL_PLUGIN_URL . "includes/shortcodes/assets/js/ctl-compact$minified_file.js", array( 'jquery', 'jquery-masonry' ), CTL_V, true );
-			wp_register_script( 'ctl_hr_script', CTL_PLUGIN_URL . "includes/shortcodes/assets/js/ctl-horizontal$minified_file.js", array( 'jquery' ), CTL_V, true );
+			wp_register_script( 'ctl_hr_script', CTL_PLUGIN_URL . "includes/shortcodes/assets/js/ctl-horizontal$minified_file.js", array( 'jquery', 'ctl_swiper_script' ), CTL_V, true );
 
 			// Compact layout uses WordPress core Masonry (jquery-masonry).
 			wp_register_style( 'ctl_compact_style', CTL_PLUGIN_URL . "includes/shortcodes/assets/css/ctl-compact-style$minified_file.css", null, CTL_V, 'all' );

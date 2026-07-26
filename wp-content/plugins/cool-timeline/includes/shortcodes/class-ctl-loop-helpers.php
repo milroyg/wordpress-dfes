@@ -76,12 +76,16 @@ if ( ! class_exists( 'CTL_Loop_Helpers' ) ) {
 		public function ctl_render( $index, $post ) {
 
 			$output     = '';
-			$post_id    = get_the_ID();
+			$post_id    = absint( is_object( $post ) && isset( $post->ID ) ? $post->ID : get_the_ID() );
+			if ( $post_id <= 0 ) {
+				return '';
+			}
 			$classes    = array( 'ctl-story' );
 			$attributes = $this->attributes;
 			$layout     = $attributes['layout'];
 			$animation  = 'horizontal' === $layout ? 'none' : $attributes['config']['animation'];
-			if ( 'NO' === $attributes['icons'] || 'no' === $attributes['icons'] ) {
+			$icons_disabled = isset( $attributes['icons'] ) && 'no' === strtolower( $attributes['icons'] );
+			if ( $icons_disabled ) {
 				$classes[] = 'ctl-story-dot-icon';
 			} else {
 				$classes[] = 'ctl-story-icon';
@@ -116,11 +120,11 @@ if ( ! class_exists( 'CTL_Loop_Helpers' ) ) {
 					$output .= $this->ctl_get_date( $post_id, $attributes['date-format'] );
 			}
 
-			if ( 'NO' === $attributes['icons'] || 'no' === $attributes['icons'] ) {
-				$output .= '<!-- ' . $this->tm_type . ' IconDot --><div class="ctl-icondot"></div> ';
+			if ( $icons_disabled ) {
+				$output .= '<!-- ' . esc_html( $this->tm_type ) . ' IconDot --><div class="ctl-icondot"></div>';
 			} else {
-				$output .= '<!-- ' . $this->tm_type . ' Icon -->' . $this->ctl_get_icon( $post_id );
-			};
+				$output .= '<!-- ' . esc_html( $this->tm_type ) . ' Icon -->' . $this->ctl_get_icon( $post_id );
+			}
 
 			if ( 'compact' === $layout || 'horizontal' === $layout || 'clean' !== $attributes['skin'] ) {
 				$output .= '<!-- ' . $this->tm_type . ' Arrow --><div class="ctl-arrow"></div>';
@@ -210,10 +214,17 @@ if ( ! class_exists( 'CTL_Loop_Helpers' ) ) {
 		 */
 		public function ctl_get_date( $post_id, $date_formats ) {
 			$ctl_story_type = get_post_meta( $post_id, 'story_type', true );
-			$ctl_story_date = $ctl_story_type['ctl_story_date'];
+
+			$ctl_story_date = '';
+
+			if ( is_array( $ctl_story_type ) && isset( $ctl_story_type['ctl_story_date'] ) ) {
+				$ctl_story_date = $ctl_story_type['ctl_story_date'];
+			}
+			
 			$layout         = $this->attributes['layout'];
 			$re_more        = ( ( isset( $this->settings['display_readmore'] ) && 'yes' === $this->settings['display_readmore'] ) && 'horizontal' === $layout );
 			$output         = '';
+			$posted_date    = '';
 			if ( $ctl_story_date ) {
 				if ( strtotime( $ctl_story_date ) !== false ) {
 					$posted_date = date_i18n( $date_formats, strtotime( $ctl_story_date ) );
@@ -233,14 +244,15 @@ if ( ! class_exists( 'CTL_Loop_Helpers' ) ) {
 					$output .= '</div>';
 					$output .= '</div>';
 				}
-				return $output;
 			}
+
+			return $output;
 		}
 
 		/**
 		 * Get stories content
 		 */
-		public function ctl_get_content() {			
+		public function ctl_get_content() {
 			$attributes = $this->attributes;
 			$output     = '';
 			$content    = '';
@@ -248,28 +260,45 @@ if ( ! class_exists( 'CTL_Loop_Helpers' ) ) {
 				global $post;
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 				$content .= apply_filters( 'the_content', $post->post_content );
-				
+
 			} else {
-				// $content .= '<p>' . apply_filters( 'ctl_story_excerpt', get_the_excerpt() ) . '</p>';
 				$content .= CTL_Helpers::ctl_get_excerpt( $this->settings );
-				
+
 			}
-			
+		
 			if ( ! empty( $content ) ) {
+		
+				// Remove non-http/https iframe src URLs.
+				$content = preg_replace_callback(
+					'#<iframe[^>]+src=["\']([^"\']+)["\']#i',
+					function( $matches ) {
+		
+						$src = esc_url_raw( $matches[1], array( 'http', 'https' ) );
+		
+						if ( empty( $src ) ) {
+							return '';
+						}
+		
+						return str_replace( $matches[1], esc_url( $src ), $matches[0] );
+					},
+					$content
+				);
+		
 				$allowed_tags = wp_kses_allowed_html( 'post' );
-				        $allowed_tags['iframe'] = array(
-                             'src'             => true,
-                             'width'           => true,
-                             'height'          => true,
-                             'frameborder'     => true,
-                             'allow'           => true,
-                             'allowfullscreen' => true,
-                             'loading'         => true,
-                             'referrerpolicy'  => true,
-						);
-			    $output .= '<!-- ' . $this->tm_type . ' Description -->';
-                $output .= '<div class="ctl-description">' . wp_kses( $content, $allowed_tags ) . '</div>';
+				$allowed_tags['iframe'] = array(
+					'src'             => true,
+					'width'           => true,
+					'height'          => true,
+					'frameborder'     => true,
+					'allow'           => true,
+					'allowfullscreen' => true,
+					'loading'         => true,
+					'referrerpolicy'  => true,
+				);
+				$output .= '<!-- ' . esc_html( $this->tm_type ) . ' Description -->';
+				$output .= '<div class="ctl-description">' . wp_kses( $content, $allowed_tags ) . '</div>';
 			}
+		
 			return $output;
 		}
 
@@ -281,7 +310,11 @@ if ( ! class_exists( 'CTL_Loop_Helpers' ) ) {
 		public function ctl_get_featured_image( $post_id ) {
 			$attributes = $this->attributes;
 			global $post;
-			$post_id = $post->ID;
+			$post_id = ! empty( $post_id ) ? absint( $post_id ) : ( isset( $post->ID ) ? absint( $post->ID ) : 0 );
+
+			if ( ! $post_id ) {
+				return;
+			}
 
 			if ( ! get_the_post_thumbnail_url( $post_id ) ) {
 				return;
@@ -376,7 +409,11 @@ if ( ! class_exists( 'CTL_Loop_Helpers' ) ) {
 
 			// Get story date.
 			$ctl_story_type = get_post_meta( $post_id, 'story_type', true );
-			$ctl_story_date = isset( $ctl_story_type['ctl_story_date'] ) ? $ctl_story_type['ctl_story_date'] : '';
+
+			$ctl_story_date = ( is_array( $ctl_story_type ) && isset( $ctl_story_type['ctl_story_date'] ) )
+			? sanitize_text_field( $ctl_story_type['ctl_story_date'] )
+			: '';
+
 			$pattern        = "/\b\d{4}\b/"; // Regular expression pattern to match a four-digit number.
 			preg_match( $pattern, $ctl_story_date, $matches );
 
@@ -386,11 +423,11 @@ if ( ! class_exists( 'CTL_Loop_Helpers' ) ) {
 				// Display the year label if it is different from the previous year.
 				if ( $story_year !== $this->active_year ) {
 
-					$story_year_label = sprintf( '<div class="ctl-year-label ctl-year-text"><span>%s</span></div>', $story_year );
+					$story_year_label = sprintf( '<div class="ctl-year-label ctl-year-text"><span>%s</span></div>', esc_html( $story_year ) );
 
 					$this->active_year = $story_year;
 					if ( 'compact' === $attributes['layout'] ) {
-						$output .= '<span class="scrollable-section ctl-year-container" data-section-title="' . $story_year . '"></span>';
+						$output .= '<span class="scrollable-section ctl-year-container" data-section-title="' . esc_attr( $story_year ) . '"></span>';
 					} else {
 						$output .= sprintf(
 							'<!-- ' . $this->tm_type . ' Year Section --><div data-cls="sc-nv-%s %s" class="timeline-year scrollable-section ctl-year ctl-year-container %s-year" data-section-title="%s" id="year-%s">%s</div>',
@@ -407,40 +444,6 @@ if ( ! class_exists( 'CTL_Loop_Helpers' ) ) {
 			}
 
 			return $output;
-		}
-
-		/**
-		 * Returns the timezone string for a site, even if it's set to a UTC offset
-		 * Adapted from http : // www.php.net/manual/en/function.timezone-name-from-abbr.php#89155
-		 *
-		 * @return string valid PHP timezone string
-		 */
-		public function ctl_wp_get_timezone_string() {
-			// if site timezone string exists, return it.
-			if ( $timezone = get_option( 'timezone_string' ) ) {
-				return $timezone;
-			}
-				// get UTC offset, if it isn't set then return UTC.
-			if ( 0 === ( $utc_offset = get_option( 'gmt_offset', 0 ) ) ) {
-				return 'UTC';
-			}
-				// adjust UTC offset from hours to seconds.
-				$utc_offset *= 3600;
-				// attempt to guess the timezone string from the UTC offset.
-			if ( $timezone = timezone_name_from_abbr( '', $utc_offset, 0 ) ) {
-				return $timezone;
-			}
-				// last try, guess timezone string manually.
-				$is_dst = gmdate( 'I' );
-			foreach ( timezone_abbreviations_list() as $abbr ) {
-				foreach ( $abbr as $city ) {
-					if ( $city['dst'] === $is_dst && $city['offset'] === $utc_offset ) {
-						return  $city['timezone_id'];
-					}
-				}
-			}
-				// fallback to UTC.
-				return 'UTC';
 		}
 
 		/**

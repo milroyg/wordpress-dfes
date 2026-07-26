@@ -6,22 +6,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-add_action( 'enqueue_block_assets', 'timeline_block_editor_assets' );
+add_action( 'enqueue_block_assets', 'ctl_timeline_block_editor_assets' );
 
 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
-function timeline_block_editor_assets() {
+function ctl_timeline_block_editor_assets() {
 
 	$id = get_the_ID();
 
 	if ( has_block( 'cp-timeline/content-timeline', $id ) ) {
+		if ( ! is_admin() ) {
+			// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+			wp_enqueue_style(
+				'cp_timeline-cgb-style', // Handle.
+				plugins_url( 'dist/blocks.style.build.css', dirname( __FILE__ ) ),
+				null,
+				null // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+			);
+			wp_enqueue_script( 'ctl_block_common_script' );
+			return;
+		}
+
 		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 		wp_enqueue_style(
 			'cp_timeline-cgb-style', // Handle.
 			plugins_url( 'dist/blocks.style.build.css', dirname( __FILE__ ) ),
-			is_admin() ? array( 'wp-editor' ) : null,
+			array( 'wp-block-editor' ),
 			null // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 		);
-		wp_enqueue_script( 'ctl_block_common_script' );
 	} else {
 		if ( ! is_admin() ) {
 			wp_dequeue_style( 'cp_timeline-cgb-style' );
@@ -29,19 +40,19 @@ function timeline_block_editor_assets() {
 	}
 }
 
-add_action( 'enqueue_block_editor_assets', 'editor_side_css' );
+add_action( 'enqueue_block_assets', 'ctl_editor_side_css' );
 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
-function editor_side_css() {
-		// Common Editor style.
-		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-		wp_enqueue_style(
-			'timeline-block
-		-block-common-editor-css', // Handle.
-			plugin_dir_url( __FILE__ ) . '../assets/common-block-editor.css', // Block editor CSS.
-			array( 'wp-edit-blocks' )// Dependency to include the CSS after it.
-		);
-		wp_enqueue_style( 'ctl_block_swiper_style' );
-		wp_enqueue_script( 'ctl_block_swiper_script' );
+function ctl_editor_side_css() {
+	if ( ! is_admin() ) {
+		return;
+	}
+	// Common Editor style.
+	// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+	wp_enqueue_style(
+		'timeline-block-common-editor-css', // Handle.
+		plugin_dir_url( __FILE__ ) . '../assets/common-block-editor.css', // Block editor CSS.
+		array( 'wp-block-editor' )// Dependency to include the CSS after it.
+	);
 }
 
 add_action( 'wp_head', 'timeline_block_load_post_assets' );
@@ -64,13 +75,21 @@ function timeline_block_load_post_assets() {
 
 	if ( has_blocks( $this_post->ID ) && isset( $this_post->post_content ) ) {
 
-		$blocks      = parse_blocks( $this_post->post_content );
-		$page_blocks = $blocks;
+		$blocks = parse_blocks( $this_post->post_content );
+		
+		foreach ( $blocks as $block ) {
+			if ( isset( $block['blockName'] ) && 'core/block' === $block['blockName'] && ! empty( $block['attrs']['ref'] ) ) {
+				$reusable_post = get_post( (int) $block['attrs']['ref'] );
+				if ( $reusable_post && 'wp_block' === $reusable_post->post_type && ! empty( $reusable_post->post_content ) ) {
+					$blocks = array_merge( $blocks, parse_blocks( $reusable_post->post_content ) );
+				}
+			}
+		}
 
-		if ( ! is_array( $page_blocks ) || empty( $page_blocks ) ) {
+		if ( ! is_array( $blocks ) || empty( $blocks ) ) {
 			return;
 		}
-		foreach ( $page_blocks as $i => $block ) {
+		foreach ( $blocks as $i => $block ) {
 
 			if ( is_array( $block ) ) {
 
@@ -78,61 +97,39 @@ function timeline_block_load_post_assets() {
 					continue;
 				}
 				$default_Fonts = array( '', 'Arial', 'Helvetica', 'Times New Roman', 'Georgia' );
-				if ( isset( $block['attrs']['headFontFamily'] ) ) {
-					if ( ! in_array( $block['attrs']['headFontFamily'], $default_Fonts ) ) {
-						$headFont = array();
-						array_push( $headFont, $block['attrs']['headFontFamily'] );
-						if ( isset( $block['attrs']['headFontWeight'] ) ) {
-							array_push( $headFont, $block['attrs']['headFontWeight'] );
-						}
-						if ( isset( $block['attrs']['headFontSubset'] ) ) {
-							array_push( $headFont, $block['attrs']['headFontSubset'] );
-						}
-
-					$head_font_url = ctl_block_get_font_url( $headFont );
-
-					// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet
-					echo '<link href="'.esc_url($head_font_url).'" rel="stylesheet">';
-					}
-				}
-				if ( isset( $block['attrs']['subHeadFontFamily'] ) ) {
-					if ( ! in_array( $block['attrs']['subHeadFontFamily'], $default_Fonts ) ) {
-						$subheadFont = array();
-						array_push( $subheadFont, $block['attrs']['subHeadFontFamily'] );
-						if ( isset( $block['attrs']['subHeadFontWeight'] ) ) {
-							array_push( $subheadFont, $block['attrs']['subHeadFontWeight'] );
-						}
-						if ( isset( $block['attrs']['subHeadFontSubset'] ) ) {
-							array_push( $subheadFont, $block['attrs']['subHeadFontSubset'] );
-						}
-
-					$subhead_font_url = ctl_block_get_font_url( $subheadFont );
-
-					// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet
-					echo '<link href="'.esc_url($subhead_font_url).'" rel="stylesheet">';
-					}
-				}
-				if ( isset( $block['attrs']['dateFontFamily'] ) ) {
-					if ( ! in_array( $block['attrs']['dateFontFamily'], $default_Fonts ) ) {
-						$dateFont = array();
-						array_push( $dateFont, $block['attrs']['dateFontFamily'] );
-						if ( isset( $block['attrs']['dateFontWeight'] ) ) {
-							array_push( $dateFont, $block['attrs']['dateFontWeight'] );
-						}
-						if ( isset( $block['attrs']['dateFontSubset'] ) ) {
-							array_push( $dateFont, $block['attrs']['dateFontSubset'] );
-						}
-
-					$date_font_url = ctl_block_get_font_url( $dateFont );
-
-					// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet
-					echo '<link href="'.esc_url($date_font_url).'" rel="stylesheet">';
-					}
-				}
+				ctl_block_print_font_stylesheet( $block['attrs'], 'head', $default_Fonts );
+				ctl_block_print_font_stylesheet( $block['attrs'], 'subHead', $default_Fonts );
+				ctl_block_print_font_stylesheet( $block['attrs'], 'date', $default_Fonts );
 			}
 		}
 	}
 
+}
+
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+function ctl_block_print_font_stylesheet( $attrs, $prefix, $default_fonts ) {
+	$family_key = $prefix . 'FontFamily';
+
+	if ( ! isset( $attrs[ $family_key ] ) || in_array( $attrs[ $family_key ], $default_fonts ) ) {
+		return;
+	}
+
+	$font_set = array( $attrs[ $family_key ] );
+
+	$weight_key = $prefix . 'FontWeight';
+	if ( isset( $attrs[ $weight_key ] ) ) {
+		$font_set[] = $attrs[ $weight_key ];
+	}
+
+	$subset_key = $prefix . 'FontSubset';
+	if ( isset( $attrs[ $subset_key ] ) ) {
+		$font_set[] = $attrs[ $subset_key ];
+	}
+
+	$font_url = ctl_block_get_font_url( $font_set );
+
+	// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet
+	echo '<link href="' . esc_url( $font_url ) . '" rel="stylesheet">';
 }
 
 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
@@ -143,6 +140,7 @@ function ctl_block_get_font_url( $font_set ) {
 		),
 		'https://fonts.googleapis.com/css'
 	);
+	
 	return $font_url;
 }
 
@@ -152,7 +150,7 @@ function cp_timeline_cgb_block_assets() {
 	wp_register_style(
 		'cp_timeline-cgb-style', // Handle.
 		plugins_url( 'dist/blocks.style.build.css', dirname( __FILE__ ) ),
-		is_admin() ? array( 'wp-editor' ) : null,
+		is_admin() ? array( 'wp-block-editor' ) : null,
 		null // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 	);
 
@@ -160,7 +158,7 @@ function cp_timeline_cgb_block_assets() {
 	wp_register_script(
 		'cp_timeline-cgb-block-js', // Handle.
 		plugins_url( 'dist/blocks.build.js', dirname( __FILE__ ) ),
-		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ),
+		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-block-editor' ),
 		null, // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 		true
 	);
@@ -169,10 +167,10 @@ function cp_timeline_cgb_block_assets() {
 	wp_register_style(
 		'cp_timeline-cgb-block-editor-css', // Handle.
 		plugins_url( 'dist/blocks.editor.build.css', dirname( __FILE__ ) ),
-		array( 'wp-edit-blocks' ),
+		array( 'wp-block-editor' ),
 		null // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 	);
-
+	
 	wp_register_script( 'ctl_block_common_script', CTL_PLUGIN_URL . 'includes/cool-timeline-block/assets/js/common.js', array( 'jquery' ), CTL_V, false );
 	wp_localize_script(
 		'cp_timeline-cgb-block-js',
@@ -188,7 +186,7 @@ function cp_timeline_cgb_block_assets() {
 		register_block_type(
 			'cp-timeline/content-timeline',
 			array(
-				'api_version'   => 2,
+				'api_version'   => 3,
 				// Enqueue blocks.style.build.css on both frontend & backend.
 				'style'         => 'cp_timeline-cgb-style',
 				// Enqueue blocks.build.js in the editor only.
@@ -200,7 +198,7 @@ function cp_timeline_cgb_block_assets() {
 		register_block_type(
 			'cp-timeline/content-timeline-child',
 			array(
-				'api_version' => 2,
+				'api_version' => 3,
 			)
 		);
 	}

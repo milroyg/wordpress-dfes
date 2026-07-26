@@ -178,6 +178,7 @@ jQuery(document).ready(function ($) {
 					$('<span class="rows-per-page page-number" data-rows="' + num + '">' + num + '</span>')
 				);
 			});
+			$pager.prepend('<div class="rows-per-page-heading">Rows per page:</div>');
 
 			// Append buttons to the pager
 			$pager.append($buttons);
@@ -413,6 +414,7 @@ jQuery(document).ready(function ($) {
 					jQuery('#analytify_date_start').val(
 						this.getMoment().format('YYYY-MM-DD')
 					);
+					jQuery('#analytify_date_diff').val('');
 					startDate = this.getDate();
 					updateStartDate();
 				}
@@ -427,6 +429,7 @@ jQuery(document).ready(function ($) {
 					jQuery('#analytify_date_end').val(
 						this.getMoment().format('YYYY-MM-DD')
 					);
+					jQuery('#analytify_date_diff').val('');
 					endDate = this.getDate();
 					updateEndDate();
 				}
@@ -455,6 +458,7 @@ jQuery(document).ready(function ($) {
 
 		// if 'custom_range' is clicked, trigger the start input and end becasue we don't need to override any input data
 		if ($this.hasClass('custom_range')) {
+			$('#analytify_date_diff').val('');
 			$('#analytify_start').trigger('click');
 			return;
 		}
@@ -511,97 +515,327 @@ jQuery(document).ready(function ($) {
 		.parents('.analytify_nav_tab_parent')
 		.addClass('nav-tab-active');
 
-	// export dashboard to pdf
+	// Dashboard export dropdown.
+	$( document ).on( 'click', '.analytify_export_btn', function ( e ) {
+		e.preventDefault();
+		e.stopPropagation();
 
-	$(document).on('click', '.analytify_export_pdf_btn', function (e) {
+		const $dropdown = $( this ).closest( '.analytify_export_dropdown' );
+		const isOpen = $dropdown.hasClass( 'is-open' );
+
+		$( '.analytify_export_dropdown' ).removeClass( 'is-open' )
+			.find( '.analytify_export_btn' ).attr( 'aria-expanded', 'false' );
+
+		if ( ! isOpen ) {
+			$dropdown.addClass( 'is-open' );
+			$( this ).attr( 'aria-expanded', 'true' );
+		}
+	} );
+
+	$( document ).on( 'click', function ( e ) {
+		if ( ! $( e.target ).closest( '.analytify_export_dropdown' ).length ) {
+			$( '.analytify_export_dropdown' ).removeClass( 'is-open' )
+				.find( '.analytify_export_btn' ).attr( 'aria-expanded', 'false' );
+		}
+	} );
+
+	$( document ).on( 'click', '.analytify_export_menu_item', function ( e ) {
 		e.preventDefault();
 
-		// Cache the button element
-		const exportButton = $(this);
-		const originalButtonText = exportButton.val();
+		const exportType = $( this ).data( 'export-type' );
 
-		// Update button state to indicate PDF generation
-		exportButton.val('Generating PDF...').prop('disabled', true);
+		$( '.analytify_export_dropdown' ).removeClass( 'is-open' )
+			.find( '.analytify_export_btn' ).attr( 'aria-expanded', 'false' );
 
-		// Determine which tab is active
-		const visitorsTabActive = $('.analytify_visitors').hasClass('analytify_active_stats');
-		const viewsTabActive = $('.analytify_views').hasClass('analytify_active_stats');
+		if ( exportType === 'pdf' ) {
+			exportDashboardToPdf();
+		} else if ( exportType === 'csv' ) {
+			exportDashboardToCsv();
+		} else if ( exportType === 'excel' ) {
+			exportDashboardToExcel();
+		}
+	} );
 
-		// Get dimensions for the PDF
-		const content = $('.analytify-dashboard-content');
+	function getExportFilename( extension ) {
+		const start = $( '#analytify_date_start' ).val();
+		const end = $( '#analytify_date_end' ).val();
+
+		return `analytify-dashboard-${ start }-to-${ end }.${ extension }`;
+	}
+
+	function getDashboardMeta() {
+		const title = $( '.analytify_main_title' ).first().clone()
+			.find( '.analytify_export_dropdown' ).remove().end()
+			.text().replace( /\s+/g, ' ' ).trim();
+
+		const statsOfElement = $( '.analytify_stats_of' );
+		const streamUrl = statsOfElement.find( 'a' ).text().trim();
+		const streamText = statsOfElement.text().trim();
+		let webStream = streamText;
+		const streamNameMatch = streamText.match( /\(([^)]+)\)/ );
+
+		if ( streamNameMatch && streamNameMatch[1] ) {
+			webStream = `${ streamUrl } (${ streamNameMatch[1] })`;
+		} else if ( streamUrl ) {
+			webStream = streamUrl;
+		}
+
+		const startDate = $( '#analytify_date_start' ).val();
+		const endDate = $( '#analytify_date_end' ).val();
+		const dateRange = `${ formatDate( startDate ) } - ${ formatDate( endDate ) }`;
+
+		return {
+			title,
+			stream: webStream,
+			dateRange
+		};
+	}
+
+	function getCellText( $cell ) {
+		return $cell.clone()
+			.find( '.analytify-export-data, img, .analytify_tooltiptext' ).remove().end()
+			.text().replace( /\s+/g, ' ' ).trim();
+	}
+
+	function extractTableFromElement( $table ) {
+		const rows = [];
+
+		$table.find( 'thead tr' ).each( function () {
+			const row = [];
+
+			$( this ).find( 'th, td' ).each( function () {
+				row.push( getCellText( $( this ) ) );
+			} );
+
+			if ( row.some( ( cell ) => cell ) ) {
+				rows.push( row );
+			}
+		} );
+
+		$table.find( 'tbody tr' ).each( function () {
+			const row = [];
+
+			$( this ).find( 'td, th' ).each( function () {
+				row.push( getCellText( $( this ) ) );
+			} );
+
+			if ( row.some( ( cell ) => cell ) ) {
+				rows.push( row );
+			}
+		} );
+
+		return rows;
+	}
+
+	function collectDashboardSections() {
+		const sections = [];
+		const $wrapper = $( '.analytify-dashboard-content .analytify_wraper' );
+
+		$wrapper.find( '.analytify_status_box_wraper' ).each( function () {
+			const $section = $( this );
+
+			if ( $section.find( '.analytify_stats_loading:visible' ).length ) {
+				return;
+			}
+
+			const sectionTitle = $section.find( '.analytify_status_header h3' ).first().clone()
+				.find( '.analytify-export-data, img, .analytify_tooltiptext, span.analytify_tooltiptext' ).remove().end()
+				.text().replace( /\s+/g, ' ' ).trim();
+
+			if ( ! sectionTitle ) {
+				return;
+			}
+
+			const section = {
+				title: sectionTitle,
+				stats: [],
+				tables: []
+			};
+
+			$section.find( '.analytify_general_status_boxes' ).each( function () {
+				const label = $( this ).find( 'h4' ).first().text().trim();
+				const value = $( this ).find( '.analytify_general_stats_value, .large-count, .count-visits' ).first()
+					.text().replace( /\s+/g, ' ' ).trim();
+
+				if ( label && value ) {
+					section.stats.push( [ label, value ] );
+				}
+			} );
+
+			$section.find( 'table.analytify_data_tables' ).each( function () {
+				const $table = $( this );
+				const $parentTab = $table.closest( '.analytify_visitors, .analytify_views' );
+
+				if ( $parentTab.length && ! $parentTab.hasClass( 'analytify_active_stats' ) ) {
+					return;
+				}
+
+				const tableData = extractTableFromElement( $table );
+
+				if ( tableData.length ) {
+					section.tables.push( tableData );
+				}
+			} );
+
+			if ( section.stats.length || section.tables.length ) {
+				sections.push( section );
+			}
+		} );
+
+		return sections;
+	}
+
+	function escapeCsvField( value ) {
+		let str = String( value == null ? '' : value );
+
+		// Neutralize formula injection (CWE-1236): a leading =, +, -, @, tab, or CR
+		// makes Excel/Sheets evaluate the cell as a formula when opened from CSV.
+		if ( /^[=+\-@\t\r]/.test( str ) ) {
+			str = "'" + str;
+		}
+
+		if ( /[",\n\r]/.test( str ) ) {
+			return `"${ str.replace( /"/g, '""' ) }"`;
+		}
+
+		return str;
+	}
+
+	function buildExportRows( meta, sections ) {
+		const rows = [
+			[ meta.title ],
+			[ meta.stream ],
+			[ meta.dateRange ],
+			[]
+		];
+
+		sections.forEach( ( section ) => {
+			rows.push( [ section.title ] );
+
+			if ( section.stats.length ) {
+				rows.push( [ 'Metric', 'Value' ] );
+				section.stats.forEach( ( statRow ) => {
+					rows.push( statRow );
+				} );
+				rows.push( [] );
+			}
+
+			section.tables.forEach( ( table ) => {
+				table.forEach( ( tableRow ) => {
+					rows.push( tableRow );
+				} );
+				rows.push( [] );
+			} );
+
+			rows.push( [] );
+		} );
+
+		return rows;
+	}
+
+	function downloadBlob( content, filename, mimeType ) {
+		const blob = new Blob( [ content ], { type: mimeType } );
+		const blobURL = URL.createObjectURL( blob );
+		const link = document.createElement( 'a' );
+
+		link.href = blobURL;
+		link.download = filename;
+		document.body.appendChild( link );
+		link.click();
+		document.body.removeChild( link );
+		URL.revokeObjectURL( blobURL );
+	}
+
+	function exportDashboardToCsv() {
+		const meta = getDashboardMeta();
+		const sections = collectDashboardSections();
+		const rows = buildExportRows( meta, sections );
+		const csvContent = '\uFEFF' + rows.map( ( row ) => row.map( escapeCsvField ).join( ',' ) ).join( '\n' );
+
+		downloadBlob( csvContent, getExportFilename( 'csv' ), 'text/csv;charset=utf-8;' );
+	}
+
+	function exportDashboardToExcel() {
+		if ( typeof XLSX === 'undefined' ) {
+			return;
+		}
+
+		const meta = getDashboardMeta();
+		const sections = collectDashboardSections();
+		const rows = buildExportRows( meta, sections );
+		const workbook = XLSX.utils.book_new();
+		const worksheet = XLSX.utils.aoa_to_sheet( rows );
+
+		XLSX.utils.book_append_sheet( workbook, worksheet, 'Dashboard' );
+		XLSX.writeFile( workbook, getExportFilename( 'xlsx' ) );
+	}
+
+	function exportDashboardToPdf() {
+		const exportButton = $( '.analytify_export_btn' );
+		const originalButtonText = exportButton.text();
+
+		exportButton.text( 'Generating PDF...' ).prop( 'disabled', true );
+
+		const visitorsTabActive = $( '.analytify_visitors' ).hasClass( 'analytify_active_stats' );
+		const viewsTabActive = $( '.analytify_views' ).hasClass( 'analytify_active_stats' );
+		const content = $( '.analytify-dashboard-content' );
 		const HTML_Width = content.width();
 		const HTML_Height = content.height();
 		const pxToPtRatio = 72 / 96;
 		const PDF_Width = HTML_Width * pxToPtRatio;
 		const PDF_Height = HTML_Height * pxToPtRatio;
 
-		// Configure options for html2canvas
 		const canvasOptions = {
 			allowTaint: true,
 			letterRendering: true,
 			useCORS: true,
-			ignoreElements: function (element) {
-				if (visitorsTabActive) {
-					return shouldIgnoreElement(element, 'views');
-				} else if (viewsTabActive) {
-					return shouldIgnoreElement(element, 'visitors');
-				} else {
-					return shouldIgnoreElement(element);
+			ignoreElements: function ( element ) {
+				if ( visitorsTabActive ) {
+					return shouldIgnoreElement( element, 'views' );
+				} else if ( viewsTabActive ) {
+					return shouldIgnoreElement( element, 'visitors' );
 				}
+
+				return shouldIgnoreElement( element );
 			}
 		};
 
-		// Generate the PDF content
-		html2canvas(content[0], canvasOptions).then(function (canvas) {
-			const imgData = canvas.toDataURL('image/png', 1.0);
-			const pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
-			pdf.addImage(imgData, 'PNG', 0, 0, PDF_Width, PDF_Height);
+		html2canvas( content[0], canvasOptions ).then( function ( canvas ) {
+			const imgData = canvas.toDataURL( 'image/png', 1.0 );
+			const JsPDF = typeof jsPDF !== 'undefined' ? jsPDF : ( window.jspdf && window.jspdf.jsPDF );
 
-			// Get the date range and dashboard heading
-			const start_date = $('#analytify_date_start').val();
-			const end_date = $('#analytify_date_end').val();
-			const dateRange = `${formatDate(start_date)} - ${formatDate(end_date)}`;
-			const dashboardHeading = $('.analytify_main_title').text();
-
-			// Extract stream name and URL properly from the analytify_stats_of element
-			const statsOfElement = $('.analytify_stats_of');
-			const streamUrl = statsOfElement.find('a').text().trim();
-			const streamText = statsOfElement.text().trim();
-			// Extract stream name from parentheses, e.g., "URL (Stream Name)" -> "Stream Name"
-			let webStream = streamText;
-			const streamNameMatch = streamText.match(/\(([^)]+)\)/);
-			if (streamNameMatch && streamNameMatch[1]) {
-				// Format: URL (Stream Name)
-				webStream = `${streamUrl} (${streamNameMatch[1]})`;
-			} else if (streamUrl) {
-				// Fallback: just use URL if no parentheses found
-				webStream = streamUrl;
+			if ( ! JsPDF ) {
+				exportButton.text( originalButtonText ).prop( 'disabled', false );
+				return;
 			}
 
-			// Add header information to the PDF
-			addPDFHeader(pdf, dashboardHeading, webStream, dateRange);
+			const pdf = new JsPDF( 'p', 'pt', [ PDF_Width, PDF_Height ] );
 
-			// Convert PDF to Blob and open in a new tab
-			const blob = pdf.output('blob');
-			const blobURL = URL.createObjectURL(blob);
-			window.open(blobURL, '_blank');
+			pdf.addImage( imgData, 'PNG', 0, 0, PDF_Width, PDF_Height );
 
-			// Revert button state back to the original
-			exportButton.val(originalButtonText).prop('disabled', false);
-		}).catch(function (error) {
-			// console.error('Error generating PDF:', error);
-			exportButton.val(originalButtonText).prop('disabled', false);
-			// alert('An error occurred while generating the PDF. Please try again.');
-		});
-	});
+			const meta = getDashboardMeta();
+
+			addPDFHeader( pdf, meta.title, meta.stream, meta.dateRange );
+
+			const blob = pdf.output( 'blob' );
+			const blobURL = URL.createObjectURL( blob );
+
+			window.open( blobURL, '_blank' );
+			exportButton.text( originalButtonText ).prop( 'disabled', false );
+		} ).catch( function () {
+			exportButton.text( originalButtonText ).prop( 'disabled', false );
+		} );
+	}
 
 	// Helper function to determine which elements to ignore
-	function shouldIgnoreElement(element, tabType) {
+	function shouldIgnoreElement( element, tabType ) {
 		const ignoredClasses = [
 			'wp_analytify_pagination',
 			'analytify_tooltip',
 			'analytify_main_setting_bar',
-			'analytify_export_pdf_btn',
+			'analytify_export_dropdown',
+			'analytify_export_btn',
+			'analytify_export_menu',
 			'analytify_disabled',
 			'analytify_dashboard_title'
 		];

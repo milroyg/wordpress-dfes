@@ -316,15 +316,138 @@ jQuery(function ($) {
 
 			const chart_stats = encodeURIComponent(JSON.stringify(chart.stats));
 			const chart_colors = encodeURIComponent(JSON.stringify(chart.colors));
+			const chart_title_markup = chart.description
+				? `<h4>${chart.title}<span class="analytify_chart_hint"><span class="dashicons dashicons-info analytify_chart_hint_icon" aria-hidden="true"></span><span class="analytify_chart_hint_tooltip">${chart.description}</span></span></h4>`
+				: `<h4>${chart.title}</h4>`;
 
 			markup += `<div class="analytify_general_status_boxes pad_b_0">
-				<h4>${chart.title}</h4>
+				${chart_title_markup}
 				<div id="analytify_chart_${chart_key}" style="height:240px;" data-chart-title="${chart.title}" data-stats="${chart_stats}" data-colors="${chart_colors}"></div>
 			</div>`;
 		}
 
 		set_section(target, markup, response.footer, false);
 
+	};
+
+	/**
+	 * Estimates legend label width for layout calculations.
+	 *
+	 * @param {string} text     Legend label text.
+	 * @param {number} fontSize Legend font size.
+	 * @returns {number}
+	 */
+	const estimateLegendLabelWidth = (text, fontSize) => {
+		return 24 + String(text).length * fontSize * 0.55;
+	};
+
+	/**
+	 * Calculates pie center/radius from legend size before rendering.
+	 *
+	 * @param {HTMLElement} container    Chart container element.
+	 * @param {object}      legendOptions ECharts legend options.
+	 * @returns {object}
+	 */
+	const getPieLayoutForLegend = (container, legendOptions) => {
+		const defaults = { radius: 70, centerY: 43 };
+		const minRadius = 40;
+		const minCenterY = 30;
+
+		if (! container || ! legendOptions || ! legendOptions.data || ! legendOptions.data.length) {
+			return defaults;
+		}
+
+		const containerWidth = container.clientWidth || 300;
+		const containerHeight = container.clientHeight || 240;
+		const fontSize = ( legendOptions.textStyle && legendOptions.textStyle.fontSize ) || 14;
+		const itemGap = typeof legendOptions.itemGap === 'number' ? legendOptions.itemGap : 10;
+		const bottomPercent = parseFloat(legendOptions.bottom) || 5;
+		const formatter = typeof legendOptions.formatter === 'function' ? legendOptions.formatter : null;
+		let totalWidth = 0;
+
+		legendOptions.data.forEach(function (name) {
+			const label = formatter ? formatter(name) : name;
+			totalWidth += estimateLegendLabelWidth(label, fontSize) + itemGap;
+		});
+
+		const rows = Math.max(1, Math.ceil(totalWidth / containerWidth));
+		const legendHeight = rows * ( fontSize + 12 );
+		const bottomSpace = containerHeight * ( bottomPercent / 100 );
+		const legendSpace = legendHeight + bottomSpace + 10;
+		const availableHeight = containerHeight - legendSpace;
+
+		if (rows <= 1 && totalWidth <= containerWidth * 0.98) {
+			return defaults;
+		}
+
+		const centerY = Math.max(
+			minCenterY,
+			Math.min(defaults.centerY, Math.floor(( ( availableHeight / 2 ) / containerHeight ) * 100))
+		);
+		const radius = Math.max(
+			minRadius,
+			Math.min(defaults.radius, Math.floor(( availableHeight / containerHeight ) * 80))
+		);
+
+		return { radius: radius, centerY: centerY };
+	};
+
+	/**
+	 * Applies calculated pie layout to chart options.
+	 *
+	 * @param {HTMLElement} container Chart container element.
+	 * @param {object}      options   ECharts options.
+	 * @returns {object}
+	 */
+	const applyPieLayoutToOptions = (container, options) => {
+		const layout = getPieLayoutForLegend(container, options.legend);
+
+		if (options.series && options.series[0]) {
+			options.series[0].center = ['50%', layout.centerY + '%'];
+			options.series[0].radius = layout.radius + '%';
+			options.series[0].emphasis = $.extend({ scale: false }, options.series[0].emphasis || {});
+		}
+
+		return layout;
+	};
+
+	/**
+	 * Initializes a pie chart and sizes it around the legend.
+	 *
+	 * @param {string} elementId Chart container ID.
+	 * @param {object} options   ECharts options.
+	 * @returns {object}
+	 */
+	const initPieChartWithLegendFit = (elementId, options) => {
+		const dom = document.getElementById(elementId);
+		const existingChart = echarts.getInstanceByDom(dom);
+
+		if (existingChart) {
+			existingChart.dispose();
+		}
+
+		applyPieLayoutToOptions(dom, options);
+
+		const chart = echarts.init(dom);
+		chart.setOption(options);
+
+		$(window).off('resize.analytifyPie.' + elementId);
+		$(window).on('resize.analytifyPie.' + elementId, function () {
+			chart.resize();
+			if (options.series && options.series[0]) {
+				options.series[0].center = ['50%', '43%'];
+				options.series[0].radius = '70%';
+			}
+			applyPieLayoutToOptions(dom, options);
+			chart.setOption({
+				series: [{
+					center: options.series[0].center,
+					radius: options.series[0].radius
+				}]
+			});
+		});
+
+		return chart;
 	};
 
 	/**
@@ -378,6 +501,7 @@ jQuery(function ($) {
 						name: setting_title,
 						type: 'pie',
 						center: ['50%', '43%'],
+						radius: '70%',
 						label: {
 							show: false
 						},
@@ -391,10 +515,7 @@ jQuery(function ($) {
 					}]
 				};
 
-				const new_returning_graph = echarts.init(document.getElementById('analytify_chart_new_vs_returning_visitors'));
-				new_returning_graph.setOption(new_returning_graph_options);
-
-				window.onresize = () => new_returning_graph.resize();
+				initPieChartWithLegendFit('analytify_chart_new_vs_returning_visitors', new_returning_graph_options);
 			} else {
 				$('#analytify_chart_new_vs_returning_visitors').html(`<div class="analytify_general_stats_value">0</div><p>${analytify_stats_core.no_stats_message}</p>`);
 			}
@@ -417,7 +538,7 @@ jQuery(function ($) {
 					legend: {
 						orient: 'horizontal',
 						bottom: '5%',
-						textStyle: { fontSize: 13, fontWeight: '500' },
+						textStyle: { fontSize: 14, fontWeight: '500' },
 						itemGap: 4,
 						formatter: function (name) {
 							const key = analytifyGetKeyByLabel(setting_stats, name);
@@ -433,6 +554,7 @@ jQuery(function ($) {
 						name: setting_title,
 						type: 'pie',
 						center: ['50%', '43%'],
+						radius: '70%',
 						label: {
 							show: false
 						},
@@ -447,10 +569,7 @@ jQuery(function ($) {
 					}]
 				};
 
-				const user_device_graph = echarts.init(document.getElementById('analytify_chart_visitor_devices'));
-				user_device_graph.setOption(user_device_graph_options);
-
-				window.onresize = () => user_device_graph.resize();
+				initPieChartWithLegendFit('analytify_chart_visitor_devices', user_device_graph_options);
 			} else {
 				$('#analytify_chart_visitor_devices').html(`<div class="analytify_general_stats_value">0</div><p>${analytify_stats_core.no_stats_message}</p>`);
 			}
@@ -511,6 +630,7 @@ jQuery(function ($) {
 						name: setting_title,
 						type: 'pie',
 						center: ['50%', '43%'],
+						radius: '70%',
 						label: {
 							show: false
 						},
@@ -521,10 +641,7 @@ jQuery(function ($) {
 					}]
 				};
 
-				const browser_breakdown_graph = echarts.init(document.getElementById('analytify_chart_browser_breakdown'));
-				browser_breakdown_graph.setOption(browser_breakdown_graph_options);
-
-				window.onresize = () => browser_breakdown_graph.resize();
+				initPieChartWithLegendFit('analytify_chart_browser_breakdown', browser_breakdown_graph_options);
 			} else {
 				$('#analytify_chart_browser_breakdown').html(`<div class="analytify_general_stats_value">0</div><p>${analytify_stats_core.no_stats_message}</p>`);
 			}

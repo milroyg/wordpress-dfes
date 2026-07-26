@@ -52,8 +52,9 @@ class Analytify_GDPR_Compliance {
 	 * @return void
 	 */
 	public function init_gdpr_compliance() {
-		// Initialize GDPR compliance features.
-		// This would contain the actual GDPR compliance logic.
+		if ( $this->analytify && method_exists( $this->analytify, 'init_gdpr_compliance' ) ) {
+			$this->analytify->init_gdpr_compliance();
+		}
 	}
 
 	/**
@@ -97,11 +98,17 @@ class Analytify_GDPR_Compliance {
 	/**
 	 * Check if GDPR compliance is blocking tracking
 	 *
+	 * Delegates to {@see Class_Analytify_GDPR_Compliance::is_gdpr_compliance_blocking()} when loaded,
+	 * which applies {@see 'analytify_consent_server_blocks_tracking'} and Cookie Notice / CookieYes rules.
+	 *
 	 * @return bool
 	 */
 	public static function is_gdpr_compliance_blocking() {
-		// This would contain the actual GDPR compliance check logic.
-		// For now, return false (no blocking).
-		return false;
+
+		if ( class_exists( 'Class_Analytify_GDPR_Compliance' ) ) {
+			return Class_Analytify_GDPR_Compliance::is_gdpr_compliance_blocking();
+		}
+
+		return (bool) apply_filters( 'analytify_consent_server_blocks_tracking', false );
 	}
 }

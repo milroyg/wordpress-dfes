@@ -7,14 +7,16 @@
  * organized and maintainable.
  *
  * PURPOSE:
- * - Manages email cron scheduling and timing
- * - Handles when to send reports (weekly/monthly)
- * - Processes scheduled email reports
- * - Manages email timing logic and conditions
+ * - Manages email cron scheduling and timing (WP daily cron; weekly/monthly are day-matched)
+ * - Weekly: last 7 days ending now; disabled when weekday is "Select Day" (false)
+ * - Monthly last_day: send on last calendar day (site TZ); report = 1st through that day
+ * - Monthly numeric day: send that day (or last day if day does not exist, e.g. 31 in Feb); report = 30 days inclusive ending that day
+ * - Scheduling uses the site timezone via wp_timezone(); email range labels use wp_date()
  *
  * @package WP_Analytify
  * @subpackage Email
  * @since 8.0.0
+ * @version 9.0.0
  */
 
 trait Analytify_Email_Scheduler {
@@ -24,6 +26,7 @@ trait Analytify_Email_Scheduler {
 	 *
 	 * @return void
 	 * @since 1.0.0
+	 * @version 9.1.0
 	 */
 	public function callback_on_cron_time() {
 		// Return if no profile selected.
@@ -46,31 +49,81 @@ trait Analytify_Email_Scheduler {
 		$when_to_send_report = $this->when_to_send_report();
 
 		foreach ( $when_to_send_report as $when ) {
+			$is_custom_range_report = false;
+
 			if ( 'week' === $when ) {
-				$start_date_val = strtotime( '-1 week' );
 				$report_of      = 'Weekly';
-			} else {
-				$start_date_val = strtotime( '-1 month' );
+				$start_date_val = strtotime( '-1 week' );
+				$end_date_val   = strtotime( 'now' );
+			} elseif ( 'yesterday' === $when ) {
+				$report_of      = 'Yesterday';
+				$start_date_val = strtotime( 'yesterday' );
+				$end_date_val   = strtotime( 'yesterday' );
+			} elseif ( 'custom_range' === $when ) {
+				if ( ! function_exists( 'analytify_email_get_validated_custom_range_bounds' ) ) {
+					continue;
+				}
+				$cr_bounds = analytify_email_get_validated_custom_range_bounds( $wp_analytify->settings, true );
+				if ( null === $cr_bounds ) {
+					continue;
+				}
+				$start_date_val = strtotime( $cr_bounds['start'] . ' 00:00:00 UTC' );
+				$end_date_val   = strtotime( $cr_bounds['end'] . ' 00:00:00 UTC' );
+				if ( ! $start_date_val || ! $end_date_val ) {
+					continue;
+				}
+				$report_of = __( 'Custom Range', 'wp-analytify' );
+			} elseif ( 'month' === $when ) {
 				$report_of      = 'Monthly';
+				$start_date_val = strtotime( '-1 month' );
+				$end_date_val   = strtotime( 'now' );
+			} else {
+				// Unknown schedule token; do not fall back to a rolling month window.
+				continue;
 			}
 
-			$end_date_val = strtotime( 'now' );
-			$start_date   = gmdate( 'Y-m-d', $start_date_val );
-			$end_date     = gmdate( 'Y-m-d', $end_date_val );
+			$start_date = gmdate( 'Y-m-d', $start_date_val );
+			$end_date   = gmdate( 'Y-m-d', $end_date_val );
+
+			// Monthly sends only: Pro replaces the rolling month window (helpers loaded in analytify-email.php).
+			// Do not apply to yesterday or explicit custom_range — those dates would be overwritten.
+			if ( 'month' === $when && function_exists( 'analytify_email_scheduled_report_period' ) ) {
+				$custom_period = analytify_email_scheduled_report_period( $wp_analytify->settings );
+				if ( is_array( $custom_period ) && isset( $custom_period['start'], $custom_period['end'] ) ) {
+					$start_date             = $custom_period['start'];
+					$end_date               = $custom_period['end'];
+					$start_date_val         = strtotime( $start_date . ' 00:00:00 UTC' );
+					$end_date_val           = strtotime( $end_date . ' 00:00:00 UTC' );
+					$report_of              = __( 'Custom Range', 'wp-analytify' );
+					$is_custom_range_report = true;
+				}
+			}
+
+			if ( function_exists( 'wp_date' ) ) {
+				$report_range_display = wp_date( 'M j, Y', $start_date_val ) . ' - ' . wp_date( 'M j, Y', $end_date_val );
+			} else {
+				$report_range_display = gmdate( 'M j, Y', $start_date_val ) . ' - ' . gmdate( 'M j, Y', $end_date_val );
+			}
 
 			$date1 = date_create( $start_date );
 			$date2 = date_create( $end_date );
-			if ( $date1 && $date2 ) {
+			if ( 'yesterday' === $when ) {
+				$different          = '1 ' . analytify__( 'days', 'wp-analytify' );
+				$compare_end_date   = gmdate( 'Y-m-d', strtotime( '-2 days' ) );
+				$compare_start_date = $compare_end_date;
+			} elseif ( $date1 && $date2 ) {
 				$diff      = date_diff( $date2, $date1 );
 				$different = $diff->format( '%a' ) . ' ' . analytify__( 'days', 'wp-analytify' );
 
-				$compare_start_date = strtotime( $start_date . $diff->format( '%R%a days' ) );
+				$compare_start_date = strtotime( $start_date . ' ' . $diff->format( '%R%a' ) . ' days' );
 				$compare_start_date = $compare_start_date ? gmdate( 'Y-m-d', $compare_start_date ) : $start_date;
 			} else {
 				$different          = '0 ' . analytify__( 'days', 'wp-analytify' );
 				$compare_start_date = $start_date;
 			}
-			$compare_end_date = $start_date;
+			if ( 'yesterday' !== $when ) {
+				$compare_end_date = $start_date;
+			}
 
 			$_logo_id = $wp_analytify->settings->get_option( 'analytify_email_logo', 'wp-analytify-email' );
 
@@ -98,12 +151,23 @@ trait Analytify_Email_Scheduler {
 				$protocols = array( 'https://', 'https://www', 'http://', 'http://www.', 'www.' );
 				$site_url  = str_replace( $protocols, '', get_home_url() );
 
+				$site_url = sanitize_text_field( $site_url );
+
 				if ( 'week' === $when ) {
 					// translators: Weekly engagement.
-					$subject = sprintf( esc_html__( 'Weekly Engagement Summary of %s', 'wp-analytify' ), esc_html( $site_url ) );
+					$subject = sprintf( __( 'Weekly Engagement Summary of %s', 'wp-analytify' ), $site_url );
+				} elseif ( $is_custom_range_report ) {
+					// translators: Default email subject when the report uses a saved custom date range. %s: site hostname.
+					$subject = sprintf( __( 'Custom Analytics Report for %s', 'wp-analytify' ), $site_url );
 				} elseif ( 'month' === $when ) {
 					// translators: Monthly engagement.
-					$subject = sprintf( esc_html__( 'Monthly Engagement Summary of %s', 'wp-analytify' ), esc_html( $site_url ) );
+					$subject = sprintf( __( 'Monthly Engagement Summary of %s', 'wp-analytify' ), $site_url );
+				} elseif ( 'yesterday' === $when ) {
+					// translators: Previous day engagement.
+					$subject = sprintf( __( 'Yesterday\'s Engagement Summary of %s', 'wp-analytify' ), $site_url );
+				} elseif ( 'custom_range' === $when ) {
+					// translators: Default subject for scheduled email when schedule type is Custom Range. %s: site hostname.
+					$subject = sprintf( __( 'Analytics Report for %s', 'wp-analytify' ), $site_url );
 				}
 			}
 
@@ -256,8 +320,14 @@ trait Analytify_Email_Scheduler {
 											<tr>
 												<td align="left"><a href="' . $site_url . '"><img src="' . $logo_link . '" alt="analytify"/></a></td>
 												<td align="right" style="font: normal 15px \'Roboto\', Arial, Helvetica, sans-serif; line-height: 1.5;">
-												<font color="#444444">' . $report_of . __( ' Report', 'wp-analytify' ) . '</font><br>
-												<font color="#848484">' . gmdate( 'M d Y', $start_date_val ) . ' - ' . gmdate( 'M d Y', $end_date_val ) . '</font><br />
+												<font color="#444444">' . esc_html(
+													sprintf(
+														/* translators: %s: period label, e.g. Weekly, Monthly, Yesterday, Custom Range. */
+														__( '%s Report', 'wp-analytify' ),
+														$report_of
+													)
+												) . '</font><br>
+												<font color="#848484">' . esc_html( $report_range_display ) . '</font><br />
 												<font color="#848484"><a href="' . get_home_url() . '">' . get_home_url() . '</a></font>
 												</td>
 											</tr>
@@ -397,38 +467,95 @@ trait Analytify_Email_Scheduler {
 	 */
 	public function when_to_send_report() {
 		$when_to_send_email = array();
-
-		// Return true, if test button trigger.
-		if ( isset( $_POST['test_email'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verification is handled in the callback function
-			if ( class_exists( 'WP_Analytify_Email' ) || class_exists( 'WP_Analytify_Addon_Email' ) ) {
-				return array( 'test' => 'month' );
-			} else {
-				return array( 'test' => 'week' );
-			}
-		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verification is handled in the callback function
+		$is_test_email = isset( $_POST['test_email'] );
 
 		if ( class_exists( 'WP_Analytify_Email' ) || class_exists( 'WP_Analytify_Addon_Email' ) ) {
-			$time_settings = $GLOBALS['WP_ANALYTIFY']->settings->get_option( 'analytif_email_cron_time', 'wp-analytify-email' );
-			$week_date     = ( isset( $time_settings['week'] ) && ! empty( $time_settings['week'] ) ) ? $time_settings['week'] : '';
-			$month_date    = ( isset( $time_settings['month'] ) && ! empty( $time_settings['month'] ) ) ? $time_settings['month'] : '';
+			$time_settings = function_exists( 'analytify_email_get_schedule_cron_time_array' )
+				? analytify_email_get_schedule_cron_time_array( $GLOBALS['WP_ANALYTIFY']->settings )
+				: $GLOBALS['WP_ANALYTIFY']->settings->get_option( 'analytif_email_cron_time', 'wp-analytify-email' );
+			if ( ! is_array( $time_settings ) ) {
+				$time_settings = array();
+			}
+			$week_raw   = isset( $time_settings['week'] ) ? $time_settings['week'] : '';
+			$month_raw  = isset( $time_settings['month'] ) ? $time_settings['month'] : '';
+			$week_date  = ( $week_raw && 'false' !== $week_raw ) ? $week_raw : '';
+			$month_date = ( $month_raw && 'false' !== $month_raw ) ? trim( (string) $month_raw ) : '';
+
+			if ( isset( $time_settings['yesterday'] ) && 'enabled' === $time_settings['yesterday'] ) {
+				$when_to_send_email[] = 'yesterday';
+			}
+
+			$custom_on = isset( $time_settings['custom_range'] ) && 'enabled' === $time_settings['custom_range'];
+			if ( $custom_on ) {
+				$cr_s = $GLOBALS['WP_ANALYTIFY']->settings->get_option( 'analytify_email_custom_range_start', 'wp-analytify-email' );
+				$cr_e = $GLOBALS['WP_ANALYTIFY']->settings->get_option( 'analytify_email_custom_range_end', 'wp-analytify-email' );
+				if ( ! empty( $cr_s ) && ! empty( $cr_e ) ) {
+					$when_to_send_email[] = 'custom_range';
+				}
+			}
 		} else {
 			$week_date  = 'Monday';
 			$month_date = false;
 		}
 
-		$current_day       = gmdate( 'l' ); // Sunday through Saturday.
-		$current_date      = gmdate( 'j' ); // Day of the month without leading zeros.
-		$last_day_of_month = gmdate( 't' ); // Number of days in the given month.
+		/**
+		 * PHPUnit may set `$GLOBALS['analytify_tests_email_schedule_clock']` to an array with optional
+		 * keys `l` (weekday), `j` (day of month), `t` (days in month) before calling schedule logic.
+		 *
+		 * Filters the calendar values used for weekly / monthly schedule matching in email reports.
+		 *
+		 * Return an array with optional keys: `l` weekday name (e.g. Wednesday), `j` day of month (1-31),
+		 * `t` number of days in the month. Omit a key to keep the live `gmdate()` value for that part.
+		 *
+		 * @since 9.0.1
+		 *
+		 * @param array<string, string|int>|null $clock Optional clock override.
+		 */
+		$clock = null;
+		if ( isset( $GLOBALS['analytify_tests_email_schedule_clock'] ) && is_array( $GLOBALS['analytify_tests_email_schedule_clock'] ) ) {
+			$clock = $GLOBALS['analytify_tests_email_schedule_clock'];
+		}
+		if ( null === $clock ) {
+			$clock = apply_filters( 'analytify_email_schedule_clock', null );
+		}
+		if ( is_array( $clock ) ) {
+			$current_day       = isset( $clock['l'] ) ? (string) $clock['l'] : gmdate( 'l' );
+			$current_date      = isset( $clock['j'] ) ? (string) (int) $clock['j'] : gmdate( 'j' );
+			$last_day_of_month = isset( $clock['t'] ) ? (string) (int) $clock['t'] : gmdate( 't' );
+		} else {
+			$current_day       = gmdate( 'l' ); // Sunday through Saturday.
+			$current_date      = gmdate( 'j' ); // Day of the month without leading zeros.
+			$last_day_of_month = gmdate( 't' ); // Number of days in the given month.
+		}
 
-		if ( $current_day === $week_date ) {
+		if ( '' !== $week_date && $current_day === $week_date ) {
 			$when_to_send_email[] = 'week';
 		}
 
-		// If last date of month.
-		if ( $last_day_of_month === $month_date ) {
-			$when_to_send_email[] = 'month';
-		} elseif ( $current_date === $month_date ) {
-			$when_to_send_email[] = 'month';
+		// Monthly: specific calendar day, numeric last-day match, or Pro "Last Day" option.
+		if ( $month_date ) {
+			$is_last_day_token = (bool) preg_match( '/^last[_\s-]?day$/i', (string) $month_date );
+			if ( $is_last_day_token ) {
+				if ( (string) $current_date === (string) $last_day_of_month ) {
+					$when_to_send_email[] = 'month';
+				}
+			} elseif ( (string) $last_day_of_month === (string) $month_date ) {
+				// Saved day equals month length: send on any day (legacy monthly "last day of month" numeric form).
+				$when_to_send_email[] = 'month';
+			} elseif ( (string) $current_date === (string) $month_date ) {
+				$when_to_send_email[] = 'month';
+			}
+		}
+
+		// Test Email: use the same rules as cron. If nothing would run today (e.g. weekly not due),
+		// fall back to a preview so the button still sends something.
+		if ( $is_test_email && empty( $when_to_send_email ) ) {
+			if ( class_exists( 'WP_Analytify_Email' ) || class_exists( 'WP_Analytify_Addon_Email' ) ) {
+				$when_to_send_email[] = 'month';
+			} else {
+				$when_to_send_email[] = 'week';
+			}
 		}
 
 		// Convert to associative array with meaningful keys.

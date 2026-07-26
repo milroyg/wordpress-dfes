@@ -74,7 +74,7 @@ span.fs-tag.fs-error {
 	position: absolute;
 	top: 17px;
 	right: 15px;
-	font-size: .9em;
+	font-size: 0.9em;
 }
 
 #fs_account .fs-header-actions ul {
@@ -185,7 +185,7 @@ label.fs-tag.fs-error {
 	border: 1px solid #e5e5e5;
 }
 
-#fs_sites .fs-scrollable-table .fs-table-body>table.widefat {
+#fs_sites .fs-scrollable-table .fs-table-body > table.widefat {
 	border: none !important;
 }
 
@@ -195,7 +195,7 @@ label.fs-tag.fs-error {
 
 #fs_sites .fs-scrollable-table .fs-site-details td:first-of-type {
 	text-align: right;
-	color: gray;
+	color: #808080;
 	width: 1px;
 }
 
@@ -325,6 +325,7 @@ label.fs-tag.fs-error {
 }
 
 @media screen and (max-width: 639px) {
+
 	#fs_account .fs-header-actions {
 		position: static;
 		padding: 0 15px 12px 15px;

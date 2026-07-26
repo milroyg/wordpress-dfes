@@ -38,11 +38,19 @@ class Analytify_Dashboard_Addon_Install {
 			return;
 		}
 
-		$this->is_already_installed = (bool) file_exists( WP_PLUGIN_DIR . '/analytify-analytics-dashboard-widget/wp-analytify-dashboard.php' );
+		$plugin_file = 'analytify-analytics-dashboard-widget/wp-analytify-dashboard.php';
 
-		if ( true === $this->is_already_installed ) {
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		$this->is_already_installed = (bool) file_exists( WP_PLUGIN_DIR . '/' . $plugin_file );
+
+		// Only hide the CTA when the dashboard widget addon is installed and active.
+		if ( $this->is_already_installed && is_plugin_active( $plugin_file ) ) {
 			return;
 		}
+
 		wp_add_dashboard_widget( 'analytify-dashboard-addon', __( 'Google Analytics Dashboard By Analytify', 'wp-analytify' ), array( $this, 'wpa_general_dashboard_area' ), null, null );
 	}
 
@@ -78,7 +86,7 @@ class Analytify_Dashboard_Addon_Install {
 			<a href="<?php echo esc_url( $activate_url ); ?>" class="button button-primary button-hero activate-analytify-dashboard-free"><?php esc_html_e( 'Activate Dashboard Add-on', 'wp-analytify' ); ?></a>
 			<img src="<?php echo esc_url( admin_url( 'images/spinner.gif' ) ); ?> " style=" display: none; margin: 0 auto; padding-top: 20px;" class='install-analytify-dashboard-widget-loader'>
 			<?php else : ?>
-			<a href="" target="_blank" class="button button-primary button-hero install-analytify-dashboard-free" data-nonce="<?php echo esc_attr( wp_create_nonce( 'updates' ) ); ?>"><?php esc_html_e( 'Install Dashboard Add-on Free', 'wp-analytify' ); ?></a>
+			<a href="" target="_blank" class="button button-primary button-hero install-analytify-dashboard-free" data-nonce="<?php echo esc_attr( wp_create_nonce( 'updates' ) ); ?>"><?php esc_html_e( 'Install & Activate Dashboard Add-on Free', 'wp-analytify' ); ?></a>
 			<a href="<?php echo esc_url( $activate_url ); ?>" class="button button-primary button-hero activate-analytify-dashboard-free" style="display: none"><?php esc_html_e( 'Activate Dashboard Add-on', 'wp-analytify' ); ?></a>
 			<img src="<?php echo esc_url( admin_url( 'images/spinner.gif' ) ); ?> " style=" display: none; margin: 0 auto; padding-top: 20px;" class='install-analytify-dashboard-widget-loader'>
 			<?php endif; ?>
@@ -90,26 +98,49 @@ class Analytify_Dashboard_Addon_Install {
 	<script type="text/javascript">
 
 		(function($, window, document) {
+		var activateNonce = '<?php echo esc_js( wp_create_nonce( 'activate-analytify-dashboard' ) ); ?>';
+
+		function activateDashboardWidget(button) {
+			return $.ajax({
+				url: ajaxurl,
+				type: 'POST',
+				data: {
+					action: 'activate-analytify-dashboard-free',
+					security: activateNonce
+				},
+				beforeSend: function() {
+					$('.activate-analytify-dashboard-free').attr('disabled', 'disabled');
+					$('.install-analytify-dashboard-widget-loader').css('display', 'block');
+				}
+			});
+		}
+
 		$('.install-analytify-dashboard-free').on('click', function(event) {
 			event.preventDefault();
 			var nonce = $(this).data('nonce');
 			$.ajax({
-			url: ajaxurl,
-			type: 'POST',
-			data: {
-				slug: 'analytify-analytics-dashboard-widget',
-				action: 'install-plugin',
-				_ajax_nonce: nonce
-			},
-			beforeSend: function(){
-				$('.install-analytify-dashboard-free').attr('disabled', 'disabled');
-				$('.install-analytify-dashboard-widget-loader').css('display', 'block');
-			}
+				url: ajaxurl,
+				type: 'POST',
+				data: {
+					slug: 'analytify-analytics-dashboard-widget',
+					action: 'install-plugin',
+					_ajax_nonce: nonce
+				},
+				beforeSend: function() {
+					$('.install-analytify-dashboard-free').attr('disabled', 'disabled');
+					$('.install-analytify-dashboard-widget-loader').css('display', 'block');
+				}
 			})
-			.done(function() {
-			$('.install-analytify-dashboard-widget-loader').css('display', 'none');
-			$('.install-analytify-dashboard-free').css('display', 'none');
-			$('.activate-analytify-dashboard-free').show()
+			.done(function(response) {
+				if ( response && false === response.success ) {
+					$('.install-analytify-dashboard-widget-loader').css('display', 'none');
+					$('.install-analytify-dashboard-free').removeAttr('disabled');
+					return;
+				}
+
+				activateDashboardWidget().always(function() {
+					location.reload();
+				});
 			});
 		});
 
@@ -117,20 +148,14 @@ class Analytify_Dashboard_Addon_Install {
 		$(document).on('click', '.activate-analytify-dashboard-free', function(event) {
 			event.preventDefault();
 			var button = $(this);
-			$.ajax({
-			url: ajaxurl,
-			type: 'POST',
-			data: {
-				action: 'activate-analytify-dashboard-free'
-			},
-			beforeSend: function() {
-				button.attr('disabled', 'disabled');
-				button.siblings('.install-analytify-dashboard-widget-loader').css('display', 'block');
-			}
-			}).always(function() {
-			location.reload();
+			activateDashboardWidget(button).done(function(response) {
+				if ( response && response.success ) {
+					location.reload();
+				}
+			}).fail(function() {
+				button.removeAttr('disabled');
+				button.siblings('.install-analytify-dashboard-widget-loader').css('display', 'none');
 			});
-
 		});
 		}(window.jQuery, window, document));
 	</script>
@@ -140,21 +165,40 @@ class Analytify_Dashboard_Addon_Install {
 	/**
 	 * Activate Dashboard Widget.
 	 *
+	 * @version 9.1.0
 	 * @return void
 	 */
 	public function activate_free() {
 		// Ensure the user has the capability to manage plugins.
 		if ( ! current_user_can( 'activate_plugins' ) ) {
-			wp_die( esc_html__( 'You do not have permission to activate plugins.', 'wp-analytify' ), 403 );
+			wp_send_json_error(
+				array( 'message' => __( 'You do not have permission to activate plugins.', 'wp-analytify' ) ),
+				403
+			);
 		}
 
-		// Verify nonce for extra security.
 		check_ajax_referer( 'activate-analytify-dashboard', 'security' );
+
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
 
 		$plugin = 'analytify-analytics-dashboard-widget/wp-analytify-dashboard.php';
 
+		if ( ! file_exists( WP_PLUGIN_DIR . '/' . $plugin ) ) {
+			wp_send_json_error(
+				array( 'message' => __( 'Dashboard widget add-on is not installed.', 'wp-analytify' ) )
+			);
+		}
+
 		if ( ! is_plugin_active( $plugin ) ) {
-			activate_plugin( $plugin );
+			$result = activate_plugin( $plugin );
+
+			if ( is_wp_error( $result ) ) {
+				wp_send_json_error(
+					array( 'message' => $result->get_error_message() )
+				);
+			}
 		}
 
 		wp_send_json_success( __( 'Plugin activated successfully.', 'wp-analytify' ) );

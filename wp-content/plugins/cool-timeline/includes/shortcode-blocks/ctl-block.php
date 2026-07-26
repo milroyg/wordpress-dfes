@@ -5,11 +5,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-// Hook scripts function into block editor hook
-add_action( 'enqueue_block_editor_assets', 'ctl_gutenberg_scripts' );
+// Hook scripts function into block assets hook (iframe editor canvas).
+add_action( 'enqueue_block_assets', 'ctl_gutenberg_scripts' );
 
 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 function ctl_gutenberg_scripts() {
+	if ( ! is_admin() ) {
+		return;
+	}
+
 	$blockPath = '/dist/block.js';
 	$stylePath = '/dist/block.css';
 
@@ -18,7 +22,7 @@ function ctl_gutenberg_scripts() {
 	wp_enqueue_script(
 		'ctl-block-js',
 		plugins_url( $blockPath, __FILE__ ),
-		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-components', 'wp-editor', 'wp-data', 'wp-api' ),
+		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-components', 'wp-block-editor', 'wp-data', 'wp-api' ),
 		filemtime( plugin_dir_path( __FILE__ ) . $blockPath )
 	);
 
@@ -26,7 +30,7 @@ function ctl_gutenberg_scripts() {
 	wp_enqueue_style(
 		'ctl-block-css',
 		plugins_url( $stylePath, __FILE__ ),
-		'',
+		array( 'wp-block-editor' ),
 		filemtime( plugin_dir_path( __FILE__ ) . $stylePath )
 	);
 
@@ -45,6 +49,7 @@ add_action(
 			register_block_type(
 				'cool-timleine/shortcode-block',
 				array(
+					'api_version'     => 3,
 					'render_callback' => 'ctl_block_callback',
 					'attributes'      => array(
 						'layout'       => array(
@@ -95,25 +100,28 @@ add_action(
  */
 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 function ctl_block_callback( $attr ) {
-	// Sanitize attributes
-	$layout = isset( $attr['layout'] ) ? sanitize_text_field( $attr['layout'] ) : 'default'; // Sanitize layout
-
-	extract( $attr );
-	if ( isset( $layout ) ) {
-		$shortcode_string = '[cool-timeline layout="%s" skin="%s"
+	$layout        = isset( $attr['layout'] ) ? sanitize_text_field( $attr['layout'] ) : 'default';
+	$skin          = isset( $attr['skin'] ) ? sanitize_text_field( $attr['skin'] ) : 'default';
+	$dateformat    = isset( $attr['dateformat'] ) ? sanitize_text_field( $attr['dateformat'] ) : 'F j';
+	$postperpage   = isset( $attr['postperpage'] ) && '-1' === trim( (string) $attr['postperpage'] ) ? '-1' : (string) max( 1, absint( isset( $attr['postperpage'] ) ? $attr['postperpage'] : 10 ) );
+	$slide_to_show   = isset( $attr['slideToShow'] ) && '' !== $attr['slideToShow'] ? (string) max( 1, absint( $attr['slideToShow'] ) ) : '';
+	$animation     = isset( $attr['animation'] ) ? sanitize_text_field( $attr['animation'] ) : 'none';
+	$icons         = isset( $attr['icons'] ) ? sanitize_text_field( $attr['icons'] ) : 'NO';
+	$order         = isset( $attr['order'] ) ? sanitize_text_field( $attr['order'] ) : 'DESC';
+	$storycontent  = isset( $attr['storycontent'] ) ? sanitize_text_field( $attr['storycontent'] ) : 'short';
+	$shortcode_string = '[cool-timeline layout="%s" skin="%s"
 		show-posts="%s" date-format="%s" icons="%s" animation="%s" order="%s" story-content="%s" items="%s"]';
-		$shortcode        = sprintf(
-			$shortcode_string,
-			$layout,
-			$skin,
-			$postperpage,
-			$dateformat,
-			$icons,
-			$animation,
-			$order,
-			$storycontent,
-			$slideToShow
-		);
-		return $shortcode;
-	}
+
+	return sprintf(
+		$shortcode_string,
+		esc_attr( $layout ),
+		esc_attr( $skin ),
+		esc_attr( $postperpage ),
+		esc_attr( $dateformat ),
+		esc_attr( $icons ),
+		esc_attr( $animation ),
+		esc_attr( $order ),
+		esc_attr( $storycontent ),
+		esc_attr( $slide_to_show )
+	);
 }

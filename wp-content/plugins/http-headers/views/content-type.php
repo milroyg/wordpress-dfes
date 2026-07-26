@@ -5,20 +5,20 @@ if (!defined('ABSPATH')) {
 ?>
 <tr>
     <th scope="row">Content-Type
-        <p class="description"><?php _e('The Content-Type entity header is used to indicate the media type of the resource. In responses, a Content-Type header tells the client what the content type of the returned content actually is. Browsers will do MIME sniffing in some cases and will not necessarily follow the value of this header; to prevent this behavior, the header X-Content-Type-Options can be set to nosniff.', 'http-headers'); ?></p>
+        <p class="description"><?php esc_html_e('The Content-Type entity header is used to indicate the media type of the resource. In responses, a Content-Type header tells the client what the content type of the returned content actually is. Browsers will do MIME sniffing in some cases and will not necessarily follow the value of this header; to prevent this behavior, the header X-Content-Type-Options can be set to nosniff.', 'http-headers'); ?></p>
         <hr>
-        <p class="description"><?php _e('Read more at', 'http-headers'); ?>
-            <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type"><?php _e('MDN Web Docs', 'http-headers'); ?></a>
+        <p class="description"><?php esc_html_e('Read more at', 'http-headers'); ?>
+            <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type"><?php esc_html_e('MDN Web Docs', 'http-headers'); ?></a>
         </p>
     </th>
     <td>
         <fieldset>
             <legend class="screen-reader-text">Content-Type</legend>
             <?php
-            $content_type = get_option('hh_content_type', 0);
-            foreach ($bools as $k => $v)
+            $http_headers_content_type = get_option('hh_content_type', 0);
+            foreach ($http_headers_bools as $http_headers_k => $http_headers_v)
             {
-                ?><p><label><input type="radio" class="http-header" name="hh_content_type" value="<?php echo $k; ?>"<?php checked($content_type, $k); ?> /> <?php echo $v; ?></label></p><?php
+                ?><p><label><input type="radio" class="http-header" name="hh_content_type" value="<?php echo esc_attr($http_headers_k); ?>"<?php checked($http_headers_content_type, $http_headers_k); ?> /> <?php echo esc_html($http_headers_v); ?></label></p><?php
             }
             ?>
         </fieldset>
@@ -27,12 +27,12 @@ if (!defined('ABSPATH')) {
         <?php settings_fields('http-headers-cty'); ?>
         <?php do_settings_sections('http-headers-cty'); ?>
         <?php
-        $content_type_value = get_option('hh_content_type_value');
-        if (!$content_type_value) {
-            $content_type_value = array();
+        $http_headers_content_type_value = get_option('hh_content_type_value');
+        if (!$http_headers_content_type_value) {
+            $http_headers_content_type_value = array();
         }
 
-        $map = array(
+        $http_headers_map = array(
             'eot'   => 'application/vnd.ms-fontobject',
             'otf'   => 'application/x-font-opentype',
             'svg'   => 'image/svg+xml',
@@ -46,22 +46,22 @@ if (!defined('ABSPATH')) {
             <tbody>
                 <tr>
                     <td></td>
-                    <td><strong><?php _e('Extension', 'http-headers'); ?></strong></td>
-                    <td><strong><?php _e('Media type', 'http-headers'); ?></strong></td>
+                    <td><strong><?php esc_html_e('Extension', 'http-headers'); ?></strong></td>
+                    <td><strong><?php esc_html_e('Media type', 'http-headers'); ?></strong></td>
                 </tr>
             <?php
-            foreach ($map as $ext => $media_type)
+            foreach ($http_headers_map as $http_headers_ext => $http_headers_media_type)
             {
                 ?>
                 <tr>
                     <td>
                         <input type="checkbox" class="http-header-value"
-                            name="hh_content_type_value[<?php echo $ext; ?>]"
-                            value="<?php echo $media_type; ?>"<?php
-                                echo !(array_key_exists($ext, $content_type_value) && $content_type_value[$ext] == $media_type) ? NULL : ' checked';
-                                echo $content_type == 1 ? NULL : ' readonly'; ?>></td>
-                    <td>.<?php echo $ext; ?></td>
-                    <td><?php echo $media_type; ?></td>
+                            name="hh_content_type_value[<?php echo esc_attr($http_headers_ext); ?>]"
+                            value="<?php echo esc_attr($http_headers_media_type); ?>"<?php
+                                echo !(array_key_exists($http_headers_ext, $http_headers_content_type_value) && $http_headers_content_type_value[$http_headers_ext] == $http_headers_media_type) ? NULL : ' checked';
+                                echo $http_headers_content_type == 1 ? NULL : ' readonly'; ?>></td>
+                    <td>.<?php echo esc_html($http_headers_ext); ?></td>
+                    <td><?php echo esc_html($http_headers_media_type); ?></td>
                 </tr>
                 <?php
             }

@@ -1,9 +1,12 @@
 <?php
-if (!(isset($_POST['url']) && preg_match('|^https?://|', $_POST['url'])))
+if (!defined('ABSPATH')) {
+	exit;
+}
+if (!(isset($_POST['url']) && preg_match('|^https?://|', sanitize_text_field(wp_unslash($_POST['url'])))))
 {
 	?>
 	<section class="hh-panel">
-		<h3><span class="hh-highlight"><?php _e('URL malformed', 'http-headers'); ?></span></h3>
+		<h3><span class="hh-highlight"><?php esc_html_e('URL malformed', 'http-headers'); ?></span></h3>
 	</section>
 	<?php
 	exit;
@@ -11,30 +14,30 @@ if (!(isset($_POST['url']) && preg_match('|^https?://|', $_POST['url'])))
 
 include 'includes/config.inc.php';
 
-$args = array();
+$http_headers_args = array();
 
 if (isset($_POST['authentication'], $_POST['username'], $_POST['password'])
 	&& !empty($_POST['username'])
 	&& !empty($_POST['password'])
 )
 {
-    $args['headers'] = array(
-        'Authorization' => sprintf('Basic %s', base64_encode($_POST['username'] .':'. $_POST['password']))
+    $http_headers_args['headers'] = array(
+        'Authorization' => sprintf('Basic %s', base64_encode(sanitize_text_field(wp_unslash($_POST['username'])) .':'. sanitize_text_field(wp_unslash($_POST['password']))))
     );
 }
 
-$response = wp_safe_remote_head($_POST['url'], $args);
-$status = wp_remote_retrieve_response_code($response);
-$dictionary = wp_remote_retrieve_headers($response);
-$responseHeaders = $dictionary ? $dictionary->getAll() : array();
+$http_headers_response = wp_safe_remote_head(sanitize_text_field(wp_unslash($_POST['url'])), $http_headers_args);
+$http_headers_status = wp_remote_retrieve_response_code($http_headers_response);
+$http_headers_dictionary = wp_remote_retrieve_headers($http_headers_response);
+$http_headers_responseHeaders = $http_headers_dictionary ? $http_headers_dictionary->getAll() : array();
 
-if ($status !== 200)
+if ($http_headers_status !== 200)
 {
 	?>
 	<section class="hh-panel">
-		<h3><span class="hh-highlight"><?php _e('HTTP Status', 'http-headers'); ?>: <?php echo $status; ?></span></h3>
-		<p><?php 
-		switch ($status)
+		<h3><span class="hh-highlight"><?php esc_html_e('HTTP Status', 'http-headers'); ?>: <?php echo esc_html($http_headers_status); ?></span></h3>
+		<p><?php
+		switch ($http_headers_status)
 		{
 			case 400:
 				echo 'Bad Request';
@@ -60,26 +63,26 @@ if ($status !== 200)
 }
 ?>
 <section class="hh-panel">
-	<h3><span class="hh-highlight"><?php _e('Response headers', 'http-headers'); ?></span></h3>
+	<h3><span class="hh-highlight"><?php esc_html_e('Response headers', 'http-headers'); ?></span></h3>
 	<table class="hh-results">
 		<thead>
 			<tr>
-				<th style="width: 30%"><?php _e('Header', 'http-headers'); ?></th>
-				<th><?php _e('Value', 'http-headers'); ?></th>
+				<th style="width: 30%"><?php esc_html_e('Header', 'http-headers'); ?></th>
+				<th><?php esc_html_e('Value', 'http-headers'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
 		<?php 
-		$reportOnly = array('content-security-policy-report-only');
-		foreach ($responseHeaders as $k => $v)
+		$http_headers_reportOnly = array('content-security-policy-report-only');
+		foreach ($http_headers_responseHeaders as $http_headers_k => $http_headers_v)
 		{
-			$k = strtolower($k);
-			$found = in_array($k, $reportOnly);
-			$v = is_array($v) ? join(", ", $v) : $v;
+			$http_headers_k = strtolower($http_headers_k);
+			$http_headers_found = in_array($http_headers_k, $http_headers_reportOnly);
+			$http_headers_v = is_array($http_headers_v) ? join(", ", $http_headers_v) : $http_headers_v;
 			?>
-			<tr<?php echo array_key_exists($k, $headers) || $found ? ' class="hh-found"' : NULL; ?>>
-				<td><?php echo htmlspecialchars($k); ?></td>
-				<td><?php echo htmlspecialchars($v); ?></td>
+			<tr<?php echo array_key_exists($http_headers_k, $http_headers_headers) || $http_headers_found ? ' class="hh-found"' : NULL; ?>>
+				<td><?php echo esc_html($http_headers_k); ?></td>
+				<td><?php echo esc_html($http_headers_v); ?></td>
 			</tr>
 			<?php
 		}
@@ -88,40 +91,40 @@ if ($status !== 200)
 	</table>
 </section>
 <?php
-$special = array('content-security-policy');
-$exclude = array('custom-headers', 'cookie-security', 'x-powered-by');
-$missing = array();
-foreach ($headers as $k => $v)
+$http_headers_special = array('content-security-policy');
+$http_headers_exclude = array('custom-headers', 'cookie-security', 'x-powered-by');
+$http_headers_missing = array();
+foreach ($http_headers_headers as $http_headers_k => $http_headers_v)
 {
-	if (!array_key_exists($k, $responseHeaders)
-	    && !in_array($k, $exclude)
-	    && !(in_array($k, $special) && array_key_exists($k . '-report-only', $responseHeaders) ))
+	if (!array_key_exists($http_headers_k, $http_headers_responseHeaders)
+	    && !in_array($http_headers_k, $http_headers_exclude)
+	    && !(in_array($http_headers_k, $http_headers_special) && array_key_exists($http_headers_k . '-report-only', $http_headers_responseHeaders) ))
 	{
-		$missing[$k] = isset($categories[$v[2]]) ? $categories[$v[2]] : 'Other';
+		$http_headers_missing[$http_headers_k] = isset($http_headers_categories[$http_headers_v[2]]) ? $http_headers_categories[$http_headers_v[2]] : 'Other';
 	}
 }
 
-if (!empty($missing))
+if (!empty($http_headers_missing))
 {
-	asort($missing);
+	asort($http_headers_missing);
 	?>
 	<section class="hh-panel">
-		<h3><span class="hh-highlight"><?php _e('Missing headers', 'http-headers'); ?></span></h3>
+		<h3><span class="hh-highlight"><?php esc_html_e('Missing headers', 'http-headers'); ?></span></h3>
 		<table class="hh-results">
 			<thead>
 				<tr>
-					<th style="width: 30%"><?php _e('Header', 'http-headers'); ?></th>
-					<th><?php _e('Category', 'http-headers'); ?></th>
+					<th style="width: 30%"><?php esc_html_e('Header', 'http-headers'); ?></th>
+					<th><?php esc_html_e('Category', 'http-headers'); ?></th>
 				</tr>
 			</thead>
 			<tbody>
 			<?php
-			foreach ($missing as $k => $v)
+			foreach ($http_headers_missing as $http_headers_k => $http_headers_v)
 			{
 				?>
 				<tr>
-					<td><a href="<?php echo get_admin_url(); ?>options-general.php?page=http-headers&amp;header=<?php echo htmlspecialchars($k); ?>"><?php echo $k; ?></a></td>
-					<td><?php echo $v; ?></td>
+					<td><a href="<?php echo esc_url(get_admin_url()); ?>options-general.php?page=http-headers&amp;header=<?php echo esc_attr($http_headers_k); ?>"><?php echo esc_html($http_headers_k); ?></a></td>
+					<td><?php echo esc_html($http_headers_v); ?></td>
 				</tr>
 				<?php
 			}

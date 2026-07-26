@@ -48,14 +48,16 @@ trait Analytify_GA4_Core {
 
 	/**
 	 * Create web stream for Analytify tracking in Google Analytics.
-	 * Stream types: Google\Analytics\Admin\V1alpha\DataStream\DataStreamType
+	 *
+	 * Stream types: Google\Analytics\Admin\V1alpha\DataStream\DataStreamType.
+	 * Logger is guarded (null-safe); only response codes and safe summaries are logged—never full API response or body.
 	 *
 	 * @param string $property_id The GA4 property ID.
 	 *
 	 * @return array Measurement data.
 	 *
 	 * @since 5.0.0
-	 * @version 7.0.1
+	 * @version 9.0.0
 	 */
 	public function analytify_create_ga_stream( $property_id ) {
 		// Use caching for expensive operations.
@@ -102,20 +104,24 @@ trait Analytify_GA4_Core {
 				$response = wp_remote_get( $url_list_streams, $args );
 
 				// Log the response for debugging.
-				$logger = analytify_get_logger();
-				$logger->info( 'Fetching existing streams.', array( 'response' => $response ) );
+				$logger = function_exists( 'analytify_get_logger' ) ? analytify_get_logger() : null;
+				if ( $logger && method_exists( $logger, 'info' ) ) {
+					$logger->info( 'Fetching existing streams.', array( 'response' => $response ) );
+				}
 				if ( class_exists( 'QM' ) ) {
-					QM::info( 'Analytify: Fetching existing streams.', array( 'response' => $response ) );
+					QM::info( 'Analytify: Fetching existing streams.' );
 				}
 
 				if ( is_wp_error( $response ) ) {
-					$logger->error(
-						'Error fetching streams.',
-						array(
-							'error_message' => $response->get_error_message(),
-							'source'        => 'analytify_create_stream_errors',
-						)
-					);
+					if ( $logger && method_exists( $logger, 'error' ) ) {
+						$logger->error(
+							'Error fetching streams.',
+							array(
+								'error_message' => $response->get_error_message(),
+								'source'        => 'analytify_create_stream_errors',
+							)
+						);
+					}
 					return;
 				}
 
@@ -123,7 +129,9 @@ trait Analytify_GA4_Core {
 				$decoded_response = json_decode( $body, true );
 
 				// Log the decoded response for debugging.
-				$logger->info( 'Decoded response from GA.', array( 'decoded_response' => $decoded_response ) );
+				if ( $logger && method_exists( $logger, 'info' ) ) {
+					$logger->info( 'Decoded response from GA.', array( 'decoded_response' => $decoded_response ) );
+				}
 
 				// Check if any existing streams match the Analytify stream.
 				if ( isset( $decoded_response['dataStreams'] ) ) {
@@ -149,7 +157,9 @@ trait Analytify_GA4_Core {
 								$analytify_ga4_streams[ $property_id ] = $measurement_data;
 								update_option( 'analytify-ga4-streams', $analytify_ga4_streams );
 
-								$logger->info( 'Stream found and saved.', array( 'measurement_data' => $measurement_data ) );
+								if ( $logger && method_exists( $logger, 'info' ) ) {
+									$logger->info( 'Stream found and saved.', array( 'measurement_data' => $measurement_data ) );
+								}
 								return $measurement_data;
 							}
 						}
@@ -157,7 +167,9 @@ trait Analytify_GA4_Core {
 				}
 
 				// If no existing stream found, create a new one.
-				$logger->info( 'No existing stream found, creating new one.' );
+				if ( $logger && method_exists( $logger, 'info' ) ) {
+					$logger->info( 'No existing stream found, creating new one.' );
+				}
 
 				$stream_data = array(
 					'displayName'   => $stream_name,
@@ -178,7 +190,9 @@ trait Analytify_GA4_Core {
 				$create_response = wp_remote_post( $url_list_streams, $create_args );
 
 				if ( is_wp_error( $create_response ) ) {
-					$logger->error( 'Error creating stream.', array( 'error_message' => $create_response->get_error_message() ) );
+					if ( $logger && method_exists( $logger, 'error' ) ) {
+						$logger->error( 'Error creating stream.', array( 'error_message' => $create_response->get_error_message() ) );
+					}
 					return;
 				}
 
@@ -198,11 +212,15 @@ trait Analytify_GA4_Core {
 					$analytify_ga4_streams[ $property_id ] = $measurement_data;
 					update_option( 'analytify-ga4-streams', $analytify_ga4_streams );
 
-					$logger->info( 'New stream created and saved.', array( 'measurement_data' => $measurement_data ) );
+					if ( $logger && method_exists( $logger, 'info' ) ) {
+						$logger->info( 'New stream created and saved.', array( 'measurement_data' => $measurement_data ) );
+					}
 					return $measurement_data;
 				}
 
-				$logger->error( 'Failed to create stream.', array( 'response' => $created_stream ) );
+				if ( $logger && method_exists( $logger, 'error' ) ) {
+					$logger->error( 'Failed to create stream.', array( 'response' => $created_stream ) );
+				}
 				return false;
 			},
 			1800
@@ -215,13 +233,17 @@ trait Analytify_GA4_Core {
 	 * @param string $property_id The ID of the property for which to fetch the data streams.
 	 *
 	 * @return array|false Array of data stream objects if found, otherwise false or empty array.
-	 * @version 7.0.1
+	 * @version 9.0.0
 	 */
 	public function analytify_get_ga_streams( $property_id ) {
+		// Guarded logger: null-safe; never log full response/body.
+		$logger = function_exists( 'analytify_get_logger' ) ? analytify_get_logger() : null;
+
 		// If no property ID specified, return false.
 		if ( empty( $property_id ) ) {
-			$logger = analytify_get_logger();
-
+			if ( $logger && method_exists( $logger, 'warning' ) ) {
+				$logger->warning( 'No property ID specified in analytify_get_ga_streams.', array( 'source' => 'analytify_get_ga_streams' ) );
+			}
 			if ( class_exists( 'QM' ) ) {
 				QM::warning( 'Analytify: No property ID specified in analytify_get_ga_streams function.' );
 			}
@@ -233,8 +255,6 @@ trait Analytify_GA4_Core {
 
 		// Validate that token is an array and has the expected structure.
 		if ( ! is_array( $token ) || ! isset( $token['access_token'] ) ) {
-			$logger = analytify_get_logger();
-
 			if ( class_exists( 'QM' ) ) {
 				QM::error( 'Analytify: Error: Invalid or missing Google Analytics token in analytify_get_ga_streams.' );
 			}
@@ -243,8 +263,6 @@ trait Analytify_GA4_Core {
 
 		$access_token = $token['access_token']; // Method to retrieve your OAuth access token.
 		if ( empty( $access_token ) ) {
-			$logger = analytify_get_logger();
-
 			if ( class_exists( 'QM' ) ) {
 				QM::error( 'Analytify: Failed to retrieve access token in analytify_get_ga_streams function.' );
 			}
@@ -265,8 +283,16 @@ trait Analytify_GA4_Core {
 
 		// Check for errors in the response.
 		if ( is_wp_error( $response ) ) {
-			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Error logging needed for debugging API failures.
-			error_log( 'Error in wp_remote_get (analytify_fetch_ga_streams): ' . $response->get_error_message() );
+			if ( $logger && method_exists( $logger, 'warning' ) ) {
+				$logger->warning(
+					'Failed to fetch GA streams via wp_remote_get.',
+					array(
+						'source'      => 'analytify_get_ga_streams',
+						'property_id' => $property_id,
+						'error'       => $response->get_error_message(),
+					)
+				);
+			}
 			return false;
 		}
 
@@ -274,10 +300,19 @@ trait Analytify_GA4_Core {
 		$body             = wp_remote_retrieve_body( $response );
 		$decoded_response = json_decode( $body, true );
 
-		// Check for JSON parsing errors.
+		// Check for JSON parsing errors. Do not log response body.
 		if ( json_last_error() !== JSON_ERROR_NONE ) {
-			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Error logging needed for debugging JSON parsing failures.
-			error_log( 'JSON decoding error (analytify_fetch_ga_streams): ' . json_last_error_msg() );
+			if ( $logger && method_exists( $logger, 'warning' ) ) {
+				$logger->warning(
+					'JSON decoding error while fetching GA streams.',
+					array(
+						'source'               => 'analytify_get_ga_streams',
+						'property_id'          => $property_id,
+						'json_error'           => json_last_error_msg(),
+						'response_body_length' => strlen( $body ),
+					)
+				);
+			}
 			return false;
 		}
 
@@ -323,7 +358,7 @@ trait Analytify_GA4_Core {
 	 * Retrieve Google Analytics properties for the authenticated user.
 	 *
 	 * @since 7.0.0
-	 * @version 7.0.1
+	 * @version 9.0.0
 	 */
 	public function analytify_get_ga_properties() {
 		$token = $this->analytify_get_google_token();
@@ -372,8 +407,10 @@ trait Analytify_GA4_Core {
 			}
 		} catch ( Exception $e ) {
 			$error_message = $e->getMessage();
-			$logger        = analytify_get_logger();
-			$logger->warning( $error_message, array( 'source' => 'analytify_analytify_get_ga_properties_errors' ) );
+			$logger        = function_exists( 'analytify_get_logger' ) ? analytify_get_logger() : null;
+			if ( $logger && method_exists( $logger, 'warning' ) ) {
+				$logger->warning( $error_message, array( 'source' => 'analytify_analytify_get_ga_properties_errors' ) );
+			}
 			if ( class_exists( 'QM' ) ) {
 				QM::warning( 'Analytify: ' . $error_message, array( 'source' => 'analytify_analytify_get_ga_properties_errors' ) );
 			}
@@ -548,12 +585,50 @@ trait Analytify_GA4_Core {
 	}
 
 	/**
+	 * Acknowledge user data collection for a GA4 property (required before creating MP secrets).
+	 *
+	 * @param string $property_id GA4 property ID (numeric).
+	 * @return bool True if acknowledgement succeeded or was already done, false on failure.
+	 * @since 8.1.2
+	 */
+	public function analytify_acknowledge_user_data_collection( $property_id ) {
+		if ( empty( $property_id ) || ! is_numeric( $property_id ) ) {
+			return false;
+		}
+		$token = $this->analytify_get_google_token();
+		if ( ! is_array( $token ) || ! isset( $token['access_token'] ) || empty( $token['access_token'] ) ) {
+			return false;
+		}
+		$url      = WP_ANALYTIFY_GA_ADMIN_API_BASE_V1BETA . '/properties/' . $property_id . ':acknowledgeUserDataCollection';
+		$body     = array(
+			'acknowledgement' => 'I acknowledge that I have the necessary privacy disclosures and rights from my end users for the collection and processing of their data, including the association of such data with the visitation information Google Analytics collects from my site and/or app property.',
+		);
+		$args     = array(
+			'method'  => 'POST',
+			'headers' => array(
+				'Authorization' => 'Bearer ' . $token['access_token'],
+				'Content-Type'  => 'application/json',
+			),
+			'body'    => wp_json_encode( $body ),
+		);
+		$response = wp_remote_post( $url, $args );
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+		$code = wp_remote_retrieve_response_code( $response );
+		// 200 = success.
+		return ( 200 === $code );
+	}
+
+	/**
 	 * Get Measurement Protocol Secret for GA4 tracking.
+	 *
+	 * Uses analytify_get_logger() for warning/error when fetch or fallback create fails.
 	 *
 	 * @param string $formatted_name The formatted name of the stream.
 	 * @return array|false Array containing the secret data or false on failure.
 	 * @since 5.0.0
-	 * @version 7.0.1
+	 * @version 9.0.0
 	 */
 	public function analytify_get_mp_secret( $formatted_name ) {
 		// Validate input parameter.
@@ -595,7 +670,17 @@ trait Analytify_GA4_Core {
 
 		// Check for errors in the response.
 		if ( is_wp_error( $response ) ) {
-
+			if ( function_exists( 'analytify_log' ) ) {
+				analytify_log(
+					'warning',
+					'Failed to fetch Measurement Protocol secret.',
+					array(
+						'source'         => 'analytify_get_mp_secret',
+						'formatted_name' => $formatted_name,
+						'error'          => $response->get_error_message(),
+					)
+				);
+			}
 			return false;
 		}
 
@@ -612,8 +697,11 @@ trait Analytify_GA4_Core {
 			return $decoded_response['measurementProtocolSecrets'][0];
 		}
 
-		// If no secret found, try to create one.
+		// If no secret found, try to create one (acknowledge user data collection first if required by GA4).
 		try {
+			if ( preg_match( '#^properties/(\d+)/#', $formatted_name, $m ) && isset( $m[1] ) ) {
+				$this->analytify_acknowledge_user_data_collection( $m[1] );
+			}
 			$create_secret_url  = WP_ANALYTIFY_GA_ADMIN_API_BASE . '/' . $formatted_name . '/measurementProtocolSecrets';
 			$create_secret_body = array(
 				'displayName' => 'Analytify MP Secret',
@@ -631,7 +719,17 @@ trait Analytify_GA4_Core {
 			$create_response = wp_remote_post( $create_secret_url, $create_args );
 
 			if ( is_wp_error( $create_response ) ) {
-
+				if ( function_exists( 'analytify_log' ) ) {
+					analytify_log(
+						'error',
+						'Failed to create Measurement Protocol secret via fallback.',
+						array(
+							'source'         => 'analytify_get_mp_secret_fallback',
+							'formatted_name' => $formatted_name,
+							'error'          => $create_response->get_error_message(),
+						)
+					);
+				}
 				return false;
 			}
 
@@ -652,12 +750,14 @@ trait Analytify_GA4_Core {
 	/**
 	 * Create Measurement Protocol Secret for GA4 tracking.
 	 *
+	 * Uses analytify_get_logger() for error when create request fails.
+	 *
 	 * @param string $property_id The property ID.
 	 * @param string $formatted_name The formatted name of the stream.
 	 * @param string $measurement_id The measurement ID.
 	 * @return array|false Array containing the secret data or false on failure.
 	 * @since 5.0.0
-	 * @version 7.0.1
+	 * @version 9.0.0
 	 */
 	public function analytify_create_mp_secret( $property_id, $formatted_name, $measurement_id ) {
 		// Validate input parameters.
@@ -665,6 +765,9 @@ trait Analytify_GA4_Core {
 
 			return false;
 		}
+
+		// Acknowledge user data collection first (required by GA4 before creating MP secrets).
+		$this->analytify_acknowledge_user_data_collection( $property_id );
 
 		// Get the access token for authentication.
 		$token = $this->analytify_get_google_token();
@@ -706,7 +809,18 @@ trait Analytify_GA4_Core {
 
 		// Check for errors in the response.
 		if ( is_wp_error( $response ) ) {
-
+			if ( function_exists( 'analytify_log' ) ) {
+				analytify_log(
+					'error',
+					'Failed to create Measurement Protocol secret.',
+					array(
+						'source'         => 'analytify_create_mp_secret',
+						'property_id'    => $property_id,
+						'measurement_id' => $measurement_id,
+						'error'          => $response->get_error_message(),
+					)
+				);
+			}
 			return false;
 		}
 
@@ -839,9 +953,11 @@ trait Analytify_GA4_Core {
 	/**
 	 * List custom dimensions for GA4 property.
 	 *
-	 * @return array|false Array of dimensions or false on failure.
+	 * Dimensions from GA4 API, or false on failure.
+	 *
+	 * @return array<int, array<string, mixed>>|false
 	 * @since 5.0.0
-	 * @version 7.0.1
+	 * @version 9.1.0
 	 */
 	public function analytify_list_dimensions() {
 		$property_id = WPANALYTIFY_Utils::get_reporting_property();
@@ -905,86 +1021,131 @@ trait Analytify_GA4_Core {
 	 *
 	 * @return array Array of dimensions that need creation.
 	 * @since 5.0.0
-	 * @version 7.0.1
+	 * @version 9.1.0
 	 */
-	public function analytify_list_dimensions_needs_creation() {
-		$current_property_dimensions = $this->analytify_list_dimensions();
+	public function analytify_list_dimensions_needs_creation(): array {
+		return $this->analytify_list_dimensions_needs_creation_for_rows(
+			WPANALYTIFY_Utils::required_dashboard_dimensions()
+		);
+	}
 
-		// Reduced list of essential dimensions to avoid hitting GA4 resource limits.
-		// GA4 has a limit of 50 custom dimensions per property.
-		$required_dimensions = array(
-			array(
-				'parameter_name' => 'page_title',
-				'display_name'   => 'Page Title',
-				'scope'          => 'EVENT',
-			),
-			array(
-				'parameter_name' => 'page_path',
-				'display_name'   => 'Page Path',
-				'scope'          => 'EVENT',
-			),
-			array(
-				'parameter_name' => 'user_type',
-				'display_name'   => 'User Type',
-				'scope'          => 'USER',
-			),
-			array(
-				'parameter_name' => 'device_category',
-				'display_name'   => 'Device Category',
-				'scope'          => 'EVENT',
-			),
-			array(
-				'parameter_name' => 'country',
-				'display_name'   => 'Country',
-				'scope'          => 'EVENT',
-			),
-			array(
-				'parameter_name' => 'source',
-				'display_name'   => 'Source',
-				'scope'          => 'EVENT',
-			),
-			array(
-				'parameter_name' => 'medium',
-				'display_name'   => 'Medium',
-				'scope'          => 'EVENT',
-			),
-			array(
-				'parameter_name' => 'campaign',
-				'display_name'   => 'Campaign',
-				'scope'          => 'EVENT',
-			),
-			array(
-				'parameter_name' => 'landing_page',
-				'display_name'   => 'Landing Page',
-				'scope'          => 'EVENT',
-			),
-			array(
-				'parameter_name' => 'exit_page',
-				'display_name'   => 'Exit Page',
-				'scope'          => 'EVENT',
-			),
+	/**
+	 * Create missing GA4 custom definitions for wpa_* event parameters (enhanced tracking).
+	 *
+	 * Called when tracking events/config reference parameters not yet registered on the property.
+	 * Skips names already synced for this property to avoid repeat Admin API calls.
+	 *
+	 * @since 9.1.0
+	 * @version 9.1.0
+	 *
+	 * @param array<int, string> $parameter_names Event parameter names (wpa_*).
+	 * @return void
+	 */
+	public function analytify_ensure_tracking_dimensions( array $parameter_names ) {
+		if ( ! class_exists( 'WPANALYTIFY_Utils' ) || 'ga4' !== WPANALYTIFY_Utils::get_ga_mode() ) {
+			return;
+		}
+
+		$property_id = WPANALYTIFY_Utils::get_reporting_property();
+		if ( empty( $property_id ) || ! method_exists( 'WPANALYTIFY_Utils', 'required_dimensions' ) ) {
+			return;
+		}
+
+		$parameter_names = array_values(
+			array_unique(
+				array_filter(
+					$parameter_names,
+					static function ( $name ) {
+						return is_string( $name ) && 0 === strpos( $name, 'wpa_' );
+					}
+				)
+			)
 		);
 
-		// If no existing dimensions, all required dimensions need to be created.
-		if ( empty( $current_property_dimensions ) ) {
-			return $required_dimensions;
+		if ( empty( $parameter_names ) ) {
+			return;
 		}
 
-		$existing_dimension_names = array();
-		foreach ( $current_property_dimensions as $dimension ) {
-			if ( isset( $dimension['parameterName'] ) ) {
-				$existing_dimension_names[] = $dimension['parameterName'];
+		$synced_key = 'analytify_tracking_dims_' . $property_id;
+		$synced     = get_option( $synced_key, array() );
+		$synced     = is_array( $synced ) ? $synced : array();
+
+		$pending = array_diff( $parameter_names, $synced );
+		if ( empty( $pending ) ) {
+			return;
+		}
+
+		$registry = WPANALYTIFY_Utils::required_dimensions();
+		$rows     = array();
+		foreach ( $pending as $name ) {
+			if ( isset( $registry[ $name ] ) ) {
+				$rows[] = $registry[ $name ];
 			}
 		}
 
-		$dimensions_to_create = array();
-		foreach ( $required_dimensions as $required_dimension ) {
-			if ( ! in_array( $required_dimension['parameter_name'], $existing_dimension_names, true ) ) {
-				$dimensions_to_create[] = $required_dimension;
+		if ( empty( $rows ) ) {
+			update_option( $synced_key, array_values( array_unique( array_merge( $synced, $pending ) ) ), false );
+			return;
+		}
+
+		$missing = $this->analytify_list_dimensions_needs_creation_for_rows( $rows );
+		foreach ( $missing as $row ) {
+			$this->analytify_create_dimension( $row['parameter_name'], $row['display_name'], $row['scope'] );
+		}
+
+		update_option( $synced_key, array_values( array_unique( array_merge( $synced, $pending ) ) ), false );
+	}
+
+	/**
+	 * Diff registry rows against dimensions already on the GA4 property.
+	 *
+	 * @since 9.1.0
+	 * @param array<int, array{parameter_name: string, display_name: string, scope: int|string}> $rows Registry rows.
+	 * @return array<int, array{parameter_name: string, display_name: string, scope: int|string}>
+	 */
+	private function analytify_list_dimensions_needs_creation_for_rows( array $rows ) {
+		$current = $this->analytify_list_dimensions();
+		if ( ! is_array( $current ) || array() === $current ) {
+			return $rows;
+		}
+
+		$existing = wp_list_pluck( $current, 'parameterName' );
+		$missing  = array();
+
+		foreach ( $rows as $row ) {
+			if ( empty( $row['parameter_name'] ) || in_array( $row['parameter_name'], $existing, true ) ) {
+				continue;
+			}
+			$missing[] = $row;
+		}
+
+		return $missing;
+	}
+
+	/**
+	 * Ensure dimensions for front-end tracking scripts enqueued on this request.
+	 *
+	 * @since 9.1.0
+	 * @version 9.1.0
+	 * @return void
+	 */
+	public function analytify_ensure_tracking_dimensions_for_enqueued_scripts() {
+		$script_params = array(
+			'wp-analytify-scrolldepth'            => array( 'wpa_category', 'wpa_percentage' ),
+			'wp-analytify-video-tracking'         => array( 'wpa_category', 'wpa_video_provider', 'wpa_video_action', 'wpa_video_duration', 'wpa_video_title' ),
+			'wp-analytify-miscellaneous-tracking' => array( 'wpa_category', 'wpa_label', 'wpa_action' ),
+			'analytify-events-tracking'           => array( 'wpa_category', 'wpa_link_action', 'wpa_link_label', 'wpa_link_text', 'wpa_device_category', 'wpa_click_hour', 'wpa_click_day', 'wpa_traffic_source', 'wpa_country_code', 'wpa_tel_number', 'wpa_label', 'wpa_affiliate_label', 'wpa_email_address', 'wpa_is_affiliate_link', 'wpa_outbound' ),
+			'analytify_forms_tracking'            => array( 'wpa_form_id', 'wpa_link_action', 'wpa_category', 'wpa_link_label' ),
+		);
+
+		$params = array();
+		foreach ( $script_params as $handle => $names ) {
+			if ( wp_script_is( $handle, 'enqueued' ) || wp_script_is( $handle, 'done' ) ) {
+				$params = array_merge( $params, $names );
 			}
 		}
 
-		return $dimensions_to_create;
+		$this->analytify_ensure_tracking_dimensions( $params );
 	}
 
 	/**
@@ -995,9 +1156,9 @@ trait Analytify_GA4_Core {
 	 * @param string  $scope The scope of the dimension (EVENT, USER, etc.).
 	 * @param string  $description Description of the dimension, max length 150 characters.
 	 * @param integer $property_id Reporting property ID to associate dimension, default is current reporting property.
-	 * @return array Array containing the response status.
+	 * @return array Response status payload.
 	 * @since 5.0.0
-	 * @version 7.0.1
+	 * @version 9.1.0
 	 */
 	public function analytify_create_dimension( $parameter_name, $display_name, $scope, $description = '', $property_id = '' ) {
 		// Get the property ID, if not provided.
@@ -1037,6 +1198,13 @@ trait Analytify_GA4_Core {
 		// Prepare the request URL for creating dimensions.
 		$url = WP_ANALYTIFY_GA_ADMIN_API_BASE . '/properties/' . $property_id . '/customDimensions';
 
+		// GA4 Admin API expects EVENT/USER; required_dimensions() uses legacy 1/2 integers.
+		if ( 1 === $scope || '1' === $scope ) {
+			$scope = 'EVENT';
+		} elseif ( 2 === $scope || '2' === $scope ) {
+			$scope = 'USER';
+		}
+
 		// Set up the request body.
 		$body = array(
 			'parameterName' => $parameter_name,
@@ -1064,8 +1232,10 @@ trait Analytify_GA4_Core {
 
 		// Handle the response.
 		if ( is_wp_error( $response ) ) {
-			$logger = analytify_get_logger();
-			$logger->warning( $response->get_error_message(), array( 'source' => 'analytify_analytify_create_dimension_errors' ) );
+			$logger = function_exists( 'analytify_get_logger' ) ? analytify_get_logger() : null;
+			if ( $logger && method_exists( $logger, 'warning' ) ) {
+				$logger->warning( $response->get_error_message(), array( 'source' => 'analytify_analytify_create_dimension_errors' ) );
+			}
 			if ( class_exists( 'QM' ) ) {
 				QM::warning( 'Analytify: ' . $response->get_error_message(), array( 'source' => 'analytify_analytify_create_dimension_errors' ) );
 			}
@@ -1090,8 +1260,10 @@ trait Analytify_GA4_Core {
 				);
 			}
 
-			$logger = analytify_get_logger();
-			$logger->warning( $message, array( 'source' => 'analytify_analytify_create_dimension_errors' ) );
+			$logger = function_exists( 'analytify_get_logger' ) ? analytify_get_logger() : null;
+			if ( $logger && method_exists( $logger, 'warning' ) ) {
+				$logger->warning( $message, array( 'source' => 'analytify_analytify_create_dimension_errors' ) );
+			}
 			if ( class_exists( 'QM' ) ) {
 				QM::warning( 'Analytify: ' . $message, array( 'source' => 'analytify_analytify_create_dimension_errors' ) );
 			}

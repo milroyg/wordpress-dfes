@@ -119,13 +119,14 @@ class Analytify_Plugin_Lifecycle {
 	 */
 	public function uninstall() {
 
-		require_once defined( 'WP_ANALYTIFY_PLUGIN_DIR' ) ? WP_ANALYTIFY_PLUGIN_DIR : dirname( __DIR__ ) . '/classes/analytify-utils.php';
+		$plugin_dir = defined( 'WP_ANALYTIFY_PLUGIN_DIR' ) ? WP_ANALYTIFY_PLUGIN_DIR : dirname( __DIR__ );
+		require_once $plugin_dir . '/classes/analytify-utils.php';
 
 		$remove_settings_on_uninstall = WPANALYTIFY_Utils::get_option( 'uninstall_analytify_settings', 'wp-analytify-advanced', false );
 
 		if ( $remove_settings_on_uninstall && 'on' === $remove_settings_on_uninstall ) {
 
-			require_once defined( 'WP_ANALYTIFY_PLUGIN_DIR' ) ? WP_ANALYTIFY_PLUGIN_DIR : dirname( __DIR__ ) . '/classes/analytify-factory-reset.php';
+			require_once $plugin_dir . '/classes/analytify-factory-reset.php';
 
 			// Remove all the settings on uninstall.
 			( new Analytify_Factory_Reset() )->remove_settings();

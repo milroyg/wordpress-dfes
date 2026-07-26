@@ -16,13 +16,6 @@ class CoolTmVCAddon {
 		add_action( 'init', array( $vc_addon, 'ctl_vc_addon' ) );
 	}
 
-	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		 // Setup your plugin object here
-	}
-
 	public function ctl_vc_addon() {
 		if ( defined( 'WPB_VC_VERSION' ) ) {
 			$date_formats      = array(
@@ -157,7 +150,11 @@ class CoolTmVCAddon {
 							'heading'     => __( 'Animations Effect', 'cool-timeline' ),
 							'param_name'  => 'animation',
 							'value'       => $animation_effects,
-							'description' => __( "Add Animations Effect Inside Timeline. You Can Check Effects Demo From <a  target='_blank' href='http://michalsnik.github.io/aos/'>AOS</a>", 'cool-timeline' ),
+							'description' => sprintf(
+								/* translators: %s: HTML link to the AOS animation effects demo. */
+								__( 'Add Animations Effect Inside Timeline. Check effects demo at %s', 'cool-timeline' ),
+								'<a target="_blank" rel="noopener noreferrer" href="' . esc_url( 'https://michalsnik.github.io/aos/' ) . '">AOS</a>'
+							),
 							'save_always' => true,
 							'dependency'  => array(
 								'element' => 'layout',

@@ -3,7 +3,7 @@
   Plugin Name: Cool Timeline
   Plugin URI:https://cooltimeline.com
   Description:Showcase your story, company history, events, or roadmap using stunning vertical or horizontal layouts.
-  Version:3.2.3
+  Version:3.3.6
   Author:Cool Plugins
   Author URI:https://coolplugins.net/?utm_source=ctl_plugin&utm_medium=inside&utm_campaign=author_page&utm_content=plugins_list
   License:GPLv2 or later
@@ -18,8 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 /** Configuration */
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 if ( ! defined( 'CTL_V' ) ) {
-	define( 'CTL_V', '3.2.3' );
+	define( 'CTL_V', '3.3.6' );
 }
 // define constants for later use
 define( 'CTL_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -31,6 +32,8 @@ define( 'CTL_FEEDBACK_API', 'https://feedback.coolplugins.net/' );
 if ( ! defined( 'CTL_BUY_PRO' ) ) {
 	define( 'CTL_BUY_PRO', 'https://cooltimeline.com/plugin/cool-timeline-pro/' );
 }
+// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
+
 
 if ( ! class_exists( 'CoolTimeline' ) ) {
 	final class CoolTimeline {
@@ -62,34 +65,73 @@ if ( ! class_exists( 'CoolTimeline' ) ) {
 				deactivate_plugins( 'cool-timeline/cooltimeline.php' );
 				return;
 			}
-			// Installation and uninstallation hooks
-			register_activation_hook( __FILE__, array( $thisIns, 'ctl_activate' ) );
-			register_deactivation_hook( __FILE__, array( $thisIns, 'ctl_deactivate' ) );
 
-			add_action( 'activated_plugin', array( $thisIns, 'ctl_plugin_redirection' ) );
-			/* including required files */
-			add_action( 'plugins_loaded', array( $thisIns, 'ctl_include_files' ) );
-			add_action( 'init', array( $thisIns, 'ctl_flush_rules' ) );
-			// loading plugin translation files
-			add_action( 'init', array( $thisIns, 'ctl_load_plugin_textdomain' ) );
-			// Cool Timeline all hooks integrations
+			self::register_lifecycle_hooks( $thisIns );
+			self::register_core_hooks( $thisIns );
+
 			if ( is_admin() ) {
-				$pluginpath = plugin_basename( __FILE__ );
-				// plugin settings links hook
-				add_filter( "plugin_action_links_$pluginpath", array( $thisIns, 'ctl_settings_link' ) );
-				// save extra story meta for timeline sorting
-				add_action( 'save_post', array( $thisIns, 'ctl_save_story_meta' ), 10, 3 );
-                require_once plugin_dir_path( __FILE__ ) . 'admin/marketing/ctl-marketing.php';
-				add_action( 'admin_menu', array( $thisIns, 'ctl_add_new_item' ) );
-
+				self::register_admin_hooks( $thisIns );
 			}
 
-			// Fixed bridge theme confliction using this action hook
-			add_action( 'wp_print_scripts', array( $thisIns, 'ctl_deregister_javascript' ), 100 );
-			
-			// gutenberg block integartion
+			self::register_frontend_hooks( $thisIns );
+			self::register_block_integration();
+		}
+
+		/**
+		 * Register activation/deactivation hooks.
+		 *
+		 * @param CoolTimeline $plugin Plugin instance.
+		 */
+		private static function register_lifecycle_hooks( $plugin ) {
+			register_activation_hook( __FILE__, array( $plugin, 'ctl_activate' ) );
+			register_deactivation_hook( __FILE__, array( $plugin, 'ctl_deactivate' ) );
+		}
+
+		/**
+		 * Register hooks used by both admin and frontend requests.
+		 *
+		 * @param CoolTimeline $plugin Plugin instance.
+		 */
+		private static function register_core_hooks( $plugin ) {
+			add_action( 'activated_plugin', array( $plugin, 'ctl_plugin_redirection' ) );
+			add_action( 'plugins_loaded', array( $plugin, 'ctl_include_files' ) );
+			add_action( 'init', array( $plugin, 'ctl_flush_rules' ) );
+			add_action( 'init', array( $plugin, 'ctl_maybe_init_plugin_options' ) );
+		}
+
+		/**
+		 * Register admin-only hooks and dependencies.
+		 *
+		 * @param CoolTimeline $plugin Plugin instance.
+		 */
+		private static function register_admin_hooks( $plugin ) {
+			$pluginpath = plugin_basename( __FILE__ );
+
+			add_filter( "plugin_action_links_$pluginpath", array( $plugin, 'ctl_settings_link' ) );
+			add_action( 'save_post', array( $plugin, 'ctl_save_story_meta' ), 10, 3 );
+			require_once plugin_dir_path( __FILE__ ) . 'admin/marketing/ctl-marketing.php';
+			add_action( 'admin_menu', array( $plugin, 'ctl_add_new_item' ) );
+			add_action( 'admin_print_scripts', array( $plugin, 'ctl_hide_unrelated_notices' ), 999 );
+			add_action( 'admin_enqueue_scripts', array( $plugin, 'ctl_enqueue_addon_fonts' ), 20 );
+		}
+
+		/**
+		 * Register frontend hooks.
+		 *
+		 * @param CoolTimeline $plugin Plugin instance.
+		 */
+		private static function register_frontend_hooks( $plugin ) {
+			add_action( 'wp_print_scripts', array( $plugin, 'ctl_deregister_javascript' ), 100 );
+		}
+
+		/**
+		 * Load Gutenberg block integration.
+		 */
+		private static function register_block_integration() {
 			require CTL_PLUGIN_DIR . 'includes/shortcode-blocks/ctl-block.php';
 		}
+
+		
 
 		/** Constructor */
 		public function __construct() {
@@ -104,26 +146,217 @@ if ( ! class_exists( 'CoolTimeline' ) ) {
 			require_once __DIR__ . '/includes/cron/class-cron.php';
 		}
 		public function ctl_add_new_item() {
-			add_submenu_page( 'cool-plugins-timeline-addon', 'Add New Story', '<strong>Add New Story</strong>', 'manage_options', 'post-new.php?post_type=cool_timeline', false, 15 );
+						add_submenu_page(
+				'cool-plugins-timeline-addon',
+				__( 'Add New Story', 'cool-timeline' ),
+				'<strong>' . esc_html__( 'Add New Story', 'cool-timeline' ) . '</strong>',
+				'manage_options',
+				'post-new.php?post_type=cool_timeline',
+				false,
+				15
+			);
 		}
 
 		public function ctl_plugin_settings_saved(){
 			
-			$data = get_option('cool_timeline_settings'); 
-
- 			$opt_in = !empty($data['ctl_cpfm_feedback_data']) ? $data['ctl_cpfm_feedback_data']:'';
-			
-			if (!empty($opt_in)) {
-				if(!wp_next_scheduled('ctl_extra_data_update')){
-                wp_schedule_event(time(), 'every_30_days', 'ctl_extra_data_update');
-				}
-           
-			}else {
-
-				if (wp_next_scheduled('ctl_extra_data_update')) {
+			if ( $this->ctl_is_tracking_enabled() ) {
+				$this->ctl_maybe_schedule_tracking_cron();
+			} else {
+				if ( wp_next_scheduled( 'ctl_extra_data_update' ) ) {
 					wp_clear_scheduled_hook('ctl_extra_data_update');
 				}
 				
+			}
+		}
+
+		/**
+		 * Check whether usage tracking is enabled in plugin settings.
+		 */
+		private function ctl_is_tracking_enabled() {
+			$data = get_option( 'cool_timeline_settings' );
+
+			return ! empty( $data['ctl_cpfm_feedback_data'] );
+		}
+
+		/**
+		 * Schedule the usage tracking cron when it is not already scheduled.
+		 */
+		private function ctl_maybe_schedule_tracking_cron() {
+			if ( ! wp_next_scheduled( 'ctl_extra_data_update' ) ) {
+				wp_schedule_event( time(), 'every_30_days', 'ctl_extra_data_update' );
+			}
+		}
+
+		/**
+		 * On timeline addon pages, hide unrelated admin notices by pruning the core notice hooks.
+		 *
+		 * Desired behavior:
+		 * - On ALL admin pages: our own plugin notices behave normally.
+		 * - Only on Timeline Addons pages: third‑party notices are removed, but our notices remain.
+		 *
+		 * This follows the same core idea as the Events plugin's ect_hide_unrelated_notices()
+		 * but keeps Cool Timeline notices (by class/function name) instead of routing through a
+		 * separate dispatcher hook.
+		 */
+		public function ctl_hide_unrelated_notices() {
+			// Always register dispatcher once, on all admin pages (Events-style).
+			if ( ! defined( 'CTL_ADMIN_NOTICE_HOOKED' ) ) {
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
+				define( 'CTL_ADMIN_NOTICE_HOOKED', true );
+				add_action(
+					'admin_notices',
+					array( $this, 'ctl_dash_admin_notices' ),
+					PHP_INT_MAX
+				);
+			}
+
+			// If this is not a Timeline Addons page, don't prune anything.
+			if ( ! function_exists( 'ctl_is_timeline_addon_page' ) || ! ctl_is_timeline_addon_page() ) {
+				return;
+			}
+
+			global $wp_filter;
+
+			$rules = array(
+				'user_admin_notices'    => array(), // remove all non‑Cool Plugins callbacks.
+				'admin_notices'         => array(),
+				'all_admin_notices'     => array(),
+				'network_admin_notices' => array(),
+				'admin_footer'          => array(
+					'render_delayed_admin_notices', // remove this particular callback (e.g. Elementor delayed notices).
+				),
+			);
+
+			foreach ( array_keys( $rules ) as $notice_type ) {
+				if ( empty( $wp_filter[ $notice_type ] ) || empty( $wp_filter[ $notice_type ]->callbacks ) || ! is_array( $wp_filter[ $notice_type ]->callbacks ) ) {
+					continue;
+				}
+
+				$remove_all = empty( $rules[ $notice_type ] );
+
+				foreach ( $wp_filter[ $notice_type ]->callbacks as $priority => $hooks ) {
+					foreach ( $hooks as $name => $arr ) {
+						if ( ! isset( $arr['function'] ) ) {
+							continue;
+						}
+						$fn = $arr['function'];
+
+						// When remove_all is true, drop everything EXCEPT Cool Plugins/TWAe callbacks.
+						if ( $remove_all ) {
+							$keep  = false;
+							$class = '';
+
+							if ( is_array( $fn ) && ! empty( $fn[0] ) && is_object( $fn[0] ) ) {
+								$class = strtolower( get_class( $fn[0] ) );
+							} elseif ( is_object( $fn ) ) {
+								$class = strtolower( get_class( $fn ) );
+							}
+
+							if ( $class ) {
+								$keep = (
+									false !== strpos( $class, 'cooltimeline' ) ||
+									false !== strpos( $class, 'cool_plugins' ) ||
+									false !== strpos( $class, 'ctl_admin' ) ||
+									false !== strpos( $class, 'ctp_' ) ||
+									false !== strpos( $class, 'license_helper' ) ||
+									false !== strpos( $class, 'twae' )
+								);
+							}
+
+							// Also keep callbacks whose function name clearly belongs to Cool Plugins stack.
+							if ( ! $keep && is_string( $fn ) ) {
+								$keep = ( 0 === strpos( $fn, 'ctl_' ) || 0 === strpos( $fn, 'cool_' ) || 0 === strpos( $fn, 'twae_' ) );
+							}
+
+							if ( ! $keep ) {
+								unset( $wp_filter[ $notice_type ]->callbacks[ $priority ][ $name ] );
+							}
+							continue;
+						}
+
+						// When rules[notice_type] is non‑empty (e.g. admin_footer), remove only specific callbacks.
+						$cb = is_array( $fn ) ? $fn[1] : $fn;
+						if ( in_array( $cb, $rules[ $notice_type ], true ) ) {
+							unset( $wp_filter[ $notice_type ]->callbacks[ $priority ][ $name ] );
+						}
+					}
+				}
+			}
+		}
+
+		/**
+		 * Dispatcher for admin notices (fired once at PHP_INT_MAX on admin_notices).
+		 * Ensures CTL notices can be rendered after pruning on timeline addon pages.
+		 */
+		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
+		public function ctl_dash_admin_notices() {
+			if ( defined( 'CTL_ADMIN_NOTICE_RENDERED' ) ) {
+				return;
+			}
+
+			define( 'CTL_ADMIN_NOTICE_RENDERED', true );
+			
+
+			do_action( 'ctl_display_admin_notices' );
+		}
+		// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
+
+		/**
+		 * On timeline addon pages, inject self-hosted Inter @font-face with absolute URLs
+		 * so fonts load on InstaWP/live (avoids relative-path and case-sensitivity issues).
+		 * Only injects if font files exist in admin/timeline-addon-page/assets/fonts/ to avoid 404s.
+		 */
+		public function ctl_enqueue_addon_fonts() {
+			if ( ! function_exists( 'ctl_is_timeline_addon_page' ) || ! ctl_is_timeline_addon_page() ) {
+				return;
+			}
+			$font_file    = 'Inter-Regular.woff2';
+			$style_handle = 'cool-plugins-timeline-addon';
+
+			// Ensure the main stylesheet is enqueued first.
+			if ( ! wp_style_is( $style_handle, 'enqueued' ) && ! wp_style_is( $style_handle, 'registered' ) ) {
+				wp_enqueue_style(
+					$style_handle,
+					CTL_PLUGIN_URL . 'admin/timeline-addon-page/assets/css/styles.css',
+					array(),
+					CTL_V
+				);
+			}
+
+			// Try self-hosted fonts: CTLB's directory first (confirmed present on InstaWP),
+			// then CTL's own directory.
+			$font_url = '';
+
+			if ( defined( 'CTLB_Pro_Dir' ) && defined( 'CTLB_Pro_Url' )
+				&& file_exists( CTLB_Pro_Dir . 'admin/timeline-addon-page/assets/fonts/' . $font_file )
+			) {
+				$font_url = CTLB_Pro_Url . 'admin/timeline-addon-page/assets/fonts/';
+			} elseif ( file_exists( CTL_PLUGIN_DIR . 'admin/timeline-addon-page/assets/fonts/' . $font_file ) ) {
+				$font_url = CTL_PLUGIN_URL . 'admin/timeline-addon-page/assets/fonts/';
+			}
+
+			if ( $font_url ) {
+				$safe_font_url = esc_url( $font_url );
+				$font_face     = sprintf(
+					"@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url('%sInter-Regular.woff2') format('woff2');}\n" .
+					"@font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url('%sInter-Medium.woff2') format('woff2');}\n" .
+					"@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url('%sInter-SemiBold.woff2') format('woff2');}\n" .
+					"@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url('%sInter-Bold.woff2') format('woff2');}",
+					$safe_font_url,
+					$safe_font_url,
+					$safe_font_url,
+					$safe_font_url
+				);
+				wp_add_inline_style( $style_handle, $font_face );
+			} else {
+				// No self-hosted files found – fall back to bunny.net CDN (GDPR-friendly).
+				// This guarantees Inter loads on InstaWP / staging without needing font files on disk.
+				wp_enqueue_style(
+					'cool-plugins-inter-font',
+					'https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap',
+					array(),
+					CTL_V
+				);
 			}
 		}
 
@@ -131,46 +364,79 @@ if ( ! class_exists( 'CoolTimeline' ) ) {
 		  Including required files
 		*/
 		public function ctl_include_files() {
-			// register cool-timeline post type
+			$this->include_core_files();
+			$this->include_shortcode_files();
+			$this->include_vc_addon_files();
+
+			if ( is_admin() ) {
+				$this->include_admin_files();
+			}
+
+			$this->include_block_files();
+			$this->include_shortcode_generator_files();
+			$this->register_feedback_hooks();
+		}
+
+		/**
+		 * Include core plugin classes.
+		 */
+		private function include_core_files() {
 			require CTL_PLUGIN_DIR . 'admin/class.cool-timeline-posttype.php';
 			require CTL_PLUGIN_DIR . 'includes/class-stories-migration.php';
 			require_once CTL_PLUGIN_DIR . 'admin/class-migration.php';
-			// contains helper funciton for timeline
 			include_once CTL_PLUGIN_DIR . 'includes/shortcodes/class-ctl-helpers.php';
+		}
 
-			// Cool Timeline Src New Shortcode
+		/**
+		 * Include and initialize shortcode classes.
+		 */
+		private function include_shortcode_files() {
 			require CTL_PLUGIN_DIR . 'includes/shortcodes/class-ctl-settings.php';
 			$settings_obj = new CTL_Settings();
-			// Cool Timeline Src New Shortcode
+
 			require CTL_PLUGIN_DIR . 'includes/shortcodes/class-ctl-shortcode.php';
 			new CTL_Shortcode( $settings_obj );
+		}
 
-			// VC addon support
+		/**
+		 * Include and initialize Visual Composer addon support.
+		 */
+		private function include_vc_addon_files() {
 			require CTL_PLUGIN_DIR . '/includes/class-cool-vc-addon.php';
-			new CoolTmVCAddon();
+		}
 
-			/* Loaded Backend files only */
-			if ( is_admin() ) {
+		/**
+		 * Include admin-only files.
+		 */
+		private function include_admin_files() {
+			require_once CTL_PLUGIN_DIR . 'admin/cpfm-feedback/users-feedback.php';
+			require_once CTL_PLUGIN_DIR . 'admin/codestar-framework/codestar-framework.php';
 				
-				require_once CTL_PLUGIN_DIR . 'admin/cpfm-feedback/users-feedback.php';
-				// including timeline stories meta boxes class
-				
-				require_once CTL_PLUGIN_DIR . 'admin/codestar-framework/codestar-framework.php';
+			require_once __DIR__ . '/admin/timeline-addon-page/timeline-addon-page.php';
+			/*** Plugin review notice file */
+			require_once CTL_PLUGIN_DIR . '/admin/notices/admin-notices.php';
 
+			cool_plugins_timeline_addons_settings_page( 'timeline', 'cool-plugins-timeline-addon', 'Timeline Addons', ' Timeline Addons', CTL_PLUGIN_URL . 'assets/images/cool-timeline-icon.svg' );
+		}
 
-				require_once CTL_PLUGIN_DIR . 'admin/cpfm-feedback/users-feedback.php';
-				
-				/*** Plugin review notice file */
-				require_once CTL_PLUGIN_DIR . '/admin/notices/admin-notices.php';
-
-				require_once __DIR__ . '/admin/timeline-addon-page/timeline-addon-page.php';
-				cool_plugins_timeline_addons_settings_page( 'timeline', 'cool-plugins-timeline-addon', 'Timeline Addons', ' Timeline Addons', CTL_PLUGIN_URL . 'assets/images/cool-timeline-icon.svg' );
-
-			}
-			
+		/**
+		 * Include block editor integration files.
+		 */
+		private function include_block_files() {
 			require CTL_PLUGIN_DIR . 'includes/cool-timeline-block/src/init.php';
-			require_once CTL_PLUGIN_DIR . 'admin/ctl-shortcode-generator.php';
+		}
 
+		/**
+		 * Include shortcode generator files.
+		 */
+		private function include_shortcode_generator_files() {
+			require_once CTL_PLUGIN_DIR . 'admin/ctl-shortcode-generator.php';
+		}
+
+		/**
+		 * Register feedback hooks after feedback files are available.
+		 */
+		private function register_feedback_hooks() {
 			add_action('cpfm_register_notice', function () {
             
 				if (!class_exists('CPFM_Feedback_Notice') || !current_user_can('manage_options')) {
@@ -207,8 +473,9 @@ if ( ! class_exists( 'CoolTimeline' ) ) {
 					$data['ctl_cpfm_feedback_data'] = true;
 			update_option('cool_timeline_settings', $data);
 		
-					require_once __DIR__ . '/includes/cron/class-cron.php';
-					CTL_CRONJOB::ctl_send_data();					
+					if(class_exists('CTL_CRONJOB')){
+						CTL_CRONJOB::ctl_send_data();
+					}
 				}
 			});
 		}
@@ -223,17 +490,10 @@ if ( ! class_exists( 'CoolTimeline' ) ) {
 			}
 		}
 
-		// loading language files
-		public function ctl_load_plugin_textdomain() {
+		// Initialize plugin options and admin settings files.
+		public function ctl_maybe_init_plugin_options() {
 
-
-			if (!get_option( 'ctl_initial_save_version' ) ) {
-				add_option( 'ctl_initial_save_version', CTL_V );
-			}
-	
-			if(!get_option( 'ctl-install-date' ) ) {
-				add_option( 'ctl-install-date', gmdate('Y-m-d h:i:s') );
-			}
+			$this->ctl_init_install_options();
 
 			if ( is_admin() ) {
 				
@@ -241,6 +501,19 @@ if ( ! class_exists( 'CoolTimeline' ) ) {
 				require CTL_PLUGIN_DIR . 'admin/ctl-meta-fields.php';
 
 				
+			}
+		}
+
+		/**
+		 * Initialize install/version options when they do not already exist.
+		 */
+		private function ctl_init_install_options() {
+			if ( ! get_option( 'ctl_initial_save_version' ) ) {
+				add_option( 'ctl_initial_save_version', CTL_V );
+			}
+
+			if ( ! get_option( 'ctl-install-date' ) ) {
+				add_option( 'ctl-install-date', gmdate( 'Y-m-d h:i:s' ) );
 			}
 		}
 
@@ -331,14 +604,21 @@ if ( ! class_exists( 'CoolTimeline' ) ) {
 		public function ctl_deregister_javascript() {
 			if ( is_admin() ) {
 				global $post;
-				$screen = get_current_screen();
-				if ( $screen->base == 'toplevel_page_cool_timeline_page' ) {
+
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing
+				$current_page  = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+				$allowed_pages = array(
+					'cool_timeline_settings',
+					'cool-plugins-timeline-addon',
+					'timeline-addons-license',
+				);
+				
+				if ( !empty( $current_page ) && in_array( $current_page, $allowed_pages, true ) && function_exists( 'wp_deregister_script' ) ) {
 					wp_deregister_script( 'default' );
 				}
-				if ( isset( $post ) && isset( $post->post_type ) && $post->post_type == 'cool_timeline' ) {
+
+				if ( isset( $post ) && isset( $post->post_type ) && $post->post_type === 'cool_timeline' ) {
 					wp_deregister_script( 'acf-timepicker' );
-					// wp_deregister_script( 'acf-input' ); // datepicker translaton issue
-					// wp_deregister_script( 'acf' ); // datepicker translaton issue
 					wp_deregister_script( 'jquery-ui-timepicker-js' );
 					wp_deregister_script( 'thrive-admin-datetime-picker' ); // datepicker conflict with Rise theme
 					wp_deregister_script( 'et_bfb_admin_date_addon_js' ); // datepicker conflict with Divi theme
@@ -347,15 +627,6 @@ if ( ! class_exists( 'CoolTimeline' ) ) {
 			}
 		}
 
-
-
-		public static function is_theme_activate( $target ) {
-			$theme = wp_get_theme();
-			if ( $theme->name == $target || stripos( $theme->parent_theme, $target ) !== false ) {
-				return true;
-			}
-			return false;
-		}
 		/* Activating plugin and adding some info */
 		public function ctl_activate() {
 
@@ -367,25 +638,11 @@ if ( ! class_exists( 'CoolTimeline' ) ) {
 
 
 
-			if (!get_option( 'ctl_initial_save_version' ) ) {
-				add_option( 'ctl_initial_save_version', CTL_V );
-			}
-	
-			if(!get_option( 'ctl-install-date' ) ) {
-				add_option( 'ctl-install-date', gmdate('Y-m-d h:i:s') );
-			}
-			$data = get_option('cool_timeline_settings'); 
+			$this->ctl_init_install_options();
 
-			$opt_in = !empty($data['ctl_cpfm_feedback_data']) ? $data['ctl_cpfm_feedback_data']:'';
-			
-		   if($opt_in){
-
-			if (!wp_next_scheduled('ctl_extra_data_update')) {
-	
-				wp_schedule_event(time(), 'every_30_days', 'ctl_extra_data_update');
-	
+			if ( $this->ctl_is_tracking_enabled() ) {
+				$this->ctl_maybe_schedule_tracking_cron();
 			}
-		   }
 	}
 
 		/* Deactivate the plugin */
@@ -405,7 +662,7 @@ if ( ! class_exists( 'CoolTimeline' ) ) {
 
 		'server_software'        => isset($_SERVER['SERVER_SOFTWARE']) ? sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ) : 'N/A',
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			'mysql_version'          => $wpdb ? sanitize_text_field($wpdb->get_var("SELECT VERSION()")) : 'N/A',
+			'mysql_version'          => $wpdb ? sanitize_text_field( $wpdb->get_var( 'SELECT VERSION()' ) ) : 'N/A',
 			'php_version'            => sanitize_text_field(phpversion() ?: 'N/A'),
 			'wp_version'             => sanitize_text_field(get_bloginfo('version') ?: 'N/A'),
 			'wp_debug'               => (defined('WP_DEBUG') && WP_DEBUG) ? 'Enabled' : 'Disabled',

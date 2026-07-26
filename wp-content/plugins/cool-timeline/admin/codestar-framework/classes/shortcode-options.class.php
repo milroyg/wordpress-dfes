@@ -8,6 +8,7 @@
  *
  */
 if ( ! class_exists( 'CSF_Shortcoder' ) ) {
+  // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
   class CSF_Shortcoder extends CSF_Abstract{
 
     // constans
@@ -214,8 +215,8 @@ if ( ! class_exists( 'CSF_Shortcoder' ) ) {
       // Check user capabilities
       if ( ! current_user_can( 'manage_options' ) ) {
         // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
-        wp_send_json_error( array( 'error' => esc_html__( 'Unauthorized access.', 'csf' ) ) );
-        wp_die();
+        return wp_send_json_error( array( 'error' => esc_html__( 'Unauthorized access.', 'csf' ) ) );
+        
       }
 
       ob_start();
@@ -317,6 +318,7 @@ if ( ! class_exists( 'CSF_Shortcoder' ) ) {
 
       if ( function_exists( 'register_block_type' ) ) {
         add_action( 'enqueue_block_editor_assets', array( 'CSF_Shortcoder', 'add_guteberg_blocks' ) );
+        add_action( 'enqueue_block_assets', array( 'CSF_Shortcoder', 'add_gutenberg_block_assets' ) );
       }
 
       if ( csf_wp_editor_api() ) {
@@ -327,6 +329,8 @@ if ( ! class_exists( 'CSF_Shortcoder' ) ) {
 
     // Add gutenberg blocks.
     public static function add_guteberg_blocks() {
+
+      self::enqueue_gutenberg_styles();
 
       $depends = array( 'wp-blocks', 'wp-element', 'wp-components' );
 
@@ -347,6 +351,30 @@ if ( ! class_exists( 'CSF_Shortcoder' ) ) {
           'editor_script' => 'csf-gutenberg-block',
         ) );
 
+      }
+
+    }
+
+    // Enqueue shared framework styles inside the iframe editor canvas.
+    public static function add_gutenberg_block_assets() {
+
+      if ( ! is_admin() ) {
+        return;
+      }
+
+      self::enqueue_gutenberg_styles();
+
+    }
+
+    // Shared Gutenberg editor styles.
+    private static function enqueue_gutenberg_styles() {
+
+      $min = ( CSF::$premium && SCRIPT_DEBUG ) ? '' : '.min';
+
+      wp_enqueue_style( 'csf', CSF::include_plugin_url( 'assets/css/style'. $min .'.css' ), array(), CSF::$version, 'all' );
+
+      if ( is_rtl() ) {
+        wp_enqueue_style( 'csf-rtl', CSF::include_plugin_url( 'assets/css/style-rtl'. $min .'.css' ), array(), CSF::$version, 'all' );
       }
 
     }

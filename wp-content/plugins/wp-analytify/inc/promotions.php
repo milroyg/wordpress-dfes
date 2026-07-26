@@ -19,6 +19,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Analytify_Promotions {
 
 	/**
+	 * User meta: when the current user snoozed the review notice ("Maybe Later").
+	 */
+	private const REVIEW_LATER_USER_META = WP_ANALYTIFY_USER_META_PREFIX . 'review_later_at';
+
+	/**
+	 * User meta: permanent review notice dismissal for the current user.
+	 */
+	private const REVIEW_DISMISS_USER_META = WP_ANALYTIFY_USER_META_PREFIX . 'review_dismiss';
+
+	/**
+	 * Review notice delay in seconds (15 days).
+	 */
+	private const REVIEW_NOTICE_DELAY = 1296000;
+
+	/**
 	 * Main plugin instance
 	 *
 	 * @var WP_Analytify
@@ -121,6 +136,7 @@ class Analytify_Promotions {
 	/**
 	 * GTAG move to notice
 	 *
+	 * @version 8.1.1
 	 * @return void
 	 */
 	public function gtag_move_to_notice() {
@@ -131,7 +147,7 @@ class Analytify_Promotions {
 		$gtag_notice = get_option( 'analytify_gtag_move_to_notice' );
 		if ( ! $gtag_notice ) {
 			// translators: %s is the admin URL.
-			echo '<div class="notice notice-info is-dismissible"><p>' . sprintf( esc_html__( 'Analytify now supports GA4! <a href="%s">Click here</a> to learn more about the new features.', 'wp-analytify' ), esc_url( admin_url( 'admin.php?page=analytify-settings&tab=advanced' ) ) ) . '</p></div>';
+			echo '<div class="notice notice-info is-dismissible"><p>' . wp_kses( sprintf( /* translators: 1: Opening anchor tag, 2: Closing anchor tag. */ __( 'Analytify now supports GA4! %1$sClick here%2$s to learn more about the new features.', 'wp-analytify' ), '<a href="' . esc_url( admin_url( 'admin.php?page=analytify-settings&tab=advanced' ) ) . '">', '</a>' ), array( 'a' => array( 'href' => array() ) ) ) . '</p></div>';
 		}
 	}
 
@@ -150,17 +166,80 @@ class Analytify_Promotions {
 	}
 
 	/**
+	 * Whether the current user may see the review notice (dashboard roles + administrator).
+	 *
+	 * @return bool
+	 */
+	private function wp_analytify_user_can_see_dashboard_review_notice() {
+		if ( ! is_user_logged_in() || ! $this->analytify || ! isset( $this->analytify->settings ) ) {
+			return false;
+		}
+
+		$allowed_roles   = $this->analytify->settings->get_option(
+			'show_analytics_roles_dashboard',
+			'wp-analytify-dashboard',
+			array()
+		);
+		$allowed_roles[] = 'administrator';
+
+		return (bool) $this->analytify->pa_check_roles( $allowed_roles );
+	}
+
+	/**
+	 * Whether the review notice was permanently dismissed for the current user.
+	 *
+	 * @since 9.1.0
+	 * @return bool
+	 */
+	private function wp_analytify_is_review_notice_permanently_dismissed() {
+		// Legacy site-option key used before 9.1; keep reading it for existing dismissals.
+		if ( 'yes_v7' === get_site_option( 'wp_analytify_review_dismiss_4_1_8' ) ) {
+			return true;
+		}
+
+		$user_id = get_current_user_id();
+		if ( $user_id && 'yes_v7' === get_user_meta( $user_id, self::REVIEW_DISMISS_USER_META, true ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Whether the review notice is snoozed for the current user ("Maybe Later").
+	 *
+	 * @return bool
+	 */
+	private function wp_analytify_is_review_notice_snoozed_for_user() {
+		$user_id = get_current_user_id();
+		if ( ! $user_id ) {
+			return false;
+		}
+
+		$snoozed_at = (int) get_user_meta( $user_id, self::REVIEW_LATER_USER_META, true );
+		if ( ! $snoozed_at ) {
+			return false;
+		}
+
+		return ( time() - $snoozed_at ) < self::REVIEW_NOTICE_DELAY;
+	}
+
+	/**
 	 * Review notice dismissal
 	 *
 	 * @return void
 	 */
 	public function review_dismissal() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification handled by safe_verify_nonce
-		if ( ! is_admin() || ! current_user_can( 'manage_options' ) || ! WPANALYTIFY_Utils::safe_verify_nonce( '_wpnonce', 'analytify-review-nonce', 'GET' ) || ! isset( $_GET['wp_analytify_review_dismiss'] ) ) {
+		if ( ! is_admin() || ! $this->wp_analytify_user_can_see_dashboard_review_notice() || ! WPANALYTIFY_Utils::safe_verify_nonce( '_wpnonce', 'analytify-review-nonce', 'GET' ) || ! isset( $_GET['wp_analytify_review_dismiss'] ) ) {
 			return;
 		}
 
-		update_site_option( 'wp_analytify_review_dismiss_4_1_8', 'yes_v7' );
+		$user_id = get_current_user_id();
+		if ( $user_id ) {
+			update_user_meta( $user_id, self::REVIEW_DISMISS_USER_META, 'yes_v7' );
+		}
+
 		wp_safe_redirect( remove_query_arg( array( 'wp_analytify_review_dismiss', '_wpnonce' ) ) );
 		exit;
 	}
@@ -171,23 +250,25 @@ class Analytify_Promotions {
 	 * @return void
 	 */
 	public function analytify_review_notice() {
+		if ( ! $this->wp_analytify_user_can_see_dashboard_review_notice() ) {
+			return;
+		}
+
 		$this->review_dismissal();
 		$this->review_prending();
 
-		$activation_time  = get_site_option( 'wp_analytify_active_time' );
-		$review_dismissal = get_site_option( 'wp_analytify_review_dismiss_4_1_8' );
-
-		if ( 'yes_v7' === $review_dismissal ) {
+		if ( $this->wp_analytify_is_review_notice_permanently_dismissed() || $this->wp_analytify_is_review_notice_snoozed_for_user() ) {
 			return;
 		}
+
+		$activation_time = get_site_option( 'wp_analytify_active_time' );
 
 		if ( ! $activation_time ) {
 			$activation_time = time();
 			add_site_option( 'wp_analytify_active_time', $activation_time );
 		}
 
-		// 1296000 = 15 Days in seconds.
-		if ( time() - $activation_time > 1296000 ) {
+		if ( time() - $activation_time > self::REVIEW_NOTICE_DELAY ) {
 			add_action( 'admin_notices', array( $this, 'analytify_review_notice_message' ) );
 		}
 	}
@@ -199,12 +280,17 @@ class Analytify_Promotions {
 	 */
 	public function review_prending() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification handled by safe_verify_nonce
-		if ( ! is_admin() || ! current_user_can( 'manage_options' ) || ! WPANALYTIFY_Utils::safe_verify_nonce( '_wpnonce', 'analytify-review-nonce', 'GET' ) || ! isset( $_GET['wp_analytify_review_later'] ) ) {
+		if ( ! is_admin() || ! $this->wp_analytify_user_can_see_dashboard_review_notice() || ! WPANALYTIFY_Utils::safe_verify_nonce( '_wpnonce', 'analytify-review-nonce', 'GET' ) || ! isset( $_GET['wp_analytify_review_later'] ) ) {
 			return;
 		}
 
-		// Reset Time to current time.
-		update_site_option( 'wp_analytify_active_time', time() );
+		$user_id = get_current_user_id();
+		if ( $user_id ) {
+			update_user_meta( $user_id, self::REVIEW_LATER_USER_META, time() );
+		}
+
+		wp_safe_redirect( remove_query_arg( array( 'wp_analytify_review_later', '_wpnonce' ) ) );
+		exit;
 	}
 
 	/**
@@ -213,6 +299,10 @@ class Analytify_Promotions {
 	 * @return void
 	 */
 	public function analytify_review_notice_message() {
+		if ( ! $this->wp_analytify_user_can_see_dashboard_review_notice() ) {
+			return;
+		}
+
 		// Sanitize server data for security.
 		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 		$scheme      = ( wp_parse_url( $request_uri, PHP_URL_QUERY ) ) ? '&' : '?';

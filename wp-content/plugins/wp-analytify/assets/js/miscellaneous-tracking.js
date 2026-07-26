@@ -1,68 +1,47 @@
+/**
+ * 404 / JavaScript / AJAX error tracking (GA4 + gtag).
+ *
+ * @package WP_Analytify
+ * @since 5.0.0
+ * @version 9.1.0
+ */
 jQuery(document).ready(function ($) {
-	// Track 404 page errors.
-	if (
-		miscellaneous_tracking_options.track_404_page.should_track === 'on' &&
-    miscellaneous_tracking_options.track_404_page.is_404
-	) {
-		if (miscellaneous_tracking_options.tracking_mode === 'gtag') {
-			if (miscellaneous_tracking_options.ga_mode === 'ga4') {
-				if (typeof gtag !== 'undefined') {
-					gtag('event', '404_error', {
-						wpa_category: '404 Error',
-						wpa_label:
-              miscellaneous_tracking_options.track_404_page.current_url
-					});
-				}
-			} else {
-				if (typeof gtag !== 'undefined') {
-					gtag('event', 'Page Not Found', {
-						event_category: '404 Error',
-						event_label:
-              miscellaneous_tracking_options.track_404_page.current_url
-					});
-				}
-			}
-		} else {
-			if (typeof ga !== 'undefined') {
-				ga(
-					'send',
-					'event',
-					'404 Error',
-					'Page Not Found',
-					miscellaneous_tracking_options.track_404_page.current_url
-				);
-			}
-		}
+	if (typeof miscellaneous_tracking_options === 'undefined' || typeof gtag === 'undefined') {
+		return;
 	}
 
-	// track javascript errors.
-	if (miscellaneous_tracking_options.track_js_error === 'on') {
-		function trackJavaScriptError(e) {
-			const errMsg = e.message;
-			const errSrc = e.filename + ': ' + e.lineno;
+	var opts = miscellaneous_tracking_options;
+	var track404 = opts.track_404_page || {};
+
+	// Track 404 page errors.
+	if (track404.should_track === 'on' && track404.is_404) {
+		gtag('event', '404_error', {
+			wpa_category: '404 Error',
+			wpa_label: track404.current_url
+		});
+	}
+
+	// Track JavaScript errors.
+	if (opts.track_js_error === 'on') {
+		window.addEventListener('error', function (e) {
 			gtag('event', 'js_error', {
 				wpa_category: 'JavaScript Error',
-				wpa_action: errMsg,
-				wpa_label: errSrc,
+				wpa_action: e.message,
+				wpa_label: e.filename + ': ' + e.lineno,
 				non_interaction: true
 			});
-		}
-		if (typeof gtag !== 'undefined') {
-			window.addEventListener('error', trackJavaScriptError, false);
-		}
+		}, false);
 	}
 
-	// Track ajax errors.
-	if (miscellaneous_tracking_options.track_ajax_error === 'on') {
-		if (typeof gtag !== 'undefined') {
-			jQuery(document).ajaxError(function (e, request, settings) {
-				gtag('event', 'ajax_error', {
-					wpa_category: 'Ajax Error',
-					wpa_action: request.statusText,
-					wpa_label: settings.url,
-					non_interaction: true
-				});
+	// Track jQuery AJAX errors.
+	if (opts.track_ajax_error === 'on') {
+		$(document).ajaxError(function (e, request, settings) {
+			gtag('event', 'ajax_error', {
+				wpa_category: 'Ajax Error',
+				wpa_action: request.statusText,
+				wpa_label: settings.url,
+				non_interaction: true
 			});
-		}
+		});
 	}
 });
