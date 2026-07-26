@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Incident Chart CSV
-Description: Displays line charts from CSV data with category filtering.
-Version: 1.0
-Author: Milroy Gomes
+  Plugin Name: DFES Incident Chart CSV
+  Description: Displays line charts from CSV data with category filtering.
+  Version: 1.0
+  Author: Milroy Gomes
 */
 
 // Enqueue scripts and styles

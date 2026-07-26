@@ -1,8 +1,10 @@
 <?php
 /**
- * Plugin Name: DFES Fire Appliances API
- * Description: Fetches data from the Goa Fire Department GPS API and saves it
- * to a GeoJSON file. Version: 1.0 Author: Junie
+ Plugin Name: DFES Fire Appliances API
+ Description: Fetches data from the Goa Fire Department GPS API and saves it
+ to a GeoJSON file.
+ Version: 1.1
+ Author: Milroy Gomes
  */
 
 if (!defined('ABSPATH')) {

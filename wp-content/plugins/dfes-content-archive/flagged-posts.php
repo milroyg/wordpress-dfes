@@ -1,9 +1,9 @@
 <?php
-/*
-Plugin Name: Flagged Posts
-Description: Allows you to flag any post type and display flagged items via shortcode.
-Version: 1.0
-Author: You
+/**
+  Plugin Name: DFES Flagged Posts
+  Description: Allows you to flag any post type and display flagged items via shortcode.
+  Version: 1.1
+  Author: Milroy Gomes
 */
 
 // Register admin menu for Flagged Posts

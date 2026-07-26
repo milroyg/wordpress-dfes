@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: DFES Nicci
- * Description: Integrates the Nicci Chatbot into WordPress.
- * Version: 1.0
- * Author: Junie
+ Plugin Name: DFES NICCI Chatbot
+ Description: Integrates the Nicci Chatbot into WordPress.
+ Version: 1.1
+ Author: Alan Lobo
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

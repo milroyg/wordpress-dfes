@@ -1,8 +1,10 @@
 <?php
-/**
- * Plugin Name: PDF Manager
- * Description: A plugin to manage pdf and auction PDFs with multilingual
- * titles and shortcode display. Version: 1.2 Author: Milroy
+/*
+ Plugin Name: PDF Manager
+ Description: A plugin to manage pdf and auction PDFs with multilingual
+ titles and shortcode display.
+ Version: 1.1
+ Author: Milroy Gomes
  */
 
 if (!defined('ABSPATH')) {

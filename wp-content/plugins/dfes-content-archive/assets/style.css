@@ -1,55 +1,55 @@
 
-        .archive-list-style {
-            font-family: "Roboto", Courier, monospace;
-            font-size: 1rem;
-            background: #f4f1e9;
-            padding: 1rem;
-            border: 1px solid #ccc;
-            width: auto;
-            word-spacing:1.5px;
-            line-height: 2;
-        }
-        .archive-year-list {
-            list-style: none;
-            margin: 0;
-            padding-left: 0;
-            color: #1a0dab;
-        }
-        .archive-year-list li {
-            margin: 4px 0;
-        }
-        .year-item > .toggle-year {
-            cursor: pointer;
-            margin-right: 4px;
-            user-select: none;
-        }
-        .year-item ul {
-            list-style-type: square;
-            margin: 5px 0 5px 20px;
-        }
-        .year-item ul.hidden {
-            display: none;
-        }
-        .archive-year-list a {
-            text-decoration: none;
-            color: #1a0dab;
-        }
-        .archive-year-list a:hover {
-            text-decoration: underline;
-        }
-        .toggle-year {
-    background: transparent;
-    border: none;
-    padding: 0;
-    margin-right: 6px;
-    cursor: pointer;
-    font-size: 1rem;
-    color: #007BFF; /* blue icon */
-    line-height: 1;
+.archive-list-style {
+  font-family: "Roboto", Courier, monospace;
+  font-size: 1rem;
+  background: #f4f1e9;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  width: auto;
+  word-spacing: 1.5px;
+  line-height: 2;
+}
+.archive-year-list {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+  color: #1a0dab;
+}
+.archive-year-list li {
+  margin: 4px 0;
+}
+.year-item > .toggle-year {
+  cursor: pointer;
+  margin-right: 4px;
+  user-select: none;
+}
+.year-item ul {
+  list-style-type: square;
+  margin: 5px 0 5px 20px;
+}
+.year-item ul.hidden {
+  display: none;
+}
+.archive-year-list a {
+  text-decoration: none;
+  color: #1a0dab;
+}
+.archive-year-list a:hover {
+  text-decoration: underline;
+}
+.toggle-year {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin-right: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #007bff; /* blue icon */
+  line-height: 1;
 }
 
 /* Optional: add keyboard focus ring */
 .toggle-year:focus {
-    outline: 2px solid #007BFF;
-    outline-offset: 2px;
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
 }

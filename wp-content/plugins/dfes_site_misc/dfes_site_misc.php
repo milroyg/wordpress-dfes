@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: DFES Site Misc
- * Description: Miscellaneous site-wide functionality for DFES WordPress including security headers, script SRI, and minor UI tweaks.
- * Version: 1.0.0
- * Author: DFES
+ Plugin Name: DFES Site Misc
+ Description: Miscellaneous site-wide functionality for DFES WordPress including security headers, script SRI, and minor UI tweaks.
+ Version: 1.1
+ Author: Milroy Gomes
  */
 
 if (!defined('ABSPATH')) {
