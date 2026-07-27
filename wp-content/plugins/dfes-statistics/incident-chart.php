@@ -2,7 +2,7 @@
 /*
   Plugin Name: DFES Incident Chart CSV
   Description: Displays line charts from CSV data with category filtering.
-  Version: 1.0
+  Version: 1.1
   Author: Milroy Gomes
 */
 
