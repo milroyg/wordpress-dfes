@@ -27,7 +27,7 @@ add_shortcode('category_calls_chart', function () {
 
 // Inject the JS only once if any shortcode is on the page
 add_action('wp_footer', function () {
-    if (
+    if (!is_null(get_post()) &&
         !has_shortcode(get_post()->post_content, 'station_calls_chart') &&
         !has_shortcode(get_post()->post_content, 'taluka_calls_chart') &&
         !has_shortcode(get_post()->post_content, 'category_calls_chart')
