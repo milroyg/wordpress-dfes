@@ -31,27 +31,6 @@ RewriteRule ^\.git(/.*|$) - [L,R=404,NC]
     RewriteRule . /index.php [L]
 </IfModule>
 
-<IfModule mod_headers.c>
-    # 1. Referrer-Policy
-    Header set Referrer-Policy "strict-origin-when-cross-origin"
-
-    # 2. COEP: Change from 'require-corp' to 'unsafe-none'
-    # This allows the page to load cross-origin resources that don't have CORP headers.
-    Header set Cross-Origin-Embedder-Policy "require-corp"
-
-    # 3. COOP: Change from 'same-origin' to 'same-origin-allow-popups'
-    # This is more flexible for external integrations.
-    Header set Cross-Origin-Opener-Policy "same-origin"
-
-    # 4. CORP: Change from 'same-origin' to 'cross-origin'
-    # CRITICAL: This explicitly tells the browser it is safe for other domains (like Google)
-    # to read this resource.
-    Header set Cross-Origin-Resource-Policy "same-origin"
-
-    Header set Access-Control-Allow-Methods "GET, OPTIONS"
-
-</IfModule>
-
 ErrorDocument 404 /wp-content/themes/xevso-child/404.php
 ErrorDocument 403 /wp-content/themes/xevso-child/404.php
 
