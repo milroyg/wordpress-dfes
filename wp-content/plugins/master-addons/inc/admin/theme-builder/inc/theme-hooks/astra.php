@@ -1,7 +1,7 @@
 <?php
-namespace MasterHeaderFooter\Theme_Hooks;
-use MasterHeaderFooter\Master_Header_Footer;
-use MasterHeaderFooter\Inc\Comments;
+namespace MasterAddons\Inc\Admin\Theme_Builder\Theme_Hooks;
+use MasterAddons\Inc\Admin\Theme_Builder\Theme_Builder;
+use MasterAddons\Inc\Admin\Theme_Builder\Comments;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -53,7 +53,7 @@ class Astra {
 
 	
     public function jltma_add_comment_markup(){
-		return JLTMA_PATH . 'inc/admin/theme-builder/inc/view/theme-support-comment.php';
+		return \JLTMA_PATH . 'inc/admin/theme-builder/inc/view/theme-support-comment.php';
     }
 
 
@@ -65,7 +65,7 @@ class Astra {
     public function add_plugin_header_markup(){
 			do_action('masteraddons/template/before_header');
 			echo '<div class="jltma-template-content-markup jltma-template-content-header">';
-				echo \MasterHeaderFooter\Master_Header_Footer::render_elementor_content($this->header);
+				echo \MasterAddons\Inc\Admin\Theme_Builder\Theme_Builder::render_elementor_content($this->header); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- render_elementor_content returns safe Elementor-rendered HTML
 			echo '</div>';
 			do_action('masteraddons/template/after_header');
     }
@@ -79,7 +79,7 @@ class Astra {
     public function add_plugin_footer_markup(){
 			do_action('masteraddons/template/before_footer');
 			echo '<div class="jltma-template-content-markup jltma-template-content-footer">';
-			echo \MasterHeaderFooter\Master_Header_Footer::render_elementor_content($this->footer); ;
+			echo \MasterAddons\Inc\Admin\Theme_Builder\Theme_Builder::render_elementor_content($this->footer); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- render_elementor_content returns safe Elementor-rendered HTML
 			echo '</div>';
 			do_action('masteraddons/template/after_footer');
     }

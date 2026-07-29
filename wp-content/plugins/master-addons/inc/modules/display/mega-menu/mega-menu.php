@@ -1,0 +1,114 @@
+<?php
+
+namespace MasterAddons\Modules\Display;
+
+defined('ABSPATH') || exit;
+
+if (!class_exists('MasterAddons\Modules\Display\MegaMenu')) {
+class MegaMenu
+{
+
+    public $dir;
+
+    public $url;
+
+    private static $plugin_path;
+
+    private static $plugin_url;
+
+    private static $_instance = null;
+
+    public function __construct()
+    {
+
+        // Current Path
+        $this->dir = dirname(__FILE__) . '/';
+
+        $this->url = self::plugin_url() . '/mega-menu/';
+
+        add_action('init', [$this, 'jltma_include_files']);
+    }
+
+
+    public function jltma_include_files()
+    {
+        include $this->dir . '/inc/cpt.php';
+        include $this->dir . '/inc/megamenu-assets.php';
+        include $this->dir . '/inc/rest-api.php';
+        include $this->dir . '/inc/api.php';
+        include $this->dir . '/inc/options.php';
+        include $this->dir . '/inc/walker-nav-menu.php';
+        include $this->dir . '/inc/cpt-api.php';
+
+        $this->jltma_megamenu_init();
+    }
+
+
+
+    public function jltma_megamenu_init(){
+
+        // Call functions from MegaMenu sub-namespace
+        MegaMenu\jltma_megamenu_assets();
+        MegaMenu\jltma_megamenu_options();
+
+        MegaMenu\jltma_megamenu_api()->init();
+        MegaMenu\jltma_megamenu_cpt_api()->init();
+
+        if (is_admin()) {
+            if(!function_exists('\MasterAddons\Modules\Display\MegaMenu\jltma_megamenu_cpt')){
+                new MegaMenu\JLTMA_Megamenu_Cpt();
+            }else{
+                MegaMenu\jltma_megamenu_cpt();
+            }
+        }
+    }
+
+    public static function plugin_url()
+    {
+        if (self::$plugin_url) {
+            return self::$plugin_url;
+        }
+        return self::$plugin_url = untrailingslashit(plugins_url('/', __FILE__));
+    }
+
+    public static function plugin_path()
+    {
+        if (self::$plugin_path) {
+            return self::$plugin_path;
+        }
+        return self::$plugin_path = untrailingslashit(plugin_dir_path(__FILE__));
+    }
+
+    public static function get_instance()
+    {
+        if (is_null(self::$_instance)) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+}
+}
+
+/*
+* Returns Instanse of the Master Mega Menu
+*/
+if (!function_exists('MasterAddons\Modules\Display\jltma_megamenu')) {
+    function jltma_megamenu()
+    {
+        if (class_exists('MasterAddons\Modules\Display\MegaMenu')) {
+            return MegaMenu::get_instance();
+        }
+    }
+}
+
+jltma_megamenu();
+
+/* Re-write flus */
+register_activation_hook(__FILE__, 'jltma_flush_rewrites');
+register_deactivation_hook(__FILE__, 'jltma_flush_rewrites');
+if (!function_exists('MasterAddons\Modules\Display\jltma_flush_rewrites')) {
+    function jltma_flush_rewrites()
+    {
+        flush_rewrite_rules();
+    }
+}

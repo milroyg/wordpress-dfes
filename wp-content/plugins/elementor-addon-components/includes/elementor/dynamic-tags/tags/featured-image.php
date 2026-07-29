@@ -19,36 +19,36 @@ use Elementor\Utils;
 use Elementor\Modules\DynamicTags\Module as TagsModule;
 
 class Featured_Image extends Data_Tag {
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-featured';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Image en avant', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Featured image', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-post';
+	public function get_group(): array {
+		return array( 'eac-post' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array(
 			TagsModule::IMAGE_CATEGORY,
 			TagsModule::MEDIA_CATEGORY,
 		);
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->add_control(
 			'fallback',
 			array(
-				'label' => esc_html__( 'Alternative', 'eac-components' ),
+				'label' => esc_html__( 'Fallback', 'eac-components' ),
 				'type'  => Controls_Manager::MEDIA,
 			)
 		);
 	}
 
-	public function get_value( array $options = array() ) {
+	public function get_value( array $options = array() ): array {
 		$id = get_post_thumbnail_id();
 
 		if ( $id && 0 !== $id ) {

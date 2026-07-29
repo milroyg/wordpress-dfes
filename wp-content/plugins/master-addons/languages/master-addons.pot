@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-02-15 10:01+0000\n"
+"POT-Creation-Date: 2026-01-12 10:04+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -254,7 +254,7 @@ msgstr ""
 msgid "Full Width"
 msgstr ""
 
-#: ../addons/caldera-forms/caldera-forms.php:1023, ../addons/ma-current-time/ma-current-time.php:76, ../addons/ma-data-table/ma-data-table.php:68, ../addons/ma-iframe/ma-iframe.php:377, ../addons/ma-image-hover-effects/ma-image-hover-effects.php:175, ../addons/ma-mailchimp/ma-mailchimp.php:93, ../addons/ma-pricing-table/ma-pricing-table.php:280, ../addons/ma-quick-contact/ma-quick-contact.php:205, ../addons/ma-quick-contact/ma-quick-contact.php:511, ../addons/ma-timeline/ma-timeline.php:202, ../addons/ma-wc-add-to-cart/ma-wc-add-to-cart.php:469, ../addons/ninja-forms/ninja-forms.php:1008, ../addons/wpforms/wpforms.php:1022, ../inc/controls/group/format-date-time.php:136, ../inc/modules/sticky-elements/sticky-elements.php:229, ../inc/modules/dynamic-tags/inc/current-date-time.php:50, ../inc/modules/dynamic-tags/inc/post-date.php:62, ../inc/modules/dynamic-tags/inc/post-time.php:61, ../inc/admin/theme-builder/inc/comments/jltma-comments-addon.php:1075, ../premium/Classes/Free_Addons.php:230, ../premium/Classes/Free_Addons.php:755, ../premium/addons/gravity-forms/gravity-forms.php:1204, ../premium/addons/gravity-forms/gravity-forms.php:1419, ../premium/addons/ma-devices/ma-devices.php:326, ../premium/addons/ma-devices/ma-devices.php:453, ../premium/addons/ma-devices-slider/ma-devices-slider.php:98, ../premium/addons/ma-gallery-slider/ma-gallery-slider.php:922, ../premium/addons/ma-offcanvas-menu/ma-offcanvas-menu.php:294, ../premium/addons/ma-source-code/ma-source-code.php:191, ../premium/inc/admin/popup-builder/class-jltma-popup-document.php:96, ../upcoming/Charts.php:68, ../upcoming/Image_Scroll.php:302
+#: ../addons/caldera-forms/caldera-forms.php:1023, ../addons/ma-current-time/ma-current-time.php:76, ../addons/ma-data-table/ma-data-table.php:68, ../addons/ma-iframe/ma-iframe.php:377, ../addons/ma-image-hover-effects/ma-image-hover-effects.php:175, ../addons/ma-mailchimp/ma-mailchimp.php:93, ../addons/ma-pricing-table/ma-pricing-table.php:280, ../addons/ma-quick-contact/ma-quick-contact.php:205, ../addons/ma-quick-contact/ma-quick-contact.php:511, ../addons/ma-timeline/ma-timeline.php:202, ../addons/ma-wc-add-to-cart/ma-wc-add-to-cart.php:469, ../addons/ninja-forms/ninja-forms.php:1008, ../addons/wpforms/wpforms.php:1022, ../inc/admin/welcome/optimize.php:280, ../inc/controls/group/format-date-time.php:136, ../inc/modules/sticky-elements/sticky-elements.php:229, ../inc/modules/dynamic-tags/inc/current-date-time.php:50, ../inc/modules/dynamic-tags/inc/post-date.php:62, ../inc/modules/dynamic-tags/inc/post-time.php:61, ../inc/admin/theme-builder/inc/comments/jltma-comments-addon.php:1075, ../premium/Classes/Free_Addons.php:230, ../premium/Classes/Free_Addons.php:755, ../premium/addons/gravity-forms/gravity-forms.php:1204, ../premium/addons/gravity-forms/gravity-forms.php:1419, ../premium/addons/ma-devices/ma-devices.php:326, ../premium/addons/ma-devices/ma-devices.php:453, ../premium/addons/ma-devices-slider/ma-devices-slider.php:98, ../premium/addons/ma-gallery-slider/ma-gallery-slider.php:922, ../premium/addons/ma-offcanvas-menu/ma-offcanvas-menu.php:294, ../premium/addons/ma-source-code/ma-source-code.php:191, ../premium/inc/admin/popup-builder/class-jltma-popup-document.php:96, ../upcoming/Charts.php:68, ../upcoming/Image_Scroll.php:302
 msgid "Custom"
 msgstr ""
 
@@ -364,7 +364,7 @@ msgstr ""
 msgid "Select"
 msgstr ""
 
-#: ../addons/fluent-form/fluent-form.php:132, ../addons/ma-code-highlighter/ma-code-highlighter.php:63, ../addons/ma-current-time/ma-current-time.php:65, ../addons/ma-flipbox/ma-flipbox.php:425, ../addons/ma-morphing-blob/ma-morphing-blob.php:58, ../addons/ma-navmenu/ma-navmenu.php:159, ../inc/admin/widget-builder/class-jltma-widget-admin.php:425, ../inc/admin/theme-builder/inc/view/modal-header.php:16, ../premium/addons/ma-comparison-table/ma-comparison-table.php:63, ../premium/addons/ma-comparison-table/ma-comparison-table.php:634, ../premium/addons/ma-domain-checker/ma-domain-checker.php:67, ../premium/addons/ma-featured-product/ma-featured-product.php:66, ../premium/addons/ma-popup-trigger/ma-popup-trigger.php:240, ../premium/addons/ma-product-listing/ma-product-listing.php:71, ../premium/addons/ma-product-listing/ma-product-listing.php:398, ../premium/addons/ma-pros-and-cons/ma-pros-and-cons.php:66, ../premium/inc/admin/popup-builder/class-popup-settings.php:98, ../premium/inc/admin/popup-builder/inc/view/popup-modal-header.php:16, ../upcoming/Charts.php:81
+#: ../addons/fluent-form/fluent-form.php:132, ../addons/ma-code-highlighter/ma-code-highlighter.php:63, ../addons/ma-current-time/ma-current-time.php:65, ../addons/ma-flipbox/ma-flipbox.php:425, ../addons/ma-morphing-blob/ma-morphing-blob.php:58, ../addons/ma-navmenu/ma-navmenu.php:159, ../inc/admin/welcome/optimize.php:276, ../inc/admin/widget-builder/class-jltma-widget-admin.php:425, ../inc/admin/theme-builder/inc/view/modal-header.php:16, ../premium/addons/ma-comparison-table/ma-comparison-table.php:63, ../premium/addons/ma-comparison-table/ma-comparison-table.php:634, ../premium/addons/ma-domain-checker/ma-domain-checker.php:67, ../premium/addons/ma-featured-product/ma-featured-product.php:66, ../premium/addons/ma-popup-trigger/ma-popup-trigger.php:240, ../premium/addons/ma-product-listing/ma-product-listing.php:71, ../premium/addons/ma-product-listing/ma-product-listing.php:398, ../premium/addons/ma-pros-and-cons/ma-pros-and-cons.php:66, ../premium/inc/admin/popup-builder/class-popup-settings.php:98, ../premium/inc/admin/popup-builder/inc/view/popup-modal-header.php:16, ../upcoming/Charts.php:81
 msgid "General"
 msgstr ""
 
@@ -665,7 +665,7 @@ msgstr ""
 msgid "Click edit button to change this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
 msgstr ""
 
-#: ../addons/ma-accordion/ma-accordion.php:258, ../addons/ma-advanced-image/ma-advanced-image.php:69, ../addons/ma-advanced-image/ma-advanced-image.php:76, ../addons/ma-advanced-image/ma-advanced-image.php:131, ../addons/ma-advanced-image/ma-advanced-image.php:411, ../addons/ma-business-hours/ma-business-hours.php:178, ../addons/ma-cards/ma-cards.php:55, ../addons/ma-counter-up/ma-counter-up.php:97, ../addons/ma-counter-up/ma-counter-up.php:122, ../addons/ma-data-table/ma-data-table.php:116, ../addons/ma-data-table/ma-data-table.php:143, ../addons/ma-data-table/ma-data-table.php:296, ../addons/ma-data-table/ma-data-table.php:348, ../addons/ma-dual-button/ma-dual-button.php:310, ../addons/ma-flipbox/ma-flipbox.php:206, ../addons/ma-image-filter-gallery/ma-image-filter-gallery.php:131, ../addons/ma-image-hover-effects/ma-image-hover-effects.php:320, ../addons/ma-image-hover-effects/ma-image-hover-effects.php:729, ../addons/ma-image-scroll/ma-image-scroll.php:135, ../addons/ma-infobox/ma-infobox.php:143, ../addons/ma-infobox/ma-infobox.php:173, ../addons/ma-logo-slider/ma-logo-slider.php:127, ../addons/ma-morphing-blob/ma-morphing-blob.php:309, ../addons/ma-morphing-blob/ma-morphing-blob.php:335, ../addons/ma-morphing-blob/ma-morphing-blob.php:802, ../addons/ma-morphing-blob/ma-morphing-blob.php:828, ../addons/ma-pricing-table/ma-pricing-table.php:154, ../addons/ma-table/ma-table.php:124, ../addons/ma-table/ma-table.php:153, ../addons/ma-table/ma-table.php:352, ../addons/ma-table/ma-table.php:382, ../addons/ma-tabs/ma-tabs.php:244, ../addons/ma-tabs/ma-tabs.php:272, ../addons/ma-team-members/ma-team-members.php:114, ../addons/ma-team-members-slider/ma-team-members-slider.php:184, ../addons/ma-timeline/ma-timeline.php:1459, ../addons/ma-tooltip/ma-tooltip.php:103, ../addons/ma-tooltip/ma-tooltip.php:146, ../addons/ma-tooltip/ma-tooltip.php:160, ../premium/Classes/Free_Addons.php:248, ../premium/Classes/Free_Addons.php:1342, ../premium/Classes/Free_Addons.php:1621, ../premium/addons/ma-comparison-table/ma-comparison-table.php:258, ../premium/addons/ma-devices/ma-devices.php:102, ../premium/addons/ma-devices-slider/ma-devices-slider.php:171, ../premium/addons/ma-devices-slider/ma-devices-slider.php:204, ../premium/addons/ma-featured-product/ma-featured-product.php:87, ../premium/addons/ma-image-hotspot/ma-image-hotspot.php:95, ../premium/addons/ma-image-hotspot/ma-image-hotspot.php:197, ../premium/addons/ma-image-hotspot/ma-image-hotspot.php:708, ../premium/addons/ma-offcanvas-menu/ma-offcanvas-menu.php:201, ../premium/addons/ma-offcanvas-menu/ma-offcanvas-menu.php:223, ../premium/addons/ma-offcanvas-menu/ma-offcanvas-menu.php:2305, ../premium/addons/ma-product-listing/ma-product-listing.php:188, ../premium/addons/ma-product-listing/ma-product-listing.php:734, ../premium/addons/ma-pros-and-cons/ma-pros-and-cons.php:114, ../upcoming/Image_Scroll.php:603
+#: ../addons/ma-accordion/ma-accordion.php:258, ../addons/ma-advanced-image/ma-advanced-image.php:69, ../addons/ma-advanced-image/ma-advanced-image.php:76, ../addons/ma-advanced-image/ma-advanced-image.php:131, ../addons/ma-advanced-image/ma-advanced-image.php:411, ../addons/ma-business-hours/ma-business-hours.php:178, ../addons/ma-cards/ma-cards.php:55, ../addons/ma-counter-up/ma-counter-up.php:97, ../addons/ma-counter-up/ma-counter-up.php:122, ../addons/ma-data-table/ma-data-table.php:116, ../addons/ma-data-table/ma-data-table.php:143, ../addons/ma-data-table/ma-data-table.php:296, ../addons/ma-data-table/ma-data-table.php:348, ../addons/ma-dual-button/ma-dual-button.php:310, ../addons/ma-flipbox/ma-flipbox.php:206, ../addons/ma-image-filter-gallery/ma-image-filter-gallery.php:131, ../addons/ma-image-hover-effects/ma-image-hover-effects.php:320, ../addons/ma-image-hover-effects/ma-image-hover-effects.php:729, ../addons/ma-image-scroll/ma-image-scroll.php:135, ../addons/ma-infobox/ma-infobox.php:143, ../addons/ma-infobox/ma-infobox.php:173, ../addons/ma-logo-slider/ma-logo-slider.php:127, ../addons/ma-morphing-blob/ma-morphing-blob.php:309, ../addons/ma-morphing-blob/ma-morphing-blob.php:335, ../addons/ma-morphing-blob/ma-morphing-blob.php:802, ../addons/ma-morphing-blob/ma-morphing-blob.php:828, ../addons/ma-pricing-table/ma-pricing-table.php:154, ../addons/ma-table/ma-table.php:124, ../addons/ma-table/ma-table.php:153, ../addons/ma-table/ma-table.php:352, ../addons/ma-table/ma-table.php:382, ../addons/ma-tabs/ma-tabs.php:244, ../addons/ma-tabs/ma-tabs.php:272, ../addons/ma-team-members/ma-team-members.php:114, ../addons/ma-team-members-slider/ma-team-members-slider.php:184, ../addons/ma-timeline/ma-timeline.php:1459, ../addons/ma-tooltip/ma-tooltip.php:103, ../addons/ma-tooltip/ma-tooltip.php:146, ../addons/ma-tooltip/ma-tooltip.php:160, ../inc/admin/welcome/optimize.php:164, ../premium/Classes/Free_Addons.php:248, ../premium/Classes/Free_Addons.php:1342, ../premium/Classes/Free_Addons.php:1621, ../premium/addons/ma-comparison-table/ma-comparison-table.php:258, ../premium/addons/ma-devices/ma-devices.php:102, ../premium/addons/ma-devices-slider/ma-devices-slider.php:171, ../premium/addons/ma-devices-slider/ma-devices-slider.php:204, ../premium/addons/ma-featured-product/ma-featured-product.php:87, ../premium/addons/ma-image-hotspot/ma-image-hotspot.php:95, ../premium/addons/ma-image-hotspot/ma-image-hotspot.php:197, ../premium/addons/ma-image-hotspot/ma-image-hotspot.php:708, ../premium/addons/ma-offcanvas-menu/ma-offcanvas-menu.php:201, ../premium/addons/ma-offcanvas-menu/ma-offcanvas-menu.php:223, ../premium/addons/ma-offcanvas-menu/ma-offcanvas-menu.php:2305, ../premium/addons/ma-product-listing/ma-product-listing.php:188, ../premium/addons/ma-product-listing/ma-product-listing.php:734, ../premium/addons/ma-pros-and-cons/ma-pros-and-cons.php:114, ../upcoming/Image_Scroll.php:603
 msgid "Image"
 msgstr ""
 
@@ -1061,7 +1061,7 @@ msgstr ""
 msgid "Audio Playlist"
 msgstr ""
 
-#: ../addons/ma-audio-playlist/ma-audio-playlist.php:132
+#: ../addons/ma-audio-playlist/ma-audio-playlist.php:132, ../inc/admin/welcome/optimize.php:180
 msgid "Audio"
 msgstr ""
 
@@ -1085,7 +1085,7 @@ msgstr ""
 msgid "Links"
 msgstr ""
 
-#: ../addons/ma-audio-playlist/ma-audio-playlist.php:216, ../addons/ma-calendar/ma-calendar.php:115, ../addons/ma-data-table/ma-data-table.php:65, ../addons/ma-site-logo/ma-site-logo.php:68, ../addons/ma-wc-product-table/ma-wc-product-table.php:254, ../premium/addons/ma-devices/ma-devices.php:531, ../premium/addons/ma-devices/ma-devices.php:591, ../premium/addons/ma-devices/ma-devices.php:651, ../premium/addons/ma-devices/ma-devices.php:711, ../premium/addons/ma-offcanvas-menu/ma-offcanvas-menu.php:181, ../upcoming/Magazine_Grid.php:449, ../upcoming/Post Grid.php:818
+#: ../addons/ma-audio-playlist/ma-audio-playlist.php:216, ../addons/ma-calendar/ma-calendar.php:115, ../addons/ma-data-table/ma-data-table.php:65, ../addons/ma-site-logo/ma-site-logo.php:68, ../addons/ma-wc-product-table/ma-wc-product-table.php:254, ../inc/admin/welcome/optimize.php:333, ../premium/addons/ma-devices/ma-devices.php:531, ../premium/addons/ma-devices/ma-devices.php:591, ../premium/addons/ma-devices/ma-devices.php:651, ../premium/addons/ma-devices/ma-devices.php:711, ../premium/addons/ma-offcanvas-menu/ma-offcanvas-menu.php:181, ../upcoming/Magazine_Grid.php:449, ../upcoming/Post Grid.php:818
 msgid "Source"
 msgstr ""
 
@@ -8930,7 +8930,7 @@ msgstr ""
 msgid "Controls"
 msgstr ""
 
-#: ../addons/ma-wc-products-gallery/ma-wc-products-gallery.php:388, ../addons/woocommerce/products-showcase.php:541
+#: ../addons/ma-wc-products-gallery/ma-wc-products-gallery.php:388, ../addons/woocommerce/products-showcase.php:541, ../inc/admin/welcome/optimize.php:349
 msgid "Target"
 msgstr ""
 
@@ -9812,7 +9812,7 @@ msgstr ""
 msgid "Are you sure you want to reinstall version ?"
 msgstr ""
 
-#: ../inc/admin/dashboard-settings.php:258, ../inc/classes/rollback.php:61, ../inc/admin/welcome/version-control.php:11
+#: ../inc/admin/dashboard-settings.php:258, ../inc/classes/rollback.php:59, ../inc/admin/welcome/version-control.php:11
 msgid "Rollback to Previous Version"
 msgstr ""
 
@@ -10642,11 +10642,11 @@ msgstr ""
 msgid "Recommended"
 msgstr ""
 
-#: ../inc/classes/rollback.php:44
+#: ../inc/classes/rollback.php:42
 msgid "Error occurred, The version selected is invalid. Try selecting different version."
 msgstr ""
 
-#: ../inc/classes/rollback.php:188
+#: ../inc/classes/rollback.php:186
 msgid "Rollback to Previous Version "
 msgstr ""
 
@@ -10966,7 +10966,7 @@ msgstr ""
 msgid "Disable All"
 msgstr ""
 
-#: ../inc/admin/welcome/addons-elements.php:25, ../inc/admin/welcome/api-keys.php:6, ../inc/admin/welcome/extensions.php:45, ../inc/admin/welcome/icons-library.php:44, ../inc/admin/theme-builder/inc/view/modal-body.php:235, ../premium/Classes/Plugin_Filters.php:60, ../premium/inc/admin/popup-builder/class-popup-settings.php:119, ../premium/inc/admin/popup-builder/inc/view/popup-modal-body.php:148
+#: ../inc/admin/welcome/addons-elements.php:25, ../inc/admin/welcome/api-keys.php:6, ../inc/admin/welcome/extensions.php:45, ../inc/admin/welcome/icons-library.php:44, ../inc/admin/welcome/optimize.php:124, ../inc/admin/theme-builder/inc/view/modal-body.php:235, ../premium/Classes/Plugin_Filters.php:60, ../premium/inc/admin/popup-builder/class-popup-settings.php:119, ../premium/inc/admin/popup-builder/inc/view/popup-modal-body.php:148
 msgid "Save Settings"
 msgstr ""
 
@@ -11053,23 +11053,207 @@ msgid "Addons"
 msgstr ""
 
 #: ../inc/admin/welcome/navigation.php:39
-msgid "API"
+msgid "Optimize"
 msgstr ""
 
 #: ../inc/admin/welcome/navigation.php:47
+msgid "API"
+msgstr ""
+
+#: ../inc/admin/welcome/navigation.php:55
 msgid "White Label"
 msgstr ""
 
-#: ../inc/admin/welcome/navigation.php:56
+#: ../inc/admin/welcome/navigation.php:64
 msgid "Version"
 msgstr ""
 
-#: ../inc/admin/welcome/navigation.php:72
+#: ../inc/admin/welcome/navigation.php:80
 msgid "System Info"
 msgstr ""
 
-#: ../inc/admin/welcome/navigation.php:77
+#: ../inc/admin/welcome/navigation.php:85
 msgid "Upgrade Pro"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:107
+msgid "Apply Recommended Settings"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:116
+msgid "Reset Stats"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:132
+msgid "Optimization Statistics"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:137
+msgid "Images Optimized"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:141
+msgid "Original Size"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:145
+msgid "Optimized Size"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:149
+msgid "Total Saved"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:171, ../premium/addons/ma-devices/ma-devices.php:103, ../premium/addons/ma-devices/ma-devices.php:509, ../premium/addons/ma-devices/ma-devices.php:1350, ../premium/addons/ma-devices-slider/ma-devices-slider.php:175
+msgid "Video"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:200
+msgid "Optimization Settings"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:208
+msgid "Enable Image Optimizer"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:221
+msgid "Resize Large Images"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:234
+msgid "Max Image Dimension (px)"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:249
+msgid "Images are optimized in your browser before upload. Zero server load."
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:263
+msgid "Conversion Type"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:271
+msgid "Conversion Mode"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:289
+msgid "Convert All Images To"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:305, ../inc/admin/welcome/optimize.php:359
+msgid "Quality"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:318
+msgid "Custom Conversion Rules"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:319
+msgid "Define specific format conversions for each source type."
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:363
+msgid "Remove"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:378
+msgid "Add Rule"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:391
+msgid "AVIF & JXL conversion requires modern browser support (WASM)."
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:403
+msgid "WordPress Settings"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:411
+msgid "Disable WP Auto Scaling"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:424
+msgid "Disable All Thumbnails"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:437
+msgid "Disable Specific Sizes"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:461
+msgid "WordPress generates multiple thumbnail sizes for each image. Disable unused sizes to save space."
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:475
+msgid "LQIP (Low Quality Placeholder)"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:483
+msgid "Generate LQIP"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:484
+msgid "Creates tiny blurred placeholder images for lazy loading"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:497
+msgid "LQIP Quality"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:508
+msgid "Blur Amount"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:524
+msgid "LQIP creates tiny ~1KB placeholders for smooth image loading transitions."
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:544
+msgid "Video Optimization"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:553
+msgid "Optimize Videos on Upload"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:566
+msgid "Video Quality"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:570
+msgid "Low (Smaller file)"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:571
+msgid "Medium (Recommended)"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:572
+msgid "High (Better quality)"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:580
+msgid "Max Video Resolution"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:601
+msgid "Videos are compressed in browser. Large files may take longer to process."
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:622
+msgid "Audio Optimization"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:631
+msgid "Optimize Audio on Upload"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:644
+msgid "Audio Bitrate (kbps)"
+msgstr ""
+
+#: ../inc/admin/welcome/optimize.php:664
+msgid "Audio files are converted to optimized MP3 format."
 msgstr ""
 
 #: ../inc/admin/welcome/right-column.php:6
@@ -12013,7 +12197,7 @@ msgid "I already did"
 msgstr ""
 
 #: ../inc/classes/Notifications/Latest_Updates.php:35
-msgid "%3$s %4$s <br> <strong>Check Changelogs for </strong> <a href=\"%1$s\" target=\"__blank\">%2$s</a>"
+msgid "%3$s %4$s %5$s %6$s %7$s <br> <strong>Check Changelogs for </strong> <a href=\"%1$s\" target=\"__blank\">%2$s</a>"
 msgstr ""
 
 #: ../inc/classes/Notifications/Latest_Updates.php:37
@@ -12025,7 +12209,19 @@ msgid " has some updates.."
 msgstr ""
 
 #: ../inc/classes/Notifications/Latest_Updates.php:43
-msgid "<span class=\"dashicons dashicons-yes\"></span> <span class=\"jltma-changes-list\"> Fixed: Timeline icon not showing issue fixed.</span><br>"
+msgid "<span class=\"dashicons dashicons-yes\"></span> <span class=\"jltma-changes-list\"> Fixed: Theme Builder updated with full-fledged features.</span><br>"
+msgstr ""
+
+#: ../inc/classes/Notifications/Latest_Updates.php:44
+msgid "<span class=\"dashicons dashicons-yes\"></span> <span class=\"jltma-changes-list\"> Fixed: Timeline, Accordion, Infobox updated</span><br>"
+msgstr ""
+
+#: ../inc/classes/Notifications/Latest_Updates.php:45
+msgid "<span class=\"dashicons dashicons-yes\"></span> <span class=\"jltma-changes-list\"> Updated: Mega Menu Updated.</span><br>"
+msgstr ""
+
+#: ../inc/classes/Notifications/Latest_Updates.php:46
+msgid "<span class=\"dashicons dashicons-yes\"></span> <span class=\"jltma-changes-list\"> Added : 4 brand new addon added. </span><br>"
 msgstr ""
 
 #: ../inc/classes/Notifications/Notifications.php:198
@@ -13907,7 +14103,7 @@ msgstr ""
 msgid "User Meta"
 msgstr ""
 
-#: ../inc/modules/mega-menu/inc/api.php:40
+#: ../inc/modules/mega-menu/inc/api.php:40, ../premium/modules/image-optimizer/image-optimizer.php:232
 msgid "Saved"
 msgstr ""
 
@@ -15630,10 +15826,6 @@ msgstr ""
 
 #: ../premium/addons/ma-devices/ma-devices.php:98
 msgid "Media Type"
-msgstr ""
-
-#: ../premium/addons/ma-devices/ma-devices.php:103, ../premium/addons/ma-devices/ma-devices.php:509, ../premium/addons/ma-devices/ma-devices.php:1350, ../premium/addons/ma-devices-slider/ma-devices-slider.php:175
-msgid "Video"
 msgstr ""
 
 #: ../premium/addons/ma-devices/ma-devices.php:135, ../premium/addons/ma-devices/ma-devices.php:1293
@@ -18185,6 +18377,50 @@ msgstr ""
 
 #: ../premium/modules/grid-line/grid-line.php:229
 msgid "Grid Style"
+msgstr ""
+
+#: ../premium/modules/image-optimizer/image-optimizer.php:230
+msgid "Optimizing..."
+msgstr ""
+
+#: ../premium/modules/image-optimizer/image-optimizer.php:231
+msgid "Optimized!"
+msgstr ""
+
+#: ../premium/modules/image-optimizer/image-optimizer.php:233
+msgid "Optimization failed"
+msgstr ""
+
+#: ../premium/modules/image-optimizer/image-optimizer.php:234
+msgid "Processing images with WebAssembly..."
+msgstr ""
+
+#: ../premium/modules/image-optimizer/image-optimizer.php:235
+msgid "Batch optimization complete!"
+msgstr ""
+
+#: ../premium/modules/image-optimizer/image-optimizer.php:299, ../premium/modules/image-optimizer/image-optimizer.php:354
+msgid "Permission denied"
+msgstr ""
+
+#: ../premium/modules/image-optimizer/image-optimizer.php:317
+msgid "Settings saved successfully"
+msgstr ""
+
+#: ../premium/modules/image-optimizer/image-optimizer.php:343, ../premium/modules/image-optimizer/image-optimizer.php:408
+msgid "Invalid data"
+msgstr ""
+
+#: ../premium/modules/image-optimizer/image-optimizer.php:367
+msgid "Stats reset successfully"
+msgstr ""
+
+#: ../premium/modules/image-optimizer/image-optimizer.php:405
+msgid "Optimization data saved"
+msgstr ""
+
+#: ../premium/modules/image-optimizer/image-optimizer.php:469
+msgid "Optimization"
 msgstr ""
 
 #: ../premium/modules/rellax/rellax.php:45

@@ -1,0 +1,73 @@
+.spl-weather-select-dropdown {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 400px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    .spl-weather-select-dropdown-option {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        padding: 0px 13px;
+        margin: 0px;
+        height: 42px;
+        border-bottom: 1px solid rgba(240, 93, 49, 0.1);
+        flex-shrink: 0;
+
+        >span {
+            margin: 0px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+        }
+
+        &.active {
+            background-color: #F26C0D;
+            color: #fff;
+            rect[fill="#F26C0D"] {
+                fill: #fff;
+            }
+            path[fill="#F26C0D"] {
+                fill: #fff;
+            }
+            path[fill="#2F2F2F"] {
+                fill: #fff;
+            }
+            path[fill="#FFFFFF"] {
+                fill: #F26C0D;
+            }
+        }
+
+        &.active:hover {
+            background-color: #F26C0D;
+        }
+    }
+
+    .spl-weather-select-dropdown-option:hover {
+        background-color: rgba(240, 93, 49, 0.1);
+    }
+}
+
+.components-popover__content {
+    &:has(.spl-weather-select-dropdown){
+        box-shadow: 0 4px 16px rgba(0, 0, 0, .2);
+    }
+}
+
+.spl-weather-popover__content-visible-content {
+  &:has(.spl-weather-select-dropdown) {
+    padding: 0 !important;
+  }
+}
+
+.spl-weather-popover__content-visible {
+  &:has(.spl-weather-popover__content-visible-content .spl-weather-select-dropdown) {
+    width: 320px;
+  }
+}

@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\Includes\Acf\DynamicTags\Eac_Acf_Lib;
+use EACCustomWidgets\Includes\Acf\Eac_Acf_Lib;
 use Elementor\Controls_Manager;
 use Elementor\Core\DynamicTags\Data_Tag;
 use Elementor\Modules\DynamicTags\Module as TagsModule;
@@ -25,34 +25,34 @@ class Eac_Acf_Url extends Data_Tag {
 	use \EACCustomWidgets\Includes\Traits\Panel_Template_Trait;
 	use \EACCustomWidgets\Includes\Traits\Post_Main_Id_Trait;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-url-acf-values';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Url', 'eac-components' );
+	public function get_title(): string {
+		return esc_html( 'Url' );
 	}
 
-	public function get_group() {
-		return 'eac-acf-groupe';
+	public function get_group(): array {
+		return array( 'eac-acf-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array(
 			TagsModule::URL_CATEGORY,
 		);
 	}
 
-	public function get_panel_template_setting_key() {
+	public function get_panel_template_setting_key(): string {
 		return 'acf_url_key';
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 
 		$this->add_control(
 			'acf_url_key',
 			array(
-				'label'       => esc_html__( 'Champ', 'eac-components' ),
+				'label'       => esc_html__( 'Field', 'eac-components' ),
 				'type'        => Controls_Manager::SELECT,
 				'groups'      => Eac_Acf_Lib::get_acf_fields_options( $this->get_acf_supported_fields() ),
 				'label_block' => true,
@@ -60,13 +60,12 @@ class Eac_Acf_Url extends Data_Tag {
 		);
 	}
 
-	public function get_value( array $options = array() ) {
+	public function get_value( array $options = array() ): string {
 		$field_value = '';
 		$key         = $this->get_settings( 'acf_url_key' );
 
 		if ( ! empty( $key ) ) {
 			list($field_key, $meta_key) = array_pad( explode( '::', $key ), 2, '' );
-			// Fonction du trait Post_Main_Id_Trait
 			$real_id = $this->get_post_template_id( $field_key );
 			$field = get_field_object( $field_key, $real_id );
 
@@ -118,7 +117,7 @@ class Eac_Acf_Url extends Data_Tag {
 		return wp_kses_post( $field_value );
 	}
 
-	protected function get_acf_supported_fields() {
+	protected function get_acf_supported_fields(): array {
 		return array(
 			'email',
 			'link',

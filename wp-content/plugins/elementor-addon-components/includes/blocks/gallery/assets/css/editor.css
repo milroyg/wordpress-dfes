@@ -1,0 +1,101 @@
+.eac-gallery-editor-preview {
+	padding: 8px 0;
+	box-sizing: border-box;
+}
+
+/** Les control color */
+.eac-section-border .components-tools-panel-item,
+.eac-section-panelcolor .components-tools-panel-item {
+	margin-block-start: 0;
+	margin-top: 0 !important;
+}
+
+/* Désactive les liens dans l'éditeur */
+.eac-gallery-editor-preview a {
+	pointer-events: none;
+	cursor: default;
+	text-decoration: none;
+	color: inherit;
+}
+
+/* Block wrapper fallback */
+.eac-gallery-editor-preview {
+	background: transparent;
+}
+
+/** Responsive grid columns */
+.eac-gallery-editor-preview .eac-gallery__block-grid.cols-mobile-1 {
+	--eac-gallery-cols: 1;
+}
+
+.eac-gallery-editor-preview .eac-gallery__block-grid.cols-mobile-2 {
+	--eac-gallery-cols: 2;
+}
+
+.eac-gallery-editor-preview .eac-gallery__block-grid.cols-mobile-3 {
+	--eac-gallery-cols: 3;
+}
+
+.eac-gallery-editor-preview .eac-gallery__block-grid.cols-mobile-4 {
+	--eac-gallery-cols: 4;
+}
+
+.eac-gallery-editor-preview .eac-gallery__block-grid.cols-mobile-5 {
+	--eac-gallery-cols: 5;
+}
+
+.eac-gallery-editor-preview .eac-gallery__block-grid.cols-mobile-6 {
+	--eac-gallery-cols: 6;
+}
+
+@media (min-width: 768px) {
+	.eac-gallery-editor-preview .eac-gallery__block-grid.cols-tablet-1 {
+		--eac-gallery-cols: 1;
+	}
+
+	.eac-gallery-editor-preview .eac-gallery__block-grid.cols-tablet-2 {
+		--eac-gallery-cols: 2;
+	}
+
+	.eac-gallery-editor-preview .eac-gallery__block-grid.cols-tablet-3 {
+		--eac-gallery-cols: 3;
+	}
+
+	.eac-gallery-editor-preview .eac-gallery__block-grid.cols-tablet-4 {
+		--eac-gallery-cols: 4;
+	}
+
+	.eac-gallery-editor-preview .eac-gallery__block-grid.cols-tablet-5 {
+		--eac-gallery-cols: 5;
+	}
+
+	.eac-gallery-editor-preview .eac-gallery__block-grid.cols-tablet-6 {
+		--eac-gallery-cols: 6;
+	}
+}
+
+@media (min-width: 992px) {
+	.eac-gallery-editor-preview .eac-gallery__block-grid.cols-desktop-1 {
+		--eac-gallery-cols: 1;
+	}
+
+	.eac-gallery-editor-preview .eac-gallery__block-grid.cols-desktop-2 {
+		--eac-gallery-cols: 2;
+	}
+
+	.eac-gallery-editor-preview .eac-gallery__block-grid.cols-desktop-3 {
+		--eac-gallery-cols: 3;
+	}
+
+	.eac-gallery-editor-preview .eac-gallery__block-grid.cols-desktop-4 {
+		--eac-gallery-cols: 4;
+	}
+
+	.eac-gallery-editor-preview .eac-gallery__block-grid.cols-desktop-5 {
+		--eac-gallery-cols: 5;
+	}
+
+	.eac-gallery-editor-preview .eac-gallery__block-grid.cols-desktop-6 {
+		--eac-gallery-cols: 6;
+	}
+}

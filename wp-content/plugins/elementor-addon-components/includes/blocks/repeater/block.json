@@ -1,0 +1,197 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "eac-blocks/repeater",
+    "title": "EAC Repeater",
+    "category": "widgets",
+    "icon": "grid-view",
+    "description": "Display ACF repeater as block",
+    "keywords": ["acf", "grid", "repeater"],
+    "textdomain": "eac-components",
+    "editorStyle": "file:./assets/css/editor.css",
+    "supports": {
+        "html": false,
+        "reusable": false,
+        "customClassName": true,
+        "visibility": false
+    },
+    "example": {
+        "attributes": {
+            "previewImg": ""
+        }
+    },
+    "attributes": {
+        "previewImg": {
+            "type": "string",
+            "default": ""
+        },
+        "className": {
+            "type": "string",
+            "default": ""
+        },
+        "containerWidth": {
+            "type": "string",
+            "default": "container-none"
+        },
+        "selectedRepeater": {
+            "type": "string",
+            "default": ""
+        },
+        "selectedSubfields": {
+            "type": "array",
+            "default": []
+        },
+        "postSource": {
+            "type": "string",
+            "default": "current"
+        },
+        "postId": {
+            "type": "number",
+            "default": 0
+        },
+        "displayType": {
+			"type": "string",
+			"default": "grid"
+        },
+        "headingFaq": {
+            "type": "string",
+            "default": "div"
+        },
+        "repeaterWidth": {
+            "type": "object",
+            "default": {
+                "desktopWidth": 60,
+                "tabletLandWidth": 60,
+                "tabletWidth": 80,
+                "mobileLandWidth": 80,
+                "mobileWidth": 100,
+                "suffix": "Width"
+            }
+        },
+        "repeaterCol": {
+            "type": "object",
+            "default": {
+                "desktopCol": 3,
+                "tabletLandCol": 3,
+                "tabletCol": 2,
+                "mobileLandCol": 2,
+                "mobileCol": 1,
+                "suffix": "Col"
+            }
+        },
+        "repeaterGap": {
+            "type": "object",
+            "default": {
+                "gapMin": 1,
+                "gapMax": 2,
+                "gapClamp": ""
+            }
+        },
+        "itemStyle": {
+            "type": "string",
+            "default": ""
+        },
+        "itemBorder": {
+            "type": "object",
+            "default": {
+                "width": 0,
+                "color": null
+            }
+        },
+        "itemBorderRadius": {
+            "type": "object",
+            "default": {
+                "width": 0,
+                "unit": "px"
+            }
+        },
+        "itemShadow": {
+            "type": "object",
+            "default": {
+                "offsetX": 0,
+                "offsetY": 0,
+                "blur": 0,
+                "spread": 0,
+                "inset": null,
+                "color": "",
+                "unit": "px"
+            }
+        },
+        "blockBackground": {
+            "type": "string",
+            "default": "#FFFFFF"
+        },
+        "itemBackground": {
+            "type": "string",
+            "default": "#FFFFFF"
+        },
+        "colorText": {
+            "type": "string",
+            "default": null
+        },
+        "colorTitleFaq": {
+            "type": "string",
+            "default": null
+        },
+        "colorTitleFaqBackground": {
+            "type": "string",
+            "default": null
+        },
+        "colorTitleTable": {
+            "type": "string",
+            "default": null
+        },
+        "colorTitleTableBackground": {
+            "type": "string",
+            "default": null
+        },
+        "fontText": {
+            "type": "object",
+            "default": {
+                "fontMin": 0.9,
+                "fontMax": 1.1,
+                "fontClamp": ""
+            }
+        },
+        "marginTopBottom": {
+            "type": "object",
+            "default": {
+                "marginSup": 0,
+                "marginInf": 0,
+                "unit": "px"
+            }
+        },
+        "alignmentHrzText": {
+            "type": "string",
+            "default": "start"
+        },
+        "alignmentVrtText": {
+            "type": "string",
+            "default": "start"
+        },
+        "imageSizes": {
+            "type": "string",
+            "default": "medium"
+        },
+        "imageRatio": {
+            "type": "string",
+            "default": ""
+        },
+        "imagePosition": {
+            "type": "number",
+            "default": "50"
+        },
+        "linkAsButton": {
+            "type": "boolean",
+            "default": false
+        },
+        "globalLink": {
+            "type": "boolean",
+            "default": false
+        },
+        "nofollowLink": {
+            "type": "boolean",
+            "default": false
+        }
+    }
+}

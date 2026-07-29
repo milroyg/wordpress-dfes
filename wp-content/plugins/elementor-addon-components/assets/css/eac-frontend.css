@@ -66,18 +66,10 @@
 	--eac-grid-animate-duration: 0.4s;
 }
 
-.eac-advanced-gallery .advanced-gallery__title,
-.eac-advanced-gallery .advanced-gallery__description-wrapper,
-.eac-image-galerie .image-galerie__titre,
-.eac-image-galerie .image-galerie__description-wrapper,
-.eac-acf-relationship .acf-relation_title-content,
-.eac-acf-relationship .acf-relation_excerpt,
-.eac-rss-galerie .rss-galerie__item-titre,
-.eac-rss-galerie .rss-galerie__item-description p,
-.eac-post-grid .al-post__content-title,
-.eac-post-grid .al-post__excerpt-wrapper,
-.eac-post-grid .shop-product__excerpt-wrapper {
-	line-height: var(--eac-global-line-height);
+/** Font digital-7 pour le compteur */
+@font-face {
+	font-family: 'digital-7';
+	src: url('../fonts/digital-7-mono.ttf') format('truetype');
 }
 
 body.eac-using-mouse *:focus {
@@ -92,14 +84,19 @@ body:not(.eac-using-mouse) *:focus-visible {
 	outline-offset: var(--eac-focus-visible-offset);
 }
 
-/** nav menu bouton de recherche */
+/** nav menu, bouton de recherche et ACF repeater question */
 body:not(.eac-using-mouse) .eac-mega-menu *:focus-visible,
-body:not(.eac-using-mouse) .eac-search_form-wrapper .eac-search_button-toggle:focus-visible {
+body:not(.eac-using-mouse) .eac-search_form-wrapper .eac-search_button-toggle:focus-visible,
+body:not(.eac-using-mouse) .acf-repeater_faq-question:focus-visible {
 	outline-offset: 0;
 }
 
+body:not(.eac-using-mouse) .acf-repeater_faq-question:focus-visible {
+	outline-color: var(--eac-focus-visible-color);
+}
+
 /** Focus des liens sur les images */
-body:not(.eac-using-mouse) a:focus-visible img[class^="img-focusable"] {
+body:not(.eac-using-mouse) a:focus-visible img[class^="eac-accessible-img"] {
 	outline-color: var(--eac-focus-visible-img-color);
 	outline-style: var(--eac-focus-visible-img-style);
 	outline-width: var(--eac-focus-visible-img-width);
@@ -127,6 +124,13 @@ body:not(.eac-using-mouse) button.image-galerie__button-lightbox:focus-visible {
 	outline: revert !important;
 }*/
 
+/** La hauteur de ligne pour les titres et textes */
+.global__line-height,
+.eac-rss-galerie .rss-galerie__item-titre,
+.eac-rss-galerie .rss-galerie__item-description p {
+	line-height: var(--eac-global-line-height);
+}
+
 /** Dernier élément d'une grille accessible avec la touche 'escape'  */
 .eac-skip-grid {
 	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGNgAAIAAAUAAXpeqz8=);
@@ -148,7 +152,7 @@ a.skip-link.screen-reader-text:focus {
 .eac-post-grid .al-posts__wrapper article,
 .acf-relational_post article,
 .eac-acf-relationship .acf-relation_container article,
-.eac-html-sitemap article,
+.eac-html-sitemap,
 .eac-rss-galerie .rss-galerie article {
 	padding-block: unset;
 	padding-inline: unset;
@@ -164,7 +168,7 @@ a.skip-link.screen-reader-text:focus {
 .eac-rss-galerie .select__options-items,
 .eac-lecteur-audio .select__options-items,
 .eac-pin-galerie .select__options-items {
-	font-size: .9em;
+	font-size: 1rem;
 	font-weight: normal;
 	background-color: var(--eac-bg-input);
 	block-size: 2.2em;
@@ -254,8 +258,7 @@ a.skip-link.screen-reader-text:focus {
 	align-items: center;
 	color: #1346CD;
 	background-color: transparent;
-	border-block: 2px solid #1346CD;
-	border-inline: 2px solid #1346CD;
+	border: 2px solid #1346CD;
 	padding-block: 5px;
 	padding-inline: 8px;
 	border-radius: 4px;
@@ -300,6 +303,13 @@ a.skip-link.screen-reader-text:focus {
 }
 
 /**------------------------------------------*/
+/** Position du logo dans le dashboard avant le menu EAC Components */
+.toplevel_page_eac-components .wp-menu-image img {
+	padding: 6px 0 0 !important;
+	opacity: 1 !important;
+}
+
+/**------------------------------------------*/
 /** L'élément fallback pour les conditions d'affichage */
 [class^='element-condition_fallback-'] {
 	position: relative;
@@ -333,7 +343,7 @@ a.skip-link.screen-reader-text:focus {
 .eac-conditions-no>.elementor-element-overlay>.elementor-editor-column-settings .elementor-editor-element-edit,
 .eac-conditions-no>.elementor-element-overlay>.elementor-editor-widget-settings .elementor-editor-element-edit,
 .eac-conditions-no>.elementor-element-overlay>.elementor-editor-container-settings .elementor-editor-element-edit {
-	box-shadow: none;
+	box-shadow: '';
 }
 
 /**------------------------------------------*/

@@ -18,12 +18,11 @@ use Elementor\Controls_Manager;
 
 class Post_Category extends Condition_Base {
 
-	public function get_target_control() {
+	public function get_target_control(): array {
 		return array(
-			'label'       => esc_html__( 'Liste des catégories', 'eac-components' ),
+			'label'       => esc_html__( 'List of categories', 'eac-components' ),
 			'type'        => 'eac-select2',
 			'select2Options' => array(
-				'object_type' => 'post',
 				'query_type'  => 'term',
 				'query_taxo'  => 'category',
 			),
@@ -35,28 +34,28 @@ class Post_Category extends Condition_Base {
 		);
 	}
 
-	public function get_called_classname() {
+	public function get_called_classname(): string {
 		return get_called_class();
 	}
 
-	public function check( $settings, $value, $operateur = '', $tz = '' ) {
+	public function check( $settings, $value, $operateur = '', $tz = '' ): bool {
 		if ( ! is_array( $value ) ) {
 			return true;
 		}
 
 		$categories = get_the_category( get_the_ID() );
-		if ( ! empty( $categories ) ) {
-			$categories_ids = array();
+		if ( ! is_wp_error( $categories ) && ! empty( $categories ) ) {
+			$category_ids = array();
 			foreach ( $categories as $index => $category ) {
-				array_push( $categories_ids, $category->cat_ID );
+				array_push( $category_ids, $category->cat_ID );
 			}
 
 			switch ( $operateur ) {
 				case 'in':
-					$etat = ! empty( array_intersect( $categories_ids, $value ) ) ? false : true;
+					$etat = ! empty( array_intersect( $category_ids, $value ) ) ? false : true;
 					break;
 				case 'not_in':
-					$etat = empty( array_intersect( $categories_ids, $value ) ) ? false : true;
+					$etat = empty( array_intersect( $category_ids, $value ) ) ? false : true;
 					break;
 			}
 

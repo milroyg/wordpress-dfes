@@ -19,27 +19,27 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 class Product_Upsell_Gallery extends Data_Tag {
 	use \EACCustomWidgets\Includes\Traits\Product_Trait;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-woo-upsell-gallery';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Galerie de produits de vente incitative', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Upsell gallery', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-woo-groupe';
+	public function get_group(): array {
+		return array( 'eac-woo-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::GALLERY_CATEGORY );
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->register_product_id_control();
 	}
 
-	public function get_value( array $options = array() ) {
+	public function get_value( array $options = array() ): array {
 		$product_id = $this->get_settings( 'product_id' );
 		$value      = array();
 

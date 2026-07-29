@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Controls_Manager;
 use Elementor\Element_Base;
@@ -41,8 +41,8 @@ class Eac_Custom_Css {
 	 * Enqueue le script pour l'éditeur de CSS personnalisé
 	 */
 	public function enqueue_editor_scripts() {
-		wp_enqueue_script( 'eac-custom-css', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-custom-css' ), array( 'jquery' ), '1.6.0', true );
-		wp_enqueue_script( 'eac-indicator-css', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-indicator-css' ), array(), '2.1.8', true );
+		wp_enqueue_script( 'eac-custom-css', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-custom-css' ), array( 'jquery' ), EAC_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'eac-indicator-css', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-indicator-css' ), array(), EAC_PLUGIN_VERSION, true );
 	}
 
 	/**
@@ -61,8 +61,8 @@ class Eac_Custom_Css {
 	public static function add_controls_section( $element, $section_id ) {
 
 		if ( 'section_custom_css_pro' === $section_id ) {
-			$feature_css = ! Eac_Config_Elements::is_feature_active( 'editor-role' );
-			$design_css  = Eac_Config_Elements::is_feature_active( 'editor-role' ) && \Elementor\Plugin::$instance->role_manager->user_can( 'design' );
+			$feature_css = ! Eac_Load_Config::is_feature_active( 'editor-role' );
+			$design_css  = Eac_Load_Config::is_feature_active( 'editor-role' ) && \Elementor\Plugin::$instance->role_manager->user_can( 'design' );
 
 			/** @since 2.3.7 */
 			if ( $feature_css || $design_css ) {
@@ -75,7 +75,7 @@ class Eac_Custom_Css {
 					$element->start_controls_section(
 						'eac_custom_element_css',
 						array(
-							'label' => esc_html__( 'CSS personnalisé', 'eac-components' ),
+							'label' => esc_html__( 'Custom CSS', 'eac-components' ),
 							'tab' => $section_pro['tab'],
 						)
 					);
@@ -84,7 +84,7 @@ class Eac_Custom_Css {
 						'custom_css',
 						array(
 							'type'        => Controls_Manager::CODE,
-							'label'       => esc_html__( 'Ajoutez votre propre CSS', 'eac-components' ),
+							'label'       => esc_html__( 'Add your own CSS', 'eac-components' ),
 							'language'    => 'css',
 							'render_type' => 'ui',
 							'separator'   => 'none',
@@ -96,8 +96,8 @@ class Eac_Custom_Css {
 						array(
 							'type' => Controls_Manager::RAW_HTML,
 							'raw' => sprintf(
-								/* translators: 1: Link opening tag, 2: Link opening tag, 3: Link closing tag. */
-								esc_html__( 'Personnaliser le contenu avec %1$svotre CSS personnalisé%3$s et utiliser %2$sle mot-clé%3$s "selector" pour cibler des éléments particuliers.', 'eac-components' ),
+								/* translators: 1: Link opening tag, 2: Content tag, 3: Link closing tag. */
+								esc_html__( 'Customize content with %1$syour CSS%3$s and use %2$sthe keyword "selector"%3$s to target specific elements', 'eac-components' ),
 								'<a href="https://elementor-addon-components.com/elementor-custom-css/" target="_blank" rel="noopener noreferrer">',
 								'<a href="https://elementor-addon-components.com/elementor-custom-css/#use-the-selector-keyword-to-target-an-element" target="_blank" rel="noopener noreferrer">',
 								'</a>',

@@ -19,36 +19,36 @@ use Elementor\Controls_Manager;
 class Page_Title extends Tag {
 	use \EACCustomWidgets\Includes\Traits\Page_Title_Trait;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-page-title';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Titre de la page', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Page title', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-site-groupe';
+	public function get_group(): array {
+		return array( 'eac-site-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::TEXT_CATEGORY );
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 
 		$this->add_control(
 			'page_title_context',
 			array(
-				'label'   => esc_html__( 'Inclure le contexte', 'eac-components' ),
+				'label'   => esc_html__( 'Include context', 'eac-components' ),
 				'type'    => Controls_Manager::CHOOSE,
 				'options' => array(
 					'yes' => array(
-						'title' => esc_html__( 'Oui', 'eac-components' ),
+						'title' => esc_html__( 'Yes', 'eac-components' ),
 						'icon'  => 'eicon-check',
 					),
 					'no'  => array(
-						'title' => esc_html__( 'Non', 'eac-components' ),
+						'title' => esc_html__( 'No', 'eac-components' ),
 						'icon'  => 'eicon-ban',
 					),
 				),
@@ -57,10 +57,10 @@ class Page_Title extends Tag {
 		);
 	}
 
-	public function render() {
+	public function render(): void {
 		$has_context = 'yes' === $this->get_settings( 'page_title_context' ) ? true : false;
 
 		$title = $this->get_page_title( $has_context );
-		echo wp_kses_post( $title );
+		echo esc_html( $title );
 	}
 }

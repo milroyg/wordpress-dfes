@@ -730,9 +730,7 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 		public function add_options_html() {
 
 			$has_nav       = ( count( $this->pre_tabs ) > 1 ) ? true : false;
-			$show_buttons  = isset( $this->args['show_buttons'] ) ? $this->args['show_buttons'] : true;
 			$show_all      = ( ! $has_nav ) ? ' splwt-lite-show-all' : '';
-			$ajax_class    = ( $this->args['ajax_save'] ) ? ' splwt-lite-save-ajax' : '';
 			$sticky_class  = ( $this->args['sticky_header'] ) ? ' splwt-lite-sticky-header' : '';
 			$wrapper_class = ( $this->args['framework_class'] ) ? ' ' . $this->args['framework_class'] : '';
 			$theme         = ( $this->args['theme'] ) ? ' splwt-lite-theme-' . $this->args['theme'] : '';
@@ -752,35 +750,21 @@ if ( ! class_exists( 'SPLWT_Options' ) ) {
 
 			echo '<div class="splwt-lite-header' . esc_attr( $sticky_class ) . '">';
 			echo '<div class="splwt-lite-header-inner">';
-			$_menu_icon = LOCATION_WEATHER_ASSETS . '/font/lw-icon.svg';
 			echo '<div class="splwt-lite-header-left">';
-			if ( $show_buttons ) {
-				echo '<img class="splwt-setting-logo" src="' . esc_url( $_menu_icon ) . '"/><h1>' . wp_kses_post( $this->args['framework_title'] ) . '</h1>';
-			} else {
-				echo '<h1 class="export-import"><img src="' . esc_url( LOCATION_WEATHER_ASSETS ) . '/images/import-export.svg">' . wp_kses_post( $this->args['framework_title'] ) . '</h1>';
-			}
+			echo '<h1 class="export-import"><img src="' . esc_url( LOCATION_WEATHER_ASSETS ) . '/images/import-export.svg">' . wp_kses_post( $this->args['framework_title'] ) . '</h1>';
 			echo '</div>';
 
 			echo '<div class="splwt-lite-header-right">';
 
 			$notice_class = ( ! empty( $this->notice ) ) ? 'spf-form-show' : '';
 			$notice_text  = ( ! empty( $this->notice ) ) ? $this->notice : '';
-			if ( ! $show_buttons ) {
-				echo '<div class="splwt-lite-form-result splwt-lite-form-success ' . esc_attr( $notice_class ) . '">' . wp_kses_post( $notice_text ) . '</div>';
-			}
+			echo '<div class="splwt-lite-form-result splwt-lite-form-success ' . esc_attr( $notice_class ) . '">' . wp_kses_post( $notice_text ) . '</div>';
 
 			echo ( $this->args['show_form_warning'] ) ? '<div class="splwt-lite-form-result splwt-lite-form-warning">' . esc_html__( 'You have unsaved changes, save your changes!', 'location-weather' ) . '</div>' : '';
 
 			echo ( $has_nav && $this->args['show_all_options'] ) ? '<div class="splwt-lite-expand-all" title="' . esc_html__( 'show all settings', 'location-weather' ) . '"><i class="fas fa-outdent"></i></div>' : '';
 
 			echo ( $this->args['show_search'] ) ? '<div class="splwt-lite-search"><input type="text" name="splwt-lite-search" placeholder="' . esc_html__( 'Search...', 'location-weather' ) . '" autocomplete="off" /></div>' : '';
-			if ( $show_buttons ) {
-				echo '<div class="splwt-lite-buttons">';
-				echo '<input type="submit" name="' . esc_attr( $this->unique ) . '[_nonce][save]" class="button button-primary splwt-lite-top-save splwt-lite-save' . esc_attr( $ajax_class ) . '" value="' . esc_html__( 'Save Settings', 'location-weather' ) . '" data-save="' . esc_html__( 'Saving...', 'location-weather' ) . '">';
-				echo ( $this->args['show_reset_section'] ) ? '<input type="submit" name="splwt_transient[reset_section]" class="button button-secondary splwt-lite-reset-section splwt-lite-confirm" value="' . esc_html__( 'Reset Tab', 'location-weather' ) . '" data-confirm="' . esc_html__( 'Are you sure to reset all the settings of this tab?', 'location-weather' ) . '">' : '';
-				echo ( $this->args['show_reset_all'] ) ? '<input type="submit" name="splwt_transient[reset]" class="button splwt-lite-warning-primary splwt-lite-reset-all splwt-lite-confirm" value="' . ( ( $this->args['show_reset_section'] ) ? esc_html__( 'Reset All', 'location-weather' ) : esc_html__( 'Reset', 'location-weather' ) ) . '" data-confirm="' . esc_html__( 'Are you sure you want to reset all settings to default values?', 'location-weather' ) . '">' : '';
-				echo '</div>';
-			}
 
 			echo '</div>';
 

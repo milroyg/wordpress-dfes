@@ -18,8 +18,8 @@ use Elementor\Element_Base;
 
 class Controller {
 
-	const COND_DIR       = __DIR__ . '/conditions/';
-	const COND_NAMESPACE = __NAMESPACE__ . '\\Conditions\\';
+	private const COND_DIR       = __DIR__ . '/conditions/';
+	private const COND_NAMESPACE = __NAMESPACE__ . '\\Conditions\\';
 
 	/**
 	 * La liste des classes des fichiers du rep. conditions
@@ -64,12 +64,13 @@ class Controller {
 
 		$this->active_conditions_classes();
 
-		$eac_has_filter = has_filter( 'elementor/frontend/widget/should_render', array( __CLASS__, 'should_render' ) );
-
-		add_filter( 'elementor/frontend/widget/should_render', array( $this, 'should_render' ), 10, 2 );
-		add_filter( 'elementor/frontend/column/should_render', array( $this, 'should_render' ), 10, 2 );
-		add_filter( 'elementor/frontend/section/should_render', array( $this, 'should_render' ), 10, 2 );
-		add_filter( 'elementor/frontend/container/should_render', array( $this, 'should_render' ), 10, 2 );
+		if ( ! \Elementor\Plugin::$instance->editor->is_edit_mode() ) {
+			$eac_has_filter = has_filter( 'elementor/frontend/widget/should_render', array( __CLASS__, 'should_render' ) );
+			add_filter( 'elementor/frontend/widget/should_render', array( $this, 'should_render' ), 10, 2 );
+			add_filter( 'elementor/frontend/column/should_render', array( $this, 'should_render' ), 10, 2 );
+			add_filter( 'elementor/frontend/section/should_render', array( $this, 'should_render' ), 10, 2 );
+			add_filter( 'elementor/frontend/container/should_render', array( $this, 'should_render' ), 10, 2 );
+		}
 	}
 
 	/**
@@ -79,34 +80,34 @@ class Controller {
 	 *
 	 * @access public
 	 */
-	public function get_conditions_list() {
+	public function get_conditions_list(): array {
 		return array(
-			esc_html__( 'Temps', 'eac-components' )    => array(
+			esc_html__( 'Time', 'eac-components' )    => array(
 				'label'   => esc_html__( 'Date', 'eac-components' ),
 				'options' => array(
-					'day_week'     => esc_html__( 'Jour de la semaine', 'eac-components' ),
-					'date_compare' => esc_html__( 'Date du jour', 'eac-components' ),
-					'date_range'   => esc_html__( 'Date du jour (interval)', 'eac-components' ),
+					'day_week'     => esc_html__( 'Day of the week', 'eac-components' ),
+					'date_compare' => esc_html__( 'Today', 'eac-components' ),
+					'date_range'   => esc_html__( 'Today (range)', 'eac-components' ),
 				),
 			),
-			esc_html__( 'Visiteur', 'eac-components' ) => array(
-				'label'   => esc_html__( 'Visiteur', 'eac-components' ),
+			esc_html__( 'Visitor', 'eac-components' ) => array(
+				'label'   => esc_html__( 'Visitor', 'eac-components' ),
 				'options' => array(
-					'logged_in_user' => esc_html__( 'Non connecté', 'eac-components' ),
-					'user_role'      => esc_html__( 'Rôles', 'eac-components' ),
-					'user_lang'      => esc_html__( 'Langage', 'eac-components' ),
+					'logged_in_user' => esc_html__( 'Not logged-in', 'eac-components' ),
+					'user_role'      => esc_html__( 'Role', 'eac-components' ),
+					'user_lang'      => esc_html__( 'Language', 'eac-components' ),
 				),
 			),
-			esc_html__( 'Article', 'eac-components' )  => array(
-				'label'   => esc_html__( 'Article', 'eac-components' ),
+			esc_html__( 'Post', 'eac-components' )  => array(
+				'label'   => esc_html__( 'Post', 'eac-components' ),
 				'options' => array(
-					'post'          => esc_html__( 'Article', 'eac-components' ),
+					'post'          => esc_html__( 'Post', 'eac-components' ),
 					'page'          => esc_html__( 'Page', 'eac-components' ),
-					'page_static'   => esc_html__( 'Page statique', 'eac-components' ),
-					'post_type'     => esc_html__( "Types d'articles", 'eac-components' ),
-					'post_author'   => esc_html__( "Auteurs d'articles", 'eac-components' ),
-					'post_category' => esc_html__( "Catégories d'articles", 'eac-components' ),
-					'post_tag'      => esc_html__( "Étiquettes d'articles", 'eac-components' ),
+					'page_static'   => esc_html__( 'Static page', 'eac-components' ),
+					'post_type'     => esc_html__( 'Post type', 'eac-components' ),
+					'post_author'   => esc_html__( 'Post author', 'eac-components' ),
+					'post_category' => esc_html__( 'Post category', 'eac-components' ),
+					'post_tag'      => esc_html__( 'Post tag', 'eac-components' ),
 				),
 			),
 		);
@@ -119,21 +120,21 @@ class Controller {
 	 *
 	 * @access public
 	 */
-	public function get_conditions_flat_list() {
+	public function get_conditions_flat_list(): array {
 		return array(
-			'day_week'       => esc_html__( 'Jour de la semaine', 'eac-components' ),
-			'date_compare'   => esc_html__( 'Date du jour', 'eac-components' ),
-			'date_range'     => esc_html__( 'Date du jour (interval)', 'eac-components' ),
-			'logged_in_user' => esc_html__( 'Non connecté', 'eac-components' ),
-			'user_role'      => esc_html__( 'Rôles', 'eac-components' ),
-			'user_lang'      => esc_html__( 'Langage', 'eac-components' ),
-			'post'           => esc_html__( 'Article', 'eac-components' ),
+			'day_week'       => esc_html__( 'Day of the week', 'eac-components' ),
+			'date_compare'   => esc_html__( 'Today', 'eac-components' ),
+			'date_range'     => esc_html__( 'Today (range)', 'eac-components' ),
+			'logged_in_user' => esc_html__( 'Not logged-in', 'eac-components' ),
+			'user_role'      => esc_html__( 'Role', 'eac-components' ),
+			'user_lang'      => esc_html__( 'Language', 'eac-components' ),
+			'post'           => esc_html__( 'Post', 'eac-components' ),
 			'page'           => esc_html__( 'Page', 'eac-components' ),
-			'page_static'    => esc_html__( 'Page statique', 'eac-components' ),
-			'post_type'      => esc_html__( "Types d'articles", 'eac-components' ),
-			'post_author'    => esc_html__( "Auteurs d'articles", 'eac-components' ),
-			'post_category'  => esc_html__( "Catégories d'articles", 'eac-components' ),
-			'post_tag'       => esc_html__( "Étiquettes d'articles", 'eac-components' ),
+			'page_static'    => esc_html__( 'Static page', 'eac-components' ),
+			'post_type'      => esc_html__( 'Post type', 'eac-components' ),
+			'post_author'    => esc_html__( 'Post author', 'eac-components' ),
+			'post_category'  => esc_html__( 'Post category', 'eac-components' ),
+			'post_tag'       => esc_html__( 'Post tag', 'eac-components' ),
 		);
 	}
 
@@ -144,7 +145,7 @@ class Controller {
 	 *
 	 * @access public
 	 */
-	public function active_conditions_classes() {
+	public function active_conditions_classes(): void {
 		foreach ( $this->file_class_list as $file => $class_name ) {
 			$full_class_name = self::COND_NAMESPACE . $class_name;
 			$file_path       = self::COND_DIR . $file . '.php';
@@ -158,13 +159,14 @@ class Controller {
 	}
 
 	/**
-	 * Ajout des controls de comparaison
+	 * add_controls_to_compare
+	 * Ajout des controls de comparaison à chaque control condition
 	 *
-	 * @param Element_Base $element L'élément auquel les controls sont ajoutés
+	 * @param \Elementor\Repeater $element
 	 *
-	 * @access public
+	 * @return void
 	 */
-	public function add_controls_to_compare( $element ) {
+	public function add_controls_to_compare( $element ): void {
 		foreach ( $this->conditions_file_classes as $condition_file_name => $condition_class ) {
 			$control_id      = $this->prefix_condition . $condition_file_name;
 			$content_control = $condition_class->get_target_control(); // Ajout des controls enregistrés dans les classes conditions
@@ -187,7 +189,7 @@ class Controller {
 	 * @param Element_Base $element  L'élément en cours d'édition
 	 * @return boolean     true ou false
 	 */
-	public function should_render( $should_render, $element ) {
+	public function should_render( $should_render, $element ): bool {
 		$settings = $element->get_settings_for_display();
 
 		if ( isset( $settings['element_condition_active'] ) && 'yes' === $settings['element_condition_active'] ) {
@@ -235,7 +237,7 @@ class Controller {
 				$id      = 'element-condition_labelled-' . $element->get_id();
 				?>
 					<div class='<?php echo esc_attr( $class ); ?>' role='status' aria-labelledby='<?php echo esc_attr( $id ); ?>' tabindex='0'>
-						<div id='<?php echo esc_attr( $id ); ?>'><?php echo wp_kses_post( $content ); ?></div>
+						<div id='<?php echo esc_attr( $id ); ?>'><?php echo nl2br( wp_kses_post( $content ) ); ?></div>
 					</div>
 				<?php
 			}
@@ -252,7 +254,7 @@ class Controller {
 	 * @param String $tz 'server' ou 'client'
 	 * @return String La date du jour au format (Y-m-d) ou une chaine vide
 	 */
-	public function get_today_date( $tz = '' ) {
+	public function get_today_date( $tz = '' ): string {
 		$current_timezone = wp_timezone_string(); // Timezone du serveur par défaut
 		$offset           = 0;
 

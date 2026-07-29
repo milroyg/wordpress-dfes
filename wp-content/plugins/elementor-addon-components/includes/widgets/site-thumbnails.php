@@ -15,8 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -25,15 +24,6 @@ use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
 
 class Site_Thumbnails_Widget extends Widget_Base {
-
-	/**
-	 * Constructeur de la class Site_Thumbnails_Widget
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		wp_register_style( 'eac-site-thumbnail', EAC_Plugin::instance()->get_style_url( 'assets/css/site-thumbnail' ), array( 'eac-frontend' ), '1.7.70' );
-	}
 
 	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
@@ -49,10 +39,10 @@ class Site_Thumbnails_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -60,10 +50,10 @@ class Site_Thumbnails_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -71,10 +61,10 @@ class Site_Thumbnails_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -82,10 +72,10 @@ class Site_Thumbnails_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -93,7 +83,7 @@ class Site_Thumbnails_Widget extends Widget_Base {
 	 *
 	 * Les styles sont chargés dans le footer
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
 		return array( 'eac-site-thumbnail' );
@@ -108,8 +98,8 @@ class Site_Thumbnails_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -117,10 +107,10 @@ class Site_Thumbnails_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -130,6 +120,15 @@ class Site_Thumbnails_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -144,7 +143,7 @@ class Site_Thumbnails_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'st_site_settings',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -152,9 +151,9 @@ class Site_Thumbnails_Widget extends Widget_Base {
 			$this->add_control(
 				'st_site_url',
 				array(
-					'label'       => esc_html__( 'URL', 'eac-components' ),
+					'label'       => esc_html( 'URL' ),
 					'type'        => Controls_Manager::URL,
-					'description' => esc_html__( "Coller l'URL complète du site", 'eac-components' ),
+					'description' => esc_html__( 'Paste full site URL', 'eac-components' ),
 					'placeholder' => 'http://your-link.com',
 					'dynamic'     => array(
 						'active' => true,
@@ -167,7 +166,7 @@ class Site_Thumbnails_Widget extends Widget_Base {
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
 					'content_classes' => 'elementor-panel-alert elementor-panel-alert-warning',
-					'raw'             => esc_html__( 'SAMEORIGIN: Certains sites interdisent le chargement de la ressource dans une iframe en dehors de leur domaine.', 'eac-components' ),
+					'raw'             => esc_html__( 'SAMEORIGIN: Some sites prohibit the loading of the resource in an iframe outside their domain.', 'eac-components' ),
 				)
 			);
 
@@ -176,19 +175,19 @@ class Site_Thumbnails_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'st_site_url_align_h',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'left'  => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'right'    => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -206,10 +205,10 @@ class Site_Thumbnails_Widget extends Widget_Base {
 			$this->add_control(
 				'st_add_link',
 				array(
-					'label'        => esc_html__( 'Ajouter le lien vers le site', 'eac-components' ),
+					'label'        => esc_html__( 'Add link to site', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -218,10 +217,10 @@ class Site_Thumbnails_Widget extends Widget_Base {
 			$this->add_control(
 				'st_add_caption',
 				array(
-					'label'        => esc_html__( 'Ajouter une légende', 'eac-components' ),
+					'label'        => esc_html__( 'Add caption', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -230,11 +229,11 @@ class Site_Thumbnails_Widget extends Widget_Base {
 			$this->add_control(
 				'st_site_caption',
 				array(
-					'label'       => esc_html__( 'Légende', 'eac-components' ),
+					'label'       => esc_html__( 'Legend', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
-					'description' => esc_html__( 'Coller la légende', 'eac-components' ),
+					'description' => esc_html__( 'Paste caption', 'eac-components' ),
 					'label_block' => true,
 					'condition'   => array( 'st_add_caption' => 'yes' ),
 				)
@@ -245,7 +244,7 @@ class Site_Thumbnails_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'st_site_container_style',
 			array(
-				'label' => esc_html__( 'Général', 'eac-components' ),
+				'label' => esc_html__( 'General', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -262,7 +261,7 @@ class Site_Thumbnails_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'     => 'st_site_container_shadow',
-					'label'    => esc_html__( 'Ombre', 'eac-components' ),
+					'label'    => esc_html__( 'Shadow', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .site-thumbnail-container',
 				)
 			);
@@ -272,7 +271,7 @@ class Site_Thumbnails_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'st_site_legende_style',
 			array(
-				'label'     => esc_html__( 'Légende', 'eac-components' ),
+				'label'     => esc_html__( 'Legend', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array( 'st_add_caption' => 'yes' ),
 			)
@@ -281,7 +280,7 @@ class Site_Thumbnails_Widget extends Widget_Base {
 			$this->add_control(
 				'st_site_legende_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .thumbnail-caption' => 'color: {{VALUE}};' ),
 				)
@@ -291,7 +290,7 @@ class Site_Thumbnails_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'st_site_legende_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .thumbnail-caption',
 				)
 			);
@@ -299,7 +298,7 @@ class Site_Thumbnails_Widget extends Widget_Base {
 			$this->add_control(
 				'st_site_legende_bg',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .thumbnail-caption' => 'background-color: {{VALUE}};' ),
 				)
@@ -308,7 +307,7 @@ class Site_Thumbnails_Widget extends Widget_Base {
 			$this->add_control(
 				'st_site_container_margin',
 				array(
-					'label'              => esc_html__( 'Marges internes', 'eac-components' ),
+					'label'              => esc_html__( 'Padding', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'allowed_dimensions' => array( 'top', 'bottom' ),
 					'size_units'         => array( 'px' ),
@@ -339,7 +338,7 @@ class Site_Thumbnails_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 		if ( empty( $settings['st_site_url']['url'] ) ) {
 			return;
@@ -376,5 +375,5 @@ class Site_Thumbnails_Widget extends Widget_Base {
 		<?php
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

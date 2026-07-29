@@ -21,49 +21,49 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 
 class User_Info extends Tag {
 
-	const VALS_LENGTH = 25;
+	private const VALS_LENGTH = 25;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-user-info';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Info Utilisateur', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'User info', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-author-groupe';
+	public function get_group(): array {
+		return array( 'eac-author-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array(
 			TagsModule::TEXT_CATEGORY,
 			TagsModule::POST_META_CATEGORY,
 		);
 	}
 
-	public function get_panel_template_setting_key() {
+	public function get_panel_template_setting_key(): string {
 		return 'user_info_type';
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->add_control(
 			'user_info_type',
 			array(
-				'label'   => esc_html__( 'Champ', 'eac-components' ),
+				'label'   => esc_html__( 'Field', 'eac-components' ),
 				'type'    => Controls_Manager::SELECT,
 				'options' => array(
 					''            => esc_html__( 'Select...', 'eac-components' ),
-					'ID'          => esc_html__( 'ID', 'eac-components' ), // @since 1.9.0 'id' deprecated use 'ID'
-					'role'        => esc_html__( 'Rôle', 'eac-components' ), // @since 1.6.1
-					'nickname'    => esc_html__( 'Surnom', 'eac-components' ),
-					'login'       => esc_html__( 'Identifiant de login', 'eac-components' ),
-					'first_name'  => esc_html__( 'Prénom', 'eac-components' ),
-					'last_name'   => esc_html__( 'Nom', 'eac-components' ),
-					'description' => esc_html__( 'Bio', 'eac-components' ),
-					'email'       => esc_html__( 'Email', 'eac-components' ),
-					'url'         => esc_html__( 'Site Web', 'eac-components' ),
-					'meta'        => esc_html__( 'Meta utilisateur', 'eac-components' ),
+					'ID'          => esc_html( 'ID' ),
+					'role'        => esc_html__( 'Role', 'eac-components' ),
+					'nickname'    => esc_html__( 'Nickname', 'eac-components' ),
+					'login'       => esc_html__( 'Login ident', 'eac-components' ),
+					'first_name'  => esc_html__( 'First name', 'eac-components' ),
+					'last_name'   => esc_html__( 'Name', 'eac-components' ),
+					'description' => esc_html( 'Bio' ),
+					'email'       => esc_html( 'Email' ),
+					'url'         => esc_html__( 'Website', 'eac-components' ),
+					'meta'        => esc_html__( 'User meta', 'eac-components' ),
 				),
 			)
 		);
@@ -71,7 +71,7 @@ class User_Info extends Tag {
 		$this->add_control(
 			'user_info_meta_key',
 			array(
-				'label'     => esc_html__( 'Clé', 'eac-components' ),
+				'label'     => esc_html__( 'Key', 'eac-components' ),
 				'type'      => Controls_Manager::SELECT,
 				'options'   => $this->get_user_metas(),
 				'default'   => 'nickname',
@@ -80,31 +80,37 @@ class User_Info extends Tag {
 		);
 	}
 
-	public function render() {
+	public function render(): void {
 		$type = $this->get_settings( 'user_info_type' );
 		$user = wp_get_current_user();
 
 		// User non logué
 		if ( empty( $type ) || 0 === $user->ID ) {
-			echo wp_kses_post( esc_html__( 'Non connecté', 'eac-components' ) );
+			esc_html_e( 'Not logged-in', 'eac-components' );
 			return;
 		}
 
 		$value = '';
 		switch ( $type ) {
-			case 'login':
 			case 'email':
+				$field = 'user_' . $type;
+				$value = isset( $user->$field ) ? sanitize_email( $user->$field ) : '';
+				break;
 			case 'url':
+				$field = 'user_' . $type;
+				$value = isset( $user->$field ) ? esc_url( $user->$field ) : '';
+				break;
+			case 'login':
 			case 'nicename':
 				$field = 'user_' . $type;
-				$value = isset( $user->$field ) ? $user->$field : '';
+				$value = isset( $user->$field ) ? esc_html( $user->$field ) : '';
 				break;
 			case 'ID':
 			case 'description':
 			case 'first_name':
 			case 'last_name':
 			case 'nickname':
-				$value = isset( $user->$type ) ? $user->$type : '';
+				$value = isset( $user->$type ) ? esc_html( $user->$type ) : '';
 				break;
 			case 'meta':
 				$key = $this->get_settings( 'user_info_meta_key' );
@@ -114,7 +120,7 @@ class User_Info extends Tag {
 				break;
 			case 'role': // @since 1.6.1
 				$user_info = get_userdata( $user->ID );
-				$value    = implode( ', ', $user_info->roles );
+				$value    = implode( ', ', array_map( 'esc_html', $user_info->roles ) );
 				break;
 		}
 
@@ -128,7 +134,7 @@ class User_Info extends Tag {
 	public function get_user_metas() {
 		$list             = array();
 		$current_user     = wp_get_current_user();
-		$user_meta_fields = Eac_Tools_Util::get_supported_user_meta_fields();
+		$user_meta_fields = Eac_Tools_Util::get_supported_user_meta_field();
 
 		// User non logué
 		if ( 0 === $current_user->ID ) {

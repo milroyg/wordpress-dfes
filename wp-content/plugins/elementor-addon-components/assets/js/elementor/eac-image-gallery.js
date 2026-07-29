@@ -23,6 +23,7 @@ class widgetImageGalerie extends elementorModules.frontend.handlers.Base {
 				targetJustify: '.fj-gallery',
 				filterWrapperLink: '.ig-filters__wrapper a',
 				filterWrapperSelect: '.ig-filters__select',
+				targetFancybox: '.image-galerie__image a[data-fancybox]',
 			},
 		};
 	}
@@ -39,6 +40,7 @@ class widgetImageGalerie extends elementorModules.frontend.handlers.Base {
 			$targetJustify: this.$element.find(selectors.targetJustify),
 			$filterWrapperLink: this.$element.find(selectors.filterWrapperLink),
 			$filterWrapperSelect: this.$element.find(selectors.filterWrapperSelect),
+			$targetFancybox: this.$element.find(selectors.targetFancybox),
 			settings: this.$element.find(selectors.target).data('settings'),
 			$targetId: null,
 			widgetId: this.$element.data('id'),
@@ -103,7 +105,11 @@ class widgetImageGalerie extends elementorModules.frontend.handlers.Base {
 	}
 
 	bindEvents() {
-		if (!elementorFrontend.isEditMode()) {
+		const that = this;
+
+		if (elementorFrontend.isEditMode()) {
+            this.elements.$targetFancybox.on('click', function (evt) { evt.preventDefault(); }); // Le fancybox ne s'ouvre pas dans l'éditeur
+        } else if (!elementorFrontend.isEditMode()) {
 			if (!this.elements.has_swiper && this.elements.settings.data_filtre) {
 				this.elements.$filterWrapperLink.on('click', (evt) => { this.onFilterGridClick(evt); });
 				this.elements.$filterWrapperSelect.on('change', (evt) => { this.onFilterGridChange(evt); });
@@ -112,6 +118,20 @@ class widgetImageGalerie extends elementorModules.frontend.handlers.Base {
 			if (this.elements.$itemsInstance.length > 0) {
 				this.elements.$targetInstance.on('keydown', (evt) => { this.setKeyboardEvents(evt); });
 			}
+
+			if (this.elements.$targetFancybox.length) {
+                this.elements.$targetFancybox.fancybox({
+                    afterShow: function (instance, current) {
+                        const $content = current.$content;
+                        $content.attr('aria-modal', 'true');
+                        $content.attr('role', 'dialog');
+                        that.elements.$targetFancybox.attr('aria-expanded', 'true');
+                    },
+                    afterClose: function (instance, current) {
+                        that.elements.$targetFancybox.attr('aria-expanded', 'false');
+                    }
+                });
+            }
 		}
 
 		/** @since 2.3.4 Dans l'éditeur Elementor désactive le lazyload, les images sont toutes chargées */
@@ -166,6 +186,10 @@ class widgetImageGalerie extends elementorModules.frontend.handlers.Base {
 		if ($this.parents('.ig-filters__item').hasClass('ig-active')) {
 			return;
 		}
+
+		/** Accessibilmité */
+        this.elements.$filterWrapperLink.attr('aria-pressed','false');
+        $this.attr('aria-pressed','true');
 
 		$optionSet.find('.ig-active').removeClass('ig-active');
 		$this.parents('.ig-filters__item').addClass('ig-active');

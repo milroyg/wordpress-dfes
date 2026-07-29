@@ -1,0 +1,884 @@
+<wpml-config>
+    <elementor-widgets>
+
+        <!-- ========================================== -->
+        <!-- CONTENT WIDGETS -->
+        <!-- ========================================== -->
+
+        <!-- Advanced Accordion -->
+        <widget name="ma-advanced-accordion">
+            <conditions>
+                <condition key="widgetType">ma-advanced-accordion</condition>
+            </conditions>
+            <fields-in-item items_of="accordion_items">
+                <field type="Accordion: Title" editor_type="LINE">accordion_tab_title</field>
+                <field type="Accordion: Content" editor_type="VISUAL">accordion_content</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- Advanced Tabs -->
+        <widget name="ma-tabs">
+            <conditions>
+                <condition key="widgetType">ma-tabs</condition>
+            </conditions>
+            <fields-in-item items_of="ma_el_tabs">
+                <field type="Tabs: Title" editor_type="LINE">ma_el_tab_title</field>
+                <field type="Tabs: Content" editor_type="VISUAL">ma_el_tab_content</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- Infobox -->
+        <widget name="jltma-infobox">
+            <conditions>
+                <condition key="widgetType">jltma-infobox</condition>
+            </conditions>
+            <fields>
+                <field type="Infobox: Title" editor_type="LINE">ma_el_infobox_title</field>
+                <field type="Infobox: Description" editor_type="VISUAL">ma_el_infobox_description</field>
+                <field type="Infobox: Button Text" editor_type="LINE">ma_el_infobox_readmore_text</field>
+                <field type="Infobox: Button Link" key_of="ma_el_infobox_readmore_link" editor_type="LINE">url</field>
+            </fields>
+        </widget>
+
+        <!-- Flipbox -->
+        <widget name="ma-flipbox">
+            <conditions>
+                <condition key="widgetType">ma-flipbox</condition>
+            </conditions>
+            <fields>
+                <field type="Flipbox: Front Title" editor_type="LINE">front_title</field>
+                <field type="Flipbox: Front Text" editor_type="VISUAL">front_text</field>
+                <field type="Flipbox: Back Title" editor_type="LINE">back_title</field>
+                <field type="Flipbox: Back Text" editor_type="VISUAL">back_text</field>
+                <field type="Flipbox: Button Text" editor_type="LINE">action_text</field>
+                <field type="Flipbox: Button Link" key_of="link" editor_type="LINE">url</field>
+            </fields>
+        </widget>
+
+        <!-- Cards -->
+        <widget name="ma-el-card">
+            <conditions>
+                <condition key="widgetType">ma-el-card</condition>
+            </conditions>
+            <fields>
+                <field type="Card: Title" editor_type="LINE">ma_el_card_title</field>
+                <field type="Card: Description" editor_type="VISUAL">ma_el_card_description</field>
+                <field type="Card: Button Text" editor_type="LINE">ma_el_card_action_text</field>
+                <field type="Card: Button Link" key_of="ma_el_card_action_link" editor_type="LINE">url</field>
+            </fields>
+        </widget>
+
+        <!-- Blockquote -->
+        <widget name="ma-blockquote">
+            <conditions>
+                <condition key="widgetType">ma-blockquote</condition>
+            </conditions>
+            <fields>
+                <field type="Blockquote: Content" editor_type="VISUAL">jltma_blockquote_text</field>
+                <field type="Blockquote: Author" editor_type="LINE">jltma_blockquote_author</field>
+            </fields>
+        </widget>
+
+        <!-- Changelog -->
+        <widget name="ma-changelog">
+            <conditions>
+                <condition key="widgetType">ma-changelog</condition>
+            </conditions>
+            <fields-in-item items_of="ma_el_changelog_tabs">
+                <field type="Changelog: Version" editor_type="LINE">ma_el_changelog_version</field>
+                <field type="Changelog: Date" editor_type="LINE">ma_el_changelog_date</field>
+                <field type="Changelog: Content" editor_type="VISUAL">ma_el_changelog_content</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- HEADING WIDGETS -->
+        <!-- ========================================== -->
+
+        <!-- Animated Headlines -->
+        <widget name="ma-headlines">
+            <conditions>
+                <condition key="widgetType">ma-headlines</condition>
+            </conditions>
+            <fields>
+                <field type="Headline: Before Text" editor_type="LINE">ma_el_headlines_before_text</field>
+                <field type="Headline: After Text" editor_type="LINE">ma_el_headlines_after_text</field>
+            </fields>
+            <fields-in-item items_of="ma_el_headlines_text">
+                <field type="Headline: Animated Text" editor_type="LINE">ma_el_headlines_animated_text</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- Gradient Headline -->
+        <widget name="ma-gradient-headline">
+            <conditions>
+                <condition key="widgetType">ma-gradient-headline</condition>
+            </conditions>
+            <fields>
+                <field type="Gradient Headline: First Part" editor_type="LINE">ma_el_gradient_dch_first_title</field>
+                <field type="Gradient Headline: Last Part" editor_type="LINE">ma_el_gradient_dch_last_title</field>
+            </fields>
+        </widget>
+
+        <!-- Dual Heading -->
+        <widget name="ma-dual-heading">
+            <conditions>
+                <condition key="widgetType">ma-dual-heading</condition>
+            </conditions>
+            <fields>
+                <field type="Dual Heading: First Part" editor_type="LINE">ma_el_dh_first_heading</field>
+                <field type="Dual Heading: Last Part" editor_type="LINE">ma_el_dh_last_heading</field>
+                <field type="Dual Heading: Description" editor_type="VISUAL">ma_el_dh_description</field>
+            </fields>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- BUTTON WIDGETS -->
+        <!-- ========================================== -->
+
+        <!-- Call to Action -->
+        <widget name="ma-call-to-action">
+            <conditions>
+                <condition key="widgetType">ma-call-to-action</condition>
+            </conditions>
+            <fields>
+                <field type="CTA: Title" editor_type="LINE">ma_el_call_to_action_title</field>
+                <field type="CTA: Description" editor_type="VISUAL">ma_el_call_to_action_content_desc</field>
+                <field type="CTA: Button Text" editor_type="LINE">ma_el_call_to_action_button_text</field>
+                <field type="CTA: Button Link" key_of="ma_el_call_to_action_button_link" editor_type="LINE">url</field>
+            </fields>
+        </widget>
+
+        <!-- Creative Button -->
+        <widget name="ma-creative-buttons">
+            <conditions>
+                <condition key="widgetType">ma-creative-buttons</condition>
+            </conditions>
+            <fields>
+                <field type="Button: Text" editor_type="LINE">creative_button_text</field>
+                <field type="Button: Link" key_of="creative_button_link" editor_type="LINE">url</field>
+            </fields>
+        </widget>
+
+        <!-- Dual Button -->
+        <widget name="ma-dual-button">
+            <conditions>
+                <condition key="widgetType">ma-dual-button</condition>
+            </conditions>
+            <fields>
+                <field type="Dual Button: Primary Text" editor_type="LINE">ma_el_dual_btn_primary_text</field>
+                <field type="Dual Button: Primary Link" key_of="ma_el_dual_btn_primary_link" editor_type="LINE">url</field>
+                <field type="Dual Button: Secondary Text" editor_type="LINE">ma_el_dual_btn_secondary_text</field>
+                <field type="Dual Button: Secondary Link" key_of="ma_el_dual_btn_secondary_link" editor_type="LINE">url</field>
+            </fields>
+        </widget>
+
+        <!-- Creative Links -->
+        <widget name="ma-creative-links">
+            <conditions>
+                <condition key="widgetType">ma-creative-links</condition>
+            </conditions>
+            <fields>
+                <field type="Creative Link: Text" editor_type="LINE">ma_el_creative_link_text</field>
+                <field type="Creative Link: URL" key_of="ma_el_creative_link_url" editor_type="LINE">url</field>
+            </fields>
+        </widget>
+
+        <!-- Dropdown Button -->
+        <widget name="jltma-dropdown-button">
+            <conditions>
+                <condition key="widgetType">jltma-dropdown-button</condition>
+            </conditions>
+            <fields>
+                <field type="Dropdown: Button Text" editor_type="LINE">jltma_dropdown_button_text</field>
+            </fields>
+            <fields-in-item items_of="jltma_dropdown_items">
+                <field type="Dropdown: Item Text" editor_type="LINE">jltma_dropdown_item_text</field>
+                <field type="Dropdown: Item Link" key_of="jltma_dropdown_item_link" editor_type="LINE">url</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- Floating Button -->
+        <widget name="boosted-elements-button-floating">
+            <conditions>
+                <condition key="widgetType">boosted-elements-button-floating</condition>
+            </conditions>
+            <fields>
+                <field type="Floating Button: Text" editor_type="LINE">button_text</field>
+                <field type="Floating Button: Link" key_of="button_link" editor_type="LINE">url</field>
+            </fields>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- TEAM WIDGETS -->
+        <!-- ========================================== -->
+
+        <!-- Team Member -->
+        <widget name="ma-team-members">
+            <conditions>
+                <condition key="widgetType">ma-team-members</condition>
+            </conditions>
+            <fields>
+                <field type="Team Member: Name" editor_type="LINE">ma_el_team_member_name</field>
+                <field type="Team Member: Designation" editor_type="LINE">ma_el_team_member_designation</field>
+                <field type="Team Member: Description" editor_type="VISUAL">ma_el_team_member_description</field>
+            </fields>
+            <fields-in-item items_of="ma_el_team_member_socials">
+                <field type="Team Member: Social Link" key_of="social_link" editor_type="LINE">url</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- Team Member Slider -->
+        <widget name="ma-team-members-slider">
+            <conditions>
+                <condition key="widgetType">ma-team-members-slider</condition>
+            </conditions>
+            <fields-in-item items_of="team_members">
+                <field type="Team Slider: Name" editor_type="LINE">ma_el_team_member_name</field>
+                <field type="Team Slider: Designation" editor_type="LINE">ma_el_team_member_designation</field>
+                <field type="Team Slider: Description" editor_type="VISUAL">ma_el_team_member_description</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- PRICING WIDGETS -->
+        <!-- ========================================== -->
+
+        <!-- Pricing Table -->
+        <widget name="ma-pricing-table">
+            <conditions>
+                <condition key="widgetType">ma-pricing-table</condition>
+            </conditions>
+            <fields>
+                <field type="Pricing: Title" editor_type="LINE">ma_el_pricing_table_title</field>
+                <field type="Pricing: Subtitle" editor_type="LINE">ma_el_pricing_table_subtitle</field>
+                <field type="Pricing: Price" editor_type="LINE">ma_el_pricing_table_price</field>
+                <field type="Pricing: Currency" editor_type="LINE">ma_el_pricing_table_price_cur</field>
+                <field type="Pricing: Period" editor_type="LINE">ma_el_pricing_table_period</field>
+                <field type="Pricing: Button Text" editor_type="LINE">ma_el_pricing_table_button_text</field>
+                <field type="Pricing: Button Link" key_of="ma_el_pricing_table_button_link" editor_type="LINE">url</field>
+                <field type="Pricing: Ribbon Text" editor_type="LINE">ma_el_pricing_table_ribbon_title</field>
+            </fields>
+            <fields-in-item items_of="ma_el_pricing_table_feature_list">
+                <field type="Pricing: Feature" editor_type="LINE">ma_el_pricing_table_item</field>
+                <field type="Pricing: Tooltip" editor_type="LINE">ma_el_pricing_table_item_tooltip</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- IMAGE WIDGETS -->
+        <!-- ========================================== -->
+
+        <!-- Advanced Image -->
+        <widget name="jltma-advanced-image">
+            <conditions>
+                <condition key="widgetType">jltma-advanced-image</condition>
+            </conditions>
+            <fields>
+                <field type="Advanced Image: Caption" editor_type="LINE">jltma_image_caption</field>
+                <field type="Advanced Image: Link" key_of="jltma_image_link" editor_type="LINE">url</field>
+            </fields>
+        </widget>
+
+        <!-- Image Hover Effects -->
+        <widget name="ma-image-hover-effects">
+            <conditions>
+                <condition key="widgetType">ma-image-hover-effects</condition>
+            </conditions>
+            <fields>
+                <field type="Image Hover: Title" editor_type="LINE">ma_el_main_image_title</field>
+                <field type="Image Hover: Subtitle" editor_type="LINE">ma_el_main_image_sub_title</field>
+                <field type="Image Hover: Description" editor_type="VISUAL">ma_el_main_image_desc</field>
+                <field type="Image Hover: Link" key_of="ma_el_main_image_more_link_url" editor_type="LINE">url</field>
+            </fields>
+        </widget>
+
+        <!-- Image Comparison -->
+        <widget name="ma-el-image-comparison">
+            <conditions>
+                <condition key="widgetType">ma-el-image-comparison</condition>
+            </conditions>
+            <fields>
+                <field type="Image Comparison: Before Label" editor_type="LINE">ma_el_image_comp_before_label</field>
+                <field type="Image Comparison: After Label" editor_type="LINE">ma_el_image_comp_after_label</field>
+            </fields>
+        </widget>
+
+        <!-- Image Filter Gallery -->
+        <widget name="ma-image-filter-gallery">
+            <conditions>
+                <condition key="widgetType">ma-image-filter-gallery</condition>
+            </conditions>
+            <fields>
+                <field type="Gallery: All Label" editor_type="LINE">ma_el_image_gallery_all_label</field>
+            </fields>
+            <fields-in-item items_of="ma_el_image_gallery_items">
+                <field type="Gallery: Title" editor_type="LINE">title</field>
+                <field type="Gallery: Subtitle" editor_type="LINE">subtitle</field>
+                <field type="Gallery: Filter" editor_type="LINE">gallery_category_name</field>
+                <field type="Gallery: Link" key_of="link" editor_type="LINE">url</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- Image Carousel -->
+        <widget name="ma-image-carousel">
+            <conditions>
+                <condition key="widgetType">ma-image-carousel</condition>
+            </conditions>
+            <fields-in-item items_of="ma_el_image_carousel">
+                <field type="Image Carousel: Title" editor_type="LINE">title</field>
+                <field type="Image Carousel: Link" key_of="link" editor_type="LINE">url</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- Logo Slider -->
+        <widget name="jltma-logo-slider">
+            <conditions>
+                <condition key="widgetType">jltma-logo-slider</condition>
+            </conditions>
+            <fields-in-item items_of="ma_el_logo_slider_items">
+                <field type="Logo Slider: Title" editor_type="LINE">ma_el_logo_slider_title</field>
+                <field type="Logo Slider: Link" key_of="ma_el_logo_slider_link" editor_type="LINE">url</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- COUNTER/STATS WIDGETS -->
+        <!-- ========================================== -->
+
+        <!-- Countdown Timer -->
+        <widget name="ma-el-countdown-timer">
+            <conditions>
+                <condition key="widgetType">ma-el-countdown-timer</condition>
+            </conditions>
+            <fields>
+                <field type="Countdown: Year Label" editor_type="LINE">ma_el_label_year</field>
+                <field type="Countdown: Month Label" editor_type="LINE">ma_el_label_month</field>
+                <field type="Countdown: Day Label" editor_type="LINE">ma_el_label_day</field>
+                <field type="Countdown: Hour Label" editor_type="LINE">ma_el_label_hour</field>
+                <field type="Countdown: Minute Label" editor_type="LINE">ma_el_label_min</field>
+                <field type="Countdown: Second Label" editor_type="LINE">ma_el_label_sec</field>
+                <field type="Countdown: Separator" editor_type="LINE">ma_el_seperator</field>
+                <field type="Countdown: Expire Title" editor_type="LINE">ma_el_countdown_expire_title</field>
+                <field type="Countdown: Expire Message" editor_type="VISUAL">ma_el_countdown_expire_message</field>
+            </fields>
+        </widget>
+
+        <!-- Counter Up -->
+        <widget name="jltma-counter-up">
+            <conditions>
+                <condition key="widgetType">jltma-counter-up</condition>
+            </conditions>
+            <fields>
+                <field type="Counter: Title" editor_type="LINE">ma_el_counter_title</field>
+                <field type="Counter: Prefix" editor_type="LINE">counter_prefix</field>
+                <field type="Counter: Suffix" editor_type="LINE">counter_suffix</field>
+            </fields>
+        </widget>
+
+        <!-- Progress Bar -->
+        <widget name="ma-progressbar">
+            <conditions>
+                <condition key="widgetType">ma-progressbar</condition>
+            </conditions>
+            <fields>
+                <field type="Progress Bar: Title" editor_type="LINE">ma_el_progressbar_title</field>
+            </fields>
+        </widget>
+
+        <!-- Progress Bars (Multiple) -->
+        <widget name="ma-progressbars">
+            <conditions>
+                <condition key="widgetType">ma-progressbars</condition>
+            </conditions>
+            <fields-in-item items_of="ma_el_progressbars">
+                <field type="Progress Bars: Title" editor_type="LINE">ma_el_progressbar_title</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- Pie Chart -->
+        <widget name="jltma-piechart">
+            <conditions>
+                <condition key="widgetType">jltma-piechart</condition>
+            </conditions>
+            <fields>
+                <field type="Pie Chart: Title" editor_type="LINE">jltma_piechart_title</field>
+            </fields>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- TIMELINE WIDGETS -->
+        <!-- ========================================== -->
+
+        <!-- Timeline -->
+        <widget name="ma-timeline">
+            <conditions>
+                <condition key="widgetType">ma-timeline</condition>
+            </conditions>
+            <fields-in-item items_of="ma_el_timeline_items">
+                <field type="Timeline: Label" editor_type="LINE">ma_el_custom_timeline_label</field>
+                <field type="Timeline: Content" editor_type="VISUAL">ma_el_custom_timeline_content</field>
+                <field type="Timeline: Link" key_of="ma_el_custom_timeline_link" editor_type="LINE">url</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- BUSINESS WIDGETS -->
+        <!-- ========================================== -->
+
+        <!-- Business Hours -->
+        <widget name="ma-business-hours">
+            <conditions>
+                <condition key="widgetType">ma-business-hours</condition>
+            </conditions>
+            <fields>
+                <field type="Business Hours: Title" editor_type="LINE">ma_el_business_hours_title</field>
+            </fields>
+            <fields-in-item items_of="ma_el_business_hours_items">
+                <field type="Business Hours: Day" editor_type="LINE">ma_el_business_day</field>
+                <field type="Business Hours: Time" editor_type="LINE">ma_el_business_time</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- BLOG/POST WIDGETS -->
+        <!-- ========================================== -->
+
+        <!-- Blog/Post Grid -->
+        <widget name="ma-blog-post">
+            <conditions>
+                <condition key="widgetType">ma-blog-post</condition>
+            </conditions>
+            <fields>
+                <field type="Blog: Read More Text" editor_type="LINE">ma_el_blog_read_more_text</field>
+                <field type="Blog: Load More Text" editor_type="LINE">ma_el_blog_load_more_text</field>
+            </fields>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- TABLE WIDGETS -->
+        <!-- ========================================== -->
+
+        <!-- Data Table -->
+        <widget name="jltma-data-table">
+            <conditions>
+                <condition key="widgetType">jltma-data-table</condition>
+            </conditions>
+            <fields-in-item items_of="ma_el_data_table_header">
+                <field type="Data Table: Header" editor_type="LINE">ma_el_data_table_header_col</field>
+            </fields-in-item>
+            <fields-in-item items_of="ma_el_data_table_content">
+                <field type="Data Table: Cell Content" editor_type="LINE">ma_el_data_table_content_row_title</field>
+                <field type="Data Table: Cell Link" key_of="ma_el_data_table_content_row_title_link" editor_type="LINE">url</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- Table -->
+        <widget name="ma-table">
+            <conditions>
+                <condition key="widgetType">ma-table</condition>
+            </conditions>
+            <fields>
+                <field type="Table: Search Placeholder" editor_type="LINE">search_placeholder</field>
+            </fields>
+        </widget>
+
+        <!-- Table of Contents -->
+        <widget name="ma-table-of-contents">
+            <conditions>
+                <condition key="widgetType">ma-table-of-contents</condition>
+            </conditions>
+            <fields>
+                <field type="TOC: Title" editor_type="LINE">ma_el_toc_title</field>
+            </fields>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- TOOLTIP WIDGET -->
+        <!-- ========================================== -->
+
+        <!-- Tooltip -->
+        <widget name="ma-tooltip">
+            <conditions>
+                <condition key="widgetType">ma-tooltip</condition>
+            </conditions>
+            <fields>
+                <field type="Tooltip: Content" editor_type="VISUAL">ma_el_tooltip_content</field>
+                <field type="Tooltip: Text" editor_type="LINE">ma_el_tooltip_text</field>
+                <field type="Tooltip: Link" key_of="ma_el_tooltip_link" editor_type="LINE">url</field>
+            </fields>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- FORM WIDGETS -->
+        <!-- ========================================== -->
+
+        <!-- Contact Form 7 -->
+        <widget name="ma-contact-form-7">
+            <conditions>
+                <condition key="widgetType">ma-contact-form-7</condition>
+            </conditions>
+            <fields>
+                <field type="CF7: Title" editor_type="LINE">form_title_custom</field>
+                <field type="CF7: Description" editor_type="AREA">form_description_custom</field>
+            </fields>
+        </widget>
+
+        <!-- WPForms -->
+        <widget name="ma-wpforms">
+            <conditions>
+                <condition key="widgetType">ma-wpforms</condition>
+            </conditions>
+            <fields>
+                <field type="WPForms: Title" editor_type="LINE">form_title_custom</field>
+                <field type="WPForms: Description" editor_type="AREA">form_description_custom</field>
+            </fields>
+        </widget>
+
+        <!-- Ninja Forms -->
+        <widget name="ma-el-ninja-forms">
+            <conditions>
+                <condition key="widgetType">ma-el-ninja-forms</condition>
+            </conditions>
+            <fields>
+                <field type="Ninja Form: Title" editor_type="LINE">form_title_custom</field>
+                <field type="Ninja Form: Description" editor_type="AREA">form_description_custom</field>
+            </fields>
+        </widget>
+
+        <!-- Caldera Forms -->
+        <widget name="ma-caldera-forms">
+            <conditions>
+                <condition key="widgetType">ma-caldera-forms</condition>
+            </conditions>
+            <fields>
+                <field type="Caldera Forms: Title" editor_type="LINE">form_title_custom</field>
+                <field type="Caldera Forms: Description" editor_type="AREA">form_description_custom</field>
+            </fields>
+        </widget>
+
+        <!-- weForms -->
+        <widget name="ma-weforms">
+            <conditions>
+                <condition key="widgetType">ma-weforms</condition>
+            </conditions>
+            <fields>
+                <field type="weForms: Title" editor_type="LINE">form_title_custom</field>
+                <field type="weForms: Description" editor_type="AREA">form_description_custom</field>
+            </fields>
+        </widget>
+
+        <!-- Fluent Form -->
+        <widget name="ma-fluent-form">
+            <conditions>
+                <condition key="widgetType">ma-fluent-form</condition>
+            </conditions>
+            <fields>
+                <field type="Fluent Form: Title" editor_type="LINE">form_title_custom</field>
+                <field type="Fluent Form: Description" editor_type="AREA">form_description_custom</field>
+            </fields>
+        </widget>
+
+        <!-- Mailchimp -->
+        <widget name="ma-el-mailchimp">
+            <conditions>
+                <condition key="widgetType">ma-el-mailchimp</condition>
+            </conditions>
+            <fields>
+                <field type="Mailchimp: Title" editor_type="LINE">ma_el_mailchimp_title</field>
+                <field type="Mailchimp: Description" editor_type="VISUAL">ma_el_mailchimp_description</field>
+                <field type="Mailchimp: Button Text" editor_type="LINE">ma_el_mailchimp_button_text</field>
+                <field type="Mailchimp: Email Placeholder" editor_type="LINE">ma_el_mailchimp_email_placeholder</field>
+                <field type="Mailchimp: Name Placeholder" editor_type="LINE">ma_el_mailchimp_fname_placeholder</field>
+            </fields>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- SEARCH WIDGET -->
+        <!-- ========================================== -->
+
+        <!-- Search -->
+        <widget name="ma-search">
+            <conditions>
+                <condition key="widgetType">ma-search</condition>
+            </conditions>
+            <fields>
+                <field type="Search: Placeholder" editor_type="LINE">search_placeholder</field>
+                <field type="Search: Button Text" editor_type="LINE">search_button_text</field>
+            </fields>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- MEDIA WIDGETS -->
+        <!-- ========================================== -->
+
+        <!-- Audio Playlist -->
+        <widget name="jltma-audio-playlist">
+            <conditions>
+                <condition key="widgetType">jltma-audio-playlist</condition>
+            </conditions>
+            <fields-in-item items_of="jltma_audio_list">
+                <field type="Audio: Title" editor_type="LINE">jltma_audio_title</field>
+                <field type="Audio: Artist" editor_type="LINE">jltma_audio_artist</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- PDF Viewer -->
+        <widget name="jltma-pdf-viewer">
+            <conditions>
+                <condition key="widgetType">jltma-pdf-viewer</condition>
+            </conditions>
+            <fields>
+                <field type="PDF: Title" editor_type="LINE">jltma_pdf_title</field>
+            </fields>
+        </widget>
+
+        <!-- Iframe -->
+        <widget name="jltma-iframe">
+            <conditions>
+                <condition key="widgetType">jltma-iframe</condition>
+            </conditions>
+            <fields>
+                <field type="Iframe: URL" editor_type="LINE">jltma_iframe_url</field>
+            </fields>
+        </widget>
+
+        <!-- Code Highlighter -->
+        <widget name="jtlma-code-highlighter">
+            <conditions>
+                <condition key="widgetType">jtlma-code-highlighter</condition>
+            </conditions>
+            <fields>
+                <field type="Code: Title" editor_type="LINE">jltma_code_title</field>
+                <field type="Code: Content" editor_type="AREA">jltma_code_content</field>
+            </fields>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- SOCIAL WIDGETS -->
+        <!-- ========================================== -->
+
+        <!-- Social Share -->
+        <widget name="jltma-social-share">
+            <conditions>
+                <condition key="widgetType">jltma-social-share</condition>
+            </conditions>
+            <fields-in-item items_of="jltma_social_share_items">
+                <field type="Social Share: Label" editor_type="LINE">jltma_social_share_label</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- Twitter Slider -->
+        <widget name="jltma-twitter-slider">
+            <conditions>
+                <condition key="widgetType">jltma-twitter-slider</condition>
+            </conditions>
+            <fields>
+                <field type="Twitter: Username" editor_type="LINE">jltma_twitter_username</field>
+            </fields>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- NAVIGATION WIDGETS -->
+        <!-- ========================================== -->
+
+        <!-- Navigation Menu -->
+        <widget name="ma-navmenu">
+            <conditions>
+                <condition key="widgetType">ma-navmenu</condition>
+            </conditions>
+            <fields>
+                <field type="Nav Menu: Mobile Button Text" editor_type="LINE">ma_el_mobile_btn_text</field>
+            </fields>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- UTILITY WIDGETS -->
+        <!-- ========================================== -->
+
+        <!-- Current Time -->
+        <widget name="ma-el-current-time">
+            <conditions>
+                <condition key="widgetType">ma-el-current-time</condition>
+            </conditions>
+            <fields>
+                <field type="Current Time: Custom Format" editor_type="LINE">custom_format</field>
+            </fields>
+        </widget>
+
+        <!-- Scroll Indicator -->
+        <widget name="ee-scroll-indicator">
+            <conditions>
+                <condition key="widgetType">ee-scroll-indicator</condition>
+            </conditions>
+            <fields>
+                <field type="Scroll Indicator: Title" editor_type="LINE">scroll_indicator_title</field>
+            </fields>
+        </widget>
+
+        <!-- Site Logo -->
+        <widget name="jltma-site-logo">
+            <conditions>
+                <condition key="widgetType">jltma-site-logo</condition>
+            </conditions>
+            <fields>
+                <field type="Site Logo: Link" key_of="jltma_logo_link" editor_type="LINE">url</field>
+            </fields>
+        </widget>
+
+        <!-- ChatGPT -->
+        <widget name="jltma-chatgpt">
+            <conditions>
+                <condition key="widgetType">jltma-chatgpt</condition>
+            </conditions>
+            <fields>
+                <field type="ChatGPT: Placeholder" editor_type="LINE">jltma_chatgpt_placeholder</field>
+                <field type="ChatGPT: Button Text" editor_type="LINE">jltma_chatgpt_button_text</field>
+            </fields>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- WOOCOMMERCE WIDGETS -->
+        <!-- ========================================== -->
+
+        <!-- WC Add to Cart -->
+        <widget name="jltma-wc-add-to-cart">
+            <conditions>
+                <condition key="widgetType">jltma-wc-add-to-cart</condition>
+            </conditions>
+            <fields>
+                <field type="Add to Cart: Button Text" editor_type="LINE">jltma_wc_button_text</field>
+            </fields>
+        </widget>
+
+        <!-- WC Single Product -->
+        <widget name="jltma-single-product">
+            <conditions>
+                <condition key="widgetType">jltma-single-product</condition>
+            </conditions>
+            <fields>
+                <field type="Single Product: Button Text" editor_type="LINE">jltma_sp_button_text</field>
+            </fields>
+        </widget>
+
+        <!-- WC Product Carousel -->
+        <widget name="jltma-wc-product-carousel">
+            <conditions>
+                <condition key="widgetType">jltma-wc-product-carousel</condition>
+            </conditions>
+            <fields>
+                <field type="Product Carousel: Button Text" editor_type="LINE">jltma_wc_button_text</field>
+            </fields>
+        </widget>
+
+        <!-- WC Products Gallery -->
+        <widget name="jltma-wc-products-gallery">
+            <conditions>
+                <condition key="widgetType">jltma-wc-products-gallery</condition>
+            </conditions>
+            <fields>
+                <field type="Products Gallery: All Label" editor_type="LINE">jltma_wc_all_label</field>
+                <field type="Products Gallery: Button Text" editor_type="LINE">jltma_wc_button_text</field>
+            </fields>
+        </widget>
+
+        <!-- WooCommerce Products -->
+        <widget name="woocommerce-products-display">
+            <conditions>
+                <condition key="widgetType">woocommerce-products-display</condition>
+            </conditions>
+            <fields>
+                <field type="Products: Button Text" editor_type="LINE">jltma_wc_button_text</field>
+                <field type="Products: Sale Badge" editor_type="LINE">jltma_wc_sale_badge_text</field>
+            </fields>
+        </widget>
+
+        <!-- WooCommerce Products Carousel -->
+        <widget name="woocommerce-products-carousel-layouts">
+            <conditions>
+                <condition key="widgetType">woocommerce-products-carousel-layouts</condition>
+            </conditions>
+            <fields>
+                <field type="Products Carousel: Button Text" editor_type="LINE">jltma_wc_button_text</field>
+            </fields>
+        </widget>
+
+        <!-- WooCommerce Products Showcase -->
+        <widget name="woocommerce-products-showcase">
+            <conditions>
+                <condition key="widgetType">woocommerce-products-showcase</condition>
+            </conditions>
+            <fields>
+                <field type="Products Showcase: Title" editor_type="LINE">jltma_wc_showcase_title</field>
+            </fields>
+        </widget>
+
+        <!-- WooCommerce Products Tab -->
+        <widget name="woocommerce-products-tab">
+            <conditions>
+                <condition key="widgetType">woocommerce-products-tab</condition>
+            </conditions>
+            <fields-in-item items_of="jltma_wc_tabs">
+                <field type="Products Tab: Label" editor_type="LINE">jltma_wc_tab_label</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- WooCommerce Sale Products -->
+        <widget name="woocommerce-sale-products-display">
+            <conditions>
+                <condition key="widgetType">woocommerce-sale-products-display</condition>
+            </conditions>
+            <fields>
+                <field type="Sale Products: Button Text" editor_type="LINE">jltma_wc_button_text</field>
+                <field type="Sale Products: Badge Text" editor_type="LINE">jltma_wc_sale_badge_text</field>
+            </fields>
+        </widget>
+
+        <!-- WooCommerce Sale Products Carousel -->
+        <widget name="woocommerce-sale-products-carousel-layouts">
+            <conditions>
+                <condition key="widgetType">woocommerce-sale-products-carousel-layouts</condition>
+            </conditions>
+            <fields>
+                <field type="Sale Carousel: Button Text" editor_type="LINE">jltma_wc_button_text</field>
+            </fields>
+        </widget>
+
+        <!-- WooCommerce Products Header -->
+        <widget name="woocommerce-header-products">
+            <conditions>
+                <condition key="widgetType">woocommerce-header-products</condition>
+            </conditions>
+            <fields>
+                <field type="Header Products: Title" editor_type="LINE">jltma_wc_header_title</field>
+            </fields>
+        </widget>
+
+        <!-- ========================================== -->
+        <!-- MAP WIDGETS -->
+        <!-- ========================================== -->
+
+        <!-- Google Maps -->
+        <widget name="ee-google-map">
+            <conditions>
+                <condition key="widgetType">ee-google-map</condition>
+            </conditions>
+            <fields-in-item items_of="ma_el_google_map_locations">
+                <field type="Map: Location Title" editor_type="LINE">ma_el_google_map_location_title</field>
+                <field type="Map: Location Content" editor_type="VISUAL">ma_el_google_map_location_content</field>
+            </fields-in-item>
+        </widget>
+
+        <!-- Calendar -->
+        <widget name="ee-calendar">
+            <conditions>
+                <condition key="widgetType">ee-calendar</condition>
+            </conditions>
+            <fields-in-item items_of="ma_el_calendar_events">
+                <field type="Calendar: Event Title" editor_type="LINE">ma_el_calendar_event_title</field>
+                <field type="Calendar: Event Description" editor_type="VISUAL">ma_el_calendar_event_desc</field>
+            </fields-in-item>
+        </widget>
+
+    </elementor-widgets>
+</wpml-config>

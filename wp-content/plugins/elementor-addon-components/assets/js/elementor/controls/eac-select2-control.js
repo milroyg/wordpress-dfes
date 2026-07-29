@@ -82,15 +82,15 @@ jQuery(window).on('elementor/init', function () {
 					dataType: 'json',
 					cache: true,
 					quietMillis: 500,
-					url: eac_autocomplete_search.ajax_url,
+					url: eacAutocompleteAjax.ajax_url,
 					data: (params) => {
 						var query = {
 							search: params.term || '',
 							object_type: that.object_type,
 							query_type: that.query_type,
 							query_taxo: that.query_taxo,
-							action: eac_autocomplete_search.ajax_action,
-							nonce: eac_autocomplete_search.ajax_nonce,
+							action: eacAutocompleteAjax.ajax_action,
+							nonce: eacAutocompleteAjax.ajax_nonce,
 						};
 						return query
 					},
@@ -109,14 +109,14 @@ jQuery(window).on('elementor/init', function () {
 							dataType: 'json',
 							cache: true,
 							quietMillis: 500,
-							url: eac_autocomplete_search.ajax_url,
+							url: eacAutocompleteAjax.ajax_url,
 							data: {
 								search: elementorSearch,
 								object_type: that.object_type,
 								query_type: that.query_type,
 								query_taxo: that.query_taxo,
-								action: eac_autocomplete_search.ajax_action_reload,
-								nonce: eac_autocomplete_search.ajax_nonce,
+								action: eacAutocompleteAjax.ajax_action_reload,
+								nonce: eacAutocompleteAjax.ajax_nonce,
 							},
 						}).done((response) => {
 							if (response.success) {

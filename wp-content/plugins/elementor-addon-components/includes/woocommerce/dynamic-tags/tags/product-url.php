@@ -13,33 +13,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Elementor\Controls_Manager;
-use Elementor\Core\DynamicTags\Tag;
+use Elementor\Core\DynamicTags\Data_Tag;
 use Elementor\Modules\DynamicTags\Module as TagsModule;
 
-class Product_Url extends Tag {
+class Product_Url extends Data_Tag {
 	use \EACCustomWidgets\Includes\Traits\Product_Trait;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-product-url-tag';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Produits URLs', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Products URL', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-woo-groupe';
+	public function get_group(): array {
+		return array( 'eac-woo-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::URL_CATEGORY );
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->register_product_id_control();
 	}
 
-	public function render() {
+	public function get_value( array $options = array() ): string {
 		$product_id = $this->get_settings( 'product_id' );
 
 		if ( empty( $product_id ) ) {
@@ -48,8 +48,9 @@ class Product_Url extends Tag {
 
 		$product = wc_get_product( $product_id );
 		if ( ! $product ) {
-			return '';    }
+			return '';
+		}
 
-		echo esc_url( get_permalink( $product_id ) );
+		return esc_url( get_permalink( $product_id ) );
 	}
 }

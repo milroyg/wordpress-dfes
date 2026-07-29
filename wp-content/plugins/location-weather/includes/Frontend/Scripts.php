@@ -54,6 +54,7 @@ class Scripts {
 		 * This function is provided for demonstration purposes only.
 		 */
 		if ( $found_generator_id ) {
+			wp_enqueue_style( 'splw-swiper-styles' );
 			wp_enqueue_style( 'splw-fontello' );
 			wp_enqueue_style( 'splw-styles' );
 			wp_enqueue_style( 'splw-old-styles' );
@@ -112,7 +113,7 @@ class Scripts {
 	 * @return array dynamic style and typography use in the specific shortcode.
 	 */
 	public static function load_dynamic_style( $found_generator_id, $splw_meta = '' ) {
-		$lw_custom_css = trim( html_entity_decode( get_option( 'location_weather_settings' )['splw_custom_css'] ) );
+		$lw_custom_css = trim( html_entity_decode( get_option( 'location_weather_settings' )['splw_custom_css'] ?? '' ) );
 		$custom_css    = '';
 		// If multiple shortcode found in the page.
 		if ( is_array( $found_generator_id ) ) {

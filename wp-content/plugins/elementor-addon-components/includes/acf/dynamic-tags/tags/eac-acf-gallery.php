@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\Includes\Acf\DynamicTags\Eac_Acf_Lib;
+use EACCustomWidgets\Includes\Acf\Eac_Acf_Lib;
 use Elementor\Controls_Manager;
 use Elementor\Core\DynamicTags\Data_Tag;
 use Elementor\Modules\DynamicTags\Module as TagsModule;
@@ -21,43 +21,44 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 class Eac_Acf_Gallery extends Data_Tag {
 	use \EACCustomWidgets\Includes\Traits\Panel_Template_Trait;
 	use \EACCustomWidgets\Includes\Traits\Post_Main_Id_Trait;
-	use \EACCustomWidgets\Includes\Traits\Default_Field_Trait;
+	use \EACCustomWidgets\Includes\Traits\Fallback_Field_Trait;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-gallery-acf-values';
 	}
 
-	public function get_title() {
-		return esc_html__( "Galerie d'images", 'eac-components' );
+	public function get_title(): string {
+		return html_entity_decode( esc_html__( 'Image gallery', 'eac-components' ) );
 	}
 
-	public function get_group() {
-		return 'eac-acf-groupe';
+	public function get_group(): array {
+		return array( 'eac-acf-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array(
 			TagsModule::GALLERY_CATEGORY,
 		);
 	}
 
-	public function get_panel_template_setting_key() {
+	public function get_panel_template_setting_key(): string {
 		return 'acf_gallery_key';
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 
 		$this->add_control(
 			'acf_gallery_key',
 			array(
-				'label'       => esc_html__( 'Champ', 'eac-components' ),
+				'label'       => esc_html__( 'Field', 'eac-components' ),
 				'type'        => Controls_Manager::SELECT,
 				'groups'      => Eac_Acf_Lib::get_acf_fields_options( $this->get_acf_supported_fields() ),
 				'label_block' => true,
 			)
 		);
 
-		$this->register_default_field_control();
+		// Champ de secours si le champ relationnel est vide
+		$this->register_fallback_field_control( array( 'control_condition' => array( 'acf_gallery_key' => '' ) ) );
 	}
 
 	/**
@@ -100,7 +101,7 @@ class Eac_Acf_Gallery extends Data_Tag {
 		return $data_gallery;
 	}
 
-	protected function get_acf_supported_fields() {
+	protected function get_acf_supported_fields(): array {
 		return array(
 			'eac_gallery',
 		);

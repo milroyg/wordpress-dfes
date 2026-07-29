@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;   // Exit if accessed directly.
 }
 
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Controls_Manager;
 use Elementor\Widget_Base;
@@ -30,7 +30,7 @@ class Site_Logo_Widget extends Widget_Base {
 	/**
 	 * Constructeur de la class
 	 */
-	public function __construct( $data = array(), $args = null ) {
+	public function __construct( array $data = array(), ?array $args = null ) {
 		parent::__construct( $data, $args );
 		/** La lib pour croper le logo */
 		require_once ELEMENTOR_PATH . 'includes/libraries/bfi-thumb/bfi-thumb.php';
@@ -50,10 +50,10 @@ class Site_Logo_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -61,10 +61,10 @@ class Site_Logo_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -72,10 +72,10 @@ class Site_Logo_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -85,8 +85,8 @@ class Site_Logo_Widget extends Widget_Base {
 	 *
 	 * @return widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -98,8 +98,8 @@ class Site_Logo_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -107,10 +107,10 @@ class Site_Logo_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -120,6 +120,15 @@ class Site_Logo_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -134,7 +143,7 @@ class Site_Logo_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'site_logo_settings',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -142,10 +151,10 @@ class Site_Logo_Widget extends Widget_Base {
 			$this->add_control(
 				'site_logo_switcher',
 				array(
-					'label'        => esc_html__( 'Défaut logo', 'eac-components' ),
+					'label'        => esc_html__( 'Default logo', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -154,7 +163,7 @@ class Site_Logo_Widget extends Widget_Base {
 			$this->add_control(
 				'site_logo_choose_image',
 				array(
-					'label'     => esc_html__( 'Sélectionner le logo', 'eac-components' ),
+					'label'     => esc_html__( 'Select logo', 'eac-components' ),
 					'type'      => Controls_Manager::MEDIA,
 					'dynamic'   => array(
 						'active' => true,
@@ -177,11 +186,11 @@ class Site_Logo_Widget extends Widget_Base {
 			$this->add_control(
 				'site_logo_url',
 				array(
-					'label'        => esc_html__( 'URL', 'eac-components' ),
-					'description'  => esc_html__( 'URL du site sur le logo', 'eac-components' ),
+					'label'        => esc_html( 'URL' ),
+					'description'  => esc_html__( 'Site URL on logo', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -195,7 +204,7 @@ class Site_Logo_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'site_logo_style',
 			array(
-				'label' => esc_html__( 'Logo', 'eac-components' ),
+				'label' => esc_html( 'Logo' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -205,19 +214,19 @@ class Site_Logo_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'site_logo_alignment',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'flex-start' => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center'     => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'flex-end'   => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -231,7 +240,7 @@ class Site_Logo_Widget extends Widget_Base {
 			$this->add_control(
 				'site_logo_padding',
 				array(
-					'label'     => esc_html__( 'Marges internes', 'eac-components' ),
+					'label'     => esc_html__( 'Padding', 'eac-components' ),
 					'type'      => Controls_Manager::DIMENSIONS,
 					'selectors' => array(
 						'{{WRAPPER}} .site-logo_wrapper img' => 'padding-block: {{TOP}}{{UNIT}} {{BOTTOM}}{{UNIT}}; padding-inline: {{LEFT}}{{UNIT}} {{RIGHT}}{{UNIT}};',
@@ -250,7 +259,7 @@ class Site_Logo_Widget extends Widget_Base {
 			$this->add_control(
 				'site_logo_border_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -272,7 +281,7 @@ class Site_Logo_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'     => 'site_logo_shadow',
-					'label'    => esc_html__( 'Ombre', 'eac-components' ),
+					'label'    => esc_html__( 'Shadow', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .site-logo_wrapper img',
 				)
 			);
@@ -280,7 +289,7 @@ class Site_Logo_Widget extends Widget_Base {
 			$this->add_control(
 				'site_logo_opacity',
 				array(
-					'label'     => __( 'Opacité', 'eac-components' ),
+					'label'     => esc_html__( 'Opacity', 'eac-components' ),
 					'type'      => Controls_Manager::SLIDER,
 					'default'   => array( 'size' => 1 ),
 					'range'     => array(
@@ -306,7 +315,7 @@ class Site_Logo_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 
 		$settings       = $this->get_settings_for_display();
 		$default_logo   = 'yes' === $settings['site_logo_switcher'] ? true : false;
@@ -366,5 +375,5 @@ class Site_Logo_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

@@ -14,8 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 class Eac_Load_Components {
 
@@ -29,22 +28,25 @@ class Eac_Load_Components {
 	/**
 	 * Constructeur de la class
 	 *
-	 * Ajoute les actions pour enregsitrer les goupes, controls et widgets Elementor
-	 *
-	 * @param $elements La liste des composants et leur état
+	 * Ajoute les actions pour enregistrer les goupes, controls et widgets Elementor
 	 */
 	public function __construct() {
 		/** Initialize le module Header & Footer dans le dashboard */
-		if ( Eac_Config_Elements::is_widget_active( 'header-footer' ) ) {
+		if ( Eac_Load_Config::is_widget_active( 'header-footer' ) ) {
 			new \EACCustomWidgets\Includes\TemplatesLib\Documents\Manager();
 		}
 
 		/** Filtres WooCommerce. Le mega menu intègre le filtre 'woocommerce_add_to_cart_fragments' pour le mini-cart */
-		if ( Eac_Config_Elements::is_widget_active( 'woo-product-grid' ) || Eac_Config_Elements::is_widget_active( 'mega-menu' ) ) {
+		if ( Eac_Load_Config::is_widget_active( 'woo-product-grid' ) || Eac_Load_Config::is_widget_active( 'mega-menu' ) ) {
 			\EACCustomWidgets\Includes\Woocommerce\Eac_Woo_Filters::instance();
 		} else {
 			// On force la suppression de l'option des filtres WC par sécurité
-			delete_option( Eac_Config_Elements::get_woo_hooks_option_name() );
+			delete_option( Eac_Load_Config::get_woo_hooks_option_name() );
+		}
+
+		/** Les actions AJAX 'wp_ajax_xxxxxx' pour les widgets Mini cart du Menu et la barre de recherche */
+		if ( Eac_Load_Config::is_widget_active( 'mega-menu' ) || Eac_Load_Config::is_widget_active( 'site-search' ) ) {
+			new \EACCustomWidgets\Includes\TemplatesLib\Widgets\Classes\Class_Templates_Lib_Actions();
 		}
 
 		/** Utils pour tous les composants et les extensions */
@@ -68,37 +70,47 @@ class Eac_Load_Components {
 		return self::$instance;
 	}
 
-	/** Crée les catégories des composants */
-	public function register_categories( $elements_manager ) {
+	/**
+	 * register_categories
+	 * Crée les catégories des composants
+	 *
+	 * @param \Elementor\Elements_Manager $elements_manager
+	 *
+	 * @return void
+	 */
+	public function register_categories( \Elementor\Elements_Manager $elements_manager ): void {
 		$elements_manager->add_category(
 			'eac-advanced',
 			array(
-				'title' => esc_html__( 'EAC Avancés', 'eac-components' ),
+				'title' => esc_html__( 'EAC Advanced', 'eac-components' ),
 				'icon'  => 'fa fa-plug',
 			)
 		);
 		$elements_manager->add_category(
 			'eac-basic',
 			array(
-				'title' => esc_html__( 'EAC Basiques', 'eac-components' ),
+				'title' => esc_html__( 'EAC Basic', 'eac-components' ),
 				'icon'  => 'fa fa-plug',
 			)
 		);
 		$elements_manager->add_category(
 			'eac-ehf',
 			array(
-				'title' => esc_html__( 'EAC Entête & Pied de page', 'eac-components' ),
+				'title' => esc_html__( 'EAC Header & Footer', 'eac-components' ),
 				'icon'  => 'fa fa-plug',
 			)
 		);
 	}
 
 	/**
+	 * register_controls
 	 * Enregistre les nouveaux controls
 	 *
-	 * @args $controls_manager Gestionnaire des controls
+	 * @param \Elementor\Controls_Manager $controls_manager
+	 *
+	 * @return void
 	 */
-	public function register_controls( $controls_manager ) {
+	public function register_controls( \Elementor\Controls_Manager $controls_manager ): void {
 		// Enregistre le control 'file-viewer' pour le composant 'PDF viewer'
 		$controls_manager->register( new \EACCustomWidgets\Includes\Elementor\Controls\File_Viewer_Control() );
 
@@ -110,14 +122,14 @@ class Eac_Load_Components {
 	 * register_widgets
 	 * Enregistre les composants actifs
 	 *
-	 * @param mixed $widgets_manager Gestionnaire des widgets
+	 * @param \Elementor\Widgets_Manager $widgets_manager
 	 *
 	 * @return void
 	 */
-	public function register_widgets( $widgets_manager ): void {
-		foreach ( Eac_Config_Elements::get_widgets_active() as $element => $active ) {
-			if ( Eac_Config_Elements::is_widget_active( $element ) ) {
-				$full_class_name = Eac_Config_Elements::get_widget_namespace( $element );
+	public function register_widgets( \Elementor\Widgets_Manager $widgets_manager ): void {
+		foreach ( Eac_Load_Config::get_widgets_active() as $element => $active ) {
+			if ( Eac_Load_Config::is_widget_active( $element ) ) {
+				$full_class_name = Eac_Load_Config::get_widget_namespace( $element );
 				if ( $full_class_name ) {
 					$widgets_manager->register( new $full_class_name() );
 				}

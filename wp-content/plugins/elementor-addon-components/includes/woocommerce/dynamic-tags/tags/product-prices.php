@@ -19,53 +19,54 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 class Product_Prices extends Tag {
 	use \EACCustomWidgets\Includes\Traits\Product_Trait;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-woo-prices';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Prix du produit', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Product price', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-woo-groupe';
+	public function get_group(): array {
+		return array( 'eac-woo-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::TEXT_CATEGORY );
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 
 		$this->register_product_id_control();
 
 		$this->add_control(
 			'eac_woo_prices_format',
 			array(
-				'label'   => esc_html__( 'Prix', 'eac-components' ),
+				'label'   => esc_html__( 'Price', 'eac-components' ),
 				'type'    => Controls_Manager::SELECT,
 				'options' => array(
-					'regular' => esc_html__( 'Régulier', 'eac-components' ),
-					'promo'   => esc_html__( 'Promotion', 'eac-components' ),
-					'both'    => esc_html__( 'Les deux', 'eac-components' ),
+					'regular' => esc_html__( 'Regular', 'eac-components' ),
+					'promo'   => esc_html__( 'Sale', 'eac-components' ),
+					'both'    => esc_html__( 'Both', 'eac-components' ),
 				),
 				'default' => 'both',
 			)
 		);
 	}
 
-	public function render() {
+	public function render(): void {
 		$product_id      = $this->get_settings( 'product_id' );
 		$settings_format = $this->get_settings( 'eac_woo_prices_format' );
 		$value           = '';
 
 		if ( empty( $product_id ) ) {
-			return '';
+			return;
 		}
 
 		$product = wc_get_product( $product_id );
 		if ( ! $product ) {
-			return '';    }
+			return;
+		}
 
 		switch ( $settings_format ) {
 			case 'both':

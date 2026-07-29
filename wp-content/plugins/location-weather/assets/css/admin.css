@@ -9,22 +9,40 @@
     justify-content: center;
     align-items: center;
 }
-
-#adminmenu #menu-posts-location_weather li:nth-child(7) a {
-    color: #f9be48;
+#adminmenu #menu-posts-location_weather li:nth-child(5) a{
+	border-bottom: 1px solid rgba(255, 255, 255, 0.10)
 }
 
-#adminmenu #menu-posts-location_weather li a .sp-go-pro-icon {
-    background-image: url(../images/premium.svg);
-    width: 20px;
-    height: 20px;
-    display: block;
-    float: left;
-    margin-right: 1px;
-    margin-left: -2px;
-    margin-top: -1px;
+.sp-go-pro-icon {
+	background-image: url(../images/premium.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+	width: 16px;
+	display: block;
+	float: left;
+	margin-right: 1px;
+	margin-left: -2px;
+	margin-top: -1px;
 }
-
+#adminmenu #menu-posts-location_weather li a .splw-upgrade-btn {
+    box-sizing: border-box;
+	display: flex;
+    width: 100%;
+    gap: 4px;
+    border-radius: 4px;
+    background: #11B916;
+    color: #ffffff;
+    padding: 6px 10px;
+    font-weight: 500;
+    width: 136px;
+    transition: all .3s ease-in-out;
+}
+#adminmenu #menu-posts-location_weather li a .splw-upgrade-btn:hover {
+    background-color: #0E9912;
+}
+#adminmenu #menu-posts-location_weather .splw-upgrade-btn-wrapper {
+    margin-top: -10px;
+}
 .splw-footer-text-star {
     color: #dba617;
 }
@@ -131,4 +149,95 @@
 #shapedplugin-offer-banner button.shapedplugin-offer-banner-dismiss:before {
     color: #fff;
     font-size: 22px;
+}
+
+/* Footer Styles */
+.splw-footer-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.splw-footer-container {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+    float: left;
+    gap: 12px;
+}
+
+.splw-footer-left {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.splw-footer-left span,
+.splw-footer-left a {
+    color: #6e6a69;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.sp-lw-footer-text {
+    color: #155bb8;
+    text-decoration: none;
+}
+.sp-lw-footer-text:hover {
+    color: #0a53b3;
+    text-decoration: underline !important;
+}
+.splw-footer-team-link:focus,
+.sp-lw-footer-text:focus {
+    border: none;
+    box-shadow: none;
+}
+.splw-footer-team-link {
+    color: #1e67d8 !important;
+    text-decoration: underline;
+}
+
+.splw-footer-team-link:hover {
+    color: #0a53b3 !important;
+    text-decoration: underline !important;
+}
+
+.splw-footer-heart {
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+}
+
+.splw-footer-social {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.splw-footer-social-link {
+    display: inline-flex;
+    align-items: center;
+    transition: transform 0.2s ease;
+}
+
+.splw-footer-social-link:hover {
+    transform: scale(1.1);
+}
+
+.splw-footer-social-link:hover svg path {
+    fill: #1e67d8;
+}
+
+.splw-footer-social-link svg {
+    display: block;
+}
+
+@media (max-width: 782px) {
+    .splw-footer-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
 }

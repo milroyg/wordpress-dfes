@@ -1,5 +1,5 @@
 <?php
-namespace MasterHeaderFooter\Theme_Hooks;
+namespace MasterAddons\Inc\Admin\Theme_Builder\Theme_Hooks;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -51,7 +51,7 @@ class Storefront {
 
 	public function jltma_get_comment_form( $comment_template ){
         ob_start();
-		return JLTMA_PATH . 'inc/admin/theme-builder/inc/view/theme-support-comment.php';
+		return \JLTMA_PATH . 'inc/admin/theme-builder/inc/view/theme-support-comment.php';
 		ob_get_clean();
 	}
 

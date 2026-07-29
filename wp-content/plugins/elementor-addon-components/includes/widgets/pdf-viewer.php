@@ -15,8 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -29,18 +28,6 @@ use Elementor\Group_Control_Box_Shadow;
 use Elementor\Modules\DynamicTags\Module as TagsModule;
 
 class PDF_Viewer_Widget extends Widget_Base {
-
-	/**
-	 * Constructeur de la class PDF_Viewer_Widget
-	 *
-	 * Enregistre les scripts et les styles
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		wp_register_script( 'eac-pdf-viewer', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-pdf-viewer' ), array( 'jquery', 'elementor-frontend' ), '1.8.9', true );
-		wp_register_style( 'eac-pdf-viewer', EAC_Plugin::instance()->get_style_url( 'assets/css/pdf-viewer' ), array( 'eac-frontend' ), '1.8.9' );
-	}
 
 	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
@@ -58,8 +45,8 @@ class PDF_Viewer_Widget extends Widget_Base {
 	 *
 	 * @return string Widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -69,8 +56,8 @@ class PDF_Viewer_Widget extends Widget_Base {
 	 *
 	 * @return string Widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -78,10 +65,10 @@ class PDF_Viewer_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -89,10 +76,10 @@ class PDF_Viewer_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -100,7 +87,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
 		return array( 'eac-pdf-viewer' );
@@ -111,7 +98,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 	 *
 	 * Les styles sont chargés dans le footer
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
 		return array( 'eac-pdf-viewer' );
@@ -126,8 +113,8 @@ class PDF_Viewer_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -135,10 +122,10 @@ class PDF_Viewer_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -148,6 +135,15 @@ class PDF_Viewer_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -164,7 +160,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'fv_settings_section',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -176,8 +172,8 @@ class PDF_Viewer_Widget extends Widget_Base {
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'file',
 					'options' => array(
-						'file' => esc_html__( 'Fichier média', 'eac-components' ),
-						'url'  => esc_html__( 'URL', 'eac-components' ),
+						'file' => esc_html__( 'Media file', 'eac-components' ),
+						'url'  => esc_html( 'URL' ),
 					),
 				)
 			);
@@ -185,12 +181,12 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_settings_display_type',
 				array(
-					'label'   => esc_html__( "Type d'affichage", 'eac-components' ),
+					'label'   => esc_html__( 'Display type', 'eac-components' ),
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'embed',
 					'options' => array(
-						'embed'    => esc_html__( 'Intégré', 'eac-components' ),
-						'fancybox' => esc_html__( 'Boîte modale', 'eac-components' ),
+						'embed'    => esc_html__( 'Embedded', 'eac-components' ),
+						'fancybox' => esc_html__( 'Modal box', 'eac-components' ),
 					),
 				)
 			);
@@ -198,10 +194,10 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_settings_media_file',
 				array(
-					'label'        => esc_html__( 'Sélectionner le fichier', 'eac-components' ),
+					'label'        => esc_html__( 'Select file', 'eac-components' ),
 					'type'         => 'FILE_VIEWER',
 					'library_type' => array( 'application/pdf' ), // propiété utilisée par le script 'eac-file-viewer-control.js'
-					'description'  => esc_html__( 'Sélectionner le fichier de la librairie des médias', 'eac-components' ),
+					'description'  => esc_html__( 'Select the file from the media library', 'eac-components' ),
 					'condition'    => array( 'fv_settings_type' => 'file' ),
 				)
 			);
@@ -209,7 +205,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_settings_media_url',
 				array(
-					'label'         => esc_html__( "Sélectionner l'URL", 'eac-components' ),
+					'label'         => esc_html__( 'Select URL', 'eac-components' ),
 					'type'          => Controls_Manager::URL,
 					'placeholder'   => 'https://your-site-url/example.pdf',
 					'dynamic'       => array(
@@ -228,19 +224,19 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_settings_align_file',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'left'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-text-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-text-align-center',
 						),
 						'right'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-text-align-{$end}",
 						),
 					),
@@ -259,7 +255,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'fv_settings_trigger',
 			array(
-				'label'     => esc_html__( 'Options de déclenchement', 'eac-components' ),
+				'label'     => esc_html__( 'Trigger options', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_CONTENT,
 				'condition' => array( 'fv_settings_display_type' => 'fancybox' ),
 			)
@@ -268,12 +264,12 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_origin_trigger',
 				array(
-					'label'       => esc_html__( 'Déclencheur', 'eac-components' ),
+					'label'       => esc_html__( 'Trigger', 'eac-components' ),
 					'type'        => Controls_Manager::SELECT,
-					'description' => esc_html__( 'Sélectionner le déclencheur', 'eac-components' ),
+					'description' => esc_html__( 'Select a trigger', 'eac-components' ),
 					'options'     => array(
-						'button' => esc_html__( 'Bouton', 'eac-components' ),
-						'text'   => esc_html__( 'Texte', 'eac-components' ),
+						'button' => esc_html__( 'Button', 'eac-components' ),
+						'text'   => esc_html__( 'Text', 'eac-components' ),
 					),
 					'default'     => 'button',
 				)
@@ -282,8 +278,8 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_display_text_button',
 				array(
-					'label'       => esc_html__( 'Texte du bouton', 'eac-components' ),
-					'default'     => esc_html__( 'Ouvrir le fichier', 'eac-components' ),
+					'label'       => esc_html__( 'Button text', 'eac-components' ),
+					'default'     => esc_html__( 'Open file', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'dynamic'     => array( 'active' => true ),
 					'label_block' => true,
@@ -294,8 +290,8 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_display_text',
 				array(
-					'label'       => esc_html__( 'Texte', 'eac-components' ),
-					'default'     => esc_html__( 'Ouvrir le fichier', 'eac-components' ),
+					'label'       => esc_html__( 'Text', 'eac-components' ),
+					'default'     => esc_html__( 'Open file', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'dynamic'     => array( 'active' => true ),
 					'label_block' => true,
@@ -306,19 +302,19 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_align_trigger',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'left'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-text-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-text-align-center',
 						),
 						'right'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-text-align-{$end}",
 						),
 					),
@@ -334,10 +330,10 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_icon_activated',
 				array(
-					'label'        => esc_html__( 'Ajouter un pictogramme', 'eac-components' ),
+					'label'        => esc_html__( 'Add pictogram', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array( 'fv_origin_trigger' => 'button' ),
@@ -347,7 +343,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_display_icon_button',
 				array(
-					'label'                  => esc_html__( 'Pictogrammes', 'eac-components' ),
+					'label'                  => esc_html__( 'Pictograms', 'eac-components' ),
 					'type'                   => Controls_Manager::ICONS,
 					'default'                => array(
 						'value'   => 'far fa-file-pdf',
@@ -368,8 +364,8 @@ class PDF_Viewer_Widget extends Widget_Base {
 					'type'      => Controls_Manager::SELECT,
 					'default'   => 'before',
 					'options'   => array(
-						'before' => esc_html__( 'Avant', 'eac-components' ),
-						'after'  => esc_html__( 'Après', 'eac-components' ),
+						'before' => esc_html__( 'Before', 'eac-components' ),
+						'after'  => esc_html__( 'After', 'eac-components' ),
 					),
 					'condition' => array(
 						'fv_origin_trigger' => 'button',
@@ -381,7 +377,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_marge_icon_button',
 				array(
-					'label'              => esc_html__( 'Marges', 'eac-components' ),
+					'label'              => esc_html__( 'Margin', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'allowed_dimensions' => array( 'left', 'right' ),
 					'default'            => array(
@@ -412,7 +408,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'fv_settings_content',
 			array(
-				'label' => esc_html__( 'Options de la visionneuse', 'eac-components' ),
+				'label' => esc_html__( 'Viewer options', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -420,10 +416,10 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_settings_content_toolbar_left',
 				array(
-					'label'        => esc_html__( "Afficher la barre d'outils de gauche", 'eac-components' ),
+					'label'        => esc_html__( 'Display left toolbar', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -432,10 +428,10 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_settings_content_toolbar_right',
 				array(
-					'label'        => esc_html__( "Afficher la barre d'outils de droite", 'eac-components' ),
+					'label'        => esc_html__( 'Display right toolbar', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -444,10 +440,10 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_settings_content_download',
 				array(
-					'label'        => esc_html__( "Afficher le bouton 'Télécharger'", 'eac-components' ),
+					'label'        => esc_html__( "Display 'Download' button", 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -456,10 +452,10 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_settings_content_print',
 				array(
-					'label'        => esc_html__( "Afficher le bouton 'Imprimer'", 'eac-components' ),
+					'label'        => esc_html__( "Display 'Print' button", 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -468,16 +464,16 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_settings_content_zoom',
 				array(
-					'label'   => esc_html__( 'Niveau de zoom', 'eac-components' ),
+					'label'   => esc_html__( 'Zoom level', 'eac-components' ),
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'auto',
 					'options' => array(
 						'100'        => '100%',
 						'75'         => '75%',
 						'50'         => '50%',
-						'auto'       => esc_html__( 'Automatique', 'eac-components' ),
-						'page-fit'   => esc_html__( 'Page entière', 'eac-components' ),
-						'page-width' => esc_html__( 'Pleine largeur', 'eac-components' ),
+						'auto'       => esc_html__( 'Automatic', 'eac-components' ),
+						'page-fit'   => esc_html__( 'Full page', 'eac-components' ),
+						'page-width' => esc_html__( 'Full width', 'eac-components' ),
 					),
 				)
 			);
@@ -490,7 +486,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'fv_modal_box_style',
 			array(
-				'label'     => esc_html__( 'Boîte modale', 'eac-components' ),
+				'label'     => esc_html__( 'Modal box', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array( 'fv_settings_display_type' => 'fancybox' ),
 			)
@@ -499,7 +495,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'fv_modal_box_width',
 				array(
-					'label'          => esc_html__( 'Largeur', 'eac-components' ),
+					'label'          => esc_html__( 'Width', 'eac-components' ),
 					'type'           => Controls_Manager::SLIDER,
 					'size_units'     => array( '%', 'vw' ),
 					'default'        => array(
@@ -539,7 +535,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'fv_embed_style',
 			array(
-				'label'     => esc_html__( 'Fichier intégré', 'eac-components' ),
+				'label'     => esc_html__( 'Embedded file', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array( 'fv_settings_display_type' => 'embed' ),
 			)
@@ -548,7 +544,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'fv_embed_width',
 				array(
-					'label'       => esc_html__( 'Largeur', 'eac-components' ),
+					'label'       => esc_html__( 'Width', 'eac-components' ),
 					'type'        => Controls_Manager::SLIDER,
 					'size_units'  => array( 'px', '%', 'vw' ),
 					'default'     => array(
@@ -580,7 +576,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'fv_embed_height',
 				array(
-					'label'       => esc_html__( 'Hauteur', 'eac-components' ),
+					'label'       => esc_html__( 'Height', 'eac-components' ),
 					'type'        => Controls_Manager::SLIDER,
 					'size_units'  => array( 'px', '%', 'vh' ),
 					'default'     => array(
@@ -622,7 +618,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'     => 'fv_embed_shadow',
-					'label'    => esc_html__( 'Ombre', 'eac-components' ),
+					'label'    => esc_html__( 'Shadow', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .fv-viewer__wrapper-iframe',
 				)
 			);
@@ -632,7 +628,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'fv_button_style',
 			array(
-				'label'     => esc_html__( 'Bouton déclencheur', 'eac-components' ),
+				'label'     => esc_html__( 'Trigger button', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'fv_settings_display_type' => 'fancybox',
@@ -646,14 +642,14 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->start_controls_tab(
 				'fv_controls_tab_normal',
 				array(
-					'label' => esc_html( 'Normal' ),
+					'label' => esc_html__( 'Normal', 'eac-components' ),
 				)
 			);
 
 				$this->add_control(
 					'fv_button_color',
 					array(
-						'label'     => esc_html__( 'Couleur', 'eac-components' ),
+						'label'     => esc_html__( 'Color', 'eac-components' ),
 						'type'      => Controls_Manager::COLOR,
 						'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 						'selectors' => array(
@@ -666,7 +662,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 					Group_Control_Typography::get_type(),
 					array(
 						'name'     => 'fv_button_typography',
-						'label'    => esc_html__( 'Typographie', 'eac-components' ),
+						'label'    => esc_html__( 'Typography', 'eac-components' ),
 						'global'   => array( 'default' => Global_Typography::TYPOGRAPHY_TEXT ),
 						'selector' => '{{WRAPPER}} .fv-viewer__wrapper-btn',
 					)
@@ -675,7 +671,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 				$this->add_control(
 					'fv_button_background',
 					array(
-						'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+						'label'     => esc_html__( 'Background color', 'eac-components' ),
 						'type'      => Controls_Manager::COLOR,
 						'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 						'selectors' => array( '{{WRAPPER}} .fv-viewer__wrapper-btn' => 'background-color: {{VALUE}};' ),
@@ -687,14 +683,14 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->start_controls_tab(
 				'fv_controls_tab_hover',
 				array(
-					'label' => esc_html__( 'Survol', 'eac-components' ),
+					'label' => esc_html__( 'Hover', 'eac-components' ),
 				)
 			);
 
 				$this->add_control(
 					'fv_button_color_hover',
 					array(
-						'label'     => esc_html__( 'Couleur', 'eac-components' ),
+						'label'     => esc_html__( 'Color', 'eac-components' ),
 						'type'      => Controls_Manager::COLOR,
 						'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 						'selectors' => array(
@@ -706,7 +702,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 				$this->add_control(
 					'fv_button_background_hover',
 					array(
-						'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+						'label'     => esc_html__( 'Background color', 'eac-components' ),
 						'type'      => Controls_Manager::COLOR,
 						'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 						'selectors' => array(
@@ -718,7 +714,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 				$this->add_control(
 					'fv_button_border_color_hover',
 					array(
-						'label'     => esc_html__( 'Couleur de la bordure', 'eac-components' ),
+						'label'     => esc_html__( 'Border color', 'eac-components' ),
 						'type'      => Controls_Manager::COLOR,
 						'condition' => array( 'fv_button_border_border!' => 'none' ),
 						'selectors' => array(
@@ -742,7 +738,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_button_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -763,7 +759,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'fv_button_padding',
 				array(
-					'label'     => esc_html__( 'Marges internes', 'eac-components' ),
+					'label'     => esc_html__( 'Padding', 'eac-components' ),
 					'type'      => Controls_Manager::DIMENSIONS,
 					'selectors' => array(
 						'{{WRAPPER}} .button-icon' => 'padding-block: {{TOP}}px {{BOTTOM}}px; padding-inline: {{LEFT}}px {{RIGHT}}px;',
@@ -775,7 +771,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'     => 'fv_button_shadow',
-					'label'    => esc_html__( 'Ombre', 'eac-components' ),
+					'label'    => esc_html__( 'Shadow', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .fv-viewer__wrapper-btn',
 				)
 			);
@@ -785,7 +781,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'fv_text_style',
 			array(
-				'label'     => esc_html__( 'Texte déclencheur', 'eac-components' ),
+				'label'     => esc_html__( 'Trigger text', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'fv_settings_display_type' => 'fancybox',
@@ -797,7 +793,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_text_style_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .fv-viewer__wrapper-text' => 'color: {{VALUE}};' ),
@@ -808,7 +804,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'fv_text_style_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'global'   => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'selector' => '{{WRAPPER}} .fv-viewer__wrapper-text',
 				)
@@ -817,7 +813,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_text_style_bg',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .fv-viewer__wrapper-text' => 'background-color: {{VALUE}};' ),
@@ -827,7 +823,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_text_style_marges',
 				array(
-					'label'     => esc_html__( 'Marges', 'eac-components' ),
+					'label'     => esc_html__( 'Margin', 'eac-components' ),
 					'type'      => Controls_Manager::DIMENSIONS,
 					'selectors' => array( '{{WRAPPER}} .fv-viewer__wrapper-text' => 'margin-block: {{TOP}}{{UNIT}} {{BOTTOM}}{{UNIT}}; margin-inline: {{LEFT}}{{UNIT}} {{RIGHT}}{{UNIT}};' ),
 				)
@@ -843,7 +839,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 		if ( empty( $settings['fv_settings_media_file'] ) && empty( $settings['fv_settings_media_url']['url'] ) ) {
 			return;
@@ -863,7 +859,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render_viewer() {
+	protected function render_viewer(): void {
 		$settings  = $this->get_settings_for_display();
 		$trigger   = $settings['fv_origin_trigger'];
 		$origine   = $settings['fv_settings_type'];
@@ -902,7 +898,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 		$this->add_render_attribute( 'a_fancybox', 'data-src', '' );
 		$this->add_render_attribute( 'a_fancybox', 'data-options', wp_json_encode( array( 'slideClass' => 'modalbox-visible-' . esc_attr( $id ) ) ) );
 		$this->add_render_attribute( 'a_fancybox', 'href', '#' );
-		$this->add_render_attribute( 'a_fancybox', 'aria-label', esc_attr__( 'Ouvrir le fichier PDF dans une boîte modale', 'eac-components' ) );
+		$this->add_render_attribute( 'a_fancybox', 'aria-label', esc_attr__( 'Open PDF file in modal box', 'eac-components' ) );
 		$this->add_render_attribute( 'a_fancybox', 'aria-expanded', 'false' );
 		$this->add_render_attribute( 'a_fancybox', 'aria-haspopup', 'dialog' );
 		$this->add_render_attribute( 'a_fancybox', 'role', 'button' );
@@ -943,7 +939,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 						src='' 
 						loading='lazy' 
 						type='application/pdf' 
-						aria-label="<?php esc_html_e( 'Fichier PDF intégré', 'eac-components' ); ?>">
+						aria-label="<?php esc_html_e( 'Embedded PDF file', 'eac-components' ); ?>">
 					</iframe>
 				<?php endif; ?>
 			</div>
@@ -964,7 +960,7 @@ class PDF_Viewer_Widget extends Widget_Base {
 	 *
 	 * @access   protected
 	 */
-	protected function get_settings_json( $url ) {
+	protected function get_settings_json( $url ): string {
 		$module_settings = $this->get_settings_for_display();
 
 		$settings = array(
@@ -982,5 +978,5 @@ class PDF_Viewer_Widget extends Widget_Base {
 		return wp_json_encode( $settings );
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

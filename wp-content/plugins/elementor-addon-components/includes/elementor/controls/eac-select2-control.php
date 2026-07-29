@@ -48,16 +48,17 @@ class Eac_Select2_Control extends Control_Select2 {
 			wp_enqueue_style( 'elementor-select2' );
 		}
 
-		// Charge le script
-		wp_enqueue_script( 'eac-select2-control', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/controls/eac-select2-control' ), array( 'jquery', 'jquery-elementor-select2' ), '1.9.8', true );
+		wp_register_script( 'eac-select2-control', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/controls/eac-select2-control' ), array( 'jquery', 'jquery-elementor-select2' ), EAC_PLUGIN_VERSION, true );
 
 		$args = array(
 			'ajax_url'           => esc_url( admin_url( 'admin-ajax.php' ) ),
 			'ajax_action'        => 'autocomplete_ajax',
 			'ajax_action_reload' => 'autocomplete_ajax_reload',
-			'ajax_nonce'         => wp_create_nonce( 'eac_autocomplete_search_nonce' ),
+			'ajax_nonce'         => wp_create_nonce( 'autocomplete_ajax_nonce' ),
 		);
-		wp_add_inline_script( 'eac-select2-control', 'var eac_autocomplete_search = ' . wp_json_encode( $args ), 'before' );
+		wp_add_inline_script( 'eac-select2-control', 'var eacAutocompleteAjax = ' . wp_json_encode( $args ), 'before' );
+
+		wp_enqueue_script( 'eac-select2-control' );
 	}
 
 	/**
@@ -70,11 +71,11 @@ class Eac_Select2_Control extends Control_Select2 {
 	protected function get_default_settings() {
 		return array(
 			'options'        => array(),
-			'placeholder'    => esc_html__( '-- Rechercher --', 'eac-components' ),
+			'placeholder'    => esc_html__( '-- CHOOSE --', 'eac-components' ),
 			'multiple'       => false,
 			'select2Options' => array(
-				'object_type' => 'post',    // post_type, ex: elementor_library. 'all' pour tous les post_types
-				'query_type'  => 'post',    // post, taxonomy, term, author, url
+				'object_type' => 'post',    // post, page, product... et 'any' pour tous les post_types
+				'query_type'  => 'post',    // taxonomy, term, author, url. défaut 'post'
 				'query_taxo'  => '',        // category, post_tag, product_cat, product_tag, pa_xxxxx (attribute: pa_tissu)
 			),
 			'label_block'    => true,
@@ -86,7 +87,7 @@ class Eac_Select2_Control extends Control_Select2 {
 	 * Peut ajouter dans select l'attribut: data-values="{{ data.controlValue }}"
 	 * @access public
 	 */
-	public function content_template() {
+	public function content_template(): void {
 		?>
 		<div class="elementor-control-field">
 			<# if (data.label) {#>

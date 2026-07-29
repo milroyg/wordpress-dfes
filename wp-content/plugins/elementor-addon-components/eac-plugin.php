@@ -58,21 +58,20 @@ class EAC_Plugin {
 			'before_woocommerce_init',
 			function () {
 				if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
-					\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', 'elementor-addon-components/elementor-addon-components.php', true );
+					\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', EAC_PLUGIN_BASENAME, true );
 				}
 			}
 		);
 
 		/** Charge la configuration du plugin et des composants */
-		\EACCustomWidgets\Core\Eac_Config_Elements::instance();
+		\EACCustomWidgets\Core\Eac_Load_Config::instance();
 
 		/** Charge les scripts et les styles globaux */
-		new \EACCustomWidgets\Core\Eac_Load_Scripts();
+		new \EACCustomWidgets\Core\Eac_Load_Assets();
 
 		/** Page d'administration du plugin */
-		$capa_option = get_option( \EACCustomWidgets\Core\Eac_Config_Elements::get_option_page_capability_name() );
-		if ( current_user_can( 'manage_options' ) || ( $capa_option && current_user_can( $capa_option ) ) ) {
-			\EACCustomWidgets\Admin\Settings\EAC_Load_Setting_Page::instance();
+		if ( current_user_can( 'manage_options' ) ) {
+			\EACCustomWidgets\Admin\Settings\EAC_Load_Settings::instance();
 		}
 
 		/** Charge les fonctionnalités */
@@ -100,31 +99,33 @@ class EAC_Plugin {
 
 	/**
 	 * autoload
+	 * Charge le fichier php relativement à namespace + class name
+	 * Le nom de la classe doit être égal au nom du fichier (sans l'extension) et respecter la structure des dossiers
 	 *
-	 * @param string $la_class namespace + class name
+	 * @param string $class_to_load namespace + class name
 	 *
 	 * @return void
 	 */
-	public function autoload( string $la_class ): void {
+	public function autoload( string $class_to_load ): void {
 		// namespace prefixe
 		$prefix = 'EACCustomWidgets';
 
 		// Ce n'est pas notre plugin
-		if ( 0 !== strpos( $la_class, $prefix ) ) {
+		if ( 0 !== strpos( $class_to_load, $prefix ) ) {
 			return;
 		}
 
-		if ( ! class_exists( $la_class, false ) ) {
+		if ( ! class_exists( $class_to_load, false ) ) {
 			// Conversion namespace en path
 			$filename = strtolower(
 				preg_replace(
 					array( '/^EACCustomWidgets\\\/', '/([a-z])([A-Z])/', '/_/', '/\\\/' ),
 					array( '', '$1-$2', '-', DIRECTORY_SEPARATOR ),
-					$la_class
+					$class_to_load
 				)
 			);
 
-			$file = EAC_PLUGIN_PATH . str_replace( '-widget', '', $filename ) . '.php';
+			$file = wp_normalize_path( EAC_PLUGIN_PATH . str_replace( '-widget', '', $filename ) . '.php' );
 
 			if ( is_readable( $file ) ) {
 				require_once $file;
@@ -134,62 +135,95 @@ class EAC_Plugin {
 		}
 	}
 
-	/**
-	 * Singletons should not be cloneable.
-	 */
+	/** Singletons should not be cloneable */
 	public function __clone() {
-		// Cloning instances of the class is forbidden
 		_doing_it_wrong( __FUNCTION__, esc_html( 'Il y a quelque chose de pourri au Royaume du Danemark' ), '1.0.0' );
 	}
 
-	/**
-	 * Singletons should not be restorable from strings.
-	 */
+	/** Singletons should not be restorable from strings */
 	public function __wakeup() {
-		// Unserializing instances of the class is forbidden
 		_doing_it_wrong( __FUNCTION__, esc_html( 'Il y a quelque chose de pourri au Royaume du Danemark' ), '1.0.0' );
 	}
 
 	/**
 	 * get_script_url
 	 *
-	 * Construit le chemin du fichier et ajoute l'extension relative à la constant globale
+	 * Construit l'url du fichier et ajoute l'extension relative à la constant globale
+	 *
+	 * @param string $file
 	 *
 	 * @return String Chemin absolu du fichier JS passé en paramètre
 	 */
-	public function get_script_url( $file ): string {
+	public function get_script_url( string $file ): string {
 		return esc_url( EAC_PLUGIN_URL . $file . $this->suffix_js );
 	}
 
 	/**
 	 * get_style_url
 	 *
-	 * Construit le chemin du fichier et ajoute l'extension relative à la constant globale
+	 * Construit l'url du fichier et ajoute l'extension relative à la constant globale
 	 *
-	 * @param mixed $file
+	 * @param string $file
 	 *
 	 * @return String Chemin absolu du fichier CSS passé en paramètre
 	 */
-	public function get_style_url( $file ): string {
+	public function get_style_url( string $file ): string {
 			return esc_url( EAC_PLUGIN_URL . $file . $this->suffix_css );
+	}
+
+	/**
+	 * get_script_path
+	 *
+	 * Construit le chemin du fichier
+	 *
+	 * @param string $file
+	 *
+	 * @return String Chemin absolu du fichier JS passé en paramètre
+	 */
+	public function get_script_path( string $file ): string {
+		return wp_normalize_path( EAC_PLUGIN_PATH . $file . '.js' );
+	}
+
+	/**
+	 * get_style_path
+	 *
+	 * Construit le chemin du fichier
+	 *
+	 * @param string $file
+	 *
+	 * @return String Chemin absolu du fichier CSS passé en paramètre
+	 */
+	public function get_style_path( string $file ): string {
+		return wp_normalize_path( EAC_PLUGIN_PATH . $file . '.css' );
+	}
+
+	/**
+	 * get_dashboard_icon_url
+	 *
+	 * Retourne le chemin de l'icône du plugin pour la page d'administration
+	 *
+	 * @return string
+	 */
+	public function get_dashboard_icon_url(): string {
+		return esc_url( EAC_PLUGIN_URL . 'admin/images/logos/dashboard-icon.svg' );
 	}
 
 	/**
 	 * add_script_attribute_module
 	 *
-	 * Ajout de l'attribut type="module"
+	 * Ajout de l'attribut type="module" pour les scripts qui en ont besoin
+	 * Le type "module" permet d'utiliser les fonctionnalités modernes de JavaScript, comme les imports et exports, et d'assurer un chargement différé des scripts.
+	 * Certains scripts du plugin nécessitent cet attribut pour fonctionner correctement, notamment ceux qui utilisent des fonctionnalités ES6 ou qui sont conçus pour être chargés en tant que modules.
 	 *
-	 * @param mixed $tag Le contenu script
-	 * @param mixed $handle l'ID du script
-	 * @param mixed $src Le chemin du script
+	 * @param string $tag
+	 * @param string $handle
 	 *
 	 * @return string
 	 */
-	public function add_script_attribute_module( $tag, $handle ): string {
-		$module_scripts = array( 'instant-page', 'eac-acf-relation', 'eac-image-gallery', 'eac-advanced-gallery', 'eac-post-grid', 'eac-rss-reader', 'eac-news-ticker', 'eac-pinterest-rss' );
+	public function add_script_attribute_module( string $tag, string $handle ): string {
+		$module_scripts = array( 'eac-relationship-block', 'eac-repeater-block', 'eac-gallery-block', 'eac-meteo-block', 'instant-page', 'eac-acf-repeater', 'eac-acf-relation', 'eac-image-gallery', 'eac-advanced-gallery', 'eac-post-grid', 'eac-rss-reader', 'eac-news-ticker', 'eac-pinterest-rss' );
 
 		if ( in_array( $handle, $module_scripts, true ) ) {
-			/**if ( ! \str_contains( $tag, 'type="module"' ) ) {*/
 			$tag = str_replace( '<script ', '<script type="module" ', $tag );
 		}
 		return $tag;
@@ -200,16 +234,15 @@ class EAC_Plugin {
 	 *
 	 * defer le chargement des styles
 	 *
-	 * @param mixed $html le contenu du tag
-	 * @param mixed $handle ID du style
+	 * @param string $html le contenu du tag
+	 * @param string $handle ID du style
 	 *
 	 * @return string
 	 */
-	public function add_style_attribute( $html, $handle ): string {
+	public function add_style_attribute( string $html, string $handle ): string {
 		$module_styles = array( 'eac-fancybox', 'elegant-icons', 'eac-nav-menu' );
 
 		if ( in_array( $handle, $module_styles, true ) ) {
-			/**if ( ! \str_contains( $html, "media='print'" ) ) {*/
 			$html = str_replace( 'media=\'all\'', "media='print' onload=\"this.onload=null; this.media='all';\"", $html );
 		}
 		return $html;
@@ -218,15 +251,15 @@ class EAC_Plugin {
 	/**
 	 * register_script
 	 *
-	 * @param mixed $handle ID du script
-	 * @param mixed $src chemin du script
-	 * @param mixed $deps les dépendances
-	 * @param mixed $ver la version
+	 * @param string $handle ID du script
+	 * @param string $src chemin du script
+	 * @param array $deps les dépendances
+	 * @param string $ver la version
 	 * @param array $args array d'arguments
 	 *
 	 * @return void
 	 */
-	public function register_script( $handle, $src, $deps, $ver, $args = array() ): void {
+	public function register_script( string $handle, string $src, array $deps, string $ver, array $args = array() ): void {
 		global $wp_version;
 		$url = $this->get_script_url( $src );
 

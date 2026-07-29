@@ -13,9 +13,12 @@
 	padding-inline: 10px;
 }
 
-/** Mis en forme class Flex de chaque article */
 .acf-relation_container article {
 	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	overflow: hidden;
 }
 
 .acf-relation_container article.animate-first-load {
@@ -39,15 +42,6 @@
     100% {
         transform: scale(1);
     }
-}
-
-.acf-relation_container article .acf-relation_inner-wrapper {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	flex-wrap: nowrap;
-	overflow: hidden;
-	block-size: 100%;
 }
 
 .acf-relation_container article .acf-relation_content {
@@ -75,8 +69,8 @@
 .acf-relation_container .acf-relation_img img {
 	display: block;
 	position: relative;
-	inline-size: 100%;
 	block-size: auto;
+	inline-size: 100%;
 	object-fit: cover;
 	object-position: 50% 50%;
 }

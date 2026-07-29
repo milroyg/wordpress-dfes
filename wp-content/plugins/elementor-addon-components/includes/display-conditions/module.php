@@ -66,8 +66,8 @@ class Module {
 	 *
 	 * Enqueue le script dans l'éditeur
 	 */
-	public function enqueue_editor_scripts() {
-		wp_enqueue_script( 'eac-indicator-conditions', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-indicator-conditions' ), array(), '2.1.8', true );
+	public function enqueue_editor_scripts(): void {
+		wp_enqueue_script( 'eac-indicator-conditions', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-indicator-conditions' ), array(), EAC_PLUGIN_VERSION, true );
 	}
 
 	/** Singleton de la class */
@@ -87,7 +87,7 @@ class Module {
 	 * @param Element_Base $element    L'élément en cours d'édition
 	 * @param String       $section_id L'ID de l'élément
 	 */
-	public function inject_controls( $element, $section_id ) {
+	public function inject_controls( $element, $section_id ): void {
 
 		if ( ! $element instanceof Element_Base ) {
 			return;
@@ -104,7 +104,7 @@ class Module {
 		$element->start_controls_section(
 			'eac_custom_element_condition',
 			array(
-				'label' => esc_html__( "Conditions d'affichage", 'eac-components' ),
+				'label' => esc_html__( 'Display conditions', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_ADVANCED,
 			)
 		);
@@ -112,10 +112,10 @@ class Module {
 			$element->add_control(
 				'element_condition_active',
 				array(
-					'label'        => esc_html__( 'Activer les conditions', 'eac-components' ),
+					'label'        => esc_html__( 'Display conditions', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html( 'On' ),
+					'label_off'    => esc_html( 'Off' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'prefix_class' => 'eac-conditions-',
@@ -128,7 +128,7 @@ class Module {
 					'type' => Controls_Manager::RAW_HTML,
 					'raw' => sprintf(
 						/* translators: 1: Link opening tag, 2: Link closing tag. */
-						esc_html__( 'Mettre en oeuvre %1$sles conditions pour afficher/cacher des éléments%2$s', 'eac-components' ),
+						esc_html__( 'Implement %1$sconditions to show/hide elements%2$s', 'eac-components' ),
 						'<a href="https://elementor-addon-components.com/how-to-set-display-conditions-with-elementor/#list-of-available-conditions" target="_blank" rel="noopener noreferrer">',
 						'</a>',
 					),
@@ -140,11 +140,11 @@ class Module {
 			$element->add_control(
 				'element_condition_when',
 				array(
-					'label'       => esc_html__( "Cacher l'élément quand", 'eac-components' ),
+					'label'       => esc_html__( 'Hide element when', 'eac-components' ),
 					'type'        => Controls_Manager::SELECT,
 					'options'     => array(
-						'all' => esc_html__( 'Toutes les conditions sont remplies', 'eac-components' ),
-						'any' => esc_html__( 'Une des conditions est remplie', 'eac-components' ),
+						'all' => esc_html__( 'All conditions are met', 'eac-components' ),
+						'any' => esc_html__( 'Any of the conditions is met', 'eac-components' ),
 					),
 					'default'     => 'all',
 					'label_block' => false,
@@ -159,7 +159,7 @@ class Module {
 			$repeater->add_control(
 				'element_condition_key',
 				array(
-					'label'       => 'Condition',
+					'label'       => esc_html__( 'Condition', 'eac-components' ),
 					'type'        => Controls_Manager::SELECT,
 					'groups'      => $this->controller->get_conditions_list(),
 					'default'     => 'day_week',
@@ -171,23 +171,23 @@ class Module {
 			$repeater->add_control(
 				'element_condition_operateur_date',
 				array(
-					'label'       => esc_html__( 'Opérateur de comparaison', 'eac-components' ),
+					'label'       => esc_html__( 'Comparison operator', 'eac-components' ),
 					'type'        => Controls_Manager::CHOOSE,
 					'options'     => array(
 						'less_than' => array(
-							'title' => esc_html__( 'Inférieure', 'eac-components' ),
+							'title' => esc_html__( 'Less than', 'eac-components' ),
 							'icon'  => 'eicon-chevron-left eac-condition-choose',
 						),
 						'equal'     => array(
-							'title' => esc_html__( 'Égale', 'eac-components' ),
+							'title' => esc_html__( 'Equal', 'eac-components' ),
 							'icon'  => 'fas fa-equals eac-condition-choose',
 						),
 						'not_equal' => array(
-							'title' => esc_html__( 'Différente', 'eac-components' ),
+							'title' => esc_html__( 'Not equal', 'eac-components' ),
 							'icon'  => 'fas fa-not-equal eac-condition-choose',
 						),
 						'more_than' => array(
-							'title' => esc_html__( 'Supérieure', 'eac-components' ),
+							'title' => esc_html__( 'More than', 'eac-components' ),
 							'icon'  => 'eicon-chevron-right eac-condition-choose',
 						),
 					),
@@ -204,15 +204,15 @@ class Module {
 			$repeater->add_control(
 				'element_condition_operateur_range',
 				array(
-					'label'       => esc_html__( 'Opérateur de comparaison', 'eac-components' ),
+					'label'       => esc_html__( 'Comparison operator', 'eac-components' ),
 					'type'        => Controls_Manager::CHOOSE,
 					'options'     => array(
 						'in'     => array(
-							'title' => esc_html__( 'Dans la liste', 'eac-components' ),
+							'title' => esc_html__( 'In the list', 'eac-components' ),
 							'icon'  => 'eicon-order-end eac-condition-choose',
 						),
 						'not_in' => array(
-							'title' => esc_html__( 'Pas dans la liste', 'eac-components' ),
+							'title' => esc_html__( 'Out of the list', 'eac-components' ),
 							'icon'  => 'eicon-nowrap eac-condition-choose',
 						),
 					),
@@ -243,7 +243,7 @@ class Module {
 					'title_field' => "<# let labels = $condition_flat_list; "
 						. 'let label = labels[element_condition_key]; #>'
 						. '{{{ label }}}',
-					'button_text' => esc_html__( 'Ajouter une condition', 'eac-components' ),
+					'button_text' => esc_html__( 'Add condition', 'eac-components' ),
 					'render_type' => 'none',
 					'condition'   => array(
 						'element_condition_active' => 'yes',
@@ -254,7 +254,7 @@ class Module {
 			$element->add_control(
 				'element_condition_fallback',
 				array(
-					'label'     => esc_html__( 'Contenu alternatif', 'eac-components' ),
+					'label'     => esc_html__( 'Fallback content', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array(
@@ -266,16 +266,16 @@ class Module {
 			$element->add_control(
 				'element_condition_fallback_active',
 				array(
-					'label'     => esc_html__( 'Activer', 'eac-components' ),
-					'description'  => esc_html__( 'Le contenu alternatif est affiché si le résultat des conditions est vraie', 'eac-components' ),
+					'label'     => esc_html__( 'Enable', 'eac-components' ),
+					'description'  => esc_html__( 'Fallback content is displayed if the result of the conditions is true.', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -289,9 +289,9 @@ class Module {
 			$element->add_control(
 				'element_condition_fallback_content',
 				array(
-					'label'       => esc_html__( 'Contenu', 'eac-components' ),
+					'label'       => esc_html__( 'Content', 'eac-components' ),
 					'type'        => Controls_Manager::TEXTAREA,
-					'default'     => sprintf( esc_html__( 'Cette section est réservée pour les utilisateurs connectés.%sVeuillez vous identifier pour accéder à son contenu.', 'eac-components' ), '<br>' ),
+					'default'     => esc_html__( 'This section is reserved for logged-in users.<br/>Please log in to access its contents.', 'eac-components' ),
 					'dynamic'     => array( 'active' => true ),
 					'label_block' => true,
 					'render_type' => 'none',
@@ -317,7 +317,7 @@ class Module {
 			$element->add_control(
 				'element_condition_fallback_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '.element-condition_fallback-{{ID}}' => 'color: {{VALUE}};' ),
@@ -332,7 +332,7 @@ class Module {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'element_condition_fallback_typo',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'selector'  => '.element-condition_fallback-{{ID}}',
 					'condition' => array(
@@ -345,7 +345,7 @@ class Module {
 			$element->add_control(
 				'element_condition_fallback_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'selectors' => array( '.element-condition_fallback-{{ID}}' => 'background-color: {{VALUE}};' ),
@@ -359,9 +359,9 @@ class Module {
 			$element->add_responsive_control(
 				'element_condition_fallback_width',
 				array(
-					'label'          => esc_html__( 'Largeur', 'eac-components' ),
+					'label'          => esc_html__( 'Width', 'eac-components' ),
 					'type'           => Controls_Manager::SLIDER,
-					'size_units'     => array( 'px', '%', 'vw' ),
+					'size_units'     => array( 'px', '%' ),
 					'default'        => array(
 						'size' => 70,
 						'unit' => '%',
@@ -375,15 +375,10 @@ class Module {
 					'range'          => array(
 						'px' => array(
 							'min'  => 100,
-							'max'  => 1000,
-							'step' => 10,
+							'max'  => 1400,
+							'step' => 50,
 						),
 						'%'  => array(
-							'min'  => 10,
-							'max'  => 100,
-							'step' => 10,
-						),
-						'vw' => array(
 							'min'  => 10,
 							'max'  => 100,
 							'step' => 10,
@@ -402,7 +397,7 @@ class Module {
 			$element->add_responsive_control(
 				'element_condition_fallback_height',
 				array(
-					'label'       => esc_html__( 'Hauteur (px)', 'eac-components' ),
+					'label'       => esc_html__( 'Height (px)', 'eac-components' ),
 					'type'        => Controls_Manager::SLIDER,
 					'size_units'  => array( 'px' ),
 					'default'     => array(
@@ -428,7 +423,7 @@ class Module {
 			$element->add_control(
 				'element_condition_fallback_margin',
 				array(
-					'label'              => esc_html__( 'Marges', 'eac-components' ),
+					'label'              => esc_html__( 'Margin', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'allowed_dimensions' => array( 'top', 'bottom' ),
 					'default'            => array(
@@ -459,19 +454,19 @@ class Module {
 			$element->add_responsive_control(
 				'element_condition_fallback_alignment',
 				array(
-					'label'     => esc_html__( 'Alignement du texte', 'eac-components' ),
+					'label'     => esc_html__( 'Text alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'left'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-text-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-text-align-center',
 						),
 						'right'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-text-align-{$end}",
 						),
 					),
@@ -507,7 +502,7 @@ class Module {
 			$element->add_control(
 				'element_condition_fallback_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),

@@ -28,9 +28,9 @@ class Copyright_Shortcode {
 	/**
 	 * display_current_year
 	 *
-	 * @return array $current_year L'année courante
+	 * @return string $current_year L'année courante
 	 */
-	public function display_current_year() {
+	public function display_current_year(): string {
 		$current_year = gmdate( 'Y' );
 		$current_year = do_shortcode( shortcode_unautop( $current_year ) );
 		if ( ! empty( $current_year ) ) {
@@ -44,7 +44,7 @@ class Copyright_Shortcode {
 	 *
 	 * @return string Le nom du site
 	 */
-	public function display_site_title() {
+	public function display_site_title(): string {
 		$site_title = get_bloginfo( 'name' );
 		if ( ! empty( $site_title ) ) {
 			return $site_title;
@@ -57,10 +57,10 @@ class Copyright_Shortcode {
 	 *
 	 * @return string Le nom du thème
 	 */
-	public function display_theme_name() {
+	public function display_theme_name(): string {
 		$theme_name = wp_get_theme();
 		if ( ! empty( $theme_name ) ) {
-			return $theme_name;
+			return $theme_name->get( 'Name' );
 		}
 		return '';
 	}

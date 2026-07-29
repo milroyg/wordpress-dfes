@@ -2,13 +2,15 @@
 
 namespace MasterAddons;
 
-use MasterAddons\Admin\Dashboard\Master_Addons_Admin_Settings;
-use MasterAddons\Admin\Dashboard\Addons\Extensions\JLTMA_Addon_Extensions;
-use MasterAddons\Admin\Dashboard\Addons\Elements\JLTMA_Addon_Elements;
-use MasterAddons\Inc\Helper\Master_Addons_Helper;
+use MasterAddons\Inc\Admin\Config;
+use MasterAddons\Inc\Admin\REST_API;
+use MasterAddons\Inc\Admin\Settings\Settings;
+use MasterAddons\Inc\Classes\Helper;
 use MasterAddons\Inc\Classes\Feedback;
+use MasterAddons\Inc\Classes\Freemius_Hooks;
 use MasterAddons\Inc\Classes\Pro_Upgrade;
 use MasterAddons\Inc\Classes\Recommended_Plugins;
+use MasterAddons\Inc\Classes\Utils;
 use MasterAddons\Inc\Admin\Promote_Pro_Addons;
 
 if (!defined('ABSPATH')) {
@@ -31,14 +33,11 @@ if (!class_exists('Master_Elementor_Addons')) {
 
 		const MINIMUM_PHP_VERSION = '7.0';
 		const MINIMUM_ELEMENTOR_VERSION = '3.5.0';
+		const MINIMUM_PRO_VERSION = '3.0.0';
 
 		// Changed from private to protected to allow Pro class extension
 		protected $_localize_settings = [];
 		protected $reflection;
-		protected static $plugin_path;
-		protected static $plugin_url;
-		protected static $plugin_slug;
-		public static $plugin_dir_url;
 		protected static $instance = null;
 		protected $jltma_classes = array();
 
@@ -57,11 +56,12 @@ if (!class_exists('Master_Elementor_Addons')) {
 		{
 			$this->reflection = new \ReflectionClass($this);
 			$this->jltma_register_autoloader();
-			$this->jltma_include_files();
 
-			self::$plugin_slug = 'master-addons';
-			self::$plugin_path = untrailingslashit(plugin_dir_path('/', __FILE__));
-			self::$plugin_url  = untrailingslashit(plugins_url('/', __FILE__));
+			// Register deprecated Elementor class stubs to prevent fatal errors
+			// from third-party themes/plugins using removed Scheme_Color/Scheme_Typography
+			$this->jltma_register_elementor_compat_stubs();
+
+			$this->jltma_include_files();
 
 			// Load textdomain for translations
 			add_action('init', [ $this, 'load_textdomain' ]);
@@ -84,6 +84,9 @@ if (!class_exists('Master_Elementor_Addons')) {
 			//Body Class
 			add_action('body_class', [$this, 'jltma_body_class']);
 
+			// Keep paged requests alive for widgets that paginate on singular pages
+			add_filter('pre_handle_404', [$this, 'jltma_allow_widget_pagination'], 10, 2);
+
 			// AJAX handler for plugin install/activate
 			add_action('wp_ajax_jltma_plugin_action', [$this, 'jltma_ajax_plugin_action']);
 
@@ -97,6 +100,86 @@ if (!class_exists('Master_Elementor_Addons')) {
 
 			//Redirect Hook
 			add_action('admin_init', [$this, 'jltma_add_redirect_hook']);
+
+			// Run pending upgrade migrations (e.g. legacy option key migration)
+			add_action('admin_init', [$this, 'jltma_maybe_run_upgrades'], 5);
+		}
+
+		/**
+		 * Stops WordPress from turning a paged singular request into a 404.
+		 *
+		 * WP::handle_404() only accepts the "page" query var when the post content is split
+		 * with <!--nextpage-->, so pagination rendered by a widget is answered with a 404 and
+		 * then canonically redirected back to page 1. Allow the request when the document
+		 * really does contain a widget that paginates that far.
+		 *
+		 * @see \WP::handle_404()
+		 */
+		public function jltma_allow_widget_pagination($handled, $wp_query)
+		{
+			if (false !== $handled || empty($wp_query->query_vars['page']) || !is_singular() || empty($wp_query->post)) {
+				return $handled;
+			}
+
+			if (!did_action('elementor/loaded') || !class_exists('\Elementor\Plugin')) {
+				return $handled;
+			}
+
+			$page = (int) trim($wp_query->query_vars['page'], '/');
+
+			if ($page < 2) {
+				return $handled;
+			}
+
+			$document = \Elementor\Plugin::$instance->documents->get($wp_query->post->ID);
+
+			if (!$document) {
+				return $handled;
+			}
+
+			$max_pages = $this->jltma_get_widget_max_pages($document->get_elements_data());
+
+			return ($page <= $max_pages) ? true : $handled;
+		}
+
+		/**
+		 * Highest pagination page any paginating widget in the document can render.
+		 */
+		private function jltma_get_widget_max_pages($elements)
+		{
+			$max_pages = 0;
+
+			foreach ((array) $elements as $element) {
+
+				if (!empty($element['elements'])) {
+					$max_pages = max($max_pages, $this->jltma_get_widget_max_pages($element['elements']));
+				}
+
+				if (empty($element['widgetType']) || 'ma-blog-post' !== $element['widgetType']) {
+					continue;
+				}
+
+				$settings = $element['settings'] ?? [];
+
+				if ('yes' !== ($settings['ma_el_blog_pagination'] ?? '') || 'yes' === ($settings['ma_el_blog_carousel'] ?? '')) {
+					continue;
+				}
+
+				$max_pages = max($max_pages, Helper::jltma_el_blog_get_total_pages($settings));
+			}
+
+			return $max_pages;
+		}
+
+		/**
+		 * Run pending upgrade scripts if the stored version is older than the current version.
+		 */
+		public function jltma_maybe_run_upgrades()
+		{
+			$upgrades = new \MasterAddons\Inc\Classes\Upgrades();
+			if ($upgrades->if_updates_available()) {
+				$upgrades->run_updates();
+			}
 		}
 
 		public static function jltma_elementor()
@@ -125,10 +208,25 @@ if (!class_exists('Master_Elementor_Addons')) {
 				update_option('_master_addons_version', JLTMA_VER);
 			}
 
-			$jltma_white_label_setting 	= jltma_get_options('jltma_white_label_settings') ?? [];
+			$jltma_white_label_setting 	= Utils::get_options('jltma_white_label_settings') ?? [];
 			if( !empty($jltma_white_label_setting) && isset($jltma_white_label_setting['jltma_wl_plugin_tab_white_label']) ) {
 				$jltma_white_label_setting['jltma_wl_plugin_tab_white_label'] = 0;
 				update_option( 'jltma_white_label_settings', $jltma_white_label_setting );
+			}
+
+			// Only auto-redirect to setup wizard for fresh installs or users already on 3.0.0+
+			// Old users upgrading from < 3.0.0 should NOT see the auto-redirect
+			$should_redirect = false;
+			if ( is_null( $current_version ) ) {
+				// Fresh install — show wizard
+				$should_redirect = true;
+			} elseif ( version_compare( $current_version, '3.0.0', '>=' ) ) {
+				// Re-activation of 3.0.0+ — show wizard if not completed
+				$should_redirect = true;
+			}
+
+			if ( $should_redirect ) {
+				set_transient( '_master_addons_activation_redirect', true, 30 );
 			}
 		}
 
@@ -156,6 +254,15 @@ if (!class_exists('Master_Elementor_Addons')) {
 
 
 		// Initialize
+		/**
+		 * Register stub classes for deprecated Elementor Scheme_Color / Scheme_Typography.
+		 * Prevents fatal errors from third-party themes/plugins that still use them
+		 * (e.g. Brooklyn Lite, themes built for older Elementor).
+		 */
+		private function jltma_register_elementor_compat_stubs() {
+			\MasterAddons\Inc\Classes\Elementor_Compat::init();
+		}
+
 		public function jltma_plugins_loaded()
 		{
 			$this->set_plugin_activation_time();
@@ -181,35 +288,410 @@ if (!class_exists('Master_Elementor_Addons')) {
 			// self::jltma_plugin_activation_hook();
 		}
 
+		/**
+		 * Register autoloader
+		 *
+		 * @since 2.1.0
+		 */
 		public function jltma_register_autoloader()
 		{
-			spl_autoload_register([__CLASS__, 'jltma_autoload']);
+			spl_autoload_register([$this, 'jltma_autoload']);
 		}
 
-		function jltma_autoload($class)
+		/**
+		 * Autoload classes, traits, and interfaces
+		 *
+		 * Converts namespace to file path (WordPress style: kebab-case):
+		 * - MasterAddons\Inc\Classes\Cache_Manager → inc/classes/cache-manager.php
+		 * - MasterAddons\Inc\Traits\Swiper_Controls → inc/traits/swiper-controls.php
+		 * - MasterAddons\Addons\MA_Accordion → addons/ma-accordion.php
+		 *
+		 * @param string $class Fully qualified class name
+		 */
+		public function jltma_autoload($class)
 		{
-
+			// Only handle MasterAddons namespace
 			if (0 !== strpos($class, __NAMESPACE__)) {
 				return;
 			}
 
+			// Skip if already loaded
+			if (class_exists($class, false) || interface_exists($class, false) || trait_exists($class, false)) {
+				return;
+			}
 
-			if (!class_exists($class)) {
+			// Get relative class name (without MasterAddons\ prefix)
+			$relative_class = str_replace(__NAMESPACE__ . '\\', '', $class);
 
-				$filename = strtolower(
-					preg_replace(
-						['/^' . __NAMESPACE__ . '\\\/', '/([a-z])([A-Z])/', '/_/', '/\\\/'],
-						['', '$1-$2', '-', DIRECTORY_SEPARATOR],
-						$class
-					)
-				);
+			// Handle Pro\Modules\{Category}\{Class} pattern
+			if (preg_match('/^Pro\\\\Modules\\\\([^\\\\]+)\\\\([^\\\\]+)$/', $relative_class, $matches)) {
+				$category = $this->to_kebab_case($matches[1]);
+				$class_name = $this->to_kebab_case($matches[2]);
+				$file = JLTMA_PATH . "premium/modules/{$category}/{$class_name}/{$class_name}.php";
 
-				$filename = JLTMA_PATH . $filename . '.php';
-
-				if (is_readable($filename)) {
-					include($filename);
+				if (file_exists($file)) {
+					require_once $file;
+					return;
 				}
 			}
+
+			// Handle Modules\{Category}\{Class} pattern (free)
+			if (preg_match('/^Modules\\\\([^\\\\]+)\\\\([^\\\\]+)$/', $relative_class, $matches)) {
+				$category = $this->to_kebab_case($matches[1]);
+				$class_name = $this->to_kebab_case($matches[2]);
+				$file = JLTMA_PATH . "inc/modules/{$category}/{$class_name}/{$class_name}.php";
+
+				if (file_exists($file)) {
+					require_once $file;
+					return;
+				}
+			}
+
+			// Convert namespace to file path (kebab-case)
+			$file_name = strtolower(
+				preg_replace(
+					['/([a-z])([A-Z])/', '/_/', '/\\\\/'],
+					['$1-$2', '-', '/'],
+					$relative_class
+				)
+			);
+
+			// Inc\Classes folder
+			if (0 === strpos($class, __NAMESPACE__ . '\\Inc\\Classes\\')) {
+				$file = JLTMA_PATH . $file_name . '.php';
+				if (is_readable($file)) {
+					include_once $file;
+					return;
+				}
+			}
+
+			// Inc\Controls folder
+			if (0 === strpos($class, __NAMESPACE__ . '\\Inc\\Controls\\')) {
+				$file = JLTMA_PATH . $file_name . '.php';
+				if (is_readable($file)) {
+					include_once $file;
+					return;
+				}
+			}
+
+			// Inc\Modules folder
+			if (0 === strpos($class, __NAMESPACE__ . '\\Inc\\Modules\\')) {
+				$file = JLTMA_PATH . $file_name . '.php';
+				if (is_readable($file)) {
+					include_once $file;
+					return;
+				}
+			}
+
+			// Inc\Admin\Templates folder (directory: inc/admin/templates/)
+			// NOTE: Must come BEFORE general Inc\Admin check
+			if (0 === strpos($class, __NAMESPACE__ . '\\Inc\\Admin\\Templates\\')) {
+				$templates_class = str_replace(__NAMESPACE__ . '\\Inc\\Admin\\Templates\\', '', $class);
+
+				// Handle Kits subnamespace
+				if (0 === strpos($templates_class, 'Kits\\')) {
+					$kits_class = str_replace('Kits\\', '', $templates_class);
+					$kits_file_name = strtolower(preg_replace(['/([a-z])([A-Z])/', '/_/'], ['$1-$2', '-'], $kits_class));
+					$file = JLTMA_PATH . 'inc/admin/templates/kits/class-' . $kits_file_name . '.php';
+					if (is_readable($file)) {
+						include_once $file;
+						return;
+					}
+				}
+
+				// Handle Includes subnamespace (types, classes, sources, documents)
+				if (0 === strpos($templates_class, 'Includes\\')) {
+					$includes_class = str_replace('Includes\\', '', $templates_class);
+					$includes_file_name = strtolower(
+						preg_replace(
+							['/([a-z])([A-Z])/', '/_/', '/\\\\/'],
+							['$1-$2', '-', '/'],
+							$includes_class
+						)
+					);
+					$file = JLTMA_PATH . 'inc/admin/templates/includes/' . $includes_file_name . '.php';
+					if (is_readable($file)) {
+						include_once $file;
+						return;
+					}
+				}
+
+				$templates_file_name = strtolower(
+					preg_replace(
+						['/([a-z])([A-Z])/', '/_/', '/\\\\/'],
+						['$1-$2', '-', '/'],
+						$templates_class
+					)
+				);
+				$file = JLTMA_PATH . 'inc/admin/templates/' . $templates_file_name . '.php';
+				if (is_readable($file)) {
+					include_once $file;
+					return;
+				}
+			}
+
+			// Inc\Admin\Theme_Builder folder (directory: inc/admin/theme-builder/)
+			// NOTE: Must come BEFORE general Inc\Admin check
+			if (0 === strpos($class, __NAMESPACE__ . '\\Inc\\Admin\\Theme_Builder\\')) {
+				$tb_class = str_replace(__NAMESPACE__ . '\\Inc\\Admin\\Theme_Builder\\', '', $class);
+
+				// Handle subnamespaces: Api, Comments, Hooks
+				if (0 === strpos($tb_class, 'Api\\')) {
+					$api_class = str_replace('Api\\', '', $tb_class);
+					$api_file_name = strtolower(preg_replace(['/([a-z])([A-Z])/', '/_/'], ['$1-$2', '-'], $api_class));
+					$file = JLTMA_PATH . 'inc/admin/theme-builder/inc/api/' . $api_file_name . '.php';
+					if (is_readable($file)) {
+						include_once $file;
+						return;
+					}
+				} elseif (0 === strpos($tb_class, 'Comments\\')) {
+					$comments_class = str_replace('Comments\\', '', $tb_class);
+					// Handle Addon subnamespace
+					if (0 === strpos($comments_class, 'Addon\\')) {
+						$addon_class = str_replace('Addon\\', '', $comments_class);
+						$file = JLTMA_PATH . 'inc/admin/theme-builder/inc/comments/jltma-comments-addon.php';
+					} else {
+						$comments_file_name = strtolower(preg_replace(['/([a-z])([A-Z])/', '/_/'], ['$1-$2', '-'], $comments_class));
+						$file = JLTMA_PATH . 'inc/admin/theme-builder/inc/comments/class-' . $comments_file_name . '.php';
+					}
+					if (is_readable($file)) {
+						include_once $file;
+						return;
+					}
+				} elseif (0 === strpos($tb_class, 'Theme_Hooks\\')) {
+					$hooks_class = str_replace('Theme_Hooks\\', '', $tb_class);
+					$hooks_file_name = strtolower(preg_replace(['/([a-z])([A-Z])/', '/_/'], ['$1-$2', '-'], $hooks_class));
+					$file = JLTMA_PATH . 'inc/admin/theme-builder/inc/theme-hooks/' . $hooks_file_name . '.php';
+					if (is_readable($file)) {
+						include_once $file;
+						return;
+					}
+				} else {
+					// Main Theme_Builder classes
+					$tb_file_name = strtolower(preg_replace(['/([a-z])([A-Z])/', '/_/'], ['$1-$2', '-'], $tb_class));
+					// Try class-{name}.php format first
+					$file = JLTMA_PATH . 'inc/admin/theme-builder/class-' . $tb_file_name . '.php';
+					if (is_readable($file)) {
+						include_once $file;
+						return;
+					}
+					// Try inc/{name}.php format
+					$file = JLTMA_PATH . 'inc/admin/theme-builder/inc/' . $tb_file_name . '.php';
+					if (is_readable($file)) {
+						include_once $file;
+						return;
+					}
+					// Try specific file mappings
+					$tb_file_map = [
+						'Loader' => 'theme-builder.php',
+						'Theme_Builder' => 'class-theme-builder.php',
+						'CPT' => 'inc/cpt.php',
+						'CPT_Hooks' => 'inc/cpt-hooks.php',
+						'Activator' => 'inc/jltma-activator.php',
+						'Assets' => 'inc/theme-builder-assets.php',
+					];
+					if (isset($tb_file_map[$tb_class])) {
+						$file = JLTMA_PATH . 'inc/admin/theme-builder/' . $tb_file_map[$tb_class];
+						if (is_readable($file)) {
+							include_once $file;
+							return;
+						}
+					}
+				}
+			}
+
+			// Inc\Admin\PopupBuilder folder (directory: inc/admin/popup-builder/)
+			// NOTE: Must come BEFORE general Inc\Admin check
+			if (0 === strpos($class, __NAMESPACE__ . '\\Inc\\Admin\\PopupBuilder\\')) {
+				$pb_class = str_replace(__NAMESPACE__ . '\\Inc\\Admin\\PopupBuilder\\', '', $class);
+				$pb_file_name = strtolower(preg_replace(['/([a-z])([A-Z])/', '/_/'], ['$1-$2', '-'], $pb_class));
+
+				$file = JLTMA_PATH . 'inc/admin/popup-builder/class-' . $pb_file_name . '.php';
+				if (is_readable($file)) {
+					include_once $file;
+					return;
+				}
+			}
+
+			// Inc\Admin\WidgetBuilder folder (directory: inc/admin/widget-builder/)
+			// NOTE: Must come BEFORE general Inc\Admin check
+			if (0 === strpos($class, __NAMESPACE__ . '\\Inc\\Admin\\WidgetBuilder\\')) {
+				$wb_class = str_replace(__NAMESPACE__ . '\\Inc\\Admin\\WidgetBuilder\\', '', $class);
+
+				// Handle Controls subnamespace
+				if (0 === strpos($wb_class, 'Controls\\')) {
+					$control_class = str_replace('Controls\\', '', $wb_class);
+					$control_file_name = strtolower(preg_replace(['/([a-z])([A-Z])/', '/_/'], ['$1-$2', '-'], $control_class));
+					$file = JLTMA_PATH . 'inc/admin/widget-builder/controls/' . $control_file_name . '.php';
+					if (is_readable($file)) {
+						include_once $file;
+						return;
+					}
+				}
+
+				// File mapping for widget-builder classes
+				$wb_file_map = [
+					'Widget_Builder_Init' => 'class-widget-builder-init.php',
+					'Widget_CPT' => 'class-widget-cpt.php',
+					'Widget_Admin' => 'class-widget-admin.php',
+					'Widget_Generator' => 'class-widget-generator.php',
+					'REST_Controller' => 'class-rest-controller.php',
+					'Shortcode_Manager' => 'class-shortcode-manager.php',
+					'Control_Manager' => 'class-control-manager.php',
+					'Icon_Library_Helper' => 'icon-library-helper.php',
+					'Control_Base' => 'controls/class-control-base.php',
+				];
+				if (isset($wb_file_map[$wb_class])) {
+					$file = JLTMA_PATH . 'inc/admin/widget-builder/' . $wb_file_map[$wb_class];
+					if (is_readable($file)) {
+						include_once $file;
+						return;
+					}
+				}
+
+				// Fallback: Try kebab-case filename
+				$wb_file_name = strtolower(preg_replace(['/([a-z])([A-Z])/', '/_/'], ['$1-$2', '-'], $wb_class));
+				$file = JLTMA_PATH . 'inc/admin/widget-builder/' . $wb_file_name . '.php';
+				if (is_readable($file)) {
+					include_once $file;
+					return;
+				}
+			}
+
+			// Inc\Admin folder (general - must come AFTER specific Inc\Admin\* checks)
+			if (0 === strpos($class, __NAMESPACE__ . '\\Inc\\Admin\\')) {
+				$file = JLTMA_PATH . $file_name . '.php';
+				if (is_readable($file)) {
+					include_once $file;
+					return;
+				}
+			}
+
+			// Inc\Traits folder
+			if (0 === strpos($class, __NAMESPACE__ . '\\Inc\\Traits\\')) {
+				$file = JLTMA_PATH . $file_name . '.php';
+				if (is_readable($file)) {
+					include_once $file;
+					return;
+				}
+			}
+
+			// Lib folder (lib/*.php)
+			if (0 === strpos($class, __NAMESPACE__ . '\\Lib\\')) {
+				$lib_class = str_replace(__NAMESPACE__ . '\\Lib\\', '', $class);
+				$lib_file_name = strtolower(
+					preg_replace(
+						['/([a-z])([A-Z])/', '/_/'],
+						['$1-$2', '-'],
+						$lib_class
+					)
+				);
+				$file = JLTMA_PATH . 'lib/' . $lib_file_name . '.php';
+				if (is_readable($file)) {
+					include_once $file;
+					return;
+				}
+				// Try PascalCase filename (Featured.php, etc.)
+				$file = JLTMA_PATH . 'lib/' . $lib_class . '.php';
+				if (is_readable($file)) {
+					include_once $file;
+					return;
+				}
+			}
+
+			// Pro\Classes folder (premium classes: premium/classes/)
+			if (0 === strpos($class, __NAMESPACE__ . '\\Pro\\Classes\\')) {
+				$pro_class = str_replace(__NAMESPACE__ . '\\Pro\\Classes\\', '', $class);
+				$pro_file_name = strtolower(
+					preg_replace(
+						['/([a-z])([A-Z])/', '/_/', '/\\\\/'],
+						['$1-$2', '-', '/'],
+						$pro_class
+					)
+				);
+				$file = JLTMA_PATH . 'premium/classes/' . $pro_file_name . '.php';
+				if (is_readable($file)) {
+					include_once $file;
+					return;
+				}
+			}
+
+
+			// Addons folder - organized by groups/subcategories (group/subcategory/widget/)
+			if (0 === strpos($class, __NAMESPACE__ . '\\Addons\\')) {
+				// Get class name and convert to file name
+				$class_name = str_replace(__NAMESPACE__ . '\\Addons\\', '', $class);
+				$addon_file_name = strtolower(
+					preg_replace(
+						['/([a-z])([A-Z])/', '/_/'],
+						['$1-$2', '-'],
+						$class_name
+					)
+				);
+				// Scan addons directory for group/subcategory subdirectories
+				$addons_dir = JLTMA_PATH . 'addons/';
+				if (is_dir($addons_dir)) {
+					$groups = array_filter(glob($addons_dir . '*'), 'is_dir');
+					foreach ($groups as $group_path) {
+						// Check in subcategories (group/subcategory/widget/)
+						$subcategories = array_filter(glob($group_path . '/*'), 'is_dir');
+						foreach ($subcategories as $subcategory_path) {
+							$file = $subcategory_path . '/' . $addon_file_name . '/' . $addon_file_name . '.php';
+							if (is_readable($file)) {
+								include_once $file;
+								return;
+							}
+						}
+					}
+				}
+			}
+
+			// Modules folder - organized by groups/subcategories (group/subcategory/module/)
+			if (0 === strpos($class, __NAMESPACE__ . '\\Modules\\')) {
+				$class_name = str_replace(__NAMESPACE__ . '\\Modules\\', '', $class);
+				$module_file_name = strtolower(
+					preg_replace(
+						['/([a-z])([A-Z])/', '/_/'],
+						['$1-$2', '-'],
+						$class_name
+					)
+				);
+				// Remove 'extension-' prefix if present for folder lookup
+				$folder_name = str_replace('extension-', '', $module_file_name);
+				// Scan modules directory for group/subcategory subdirectories
+				$modules_dir = JLTMA_PATH . 'inc/modules/';
+				if (is_dir($modules_dir)) {
+					$groups = array_filter(glob($modules_dir . '*'), 'is_dir');
+					foreach ($groups as $group_path) {
+						// Check in subcategories (group/subcategory/module/)
+						$subcategories = array_filter(glob($group_path . '/*'), 'is_dir');
+						foreach ($subcategories as $subcategory_path) {
+							$file = $subcategory_path . '/' . $folder_name . '/' . $folder_name . '.php';
+							if (is_readable($file)) {
+								include_once $file;
+								return;
+							}
+						}
+					}
+				}
+			}
+
+			// Fallback: try direct path
+			$file = JLTMA_PATH . $file_name . '.php';
+			if (is_readable($file)) {
+				include_once $file;
+			}
+		}
+
+		/**
+		 * Convert PascalCase to kebab-case
+		 *
+		 * @param string $string PascalCase string
+		 * @return string kebab-case string
+		 */
+		private function to_kebab_case($string)
+		{
+			return strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $string));
 		}
 
 		function jltma_add_category_to_editor($widgets_manager)
@@ -233,68 +715,48 @@ if (!class_exists('Master_Elementor_Addons')) {
 		// Widget Elements
 		public static function activated_widgets()
 		{
-			$jltma_default_element_settings 	= array_fill_keys(Master_Addons_Admin_Settings::jltma_addons_array(), true);
-			$jltma_get_element_settings     	= get_option('maad_el_save_settings', $jltma_default_element_settings);
-			$jltma_new_element_settings     	= array_diff_key($jltma_default_element_settings, $jltma_get_element_settings);
-			$jltma_updated_element_settings 	= array_merge($jltma_get_element_settings, $jltma_new_element_settings);
-
-			if ($jltma_get_element_settings === false) {
-				$jltma_updated_element_settings = $jltma_default_element_settings;
+			// get_addons() migrates from legacy key automatically.
+			// Only seed defaults on a genuine first install (no new AND no legacy key).
+			$data = Settings::get_addons();
+			if (empty($data)) {
+				$data = Settings::get_default_addon_settings();
+				Settings::save_addons($data);
 			}
-			update_option('maad_el_save_settings', $jltma_updated_element_settings);
-
-			return $jltma_updated_element_settings;
+			return $data;
 		}
 
 		// Extensions
 		public static function activated_extensions()
 		{
-			$jltma_default_extensions_settings 	= array_fill_keys(Master_Addons_Admin_Settings::jltma_addons_extensions_array(), true);
-			$jltma_default_extensions_settings['mega-menu'] = 0;
-			$jltma_get_extension_settings     	= get_option('ma_el_extensions_save_settings', $jltma_default_extensions_settings);
-			$jltma_new_extension_settings     	= array_diff_key($jltma_default_extensions_settings, $jltma_get_extension_settings);
-			$jltma_updated_extension_settings 	= array_merge($jltma_get_extension_settings, $jltma_new_extension_settings);
-
-			if ($jltma_get_extension_settings === false) {
-				$jltma_updated_extension_settings = $jltma_default_extensions_settings;
+			$data = Settings::get_extensions();
+			if (empty($data)) {
+				$data = Settings::get_default_extension_settings();
+				Settings::save_extensions($data);
 			}
-
-			update_option('ma_el_extensions_save_settings', $jltma_updated_extension_settings);
-
-			return $jltma_updated_extension_settings;
+			return $data;
 		}
 
 
 		// Third Party Plugins
 		public static function activated_third_party_plugins()
 		{
-			$jltma_third_party_plugins_settings 		= array_fill_keys(Master_Addons_Admin_Settings::jltma_addons_third_party_plugins_array(), true);
-			$jltma_get_third_party_plugins_settings     = get_option('ma_el_third_party_plugins_save_settings', $jltma_third_party_plugins_settings);
-			$jltma_new_third_party_plugins_settings     = array_diff_key($jltma_third_party_plugins_settings, $jltma_get_third_party_plugins_settings);
-			$jltma_updated_third_party_plugins_settings = array_merge($jltma_get_third_party_plugins_settings, $jltma_new_third_party_plugins_settings);
-
-			if ($jltma_get_third_party_plugins_settings === false) {
-				$jltma_updated_third_party_plugins_settings = $jltma_third_party_plugins_settings;
+			$data = Settings::get_plugins();
+			if (empty($data)) {
+				$data = Settings::get_default_plugin_settings();
+				Settings::save_plugins($data);
 			}
-			update_option('ma_el_third_party_plugins_save_settings', $jltma_updated_third_party_plugins_settings);
-
-			return $jltma_updated_third_party_plugins_settings;
+			return $data;
 		}
 
 		// Icons Library
 		public static function activated_icons_library()
 		{
-			$jltma_icons_library_settings           = array_fill_keys(Master_Addons_Admin_Settings::jltma_addons_icons_library_array(), true);
-			$jltma_get_icons_library_settings       = get_option('jltma_icons_library_save_settings', $jltma_icons_library_settings);
-			$jltma_new_icons_library_settings       = array_diff_key($jltma_icons_library_settings, $jltma_get_icons_library_settings);
-			$jltma_updated_icons_library_settings   = array_merge($jltma_get_icons_library_settings, $jltma_new_icons_library_settings);
-
-			if ($jltma_get_icons_library_settings === false) {
-				$jltma_updated_icons_library_settings = $jltma_icons_library_settings;
+			$data = Settings::get_icons();
+			if (empty($data)) {
+				$data = Settings::get_default_icon_settings();
+				Settings::save_icons($data);
 			}
-			update_option('jltma_icons_library_save_settings', $jltma_updated_icons_library_settings);
-
-			return $jltma_updated_icons_library_settings;
+			return $data;
 		}
 
 		/**
@@ -310,25 +772,24 @@ if (!class_exists('Master_Elementor_Addons')) {
 		 * @return void
 		 */
 		public function jltma_add_actions_to_elementor() {
-			$classes = glob(JLTMA_PATH . 'inc/classes/JLTMA_*.php');
+			// Ensure all settings exist in DB (seeds defaults on first install).
+			// These are no-ops when the option already exists, so the overhead is negligible.
+			self::activated_third_party_plugins();
+			self::activated_icons_library();
 
-			// include all classes FIRST (extensions depend on JLTMA_Extension_Prototype)
-			foreach ($classes as $key => $value) {
-					require_once $value;
-			}
-
-			// Load extensions AFTER prototype classes are loaded
+			// Load extensions (extension-prototype.php is loaded in jltma_include_files)
 			$this->jltma_load_extensions();
 
-			// instance all classes
-			foreach ($classes as $key => $value) {
-					$name = pathinfo($value, PATHINFO_FILENAME);
-					$class = self::$class_namespace . $name;
-
-					// Now this will no longer trigger a deprecated warning
-					$this->jltma_classes[strtolower($name)] = new $class();
+			// Icons Extended lives outside the extensions_category groups,
+			// so register_extensions() doesn't pick it up. Load it directly.
+			$activated_extensions = Settings::get_extensions() ?: [];
+			if (!isset($activated_extensions['icons_extended']) || $activated_extensions['icons_extended']) {
+				$icons_file = JLTMA_PATH . 'inc/modules/utilities/icons-extended/icons-extended.php';
+				if (file_exists($icons_file)) {
+					require_once $icons_file;
+				}
 			}
-	}
+		}
 
 		public function jltma_register_controls($controls_manager)
 		{
@@ -338,38 +799,43 @@ if (!class_exists('Master_Elementor_Addons')) {
 			$controls = array(
 				'jltma-visual-select' => array(
 					'file'  => JLTMA_PATH . 'inc/controls/visual-select.php',
-					'class' => 'MasterAddons\Inc\Controls\MA_Control_Visual_Select',
+					'class' => 'MasterAddons\Inc\Controls\JLTMA_Visual_Select',
 					'type'  => 'single'
 				),
 				'jltma-transitions' => array(
 					'file'  => JLTMA_PATH . 'inc/controls/group/transitions.php',
-					'class' => 'MasterAddons\Inc\Controls\MA_Group_Control_Transition',
+					'class' => 'MasterAddons\Inc\Controls\Group\JLTMA_Transition',
 					'type'  => 'group'
 				),
 				'jltma-filters-hsb' => array(
 					'file'  => JLTMA_PATH . 'inc/controls/group/filters-hsb.php',
-					'class' => 'MasterAddons\Inc\Controls\MA_Group_Control_Filters_HSB',
+					'class' => 'MasterAddons\Inc\Controls\Group\JLTMA_Filters_HSB',
 					'type'  => 'group'
 				),
 				'jltma-button-background' => array(
 					'file'  => JLTMA_PATH . 'inc/controls/group/button-background.php',
-					'class' => 'MasterAddons\Inc\Controls\MA_Group_Control_Button_Background',
+					'class' => 'MasterAddons\Inc\Controls\Group\JLTMA_Button_Background',
 					'type'  => 'group'
 				),
 				'jltma-choose-text' => array(
 					'file'  => JLTMA_PATH . 'inc/controls/choose-text.php',
-					'class' => 'MasterAddons\Inc\Controls\JLTMA_Control_Choose_Text',
+					'class' => 'MasterAddons\Inc\Controls\JLTMA_Choose_Text',
 					'type'  => 'single'
 				),
 				'jltma-file-select' => array(
 					'file'  => JLTMA_PATH . 'inc/controls/file-select.php',
-					'class' => 'MasterAddons\Inc\Controls\JLTMA_Control_File_Select',
+					'class' => 'MasterAddons\Inc\Controls\JLTMA_File_Select',
 					'type'  => 'single'
 				),
 				'jltma_query' => array(
-					'file'  => JLTMA_PATH . 'inc/controls/jltma-query.php',
-					'class' => 'MasterAddons\Inc\Controls\JLTMA_Control_Query',
+					'file'  => JLTMA_PATH . 'inc/controls/query.php',
+					'class' => 'MasterAddons\Inc\Controls\JLTMA_Query',
 					'type'  => 'single'
+				),
+				'jltma-template-controls' => array(
+					'file'  => JLTMA_PATH . 'inc/controls/templates/template-controls.php',
+					'class' => 'MasterAddons\Inc\Controls\Templates\JLTMA_Template_Controls',
+					'type'  => 'template'
 				),
 
 			);
@@ -387,6 +853,9 @@ if (!class_exists('Master_Elementor_Addons')) {
 
 					if ($control_info['type'] === 'group') {
 						$controls_manager->add_group_control($control_type, new $class_name());
+					} elseif ($control_info['type'] === 'template') {
+						// Template classes are just included, not registered with Elementor
+						continue;
 					} else {
 						$controls_manager->register(new $class_name());
 					}
@@ -402,19 +871,17 @@ if (!class_exists('Master_Elementor_Addons')) {
 		public function jltma_init_widgets()
 		{
 			$activated_widgets = self::activated_widgets();
-			$is_premium = ma_el_fs()->can_use_premium_code__premium_only();
+			$is_premium = Helper::jltma_premium();
 
 			// Network Check
-			if (defined('JLTMA_NETWORK_ACTIVATED') && JLTMA_NETWORK_ACTIVATED) {
+			if (defined('NETWORK_ACTIVATED') && JLTMA_NETWORK_ACTIVATED) {
 				global $wpdb;
-				$blogs = $wpdb->get_results("
-				    SELECT blog_id
-				    FROM {$wpdb->blogs}
-				    WHERE site_id = '{$wpdb->siteid}'
-				    AND spam = '0'
-				    AND deleted = '0'
-				    AND archived = '0'
-				");
+				$blogs = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- direct query required for multisite blog enumeration; result is not user-supplied
+					$wpdb->prepare(
+						"SELECT blog_id FROM {$wpdb->blogs} WHERE site_id = %d AND spam = '0' AND deleted = '0' AND archived = '0'",
+						$wpdb->siteid
+					)
+				);
 				$original_blog_id = get_current_blog_id();
 
 				foreach ($blogs as $blog_id) {
@@ -429,8 +896,8 @@ if (!class_exists('Master_Elementor_Addons')) {
 
 		private function register_widgets($activated_widgets, $is_premium)
 		{
-			$widget_manager = Master_Addons_Helper::jltma_elementor()->widgets_manager;
-			$jltma_all_addons = Master_Addons_Admin_Settings::jltma_merged_addons_array();
+			$widget_manager = Helper::jltma_elementor()->widgets_manager;
+			$jltma_all_addons = Config::get_all_elements_for_settings();
 			ksort($jltma_all_addons);
 
 			foreach ($jltma_all_addons as $key => $widget) {
@@ -445,14 +912,79 @@ if (!class_exists('Master_Elementor_Addons')) {
 					continue;
 				}
 
-				// Determine widget file path
-				$widget_path = ($is_premium && $is_pro_widget) ? JLTMA_PRO_ADDONS : JLTMA_ADDONS;
-				$widget_file = $widget_path . $widget['key'] . '/' . $widget['key'] . '.php';
+				// Skip pro widgets if the pro base class isn't available
+				// (e.g., pro autoloader not registered due to version mismatch)
+				if ($is_pro_widget && !class_exists('\\MasterAddons\\Pro\\Classes\\Base\\Master_Widgets_Pro')) {
+					continue;
+				}
 
-				if (file_exists($widget_file)) {
+				// Determine widget file path (group/subcategory/widget/)
+				$group = isset($widget['group']) ? $widget['group'] : '';
+				$subcategory = isset($widget['subcategory']) ? $widget['subcategory'] : '';
+				$widget_key = $widget['key'];
+				$widget_file = null;
+
+				// Search using group from config
+				if ($group) {
+					$search_paths = [];
+
+					// Try direct path first (group/widget/) - handles flat folder structures
+					$search_paths[] = JLTMA_ADDONS . $group . '/' . $widget_key . '/' . $widget_key . '.php';
+					if (defined('JLTMA_PRO_ADDONS')) {
+						$search_paths[] = JLTMA_PRO_ADDONS . $group . '/' . $widget_key . '/' . $widget_key . '.php';
+					}
+
+					// Then try full subcategory path if subcategory is set (group/subcategory/widget/)
+					if ($subcategory && $group !== $subcategory) {
+						$search_paths[] = JLTMA_ADDONS . $group . '/' . $subcategory . '/' . $widget_key . '/' . $widget_key . '.php';
+						if (defined('JLTMA_PRO_ADDONS')) {
+							$search_paths[] = JLTMA_PRO_ADDONS . $group . '/' . $subcategory . '/' . $widget_key . '/' . $widget_key . '.php';
+						}
+					}
+
+					foreach ($search_paths as $path) {
+						if (file_exists($path)) {
+							$widget_file = $path;
+							break;
+						}
+					}
+				}
+
+				// Dynamic scan if not found (search group/widget/ and group/subcat/widget/ patterns)
+				if (!$widget_file) {
+					$base_dirs = [JLTMA_ADDONS];
+					if (defined('JLTMA_PRO_ADDONS')) {
+						$base_dirs[] = JLTMA_PRO_ADDONS;
+					}
+					foreach ($base_dirs as $base_dir) {
+						if (!is_dir($base_dir)) continue;
+						$groups = array_filter(glob($base_dir . '*'), 'is_dir');
+						foreach ($groups as $group_path) {
+							// First try direct: group/widget/widget.php
+							$direct_path = $group_path . '/' . $widget_key . '/' . $widget_key . '.php';
+							if (file_exists($direct_path)) {
+								$widget_file = $direct_path;
+								break 2;
+							}
+							// Then try nested: group/subcat/widget/widget.php
+							$subdirs = array_filter(glob($group_path . '/*'), 'is_dir');
+							foreach ($subdirs as $subdir_path) {
+								$path = $subdir_path . '/' . $widget_key . '/' . $widget_key . '.php';
+								if (file_exists($path)) {
+									$widget_file = $path;
+									break 3;
+								}
+							}
+						}
+					}
+				}
+
+				if ($widget_file) {
 					require_once $widget_file;
 					$class_name = $widget['class'];
-					$widget_manager->register(new $class_name);
+					if (class_exists($class_name)) {
+						$widget_manager->register(new $class_name);
+					}
 				}
 			}
 		}
@@ -463,19 +995,17 @@ if (!class_exists('Master_Elementor_Addons')) {
 		public function jltma_load_extensions()
 		{
 			$activated_extensions = self::activated_extensions();
-			$is_premium = ma_el_fs()->can_use_premium_code__premium_only();
+			$is_premium = Helper::jltma_premium();
 
 			// Network Check
-			if (defined('JLTMA_NETWORK_ACTIVATED') && JLTMA_NETWORK_ACTIVATED) {
+			if (defined('NETWORK_ACTIVATED') && JLTMA_NETWORK_ACTIVATED) {
 				global $wpdb;
-				$blogs = $wpdb->get_results("
-				    SELECT blog_id
-				    FROM {$wpdb->blogs}
-				    WHERE site_id = '{$wpdb->siteid}'
-				    AND spam = '0'
-				    AND deleted = '0'
-				    AND archived = '0'
-				");
+				$blogs = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- direct query required for multisite blog enumeration; result is not user-supplied
+					$wpdb->prepare(
+						"SELECT blog_id FROM {$wpdb->blogs} WHERE site_id = %d AND spam = '0' AND deleted = '0' AND archived = '0'",
+						$wpdb->siteid
+					)
+				);
 				$original_blog_id = get_current_blog_id();
 
 				foreach ($blogs as $blog_id) {
@@ -490,10 +1020,12 @@ if (!class_exists('Master_Elementor_Addons')) {
 
 		private function register_extensions($activated_extensions, $is_premium)
 		{
-			ksort(JLTMA_Addon_Extensions::$jltma_extensions['jltma-extensions']['extension']);
+			$extensions = Config::get_extensions();
+			ksort($extensions);
 
-			foreach (JLTMA_Addon_Extensions::$jltma_extensions['jltma-extensions']['extension'] as $extension) {
-				if (!isset($activated_extensions[$extension['key']]) || !$activated_extensions[$extension['key']]) {
+			foreach ($extensions as $key => $extension) {
+				// Treat missing keys as enabled (default is all-on; missing = newly added)
+				if (isset($activated_extensions[$key]) && !$activated_extensions[$key]) {
 					continue;
 				}
 
@@ -504,11 +1036,73 @@ if (!class_exists('Master_Elementor_Addons')) {
 					continue;
 				}
 
-				// Determine extension file path
-				$extension_path = ($is_premium && $is_pro_extension) ? JLTMA_PRO_EXTENSIONS : JLTMA_PATH . 'inc/modules/';
-				$extension_file = $extension_path . $extension['key'] . '/' . $extension['key'] . '.php';
+				// Determine extension file path (group/extension/)
+				$group = isset($extension['group']) ? $extension['group'] : '';
+				$subcategory = isset($extension['subcategory']) ? $extension['subcategory'] : '';
 
-				if (file_exists($extension_file)) {
+				$base_paths = [];
+				if ($is_premium && $is_pro_extension) {
+					// In Freemius code split, JLTMA_PRO_DIR points to the pro plugin
+					// while JLTMA_PRO_EXTENSIONS may point to the free plugin's non-existent premium dir
+					if (defined('JLTMA_PRO_DIR')) {
+						$base_paths[] = JLTMA_PRO_DIR . 'premium/modules/';
+					}
+					if (defined('JLTMA_PRO_EXTENSIONS') && !in_array(JLTMA_PRO_EXTENSIONS, $base_paths, true)) {
+						$base_paths[] = JLTMA_PRO_EXTENSIONS;
+					}
+				}
+				if (empty($base_paths)) {
+					$base_paths = [JLTMA_PATH . 'inc/modules/'];
+				}
+
+				$extension_file = null;
+
+				// Search using group from config
+				if ($group) {
+					foreach ($base_paths as $base_path) {
+						// Try direct path first: group/extension/extension.php
+						$path = $base_path . $group . '/' . $key . '/' . $key . '.php';
+						if (file_exists($path)) {
+							$extension_file = $path;
+							break;
+						}
+						// Try with subcategory if set: group/subcategory/extension/extension.php
+						if ($subcategory && $group !== $subcategory) {
+							$path = $base_path . $group . '/' . $subcategory . '/' . $key . '/' . $key . '.php';
+							if (file_exists($path)) {
+								$extension_file = $path;
+								break;
+							}
+						}
+					}
+				}
+
+				// Dynamic scan if not found (search group/extension/ and group/subcat/extension/ patterns)
+				if (!$extension_file) {
+					foreach ($base_paths as $base_path) {
+						if (!is_dir($base_path)) continue;
+						$groups = array_filter(glob($base_path . '*'), 'is_dir');
+						foreach ($groups as $group_path) {
+							// First try direct: group/extension/extension.php
+							$direct_path = $group_path . '/' . $key . '/' . $key . '.php';
+							if (file_exists($direct_path)) {
+								$extension_file = $direct_path;
+								break 2;
+							}
+							// Then try nested: group/subcat/extension/extension.php
+							$subdirs = array_filter(glob($group_path . '/*'), 'is_dir');
+							foreach ($subdirs as $subdir_path) {
+								$path = $subdir_path . '/' . $key . '/' . $key . '.php';
+								if (file_exists($path)) {
+									$extension_file = $path;
+									break 3;
+								}
+							}
+						}
+					}
+				}
+
+				if ($extension_file) {
 					require_once $extension_file;
 				}
 			}
@@ -522,7 +1116,7 @@ if (!class_exists('Master_Elementor_Addons')) {
 
 		public function jltma_editor_scripts_css()
 		{
-			wp_enqueue_style('master-addons-editor', JLTMA_URL . '/assets/css/master-addons-editor.css');
+			wp_enqueue_style('master-addons-editor', JLTMA_URL . '/assets/css/master-addons-editor.css', array(), JLTMA_VER);
 		}
 
 
@@ -541,12 +1135,44 @@ if (!class_exists('Master_Elementor_Addons')) {
 		 */
 		public function jltma_add_redirect_hook()
 		{
+			// Skip redirects on AJAX/CLI
+			if (wp_doing_ajax() || (defined('WP_CLI') && WP_CLI)) {
+				return;
+			}
+
+			// Setup Wizard redirect — only on first activation via transient.
+			// After activation, users can freely navigate; wizard menu stays visible until completed.
+			if (apply_filters('jltma/setup_wizard_run', true) && get_transient('_master_addons_activation_redirect') && !REST_API::is_setup_complete()) {
+
+				// Don't redirect on multi-plugin activation
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check of a WordPress-set admin query var for activation-redirect flow; not form processing.
+				if (isset($_GET['activate-multi'])) {
+					delete_transient('_master_addons_activation_redirect');
+					return;
+				}
+
+				// Already on the wizard page — don't redirect loop
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check of the current admin page query var; not form processing.
+				if (isset($_GET['page']) && $_GET['page'] === 'master-addons-setup-wizard') {
+					delete_transient('_master_addons_activation_redirect');
+					return;
+				}
+
+				// Consume activation transient and redirect to wizard
+				delete_transient('_master_addons_activation_redirect');
+
+				wp_safe_redirect(admin_url('admin.php?page=master-addons-setup-wizard'));
+				exit;
+			}
+
+			// Legacy redirect
 			if (is_plugin_active('elementor/elementor.php')) {
 				if (get_option('ma_el_update_redirect', false)) {
 					delete_option('ma_el_update_redirect');
 					delete_transient('ma_el_update_redirect');
+					// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check of a WordPress-set admin query var for activation-redirect flow; not form processing.
 					if (!isset($_GET['activate-multi']) && $this->is_elementor_activated()) {
-						wp_redirect('admin.php?page=master-addons-settings');
+						wp_safe_redirect('admin.php?page=master-addons-settings');
 						exit;
 					}
 				}
@@ -565,140 +1191,58 @@ if (!class_exists('Master_Elementor_Addons')) {
 		}
 
 
-		// Include Files
+		/**
+		 * Initialize core classes and load non-autoloadable files
+		 * Classes/traits are autoloaded - this only handles initialization and bootstrapping files
+		 */
 		public function jltma_include_files()
 		{
+			// Bootstrap file that initializes template system (calls master_addons_templates())
+			require_once JLTMA_PATH . 'inc/admin/templates/templates.php';
 
-				// Helper Class (must be loaded before Freemius_Hooks which depends on it)
-				include_once JLTMA_PATH . 'inc/classes/helper-class.php';
+			// Initialize singletons (autoloader loads the classes)
+			\MasterAddons\Inc\Classes\Background_Task_Manager::get_instance();
+			add_filter('cron_schedules', [\MasterAddons\Inc\Classes\Background_Task_Manager::get_instance(), 'add_cron_intervals']);
+			\MasterAddons\Inc\Classes\Assets_Manager::get_instance();  // Register vendor assets (always needed)
+			\MasterAddons\Inc\Classes\Assets_Loader::get_instance();
+			\MasterAddons\Inc\Classes\Cache_Manager::get_instance();
+			\MasterAddons\Inc\Classes\Template_Library_Cache::get_instance();
+			\MasterAddons\Inc\Classes\Template_Kit_Cache::get_instance();
+			\MasterAddons\Inc\Classes\Ajax_Queries::get_instance();
+			Promote_Pro_Addons::get_instance();
+			
+			Recommended_Plugins::get_instance();
 
-				// Freemius Hooks
-				include_once JLTMA_PATH . 'inc/classes/Freemius_Hooks.php';
+			\MasterAddons\Inc\Admin\Theme_Builder\Loader::get_instance();
+			\MasterAddons\Inc\Admin\PopupBuilder\Popup_Builder_Init::get_instance();
+			\MasterAddons\Inc\Admin\WidgetBuilder\Widget_Builder_Init::get_instance();
+			REST_API::get_instance();
 
-				// Base Class
-				// include_once JLTMA_PATH . 'inc/classes/Base/Base.php';
+			\MasterAddons\Inc\Admin\Page_Importer::get_instance();
 
-				// Assets Manager
-				include_once JLTMA_PATH . 'inc/classes/assets-manager.php';
+			// Admin Settings
+			new \MasterAddons\Inc\Admin\Settings\Settings();
 
-				// Templates Control Class
-				include_once JLTMA_PATH . 'inc/classes/template-controls.php';
+			// Freemius hooks (filters, submenu reorder, etc.) — must load for all users
+			Freemius_Hooks::get_instance();
 
-				//Reset Theme Styles
-				include_once JLTMA_PATH . 'inc/classes/class-reset-themes.php';
+			// Feedback dialog (deactivation survey) — loads for all users (CSS + dialog)
+			new Feedback();
 
-				// Dashboard Settings
-				include_once JLTMA_PATH . 'inc/admin/dashboard-settings.php';
+			// Admin notifications (latest updates, rating, subscribe, etc.)
+			// Deferred to init so textdomain is loaded before any __() calls.
+			add_action('init', function () {
+				new \MasterAddons\Inc\Classes\Notifications\Notifications();
+			});
 
-				// Promote Pro Addons
-				include_once JLTMA_PATH . 'inc/admin/promote-pro-addons.php';
-				Promote_Pro_Addons::get_instance();
+			// Dashboard widget for all users
+			$pro_upgrade = new Pro_Upgrade();
 
-				// Page Importer
-				include_once JLTMA_PATH . 'inc/admin/class-jltma-page-importer.php';
-
-				// Master Addons Demo Importer (Standalone System)
-				include_once JLTMA_PATH . 'inc/classes/importer/class-jltma-templates-importer.php';
-				include_once JLTMA_PATH . 'inc/classes/importer/class-jltma-demo-importer.php';
-
-
-				// Theme Builder
-				include_once JLTMA_PATH . 'inc/admin/theme-builder/theme-builder.php';
-
-				//Utils
-				include_once JLTMA_PATH . 'inc/classes/utils.php';
-
-				//Rollback
-				include_once JLTMA_PATH . 'inc/classes/rollback.php';
-
-				// Template Conditions Upgrader
-				include_once JLTMA_PATH . 'inc/classes/Upgrades/Template_Conditions_Upgrader.php';
-
-				// Templates
-				require_once JLTMA_PATH . 'inc/templates/templates.php';
-
-				// Extensions
-				require_once JLTMA_PATH . 'inc/classes/JLTMA_Extension_Prototype.php';
-
-				// Widget Builder
-				// require_once JLTMA_PATH . 'inc/admin/widget-builder/widget-builder.php';
-				// require_once JLTMA_PATH . 'inc/admin/widget-builder/init.php';
-
-				// Extensions
-				require_once JLTMA_PATH . 'inc/classes/Animation.php';
-
-				// Traits: Global Controls
-				require_once JLTMA_PATH . 'inc/traits/swiper-controls.php';
-				include_once JLTMA_PATH . 'inc/traits/widget-notice.php';
-
-				// Recommeded Plugins
-				// require_once JLTMA_PATH . 'lib/Recommended.php';
-				// require_once JLTMA_PATH . 'inc/classes/Recommended_Plugins.php';
-
-				// Notifications
-				require_once JLTMA_PATH . 'inc/classes/Notifications/Base/Date.php';
-				require_once JLTMA_PATH . 'inc/classes/Notifications/Base/Data.php';
-				require_once JLTMA_PATH . 'inc/classes/Notifications/Base/User_Data.php';
-
-				require_once JLTMA_PATH . 'inc/classes/Notifications/Model/Notification.php';
-				require_once JLTMA_PATH . 'inc/classes/Notifications/Model/Notice.php';
-				require_once JLTMA_PATH . 'inc/classes/Notifications/Model/Popup.php';
-
-
-				require_once JLTMA_PATH . 'inc/classes/Notifications/Latest_Updates.php';
-				require_once JLTMA_PATH . 'inc/classes/Notifications/Ask_For_Rating.php';
-				require_once JLTMA_PATH . 'inc/classes/Notifications/Subscribe.php';
-				require_once JLTMA_PATH . 'inc/classes/Notifications/What_We_Collect.php';
-				require_once JLTMA_PATH . 'inc/classes/Pro_Upgrade.php';
-				require_once JLTMA_PATH . 'inc/classes/Notifications/Upgrade_Notice.php';
-				// require_once JLTMA_PATH . 'inc/classes/Notifications/New_Features_Notice.php';
-
-
-			// Load notification traits - Pro version takes priority if it loaded first
-			// If Pro is active, it will have already loaded these from its /inc/ directory
-			if(!trait_exists('MasterAddons\Inc\Classes\Notifications\Base\User_Data')){
-				require_once JLTMA_PATH . 'inc/classes/Notifications/Base/Date.php';
-				require_once JLTMA_PATH . 'inc/classes/Notifications/Base/Data.php';
-				require_once JLTMA_PATH . 'inc/classes/Notifications/Base/User_Data.php';
-			}
-
-			// Load Feedback and Pro_Upgrade classes - Pro version takes priority
-			// If Pro is active, these will already be loaded from Pro's /inc/ directory
-			if(!class_exists('MasterAddons\Inc\Classes\Feedback')){
-				require_once JLTMA_PATH . 'inc/classes/Feedback.php';
-			}
-			if(!class_exists('MasterAddons\Inc\Classes\Pro_Upgrade')){
-				require_once JLTMA_PATH . 'inc/classes/Pro_Upgrade.php';
-			}
-
-			if(ma_el_fs()->is_free_plan() ){
-				require_once JLTMA_PATH . 'inc/classes/Notifications/Pro_Sale_Notice.php';
-			}
-
-			if(!Master_Addons_Helper::jltma_premium()){
-				require_once JLTMA_PATH . 'inc/classes/Notifications/Manager.php';
-				require_once JLTMA_PATH . 'inc/classes/Notifications/Notifications.php';
-				require_once JLTMA_PATH . 'lib/Featured.php';
-			}
-
-			// Instantiate shared classes only if not already instantiated by Pro
-			// Pro plugin instantiates these in load_shared_files_from_pro()
-			// Free only instantiates if Pro hasn't done so
-			if (!Master_Addons_Helper::jltma_premium()) {
-				// Free version only - Pro not active, safe to instantiate
-				if (class_exists('MasterAddons\Inc\Classes\Feedback')) {
-					static $feedback_instance;
-					if (!$feedback_instance) {
-						$feedback_instance = new Feedback();
-					}
-				}
-
-				if (class_exists('MasterAddons\Inc\Classes\Pro_Upgrade')) {
-					static $pro_upgrade_instance;
-					if (!$pro_upgrade_instance) {
-						$pro_upgrade_instance = new Pro_Upgrade();
-					}
-				}
+			// Conditional loading based on plan (classes autoloaded via Lib namespace)
+			if (!Helper::jltma_premium()) {
+				\MasterAddons\Lib\Featured::get_instance();
+				// Image Optimizer for free users — commented out, will release later
+				// \MasterAddons\Inc\Admin\Image_Optimizer::get_instance();
 			}
 		}
 
@@ -762,12 +1306,12 @@ if (!class_exists('Master_Elementor_Addons')) {
 	public function jltma_ajax_plugin_action()
 	{
 		// Verify nonce
-		if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'jltma_plugin_action')) {
+		if (!isset($_POST['nonce']) || !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'jltma_plugin_action')) {
 			wp_send_json_error(__('Security check failed.', 'master-addons'));
 		}
 
-		$plugin_action = isset($_POST['plugin_action']) ? sanitize_text_field($_POST['plugin_action']) : '';
-		$plugin_slug = isset($_POST['plugin']) ? sanitize_text_field($_POST['plugin']) : '';
+		$plugin_action = isset($_POST['plugin_action']) ? sanitize_text_field( wp_unslash( $_POST['plugin_action'] ) ) : '';
+		$plugin_slug = isset($_POST['plugin']) ? sanitize_text_field( wp_unslash( $_POST['plugin'] ) ) : '';
 
 		if (empty($plugin_action) || empty($plugin_slug)) {
 			wp_send_json_error(__('Invalid request.', 'master-addons'));
@@ -893,6 +1437,7 @@ if (!class_exists('Master_Elementor_Addons')) {
 
 	public function jltma_admin_notice_minimum_elementor_version()
 	{
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check of the WordPress-set "activate" query var to suppress the default activation notice; not form processing.
 		if (isset($_GET['activate'])) {
 			unset($_GET['activate']);
 		}
@@ -909,6 +1454,7 @@ if (!class_exists('Master_Elementor_Addons')) {
 
 	public function jltma_admin_notice_minimum_php_version()
 	{
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check of the WordPress-set "activate" query var to suppress the default activation notice; not form processing.
 		if (isset($_GET['activate'])) {
 			unset($_GET['activate']);
 		}
@@ -1125,10 +1671,10 @@ if (!class_exists('Master_Elementor_Addons')) {
 		<?php
 	}
 
-		// Add this method to load the textdomain properly
-		public function load_textdomain() {
-			load_plugin_textdomain('master-addons', false, dirname(plugin_basename(__FILE__)) . '/languages/');
-		}
+		// WordPress.org-hosted plugins have their translations loaded
+		// automatically by WordPress (just-in-time, since 4.6), so a manual
+		// load_plugin_textdomain() call is no longer required.
+		public function load_textdomain() {}
 
 		// Check if Master Addons Pro is activated
 	public function is_master_addons_pro_activated($plugin_path = 'master-addons-pro/master-addons.php')

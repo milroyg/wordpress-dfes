@@ -18,33 +18,33 @@ use Elementor\Utils;
 use Elementor\Modules\DynamicTags\Module as TagsModule;
 
 class Site_Logo extends Data_Tag {
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-site-logo';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Logo du site', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Site logo', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-site-groupe';
+	public function get_group(): array {
+		return array( 'eac-site-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::IMAGE_CATEGORY );
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->add_control(
 			'fallback',
 			array(
-				'label' => esc_html__( 'Alternative', 'eac-components' ),
+				'label' => esc_html__( 'Fallback', 'eac-components' ),
 				'type'  => Controls_Manager::MEDIA,
 			)
 		);
 	}
 
-	public function get_value( array $options = array() ) {
+	public function get_value( array $options = array() ): array {
 		$custom_logo_id = get_theme_mod( 'custom_logo' );
 
 		if ( $custom_logo_id ) {

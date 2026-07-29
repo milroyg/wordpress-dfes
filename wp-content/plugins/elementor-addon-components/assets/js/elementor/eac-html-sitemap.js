@@ -27,7 +27,7 @@ class widgetHtmlSitemap extends elementorModules.frontend.handlers.Base {
     }
 
     bindEvents() {
-        this.elements.$targetSitemap.on('keydown', this.setKeyboardEvents.bind(this));
+        this.elements.$targetSitemap.on('keydown', (evt) => { this.setKeyboardEvents(evt); });
     }
 
     setKeyboardEvents(evt) {
@@ -38,16 +38,15 @@ class widgetHtmlSitemap extends elementorModules.frontend.handlers.Base {
          * 'keydown' élément de départ qui AVAIT le focus
          */
         const lastElement = document.activeElement;
-        let currentTitleTop = lastElement;
-        let currentTitleTopIndex = this.elements.$targetTitleTop.index(jQuery(currentTitleTop));
+        let currentTitleTopIndex = this.elements.$targetTitleTop.index(jQuery(lastElement));
         let $currentTitleTopLinks = null;
         const id = evt.code || evt.key || 0;
 
         /** La liste des liens sous chaque titre du sitemap */
-        if (jQuery(currentTitleTop).hasClass('sitemap-title-top')) {
-            $currentTitleTopLinks = jQuery(currentTitleTop).next('div.sitemap-posts-list').find('a');
+        if (jQuery(lastElement).hasClass('sitemap-title-top')) {
+            $currentTitleTopLinks = jQuery(lastElement).nextAll('ul.sitemap-posts-list').find('a');
         } else {
-            $currentTitleTopLinks = jQuery(currentTitleTop).parents('div.sitemap-posts-list').find('a');
+            $currentTitleTopLinks = jQuery(lastElement).closest('section').children('.sitemap-posts-title').first().nextAll('ul.sitemap-posts-list').find('a');
         }
 
         if ('Tab' === id && !evt.shiftKey) {
@@ -65,7 +64,7 @@ class widgetHtmlSitemap extends elementorModules.frontend.handlers.Base {
             let currentElement = lastElement;
 
             if (jQuery(currentElement).attr('href')) {
-                return false;
+                return;
             } else if (jQuery(currentElement).hasClass('sitemap-title-top')) {
                 if (currentTitleTopIndex - 1 >= 0) {
                     evt.preventDefault();
@@ -96,7 +95,9 @@ class widgetHtmlSitemap extends elementorModules.frontend.handlers.Base {
 
             if (jQuery(currentElement).attr('href')) {
                 const currentLinkIndex = $currentTitleTopLinks.index(jQuery(currentElement));
-                if (currentLinkIndex - 1 > 0) {
+                if (currentLinkIndex === 0) {
+                    currentElement = jQuery(currentElement).parents('ul.sitemap-posts-list').prevAll('.sitemap-title-top').first().get(0);
+                } else if (currentLinkIndex - 1 > 0) {
                     currentElement = $currentTitleTopLinks.get(currentLinkIndex - 1);
                 } else {
                     currentElement = $currentTitleTopLinks.get(0);
@@ -109,17 +110,16 @@ class widgetHtmlSitemap extends elementorModules.frontend.handlers.Base {
             if (jQuery(currentElement).hasClass('sitemap-title-top')) {
                 currentElement = this.elements.$targetSkipGrid.get(0);
             } else if (jQuery(currentElement).attr('href')) {
-                currentElement = jQuery(currentElement).parents('div.sitemap-posts-list').prev('.sitemap-title-top').get(0);
+                currentElement = jQuery(currentElement).closest('section').children('.sitemap-title-top').get(0);
             }
             jQuery(currentElement).trigger('focus');
         } else if ('Home' === id) {
-            const currentIndex = this.elements.$targetTitleTop.index(0);
             evt.preventDefault();
-            jQuery(this.elements.$targetTitleTop.get(currentIndex)).trigger('focus');
+            jQuery($currentTitleTopLinks.get(0)).trigger('focus');
         } else if ('End' === id) {
-            const currentIndex = this.elements.$targetTitleTop.index(this.elements.$targetTitleTop.length - 1);
+            const currentElement = $currentTitleTopLinks.get($currentTitleTopLinks.length - 1);
             evt.preventDefault();
-            jQuery(this.elements.$targetTitleTop.get(currentIndex)).trigger('focus');
+            jQuery(currentElement).trigger('focus');
         }
     }
 }

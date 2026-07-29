@@ -1,7 +1,7 @@
 <?php
 /**
  * Class: Acf_Relationship_Widget
- * Name: ACF Relationship
+ * Name: ACF relationship
  * Slug: eac-addon-acf-relationship
  *
  * Description: Affiche et formate les entrées sélectionnées dans le champ Relationship ou Post object
@@ -16,28 +16,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
 use EACCustomWidgets\Core\Utils\Eac_Tools_Util;
-use EACCustomWidgets\Core\Eac_Config_Elements;
-use EACCustomWidgets\Includes\Acf\DynamicTags\Eac_Acf_Lib;
+use EACCustomWidgets\Core\Eac_Load_Config;
+use EACCustomWidgets\Includes\Acf\Eac_Acf_Lib;
 use EACCustomWidgets\Includes\Acf\Eac_Acf_Options_Page;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
-use Elementor\Icons_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
-use Elementor\Core\Breakpoints\Manager as Breakpoints_manager;
 use Elementor\Plugin;
 use Elementor\Utils;
 
 class Acf_Relationship_Widget extends Widget_Base {
-	/** Les traits */
 	use \EACCustomWidgets\Includes\Traits\Slider_Trait;
 	use \EACCustomWidgets\Includes\Traits\Button_Read_More_Trait;
+	use \EACCustomWidgets\Includes\Traits\Fallback_Field_Trait;
 
 	/**
 	 * $origine_options
@@ -58,7 +55,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 	 *
 	 * Enregistre les scripts, les styles et initialise l'ID en regard des templates
 	 */
-	public function __construct( $data = array(), $args = null ) {
+	public function __construct( array $data = array(), ?array $args = null ) {
 		parent::__construct( $data, $args );
 
 		/** Chargement de la Lib de gestion des balises ACF */
@@ -72,13 +69,6 @@ class Acf_Relationship_Widget extends Widget_Base {
 		}
 
 		$this->origine_options = Eac_Acf_Lib::get_acf_fields_options( $this->get_acf_supported_fields(), $this->main_id, 'relational' );
-
-		wp_register_script( 'swiper-bundle', EAC_PLUGIN_URL . 'assets/js/swiper/swiper-bundle.min.js', array( 'jquery' ), '9.4.1', true );
-		wp_register_script( 'eac-acf-relation', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/acf-relationship' ), array( 'jquery', 'elementor-frontend', 'swiper-bundle' ), '1.8.2', true );
-
-		wp_register_style( 'swiper-bundle', EAC_PLUGIN_URL . 'assets/css/swiper-bundle.min.css', array(), '9.4.1' );
-		wp_register_style( 'eac-swiper', EAC_Plugin::instance()->get_style_url( 'assets/css/eac-swiper' ), array(), '1.9.7' );
-		wp_register_style( 'eac-acf-relation', EAC_Plugin::instance()->get_style_url( 'assets/css/acf-relationship' ), array( 'eac-frontend', 'eac-swiper' ), '1.8.2' );
 	}
 
 	/**
@@ -95,10 +85,10 @@ class Acf_Relationship_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -106,10 +96,10 @@ class Acf_Relationship_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -117,10 +107,10 @@ class Acf_Relationship_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -128,10 +118,10 @@ class Acf_Relationship_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -139,10 +129,10 @@ class Acf_Relationship_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
-		return array( 'swiper-bundle', 'eac-acf-relation' );
+		return array( 'eac-acf-relation' );
 	}
 
 	/**
@@ -150,10 +140,10 @@ class Acf_Relationship_Widget extends Widget_Base {
 	 *
 	 * Les styles sont chargés dans le footer
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
-		return array( 'swiper-bundle', 'eac-swiper', 'eac-acf-relation' );
+		return array( 'eac-acf-relation' );
 	}
 
 	/**
@@ -165,8 +155,8 @@ class Acf_Relationship_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -174,10 +164,10 @@ class Acf_Relationship_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -190,27 +180,6 @@ class Acf_Relationship_Widget extends Widget_Base {
 	}
 
 	/**
-	 * is_dynamic_content
-	 *
-	 * Experiment on 3.22
-	 *
-	 * @return bool
-	 */
-	/**if ( Plugin::$instance->experiments->is_feature_active( 'e_element_cache' ) ) {
-	protected function is_dynamic_content(): bool {
-		return false;
-	}*/
-
-	/**
-	 * get_upsale_data
-	 *
-	 * @return array|null
-	 */
-	protected function get_upsale_data(): ?array {
-		return null;
-	}
-
-	/**
 	 * Register widget controls.
 	 *
 	 * Adds different input fields to allow the user to change and customize the widget settings.
@@ -218,7 +187,6 @@ class Acf_Relationship_Widget extends Widget_Base {
 	 * @access protected
 	 */
 	protected function register_controls(): void {
-		$active_breakpoints = Plugin::$instance->breakpoints->get_active_breakpoints();
 
 		/**
 		 * Generale content Section
@@ -226,7 +194,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'acf_relation_settings',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -234,18 +202,22 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_settings_origine',
 				array(
-					'label'       => esc_html__( 'Champ relationnel', 'eac-components' ),
+					'label'       => esc_html__( 'Relational field', 'eac-components' ),
 					'type'        => Controls_Manager::SELECT,
 					'groups'      => $this->origine_options,
+					'default'     => '',
 					'label_block' => true,
 				)
 			);
 
+			// Champ de secours si le champ relationnel est vide
+			$this->register_fallback_field_control( array( 'control_condition' => array( 'acf_relation_settings_origine' => '' ) ) );
+
 			$this->add_control(
 				'acf_relation_settings_nombre',
 				array(
-					'label'       => esc_html__( "Nombre d'articles", 'eac-components' ),
-					'description' => esc_html__( '-1 = Tous', 'eac-components' ),
+					'label'       => esc_html__( 'Post count', 'eac-components' ),
+					'description' => esc_html__( '0 = All', 'eac-components' ),
 					'type'        => Controls_Manager::NUMBER,
 					'default'     => 3,
 				)
@@ -268,11 +240,12 @@ class Acf_Relationship_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'acf_relation_layout',
 			array(
-				'label' => esc_html__( 'Disposition', 'eac-components' ),
+				'label' => esc_html__( 'Layout', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
 
+			/** @since Elementor 3.28 assets styles fonctionne mais pas assets scripts */
 			$this->add_control(
 				'acf_relation_layout_type',
 				array(
@@ -280,28 +253,53 @@ class Acf_Relationship_Widget extends Widget_Base {
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'fitRows',
 					'options' => array(
-						'fitRows' => esc_html__( 'Grille', 'eac-components' ),
+						'fitRows' => esc_html__( 'Grid', 'eac-components' ),
 						'slider'  => esc_html( 'Slider' ),
+					),
+					'assets' => array(
+						'styles' => array(
+							array(
+								'name' => 'swiper-bundle',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name' => 'acf_relation_layout_type',
+											'operator' => '===',
+											'value' => 'slider',
+										),
+									),
+								),
+							),
+							array(
+								'name' => 'eac-swiper',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'acf_relation_layout_type',
+											'operator' => '===',
+											'value'    => 'slider',
+										),
+									),
+								),
+							),
+						),
+						'scripts' => array(
+							array(
+								'name' => 'swiper-bundle',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name' => 'acf_relation_layout_type',
+											'operator' => '===',
+											'value' => 'slider',
+										),
+									),
+								),
+							),
+						),
 					),
 				)
 			);
-
-			$columns_device_args = array();
-		foreach ( $active_breakpoints as $breakpoint_name => $breakpoint_instance ) {
-			if ( Breakpoints_manager::BREAKPOINT_KEY_WIDESCREEN === $breakpoint_name ) {
-				$columns_device_args[ $breakpoint_name ] = array( 'default' => '4' );
-			} elseif ( Breakpoints_manager::BREAKPOINT_KEY_LAPTOP === $breakpoint_name ) {
-				$columns_device_args[ $breakpoint_name ] = array( 'default' => '4' );
-			} elseif ( Breakpoints_manager::BREAKPOINT_KEY_TABLET_EXTRA === $breakpoint_name ) {
-				$columns_device_args[ $breakpoint_name ] = array( 'default' => '3' );
-			} elseif ( Breakpoints_manager::BREAKPOINT_KEY_TABLET === $breakpoint_name ) {
-				$columns_device_args[ $breakpoint_name ] = array( 'default' => '3' );
-			} elseif ( Breakpoints_manager::BREAKPOINT_KEY_MOBILE_EXTRA === $breakpoint_name ) {
-				$columns_device_args[ $breakpoint_name ] = array( 'default' => '2' );
-			} elseif ( Breakpoints_manager::BREAKPOINT_KEY_MOBILE === $breakpoint_name ) {
-				$columns_device_args[ $breakpoint_name ] = array( 'default' => '1' );
-			}
-		}
 
 			/**
 			 * 'prefix_class' ne fonctionnera qu'avec les flexbox
@@ -309,7 +307,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'acf_relation_layout_columns',
 				array(
-					'label'          => esc_html__( 'Nombre de colonnes', 'eac-components' ),
+					'label'          => esc_html__( 'Columns count', 'eac-components' ),
 					'type'           => Controls_Manager::SELECT,
 					'default'        => '3',
 					'tablet_default' => '2',
@@ -330,33 +328,35 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_enable_animation',
 				array(
-					'label'     => esc_html( 'Animation' ),
+					'label'     => esc_html__( 'Animation', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
 					'default'   => 'no',
 					'toggle'    => false,
-					'condition'      => array( 'acf_relation_layout_type' => 'fitRows' ),
+					'condition' => array(
+						'acf_relation_content_image' => 'yes',
+						'acf_relation_layout_type'   => 'fitRows',
+					),
 				)
 			);
 
 			$this->add_control(
 				'acf_relation_layout_image',
 				array(
-					'label'     => esc_html__( "Disposition de l'image", 'eac-components' ),
+					'label'     => esc_html__( 'Image layout', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array(
 						'acf_relation_content_image' => 'yes',
-						'acf_relation_layout_type'   => 'fitRows',
 					),
 				)
 			);
@@ -364,20 +364,17 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_content_image_dimension',
 				array(
-					'label'     => esc_html__( 'Dimension', 'eac-components' ),
+					'label'     => esc_html__( 'Size', 'eac-components' ),
 					'type'      => Controls_Manager::SELECT,
 					'default'   => 'medium',
 					'options'   => array(
-						'thumbnail'    => esc_html__( 'Miniature', 'eac-components' ),
-						'medium'       => esc_html__( 'Moyenne', 'eac-components' ),
-						'medium_large' => esc_html__( 'Moyenne-large', 'eac-components' ),
+						'thumbnail'    => esc_html__( 'Thumbnail', 'eac-components' ),
+						'medium'       => esc_html__( 'Medium', 'eac-components' ),
+						'medium_large' => esc_html__( 'Medium-large', 'eac-components' ),
 						'large'        => esc_html__( 'Large', 'eac-components' ),
-						'full'         => esc_html__( 'Originale', 'eac-components' ),
+						'full'         => esc_html__( 'Original', 'eac-components' ),
 					),
-					'condition' => array(
-						'acf_relation_content_image' => 'yes',
-						'acf_relation_layout_type'   => 'fitRows',
-					),
+					'condition' => array( 'acf_relation_content_image' => 'yes' ),
 				)
 			);
 
@@ -388,31 +385,34 @@ class Acf_Relationship_Widget extends Widget_Base {
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
 					'default'   => 'yes',
 					'toggle'    => false,
+					'condition'    => array(
+						'acf_relation_content_image' => 'yes',
+					),
 				)
 			);
 
 			$this->add_control(
 				'acf_relation_image_style_ratio_enable',
 				array(
-					'label'        => esc_html__( 'Activer le ratio image', 'eac-components' ),
+					'label'        => esc_html__( 'Enable image ratio', 'eac-components' ),
 					'type'         => Controls_Manager::CHOOSE,
 					'options'      => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -430,13 +430,13 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'acf_relation_image_style_ratio',
 				array(
-					'label'          => esc_html__( 'Ratio', 'eac-components' ),
+					'label'          => esc_html( 'Ratio' ),
 					'type'           => Controls_Manager::SELECT,
 					'default'        => '1 / 1',
 					'tablet_default' => '1 / 1',
 					'mobile_default' => '9 / 16',
 					'options'        => array(
-						'1 / 1'  => esc_html__( 'Défaut', 'eac-components' ),
+						'1 / 1'  => esc_html__( 'Default', 'eac-components' ),
 						'9 / 16' => esc_html( '9-16' ),
 						'4 / 3'  => esc_html( '4-3' ),
 						'3 / 2'  => esc_html( '3-2' ),
@@ -445,9 +445,9 @@ class Acf_Relationship_Widget extends Widget_Base {
 					),
 					'selectors'      => array( '{{WRAPPER}} .acf-relation_container .acf-relation_img img' => 'aspect-ratio:{{SIZE}};' ),
 					'condition'      => array(
-						'acf_relation_content_image' => 'yes',
+						'acf_relation_content_image'            => 'yes',
 						'acf_relation_image_style_ratio_enable' => 'yes',
-						'acf_relation_layout_type'   => 'fitRows',
+						'acf_relation_layout_type'              => 'fitRows',
 					),
 				)
 			);
@@ -455,7 +455,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'acf_relation_image_ratio_position_y',
 				array(
-					'label'      => esc_html__( 'Position verticale', 'eac-components' ),
+					'label'      => esc_html__( 'Vertical position', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( '%' ),
 					'default'    => array(
@@ -481,7 +481,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_content_layout',
 				array(
-					'label'     => esc_html__( 'Disposition du contenu', 'eac-components' ),
+					'label'     => esc_html__( 'Content layout', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -490,31 +490,31 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'acf_relation_content_align_v',
 				array(
-					'label'       => esc_html__( 'Alignement vertical', 'eac-components' ),
+					'label'       => esc_html__( 'Vertical alignment', 'eac-components' ),
 					'type'        => Controls_Manager::CHOOSE,
 					'options'     => array(
 						'flex-start'    => array(
-							'title' => esc_html__( 'Haut', 'eac-components' ),
+							'title' => esc_html__( 'Top', 'eac-components' ),
 							'icon'  => 'eicon-justify-start-v',
 						),
 						'center'        => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-justify-center-v',
 						),
 						'flex-end'      => array(
-							'title' => esc_html__( 'Bas', 'eac-components' ),
+							'title' => esc_html__( 'Bottom', 'eac-components' ),
 							'icon'  => 'eicon-justify-end-v',
 						),
 						'space-between' => array(
-							'title' => esc_html__( 'Espace entre', 'eac-components' ),
+							'title' => esc_html__( 'Space between', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-between-v',
 						),
 						'space-around'  => array(
-							'title' => esc_html__( 'Espace autour', 'eac-components' ),
+							'title' => esc_html__( 'Space around', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-around-v',
 						),
 						'space-evenly'  => array(
-							'title' => esc_html__( 'Espace uniforme', 'eac-components' ),
+							'title' => esc_html__( 'Space evenly', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-evenly-v',
 						),
 					),
@@ -529,19 +529,19 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'acf_relation_content_align_h',
 				array(
-					'label'     => esc_html__( 'Alignement horizontal', 'eac-components' ),
+					'label'     => esc_html__( 'Horizontal alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'start'  => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'end'    => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -572,7 +572,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'acf_relation_content',
 			array(
-				'label' => esc_html__( 'Contenu', 'eac-components' ),
+				'label' => esc_html__( 'Content', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -593,7 +593,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_content_post_heading',
 				array(
-					'label'     => esc_html__( 'Article', 'eac-components' ),
+					'label'     => esc_html__( 'Post', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -602,10 +602,10 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_content_image',
 				array(
-					'label'        => esc_html__( 'Image en avant', 'eac-components' ),
+					'label'        => esc_html__( 'Featured image', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -614,10 +614,10 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_content_title',
 				array(
-					'label'        => esc_html__( 'Titre', 'eac-components' ),
+					'label'        => esc_html__( 'Title', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -626,11 +626,10 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_title_tag',
 				array(
-					'label'     => esc_html__( 'Étiquette', 'eac-components' ),
+					'label'     => esc_html__( 'Title tag', 'eac-components' ),
 					'type'      => Controls_Manager::SELECT,
-					'default'   => 'h3',
+					'default'   => 'h2',
 					'options'   => array(
-						'h1'  => 'H1',
 						'h2'  => 'H2',
 						'h3'  => 'H3',
 						'h4'  => 'H4',
@@ -648,8 +647,8 @@ class Acf_Relationship_Widget extends Widget_Base {
 				array(
 					'label'        => esc_html__( 'Date', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -658,10 +657,10 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_content_excerpt',
 				array(
-					'label'        => esc_html__( 'Résumé', 'eac-components' ),
+					'label'        => esc_html__( 'Excerpt', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -670,7 +669,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_excerpt_length',
 				array(
-					'label'     => esc_html__( 'Nombre de mots', 'eac-components' ),
+					'label'     => esc_html__( 'Number of words', 'eac-components' ),
 					'type'      => Controls_Manager::NUMBER,
 					'min'       => 3,
 					'max'       => 100,
@@ -683,7 +682,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_content_links_heading',
 				array(
-					'label'      => esc_html__( 'Liens', 'eac-components' ),
+					'label'      => esc_html__( 'Link', 'eac-components' ),
 					'type'       => Controls_Manager::HEADING,
 					'separator'  => 'before',
 				)
@@ -692,10 +691,10 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_content_button',
 				array(
-					'label'        => esc_html__( 'Bouton', 'eac-components' ),
+					'label'        => esc_html__( 'Button', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -704,10 +703,10 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_content_title_link',
 				array(
-					'label'        => esc_html__( "Lien de l'article sur le titre", 'eac-components' ),
+					'label'        => esc_html__( 'Post link on title', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array( 'acf_relation_content_title' => 'yes' ),
@@ -717,10 +716,10 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_content_image_link',
 				array(
-					'label'        => esc_html__( "Lien de l'article sur l'image", 'eac-components' ),
+					'label'        => esc_html__( 'Post link on image', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array( 'acf_relation_content_image' => 'yes' ),
@@ -730,16 +729,16 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_article_link',
 				array(
-					'label'        => esc_html__( 'Appliquer le lien globalement', 'eac-components' ),
-					'description'  => esc_html__( 'Le lien enveloppe chaque item', 'eac-components' ),
+					'label'        => esc_html__( 'Enable the link globally', 'eac-components' ),
+					'description'  => esc_html__( 'The link wraps each item', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -754,14 +753,34 @@ class Acf_Relationship_Widget extends Widget_Base {
 								'value'    => 'yes',
 							),
 							array(
-								'name'     => 'acf_relation_content_title_link',
-								'operator' => '===',
-								'value'    => 'yes',
+								'relation' => 'and',
+								'terms'    => array(
+									array(
+										'name'     => 'acf_relation_content_title',
+										'operator' => '===',
+										'value'    => 'yes',
+									),
+									array(
+										'name'     => 'acf_relation_content_title_link',
+										'operator' => '===',
+										'value'    => 'yes',
+									),
+								),
 							),
 							array(
-								'name'     => 'acf_relation_content_image_link',
-								'operator' => '===',
-								'value'    => 'yes',
+								'relation' => 'and',
+								'terms'    => array(
+									array(
+										'name'     => 'acf_relation_content_image',
+										'operator' => '===',
+										'value'    => 'yes',
+									),
+									array(
+										'name'     => 'acf_relation_content_image_link',
+										'operator' => '===',
+										'value'    => 'yes',
+									),
+								),
 							),
 						),
 					),
@@ -771,7 +790,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_more_settings',
 				array(
-					'label'     => esc_html__( 'Bouton', 'eac-components' ),
+					'label'     => esc_html__( 'Button', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array( 'acf_relation_content_button' => 'yes' ),
@@ -786,7 +805,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'acf_relation_general_style',
 			array(
-				'label' => esc_html__( 'Général', 'eac-components' ),
+				'label' => esc_html__( 'General', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -795,7 +814,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_container_style',
 				array(
-					'label'     => esc_html__( 'Conteneur', 'eac-components' ),
+					'label'     => esc_html__( 'Container', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -804,7 +823,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_wrapper_style_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .swiper, {{WRAPPER}} .acf-relation_container' => 'background-color: {{VALUE}};' ),
 				)
@@ -814,7 +833,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_items_style',
 				array(
-					'label'     => esc_html__( 'Articles', 'eac-components' ),
+					'label'     => esc_html__( 'Post', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -825,9 +844,9 @@ class Acf_Relationship_Widget extends Widget_Base {
 				array(
 					'label'        => esc_html__( 'Style', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
-					'default'      => 'style-1',
+					'default'      => 'style-0',
 					'options'      => array(
-						'style-0'  => esc_html__( 'Défaut', 'eac-components' ),
+						'style-0'  => esc_html__( 'Default', 'eac-components' ),
 						'style-1'  => 'Style 1',
 						'style-2'  => 'Style 2',
 						'style-3'  => 'Style 3',
@@ -845,7 +864,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'acf_relation_wrapper_style_gap',
 				array(
-					'label'      => esc_html__( 'Marge entre les items', 'eac-components' ),
+					'label'      => esc_html__( 'Margin between items', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( 'px' ),
 					'default'    => array(
@@ -855,12 +874,13 @@ class Acf_Relationship_Widget extends Widget_Base {
 					'range'      => array(
 						'px' => array(
 							'min'  => 0,
-							'max'  => 50,
-							'step' => 1,
+							'max'  => 150,
+							'step' => 10,
 						),
 					),
 					'selectors'  => array(
 						'{{WRAPPER}} .acf-relation_container:not(.swiper-wrapper)' => 'gap: {{SIZE}}px; padding: calc({{SIZE}}px / 2);',
+						'(mobile) {{WRAPPER}} .acf-relation_container:not(.swiper-wrapper)' => 'padding: 0 !important;',
 					),
 					'condition'  => array( 'acf_relation_layout_type!' => 'slider' ),
 				)
@@ -869,7 +889,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_items_bg_color',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .acf-relation_container article, {{WRAPPER}} .acf-relation_content' => 'background-color: {{VALUE}};' ),
 				)
@@ -887,7 +907,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_wrapper_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -910,7 +930,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'      => 'acf_relation_wrapper_shadow',
-					'label'     => esc_html__( 'Ombre', 'eac-components' ),
+					'label'     => esc_html__( 'Shadow', 'eac-components' ),
 					'selector'  => '{{WRAPPER}} .acf-relation_container article',
 					'condition' => array( 'acf_relation_wrapper_style' => 'style-0' ),
 				)
@@ -920,7 +940,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_images_style',
 				array(
-					'label'     => esc_html__( 'Images', 'eac-components' ),
+					'label'     => esc_html__( 'Image', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array( 'acf_relation_content_image' => 'yes' ),
@@ -939,7 +959,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_image_border_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -964,7 +984,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_title_style',
 				array(
-					'label'     => esc_html__( 'Titre', 'eac-components' ),
+					'label'     => esc_html__( 'Title', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array( 'acf_relation_content_title' => 'yes' ),
@@ -974,7 +994,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_title_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .acf-relation_title .acf-relation_title-content' => 'color: {{VALUE}};' ),
 					'condition' => array( 'acf_relation_content_title' => 'yes' ),
@@ -985,7 +1005,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'acf_relation_title_typography',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'selector'  => '{{WRAPPER}} .acf-relation_title .acf-relation_title-content',
 					'condition' => array( 'acf_relation_content_title' => 'yes' ),
 				)
@@ -1005,7 +1025,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_date_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .acf-relation_date' => 'color: {{VALUE}};' ),
 					'condition' => array( 'acf_relation_content_date' => 'yes' ),
@@ -1016,7 +1036,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'acf_relation_date_typography',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'selector'  => '{{WRAPPER}} .acf-relation_date',
 					'condition' => array( 'acf_relation_content_date' => 'yes' ),
 				)
@@ -1026,7 +1046,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_excerpt_style',
 				array(
-					'label'     => esc_html__( 'Résumé', 'eac-components' ),
+					'label'     => esc_html__( 'Excerpt', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array( 'acf_relation_content_excerpt' => 'yes' ),
@@ -1036,7 +1056,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_excerpt_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .acf-relation_excerpt' => 'color: {{VALUE}};' ),
 					'condition' => array( 'acf_relation_content_excerpt' => 'yes' ),
@@ -1047,7 +1067,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'acf_relation_excerpt_typography',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'selector'  => '{{WRAPPER}} .acf-relation_excerpt',
 					'condition' => array( 'acf_relation_content_excerpt' => 'yes' ),
 				)
@@ -1056,7 +1076,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 			$this->add_control(
 				'acf_relation_readmore_style',
 				array(
-					'label'     => esc_html__( 'Bouton', 'eac-components' ),
+					'label'     => esc_html__( 'Button', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array( 'acf_relation_content_button' => 'yes' ),
@@ -1070,7 +1090,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'acf_relation_slider_section_style',
 			array(
-				'label'      => esc_html__( 'Contrôles du slider', 'eac-components' ),
+				'label'      => esc_html__( 'Slider controls', 'eac-components' ),
 				'tab'        => Controls_Manager::TAB_STYLE,
 				'conditions' => array(
 					'relation' => 'or',
@@ -1121,14 +1141,14 @@ class Acf_Relationship_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 
 		/**
 		 * Le champ de sélection des groupes est vide
 		 * Les droits (Location rules) ont changés mais Elementor a enregistré la sélection précédente
 		 */
-		if ( empty( $settings['acf_relation_settings_origine'] ) ) {
+		if ( empty( $settings['acf_relation_settings_origine'] ) && empty( $settings['fallback_acf_field_key'] ) ) {
 			return;
 		}
 
@@ -1145,19 +1165,19 @@ class Acf_Relationship_Widget extends Widget_Base {
 		<?php }
 				$this->get_relation_by_id();
 		if ( $has_navigation ) { ?>
-				<div class='swiper-button-prev'></div>
-				<div class='swiper-button-next'></div>
-				<?php } ?>
-				<?php if ( $has_scrollbar ) { ?>
-					<div class='swiper-scrollbar'></div>
-				<?php } ?>
-				<?php if ( $has_pagination ) { ?>
-					<div class='swiper-pagination-bullet'></div>
-				<?php } ?>
-				<div class='eac-skip-grid' tabindex='0'>
-					<span class='visually-hidden'><?php esc_html_e( 'Sortir de la grille', 'eac-components' ); ?></span>
-				</div>
-			</div>
+			<div class='swiper-button-prev'></div>
+			<div class='swiper-button-next'></div>
+		<?php } ?>
+		<?php if ( $has_scrollbar ) { ?>
+			<div class='swiper-scrollbar'></div>
+		<?php } ?>
+		<?php if ( $has_pagination ) { ?>
+			<div class='swiper-pagination-bullet'></div>
+		<?php } ?>
+		<div class='eac-skip-grid' tabindex='0'>
+			<span class='visually-hidden'><?php esc_html_e( 'Exit grid', 'eac-components' ); ?></span>
+		</div>
+		</div>
 		<?php
 	}
 
@@ -1166,9 +1186,9 @@ class Acf_Relationship_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function get_relation_by_id() {
+	protected function get_relation_by_id(): void {
 		$settings = $this->get_settings_for_display();
-		$key      = $settings['acf_relation_settings_origine'];
+		$key      = ! empty( $settings['acf_relation_settings_origine'] ) ? $settings['acf_relation_settings_origine'] : $settings['fallback_acf_field_key'];
 		$items    = array();
 		$id       = $this->main_id;
 
@@ -1189,7 +1209,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 		 * Si pour un groupe on sélectionne une règle sur les catégories et la catégorie 'non classé'
 		 * Les champs du groupe seront ajoutés aux pages d'options
 		 */
-		if ( class_exists( Eac_Acf_Options_Page::class ) ) {
+		if ( class_exists( Eac_Acf_Options_Page::class, false ) ) {
 			$id_page = Eac_Acf_Options_Page::get_options_page_id( $field_key );
 			if ( ! empty( $id_page ) ) {
 				$id = (int) $id_page;
@@ -1216,7 +1236,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function get_relations( $field_key, $meta_key, $relationship_id ) {
+	protected function get_relations( $field_key, $meta_key, $relationship_id ): array {
 		/**
 		 * @var $items Array d'articles en relation avec l'article courant
 		 */
@@ -1263,7 +1283,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 		}
 
 		if ( $field && ! empty( $field['value'] ) ) {
-			$image_size  = $settings['acf_relation_content_image_dimension'];
+			$image_size  = isset( $settings['acf_relation_content_image_dimension'] ) ? $settings['acf_relation_content_image_dimension'] : 'medium';
 			$field_value = $field['value'];
 
 			switch ( $field['type'] ) {
@@ -1353,15 +1373,16 @@ class Acf_Relationship_Widget extends Widget_Base {
 
 	/**
 	 * render_relationship_content
-	 *
 	 * Mis en forme des relationship mode grille
 	 *
-	 * @access protected
+	 * @param array $items
+	 *
+	 * @return void
 	 */
-	protected function render_relationship_content( $items = array() ) {
+	protected function render_relationship_content( array $items = array() ): void {
 		$settings         = $this->get_settings_for_display();
 		$has_image        = 'yes' === $settings['acf_relation_content_image'] ? true : false;
-		$lazy_load        = 'yes' === $settings['acf_relation_content_image_lazy'] ? 'lazy' : 'eager';
+		$lazy_load        = $has_image && 'yes' === $settings['acf_relation_content_image_lazy'] ? 'lazy' : 'eager';
 		$has_ratio        = 'yes' === $settings['acf_relation_image_style_ratio_enable'] ? true : false;
 		$has_date         = 'yes' === $settings['acf_relation_content_date'] ? true : false;
 		$has_excerpt      = 'yes' === $settings['acf_relation_content_excerpt'] ? true : false;
@@ -1393,7 +1414,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 		?>
 		<div <?php $this->print_render_attribute_string( 'container_wrapper' ); ?>>
 		<?php
-		ob_start( array( '\EACCustomWidgets\Core\Utils\Eac_Tools_Util', 'compress_html_output' ), 0, PHP_OUTPUT_HANDLER_REMOVABLE );
+		ob_start( array( '\EACCustomWidgets\Core\Utils\Eac_Tools_Util', 'compress_html_full_output' ), 0, PHP_OUTPUT_HANDLER_REMOVABLE );
 		foreach ( $items as $item ) {
 			if ( -1 !== $nb_posts && $nb_displayed >= $nb_posts ) {
 				break;
@@ -1403,16 +1424,12 @@ class Acf_Relationship_Widget extends Widget_Base {
 				$item['class'] = $item['class'] . ' swiper-slide';
 			}
 
-			$aria_label = sprintf( '%1$s %2$s', esc_html__( "Voir l'article", 'eac-components' ), esc_html( $item['post_title'] ) );
 			$permalink  = $item['link'];
-
-			/** La classe du wrapper interne de l'item */
-			$this->add_render_attribute( 'inner_wrapper', 'class', 'acf-relation_inner-wrapper' );
 
 			/** Le lien sur l'image ou le titre */
 			if ( $has_image_link || $has_title_link ) {
 				$this->add_render_attribute( 'item_link', 'href', esc_url( $permalink ) );
-				$this->add_render_attribute( 'item_link', 'aria-label', $aria_label );
+				$this->add_render_attribute( 'item_link', 'aria-label', sprintf( '%1$s - %2$s', esc_html__( 'Read post', 'eac-components' ), esc_html( $item['post_title'] ) ) );
 				if ( $has_global_link ) {
 					$this->add_render_attribute( 'item_link', 'class', 'eac-accessible-link card-link' );
 				} else {
@@ -1420,109 +1437,93 @@ class Acf_Relationship_Widget extends Widget_Base {
 				}
 			}
 			?>
-			<article id="<?php echo esc_attr( $item['id'] ); ?>" class="<?php echo esc_attr( $item['class'] ); ?>">			
-				<div <?php $this->print_render_attribute_string( 'inner_wrapper' ); ?>>
-					<?php
-					/** Affichage de l'image */
-					if ( $has_image && $item['img'] && is_array( $item['img'] ) ) {
-						$this->add_render_attribute( 'item_image', 'class', 'img-focusable' );
-						$this->add_render_attribute( 'item_image', 'src', esc_url( $item['img']['src'] ) );
-						$this->add_render_attribute( 'item_image', 'srcset', esc_attr( $item['img']['srcset'] ) );
-						$this->add_render_attribute( 'item_image', 'sizes', esc_attr( $item['img']['srcsize'] ) );
-						$this->add_render_attribute( 'item_image', 'width', esc_attr( $item['img']['width'] ) );
-						$this->add_render_attribute( 'item_image', 'height', esc_attr( $item['img']['height'] ) );
-						$this->add_render_attribute( 'item_image', 'alt', esc_attr( $item['img']['alt'] ) );
-						if ( 'eager' === $lazy_load ) {
-							$this->add_render_attribute( 'item_image', 'loading', $lazy_load );
-						}
-						?>
-						<div class='acf-relation_img'>
-							<?php if ( $has_image_link && $permalink ) { ?>
-								<a <?php $this->print_render_attribute_string( 'item_link' ); ?>>
-							<?php } ?>
-								<img <?php $this->print_render_attribute_string( 'item_image' ); ?>>
-							<?php if ( $has_image_link && $permalink ) { ?>
-								</a>
-							<?php } ?>
-						</div>
-						<?php
+			<article id="<?php echo esc_attr( $item['id'] ); ?>" class="<?php echo esc_attr( $item['class'] ); ?>">
+				<?php
+				/** Affichage de l'image */
+				if ( $has_image && is_array( $item['img'] ) && ! empty( $item['img'] ) ) {
+					$this->add_render_attribute(
+						'item_image',
+						array(
+							'class'  => 'eac-accessible-img',
+							'src'    => esc_url( $item['img']['src'] ),
+							'srcset' => esc_attr( $item['img']['srcset'] ),
+							'sizes'  => esc_attr( $item['img']['srcsize'] ),
+							'width'  => esc_attr( $item['img']['width'] ),
+							'height' => esc_attr( $item['img']['height'] ),
+							'alt'    => '',
+						)
+					);
+					if ( 'eager' === $lazy_load ) {
+						$this->add_render_attribute( 'item_image', 'loading', $lazy_load );
 					}
 					?>
-					<!-- Affichage du contenu -->
-					<div class='acf-relation_content'>
-						<!-- Affichage du titre -->
-						<div class='acf-relation_title'>
-							<?php if ( $has_title_link && $permalink ) { ?>
-								<a <?php $this->print_render_attribute_string( 'item_link' ); ?>>
-									<?php echo '<' . esc_attr( $title_tag ) . ' class="acf-relation_title-content">' . esc_html( $item['post_title'] ) . '</' . esc_attr( $title_tag ) . '>'; ?>
-								</a>
-								<?php
-							} elseif ( $has_title ) {
-								echo '<' . esc_attr( $title_tag ) . ' class="acf-relation_title-content">' . esc_html( $item['post_title'] ) . '</' . esc_attr( $title_tag ) . '>';
-							}
+					<div class='acf-relation_img'>
+						<?php if ( $has_image_link && $permalink ) { ?>
+							<a <?php $this->print_render_attribute_string( 'item_link' ); ?>>
+						<?php } ?>
+							<img <?php $this->print_render_attribute_string( 'item_image' ); ?>>
+						<?php if ( $has_image_link && $permalink ) { ?>
+							</a>
+						<?php } ?>
+					</div>
+					<?php
+				}
+				?>
+				<!-- Affichage du contenu -->
+				<div class='acf-relation_content'>
+					<!-- Affichage du titre -->
+					<div class='acf-relation_title'>
+						<?php if ( $has_title_link && $permalink ) {
 							?>
+							<a <?php $this->print_render_attribute_string( 'item_link' ); ?>>
+								<?php printf( '<%1$s class="acf-relation_title-content global__line-height">%2$s</%1$s>', esc_attr( $title_tag ), esc_html( $item['post_title'] ) ); ?>
+							</a>
+							<?php
+						} elseif ( $has_title ) {
+							printf( '<%1$s class="acf-relation_title-content global__line-height">%2$s</%1$s>', esc_attr( $title_tag ), esc_html( $item['post_title'] ) );
+						}
+						?>
+					</div>
+
+					<!-- Affichage du titre du parent -->
+					<?php if ( $has_parent_title ) { ?>
+						<div class='acf-relation_title-parent'>
+							<?php printf( '<%1$s class="acf-relation_title-content global__line-height">%2$s</%1$s>', esc_attr( $title_tag ), esc_html( $item['post_parent_title'] ) ); ?>
 						</div>
+					<?php } ?>
 
-						<!-- Affichage du titre du parent -->
-						<?php if ( $has_parent_title ) { ?>
-							<div class='acf-relation_title-parent'>
-							<?php echo '<' . esc_attr( $title_tag ) . ' class="acf-relation_title-content">' . esc_html( $item['post_parent_title'] ) . '</' . esc_attr( $title_tag ) . '>'; ?>
-							</div>
-						<?php } ?>
+					<!-- Affichage de la date -->
+					<?php if ( $has_date ) { ?>
+						<div class='acf-relation_date'><?php echo esc_html( $item['post_date'] ); ?></div>
+					<?php } ?>
 
-						<!-- Affichage de la date -->
-						<?php if ( $has_date ) { ?>
-							<div class='acf-relation_date'><?php echo esc_html( $item['post_date'] ); ?></div>
-						<?php } ?>
+					<!-- Affichage du résumé -->
+					<?php if ( $has_excerpt && ! is_null( $item['post_excerpt'] ) && ! empty( $item['post_excerpt'] ) ) { ?>
+						<div class='acf-relation_excerpt global__line-height'>
+							<span dir='ltr'><?php echo $item['post_excerpt']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+						</div>
+					<?php } ?>
 
-						<!-- Affichage du résumé -->
-						<?php if ( $has_excerpt && ! is_null( $item['post_excerpt'] ) && ! empty( $item['post_excerpt'] ) ) { ?>
-							<div class='acf-relation_excerpt'>
-								<span dir='ltr'><?php echo $item['post_excerpt']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-							</div>
-						<?php } ?>
-
-						<?php
-						if ( $has_button && $permalink ) {
-							$label = ! empty( $settings['button_more_label'] ) ? $settings['button_more_label'] : esc_html__( 'En savoir plus', 'eac-components' );
-							if ( $has_global_link ) {
-								$this->add_render_attribute( 'button_readmore', 'class', 'button-readmore card-link' );
-							} else {
-								$this->add_render_attribute( 'button_readmore', 'class', 'button-readmore' );
-							}
-							$this->add_render_attribute( 'button_readmore', 'role', 'button' );
-							$this->add_render_attribute( 'button_readmore', 'aria-label', esc_attr( $label ) . ' ' . esc_attr( $item['post_title'] ) );
-							$this->add_render_attribute( 'button_readmore', 'href', esc_url( $permalink ) );
-							?>
-							<div class='buttons-wrapper'>
-								<a <?php $this->print_render_attribute_string( 'button_readmore' ); ?>>
-									<span class='button__readmore-wrapper'>
-										<?php
-										if ( $has_button_picto && 'before' === $settings['button_more_position'] ) { ?>
-											<span class='button-icon eac-icon-svg'>
-												<?php Icons_Manager::render_icon( $settings['button_more_picto'], array( 'aria-hidden' => 'true' ) ); ?>
-											</span>
-										<?php }
-										echo '<span class="label-icon">' . esc_html( $label ) . '</span>';
-										if ( $has_button_picto && 'after' === $settings['button_more_position'] ) { ?>
-											<span class='button-icon eac-icon-svg'>
-												<?php Icons_Manager::render_icon( $settings['button_more_picto'], array( 'aria-hidden' => 'true' ) ); ?>
-											</span>
-										<?php } ?>
-									</span>
-								</a>
-							</div>
-						<?php } ?>
-					</div> <!-- Fin div acf-relation_content -->
-				</div> <!-- Fin div acf-relation_inner-wrapper -->
+					<?php
+					if ( $has_button && $permalink ) { ?>
+						<div class='buttons-wrapper'>
+							<?php $this->render_button_more(
+								array(
+									'permalink'     => $permalink,
+									'item_title'    => $item['post_title'],
+									'global_link'   => $has_global_link,
+									'default_label' => esc_html__( 'Read more', 'eac-components' ),
+								)
+							); ?>
+						</div>
+					<?php } ?>
+				</div> <!-- Fin div acf-relation_content -->
 			</article> <!-- Fin article -->
 
 			<?php
 			++$nb_displayed;
 			$this->remove_render_attribute( 'item_image' );
 			$this->remove_render_attribute( 'item_link' );
-			$this->remove_render_attribute( 'inner_wrapper' );
-			$this->remove_render_attribute( 'button_readmore' );
 		}
 		?>
 		</div> <!-- Fin div container_wrapper -->
@@ -1536,7 +1537,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function get_acf_supported_fields() {
+	protected function get_acf_supported_fields(): array {
 		return array(
 			'relationship',
 			'post_object',
@@ -1555,7 +1556,7 @@ class Acf_Relationship_Widget extends Widget_Base {
 	 *
 	 * @access    protected
 	 */
-	protected function get_settings_json() {
+	protected function get_settings_json(): string {
 		$settings = $this->get_settings_for_display();
 
 		$effect = $settings['slider_effect'];
@@ -1588,10 +1589,35 @@ class Acf_Relationship_Widget extends Widget_Base {
 			'data_sw_pagination_click' => 'yes' === $settings['slider_pagination'] && 'yes' === $settings['slider_pagination_click'] ? true : false,
 			'data_sw_scroll'           => 'yes' === $settings['slider_scrollbar'] ? true : false,
 			'data_animate'             => 'yes' === $settings['acf_relation_enable_animation'] ? true : false,
+			'data_lazy'                => 'yes' === $settings['acf_relation_content_image'] && 'yes' === $settings['acf_relation_content_image_lazy'] ? true : false,
 		);
 
 		return wp_json_encode( $module_settings );
 	}
 
-	protected function content_template() {}
+	/**
+	 * get_relational_options
+	 *
+	 * @return array
+	 */
+	protected function get_relational_options(): array {
+		$options = array();
+		$this->main_id = get_the_ID();
+
+		if ( \Elementor\Plugin::$instance->documents->get_current() !== null ) {
+			$this->main_id = \Elementor\Plugin::$instance->documents->get_current()->get_main_id();
+		}
+
+		$options = Eac_Acf_Lib::get_acf_fields_options( $this->get_acf_supported_fields(), $this->main_id, 'relational' );
+
+		return $options;
+	}
+	/**
+	 * Render widget output in the editor.
+	 *
+	 * Written in JS and used to generate the live preview.
+	 *
+	 * @access protected
+	 */
+	protected function content_template(): void {}
 }

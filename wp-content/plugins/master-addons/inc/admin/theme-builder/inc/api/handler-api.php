@@ -1,7 +1,9 @@
 <?php
-namespace MasterHeaderFooter;
+namespace MasterAddons\Inc\Admin\Theme_Builder\Api;
 
-class Handler_Api{
+defined( 'ABSPATH' ) || exit;
+
+class Handler_API{
 
     public $prefix = '';
     public $param = '';
@@ -48,4 +50,4 @@ class Handler_Api{
 }
 
 
-new Handler_Api();
+new Handler_API();

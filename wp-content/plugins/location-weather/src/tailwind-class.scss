@@ -1,0 +1,188 @@
+/* Display utilities */
+.sp {
+    &-d-hidden {
+        display: none;
+    }
+
+    &-d-grid {
+        display: grid;
+    }
+
+    &-d-flex {
+        display: flex;
+    }
+
+    &-d-i-flex {
+        display: inline-flex;
+    }
+
+    &-d-block {
+        display: block;
+    }
+
+    &-d-i-block {
+        display: inline-block;
+    }
+
+    &-d-disabled {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    &-justify-start,
+    &-justify-left {
+        justify-content: start;
+    }
+
+    &-justify-between {
+        justify-content: space-between;
+    }
+
+    &-justify-center {
+        justify-content: center;
+    }
+
+    &-justify-end,
+    &-justify-right {
+        justify-content: end;
+    }
+
+    &-align-i-start {
+        align-items: start;
+    }
+
+    &-align-i-center {
+        align-items: center;
+    }
+
+    &-align-i-end {
+        align-items: end;
+    }
+
+    &-row-reverse {
+        flex-direction: row-reverse;
+    }
+
+    &-flex-col {
+        flex-direction: column;
+    }
+}
+
+/* margin padding utilities */
+.sp {
+
+    // margin. 
+    &-m-auto {
+        margin: auto;
+    }
+
+    &-m-0 {
+        margin: 0;
+    }
+
+    // padding. 
+    &-p-0 {
+        padding: 0;
+    }
+
+    // width.
+    &-w {
+        &-50 {
+            width: 50%;
+        }
+
+        &-full {
+            width: 100%;
+        }
+    }
+
+    // gap.
+    &-gap-4px {
+        gap: 4px;
+    }
+
+    &-gap-6px {
+        gap: 6px;
+    }
+
+    &-gap-8px {
+        gap: 8px;
+    }
+
+    &-gap-10px {
+        gap: 10px;
+    }
+
+    &-gap-20px {
+        gap: 20px;
+    }
+}
+
+.sp-li-style-none {
+    list-style: none;
+}
+
+.sp-normal-font {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+// grid .
+@each $item in start, center, end {
+    .sp-justify-i-#{$item} {
+        justify-items: $item;
+    }
+}
+
+@each $col in 1, 2, 3, 4, 5, 6 {
+    .sp-grid-cols-#{$col} {
+        grid-template-columns: repeat($col, 1fr);
+    }
+}
+
+/* Text Alignment */
+$alignments: center, left, right;
+
+@each $align in $alignments {
+    .sp-text-align-#{$align} {
+        text-align: $align;
+    }
+}
+
+/* Font Weights */
+$font-weights: 300, 400, 500, 600, 700, 800;
+
+@each $weight in $font-weights {
+    .sp-font-#{$weight} {
+        font-weight: $weight;
+    }
+}
+
+/* Font Styles */
+$font-styles: normal, italic, oblique;
+
+@each $style in $font-styles {
+    .sp-font-#{$style} {
+        font-style: $style;
+    }
+}
+
+/* Text Transformations */
+$text-transforms: (
+    normal: none,
+    lowercase: lowercase,
+    capitalize: capitalize,
+    uppercase: uppercase
+);
+
+@each $name, $value in $text-transforms {
+    .sp-text-t-#{$name} {
+        text-transform: $value;
+    }
+}
+
+/* cursor */
+.sp-cursor-pointer {
+    cursor: pointer;
+}

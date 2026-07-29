@@ -16,15 +16,15 @@ trait Slider_Trait {
 		$this->add_control(
 			'slider_autoplay',
 			array(
-				'label'   => esc_html__( 'Lecture automatique', 'eac-components' ),
+				'label'   => esc_html__( 'Autoplay', 'eac-components' ),
 				'type'    => Controls_Manager::CHOOSE,
 				'options' => array(
 					'yes' => array(
-						'title' => esc_html__( 'Oui', 'eac-components' ),
+						'title' => esc_html__( 'Yes', 'eac-components' ),
 						'icon'  => 'eicon-check',
 					),
 					'no'  => array(
-						'title' => esc_html__( 'Non', 'eac-components' ),
+						'title' => esc_html__( 'No', 'eac-components' ),
 						'icon'  => 'eicon-ban',
 					),
 				),
@@ -36,7 +36,7 @@ trait Slider_Trait {
 		$this->add_control(
 			'slider_delay',
 			array(
-				'label'     => esc_html__( "Interval d'affichage (ms)", 'eac-components' ),
+				'label'     => esc_html__( 'Autoplay speed (ms)', 'eac-components' ),
 				'type'      => Controls_Manager::NUMBER,
 				'min'       => 0,
 				'max'       => 6000,
@@ -49,15 +49,15 @@ trait Slider_Trait {
 		$this->add_control(
 			'slider_loop',
 			array(
-				'label'     => esc_html__( 'Lire en boucle', 'eac-components' ),
+				'label'     => esc_html__( 'Loop', 'eac-components' ),
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'yes' => array(
-						'title' => esc_html__( 'Oui', 'eac-components' ),
+						'title' => esc_html__( 'Yes', 'eac-components' ),
 						'icon'  => 'eicon-check',
 					),
 					'no'  => array(
-						'title' => esc_html__( 'Non', 'eac-components' ),
+						'title' => esc_html__( 'No', 'eac-components' ),
 						'icon'  => 'eicon-ban',
 					),
 				),
@@ -70,7 +70,7 @@ trait Slider_Trait {
 		$this->add_control(
 			'slider_images_number',
 			array(
-				'label'     => esc_html__( 'Diapositives affichées', 'eac-components' ),
+				'label'     => esc_html__( 'Slides displayed', 'eac-components' ),
 				'type'      => Controls_Manager::NUMBER,
 				'min'       => 1,
 				'max'       => 30,
@@ -86,7 +86,7 @@ trait Slider_Trait {
 			'slider_images_number_warning',
 			array(
 				'type'            => Controls_Manager::RAW_HTML,
-				'raw'             => esc_html__( 'Le nombre de diapositives affichées doit être inférieur ou égal à deux fois le nombre total de diapositives', 'eac-components' ),
+				'raw'             => esc_html__( 'The number of slides displayed must be less than or equal to twice the total number of slides', 'eac-components' ),
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-warning',
 				'condition'       => array(
 					'slider_autoplay' => 'yes',
@@ -98,15 +98,15 @@ trait Slider_Trait {
 		$this->add_control(
 			'slider_images_centered',
 			array(
-				'label'     => esc_html__( 'Diapositive centrée', 'eac-components' ),
+				'label'     => esc_html__( 'Slide centered', 'eac-components' ),
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'yes' => array(
-						'title' => esc_html__( 'Oui', 'eac-components' ),
+						'title' => esc_html__( 'Yes', 'eac-components' ),
 						'icon'  => 'eicon-check',
 					),
 					'no'  => array(
-						'title' => esc_html__( 'Non', 'eac-components' ),
+						'title' => esc_html__( 'No', 'eac-components' ),
 						'icon'  => 'eicon-ban',
 					),
 				),
@@ -124,15 +124,15 @@ trait Slider_Trait {
 		$this->add_control(
 			'slider_rtl',
 			array(
-				'label'        => esc_html__( "Direction de l'affichage", 'eac-components' ),
+				'label'        => esc_html__( 'Display direction', 'eac-components' ),
 				'type'         => Controls_Manager::CHOOSE,
 				'options'      => array(
 					'left'  => array(
-						'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+						'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 						'icon'  => "eicon-order-{$start}",
 					),
 					'right' => array(
-						'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+						'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 						'icon'  => "eicon-order-{$end}",
 					),
 				),
@@ -152,9 +152,9 @@ trait Slider_Trait {
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'slide',
 				'options' => array(
-					'slide'     => esc_html__( 'Défaut', 'eac-components' ),
+					'slide'     => esc_html__( 'Default', 'eac-components' ),
 					'coverflow' => 'Coverflow',
-					'creative'  => esc_html__( 'Créatif', 'eac-components' ),
+					'creative'  => esc_html__( 'Creative', 'eac-components' ),
 					'fade'      => 'Fade',
 				),
 			)
@@ -163,7 +163,7 @@ trait Slider_Trait {
 		$this->add_responsive_control(
 			'slider_width',
 			array(
-				'label'          => esc_html__( 'Largeur du slider (%)', 'eac-components' ),
+				'label'          => esc_html__( 'Slider width (%)', 'eac-components' ),
 				'type'           => Controls_Manager::SLIDER,
 				'size_units'     => array( '%' ),
 				'default'        => array(
@@ -209,7 +209,7 @@ trait Slider_Trait {
 		$this->add_responsive_control(
 			'slider_height',
 			array(
-				'label'       => esc_html__( 'Hauteur du slider (px)', 'eac-components' ),
+				'label'       => esc_html__( 'Slider height (px)', 'eac-components' ),
 				'type'        => Controls_Manager::SLIDER,
 				'size_units'  => array( 'px' ),
 				'default'     => array(
@@ -247,15 +247,15 @@ trait Slider_Trait {
 		$this->add_control(
 			'slider_ratio_enable',
 			array(
-				'label'     => esc_html__( 'Activer le ratio image', 'eac-components' ),
+				'label'     => esc_html__( 'Enable image ratio', 'eac-components' ),
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'yes' => array(
-						'title' => esc_html__( 'Oui', 'eac-components' ),
+						'title' => esc_html__( 'Yes', 'eac-components' ),
 						'icon'  => 'eicon-check',
 					),
 					'no'  => array(
-						'title' => esc_html__( 'Non', 'eac-components' ),
+						'title' => esc_html__( 'No', 'eac-components' ),
 						'icon'  => 'eicon-ban',
 					),
 				),
@@ -267,13 +267,13 @@ trait Slider_Trait {
 		$this->add_responsive_control(
 			'slider_ratio',
 			array(
-				'label'                => esc_html__( 'Ratio image', 'eac-components' ),
+				'label'                => esc_html__( 'Image ratio', 'eac-components' ),
 				'type'                 => Controls_Manager::SELECT,
 				'default'              => '1-1',
 				'tablet_default'       => '1-1',
 				'mobile_default'       => '9-16',
 				'options'              => array(
-					'1-1'  => esc_html__( 'Défaut', 'eac-components' ),
+					'1-1'  => esc_html__( 'Default', 'eac-components' ),
 					'9-16' => esc_html( '9-16' ),
 					'4-3'  => esc_html( '4-3' ),
 					'3-2'  => esc_html( '3-2' ),
@@ -328,7 +328,7 @@ trait Slider_Trait {
 		$this->add_responsive_control(
 			'slider_position',
 			array(
-				'label'          => esc_html__( 'Position verticale', 'eac-components' ),
+				'label'          => esc_html__( 'Vertical position', 'eac-components' ),
 				'type'           => Controls_Manager::SLIDER,
 				'size_units'     => array( '%' ),
 				'default'        => array(
@@ -394,11 +394,11 @@ trait Slider_Trait {
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'yes' => array(
-						'title' => esc_html__( 'Oui', 'eac-components' ),
+						'title' => esc_html__( 'Yes', 'eac-components' ),
 						'icon'  => 'eicon-check',
 					),
 					'no'  => array(
-						'title' => esc_html__( 'Non', 'eac-components' ),
+						'title' => esc_html__( 'No', 'eac-components' ),
 						'icon'  => 'eicon-ban',
 					),
 				),
@@ -411,15 +411,15 @@ trait Slider_Trait {
 		$this->add_control(
 			'slider_pagination',
 			array(
-				'label'   => esc_html__( 'Pagination', 'eac-components' ),
+				'label'   => esc_html__( 'Paging', 'eac-components' ),
 				'type'    => Controls_Manager::CHOOSE,
 				'options' => array(
 					'yes' => array(
-						'title' => esc_html__( 'Oui', 'eac-components' ),
+						'title' => esc_html__( 'Yes', 'eac-components' ),
 						'icon'  => 'eicon-check',
 					),
 					'no'  => array(
-						'title' => esc_html__( 'Non', 'eac-components' ),
+						'title' => esc_html__( 'No', 'eac-components' ),
 						'icon'  => 'eicon-ban',
 					),
 				),
@@ -431,15 +431,15 @@ trait Slider_Trait {
 		$this->add_control(
 			'slider_pagination_click',
 			array(
-				'label'     => esc_html__( 'Cliquable', 'eac-components' ),
+				'label'     => esc_html__( 'Clickable', 'eac-components' ),
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'yes' => array(
-						'title' => esc_html__( 'Oui', 'eac-components' ),
+						'title' => esc_html__( 'Yes', 'eac-components' ),
 						'icon'  => 'eicon-check',
 					),
 					'no'  => array(
-						'title' => esc_html__( 'Non', 'eac-components' ),
+						'title' => esc_html__( 'No', 'eac-components' ),
 						'icon'  => 'eicon-ban',
 					),
 				),
@@ -452,15 +452,15 @@ trait Slider_Trait {
 		$this->add_control(
 			'slider_scrollbar',
 			array(
-				'label'   => esc_html__( 'Barre de défilement', 'eac-components' ),
+				'label'   => esc_html__( 'Scrollbar', 'eac-components' ),
 				'type'    => Controls_Manager::CHOOSE,
 				'options' => array(
 					'yes' => array(
-						'title' => esc_html__( 'Oui', 'eac-components' ),
+						'title' => esc_html__( 'Yes', 'eac-components' ),
 						'icon'  => 'eicon-check',
 					),
 					'no'  => array(
-						'title' => esc_html__( 'Non', 'eac-components' ),
+						'title' => esc_html__( 'No', 'eac-components' ),
 						'icon'  => 'eicon-ban',
 					),
 				),
@@ -485,13 +485,13 @@ trait Slider_Trait {
 		$this->add_control(
 			'slider_navigation_size',
 			array(
-				'label'     => esc_html__( 'Dimension', 'eac-components' ),
+				'label'     => esc_html__( 'Size', 'eac-components' ),
 				'type'      => Controls_Manager::NUMBER,
 				'min'       => 45,
 				'max'       => 100,
 				'step'      => 10,
 				'default'   => 45,
-				'selectors' => array( '{{WRAPPER}} .swiper-button-next:after, {{WRAPPER}} .swiper-button-prev:after' => 'font-size: {{VALUE}}px;' ),
+				'selectors' => array( '{{WRAPPER}} .swiper-button-next, {{WRAPPER}} .swiper-button-prev' => 'block-size: {{VALUE}}px; inline-size: {{VALUE}}px;' ),
 				'condition' => array( 'slider_navigation' => 'yes' ),
 			)
 		);
@@ -499,11 +499,11 @@ trait Slider_Trait {
 		$this->add_control(
 			'slider_navigation_color',
 			array(
-				'label'     => esc_html__( 'Couleur', 'eac-components' ),
+				'label'     => esc_html__( 'Color', 'eac-components' ),
 				'type'      => Controls_Manager::COLOR,
 				'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 				'default'   => '#000',
-				'selectors' => array( '{{WRAPPER}} .swiper-button-next, {{WRAPPER}} .swiper-button-prev' => 'color: {{VALUE}};' ),
+				'selectors' => array( '{{WRAPPER}} .swiper-button-next:after, {{WRAPPER}} .swiper-button-prev:after' => 'background-color: {{VALUE}};' ),
 				'condition' => array( 'slider_navigation' => 'yes' ),
 			)
 		);
@@ -511,7 +511,7 @@ trait Slider_Trait {
 		$this->add_control(
 			'slider_style_pagination',
 			array(
-				'label'     => esc_html__( 'Pagination', 'eac-components' ),
+				'label'     => esc_html__( 'Paging', 'eac-components' ),
 				'type'      => Controls_Manager::HEADING,
 				'condition' => array( 'slider_pagination' => 'yes' ),
 				'separator' => 'before',
@@ -521,7 +521,7 @@ trait Slider_Trait {
 		$this->add_control(
 			'slider_pagination_color',
 			array(
-				'label'     => esc_html__( 'Couleur des puces', 'eac-components' ),
+				'label'     => esc_html__( 'Bullets color', 'eac-components' ),
 				'type'      => Controls_Manager::COLOR,
 				'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 				'default'   => 'black',
@@ -533,7 +533,7 @@ trait Slider_Trait {
 		$this->add_control(
 			'slider_pagination_color_active',
 			array(
-				'label'     => esc_html__( 'Couleur de la puce active', 'eac-components' ),
+				'label'     => esc_html__( 'Active bullet color', 'eac-components' ),
 				'type'      => Controls_Manager::COLOR,
 				'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 				'default'   => 'red',
@@ -545,7 +545,7 @@ trait Slider_Trait {
 		$this->add_control(
 			'slider_pagination_width',
 			array(
-				'label'     => esc_html__( 'Largeur des puces', 'eac-components' ),
+				'label'     => esc_html__( 'Bullets width', 'eac-components' ),
 				'type'      => Controls_Manager::NUMBER,
 				'min'       => 5,
 				'max'       => 40,
@@ -559,7 +559,7 @@ trait Slider_Trait {
 		$this->add_control(
 			'slider_pagination_height',
 			array(
-				'label'     => esc_html__( 'Hauteur des puces', 'eac-components' ),
+				'label'     => esc_html__( 'Bullets height', 'eac-components' ),
 				'type'      => Controls_Manager::NUMBER,
 				'min'       => 3,
 				'max'       => 15,
@@ -575,7 +575,7 @@ trait Slider_Trait {
 		$this->add_control(
 			'slider_pagination_radius',
 			array(
-				'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+				'label'              => esc_html__( 'Border radius', 'eac-components' ),
 				'type'               => Controls_Manager::DIMENSIONS,
 				'size_units'         => array( 'px', '%' ),
 				'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),

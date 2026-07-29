@@ -1,0 +1,126 @@
+.spl-weather-layout-picker {
+	.spl-weather-layouts-list {
+		gap: 8px;
+		text-align: center;
+		max-width: 620px;
+
+		&.grid-2 {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		&.grid-3 {
+			grid-template-columns: repeat(3, 1fr);
+		}
+
+		.spl-weather-layout {
+			&-card {
+				position: relative;
+
+				&.active .active-symbol {
+					position: absolute;
+					right: 5px;
+					top: 2px;
+				}
+			}
+		}
+	}
+
+	&.spl-layout-preset-set {
+		height: 200px;
+		overflow: hidden;
+		position: relative;
+
+		.spl-see-more-overlay {
+			bottom: 0;
+			cursor: pointer;
+			display: table;
+			font-size: 14px;
+			font-weight: 600;
+			text-align: center;
+			left: 50%;
+			position: absolute;
+			right: 0;
+			text-transform: capitalize;
+			transform: translateX(-50%);
+
+			.spl-pro-link {
+				display: inline-flex;
+				height: 32px;
+				padding: 8px 16px;
+				justify-content: center;
+				align-items: center;
+				gap: 8px;
+				flex-shrink: 0;
+				color: #2F2F2F;
+				border-radius: 4px;
+				border: 1px solid #2F2F2F;
+				background: #FFF;
+				text-decoration: none;
+
+				&:focus {
+					outline: none;
+					box-shadow: none;
+				}
+			}
+		}
+	}
+
+	.spl-only-pro-card {
+		position: relative;
+		overflow: unset;
+
+		svg {
+			opacity: 0.5;
+			transition: opacity 0.3s ease;
+		}
+		/* On hover show badge */
+		&:hover {
+			svg {
+				opacity: 0.3;
+			}
+
+			.spl-pro-badge {
+				opacity: 1;
+				visibility: visible;
+				transform: translateX(-50%) translateY(-50%);
+			}
+		}
+	}
+
+	&.spl-layout-preset-set {
+
+		&.vertical,
+		&.aqi-minimal {
+			.spl-only-pro-card:is(:nth-last-child(-n+3)) {
+				.spl-pro-badge {
+					top: 20px;
+				}
+
+				&:hover {
+					.spl-pro-badge {
+						transform: translateX(-50%) translateY(4px);
+					}
+				}
+			}
+		}
+	}
+
+	&:not(.spl-layout-preset-set, .grid, .horizontal, .vertical, .table, .tabs) {
+		.spl-only-pro-card {
+			.spl-pro-badge {
+				top: 20px;
+			}
+
+			&:hover {
+				.spl-pro-badge {
+					transform: translateX(-50%) translateY(0);
+				}
+			}
+		}
+
+	}
+}
+
+.editor-styles-wrapper .splw-container-variation-picker ul {
+	list-style: none;
+}

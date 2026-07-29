@@ -1,0 +1,125 @@
+// responsive css.
+@media only screen and (min-width: 600px) and (max-width: 1023px) {
+    .spl-weather-admin-blocks-settings-page {
+        .spl-weather-admin-page-header {
+            margin-bottom: 25px;
+        }
+
+        .spl-weather-blocks-setting-title {
+            margin: 0 0 15px 0;
+        }
+
+        .spl-weather-blocks-settings-container {
+            padding: 0 20px;
+        }
+    }
+
+    // menu page spacing.
+    .sp-location-weather-block-setting {
+        .spl-weather-block-settings-navigation {
+            margin-bottom: 30px;
+        }
+
+        .spl-weather-block-setting-header-wrapper,
+        .spl-weather-blocks-settings-page-wrapper {
+            padding: 20px 30px;
+        }
+
+        .spl-weather-block-settings-navigation ul {
+            padding: 0 30px;
+        }
+    }
+
+    // getting page css.
+    .splwb-settings-getting-start-page {
+        &-content {
+            flex-wrap: wrap;
+        }
+
+        .splwb-video-section {
+            width: 100%;
+        }
+
+        .splwb-sidebar-section {
+            width: 100%;
+            gap: 20px;
+            flex-direction: row;
+            flex-wrap: wrap;
+
+            .splwb-sidebar-info-card {
+                width: calc(50% - 10px);
+                padding: 20px;
+            }
+        }
+
+    }
+
+    // blocks page css.
+    #spl-weather-pro-block-admin-page {
+        .spl-weather-blocks-settings-card-wrapper {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+    }
+}
+
+@media only screen and (max-width: 599px) {
+    // menu page spacing.
+    .sp-location-weather-block-setting {
+        .spl-weather-block-settings-navigation {
+            margin-bottom: 30px;
+        }
+
+        .spl-weather-block-setting-header-wrapper,
+        .spl-weather-blocks-settings-page-wrapper {
+            padding: 20px 30px;
+        }
+
+        .spl-weather-block-settings-navigation ul {
+            padding: 0 30px;
+        }
+    }
+
+    // getting start page.
+    .splwb-settings-getting-start-page {
+        &-content {
+            flex-wrap: wrap;
+        }
+
+        .splwb-video-section {
+            width: 100%;
+            padding: 20px;
+        }
+
+        .splwb-sidebar-section {
+            width: 100%;
+            gap: 20px;
+            flex-direction: row;
+            flex-wrap: wrap;
+
+            .splwb-sidebar-info-card {
+                width: 100%;
+                padding: 20px;
+            }
+        }
+
+        .splwb-video-section-btn {
+            ul {
+                flex-wrap: wrap;
+
+                li a {
+                    padding: 15px 20px;
+                }
+            }
+        }
+
+    }
+
+    // blocks page.
+    #spl-weather-pro-block-admin-page {
+        .spl-weather-blocks-settings-card-wrapper {
+            grid-template-columns: repeat(1, 1fr);
+            gap: 15px;
+        }
+    }
+}

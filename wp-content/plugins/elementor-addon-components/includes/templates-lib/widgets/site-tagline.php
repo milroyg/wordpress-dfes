@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;   // Exit if accessed directly.
 }
 
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Controls_Manager;
 use Elementor\Widget_Base;
@@ -40,10 +40,10 @@ class Site_Tagline_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -51,10 +51,10 @@ class Site_Tagline_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -62,10 +62,10 @@ class Site_Tagline_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -75,8 +75,8 @@ class Site_Tagline_Widget extends Widget_Base {
 	 *
 	 * @return widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -88,8 +88,8 @@ class Site_Tagline_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -97,10 +97,10 @@ class Site_Tagline_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -124,7 +124,7 @@ class Site_Tagline_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'site_tagline_settings_fields',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -132,7 +132,7 @@ class Site_Tagline_Widget extends Widget_Base {
 			$this->add_control(
 				'site_tagline_icon',
 				array(
-					'label'       => esc_html__( 'Sélectionner un pictogramme', 'eac-components' ),
+					'label'       => esc_html__( 'Select pictogram', 'eac-components' ),
 					'type'        => Controls_Manager::ICONS,
 					'label_block' => 'true',
 					'skin'        => 'inline',
@@ -142,7 +142,7 @@ class Site_Tagline_Widget extends Widget_Base {
 			$this->add_control(
 				'site_tagline_icon_marge',
 				array(
-					'label'     => esc_html__( 'Marge', 'eac-components' ),
+					'label'     => esc_html__( 'Margin', 'eac-components' ),
 					'type'      => Controls_Manager::SLIDER,
 					'range'     => array(
 						'px' => array(
@@ -164,7 +164,7 @@ class Site_Tagline_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'site_tagline_style',
 			array(
-				'label' => esc_html__( 'Slogan du site', 'eac-components' ),
+				'label' => esc_html__( 'Site tagline', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -174,19 +174,19 @@ class Site_Tagline_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'site_tagline_alignment',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'left'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-text-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-text-align-center',
 						),
 						'right'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-text-align-{$end}",
 						),
 					),
@@ -204,7 +204,7 @@ class Site_Tagline_Widget extends Widget_Base {
 			$this->add_control(
 				'site_tagline_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array(
 						'default' => Global_Colors::COLOR_TEXT,
@@ -219,7 +219,7 @@ class Site_Tagline_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'site_tagline_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'global'   => array(
 						'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
 					),
@@ -237,7 +237,7 @@ class Site_Tagline_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 
 		$settings = $this->get_settings_for_display();
 		$tagline  = get_bloginfo( 'description' );
@@ -262,7 +262,7 @@ class Site_Tagline_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function content_template() {
+	protected function content_template(): void {
 		?>
 		<#
 		var iconHTML = elementor.helpers.renderIcon( view, settings.site_tagline_icon, { 'aria-hidden': true }, 'i' , 'object' );

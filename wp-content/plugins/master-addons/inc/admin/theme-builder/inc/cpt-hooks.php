@@ -1,10 +1,10 @@
 <?php
 
-namespace MasterHeaderFooter;
+namespace MasterAddons\Inc\Admin\Theme_Builder;
 
 defined('ABSPATH') || exit;
 
-class JLTMA_CPT_Hook
+class CPT_Hooks
 {
     public static $instance = null;
 
@@ -56,9 +56,12 @@ class JLTMA_CPT_Hook
                 $active = get_post_meta($post_id, 'master_template_activation', true);
 
                 $display_type = empty($type) ? 'Unknown' : ucfirst($type);
-                echo esc_html($display_type) . (($active == 'yes')
-                    ? ('<span class="jltma-hf-status jltma-hf-status-active">' . esc_html__('Active', 'master-addons' ) . '</span>')
-                    : ('<span class="jltma-hf-status jltma-hf-status-inactive">' . esc_html__('Inactive', 'master-addons' ) . '</span>'));
+                echo esc_html($display_type);
+                if ($active == 'yes') {
+                    echo '<span class="jltma-hf-status jltma-hf-status-active">' . esc_html__('Active', 'master-addons' ) . '</span>';
+                } else {
+                    echo '<span class="jltma-hf-status jltma-hf-status-inactive">' . esc_html__('Inactive', 'master-addons' ) . '</span>';
+                }
 
                 break;
             case 'condition':
@@ -188,7 +191,7 @@ class JLTMA_CPT_Hook
                     }
                 }
 
-                echo $condition_text . '<br><a href="#" class="jltma-theme-builder-edit-cond" id="' . $post_id . '">Edit Conditions <span class="dashicons dashicons-edit"></span></a>';
+                echo wp_kses_post($condition_text) . '<br><a href="#" class="jltma-theme-builder-edit-cond" id="' . esc_attr($post_id) . '">Edit Conditions <span class="dashicons dashicons-edit"></span></a>';
 
                 break;
             case 'shortcode':
@@ -206,6 +209,7 @@ class JLTMA_CPT_Hook
 
     public function  query_filter($query)
     {
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended -- Read-only checks of admin list-table query vars to filter the templates list; no form data is processed.
         global $pagenow;
         $current_page = isset($_GET['post_type']) ? \sanitize_key($_GET['post_type']) : '';
 
@@ -222,6 +226,7 @@ class JLTMA_CPT_Hook
             $query->query_vars['meta_value'] = $type;
             $query->query_vars['meta_compare'] = '=';
         }
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
     }
 
     /**
@@ -263,25 +268,25 @@ class JLTMA_CPT_Hook
                     // Render using Elementor's document system
                     $document = \Elementor\Plugin::instance()->documents->get( $template_id );
                     if ( $document && $document->is_built_with_elementor() ) {
-                        echo $document->get_content();
+                        echo $document->get_content(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Elementor document get_content() returns sanitized frontend markup
                     }
                 } else {
                     // Fallback to post content
-                    echo \do_shortcode( $template_post->post_content );
+                    echo \wp_kses_post( \do_shortcode( $template_post->post_content ) );
                 }
-                
+
                 $content = \ob_get_clean();
                 return $content;
-                
+
             } catch ( \Exception $e ) {
                 \ob_end_clean();
                 // Return post content as fallback if Elementor fails
-                return \do_shortcode( $template_post->post_content );
+                return \wp_kses_post( \do_shortcode( $template_post->post_content ) );
             }
         }
 
         // Fallback: Return post content if Elementor is not available
-        return \do_shortcode( $template_post->post_content );
+        return \wp_kses_post( \do_shortcode( $template_post->post_content ) );
     }
 
     public static function instance()
@@ -294,4 +299,4 @@ class JLTMA_CPT_Hook
     }
 }
 
-new JLTMA_CPT_Hook();
+new CPT_Hooks();

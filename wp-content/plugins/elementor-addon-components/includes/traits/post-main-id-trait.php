@@ -20,7 +20,7 @@ trait Post_Main_Id_Trait {
 		$options_page_id = '';
 
 		// Les pages d'options globales
-		if ( class_exists( Eac_Acf_Options_Page::class ) && ! empty( $field ) ) {
+		if ( class_exists( Eac_Acf_Options_Page::class, false ) && ! empty( $field ) ) {
 			$options_page_id = Eac_Acf_Options_Page::get_options_page_id( $field );
 		}
 

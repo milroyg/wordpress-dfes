@@ -143,7 +143,7 @@ class Class_Menu_Walker extends \Walker_Nav_Menu {
 
 		$parent_icon = '';
 		if ( $args->walker->has_children ) {
-			$aria_label  = esc_html__( 'Ouvrir le sous menu', 'eac-components' );
+			$aria_label  = esc_html__( 'Open submenu', 'eac-components' );
 			$parent_icon = '<span class="icon-menu-toggle" aria-label="' . $aria_label . '">' . $this->get_svg_icon_menu() . '</span>';
 			/** $parent_icon = '<button class="icon-menu-toggle" type="button" tabindex="-1" aria-label="' . $aria_label . '">' . $this->get_svg_icon_menu() . '</button>'; */
 		}

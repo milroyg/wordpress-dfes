@@ -18,54 +18,54 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 
 class Featured_Image_Data extends Tag {
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-featured-image-data';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Données image en avant', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Featured image data', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-post';
+	public function get_group(): array {
+		return array( 'eac-post' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array(
 			TagsModule::TEXT_CATEGORY,
 			TagsModule::URL_CATEGORY,
 		);
 	}
 
-	public function get_panel_template_setting_key() {
+	public function get_panel_template_setting_key(): string {
 		return 'eac_attachement_data';
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->add_control(
 			'eac_attachement_data',
 			array(
-				'label'   => esc_html__( 'Data', 'eac-components' ),
+				'label'   => esc_html__( 'Données', 'eac-components' ),
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'title',
 				'options' => array(
-					'title'       => esc_html__( 'Titre', 'eac-components' ),
-					'alt'         => esc_html__( 'Alt', 'eac-components' ),
-					'caption'     => esc_html__( 'Légende', 'eac-components' ),
+					'title'       => esc_html__( 'Title', 'eac-components' ),
+					'alt'         => 'Alt',
+					'caption'     => esc_html__( 'Legend', 'eac-components' ),
 					'description' => esc_html__( 'Description', 'eac-components' ),
 					'src'         => esc_html__( 'URL image', 'eac-components' ),
-					'href'        => esc_html__( 'URL attachement', 'eac-components' ),
+					'href'        => esc_html__( 'Attachment URL', 'eac-components' ),
 				),
 			)
 		);
 	}
 
-	public function render() {
+	public function render(): void {
 		$settings   = $this->get_settings_for_display();
 		$attachment = $this->get_attachement();
 
 		if ( ! $attachment ) {
-			return ''; }
+			return; }
 
 		$value = '';
 

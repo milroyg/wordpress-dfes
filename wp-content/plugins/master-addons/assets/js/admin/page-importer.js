@@ -1,2 +1,254 @@
-(()=>{function t(e){return t="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},t(e)}function e(t,e){for(var n=0;n<e.length;n++){var a=e[n];a.enumerable=a.enumerable||!1,a.configurable=!0,"value"in a&&(a.writable=!0),Object.defineProperty(t,o(a.key),a)}}function o(e){var o=function(e,o){if("object"!=t(e)||!e)return e;var n=e[Symbol.toPrimitive];if(void 0!==n){var a=n.call(e,o||"default");if("object"!=t(a))return a;throw new TypeError("@@toPrimitive must return a primitive value.")}return("string"===o?String:Number)(e)}(e,"string");return"symbol"==t(o)?o:o+""}!function(t){"use strict";var o=function(){return o=function t(){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.config=window.JLTMA_PAGE_IMPORTER||{},this.modal=null,this.modalCreated=!1,this.currentReactRoot=null,this.currentType=null,this.init()},n=[{key:"init",value:function(){var e=this;t(document).ready(function(){e.addImportButton(),e.attachEvents()})}},{key:"addImportButton",value:function(){var e=t(".wrap .wp-heading-inline + .page-title-action");if(0===e.length&&(e=t(".page-title-action").first()),0!==e.length){var o=t("<div>",{class:"jltma-import-wrapper"}),n=t("<button>",{type:"button",class:"jltma-import-pages-btn",html:'\n                    <img src="'.concat(this.config.red_logo_url,'" alt="Master Addons" class="jltma-import-icon" />\n                    <span>MA Import</span>\n                    <span class="jltma-dropdown-icon dashicons dashicons-arrow-down-alt2"></span>\n                ')}),a=t("<div>",{class:"jltma-import-dropdown",html:'\n                    <a href="#" class="jltma-dropdown-item" data-action="template-kits">\n                        <span class="dashicons dashicons-admin-page"></span>\n                        Template Kits\n                    </a>\n                    <a href="#" class="jltma-dropdown-item" data-action="import-pages">\n                        <span class="dashicons dashicons-welcome-add-page"></span>\n                        Import Pages\n                    </a>\n                '});o.append(n,a),o.insertAfter(e)}}},{key:"createModal",value:function(){var e='\n                <div id="jltma-page-importer-modal" class="jltma-import-modal" style="display: none;">\n                    <div class="jltma-import-backdrop"></div>\n                    <div class="jltma-import-modal-content">\n                        <div id="ma-el-modal-loading" style="display: none;">\n                            <div class="elementor-loader-wrapper">\n                                <div class="ma-el-logo-container">\n                                    <img src="'.concat(this.config.logo_url,'" alt="Master Addons" class="ma-el-loading-logo">\n                                </div>\n                                <div class="elementor-loading-title">').concat(this.config.i18n.loading,'</div>\n                            </div>\n                        </div>\n                        <div id="jltma-template-library-root" class="jltma-template-page-importer">\n                        </div>\n                    </div>\n                </div>\n            ');t("body").append(e),this.modal=t("#jltma-page-importer-modal")}},{key:"attachEvents",value:function(){var e=this;t(document).on("click",".jltma-import-pages-btn",function(e){e.preventDefault(),e.stopPropagation(),t(this).closest(".jltma-import-wrapper").toggleClass("is-open")}),t(document).on("click",".jltma-dropdown-item",function(o){o.preventDefault();var n=t(this).data("action");t(this).closest(".jltma-import-wrapper").removeClass("is-open"),"import-pages"===n?e.openModal("pages"):"template-kits"===n&&e.openModal("kits")}),t(document).on("click",function(e){t(e.target).closest(".jltma-import-wrapper").length||t(".jltma-import-wrapper").removeClass("is-open")}),t(document).on("click",".jltma-import-backdrop",function(t){t.preventDefault(),e.closeModal()}),t(document).on("keydown",function(o){"Escape"===o.key&&(e.modal&&e.modal.is(":visible")&&e.closeModal(),t(".jltma-import-wrapper").removeClass("is-open"))})}},{key:"openModal",value:function(){var t=this,e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"pages";this.modalCreated?this.currentType!==e?(this.showModal(),this.unmountCurrentApp(),this.showLoading(),setTimeout(function(){t.mountReactApp(e)},100)):this.showModal():(this.createModal(),this.modalCreated=!0,this.showModal(),this.mountReactApp(e)),this.currentType=e}},{key:"mountReactApp",value:function(){var e=this,o=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"pages";this.showLoading(),t("#jltma-template-library-root, #jltma-template-kits-app").attr("id","jltma-template-library-root").empty(),"kits"===o?setTimeout(function(){e.mountTemplateKitsApp()},50):(window.JLTMA_IS_PAGE_IMPORTER_MODE=!0,setTimeout(function(){if("function"==typeof window.JLTMAMountTemplateLibrary)e.currentReactRoot=window.JLTMAMountTemplateLibrary(),e.hideLoading();else{var t=new CustomEvent("jltma-mount-template-library");document.dispatchEvent(t),e.hideLoading()}},50))}},{key:"mountTemplateKitsApp",value:function(){var e=this;if(t("#jltma-template-library-root").attr("id","jltma-template-kits-app").empty(),window.JLTMA_IS_PAGE_IMPORTER_MODE=!0,"function"==typeof window.JLTMAMountTemplateKits)this.currentReactRoot=window.JLTMAMountTemplateKits(),setTimeout(function(){return e.hideLoading()},300);else{var o=document.createElement("script");o.src=this.config.template_kits_url,o.onload=function(){"function"==typeof window.JLTMAMountTemplateKits&&(e.currentReactRoot=window.JLTMAMountTemplateKits(),setTimeout(function(){return e.hideLoading()},300))},document.body.appendChild(o)}}},{key:"unmountCurrentApp",value:function(){if(this.currentReactRoot&&"function"==typeof this.currentReactRoot.unmount)try{this.currentReactRoot.unmount()}catch(t){console.warn("Error unmounting React app:",t)}this.currentReactRoot=null,t("#jltma-template-library-root, #jltma-template-kits-app").empty()}},{key:"showLoading",value:function(){t("#ma-el-modal-loading").show(),t("#jltma-template-library-root, #jltma-template-kits-app").hide()}},{key:"hideLoading",value:function(){var e=this;t("#ma-el-modal-loading").hide(),t("#jltma-template-library-root, #jltma-template-kits-app").show(),setTimeout(function(){e.injectCloseButton()},200)}},{key:"showModal",value:function(){this.modal.css("display","flex").addClass("show"),t("body").addClass("jltma-modal-open").css("overflow","hidden")}},{key:"injectCloseButton",value:function(){var e=this,o=t(".template-library-tabs-wrapper .refresh-btn, .template-kit-upload-wrapper .refresh-btn");if(o.length>0&&!o.parent().find(".jltma-modal-close-btn").length){var n=t('\n                    <button class="jltma-modal-close-btn" aria-label="Close" title="Close">\n                        <span class="eicon-close"></span>\n                    </button>\n                ');n.insertAfter(o),n.on("click",function(t){t.preventDefault(),e.closeModal()})}}},{key:"closeModal",value:function(){var e=this;this.modal.removeClass("show"),t("body").removeClass("jltma-modal-open").css("overflow",""),setTimeout(function(){e.modal.css("display","none")},200)}}],n&&e(o.prototype,n),a&&e(o,a),Object.defineProperty(o,"prototype",{writable:!1}),o;var o,n,a}();new o}(jQuery)})();
-//# sourceMappingURL=page-importer.js.map
+(function(){
+//#region dev/js/admin/page-importer.js
+/**
+* Master Addons - Page Importer
+* Adds "Import Pages" button to WordPress Pages list
+* Opens Template Library in a modal popup
+*/
+(function($) {
+	"use strict";
+	/**
+	* Page Importer Class
+	*/
+	class JLTMA_PageImporter {
+		constructor() {
+			this.config = window.JLTMA_PAGE_IMPORTER || {};
+			this.modal = null;
+			this.modalCreated = false;
+			this.currentReactRoot = null;
+			this.currentType = null;
+			this.init();
+		}
+		/**
+		* Initialize
+		*/
+		init() {
+			$(document).ready(() => {
+				this.addImportButton();
+				this.attachEvents();
+			});
+		}
+		/**
+		* Add "MA Import" button with dropdown beside "Add New" button
+		*/
+		addImportButton() {
+			let $addNewButton = $(".wrap .wp-heading-inline + .page-title-action");
+			if ($addNewButton.length === 0) $addNewButton = $(".page-title-action").first();
+			if ($addNewButton.length === 0) return;
+			const $importWrapper = $("<div>", { class: "jltma-import-wrapper" });
+			const $importButton = $("<button>", {
+				type: "button",
+				class: "jltma-import-pages-btn",
+				html: `
+                    <img src="${this.config.red_logo_url}" alt="Master Addons" class="jltma-import-icon" />
+                    <span>MA Import</span>
+                    <span class="jltma-dropdown-icon dashicons dashicons-arrow-down-alt2"></span>
+                `
+			});
+			const $dropdown = $("<div>", {
+				class: "jltma-import-dropdown",
+				html: `
+                    <a href="#" class="jltma-dropdown-item" data-action="template-kits">
+                        <span class="dashicons dashicons-admin-page"></span>
+                        Template Kits
+                    </a>
+                    <a href="#" class="jltma-dropdown-item" data-action="import-pages">
+                        <span class="dashicons dashicons-welcome-add-page"></span>
+                        Import Pages
+                    </a>
+                `
+			});
+			$importWrapper.append($importButton, $dropdown);
+			$importWrapper.insertAfter($addNewButton);
+		}
+		/**
+		* Create modal structure (fullscreen, no custom header)
+		*/
+		createModal() {
+			const modalHTML = `
+                <div id="jltma-page-importer-modal" class="jltma-import-modal" style="display: none;">
+                    <div class="jltma-import-backdrop"></div>
+                    <div class="jltma-import-modal-content">
+                        <div id="ma-el-modal-loading" style="display: none;">
+                            <div class="elementor-loader-wrapper">
+                                <div class="ma-el-logo-container">
+                                    <img src="${this.config.logo_url}" alt="Master Addons" class="ma-el-loading-logo">
+                                </div>
+                                <div class="elementor-loading-title">${this.config.i18n.loading}</div>
+                            </div>
+                        </div>
+                        <div id="jltma-template-library-root" class="jltma-template-page-importer">
+                        </div>
+                    </div>
+                </div>
+            `;
+			$("body").append(modalHTML);
+			this.modal = $("#jltma-page-importer-modal");
+		}
+		/**
+		* Attach event handlers
+		*/
+		attachEvents() {
+			const self = this;
+			$(document).on("click", ".jltma-import-pages-btn", function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				$(this).closest(".jltma-import-wrapper").toggleClass("is-open");
+			});
+			$(document).on("click", ".jltma-dropdown-item", function(e) {
+				e.preventDefault();
+				const action = $(this).data("action");
+				$(this).closest(".jltma-import-wrapper").removeClass("is-open");
+				if (action === "import-pages") self.openModal("pages");
+				else if (action === "template-kits") self.openModal("kits");
+			});
+			$(document).on("click", function(e) {
+				if (!$(e.target).closest(".jltma-import-wrapper").length) $(".jltma-import-wrapper").removeClass("is-open");
+			});
+			$(document).on("click", ".jltma-import-backdrop", function(e) {
+				e.preventDefault();
+				self.closeModal();
+			});
+			$(document).on("keydown", function(e) {
+				if (e.key === "Escape") {
+					if (self.modal && self.modal.is(":visible")) self.closeModal();
+					$(".jltma-import-wrapper").removeClass("is-open");
+				}
+			});
+		}
+		/**
+		* Open modal and create it if needed (lazy loading)
+		* @param {string} type - 'pages' or 'kits'
+		*/
+		openModal(type = "pages") {
+			if (!this.modalCreated) {
+				this.createModal();
+				this.modalCreated = true;
+				this.showModal();
+				this.mountReactApp(type);
+			} else if (this.currentType !== type) {
+				this.showModal();
+				this.unmountCurrentApp();
+				this.showLoading();
+				setTimeout(() => {
+					this.mountReactApp(type);
+				}, 100);
+			} else this.showModal();
+			this.currentType = type;
+		}
+		/**
+		* Manually mount the appropriate React app
+		* @param {string} type - 'pages' or 'kits'
+		*/
+		mountReactApp(type = "pages") {
+			this.showLoading();
+			$("#jltma-template-library-root, #jltma-template-kits-app").attr("id", "jltma-template-library-root").empty();
+			if (type === "kits") setTimeout(() => {
+				this.mountTemplateKitsApp();
+			}, 50);
+			else {
+				window.JLTMA_IS_PAGE_IMPORTER_MODE = true;
+				setTimeout(() => {
+					if (typeof window.JLTMAMountTemplateLibrary === "function") {
+						this.currentReactRoot = window.JLTMAMountTemplateLibrary();
+						this.hideLoading();
+					} else {
+						const event = new CustomEvent("jltma-mount-template-library");
+						document.dispatchEvent(event);
+						this.hideLoading();
+					}
+				}, 50);
+			}
+		}
+		/**
+		* Mount Template Kits React app
+		*/
+		mountTemplateKitsApp() {
+			const self = this;
+			$("#jltma-template-library-root").attr("id", "jltma-template-kits-app").empty();
+			window.JLTMA_IS_PAGE_IMPORTER_MODE = true;
+			if (typeof window.JLTMAMountTemplateKits === "function") {
+				this.currentReactRoot = window.JLTMAMountTemplateKits();
+				setTimeout(() => self.hideLoading(), 300);
+			} else {
+				const script = document.createElement("script");
+				script.src = this.config.template_kits_url;
+				script.onload = () => {
+					if (typeof window.JLTMAMountTemplateKits === "function") {
+						self.currentReactRoot = window.JLTMAMountTemplateKits();
+						setTimeout(() => self.hideLoading(), 300);
+					}
+				};
+				document.body.appendChild(script);
+			}
+		}
+		/**
+		* Unmount current React app
+		*/
+		unmountCurrentApp() {
+			if (this.currentReactRoot && typeof this.currentReactRoot.unmount === "function") try {
+				this.currentReactRoot.unmount();
+			} catch (e) {
+				console.warn("Error unmounting React app:", e);
+			}
+			this.currentReactRoot = null;
+			$("#jltma-template-library-root, #jltma-template-kits-app").empty();
+		}
+		/**
+		* Show loading state
+		*/
+		showLoading() {
+			$("#ma-el-modal-loading").show();
+			$("#jltma-template-library-root, #jltma-template-kits-app").hide();
+		}
+		/**
+		* Hide loading state
+		*/
+		hideLoading() {
+			$("#ma-el-modal-loading").hide();
+			$("#jltma-template-library-root, #jltma-template-kits-app").show();
+			setTimeout(() => {
+				this.injectCloseButton();
+			}, 200);
+		}
+		/**
+		* Show the modal with animation
+		*/
+		showModal() {
+			this.modal.css("display", "flex").addClass("show");
+			$("body").addClass("jltma-modal-open").css("overflow", "hidden");
+		}
+		/**
+		* Inject close button into Template Library header (beside refresh button)
+		*/
+		injectCloseButton() {
+			const self = this;
+			const $refreshBtn = $(".template-library-tabs-wrapper .refresh-btn, .template-kit-upload-wrapper .refresh-btn");
+			if ($refreshBtn.length > 0 && !$refreshBtn.parent().find(".jltma-modal-close-btn").length) {
+				const $closeBtn = $(`
+                    <button class="jltma-modal-close-btn" aria-label="Close" title="Close">
+                        <span class="eicon-close"></span>
+                    </button>
+                `);
+				$closeBtn.insertAfter($refreshBtn);
+				$closeBtn.on("click", function(e) {
+					e.preventDefault();
+					self.closeModal();
+				});
+			}
+		}
+		/**
+		* Close modal
+		*/
+		closeModal() {
+			this.modal.removeClass("show");
+			$("body").removeClass("jltma-modal-open").css("overflow", "");
+			setTimeout(() => {
+				this.modal.css("display", "none");
+			}, 200);
+		}
+	}
+	new JLTMA_PageImporter();
+})(jQuery);
+//#endregion
+})();

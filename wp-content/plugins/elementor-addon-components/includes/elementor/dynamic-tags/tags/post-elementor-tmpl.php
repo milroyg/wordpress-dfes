@@ -21,29 +21,29 @@ use Elementor\TemplateLibrary\Source_Local;
 
 class Post_Elementor_Tmpl extends Data_Tag {
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-elementor-template';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Modèles', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Templates', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-post';
+	public function get_group(): array {
+		return array( 'eac-post' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array(
 			TagsModule::TEXT_CATEGORY,
 		);
 	}
 
-	public function get_panel_template_setting_key() {
+	public function get_panel_template_setting_key(): string {
 		return 'select_template';
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 
 		$this->add_control(
 			'select_template',
@@ -54,7 +54,8 @@ class Post_Elementor_Tmpl extends Data_Tag {
 				'options' => array(
 					'page'      => esc_html__( 'Page', 'eac-components' ),
 					'section'   => esc_html__( 'Section', 'eac-components' ),
-					'container' => esc_html__( 'Conteneur', 'eac-components' ),
+					'container' => esc_html__( 'Container', 'eac-components' ),
+					'all'       => esc_html__( 'All', 'eac-components' ),
 				),
 			)
 		);
@@ -62,7 +63,7 @@ class Post_Elementor_Tmpl extends Data_Tag {
 		$this->add_control(
 			'select_template_page',
 			array(
-				'label'       => esc_html__( 'Clé', 'eac-components' ),
+				'label'       => esc_html__( 'Key', 'eac-components' ),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => true,
 				'options'     => Eac_Tools_Util::get_elementor_templates( 'page' ),
@@ -73,7 +74,7 @@ class Post_Elementor_Tmpl extends Data_Tag {
 		$this->add_control(
 			'select_template_section',
 			array(
-				'label'       => esc_html__( 'Clé', 'eac-components' ),
+				'label'       => esc_html__( 'Key', 'eac-components' ),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => true,
 				'options'     => Eac_Tools_Util::get_elementor_templates( 'section' ),
@@ -84,11 +85,22 @@ class Post_Elementor_Tmpl extends Data_Tag {
 		$this->add_control(
 			'select_template_container',
 			array(
-				'label'       => esc_html__( 'Clé', 'eac-components' ),
+				'label'       => esc_html__( 'Key', 'eac-components' ),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => true,
 				'options'     => Eac_Tools_Util::get_elementor_templates( 'container' ),
 				'condition'   => array( 'select_template' => 'container' ),
+			)
+		);
+
+		$this->add_control(
+			'select_template_all',
+			array(
+				'label'       => esc_html__( 'Key', 'eac-components' ),
+				'type'        => Controls_Manager::SELECT,
+				'label_block' => true,
+				'groups'      => Eac_Tools_Util::get_all_elementor_templates(),
+				'condition'   => array( 'select_template' => 'all' ),
 			)
 		);
 
@@ -97,21 +109,23 @@ class Post_Elementor_Tmpl extends Data_Tag {
 			array(
 				'label'        => esc_html__( 'Appliquer le style', 'eac-components' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => esc_html__( 'oui', 'eac-components' ),
-				'label_off'    => esc_html__( 'non', 'eac-components' ),
+				'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+				'label_off'    => esc_html__( 'No', 'eac-components' ),
 				'return_value' => 'yes',
 				'default'      => '',
 			)
 		);*/
 	}
 
-	public function get_value( array $options = array() ) {
+	public function get_value( array $options = array() ): string {
 		if ( 'page' === $this->get_settings( 'select_template' ) ) {
 			$id = $this->get_settings( 'select_template_page' );
 		} elseif ( 'section' === $this->get_settings( 'select_template' ) ) {
 			$id = $this->get_settings( 'select_template_section' );
-		} else {
+		} elseif ( 'container' === $this->get_settings( 'select_template' ) ) {
 			$id = $this->get_settings( 'select_template_container' );
+		} else {
+			$id = $this->get_settings( 'select_template_all' );
 		}
 		/**$css = 'yes' === $this->get_settings( 'select_template_style' ) ? true : false;*/
 
@@ -122,7 +136,7 @@ class Post_Elementor_Tmpl extends Data_Tag {
 
 		// Évite la récursivité
 		if ( get_the_ID() === (int) $id ) {
-			return esc_html__( 'ID du modèle ne peut pas être le même que le modèle actuel', 'eac-components' );
+			return esc_html__( 'The Template ID cannot be the same as the currently edited template', 'eac-components' );
 		}
 
 		// Filtre wpml

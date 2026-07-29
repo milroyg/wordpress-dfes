@@ -140,6 +140,7 @@ class Eac_Injection_Effect {
 	public function __construct() {
 		add_action( 'elementor/element/after_section_end', array( $this, 'inject_section' ), 10, 2 );
 		add_action( 'elementor/frontend/widget/before_render', array( $this, 'render_animation' ) );
+
 		add_action( 'elementor/frontend/after_enqueue_scripts', array( $this, 'enqueue_scripts' ), 13 );
 		add_action( 'elementor/editor/after_enqueue_scripts', array( $this, 'enqueue_editor_scripts' ) );
 	}
@@ -150,7 +151,7 @@ class Eac_Injection_Effect {
 	 * Mets le script dans le file
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'eac-motion-effect', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-element-effect' ), array( 'jquery', 'elementor-frontend' ), '1.9.6', true );
+		wp_enqueue_script( 'eac-motion-effect', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-element-effect' ), array( 'jquery', 'elementor-frontend' ), EAC_PLUGIN_VERSION, true );
 		wp_enqueue_style( 'animate-motion-effect', 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css', array(), '4.1.1' );
 	}
 
@@ -160,7 +161,7 @@ class Eac_Injection_Effect {
 	 * Enqueue le script dans l'éditeur
 	 */
 	public function enqueue_editor_scripts() {
-		wp_enqueue_script( 'eac-indicator-motion', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-indicator-motion' ), array(), '2.1.8', true );
+		wp_enqueue_script( 'eac-indicator-effect', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-indicator-effect' ), array(), EAC_PLUGIN_VERSION, true );
 	}
 
 	/**
@@ -176,7 +177,6 @@ class Eac_Injection_Effect {
 		}
 
 		if ( 'section_effects' === $section_id && in_array( $element->get_type(), $this->target_elements, true ) ) {
-
 			// Les breakpoints actifs
 			$this->active_breakpoints = Plugin::$instance->breakpoints->get_active_breakpoints();
 
@@ -191,7 +191,7 @@ class Eac_Injection_Effect {
 
 			// Les options du control
 			foreach ( $this->active_devices as $device ) {
-				$label                           = 'desktop' === $device ? esc_html__( 'Ordinateur', 'eac-components' ) : $this->active_breakpoints[ $device ]->get_label();
+				$label                           = 'desktop' === $device ? esc_html__( 'Desktop', 'eac-components' ) : $this->active_breakpoints[ $device ]->get_label();
 				$this->device_options[ $device ] = $label;
 			}
 
@@ -204,7 +204,7 @@ class Eac_Injection_Effect {
 			$element->start_controls_section(
 				'eac_custom_element_effect',
 				array(
-					'label' => esc_html__( 'Effets de mouvement', 'eac-components' ),
+					'label' => esc_html__( 'Motion effects', 'eac-components' ),
 					'tab'   => Controls_Manager::TAB_ADVANCED,
 				)
 			);
@@ -213,10 +213,10 @@ class Eac_Injection_Effect {
 				$element->add_control(
 					'eac_element_motion_effect',
 					array(
-						'label'        => esc_html__( "Animations d'entrée", 'eac-components' ),
+						'label'        => esc_html__( 'Entrance animation', 'eac-components' ),
 						'type'         => Controls_Manager::SWITCHER,
-						'label_on'     => esc_html__( 'oui', 'eac-components' ),
-						'label_off'    => esc_html__( 'non', 'eac-components' ),
+						'label_on'     => esc_html( 'On' ),
+						'label_off'    => esc_html( 'Off' ),
 						'return_value' => 'yes',
 						'default'      => '',
 					)
@@ -226,11 +226,11 @@ class Eac_Injection_Effect {
 					'eac_element_motion_usage',
 					array(
 						'type' => Controls_Manager::RAW_HTML,
-						'raw' => sprintf(
-							/* translators: 1: Link opening tag, 2: Link closing tag. */
-							esc_html__( '%1$sConsulter la documentation%2$s', 'eac-components' ),
+						'raw'  => sprintf(
+							'%1$s%2$s%3$s',
 							'<a href="https://elementor-addon-components.com/create-animation-effects-elementor/" target="_blank" rel="noopener noreferrer">',
-							'</a>',
+							esc_html__( 'Consult the documentation', 'eac-components' ),
+							'</a>'
 						),
 						'content_classes' => 'elementor-descriptor',
 						'condition'       => array( 'eac_element_motion_effect' => 'yes' ),
@@ -253,7 +253,7 @@ class Eac_Injection_Effect {
 				$element->add_control(
 					'eac_element_motion_duration',
 					array(
-						'label'     => esc_html__( 'Durée (s)', 'eac-components' ),
+						'label'     => esc_html__( 'Duration (s)', 'eac-components' ),
 						'type'      => Controls_Manager::NUMBER,
 						'default'   => 2,
 						'min'       => 1,
@@ -266,7 +266,7 @@ class Eac_Injection_Effect {
 				$element->add_control(
 					'eac_element_motion_trigger',
 					array(
-						'label'     => esc_html__( 'Seuils de déclenchement', 'eac-components' ),
+						'label'     => esc_html__( 'Trigger thresholds', 'eac-components' ),
 						'type'      => Controls_Manager::SLIDER,
 						'default'   => array(
 							'sizes' => array(
@@ -276,8 +276,8 @@ class Eac_Injection_Effect {
 							'unit'  => '%',
 						),
 						'labels'    => array(
-							esc_html__( 'Haut', 'eac-components' ),
-							esc_html__( 'Bas', 'eac-components' ),
+							esc_html__( 'Top', 'eac-components' ),
+							esc_html__( 'Bottom', 'eac-components' ),
 						),
 						'scales'    => 1,
 						'handles'   => 'range',
@@ -288,7 +288,7 @@ class Eac_Injection_Effect {
 				$element->add_control(
 					'eac_element_motion_devices',
 					array(
-						'label'       => esc_html__( 'Actif avec', 'eac-components' ),
+						'label'       => esc_html__( 'Active with', 'eac-components' ),
 						'type'        => Controls_Manager::SELECT2,
 						'multiple'    => true,
 						'label_block' => true,
@@ -320,7 +320,6 @@ class Eac_Injection_Effect {
 		}
 
 		if ( isset( $settings['eac_element_motion_effect'] ) && 'yes' === $settings['eac_element_motion_effect'] && '' !== $settings['eac_element_motion_type'] ) {
-
 			$args_type = array(
 				'id'       => $element->get_id(),
 				'type'     => esc_html( $settings['eac_element_motion_type'] ),

@@ -4,6 +4,24 @@
 	/** Variable globale renseignée si des modifications dans la page de paramétrages ont été faites */
 	let saveBeforeExit = false;
 
+	/** Accessibilité des tab de la page de configuration */
+	/** Ajout de l'attribut tabindex pour le focus du comptage des occurrences de widgets */
+	$('span.eac-elements__count-item').each(function () {
+		if (!$(this).is('[tabindex]')) $(this).attr({ 'tabindex': '0', 'role': 'button', 'aria-expanded': 'false', 'aria-haspopup': 'dialog', 'aria-label': 'Open content in a modalbox' });
+	});
+
+	$(document.body).on('keydown', '.eac-settings a, .tabs-stage .switch>div, .eac-elements__count-item', function (evt) {
+		const id = evt.code || evt.key || 0;
+		if ('Space' === id || 'Enter' === id) {
+			evt.preventDefault();
+			evt.stopImmediatePropagation();
+
+			const activeElement = document.activeElement;
+			activeElement.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+			activeElement.focus();
+		}
+	});
+
 	/** L'option 'acf-option-page' est déselectionnée, on cache l'option 'grant-option-page'  */
 	if ($('#acf-option-page').prop('checked') === false) {
 		$('#grant-option-page').closest('.eac-elements__common-item').css('display', 'none');
@@ -95,10 +113,10 @@
 		//const $headerInput = jQuery(evt.currentTarget).closest('.eac-elements__common-item').prevAll('.eac-elements__table-common.header').find('input');
 		//$headerInput.prop('checked', 1);
 		if ($formElements.serialize() !== formElementsSerialize) {
-			$('#eac-form-elements #eac-sumit').css('background-color', 'red');
+			$('#eac-form-elements #eac-submit').css('background-color', 'red');
 			saveBeforeExit = true;
 		} else {
-			$('#eac-form-elements #eac-sumit').css('background-color', 'rgb(55,177,55)');
+			$('#eac-form-elements #eac-submit').css('background-color', 'rgb(55,177,55)');
 			saveBeforeExit = false;
 		}
 	});
@@ -108,10 +126,10 @@
 	const formWcIntegrationSerialize = $formWcIntegration.serialize();
 	$('form#eac-form-wc-integration :input').on('change', () => {
 		if ($formWcIntegration.serialize() !== formWcIntegrationSerialize) {
-			$('#eac-form-wc-integration #eac-sumit').css('background-color', 'red');
+			$('#eac-form-wc-integration #eac-wc-submit').css('background-color', 'red');
 			saveBeforeExit = true;
 		} else {
-			$('#eac-form-wc-integration #eac-sumit').css('background-color', 'rgb(55,177,55)');
+			$('#eac-form-wc-integration #eac-wc-submit').css('background-color', 'rgb(55,177,55)');
 			saveBeforeExit = false;
 		}
 	});
@@ -351,18 +369,20 @@
 	 * Événement click sur le nombre d'occurrences des composants dans le page de paramétrage du plugin
 	 * @since 2.2.6
 	 */
-	$('span.eac-elements__item-count').on('click', (evt) => {
+	$('span.eac-elements__count-item').on('click', (evt) => {
+		const currentTarget = evt.currentTarget;
+
 		evt.preventDefault();
-		const countTitle = $(evt.currentTarget).prev().html();
-		const permas = $(evt.currentTarget).attr('data-perma').split(',');
-		const nombre = parseInt($(evt.currentTarget).text());
+		const countTitle = $(currentTarget).prev().html();
+		const permas = $(currentTarget).attr('data-perma').split(',');
+		const nombre = parseInt($(currentTarget).text());
 		let contentUrl = [];
 		if ((permas && permas.length === 0) || nombre === 0) {
 			return;
 		}
 
 		$.each(permas, (index, perma) => {
-			contentUrl.push('<div><a href="' + perma + '" target="_autre" rel="noopener noreferrer">' + perma + '</a></div>');
+			contentUrl.push('<div class="eac-elements__count-link"><a href="' + perma + '" target="_autre" rel="noopener noreferrer" aria-label="Open content in a new tab">' + perma + '</a></div>');
 		});
 
 		$.fancybox.open([{
@@ -375,10 +395,17 @@
 				width: 680,
 				height: 500,
 				afterLoad: function (instance, current) {
-					const $divTitle = current.$content.find('.eac-elements-count-title');
+					const $divTitle = current.$content.find('.eac-elements__count-title');
 					const $divContent = current.$content;
 					$divTitle.append(countTitle + '</br></br>');
 					$divContent.append(contentUrl);
+					current.$content.attr('aria-modal', 'true');
+					current.$content.attr('role', 'dialog');
+					$(currentTarget).attr('aria-expanded', 'true');
+				},
+				afterClose: function (instance, current) {
+					$(currentTarget).focus();
+					$(currentTarget).attr('aria-expanded', 'false');
 				},
 			}
 		}]);

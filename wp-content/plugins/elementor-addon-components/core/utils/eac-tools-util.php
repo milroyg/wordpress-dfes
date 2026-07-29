@@ -19,11 +19,11 @@ use Elementor\TemplateLibrary\Source_Local;
 class Eac_Tools_Util {
 
 	/**
-	 * @var $user_meta_fields
+	 * @var $user_meta_field
 	 *
 	 * Liste des metas acceptés pour les informations Auteur et User
 	 */
-	private static $user_meta_fields = array(
+	private static $user_meta_field = array(
 		'locale',
 		'syntax_highlighting',
 		'avatar',
@@ -51,11 +51,11 @@ class Eac_Tools_Util {
 	);
 
 	/**
-	 * @var $filtered_taxonomies
+	 * @var $filtered_taxonomy
 	 *
 	 * Exclusion de catégories
 	 */
-	private static $filtered_taxonomies = array(
+	private static $filtered_taxonomy = array(
 		'nav_menu',
 		'link_category',
 		'post_format',
@@ -79,11 +79,11 @@ class Eac_Tools_Util {
 	);
 
 	/**
-	 * @var $filtered_posttypes
+	 * @var $filtered_post_type
 	 *
 	 * Exclusion de types de post
 	 */
-	private static $filtered_posttypes = array(
+	private static $filtered_post_type = array(
 		// WP
 		'wp_navigation',
 		'wp_template_part',
@@ -135,118 +135,11 @@ class Eac_Tools_Util {
 	);
 
 	/**
-	 * @var $operateurs_comparaison
-	 *
-	 * Les options des opérateurs de comparaison
-	 */
-	private static $operateurs_comparaison = array(
-		'IN'          => 'IN',
-		'NOT IN'      => 'NOT IN',
-		'BETWEEN'     => 'BETWEEN',
-		'NOT BETWEEN' => 'NOT BETWEEN',
-		'LIKE'        => 'LIKE',
-		'NOT LIKE'    => 'NOT LIKE',
-		'REGEXP'      => 'REGEXP',
-		'NOT REGEXP'  => 'NOT REGEXP',
-		'='           => '=',
-		'!='          => '!=',
-		'>'           => '>',
-		'>='          => '>=',
-		'<'           => '<',
-		'<='          => '<=',
-	);
-
-	/**
-	 * @var $unwanted_char_array
-	 *
-	 * Remplacement des caractères accentués et diacritiques
-	 */
-	private static $unwanted_char_array = array(
-		'Š' => 'S',
-		'š' => 's',
-		'Ž' => 'Z',
-		'ž' => 'z',
-		'À' => 'A',
-		'Á' => 'A',
-		'Â' => 'A',
-		'Ã' => 'A',
-		'Ä' => 'AE',
-		'Å' => 'A',
-		'Æ' => 'A',
-		'Ç' => 'C',
-		'È' => 'E',
-		'É' => 'E',
-		'Ê' => 'E',
-		'Ë' => 'E',
-		'Ì' => 'I',
-		'Í' => 'I',
-		'Î' => 'I',
-		'Ï' => 'I',
-		'Ñ' => 'N',
-		'Ò' => 'O',
-		'Ó' => 'O',
-		'Ô' => 'O',
-		'Õ' => 'O',
-		'Ö' => 'O',
-		'Ø' => 'O',
-		'Ù' => 'U',
-		'Ú' => 'U',
-		'Û' => 'U',
-		'Ü' => 'U',
-		'Ý' => 'Y',
-		'Þ' => 'B',
-		'ß' => 'ss',
-		'à' => 'a',
-		'á' => 'a',
-		'â' => 'a',
-		'ã' => 'a',
-		'ä' => 'a',
-		'å' => 'a',
-		'æ' => 'a',
-		'ç' => 'c',
-		'è' => 'e',
-		'é' => 'e',
-		'ê' => 'e',
-		'ë' => 'e',
-		'ì' => 'i',
-		'í' => 'i',
-		'î' => 'i',
-		'ï' => 'i',
-		'ð' => 'o',
-		'ñ' => 'n',
-		'ò' => 'o',
-		'ó' => 'o',
-		'ô' => 'o',
-		'õ' => 'o',
-		'ö' => 'o',
-		'ø' => 'o',
-		'ù' => 'u',
-		'ú' => 'u',
-		'û' => 'u',
-		'ý' => 'y',
-		'þ' => 'b',
-		'ÿ' => 'y',
-		'Ğ' => 'G',
-		'İ' => 'I',
-		'Ş' => 'S',
-		'ğ' => 'g',
-		'ı' => 'i',
-		'ş' => 's',
-		'ü' => 'u',
-		'ă' => 'a',
-		'Ă' => 'A',
-		'ș' => 's',
-		'Ș' => 'S',
-		'ț' => 't',
-		'Ț' => 'T',
-	);
-
-	/**
-	 * @var $social_networks
+	 * @var $social_media
 	 *
 	 * La liste des réseaux sociaux et de leurs icones
 	 */
-	private static $social_networks = array(
+	private static $social_media = array(
 		'email'     => array(
 			'name'    => 'Email',
 			'icon'    => '<i class="fas fa-envelope" aria-hidden="true"></i>',
@@ -262,14 +155,19 @@ class Eac_Tools_Util {
 			'icon'    => '<i class="fas fa-globe" aria-hidden="true"></i>',
 			'library' => 'fa-solid',
 		),
-		'twitter'   => array(
-			'name'    => 'X (Twitter)',
-			'icon'    => '<i class="fab fa-x-twitter" aria-hidden="true"></i>',
-			'library' => 'fa-brands',
-		),
 		'facebook'  => array(
 			'name'    => 'Facebook',
 			'icon'    => '<i class="fab fa-facebook-f" aria-hidden="true"></i>',
+			'library' => 'fa-brands',
+		),
+		'flickr'    => array(
+			'name'    => 'Flickr',
+			'icon'    => '<i class="fab fa-flickr" aria-hidden="true"></i>',
+			'library' => 'fa-brands',
+		),
+		'github'    => array(
+			'name'    => 'Github',
+			'icon'    => '<i class="fab fa-github" aria-hidden="true"></i>',
 			'library' => 'fa-brands',
 		),
 		'instagram' => array(
@@ -282,9 +180,9 @@ class Eac_Tools_Util {
 			'icon'    => '<i class="fab fa-linkedin" aria-hidden="true"></i>',
 			'library' => 'fa-brands',
 		),
-		'youtube'   => array(
-			'name'    => 'Youtube',
-			'icon'    => '<i class="fab fa-youtube" aria-hidden="true"></i>',
+		'mastodon'  => array(
+			'name'    => 'Mastodon',
+			'icon'    => '<i class="fab fa-mastodon" aria-hidden="true"></i>',
 			'library' => 'fa-brands',
 		),
 		'pinterest' => array(
@@ -292,14 +190,9 @@ class Eac_Tools_Util {
 			'icon'    => '<i class="fab fa-pinterest" aria-hidden="true"></i>',
 			'library' => 'fa-brands',
 		),
-		'tumblr'    => array(
-			'name'    => 'Tumblr',
-			'icon'    => '<i class="fab fa-tumblr" aria-hidden="true"></i>',
-			'library' => 'fa-brands',
-		),
-		'flickr'    => array(
-			'name'    => 'Flickr',
-			'icon'    => '<i class="fab fa-flickr" aria-hidden="true"></i>',
+		'quora'     => array(
+			'name'    => 'Quora',
+			'icon'    => '<i class="fab fa-quora" aria-hidden="true"></i>',
 			'library' => 'fa-brands',
 		),
 		'reddit'    => array(
@@ -307,9 +200,9 @@ class Eac_Tools_Util {
 			'icon'    => '<i class="fab fa-reddit" aria-hidden="true"></i>',
 			'library' => 'fa-brands',
 		),
-		'tiktok'    => array(
-			'name'    => 'TikTok',
-			'icon'    => '<i class="fab fa-tiktok" aria-hidden="true"></i>',
+		'spotify'   => array(
+			'name'    => 'Spotify',
+			'icon'    => '<i class="fab fa-spotify" aria-hidden="true"></i>',
 			'library' => 'fa-brands',
 		),
 		'telegram'  => array(
@@ -317,9 +210,14 @@ class Eac_Tools_Util {
 			'icon'    => '<i class="fab fa-telegram" aria-hidden="true"></i>',
 			'library' => 'fa-brands',
 		),
-		'quora'     => array(
-			'name'    => 'Quora',
-			'icon'    => '<i class="fab fa-quora" aria-hidden="true"></i>',
+		'tiktok'    => array(
+			'name'    => 'TikTok',
+			'icon'    => '<i class="fab fa-tiktok" aria-hidden="true"></i>',
+			'library' => 'fa-brands',
+		),
+		'tumblr'    => array(
+			'name'    => 'Tumblr',
+			'icon'    => '<i class="fab fa-tumblr" aria-hidden="true"></i>',
 			'library' => 'fa-brands',
 		),
 		'twitch'    => array(
@@ -327,24 +225,19 @@ class Eac_Tools_Util {
 			'icon'    => '<i class="fab fa-twitch" aria-hidden="true"></i>',
 			'library' => 'fa-brands',
 		),
-		'github'    => array(
-			'name'    => 'Github',
-			'icon'    => '<i class="fab fa-github" aria-hidden="true"></i>',
-			'library' => 'fa-brands',
-		),
-		'spotify'   => array(
-			'name'    => 'Spotify',
-			'icon'    => '<i class="fab fa-spotify" aria-hidden="true"></i>',
-			'library' => 'fa-brands',
-		),
-		'mastodon'  => array(
-			'name'    => 'Mastodon',
-			'icon'    => '<i class="fab fa-mastodon" aria-hidden="true"></i>',
-			'library' => 'fa-brands',
-		),
 		'whatsapp'  => array(
 			'name'    => 'WhatsApp',
 			'icon'    => '<i class="fab fa-whatsapp" aria-hidden="true"></i>',
+			'library' => 'fa-brands',
+		),
+		'twitter'   => array(
+			'name'    => 'X (Twitter)',
+			'icon'    => '<i class="fab fa-x-twitter" aria-hidden="true"></i>',
+			'library' => 'fa-brands',
+		),
+		'youtube'   => array(
+			'name'    => 'Youtube',
+			'icon'    => '<i class="fab fa-youtube" aria-hidden="true"></i>',
 			'library' => 'fa-brands',
 		),
 	);
@@ -392,74 +285,13 @@ class Eac_Tools_Util {
 	}
 
 	/**
-	 * @return la liste des ID des articles/pages/Cpt
+	 * get_widget_list
 	 *
-	 * @Param {$posttype} Le type d'article 'post' ou 'page' ou custom post type
-	 * @Return Un tableau "index::ID du post" => "Titre du post"
-	 */
-	public static function get_all_posts_by_id( $posttype = 'post' ) {
-		$post_list = array();
-
-		$posts = get_posts(
-			array(
-				'post_type'      => $posttype,
-				'post_status'    => 'publish',
-				'posts_per_page' => -1,
-				'orderby'        => 'title',
-				'order'          => 'ASC',
-			)
-		);
-
-		if ( ! empty( $posts ) && ! is_wp_error( $posts ) ) {
-			foreach ( $posts as $index => $value ) {
-				// Ajoute l'index du tableau pour conserver le tri sur le titre
-				$post_list[ $index . '::' . $value->ID ] = $value->post_title;
-			}
-		}
-		return $post_list;
-	}
-
-	/**
-	 * @return la liste des templates Elementor
-	 *
-	 * @param type de la taxonomie ('page' ou 'section')
-	 */
-	public static function get_elementor_templates( $type = 'page' ) {
-		$post_list = array( '' => esc_html__( 'Select...', 'eac-components' ) );
-
-		$data = get_posts(
-			array(
-				'cache_results'  => false,
-				'post_type'      => Source_Local::CPT,
-				'post_status'    => 'publish',
-				'posts_per_page' => -1,
-				'orderby'        => 'title',
-				'sort_order'     => 'ASC',
-				'tax_query'      => array(
-					array(
-						'taxonomy' => Source_Local::TAXONOMY_TYPE_SLUG,
-						'field'    => 'slug',
-						'terms'    => $type,
-					),
-				),
-			)
-		);
-
-		if ( ! empty( $data ) && ! is_wp_error( $data ) ) {
-			foreach ( $data as $key ) {
-				$post_list[ $key->ID ] = $key->post_title;
-			}
-			ksort( $post_list );
-		}
-		return $post_list;
-	}
-
-	/**
 	 * @return la liste des widgets standards
 	 *
 	 * https://gist.github.com/kingkool68/3418186
 	 */
-	public static function get_widgets_list() {
+	public static function get_widget_list(): array {
 		global $wp_widget_factory, $wp_registered_sidebars;
 		/** global $wp_registered_widgets; */
 		$widgets = self::$wp_widgets;
@@ -509,9 +341,11 @@ class Eac_Tools_Util {
 	}
 
 	/**
-	 * @return la liste des localisations des menus
+	 * get_menus_location_list
+	 *
+	 * @return array la liste des localisations des menus
 	 */
-	public static function get_menus_location_list() {
+	public static function get_menus_location_list(): array {
 		$options = array( '' => esc_html__( 'Select...', 'eac-components' ) );
 
 		$locations = get_registered_nav_menus();
@@ -526,9 +360,11 @@ class Eac_Tools_Util {
 	}
 
 	/**
-	 * @return la liste des menus
+	 * get_menus_list
+	 *
+	 * @return array la liste des menus
 	 */
-	public static function get_menus_list() {
+	public static function get_menus_list(): array {
 		$menus   = wp_get_nav_menus();
 		$options = array( '' => esc_html__( 'Select...', 'eac-components' ) );
 
@@ -545,7 +381,7 @@ class Eac_Tools_Util {
 	 *
 	 * @return boolean
 	 */
-	public static function is_plugin_installed( $plugin_path ): bool {
+	public static function is_plugin_installed( string $plugin_path ): bool {
 		if ( ! function_exists( 'get_plugins' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
@@ -554,10 +390,12 @@ class Eac_Tools_Util {
 	}
 
 	/**
-	 * @return la liste des noms des réseaux sociaux
+	 * get_all_social_media_name
+	 *
+	 * @return array la liste des noms des réseaux sociaux
 	 */
-	public static function get_all_social_medias_name() {
-		$networks = self::$social_networks;
+	public static function get_all_social_media_name(): array {
+		$networks = self::$social_media;
 		$options  = array();
 
 		foreach ( $networks as $index => $value ) {
@@ -567,10 +405,12 @@ class Eac_Tools_Util {
 	}
 
 	/**
-	 * @return la liste des icones des réseaux sociaux
+	 * get_all_social_media_icon
+	 *
+	 * @return array la liste des icones des réseaux sociaux
 	 */
-	public static function get_all_social_medias_icon() {
-		$networks = self::$social_networks;
+	public static function get_all_social_media_icon(): array {
+		$networks = self::$social_media;
 		$options  = array();
 
 		foreach ( $networks as $index => $value ) {
@@ -583,11 +423,15 @@ class Eac_Tools_Util {
 	}
 
 	/**
-	 * @return array les informations d'un réseaux social
+	 * get_social_media_info
+	 *
+	 * @param string $media
+	 *
+	 * @return array|null les données d'un réseaux social
 	 */
-	public static function get_social_media_info( $media = null ): array {
-		$networks = self::$social_networks;
-		if ( array_key_exists( $media, $networks ) ) {
+	public static function get_social_media_info( string $media = '' ): ?array {
+		$networks = self::$social_media;
+		if ( ! empty( $media ) && array_key_exists( $media, $networks ) ) {
 			return array(
 				'name'    => $networks[ $media ]['name'],
 				'icon'    => $networks[ $media ]['icon'],
@@ -598,27 +442,12 @@ class Eac_Tools_Util {
 	}
 
 	/**
-	 * @return la liste des metadonnées supportées par les auteurs/users
+	 * get_supported_user_meta_field
+	 *
+	 * @return array Liste des metas acceptés pour les données Auteur et User
 	 */
-	public static function get_unwanted_char() {
-		$unwanted_char = self::$unwanted_char_array;
-
-		/**
-		 * Liste des caractères de remplacement
-		 *
-		 * Filtre pour ajouter des caractères de remplacement
-		 *
-		 * @param array $unwanted_char Liste des caractères
-		 */
-		$unwanted_char = apply_filters( 'eac/tools/unwanted_char', $unwanted_char );
-		return $unwanted_char;
-	}
-
-	/**
-	 * @return la liste des metadonnées supportées par les auteurs/users
-	 */
-	public static function get_supported_user_meta_fields() {
-		$user_fields = self::$user_meta_fields;
+	public static function get_supported_user_meta_field(): array {
+		$user_fields = self::$user_meta_field;
 
 		/**
 		 * Liste des métadonnées supportées pour un auteur/user
@@ -632,142 +461,77 @@ class Eac_Tools_Util {
 	}
 
 	/**
-	 * @return la liste des opérateur de comparaison
-	 */
-	public static function get_operateurs_comparaison() {
-		$operateurs = self::$operateurs_comparaison;
-
-		/**
-		 * Liste des opérateurs de comparaison des meta_query
-		 *
-		 * Filtrer/Ajouter des opérateurs de comparaison
-		 *
-		 * @param array $operateurs Liste des opérateurs de comparaison.
-		 */
-		$operateurs = apply_filters( 'eac/tools/operateurs_by_key', $operateurs );
-		return $operateurs;
-	}
-
-	/**
-	 * @return une liste de toutes les couleurs personnalisées et système
-	 * Couleur format hexadecimal sans #
-	 * Les 10 premières couleurs personnalisées
+	 * get_palettes_color
 	 *
-	 * @param { $custom} Bool: Ajouter les couleurs personnalisées
-	 * @param { $system} Bool: Ajouter les couleurs système
+	 * @param bool $custom Ajouter les couleurs personnalisées
+	 * @param bool $system Ajouter les couleurs système
+	 *
+	 * @return array la liste de toutes les couleurs personnalisées et système format hexadecimal
 	 */
-	public static function get_palette_colors( $custom = true, $system = false ) {
+	public static function get_palettes_color( bool $custom = true, bool $system = false ): array {
 		$palette = array();
-		/**
 		$kit = \Elementor\Plugin::$instance->kits_manager->get_active_kit_for_frontend();
-		$system_kit_color = $kit->get_settings_for_display( 'system_colors' );
 		$custom_kit_color = $kit->get_settings_for_display( 'custom_colors' );
-		*/
-		// Récupère l'ID du Kit 'elementor_active_kit'
-		$elementor_active_kit = get_option( 'elementor_active_kit' );
-		// Post meta qui contient les réglages du Kit avec la clé '_elementor_page_settings'
-		$active_kit_settings = get_post_meta( $elementor_active_kit, '_elementor_page_settings', true );
+		$system_kit_color = $kit->get_settings_for_display( 'system_colors' );
 
 		// Les custom_color existent
-		if ( is_array( $active_kit_settings ) && maybe_unserialize( $active_kit_settings ) && isset( $active_kit_settings['custom_colors'] ) && $custom ) {
-			$custom_colors = $active_kit_settings['custom_colors'];
-			// Boucle sur les couleurs personnalisées
-			foreach ( $custom_colors as $key => $custom_color ) {
-				if ( $key < 10 ) { // Pas plus de 10
+		if ( $custom_kit_color && is_array( $custom_kit_color ) && $custom ) {
+			foreach ( $custom_kit_color as $key => $custom_color ) {
+				if ( isset( $custom_color['color'] ) && $key < 10 ) {
 					$palette[] = $custom_color['color'];
 				}
 			}
 		}
-
 		// Les system_colors existent
-		if ( is_array( $active_kit_settings ) && maybe_unserialize( $active_kit_settings ) && isset( $active_kit_settings['system_colors'] ) && $system ) {
-			$system_colors = $active_kit_settings['system_colors'];
-			// Boucle sur les couleurs système
-			foreach ( $system_colors as $system_color ) {
+		if ( $system_kit_color && is_array( $system_kit_color ) && $system ) {
+			foreach ( $system_kit_color as $system_color ) {
 				$palette[] = $system_color['color'];
 			}
 		}
 
-		if ( empty( $palette ) ) {
-			return $palette; }
-		return implode( ',', $palette );
+		return $palette;
 	}
 
 	/**
-	 * @return tous les types d'articles publics filtrés
-	 */
-	public static function get_filter_post_types() {
-		$options   = array();
-		$posttypes = self::$filtered_posttypes;
-
-		/**
-		 * Liste des opérateurs de comparaison des meta_query
-		 *
-		 * Ajouter/Supprimer des types d'articles
-		 *
-		 * @param array $posttypes Liste des types d'articles
-		 */
-		$posttypes = apply_filters( 'eac/tools/post_types', $posttypes );
-
-		$post_types = get_post_types( array(), 'objects' );
-
-		foreach ( $post_types as $post_type ) {
-			if ( is_array( $posttypes ) && ! in_array( $post_type->name, $posttypes, true ) ) {
-				$options[ $post_type->name ] = $post_type->name . '::' . $post_type->label;
-			}
-		}
-		ksort( $options );
-		return $options;
-	}
-
-	/**
-	 * @return tous les types d'articles publics non filtrés
-	 */
-	public static function get_all_post_types() {
-		$options    = array();
-		$post_types = get_post_types( array( 'public' => true ), 'objects' );
-
-		foreach ( $post_types as $post_type ) {
-			$options[ $post_type->name ] = $post_type->name . '::' . $post_type->label;
-		}
-		ksort( $options );
-		return $options;
-	}
-
-	/**
-	 * Lecture du résumé ou du contenu pour un post et réduction au nombre de mots
+	 * get_post_excerpt
 	 *
-	 * @param { $post_id} ID du post
-	 * @param { $excerpt_length} Le nombre de mots à extraire
+	 * @param int $post_id ID du post
+	 * @param int $excerpt_length Le nombre de mots à extraire
+	 *
+	 * @return string Lecture du résumé ou du contenu pour un post et réduction au nombre de mots
 	 */
-	public static function get_post_excerpt( $post_id, $excerpt_length ) {
-		$the_post      = get_post( $post_id ); // Post/Page/Product ID
+	public static function get_post_excerpt( int $post_id, int $excerpt_length ): string {
+		$the_post      = get_post( $post_id );
 		$the_excerpt   = '';
 		$the_post_type = $the_post->post_type;
 
 		if ( 'product' === $the_post_type && function_exists( 'wc_get_product' ) ) {
 			$product     = wc_get_product( $post_id );
-			$the_excerpt = $product->get_description() ? $product->get_description() : $product->get_short_description();
+			$the_excerpt = ! empty( $product->get_description() ) ? $product->get_description() : $product->get_short_description();
+			return wp_trim_words( $the_excerpt, $excerpt_length, '...' );
 		} elseif ( $the_post ) {
 			$the_excerpt = self::get_gutenberg_content( $the_post );
-		} else {
-			return '[...]';
-		}
-		if ( empty( $the_excerpt ) ) {
-			return '[...]';
+			if ( empty( $the_excerpt ) ) {
+				return '[...]';
+			}
+
+			// On supprime tous les shortcode du contenu
+			$the_excerpt = strip_shortcodes( $the_excerpt );
+			return wp_trim_words( $the_excerpt, $excerpt_length, '...' ); // wp_trim_words fait un strip_all_tags en interne
 		}
 
-		// On supprime tous les tags html ou shortcode du résumé
-		$the_excerpt = wp_strip_all_tags( strip_shortcodes( $the_excerpt ) );
-		return wp_trim_words( $the_excerpt, $excerpt_length, '...' );
+		return '[...]';
 	}
 
 	/**
+	 * get_gutenberg_content
 	 * Extraction du résumé ou du contenu d'un article standard ou Gutenberg
 	 *
-	 * @param { $post} L'article
+	 * @param \WP_post $post
+	 *
+	 * @return string
 	 */
-	public static function get_gutenberg_content( $post ) {
+	public static function get_gutenberg_content( \WP_post $post ): string {
 		$blocks  = parse_blocks( $post->post_content );
 		$excerpt = $post->post_excerpt;
 		if ( ! empty( $excerpt ) ) {
@@ -784,17 +548,20 @@ class Eac_Tools_Util {
 	}
 
 	/**
+	 * get_block_recursively
 	 * Extraction du contenu du block_name avec recherche récursive pour les types de block group
 	 *
-	 * @param { $blocks} La liste des blocks à analyser
-	 * @param { $block_name} Le nom du block recherché
+	 * @param array $blocks
+	 * @param string $block_name
+	 *
+	 * @return array
 	 */
-	public static function get_block_recursively( $blocks, $block_name ) {
+	public static function get_block_recursively( array $blocks, string $block_name ): array {
 		$block_content = array();
 		foreach ( $blocks as $block ) {
 			if ( isset( $block['blockName'] ) && $block_name === $block['blockName'] ) {
 				$block_content[] = $block['innerHTML'];
-			} elseif ( is_array( $block['innerBlocks'] && ! empty( $block['innerBlocks'] ) ) ) {
+			} elseif ( is_array( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] ) ) {
 				$block_content = array_merge( $block_content, self::get_block_recursively( $block['innerBlocks'], $block_name ) );
 			}
 		}
@@ -802,9 +569,11 @@ class Eac_Tools_Util {
 	}
 
 	/**
-	 * @return Format des images
+	 * get_thumbnail_sizes
+	 *
+	 * @return array Format des images
 	 */
-	public static function get_thumbnail_sizes() {
+	public static function get_thumbnail_sizes(): array {
 		$options = array();
 		$sizes   = get_intermediate_image_sizes();
 		foreach ( $sizes as $s ) {
@@ -814,17 +583,19 @@ class Eac_Tools_Util {
 	}
 
 	/**
-	 * Les options de tri des articles
+	 * get_post_orderby
+	 *
+	 * @return array Les options de tri des articles
 	 */
-	public static function get_post_orderby() {
+	public static function get_post_orderby(): array {
 		$options = array(
-			'ID'             => esc_html__( 'Id', 'eac-components' ),
-			'author'         => esc_html__( 'Auteur', 'eac-components' ),
-			'title'          => esc_html__( 'Titre', 'eac-components' ),
+			'author'         => esc_html__( 'Author', 'eac-components' ),
+			'title'          => esc_html__( 'Title', 'eac-components' ),
 			'date'           => esc_html__( 'Date', 'eac-components' ),
-			'modified'       => esc_html__( 'Dernière modification', 'eac-components' ),
-			'comment_count'  => esc_html__( 'Nombre de commentaires', 'eac-components' ),
-			'meta_value_num' => esc_html__( 'Valeur meta numérique', 'eac-components' ),
+			'modified'       => esc_html__( 'Last modification', 'eac-components' ),
+			'ID'             => esc_html( 'ID' ),
+			'comment_count'  => esc_html__( 'Comments count', 'eac-components' ),
+			'meta_value_num' => esc_html__( 'Numeric meta value', 'eac-components' ),
 		);
 
 		/**
@@ -839,142 +610,245 @@ class Eac_Tools_Util {
 	}
 
 	/**
-	 * @return un tableau filtré de tous les terms de WP
+	 * get_all_post_by_id
+	 *
+	 * @param array $posttype
+	 *
+	 * @return array Un tableau "index::ID du post" => "Titre du post"
 	 */
-	public static function get_all_terms() {
-		$all_terms     = array();
-		$taxos         = array();
-		$taxo_singular = array();
-		$filtered_taxo = self::$filtered_taxonomies;
+	public static function get_all_post_by_id( array $posttype = array( 'post' ) ): array {
+		$post_list = array();
 
-		$taxonomies = get_taxonomies( array(), 'objects' ); // Retourne un tableau d'objets
-
-		// Boucle sur les taxonomies
-		foreach ( $taxonomies as $taxonomy ) {
-			if ( is_array( $filtered_taxo ) && ! in_array( $taxonomy->name, $filtered_taxo, true ) ) {
-				$taxos[]                          = $taxonomy->name;
-				$taxo_singular[ $taxonomy->name ] = $taxonomy->label;
-			}
-		}
-
-		// Boucle sur les terms d'une taxonomie
-		if ( ! empty( $taxos ) ) {
-			foreach ( $taxos as $taxo ) {
-				$terms = get_terms(
-					array(
-						'taxonomy'   => $taxo,
-						'hide_empty' => true,
-					)
-				);
-
-				if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
-					foreach ( $terms as $term ) {
-						$all_terms[ $taxo . '::' . $term->slug ] = $taxo_singular[ $taxo ] . '::' . $term->name;
-					}
-				}
-			}
-		}
-		return $all_terms;
-	}
-
-	/**
-	 * @return un tableau de tous les types de produits WooCommerce
-	 */
-	public static function get_product_post_types() {
-		$options  = array();
-		$products = array(
-			'product' => esc_html__( 'Produits', 'eac-components' ),
-			/**
-			'product_variation' => esc_html__('Variations', 'eac-components'),
-			'shop_coupon' => esc_html__('Codes promo', 'eac-components'),
-			'shop_order' => esc_html__('Commandes', 'eac-components'),
-			'shop_order_placehold' => esc_html__('Articles', 'eac-components'),
-			'shop_order_refund' => esc_html__('Remboursements', 'eac-components'),
-			*/
+		$posts = get_posts(
+			array(
+				'post_type'      => $posttype,
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'orderby'        => 'title',
+				'order'          => 'ASC',
+			)
 		);
 
-		foreach ( $products as $key => $val ) {
-			$options[ $key ] = $key . '::' . $val;
+		if ( ! empty( $posts ) && ! is_wp_error( $posts ) ) {
+			foreach ( $posts as $index => $value ) {
+				// Ajoute l'index du tableau pour conserver le tri sur le titre
+				$post_list[ $index . '::' . $value->ID ] = $value->post_title;
+			}
 		}
-		return $options;
+		return $post_list;
 	}
 
 	/**
-	 * @return un tableau filtré de toutes les taxonomies d'un produit
+	 * get_elementor_templates
+	 *
+	 * @param string $type
+	 *
+	 * @return array la liste des templates Elementor
 	 */
-	public static function get_product_taxonomies() {
-		$options = array();
+	public static function get_elementor_templates( string $type = 'page' ): array {
+		$post_list = array( '' => esc_html__( 'Select...', 'eac-components' ) );
 
-		/** Retourne un tableau d'objet */
-		$taxonomies = get_taxonomies( array( 'object_type' => array( 'product' ) ), 'objects' );
-
-		foreach ( $taxonomies as $taxonomy ) {
-			$options[ $taxonomy->name ] = $taxonomy->name . '::' . $taxonomy->label;
-		}
-		return $options;
-	}
-
-	/**
-	 * @return un tableau filtré de tous les terms d'un produit
-	 */
-	public static function get_product_terms() {
-		$all_terms     = array();
-		$taxos         = array();
-		$taxo_singular = array();
-
-		/** Retourne un tableau d'objet */
-		$taxonomies = get_taxonomies( array( 'object_type' => array( 'product' ) ), 'objects' );
-
-		/** Boucle sur les taxonomies */
-		foreach ( $taxonomies as $taxonomy ) {
-			$taxos[]                          = $taxonomy->name;
-			$taxo_singular[ $taxonomy->name ] = $taxonomy->label;
-		}
-
-		/** Boucle sur les terms d'une taxonomie */
-		if ( ! empty( $taxos ) ) {
-			foreach ( $taxos as $taxo ) {
-				$terms = get_terms(
+		$data = get_posts(
+			array(
+				'cache_results'  => false,
+				'post_type'      => Source_Local::CPT,
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'orderby'        => 'title',
+				'sort_order'     => 'ASC',
+				'tax_query'      => array(
 					array(
-						'taxonomy'   => $taxo,
-						'hide_empty' => true,
-					)
-				);
+						'taxonomy' => Source_Local::TAXONOMY_TYPE_SLUG,
+						'field'    => 'slug',
+						'terms'    => $type,
+					),
+				),
+			)
+		);
 
-				if ( ! is_wp_error( $terms ) && count( $terms ) > 0 ) {
-					foreach ( $terms as $term ) {
-						$all_terms[ $taxo . '::' . $term->slug ] = $taxo_singular[ $taxo ] . '::' . $term->name;
+		if ( ! empty( $data ) && ! is_wp_error( $data ) ) {
+			foreach ( $data as $key ) {
+				$post_list[ $key->ID ] = $key->post_title;
+			}
+			asort( $post_list, SORT_STRING | SORT_FLAG_CASE );
+		}
+		return $post_list;
+	}
+
+	/**
+	 * get_all_elementor_templates
+	 *
+	 * @return array la liste de tous les templates Elementor
+	 */
+	public static function get_all_elementor_templates(): array {
+		$template_grouped = array(
+			array(
+				'label'   => esc_html__( 'Default', 'eac-components' ),
+				'options' => array( '' => esc_html__( 'None', 'eac-components' ) ),
+			),
+		);
+		$args = array(
+			'post_type'      => Source_Local::CPT, // Type de post pour les templates Elementor
+			'posts_per_page' => -1, // Récupérer tous les templates
+			'post_status'    => 'publish', // Filtrer pour ne récupérer que les templates publiés
+		);
+
+		$templates = get_posts( $args );
+
+		if ( ! is_wp_error( $templates ) && ! empty( $templates ) ) {
+			foreach ( $templates as $template ) {
+				// Récupérer le type de template (par exemple, 'section', 'page', etc.)
+				$template_type = get_post_meta( $template->ID, \Elementor\Core\Base\Document::TYPE_META_KEY, true );
+
+				if ( ! $template_type || 'kit' === $template_type ) {
+					continue;
+				}
+
+				$label_exists = false;
+				foreach ( $template_grouped as &$group ) { // Utiliser une référence pour modifier le groupe
+					if ( $group['label'] === $template_type ) {
+						$label_exists = true;
+						// Ajouter l'ID et le titre au tableau des options
+						$group['options'][ $template->ID ] = esc_html( $template->post_title );
+						break;
+					}
+				}
+
+				// Si le label n'existe pas, l'ajouter
+				if ( ! $label_exists ) {
+					$template_grouped[] = array(
+						'label' => $template_type,
+						'options' => array( $template->ID => esc_html( $template->post_title ) ),
+					);
+				}
+				usort( $template_grouped, function ( $a, $b ) {
+					return strcmp( $a['label'], $b['label'] );
+				} );
+			}
+		}
+		return $template_grouped;
+	}
+
+	/**
+	 * get_filter_post_types
+	 *
+	 * @return array tous les types d'articles publics filtrés
+	 */
+	public static function get_filter_post_types( array $exclude_post_type = array(), bool $associatif = true ): array {
+		$options             = array();
+		$filtered_post_types = self::$filtered_post_type;
+
+		/**
+		 * Liste des opérateurs de comparaison des meta_query
+		 *
+		 * Ajouter/Supprimer des types d'articles
+		 *
+		 * @param array $filtered_post_types Liste des types d'articles
+		 */
+		$filtered_post_types = apply_filters( 'eac/tools/post_types', $filtered_post_types );
+		$filtered_post_types = array_merge( $exclude_post_type, $filtered_post_types );
+
+		$post_types = get_post_types( array( 'public' => true ), 'objects' );
+
+		foreach ( $post_types as $post_type ) {
+			if ( is_array( $filtered_post_types ) && ! in_array( $post_type->name, $filtered_post_types, true ) ) {
+				if ( $associatif ) {
+					$options[ $post_type->name ] = $post_type->labels->singular_name;
+				} else {
+					$options[] = $post_type->name;
+				}
+			}
+		}
+		if ( $associatif ) {
+			asort( $options, SORT_STRING | SORT_FLAG_CASE );
+		}
+
+		return $options;
+	}
+
+	/**
+	 * get_all_post_types
+	 *
+	 * @return array tous les types d'articles publics non filtrés
+	 */
+	public static function get_all_post_types(): array {
+		$options    = array();
+		$post_types = get_post_types( array( 'public' => true ), 'objects' );
+
+		foreach ( $post_types as $post_type ) {
+			$options[ $post_type->name ] = $post_type->labels->singular_name;
+		}
+		asort( $options, SORT_STRING | SORT_FLAG_CASE );
+		return $options;
+	}
+
+	/**
+	 * get_all_taxonomies
+	 *
+	 * @param array $exclude_post_type le name du post type à exclure de la recherche
+	 *
+	 * @return array un tableau filtré de toutes les taxonomies de WP à l'exclusion du post type
+	 */
+	public static function get_all_taxonomies( array $exclude_post_type = array() ): array {
+		$options       = array();
+		$filtered_taxo = self::$filtered_taxonomy;
+		$taxonomies    = get_taxonomies( array(), 'objects' );
+
+		foreach ( $taxonomies as $taxonomy ) {
+			$exist_post_type = ! empty( $exclude_post_type ) ? ! empty( array_intersect( $exclude_post_type, $taxonomy->object_type ) ) : false;
+			if ( ! $exist_post_type && ! in_array( $taxonomy->name, $filtered_taxo, true ) ) {
+				$options[ $taxonomy->name ] = $taxonomy->label;
+			}
+		}
+		asort( $options, SORT_STRING | SORT_FLAG_CASE );
+		return $options;
+	}
+
+	/**
+	 * get_categories_by_all_post_types
+	 *
+	 * @param bool $associatif
+	 *
+	 * @return array
+	 */
+	public static function get_categories_by_all_post_types( bool $associatif = false ): array {
+		// Récupérer tous les post types
+		$post_types = get_post_types( array( 'public' => true ), 'objects' );
+		$all_categories = array();
+
+		foreach ( $post_types as $post_type ) {
+			// Récupérer les taxonomies du post type
+			$taxonomies = get_object_taxonomies( $post_type->name, 'objects' );
+
+			foreach ( $taxonomies as $taxonomy ) {
+				// Vérifier s'il s'agit d'une taxonomie de catégorie
+				if ( $taxonomy->hierarchical ) {
+					$terms = get_terms( array(
+						'taxonomy'   => $taxonomy->name,
+						'hide_empty' => true,
+					) );
+
+					if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+						if ( ! $associatif ) {
+							$all_categories[] = $taxonomy->name;
+						} else {
+							$all_categories[ $taxonomy->name ] = $taxonomy->label;
+						}
 					}
 				}
 			}
 		}
-		return $all_terms;
+		return $all_categories;
 	}
 
 	/**
-	 * @return un tableau filtré de toutes les taxonomies de WP
-	 * Méthode 'get_taxonomies' retourne 'objects' vs 'names' et affiche le couple 'name::label' dans la liste
+	 * get_all_taxonomies_by_name
+	 *
+	 * @return array un tableau filtré de toutes les taxonomies par leur nom
 	 */
-	public static function get_all_taxonomies() {
+	public static function get_all_taxonomies_by_name(): array {
 		$options       = array();
-		$filtered_taxo = self::$filtered_taxonomies;
-
-		$taxonomies = get_taxonomies( array(), 'objects' ); // Retourne un objet
-
-		foreach ( $taxonomies as $taxonomy ) {
-			if ( is_array( $filtered_taxo ) && ! in_array( $taxonomy->name, $filtered_taxo, true ) ) {
-				$options[ $taxonomy->name ] = $taxonomy->name . '::' . $taxonomy->label;
-			}
-		}
-		return $options;
-	}
-
-	/**
-	 * @return un tableau filtré de toutes les taxonomies par leur nom
-	 */
-	public static function get_all_taxonomies_by_name() {
-		$options       = array();
-		$filtered_taxo = self::$filtered_taxonomies;
+		$filtered_taxo = self::$filtered_taxonomy;
 
 		/**
 		 * Liste des taxonomies
@@ -996,9 +870,134 @@ class Eac_Tools_Util {
 	}
 
 	/**
-	 * @return un array de toutes les pages avec le titre pour clé
+	 * get_all_terms
+	 *
+	 * @param array $exclude_post_type le name du post type à exclure de la recherche
+	 *
+	 * @return array un tableau filtré de tous les terms de WP à l'exclusion du post type
 	 */
-	public static function get_pages_by_name() {
+	public static function get_all_terms( array $exclude_post_type = array() ): array {
+		$all_terms     = array();
+		$taxos         = array();
+		$taxo_singular = array();
+		$filtered_taxo = self::$filtered_taxonomy;
+
+		$taxonomies = get_taxonomies( array(), 'objects' ); // Retourne un tableau d'objets
+
+		// Boucle sur les taxonomies
+		foreach ( $taxonomies as $taxonomy ) {
+			$exist_post_type = ! empty( $exclude_post_type ) ? ! empty( array_intersect( $exclude_post_type, $taxonomy->object_type ) ) : false;
+			if ( ! $exist_post_type && ! in_array( $taxonomy->name, $filtered_taxo, true ) ) {
+				$taxos[]                          = $taxonomy->name;
+				$taxo_singular[ $taxonomy->name ] = $taxonomy->labels->singular_name;
+			}
+		}
+
+		// Boucle sur les terms d'une taxonomie
+		if ( ! empty( $taxos ) ) {
+			foreach ( $taxos as $taxo ) {
+				$terms = get_terms(
+					array(
+						'taxonomy'   => $taxo,
+						'hide_empty' => true,
+					)
+				);
+
+				if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
+					foreach ( $terms as $term ) {
+						$all_terms[ $taxo . '::' . $term->slug ] = $taxo_singular[ $taxo ] . '::' . $term->name;
+					}
+				}
+			}
+		}
+		asort( $all_terms, SORT_STRING | SORT_FLAG_CASE );
+		return $all_terms;
+	}
+
+	/**
+	 * get_product_post_types
+	 *
+	 * @return array un tableau de tous les types de produits WooCommerce
+	 */
+	public static function get_product_post_types(): array {
+		return array(
+			'product' => esc_html__( 'Product', 'eac-components' ),
+			/**
+			'product_variation'    => esc_html__('Variations', 'eac-components'),
+			'shop_coupon'          => esc_html__('Codes promo', 'eac-components'),
+			'shop_order'           => esc_html__('Commandes', 'eac-components'),
+			'shop_order_placehold' => esc_html__('Articles', 'eac-components'),
+			'shop_order_refund'    => esc_html__('Remboursements', 'eac-components'),
+			*/
+		);
+	}
+
+	/**
+	 * get_product_taxonomies
+	 *
+	 * @return array un tableau filtré de toutes les taxonomies d'un produit
+	 */
+	public static function get_product_taxonomies(): array {
+		$options = array();
+
+		/** Retourne un tableau d'objet */
+		$taxonomies = get_taxonomies( array( 'object_type' => array( 'product' ) ), 'objects' );
+
+		foreach ( $taxonomies as $taxonomy ) {
+			$options[ $taxonomy->name ] = $taxonomy->labels->singular_name;
+		}
+		uasort( $options, function ( $a, $b ) {
+			return strcasecmp( $a, $b );
+		});
+		return $options;
+	}
+
+	/**
+	 * get_product_terms
+	 *
+	 * @return array un tableau filtré de tous les terms d'un produit
+	 */
+	public static function get_product_terms(): array {
+		$all_terms     = array();
+		$taxos         = array();
+		$taxo_singular = array();
+
+		/** Retourne un tableau d'objet */
+		$taxonomies = get_taxonomies( array( 'object_type' => array( 'product' ) ), 'objects' );
+
+		/** Boucle sur les taxonomies */
+		foreach ( $taxonomies as $taxonomy ) {
+			$taxos[]                          = $taxonomy->name;
+			$taxo_singular[ $taxonomy->name ] = $taxonomy->labels->singular_name;
+		}
+
+		/** Boucle sur les terms d'une taxonomie */
+		if ( ! empty( $taxos ) ) {
+			foreach ( $taxos as $taxo ) {
+				$terms = get_terms(
+					array(
+						'taxonomy'   => $taxo,
+						'hide_empty' => true,
+					)
+				);
+
+				if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
+					foreach ( $terms as $term ) {
+						$all_terms[ $taxo . '::' . $term->slug ] = $taxo_singular[ $taxo ] . '::' . $term->name;
+					}
+				}
+			}
+		}
+		asort( $all_terms, SORT_STRING | SORT_FLAG_CASE );
+		return $all_terms;
+	}
+
+	/**
+	 * get_pages_by_name
+	 *
+	 * @return array un tableau de toutes les pages avec le titre pour clé
+	 */
+	public static function get_pages_by_name(): array {
 		$select_pages = array( '' => esc_html__( 'Select...', 'eac-components' ) );
 		$args         = array(
 			'sort_order'  => 'ASC',
@@ -1013,9 +1012,11 @@ class Eac_Tools_Util {
 	}
 
 	/**
-	 * @return un array de toutes les pages avec l'ID pour clé
+	 * get_pages_by_id
+	 *
+	 * @return array un tableau de toutes les pages avec l'ID pour clé
 	 */
-	public static function get_pages_by_id() {
+	public static function get_pages_by_id(): array {
 		$select_pages = array( '' => esc_html__( 'Select...', 'eac-components' ) );
 		$args         = array(
 			'sort_order'  => 'DESC',
@@ -1026,166 +1027,62 @@ class Eac_Tools_Util {
 		foreach ( $pages as $page ) {
 			$select_pages[ $page->ID ] = ucfirst( $page->post_title );
 		}
+
 		return $select_pages;
-	}
-
-	/**
-	 * La date à convertir au format des réglages WP
-	 *
-	 * @param $ori_date   (string) La date à convertir
-	 */
-	public static function set_wp_format_date( $ori_date ) {
-		if ( self::is_timestamp( $ori_date ) ) {
-			return date( get_option( 'date_format' ), $ori_date );
-		}
-
-		if ( ! strtotime( $ori_date ) ) {
-			return $ori_date;
-		}
-		return date_i18n( get_option( 'date_format' ), strtotime( $ori_date ) );
-	}
-
-	/**
-	 * Recherche le format de la date
-	 *
-	 * @param { $ori_date}   (string) La date dont on recherche le format
-	 */
-	public static function get_wp_format_date( $ori_date ) {
-		if ( preg_match( '/^[0-9]{4}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/', $ori_date ) ) {
-			return 'Ymd';
-		} elseif ( preg_match( '/^[0-9]{4}[\/]{1}(0[1-9]|1[0-2])[\/]{1}(0[1-9]|[1-2][0-9]|3[0-1])$/', $ori_date ) ) {
-			return 'Y/m/d';
-		} elseif ( preg_match( '/^[0-9]{4}[\-]{1}(0[1-9]|1[0-2])[\-]{1}(0[1-9]|[1-2][0-9]|3[0-1])$/', $ori_date ) ) {
-			return 'Y-m-d';
-		} elseif ( preg_match( '/^(0[1-9]|[1-2][0-9]|3[0-1])[\/]{1}(0[1-9]|1[0-2])[\/]{1}[0-9]{4}$/', $ori_date ) ) {
-			return 'd/m/Y';
-		} elseif ( preg_match( '/^(0[1-9]|[1-2][0-9]|3[0-1])[\-]{1}(0[1-9]|1[0-2])[\-]{1}[0-9]{4}$/', $ori_date ) ) {
-			return 'd-m-Y';
-		} elseif ( preg_match( '/^(0[1-9]|[1-2][0-9]|3[0-1])(0[1-9]|1[0-2])[0-9]{4}$/', $ori_date ) ) {
-			return 'dmY';
-		} elseif ( preg_match( '/^(0[1-9]|1[0-2])[\/]{1}(0[1-9]|[1-2][0-9]|3[0-1])[\/]{1}[0-9]{4}$/', $ori_date ) ) {
-			return 'm/d/Y';
-		} elseif ( preg_match( '/^(0[1-9]|1[0-2])[\-]{1}(0[1-9]|[1-2][0-9]|3[0-1])[\-]{1}[0-9]{4}$/', $ori_date ) ) {
-			return 'm-d-Y';
-		} elseif ( preg_match( '/^(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])[0-9]{4}$/', $ori_date ) ) {
-			return 'mdY';
-		}
-		// Format WP définit dans le paramétrage
-		return get_option( 'date_format' );
-	}
-
-	/**
-	 * La date à convertir au format attendu (YYYY-MM-DD) par la propriété 'value' d'un 'meta_query'
-	 *
-	 * @param { $ori_date}   (string) La date à convertir
-	 */
-	public static function set_meta_value_date( $ori_date ) {
-		$wp_format_entree = get_option( 'date_format' );  // Settings/General/Date Format (m-d-Y, m/d/Y, d-m-Y, d/m/Y, n/j/y=7/23/21)
-		$wp_format_sortie = 'Y-m-d';                    // Format sortie attendu: AAAA-MM-DD
-
-		$$date_maj = date_create_from_format( $wp_format_entree, $ori_date );
-
-		if ( false === $date_maj ) {
-			return $ori_date;
-		}
-		return $$date_maj->format( $wp_format_sortie );
-	}
-
-	/**
-	 * Formatte la date si c'est une constante strtotime
-	 *
-	 * @param $la_date  (string) La date à checker
-	 */
-	public static function get_formated_date_value( $la_date ) {
-
-		// Constante date du jour, -+1 mois, -+1 trimestre, -+1 an !
-		if ( 'today' === $la_date ) {
-			return date_i18n( 'Y-m-d' );
-		} elseif ( 'today-1w' === $la_date ) {
-			return date_i18n( 'Y-m-d', strtotime( '-1 week' ) );
-		} elseif ( 'today-1m' === $la_date ) {
-			return date_i18n( 'Y-m-d', strtotime( '-1 month' ) );
-		} elseif ( 'today-1q' === $la_date ) {
-			return date_i18n( 'Y-m-d', strtotime( '-3 month' ) );
-		} elseif ( 'today-1y' === $la_date ) {
-			return date_i18n( 'Y-m-d', strtotime( '-1 year' ) );
-		} elseif ( 'today+1w' === $la_date ) {
-			return date_i18n( 'Y-m-d', strtotime( '+1 week' ) );
-		} elseif ( 'today+1m' === $la_date ) {
-			return date_i18n( 'Y-m-d', strtotime( '+1 month' ) );
-		} elseif ( 'today+1q' === $la_date ) {
-			return date_i18n( 'Y-m-d', strtotime( '+3 month' ) );
-		} elseif ( 'today+1y' === $la_date ) {
-			return date_i18n( 'Y-m-d', strtotime( '+1 year' ) );
-		} elseif ( self::is_timestamp( $la_date ) ) {
-			return (string) $la_date;
-		} else {
-			return self::set_meta_value_date( $la_date );
-		}
-	}
-
-	/**
-	 * Check si la date est un timestamp unix
-	 *
-	 * @param { $la_date} (string) La date à checker
-	 */
-	public static function is_timestamp( $la_date ) {
-		if ( ! is_numeric( $la_date ) ) {
-			return false;
-		}
-
-		try {
-			new \DateTime( '@' . $la_date );
-		} catch ( \Exception $e ) {
-			return false;
-		}
-		return true;
 	}
 
 	/**
 	 * wp_get_attachment_data
 	 *
-	 * @var Integer $attachment_id L'ID du media
-	 * @var String  $attachment_size La dimension du media
-	 * @return False|Array Les attributs du media et ceux nécessaires au responsiveness
+	 * @param int $attachment_id
+	 * @param string $attachment_size
+	 * @param string $filter
+	 * @param int $current_id
+	 * @param int $count_element
+	 *
+	 * @return array Les attributs du media et ceux nécessaires au responsiveness
 	 */
-	public static function wp_get_attachment_data( $attachment_id, $attachment_size, $filter = '', $the_id = -1, $count_element = 0 ) {
-		$attachment = get_post( $attachment_id );
+	public static function wp_get_attachment_data( int $attachment_id, string $attachment_size, string $filter = '', int $current_id = null, int $count_element = 0 ): array {
+		$attachment_array = array();
+		$attachment       = get_post( $attachment_id );
+		$excerpt_len      = 40;
+
 		if ( 0 === $attachment_id || ! $attachment ) {
-			return false;
+			return $attachment_array;
 		}
 
 		$srcset      = wp_get_attachment_image_srcset( $attachment_id, $attachment_size );
 		$srcsize     = wp_get_attachment_image_sizes( $attachment_id, $attachment_size );
 		$image_data  = wp_get_attachment_image_src( $attachment_id, $attachment_size );
+		$image_url   = wp_get_attachment_image_url( $attachment_id, $attachment_size );
 		$width       = $image_data ? $image_data[1] : 300;
 		$height      = $image_data ? $image_data[2] : 300;
 		$media_url   = '';
 		$media_cat   = '';
 		$parent_id   = ! empty( $attachment->post_parent ) && 0 !== $attachment->post_parent ? $attachment->post_parent : false;
-		$description = $attachment->post_content;
+		$description = ! empty( $attachment->post_content ) ? wp_trim_words( $attachment->post_content, $excerpt_len, '[...]' ) : '';
 		$title       = $attachment->post_title;
 		$caption     = $attachment->post_excerpt;
 
 		/** Les meilleures ventes de produit, les produits vedettes ou une catégorie */
-		if ( in_array( $filter, array( 'selling', 'featured', 'category', 'product', 'recent' ), true ) && -1 !== $the_id ) {
-			if ( 'product' === get_post_type( $the_id ) && function_exists( 'wc_get_product' ) ) {
-				$product = wc_get_product( $the_id );
+		if ( in_array( $filter, array( 'selling', 'featured', 'category', 'product', 'recent' ), true ) && ! is_null( $current_id ) ) {
+			if ( 'product' === get_post_type( $current_id ) && function_exists( 'wc_get_product' ) ) {
+				$product = wc_get_product( $current_id );
 				if ( is_a( $product, 'WC_Product' ) ) {
 					$media_url   = $product->get_permalink();
 					$title       = $product->get_name();
-					$description = self::get_post_excerpt( $product->get_id(), 100 );
+					$description = self::get_post_excerpt( $product->get_id(), $excerpt_len );
 					if ( 'selling' === $filter ) {
-						$count       = sprintf( '%1$s %2$d', esc_html__( 'Quantité vendue', 'eac-components' ), $product->get_total_sales() );
+						$count       = sprintf( '%1$s %2$d', esc_html__( 'Quantity sold', 'eac-components' ), $product->get_total_sales() );
 						$description = 0 !== strlen( $description ) ? $count . '|' . $description : $count;
 					} elseif ( 'recent' === $filter ) {
-						$count       = sprintf( '%1$s %2$d', esc_html__( 'Quantité vendue', 'eac-components' ), $count_element );
+						$count       = sprintf( '%1$s %2$d', esc_html__( 'Quantity sold', 'eac-components' ), $count_element );
 						$description = 0 !== strlen( $description ) ? $count . '|' . $description : $count;
 					}
 				}
 			}
-		} elseif ( taxonomy_exists( 'product_cat' ) && 'categories' === $filter && -1 !== $the_id ) { /** Les catégories des produits et leur nombre */
-			$term = get_term( $the_id, 'product_cat' );
+		} elseif ( taxonomy_exists( 'product_cat' ) && 'categories' === $filter && ! is_null( $current_id ) ) { /** Les catégories des produits et leur nombre */
+			$term = get_term( $current_id, 'product_cat' );
 			if ( is_a( $term, 'WP_Term' ) ) {
 				$media_url   = get_term_link( $term, 'product_cat' );
 				$title       = $term->name;
@@ -1195,13 +1092,44 @@ class Eac_Tools_Util {
 		} elseif ( $parent_id ) {/** Affecte l'URL et la description du parent si le media est attaché à un article, champ 'Uploaded to' renseigné */
 			$post_parent = get_post( $parent_id );
 			if ( $post_parent ) {
-				$media_url   = get_permalink( $parent_id );
-				$description = self::get_post_excerpt( $parent_id, 100 );
+				$media_url = get_permalink( $parent_id );
+				if ( 'product' === get_post_type( $post_parent ) && function_exists( 'wc_get_product' ) ) {
+					$product = wc_get_product( $parent_id );
+					if ( $product && is_a( $product, 'WC_Product' ) ) {
+						$media_url  = $product->get_permalink();
+					}
+				}
+				$excerpt     = self::get_post_excerpt( $parent_id, $excerpt_len );
+				$description = ! empty( $excerpt ) ? $excerpt : $description;
+			}
+		} elseif ( ! $parent_id ) {
+			$posts = get_posts(
+				array(
+					'post_type'      => array( 'product', 'post', 'page' ),
+					'post_status'    => 'publish',
+					'meta_key'       => '_thumbnail_id',
+					'meta_value'     => $attachment_id,
+					'posts_per_page' => 1,
+				)
+			);
+			if ( ! is_wp_error( $posts ) && is_array( $posts ) && isset( $posts[0]->ID ) ) {
+				$post_parent = $posts[0];
+				$postid      = $post_parent->ID;
+				if ( 'product' === get_post_type( $postid ) && function_exists( 'wc_get_product' ) ) {
+					$product = wc_get_product( absint( $postid ) );
+					if ( $product && is_a( $product, 'WC_Product' ) ) {
+						$media_url  = $product->get_permalink();
+					}
+				} else {
+					$media_url  = get_permalink( $postid );
+				}
+				$excerpt     = self::get_post_excerpt( $postid, $excerpt_len );
+				$description = ! empty( $excerpt ) ? $excerpt : $description;
 			}
 		}
 
-		/** Les deux champs supplémentaires sont activés dans les medias */
-		if ( \EACCustomWidgets\Core\Eac_Config_Elements::is_feature_active( 'extend-fields-medias' ) ) {
+		/** Both champs supplémentaires sont activés dans les medias */
+		if ( \EACCustomWidgets\Core\Eac_Load_Config::is_feature_active( 'extend-fields-medias' ) ) {
 			$url       = get_post_meta( $attachment_id, 'eac_media_url', true );
 			$media_url = ! empty( $url ) ? $url : $media_url;
 			$media_cat = get_post_meta( $attachment_id, 'eac_media_cat', true );
@@ -1209,10 +1137,11 @@ class Eac_Tools_Util {
 
 		$alt        = get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
 		$attach_alt = ! empty( $alt ) ? $alt : $title;
-		return array(
+		$attachment_array = array(
 			'alt'         => $attach_alt,
 			'caption'     => $caption,
 			'description' => $description,
+			'image_url'   => $image_url,
 			'src'         => wp_get_attachment_url( $attachment_id ),
 			'title'       => $title,
 			'srcset'      => $srcset,
@@ -1223,19 +1152,24 @@ class Eac_Tools_Util {
 			'media_url'   => $media_url,
 			'media_cat'   => $media_cat,
 		);
+
+		return $attachment_array;
 	}
 
 	/**
+	 * get_directory_file_list
 	 * 'wp_check_filetype' retourne null si ce n'est pas un type mime de fichier activé (JSON)
 	 *
-	 * @var $relative_path Le chemin d'accès aux fichiers de configuration JSON
-	 * @var $mimes Le type mime des fichiers recherchés
-	 * @return la liste des fichiers d'un répertoire sous forme [url] => filename
+	 * @param string $relative_path Le chemin d'accès aux fichiers de configuration JSON
+	 * @param string $ext le nom de l'extension
+	 * @param string $type le mime type
+	 *
+	 * @return array la liste des fichiers d'un répertoire sous forme [url] => filename
 	 */
-	public static function get_directory_files_list( $relative_path = 'includes/config', $ext = '', $type = '' ) {
+	public static function get_directory_file_list( string $relative_path = 'includes/config', string $ext = '', string $type = '' ): array {
 		$path       = EAC_PLUGIN_PATH . $relative_path;
 		$dir        = opendir( $path );
-		$files_list = array( 'none' => esc_html__( 'Aucun', 'eac-components' ) );
+		$files_list = array( 'none' => esc_html__( 'None', 'eac-components' ) );
 
 		if ( empty( $ext ) || empty( $type ) ) {
 			return $files_list;
@@ -1292,7 +1226,11 @@ class Eac_Tools_Util {
 	 * @return string
 	 * @since 2.3.5
 	 */
-	public static function compress_html_output( $buffer ): string {
+	public static function compress_html_output( string $buffer ): string {
+		if ( '' === $buffer ) {
+			return $buffer;
+		}
+
 		$search = array(
 			'/ {2,}/',
 			'/<!--.*?-->|\t|(?:\r?\n[ \t]*)+/s',
@@ -1303,5 +1241,87 @@ class Eac_Tools_Util {
 		);
 		$buffer = preg_replace( $search, $replace, $buffer );
 		return $buffer;
+	}
+
+	/**
+	 * compress_html_full_output
+	 *
+	 * @param string $buffer
+	 *
+	 * @return string
+	 */
+	public static function compress_html_full_output( string $buffer ): string {
+		if ( '' === $buffer ) {
+			return $buffer;
+		}
+
+		// Préserver <script> et <style>
+		$preserve = array();
+		$buffer = preg_replace_callback( '#<(script|style)(\b[^>]*)>.*?</\1>#is', function ( $m ) use ( &$preserve ) {
+			$k = '###PRESERVE_' . count( $preserve ) . '###';
+			$preserve[ $k ] = $m[0];
+			return $k;
+		}, $buffer );
+
+		// Supprimer tous les commentaires HTML
+		$buffer = preg_replace( '/<!--.*?-->/s', '', $buffer );
+
+		// Retours ligne -> espace, supprimer tabulations
+		$buffer = str_replace( array( "\r\n", "\n", "\r", "\t" ), ' ', $buffer );
+
+		// Réduire multiples espaces à 1, supprimer espaces entre balises et avant '/>'
+		$buffer = preg_replace(
+			array(
+				'/ {2,}/',   // plusieurs espaces -> 1
+				'/>\s+</',   // espaces entre balises -> '><'
+				'/\s+\/>/',  // espace avant /> -> '/>',
+			),
+			array(
+				' ',
+				'><',
+				'/>',
+			),
+			$buffer
+		);
+
+		// Restaurer scripts/styles
+		if ( ! empty( $preserve ) ) {
+			$buffer = str_replace( array_keys( $preserve ), array_values( $preserve ), $buffer );
+		}
+
+		return trim( $buffer );
+	}
+
+	/**
+	 * is_valid_email_mx
+	 *
+	 * @param string $email
+	 *
+	 * @return bool
+	 */
+	public static function is_valid_email_mx( string $email ): bool {
+		// Syntaxe basique (suffisante en pratique)
+		if ( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
+			return false;
+		}
+
+		// Extraire le domaine
+		/**list( $person, $domain ) = explode( '@', $email, 2 );*/
+		$domain = substr( strrchr( $email, '@' ), 1 );
+		if ( ! $domain ) {
+			return false;
+		}
+
+		// Vérifier enregistrements MX ou A
+		if ( checkdnsrr( $domain, 'MX' ) ) {
+			return true;
+		}
+
+		// fallback : certains domaines n'ont pas d'MX explicite mais ont un A
+		if ( checkdnsrr( $domain, 'A' ) ) {
+			return true;
+		}
+
+		return false;
 	}
 }

@@ -19,34 +19,34 @@ use Elementor\Controls_Manager;
 
 class Post_By_User extends Tag {
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-post-user';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Auteurs', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Authors', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-post';
+	public function get_group(): array {
+		return array( 'eac-post' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array(
 			TagsModule::POST_META_CATEGORY,
 		);
 	}
 
-	public function get_panel_template_setting_key() {
+	public function get_panel_template_setting_key(): string {
 		return 'author_custom_field';
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 
 		$this->add_control(
 			'author_custom_field',
 			array(
-				'label'       => esc_html__( 'Clé', 'eac-components' ),
+				'label'       => esc_html__( 'Key', 'eac-components' ),
 				'type'        => Controls_Manager::SELECT2,
 				'label_block' => true,
 				'multiple'    => true,
@@ -55,16 +55,16 @@ class Post_By_User extends Tag {
 		);
 	}
 
-	public function render() {
+	public function render(): void {
 		$key = $this->get_settings( 'author_custom_field' );
 
 		if ( empty( $key ) ) {
-			return '';
+			return;
 		}
 		echo implode( ',', $key ); // phpcs:ignore
 	}
 
-	private function get_custom_keys_array() {
+	private function get_custom_keys_array(): array {
 		$all_authors = array();
 		$options     = array();
 
@@ -72,7 +72,7 @@ class Post_By_User extends Tag {
 
 		if ( ! empty( $all_authors ) ) {
 			foreach ( $all_authors as $key => $value ) {
-				$options[ $key ] = $value; // $options[ID de l'author] = display_name
+				$options[ $key ] = ucfirst( $value ); // $options[ID de l'author] = display_name
 			}
 		}
 		return $options;
@@ -84,9 +84,9 @@ class Post_By_User extends Tag {
 	 * @since 1.6.0 Vérifier le niveau des droits (roles)
 	 * @since 1.9.2 Rapatrie la méthode 'get_all_authors'
 	 */
-	private function get_all_authors() {
+	private function get_all_authors(): array {
 		$list  = array();
-		$users = get_users( array( 'fields' => array( 'ID', 'user_nicename', 'display_name' ) ) );
+		$users = get_users( array( 'fields' => array( 'ID', 'display_name' ) ) );
 
 		// Boucle sur Array of stdClass objects.
 		foreach ( $users as $user ) {

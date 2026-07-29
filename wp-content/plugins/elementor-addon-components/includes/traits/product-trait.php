@@ -7,16 +7,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 trait Product_Trait {
-	public function register_product_id_control() {
+	public function register_product_id_control( $args = array() ) {
+		$default_args = array(
+			'control_condition' => array(),
+		);
+		$args = wp_parse_args( $args, $default_args );
+
 		$this->add_control(
 			'product_id',
 			array(
-				'label'       => esc_html__( 'Sélectionner un produit', 'eac-components' ),
+				'label'       => esc_html__( 'Select product', 'eac-components' ),
 				'type'        => 'eac-select2',
 				'select2Options' => array(
 					'object_type' => 'product',
 				),
 				'default'     => false,
+				'condition'   => $args['control_condition'],
 			)
 		);
 	}
@@ -26,7 +32,7 @@ trait Product_Trait {
 		$this->add_control(
 			'product_taxo',
 			array(
-				'label'       => esc_html__( 'Sélectionner une taxonomie', 'eac-components' ),
+				'label'       => esc_html__( 'Taxonomy filter', 'eac-components' ),
 				'type'        => 'eac-select2',
 				'select2Options' => array(
 					'object_type' => 'product',
@@ -38,11 +44,16 @@ trait Product_Trait {
 	}
 
 	/** @since 1.9.9 */
-	public function register_product_term_control() {
+	public function register_product_term_control( $args = array() ) {
+		$default_args = array(
+			'control_condition' => array(),
+		);
+		$args = wp_parse_args( $args, $default_args );
+
 		$this->add_control(
 			'product_category',
 			array(
-				'label'       => esc_html__( 'Sélectionner une catégorie', 'eac-components' ),
+				'label'       => esc_html__( 'Category filter', 'eac-components' ),
 				'type'        => 'eac-select2',
 				'select2Options' => array(
 					'object_type' => 'product',
@@ -50,6 +61,7 @@ trait Product_Trait {
 					'query_taxo'  => 'product_cat',
 				),
 				'default'     => false,
+				'condition'   => $args['control_condition'],
 			)
 		);
 	}

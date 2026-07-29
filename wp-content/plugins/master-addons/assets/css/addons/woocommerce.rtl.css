@@ -1,0 +1,19 @@
+/* Start of Add to Cart */
+.jltma-wc-add-to-cart-btn-button .added {
+  display: none;
+}
+
+/* End of Add to Cart */
+/* Start of Single Product */
+.jltma_wc_single_product_widget_container .jltma_wc_price_cont.jltma_wc_cart_button_no a,
+.jltma_wc_products_grid_container .jltma_wc_price_cont.jltma_wc_cart_button_no a,
+.jltma_wc_products_packery_container .jltma_wc_price_cont.jltma_wc_cart_button_no a,
+.jltma_wc_products_justified_container .jltma_wc_price_cont.jltma_wc_cart_button_no a,
+.jltma_wc_products_list_container .jltma_wc_price_cont.jltma_wc_cart_button_no a,
+.jltma_wc_products_carousel_container .jltma_wc_price_cont.jltma_wc_cart_button_no a,
+.jltma_wc_filtering_products_container .jltma_wc_price_cont.jltma_wc_cart_button_no a,
+.jltma_wc_product_slider_container .jltma_wc_price_cont.jltma_wc_cart_button_no a {
+  display: none !important;
+}
+
+/* End of Single Product */

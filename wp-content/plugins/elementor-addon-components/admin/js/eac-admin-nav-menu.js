@@ -7,10 +7,12 @@
 		 * @since 1.9.6
 		 */
 		jQuery('.menu-item_button').on('click', (evt) => {
+			const currentTarget = evt.currentTarget;
+
 			evt.preventDefault();
 			// 'data-id' du bouton = post_id de l'article passé au contenu de 'eac-admin_popup-content.php'
-			const menu_item_id = jQuery(evt.currentTarget).attr('data-id');
-			const post_title = jQuery(evt.currentTarget).attr('data-title') + ' (' + menu_item_id + ')';
+			const menu_item_id = jQuery(currentTarget).attr('data-id');
+			const post_title = jQuery(currentTarget).attr('data-title') + ' (' + menu_item_id + ')';
 
 			if (menu_item_id) {
 				/** Ouverture de la popup modale */
@@ -25,6 +27,9 @@
 						height: 610,
 						afterLoad: function (instance, current) {
 							const $form = current.$content.find('form#eac-form_menu-settings');
+							current.$content.attr('aria-modal', 'true');
+							current.$content.attr('role', 'dialog');
+							jQuery(currentTarget).attr('aria-expanded', 'true');
 
 							/** Ajout du Color Picker pour les champs 'badge' des menus */
 							jQuery('.menu-item_badge-color-picker').wpColorPicker();
@@ -94,6 +99,7 @@
 							});
 						},
 						afterClose: function () {
+							jQuery(currentTarget).attr('aria-expanded', 'false');
 							jQuery('#eac-form_menu-settings').off('submit');
 
 							jQuery('.menu-item_badge')

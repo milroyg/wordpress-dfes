@@ -372,8 +372,8 @@ html[dir='rtl'] .overlay-right .image-galerie__item .image-galerie__content.over
 .image-galerie .image-galerie__image .image-galerie__image-instance {
 	display: block;
 	position: relative;
-	inline-size: 100%;
 	block-size: auto;
+	inline-size: 100%;
 	object-fit: cover;
 	object-position: 50% 50%;
 }

@@ -19,6 +19,7 @@ class widgetArticlesListe extends elementorModules.frontend.handlers.Base {
                 imagesInstance: '.al-post__image-loaded',
                 targetCards: '.al-post__inner-wrapper',
                 targetSkipGrid: '.eac-skip-grid',
+                targetFancybox: '.al-post__image-wrapper a[data-fancybox]',
                 filterWrapper: '.al-filters__wrapper a',
                 filterWrapperSelect: '.al-filters__select',
                 buttonPaged: '.al-more-button-paged',
@@ -35,6 +36,7 @@ class widgetArticlesListe extends elementorModules.frontend.handlers.Base {
             $imagesInstance: this.$element.find(selectors.imagesInstance),
             $targetCards: this.$element.find(selectors.targetCards),
             $targetSkipGrid: this.$element.find(selectors.targetSkipGrid),
+            $targetFancybox: this.$element.find(selectors.targetFancybox),
             $filterWrapper: this.$element.find(selectors.filterWrapper),
             $filterWrapperSelect: this.$element.find(selectors.filterWrapperSelect),
             $buttonPaged: this.$element.find(selectors.buttonPaged),
@@ -107,20 +109,38 @@ class widgetArticlesListe extends elementorModules.frontend.handlers.Base {
     }
 
     bindEvents() {
-        if (!elementorFrontend.isEditMode()) {
+        const that = this;
+
+        if (elementorFrontend.isEditMode()) {
+            this.elements.$targetFancybox.on('click', function (evt) { evt.preventDefault(); }); // Le fancybox ne s'ouvre pas dans l'éditeur
+        } else if (!elementorFrontend.isEditMode()) {
             if (this.elements.settings.data_filtre) {
                 this.elements.$filterWrapper.on('click', (evt) => { this.onFilterGridClick(evt); });
                 this.elements.$filterWrapperSelect.on('change', (evt) => { this.onFilterGridChange(evt); });
             }
 
             if (this.elements.settings.data_pagination) {
-                this.elements.$targetId.on('load.infiniteScroll', this.onLoadInfiniteScroll.bind(this));
+                this.elements.$targetId.on('load.infiniteScroll', (evt, response, path) => { this.onLoadInfiniteScroll(evt, response, path); });
             } else if (this.elements.settings.data_navigation) {
                 this.setAccessibilityElements();
             }
 
             if (this.elements.$targetInstance.length > 0) {
                 this.elements.$targetInstance.on('keydown', (evt) => { this.setKeyboardEvents(evt); });
+            }
+
+            if (this.elements.$targetFancybox.length) {
+                this.elements.$targetFancybox.fancybox({
+                    afterShow: function (instance, current) {
+                        const $content = current.$content;
+                        $content.attr('aria-modal', 'true');
+                        $content.attr('role', 'dialog');
+                        that.elements.$targetFancybox.attr('aria-expanded', 'true');
+                    },
+                    afterClose: function (instance, current) {
+                        that.elements.$targetFancybox.attr('aria-expanded', 'false');
+                    }
+                });
             }
         }
 
@@ -201,6 +221,10 @@ class widgetArticlesListe extends elementorModules.frontend.handlers.Base {
         if ($this.parents('.al-filters__item').hasClass('al-active')) {
             return;
         }
+
+        /** Accessibilmité */
+        this.elements.$filterWrapper.attr('aria-pressed','false');
+        $this.attr('aria-pressed','true');
 
         $optionSet.find('.al-active').removeClass('al-active');
         $this.parents('.al-filters__item').addClass('al-active');
@@ -286,22 +310,23 @@ class widgetArticlesListe extends elementorModules.frontend.handlers.Base {
         const $numbers = this.elements.$navigationId.find('a.page-numbers').not('.current').not('.dots');
         jQuery.each($numbers, (index, number) => {
             if (jQuery(number).hasClass('next')) {
-                jQuery(number).attr('aria-label', 'Next page');
+                jQuery(number).attr({'aria-label': 'Next page', 'itemprop': 'item'});
             } else if (jQuery(number).hasClass('prev')) {
-                jQuery(number).attr('aria-label', 'Previous page');
+                jQuery(number).attr({'aria-label': 'Previous page', 'itemprop': 'item'});
             } else {
-                jQuery(number).attr('aria-label', 'Page ' + number.innerText);
+                jQuery(number).attr({'aria-label': 'Page ' + number.innerText, 'itemprop': 'item'});
             }
         });
     }
 }
 
 /**
- * Description: La class est créer lorsque le composant 'eac-addon-articles-liste & eac-addon-product-grid' sont chargés dans la page
+ * Description: La class est créer lorsque le composant est chargé dans la page
  *
  * @param elements (Ex: $scope)
  */
 jQuery(window).on('elementor/frontend/init', () => {
     elementorFrontend.elementsHandler.attachHandler('eac-addon-articles-liste', widgetArticlesListe);
     elementorFrontend.elementsHandler.attachHandler('eac-addon-product-grid', widgetArticlesListe);
+    elementorFrontend.elementsHandler.attachHandler('eac-addon-product-grid-advanced', widgetArticlesListe);
 });

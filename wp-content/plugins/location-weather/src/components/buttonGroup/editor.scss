@@ -1,0 +1,156 @@
+$border-color :#DDDDDD;
+$hover-border-color :rgb(176.8, 176.8, 176.8);
+
+.sp-location-weather-tabs-panel {
+  .spl-weather-button-group {
+    width: 100%;
+
+    .spl-weather-component-top {
+      display: flex;
+      position: relative;
+    }
+
+    &-list {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      border: 1px solid $border-color;
+      border-radius: 2px;
+      height: 40px;
+      padding: 4px 3px;
+      gap: 2px;
+
+      &:hover {
+        border-color: $hover-border-color;
+      }
+
+      &::before {
+        background-color: #F26C0D;
+        height: 30px;
+        border: none;
+        outline: none;
+        top: unset;
+      }
+
+      &:focus-within {
+        border-color: $border-color;
+        outline: none;
+        box-shadow: none;
+      }
+
+      button {
+        padding: 0px;
+        color: #2F2F2F;
+        box-shadow: none;
+        justify-content: center;
+        position: relative;
+        flex: 1;
+
+        &:focus:not(:disabled) {
+          outline: none;
+          box-shadow: none;
+        }
+
+        &.active {
+          color: #fff;
+          height: 100%;
+          border-radius: 2px;
+
+          div {
+            svg {
+              fill: #fff;
+
+              path {
+                stroke: #fff;
+                fill: #fff;
+              }
+            }
+          }
+
+          &:hover {
+            color: #fff;
+          }
+        }
+
+        &:hover p {
+          opacity: 1;
+          visibility: visible;
+        }
+
+        &:hover {
+          color: #2F2F2F;
+        }
+
+        span {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+
+      button[value='text-number'] {
+        width: 150%;
+      }
+
+      > div {
+        height: 100%;
+        button {
+          div {
+            width: 100%;
+            justify-content: center;
+          }
+        }
+        // border right CSS
+        &:not(:last-child) {
+          button {
+            div {
+              border-right: 1px solid #DDDDDD;
+            }
+          }
+        }
+        &:has(+ div button.active) {
+          button {
+            div {
+              border-right-color: transparent;
+            }
+          }
+        }
+        button.active {
+          div {
+            border-right-color: transparent !important;
+          }
+        }
+      }
+
+    }
+
+    .has-border {
+      button {
+        border-left: 1px solid $border-color;
+        margin-left: 0;
+
+        &:first-child {
+          border-left: 0;
+        }
+      }
+    }
+
+	.spl-only-pro-button{
+		pointer-events: none;
+		.spl-pro-title{
+			opacity: 0.5;
+		}
+		.spl-pro-badge{
+			color: #159E2E;
+			font-size: 13px;
+			font-weight: 400;
+			line-height: 20px;
+			margin-left: 4px;
+		}
+	}
+  }
+
+  .sp-component-title-mb {
+    margin-bottom: 8px;
+  }
+}

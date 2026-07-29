@@ -1,193 +1,249 @@
+# Copyright (C) 2026 ShapedPlugin LLC
+# This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Location Weather v2.1.3\n"
-"POT-Creation-Date: 2025-07-23 15:48+0600\n"
-"PO-Revision-Date: 2024-05-27 15:49+0600\n"
-"Last-Translator: \n"
-"Language-Team: ShapedPlugin <support@shapedplugin.com>\n"
-"Language: en\n"
+"Project-Id-Version: Location Weather 3.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/location-weather\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.5\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-KeywordsList: __;_e;_x;esc_html__;esc_html_e;esc_html_x;esc_attr__;"
-"esc_attr_e;esc_attr_x;_n;_nx;_n_noop;number_format_i18n;date_i18n\n"
-"X-Poedit-SearchPath-0: .\n"
+"POT-Creation-Date: 2026-02-16T10:48:38+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: location-weather\n"
 
-#: includes/Admin.php:48
-#: includes/Admin/sp_location_weather_widget_content.php:134
-msgid "Title"
-msgstr ""
-
-#: includes/Admin.php:49
-msgid "Shortcode"
-msgstr ""
-
-#: includes/Admin.php:50
-msgid "Layout"
-msgstr ""
-
-#: includes/Admin.php:51
-msgid "Date"
-msgstr ""
-
-#: includes/Admin.php:87
-msgid "The shortcode has been published."
-msgstr ""
-
-#: includes/Admin.php:88
-msgid "Weather updated."
-msgstr ""
-
-#: includes/Admin/ElementBlock/Location_Weather_Shortcode_Widget.php:46
-#: includes/Admin/Gutenberg_Block/src/index.js:16
-#: includes/Admin/Gutenberg_Block/src/index.js:96
-#: includes/Admin/Gutenberg_Block/src/index.js:143
-#: includes/Admin/LW_Widget.php:23 includes/Admin/Post_Type.php:36
-#: includes/Admin/Post_Type.php:59 includes/Admin/Splw_Help.php:85
-#: includes/Admin/Splw_Help.php:92 main.php:390
+#. Plugin Name of the plugin
+#: main.php
+#: includes/Admin/ElementBlock/Location_Weather_Shortcode_Widget.php:50
+#: includes/Admin/LW_Widget.php:27
+#: includes/Admin/Post_Type.php:39
+#: includes/Admin/Post_Type.php:62
+#: includes/Admin/Splw_Help.php:85
+#: includes/Admin/Splw_Help.php:92
+#: includes/Blocks/Blocks.php:278
+#: main.php:419
+#: includes/Blocks/build/index.js:1
 msgid "Location Weather"
 msgstr ""
 
-#: includes/Admin/ElementBlock/Location_Weather_Shortcode_Widget.php:105
-msgid "Content"
+#. Plugin URI of the plugin
+#: main.php
+msgid "https://locationweather.io/?ref=1"
 msgstr ""
 
-#: includes/Admin/ElementBlock/Location_Weather_Shortcode_Widget.php:113
-msgid "Location Weather Shortcode(s)"
+#. Description of the plugin
+#: main.php
+msgid "Location Weather is the WordPress weather forecast plugin that allows you to create and display unlimited weather forecasts anywhere on your WordPress website. The plugin uses WordPress Custom Post Types and the Open Weather Map API and WeatherAPI Key."
 msgstr ""
 
-#: includes/Admin/Gutenberg_Block/src/index.js:18
-msgid "Use Location Weather to insert a shortcode in your page."
+#. Author of the plugin
+#: main.php
+msgid "ShapedPlugin LLC"
 msgstr ""
 
-#: includes/Admin/Gutenberg_Block/src/index.js:101
-msgid "No shortcode found. "
+#. Author URI of the plugin
+#: main.php
+msgid "https://shapedplugin.com/"
 msgstr ""
 
-#: includes/Admin/Gutenberg_Block/src/index.js:105
-msgid "Create a shortcode now!"
+#: includes/Admin.php:49
+#: includes/Admin/sp_location_weather_widget_content.php:140
+msgid "Title"
 msgstr ""
 
-#: includes/Admin/Gutenberg_Block/src/index.js:148
-msgid "Select a shortcode"
+#: includes/Admin.php:50
+msgid "Shortcode"
 msgstr ""
 
-#: includes/Admin/Gutenberg_Block/src/shortcode/dynamicShortcode.js:13
-msgid "-- Select a shortcode --"
+#: includes/Admin.php:51
+msgid "Layout"
 msgstr ""
 
-#: includes/Admin/LW_Widget.php:25
-msgid "Display Location Weather."
+#: includes/Admin.php:52
+#: includes/Blocks/Includes/weather-api-data.php:273
+msgid "Date"
 msgstr ""
 
-#: includes/Admin/LW_Widget.php:70
-msgid "Select Shortcode:"
+#: includes/Admin.php:88
+msgid "The shortcode has been published."
 msgstr ""
 
-#: includes/Admin/LW_Widget.php:85
-#, php-format
-msgid ""
-"You did not generate any weather yet. %1$sclick here%2$s to generate a new "
-"location weather now."
+#: includes/Admin.php:89
+msgid "Weather updated."
 msgstr ""
 
-#: includes/Admin/Location_Weather_Import_Export.php:72
-#: includes/Admin/Location_Weather_Import_Export.php:162
-#: includes/Admin/framework/functions/actions.php:25
-#: includes/Admin/framework/functions/actions.php:74
-#: includes/Admin/framework/functions/actions.php:111
-#: includes/Admin/framework/functions/actions.php:145
-#: includes/Admin/framework/functions/actions.php:209 main.php:193
-msgid "Error: Invalid nonce verification."
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:69
+msgid "Location Weather Dashboard"
 msgstr ""
 
-#: includes/Admin/Location_Weather_Import_Export.php:175
-msgid "Nothing to import."
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:70
+msgid "Getting Started"
 msgstr ""
 
-#: includes/Admin/Post_Type.php:57 includes/Admin/Post_Type.php:58
-#: includes/Admin/Post_Type.php:60
-msgid "Manage Weather"
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:77
+msgid "Location Weather Blocks"
 msgstr ""
 
-#: includes/Admin/Post_Type.php:61
-msgid "Add New"
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:78
+msgid "Blocks"
 msgstr ""
 
-#: includes/Admin/Post_Type.php:62
-msgid "Add New Weather"
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:84
+msgid "Location Weather Pro Saved Templates"
 msgstr ""
 
-#: includes/Admin/Post_Type.php:63
-msgid "Edit"
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:85
+#: includes/Admin/LW_Saved_Templates.php:51
+#: includes/Admin/LW_Saved_Templates.php:53
+#: includes/Admin/LW_Saved_Templates.php:54
+msgid "Saved Templates"
 msgstr ""
 
-#: includes/Admin/Post_Type.php:64
-msgid "Edit Weather"
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:91
+msgid "Location Weather Settings"
 msgstr ""
 
-#: includes/Admin/Post_Type.php:65
-msgid "New Weather"
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:92
+#: main.php:265
+msgid "Settings"
 msgstr ""
 
-#: includes/Admin/Post_Type.php:66
-msgid "View Weather"
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:98
+msgid "Upgrade to Pro"
 msgstr ""
 
-#: includes/Admin/Post_Type.php:67
-msgid "View Weather Found"
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:182
+msgid "Enhance your Website with our Free Robust Plugins"
 msgstr ""
 
-#: includes/Admin/Post_Type.php:68
-msgid "No Weather Found in Trash"
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:259
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:285
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:334
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:667
+msgid "Invalid nonce."
 msgstr ""
 
-#: includes/Admin/Post_Type.php:69
-msgid "Parent Weather"
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:280
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:661
+msgid "Unauthorized access."
 msgstr ""
 
-#: includes/Admin/Splw_Help.php:97
-msgid "Location Weather Help"
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:294
+#: includes/Admin/Location_Weather_Import_Export.php:200
+msgid "Invalid JSON data."
 msgstr ""
 
-#: includes/Admin/Splw_Help.php:97
-msgid "Get Help"
-msgstr ""
-
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:519
 #: includes/Admin/Splw_Help.php:203
 msgid "Activate"
 msgstr ""
 
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:526
 #: includes/Admin/Splw_Help.php:210
 msgid "Install Now"
 msgstr ""
 
+#. translators: %s: plugin name
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:532
 #: includes/Admin/Splw_Help.php:216
 #, php-format
 msgid "More information about %s"
 msgstr ""
 
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:533
 #: includes/Admin/Splw_Help.php:217
 msgid "More Details"
 msgstr ""
 
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:564
 #: includes/Admin/Splw_Help.php:248
 msgid "Version:"
 msgstr ""
 
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:573
 #: includes/Admin/Splw_Help.php:257
 msgid "+ Active Installations"
 msgstr ""
 
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:581
 #: includes/Admin/Splw_Help.php:265
 msgid "Last Updated:"
 msgstr ""
 
+#. translators: %s: time ago
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:586
 #: includes/Admin/Splw_Help.php:270
 #, php-format
 msgid "%s ago"
+msgstr ""
+
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:981
+msgid "Contribute to Location Weather Improvements"
+msgstr ""
+
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:985
+msgid "Help us improve Location Weather Plugin by reporting bugs and issues, so we can resolve problems faster and deliver better performance."
+msgstr ""
+
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:990
+msgid "Learn More"
+msgstr ""
+
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:997
+msgid "I'd like to help"
+msgstr ""
+
+#: includes/Admin/AdminDashboard/Splw_Blocks_Page_Wrapper.php:1005
+msgid "No thanks"
+msgstr ""
+
+#: includes/Admin/Cron.php:41
+msgid "Once Weekly"
+msgstr ""
+
+#: includes/Admin/ElementBlock/Location_Weather_Shortcode_Widget.php:109
+msgid "Content"
+msgstr ""
+
+#: includes/Admin/ElementBlock/Location_Weather_Shortcode_Widget.php:117
+msgid "Location Weather Shortcode(s)"
+msgstr ""
+
+#: includes/Admin/framework/classes/admin-options.class.php:323
+msgid "Error while saving the changes."
+msgstr ""
+
+#: includes/Admin/framework/classes/admin-options.class.php:496
+#: includes/Admin/framework/classes/admin-options.class.php:509
+msgid "Default settings restored."
+msgstr ""
+
+#: includes/Admin/framework/classes/admin-options.class.php:571
+msgid "Settings saved."
+msgstr ""
+
+#: includes/Admin/framework/classes/admin-options.class.php:763
+msgid "You have unsaved changes, save your changes!"
+msgstr ""
+
+#: includes/Admin/framework/classes/admin-options.class.php:765
+msgid "show all settings"
+msgstr ""
+
+#: includes/Admin/framework/classes/admin-options.class.php:767
+msgid "Search..."
+msgstr ""
+
+#: includes/Admin/framework/classes/admin-options.class.php:862
+#: includes/Admin/framework/classes/metabox-options.class.php:347
+#: includes/Admin/framework/fields/button_clean/button_clean.php:81
+#: includes/Admin/framework/fields/button_set/button_set.php:83
+#: includes/Admin/framework/fields/checkbox/checkbox.php:101
+#: includes/Admin/framework/fields/select/select.php:144
+#: includes/Admin/framework/functions/actions.php:48
+msgid "No data available."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:15
@@ -196,6 +252,7 @@ msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:23
 #: includes/Admin/framework/classes/Generator_Config/TypographySetup.php:30
+#: includes/Blocks/build/index.js:1
 msgid "Regional Preferences"
 msgstr ""
 
@@ -330,15 +387,18 @@ msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:39
 #: includes/Admin/framework/classes/Generator_Config/TypographySetup.php:96
+#: includes/Blocks/build/index.js:1
 msgid "Location Name"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:48
+#: includes/Blocks/build/index.js:1
 msgid "Current Date"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:57
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:58
+#: includes/Blocks/build/index.js:1
 msgid "Date Format"
 msgstr ""
 
@@ -346,6 +406,7 @@ msgstr ""
 msgid "Choose the most common date format for your visitors."
 msgstr ""
 
+#. translators: %2$s: strong tag start, %3$s: strong tag end.
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:58
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:277
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:612
@@ -367,35 +428,17 @@ msgstr ""
 msgid "Open Docs"
 msgstr ""
 
-#: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:60
-msgid "M j, Y"
-msgstr ""
-
-#: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:61
-msgid "F j, Y"
-msgstr ""
-
-#: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:62
-msgid "Y-m-d"
-msgstr ""
-
-#: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:63
-msgid "m/d/Y"
-msgstr ""
-
-#: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:64
-msgid "d/m/Y"
-msgstr ""
-
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:65
 msgid "Custom"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:90
+#: includes/Blocks/build/index.js:1
 msgid "Current Time"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:100
+#: includes/Blocks/build/index.js:1
 msgid "Time Format"
 msgstr ""
 
@@ -632,13 +675,12 @@ msgid "UTC+14"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:179
+#: includes/Blocks/build/index.js:1
 msgid "Time Zone"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:179
-msgid ""
-"Recommended to use Default (auto-detected). If your location time is "
-"incorrect, use this option to adjust it."
+msgid "Recommended to use Default (auto-detected). If your location time is incorrect, use this option to adjust it."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:184
@@ -650,9 +692,7 @@ msgid "OpenWeatherMap Language"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:185
-msgid ""
-"This is the language for the data from OpenWeatherMap, not for this plugin. "
-"English is set as default language."
+msgid "This is the language for the data from OpenWeatherMap, not for this plugin. English is set as default language."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:187
@@ -840,6 +880,7 @@ msgid "Zulu"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:240
+#: includes/Blocks/build/index.js:1
 msgid "Preloader"
 msgstr ""
 
@@ -855,8 +896,6 @@ msgstr ""
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:102
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:225
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:244
-#: includes/Admin/framework/classes/Setting_Options/Global.php:114
-#: includes/Admin/framework/classes/Setting_Options/Global.php:124
 msgid "Enabled"
 msgstr ""
 
@@ -872,18 +911,20 @@ msgstr ""
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:103
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:226
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:245
-#: includes/Admin/framework/classes/Setting_Options/Global.php:115
-#: includes/Admin/framework/classes/Setting_Options/Global.php:125
 msgid "Disabled"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:249
 #: includes/Admin/framework/classes/Generator_Config/TypographySetup.php:227
+#: includes/Blocks/Includes/templates/tabs/render.php:27
+#: includes/Blocks/Includes/templates/template-parts/current-weather-card.php:40
+#: includes/Blocks/build/index.js:1
 msgid "Current Weather"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:255
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:256
+#: includes/Blocks/build/index.js:1
 msgid "Weather Condition Icon"
 msgstr ""
 
@@ -893,6 +934,7 @@ msgstr ""
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:681
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1172
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1185
+#: includes/Blocks/build/index.js:1
 msgid "Icon Type"
 msgstr ""
 
@@ -937,15 +979,13 @@ msgid "Glassmorphism"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:277
-msgid ""
-"Choose a icon type to visually represent various weather conditions in "
-"current weather. These icon sets offer a variety of design options for "
-"displaying current weather information."
+msgid "Choose a icon type to visually represent various weather conditions in current weather. These icon sets offer a variety of design options for displaying current weather information."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:285
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:691
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1217
+#: includes/Blocks/build/index.js:1
 msgid "Icon Color"
 msgstr ""
 
@@ -970,7 +1010,9 @@ msgstr ""
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:914
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:130
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:244
-#: includes/Frontend/templates/template-parts/forecast-header-section.php:16
+#: includes/Blocks/Includes/weather-api-data.php:246
+#: includes/Frontend/templates/template-parts/forecast-header-section.php:20
+#: includes/Blocks/build/index.js:1
 msgid "Temperature"
 msgstr ""
 
@@ -980,6 +1022,7 @@ msgid "High & Low Temperature"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:323
+#: includes/Blocks/build/index.js:1
 msgid "Real Feel"
 msgstr ""
 
@@ -988,6 +1031,7 @@ msgstr ""
 msgid "Weather Condition Short Description"
 msgstr ""
 
+#. translators: %1$s: anchor tag start, %2$s: anchor tag end.
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:342
 #, php-format
 msgid "To show more weather details & stylish icons, %1$sUpgrade to Pro!%2$s"
@@ -1001,8 +1045,10 @@ msgstr ""
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:956
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:154
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:316
-#: includes/Frontend/templates/additional-icon.php:44
-#: includes/Frontend/templates/template-parts/forecast-header-section.php:18
+#: includes/Blocks/Includes/weather-api-data.php:247
+#: includes/Frontend/templates/additional-icon.php:48
+#: includes/Frontend/templates/template-parts/forecast-header-section.php:22
+#: includes/Blocks/build/index.js:1
 msgid "Pressure"
 msgstr ""
 
@@ -1017,87 +1063,103 @@ msgstr ""
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:367
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:948
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:304
-#: includes/Frontend/templates/additional-icon.php:40
-#: includes/Frontend/templates/template-parts/forecast-header-section.php:17
+#: includes/Blocks/Includes/weather-api-data.php:248
+#: includes/Frontend/templates/additional-icon.php:44
+#: includes/Frontend/templates/template-parts/forecast-header-section.php:21
+#: includes/Blocks/build/index.js:1
 msgid "Humidity"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:376
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:939
-#: includes/Frontend/templates/additional-icon.php:48
-#: includes/Frontend/templates/template-parts/forecast-header-section.php:19
+#: includes/Blocks/Includes/weather-api-data.php:249
+#: includes/Frontend/templates/additional-icon.php:52
+#: includes/Frontend/templates/template-parts/forecast-header-section.php:23
+#: includes/Blocks/build/index.js:1
 msgid "Wind"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:386
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:922
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:142
-#: includes/Frontend/templates/template-parts/forecast-header-section.php:20
+#: includes/Blocks/Includes/templates/template-parts/forecast-data/forecast-table.php:63
+#: includes/Blocks/Includes/weather-api-data.php:252
+#: includes/Frontend/templates/template-parts/forecast-header-section.php:24
+#: includes/Blocks/build/index.js:1
 msgid "Precipitation"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:395
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:166
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:292
-#: includes/Frontend/templates/additional-icon.php:56
+#: includes/Blocks/Includes/weather-api-data.php:253
+#: includes/Frontend/templates/additional-icon.php:60
 msgid "Clouds"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:405
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:930
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:202
-#: includes/Frontend/templates/template-parts/forecast-header-section.php:21
+#: includes/Blocks/Includes/weather-api-data.php:254
+#: includes/Frontend/templates/template-parts/forecast-header-section.php:25
 msgid "Rain Chance"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:415
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:964
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:214
-#: includes/Frontend/templates/template-parts/forecast-header-section.php:22
+#: includes/Blocks/Includes/weather-api-data.php:257
+#: includes/Frontend/templates/template-parts/forecast-header-section.php:26
+#: includes/Blocks/build/index.js:1
 msgid "Snow"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:424
-#: includes/Frontend/templates/additional-icon.php:52
+#: includes/Blocks/Includes/weather-api-data.php:258
+#: includes/Frontend/templates/additional-icon.php:56
+#: includes/Blocks/build/index.js:1
 msgid "Wind Gust"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:434
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:441
+#: includes/Blocks/Includes/weather-api-data.php:259
+#: includes/Blocks/build/index.js:1
 msgid "UV Index"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:442
-msgid ""
-"The UV index measures the strength of UV radiation from the sun, indicating "
-"potential risks of sun exposure, with higher values signifying increased "
-"risk. It’s used in weather forecasts to guide sun protection measures."
+msgid "The UV index measures the strength of UV radiation from the sun, indicating potential risks of sun exposure, with higher values signifying increased risk. It’s used in weather forecasts to guide sun protection measures."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:449
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:456
+#: includes/Blocks/Includes/weather-api-data.php:260
+#: includes/Blocks/build/index.js:1
 msgid "Dew Point"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:457
-msgid ""
-"Set weather for specific locations with coordinates to display the Dew Point."
+msgid "Set weather for specific locations with coordinates to display the Dew Point."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:464
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:467
+#: includes/Blocks/Includes/templates/aqi-minimal/parts/summary.php:55
+#: includes/Blocks/Includes/weather-api-data.php:261
+#: includes/Blocks/build/index.js:1
 msgid "Air Quality"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:468
-msgid ""
-"Set weather for specific locations with coordinates to display the Air "
-"Quality."
+msgid "Set weather for specific locations with coordinates to display the Air Quality."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:478
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:352
-#: includes/Frontend/templates/additional-icon.php:60
+#: includes/Blocks/Includes/weather-api-data.php:262
+#: includes/Frontend/templates/additional-icon.php:64
+#: includes/Blocks/build/index.js:1
 msgid "Visibility"
 msgstr ""
 
@@ -1111,20 +1173,18 @@ msgid "Moonrise & Moonset Time"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:501
-msgid ""
-"Set weather for specific locations with coordinates to display the Moonrise "
-"& Moonset Time."
+msgid "Set weather for specific locations with coordinates to display the Moonrise & Moonset Time."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:512
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:515
+#: includes/Blocks/Includes/weather-api-data.php:271
+#: includes/Blocks/build/index.js:1
 msgid "Moon Phase"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:516
-msgid ""
-"Set weather for specific locations with coordinates to display the Moon "
-"Phase."
+msgid "Set weather for specific locations with coordinates to display the Moon Phase."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:527
@@ -1136,11 +1196,10 @@ msgid "Display National Weather Alerts"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:531
-msgid ""
-"Set weather for specific locations with coordinates to display the National "
-"Weather Alerts."
+msgid "Set weather for specific locations with coordinates to display the National Weather Alerts."
 msgstr ""
 
+#. translators: %1$s: anchor tag start, %2$s: anchor tag end.
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:543
 #, php-format
 msgid "To gain access to additional weather data, %1$sUpgrade to Pro!%2$s"
@@ -1196,10 +1255,7 @@ msgid "Carousel Flat"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:611
-msgid ""
-"These styles allow you to choose the presentation that best suits your "
-"design and provides additional customization options for displaying weather "
-"data. See how it works."
+msgid "These styles allow you to choose the presentation that best suits your design and provides additional customization options for displaying weather data. See how it works."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:613
@@ -1207,17 +1263,19 @@ msgstr ""
 #: includes/Admin/framework/classes/Generator_Config/StyleSetup.php:23
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:224
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:242
-#: main.php:143
+#: main.php:158
 msgid "Live Demo"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:621
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:623
+#: includes/Blocks/build/index.js:1
 msgid "Comport Data in List View"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:630
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:650
+#: includes/Blocks/build/index.js:1
 msgid "Layout Style"
 msgstr ""
 
@@ -1234,9 +1292,7 @@ msgid "Striped"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:651
-msgid ""
-"Layout Styles provide different visual presentations for your weather data, "
-"allowing you to choose the one that best fits your design preferences."
+msgid "Layout Styles provide different visual presentations for your weather data, allowing you to choose the one that best fits your design preferences."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:660
@@ -1264,10 +1320,7 @@ msgid "Generic Mixed"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:682
-msgid ""
-"Choose an icon set of three distinct sets of icons for displaying additional "
-"weather data. These icon sets enhance the visual presentation of additional "
-"weather data nicely."
+msgid "Choose an icon set of three distinct sets of icons for displaying additional weather data. These icon sets enhance the visual presentation of additional weather data nicely."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:693
@@ -1285,6 +1338,7 @@ msgstr ""
 #: includes/Admin/framework/classes/Generator_Config/TypographySetup.php:443
 #: includes/Admin/framework/classes/Generator_Config/TypographySetup.php:496
 #: includes/Admin/framework/classes/Generator_Config/TypographySetup.php:549
+#: includes/Blocks/build/index.js:1
 msgid "Color"
 msgstr ""
 
@@ -1299,6 +1353,7 @@ msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:736
 #: includes/Admin/framework/classes/Generator_Config/StyleSetup.php:72
+#: includes/Blocks/build/index.js:1
 msgid "Border"
 msgstr ""
 
@@ -1313,6 +1368,7 @@ msgstr ""
 #: includes/Admin/framework/classes/Generator_Config/TypographySetup.php:363
 #: includes/Admin/framework/classes/Generator_Config/TypographySetup.php:450
 #: includes/Admin/framework/classes/Generator_Config/TypographySetup.php:502
+#: includes/Blocks/build/index.js:1
 msgid "Margin"
 msgstr ""
 
@@ -1320,11 +1376,10 @@ msgstr ""
 msgid "Additional Data Area Margin"
 msgstr ""
 
+#. translators: %1$s: anchor tag start, %2$s: first anchor tag end,%3$s: second anchor tag start, %4$s: second anchor tag end.
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:767
 #, php-format
-msgid ""
-"To display weather data in %1$sAdditional Styles%2$s with advanced "
-"customizations, %3$sUpgrade to Pro!%4$s"
+msgid "To display weather data in %1$sAdditional Styles%2$s with advanced customizations, %3$sUpgrade to Pro!%4$s"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:774
@@ -1333,6 +1388,7 @@ msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:780
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1314
+#: includes/Blocks/build/index.js:1
 msgid "Carousel AutoPlay"
 msgstr ""
 
@@ -1340,15 +1396,13 @@ msgstr ""
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:794
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1325
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1328
+#: includes/Blocks/build/index.js:1
 msgid "AutoPlay Delay Time"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:795
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1329
-msgid ""
-"Set autoplay delay or interval time. The amount of time to delay between "
-"automatically cycling a weather item. For example, 1000 milliseconds (ms) "
-"equals 1 second."
+msgid "Set autoplay delay or interval time. The amount of time to delay between automatically cycling a weather item. For example, 1000 milliseconds (ms) equals 1 second."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:797
@@ -1362,14 +1416,13 @@ msgstr ""
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:811
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1343
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1346
+#: includes/Blocks/build/index.js:1
 msgid "Carousel Speed"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:809
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1344
-msgid ""
-"Set carousel scrolling speed. For example, 1000 milliseconds (ms) equals 1 "
-"second."
+msgid "Set carousel scrolling speed. For example, 1000 milliseconds (ms) equals 1 second."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:821
@@ -1379,6 +1432,7 @@ msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:831
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1380
+#: includes/Blocks/build/index.js:1
 msgid "Columns"
 msgstr ""
 
@@ -1403,11 +1457,10 @@ msgstr ""
 msgid "Hover Color"
 msgstr ""
 
+#. translators: %1$s: anchor tag start, %2$s: first anchor tag end,%3$s: second anchor tag start, %4$s: second anchor tag end.
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:873
 #, php-format
-msgid ""
-"To unlock the %1$sWeather Data Carousel%2$s with flexible options, "
-"%3$sUpgrade to Pro!%4$s"
+msgid "To unlock the %1$sWeather Data Carousel%2$s with flexible options, %3$sUpgrade to Pro!%4$s"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:878
@@ -1420,23 +1473,23 @@ msgid "Enable Weather Forecast"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:892
-msgid ""
-"This option allows you to enable or activate weather forecasts, providing "
-"users with future weather predictions and enhancing the utility of your "
-"weather feature."
+msgid "This option allows you to enable or activate weather forecasts, providing users with future weather predictions and enhancing the utility of your weather feature."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:898
 #: includes/Admin/framework/classes/Generator_Config/TypographySetup.php:465
+#: includes/Blocks/build/index.js:1
 msgid "Forecast Data"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:975
+#: includes/Blocks/build/index.js:1
 msgid "Weather Graph Chart"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:987
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:995
+#: includes/Blocks/build/index.js:1
 msgid "Weather Forecast Type"
 msgstr ""
 
@@ -1449,16 +1502,15 @@ msgid "Hourly"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:991
+#: includes/Blocks/build/index.js:1
 msgid "Both"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:996
-msgid ""
-"The Weather Forecast Type option offers flexibility by allowing you to "
-"choose between daily, hourly, or a combination of both formats for "
-"displaying weather forecasts."
+msgid "The Weather Forecast Type option offers flexibility by allowing you to choose between daily, hourly, or a combination of both formats for displaying weather forecasts."
 msgstr ""
 
+#. translators: 1: start link tag, 2: close tag.
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1002
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:270
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:288
@@ -1495,10 +1547,12 @@ msgid "Daily Forecast Title"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1043
+#: includes/Blocks/build/index.js:1
 msgid "Daily Forecast"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1049
+#: includes/Blocks/build/index.js:1
 msgid "Hourly Forecast Type"
 msgstr ""
 
@@ -1510,7 +1564,7 @@ msgstr ""
 msgid "3-Hour"
 msgstr ""
 
-#: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1056
+#: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1055
 msgid "OpenWeatherAPI free api you can show only 3 hourly forecast."
 msgstr ""
 
@@ -1529,11 +1583,10 @@ msgid "Forecast Hours To Show"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1074
-msgid ""
-"The maximum forecast data available is 48 hours for the One Call API and 96 "
-"hours for Developer, Professional, or Enterprise plans."
+msgid "The maximum forecast data available is 48 hours for the One Call API and 96 hours for Developer, Professional, or Enterprise plans."
 msgstr ""
 
+#. translators: 1: start link tag, 2: close tag.
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1079
 #, php-format
 msgid "To show more than 8 hours, %1$sUpgrade to Pro!%2$s"
@@ -1703,6 +1756,7 @@ msgstr ""
 msgid "Set the number of the hours you want to show weather forecasts for."
 msgstr ""
 
+#. translators: 1: start link tag, 2: close tag.
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1139
 #, php-format
 msgid "To show more than 24 hours, %1$sUpgrade to Pro!%2$s"
@@ -1713,6 +1767,8 @@ msgid "Hourly Forecast Title"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1150
+#: includes/Blocks/Includes/templates/template-parts/forecast-data/forecast-table.php:43
+#: includes/Blocks/build/index.js:1
 msgid "Hourly Forecast"
 msgstr ""
 
@@ -1722,23 +1778,17 @@ msgid "Swap Forecast Display"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1163
-msgid ""
-"Swap the layout style between Hourly (Filters) and Daily (Dropdown). Useful "
-"for reversing their positions and display formats."
+msgid "Swap the layout style between Hourly (Filters) and Daily (Dropdown). Useful for reversing their positions and display formats."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1186
-msgid ""
-"Choose an icon type to visually represent various weather conditions in "
-"weather forecasts. These icon sets offer a variety of design options for "
-"displaying forecasted weather information."
+msgid "Choose an icon type to visually represent various weather conditions in weather forecasts. These icon sets offer a variety of design options for displaying forecasted weather information."
 msgstr ""
 
+#. translators: 1: start link tag, 2: close link tag 3: start link and strong tag. 4: close link and strong tag.
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1198
 #, php-format
-msgid ""
-"To display advanced %1$sWeather Forecast Data%2$s with customizable options, "
-"%3$sUpgrade to Pro!%4$s"
+msgid "To display advanced %1$sWeather Forecast Data%2$s with customizable options, %3$sUpgrade to Pro!%4$s"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1209
@@ -1758,6 +1808,7 @@ msgid "Forecast Toggle Button"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1246
+#: includes/Blocks/build/index.js:1
 msgid "Border Width"
 msgstr ""
 
@@ -1786,11 +1837,13 @@ msgid "Weather Forecast Data Carousel"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1369
+#: includes/Blocks/build/index.js:1
 msgid "Infinite Loop"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1423
 #: includes/Admin/framework/classes/Generator_Config/TypographySetup.php:517
+#: includes/Blocks/build/index.js:1
 msgid "Footer"
 msgstr ""
 
@@ -1799,11 +1852,13 @@ msgid "Detailed Weather"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1438
+#: includes/Blocks/build/index.js:1
 msgid "Data Update Time"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1447
 #: includes/Admin/framework/classes/Generator_Config/TypographySetup.php:531
+#: includes/Blocks/build/index.js:1
 msgid "Weather Attribution"
 msgstr ""
 
@@ -1812,9 +1867,7 @@ msgid "Weather Attribution (Copyright)"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1452
-msgid ""
-"You can show the weather attribution or copyright in the weather widget "
-"footer area for weather authenticity."
+msgid "You can show the weather attribution or copyright in the weather widget footer area for weather authenticity."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/DisplaySetup.php:1457
@@ -1834,7 +1887,7 @@ msgid "Vertical Card"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/LayoutSetup.php:53
-#: includes/Admin/framework/fields/spacing/spacing.php:127
+#: includes/Admin/framework/fields/spacing/spacing.php:125
 msgid "Horizontal"
 msgstr ""
 
@@ -1860,6 +1913,7 @@ msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/LayoutSetup.php:88
 #: includes/Admin/framework/classes/Generator_Config/LayoutSetup.php:290
+#: includes/Blocks/build/index.js:1
 msgid "Weather Map"
 msgstr ""
 
@@ -1919,36 +1973,31 @@ msgstr ""
 msgid "Weather Map Type"
 msgstr ""
 
+#. translators: %1$s: opening strong tag, %2$s: closing strong tag.
 #: includes/Admin/framework/classes/Generator_Config/LayoutSetup.php:279
 #, php-format
-msgid ""
-"Use %1$sCoordinates%2$s for weather map.%7$s%1$sWeather Map:%2$s Displays "
-"real-time weather info on the map and details in pop-ups with layer controls "
-"powered by OpenWeather. %3$sDemo%4$s%8$s %7$s%1$sRadar Map:%2$s Displays "
-"live storms and precipitation, color-coded by intensity to track weather "
-"patterns, powered by Windy. %5$sDemo%6$s%8$s"
+msgid "Use %1$sCoordinates%2$s for weather map.%7$s%1$sWeather Map:%2$s Displays real-time weather info on the map and details in pop-ups with layer controls powered by OpenWeather. %3$sDemo%4$s%8$s %7$s%1$sRadar Map:%2$s Displays live storms and precipitation, color-coded by intensity to track weather patterns, powered by Windy. %5$sDemo%6$s%8$s"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/LayoutSetup.php:291
+#: includes/Blocks/Includes/templates/tabs/render.php:48
 msgid "Radar Map"
 msgstr ""
 
+#. translators: %1$s: anchor tag start, %2$s: first anchor tag end,%3$s: second anchor tag start, %4$s: second anchor tag end.
 #: includes/Admin/framework/classes/Generator_Config/LayoutSetup.php:301
 #, php-format
-msgid ""
-"To create eye-catching %1$s Weather Layouts%2$s with %5$s Graph Charts%6$s "
-"and access to advanced customizations, %3$sUpgrade to Pro!%4$s"
+msgid "To create eye-catching %1$s Weather Layouts%2$s with %5$s Graph Charts%6$s and access to advanced customizations, %3$sUpgrade to Pro!%4$s"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:15
 msgid "Weather Map Settings"
 msgstr ""
 
+#. translators: %1$s: anchor tag start, %2$s: first anchor tag end,%3$s: second anchor tag start, %4$s: second anchor tag end.
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:24
 #, php-format
-msgid ""
-"To unlock live %1$sWeather Maps%2$s and %3$sRadar Maps%4$s to track storms "
-"and weather in real-time, %5$sUpgrade to Pro!%6$s"
+msgid "To unlock live %1$sWeather Maps%2$s and %3$sRadar Maps%4$s to track storms and weather in real-time, %5$sUpgrade to Pro!%6$s"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:39
@@ -1968,8 +2017,7 @@ msgid "Display Layers Type"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:63
-msgid ""
-"Choose an option from the visible or collapsible to display the maps layers."
+msgid "Choose an option from the visible or collapsible to display the maps layers."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:66
@@ -1985,6 +2033,7 @@ msgid "Layers Opacity"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:89
+#: includes/Blocks/build/index.js:1
 msgid "Zoom Level"
 msgstr ""
 
@@ -2002,11 +2051,15 @@ msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:178
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:328
+#: includes/Blocks/Includes/weather-api-data.php:250
+#: includes/Blocks/build/index.js:1
 msgid "Wind Speed"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:190
 #: includes/Admin/framework/classes/Generator_Config/MapSetup.php:340
+#: includes/Blocks/Includes/weather-api-data.php:251
+#: includes/Blocks/build/index.js:1
 msgid "Wind Direction"
 msgstr ""
 
@@ -2027,13 +2080,12 @@ msgid "Style Settings"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/StyleSetup.php:23
+#: includes/Blocks/build/index.js:1
 msgid "Background Type"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/StyleSetup.php:23
-msgid ""
-"Customize color or add video for your weather forecast background. You can "
-"also set an automated image based on weather conditions. See how it works."
+msgid "Customize color or add video for your weather forecast background. You can also set an automated image based on weather conditions. See how it works."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/StyleSetup.php:24
@@ -2067,10 +2119,7 @@ msgid "Color Type"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/StyleSetup.php:41
-msgid ""
-"Choose a  color styles for customizing the appearance of your weather "
-"display. Solid provides a single color, while Gradient allows a blend of "
-"colors for a visually dynamic effect."
+msgid "Choose a  color styles for customizing the appearance of your weather display. Solid provides a single color, while Gradient allows a blend of colors for a visually dynamic effect."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/StyleSetup.php:48
@@ -2123,31 +2172,29 @@ msgid "Weather Maximum Width"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/StyleSetup.php:126
+#: includes/Blocks/build/index.js:1
 msgid "Width"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/StyleSetup.php:133
-msgid ""
-"You can customize the weather widget’s maximum width to align it with your "
-"website content area perfectly."
+msgid "You can customize the weather widget’s maximum width to align it with your website content area perfectly."
 msgstr ""
 
+#. translators: %1$s: anchor tag start, %2$s: first anchor tag end,%3$s: second anchor tag start, %4$s: second anchor tag end.
 #: includes/Admin/framework/classes/Generator_Config/StyleSetup.php:140
 #, php-format
-msgid ""
-"To craft your desired %1$sWeather View%2$s with advanced customizations, "
-"%3$sUpgrade to Pro!%4$s"
+msgid "To craft your desired %1$sWeather View%2$s with advanced customizations, %3$sUpgrade to Pro!%4$s"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/TypographySetup.php:14
+#: includes/Blocks/build/index.js:1
 msgid "Typography"
 msgstr ""
 
+#. translators: %1$s: anchor tag start, %2$s: first anchor tag end,%3$s: second anchor tag start, %4$s: second anchor tag end.
 #: includes/Admin/framework/classes/Generator_Config/TypographySetup.php:23
 #, php-format
-msgid ""
-"The following typography options are %1$sPremium features%2$s except for "
-"the, %3$sColor and Margin%4$s fields."
+msgid "The following typography options are %1$sPremium features%2$s except for the, %3$sColor and Margin%4$s fields."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/TypographySetup.php:36
@@ -2187,6 +2234,7 @@ msgid "On/Off google font for the tabs title."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/TypographySetup.php:194
+#: includes/Blocks/build/index.js:1
 msgid "Tabs Title"
 msgstr ""
 
@@ -2227,6 +2275,7 @@ msgid "Real Feel & Weather Description"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/TypographySetup.php:378
+#: includes/Blocks/build/index.js:1
 msgid "Additional Data"
 msgstr ""
 
@@ -2275,6 +2324,7 @@ msgid "On/Off google font for Weather Attribution."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:25
+#: includes/Blocks/build/index.js:1
 msgid "Live Preview"
 msgstr ""
 
@@ -2298,16 +2348,16 @@ msgstr ""
 msgid "Weather Settings"
 msgstr ""
 
+#. translators: %2$s: strong tag start, %3$s: strong tag end.
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:148
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:150
 msgid "Display Weather For Specific Location"
 msgstr ""
 
+#. translators: %2$s: strong tag start, %3$s: strong tag end.
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:150
 #, php-format
-msgid ""
-"Choose an option from the City Name, City ID, ZIP Code, and Geo Coordinates "
-"to display the weather of a%2$s specific location.%3$s"
+msgid "Choose an option from the City Name, City ID, ZIP Code, and Geo Coordinates to display the weather of a%2$s specific location.%3$s"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:152
@@ -2328,6 +2378,7 @@ msgid "Coordinates"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:163
+#: includes/Blocks/build/index.js:1
 msgid "Enter City Name"
 msgstr ""
 
@@ -2340,10 +2391,12 @@ msgid "Write your city name and country code only."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:172
+#: includes/Blocks/build/index.js:1
 msgid "Enter City ID"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:173
+#: includes/Blocks/build/index.js:1
 msgid "Set your city ID."
 msgstr ""
 
@@ -2351,12 +2404,14 @@ msgstr ""
 msgid "2643743"
 msgstr ""
 
+#. translators: %1$s: anchor tag start, %2$s: first anchor tag end.
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:176
 #, php-format
 msgid "Set your city ID. %1$sGet city ID%2$s"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:183
+#: includes/Blocks/build/index.js:1
 msgid "Enter ZIP Code"
 msgstr ""
 
@@ -2364,12 +2419,14 @@ msgstr ""
 msgid "77070, US"
 msgstr ""
 
+#. translators: %1$s: anchor tag start, %2$s: first anchor tag end.
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:186
 #, php-format
 msgid "Set your zip code and country code. See %1$s instructions %2$s"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:193
+#: includes/Blocks/build/index.js:1
 msgid "Enter Geo Coordinates"
 msgstr ""
 
@@ -2378,6 +2435,7 @@ msgid "51.509865,-0.118092"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:195
+#: includes/Blocks/build/index.js:1
 msgid "Set coordinates (latitude & longitude)."
 msgstr ""
 
@@ -2387,15 +2445,14 @@ msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:201
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:205
+#: includes/Blocks/build/index.js:1
 msgid "Custom Location Name"
 msgstr ""
 
+#. translators: %3$s: strong tag start, %4$s: strong tag end.
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:204
 #, php-format
-msgid ""
-"Set your own or custom location name that will be displayed in the weather "
-"widget if needed. This will %2$s replace or override%3$s the actual name of "
-"the city."
+msgid "Set your own or custom location name that will be displayed in the weather widget if needed. This will %2$s replace or override%3$s the actual name of the city."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:215
@@ -2407,9 +2464,7 @@ msgid "Location from Custom Fields (Pro)"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:216
-msgid ""
-"Check it to display the weather of a location from custom fields of any post "
-"type."
+msgid "Check it to display the weather of a location from custom fields of any post type."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:223
@@ -2418,30 +2473,28 @@ msgid "Display Weather For Visitors Location (Auto Detect)"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:224
-msgid ""
-"If you enable this option, the widget will automatically determine where "
-"your visitor is by their IP address and will display the correct weather of "
-"the visitors’ location."
+msgid "If you enable this option, the widget will automatically determine where your visitor is by their IP address and will display the correct weather of the visitors’ location."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:233
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:237
 #: includes/Admin/framework/fields/shortcode/shortcode.php:69
+#: includes/Blocks/build/index.js:1
 msgid "Custom Weather Search"
 msgstr ""
 
-#: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:239
-msgid ""
-"Help visitors search for weather data by entering the desired city or "
-"location name to view the latest weather conditions."
+#: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:238
+msgid "Help visitors search for weather data by entering the desired city or location name to view the latest weather conditions."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:252
+#: includes/Blocks/build/index.js:1
 msgid "Measurement Units"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:258
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:259
+#: includes/Blocks/build/index.js:1
 msgid "Display Temperature Unit"
 msgstr ""
 
@@ -2475,9 +2528,7 @@ msgid "Active Temperature Unit"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:280
-msgid ""
-"Set an active temperature unit that will remain selected on the front end. "
-"If you select"
+msgid "Set an active temperature unit that will remain selected on the front end. If you select"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:280
@@ -2486,9 +2537,7 @@ msgid "Auto"
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:280
-msgid ""
-"it will detect the visitor’s location and show the preferred unit of that "
-"location selected automatically."
+msgid "it will detect the visitor’s location and show the preferred unit of that location selected automatically."
 msgstr ""
 
 #: includes/Admin/framework/classes/Generator_Config/WeatherSetup.php:282
@@ -2583,145 +2632,31 @@ msgstr ""
 msgid "Miles"
 msgstr ""
 
-#: includes/Admin/framework/classes/SPLW.php:465
+#: includes/Admin/framework/classes/SPLW.php:439
 msgid "Are you sure?"
 msgstr ""
 
-#: includes/Admin/framework/classes/SPLW.php:467
+#. translators: %1$s is replaced with "string"
+#: includes/Admin/framework/classes/SPLW.php:441
 #, php-format
 msgid "Please enter %s or more characters"
 msgstr ""
 
-#: includes/Admin/framework/classes/SPLW.php:468
+#: includes/Admin/framework/classes/SPLW.php:442
 msgid "Searching..."
 msgstr ""
 
-#: includes/Admin/framework/classes/SPLW.php:469
+#: includes/Admin/framework/classes/SPLW.php:443
 msgid "No results found."
 msgstr ""
 
-#: includes/Admin/framework/classes/SPLW.php:595
+#: includes/Admin/framework/classes/SPLW.php:536
 msgid "Oops! Not allowed."
 msgstr ""
 
-#: includes/Admin/framework/classes/SPLW.php:670
-#: includes/Admin/framework/classes/SPLW.php:673
+#: includes/Admin/framework/classes/SPLW.php:611
+#: includes/Admin/framework/classes/SPLW.php:614
 msgid "Field not found!"
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:19
-#: includes/Admin/framework/classes/Setting_Options/Global.php:26 main.php:249
-msgid "Settings"
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:37
-msgid "Weather API Key"
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:44
-#: includes/Admin/framework/classes/Setting_Options/Global.php:55
-msgid "API Source Type"
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:46
-msgid "OpenWeather"
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:47
-#: includes/Frontend/templates/template-parts/footer.php:41
-msgid "WeatherAPI"
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:52
-#, php-format
-msgid ""
-"Location Weather plugin integrates with %2$sOpenWeatherMap%3$s and "
-"%4$sWeatherAPI%5$s to fetch real-time weather data. Select your preferred "
-"API source based on your requirements to ensure accurate and up-to-date "
-"weather information."
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:67
-#: includes/Admin/framework/classes/Setting_Options/Global.php:81
-msgid "Add Your API Key"
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:70
-#, php-format
-msgid ""
-"%1$sGet your API key!%2$s A newly created API key from OpenWeather takes "
-"%3$sabout 15 minutes to activate and start displaying weather data."
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:84
-#, php-format
-msgid "%1$sGet your WeatherAPI key!%2$s"
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:99
-msgid "Advanced Controls"
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:105
-msgid "Clean-up Data on Deletion"
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:107
-msgid ""
-"Check this box if you would like location weather to completely clean-up all "
-"of its data when the plugin is deleted."
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:112
-#: includes/Admin/framework/classes/Setting_Options/Global.php:117
-msgid "Skip Cache for Weather Update"
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:117
-msgid ""
-"By enabling this option, you can bypass caching mechanisms in certain "
-"plugins or themes, ensuring accurate and timely weather updates. Use this if "
-"you encounter caching-related issues."
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:122
-#: includes/Admin/framework/classes/Setting_Options/Global.php:127
-msgid "Cache"
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:127
-msgid ""
-"Set the duration for storing weather data, balancing freshness and server "
-"load. Shorter times provide more real-time data, while longer times reduce "
-"server requests."
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:132
-msgid "Cache Time"
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:135
-msgid "Mins"
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:152
-msgid "Purge Cache"
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:165
-msgid "Additional CSS & JS"
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:171
-msgid "Custom CSS"
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:180
-msgid "Custom JS"
-msgstr ""
-
-#: includes/Admin/framework/classes/Setting_Options/Global.php:194
-msgid "License Key"
 msgstr ""
 
 #: includes/Admin/framework/classes/Tools_Config/Tools_Options.php:19
@@ -2750,78 +2685,12 @@ msgid "Export"
 msgstr ""
 
 #: includes/Admin/framework/classes/Tools_Config/Tools_Options.php:87
+#: includes/Blocks/build/index.js:1
 msgid "Import"
 msgstr ""
 
 #: includes/Admin/framework/classes/Tools_Config/Tools_Options.php:92
 msgid "Import JSON File To Upload"
-msgstr ""
-
-#: includes/Admin/framework/classes/admin-options.class.php:325
-msgid "Error while saving the changes."
-msgstr ""
-
-#: includes/Admin/framework/classes/admin-options.class.php:404
-msgid "Settings successfully imported."
-msgstr ""
-
-#: includes/Admin/framework/classes/admin-options.class.php:416
-#: includes/Admin/framework/classes/admin-options.class.php:431
-msgid "Default settings restored."
-msgstr ""
-
-#: includes/Admin/framework/classes/admin-options.class.php:497
-msgid "Settings saved."
-msgstr ""
-
-#: includes/Admin/framework/classes/admin-options.class.php:700
-msgid "You have unsaved changes, save your changes!"
-msgstr ""
-
-#: includes/Admin/framework/classes/admin-options.class.php:702
-msgid "show all settings"
-msgstr ""
-
-#: includes/Admin/framework/classes/admin-options.class.php:704
-msgid "Search..."
-msgstr ""
-
-#: includes/Admin/framework/classes/admin-options.class.php:707
-msgid "Save Settings"
-msgstr ""
-
-#: includes/Admin/framework/classes/admin-options.class.php:707
-msgid "Saving..."
-msgstr ""
-
-#: includes/Admin/framework/classes/admin-options.class.php:708
-msgid "Reset Tab"
-msgstr ""
-
-#: includes/Admin/framework/classes/admin-options.class.php:708
-msgid "Are you sure to reset all the settings of this tab?"
-msgstr ""
-
-#: includes/Admin/framework/classes/admin-options.class.php:709
-msgid "Reset All"
-msgstr ""
-
-#: includes/Admin/framework/classes/admin-options.class.php:709
-msgid "Reset"
-msgstr ""
-
-#: includes/Admin/framework/classes/admin-options.class.php:709
-msgid "Are you sure you want to reset all settings to default values?"
-msgstr ""
-
-#: includes/Admin/framework/classes/admin-options.class.php:806
-#: includes/Admin/framework/classes/metabox-options.class.php:347
-#: includes/Admin/framework/fields/button_clean/button_clean.php:84
-#: includes/Admin/framework/fields/button_set/button_set.php:88
-#: includes/Admin/framework/fields/checkbox/checkbox.php:101
-#: includes/Admin/framework/fields/select/select.php:148
-#: includes/Admin/framework/functions/actions.php:48
-msgid "No data available."
 msgstr ""
 
 #: includes/Admin/framework/fields/border/border.php:50
@@ -2881,42 +2750,33 @@ msgid "X offset"
 msgstr ""
 
 #: includes/Admin/framework/fields/box_shadow/box_shadow.php:50
+#: includes/Blocks/build/index.js:1
 msgid "Blur"
 msgstr ""
 
 #: includes/Admin/framework/fields/box_shadow/box_shadow.php:51
+#: includes/Blocks/build/index.js:1
 msgid "Spread"
 msgstr ""
 
-#: includes/Admin/framework/fields/button_clean/button_clean.php:74
+#: includes/Admin/framework/fields/button_clean/button_clean.php:72
 msgid "Are you sure to clean cache?"
-msgstr ""
-
-#: includes/Admin/framework/fields/license/license.php:48
-msgid "You're using Location Weather Lite - No License Needed. Enjoy"
-msgstr ""
-
-#: includes/Admin/framework/fields/license/license.php:49
-msgid "Upgrade to Location Weather Pro and unlock all the features."
-msgstr ""
-
-#: includes/Admin/framework/fields/license/license.php:52
-msgid "Upgrade To Pro Now"
 msgstr ""
 
 #: includes/Admin/framework/fields/radio/radio.php:93
 msgid "No data provided for this option type."
 msgstr ""
 
+#. translators: 1: start span tag, 2: close tag.
 #: includes/Admin/framework/fields/shortcode/shortcode.php:51
 #, php-format
 msgid "Unlock More Power with %1$sPRO%2$s"
 msgstr ""
 
+#. translators: 1: start bold tag, 2: close tag.
 #: includes/Admin/framework/fields/shortcode/shortcode.php:58
 #, php-format
-msgid ""
-"Help visitors with advanced weather data by %1$sLocation Weather Pro!%2$s"
+msgid "Help visitors with advanced weather data by %1$sLocation Weather Pro!%2$s"
 msgstr ""
 
 #: includes/Admin/framework/fields/shortcode/shortcode.php:64
@@ -2951,18 +2811,17 @@ msgstr ""
 msgid "Upgrade to Pro Now"
 msgstr ""
 
+#. translators: 1: start strong tag, 2: close tag.
 #: includes/Admin/framework/fields/shortcode/shortcode.php:88
 #, php-format
-msgid ""
-"Location Weather has seamless integration with Gutenberg, Classic Editor, "
-"%1$sElementor%2$s, Divi, Bricks, Beaver, Oxygen, WPBakery Builder, etc."
+msgid "Location Weather has seamless integration with Gutenberg, Classic Editor, %1$sElementor%2$s, Divi, Bricks, Beaver, Oxygen, WPBakery Builder, etc."
 msgstr ""
 
-#: includes/Admin/framework/fields/switcher/switcher.php:43
+#: includes/Admin/framework/fields/switcher/switcher.php:42
 msgid "On"
 msgstr ""
 
-#: includes/Admin/framework/fields/switcher/switcher.php:44
+#: includes/Admin/framework/fields/switcher/switcher.php:43
 msgid "Off"
 msgstr ""
 
@@ -2990,6 +2849,7 @@ msgid "Default"
 msgstr ""
 
 #: includes/Admin/framework/fields/typography/typography.php:170
+#: includes/Blocks/build/index.js:1
 msgid "Font Style"
 msgstr ""
 
@@ -3011,6 +2871,7 @@ msgid "Inherit"
 msgstr ""
 
 #: includes/Admin/framework/fields/typography/typography.php:212
+#: includes/Blocks/build/index.js:1
 msgid "Left"
 msgstr ""
 
@@ -3019,6 +2880,7 @@ msgid "Center"
 msgstr ""
 
 #: includes/Admin/framework/fields/typography/typography.php:214
+#: includes/Blocks/build/index.js:1
 msgid "Right"
 msgstr ""
 
@@ -3079,14 +2941,17 @@ msgid "Line-through"
 msgstr ""
 
 #: includes/Admin/framework/fields/typography/typography.php:291
+#: includes/Blocks/build/index.js:1
 msgid "Font Size"
 msgstr ""
 
 #: includes/Admin/framework/fields/typography/typography.php:303
+#: includes/Blocks/build/index.js:1
 msgid "Line Height"
 msgstr ""
 
 #: includes/Admin/framework/fields/typography/typography.php:315
+#: includes/Blocks/build/index.js:1
 msgid "Letter Spacing"
 msgstr ""
 
@@ -3110,157 +2975,1728 @@ msgstr ""
 msgid "Custom Style"
 msgstr ""
 
-#: includes/Admin/framework/functions/actions.php:78
-#: includes/Admin/framework/functions/actions.php:115
+#: includes/Admin/framework/functions/actions.php:25
+#: includes/Admin/framework/functions/actions.php:73
+#: includes/Admin/framework/functions/actions.php:109
+#: includes/Admin/framework/functions/actions.php:142
+#: includes/Admin/framework/functions/actions.php:215
+#: includes/Admin/Location_Weather_Import_Export.php:75
+#: includes/Admin/Location_Weather_Import_Export.php:171
+#: main.php:208
+msgid "Error: Invalid nonce verification."
+msgstr ""
+
+#: includes/Admin/framework/functions/actions.php:77
+#: includes/Admin/framework/functions/actions.php:113
 msgid "Error: Invalid key."
 msgstr ""
 
-#: includes/Admin/framework/functions/actions.php:119
+#: includes/Admin/framework/functions/actions.php:117
 msgid "Error: The response is not a valid JSON response."
 msgstr ""
 
-#: includes/Admin/framework/functions/actions.php:169
+#: includes/Admin/framework/functions/actions.php:165
 msgid "Error: Invalid nonce verification!"
 msgstr ""
 
-#: includes/Admin/framework/functions/actions.php:213
+#: includes/Admin/framework/functions/actions.php:219
 msgid "Error: Invalid term ID."
 msgstr ""
 
-#: includes/Admin/framework/functions/actions.php:219
+#: includes/Admin/framework/functions/actions.php:225
 msgid "Error: You do not have permission to do that."
 msgstr ""
 
 #: includes/Admin/framework/functions/validate.php:24
-#: includes/Admin/framework/functions/validate.php:96
+#: includes/Admin/framework/functions/validate.php:92
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: includes/Admin/framework/functions/validate.php:40
-#: includes/Admin/framework/functions/validate.php:119
+#: includes/Admin/framework/functions/validate.php:39
+#: includes/Admin/framework/functions/validate.php:114
 msgid "Please enter a valid number."
 msgstr ""
 
-#: includes/Admin/framework/functions/validate.php:58
-#: includes/Admin/framework/functions/validate.php:141
+#: includes/Admin/framework/functions/validate.php:56
+#: includes/Admin/framework/functions/validate.php:135
 msgid "This field is required."
 msgstr ""
 
-#: includes/Admin/framework/functions/validate.php:76
-#: includes/Admin/framework/functions/validate.php:163
+#: includes/Admin/framework/functions/validate.php:73
+#: includes/Admin/framework/functions/validate.php:156
 msgid "Please enter a valid URL."
 msgstr ""
 
-#: includes/Admin/sp_location_weather_widget_content.php:21
+#: includes/Admin/Location_Weather_Import_Export.php:81
+msgid "You do not have permission to export."
+msgstr ""
+
+#: includes/Admin/Location_Weather_Import_Export.php:177
+msgid "You do not have permission to import."
+msgstr ""
+
+#: includes/Admin/Location_Weather_Import_Export.php:186
+msgid "Nothing to import."
+msgstr ""
+
+#: includes/Admin/Location_Weather_Import_Export.php:210
+msgid "Invalid shortcode data structure."
+msgstr ""
+
+#: includes/Admin/LW_Saved_Templates.php:52
+msgid "Saved Template"
+msgstr ""
+
+#: includes/Admin/LW_Saved_Templates.php:55
+#: includes/Admin/LW_Saved_Templates.php:56
+msgid "Add New Template"
+msgstr ""
+
+#: includes/Admin/LW_Saved_Templates.php:57
+#: includes/Admin/Post_Type.php:66
+msgid "Edit"
+msgstr ""
+
+#: includes/Admin/LW_Saved_Templates.php:58
+msgid "Edit Template"
+msgstr ""
+
+#: includes/Admin/LW_Saved_Templates.php:59
+msgid "View Template"
+msgstr ""
+
+#: includes/Admin/LW_Saved_Templates.php:60
+msgid "New Templates"
+msgstr ""
+
+#: includes/Admin/LW_Saved_Templates.php:61
+msgid "Search Template"
+msgstr ""
+
+#: includes/Admin/LW_Saved_Templates.php:62
+msgid "No Template found"
+msgstr ""
+
+#: includes/Admin/LW_Saved_Templates.php:63
+msgid "No Template found in Trash"
+msgstr ""
+
+#: includes/Admin/LW_Saved_Templates.php:64
+msgid "Template Published"
+msgstr ""
+
+#: includes/Admin/LW_Saved_Templates.php:65
+msgid "Template published privately."
+msgstr ""
+
+#: includes/Admin/LW_Saved_Templates.php:66
+msgid "Template reverted to draft."
+msgstr ""
+
+#: includes/Admin/LW_Saved_Templates.php:67
+msgid "Template scheduled."
+msgstr ""
+
+#: includes/Admin/LW_Saved_Templates.php:68
+msgid "Template updated."
+msgstr ""
+
+#: includes/Admin/LW_Widget.php:29
+msgid "Display Location Weather."
+msgstr ""
+
+#: includes/Admin/LW_Widget.php:74
+msgid "Select Shortcode:"
+msgstr ""
+
+#. translators: %1$s: anchor tag start, %2$s: anchor tag end.
+#: includes/Admin/LW_Widget.php:89
+#, php-format
+msgid "You did not generate any weather yet. %1$sclick here%2$s to generate a new location weather now."
+msgstr ""
+
+#: includes/Admin/Post_Type.php:60
+#: includes/Admin/Post_Type.php:61
+#: includes/Admin/Post_Type.php:63
+msgid "Manage Weather"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:64
+msgid "Add New"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:65
+msgid "Add New Weather"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:67
+msgid "Edit Weather"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:68
+msgid "New Weather"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:69
+msgid "View Weather"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:70
+msgid "View Weather Found"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:71
+msgid "No Weather Found in Trash"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:72
+msgid "Parent Weather"
+msgstr ""
+
+#: includes/Admin/Splw_Help.php:97
+msgid "Location Weather Help"
+msgstr ""
+
+#: includes/Admin/Splw_Help.php:97
+msgid "Get Help"
+msgstr ""
+
+#: includes/Admin/sp_location_weather_widget_content.php:25
 msgid "Old - Location Weather"
 msgstr ""
 
-#: includes/Admin/sp_location_weather_widget_content.php:23
+#: includes/Admin/sp_location_weather_widget_content.php:27
 msgid "Please use new widget! We don't recommend to use this old widget."
 msgstr ""
 
-#: includes/Admin/sp_location_weather_widget_content.php:141
+#: includes/Admin/sp_location_weather_widget_content.php:147
 msgid "City"
 msgstr ""
 
-#: includes/Admin/sp_location_weather_widget_content.php:148
+#: includes/Admin/sp_location_weather_widget_content.php:154
 msgid "Country"
 msgstr ""
 
-#: includes/Frontend/Manage_API.php:77
+#: includes/Blocks/Includes/block-attributes.php:971
+msgid "Today’s Air Quality Index (AQI)"
+msgstr ""
+
+#: includes/Blocks/Includes/block-attributes.php:1074
+#: includes/Blocks/build/index.js:1
+msgid "Pollutant Details"
+msgstr ""
+
+#: includes/Blocks/Includes/block-attributes.php:1320
+msgid "Today’s Air Quality"
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:202
+msgid "Invalid coordinates. Please provide a valid latitude and longitude in the format: 51.509865,-0.118092."
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:236
+msgid "Air quality is excellent. No health concerns for any group."
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:237
+#: includes/Blocks/build/index.js:1
+msgid "Air is acceptable, but sensitive individuals should closely monitor their symptoms."
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:238
+#: includes/Blocks/build/index.js:1
+msgid "Air may cause discomfort. Sensitive groups should reduce outdoor exposure."
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:239
+#: includes/Blocks/build/index.js:1
+msgid "Health risks increase. Everyone should limit the time spent outdoors."
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:240
+#: includes/Blocks/build/index.js:1
+msgid "Air is very unhealthy. Avoid outdoor activity whenever possible."
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:241
+#: includes/Blocks/build/index.js:1
+msgid "Serious health threat. Stay indoors and follow public health recommendations."
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:276
+msgid "Air is clean and safe. No health risks expected. Everyone can enjoy outdoor activities without concern."
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:277
+#: includes/Blocks/build/index.js:1
+msgid "The air quality is generally acceptable for most people. However, sensitive groups may experience minor to moderate symptoms from long-term exposure."
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:278
+#: includes/Blocks/build/index.js:1
+msgid "Air quality is poor. Sensitive individuals may experience symptoms such as coughing or throat irritation. Limit outdoor activity."
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:279
+#: includes/Blocks/Includes/Block_Helpers.php:280
+#: includes/Blocks/build/index.js:1
+msgid "Air quality poses health risks for all. Even healthy individuals may experience breathing difficulties and other symptoms. Minimize outdoor activities."
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:281
+#: includes/Blocks/build/index.js:1
+msgid "Air pollution is at emergency levels. Severe health risk for all. Stay indoors and follow public health instructions."
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:532
+#: includes/Blocks/Includes/Block_Helpers.php:537
+msgid "Particulate Matter"
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:542
+msgid "Sulphur Dioxide"
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:547
+msgid "Nitrogen Dioxide"
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:552
+msgid "Ozone"
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:557
+msgid "Carbon Monoxide"
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:623
+msgid "Good"
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:624
+msgid "Moderate"
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:625
+msgid "Poor"
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:626
+msgid "Unhealthy"
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:627
+msgid "Severe"
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:628
+msgid "Hazardous"
+msgstr ""
+
+#: includes/Blocks/Includes/Block_Helpers.php:629
+msgid "Unknown"
+msgstr ""
+
+#: includes/Blocks/Includes/Manage_Dynamic_CSS.php:98
+msgid "Widget CSS saved successfully."
+msgstr ""
+
+#: includes/Blocks/Includes/Manage_Dynamic_CSS.php:121
+msgid "Template CSS saved successfully."
+msgstr ""
+
+#: includes/Blocks/Includes/Manage_Dynamic_CSS.php:135
+msgid "Preview CSS saved temporarily."
+msgstr ""
+
+#: includes/Blocks/Includes/Manage_Dynamic_CSS.php:150
+msgid "Invalid post ID."
+msgstr ""
+
+#: includes/Blocks/Includes/Manage_Dynamic_CSS.php:182
+msgid "CSS file saved successfully."
+msgstr ""
+
+#: includes/Blocks/Includes/Manage_Dynamic_CSS.php:189
+msgid "CSS could not be saved due to file permission issues."
+msgstr ""
+
+#: includes/Blocks/Includes/Manage_Dynamic_CSS.php:210
+msgid "Temporary preview CSS deleted ."
+msgstr ""
+
+#: includes/Blocks/Includes/Manage_Dynamic_CSS.php:225
+msgid "CSS file deleted successfully."
+msgstr ""
+
+#: includes/Blocks/Includes/templates/aqi-minimal/parts/summary.php:47
+#: includes/Blocks/build/index.js:1
+msgid "AQI"
+msgstr ""
+
+#: includes/Blocks/Includes/templates/aqi-minimal/render.php:22
+msgid "Today's Air Quality Index( AQI )"
+msgstr ""
+
+#: includes/Blocks/Includes/templates/table/render.php:31
+msgid "Current Weather "
+msgstr ""
+
+#: includes/Blocks/Includes/templates/table/render.php:33
+msgid "Additional Data "
+msgstr ""
+
+#: includes/Blocks/Includes/templates/table/render.php:44
+#: includes/Blocks/Includes/templates/table/render.php:55
+msgid "Last updated: "
+msgstr ""
+
+#: includes/Blocks/Includes/templates/template-parts/footer.php:29
+#: includes/Blocks/Includes/templates/template-parts/footer.php:38
+msgid "Weather from OpenWeather"
+msgstr ""
+
+#: includes/Blocks/Includes/templates/template-parts/footer.php:33
+msgid "Weather from WeatherAPI"
+msgstr ""
+
+#: includes/Blocks/Includes/templates/template-parts/forecast-data/forecast-table.php:54
+#: includes/Blocks/build/index.js:1
+msgid "Time"
+msgstr ""
+
+#: includes/Blocks/Includes/templates/template-parts/forecast-data/forecast-table.php:57
+#: includes/Blocks/build/index.js:1
+msgid "Weather Condition"
+msgstr ""
+
+#: includes/Blocks/Includes/templates/template-parts/forecast-data/forecast-table.php:60
+#: includes/Blocks/build/index.js:1
+msgid "Comport"
+msgstr ""
+
+#: includes/Blocks/Includes/templates/template-parts/sun-orbit.php:45
+#: includes/Blocks/Includes/weather-api-data.php:264
+#: includes/Blocks/Includes/weather-api-data.php:266
+#: includes/Frontend/templates/additional-icon.php:68
+#: includes/Blocks/build/index.js:1
+msgid "Sunrise"
+msgstr ""
+
+#: includes/Blocks/Includes/templates/template-parts/sun-orbit.php:76
+msgid "Sun in orbit"
+msgstr ""
+
+#: includes/Blocks/Includes/templates/template-parts/sun-orbit.php:91
+#: includes/Blocks/Includes/weather-api-data.php:265
+#: includes/Blocks/Includes/weather-api-data.php:267
+#: includes/Frontend/templates/additional-icon.php:72
+#: includes/Blocks/build/index.js:1
+msgid "Sunset"
+msgstr ""
+
+#: includes/Blocks/Includes/weather-api-data.php:255
+#: includes/Blocks/Includes/weather-api-data.php:256
+#: includes/Blocks/build/index.js:1
+msgid "Rain Chances"
+msgstr ""
+
+#: includes/Blocks/Includes/weather-api-data.php:263
+#: includes/Blocks/build/index.js:1
+msgid "Sunrise & Sunset"
+msgstr ""
+
+#: includes/Blocks/Includes/weather-api-data.php:268
+#: includes/Blocks/build/index.js:1
+msgid "Moonrise & Moonset"
+msgstr ""
+
+#: includes/Blocks/Includes/weather-api-data.php:269
+#: includes/Blocks/build/index.js:1
+msgid "Moonrise"
+msgstr ""
+
+#: includes/Blocks/Includes/weather-api-data.php:270
+#: includes/Blocks/build/index.js:1
+msgid "Moonset"
+msgstr ""
+
+#: includes/Blocks/Includes/weather-api-data.php:272
+#: includes/Blocks/build/index.js:1
+msgid "National Alerts"
+msgstr ""
+
+#: includes/Blocks/Includes/weather-api-data.php:274
+#: includes/Blocks/build/index.js:1
+msgid "Day"
+msgstr ""
+
+#: includes/Blocks/Includes/weather-api-data.php:275
+#: includes/Blocks/build/index.js:1
+msgid "Hour"
+msgstr ""
+
+#: includes/Blocks/Includes/weather-api-data.php:276
+#: includes/Blocks/build/index.js:1
+msgid "Condition"
+msgstr ""
+
+#: includes/Blocks/Includes/weather-api-data.php:277
+#: includes/Blocks/build/index.js:1
+msgid "Amount"
+msgstr ""
+
+#: includes/Blocks/Includes/Weather_Premade_Patterns.php:92
+msgid "Item has been removed from wishlist."
+msgstr ""
+
+#: includes/Blocks/Includes/Weather_Premade_Patterns.php:97
+msgid "Item added to wishlist."
+msgstr ""
+
+#: includes/Blocks/Includes/Weather_Premade_Patterns.php:102
+msgid "Wishlist fetched successfully."
+msgstr ""
+
+#: includes/Blocks/Includes/Weather_Premade_Patterns.php:207
+msgid "Failed to fetch remote data."
+msgstr ""
+
+#: includes/Blocks/Includes/Weather_Premade_Patterns.php:216
+msgid "Empty response from remote server."
+msgstr ""
+
+#: includes/Blocks/Includes/Weather_Premade_Patterns.php:226
+msgid "Data fetched successfully!"
+msgstr ""
+
+#: includes/Frontend/Manage_API.php:88
 msgid "Please set your valid city name and country code."
 msgstr ""
 
-#: includes/Frontend/Manage_API.php:161
+#: includes/Frontend/Manage_API.php:94
+#: includes/Frontend/Manage_API.php:162
+msgid "Error: Something went wrong. Please reload again"
+msgstr ""
+
+#. translators: 1: start link, 2: close link.
+#: includes/Frontend/Manage_API.php:182
 #, php-format
 msgid "Your WeatherAPI key is invalid. Get your API key from %1$shere%2$s."
 msgstr ""
 
-#: includes/Frontend/Manage_API.php:171
+#: includes/Frontend/Manage_API.php:191
 msgid "Search by city name, ID, ZIP code, or coordinates."
 msgstr ""
 
-#: includes/Frontend/Shortcode.php:70
+#: includes/Frontend/Shortcode.php:75
 msgid "Weather from "
 msgstr ""
 
-#: includes/Frontend/Shortcode.php:189
+#: includes/Frontend/Shortcode.php:194
 msgid "Weather from WeatherAPI "
 msgstr ""
 
-#: includes/Frontend/Shortcode.php:197
+#: includes/Frontend/Shortcode.php:202
 msgid "Weather from OpenWeatherMap"
 msgstr ""
 
-#: includes/Frontend/Shortcode.php:495
-msgid " hPa"
+#: includes/Frontend/Shortcode.php:518
+msgid " mph"
 msgstr ""
 
-#: includes/Frontend/Shortcode.php:497
+#: includes/Frontend/Shortcode.php:519
+msgid " m/s"
+msgstr ""
+
+#: includes/Frontend/Shortcode.php:520
+msgid " Km/h"
+msgstr ""
+
+#: includes/Frontend/Shortcode.php:521
+msgid " kn"
+msgstr ""
+
+#: includes/Frontend/Shortcode.php:539
+msgid " inch"
+msgstr ""
+
+#: includes/Frontend/Shortcode.php:542
+msgid " mm"
+msgstr ""
+
+#: includes/Frontend/Shortcode.php:558
+#: includes/Frontend/Shortcode.php:579
 msgid " mb"
 msgstr ""
 
-#: includes/Frontend/Shortcode.php:514
+#: includes/Frontend/Shortcode.php:561
+msgid " hPa"
+msgstr ""
+
+#: includes/Frontend/Shortcode.php:564
+msgid " kpa"
+msgstr ""
+
+#: includes/Frontend/Shortcode.php:567
+msgid " inHg"
+msgstr ""
+
+#: includes/Frontend/Shortcode.php:570
+msgid " psi"
+msgstr ""
+
+#: includes/Frontend/Shortcode.php:573
+msgid " mmHg"
+msgstr ""
+
+#: includes/Frontend/Shortcode.php:576
+msgid " kg/cm²"
+msgstr ""
+
+#: includes/Frontend/Shortcode.php:597
 msgid " km"
 msgstr ""
 
-#: includes/Frontend/Shortcode.php:516
+#: includes/Frontend/Shortcode.php:599
 msgid " mi"
 msgstr ""
 
-#: includes/Frontend/templates/additional-icon.php:64
-msgid "Sunrise"
-msgstr ""
-
-#: includes/Frontend/templates/additional-icon.php:68
-msgid "Sunset"
-msgstr ""
-
-#: includes/Frontend/templates/template-parts/footer.php:22
+#: includes/Frontend/templates/template-parts/footer.php:26
 msgid "Detailed weather"
 msgstr ""
 
-#: includes/Frontend/templates/template-parts/footer.php:28
+#: includes/Frontend/templates/template-parts/footer.php:32
 msgid "Last updated:"
 msgstr ""
 
-#: includes/Frontend/templates/template-parts/footer.php:41
+#: includes/Frontend/templates/template-parts/footer.php:45
+#: includes/Blocks/build/index.js:1
+msgid "WeatherAPI"
+msgstr ""
+
+#: includes/Frontend/templates/template-parts/footer.php:45
 msgid "OpenWeatherMap"
 msgstr ""
 
-#: includes/Frontend/templates/template-parts/footer.php:43
+#. translators: %s: property modify source.
+#: includes/Frontend/templates/template-parts/footer.php:47
 #, php-format
 msgid "Weather from %s"
 msgstr ""
 
-#: main.php:143
+#: main.php:158
 msgid "View location weather live demo"
 msgstr ""
 
-#: main.php:144
+#: main.php:159
 msgid "View location weather documentation"
 msgstr ""
 
-#: main.php:144
+#: main.php:159
 msgid "Docs"
 msgstr ""
 
-#: main.php:145
+#: main.php:160
 msgid "Visit community forums"
 msgstr ""
 
-#: main.php:145
+#: main.php:160
 msgid "Support"
 msgstr ""
 
-#: main.php:251
+#: main.php:267
 msgid "Go Pro!"
 msgstr ""
 
-#: main.php:390
+#: main.php:419
 msgid "Weather API key"
 msgstr ""
 
-#: main.php:390
+#: main.php:419
 msgid "to show the weather data smoothly."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "-- Select a Shortcode --"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Cloud Cover"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Rain & Thunder"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Waves"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Snow Cover"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather Radar"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "CO₂ Concentration"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Ocean Currents"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Wind Gusts"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Lightning"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Sea Surface Temperature"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather Card"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "A clean vertical card showing current weather and upcoming forecasts."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather Horizontal"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Display current weather and forecast in a horizontal card layout."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "AQI – Minimal Card"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Display real-time air quality with AQI, main pollutants, and health advisory."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather Tabs"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Display Daily, Hourly, 7-Day, Weekend, 16-Day, AQI, and Maps in tabbed navigation."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather Table"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Display current weather, forecasts, and maps in a structured table format."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather Accordion"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Display current weather, forecasts, and maps in a collapsible accordion layout."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather Grid"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Display current weather, forecasts, and maps in a responsive grid layout."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Detailed Forecast"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Display detailed daily and hourly forecasts with graphs, maps, and insights."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Section Heading"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Add stylish section headings with powerful customization options."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather Map by OWM"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Display an interactive map from OpenWeather with live weather overlay information."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Radar Map by Windy"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Display animated radar map from Windy showing real-time wind flows, storm tracking."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "AQI – Detailed Air Quality"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Display current air quality index and forecast for the upcoming days."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Historical Weather Data"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Display historical weather data by selecting a specific date and location."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Historical Air Quality Data"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Display historical AQI data calendar by selecting a specific date and location."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Sun & Moon Times"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Display daily sun and moon times, phases, and durations for your location."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Location Weather Shortcode"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Insert Location Weather shortcode into any page with one click."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Preview"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Remove from wishlist"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Add to wishlist"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Upgrade to Pro to access this pattern"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "PRO"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "No Data found..."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Pattern Type"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Block Type"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Something went wrong"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "We're sorry, but something went wrong while loading the design library."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Error Details"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Try Again"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather Patterns Library"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Close"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "No response received from server"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Failed to load patterns"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "An unexpected error occurred"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Failed to update wishlist"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Failed to refresh patterns"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Failed to refresh data"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Failed to import pattern"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Block editor is not available"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Failed to parse block data"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Invalid block data format"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "No blocks found in pattern"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Border Color"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Enable Box Shadow"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Box Shadow"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "X Offset"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Y Offset"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Shadow Color"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Add this color to custom colors"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Custom colors"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Theme colors"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "See More"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Font family"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Text Format"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather Vertical Card Templates"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Choose a vertical card weather template to get started"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather Horizontal Templates"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Choose a horizontal weather template to get started"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather Tabs Templates"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Choose a tabs weather template to get started"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather Table Templates"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Choose a table weather template to get started"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather Grid Templates"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Choose a grid weather template to get started"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "AQI Minimal Card Templates"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Choose a minimal air quality card template to get started."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Demo"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Skip"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Access to exclusive layouts, custom weather search."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Upgrade to Pro!"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Set Specific Location"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Write your city or country name only."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Set your zip code and country code. See"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "instructions"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Auto Detect Visitor's Location"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Pressure Unit"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Precipitation Unit"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Wind Speed Unit"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Visibility Unit"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "language"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather Description"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Low & High Temperature"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Get More Details—Low & High Temp, Real Feel, Icon Sets."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Display Additional Data"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Additional Data Layouts"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Display more weather data—exclusive layouts and insights."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Forecast Display Style"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "With the free OpenWeather API, weather data is available only in 3-hour intervals."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Number of Forecasts Hour to Show"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Label"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Map Type"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Default Data Layer Selection"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Default Elevation"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Show Marker"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Spot Forecast"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Forecast Model"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Forecast From"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Airflow Pressure Lines"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Max Width"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Max Height"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Enhance your forecast—unlock OpenWeatherMap."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Default Open Tab"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Tab Alignment"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Link to OpenWeather"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "AQI Scale Bar"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Heading Label"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "AQI Condition"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "AQI Description"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Pollutants Name Format"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Abbreviation (SO₂)"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Name (Sulphur Dioxide)"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Both (Sulphur Dioxide (SO₂))"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Condition Indicator"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Symbol Display Style"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Normal (SO2)"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Subscript (SO₂)"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Premium Only"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Unlock Advanced AQI Forecasts"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Forecast Types: Daily, Hourly, or Both"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Display AQI Forecasts as"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Daily & Hourly Toggle"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Daily & Hourly Graph"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Hourly Graph Inside Daily"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Daily & Hourly Individually"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Daily forecast (up to 4 days)"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Hourly forecast (up to 96 hours)"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "More Customization Options"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Override Specific with Global"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Primary Text Color"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Secondary Text Color"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Background Color"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Secondary Background"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Border Radius"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Content Padding"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Set weather-based images, custom images, and video backgrounds with max width."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Date & Time"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Gap"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Icon Size"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Current Temperature"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Temperature Scale"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Additional Data Icon"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Icon Style"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Additional Data (Label)"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Additional Data (Value)"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Comport Data (Pressure, Humid...)"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Vertical Gap"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Additional Data Carousel"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Stop On Hover"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Navigation Arrow"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Navigation Visibility"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Arrow Icon Style"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Arrow Icon Size"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Horizontal Gap"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Padding"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Hourly Forecast Data"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Carousel"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Forecast Data Icon"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Forecast Data (Days)"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Daily Forecast Background"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Forecast Data Carousel"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Icon Background Color"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Forecast Details Data"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Filter Tabs Label Color"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Forecast Data (Days & Hours)"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Forecast Data (Value)"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Forecast Data (Live Filter)"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Background"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Dropdown Text Color"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Dropdown Background"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Forecast Data (Filter by Tabs)"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Gap Between Tabs"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Active Bottom Line Width"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Full-Width Bottom Line"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Label Color"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Active Bottom Line Color"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Full-Width Bottom Line Color"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather Update"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Top Line Color"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Active Tab Top Line Border"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Table Header"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Table Body"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Even Row Color"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Odd Row Color"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Heading"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Text Color"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Description"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Pollutant Condition"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Pollutant Label"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Pollutant Value"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Pollutant Box"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Hide on Desktop"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Hide on Tablet"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Hide on Mobile"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Additional CSS Class(es)"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Custom CSS"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Vertical Card Templates"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Horizontal Templates"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Tabs Templates"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Table Templates"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Map Templates"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Grid Templates"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "AQI Templates"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather API Source"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Select API Source"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Set Location"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather Map Preferences"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Tabs Preferences"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Table Preferences"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Air Quality Summary"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Air Quality Forecast"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Advanced Settings"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Historical Weather from"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Historical AQI from"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "AQI from"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "OpenWeather"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Weather from"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Air is clean and safe. No health risks expected."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Air is clean and safe. Everyone can enjoy outdoor activities without concern."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Live AQI"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Heading Style"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "HTML Tag"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Alignment"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Sub Heading"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Sub Heading Label"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Sub Heading Position"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Top"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Bottom"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Bottom Line"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Line Color"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Thickness"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Horizontal Position"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Full Width Bottom Line"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Side Line"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Show Line"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Unlock Detailed Weather Forecast and advanced layouts by upgrading to the Pro plan."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Unlock AQI - Detailed Air Quality and advanced layouts by upgrading to the Pro plan."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Unlock Weather Accordion and advanced layouts by upgrading to the Pro plan."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Unlock Weather Map by OWM and advanced layouts by upgrading to the Pro plan."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Unlock Historical Weather Data and advanced layouts by upgrading to the Pro plan."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Unlock Historical Air Quality Data and advanced layouts by upgrading to the Pro plan."
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "View Demo"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Upgrade To Pro"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Upgrade to Pro Plan"
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "No shortcode found, Please try to add blocks. "
+msgstr ""
+
+#: includes/Blocks/build/index.js:1
+msgid "Select a shortcode"
 msgstr ""

@@ -1,0 +1,106 @@
+$primary-color: #f26c0d;
+
+.spl-weather-responsive {
+    margin-left: 10px;
+}
+
+.spl-weather-units {
+    position: relative;
+    color: #8c8f94;
+
+    // unit button.
+    &-btn {
+        box-shadow: 2px 2px 8px 0px rgba(0, 0, 0, 0.15);
+        position: absolute;
+        z-index: 999;
+        margin-top: 2px;
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.3s;
+
+        button.components-button {
+            text-transform: lowercase;
+
+            &:hover {
+                color: #3c434a;
+                background-color: #FAE9E8;
+            }
+
+            &.active {
+                color: #fff;
+                background-color: $primary-color;
+
+                &:hover {
+                    color: #fff;
+                }
+            }
+        }
+    }
+
+    &:hover {
+        span {
+            border-color: $primary-color;
+            color: $primary-color;
+
+            svg {
+                fill: $primary-color;
+            }
+        }
+
+        .spl-weather-units-btn {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    span {
+        display: inline-block;
+        font-size: 10px;
+        padding: 0px;
+        width: fit-content;
+        padding: 4px;
+        height: 20px;
+        border: 1px solid #8c8f94;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 2px;
+        cursor: pointer;
+        text-transform: uppercase;
+
+        svg {
+            fill: #8c8f94;
+        }
+    }
+
+    span.box-unit {
+        width: 45px !important;
+    }
+
+    button {
+        padding: 0;
+        width: 23px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        background-color: #fff;
+        font-size: 10px;
+        border: none;
+        color: #8c8f94;
+        border-radius: 0;
+        box-shadow: none;
+
+        &:focus:not(:disabled) {
+            outline: none;
+            box-shadow: none;
+        }
+    }
+
+    &.box {
+        .spl-weather-units-btn {
+            button {
+                width: 45px;
+            }
+        }
+    }
+}

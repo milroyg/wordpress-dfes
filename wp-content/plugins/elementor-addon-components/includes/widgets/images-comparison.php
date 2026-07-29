@@ -1,7 +1,7 @@
 <?php
 /**
  * Class: Images_Comparison_Widget
- * Name: Comparaison d'images
+ * Name: Image comparison
  * Slug: eac-addon-images-comparison
  *
  * Description: Images_Comparison_Widget affiche deux images à titre de comparaison
@@ -15,8 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -28,19 +27,6 @@ use Elementor\Group_Control_Box_Shadow;
 use Elementor\Utils;
 
 class Images_Comparison_Widget extends Widget_Base {
-
-	/**
-	 * Constructeur de la class Images_Comparison_Widget
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		wp_register_script( 'imagesloaded', ABSPATH . WPINC . '/js/imagesloaded.min.js', array(), '5.0.0', true );
-		wp_register_script( 'images-comparison', EAC_Plugin::instance()->get_script_url( 'assets/js/comparison/images-comparison' ), array( 'jquery' ), '1.0.0', true );
-		wp_register_script( 'eac-images-comparison', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-images-comparison' ), array( 'jquery', 'elementor-frontend', 'imagesloaded', 'images-comparison' ), '1.0.0', true );
-
-		wp_register_style( 'eac-images-comparison', EAC_Plugin::instance()->get_style_url( 'assets/css/images-comparison' ), array( 'eac-frontend' ), '1.0.0' );
-	}
 
 	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
@@ -56,10 +42,10 @@ class Images_Comparison_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -67,10 +53,10 @@ class Images_Comparison_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -78,10 +64,10 @@ class Images_Comparison_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -89,10 +75,23 @@ class Images_Comparison_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
+	}
+
+	/**
+	 * Get widget keywords.
+	 *
+	 * Retrieve the list of keywords the widget belongs to.
+	 *
+	 * @access public
+	 *
+	 * @return array Widget keywords.
+	 */
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -100,10 +99,10 @@ class Images_Comparison_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
-		return array( 'images-comparison', 'imagesloaded', 'eac-images-comparison' );
+		return array( 'eac-images-comparison' );
 	}
 
 	/**
@@ -112,7 +111,7 @@ class Images_Comparison_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
 		return array( 'eac-images-comparison' );
@@ -128,6 +127,15 @@ class Images_Comparison_Widget extends Widget_Base {
 	}
 
 	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
+	}
+
+	/**
 	 * Register widget controls.
 	 *
 	 * Adds different input fields to allow the user to change and customize the widget settings.
@@ -139,7 +147,7 @@ class Images_Comparison_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ic_gallery_content_left',
 			array(
-				'label' => esc_html__( 'Image de gauche', 'eac-components' ),
+				'label' => esc_html__( 'Left image', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -162,11 +170,11 @@ class Images_Comparison_Widget extends Widget_Base {
 				'ic_img_name_original',
 				array(
 					'name'        => 'name_original',
-					'label'       => esc_html__( 'Étiquette', 'eac-components' ),
+					'label'       => esc_html__( 'Tag', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'ai'          => array( 'active' => false ),
-					'default'     => esc_html__( 'Étiquette de gauche', 'eac-components' ),
-					'placeholder' => esc_html__( 'Gauche', 'eac-components' ),
+					'default'     => esc_html__( 'Left tag', 'eac-components' ),
+					'placeholder' => esc_html__( 'Left', 'eac-components' ),
 					'label_block' => true,
 				)
 			);
@@ -178,9 +186,9 @@ class Images_Comparison_Widget extends Widget_Base {
 					'type'         => Controls_Manager::SELECT,
 					'default'      => 'top',
 					'options'      => array(
-						'top'    => esc_html__( 'Haut', 'eac-components' ),
-						'middle' => esc_html__( 'Milieu', 'eac-components' ),
-						'bottom' => esc_html__( 'Bas', 'eac-components' ),
+						'top'    => esc_html__( 'Top', 'eac-components' ),
+						'middle' => esc_html__( 'Middle', 'eac-components' ),
+						'bottom' => esc_html__( 'Bottom', 'eac-components' ),
 					),
 					'prefix_class' => 'b-diff__title_after-',
 				)
@@ -191,7 +199,7 @@ class Images_Comparison_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ic_gallery_content_right',
 			array(
-				'label' => esc_html__( 'Image de droite', 'eac-components' ),
+				'label' => esc_html__( 'Right image', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -214,11 +222,11 @@ class Images_Comparison_Widget extends Widget_Base {
 				'ic_img_name_modified',
 				array(
 					'name'        => 'name_modified',
-					'label'       => esc_html__( 'Étiquette', 'eac-components' ),
+					'label'       => esc_html__( 'Tag', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'ai'          => array( 'active' => false ),
-					'default'     => esc_html__( 'Étiquette de droite', 'eac-components' ),
-					'placeholder' => esc_html__( 'Droite', 'eac-components' ),
+					'default'     => esc_html__( 'Right tag', 'eac-components' ),
+					'placeholder' => esc_html__( 'Right', 'eac-components' ),
 					'label_block' => true,
 				)
 			);
@@ -230,9 +238,9 @@ class Images_Comparison_Widget extends Widget_Base {
 					'type'         => Controls_Manager::SELECT,
 					'default'      => 'top',
 					'options'      => array(
-						'top'    => esc_html__( 'Haut', 'eac-components' ),
-						'middle' => esc_html__( 'Milieu', 'eac-components' ),
-						'bottom' => esc_html__( 'Bas', 'eac-components' ),
+						'top'    => esc_html__( 'Top', 'eac-components' ),
+						'middle' => esc_html__( 'Middle', 'eac-components' ),
+						'bottom' => esc_html__( 'Bottom', 'eac-components' ),
 					),
 					'prefix_class' => 'b-diff__title_before-',
 				)
@@ -243,7 +251,7 @@ class Images_Comparison_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ic_gallery_content_settings',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -261,20 +269,20 @@ class Images_Comparison_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'ic_image_alignment',
 				array(
-					'label'                => esc_html__( 'Alignement', 'eac-components' ),
+					'label'                => esc_html__( 'Alignment', 'eac-components' ),
 					'type'                 => Controls_Manager::CHOOSE,
 					'default'              => 'center',
 					'options'              => array(
 						'left'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'right'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -284,7 +292,7 @@ class Images_Comparison_Widget extends Widget_Base {
 						'right'  => 'auto 0',
 					),
 					'selectors'            => array(
-						'{{WRAPPER}} .eac-images-comparison' => 'margin-inline: {{VALUE}};',
+						'{{WRAPPER}}' => 'margin-inline: {{VALUE}};',
 					),
 				)
 			);
@@ -297,7 +305,7 @@ class Images_Comparison_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ic_container_section_style',
 			array(
-				'label' => esc_html__( 'Conteneur', 'eac-components' ),
+				'label' => esc_html__( 'Container', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -315,7 +323,7 @@ class Images_Comparison_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'     => 'ic_container_shadow',
-					'label'    => esc_html__( 'Ombre', 'eac-components' ),
+					'label'    => esc_html__( 'Shadow', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .b-diff',
 				)
 			);
@@ -325,7 +333,7 @@ class Images_Comparison_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ic_etiquette_section_style',
 			array(
-				'label' => esc_html__( 'Étiquettes', 'eac-components' ),
+				'label' => esc_html__( 'Tags', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -333,7 +341,7 @@ class Images_Comparison_Widget extends Widget_Base {
 			$this->add_control(
 				'ic_etiquette_color',
 				array(
-					'label'     => esc_html__( 'Couleur du texte', 'eac-components' ),
+					'label'     => esc_html__( 'Text color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'default'   => '#FFF',
 					'selectors' => array(
@@ -346,7 +354,7 @@ class Images_Comparison_Widget extends Widget_Base {
 			$this->add_control(
 				'ic_etiquette_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'default'   => '#919ca7',
 					'selectors' => array(
@@ -359,7 +367,7 @@ class Images_Comparison_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'ic_etiquette_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .b-diff__title_before, {{WRAPPER}} .b-diff__title_after',
 				)
 			);
@@ -374,7 +382,7 @@ class Images_Comparison_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 
 		if ( empty( $settings['ic_img_content_original']['url'] ) || empty( $settings['ic_img_content_modified']['url'] ) ) {
@@ -386,7 +394,7 @@ class Images_Comparison_Widget extends Widget_Base {
 		$this->add_render_attribute( 'data_diff', 'data-diff', esc_attr( $id ) );
 		$this->add_render_attribute( 'data_diff', 'data-settings', $this->get_settings_json( $id ) );
 		?>
-		<div class='eac-images-comparison' aria-label='Image comparison'>
+		<div class='eac-images-comparison'>
 			<div <?php $this->print_render_attribute_string( 'data_diff' ); ?>>
 				<?php $this->render_galerie(); ?>
 			</div>
@@ -395,14 +403,28 @@ class Images_Comparison_Widget extends Widget_Base {
 		<?php
 	}
 
-	protected function render_galerie() {
+	protected function render_galerie(): void {
 		$settings = $this->get_settings_for_display();
 		?>
 		<div>
-			<?php echo Group_Control_Image_Size::get_attachment_image_html( $settings, 'ic_image_size', 'ic_img_content_original' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php
+			$image_original = Group_Control_Image_Size::get_attachment_image_html( $settings, 'ic_image_size', 'ic_img_content_original' );
+			$image_original = preg_replace( '/<img\b/i', '<img role="presentation" aria-hidden="true"', $image_original, 1 );
+			$image_original = preg_replace( '/\s+title=(["\']).*?\1/i', '', $image_original );
+			if ( preg_match( '/\salt=(["\'])(.*?)\1/i', $image_original ) ) {
+				$image_original = preg_replace( '/\salt=(["\'])(.*?)\1/i', ' alt=""', $image_original, 1 );
+			}
+			echo $image_original; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</div>
 		<div>
-			<?php echo Group_Control_Image_Size::get_attachment_image_html( $settings, 'ic_image_size', 'ic_img_content_modified' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php
+			$image_modified = Group_Control_Image_Size::get_attachment_image_html( $settings, 'ic_image_size', 'ic_img_content_modified' );
+			$image_modified = preg_replace( '/<img\b/i', '<img role="presentation" aria-hidden="true"', $image_modified, 1 );
+			$image_modified = preg_replace( '/\s+title=(["\']).*?\1/i', '', $image_modified );
+			if ( preg_match( '/\salt=(["\'])(.*?)\1/i', $image_modified ) ) {
+				$image_modified = preg_replace( '/\salt=(["\'])(.*?)\1/i', ' alt=""', $image_modified, 1 );
+			}
+			echo $image_modified; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</div>
 		<?php
 	}
@@ -419,7 +441,7 @@ class Images_Comparison_Widget extends Widget_Base {
 	 *
 	 * @access  protected
 	 */
-	protected function get_settings_json( $ordre ) {
+	protected function get_settings_json( $ordre ): string {
 		$module_settings = $this->get_settings_for_display();
 
 		$settings = array(
@@ -431,5 +453,5 @@ class Images_Comparison_Widget extends Widget_Base {
 		return wp_json_encode( $settings );
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

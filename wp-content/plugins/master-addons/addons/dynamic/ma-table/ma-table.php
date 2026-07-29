@@ -1,0 +1,1044 @@
+<?php
+
+namespace MasterAddons\Addons;
+
+// Elementor Classes
+use MasterAddons\Inc\Classes\Base\Master_Widget;
+use \Elementor\Utils;
+use \Elementor\Controls_Manager;
+use \Elementor\Repeater;
+use Elementor\Icons_Manager;
+use \Elementor\Group_Control_Border;
+use \Elementor\Group_Control_Typography;
+use \Elementor\Core\Kits\Documents\Tabs\Global_Typography;
+use \Elementor\Group_Control_Background;
+
+use MasterAddons\Inc\Classes\Helper;
+use MasterAddons\Inc\Admin\Config;
+
+/**
+ * Author Name: Liton Arefin
+ * Author URL : https: //jeweltheme.com
+ * Date       : 19/02/2020
+ */
+
+// Exit if accessed directly.
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+/**
+ * Master Addons Table
+ */
+
+class Dynamic_Table extends Master_Widget
+{
+    use \MasterAddons\Inc\Traits\Widget_Notice;
+	use \MasterAddons\Inc\Traits\Widget_Assets_Trait;
+
+    public function get_name()
+    {
+        return 'ma-table';
+    }
+
+    public function get_title()
+    {
+        return __('Dynamic Table', 'master-addons');
+    }
+
+    public function get_icon()
+    {
+        return 'jltma-icon ' . Config::get_addon_icon($this->get_name());
+    }
+
+        public function get_keywords()
+    {
+        return ['table', 'tables', 'data tables', 'responsive table', 'pricing table', 'comparison table'];
+    }
+
+
+    protected function register_controls()
+    {
+
+        /*
+         * MA Table: Header Section
+         */
+        $this->start_controls_section(
+            'ma_el_table_section',
+            [
+                'label' => __('Table Head', 'master-addons'),
+            ]
+        );
+
+        $this->add_control(
+            'ma_el_show_table_head',
+            [
+                'label' => __('Table Head', 'master-addons'),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __('Show', 'master-addons'),
+                'label_off' => __('Hide', 'master-addons'),
+                'default' => 'yes',
+                'return_value' => 'yes',
+            ]
+        );
+
+        $repeater = new Repeater();
+        $repeater->start_controls_tabs('ma_el_table_head_contents');
+        $repeater->start_controls_tab('head_tab_contents', ['label' => __('Content', 'master-addons')]);
+
+        $repeater->add_control(
+            'title',
+            [
+                'type' => Controls_Manager::TEXT,
+                'label_block' => true,
+                'label' => __('Column Name', 'master-addons'),
+                'default' => __('Table Header', 'master-addons'),
+                'dynamic' => [
+                    'active' => true,
+                ]
+            ]
+        );
+
+        $repeater->add_control(
+            'icon_type',
+            [
+                'label' => __('Type', 'master-addons'),
+                'type' => Controls_Manager::CHOOSE,
+                'default' => 'none',
+                'options' => [
+                    'none' => [
+                        'title' => esc_html__('None', 'master-addons'),
+                        'icon' => 'fa fa-ban',
+                    ],
+                    'icon' => [
+                        'title' => esc_html__('Icon', 'master-addons'),
+                        'icon' => 'fa fa-star',
+                    ],
+                    'image' => [
+                        'title' => esc_html__('Image', 'master-addons'),
+                        'icon' => 'fa fa-picture-o',
+                    ],
+                ]
+            ]
+        );
+
+        $repeater->add_control(
+            'header_icon',
+            [
+                'label' => esc_html__('Icon', 'master-addons'),
+                'description' => esc_html__('Please choose an icon from the list.', 'master-addons'),
+                'type' => Controls_Manager::ICONS,
+                'fa4compatibility' => 'icon',
+                'default' => [
+                    'value' => 'fab fa-elementor',
+                    'library' => 'brand',
+                ],
+                'render_type' => 'template',
+                'condition' => [
+                    'icon_type' => 'icon'
+                ],
+            ]
+        );
+
+        $repeater->add_control(
+            'header_image',
+            [
+                'label' => __('Image', 'master-addons'),
+                'type' => Controls_Manager::MEDIA,
+                'default' => [
+                    'url' => Utils::get_placeholder_image_src(),
+                ],
+                'condition' => [
+                    'icon_type' => 'image'
+                ],
+            ]
+        );
+
+        $repeater->add_control(
+            'header_image_size',
+            [
+                'label' => __('Image Size(px)', 'master-addons'),
+                'type' => Controls_Manager::NUMBER,
+                'label_block' => false,
+                'default' => '30',
+                'condition' => [
+                    'icon_type' => 'image'
+                ],
+            ]
+        );
+        $repeater->end_controls_tab();
+
+        $repeater->start_controls_tab('ma_el_table_head_tab_options', ['label' => __('Options', 'master-addons')]);
+
+        $repeater->add_control(
+            'colspannumber',
+            [
+                'label' => __('Column Span', 'master-addons'),
+                'type' => Controls_Manager::TEXT
+            ]
+        );
+
+        $repeater->add_control(
+            'customwidth',
+            [
+                'label' => __('Custom Width', 'master-addons'),
+                'type' => Controls_Manager::SWITCHER,
+                'label_off' => __('No', 'master-addons'),
+                'label_on' => __('Yes', 'master-addons'),
+            ]
+        );
+
+        $repeater->add_control(
+            'width',
+            [
+                'label' => __('Width', 'master-addons'),
+                'type' => Controls_Manager::SLIDER,
+                'range' => [
+                    '%' => [
+                        'min' => 0,
+                        'max' => 100,
+                    ],
+                    'px' => [
+                        'min' => 1,
+                        'max' => 1000,
+                    ],
+                    'em' => [
+                        'min' => 1,
+                        'max' => 10,
+                    ],
+                ],
+                'default' => [
+                    'size' => 30,
+                    'unit' => '%',
+                ],
+                'size_units' => ['%', 'px'],
+                'condition' => [
+                    'customwidth' => 'yes',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table {{CURRENT_ITEM}}' => 'width: {{SIZE}}{{UNIT}};',
+                ]
+            ]
+        );
+
+        $repeater->add_control(
+            'align',
+            [
+                'label' => __('Alignment', 'master-addons'),
+                'type' => Controls_Manager::CHOOSE,
+                'default' => '',
+                'options' => Helper::jltma_content_alignments(),
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table {{CURRENT_ITEM}}' => 'text-align: {{VALUE}};',
+                ]
+            ]
+        );
+
+        $repeater->add_control(
+            'decoration',
+            [
+                'label' => __('Decoration', 'master-addons'),
+                'type' => Controls_Manager::SELECT,
+                'options' => [
+                    '' => __('Default', 'master-addons'),
+                    'underline' => __('Underline', 'master-addons'),
+                    'overline' => __('Overline', 'master-addons'),
+                    'line-through' => __('Line Through', 'master-addons'),
+                    'none' => __('None', 'master-addons'),
+                ],
+                'default' => '',
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table {{CURRENT_ITEM}}' => 'text-decoration: {{VALUE}};',
+                ],
+            ]
+        );
+        $repeater->end_controls_tab();
+
+        $repeater->end_controls_tabs();
+
+        $this->add_control(
+            'ma_el_table_header',
+            [
+                'label' => __('Table Header Cell', 'master-addons'),
+                'type' => Controls_Manager::REPEATER,
+                'seperator' => 'before',
+                'default' => [
+                    [
+                        'title' => __('First Name', 'master-addons'),
+                    ],
+                    [
+                        'title' => __('Last Name', 'master-addons'),
+                    ],
+                    [
+                        'title' => __('Job Title', 'master-addons'),
+                    ],
+                    [
+                        'title' => __('Twitter', 'master-addons'),
+                    ]
+                ],
+                'fields' => $repeater->get_controls(),
+                'title_field' => '{{{ title }}}',
+                'condition' => [
+                    'ma_el_show_table_head' => 'yes',
+                ],
+            ]
+        );
+        $this->end_controls_section();
+
+        /*
+         * MA Table Body Section
+         */
+        $this->start_controls_section(
+            'ma_el_table_body_section',
+            [
+                'label' => __('Table Body', 'master-addons'),
+                'tab' => Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $repeater = new Repeater();
+        $repeater->add_control(
+            'body_row',
+            [
+                'label' => __('New Row?', 'master-addons'),
+                'type' => Controls_Manager::SWITCHER,
+                'label_off' => __('No', 'master-addons'),
+                'label_on' => __('Yes', 'master-addons'),
+            ]
+        );
+
+        $repeater->start_controls_tabs('ma_el_table_body_contents');
+
+        $repeater->start_controls_tab('body_tab_contents', ['label' => __('Content', 'master-addons')]);
+
+        $repeater->add_control(
+            'text',
+            [
+                'type' => Controls_Manager::TEXTAREA,
+                'label_block' => true,
+                'label' => __('Body Text', 'master-addons'),
+                'default' => __('Table Body', 'master-addons'),
+                'dynamic' => [
+                    'active' => true,
+                ]
+            ]
+        );
+
+        $repeater->add_control(
+            'icon_type',
+            [
+                'label' => __('Type', 'master-addons'),
+                'type' => Controls_Manager::CHOOSE,
+                'default' => 'none',
+                'options' => [
+                    'none' => [
+                        'title' => esc_html__('None', 'master-addons'),
+                        'icon' => 'fa fa-ban',
+                    ],
+                    'icon' => [
+                        'title' => esc_html__('Icon', 'master-addons'),
+                        'icon' => 'fa fa-star',
+                    ],
+                    'image' => [
+                        'title' => esc_html__('Image', 'master-addons'),
+                        'icon' => 'fa fa-picture-o',
+                    ],
+                ],
+            ]
+        );
+
+        $repeater->add_control(
+            'body_icon',
+            [
+                'label' => esc_html__('Icon', 'master-addons'),
+                'description' => esc_html__('Please choose an icon from the list.', 'master-addons'),
+                'type' => Controls_Manager::ICONS,
+                'fa4compatibility' => 'icon',
+                'default' => [
+                    'value' => 'fab fa-elementor',
+                    'library' => 'brand',
+                ],
+                'render_type' => 'template',
+                'condition' => [
+                    'icon_type' => 'icon'
+                ],
+            ]
+        );
+
+        $repeater->add_control(
+            'body_image',
+            [
+                'label' => __('Image', 'master-addons'),
+                'type' => Controls_Manager::MEDIA,
+                'default' => [
+                    'url' => Utils::get_placeholder_image_src(),
+                ],
+                'condition' => [
+                    'icon_type' => 'image'
+                ],
+            ]
+        );
+
+        $repeater->add_control(
+            'body_image_size',
+            [
+                'label' => __('Image Size(px)', 'master-addons'),
+                'type' => Controls_Manager::NUMBER,
+                'label_block' => false,
+                'default' => '30',
+                'condition' => [
+                    'icon_type' => 'image'
+                ],
+            ]
+        );
+
+        $repeater->end_controls_tab();
+
+        $repeater->start_controls_tab('ma_el_table_body_tab_options', ['label' => __('Options', 'master-addons')]);
+        $repeater->add_control(
+            'colspannumber',
+            [
+                'label' => __('Column Span', 'master-addons'),
+                'type' => Controls_Manager::TEXT
+            ]
+        );
+        $repeater->add_control(
+            'rowspannumber',
+            [
+                'label' => __('Row Span', 'master-addons'),
+                'type' => Controls_Manager::TEXT,
+                'placeholder' => '',
+                'default' => '',
+            ]
+        );
+
+        $repeater->add_control(
+            'customwidth',
+            [
+                'label' => __('Custom Width', 'master-addons'),
+                'type' => Controls_Manager::SWITCHER,
+                'label_off' => __('No', 'master-addons'),
+                'label_on' => __('Yes', 'master-addons'),
+            ]
+        );
+
+        $repeater->add_control(
+            'width',
+            [
+                'label' => __('Width', 'master-addons'),
+                'type' => Controls_Manager::SLIDER,
+                'range' => [
+                    '%' => [
+                        'min' => 0,
+                        'max' => 100,
+                    ],
+                    'px' => [
+                        'min' => 1,
+                        'max' => 1000,
+                    ],
+                ],
+                'default' => [
+                    'size' => 30,
+                    'unit' => '%',
+                ],
+                'size_units' => ['%', 'px'],
+                'condition' => [
+                    'customwidth' => 'yes',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table {{CURRENT_ITEM}}' => 'width: {{SIZE}}{{UNIT}};',
+                ]
+            ]
+        );
+
+        $repeater->add_control(
+            'body_align',
+            [
+                'label' => __('Alignment', 'master-addons'),
+                'type' => Controls_Manager::CHOOSE,
+                'default' => '',
+                'options' => Helper::jltma_content_alignments(),
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table {{CURRENT_ITEM}}' => 'text-align: {{VALUE}};',
+                ]
+            ]
+        );
+
+        $repeater->add_control(
+            'decoration',
+            [
+                'label' => __('Decoration', 'master-addons'),
+                'type' => Controls_Manager::SELECT,
+                'options' => [
+                    '' => __('Default', 'master-addons'),
+                    'underline' => __('Underline', 'master-addons'),
+                    'overline' => __('Overline', 'master-addons'),
+                    'line-through' => __('Line Through', 'master-addons'),
+                    'none' => __('None', 'master-addons'),
+                ],
+                'default' => '',
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table {{CURRENT_ITEM}}' => 'text-decoration: {{VALUE}};'
+                ],
+            ]
+        );
+
+        $repeater->end_controls_tab();
+
+        $repeater->end_controls_tabs();
+
+        $this->add_control(
+            'ma_el_table_body',
+            [
+                'label' => __('Table Body Cell', 'master-addons'),
+                'type' => Controls_Manager::REPEATER,
+                'seperator' => 'before',
+                'default' => [
+                    [
+                        'text' => __('Liton', 'master-addons'),
+                    ],
+                    [
+                        'text' => __('Arefin', 'master-addons'),
+                    ],
+                    [
+                        'text' => __('Developer', 'master-addons'),
+                    ],
+                    [
+                        'text' => __('Litonice11', 'master-addons'),
+                    ],
+                    [
+                        'body_row' => 'yes',
+                        'text' => __('Roy', 'master-addons'),
+                    ],
+                    [
+                        'text' => __('Jemee', 'master-addons'),
+                    ],
+                    [
+                        'text' => __('Content Writer', 'master-addons'),
+                    ],
+                    [
+                        'text' => __('@Litonice11', 'master-addons'),
+                    ],
+
+                    [
+                        'body_row' => 'yes',
+                        'text' => __('Akbar', 'master-addons'),
+                    ],
+                    [
+                        'text' => __('Hossain', 'master-addons'),
+                    ],
+                    [
+                        'text' => __('Designer', 'master-addons'),
+                    ],
+                    [
+                        'text' => __('@AkbarHo33850947', 'master-addons'),
+                    ],
+
+                    [
+                        'body_row' => 'yes',
+                        'text' => __('Jewel', 'master-addons'),
+                    ],
+                    [
+                        'text' => __('Theme', 'master-addons'),
+                    ],
+                    [
+                        'text' => __('Website', 'master-addons'),
+                    ],
+                    [
+                        'text' => __('@jwthemeltd', 'master-addons'),
+                    ]
+                ],
+                'fields' => $repeater->get_controls(),
+                'title_field' => '{{{ text }}}'
+            ]
+        );
+
+        $this->end_controls_section();
+
+        // Responsive settings section
+        $this->start_controls_section(
+            'ma_el_table_settings_section',
+            [
+                'label' => __('Settings', 'master-addons'),
+            ]
+        );
+        $this->add_control(
+            'ma_el_table_body_responsiveness',
+            [
+                'label' => __('Responsive Table?', 'master-addons'),
+                'type' => Controls_Manager::SWITCHER,
+                'default' => 'yes',
+                'return_value' => 'yes'
+            ]
+        );
+
+        $this->end_controls_section();
+
+        // Help Docs section (links from config.php)
+        $this->jltma_help_docs();
+
+        $this->upgrade_to_pro_message();
+
+        /*
+         * MA Table: Style
+         */
+
+        $this->start_controls_section(
+            'ma_el_table_style_section',
+            [
+                'label' => __('Global Style', 'master-addons'),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+            'ma_el_table_body_striped_bg',
+            [
+                'label' => __('Striped Table?', 'master-addons'),
+                'type' => Controls_Manager::SWITCHER,
+                'default' => 'yes',
+                'return_value' => 'yes'
+            ]
+        );
+        $this->add_control(
+            'ma_el_table_body_striped_bg_color',
+            [
+                'label' => __('Striped Background Color', 'master-addons'),
+                'type' => Controls_Manager::COLOR,
+                'condition' => [
+                    'ma_el_table_body_striped_bg' => 'yes',
+                ],
+                'default' => '#eee',
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table tr:nth-of-type(odd) td' => 'background-color: {{VALUE}};',
+                ]
+            ]
+        );
+
+        $this->add_control(
+            'ma_el_table_background',
+            [
+                'label' => __('Background Color', 'master-addons'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table tr:nth-of-type(even) td' => 'background-color: {{VALUE}};',
+                ]
+            ]
+        );
+
+        $this->add_control(
+            'ma_el_table_padding',
+            [
+                'label' => __('Inner Cell Padding', 'master-addons'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table td,{{WRAPPER}} .jltma-table th' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Border::get_type(),
+            [
+                'name' => 'ma_el_table_border',
+                'label' => __('Border', 'master-addons'),
+                'selector' => '{{WRAPPER}} .jltma-table td,{{WRAPPER}} .jltma-table th',
+            ]
+        );
+
+        $this->add_control(
+            'ma_el_table_border_radius',
+            [
+                'label' => __('Border Radius', 'master-addons'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table' => 'border-collapse: separate; border-spacing: 0;',
+                    '{{WRAPPER}} .jltma-table thead tr:first-child th:first-child' => 'border-top-left-radius: {{TOP}}{{UNIT}};',
+                    '{{WRAPPER}} .jltma-table thead tr:first-child th:last-child' => 'border-top-right-radius: {{RIGHT}}{{UNIT}};',
+                    '{{WRAPPER}} .jltma-table tbody tr:last-child td:first-child' => 'border-bottom-left-radius: {{BOTTOM}}{{UNIT}};',
+                    '{{WRAPPER}} .jltma-table tbody tr:last-child td:last-child' => 'border-bottom-right-radius: {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+
+        /*
+         * Table Header
+         */
+
+        $this->start_controls_section(
+            'ma_el_table_header_style',
+            [
+                'label' => __('Table Header Style', 'master-addons'),
+                'tab' => Controls_Manager::TAB_STYLE,
+                'condition' => [
+                    'ma_el_show_table_head' => 'yes',
+                ],
+            ]
+            
+        );
+
+        $this->add_control(
+            'ma_el_table_header_bg_color',
+            [
+                'label' => __('Background Color', 'master-addons'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#020817',
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table .jltma-table-header th' => 'background-color: {{VALUE}};',
+                ],
+                'condition' => [
+                    'ma_el_show_table_head' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'ma_el_table_header_icon_size',
+            [
+                'label' => esc_html__('Icon Size (px)', 'master-addons'),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => ['px'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 100,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 18,
+                ],
+                'selectors' => array(
+                    '{{WRAPPER}} .jltma-table .jltma-table-header span i' => 'font-size:{{SIZE}}{{UNIT}} !important;',
+                    '{{WRAPPER}} .jltma-table .jltma-table-header span svg' => 'width:{{SIZE}}{{UNIT}} !important;',
+                ),
+                'style_transfer' => true,
+                'condition' => [
+                    'ma_el_show_table_head' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'ma_el_table_header_icon_color',
+            [
+                'label' => __('Icon Color', 'master-addons'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table .jltma-table-header span i' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .jltma-table .jltma-table-header span svg path' => 'fill: {{VALUE}};',
+                ],
+                'condition' => [
+                    'ma_el_show_table_head' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'ma_el_table_header_text_color',
+            [
+                'label' => __('Text Color', 'master-addons'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table .jltma-table-header th' => 'color: {{VALUE}};',
+                ],
+                'condition' => [
+                    'ma_el_show_table_head' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'ma_el_table_header_align',
+            [
+                'label' => __('Alignment', 'master-addons'),
+                'type' => Controls_Manager::CHOOSE,
+                'options' => Helper::jltma_content_alignments(),
+                'default' => 'left',
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table .jltma-table-header th' => 'text-align: {{VALUE}} !important;',
+                ],
+                'condition' => [
+                    'ma_el_show_table_head' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'ma_el_table_header_typography',
+                'selector' => '{{WRAPPER}} .jltma-table .jltma-table-header th',
+                'global' => [
+                    'default' => Global_Typography::TYPOGRAPHY_TEXT,
+                ],
+                'condition' => [
+                    'ma_el_show_table_head' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'ma_el_table_header_padding',
+            [
+                'label' => __('Inner Cell Padding', 'master-addons'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table .jltma-table-header td,{{WRAPPER}} .jltma-table .jltma-table-header th' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+                'condition' => [
+                    'ma_el_show_table_head' => 'yes',
+                ],
+            ]
+        );
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'ma_el_table_body_style',
+            [
+                'label' => __('Table Body', 'master-addons'),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+            'ma_el_table_body_bg_color',
+            [
+                'label' => __('Background Color', 'master-addons'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table .jltma-table-body' => 'background-color: {{VALUE}};',
+                ]
+            ]
+        );
+
+        $this->add_control(
+            'ma_el_table_body_text_color',
+            [
+                'label' => __('Text Color', 'master-addons'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table .jltma-table-body' => 'color: {{VALUE}};',
+                ]
+            ]
+        );
+
+        $this->add_control(
+            'ma_el_table_body_icon_size',
+            [
+                'label' => esc_html__('Icon Size (px)', 'master-addons'),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => ['px'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 100,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 18,
+                ],
+                'selectors' => array(
+                    '{{WRAPPER}} .jltma-table .jltma-table-body span i' => 'font-size:{{SIZE}}{{UNIT}} !important;',
+                    '{{WRAPPER}} .jltma-table .jltma-table-body span svg' => 'width:{{SIZE}}{{UNIT}}; box-sizing: content-box;',
+                ),
+                'style_transfer' => true
+            ]
+        );
+
+        $this->add_control(
+            'ma_el_table_body_icon_color',
+            [
+                'label' => __('Icon Color', 'master-addons'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table .jltma-table-body span i' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .jltma-table .jltma-table-body span svg path' => 'fill: {{VALUE}};',
+                ]
+            ]
+        );
+
+        $this->add_control(
+            'ma_el_table_body_icon_padding',
+            [
+                'label' => __('Icon Padding', 'master-addons'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table .jltma-table-body span i,svg' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'ma_el_table_body_align',
+            [
+                'label' => __('Alignment', 'master-addons'),
+                'type' => Controls_Manager::CHOOSE,
+                'options' => Helper::jltma_content_alignments(),
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table .jltma-table-body tr, {{WRAPPER}} .jltma-table .jltma-table-body td' => 'text-align: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'ma_el_table_body_typography',
+                'selector' => '{{WRAPPER}} .jltma-table .jltma-table-body tr, {{WRAPPER}} .jltma-table .jltma-table-body td',
+                'global' => [
+                    'default' => Global_Typography::TYPOGRAPHY_TEXT,
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'ma_el_table_body_padding',
+            [
+                'label' => __('Inner Cell Padding', 'master-addons'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .jltma-table .jltma-table-body tr,{{WRAPPER}} .jltma-table .jltma-table-body td' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+    }
+
+    protected function render()
+    {
+        $settings = $this->get_settings_for_display();
+
+        $this->add_render_attribute(
+            'ma_el_table_wrap',
+            'class',
+            [
+                'jltma-table',
+                'table',
+                ('yes' === $settings['ma_el_table_body_striped_bg']) ? "table-striped" : "",
+                ('yes' !== $settings['ma_el_table_body_responsiveness']) ? "not-responsive" : ""
+            ]
+        );
+        ?>
+
+        <table <?php echo $this->get_render_attribute_string('ma_el_table_wrap'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Elementor safe HTML ?>>
+            <?php if ('yes' === $settings['ma_el_show_table_head']) : ?>
+            <thead class="jltma-table-header">
+                <tr>
+                    <?php foreach ($settings['ma_el_table_header'] as $index => $thead) {
+                        $repeater_setting_key = $this->get_repeater_setting_key('title', 'ma_el_table_header', $index);
+                        $icon_key = $this->get_repeater_setting_key('icon', 'ma_el_table_header', $index);
+                        $this->add_inline_editing_attributes($repeater_setting_key);
+
+                        $colspan = !empty($thead['colspannumber']) ? ' colspan="' . esc_attr($thead['colspannumber']) . '"' : '';
+                        ?>
+
+                        <th scope="jltma-row"
+                            class="elementor-inline-editing elementor-repeater-item-<?php echo esc_attr($thead['_id']); ?>"<?php echo $colspan; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- value already escaped above ?>             <?php echo $this->get_render_attribute_string($repeater_setting_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Elementor safe HTML ?>>
+
+                            <?php if ('icon' === $thead['icon_type'] && (!empty($thead['header_icon']) || !empty($thead['header_icon']['value']))) { ?>
+                                <span <?php echo $this->get_render_attribute_string($repeater_setting_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Elementor safe HTML ?>>
+                                    <?php
+                                    $migrated = isset($thead['__fa4_migrated']['header_icon']);
+                                    $is_new = empty($thead['icon']) && Icons_Manager::is_migration_allowed();
+                                    if ($is_new || $migrated) {
+                                        Icons_Manager::render_icon($thead['header_icon'], ['aria-hidden' => 'true']);
+                                    } else { ?>
+                                        <i class="<?php echo esc_attr($thead['icon']); ?>" aria-hidden="true"></i>
+                                    <?php } ?>
+                                </span>
+
+                            <?php } elseif ('image' === $thead['icon_type']) {
+
+                                $this->add_render_attribute('ma_el_thead_img' . $index, [
+                                    'src' => esc_url($thead['header_image']['url']),
+                                    'class' => 'jltma-thead-img',
+                                    'style' => "width:{$thead['header_image_size']}px;",
+                                    'alt' => esc_attr(get_post_meta($thead['header_image']['id'], '_wp_attachment_image_alt', true))
+                                ]);
+                                ?>
+                                <img <?php echo $this->get_render_attribute_string('ma_el_thead_img' . $index); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Elementor safe HTML ?>>
+                            <?php } ?>
+
+                            <?php echo $this->parse_text_editor($thead['title']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Elementor safe HTML ?>
+
+                        </th>
+
+                    <?php } ?>
+                </tr>
+            </thead>
+            <?php endif; ?>
+
+            <tbody class="jltma-table-body">
+                <tr>
+                    <?php
+                    $th_values = is_array($settings['ma_el_table_header']) ? $settings['ma_el_table_header'] : [];
+                    $show_head = ('yes' === $settings['ma_el_show_table_head']);
+                    $counter = 0;
+                    foreach ($settings['ma_el_table_body'] as $index => $tbody) {
+                        $table_body_key = $this->get_repeater_setting_key('text', 'ma_el_table_body', $index);
+                        $icon_key = $this->get_repeater_setting_key('icon', 'ma_el_table_body', $index);
+
+                        $this->add_render_attribute($table_body_key, 'class', 'elementor-repeater-item-' . esc_attr($tbody['_id']));
+                        $this->add_inline_editing_attributes($table_body_key);
+
+                        if ($tbody['body_row'] == 'yes') {
+                            echo '</tr><tr>';
+                            $counter = 0;
+                        }
+
+                        $colspan = ($tbody['colspannumber']) ? 'colSpan="' . esc_attr($tbody['colspannumber']) . '"' : '';
+                        $rowspan = ($tbody['rowspannumber']) ? 'rowSpan="' . esc_attr($tbody['rowspannumber']) . '"' : '';
+                        $data_column = ($show_head && isset($th_values[$counter]['title'])) ? $th_values[$counter]['title'] : '';
+                        ?>
+
+                        <td data-column="<?php echo esc_attr($data_column); ?>" <?php echo $colspan; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- value already escaped above ?>
+                            <?php echo $rowspan; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- value already escaped above ?>             <?php echo $this->get_render_attribute_string($table_body_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Elementor safe HTML ?>>
+
+                            <?php echo $this->parse_text_editor($tbody['text']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Elementor safe HTML ?>
+
+                            <?php if ('icon' === $tbody['icon_type'] && (!empty($tbody['body_icon']) || !empty($tbody['body_icon']['value']))) { ?>
+                                <span <?php echo $this->get_render_attribute_string($table_body_key); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Elementor safe HTML ?>>
+                                    <?php
+                                    $migrated = isset($tbody['__fa4_migrated']['body_icon']);
+                                    $is_new = empty($tbody['icon']) && Icons_Manager::is_migration_allowed();
+                                    if ($is_new || $migrated) {
+                                        Icons_Manager::render_icon($tbody['body_icon'], ['aria-hidden' => 'true']);
+                                    } else { ?>
+                                        <i class="<?php echo esc_attr($tbody['icon']); ?>" aria-hidden="true"></i>
+                                    <?php } ?>
+                                </span>
+                            <?php } elseif ('image' === $tbody['icon_type']) {
+
+                                $this->add_render_attribute('ma_el_tbody_img' . esc_attr($index), [
+                                    'src' => esc_url($tbody['body_image']['url']),
+                                    'class' => 'jltma-tbody-img',
+                                    'style' => "width:{$tbody['body_image_size']}px;",
+                                    'alt' => esc_attr(get_post_meta($tbody['body_image']['id'], '_wp_attachment_image_alt', true))
+                                ]);
+                                ?>
+                                <img <?php echo $this->get_render_attribute_string('ma_el_tbody_img' . esc_attr($index)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Elementor safe HTML ?>>
+                            <?php } ?>
+
+                        </td>
+                        <?php
+                        $counter++;
+                    }
+                    ?>
+
+                </tr>
+            </tbody>
+        </table>
+
+        <?php
+    }
+}

@@ -18,30 +18,30 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 
 class Author_Picture extends Data_Tag {
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-author-profile-picture';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Photo auteur', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Author photo', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-author-groupe';
+	public function get_group(): array {
+		return array( 'eac-author-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array(
 			TagsModule::IMAGE_CATEGORY,
 			TagsModule::MEDIA_CATEGORY,
 		);
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->add_control(
 			'author_picture_size',
 			array(
-				'label'   => esc_html__( 'Dimension', 'eac-components' ),
+				'label'   => esc_html__( 'Size', 'eac-components' ),
 				'type'    => Controls_Manager::SELECT,
 				'default' => '96',
 				'options' => array(
@@ -56,7 +56,7 @@ class Author_Picture extends Data_Tag {
 		);
 	}
 
-	public function get_value( array $options = array() ) {
+	public function get_value( array $options = array() ): array {
 		global $authordata;
 		$size = $this->get_settings( 'author_picture_size' );
 

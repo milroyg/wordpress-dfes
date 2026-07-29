@@ -1,0 +1,242 @@
+/* Jltma InfoBox Start */
+.jltma-infobox .jltma-infobox-item {
+  border-radius: 5px;
+  padding: 1.875rem;
+  transition: all 0.3s ease;
+}
+.jltma-infobox .jltma-infobox-content {
+  text-align: right;
+}
+.jltma-infobox .jltma-infobox-icon {
+  color: #4b00e7;
+  font-size: 20px;
+}
+.jltma-infobox .jltma-infobox-icon svg {
+  height: 60px;
+  width: 60px;
+}
+.jltma-infobox .jltma-infobox-icon .jltma-inner-content img {
+  margin: 0 auto;
+}
+.jltma-infobox .jltma-infobox-content-title {
+  color: #393c3f;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 0 0 10px 0;
+}
+.jltma-infobox .jltma-infobox-content-description {
+  color: #78909c;
+  font-size: 16px;
+  margin: 10px auto;
+}
+.jltma-infobox .bg-fade-icon {
+  color: #4b00e7;
+  position: absolute;
+  left: -15px;
+  bottom: -20px;
+  opacity: 0.2;
+  z-index: -1;
+}
+.jltma-infobox .bg-fade-icon i,
+.jltma-infobox .bg-fade-icon span {
+  font-size: 7rem;
+}
+.jltma-infobox .bg-fade-icon svg {
+  height: 100px;
+  width: 100px;
+}
+.jltma-infobox.one .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content i {
+  font-size: 3rem;
+}
+.jltma-infobox.two .jltma-infobox-item, .jltma-infobox.three .jltma-infobox-item {
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+}
+.jltma-infobox.three .jltma-infobox-item .jltma-infobox-icon {
+  background: #4b00e7;
+  border-top-right-radius: 5px;
+  color: #fff;
+  font-size: 2.5rem;
+  right: 0;
+  top: 0;
+  padding: 0.5rem 1.5rem;
+  position: absolute;
+}
+.jltma-infobox.three .jltma-infobox-item .jltma-infobox-content {
+  padding-top: 3rem;
+}
+.jltma-infobox.four .jltma-infobox-item {
+  align-items: center;
+  transition: 0.3s ease;
+}
+.jltma-infobox.four .jltma-infobox-item .jltma-infobox-icon {
+  background: #4b00e7;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 2rem;
+  height: 90px;
+  width: 90px;
+  line-height: 90px;
+  margin: 0 auto;
+  text-align: center;
+  transition: 0.3s ease;
+}
+.jltma-infobox.four .jltma-infobox-item .jltma-infobox-icon.image {
+  position: relative;
+}
+.jltma-infobox.four .jltma-infobox-item .jltma-infobox-icon.image .jltma-inner-content {
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  transform: translate(50%, -50%);
+}
+.jltma-infobox.four .jltma-infobox-item .jltma-inner-content,
+.jltma-infobox.four .jltma-infobox-item .jltma-infobox-content {
+  text-align: center;
+}
+.jltma-infobox.four .jltma-infobox-item .jltma-infobox-content-description {
+  transition: 0.3s ease;
+}
+.jltma-infobox.five {
+  margin: -10px;
+}
+.jltma-infobox.five .jltma-infobox-item {
+  display: flex;
+  align-items: flex-start;
+  transition: all 0.3s ease;
+}
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-icon {
+  margin-top: -20px;
+  margin-right: -20px;
+  margin-left: 30px;
+  color: #fff;
+  width: 80px;
+}
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content i,
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content svg,
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content img {
+  display: block !important;
+  position: absolute;
+  transform: skewX(30deg) rotate(-30deg) scale(1);
+  right: 30%;
+  top: 25%;
+}
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content i {
+  font-size: 4rem;
+}
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-content-title,
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-content-description {
+  transition: all 0.3s ease;
+}
+.jltma-infobox.six .jltma-infobox-item .jltma-infobox-icon.image {
+  position: relative;
+}
+.jltma-infobox.six .jltma-infobox-item .jltma-infobox-icon.image .jltma-inner-content {
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  transform: translate(50%, -50%);
+}
+
+.jltma-infobox.nine .jltma-infobox-item:hover .jltma-infobox-content-title,
+.jltma-infobox.nine .jltma-infobox-item:hover .jltma-infobox-content-description {
+  color: #000;
+}
+
+.jltma-infobox.ten .jltma-infobox-item .jltma-infobox-icon img {
+  width: inherit !important;
+  height: inherit !important;
+  line-height: inherit !important;
+  right: 3px !important;
+  top: 18px !important;
+}
+.jltma-infobox.ten .jltma-infobox-item:hover .jltma-infobox-icon {
+  color: #fff;
+  background: #4b00e7;
+}
+.jltma-infobox.ten .jltma-infobox-item:hover .jltma-infobox-content-title {
+  color: #e8156e;
+}
+.jltma-infobox.eight .jltma-infobox-icon.image {
+  display: block;
+}
+.jltma-infobox.eight .jltma-infobox-icon .jltma-inner-content i,
+.jltma-infobox.eight .jltma-infobox-icon .jltma-inner-content svg,
+.jltma-infobox.eight .jltma-infobox-icon .jltma-inner-content img {
+  display: block !important;
+  position: absolute;
+  transform: skewX(30deg) rotate(-30deg) scale(1);
+  right: 30%;
+  top: 25%;
+}
+.jltma-infobox.eight .jltma-infobox-icon .jltma-inner-content i {
+  font-size: 4rem !important;
+}
+
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-icon, .jltma-infobox.eight .jltma-infobox-item .jltma-infobox-icon {
+  z-index: 0;
+}
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-icon i,
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-icon svg,
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-icon img, .jltma-infobox.eight .jltma-infobox-item .jltma-infobox-icon i,
+.jltma-infobox.eight .jltma-infobox-item .jltma-infobox-icon svg,
+.jltma-infobox.eight .jltma-infobox-item .jltma-infobox-icon img {
+  font-size: 2rem;
+  height: 80px;
+  width: 80px;
+  line-height: 80px;
+  text-align: center;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content, .jltma-infobox.eight .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content {
+  border-radius: 15px;
+  position: absolute;
+  top: -90px;
+  right: -50px;
+  overflow: hidden;
+  display: inline-block;
+  margin: 48px 0;
+  width: 180px;
+  height: 165px;
+  z-index: -1;
+  transform: rotate(30deg) skewX(-30deg) scale(0.5);
+}
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content i,
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content svg,
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content img, .jltma-infobox.eight .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content i,
+.jltma-infobox.eight .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content svg,
+.jltma-infobox.eight .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content img {
+  display: none;
+}
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content *:before, .jltma-infobox.eight .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content *:before {
+  display: block;
+  overflow: hidden;
+  width: inherit;
+  height: inherit;
+  border-radius: inherit;
+}
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content .jltma-hexagon-shape, .jltma-infobox.eight .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content .jltma-hexagon-shape {
+  height: 100%;
+  width: 100%;
+  transform: skewX(30deg) rotate(-60deg) skewX(-30deg);
+  opacity: 1;
+}
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content .jltma-hexagon-shape:before, .jltma-infobox.eight .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content .jltma-hexagon-shape:before {
+  transform: skewX(30deg) rotate(-60deg) skewX(-30deg);
+  background: #4b00e7;
+  content: "";
+  transition: all 0.3s ease;
+}
+.jltma-infobox.five .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content .jltma-shape-inner, .jltma-infobox.eight .jltma-infobox-item .jltma-infobox-icon .jltma-inner-content .jltma-shape-inner {
+  transform: skewX(30deg) rotate(-60deg) skewX(-30deg);
+  background: #4b00e7;
+  transition: all 0.3s ease;
+}
+.jltma-infobox.five .jltma-infobox-item:hover .jltma-infobox-content-title, .jltma-infobox.eight .jltma-infobox-item:hover .jltma-infobox-content-title {
+  color: #e8156e;
+}
+
+/* Jltma InfoBox End */

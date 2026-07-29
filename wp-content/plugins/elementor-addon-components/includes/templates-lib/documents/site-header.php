@@ -1,6 +1,6 @@
 <?php
 /**
- * Class: SiteHeader
+ * Class: Site_Header
  *
  * Description: Implémentation les propriétés de 'Library_Document'
  * Ajoute les controls des conditions d'affichage dans les paramétrages du document
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Plugin;
 use Elementor\Utils;
@@ -24,9 +24,9 @@ use Elementor\Modules\Library\Documents\Library_Document;
 use Elementor\TemplateLibrary\Source_Local;
 
 /**
- * SiteHeader
+ * Site_Header
  */
-final class SiteHeader extends Library_Document {
+final class Site_Header extends Library_Document {
 
 	/**
 	 * @var string
@@ -41,7 +41,7 @@ final class SiteHeader extends Library_Document {
 	 * @return array Document properties.
 	 * Ajout de la propriété 'cpt' pour l'import du template
 	 */
-	public static function get_properties() {
+	public static function get_properties(): array {
 		return array(
 			'has_elements'              => true,
 			'is_editable'               => true,
@@ -54,6 +54,7 @@ final class SiteHeader extends Library_Document {
 			'support_kit'               => true,
 			'support_wp_page_templates' => false,
 			'cpt'                       => array( Source_Local::CPT ),
+			'export_group'              => Library_Document::EXPORT_GROUP,
 		);
 	}
 
@@ -64,28 +65,28 @@ final class SiteHeader extends Library_Document {
 	 *
 	 * @return string Document name.
 	 */
-	public function get_name() {
+	public function get_name(): string {
 		return self::TYPE;
 	}
 
 	/**
 	 * @return string Document title.
 	 */
-	public static function get_title() {
-		return esc_html__( 'Entête', 'eac-components' );
+	public static function get_title(): string {
+		return esc_html__( 'Header', 'eac-components' );
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_css_wrapper_selector() {
+	public function get_css_wrapper_selector(): string {
 		return '.eac-site-header';
 	}
 
 	/**
 	 * Override container attributes
 	 */
-	public function get_container_attributes() {
+	public function get_container_attributes(): array {
 		$id = $this->get_main_id();
 
 		$settings = $this->get_frontend_settings();
@@ -98,6 +99,9 @@ final class SiteHeader extends Library_Document {
 			'itemscope'           => 'itemscope',
 			'itemtype'            => 'https://schema.org/WPHeader',
 		);
+		if ( ! empty( $settings ) ) {
+			$attributes['data-elementor-settings'] = wp_json_encode( $settings );
+		}
 
 		return $attributes;
 	}
@@ -106,41 +110,30 @@ final class SiteHeader extends Library_Document {
 	 * Override default wrapper.
 	 * Check feature active
 	 */
-	public function print_elements_with_wrapper( $data = null ) {
+	public function print_elements_with_wrapper( $data = null ): void {
 		if ( ! $data ) {
 			$data = $this->get_elements_data();
 		}
 
 		do_action( 'before_print_eac_site_header', $data );
-
-		$is_dom_optimization_active = Plugin::$instance->experiments->is_feature_active( 'e_dom_optimization' );
 		?>
 		<header <?php Utils::print_html_attributes( $this->get_container_attributes() ); ?>>
-			<?php if ( ! $is_dom_optimization_active ) : ?>
-			<div class="elementor-inner">
-				<div class="elementor-section-wrap">
-			<?php endif; ?>
-				<?php $this->print_elements( $data ); ?>
-			<?php if ( ! $is_dom_optimization_active ) : ?>
-				</div>
-			</div>
-			<?php endif; ?>
+			<?php $this->print_elements( $data ); ?>
 		</header>
 		<?php
-
 		do_action( 'after_print_eac_site_header', $data );
 	}
 
 	/**
 	 * Register controls
 	 */
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->register_document_controls();
 
 		$this->start_controls_section(
 			'display_condition',
 			array(
-				'label' => esc_html__( "Conditions d'affichage", 'eac-components' ),
+				'label' => esc_html__( 'Display conditions', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_SETTINGS,
 			)
 		);
@@ -149,7 +142,7 @@ final class SiteHeader extends Library_Document {
 			'meta_block_select',
 			array(
 				'type'            => Controls_Manager::RAW_HTML,
-				'raw'             => esc_html__( "Si plusieurs modèles ont la même condition d'affichage, le dernier modèle mis à jour sera utilisé.", 'eac-components' ),
+				'raw'             => esc_html__( 'If multiple templates have the same display condition, the last updated one will be used.', 'eac-components' ),
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
 			)
 		);
@@ -157,22 +150,22 @@ final class SiteHeader extends Library_Document {
 		$this->add_control(
 			'show_on',
 			array(
-				'label'       => esc_html__( 'Afficher avec', 'eac-components' ),
+				'label'       => esc_html__( 'Show on', 'eac-components' ),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => true,
 				'default'     => 'none',
 				'options'     => array(
-					'none'     => esc_html__( 'Aucun', 'eac-components' ),
-					'global'   => esc_html__( 'Le site entier', 'eac-components' ),
-					'blog'     => esc_html__( 'Page du blog', 'eac-components' ),
-					'front'    => esc_html__( "Page d'accueil", 'eac-components' ),
-					'archive'  => esc_html__( "Pages d'archives", 'eac-components' ),
+					'none'     => esc_html__( 'None', 'eac-components' ),
+					'global'   => esc_html__( 'Entire site', 'eac-components' ),
+					'blog'     => esc_html__( 'Blog page', 'eac-components' ),
+					'front'    => esc_html__( 'Front page', 'eac-components' ),
+					'archive'  => esc_html__( 'Archive pages', 'eac-components' ),
 					'singular' => esc_html__( 'Singular pages', 'eac-components' ),
-					'err404'   => esc_html__( 'Page erreur 404', 'eac-components' ),
-					'search'   => esc_html__( 'Résultat de la recherche', 'eac-components' ),
-					'privacy'  => esc_html__( 'Politique de confidentialité', 'eac-components' ),
-					'wc_shop'  => esc_html__( 'Boutique WooCommerce', 'eac-components' ),
-					'custom'   => esc_html__( 'Personnalisé', 'eac-components' ),
+					'err404'   => esc_html__( 'Error 404 page', 'eac-components' ),
+					'search'   => esc_html__( 'Search result page', 'eac-components' ),
+					'privacy'  => esc_html__( 'Privacy policy page', 'eac-components' ),
+					'wc_shop'  => esc_html__( 'WooCommerce shop page', 'eac-components' ),
+					'custom'   => esc_html__( 'Custom', 'eac-components' ),
 				),
 			)
 		);
@@ -180,7 +173,7 @@ final class SiteHeader extends Library_Document {
 		$this->add_control(
 			'singular_pages',
 			array(
-				'label'       => esc_html__( 'Sélectionner les types singular', 'eac-components' ),
+				'label'       => esc_html__( 'Select singular type(s)', 'eac-components' ),
 				'label_block' => true,
 				'type'        => Controls_Manager::SELECT2,
 				'multiple'    => true,
@@ -194,7 +187,7 @@ final class SiteHeader extends Library_Document {
 		$this->add_control(
 			'archive_pages',
 			array(
-				'label'       => esc_html__( "Sélectionner les types d'archives", 'eac-components' ),
+				'label'       => esc_html__( 'Select archive type(s)', 'eac-components' ),
 				'label_block' => true,
 				'type'        => Controls_Manager::SELECT2,
 				'multiple'    => true,
@@ -208,14 +201,13 @@ final class SiteHeader extends Library_Document {
 		$this->end_controls_section();
 
 		/** @since 2.3.7 */
-		$feature_css = Eac_Config_Elements::is_feature_active( 'custom-css' ) && ! Eac_Config_Elements::is_feature_active( 'editor-role' );
-		$design_css  = Eac_Config_Elements::is_feature_active( 'custom-css' ) && Eac_Config_Elements::is_feature_active( 'editor-role' ) && \Elementor\Plugin::$instance->role_manager->user_can( 'design' );
+		$feature_css = Eac_Load_Config::is_feature_active( 'custom-css' ) && ! Eac_Load_Config::is_feature_active( 'editor-role' );
+		$design_css  = Eac_Load_Config::is_feature_active( 'custom-css' ) && Eac_Load_Config::is_feature_active( 'editor-role' ) && \Elementor\Plugin::$instance->role_manager->user_can( 'design' );
 		if ( $feature_css || $design_css ) {
-
 			$this->start_controls_section(
 				'header_css',
 				array(
-					'label' => esc_html__( 'CSS personnalisé', 'eac-components' ),
+					'label' => esc_html__( 'Custom CSS', 'eac-components' ),
 					'tab'   => Controls_Manager::TAB_ADVANCED,
 				)
 			);
@@ -224,7 +216,7 @@ final class SiteHeader extends Library_Document {
 					'custom_css',
 					array(
 						'type'        => Controls_Manager::CODE,
-						'label'       => esc_html__( 'Ajoutez votre propre CSS', 'eac-components' ),
+						'label'       => esc_html__( 'Add your own CSS', 'eac-components' ),
 						'language'    => 'css',
 						'render_type' => 'ui',
 						'separator'   => 'none',
@@ -236,8 +228,8 @@ final class SiteHeader extends Library_Document {
 					array(
 						'type' => Controls_Manager::RAW_HTML,
 						'raw' => sprintf(
-							/* translators: 1: Link opening tag, 2: Link opening tag, 3: Link closing tag. */
-							esc_html__( 'Personnaliser le contenu avec %1$svotre CSS personnalisé%3$s et utiliser %2$sle mot-clé%3$s "selector" pour cibler des éléments particuliers.', 'eac-components' ),
+							/* translators: 1: Link opening tag, 2: Content tag, 3: Link closing tag. */
+							esc_html__( 'Customize content with %1$syour CSS%3$s and use %2$sthe keyword "selector"%3$s to target specific elements', 'eac-components' ),
 							'<a href="https://elementor-addon-components.com/elementor-custom-css/" target="_blank" rel="noopener noreferrer">',
 							'<a href="https://elementor-addon-components.com/elementor-custom-css/#use-the-selector-keyword-to-target-an-element" target="_blank" rel="noopener noreferrer">',
 							'</a>',
@@ -259,16 +251,17 @@ final class SiteHeader extends Library_Document {
 		global $wp_post_types;
 
 		$options = array(
-			'post'       => esc_html__( 'Article', 'eac-components' ),
+			'post'       => esc_html__( 'Post', 'eac-components' ),
 			'page'       => esc_html__( 'Page', 'eac-components' ),
-			'attachment' => esc_html__( 'Attachement', 'eac-components' ),
+			'attachment' => esc_html__( 'Attachment', 'eac-components' ),
 		);
 
 		foreach ( $wp_post_types as $type => $object ) {
 			if ( $object->public && ! $object->_builtin && Source_Local::CPT !== $type ) {
-				$options[ $type ] = $object->labels->singular_name;
+				$options[ esc_attr( $type ) ] = esc_html( $object->labels->singular_name );
 			}
 		}
+		asort( $options, SORT_NATURAL | SORT_FLAG_CASE );
 		return $options;
 	}
 
@@ -281,23 +274,24 @@ final class SiteHeader extends Library_Document {
 		global $wp_taxonomies, $wp_post_types;
 
 		$options = array(
-			'author'   => esc_html__( 'Auteur', 'eac-components' ),
+			'author'   => esc_html__( 'Author', 'eac-components' ),
 			'date'     => esc_html__( 'Date', 'eac-components' ),
-			'post_tag' => esc_html__( 'Étiquette', 'eac-components' ),
-			'category' => esc_html__( 'Catégorie', 'eac-components' ),
+			'post_tag' => esc_html__( 'Tag', 'eac-components' ),
+			'category' => esc_html__( 'Category', 'eac-components' ),
 		);
 
 		foreach ( $wp_taxonomies as $type => $object ) {
 			if ( $object->public && ! $object->_builtin && 'product_shipping_class' !== $type ) {
-				$options[ $type ] = $object->labels->name;
+				$options[ esc_attr( $type ) ] = esc_html( $object->labels->name );
 			}
 		}
 
 		foreach ( $wp_post_types as $type => $object ) {
 			if ( $object->public && ! $object->_builtin && Source_Local::CPT !== $type ) {
-				$options[ $type ] = $object->labels->name;
+				$options[ esc_attr( $type ) ] = esc_html( $object->labels->name );
 			}
 		}
+		asort( $options, SORT_NATURAL | SORT_FLAG_CASE );
 		return $options;
 	}
 }

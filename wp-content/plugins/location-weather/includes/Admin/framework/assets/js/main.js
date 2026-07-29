@@ -508,103 +508,6 @@
 	};
 
 	//
-	// Options Save
-	//
-	$.fn.splwt_save = function () {
-		return this.each(function () {
-
-			var $this = $(this),
-				$buttons = $('.splwt-lite-save'),
-				$panel = $('.splwt-lite-options'),
-				flooding = false,
-				timeout;
-
-			$this.on('click', function (e) {
-
-				if (!flooding) {
-
-					var $text = $this.data('save'),
-						$value = $this.val();
-
-					$buttons.attr('value', $text);
-
-					if ($this.hasClass('splwt-lite-save-ajax')) {
-
-						e.preventDefault();
-
-						$panel.addClass('splwt-lite-saving');
-						$buttons.prop('disabled', true);
-
-						window.wp.ajax.post('splwt_' + $panel.data('unique') + '_ajax_save', {
-							data: $('#splwt-lite-form').serializeJSONSPLWT(),
-							nonce: $('#splwt_options_nonce' + $panel.data('unique')).val(),
-						})
-							.done(function (response) {
-
-								// clear errors
-								$('.splwt-lite-error').remove();
-
-								if (Object.keys(response.errors).length) {
-
-									var error_icon = '<i class="splwt-lite-label-error splwt-lite-error">!</i>';
-
-									$.each(response.errors, function (key, error_message) {
-
-										var $field = $('[data-depend-id="' + key + '"]'),
-											$link = $('#splwt-lite-tab-link-' + ($field.closest('.splwt-lite-section').index() + 1)),
-											$tab = $link.closest('.splwt-lite-tab-depth-0');
-
-										$field.closest('.splwt-lite-fieldset').append('<p class="splwt-lite-error splwt-lite-error-text">' + error_message + '</p>');
-
-										if (!$link.find('.splwt-lite-error').length) {
-											$link.append(error_icon);
-										}
-
-										if (!$tab.find('.splwt-lite-arrow .splwt-lite-error').length) {
-											$tab.find('.splwt-lite-arrow').append(error_icon);
-										}
-
-									});
-
-								}
-
-								$panel.removeClass('splwt-lite-saving');
-								$buttons.prop('disabled', false).attr('value', $value);
-								flooding = false;
-
-								SPLW.vars.form_modified = false;
-								SPLW.vars.$form_warning.hide();
-
-								clearTimeout(timeout);
-
-								var $result_success = $('.splwt-lite-form-success');
-								$result_success.empty().append(response.notice).fadeIn('fast', function () {
-									timeout = setTimeout(function () {
-										$result_success.fadeOut('fast');
-									}, 1000);
-								});
-
-							})
-							.fail(function (response) {
-								alert(response.error);
-							});
-
-					} else {
-
-						SPLW.vars.form_modified = false;
-
-					}
-
-				}
-
-				flooding = true;
-
-			});
-
-		});
-	};
-
-	//
 	// Option Framework
 	//
 	$.fn.splwt_options = function () {
@@ -613,8 +516,7 @@
 			var $this = $(this),
 				$content = $this.find('.splwt-lite-content'),
 				$form_success = $this.find('.splwt-lite-form-success'),
-				$form_warning = $this.find('.splwt-lite-form-warning'),
-				$save_button = $this.find('.splwt-lite-header .splwt-lite-save');
+				$form_warning = $this.find('.splwt-lite-form-warning');
 
 			SPLW.vars.$form_warning = $form_warning;
 
@@ -1339,7 +1241,6 @@
 	//
 	$(document).ready(function () {
 
-		$('.splwt-lite-save').splwt_save();
 		$('.splwt-lite-options').splwt_options();
 		$('.splwt-lite-nav-options').splwt_nav_options();
 		$('.splwt-lite-nav-metabox').splwt_nav_metabox();
@@ -1653,15 +1554,6 @@
 			}
 		});
 	});
-	$(document).on('keyup change', '.splwt-lite-options #splwt-lite-form', function (e) {
-		e.preventDefault();
-		var $button = $(this).find('.splwt-lite-save');
-		$button.css({ "background-color": "#00C263", "pointer-events": "initial" }).val('Save Settings');
-	});
-	$('.splwt-lite-options .splwt-lite-save').on('click', function (e) {
-		e.preventDefault();
-		$(this).css({ "background-color": "#C5C5C6", "pointer-events": "none", "background-position": '11px center' }).val('Changes Saved');
-	})
 
 	// Live Preview script.
 	var preview_box = $('#sp_location_weather-preview-box');

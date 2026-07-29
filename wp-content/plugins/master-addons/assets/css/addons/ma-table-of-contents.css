@@ -1,0 +1,185 @@
+/* Start of MA Table of Contents */
+.jltma-toc-header {
+  display: table;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.jltma-toc-heading,
+.jltma-toc-heading a,
+.jltma-toc-switch {
+  display: table-cell;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.jltma-toc-auto-collapse .jltma-toc-header,
+.jltma-toc-hidden .jltma-toc-header {
+  margin-bottom: 0;
+}
+
+.jltma-toc-switch .jltma-toc-icon::before {
+  content: "\f106";
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.jltma-toc-auto-collapse .jltma-toc-switch .jltma-toc-icon:before,
+.jltma-toc-hidden .jltma-toc-switch .jltma-toc-icon:before {
+  content: "\f107";
+}
+
+.jltma-toc-switch {
+  text-align: right;
+}
+
+.jltma-toc-wrapper {
+  display: inline-block;
+  padding: 25px;
+  min-width: 100%;
+}
+
+.jltma-toc-switch {
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.jltma-toc-list li {
+  text-align: left;
+}
+
+.jltma-toc-list ul:first-child li:first-child {
+  margin-top: 0;
+}
+
+.jltma-toc-heading,
+.jltma-toc-heading a {
+  font-size: 25px;
+}
+
+.jltma-toc-content-wrapper {
+  font-size: 16px;
+}
+
+.jltma-toc-auto-collapse .jltma-separator-parent,
+.jltma-toc-auto-collapse .jltma-toc-toggle-content {
+  display: none;
+}
+
+.elementor-element.elementor-widget-ma-table-of-contents .jltma-toc-switch {
+  color: inherit;
+}
+
+.elementor-element.elementor-widget-ma-table-of-contents .jltma-toc-switch:hover {
+  background-color: inherit;
+}
+
+.jltma-toc-content-wrapper ol {
+  counter-reset: item;
+}
+
+.jltma-toc-content-wrapper ol li {
+  display: block;
+}
+
+.jltma-toc-content-wrapper ol li:before {
+  content: counters(item, ".") ". ";
+  counter-increment: item;
+  margin-right: 5px;
+}
+
+.elementor-element.elementor-widget-ma-table-of-contents {
+  background-color: inherit;
+}
+
+.elementor-element.elementor-widget-ma-table-of-contents .jltma-toc-wrapper {
+  color: inherit;
+}
+
+.jltma-toc-list-none li {
+  list-style-type: none;
+}
+
+.jltma-toc-list-disc.jltma-toc-list ul {
+  list-style-type: circle;
+}
+
+.jltma-toc-list {
+  margin: 0;
+}
+
+.jltma-toc-toggle-content .jltma-toc-list-disc {
+  margin-left: 16px;
+}
+
+.jltma-toc-main-wrapper li:before {
+  content: "";
+}
+
+.jltma-toc-toggle-content,
+.jltma-toc-toggle-content.show {
+  display: block;
+}
+
+.jltma-toc-toggle-content.hide {
+  display: none;
+}
+
+.jltma-toc-header {
+  margin-bottom: 20px;
+}
+
+.jltma-toc-wrapper .jltma-separator {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.jltma-scroll-top-icon::before {
+  content: "\f077";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  text-decoration: inherit;
+}
+
+.jltma-scroll-top-icon {
+  content: "\f062";
+  font-family: "Font Awesome 5 Free";
+  display: none;
+  position: fixed;
+  text-align: center;
+  cursor: pointer;
+  z-index: 99;
+  width: 2.1em;
+  height: 2.1em;
+  line-height: 2.1;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  color: #fff;
+  background-color: #6ec1e4;
+  font-size: 15px;
+  font-size: 0.8823529412rem;
+  right: 30px;
+  bottom: 30px;
+}
+
+.jltma-scroll-top-icon:focus,
+.jltma-scroll-top-icon:hover {
+  color: #fff;
+}
+
+.jltma-toc__show-scroll.jltma-scroll-top-icon {
+  display: inline;
+}
+
+.jltma-toc-empty-note {
+  display: none;
+}
+
+.jltma-toc-empty-content .jltma-toc-empty-note {
+  display: block;
+}
+
+/* End of MA Table of Contents */

@@ -18,13 +18,13 @@ use Elementor\Controls_Manager;
 
 class Logged_In_User extends Condition_Base {
 
-	public function get_target_control() {
+	public function get_target_control(): array {
 
 		return array(
-			'label'       => esc_html__( 'Valeur', 'eac-components' ),
+			'label'       => esc_html__( 'Value', 'eac-components' ),
 			'type'        => Controls_Manager::SELECT,
 			'options'     => array(
-				'not_logged_in' => esc_html__( 'Non connecté', 'eac-components' ),
+				'not_logged_in' => esc_html__( 'Not logged-in', 'eac-components' ),
 			),
 			'default'     => 'not_logged_in',
 			'label_block' => true,
@@ -35,11 +35,11 @@ class Logged_In_User extends Condition_Base {
 		);
 	}
 
-	public function get_called_classname() {
+	public function get_called_classname(): string {
 		return get_called_class();
 	}
 
-	public function check( $settings, $value, $operateur = '', $tz = '' ) {
+	public function check( $settings, $value, $operateur = '', $tz = '' ): bool {
 		if ( ! is_user_logged_in() || empty( $value ) ) {
 			return false;
 		}

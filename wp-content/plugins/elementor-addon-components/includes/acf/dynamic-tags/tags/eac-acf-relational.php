@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use EACCustomWidgets\Core\Utils\Eac_Tools_Util;
-use EACCustomWidgets\Includes\Acf\DynamicTags\Eac_Acf_Lib;
+use EACCustomWidgets\Includes\Acf\Eac_Acf_Lib;
 use Elementor\Controls_Manager;
 use Elementor\Core\DynamicTags\Tag;
 use Elementor\Modules\DynamicTags\Module as TagsModule;
@@ -31,42 +31,42 @@ class Eac_Acf_Relational extends Tag {
 	 *
 	 * Nombre de caractères maximum pour le résumé
 	 */
-	const EXCERPT_LENGTH = 30;
+	private const EXCERPT_LENGTH = 30;
 
 	/**
 	 * @const KEY_NUMBER
 	 *
 	 * Nombre d'articles à afficher
 	 */
-	const KEY_NUMBER = 2;
+	private const KEY_NUMBER = 2;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-relational-acf-values';
 	}
 
-	public function get_title() {
+	public function get_title(): string {
 		return esc_html__( 'Relational', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-acf-groupe';
+	public function get_group(): array {
+		return array( 'eac-acf-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array(
 			TagsModule::TEXT_CATEGORY,
 		);
 	}
 
-	public function get_panel_template_setting_key() {
+	public function get_panel_template_setting_key(): string {
 		return 'acf_relational_key';
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->add_control(
 			'acf_relational_key',
 			array(
-				'label'       => esc_html__( 'Champ', 'eac-components' ),
+				'label'       => esc_html__( 'Field', 'eac-components' ),
 				'type'        => Controls_Manager::SELECT,
 				'groups'      => Eac_Acf_Lib::get_acf_fields_options( $this->get_acf_supported_fields() ),
 				'label_block' => true,
@@ -74,7 +74,7 @@ class Eac_Acf_Relational extends Tag {
 		);
 	}
 
-	public function render() {
+	public function render(): void {
 		$field_value = '';
 		$key         = $this->get_settings( 'acf_relational_key' );
 
@@ -108,23 +108,15 @@ class Eac_Acf_Relational extends Tag {
 							}
 
 							$id = 'object' === $field['return_format'] ? absint( $value->ID ) : absint( $value );
-
 							$title = 'object' === $field['return_format'] ? esc_html( $value->post_title ) : esc_html( get_post( $id )->post_title );
-
 							if ( $featured ) {
 								$img = "<div class='acf-relational_img'><a href='" . esc_url( get_permalink( get_post( $id )->ID ) ) . "'>" . get_the_post_thumbnail( $id, 'thumbnail' ) . '</a></div>';
 							}
-
 							$title_link = "<div class='acf-relational_content'><div class='acf-relational_title'><a href='" . esc_url( get_permalink( get_post( $id )->ID ) ) . "'><h3>" . esc_html( $title ) . '</h3></a></div>';
-
 							$date_modif = "<div class='acf-relational_date'>" . esc_html( get_the_modified_date( get_option( 'date_format' ), $id ) ) . '</div>';
-
 							$excerpt = "<div class='acf-relational_excerpt'>" . Eac_Tools_Util::get_post_excerpt( $id, self::EXCERPT_LENGTH ) . '</div>';
-
 							$classes = implode( ' ', get_post_class( '', $id ) );
-
 							$article = "<article id='post-" . esc_attr( $id ) . "' class='" . esc_attr( $classes ) . "'>";
-
 							$values[] = "<div class='acf-relational_post'>" . $article . $img . $title_link . $date_modif . $excerpt . '</article></div>';
 						}
 
@@ -141,7 +133,7 @@ class Eac_Acf_Relational extends Tag {
 		echo wp_kses_post( $field_value );
 	}
 
-	protected function get_acf_supported_fields() {
+	protected function get_acf_supported_fields(): array {
 		return array(
 			'relationship',
 			'post_object',

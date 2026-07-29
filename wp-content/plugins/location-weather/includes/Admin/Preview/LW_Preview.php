@@ -47,6 +47,8 @@ class LW_Preview {
 	 * @since 2.1.1
 	 */
 	public function backend_preview() {
+		// Check user capabilities, current_user_can() is called internally.
+		location_weather_verify_capability();
 		$nonce = isset( $_POST['ajax_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['ajax_nonce'] ) ) : '';
 
 		if ( ! wp_verify_nonce( $nonce, 'splwt_metabox_nonce' ) ) {

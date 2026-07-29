@@ -19,27 +19,27 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 class Product_Featured_Gallery extends Data_Tag {
 	use \EACCustomWidgets\Includes\Traits\Product_Trait;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-woo-featured-gallery';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Galerie des produits vedettes', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Featured gallery', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-woo-groupe';
+	public function get_group(): array {
+		return array( 'eac-woo-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::GALLERY_CATEGORY );
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->add_control(
 			'woo_featured',
 			array(
-				'label'   => esc_html__( 'Nombre de produits', 'eac-components' ),
+				'label'   => esc_html__( 'Product count', 'eac-components' ),
 				'type'    => Controls_Manager::NUMBER,
 				'min'     => 1,
 				'max'     => 50,
@@ -51,8 +51,8 @@ class Product_Featured_Gallery extends Data_Tag {
 		$this->register_product_term_control();
 	}
 
-	public function get_value( array $options = array() ) {
-		$limit  = $this->get_settings( 'woo_featured' );
+	public function get_value( array $options = array() ): array {
+		$limit  = ! empty( $this->get_settings( 'woo_featured' ) ) ? $this->get_settings( 'woo_featured' ) : 10;
 		$termid = $this->get_settings( 'product_category' );
 		$value  = array();
 

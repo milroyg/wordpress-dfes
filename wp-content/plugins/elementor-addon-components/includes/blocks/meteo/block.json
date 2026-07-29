@@ -1,0 +1,116 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "eac-blocks/meteo",
+	"title": "EAC Weather Forecast",
+	"category": "widgets",
+	"icon": "cloud",
+	"description": "Displays the weather forecast for a city.",
+	"keywords": ["weather", "forecast", "day", "week", "chart"],
+	"textdomain": "eac-components",
+    "editorStyle": "file:./assets/css/editor.css",
+	"supports": {
+        "html": false,
+        "reusable": false,
+        "customClassName": true,
+        "visibility": false,
+        "align": false
+	},
+	"attributes": {
+        "className": {
+            "type": "string",
+            "default": ""
+        },
+        "align": {
+            "type": "string",
+            "default": ""
+        },
+		"clientIdent": {
+			"type": "string",
+			"default": ""
+		},
+		"city": {
+			"type": "string",
+			"default": "Paris"
+		},
+		"chartType": {
+			"type": "string",
+			"default": "line"
+		},
+		"tempUnit": {
+			"type": "string",
+			"default": "celsius"
+		},
+        "dateFormat": {
+			"type": "string",
+			"default": "d/m/Y"
+		},
+		"timeFormat": {
+			"type": "string",
+			"default": "24"
+		},
+		"selectedLanguage": {
+            "type": "string",
+            "default": ""
+        },
+		"meteoType": {
+            "type": "string",
+            "default": "day"
+        },
+        "renderType": {
+            "type": "string",
+            "default": "chart"
+        },
+		"displayXGrid": {
+            "type": "boolean",
+            "default": true
+        },
+		"displayYGrid": {
+            "type": "boolean",
+            "default": true
+        },
+		"displayHumidity": {
+            "type": "boolean",
+            "default": true
+        },
+		"fillLineContent": {
+            "type": "boolean",
+            "default": true
+        },
+		"marginTopBottom": {
+            "type": "object",
+            "default": {
+                "marginSup": 0,
+                "marginInf": 0,
+                "unit": "px"
+            }
+        },
+        "badgeStyle": {
+            "type": "object",
+            "default": {
+                "bgColor": null,
+                "color": null,
+                "fontSize": "1rem",
+                "fontSizeCity": "1.4rem",
+                "fontSizeTemp": "1.3rem"
+            }
+        },
+        "imageCardId": {
+            "type": "number",
+            "default": 0
+        },
+        "chartLabelFontSize": {
+            "type": "number",
+            "default": 10
+        },
+        "chartColors": {
+            "type": "object",
+            "default": {
+                "singleLine": null,
+                "multipleLineLow": null,
+                "multipleLineAvg": null,
+                "multipleLineHigh": null
+            }
+        }
+	}
+}

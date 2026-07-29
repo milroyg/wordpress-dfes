@@ -22,54 +22,47 @@ trait Page_Title_Trait {
 				$title         = sprintf( '%s: %s', $post_type_obj->labels->singular_name, $title );
 			}
 		} elseif ( is_search() ) {
-			/* translators: %s: Search term. */
-			$title = sprintf( esc_html__( 'Résultats de recherche pour: %s', 'eac-components' ), get_search_query() );
+			$title = sprintf( '%1$s: %2$s', esc_html__( 'Search results for', 'eac-components' ), get_search_query() );
 
 			if ( get_query_var( 'paged' ) ) {
-				/* translators: %s: Page number. */
-				$title .= sprintf( esc_html__( '&nbsp;&ndash; Page %s', 'eac-components' ), get_query_var( 'paged' ) );
+				$title .= sprintf( '&nbsp;&ndash; Page: %s', get_query_var( 'paged' ) );
 			}
 		} elseif ( is_category() ) {
 			$title = single_cat_title( '', false );
 
 			if ( $include_context ) {
-				/* translators: Category archive title. %s: Category name. */
-				$title = sprintf( esc_html__( 'Catégorie: %s', 'eac-components' ), $title );
+				$title = sprintf( '%1$s: %2$s', esc_html__( 'Category', 'eac-components' ), $title );
 			}
 		} elseif ( is_tag() ) {
 			$title = single_tag_title( '', false );
 			if ( $include_context ) {
-				/* translators: Tag archive title. %s: Tag name. */
-				$title = sprintf( esc_html__( 'Étiquette: %s', 'eac-components' ), $title );
+				$title = sprintf( '%1$s: %2$s', esc_html__( 'Tag', 'eac-components' ), $title );
 			}
 		} elseif ( is_author() ) {
 			$title = get_the_author();
 
 			if ( $include_context ) {
-				/* translators: Author archive title. %s: Author name. */
-				$title = sprintf( esc_html__( 'Auteur: %s', 'eac-components' ), $title );
+				$title = sprintf( '%1$s: %2$s', esc_html__( 'Author', 'eac-components' ), $title );
 			}
 		} elseif ( is_post_type_archive() ) {
 			$title = post_type_archive_title( '', false );
 
 			if ( $include_context ) {
-				/* translators: Post type archive title. %s: Post type name. */
-				$title = sprintf( esc_html__( 'Archives: %s', 'eac-components' ), $title );
+				$title = sprintf( 'Archives: %s', $title );
 			}
 		} elseif ( is_tax() ) {
 			$title = single_term_title( '', false );
 
 			if ( $include_context ) {
 				$tax = get_taxonomy( get_queried_object()->taxonomy );
-				/* translators: Taxonomy term archive title. 1: Taxonomy singular name, 2: Current taxonomy term. */
-				$title = sprintf( esc_html__( '%1$s: %2$s', 'eac-components' ), $tax->labels->singular_name, $title );
+				$title = sprintf( '%1$s: %2$s', $tax->labels->singular_name, $title );
 			}
 		} elseif ( is_archive() ) {
 			$title = esc_html__( 'Archives', 'eac-components' );
 		} elseif ( is_404() ) {
-			$title = esc_html__( 'Page introuvable', 'eac-components' );
+			$title = esc_html__( 'Page not found', 'eac-components' );
 		} else {
-			$title = esc_html__( 'Type de page inconnu', 'eac-components' );
+			$title = esc_html__( 'Unknown page type', 'eac-components' );
 		}
 		return $title;
 	}

@@ -1,0 +1,180 @@
+$border-color: #DDDDDD;
+$hover-border-color: rgb(177, 177, 177);
+
+.spl-weather-typography {
+  padding-top: 8px;
+
+  &-header {
+    border: 1px solid #949494;
+    border-radius: 2px;
+    padding: 10px 0;
+
+    span {
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 20px;
+    }
+  }
+
+  &-multiple-button-group {
+
+    button {
+      &.active {
+        background-color: #f26c0d;
+        color: #fff;
+        svg {
+          path {
+              stroke: #fff;
+              fill: #fff;
+            }
+          }
+      }
+
+      &:focus:not(:disabled) {
+        box-shadow: none;
+        outline: none;
+      }
+    }
+  }
+
+  &-fonts {
+    display: none;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px 15px 10px;
+    border-radius: 4px;
+    box-shadow:
+      0px 1.2px 2px -0.2px rgba(0, 0, 0, 0.1),
+      0px 0.3px 4px -0.5px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    background-color: #fff;
+
+    #font-picker {
+      width: 100%;
+      margin-bottom: 15px;
+      box-shadow: 0px 0px 3px rgb(0 0 0 / 20%);
+    }
+
+    div[id^="font-picker"] .dropdown-button,
+    div[id^="font-picker"] .dropdown-button:hover,
+    div[id^="font-picker"] ul,
+    div[id^="font-picker"] .dropdown-button:focus {
+      background: #fff;
+    }
+
+    div[id^="font-picker"] ul li button:hover,
+    div[id^="font-picker"] ul li button:focus,
+    div[id^="font-picker"] ul li button.active-font {
+      background: #f3f3f3;
+    }
+  }
+
+  &-fonts.open {
+    display: block;
+  }
+
+  input[type="text"]:focus {
+    box-shadow: none;
+    outline: none;
+  }
+
+  .css-1u9des2-indicatorSeparator {
+    display: none;
+  }
+
+  .components-button:hover,
+  .components-button[aria-expanded="true"] {
+    color: #f26c0d;
+  }
+}
+
+.spl-weather-typography-select-fields {
+  gap: 8px;
+
+  .spl-weather-select-field {
+    width: 100%;
+  }
+
+  .spl-weather-select-field {
+    flex-direction: column;
+  }
+}
+
+// font family select.
+.sp-location-weather-tabs-panel {
+  .spl-weather-font-family-select {
+    &__control {
+      height: 40px;
+      line-height: 1;
+      min-height: 40px;
+      border-radius: 2px;
+      border-color: $border-color;
+      box-shadow: none;
+
+      &:hover,
+      &--is-focused {
+        border-color: $hover-border-color;
+      }
+    }
+
+    &__control,
+    &__option {
+      cursor: pointer;
+    }
+
+    &__indicator {
+      padding: 6px;
+
+      svg {
+        stroke-width: 0px;
+        fill: #1E1E1E;
+        height: 15px;
+      }
+    }
+
+    &__value-container {
+      padding: 0 6px;
+    }
+
+    &__menu {
+      width: 160px;
+      z-index: 999;
+    }
+
+    &__option {
+
+      &:hover,
+      &--is-selected {
+        color: #fff !important;
+        background-color: #F26C0D !important;
+      }
+
+      &--is-focused {
+        color: #1E1E1E;
+        background-color: transparent;
+      }
+    }
+
+    &__input-container {
+      margin: 0;
+      padding: 0;
+    }
+
+  }
+
+  .spl-weather-font-family-select__input:focus {
+    box-shadow: none;
+    outline: none;
+  }
+
+  .spl-weather-global-family-picker {
+    .spl-weather-font-family-select__menu {
+      width: 100%;
+    }
+  }
+
+  .spl-weather-font-family-select__menu-list {
+    max-height: 220px;
+    width: 100%;
+  }
+}

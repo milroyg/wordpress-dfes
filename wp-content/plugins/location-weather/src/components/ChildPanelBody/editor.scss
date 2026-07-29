@@ -1,0 +1,24 @@
+.block-editor-block-inspector .components-panel__body.splw-child-panel-body {
+  border: 1px solid #aac6d9;
+  margin-top: 12px;
+  .components-panel__body-title {
+    background: #e7f5ff;
+    padding: 6px;
+    .components-panel__body-toggle.components-button {
+      padding: 6px;
+      .components-panel__arrow {
+        right: 5px;
+      }
+    }
+  }
+}
+
+.block-editor-block-inspector {
+  width: 280px;
+}
+.interface-complementary-area.editor-sidebar {
+  overflow-x: hidden;
+}
+.interface-complementary-area.editor-sidebar {
+  scrollbar-width: none;
+}

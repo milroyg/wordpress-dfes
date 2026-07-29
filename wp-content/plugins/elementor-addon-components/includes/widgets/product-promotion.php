@@ -15,9 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
 use EACCustomWidgets\Core\Utils\Eac_Tools_Util;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -35,16 +34,6 @@ use Elementor\Utils;
 class Product_Promotion_Widget extends Widget_Base {
 
 	/**
-	 * Constructeur de la class Product_Promotion_Widget
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		wp_register_style( 'eac-product-promotion', EAC_Plugin::instance()->get_style_url( 'assets/css/product-promotion' ), array( 'eac-frontend' ), '1.0.0' );
-		wp_register_style( 'eac-image-ribbon', EAC_Plugin::instance()->get_style_url( 'assets/css/image-ribbon' ), array( 'eac-product-promotion' ), '1.0.0' );
-	}
-
-	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
 	 *
 	 * @var $slug
@@ -60,8 +49,8 @@ class Product_Promotion_Widget extends Widget_Base {
 	 *
 	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -71,8 +60,8 @@ class Product_Promotion_Widget extends Widget_Base {
 	 *
 	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -82,8 +71,8 @@ class Product_Promotion_Widget extends Widget_Base {
 	 *
 	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -91,10 +80,23 @@ class Product_Promotion_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
+	}
+
+	/**
+	 * Get widget keywords.
+	 *
+	 * Retrieve the list of keywords the widget belongs to.
+	 *
+	 * @access public
+	 *
+	 * @return array Widget keywords.
+	 */
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -103,10 +105,10 @@ class Product_Promotion_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
-		return array( 'eac-product-promotion', 'eac-image-ribbon' );
+		return array( 'eac-product-promotion' );
 	}
 
 	/**
@@ -116,6 +118,15 @@ class Product_Promotion_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -141,10 +152,10 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_image_switcher',
 				array(
-					'label'        => esc_html__( 'Ajouter une image', 'eac-components' ),
+					'label'        => esc_html__( 'Add image', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -153,10 +164,10 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_icon_switcher',
 				array(
-					'label'        => esc_html__( 'Ajouter un pictogramme', 'eac-components' ),
+					'label'        => esc_html__( 'Add pictogram', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array( 'ip_image_switcher!' => 'yes' ),
@@ -167,7 +178,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_icon_content_new',
 				array(
-					'label'            => esc_html__( 'Choix du pictogramme', 'eac-components' ),
+					'label'            => esc_html__( 'Choose the pictogram', 'eac-components' ),
 					'type'             => Controls_Manager::ICONS,
 					'default'          => array(
 						'value'   => 'fas fa-plus-square',
@@ -183,7 +194,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_image_content',
 				array(
-					'label'     => esc_html__( "Choix de l'image", 'eac-components' ),
+					'label'     => esc_html__( 'Select image', 'eac-components' ),
 					'type'      => Controls_Manager::MEDIA,
 					'dynamic'   => array(
 						'active' => true,
@@ -208,7 +219,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'ip_image_height',
 				array(
-					'label'                => esc_html__( 'Hauteur', 'eac-components' ),
+					'label'                => esc_html__( 'Height', 'eac-components' ),
 					'type'                 => Controls_Manager::SLIDER,
 					'size_units'           => array( 'px' ),
 					'default'              => array(
@@ -246,19 +257,19 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_image_align',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'left'  => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'right'    => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -277,10 +288,10 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_lightbox',
 				array(
-					'label'        => esc_html__( 'Visionneuse', 'eac-components' ),
+					'label'        => esc_html__( 'Lightbox', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array( 'ip_image_switcher' => 'yes' ),
@@ -292,7 +303,7 @@ class Product_Promotion_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ip_titre_content',
 			array(
-				'label' => esc_html__( 'Titre', 'eac-components' ),
+				'label' => esc_html__( 'Title', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -300,8 +311,8 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_title',
 				array(
-					'label'       => esc_html__( 'Titre', 'eac-components' ),
-					'default'     => esc_html__( 'Votre titre', 'eac-components' ),
+					'label'       => esc_html__( 'Title', 'eac-components' ),
+					'default'     => esc_html__( 'Your title', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
@@ -312,11 +323,10 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_title_tag',
 				array(
-					'label'     => esc_html__( 'Étiquette', 'eac-components' ),
+					'label'     => esc_html__( 'Tag', 'eac-components' ),
 					'type'      => Controls_Manager::SELECT,
 					'default'   => 'h2',
 					'options'   => array(
-						'h1'  => 'H1',
 						'h2'  => 'H2',
 						'h3'  => 'H3',
 						'h4'  => 'H4',
@@ -334,7 +344,7 @@ class Product_Promotion_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ip_carac_content',
 			array(
-				'label' => esc_html__( 'Caractéristiques', 'eac-components' ),
+				'label' => esc_html__( 'Features', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -344,10 +354,10 @@ class Product_Promotion_Widget extends Widget_Base {
 			$repeater->add_control(
 				'ip_carac_item',
 				array(
-					'label'       => esc_html__( 'Texte', 'eac-components' ),
+					'label'       => esc_html__( 'Text', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
-					'default'     => esc_html__( 'Caractéristiques', 'eac-components' ),
-					'placeholder' => esc_html__( 'Caractéristiques', 'eac-components' ),
+					'default'     => esc_html__( 'Features', 'eac-components' ),
+					'placeholder' => esc_html__( 'Features', 'eac-components' ),
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
 					'label_block' => true,
@@ -357,10 +367,10 @@ class Product_Promotion_Widget extends Widget_Base {
 			$repeater->add_control(
 				'ip_carac_inclus',
 				array(
-					'label'        => esc_html__( 'Élément inclus', 'eac-components' ),
+					'label'        => esc_html__( 'Element included', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -369,25 +379,25 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_carac_list',
 				array(
-					'label'       => esc_html__( 'Liste des caractéristiques', 'eac-components' ),
+					'label'       => esc_html__( 'List of features', 'eac-components' ),
 					'type'        => Controls_Manager::REPEATER,
 					'fields'      => $repeater->get_controls(),
 					'default'     => array(
 						array(
-							'ip_carac_item' => esc_html__( 'Élément liste #1', 'eac-components' ),
+							'ip_carac_item' => esc_html__( 'Element list #1', 'eac-components' ),
 						),
 						array(
-							'ip_carac_item' => esc_html__( 'Élément liste #2', 'eac-components' ),
+							'ip_carac_item' => esc_html__( 'Element list #2', 'eac-components' ),
 						),
 						array(
-							'ip_carac_item' => esc_html__( 'Élément liste #3', 'eac-components' ),
+							'ip_carac_item' => esc_html__( 'Element list #3', 'eac-components' ),
 						),
 						array(
-							'ip_carac_item' => esc_html__( 'Élément liste #4', 'eac-components' ),
+							'ip_carac_item' => esc_html__( 'Element list #4', 'eac-components' ),
 						),
 					),
 					'title_field' => '{{{ ip_carac_item }}}',
-					'button_text' => esc_html__( 'Ajouter une caractéristique', 'eac-components' ),
+					'button_text' => esc_html__( 'Add feature', 'eac-components' ),
 				)
 			);
 
@@ -396,7 +406,7 @@ class Product_Promotion_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ip_price_content',
 			array(
-				'label' => esc_html__( 'Prix du produit', 'eac-components' ),
+				'label' => esc_html__( 'Product price', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -404,7 +414,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_price',
 				array(
-					'label'       => esc_html__( 'Prix de vente', 'eac-components' ),
+					'label'       => esc_html__( 'Selling price', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'default'     => esc_html__( 'XXX €', 'eac-components' ),
 					'dynamic'     => array( 'active' => true ),
@@ -418,7 +428,7 @@ class Product_Promotion_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ip_section_button',
 			array(
-				'label' => esc_html__( 'Bouton', 'eac-components' ),
+				'label' => esc_html__( 'Button', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -426,9 +436,9 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_button_text',
 				array(
-					'label'   => esc_html__( 'Texte', 'eac-components' ),
+					'label'   => esc_html__( 'Text', 'eac-components' ),
 					'type'    => Controls_Manager::TEXT,
-					'default' => esc_html__( 'En savoir plus', 'eac-components' ),
+					'default' => esc_html__( 'Read post', 'eac-components' ),
 					'ai'      => array( 'active' => false ),
 				)
 			);
@@ -436,13 +446,13 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_link_to',
 				array(
-					'label'   => esc_html__( 'Type de lien', 'eac-components' ),
+					'label'   => esc_html__( 'Link type', 'eac-components' ),
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'none',
 					'options' => array(
-						'none'   => esc_html__( 'Aucun', 'eac-components' ),
-						'custom' => esc_html__( 'URL', 'eac-components' ),
-						'file'   => esc_html__( 'Fichier média', 'eac-components' ),
+						'none'   => esc_html__( 'None', 'eac-components' ),
+						'custom' => esc_html( 'URL' ),
+						'file'   => esc_html__( 'Media file', 'eac-components' ),
 					),
 				)
 			);
@@ -450,9 +460,9 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_link_url',
 				array(
-					'label'        => esc_html__( 'URL', 'eac-components' ),
+					'label'        => esc_html( 'URL' ),
 					'type'         => Controls_Manager::URL,
-					'placeholder'  => esc_html__( 'Coller une URL ou taper', 'eac-components' ),
+					'placeholder'  => esc_html__( 'Type or paste your URL', 'eac-components' ),
 					'dynamic'      => array(
 						'active' => true,
 					),
@@ -464,7 +474,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_link_page',
 				array(
-					'label'     => esc_html__( 'Lien de page', 'eac-components' ),
+					'label'     => esc_html__( 'Page link', 'eac-components' ),
 					'type'      => Controls_Manager::SELECT,
 					'default'   => '',
 					'options'   => Eac_Tools_Util::get_pages_by_name(),
@@ -478,7 +488,7 @@ class Product_Promotion_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ip_global_settings',
 			array(
-				'label' => esc_html__( 'Ruban', 'eac-components' ),
+				'label' => esc_html__( 'Ribbon', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -486,10 +496,10 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_ribbon_switcher',
 				array(
-					'label'        => esc_html__( 'Ajouter un ruban', 'eac-components' ),
+					'label'        => esc_html__( 'Add ribbon', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -498,11 +508,11 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_ribbon_text',
 				array(
-					'label'       => esc_html__( 'Texte', 'eac-components' ),
+					'label'       => esc_html__( 'Text', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
-					'default'     => esc_html__( 'Ruban', 'eac-components' ),
+					'default'     => esc_html__( 'Ribbon', 'eac-components' ),
 					'condition'   => array( 'ip_ribbon_switcher' => 'yes' ),
 				)
 			);
@@ -510,15 +520,15 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_ribbon_position',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'left'  => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'right'    => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -561,7 +571,7 @@ class Product_Promotion_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ip_bg_style',
 			array(
-				'label' => esc_html__( 'Général', 'eac-components' ),
+				'label' => esc_html__( 'General', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -569,7 +579,7 @@ class Product_Promotion_Widget extends Widget_Base {
 		$this->add_responsive_control(
 			'ip_box_width',
 			array(
-				'label'          => esc_html__( 'Largeur', 'eac-components' ),
+				'label'          => esc_html__( 'Width', 'eac-components' ),
 				'type'           => Controls_Manager::SLIDER,
 				'size_units'     => array( 'px', '%' ),
 				'default'        => array(
@@ -605,7 +615,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_bg_color',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .ip-wrapper' => 'background-color: {{VALUE}};' ),
 				)
@@ -622,7 +632,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_bg_radius',
 				array(
-					'label'      => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'      => esc_html__( 'Border radius', 'eac-components' ),
 					'type'       => Controls_Manager::DIMENSIONS,
 					'size_units' => array( 'px', '%' ),
 					'selectors'  => array(
@@ -647,7 +657,7 @@ class Product_Promotion_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ip_icone_style',
 			array(
-				'label'     => esc_html__( 'Pictogramme', 'eac-components' ),
+				'label'     => esc_html__( 'Pictogram', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'ip_icon_switcher'   => 'yes',
@@ -659,12 +669,12 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_icone_voir',
 				array(
-					'label'        => esc_html__( 'Afficher', 'eac-components' ),
+					'label'        => esc_html__( 'Display', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
 					'options'      => array(
-						'default' => esc_html__( 'Défaut', 'eac-components' ),
-						'stacked' => esc_html__( 'Empilé', 'eac-components' ),
-						'framed'  => esc_html__( 'Encadré', 'eac-components' ),
+						'default' => esc_html__( 'Default', 'eac-components' ),
+						'stacked' => esc_html__( 'Stacked', 'eac-components' ),
+						'framed'  => esc_html__( 'Framed', 'eac-components' ),
 					),
 					'default'      => 'default',
 					'prefix_class' => 'elementor-view-',
@@ -674,11 +684,11 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_icone_forme',
 				array(
-					'label'        => esc_html__( 'Forme', 'eac-components' ),
+					'label'        => esc_html__( 'Shape', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
 					'options'      => array(
-						'circle' => esc_html__( 'Ronde', 'eac-components' ),
-						'square' => esc_html__( 'Carrée', 'eac-components' ),
+						'circle' => esc_html__( 'Round', 'eac-components' ),
+						'square' => esc_html__( 'Square', 'eac-components' ),
 					),
 					'default'      => 'circle',
 					'condition'    => array( 'ip_icone_voir!' => 'default' ),
@@ -689,19 +699,19 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_icone_align',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'left'  => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'right'    => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -718,7 +728,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'ip_icone_size',
 				array(
-					'label'                => esc_html__( 'Dimension', 'eac-components' ),
+					'label'                => esc_html__( 'Size', 'eac-components' ),
 					'type'                 => Controls_Manager::SLIDER,
 					'size_units'           => array( 'px' ),
 					'default'              => array(
@@ -755,7 +765,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_icone_couleur',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'default'   => '#e2bc74',
 					'selectors' => array(
@@ -770,7 +780,7 @@ class Product_Promotion_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ip_title_style',
 			array(
-				'label'     => esc_html__( 'Titre', 'eac-components' ),
+				'label'     => esc_html__( 'Title', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array( 'ip_title!' => '' ),
 			)
@@ -779,7 +789,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_titre_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array(
 						'{{WRAPPER}} .ip-title'       => 'color: {{VALUE}};',
@@ -792,7 +802,7 @@ class Product_Promotion_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'ip_title_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .ip-title',
 				)
 			);
@@ -802,7 +812,7 @@ class Product_Promotion_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ip_carac_style',
 			array(
-				'label' => esc_html__( 'Caractéristiques', 'eac-components' ),
+				'label' => esc_html__( 'Features', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -810,7 +820,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_carac_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array(
 						'{{WRAPPER}} .ip-description .ip-description-item > span > span,
@@ -825,7 +835,7 @@ class Product_Promotion_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'ip_carac_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .ip-description .ip-description-item',
 				)
 			);
@@ -835,7 +845,7 @@ class Product_Promotion_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ip_prix_style',
 			array(
-				'label' => esc_html__( 'Prix du produit', 'eac-components' ),
+				'label' => esc_html__( 'Product price', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -843,7 +853,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_prix_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .ip-prix' => 'color: {{VALUE}};' ),
 				)
@@ -853,7 +863,7 @@ class Product_Promotion_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'ip_prix_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .ip-prix',
 				)
 			);
@@ -861,7 +871,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_prix_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .ip-prix' => 'background-color: {{VALUE}};' ),
 				)
@@ -872,7 +882,7 @@ class Product_Promotion_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ip_button_style',
 			array(
-				'label' => esc_html__( 'Bouton', 'eac-components' ),
+				'label' => esc_html__( 'Button', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -880,7 +890,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_bouton_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .ip-button' => 'color: {{VALUE}};' ),
 				)
@@ -890,7 +900,7 @@ class Product_Promotion_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'ip_bouton_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .ip-button',
 				)
 			);
@@ -898,7 +908,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_bouton_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .ip-button' => 'background-color: {{VALUE}};' ),
 				)
@@ -908,7 +918,7 @@ class Product_Promotion_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'     => 'ip_bouton_shadow',
-					'label'    => esc_html__( "Effet d'ombre", 'eac-components' ),
+					'label'    => esc_html__( 'Shadow effect', 'eac-components' ),
 					'exclude'  => array(
 						'box_shadow_position',
 					),
@@ -921,7 +931,7 @@ class Product_Promotion_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ribbon_section_style',
 			array(
-				'label'     => esc_html__( 'Ruban', 'eac-components' ),
+				'label'     => esc_html__( 'Ribbon', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array( 'ip_ribbon_switcher' => 'yes' ),
 			)
@@ -930,7 +940,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_ribbon_inner_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'default'   => '#FFF',
 					'selectors' => array( '{{WRAPPER}} .image-ribbon-inner' => 'color: {{VALUE}};' ),
@@ -941,7 +951,7 @@ class Product_Promotion_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'ip_typography_ribbon_texte',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .image-ribbon-inner',
 				)
 			);
@@ -949,7 +959,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_control(
 				'ip_ribbon_inner_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'default'   => '#e2bc74',
 					'selectors' => array( '{{WRAPPER}} .image-ribbon-inner' => 'background-color: {{VALUE}};' ),
@@ -966,7 +976,7 @@ class Product_Promotion_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 		?>
 		<div class="eac-image-promo">
@@ -977,7 +987,7 @@ class Product_Promotion_Widget extends Widget_Base {
 		<?php
 	}
 
-	protected function render_galerie() {
+	protected function render_galerie(): void {
 		$settings = $this->get_settings_for_display();
 
 		$this->add_render_attribute( 'wrapper', 'class', 'ip-icone-wrapper' );
@@ -1036,12 +1046,16 @@ class Product_Promotion_Widget extends Widget_Base {
 			$this->add_render_attribute(
 				'ip-lightbox',
 				array(
+					'class'                        => 'eac-accessible-link',
 					'href'                         => esc_url( $image_url ),
 					'data-elementor-open-lightbox' => 'no',
+					'data-fancybox'                => '',
+					'data-caption'                 => esc_attr( $image_alt ),
+					'aria-haspopup'                => 'dialog',
+					'aria-expanded'                => 'false',
+					'aria-label'                   => esc_attr( $image_alt ),
 				)
 			);
-			$this->add_render_attribute( 'ip-lightbox', 'data-fancybox', 'ip-gallery' );
-			$this->add_render_attribute( 'ip-lightbox', 'data-caption', esc_attr( $image_alt ) );
 		}
 
 		// la position du ribbon
@@ -1090,7 +1104,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			<?php if ( $ip_title ) :
 				$this->add_inline_editing_attributes( 'ip_title', 'none' );
 				$this->add_render_attribute( 'ip_title', 'class', 'ip-title' );
-				echo '<' . esc_attr( $title_tag ) . ' ' . esc_attr( $this->get_render_attribute_string( 'ip_title' ) ) . '>' . esc_html( $settings['ip_title'] ) . '</' . esc_attr( $title_tag ) . '>';
+				printf( '<%1$s %2$s>%3$s</%1$s>', esc_attr( $title_tag ), $this->get_render_attribute_string( 'ip_title' ), esc_html( $settings['ip_title'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			endif; ?>
 
 			<!-- Affichage des caractéristiques -->
@@ -1145,7 +1159,7 @@ class Product_Promotion_Widget extends Widget_Base {
 			<div <?php $this->print_render_attribute_string( 'wrapper_button' ); ?>>
 				<?php if ( ! empty( $link_url ) ) : ?>
 					<a  <?php $this->print_render_attribute_string( 'ip-link-to' ); ?>>
-					<?php endif; ?>
+				<?php endif; ?>
 					<span <?php $this->print_render_attribute_string( 'button' ); ?>>
 						<?php
 						Icons_Manager::render_icon(
@@ -1155,7 +1169,7 @@ class Product_Promotion_Widget extends Widget_Base {
 							),
 							array( 'aria-hidden' => 'true' )
 						); ?>
-						<span <?php $this->print_render_attribute_string( 'ip_button_text' ); ?>><?php echo esc_html( $settings['ip_button_text'] ); ?></span>
+						<span <?php $this->print_render_attribute_string( 'ip_button_text' ); ?>><?php echo esc_html( trim( $settings['ip_button_text'] ) ); ?></span>
 					</span>
 				<?php if ( ! empty( $link_url ) ) : ?>
 					</a>
@@ -1165,5 +1179,5 @@ class Product_Promotion_Widget extends Widget_Base {
 		<?php
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

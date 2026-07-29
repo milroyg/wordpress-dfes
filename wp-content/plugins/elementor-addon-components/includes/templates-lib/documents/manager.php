@@ -17,11 +17,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Plugin;
 use Elementor\Core\Documents_Manager;
 use Elementor\TemplateLibrary\Source_Local;
+use Elementor\Core\Base\Document;
 
 final class Manager {
 
@@ -46,6 +47,13 @@ final class Manager {
 	private $option_prefix = 'eac_options_tmpl_';
 
 	/**
+	 * $meta_prefix
+	 *
+	 * @var string
+	 */
+	private $meta_prefix = 'eac_theme_builder_template_';
+
+	/**
 	 * Constructeur
 	 */
 	public function __construct() {
@@ -67,7 +75,7 @@ final class Manager {
 			});
 		}
 		add_filter( 'body_class', array( $this, 'body_class' ), 999 );
-		add_action( 'template_include', array( $this, 'include_template' ), 11 ); // 11 = après WooCommerce
+		add_filter( 'template_include', array( $this, 'include_template' ), 11 ); // 11 = après WooCommerce
 		add_action( 'elementor/documents/register', array( $this, 'register_template_types' ) );
 		add_action( 'elementor/editor/after_save', array( $this, 'update_template_location' ), 11, 1 );
 		add_action( 'before_delete_post', array( $this, 'delete_template_location' ), 10, 2 );
@@ -75,8 +83,8 @@ final class Manager {
 	}
 
 	/** Supprime les actions d'entête des thèmes supportés */
-	public function remove_theme_header_footer() {
-		if ( $this->has_assigned_template( SiteHeader::TYPE ) ) {
+	public function remove_theme_header_footer(): void {
+		if ( $this->has_assigned_template( Site_Header::TYPE ) ) {
 			if ( 'generatepress' === $this->get_current_supported_theme_name() ) {
 				remove_action( 'generate_header', 'generate_construct_header' );
 				remove_action( 'generate_after_header', 'generate_add_navigation_after_header', 5 );
@@ -101,7 +109,7 @@ final class Manager {
 			}
 		}
 
-		if ( $this->has_assigned_template( SiteFooter::TYPE ) ) {
+		if ( $this->has_assigned_template( Site_Footer::TYPE ) ) {
 			if ( 'generatepress' === $this->get_current_supported_theme_name() ) {
 				remove_action( 'generate_footer', 'generate_construct_footer' );
 				remove_action( 'generate_footer', 'generate_construct_footer_widgets', 5 );
@@ -127,7 +135,7 @@ final class Manager {
 	/**
 	 * get_current_supported_theme_name
 	 */
-	public function get_current_supported_theme_name() {
+	public function get_current_supported_theme_name(): string {
 		if ( $this->is_supported_theme() ) {
 			return $this->current_theme;
 		} else {
@@ -140,27 +148,36 @@ final class Manager {
 	 *
 	 * Le thème est supporté
 	 */
-	public function is_supported_theme() {
+	public function is_supported_theme(): bool {
 		return in_array( $this->current_theme, $this->supported_themes, true );
 	}
 
 	/**
+	 * body_class
 	 * Ajout des class afférentes dans la balise Body
-	 * Ces class permettent de cacher le header et footer du thème
+	 * Ces class permettent de cacher le header et footer du thème courant
+	 *
+	 * @param mixed $classes
+	 *
+	 * @return array
 	 */
-	public function body_class( $classes ) {
-		if ( $this->has_assigned_template( SiteHeader::TYPE ) ) {
+	public function body_class( $classes ): array {
+		if ( $this->has_assigned_template( Site_Header::TYPE ) ) {
 			$classes[] = 'eac-body-header';
 		}
-		if ( $this->has_assigned_template( SiteFooter::TYPE ) ) {
+		if ( $this->has_assigned_template( Site_Footer::TYPE ) ) {
 			$classes[] = 'eac-body-footer';
 		}
 		return $classes;
 	}
 
-	/** Charge le header du thème */
-	public function render_default_site_header() {
-		/* Charge le header du thème qui sera caché avec le body_class */
+	/**
+	 * render_default_site_header
+	 * Charge le header du thème courant qui sera caché avec le body_class
+	 *
+	 * @return void
+	 */
+	public function render_default_site_header(): void {
 		$templates = array( 'header.php' );
 		locate_template( $templates, true );
 
@@ -170,9 +187,14 @@ final class Manager {
 		}
 	}
 
-	/** Affiche le contenu du header */
-	public function render_default_header_content() {
-		$header_template_id = $this->has_assigned_template( SiteHeader::TYPE );
+	/**
+	 * render_default_header_content
+	 * Affiche le contenu du header
+	 *
+	 * @return void
+	 */
+	public function render_default_header_content(): void {
+		$header_template_id = $this->has_assigned_template( Site_Header::TYPE );
 		if ( $header_template_id ) {
 			// Filtre wpml
 			$header_template_id = apply_filters( 'wpml_object_id', $header_template_id, Source_Local::CPT, true );
@@ -181,10 +203,13 @@ final class Manager {
 	}
 
 	/**
-	 * Charge le footer du thème
-	 * On n'est pas dans un template header ou en mode preview
+	 * render_default_site_footer
+	 * Charge le footer si on n'est pas dans un template header et en mode preview
+	 *
+	 * @return void
 	 */
-	public function render_default_site_footer() {
+	public function render_default_site_footer(): void {
+		/** Tous les ID des site_header */
 		$args = array(
 			'post_type'      => Source_Local::CPT,
 			'posts_per_page' => -1,
@@ -194,7 +219,7 @@ final class Manager {
 				array(
 					'taxonomy' => Source_Local::TAXONOMY_TYPE_SLUG,
 					'field'    => 'slug',
-					'terms'    => SiteHeader::TYPE,
+					'terms'    => Site_Header::TYPE,
 				),
 			),
 		);
@@ -202,7 +227,7 @@ final class Manager {
 		$elementor_headers = get_posts( $args );
 		if ( ! is_wp_error( $elementor_headers ) && ! empty( $elementor_headers ) ) {
 			$previews    = Plugin::$instance->preview->is_preview_mode( get_the_ID() ) || is_preview();
-			$header_type = SiteHeader::TYPE === get_post_meta( get_the_ID(), Source_Local::TYPE_META_KEY, true ) ? true : false;
+			$header_type = Site_Header::TYPE === get_post_meta( get_the_ID(), Document::TYPE_META_KEY, true ) ? true : false;
 
 			if ( $previews && in_array( get_the_ID(), $elementor_headers, true ) ) {
 				return;
@@ -210,7 +235,7 @@ final class Manager {
 			/**if ( $previews && $header_type ) { return; }*/
 		}
 
-		$footer_template_id = $this->has_assigned_template( SiteFooter::TYPE );
+		$footer_template_id = $this->has_assigned_template( Site_Footer::TYPE );
 		if ( $footer_template_id ) {
 			// Filtre wpml
 			$footer_template_id = apply_filters( 'wpml_object_id', $footer_template_id, Source_Local::CPT, true );
@@ -222,17 +247,23 @@ final class Manager {
 	}
 
 	/**
+	 * delete_template_location
 	 * Supprime les options et les meta créés par le builder
 	 * Les posts et meta créés par Elementor sont automatiquement supprimés
+	 *
+	 * @param int $post_id
+	 * @param \WP_Post $post
+	 *
+	 * @return void
 	 */
-	public function delete_template_location( $post_id, $post ) {
+	public function delete_template_location( int $post_id, \WP_Post $post ): void {
 		global $wpdb;
 		$post_type     = $post->post_type;
-		$type          = get_post_meta( $post_id, Source_Local::TYPE_META_KEY, true );
+		$type          = get_post_meta( $post_id, Document::TYPE_META_KEY, true );
 		$option_prefix = $this->option_prefix . $type . '_';
-		$meta_prefix   = 'eac_theme_builder_template_';
+		$meta_prefix   = $this->meta_prefix . $type;
 
-		if ( Source_Local::CPT === $post_type && ! empty( $type ) && in_array( $type, array( SiteHeader::TYPE, SiteFooter::TYPE ), true ) ) {
+		if ( Source_Local::CPT === $post_type && ! empty( $type ) && in_array( $type, array( Site_Header::TYPE, Site_Footer::TYPE ), true ) ) {
 			/** Supprime les options */
 			$wpdb->query(
 				$wpdb->prepare(
@@ -250,7 +281,7 @@ final class Manager {
 					"DELETE FROM {$wpdb->prefix}postmeta
 					WHERE meta_key = %s
 					AND meta_value = %s",
-					$meta_prefix . $type,
+					$meta_prefix,
 					explode( '__', $post->post_name )[0]
 				)
 			);
@@ -258,22 +289,32 @@ final class Manager {
 	}
 
 	/**
+	 * register_template_types
 	 * Enregistre les deux nouveaux types de document
+	 *
+	 * @param Documents_Manager $manager
+	 *
+	 * @return void
 	 */
-	public function register_template_types( Documents_Manager $manager ) {
-		$manager->register_document_type( SiteHeader::TYPE, SiteHeader::class );
-		$manager->register_document_type( SiteFooter::TYPE, SiteFooter::class );
+	public function register_template_types( Documents_Manager $manager ): void {
+		$manager->register_document_type( Site_Header::TYPE, Site_Header::class );
+		$manager->register_document_type( Site_Footer::TYPE, Site_Footer::class );
 	}
 
 	/**
+	 * include_template
 	 * Inclus notre propre template. Essentiel dans l'éditeur Elementor
 	 * Affichage du template (Header ou Footer) et du contenu de l'article/page dans l'éditeur
+	 *
+	 * @param string $template
+	 *
+	 * @return string
 	 */
-	public function include_template( $template ) {
+	public function include_template( string $template ): string {
 		if ( is_singular() ) {
 			$document = Plugin::$instance->documents->get_doc_for_frontend( get_the_ID() );
 			if ( $document ) {
-				if ( $document instanceof SiteHeader || $document instanceof SiteFooter ) {
+				if ( $document instanceof Site_Header || $document instanceof Site_Footer ) {
 					return EAC_PLUGIN_PATH . 'includes/templates-lib/templates/blank-page.php';
 				}
 			}
@@ -282,11 +323,16 @@ final class Manager {
 	}
 
 	/**
+	 * render_site_header
 	 * Charge notre propre header
 	 * La variable '$header_template_id' est utilisé dans le template templates/site-header.php
+	 *
+	 * @param string $name
+	 *
+	 * @return void
 	 */
-	public function render_site_header( $name = '' ) {
-		$header_template_id = $this->has_assigned_template( SiteHeader::TYPE );
+	public function render_site_header( string $name = '' ): void {
+		$header_template_id = $this->has_assigned_template( Site_Header::TYPE );
 
 		if ( $header_template_id ) {
 			require_once EAC_PLUGIN_PATH . 'includes/templates-lib/templates/site-header.php';
@@ -302,11 +348,16 @@ final class Manager {
 	}
 
 	/**
+	 * render_site_footer
 	 * Charge notre propre footer
 	 * La variable '$footer_template_id' est utilisé dans le template templates/site-footer.php
+	 *
+	 * @param string $name
+	 *
+	 * @return void
 	 */
-	public function render_site_footer( $name = '' ) {
-		$footer_template_id = $this->has_assigned_template( SiteFooter::TYPE );
+	public function render_site_footer( string $name = '' ): void {
+		$footer_template_id = $this->has_assigned_template( Site_Footer::TYPE );
 
 		if ( $footer_template_id ) {
 			require_once EAC_PLUGIN_PATH . 'includes/templates-lib/templates/site-footer.php';
@@ -322,9 +373,11 @@ final class Manager {
 	}
 
 	/**
+	 * get_current_page_id
+	 *
 	 * @return int l'ID de la page courante
 	 */
-	private function get_current_page_id() {
+	private function get_current_page_id(): int {
 		global $wp_query;
 
 		if ( ! $wp_query->is_main_query() ) {
@@ -347,13 +400,14 @@ final class Manager {
 	}
 
 	/**
+	 * has_assigned_template
 	 * Vérifie si la requête courante a un template assigné
 	 *
-	 * @param string $type Template type.
+	 * @param string $type Template type
 	 *
 	 * @return int|bool ID du template ou false s'il n'y a pas de template assigné
 	 */
-	private function has_assigned_template( $type ) {
+	private function has_assigned_template( string $type ) {
 		global $wp_query;
 
 		if ( ! $wp_query->is_main_query() ) {
@@ -402,7 +456,7 @@ final class Manager {
 			}
 		}
 
-		$_tpl = get_post_meta( $this->get_current_page_id(), 'eac_theme_builder_template_' . $type, true );
+		$_tpl = get_post_meta( $this->get_current_page_id(), $this->meta_prefix . $type, true );
 
 		if ( $_tpl && 'inherit' !== $_tpl ) {
 			if ( 'default' === $_tpl ) {
@@ -420,9 +474,15 @@ final class Manager {
 	}
 
 	/**
+	 * get_assigned_template
 	 * Get assigned template by location and page type
+	 *
+	 * @param string $template_type
+	 * @param string $page_type
+	 *
+	 * @return WP_Post|array|null|bool
 	 */
-	private function get_assigned_template( $template_type, $page_type ) {
+	private function get_assigned_template( string $template_type, string $page_type ) {
 		global $wp_query;
 
 		$template = get_option( $this->option_prefix . $template_type . '_' . $page_type );
@@ -435,9 +495,14 @@ final class Manager {
 	}
 
 	/**
+	 * update_template_location
 	 * Met à jour la table des options lors de la sauvegarde du post
+	 *
+	 * @param int $post_id
+	 *
+	 * @return void
 	 */
-	public function update_template_location( $post_id ) {
+	public function update_template_location( int $post_id ): void {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}
@@ -445,11 +510,11 @@ final class Manager {
 		global $wpdb;
 
 		$template   = get_post( $post_id );
-		$type       = get_post_meta( $post_id, Source_Local::TYPE_META_KEY, true ); /** siteheader sitefooter */
+		$type       = get_post_meta( $post_id, Document::TYPE_META_KEY, true ); /** siteheader sitefooter */
 		$settings   = get_post_meta( $post_id, '_elementor_page_settings', true ); /** a:3:{s:7:"show_on";s:6:"custom";s:14:"singular_pages";a:0:{}s:13:"archive_pages";a:4:{i:0;s:6:"author";i:1;s:4:"date";i:2;s:8:"post_tag";i:3;s:8:"category";}} */
 		$key_prefix = $this->option_prefix . $type . '_';
 
-		if ( ! empty( $type ) && in_array( $type, array( SiteHeader::TYPE, SiteFooter::TYPE ), true ) ) {
+		if ( ! empty( $type ) && in_array( $type, array( Site_Header::TYPE, Site_Footer::TYPE ), true ) ) {
 			$post_name = sanitize_title( $template->post_name );
 			$wpdb->query(
 				$wpdb->prepare(
@@ -522,23 +587,28 @@ final class Manager {
 		}
 	}
 
-	/** Ajout des fichiers PHP nécessaires */
-	public function includes() {
-		// Charge les actions AJAX 'wp_ajax_xxxxxx' pour mettre à jour le badge du mini-cart
-		if ( Eac_Config_Elements::is_widget_active( 'mega-menu' ) ) {
-			new \EACCustomWidgets\Includes\TemplatesLib\Widgets\Classes\Class_Menu_Actions_Minicart();
-		}
-
+	/**
+	 * includes
+	 * Ajout des fichiers PHP nécessaires
+	 *
+	 * @return void
+	 */
+	public function includes(): void {
 		require_once __DIR__ . '/site-header.php';
 		require_once __DIR__ . '/site-footer.php';
-		require_once __DIR__ . '/duplicate-header-footer.php';
-		/** require_once __DIR__ . '/../blocks/postmeta/page-layout-settings.php'; */
+		\EACCustomWidgets\Includes\TemplatesLib\Documents\Duplicate_Header_Footer::instance();
+		/**require_once __DIR__ . '/../blocks/postmeta/page-layout-settings.php';*/
 	}
 
-	/** Charge les styles des widgets associés à la fonctionnalité H&F dans le header */
-	public function enqueue_scripts() {
-		$header_template_id = $this->has_assigned_template( SiteHeader::TYPE );
-		$footer_template_id = $this->has_assigned_template( SiteFooter::TYPE );
+	/**
+	 * enqueue_scripts
+	 * Charge les styles des widgets associés à la fonctionnalité H&F dans le header
+	 *
+	 * @return void
+	 */
+	public function enqueue_scripts(): void {
+		$header_template_id = $this->has_assigned_template( Site_Header::TYPE );
+		$footer_template_id = $this->has_assigned_template( Site_Footer::TYPE );
 
 		if ( $header_template_id ) {
 			/** Charge la page des styles du header */
@@ -558,35 +628,6 @@ final class Manager {
 					$css_file->enqueue();
 				}
 			}
-		}
-
-		if ( Eac_Config_Elements::is_widget_active( 'mega-menu' ) ) {
-			EAC_Plugin::instance()->register_script( 'eac-mega-menu', 'includes/templates-lib/assets/js/mega-menu', array( 'jquery', 'elementor-frontend' ), '2.1.0',
-				array(
-					'strategy' => 'defer',
-					'in_footer' => true,
-				)
-			);
-
-			if ( class_exists( 'woocommerce' ) ) {
-				wp_add_inline_script(
-					'eac-mega-menu',
-					'var eacUpdateCounter = ' . wp_json_encode(
-						array(
-							'ajax_url'    => esc_url( admin_url( 'admin-ajax.php' ) ),
-							'ajax_action' => 'update_mini_cart_counter',
-							'ajax_nonce'  => wp_create_nonce( 'eac_update_minicart_counter' ),
-						)
-					),
-					'before'
-				);
-			}
-
-			/**
-			 * Enqueue dans le header les styles du mega-menu
-			 * @since 2.3.4
-			 */
-			wp_enqueue_style( 'eac-mega-menu', EAC_Plugin::instance()->get_style_url( 'includes/templates-lib/assets/css/mega-menu' ), array( 'eac-frontend' ), '2.3.4' );
 		}
 	}
 }

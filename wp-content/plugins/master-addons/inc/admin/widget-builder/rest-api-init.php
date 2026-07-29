@@ -6,7 +6,7 @@
  * @subpackage WidgetBuilder
  */
 
-namespace MasterAddons\Admin\WidgetBuilder;
+namespace MasterAddons\Inc\Admin\WidgetBuilder;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
  * Register REST API routes
  */
 \add_action('rest_api_init', function() {
-    $controller = new JLTMA_REST_Controller();
+    $controller = new REST_Controller();
     $controller->register_routes();
 });
 

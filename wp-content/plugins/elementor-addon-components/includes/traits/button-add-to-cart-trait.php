@@ -24,22 +24,22 @@ trait Button_Add_To_Cart_Trait {
 				'type'    => Controls_Manager::TEXT,
 				'dynamic' => array( 'active' => true ),
 				'ai'      => array( 'active' => false ),
-				'default' => esc_html__( 'Ajouter au panier', 'eac-components' ),
+				'default' => esc_html__( 'Add to cart', 'eac-components' ),
 			)
 		);
 
 		$this->add_control(
 			'button_add_cart_picto',
 			array(
-				'label'   => esc_html__( 'Ajouter un pictogramme', 'eac-components' ),
+				'label'   => esc_html__( 'Add pictogram', 'eac-components' ),
 				'type'    => Controls_Manager::CHOOSE,
 				'options' => array(
 					'yes' => array(
-						'title' => esc_html__( 'Oui', 'eac-components' ),
+						'title' => esc_html__( 'Yes', 'eac-components' ),
 						'icon'  => 'eicon-check',
 					),
 					'no'  => array(
-						'title' => esc_html__( 'Non', 'eac-components' ),
+						'title' => esc_html__( 'No', 'eac-components' ),
 						'icon'  => 'eicon-ban',
 					),
 				),
@@ -51,7 +51,7 @@ trait Button_Add_To_Cart_Trait {
 		$this->add_control(
 			'button_cart_picto',
 			array(
-				'label'     => esc_html__( 'Pictogramme', 'eac-components' ),
+				'label'     => esc_html__( 'Pictogram', 'eac-components' ),
 				'type'      => Controls_Manager::ICONS,
 				'skin'      => 'inline',
 				'default'   => array(
@@ -71,11 +71,11 @@ trait Button_Add_To_Cart_Trait {
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'before' => array(
-						'title' => is_rtl() ? esc_html__( 'Après', 'eac-components' ) : esc_html__( 'Avant', 'eac-components' ),
+						'title' => is_rtl() ? esc_html__( 'After', 'eac-components' ) : esc_html__( 'Before', 'eac-components' ),
 						'icon'  => "eicon-h-align-{$start}",
 					),
 					'after'  => array(
-						'title' => is_rtl() ? esc_html__( 'Avant', 'eac-components' ) : esc_html__( 'Après', 'eac-components' ),
+						'title' => is_rtl() ? esc_html__( 'Before', 'eac-components' ) : esc_html__( 'After', 'eac-components' ),
 						'icon'  => "eicon-h-align-{$end}",
 					),
 				),
@@ -88,7 +88,7 @@ trait Button_Add_To_Cart_Trait {
 		$this->add_control(
 			'button_cart_marges',
 			array(
-				'label'              => esc_html__( 'Marges', 'eac-components' ),
+				'label'              => esc_html__( 'Margin', 'eac-components' ),
 				'type'               => Controls_Manager::DIMENSIONS,
 				'allowed_dimensions' => array( 'left', 'right' ),
 				'default'            => array(
@@ -120,13 +120,13 @@ trait Button_Add_To_Cart_Trait {
 			$this->start_controls_tab(
 				'button_cart_tab_normal',
 				array(
-					'label' => esc_html( 'Normal' ),
+					'label' => esc_html__( 'Normal', 'eac-components' ),
 				)
 			);
 				$this->add_control(
 					'button_cart_color',
 					array(
-						'label'     => esc_html__( 'Couleur', 'eac-components' ),
+						'label'     => esc_html__( 'Color', 'eac-components' ),
 						'type'      => Controls_Manager::COLOR,
 						'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 						'selectors' => array(
@@ -139,7 +139,7 @@ trait Button_Add_To_Cart_Trait {
 					Group_Control_Typography::get_type(),
 					array(
 						'name'     => 'button_cart_typo',
-						'label'    => esc_html__( 'Typographie', 'eac-components' ),
+						'label'    => esc_html__( 'Typography', 'eac-components' ),
 						'global'   => array( 'default' => Global_Typography::TYPOGRAPHY_TEXT ),
 						'selector' => '{{WRAPPER}} .button__cart-wrapper',
 					)
@@ -148,7 +148,7 @@ trait Button_Add_To_Cart_Trait {
 				$this->add_control(
 					'button_cart_bg',
 					array(
-						'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+						'label'     => esc_html__( 'Background color', 'eac-components' ),
 						'type'      => Controls_Manager::COLOR,
 						'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 						'selectors' => array( '{{WRAPPER}} .button__cart-wrapper' => 'background-color: {{VALUE}};' ),
@@ -160,14 +160,14 @@ trait Button_Add_To_Cart_Trait {
 			$this->start_controls_tab(
 				'button_cart_tab_hover',
 				array(
-					'label' => esc_html__( 'Survol', 'eac-components' ),
+					'label' => esc_html__( 'Hover', 'eac-components' ),
 				)
 			);
 
 				$this->add_control(
 					'button_cart_color_hover',
 					array(
-						'label'     => esc_html__( 'Couleur', 'eac-components' ),
+						'label'     => esc_html__( 'Color', 'eac-components' ),
 						'type'      => Controls_Manager::COLOR,
 						'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 						'selectors' => array(
@@ -180,7 +180,7 @@ trait Button_Add_To_Cart_Trait {
 				$this->add_control(
 					'button_cart_bg_hover',
 					array(
-						'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+						'label'     => esc_html__( 'Background color', 'eac-components' ),
 						'type'      => Controls_Manager::COLOR,
 						'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 						'selectors' => array(
@@ -192,7 +192,7 @@ trait Button_Add_To_Cart_Trait {
 				$this->add_control(
 					'button_cart_border_color_hover',
 					array(
-						'label'     => esc_html__( 'Couleur de la bordure', 'eac-components' ),
+						'label'     => esc_html__( 'Border color', 'eac-components' ),
 						'type'      => Controls_Manager::COLOR,
 						'condition' => array( 'button_cart_border_border!' => 'none' ),
 						'selectors' => array(
@@ -217,7 +217,7 @@ trait Button_Add_To_Cart_Trait {
 		$this->add_control(
 			'button_cart_radius',
 			array(
-				'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+				'label'              => esc_html__( 'Border radius', 'eac-components' ),
 				'type'               => Controls_Manager::DIMENSIONS,
 				'size_units'         => array( 'px', '%' ),
 				'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -230,7 +230,7 @@ trait Button_Add_To_Cart_Trait {
 		$this->add_responsive_control(
 			'button_cart_padding',
 			array(
-				'label'     => esc_html__( 'Marges internes', 'eac-components' ),
+				'label'     => esc_html__( 'Padding', 'eac-components' ),
 				'type'      => Controls_Manager::DIMENSIONS,
 				'selectors' => array(
 					'{{WRAPPER}} .button__cart-wrapper' => 'padding-block: {{TOP}}{{UNIT}} {{BOTTOM}}{{UNIT}}; padding-inline: {{RIGHT}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -242,7 +242,7 @@ trait Button_Add_To_Cart_Trait {
 			Group_Control_Box_Shadow::get_type(),
 			array(
 				'name'     => 'button_cart_shadow',
-				'label'    => esc_html__( 'Ombre', 'eac-components' ),
+				'label'    => esc_html__( 'Shadow', 'eac-components' ),
 				'selector' => '{{WRAPPER}} .button__cart-wrapper',
 			)
 		);

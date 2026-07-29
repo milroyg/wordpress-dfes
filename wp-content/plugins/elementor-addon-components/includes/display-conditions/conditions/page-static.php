@@ -18,15 +18,15 @@ use Elementor\Controls_Manager;
 
 class Page_Static extends Condition_Base {
 
-	public function get_target_control() {
+	public function get_target_control(): array {
 		return array(
-			'label'       => esc_html__( 'Page statique', 'eac-components' ),
+			'label'       => esc_html__( 'Static page', 'eac-components' ),
 			'type'        => Controls_Manager::SELECT,
 			'options'     => array(
-				'front' => esc_html__( "Page d'accueil", 'eac-components' ),
+				'front' => esc_html__( 'Front page', 'eac-components' ),
 				'home'  => esc_html__( 'Home page', 'eac-components' ),
-				'blog'  => esc_html__( 'Page des articles', 'eac-components' ),
-				'404'   => esc_html__( 'Page 404', 'eac-components' ),
+				'blog'  => esc_html__( 'Blog post', 'eac-components' ),
+				'404'   => esc_html__( '404 page', 'eac-components' ),
 			),
 			'render_type' => 'none',
 			'condition'   => array(
@@ -35,11 +35,11 @@ class Page_Static extends Condition_Base {
 		);
 	}
 
-	public function get_called_classname() {
+	public function get_called_classname(): string {
 		return get_called_class();
 	}
 
-	public function check( $settings, $value, $operateur = '', $tz = '' ) {
+	public function check( $settings, $value, $operateur = '', $tz = '' ): bool {
 		switch ( $value ) {
 			case 'home':
 				$result = is_front_page() && is_home();

@@ -57,7 +57,7 @@ class Eac_Plugin_Updater {
 	public function auto_update_setting_html( $html, $plugin_file, $plugin_data ) { // phpcs:ignore
 
 		if ( $this->plugin_name === $plugin_file ) {
-			$html = esc_html__( 'Les mises à jour automatiques ne sont pas disponibles pour ce plugin', 'eac-components' );
+			$html = esc_html__( 'Auto-update is not available for this plugin', 'eac-components' );
 		}
 		return $html;
 	}

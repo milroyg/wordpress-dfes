@@ -1,0 +1,39 @@
+// multiple select's css
+.sp-location-weather-tabs-panel {
+  .spl-weather-multi-select {
+    &.d-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .css-t3ipsp-control{
+      box-shadow: none;
+      border-color: #ccc;
+    }
+    div[role="option"] {
+      background-color: transparent;
+    }
+    div[role="option"]:hover {
+      background-color: #f0f0f0;
+    }
+
+    .spl-weather-basic-multi-select div {
+      div {
+        div {
+          input {
+            &:focus {
+              box-shadow: none;
+              border-color: #f05d31;
+            }
+          }
+          div:last-child:hover {
+            background-color: #f05d31;
+            svg {
+              fill: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -48,6 +48,13 @@ class Manage_API {
 	private static $weather_api = 'https://api.weatherapi.com/v1/forecast.json?';
 
 	/**
+	 * The api URL to fetch Current air pollution.
+	 *
+	 * @var string The basic api url to fetch current weather air pollution.
+	 */
+	private static $air_pollution_api = 'https://api.openweathermap.org/data/2.5/air_pollution?';
+
+	/**
 	 * The api key.
 	 *
 	 * @var string
@@ -79,6 +86,12 @@ class Manage_API {
 			$value = array(
 				'code'    => 404,
 				'message' => esc_html__( 'Please set your valid city name and country code.', 'location-weather' ),
+			);
+			return $value;
+		} elseif ( ! $value ) {
+			$value = array(
+				'code'    => 404,
+				'message' => esc_html__( 'Error: Something went wrong. Please reload again', 'location-weather' ),
 			);
 			return $value;
 		}
@@ -143,7 +156,12 @@ class Manage_API {
 
 			$request = wp_remote_get( $answer );
 			if ( is_wp_error( $request ) ) {
-				return false;
+				return array(
+					'code'    => 404,
+					'message' => sprintf(
+						__( 'Error: Something went wrong. Please reload again', 'location-weather' ),
+					),
+				);
 			}
 
 			$body = wp_remote_retrieve_body( $request );
@@ -156,7 +174,6 @@ class Manage_API {
 		} else {
 			$data = $weather_data;
 		}
-
 		if ( isset( $data->error->code ) && (int) 2006 === $data->error->code ) {
 			return array(
 				'code'    => 2006,
@@ -245,6 +262,42 @@ class Manage_API {
 
 		// Return the constructed URL.
 		return $url;
+	}
+
+	/**
+	 * Get the air pollution data for a specific location from the OpenWeatherMap API.
+	 *
+	 * @param string $query            The location query string (e.g., city name, zip code, latitude/longitude).
+	 * @param string $appid            The API key for accessing the OpenWeatherMap API.
+	 * @param bool   $skip_cache check skip_cache or not.
+	 * @param int    $shortcode_id     The ID of the shortcode (used for transient caching).
+	 *
+	 * @return object|null The qualitative name of the air quality index, or null if data retrieval fails.
+	 */
+	public static function get_aqi_data( $query, $appid = '', $skip_cache = false, $shortcode_id = 0 ) {
+		$url = self::$air_pollution_api;
+		$url = "{$url}lat={$query['lat']}&lon={$query['lon']}&appid={$appid}";
+
+		$transient_name = 'sp_open_weather_air_pollution_' . $shortcode_id;
+		$air_quality    = self::splw_get_transient( $transient_name );
+
+		// Check if the transient exists and has not expired or if we should use the visitor's location.
+		if ( $skip_cache || ! $air_quality ) {
+			$request = wp_remote_get( $url );
+
+			if ( is_wp_error( $request ) ) {
+				return false;
+			}
+			$body = wp_remote_retrieve_body( $request );
+			$data = json_decode( $body );
+
+			if ( $data ) {
+				self::splw_set_transient( $transient_name, $data );
+			}
+		} else {
+			$data = $air_quality;
+		}
+		return $data;
 	}
 
 	/**

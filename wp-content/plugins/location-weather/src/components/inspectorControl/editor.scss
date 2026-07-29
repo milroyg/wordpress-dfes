@@ -1,0 +1,77 @@
+.sp-location-weather-tabs-panel {
+
+	.spl-weather-block-preview-btn-wrapper {
+		display: flex;
+		gap: 9px
+	}
+
+	.spl-weather-tab-panel-header {
+		padding: 0 16px 16px 16px;
+	}
+
+	.spl-weather-block-preview-btn,
+	.spl-weather-patterns-btn {
+		color: #fff;
+		cursor: pointer;
+		display: flex;
+		font-size: 12px;
+		font-weight: 600;
+		justify-content: center;
+		line-height: 14px;
+		padding: 12px 16px;
+		text-decoration: none;
+		border-radius: 2px;
+		transition: background-color 0.3s ease;
+		border: none;
+	}
+
+	.spl-weather-block-preview-btn {
+		background-color: #0054FB;
+
+		&:hover {
+			background-color: #004bef;
+		}
+
+		&:focus {
+			box-shadow: none;
+			border: none;
+			outline: none;
+		}
+	}
+
+	// panel body customization.
+	.components-panel__body {
+		&.is-opened {
+			padding-bottom: 0;
+
+			&>.components-panel__body-title {
+				background-color: #f0f0f0;
+				margin-bottom: 12px;
+			}
+		}
+
+		.components-panel__body-title button {
+			display: flex;
+			flex-direction: row-reverse;
+			justify-content: start;
+			color: #1E1E1E;
+
+			&:hover {
+				color: #1E1E1E;
+			}
+
+			&:focus:not(:disabled) {
+				box-shadow: none;
+				outline: none;
+			}
+
+			svg {
+				margin-right: 10px;
+			}
+
+			span svg {
+				margin-right: -4px;
+			}
+		}
+	}
+}

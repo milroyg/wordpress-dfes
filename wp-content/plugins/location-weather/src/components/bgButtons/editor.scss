@@ -1,0 +1,115 @@
+.sp-location-weather-tabs-panel {
+  .splw-background {
+    margin-top: 10px;
+
+    .components-circular-option-picker {
+      position: absolute;
+      left: -11px;
+      display: none;
+
+      button {
+        padding: 0;
+        height: 14px;
+        margin-right: 16px;
+
+        &:focus:not(:disabled) {
+          outline: none;
+          box-shadow: none;
+        }
+
+        svg {
+          fill: #000;
+        }
+
+        &:hover svg {
+          fill: #f26c0d;
+        }
+      }
+    }
+
+    legend {
+      display: none;
+    }
+
+    .spl-weather-component-title {
+      margin-bottom: 0px;
+    }
+
+    &-control {
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &-left {
+      display: flex;
+
+      button {
+        padding: 0;
+        border-radius: 2px !important;
+        border: none;
+        box-shadow: none;
+        height: auto;
+        border: 1px solid transparent;
+        margin-left: 2px !important;
+        width: 26px;
+        height: 25px;
+        justify-content: center;
+        position: relative;
+
+        span {
+          display: inline-flex;
+        }
+
+        p {
+          opacity: 0;
+          visibility: hidden;
+          position: absolute;
+          top: -40px;
+          background-color: #757575;
+          color: #fff;
+          padding: 8px 10px;
+          white-space: nowrap;
+          font-size: 11px;
+          border-radius: 4px;
+          transition: 0.3s;
+        }
+
+        &::after {
+          position: absolute;
+          content: "";
+          top: -10px;
+          left: 2px;
+          border-width: 10px;
+          border-color: #757575 transparent transparent transparent;
+          border-style: solid;
+          opacity: 0;
+          visibility: hidden;
+          transition: 0.3s;
+        }
+
+        &:focus:not(:disabled) {
+          outline: none;
+          box-shadow: none;
+        }
+
+        &.active {
+          border: 1px solid #f26c0d;
+        }
+      }
+
+      button:hover p {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      button:hover::after {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    .splw-background-control {
+      justify-content: space-between;
+    }
+  }
+}

@@ -698,6 +698,30 @@ SPLW::createSection(
 								'dependency' => array( 'lw-weather-icons', '==', 'true', true ),
 							),
 							array(
+								'id'         => 'lw-weather-additional-data-margin',
+								'type'       => 'spacing',
+								'class'      => 'lw-weather-additional-data-margin',
+								'title'      => __( 'Margin', 'location-weather' ),
+								'units'      => array(
+									__( 'px', 'location-weather' ),
+								),
+								'right'      => false,
+								'left'       => false,
+								'default'    => array(
+									'top'    => '8',
+									'bottom' => '3',
+								),
+								'title_info' => '<div class="lw-img-tag"><img src="' . SPLW::include_plugin_url( 'assets/images/additional-data-area-margin.svg' ) . '" alt="weather-content-padding"></div><div class="lw-info-label img">' . __( 'Additional Data Area Margin', 'location-weather' ) . '</div>',
+							),
+							array(
+								'type'    => 'notice',
+								'style'   => 'normal',
+								'class'   => 'notice-padding',
+								/* translators: %1$s: anchor tag start, %2$s: first anchor tag end,%3$s: second anchor tag start, %4$s: second anchor tag end. */
+								'content' => sprintf( __( 'To display weather data in %1$sAdditional Styles%2$s with advanced customizations, %3$sUpgrade to Pro!%4$s', 'location-weather' ), '<a class="lw-open-live-demo" href="https://locationweather.io/demos/additional-data-layouts/" target="_blank"><strong>', '</strong></a>', '<a class="lw-open-live-demo" href="https://locationweather.io/pricing/?ref=1" target="_blank"><strong>', '</strong></a>' ),
+
+							),
+							array(
 								'id'         => 'lw_icon_size',
 								'class'      => 'lw_icon_size',
 								'type'       => 'spinner',
@@ -742,30 +766,6 @@ SPLW::createSection(
 									'color'  => '#e2e2e2',
 									'radius' => '4',
 								),
-							),
-							array(
-								'id'         => 'lw-weather-additional-data-margin',
-								'type'       => 'spacing',
-								'class'      => 'lw-weather-additional-data-margin',
-								'title'      => __( 'Margin', 'location-weather' ),
-								'units'      => array(
-									__( 'px', 'location-weather' ),
-								),
-								'right'      => false,
-								'left'       => false,
-								'default'    => array(
-									'top'    => '8',
-									'bottom' => '3',
-								),
-								'title_info' => '<div class="lw-img-tag"><img src="' . SPLW::include_plugin_url( 'assets/images/additional-data-area-margin.svg' ) . '" alt="weather-content-padding"></div><div class="lw-info-label img">' . __( 'Additional Data Area Margin', 'location-weather' ) . '</div>',
-							),
-							array(
-								'type'    => 'notice',
-								'style'   => 'normal',
-								'class'   => 'notice-padding',
-								/* translators: %1$s: anchor tag start, %2$s: first anchor tag end,%3$s: second anchor tag start, %4$s: second anchor tag end. */
-								'content' => sprintf( __( 'To display weather data in %1$sAdditional Styles%2$s with advanced customizations, %3$sUpgrade to Pro!%4$s', 'location-weather' ), '<a class="lw-open-live-demo" href="https://locationweather.io/demos/additional-data-layouts/" target="_blank"><strong>', '</strong></a>', '<a class="lw-open-live-demo" href="https://locationweather.io/pricing/?ref=1" target="_blank"><strong>', '</strong></a>' ),
-
 							),
 							array(
 								'id'    => 'lw-carousel-heading',

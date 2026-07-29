@@ -1,0 +1,143 @@
+.eac-repeater-editor-preview {
+	padding: 8px 0;
+	box-sizing: border-box;
+}
+
+.form-token-field-wrapper label.components-form-token-field__label {
+	display: none;
+}
+
+.form-token-field-wrapper label.components-base-control__label {
+	display: block;
+	margin-block-end: 8px;
+	font-size: 11px;
+	font-weight: 500;
+	line-height: 1.4;
+	text-transform: uppercase;
+	box-sizing: border-box;
+}
+
+/** Les control color */
+.eac-section-border .components-tools-panel-item,
+.eac-section-panelcolor .components-tools-panel-item {
+	margin-block-start: 0;
+	margin-top: 0 !important;
+}
+
+/* Désactive les liens dans l'éditeur */
+.eac-repeater-editor-preview div .eac-repeater__block-faq .acf-repeater__faq-question,
+.eac-repeater-editor-preview a {
+	pointer-events: none;
+	cursor: default;
+	text-decoration: none;
+	color: inherit;
+}
+
+/* Heading button styles */
+.eac-heading-btn {
+	padding: 6px;
+	border-radius: 4px;
+	background: transparent;
+}
+
+.eac-heading-btn.is-active {
+	background: rgba(0, 0, 0, 0.8) !important;
+}
+
+.eac-heading-btn svg {
+	display: block;
+	fill: currentColor;
+	outline: none;
+}
+
+/* Block wrapper fallback */
+.eac-repeater-editor-preview {
+	background: transparent;
+}
+
+/** FAQ éditeur toutes les div réponses sont dépliées */
+.eac-repeater-editor-preview .acf-repeater__faq-answer {
+	display: block !important;
+}
+
+/** FAQ éditeur rotation de 180deg pictogramme SVG */
+.eac-repeater-editor-preview .acf-repeater__faq-toggler svg {
+	rotate: 180deg;
+}
+
+/** Responsive grid columns */
+.eac-repeater-editor-preview .eac-repeater__block-grid.cols-mobile-1 {
+	--eac-repeater-cols: 1;
+}
+
+.eac-repeater-editor-preview .eac-repeater__block-grid.cols-mobile-2 {
+	--eac-repeater-cols: 2;
+}
+
+.eac-repeater-editor-preview .eac-repeater__block-grid.cols-mobile-3 {
+	--eac-repeater-cols: 3;
+}
+
+.eac-repeater-editor-preview .eac-repeater__block-grid.cols-mobile-4 {
+	--eac-repeater-cols: 4;
+}
+
+.eac-repeater-editor-preview .eac-repeater__block-grid.cols-mobile-5 {
+	--eac-repeater-cols: 5;
+}
+
+.eac-repeater-editor-preview .eac-repeater__block-grid.cols-mobile-6 {
+	--eac-repeater-cols: 6;
+}
+
+@media (min-width: 768px) {
+	.eac-repeater-editor-preview .eac-repeater__block-grid.cols-tablet-1 {
+		--eac-repeater-cols: 1;
+	}
+
+	.eac-repeater-editor-preview .eac-repeater__block-grid.cols-tablet-2 {
+		--eac-repeater-cols: 2;
+	}
+
+	.eac-repeater-editor-preview .eac-repeater__block-grid.cols-tablet-3 {
+		--eac-repeater-cols: 3;
+	}
+
+	.eac-repeater-editor-preview .eac-repeater__block-grid.cols-tablet-4 {
+		--eac-repeater-cols: 4;
+	}
+
+	.eac-repeater-editor-preview .eac-repeater__block-grid.cols-tablet-5 {
+		--eac-repeater-cols: 5;
+	}
+
+	.eac-repeater-editor-preview .eac-repeater__block-grid.cols-tablet-6 {
+		--eac-repeater-cols: 6;
+	}
+}
+
+@media (min-width: 992px) {
+	.eac-repeater-editor-preview .eac-repeater__block-grid.cols-desktop-1 {
+		--eac-repeater-cols: 1;
+	}
+
+	.eac-repeater-editor-preview .eac-repeater__block-grid.cols-desktop-2 {
+		--eac-repeater-cols: 2;
+	}
+
+	.eac-repeater-editor-preview .eac-repeater__block-grid.cols-desktop-3 {
+		--eac-repeater-cols: 3;
+	}
+
+	.eac-repeater-editor-preview .eac-repeater__block-grid.cols-desktop-4 {
+		--eac-repeater-cols: 4;
+	}
+
+	.eac-repeater-editor-preview .eac-repeater__block-grid.cols-desktop-5 {
+		--eac-repeater-cols: 5;
+	}
+
+	.eac-repeater-editor-preview .eac-repeater__block-grid.cols-desktop-6 {
+		--eac-repeater-cols: 6;
+	}
+}

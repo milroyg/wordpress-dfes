@@ -15,10 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
 use EACCustomWidgets\Includes\TemplatesLib\Widgets\Classes\Class_Menu_Walker;
 use EACCustomWidgets\Core\Utils\Eac_Tools_Util;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 use EACCustomWidgets\Includes\Woocommerce\Eac_Woo_Filters;
 
 use Elementor\Widget_Base;
@@ -77,7 +76,7 @@ class Mega_Menu_Widget extends Widget_Base {
 	/**
 	 * Constructeur de la class
 	 */
-	public function __construct( $data = array(), $args = null ) {
+	public function __construct( array $data = array(), ?array $args = null ) {
 		parent::__construct( $data, $args );
 
 		$this->include_wc();
@@ -97,10 +96,10 @@ class Mega_Menu_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -108,10 +107,10 @@ class Mega_Menu_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -119,10 +118,10 @@ class Mega_Menu_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -132,8 +131,8 @@ class Mega_Menu_Widget extends Widget_Base {
 	 *
 	 * @return widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -141,7 +140,7 @@ class Mega_Menu_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
 		return array( 'eac-mega-menu' );
@@ -156,8 +155,8 @@ class Mega_Menu_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -165,10 +164,10 @@ class Mega_Menu_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -194,13 +193,13 @@ class Mega_Menu_Widget extends Widget_Base {
 			$responsive_value = Plugin::$instance->breakpoints->get_breakpoints( $key )->get_value();
 			$this->responsive_breakpoints[ '(max-width:' . absint( $responsive_value ) . 'px)' ] = 'Max ' . absint( $responsive_value ) . 'px';
 		}
-		$this->responsive_breakpoints['(max-width:240px)']  = esc_html__( 'Jamais', 'eac-components' );
-		$this->responsive_breakpoints['(max-width:4600px)'] = esc_html__( 'Toujours', 'eac-components' );
+		$this->responsive_breakpoints['(max-width:240px)']  = esc_html__( 'Never', 'eac-components' );
+		$this->responsive_breakpoints['(max-width:4600px)'] = esc_html__( 'Always', 'eac-components' );
 
 		$this->start_controls_section(
 			'mn_settings',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -208,7 +207,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_control(
 				'mn_content_menu',
 				array(
-					'label'       => esc_html__( 'Sélectionner un menu', 'eac-components' ),
+					'label'       => esc_html__( 'Select menu', 'eac-components' ),
 					'type'        => Controls_Manager::SELECT,
 					'options'     => Eac_Tools_Util::get_menus_list(),
 					'default'     => array_key_first( Eac_Tools_Util::get_menus_list() ),
@@ -219,11 +218,11 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_control(
 				'mn_content_display',
 				array(
-					'label'        => esc_html__( 'Affichage', 'eac-components' ),
+					'label'        => esc_html__( 'Display', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
 					'options'      => array(
-						'default' => esc_html__( 'Défaut', 'eac-components' ),
-						'mega'    => esc_html__( 'Multiples colonnes', 'eac-components' ),
+						'default' => esc_html__( 'Default', 'eac-components' ),
+						'mega'    => esc_html__( 'Multiple columns', 'eac-components' ),
 					),
 					'default'      => 'default',
 					'render_type'  => 'template',
@@ -234,7 +233,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'mn_mega_number',
 				array(
-					'label'     => esc_html__( 'Nombre de lignes', 'eac-components' ),
+					'label'     => esc_html__( 'Row count', 'eac-components' ),
 					'type'      => Controls_Manager::NUMBER,
 					'min'       => 2,
 					'max'       => 30,
@@ -253,8 +252,8 @@ class Mega_Menu_Widget extends Widget_Base {
 					'label'        => esc_html__( 'Orientation', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
 					'options'      => array(
-						'hrz' => esc_html__( 'Horizontale', 'eac-components' ),
-						'vrt' => esc_html__( 'Verticale', 'eac-components' ),
+						'hrz' => esc_html__( 'Horizontal', 'eac-components' ),
+						'vrt' => esc_html__( 'Vertical', 'eac-components' ),
 					),
 					'default'      => 'hrz',
 					'render_type'  => 'template',
@@ -265,23 +264,23 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'mn_content_align',
 				array(
-					'label'     => esc_html__( 'Alignement du menu', 'eac-components' ),
+					'label'     => esc_html__( 'Menu alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'flex-start' => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center'     => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'flex-end'   => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 						'space-between' => array(
-							'title' => esc_html__( 'Justifié', 'eac-components' ),
+							'title' => esc_html__( 'Justified', 'eac-components' ),
 							'icon'  => 'eicon-h-align-stretch',
 						),
 					),
@@ -298,15 +297,15 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_control(
 				'mn_content_expand',
 				array(
-					'label'        => esc_html__( 'Menu réduit', 'eac-components' ),
+					'label'        => esc_html__( 'Menu collapsed', 'eac-components' ),
 					'type'         => Controls_Manager::CHOOSE,
 					'options'      => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -320,15 +319,15 @@ class Mega_Menu_Widget extends Widget_Base {
 		$this->add_control(
 			'mn_content_add_menu_sticky',
 			array(
-				'label'     => esc_html__( 'Menu collant', 'eac-components' ),
+				'label'     => esc_html__( 'Sticky menu', 'eac-components' ),
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'yes' => array(
-						'title' => esc_html__( 'Oui', 'eac-components' ),
+						'title' => esc_html__( 'Yes', 'eac-components' ),
 						'icon'  => 'eicon-check',
 					),
 					'no'  => array(
-						'title' => esc_html__( 'Non', 'eac-components' ),
+						'title' => esc_html__( 'No', 'eac-components' ),
 						'icon'  => 'eicon-ban',
 					),
 				),
@@ -341,15 +340,15 @@ class Mega_Menu_Widget extends Widget_Base {
 		$this->add_control(
 			'mn_content_item_revert',
 			array(
-				'label'        => esc_html__( "Inverser l'affichage du dernier élément", 'eac-components' ),
+				'label'        => esc_html__( 'Invert display of last item', 'eac-components' ),
 				'type'         => Controls_Manager::CHOOSE,
 				'options'      => array(
 					'yes' => array(
-						'title' => esc_html__( 'Oui', 'eac-components' ),
+						'title' => esc_html__( 'Yes', 'eac-components' ),
 						'icon'  => 'eicon-check',
 					),
 					'no'  => array(
-						'title' => esc_html__( 'Non', 'eac-components' ),
+						'title' => esc_html__( 'No', 'eac-components' ),
 						'icon'  => 'eicon-ban',
 					),
 				),
@@ -364,15 +363,15 @@ class Mega_Menu_Widget extends Widget_Base {
 		$this->add_control(
 			'mn_content_menu_overflow',
 			array(
-				'label'   => esc_html__( 'Masquer le débordement', 'eac-components' ),
+				'label'   => esc_html__( 'Hide overflow', 'eac-components' ),
 				'type'    => Controls_Manager::CHOOSE,
 				'options' => array(
 					'yes' => array(
-						'title' => esc_html__( 'Oui', 'eac-components' ),
+						'title' => esc_html__( 'Yes', 'eac-components' ),
 						'icon'  => 'eicon-check',
 					),
 					'no'  => array(
-						'title' => esc_html__( 'Non', 'eac-components' ),
+						'title' => esc_html__( 'No', 'eac-components' ),
 						'icon'  => 'eicon-ban',
 					),
 				),
@@ -385,16 +384,16 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_control(
 				'mn_content_add_menu_cart',
 				array(
-					'label'        => esc_html__( 'Mini-panier', 'eac-components' ),
-					'description'  => esc_html__( 'Ajouter un mini-panier au menu. Actif sur le frontend.', 'eac-components' ),
+					'label'        => esc_html__( 'Mini cart', 'eac-components' ),
+					'description'  => esc_html__( 'Add a mini cart to the menu. Active on the frontend.', 'eac-components' ),
 					'type'         => Controls_Manager::CHOOSE,
 					'options'      => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -411,7 +410,7 @@ class Mega_Menu_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'mn_settings_responsive',
 			array(
-				'label' => esc_html__( 'Mode responsive', 'eac-components' ),
+				'label' => esc_html__( 'Responsive mode', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -419,7 +418,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_control(
 				'mn_settings_responsive_breakpoint',
 				array(
-					'label'   => esc_html__( 'Point de rupture', 'eac-components' ),
+					'label'   => esc_html__( 'Breakpoint', 'eac-components' ),
 					'type'    => Controls_Manager::SELECT,
 					'default' => ! empty( $this->responsive_breakpoints ) ? array_key_first( $this->responsive_breakpoints ) : '(max-width:768px)',
 					'options' => ! empty( $this->responsive_breakpoints ) ? $this->responsive_breakpoints : $this->responsive_default,
@@ -429,7 +428,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_control(
 				'mn_content_wrapper_dropdown_icon',
 				array(
-					'label'       => esc_html__( "Icône d'ouverture", 'eac-components' ),
+					'label'       => esc_html__( 'Open icon', 'eac-components' ),
 					'type'        => Controls_Manager::ICONS,
 					'label_block' => 'true',
 					'default'     => array(
@@ -443,7 +442,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_control(
 				'mn_content_wrapper_dropdown_close_icon',
 				array(
-					'label'       => esc_html__( 'Icône de fermeture', 'eac-components' ),
+					'label'       => esc_html__( 'Close icon', 'eac-components' ),
 					'type'        => Controls_Manager::ICONS,
 					'label_block' => 'true',
 					'default'     => array(
@@ -459,7 +458,7 @@ class Mega_Menu_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'mn_content_menu_sticky',
 			array(
-				'label'     => esc_html__( 'Menu collant', 'eac-components' ),
+				'label'     => esc_html__( 'Sticky menu', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_CONTENT,
 				'condition' => array( 'mn_content_add_menu_sticky' => 'yes' ),
 			)
@@ -468,7 +467,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_control(
 				'mn_content_menu_sticky_fontsize',
 				array(
-					'label'          => esc_html__( 'Taille de la fonte (%)', 'eac-components' ),
+					'label'          => esc_html__( 'Font-size (%)', 'eac-components' ),
 					'type'           => Controls_Manager::SLIDER,
 					'size_units'     => array( '%' ),
 					'default'        => array(
@@ -498,7 +497,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_control(
 				'mn_content_menu_sticky_height',
 				array(
-					'label'      => esc_html__( 'Hauteur (px)', 'eac-components' ),
+					'label'      => esc_html__( 'Height (px)', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( 'px' ),
 					'default'    => array(
@@ -521,7 +520,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_control(
 				'mn_content_menu_sticky_opacity',
 				array(
-					'label'     => __( 'Opacité', 'eac-components' ),
+					'label'     => esc_html__( 'Opacity', 'eac-components' ),
 					'type'      => Controls_Manager::SLIDER,
 					'default'   => array( 'size' => 1 ),
 					'range'     => array(
@@ -543,7 +542,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->start_controls_section(
 				'mn_content_mini_cart',
 				array(
-					'label'     => esc_html__( 'Mini-panier', 'eac-components' ),
+					'label'     => esc_html__( 'Mini cart', 'eac-components' ),
 					'tab'       => Controls_Manager::TAB_CONTENT,
 					'condition' => array( 'mn_content_add_menu_cart' => 'yes' ),
 				)
@@ -553,15 +552,15 @@ class Mega_Menu_Widget extends Widget_Base {
 					'mn_content_mini_cart_badge',
 					array(
 						'label'       => esc_html__( 'Badge', 'eac-components' ),
-						'description' => esc_html__( "Ajouter un badge à l'icône du panier", 'eac-components' ),
+						'description' => esc_html__( 'Add badge to mini cart icon', 'eac-components' ),
 						'type'        => Controls_Manager::CHOOSE,
 						'options'     => array(
 							'yes' => array(
-								'title' => esc_html__( 'Oui', 'eac-components' ),
+								'title' => esc_html__( 'Yes', 'eac-components' ),
 								'icon'  => 'eicon-check',
 							),
 							'no'  => array(
-								'title' => esc_html__( 'Non', 'eac-components' ),
+								'title' => esc_html__( 'No', 'eac-components' ),
 								'icon'  => 'eicon-ban',
 							),
 						),
@@ -573,7 +572,7 @@ class Mega_Menu_Widget extends Widget_Base {
 				$this->add_control(
 					'mn_content_mini_cart_icon',
 					array(
-						'label'       => esc_html__( 'Icône', 'eac-components' ),
+						'label'       => esc_html__( 'Icon', 'eac-components' ),
 						'type'        => Controls_Manager::ICONS,
 						'label_block' => 'true',
 						'default'     => array(
@@ -587,7 +586,7 @@ class Mega_Menu_Widget extends Widget_Base {
 				$this->add_responsive_control(
 					'mn_content_mini_cart_buttons_with',
 					array(
-						'label'          => esc_html__( 'Largeur des boutons', 'eac-components' ),
+						'label'          => esc_html__( 'Button width', 'eac-components' ),
 						'type'           => Controls_Manager::SLIDER,
 						'size_units'     => array( '%' ),
 						'default'        => array(
@@ -630,7 +629,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_control(
 				'mn_menu_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_TEXT ),
 					'selectors' => array(
@@ -646,7 +645,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_control(
 				'mn_menu_color_hover',
 				array(
-					'label'     => esc_html__( 'Couleur au survol', 'eac-components' ),
+					'label'     => esc_html__( 'Hover color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_TEXT ),
 					'selectors' => array(
@@ -662,7 +661,7 @@ class Mega_Menu_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'           => 'mn_menu_typography',
-					'label'          => esc_html__( 'Typographie', 'eac-components' ),
+					'label'          => esc_html__( 'Typography', 'eac-components' ),
 					'global'         => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'fields_options' => array(
 						'font_size' => array(
@@ -681,7 +680,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_control(
 				'mn_menu_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array(
@@ -695,7 +694,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_control(
 				'mn_menu_bgcolor_hover',
 				array(
-					'label'     => esc_html__( 'Couleur du fond au survol', 'eac-components' ),
+					'label'     => esc_html__( 'Hover background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array(
@@ -712,7 +711,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'mn_style_wrapper_width',
 				array(
-					'label'      => esc_html__( 'Largeur', 'eac-components' ),
+					'label'      => esc_html__( 'Width', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( 'px', '%' ),
 					'default'    => array(
@@ -747,7 +746,7 @@ class Mega_Menu_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'     => 'mn_menu_shadow',
-					'label'    => esc_html__( 'Ombre', 'eac-components' ),
+					'label'    => esc_html__( 'Shadow', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .mega-menu_nav-wrapper',
 				)
 			);
@@ -757,7 +756,7 @@ class Mega_Menu_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'mn_style_submenu',
 			array(
-				'label' => esc_html__( 'Sous-menu', 'eac-components' ),
+				'label' => esc_html__( 'Submenu', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -765,7 +764,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_control(
 				'mn_submenu_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_TEXT ),
 					'selectors' => array(
@@ -781,7 +780,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_control(
 				'mn_submenu_color_hover',
 				array(
-					'label'     => esc_html__( 'Couleur au survol', 'eac-components' ),
+					'label'     => esc_html__( 'Hover color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_TEXT ),
 					'selectors' => array(
@@ -798,7 +797,7 @@ class Mega_Menu_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'           => 'mn_submenu_typography',
-					'label'          => esc_html__( 'Typographie', 'eac-components' ),
+					'label'          => esc_html__( 'Typography', 'eac-components' ),
 					'global'         => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'fields_options' => array(
 						'font_size' => array(
@@ -817,7 +816,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_control(
 				'mn_submenu_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array(
@@ -832,7 +831,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'mn_submenu_width',
 				array(
-					'label'      => esc_html__( 'Largeur premier niveau', 'eac-components' ),
+					'label'      => esc_html__( 'First level width', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( 'px' ),
 					'default'    => array(
@@ -856,7 +855,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'mn_items_width',
 				array(
-					'label'      => esc_html__( 'Largeur deuxième niveau', 'eac-components' ),
+					'label'      => esc_html__( 'Second level width', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( 'px' ),
 					'default'    => array(
@@ -882,7 +881,7 @@ class Mega_Menu_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'mn_style_buttons',
 			array(
-				'label' => esc_html__( 'Mode responsive', 'eac-components' ),
+				'label' => esc_html__( 'Responsive mode', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -890,22 +889,22 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'mn_content_wrapper_icon_align',
 				array(
-					'label'          => esc_html__( 'Alignement des icônes', 'eac-components' ),
+					'label'          => esc_html__( 'Icon alignment', 'eac-components' ),
 					'type'           => Controls_Manager::CHOOSE,
 					'default'        => 'center',
 					'tablet_default' => 'center',
 					'mobile_default' => 'center',
 					'options'        => array(
 						'flex-start' => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center'     => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'flex-end'   => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -920,7 +919,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->add_control(
 				'mn_buttons_color',
 				array(
-					'label'     => esc_html__( 'Couleur des boutons', 'eac-components' ),
+					'label'     => esc_html__( 'Button color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'default'   => '#FFFFFF',
@@ -934,7 +933,7 @@ class Mega_Menu_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'mn_buttons_typography',
-					'label'    => esc_html__( 'Typographie des boutons', 'eac-components' ),
+					'label'    => esc_html__( 'Button typography', 'eac-components' ),
 					'global'   => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'selector' => '{{WRAPPER}} .mega-menu_menu-icon, {{WRAPPER}} .mega-menu_menu-icon i, {{WRAPPER}} .toggle-menu',
 				)
@@ -946,7 +945,7 @@ class Mega_Menu_Widget extends Widget_Base {
 			$this->start_controls_section(
 				'mn_style_cart_buttons',
 				array(
-					'label'     => esc_html__( 'Boutons du mini-panier', 'eac-components' ),
+					'label'     => esc_html__( 'Mini cart buttons', 'eac-components' ),
 					'tab'       => Controls_Manager::TAB_STYLE,
 					'condition' => array( 'mn_content_add_menu_cart' => 'yes' ),
 				)
@@ -955,7 +954,7 @@ class Mega_Menu_Widget extends Widget_Base {
 				$this->add_control(
 					'mn_style_cart_buttons_color',
 					array(
-						'label'     => esc_html__( 'Couleur', 'eac-components' ),
+						'label'     => esc_html__( 'Color', 'eac-components' ),
 						'type'      => Controls_Manager::COLOR,
 						'global'    => array( 'default' => Global_Colors::COLOR_TEXT ),
 						'default'   => '#000',
@@ -969,7 +968,7 @@ class Mega_Menu_Widget extends Widget_Base {
 					Group_Control_Typography::get_type(),
 					array(
 						'name'     => 'mn_style_cart_buttons_typography',
-						'label'    => esc_html__( 'Typographie', 'eac-components' ),
+						'label'    => esc_html__( 'Typography', 'eac-components' ),
 						'global'   => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 						'selector' => '{{WRAPPER}} #menu-item-mini-cart .woocommerce-mini-cart__buttons .button',
 					)
@@ -978,7 +977,7 @@ class Mega_Menu_Widget extends Widget_Base {
 				$this->add_control(
 					'mn_style_cart_buttons_bgcolor',
 					array(
-						'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+						'label'     => esc_html__( 'Background color', 'eac-components' ),
 						'type'      => Controls_Manager::COLOR,
 						'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 						'default'   => '#FFF',
@@ -999,7 +998,7 @@ class Mega_Menu_Widget extends Widget_Base {
 				$this->add_control(
 					'mn_style_cart_buttons_radius',
 					array(
-						'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+						'label'              => esc_html__( 'Border radius', 'eac-components' ),
 						'type'               => Controls_Manager::DIMENSIONS,
 						'size_units'         => array( 'px', '%' ),
 						'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -1023,7 +1022,7 @@ class Mega_Menu_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'mn_style_mega_menu',
 			array(
-				'label'     => esc_html__( 'Multiples colonnes', 'eac-components' ),
+				'label'     => esc_html__( 'Multiple columns', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array( 'mn_content_display' => 'mega' ),
 			)
@@ -1032,7 +1031,7 @@ class Mega_Menu_Widget extends Widget_Base {
 		$this->add_responsive_control(
 			'mn_style_mega_gap',
 			array(
-				'label'     => esc_html__( 'Marges entre les colonnes', 'eac-components' ),
+				'label'     => esc_html__( 'Columns margin', 'eac-components' ),
 				'type'      => Controls_Manager::NUMBER,
 				'min'       => 0,
 				'max'       => 50,
@@ -1054,7 +1053,7 @@ class Mega_Menu_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings   = $this->get_settings_for_display();
 		$last_class = '';
 
@@ -1074,7 +1073,7 @@ class Mega_Menu_Widget extends Widget_Base {
 		<?php
 	}
 
-	protected function render_megamenu() {
+	protected function render_megamenu(): void {
 		$settings = $this->get_settings_for_display();
 
 		$this->main_id = get_the_ID();
@@ -1118,7 +1117,7 @@ class Mega_Menu_Widget extends Widget_Base {
 
 		$this->add_render_attribute( 'nav_menu', 'id', esc_attr( $mega_menu_id ) );
 		$this->add_render_attribute( 'nav_menu', 'class', esc_attr( $container_class ) );
-		$this->add_render_attribute( 'nav_menu', 'aria-label', esc_attr( $current_menu_label ) );
+		$this->add_render_attribute( 'nav_menu', 'aria-label', sprintf( '%1$s %2$s', esc_attr__( 'Menu', 'eac-components' ), esc_attr( $current_menu_label ) ) );
 		$this->add_render_attribute( 'nav_menu', 'itemtype', 'https://schema.org/SiteNavigationElement' );
 		$this->add_render_attribute( 'nav_menu', 'itemscope', 'itemscope' );
 		$this->add_render_attribute( 'nav_menu', 'data-breakpoint', esc_attr( $settings['mn_settings_responsive_breakpoint'] ) );
@@ -1147,7 +1146,7 @@ class Mega_Menu_Widget extends Widget_Base {
 		$this->add_render_attribute( 'button_open', 'aria-expanded', 'false' );
 		$this->add_render_attribute( 'button_open', 'aria-controls', esc_attr( $mega_menu_id ) );
 		$this->add_render_attribute( 'button_open', 'aria-hidden', 'true' );
-		$this->add_render_attribute( 'button_open', 'aria-label', esc_attr__( 'Ouvrir le menu', 'eac-components' ) . ' ' . esc_attr( $current_menu_label ) );
+		$this->add_render_attribute( 'button_open', 'aria-label', sprintf( '%1$s %2$s', esc_attr__( 'Open menu', 'eac-components' ), esc_attr( $current_menu_label ) ) );
 
 		$this->add_render_attribute( 'button_close', 'id', esc_attr( $toggle_close ) );
 		$this->add_render_attribute( 'button_close', 'type', 'button' );
@@ -1155,25 +1154,25 @@ class Mega_Menu_Widget extends Widget_Base {
 		$this->add_render_attribute( 'button_close', 'aria-expanded', 'false' );
 		$this->add_render_attribute( 'button_close', 'aria-controls', esc_attr( $mega_menu_id ) );
 		$this->add_render_attribute( 'button_close', 'aria-hidden', 'true' );
-		$this->add_render_attribute( 'button_close', 'aria-label', esc_attr__( 'Fermer le menu', 'eac-components' ) . ' ' . esc_attr( $current_menu_label ) );
+		$this->add_render_attribute( 'button_close', 'aria-label', sprintf( '%1$s %2$s', esc_attr__( 'Close menu', 'eac-components' ), esc_attr( $current_menu_label ) ) );
 
-		ob_start( array( '\EACCustomWidgets\Core\Utils\Eac_Tools_Util', 'compress_html_output' ), 0, PHP_OUTPUT_HANDLER_REMOVABLE );
+		ob_start( array( '\EACCustomWidgets\Core\Utils\Eac_Tools_Util', 'compress_html_full_output' ), 0, PHP_OUTPUT_HANDLER_REMOVABLE );
 		if ( '(max-width:240px)' !== $settings['mn_settings_responsive_breakpoint'] ) { ?>
-		<button <?php $this->print_render_attribute_string( 'button_open' ); ?>>
-			<div class='mega-menu_menu-icon eac-icon-svg'>
-				<?php echo isset( $menu_icons[0] ) ? wp_kses_post( $menu_icons[0] ) . '<span class="toggle-menu">Menu</span>' : ''; ?>
-			</div>
-		</button>
-		<button <?php $this->print_render_attribute_string( 'button_close' ); ?>>
-			<div class='mega-menu_menu-icon eac-icon-svg'>
-				<?php echo isset( $menu_icons[1] ) ? wp_kses_post( $menu_icons[1] ) . '<span class="toggle-menu">' . esc_html__( 'Fermer', 'eac-components' ) . '</span>' : ''; ?>
-			</div>
-		</button>
+			<button <?php $this->print_render_attribute_string( 'button_open' ); ?>>
+				<div class='mega-menu_menu-icon eac-icon-svg'>
+					<?php echo isset( $menu_icons[0] ) ? wp_kses_post( $menu_icons[0] ) . '<span class="toggle-menu">Menu</span>' : ''; ?>
+				</div>
+			</button>
+			<button <?php $this->print_render_attribute_string( 'button_close' ); ?>>
+				<div class='mega-menu_menu-icon eac-icon-svg'>
+					<?php echo isset( $menu_icons[1] ) ? wp_kses_post( $menu_icons[1] ) . '<span class="toggle-menu">' . esc_html__( 'Close', 'eac-components' ) . '</span>' : ''; ?>
+				</div>
+			</button>
 		<?php }
-		echo '<nav ' . wp_kses_post( $this->get_render_attribute_string( 'nav_menu' ) ) . '>';
+		echo '<nav ' . $this->get_render_attribute_string( 'nav_menu' ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo wp_nav_menu( $args );
 		echo '</nav>';
-		echo '<div class="eac-skip-grid" tabindex="0"><span class="visually-hidden">' . esc_html__( 'Sortir de la grille', 'eac-components' ) . '</span></div>';
+		echo '<div class="eac-skip-grid" tabindex="0"><span class="visually-hidden">' . esc_html__( 'Exit menu', 'eac-components' ) . '</span></div>';
 		ob_end_flush();
 	}
 
@@ -1237,7 +1236,9 @@ class Mega_Menu_Widget extends Widget_Base {
 				<a href='#' class='mega-menu_top-link' role="menuitem" aria-haspopup='true' aria-expanded='false' aria-controls='sub-menu-mini-cart'>
 					<span class='eac-shopping-cart'><?php echo isset( $menu_icon ) ? wp_kses_post( $menu_icon ) : ''; ?></span>
 					<?php if ( 'yes' === $settings['mn_content_mini_cart_badge'] ) { ?>
-						<span class='badge-cart__quantity'><?php echo esc_attr( $count_items ); ?></span>
+						<span class='badge-cart__quantity' role='status' aria-live='polite' aria-atomic='true' aria-label="<?php printf( '%1$d %2$s', absint( $count_items ), esc_html__( 'article(s) dans le panier', 'eac-components' ) ); ?>">
+							<span aria-hidden='true'><?php echo absint( $count_items ); ?></span>
+						</span>
 					<?php } ?>
 				</a>
 				<ul id='sub-menu-mini-cart' class='mini-cart-product mega-menu_sub-menu' role='menu' aria-label='Mini cart product'>
@@ -1273,5 +1274,5 @@ class Mega_Menu_Widget extends Widget_Base {
 		}
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

@@ -1,0 +1,111 @@
+/* ==========================================================================
+   MA Mailchimp Widget
+   ========================================================================== */
+.jltma-mailchimp {
+  width: 100%;
+}
+.jltma-mailchimp i,
+.jltma-mailchimp svg {
+  height: 1em;
+  width: 1em;
+}
+.jltma-mailchimp .mc4wp-form {
+  width: 100%;
+}
+.jltma-mailchimp .mc4wp-form .mc4wp-form-fields {
+  width: 100%;
+}
+.jltma-mailchimp .mc4wp-form .mc4wp-form-fields p {
+  margin: 0;
+  padding: 0;
+}
+.jltma-mailchimp .mc4wp-form .mc4wp-form-fields > p:first-child {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.jltma-mailchimp .mc4wp-form .mc4wp-form-fields > p:last-child {
+  align-self: flex-end;
+}
+.jltma-mailchimp .mc4wp-form .mc4wp-form-fields label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.jltma-mailchimp .mc4wp-form input[type=email],
+.jltma-mailchimp .mc4wp-form input[type=text] {
+  border: 1px solid #e6e6e6;
+  box-shadow: none;
+  display: block;
+  width: 100%;
+  height: 50px;
+  text-transform: initial;
+  border-radius: 0;
+  padding: 0 1rem;
+  margin: 0;
+  box-sizing: border-box;
+}
+.jltma-mailchimp .mc4wp-form input[type=email]:focus,
+.jltma-mailchimp .mc4wp-form input[type=text]:focus {
+  border-color: #e6e6e6;
+  box-shadow: none;
+  outline: 0;
+}
+.jltma-mailchimp .mc4wp-form input[type=submit],
+.jltma-mailchimp .mc4wp-form button[type=submit] {
+  background: #303030;
+  border: 1px solid #e6e6e6;
+  border-radius: 0;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  font-size: 1rem;
+  font-weight: 400;
+  height: 50px;
+  line-height: 48px;
+  overflow: hidden;
+  outline: 0;
+  padding: 0 1.5rem;
+  margin: 0;
+  text-align: center;
+  transition: all 0.25s ease-in-out;
+  box-sizing: border-box;
+}
+.jltma-mailchimp .mc4wp-form input[type=submit] i,
+.jltma-mailchimp .mc4wp-form input[type=submit] svg,
+.jltma-mailchimp .mc4wp-form button[type=submit] i,
+.jltma-mailchimp .mc4wp-form button[type=submit] svg {
+  vertical-align: middle;
+}
+.jltma-mailchimp .mc4wp-form input[type=submit]:hover,
+.jltma-mailchimp .mc4wp-form button[type=submit]:hover {
+  opacity: 0.85;
+}
+.jltma-mailchimp .mc4wp-form input[type=submit]:focus,
+.jltma-mailchimp .mc4wp-form button[type=submit]:focus {
+  outline: 0;
+}
+.jltma-mailchimp .mc4wp-alert {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0;
+}
+.jltma-mailchimp .mc4wp-alert.mc4wp-error {
+  background-color: #f8d7da;
+  border: 1px solid #f5c2c7;
+  color: #842029;
+}
+.jltma-mailchimp .mc4wp-alert.mc4wp-success {
+  background-color: #d1e7dd;
+  border: 1px solid #badbcc;
+  color: #0f5132;
+}
+.jltma-mailchimp .mc4wp-alert.mc4wp-warning {
+  background-color: #fff3cd;
+  border: 1px solid #ffecb5;
+  color: #664d03;
+}
+.jltma-mailchimp .mc4wp-notice {
+  color: #842029;
+  font-style: italic;
+  margin-bottom: 1rem;
+}

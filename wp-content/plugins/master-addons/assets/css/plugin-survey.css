@@ -1,3 +1,504 @@
-@-webkit-keyframes jltma-rotation{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}to{-webkit-transform:rotate(359deg);transform:rotate(359deg)}}@keyframes jltma-rotation{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}to{-webkit-transform:rotate(359deg);transform:rotate(359deg)}}.jltma-deactivate-survey-modal{background-color:#fff;border-radius:5px;color:#0e0101;display:block;left:50%;margin-top:-40px;max-width:635px;opacity:0;pointer-events:none;position:fixed;top:50%;-webkit-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);-webkit-transition:opacity .3s;transition:opacity .3s;width:100%;z-index:9999999999999}.jltma-deactivate-survey-modal header{-webkit-box-shadow:0 0 8px rgba(0,0,0,.1);box-shadow:0 0 8px rgba(0,0,0,.1);padding:3px 6px 3px 11px}.jltma-deactivate-survey-modal .jltma-deactivate-info{font-size:14px;font-weight:500;line-height:1.5;padding-bottom:23px;padding-left:16px;padding-top:32px;text-align:left}.jltma-deactivate-input-wrapper,.jltma-deactivate-input-wrapper .other{-webkit-box-align:baseline;-ms-flex-align:baseline;align-items:baseline;display:-webkit-box;display:-ms-flexbox;display:flex;gap:10px}.jltma-deactivate-input-wrapper .other{-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;width:100%}.jltma-deactivate-input-wrapper .jltma-feedback-text{padding:7px 14px;width:80%}.jltma-deactivate-input-wrapper .jltma-deactivate-feedback-dialog-input{-webkit-box-shadow:none;box-shadow:none;float:right;margin-block:0;margin-inline:0 15px}.jltma-deactivate-input-wrapper .jltma-deactivate-feedback-dialog-input:not(:checked)~.jltma-deactivate-feedback-text{display:none}.jltma-deactivate-input-wrapper .jltma-deactivate-feedback-text{background-color:rgba(0,0,0,0);-webkit-box-shadow:none;box-shadow:none;color:var(--e-a-color-txt);margin-block:10px 0;margin-inline:30px 0;padding:5px;width:45%}.jltma-deactivate-input-wrapper .jltma-deactivate-feedback-dialog-label{display:block;font-size:13px}.jltma-deactivate-footer{-webkit-box-orient:horizontal;-webkit-box-direction:normal;-webkit-box-pack:justify;-ms-flex-pack:justify;display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-direction:row;flex-direction:row;justify-content:space-between;padding-right:40px;padding-top:24px}.jltma-dialog-lightbox-skip{border:0;cursor:pointer;padding:0 15px}.jltma-dialog-lightbox-submit{background-color:#3d5dff;border:0;border-radius:3px;color:#fff;cursor:pointer;font-size:13px;height:38px;line-height:1;padding:12px 20px;-webkit-transition:all .2s ease-in-out;transition:all .2s ease-in-out;width:180px}.jltma-dialog-lightbox-submit:hover{background:#263580;opacity:.9}form.jltma-deactivate-form-wrapper{-webkit-box-orient:vertical;-webkit-box-direction:normal;display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;gap:8px;padding-bottom:32px}.jltma-deactivate-content-wrapper{padding:3px 6px 3px 24px}.jltma-deactivate-survey-header{-webkit-box-align:center;-ms-flex-align:center;align-items:center;display:-webkit-box;display:-ms-flexbox;display:flex;gap:10px}.jltma-deactivate-survey-header img{width:25px}.jltma-deactivate-survey-overlay{-webkit-backdrop-filter:blur(1px);backdrop-filter:blur(1px);background-color:rgba(0,0,0,.8);bottom:0;height:100%;left:0;opacity:0;pointer-events:none;position:fixed;right:0;top:0;-webkit-transition:opacity .3s;transition:opacity .3s;width:100%;z-index:9999}.jltma-deactivate-survey-is-visible{opacity:1;pointer-events:auto}#jltma-dialog-lightbox-submit.jltma-loading:before{-webkit-animation:jltma-rotation 2s linear infinite;animation:jltma-rotation 2s linear infinite;content:"";display:inline-block;font:16px dashicons;margin:-2px -20px;position:absolute}
-
-/*# sourceMappingURL=plugin-survey.css.map*/
+@charset "UTF-8";
+/* ══════════════════════════════════════════════
+   Master Addons - Deactivation Survey Styles
+   Scoped to body.jltma-admin to avoid conflicts
+   ══════════════════════════════════════════════ */
+body.jltma-admin {
+  /* ────────────────────────────────────────────
+     Freemius Dialog Header — Brand Gradient
+     Applies to all Freemius modals (license key,
+     email update, trial, etc.)
+     ──────────────────────────────────────────── */
+}
+body.jltma-admin .fs-modal .fs-modal-dialog {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.04) !important;
+}
+body.jltma-admin .fs-modal .fs-modal-header {
+  background: linear-gradient(135deg, rgb(153, 41, 234) 0%, rgb(88, 8, 251) 100%) !important;
+  border-bottom: none !important;
+  padding: 18px 24px !important;
+}
+body.jltma-admin .fs-modal .fs-modal-header h4 {
+  color: #fff !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15) !important;
+}
+body.jltma-admin .fs-modal .fs-modal-header .fs-close {
+  color: rgba(255, 255, 255, 0.8) !important;
+  transition: all 0.15s ease !important;
+}
+body.jltma-admin .fs-modal .fs-modal-header .fs-close:hover {
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-radius: 6px !important;
+}
+body.jltma-admin .fs-modal .fs-modal-header .fs-close .dashicons {
+  color: inherit !important;
+}
+body.jltma-admin .fs-modal .fs-modal-body {
+  background: #fff !important;
+  padding: 20px 24px !important;
+}
+body.jltma-admin .fs-modal .button-send-license-key,
+body.jltma-admin .fs-modal .button-primary {
+  background: linear-gradient(135deg, rgb(153, 41, 234) 0%, rgb(88, 8, 251) 100%) !important;
+  border: none !important;
+  border-radius: 6px !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  padding: 6px 18px !important;
+  text-shadow: none !important;
+  box-shadow: 0 2px 8px rgba(88, 8, 251, 0.3) !important;
+  transition: all 0.2s ease !important;
+}
+body.jltma-admin .fs-modal .button-send-license-key:hover,
+body.jltma-admin .fs-modal .button-primary:hover {
+  box-shadow: 0 4px 14px rgba(88, 8, 251, 0.45) !important;
+  transform: translateY(-1px);
+}
+body.jltma-admin .fs-modal .button-send-license-key.disabled,
+body.jltma-admin .fs-modal .button-primary.disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+body.jltma-admin .fs-modal input[type=radio]:checked {
+  border-color: rgb(88, 8, 251) !important;
+  background: rgb(88, 8, 251) !important;
+}
+body.jltma-admin {
+  /* ────────────────────────────────────────────
+     Freemius Deactivation Dialog Overrides
+     ──────────────────────────────────────────── */
+  /* Overlay */
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback {
+  background: rgba(0, 0, 0, 0.45) !important;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  /* Dialog container */
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .fs-modal-dialog {
+  max-width: 520px !important;
+  width: 520px !important;
+  margin-left: -260px !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.04) !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback {
+  /* Header — inherits brand gradient from .fs-modal above */
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .fs-modal-header {
+  margin-bottom: 0 !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback {
+  /* Body */
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .fs-modal-body {
+  background: #fff !important;
+  padding: 20px 24px !important;
+  border-bottom: none !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .fs-modal-panel h3 {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #64648c !important;
+  margin-top: 0 !important;
+  margin-bottom: 8px !important;
+  line-height: 1.5 !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .fs-modal-panel h3 strong {
+  font-weight: 500 !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback {
+  /* Reason list */
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback #reasons-list {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback #reasons-list li.reason {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback #reasons-list li.reason label {
+  display: flex !important;
+  align-items: center !important;
+  padding: 9px 12px !important;
+  border-radius: 10px !important;
+  cursor: pointer !important;
+  transition: background-color 0.15s ease !important;
+  margin: 0 !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback #reasons-list li.reason label:hover {
+  background: #f8f8fc !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback #reasons-list li.reason label {
+  /* Custom radio buttons */
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback #reasons-list li.reason label input[type=radio] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  border: 2px solid #d0d0dc !important;
+  border-radius: 50% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex-shrink: 0 !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  position: relative !important;
+  box-shadow: none !important;
+  background: #fff !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback #reasons-list li.reason label input[type=radio]:checked {
+  border-color: #7c3aed !important;
+  background: #7c3aed !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback #reasons-list li.reason label input[type=radio]:checked::after {
+  content: "" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background: #fff !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback #reasons-list li.reason label {
+  /* Label text */
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback #reasons-list li.reason label span {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #3a3a52 !important;
+  line-height: 1.4 !important;
+  margin-left: 12px !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback {
+  /* Reason input field */
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .reason-input,
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .internal-message {
+  margin: 4px 0 4px 42px !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .reason-input input,
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .reason-input textarea,
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .internal-message input,
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .internal-message textarea {
+  border: 1px solid #e0e0ea !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 13px !important;
+  background: #fafafc !important;
+  box-shadow: none !important;
+  outline: none !important;
+  transition: border-color 0.15s ease !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .reason-input input:focus,
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .reason-input textarea:focus,
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .internal-message input:focus,
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .internal-message textarea:focus {
+  border-color: #7c3aed !important;
+  background: #fff !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback {
+  /* Footer */
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .fs-modal-footer {
+  background: #fff !important;
+  border-top: 1px solid #f0f0f3 !important;
+  padding: 16px 24px !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  gap: 10px !important;
+  text-align: right !important;
+  /* Primary button (Submit & Deactivate) */
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .fs-modal-footer .button-primary,
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .fs-modal-footer .button-deactivate {
+  background: #7c3aed !important;
+  border: none !important;
+  border-radius: 10px !important;
+  color: #fff !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 9px 20px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  line-height: 1.4 !important;
+  height: auto !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .fs-modal-footer .button-primary:hover,
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .fs-modal-footer .button-deactivate:hover {
+  background: #6d28d9 !important;
+  opacity: 1 !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .fs-modal-footer {
+  /* Secondary buttons (Skip, Cancel) */
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .fs-modal-footer .button:not(.button-primary):not(.button-deactivate) {
+  background: none !important;
+  border: none !important;
+  border-radius: 10px !important;
+  color: #9090a8 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  padding: 9px 16px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  height: auto !important;
+  line-height: 1.4 !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .fs-modal-footer .button:not(.button-primary):not(.button-deactivate):hover {
+  color: #3a3a52 !important;
+  background: #f4f4f8 !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback {
+  /* Anonymous feedback checkbox */
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .anonymous-feedback-label {
+  font-size: 12px !important;
+  color: #9090a8 !important;
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback {
+  /* Snooze select */
+}
+body.jltma-admin .fs-modal.fs-modal-deactivation-feedback .feedback-from-snooze-label {
+  font-size: 12px !important;
+  color: #9090a8 !important;
+}
+body.jltma-admin {
+  /* ────────────────────────────────────────────
+     Custom MA Deactivation Dialog
+     ──────────────────────────────────────────── */
+}
+@keyframes jltma-rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+body.jltma-admin .jltma-deactivate-survey-overlay {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+body.jltma-admin .jltma-deactivate-survey-modal {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.96);
+  width: 100%;
+  max-width: 630px;
+  border-radius: 16px;
+  background: #fff;
+  color: #1a1a2e;
+  z-index: 99999999;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+body.jltma-admin .jltma-deactivate-survey-modal header {
+  padding: 18px 24px;
+  border-bottom: 1px solid #f0f0f3;
+  box-shadow: none;
+}
+body.jltma-admin .jltma-deactivate-survey-modal .jltma-deactivate-info {
+  font-size: 13px;
+  font-weight: 500;
+  color: #64648c;
+  padding: 20px 24px 0;
+  line-height: 1.5;
+  text-align: left;
+}
+body.jltma-admin .jltma-deactivate-survey-modal.jltma-deactivate-survey-is-visible {
+  transform: translate(-50%, -50%) scale(1);
+}
+body.jltma-admin .jltma-deactivate-survey-is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+body.jltma-admin .jltma-deactivate-survey-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+body.jltma-admin .jltma-deactivate-survey-header img {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+}
+body.jltma-admin .jltma-deactivate-survey-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+body.jltma-admin .jltma-deactivate-content-wrapper {
+  padding: 16px 24px 24px;
+}
+body.jltma-admin form.jltma-deactivate-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-bottom: 0;
+}
+body.jltma-admin .jltma-deactivate-input-wrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  padding: 9px 12px;
+  margin: 0;
+  border-radius: 10px;
+  transition: background-color 0.15s ease;
+  cursor: pointer;
+}
+body.jltma-admin .jltma-deactivate-input-wrapper:hover {
+  background: #f8f8fc;
+}
+body.jltma-admin .jltma-deactivate-input-wrapper .jltma-deactivate-feedback-dialog-input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #d0d0dc;
+  border-radius: 50%;
+  margin: 0;
+  margin-right: 12px;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  box-shadow: none;
+  float: none;
+  background: #fff;
+}
+body.jltma-admin .jltma-deactivate-input-wrapper .jltma-deactivate-feedback-dialog-input:checked {
+  border-color: #7c3aed;
+  background: #7c3aed;
+}
+body.jltma-admin .jltma-deactivate-input-wrapper .jltma-deactivate-feedback-dialog-input:checked::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+}
+body.jltma-admin .jltma-deactivate-input-wrapper .jltma-deactivate-feedback-dialog-input:checked ~ .jltma-deactivate-feedback-text {
+  display: block;
+}
+body.jltma-admin .jltma-deactivate-input-wrapper .jltma-deactivate-feedback-dialog-input:not(:checked) ~ .jltma-deactivate-feedback-text {
+  display: none;
+}
+body.jltma-admin .jltma-deactivate-input-wrapper .jltma-deactivate-feedback-dialog-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #3a3a52;
+  cursor: pointer;
+  line-height: 1.4;
+  flex: 1;
+}
+body.jltma-admin .jltma-deactivate-input-wrapper .jltma-deactivate-feedback-text {
+  display: none;
+  width: 100%;
+  margin: 8px 0 0 30px;
+  padding: 8px 12px;
+  font-size: 13px;
+  border: 1px solid #e0e0ea;
+  border-radius: 8px;
+  background: #fafafc;
+  color: #1a1a2e;
+  box-shadow: none;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+body.jltma-admin .jltma-deactivate-input-wrapper .jltma-deactivate-feedback-text:focus {
+  border-color: #7c3aed;
+  background: #fff;
+}
+body.jltma-admin .jltma-deactivate-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 20px 0 0;
+  margin-top: 8px;
+  border-top: 1px solid #f0f0f3;
+}
+body.jltma-admin .jltma-dialog-lightbox-submit {
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1.4;
+  position: relative;
+}
+body.jltma-admin .jltma-dialog-lightbox-submit:hover {
+  background: #6d28d9;
+  opacity: 1;
+}
+body.jltma-admin .jltma-dialog-lightbox-skip {
+  background: none;
+  border: none;
+  color: #9090a8;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 9px 16px;
+  border-radius: 10px;
+  transition: all 0.15s ease;
+}
+body.jltma-admin .jltma-dialog-lightbox-skip:hover {
+  color: #3a3a52;
+  background: #f4f4f8;
+}
+body.jltma-admin #jltma-dialog-lightbox-submit.jltma-loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+body.jltma-admin #jltma-dialog-lightbox-submit.jltma-loading::before {
+  content: "\f463";
+  font: 14px dashicons;
+  display: inline-block;
+  margin-right: 6px;
+  vertical-align: middle;
+  animation: jltma-rotation 1s linear infinite;
+}

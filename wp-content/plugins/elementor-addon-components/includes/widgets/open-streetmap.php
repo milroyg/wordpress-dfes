@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -148,7 +148,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 	 *
 	 * Enregistre les scripts et les styles
 	 */
-	public function __construct( $data = array(), $args = null ) {
+	public function __construct( array $data = array(), ?array $args = null ) {
 		parent::__construct( $data, $args );
 
 		// Valorise la liste des tuiles (tiles)
@@ -157,18 +157,8 @@ class Open_Streetmap_Widget extends Widget_Base {
 		// Valorise la liste des icones
 		$this->setIconsConfig();
 
-		/**wp_register_script( 'leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js', array(), '1.9.4', true );*/
-		wp_register_script( 'leaflet', EAC_PLUGIN_URL . 'assets/js/osm/leaflet.min.js', array(), '1.9.4', true );
-		wp_register_script( 'marker-cluster', EAC_PLUGIN_URL . 'assets/js/osm/eac-osm-markercluster.min.js', array( 'leaflet' ), '1.5.3', true );
-		wp_register_script( 'fullscreen', EAC_Plugin::instance()->get_script_url( 'assets/js/osm/eac-osm-fullscreen' ), array( 'leaflet' ), '2.1.0', true );
-		wp_register_script( 'eac-leaflet', EAC_Plugin::instance()->get_script_url( 'assets/js/osm/eac-osm-leaflet' ), array( 'jquery', 'elementor-frontend', 'leaflet', 'marker-cluster', 'fullscreen' ), '1.8.8', true );
-
 		/** Ajout du moteur de recherche Nominatim */
 		add_action( 'elementor/editor/after_enqueue_scripts', array( $this, 'enqueue_editor_scripts' ) );
-
-		wp_register_style( 'marker-cluster', EAC_PLUGIN_URL . 'assets/css/markercluster.min.css', array(), '1.5.3' );
-		wp_register_style( 'marker-cluster-default', EAC_PLUGIN_URL . 'assets/css/markercluster.default.min.css', array(), '1.5.3' );
-		wp_register_style( 'eac-leaflet', EAC_Plugin::instance()->get_style_url( 'assets/css/eac-osm-leaflet' ), array( 'eac-frontend', 'marker-cluster', 'marker-cluster-default' ), '1.8.8' );
 	}
 
 	/**
@@ -185,10 +175,10 @@ class Open_Streetmap_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -196,10 +186,10 @@ class Open_Streetmap_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -207,10 +197,10 @@ class Open_Streetmap_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -218,10 +208,10 @@ class Open_Streetmap_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -229,10 +219,10 @@ class Open_Streetmap_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
-		return array( 'leaflet', 'marker-cluster', 'fullscreen', 'eac-leaflet' );
+		return array( 'eac-leaflet' );
 	}
 
 	/**
@@ -241,10 +231,10 @@ class Open_Streetmap_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
-		return array( 'marker-cluster', 'marker-cluster-default', 'eac-leaflet' );
+		return array( 'eac-leaflet' );
 	}
 
 	/**
@@ -256,8 +246,8 @@ class Open_Streetmap_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -265,10 +255,10 @@ class Open_Streetmap_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -276,8 +266,8 @@ class Open_Streetmap_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 */
-	public function enqueue_editor_scripts() {
-		wp_enqueue_script( 'eac-nominatim', EAC_Plugin::instance()->get_script_url( 'assets/js/osm/eac-osm-search' ), array( 'jquery' ), '1.8.8', true );
+	public function enqueue_editor_scripts(): void {
+		wp_enqueue_script( 'eac-nominatim', EAC_Plugin::instance()->get_script_url( 'assets/js/osm/eac-osm-search' ), array( 'jquery' ), EAC_PLUGIN_VERSION, true );
 	}
 
 	/**
@@ -287,6 +277,15 @@ class Open_Streetmap_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -301,7 +300,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'osm_settings_map',
 			array(
-				'label' => esc_html__( 'Carte', 'eac-components' ),
+				'label' => esc_html__( 'Map', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -329,11 +328,11 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_settings_client_ip',
 				array(
-					'label'        => esc_html__( 'Localiser le visiteur (Adresse IP)', 'eac-components' ),
+					'label'        => esc_html__( 'Locate the visitor (IP address)', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'description'  => esc_html__( "Localisation par l'adresse IP ne fonctionne pas sur un serveur local.", 'eac-components' ),
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'description'  => esc_html__( 'Localization by IP address does not work on a local server.', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'conditions'   => array(
@@ -353,7 +352,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
 					'content_classes' => 'elementor-panel-alert elementor-panel-alert-warning',
-					'raw'             => esc_html__( 'La géolocalisation vers la bonne ville peut être moins fiable pour les adresses IP distribuées par les opérateurs mobiles.', 'eac-components' ),
+					'raw'             => esc_html__( 'Geolocation to the correct city may be less reliable for IP addresses distributed by mobile operators.', 'eac-components' ),
 					'condition'       => array( 'osm_settings_client_ip' => 'yes' ),
 				)
 			);
@@ -361,12 +360,12 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_settings_search',
 				array(
-					'label'        => esc_html__( 'Rechercher une adresse', 'eac-components' ),
+					'label'        => esc_html__( 'Search an address', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
-					'default'      => '',
+					'default'      => 'yes',
 					'conditions'   => array(
 						'terms' => array(
 							array(
@@ -380,21 +379,11 @@ class Open_Streetmap_Widget extends Widget_Base {
 			);
 
 			$this->add_control(
-				'osm_settings_search_help',
-				array(
-					'label'     => '',
-					'type'      => Controls_Manager::RAW_HTML,
-					'raw'       => __( "<span style='font-size:10px;'>Entrer l'adresse puis bouton 'Search'</span>", 'eac-components' ),
-					'condition' => array( 'osm_settings_search' => 'yes' ),
-				)
-			);
-
-			$this->add_control(
 				'osm_settings_search_addresse', // elementor-control-osm_settings_search_addresse
 				array(
-					'label'       => esc_html__( 'Adresse', 'eac-components' ),
+					'label'       => esc_html__( 'Central marker address', 'eac-components' ),
 					'type'        => Controls_Manager::RAW_HTML,
-					'raw'         => '<form onsubmit="getNominatimAddress(this);" action="javascript:void(0);"><input type="text" id="eac-get-nominatim-address" class="eac-get-nominatim-address" style="margin-block-start:10px; margin-block-end:10px;"><input type="submit" value="Search" class="elementor-button elementor-button-success" style="padding:8px 0;" onclick="getNominatimAddress(this)"></form>',
+					'raw'         => sprintf( '<form onsubmit="getNominatimRepeaterAddress(this);" action="javascript:void(0);"><input type="text" placeholder="Paris, France" id="eac-get-nominatim-address" class="eac-get-nominatim-address" style="margin-block-start:10px; margin-block-end:10px;"><input type="submit" value="%s" class="elementor-button elementor-button-success" style="padding:8px 0;" onclick="getNominatimRepeaterAddress(this)"></form>', esc_html__( 'Search', 'eac-components' ) ),
 					'label_block' => true,
 					'condition'   => array( 'osm_settings_search' => 'yes' ),
 				)
@@ -427,7 +416,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 				array(
 					'label'     => '',
 					'type'      => Controls_Manager::RAW_HTML,
-					'raw'       => __( '<span style="font-size:10px;">Cliquez <a href="https://www.coordonnees-gps.fr/" target="_blank" rel="nofollow noopener noreferrer" >ici</a> pour obtenir des coordonnées de localisation</span>', 'eac-components' ),
+					'raw'       => sprintf( '<span style="font-size:10px;"><a href="https://www.coordonnees-gps.fr/" target="_blank" rel="nofollow noopener noreferrer" >%s</a></span>', esc_html__( 'Click here for location coordinates', 'eac-components' ) ),
 					'condition' => array( 'osm_settings_search' => 'yes' ),
 				)
 			);
@@ -435,8 +424,9 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_settings_center_title', // elementor-control-osm_settings_center_title
 				array(
-					'label'       => esc_html__( "Titre de l'infobulle", 'eac-components' ),
+					'label'       => esc_html__( 'Tooltip title', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
+					'default'     => 'Paris, France',
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
 					'label_block' => true,
@@ -447,7 +437,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_settings_center_content',
 				array(
-					'label'       => esc_html__( "Contenu de l'infobulle", 'eac-components' ),
+					'label'       => esc_html__( 'Tooltip content', 'eac-components' ),
 					'type'        => Controls_Manager::TEXTAREA,
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
@@ -460,7 +450,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'osm_markers',
 			array(
-				'label' => esc_html__( 'Marqueurs', 'eac-components' ),
+				'label' => esc_html__( 'Markers', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -491,16 +481,16 @@ class Open_Streetmap_Widget extends Widget_Base {
 						array(
 							'label' => '',
 							'type'  => Controls_Manager::RAW_HTML,
-							'raw'   => __( "<span style='font-size:10px;'>Entrer l'adresse puis bouton 'Search'</span>", 'eac-components' ),
+							'raw'   => esc_html__( 'Enter address then button Search', 'eac-components' ),
 						)
 					);
 
 					$repeater->add_control(
 						'osm_markers_search_addresse', // elementor-control-osm_markers_search_addresse
 						array(
-							'label'       => esc_html__( 'Adresse', 'eac-components' ),
+							'label'       => esc_html__( 'Address', 'eac-components' ),
 							'type'        => Controls_Manager::RAW_HTML,
-							'raw'         => '<form onsubmit="getNominatimRepeaterAddress(this);" action="javascript:void(0);"><input type="text" id="eac-get-nominatim-address" class="eac-get-nominatim-address" style="margin-block-start:10px; margin-block-end:10px;"><input type="submit" value="Search" class="elementor-button elementor-button-success" style="padding:8px 0;" onclick="getNominatimRepeaterAddress(this)"></form>',
+							'raw'         => sprintf( '<form onsubmit="getNominatimRepeaterAddress(this);" action="javascript:void(0);"><input type="text" id="eac-get-nominatim-address" class="eac-get-nominatim-address" style="margin-block-start:10px; margin-block-end:10px;"><input type="submit" value="%s" class="elementor-button elementor-button-success" style="padding:8px 0;" onclick="getNominatimRepeaterAddress(this)"></form>', esc_html__( 'Search', 'eac-components' ) ),
 							'label_block' => true,
 						)
 					);
@@ -530,7 +520,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 						array(
 							'label' => '',
 							'type'  => Controls_Manager::RAW_HTML,
-							'raw'   => __( '<span style="font-size:10px;">Cliquez <a href="https://www.coordonnees-gps.fr/" target="_blank" rel="nofollow noopener noreferrer" >ici</a> pour obtenir des coordonnées de localisation</span>', 'eac-components' ),
+							'raw'   => sprintf( '<span style="font-size:10px;"><a href="https://www.coordonnees-gps.fr/" target="_blank" rel="nofollow noopener noreferrer" >%s</a></span>', esc_html__( 'Click here for location coordinates', 'eac-components' ) ),
 						)
 					);
 
@@ -546,7 +536,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 					$repeater->add_control(
 						'osm_markers_tooltip_title', // elementor-control-osm_markers_tooltip_title
 						array(
-							'label'       => esc_html__( "Titre de l'infobulle", 'eac-components' ),
+							'label'       => esc_html__( 'Tooltip title', 'eac-components' ),
 							'type'        => Controls_Manager::TEXT,
 							'dynamic'     => array( 'active' => true ),
 							'ai'          => array( 'active' => false ),
@@ -557,7 +547,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 					$repeater->add_control(
 						'osm_markers_tooltip_content',
 						array(
-							'label'       => esc_html__( "Contenu de l'infobulle", 'eac-components' ),
+							'label'       => esc_html__( 'Tooltip content', 'eac-components' ),
 							'type'        => Controls_Manager::TEXTAREA,
 							'dynamic'     => array( 'active' => true ),
 							'ai'          => array( 'active' => false ),
@@ -568,7 +558,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 					$repeater->add_control(
 						'osm_markers_tooltip_marker',
 						array(
-							'label'       => esc_html__( 'Sélectionner une icône', 'eac-components' ),
+							'label'       => esc_html__( 'Select icon', 'eac-components' ),
 							'type'        => Controls_Manager::SELECT,
 							'options'     => $this->base_icons,
 							'default'     => 'default.png',
@@ -583,10 +573,10 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_markers_import_list',
 				array(
-					'label'        => esc_html__( 'Importer des marqueurs', 'eac-components' ),
+					'label'        => esc_html__( 'Import marker', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -595,12 +585,12 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_markers_import_type',
 				array(
-					'label'     => esc_html__( 'Type de lien', 'eac-components' ),
+					'label'     => esc_html__( 'Link type', 'eac-components' ),
 					'type'      => Controls_Manager::SELECT,
 					'default'   => 'none',
 					'options'   => array(
-						'none' => esc_html__( 'Aucun', 'eac-components' ),
-						'url'  => esc_html__( 'URL', 'eac-components' ),
+						'none' => esc_html__( 'None', 'eac-components' ),
+						'url'  => esc_html( 'URL' ),
 						'file' => esc_html__( 'Local', 'eac-components' ),
 					),
 					'condition' => array( 'osm_markers_import_list' => 'yes' ),
@@ -610,10 +600,13 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_markers_import_url',
 				array(
-					'label'       => esc_html__( 'URL', 'eac-components' ),
-					'description' => esc_html__( "Coller le chemin absolu du fichier 'geoJSON'", 'eac-components' ),
+					'label'       => esc_html( 'URL' ),
+					'description' => esc_html__( "Paste the absolute path of the 'geoJSON' file", 'eac-components' ),
 					'type'        => Controls_Manager::URL,
 					'placeholder' => 'http://your-link.com/file-geojson.json',
+					'dynamic'     => array(
+						'active' => true,
+					),
 					'condition'   => array(
 						'osm_markers_import_list' => 'yes',
 						'osm_markers_import_type' => 'url',
@@ -627,7 +620,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
 					'content_classes' => 'elementor-panel-alert elementor-panel-alert-warning',
-					'raw'             => esc_html__( "Réglages Elementor/Avancé, activer l'option 'Permettre les téléversements de fichier non filtré'", 'eac-components' ),
+					'raw'             => esc_html__( "Elementor/Advanced settings, activate option 'Enable Unfiltered File Uploads'", 'eac-components' ),
 					'condition'       => array(
 						'osm_markers_import_list' => 'yes',
 						'osm_markers_import_type' => 'url',
@@ -639,11 +632,11 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_markers_import_file',
 				array(
-					'label'       => esc_html__( 'Sélectionner le fichier', 'eac-components' ),
-					'description' => esc_html__( "Format de données 'geoJSON' avec 'json' comme extension de fichier.", 'eac-components' ),
+					'label'       => esc_html__( 'Select file', 'eac-components' ),
+					'description' => esc_html__( "'geoJSON' data format with 'json' as file extension.", 'eac-components' ),
 					'type'        => Controls_Manager::SELECT,
 					'default'     => 'none',
-					'options'     => \EACCustomWidgets\Core\Utils\Eac_Tools_Util::get_directory_files_list( 'includes/config/osm/markers', 'json', 'application/json' ),
+					'options'     => \EACCustomWidgets\Core\Utils\Eac_Tools_Util::get_directory_file_list( 'includes/config/osm/markers', 'json', 'application/json' ),
 					'label_block' => true,
 					'condition'   => array(
 						'osm_markers_import_list' => 'yes',
@@ -655,8 +648,8 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_markers_import_keywords',
 				array(
-					'label'       => esc_html__( 'Mots-clés', 'eac-components' ),
-					'description' => esc_html__( "Liste de 'propriété|label' séparée par le caractère '|' avec une paire par ligne.", 'eac-components' ),
+					'label'       => esc_html__( 'Keywords', 'eac-components' ),
+					'description' => esc_html__( "List of 'property|label' separated by the character '|' with one pair per line.", 'eac-components' ),
 					'placeholder' => 'property1|label1' . chr( 13 ) . 'property2|label2' . chr( 13 ) . 'property3|label3',
 					'type'        => Controls_Manager::TEXTAREA,
 					'dynamic'     => array( 'active' => true ),
@@ -706,7 +699,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_markers_import_marker',
 				array(
-					'label'       => esc_html__( 'Sélectionner une icône', 'eac-components' ),
+					'label'       => esc_html__( 'Select icon', 'eac-components' ),
 					'type'        => Controls_Manager::SELECT,
 					'options'     => $this->base_icons,
 					'default'     => 'default.png',
@@ -755,11 +748,11 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_markers_list',
 				array(
-					'label'       => esc_html__( 'Liste des marqueurs', 'eac-components' ),
+					'label'       => esc_html__( 'Marker list', 'eac-components' ),
 					'type'        => Controls_Manager::REPEATER,
 					'fields'      => $repeater->get_controls(),
 					'title_field' => '{{{ osm_markers_tooltip_title }}}',
-					'button_text' => esc_html__( 'Ajouter un marqueur', 'eac-components' ),
+					'button_text' => esc_html__( 'Add marker', 'eac-components' ),
 					'condition'   => array( 'osm_markers_import_list!' => 'yes' ),
 					'separator'   => 'before',
 				)
@@ -770,7 +763,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'osm_settings',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -778,11 +771,11 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_settings_zoom_auto',
 				array(
-					'label'        => esc_html__( 'Zoom automatique', 'eac-components' ),
+					'label'        => esc_html__( 'Auto zoom', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'description'  => esc_html__( 'Afficher tous les marqueurs dans le viewport.', 'eac-components' ),
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'description'  => esc_html__( 'Display all markers in the viewport.', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'conditions'   => array(
@@ -819,7 +812,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_settings_zoom',
 				array(
-					'label'      => esc_html__( 'Facteur de zoom', 'eac-components' ),
+					'label'      => esc_html__( 'Zoom factor', 'eac-components' ),
 					'type'       => Controls_Manager::NUMBER,
 					'min'        => 1,
 					'max'        => 20,
@@ -870,7 +863,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'osm_settings_height',
 				array(
-					'label'       => esc_html__( 'Hauteur min.', 'eac-components' ),
+					'label'       => esc_html__( 'Min. height', 'eac-components' ),
 					'type'        => Controls_Manager::SLIDER,
 					'size_units'  => array( 'px', 'vh' ),
 					'default'     => array(
@@ -897,7 +890,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_settings_layers',
 				array(
-					'label'       => esc_html__( 'Sélectionner le calque par défaut', 'eac-components' ),
+					'label'       => esc_html__( 'Select the default layer', 'eac-components' ),
 					'type'        => Controls_Manager::SELECT,
 					'options'     => $this->base_layers,
 					'default'     => 'osm_basic',
@@ -918,10 +911,10 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_content_fullscreen_control',
 				array(
-					'label'        => esc_html__( 'Mode plein écran', 'eac-components' ),
+					'label'        => esc_html__( 'Fullscreen mode', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'false',
 				)
@@ -930,10 +923,10 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_content_zoom_position',
 				array(
-					'label'        => esc_html__( 'Zoom en bas à gauche', 'eac-components' ),
+					'label'        => esc_html__( 'Zoom Bottom-Left', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -942,10 +935,10 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_content_zoom',
 				array(
-					'label'        => esc_html__( 'Zoomer avec la souris', 'eac-components' ),
+					'label'        => esc_html__( 'Zoom with the mouse', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -954,10 +947,10 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_content_dblclick',
 				array(
-					'label'        => esc_html__( 'Double click pour zoomer', 'eac-components' ),
+					'label'        => esc_html__( 'Double click to zoom', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -966,10 +959,10 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_content_draggable',
 				array(
-					'label'        => esc_html__( 'Faire glisser la carte', 'eac-components' ),
+					'label'        => esc_html__( 'Dragging map', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -978,10 +971,10 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_content_open_popup',
 				array(
-					'label'        => esc_html__( 'Défaut infobulle ouverte', 'eac-components' ),
+					'label'        => esc_html__( 'Tooltip open', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -990,10 +983,10 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_content_click_popup',
 				array(
-					'label'        => esc_html__( 'Clicker pour fermer les infobulles', 'eac-components' ),
+					'label'        => esc_html__( 'Click to close the tooltips', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -1007,7 +1000,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'osm_global_style',
 			array(
-				'label' => esc_html__( 'Carte', 'eac-components' ),
+				'label' => esc_html__( 'Map', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1023,7 +1016,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_global_border_radius',
 				array(
-					'label'      => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'      => esc_html__( 'Border radius', 'eac-components' ),
 					'type'       => Controls_Manager::DIMENSIONS,
 					'size_units' => array( 'px', '%' ),
 					'selectors'  => array( '{{WRAPPER}} .osm-map_wrapper-map' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ),
@@ -1034,7 +1027,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'     => 'osm_global_border_shadow',
-					'label'    => esc_html__( 'Ombre', 'eac-components' ),
+					'label'    => esc_html__( 'Shadow', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .osm-map_wrapper-map',
 				)
 			);
@@ -1052,7 +1045,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'osm_title_style',
 			array(
-				'label' => esc_html__( "Titre de l'infobulle", 'eac-components' ),
+				'label' => esc_html__( 'Tooltip title', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1060,7 +1053,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_title_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'default'   => '#000000',
 					'selectors' => array( '{{WRAPPER}} .leaflet-popup-content .osm-map_popup-title' => 'color: {{VALUE}};' ),
@@ -1071,7 +1064,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'osm_title_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .leaflet-popup-content .osm-map_popup-title',
 				)
 			);
@@ -1081,20 +1074,20 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'osm_title_position',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'default'   => 'center',
 					'options'   => array(
 						'left'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-text-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-text-align-center',
 						),
 						'right'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-text-align-{$end}",
 						),
 					),
@@ -1111,7 +1104,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'osm_content_style',
 			array(
-				'label' => esc_html__( "Contenu de l'infobulle", 'eac-components' ),
+				'label' => esc_html__( 'Tooltip content', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1119,7 +1112,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 			$this->add_control(
 				'osm_content_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'default'   => '#000000',
 					'selectors' => array( '{{WRAPPER}} .leaflet-popup-content .osm-map_popup-content, {{WRAPPER}} .leaflet-popup-content .osm-map_popup-content a' => 'color: {{VALUE}};' ),
@@ -1130,7 +1123,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'osm_content_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .leaflet-popup-content .osm-map_popup-content, {{WRAPPER}} .leaflet-popup-content .osm-map_popup-content a',
 				)
 			);
@@ -1146,7 +1139,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		?>
 		<div class="eac-open-streetmap">
 			<input type="hidden" id="osm_nonce" name="osm_nonce" value="<?php echo esc_attr( wp_create_nonce( 'eac_file_osm_nonce_' . esc_attr( $this->get_id() ) ) ); ?>" />
@@ -1154,7 +1147,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 		</div>
 		<!-- En dehors du widget -->
 		<div class='eac-skip-grid' tabindex='0'>
-			<span class='visually-hidden'><?php esc_html_e( 'Sortir de la carte', 'eac-components' ); ?></span>
+			<span class='visually-hidden'><?php esc_html_e( 'Exit map', 'eac-components' ); ?></span>
 		</div>
 		<?php
 	}
@@ -1166,7 +1159,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render_map() {
+	protected function render_map(): void {
 		$settings = $this->get_settings_for_display();
 		$id       = $this->get_id();
 
@@ -1191,7 +1184,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 		// Les valeurs par défaut: Paris
 		$center_lat     = 48.8579;
 		$center_lng     = 2.3491;
-		$center_title   = ! empty( $settings['osm_settings_center_title'] ) ? $settings['osm_settings_center_title'] : esc_html__( "Titre de l'infobulle", 'eac-components' );
+		$center_title   = ! empty( $settings['osm_settings_center_title'] ) ? $settings['osm_settings_center_title'] : esc_html__( 'Tooltip title', 'eac-components' );
 		$center_content = ! empty( $settings['osm_settings_center_content'] ) ? $settings['osm_settings_center_content'] : '';
 		$has_mapmarkers = 'yes' === $settings['osm_markers_import_list'] ? false : true;
 
@@ -1286,7 +1279,7 @@ class Open_Streetmap_Widget extends Widget_Base {
 	 * @updated   1.8.8
 	 * @updated   1.9.5
 	 */
-	protected function get_settings_json() {
+	protected function get_settings_json(): string {
 		$module_settings = $this->get_settings_for_display();
 
 		$is_json_actif     = 'true' === $module_settings['osm_is_json_enable'] ? true : false;
@@ -1400,5 +1393,5 @@ class Open_Streetmap_Widget extends Widget_Base {
 		}
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

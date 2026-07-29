@@ -1,119 +1,123 @@
-(function ($) {
-	'use strict';
+(() => {
+    'use strict';
 
-	// Pu.... de gestion des font-size dans le theme Hueman
-	if (jQuery().fitText) {
-		//console.log('Events Window =>', jQuery._data(jQuery(window)[0], "events"));
-		jQuery(':header').each(function () {
-			jQuery(this).removeAttr('style');
-			jQuery(window).off('resize.fittext orientationchange.fittext');
-			jQuery(window).unbind('resize.fittext orientationchange.fittext');
-		});
-	}
+    // Gestion des font-size dans le theme Hueman
+    if (typeof window.fitText !== 'undefined') {
+        document.querySelectorAll(':header').forEach(header => {
+            header.removeAttribute('style');
+        });
+        window.removeEventListener('resize', window.fitText);
+        window.removeEventListener('orientationchange', window.fitText);
+    }
 
-	// Implémente le proto startsWith pour IE11
-	if (!String.prototype.startsWith) {
-		String.prototype.startsWith = function (searchString, position) {
-			position = position || 0;
-			return this.substring(position, searchString.length) === searchString;
-		};
-	}
+    // Implémente le proto startsWith pour IE11
+    if (!String.prototype.startsWith) {
+        String.prototype.startsWith = function (searchString, position) {
+            position = position || 0;
+            return this.substring(position, searchString.length) === searchString;
+        };
+    }
 
-	// Transforme la chaîne en slug, équivalent ~ à sanitize_title
-	if (!String.prototype.toSlug) {
-		String.prototype.toSlug = function () {
-			let str = this;
-			// Supprime les accents - diacritiques
-			str = str.trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-			str = str.replace(/[^a-z0-9\s-]/g, '') // supprime les caractères invalides
-				.replace(/\s+/g, '-') // collapse whitespace and replace by a dash
-				.replace(/-+/g, '-') // collapse dashes
-				.replace(/^-+|-+$/g, ''); // supprime dashes début et fin
-			return str;
-		}
-	}
+    // Transforme la chaîne en slug, équivalent ~ à sanitize_title
+    if (!String.prototype.toSlug) {
+        String.prototype.toSlug = function () {
+            let str = this;
+            str = str.trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+            str = str.replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .replace(/^-+|-+$/g, '');
+            return str;
+        }
+    }
 
-	// Initialisation de la Fancybox
-	if (jQuery.fancybox) {
-		const language = window.navigator.userLanguage || window.navigator.language;
-		const lng = language.split("-");
-		const langFr = {
-			fr: {
-				CLOSE: "Fermer",
-				NEXT: "Suivant",
-				PREV: "Précédent",
-				ERROR: "Le contenu ne peut être chargé. <br/> Essayer plus tard.",
-				PLAY_START: "Lancer le diaporama",
-				PLAY_STOP: "Diaporama sur pause",
-				FULL_SCREEN: "Plein écran",
-				THUMBS: "Miniatures",
-				DOWNLOAD: "Télécharger",
-				SHARE: "Partager",
-				ZOOM: "Zoom"
-			}
-		};
-		//jQuery.extend(jQuery.fancybox.defaults.i18n, langFr);
-		jQuery.fancybox.defaults.lang = lng[0];
-		jQuery.fancybox.defaults.idleTime = false;
-		/*jQuery.fancybox.defaults.buttons = [
-			"zoom",
-			"slideShow",
-			"thumbs",
-			"close"
-		];*/
-	}
+    // Initialisation de la Fancybox
+    if (window.Fancybox) {
+        const language = window.navigator.userLanguage || window.navigator.language;
+        const lng = language.split("-");
+        const langFr = {
+            fr: {
+                CLOSE: "Fermer",
+                NEXT: "Suivant",
+                PREV: "Précédent",
+                ERROR: "Le contenu ne peut être chargé. <br/> Essayer plus tard.",
+                PLAY_START: "Lancer le diaporama",
+                PLAY_STOP: "Diaporama sur pause",
+                FULL_SCREEN: "Plein écran",
+                THUMBS: "Miniatures",
+                DOWNLOAD: "Télécharger",
+                SHARE: "Partager",
+                ZOOM: "Zoom"
+            }
+        };
+        // window.Fancybox.defaults.i18n = { ...window.Fancybox.defaults.i18n, ...langFr };
+        window.Fancybox.defaults.lang = lng[0];
+        window.Fancybox.defaults.idleTime = 600;
+        window.Fancybox.defaults.thumbs.autoStart = false;
+        // window.Fancybox.defaults.buttons = ["zoom", "slideShow", "thumbs", "close"];
+    }
 
-	//Enable/Disable mouse focus
-	jQuery(document.body).on('mousedown keydown', function (evt) {
-		if (evt.type === 'mousedown') {
-			jQuery(document.body).addClass('eac-using-mouse');
-		} else {
-			jQuery(document.body).removeClass('eac-using-mouse');
-		}
-	});
+    // Enable/Disable mouse focus
+    document.body.addEventListener('mousedown', () => {
+        document.body.classList.add('eac-using-mouse');
+    });
+    document.body.addEventListener('keydown', () => {
+        document.body.classList.remove('eac-using-mouse');
+    });
 
-	function triggerKeyDownToClickEvent(evt) {
-		const id = evt.code || evt.key || 0;
-		if ('Space' === id) {
-			evt.preventDefault();
-			const activeElement = document.activeElement;
-			if (jQuery(activeElement).attr('href') !== '#' && !jQuery(activeElement).attr('data-fancybox')) {
-				activeElement.dispatchEvent(new MouseEvent('click', { cancelable: true }));
-			} else {
-				jQuery(activeElement).trigger('click');
-			}
-		}
-	}
+    function triggerKeyDownToClickEvent(evt) {
+        const id = evt.code || evt.key || 0;
+        if ('Space' === id) {
+            evt.preventDefault();
+            const activeElement = document.activeElement;
 
-	/** Evénement sur les boutons et les liens avec la touche Space pour l'accessibilité */
-	jQuery(document.body).on('keydown', '.buttons-wrapper a.button-readmore, .buttons-wrapper a.button-cart, a.eac-accessible-link', triggerKeyDownToClickEvent);
-	jQuery(document.body).on('keydown', '.mega-menu_nav-wrapper .mega-menu_top-link, .mega-menu_nav-wrapper .mega-menu_sub-link', triggerKeyDownToClickEvent);
-	jQuery(document.body).on('keydown', '.sitemap-posts-list a, .swiper-pagination-bullet, #toctoc-body__list a, .eac-breadcrumbs-item a', triggerKeyDownToClickEvent);
-	jQuery(document.body).on('keydown', '.woocommerce-mini-cart-item.mini_cart_item a, a.hst-hotspots__tooltip-link, .al-post__navigation-digit .page-numbers', triggerKeyDownToClickEvent);
+            if (activeElement.getAttribute('href') !== '#' && !activeElement.hasAttribute('data-fancybox')) {
+                activeElement.dispatchEvent(new MouseEvent('click', { cancelable: true }));
+            } else {
+                activeElement.click();
+            }
+        }
+    }
 
-	/** Les adresses e-mail obfusquées */
-	const $obfuscatedMail = jQuery(document.body).find('a.eac-accessible-link.obfuscated-link');
-	if ($obfuscatedMail.length > 0) {
-		jQuery.each($obfuscatedMail, (index, item) => {
-			const dataHref = jQuery(item).attr('data-link');
-			const dataMask = '#actus.';
-			const mailTo = 'mailto:';
-			const newHref = dataHref.replace(dataMask, '@');
-			jQuery(item).attr('href', mailTo + newHref);
-			jQuery(item).removeAttr('data-link');
-		});
-	}
+    // Evénement sur les boutons et les liens avec la touche Space pour l'accessibilité
+    [
+        'a.eac-accessible-link',
+        '.mega-menu_nav-wrapper .mega-menu_top-link',
+        '.mega-menu_nav-wrapper .mega-menu_sub-link',
+        '.sitemap-posts-list a',
+        '.swiper-pagination-bullet',
+        '.eac-breadcrumbs-item a',
+        '.woocommerce-mini-cart-item.mini_cart_item a',
+        '.al-post__navigation-digit .page-numbers'
+    ].forEach(selector => {
+        document.body.addEventListener('keydown', evt => {
+            if (evt.target.matches(selector)) {
+                triggerKeyDownToClickEvent(evt);
+            }
+        });
+    });
 
-	/** Les numéro de téléphone obfusqués */
-	const $obfuscatedTel = jQuery(document.body).find('a.eac-accessible-link.obfuscated-tel');
-	if ($obfuscatedTel.length > 0) {
-		jQuery.each($obfuscatedTel, (index, item) => {
-			const dataHref = jQuery(item).attr('data-link');
-			const dataMask = '#actus.';
-			const telTo = 'tel:';
-			const newHref = dataHref.replace(dataMask, '');
-			jQuery(item).attr('href', telTo + newHref);
-			jQuery(item).removeAttr('data-link');
-		});
-	}
-})(jQuery);
+    // Les adresses e-mail obfusquées
+    document.querySelectorAll('a.eac-accessible-link.obfuscated-link').forEach(item => {
+        const dataHref = item.getAttribute('data-link');
+        if (dataHref) {
+            const dataMask = '#actus.';
+            const mailTo = 'mailto:';
+            const newHref = dataHref.replace(dataMask, '@');
+            item.setAttribute('href', mailTo + newHref);
+            item.removeAttribute('data-link');
+        }
+    });
+
+    // Les numéro de téléphone obfusqués
+    document.querySelectorAll('a.eac-accessible-link.obfuscated-tel').forEach(item => {
+        const dataHref = item.getAttribute('data-link');
+        if (dataHref) {
+            const dataMask = '#actus.';
+            const telTo = 'tel:';
+            const newHref = dataHref.replace(dataMask, '');
+            item.setAttribute('href', telTo + newHref);
+            item.removeAttribute('data-link');
+        }
+    });
+})();

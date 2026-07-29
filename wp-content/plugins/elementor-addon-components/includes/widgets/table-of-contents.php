@@ -15,8 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -32,29 +31,6 @@ use Elementor\Utils;
 class Table_Of_Contents_Widget extends Widget_Base {
 
 	/**
-	 * Constructeur de la class Table_Of_Contents_Widget
-	 *
-	 * Enregistre les scripts et les styles
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		EAC_Plugin::instance()->register_script( 'eac-jquery-toc', 'assets/js/toc/jquery.toc', array( 'jquery' ), '2.3.2',
-			array(
-				'strategy' => 'defer',
-				'in_footer' => true,
-			)
-		);
-		EAC_Plugin::instance()->register_script( 'eac-table-content', 'assets/js/elementor/eac-table-content', array( 'jquery', 'eac-jquery-toc', 'elementor-frontend' ), '1.8.0',
-			array(
-				'strategy' => 'defer',
-				'in_footer' => true,
-			)
-		);
-		wp_register_style( 'eac-table-content', EAC_Plugin::instance()->get_style_url( 'assets/css/table-content' ), array( 'eac-frontend' ), '1.8.0' );
-	}
-
-	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
 	 *
 	 * @var $slug
@@ -68,10 +44,10 @@ class Table_Of_Contents_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -79,10 +55,10 @@ class Table_Of_Contents_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -90,10 +66,10 @@ class Table_Of_Contents_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -101,10 +77,10 @@ class Table_Of_Contents_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -112,10 +88,10 @@ class Table_Of_Contents_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
-		return array( 'eac-jquery-toc', 'eac-table-content' );
+		return array( 'eac-table-content' );
 	}
 
 	/**
@@ -123,7 +99,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 	 *
 	 * Les styles sont chargés dans le footer
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
 		return array( 'eac-table-content' );
@@ -138,8 +114,8 @@ class Table_Of_Contents_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -147,10 +123,10 @@ class Table_Of_Contents_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -160,6 +136,15 @@ class Table_Of_Contents_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -196,7 +181,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'toc_content_settings',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -204,9 +189,9 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_control(
 				'toc_header_title',
 				array(
-					'label'       => esc_html__( 'Titre', 'eac-components' ),
+					'label'       => esc_html__( 'Title', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
-					'default'     => esc_html__( 'Table des Matières', 'eac-components' ),
+					'default'     => esc_html__( 'Table of Contents', 'eac-components' ),
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
 					'label_block' => true,
@@ -216,7 +201,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_control(
 				'toc_header_title_tag',
 				array(
-					'label'   => esc_html__( 'Étiquette', 'eac-components' ),
+					'label'   => esc_html__( 'Tag', 'eac-components' ),
 					'type'    => Controls_Manager::CHOOSE,
 					'options' => array(
 						'h2' => array(
@@ -240,11 +225,11 @@ class Table_Of_Contents_Widget extends Widget_Base {
 							'icon'  => 'eicon-editor-h6',
 						),
 						'span'  => array(
-							'title' => esc_html__( 'Paragraphe', 'eac-components' ),
+							'title' => esc_html__( 'Paragraph', 'eac-components' ),
 							'icon'  => 'eicon-editor-paragraph',
 						),
 					),
-					'default' => 'span',
+					'default' => 'h2',
 					'toggle'  => false,
 				)
 			);
@@ -252,9 +237,9 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_control(
 				'toc_content_target',
 				array(
-					'label'       => esc_html__( 'Cible', 'eac-components' ),
+					'label'       => esc_html__( 'Target', 'eac-components' ),
 					'type'        => Controls_Manager::SELECT,
-					'description' => esc_html__( "Cible de l'analyse", 'eac-components' ),
+					'description' => esc_html__( 'Target of analysis', 'eac-components' ),
 					'options'     => array(
 						'body'                   => 'Body',
 						'.site-content'          => 'Site content',
@@ -263,7 +248,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 						'.page-content'          => 'Page content',
 						'.entry-content article' => 'Entry article',
 						'.site-main article'     => 'Page article',
-						'custom'                 => esc_html__( 'Personnalisé', 'eac-components' ),
+						'custom'                 => esc_html__( 'Custom', 'eac-components' ),
 					),
 					'label_block' => true,
 					'default'     => 'body',
@@ -274,9 +259,9 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_control(
 				'toc_content_target_custom',
 				array(
-					'label'       => esc_html__( 'Classe de la cible', 'eac-components' ),
+					'label'       => esc_html__( 'Target class', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
-					'description' => esc_html__( 'Ajoutez votre classe personnalisée SANS le point. ex: my-class', 'eac-components' ),
+					'description' => esc_html__( 'Add your custom class WITHOUT the dot. e.g. my-class', 'eac-components' ),
 					'dynamic'     => array( 'active' => false ),
 					'ai'          => array( 'active' => false ),
 					'label_block' => true,
@@ -291,14 +276,14 @@ class Table_Of_Contents_Widget extends Widget_Base {
 				$this->start_controls_tab(
 					'toc_content_heading_include',
 					array(
-						'label' => esc_html__( 'Inclure', 'eac-components' ),
+						'label' => esc_html__( 'Include', 'eac-components' ),
 					)
 				);
 
 					$this->add_control(
 						'toc_content_heading',
 						array(
-							'label'       => esc_html__( "Balises de titre de l'analyse", 'eac-components' ),
+							'label'       => esc_html__( 'Analysis title tags', 'eac-components' ),
 							'type'        => Controls_Manager::SELECT2,
 							'options'     => array(
 								'h1' => 'H1',
@@ -319,17 +304,16 @@ class Table_Of_Contents_Widget extends Widget_Base {
 				$this->start_controls_tab(
 					'toc_content_heading_exclude',
 					array(
-						'label' => esc_html__( 'Exclure', 'eac-components' ),
+						'label' => esc_html__( 'Exclude', 'eac-components' ),
 					)
 				);
 
 					$this->add_control(
 						'toc_header_exclude',
 						array(
-							'label'       => esc_html__( 'Exclure des classes', 'eac-components' ),
+							'label'       => esc_html__( 'Exclude titles', 'eac-components' ),
 							'type'        => Controls_Manager::TEXT,
-							'description' => esc_html__( 'Classes CSS séparées par une virgule', 'eac-components' ),
-							'default'     => 'toctoc-title',
+							'description' => esc_html__( 'CSS class for titles without dot, separated by a comma', 'eac-components' ),
 							'dynamic'     => array( 'active' => true ),
 							'ai'          => array( 'active' => false ),
 							'label_block' => true,
@@ -344,11 +328,11 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_control(
 				'toc_content_anchor_trailer',
 				array(
-					'label'        => esc_html__( 'Ajouter un numéro de rang', 'eac-components' ),
-					'description'  => esc_html__( 'Si les titres ne sont pas uniques dans la page', 'eac-components' ),
+					'label'        => esc_html__( 'Add rank number', 'eac-components' ),
+					'description'  => esc_html__( 'If titles are not unique on the page', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'separator'    => 'before',
@@ -360,7 +344,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'toc_content_content',
 			array(
-				'label' => esc_html__( 'Contenu', 'eac-components' ),
+				'label' => esc_html__( 'Content', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -368,15 +352,15 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_control(
 				'toc_content_toggle',
 				array(
-					'label'   => esc_html__( 'Réduire le contenu au chargement', 'eac-components' ),
+					'label'   => esc_html__( 'Collapse content on load', 'eac-components' ),
 					'type'    => Controls_Manager::CHOOSE,
 					'options' => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -388,19 +372,19 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_control(
 				'toc_content_block',
 				array(
-					'label'        => esc_html__( 'Afficher comme bloc', 'eac-components' ),
+					'label'        => esc_html__( 'Display block', 'eac-components' ),
 					'type'         => Controls_Manager::CHOOSE,
 					'options'      => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
-					'default'      => 'no',
+					'default'      => 'yes',
 					'toggle'       => false,
 					'render_type'  => 'template',
 					'prefix_class' => 'toctoc-block-',
@@ -410,15 +394,15 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_control(
 				'toc_content_word_wrap',
 				array(
-					'label'        => esc_html__( 'Retour à la ligne', 'eac-components' ),
+					'label'        => esc_html__( 'Word wrap', 'eac-components' ),
 					'type'         => Controls_Manager::CHOOSE,
 					'options'      => array(
 						'nowrap'   => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'wrap' => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -432,7 +416,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'toc_content_width',
 				array(
-					'label'       => esc_html__( 'Largeur', 'eac-components' ),
+					'label'       => esc_html__( 'Width', 'eac-components' ),
 					'type'        => Controls_Manager::SLIDER,
 					'size_units'  => array( 'px', '%' ),
 					'default'     => array(
@@ -468,20 +452,20 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'toc_content_align',
 				array(
-					'label'   => esc_html__( 'Alignement', 'eac-components' ),
+					'label'   => esc_html__( 'Alignment', 'eac-components' ),
 					'type'    => Controls_Manager::CHOOSE,
 					'default' => 'center',
 					'options' => array(
 						'left'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'right'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -497,14 +481,14 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_control(
 				'toc_content_list',
 				array(
-					'label'       => esc_html__( 'Type de marqueur', 'eac-components' ),
+					'label'       => esc_html__( 'Marker view', 'eac-components' ),
 					'type'        => Controls_Manager::SELECT,
 					'options'     => array(
-						'none'     => esc_html__( 'Défaut', 'eac-components' ),
-						'decimal'  => esc_html__( 'Numérique', 'eac-components' ),
-						'numbered' => esc_html__( 'Hiérarchique', 'eac-components' ),
-						'disc'     => esc_html__( 'Puce', 'eac-components' ),
-						'picto'    => esc_html__( 'Pictogramme', 'eac-components' ),
+						'none'     => esc_html__( 'Default', 'eac-components' ),
+						'decimal'  => esc_html__( 'Numeric', 'eac-components' ),
+						'numbered' => esc_html__( 'Hierarchical', 'eac-components' ),
+						'disc'     => esc_html__( 'Bullet', 'eac-components' ),
+						'picto'    => esc_html__( 'Pictogram', 'eac-components' ),
 					),
 					'label_block' => true,
 					'default'     => 'picto',
@@ -514,7 +498,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_control(
 				'toc_content_picto',
 				array(
-					'label'    => esc_html__( 'Pictogramme', 'eac-components' ),
+					'label'    => esc_html__( 'Pictogram', 'eac-components' ),
 					'type'     => Controls_Manager::ICONS,
 					'default'  => array(
 						'value'   => 'fas fa-arrow-down',
@@ -531,7 +515,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'toc_general_style',
 			array(
-				'label' => esc_html__( 'Général', 'eac-components' ),
+				'label' => esc_html__( 'General', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -539,7 +523,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_control(
 				'toc_header_style',
 				array(
-					'label'     => esc_html__( 'TOC Entête', 'eac-components' ),
+					'label'     => esc_html__( 'TOC Header', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 				)
 			);
@@ -547,7 +531,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_control(
 				'toc_header_color',
 				array(
-					'label'     => esc_html__( 'Couleur du titre', 'eac-components' ),
+					'label'     => esc_html__( 'Title color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array(
 						'{{WRAPPER}} #toctoc #toctoc-head,
@@ -561,7 +545,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'tox_header_typography',
-					'label'    => esc_html__( 'Typographie du titre', 'eac-components' ),
+					'label'    => esc_html__( 'Title typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} #toctoc #toctoc-head, {{WRAPPER}} #toctoc #toctoc-head .toctoc-title, {{WRAPPER}} #toctoc #toctoc-head span',
 				)
 			);
@@ -569,7 +553,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_control(
 				'toc_header_background_color',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} #toctoc #toctoc-head' => 'background-color: {{VALUE}};' ),
 				)
@@ -578,7 +562,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_control(
 				'toc_header_padding',
 				array(
-					'label'     => esc_html__( 'Marges internes', 'eac-components' ),
+					'label'     => esc_html__( 'Padding', 'eac-components' ),
 					'type'      => Controls_Manager::DIMENSIONS,
 					'selectors' => array(
 						'{{WRAPPER}} #toctoc #toctoc-head' => 'padding-block: {{TOP}}{{UNIT}} {{BOTTOM}}{{UNIT}}; padding-inline: {{RIGHT}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -600,7 +584,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_control(
 				'toc_body_style',
 				array(
-					'label'     => esc_html__( 'TOC Contenu', 'eac-components' ),
+					'label'     => esc_html__( 'TOC Content', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -609,7 +593,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_control(
 				'toc_body_color',
 				array(
-					'label'     => esc_html__( 'Couleur des entrées', 'eac-components' ),
+					'label'     => esc_html__( 'Entries color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array(
 						'{{WRAPPER}} #toctoc #toctoc-body__list li,
@@ -624,7 +608,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'tox_body_typography',
-					'label'    => esc_html__( 'Typographie des entrées', 'eac-components' ),
+					'label'    => esc_html__( 'Entries typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} #toctoc #toctoc-body__list li,
 						{{WRAPPER}} #toctoc #toctoc-body__list .link i,
 						{{WRAPPER}} #toctoc #toctoc-body__list li a,
@@ -635,9 +619,9 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			$this->add_control(
 				'toc_body_background_color',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
-					'selectors' => array( '{{WRAPPER}} #toctoc #toctoc-body' => 'background-color: {{VALUE}};' ),
+					'selectors' => array( '{{WRAPPER}} #toctoc #toctoc-body__list' => 'background-color: {{VALUE}};' ),
 				)
 			);
 
@@ -648,7 +632,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 					'fields_options' => array(
 						'border' => array( 'default' => '' ),
 					),
-					'selector'       => '{{WRAPPER}} #toctoc #toctoc-body',
+					'selector'       => '{{WRAPPER}} #toctoc #toctoc-body__list',
 				)
 			);
 
@@ -656,7 +640,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'     => 'toc_body_shadow',
-					'label'    => esc_html__( 'Ombre', 'eac-components' ),
+					'label'    => esc_html__( 'Shadow', 'eac-components' ),
 					'selector' => '{{WRAPPER}} #toctoc',
 				)
 			);
@@ -671,7 +655,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 		$expanded = 'yes' === $settings['toc_content_toggle'] ? 'false' : 'true';
 
@@ -691,7 +675,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 				'role'          => 'button',
 				'aria-expanded' => esc_attr( $expanded ),
 				'aria-controls' => 'toctoc-body__list',
-				'aria-label'    => sprintf( '%1$s %2$s', esc_attr( $settings['toc_header_title'] ), esc_attr__( 'Ouvrir/Fermer le sommaire', 'eac-components' ) ),
+				'aria-label'    => sprintf( '%1$s - %2$s', esc_attr__( 'Open/Close', 'eac-components' ), esc_attr( $settings['toc_header_title'] ) ),
 				'tabindex'      => '0',
 			)
 		);
@@ -706,15 +690,13 @@ class Table_Of_Contents_Widget extends Widget_Base {
 		$icon = ob_get_clean();
 		?>
 		<div <?php $this->print_render_attribute_string( 'wrapper' ); ?>>
-			<div id='toctoc' class='toctoc'>
+			<nav id='toctoc' class='toctoc' aria-labelledby='toctoc-title'>
 				<div <?php $this->print_render_attribute_string( 'toctoc_head' ); ?>>
-					<?php printf( '<%1$s %2$s>%3$s</%1$s>', esc_attr( $title_tag ), wp_kses_post( $this->get_render_attribute_string( 'toc_header_title' ) ), esc_attr( $settings['toc_header_title'] ) ); ?>
-					<span id='toctoc-head__toggler' class='toctoc-head__toggler eac-icon-svg' role='presentation'><?php echo $icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+					<?php printf( '<%1$s %2$s>%3$s</%1$s>', esc_attr( $title_tag ), $this->get_render_attribute_string( 'toc_header_title' ), esc_attr( $settings['toc_header_title'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<span id='toctoc-head__toggler' class='toctoc-head__toggler eac-icon-svg'><?php echo $icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 				</div>
-				<div id='toctoc-body' class='toctoc-body'>
-					<ol id='toctoc-body__list' class='toctoc-body__list' aria-labelledby='toctoc-title'></ol>
-				</div>
-			</div>
+				<ol id='toctoc-body__list' class='toctoc-body__list'></ol>
+			</nav>
 		</div>
 		<?php
 	}
@@ -731,7 +713,7 @@ class Table_Of_Contents_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function get_settings_json() {
+	protected function get_settings_json(): string {
 		$module_settings = $this->get_settings_for_display();
 		$target          = 'body';
 		if ( 'custom' === $module_settings['toc_content_target'] && ! empty( $module_settings['toc_content_target_custom'] ) ) {
@@ -747,12 +729,12 @@ class Table_Of_Contents_Widget extends Widget_Base {
 			'data_type'     => $module_settings['toc_content_list'],
 			'data_headings' => ! empty( $module_settings['toc_content_heading'] ) ? implode( ',', $module_settings['toc_content_heading'] ) : 'h2',
 			'data_trailer'  => 'yes' === $module_settings['toc_content_anchor_trailer'] ? true : false,
-			'data_label'    => esc_html__( 'Aller à la section', 'eac-components' ) . ' ',
+			'data_label'    => esc_html__( 'Jump to', 'eac-components' ) . ' ',
 			'data_exclude'  => $exclude,
 		);
 
 		return wp_json_encode( $settings );
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

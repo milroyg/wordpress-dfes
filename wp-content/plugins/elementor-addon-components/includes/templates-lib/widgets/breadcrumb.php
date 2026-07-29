@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use EACCustomWidgets\Includes\TemplatesLib\Widgets\Classes\Class_Breadcrumb;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -27,10 +27,6 @@ use Elementor\Icons_Manager;
 use Elementor\Utils;
 
 class Breadcrumb_Widget extends Widget_Base {
-
-	public function __construct( $data = array(), $args = null ) { // phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod
-		parent::__construct( $data, $args );
-	}
 
 	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
@@ -46,10 +42,10 @@ class Breadcrumb_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -57,10 +53,10 @@ class Breadcrumb_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -68,10 +64,10 @@ class Breadcrumb_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -81,8 +77,8 @@ class Breadcrumb_Widget extends Widget_Base {
 	 *
 	 * @return widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -94,8 +90,8 @@ class Breadcrumb_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -103,10 +99,10 @@ class Breadcrumb_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -130,7 +126,7 @@ class Breadcrumb_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'bdc_settings',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -138,9 +134,9 @@ class Breadcrumb_Widget extends Widget_Base {
 			$this->add_control(
 				'bdc_home_title',
 				array(
-					'label'       => esc_html__( "Libellé de la page d'accueil", 'eac-components' ),
+					'label'       => esc_html__( 'Home label', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
-					'default'     => esc_html__( 'Accueil', 'eac-components' ),
+					'default'     => esc_html__( 'Home', 'eac-components' ),
 					'ai'          => array( 'active' => false ),
 					'label_block' => false,
 				)
@@ -149,15 +145,15 @@ class Breadcrumb_Widget extends Widget_Base {
 			$this->add_control(
 				'bdc_display_title',
 				array(
-					'label'   => esc_html__( 'Afficher le titre courant', 'eac-components' ),
+					'label'   => esc_html__( 'Display current title', 'eac-components' ),
 					'type'    => Controls_Manager::CHOOSE,
 					'options' => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -169,8 +165,8 @@ class Breadcrumb_Widget extends Widget_Base {
 			$this->add_control(
 				'bdc_title_length',
 				array(
-					'label'       => esc_html__( 'Nombre de mots', 'eac-components' ),
-					'description' => esc_html__( 'Nombre de mots dans le titre. 0 = tous les mots', 'eac-components' ),
+					'label'       => esc_html__( 'Number of words', 'eac-components' ),
+					'description' => esc_html__( 'Number of words in the title. 0 = all words', 'eac-components' ),
 					'type'        => Controls_Manager::NUMBER,
 					'min'         => 0,
 					'max'         => 50,
@@ -183,13 +179,9 @@ class Breadcrumb_Widget extends Widget_Base {
 			$this->add_control(
 				'bdc_title_tag',
 				array(
-					'label'       => esc_html__( 'Étiquette des items', 'eac-components' ),
+					'label'       => esc_html__( 'Item tag', 'eac-components' ),
 					'type'        => Controls_Manager::CHOOSE,
 					'options'     => array(
-						'h1'   => array(
-							'title' => 'H1',
-							'icon'  => 'eicon-editor-h1',
-						),
 						'h2'   => array(
 							'title' => 'H2',
 							'icon'  => 'eicon-editor-h2',
@@ -211,7 +203,7 @@ class Breadcrumb_Widget extends Widget_Base {
 							'icon'  => 'eicon-editor-h6',
 						),
 						'span' => array(
-							'title' => esc_html__( 'Paragraphe', 'eac-components' ),
+							'title' => esc_html__( 'Paragraph', 'eac-components' ),
 							'icon'  => 'eicon-editor-paragraph',
 						),
 					),
@@ -224,7 +216,7 @@ class Breadcrumb_Widget extends Widget_Base {
 			$this->add_control(
 				'dbc_icon_separator',
 				array(
-					'label'                  => esc_html__( 'Séparateur', 'eac-components' ),
+					'label'                  => esc_html__( 'Separator', 'eac-components' ),
 					'type'                   => Controls_Manager::ICONS,
 					'default'                => array(
 						'value'   => 'fas fa-angle-right',
@@ -243,7 +235,7 @@ class Breadcrumb_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'bdc_style',
 			array(
-				'label' => esc_html__( "Fil d'ariane", 'eac-components' ),
+				'label' => esc_html__( 'Breadcrumbs', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -253,19 +245,19 @@ class Breadcrumb_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'bdc_alignment',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'flex-start' => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center'     => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'flex-end'   => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -280,7 +272,7 @@ class Breadcrumb_Widget extends Widget_Base {
 			$this->add_control(
 				'bdc_bg_color',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .eac-breadcrumbs' => 'background-color: {{VALUE}};' ),
@@ -290,7 +282,7 @@ class Breadcrumb_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'bdc_padding',
 				array(
-					'label'     => esc_html__( 'Marges internes', 'eac-components' ),
+					'label'     => esc_html__( 'Padding', 'eac-components' ),
 					'type'      => Controls_Manager::DIMENSIONS,
 					'selectors' => array(
 						'{{WRAPPER}} .eac-breadcrumbs' => 'padding-block: {{TOP}}{{UNIT}} {{BOTTOM}}{{UNIT}}; padding-inline: {{LEFT}}{{UNIT}} {{RIGHT}}{{UNIT}};',
@@ -303,7 +295,7 @@ class Breadcrumb_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'bdc_item_style',
 			array(
-				'label' => esc_html__( 'Items', 'eac-components' ),
+				'label' => esc_html( 'Items' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -311,7 +303,7 @@ class Breadcrumb_Widget extends Widget_Base {
 			$this->add_control(
 				'bdc_item_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_TEXT ),
 					'default'   => '#000000',
@@ -325,7 +317,7 @@ class Breadcrumb_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'           => 'bdc_item_typography',
-					'label'          => esc_html__( 'Typographie', 'eac-components' ),
+					'label'          => esc_html__( 'Typography', 'eac-components' ),
 					'global'         => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'fields_options' => array(
 						'font_size' => array(
@@ -342,7 +334,7 @@ class Breadcrumb_Widget extends Widget_Base {
 			$this->add_control(
 				'bdc_item_color_separator',
 				array(
-					'label'     => esc_html__( 'Couleur du séparateur', 'eac-components' ),
+					'label'     => esc_html__( 'Color separator', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_TEXT ),
 					'default'   => '#000000',
@@ -363,9 +355,10 @@ class Breadcrumb_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings          = $this->get_settings_for_display();
 		$default_separator = ' ';
+		$breadcrumb        = null;
 
 		if ( ! empty( $settings['dbc_icon_separator'] ) ) {
 			ob_start();
@@ -382,14 +375,49 @@ class Breadcrumb_Widget extends Widget_Base {
 				'post' => '',
 			),
 			'labels'        => array(
-				'home'       => ! empty( $settings['bdc_home_title'] ) ? sanitize_text_field( $settings['bdc_home_title'] ) : esc_html__( 'Accueil', 'eac-components' ),
+				'home'       => ! empty( $settings['bdc_home_title'] ) ? sanitize_text_field( $settings['bdc_home_title'] ) : esc_html__( 'Home', 'eac-components' ),
 				'page_title' => '',
 			),
 		);
 
 		$breadcrumb = new Class_Breadcrumb( $args );
+		/**if ( ! empty( $breadcrumb->items ) ) {
+			//write_log( $breadcrumb->items );
+			$this->extract_breadcrumb_data( $breadcrumb->items );
+		}*/
 		echo wp_kses_post( $breadcrumb->trail() );
 	}
 
-	protected function content_template() {}
+	private function extract_breadcrumb_data( $items = array() ) {
+		$results = array();
+
+		foreach ( $items as $html ) {
+			$dom = new \DOMDocument; // phpcs:ignore PSR12.Classes.ClassInstantiation.MissingParentheses
+
+			// Charger le HTML
+			libxml_use_internal_errors( true ); // Pour éviter les erreurs de parsing
+			$dom->loadHTML( $html );
+			libxml_clear_errors();
+
+			// Récupérer tous les éléments <a>
+			$links = $dom->getElementsByTagName( 'a' );
+
+			if ( $links->length > 0 ) {
+				$link = $links->item( 0 ); // On prend le premier lien
+
+				// Extraire l'attribut href
+				$href = $link->getAttribute( 'href' );
+				// Extraire le texte du lien
+				$text = $link->textContent; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+
+				// Ajouter les informations au tableau de résultats
+				$results[ $text ] = array(
+					'href' => $href,
+					'text' => $text,
+				);
+			}
+		}
+	}
+
+	protected function content_template(): void {}
 }

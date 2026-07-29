@@ -32,7 +32,7 @@ class Eac_Injection_Links {
 		add_action( 'elementor/frontend/column/before_render', array( $this, 'render_link' ) );
 		add_action( 'elementor/frontend/container/before_render', array( $this, 'render_link' ) );
 
-		add_action( 'elementor/frontend/after_enqueue_scripts', array( $this, 'enqueue_scripts' ), 12 );
+		add_action( 'elementor/frontend/after_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
 	}
 
 	/**
@@ -41,7 +41,7 @@ class Eac_Injection_Links {
 	 * Mets le script dans le file
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'eac-element-link', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-element-link' ), array( 'jquery', 'elementor-frontend' ), '1.8.4', true );
+		wp_enqueue_script( 'eac-element-link', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-element-link' ), array( 'jquery', 'elementor-frontend' ), EAC_PLUGIN_VERSION, true );
 	}
 
 	/**
@@ -58,9 +58,9 @@ class Eac_Injection_Links {
 		$element->add_control(
 			'eac_element_link',
 			array(
-				'label'        => esc_html__( 'Lien container', 'eac-components' ),
+				'label'        => esc_html__( 'Wrapper link', 'eac-components' ),
 				'type'         => Controls_Manager::URL,
-				'placeholder'  => esc_html__( 'Coller une URL ou taper', 'eac-components' ),
+				'placeholder'  => esc_html__( 'Type or paste your URL', 'eac-components' ),
 				'dynamic'      => array(
 					'active' => true,
 				),
@@ -75,12 +75,12 @@ class Eac_Injection_Links {
 			'eac_element_link_usage',
 			array(
 				'type' => Controls_Manager::RAW_HTML,
-				'raw' => sprintf(
-					/* translators: 1: Description, 2: Link opening tag, 3: Link closing tag. */
-					esc_html__( '%1$s %2$sConsulter la documentation%3$s', 'eac-components' ),
-					esc_html__( "Le lien n'est pas actif dans l'éditeur.", 'eac-components' ),
+				'raw'  => sprintf(
+					'%1$s %2$s%3$s%4$s',
+					esc_html__( 'The link is not active in the editor.', 'eac-components' ),
 					'<a href="https://elementor-addon-components.com/add-link-to-a-section-column-using-elementor/" target="_blank" rel="noopener noreferrer">',
-					'</a>',
+					esc_html__( 'Consult the documentation', 'eac-components' ),
+					'</a>'
 				),
 				'content_classes' => 'elementor-descriptor',
 			)

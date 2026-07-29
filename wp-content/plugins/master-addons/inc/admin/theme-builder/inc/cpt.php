@@ -1,9 +1,9 @@
 <?php
-namespace MasterHeaderFooter;
+namespace MasterAddons\Inc\Admin\Theme_Builder;
 
 defined( 'ABSPATH' ) || exit;
 
-class Master_Addons_CPT{
+class CPT{
 
     const CPT = 'master_template';
 
@@ -84,4 +84,4 @@ class Master_Addons_CPT{
 
 }
 
-new Master_Addons_CPT();
+new CPT();

@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;   // Exit if accessed directly.
 }
 
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Controls_Manager;
 use Elementor\Widget_Base;
@@ -39,10 +39,10 @@ class Memory_Usage_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -50,10 +50,10 @@ class Memory_Usage_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -61,10 +61,10 @@ class Memory_Usage_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -72,10 +72,10 @@ class Memory_Usage_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -87,8 +87,8 @@ class Memory_Usage_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -96,10 +96,10 @@ class Memory_Usage_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -123,7 +123,7 @@ class Memory_Usage_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'mu_settings',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -131,15 +131,15 @@ class Memory_Usage_Widget extends Widget_Base {
 			$this->add_control(
 				'mu_show_labels',
 				array(
-					'label'     => esc_html__( 'Afficher les labels', 'eac-components' ),
+					'label'     => esc_html__( 'Display labels', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'    => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -151,15 +151,15 @@ class Memory_Usage_Widget extends Widget_Base {
 			$this->add_control(
 				'mu_peak',
 				array(
-					'label'     => esc_html__( "Pic d'utilisation de la mémoire", 'eac-components' ),
+					'label'     => esc_html__( 'Peak memory usage', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -172,15 +172,15 @@ class Memory_Usage_Widget extends Widget_Base {
 			$this->add_control(
 				'mu_limit',
 				array(
-					'label'     => esc_html__( 'PHP mémoire limite', 'eac-components' ),
+					'label'     => esc_html__( 'PHP memory limit', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -192,15 +192,15 @@ class Memory_Usage_Widget extends Widget_Base {
 			$this->add_control(
 				'mu_percent',
 				array(
-					'label'     => esc_html__( 'Pourcentage', 'eac-components' ),
+					'label'     => esc_html__( 'Percentage', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -212,15 +212,15 @@ class Memory_Usage_Widget extends Widget_Base {
 			$this->add_control(
 				'mu_usage',
 				array(
-					'label'     => esc_html__( 'Mémoire utilisée', 'eac-components' ),
+					'label'     => esc_html__( 'Memory used', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -232,15 +232,15 @@ class Memory_Usage_Widget extends Widget_Base {
 			$this->add_control(
 				'mu_req',
 				array(
-					'label'     => esc_html__( 'Nombre de requêtes', 'eac-components' ),
+					'label'     => esc_html__( 'Count of queries', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -252,16 +252,16 @@ class Memory_Usage_Widget extends Widget_Base {
 			$this->add_control(
 				'mu_time',
 				array(
-					'label'     => esc_html__( 'Temps de chargement', 'eac-components' ),
+					'label'     => esc_html__( 'Loading time', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
-					'description' => esc_html__( "Temps écoulé entre le début de chargement de la page et l'appel de cette fonction", 'eac-components' ),
+					'description' => esc_html__( 'Time elapsed between the start of page loading and the call to this function', 'eac-components' ),
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -273,15 +273,15 @@ class Memory_Usage_Widget extends Widget_Base {
 			$this->add_control(
 				'mu_ip',
 				array(
-					'label'     => esc_html__( 'Adresse IP', 'eac-components' ),
+					'label'     => esc_html__( 'IP address', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -298,7 +298,7 @@ class Memory_Usage_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'site_logo_style',
 			array(
-				'label' => esc_html__( 'Général', 'eac-components' ),
+				'label' => esc_html__( 'General', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -308,19 +308,19 @@ class Memory_Usage_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'mu_alignment',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'left'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'right'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -337,7 +337,7 @@ class Memory_Usage_Widget extends Widget_Base {
 			$this->add_control(
 				'mu_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array(
 						'default' => Global_Colors::COLOR_TEXT,
@@ -352,7 +352,7 @@ class Memory_Usage_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'sc_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .memory-usage__wrapper',
 					'global'   => array(
 						'default' => Global_Typography::TYPOGRAPHY_TEXT,
@@ -370,7 +370,7 @@ class Memory_Usage_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 		$prefix = 'yes' === $settings['mu_show_labels'] ? true : false;
 		?>
@@ -415,13 +415,15 @@ class Memory_Usage_Widget extends Widget_Base {
 	 * get_memory_limit
 	 *
 	 * @param bool $formate
+	 * @param bool $prefix
+	 * @param string $peak
 	 *
-	 * @return String|Int
+	 * @return mixed
 	 */
-	public function get_memory_limit( $formate = false, $prefix = false, $peak = 'yes' ) {
+	public function get_memory_limit( bool $formate = false, bool $prefix = false, string $peak = 'yes' ) {
 		$memory = '0MB';
 		if ( function_exists( 'ini_get' ) ) {
-			$label = $prefix && 'no' === $peak ? esc_html__( 'Limite', 'eac-components' ) : '';
+			$label = $prefix && 'no' === $peak ? esc_html__( 'Limit', 'eac-components' ) : '';
 			$memory = $formate ? sprintf( '%s %.0fMB', $label, ini_get( 'memory_limit' ) ) : filter_var( ini_get( 'memory_limit' ), FILTER_SANITIZE_NUMBER_INT );
 		}
 		return $memory;
@@ -431,11 +433,12 @@ class Memory_Usage_Widget extends Widget_Base {
 	 * get_memory_usage
 	 *
 	 * @param bool $formate
+	 * @param bool $prefix
 	 *
-	 * @return String|Int
+	 * @return mixed
 	 */
-	public function get_memory_usage( $formate = false, $prefix = false ) {
-		$label = $prefix ? esc_html__( 'Utilisée', 'eac-components' ) : '';
+	public function get_memory_usage( bool $formate = false, bool $prefix = false ) {
+		$label = $prefix ? esc_html__( 'Used', 'eac-components' ) : '';
 		$memory = $formate ? sprintf( '%s %.1fMB', $label, memory_get_usage() / 1024 / 1024 ) : round( memory_get_usage() / 1024 / 1024, 0 );
 		return $memory;
 	}
@@ -444,12 +447,14 @@ class Memory_Usage_Widget extends Widget_Base {
 	 * get_memory_usage_peak
 	 *
 	 * @param bool $formate
+	 * @param bool $prefix
+	 * @param string $limit
 	 *
-	 * @return String|Int
+	 * @return mixed
 	 */
-	public function get_memory_usage_peak( $formate = false, $prefix = false, $limit = 'yes' ) {
-		$label = $prefix ? esc_html__( 'Pic', 'eac-components' ) : '';
-		$of    = 'yes' === $limit ? esc_html__( 'de', 'eac-components' ) : '';
+	public function get_memory_usage_peak( bool $formate = false, bool $prefix = false, string $limit = 'yes' ) {
+		$label = $prefix ? esc_html__( 'Peak', 'eac-components' ) : '';
+		$of    = 'yes' === $limit ? esc_html__( 'of', 'eac-components' ) : '';
 		$memory = $formate ? sprintf( '%s %.1fMB %s', $label, memory_get_peak_usage() / 1024 / 1024, $of ) : round( memory_get_peak_usage() / 1024 / 1024, 0 );
 		return $memory;
 	}
@@ -457,10 +462,12 @@ class Memory_Usage_Widget extends Widget_Base {
 	/**
 	 * get_memory_percent
 	 *
+	 * @param bool $prefix
+	 *
 	 * @return string
 	 */
-	public function get_memory_percent( $prefix = false ): string {
-		$label = $prefix ? esc_html__( 'Pourcent', 'eac-components' ) : '';
+	public function get_memory_percent( bool $prefix = false ): string {
+		$label = $prefix ? esc_html__( 'Percent', 'eac-components' ) : '';
 		$limit = $this->get_memory_limit();
 		$peak = $this->get_memory_usage_peak();
 		$percent = sprintf( '%s %.1f%%', $label, ( $peak / $limit ) * 100 );
@@ -470,10 +477,12 @@ class Memory_Usage_Widget extends Widget_Base {
 	/**
 	 * get_request_count
 	 *
+	 * @param bool $prefix
+	 *
 	 * @return string
 	 */
-	public function get_request_count( $prefix = false ): string {
-		$label = $prefix ? esc_html__( 'Requêtes', 'eac-components' ) : '';
+	public function get_request_count( bool $prefix = false ): string {
+		$label = $prefix ? esc_html__( 'Queries', 'eac-components' ) : '';
 		$req = sprintf( '%s %d', $label, get_num_queries() );
 		return $req;
 	}
@@ -481,10 +490,12 @@ class Memory_Usage_Widget extends Widget_Base {
 	/**
 	 * get_execution_time
 	 *
+	 * @param bool $prefix
+	 *
 	 * @return string
 	 */
-	public function get_execution_time( $prefix = false ): string {
-		$label = $prefix ? esc_html__( 'Temps', 'eac-components' ) : '';
+	public function get_execution_time( bool $prefix = false ): string {
+		$label = $prefix ? esc_html__( 'Time', 'eac-components' ) : '';
 		$time = sprintf( '%s %s%s', $label, timer_stop( 0, 2 ), esc_html( 's' ) );
 		return $time;
 	}
@@ -492,17 +503,19 @@ class Memory_Usage_Widget extends Widget_Base {
 	/**
 	 * get_serveur_ip
 	 *
+	 * @param bool $prefix
+	 *
 	 * @return string
 	 */
-	public function get_serveur_ip( $prefix = false ): string {
+	public function get_serveur_ip( bool $prefix = false ): string {
 		$label = $prefix ? esc_html( 'IP' ) : '';
 		$server_ip_address = ! empty( $_SERVER['SERVER_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SERVER_ADDR'] ) ) : '';
 		if ( empty( $server_ip_address ) ) {
 			$server_ip_address = ! empty( $_SERVER['LOCAL_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['LOCAL_ADDR'] ) ) : '';
 		}
-		$ip = sprintf( '%s %s', $label, $server_ip_address );
+		$ip = sprintf( '%s %s', esc_attr( $label ), esc_attr( $server_ip_address ) );
 		return $ip;
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

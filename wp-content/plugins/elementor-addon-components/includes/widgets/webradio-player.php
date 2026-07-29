@@ -16,8 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -28,23 +27,6 @@ use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
 
 class Webradio_Player_Widget extends Widget_Base {
-
-	/**
-	 * Constructeur de la class Webradio_Player_Widget
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		wp_register_script( 'eac-player', EAC_Plugin::instance()->get_script_url( 'assets/js/audioplayer/player' ), array( 'jquery' ), '1.0.0', true );
-		EAC_Plugin::instance()->register_script( 'eac-webradio-player', 'assets/js/audioplayer/eac-webradio-player', array( 'jquery', 'elementor-frontend', 'eac-player' ), '1.0.0',
-			array(
-				'strategy' => 'defer',
-				'in_footer' => true,
-			)
-		);
-
-		wp_register_style( 'eac-webradio-player', EAC_Plugin::instance()->get_style_url( 'assets/css/webradio-player' ), array( 'eac-frontend' ), '1.0.0' );
-	}
 
 	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
@@ -60,10 +42,10 @@ class Webradio_Player_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -71,10 +53,10 @@ class Webradio_Player_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -82,10 +64,10 @@ class Webradio_Player_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -93,10 +75,10 @@ class Webradio_Player_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -104,10 +86,10 @@ class Webradio_Player_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
-		return array( 'eac-player', 'eac-webradio-player' );
+		return array( 'eac-webradio-player' );
 	}
 
 	/**
@@ -116,7 +98,7 @@ class Webradio_Player_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
 		return array( 'eac-webradio-player' );
@@ -131,8 +113,8 @@ class Webradio_Player_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -142,6 +124,15 @@ class Webradio_Player_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -156,26 +147,17 @@ class Webradio_Player_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'la_audio_settings',
 			array(
-				'label' => esc_html__( 'Liste des flux audio', 'eac-components' ),
+				'label' => esc_html__( 'List of audio feeds', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
-
-			$this->add_control(
-				'la_unique_instance',
-				array(
-					'type'            => Controls_Manager::RAW_HTML,
-					'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
-					'raw'             => __( "Atlas des flux audio des radios de langue Française - <a href='http://fluxradios.blogspot.com/' target='_blank' rel='nofolow noopener noreferrer'>Consulter ce site</a>", 'eac-components' ),
-				)
-			);
 
 			$repeater = new Repeater();
 
 			$repeater->add_control(
 				'la_item_title',
 				array(
-					'label' => esc_html__( 'Titre', 'eac-components' ),
+					'label' => esc_html__( 'Title', 'eac-components' ),
 					'type'  => Controls_Manager::TEXT,
 				)
 			);
@@ -183,11 +165,12 @@ class Webradio_Player_Widget extends Widget_Base {
 			$repeater->add_control(
 				'la_item_url',
 				array(
-					'label'       => esc_html__( 'URL', 'eac-components' ),
+					'label'       => esc_html( 'URL' ),
 					'type'        => Controls_Manager::URL,
-					'placeholder' => esc_html__( 'Coller une URL format mp3', 'eac-components' ),
-					'description' => esc_html__( 'Ou balises dynamiques/EAC URLs/Audio', 'eac-components' ),
+					'placeholder' => esc_html__( 'Paste URL mp3 format', 'eac-components' ),
+					'description' => esc_html__( 'Or dynamic tags/EAC URLs/Audio', 'eac-components' ),
 					'dynamic'     => array( 'active' => true ),
+					'render_type' => 'none',
 				)
 			);
 
@@ -259,7 +242,7 @@ class Webradio_Player_Widget extends Widget_Base {
 						),
 					),
 					'title_field' => '{{{ la_item_title }}}',
-					'button_text' => esc_html__( 'Ajouter un flux', 'eac-components' ),
+					'button_text' => esc_html__( 'Add feed', 'eac-components' ),
 				)
 			);
 
@@ -268,7 +251,7 @@ class Webradio_Player_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'la_general_style',
 			array(
-				'label' => esc_html__( 'Général', 'eac-components' ),
+				'label' => esc_html__( 'General', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -276,7 +259,7 @@ class Webradio_Player_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'la_wrapper_width',
 				array(
-					'label'       => esc_html__( 'Largeur', 'eac-components' ),
+					'label'       => esc_html__( 'Width', 'eac-components' ),
 					'type'        => Controls_Manager::SLIDER,
 					'size_units'  => array( '%', 'vw' ),
 					'default'     => array(
@@ -310,19 +293,19 @@ class Webradio_Player_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'la_wrapper_alignment_h',
 				array(
-					'label'     => esc_html__( 'Alignement horizontal', 'eac-components' ),
+					'label'     => esc_html__( 'Horizontal alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'start'  => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'end'    => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -340,7 +323,7 @@ class Webradio_Player_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'la_list_options_typo',
-					'label'     => esc_html__( 'Typographie de la liste', 'eac-components' ),
+					'label'     => esc_html__( 'List typography', 'eac-components' ),
 					'selector'  => '.la-options-items-list .select__options-items',
 				)
 			);
@@ -348,7 +331,7 @@ class Webradio_Player_Widget extends Widget_Base {
 			$this->add_control(
 				'la_wrapper_bg_color',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'selectors' => array( '{{WRAPPER}} .eac-lecteur-audio' => 'background-color: {{VALUE}};' ),
@@ -367,7 +350,7 @@ class Webradio_Player_Widget extends Widget_Base {
 			$this->add_control(
 				'la_wrapper_radius',
 				array(
-					'label'      => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'      => esc_html__( 'Border radius', 'eac-components' ),
 					'type'       => Controls_Manager::DIMENSIONS,
 					'size_units' => array( 'px', '%' ),
 					'selectors'  => array(
@@ -380,7 +363,7 @@ class Webradio_Player_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'     => 'la_wrapper_shadow',
-					'label'    => esc_html__( 'Ombre', 'eac-components' ),
+					'label'    => esc_html__( 'Shadow', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .eac-lecteur-audio',
 				)
 			);
@@ -395,7 +378,7 @@ class Webradio_Player_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 		if ( empty( $settings['la_radio_list'] ) ) {
 			return;
@@ -421,12 +404,12 @@ class Webradio_Player_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render_player() {
+	protected function render_player(): void {
 		$settings = $this->get_settings_for_display();
 		?>
 		<div class='la-select-item-list'>
 			<div class='la-options-items-list'>
-			<label id="label_<?php echo esc_attr( $this->get_id() ); ?>" class='visually-hidden' for="listbox_<?php echo esc_attr( $this->get_id() ); ?>"><?php esc_html_e( 'Liste des flux audio', 'eac-components' ); ?></label>
+			<label id="label_<?php echo esc_attr( $this->get_id() ); ?>" class='visually-hidden' for="listbox_<?php echo esc_attr( $this->get_id() ); ?>"><?php esc_html_e( 'List of audio feeds', 'eac-components' ); ?></label>
 				<select id="listbox_<?php echo esc_attr( $this->get_id() ); ?>" class='select__options-items' aria-labelledby="label_<?php echo esc_attr( $this->get_id() ); ?>">;
 					<?php foreach ( $settings['la_radio_list'] as $item ) {
 						if ( ! empty( $item['la_item_url']['url'] ) && $this->is_valid_url( $item['la_item_url']['url'] ) ) : ?>
@@ -434,7 +417,7 @@ class Webradio_Player_Widget extends Widget_Base {
 						<?php endif;
 					} ?>
 				</select>
-				<p style='margin-block: 20px 0; font-size: 0.9em;'><?php esc_html_e( 'Durée : ', 'eac-components' ); ?> <span id='audio-duration'>0</span></p>
+				<p style='margin-block: 20px 0; font-size: 0.9em;'><?php esc_html_e( 'Duration ', 'eac-components' ); ?> <span id='audio-duration'>0</span></p>
 			</div>
 		</div>
 		<?php
@@ -451,5 +434,5 @@ class Webradio_Player_Widget extends Widget_Base {
 		return ! preg_match( '/\bjavascript\b/i', $url ) && filter_var( $url, FILTER_VALIDATE_URL );
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

@@ -16,9 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
 use EACCustomWidgets\Core\Utils\Eac_Tools_Util;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -34,21 +33,6 @@ use Elementor\TemplateLibrary\Source_Local;
 class Off_Canvas_Widget extends Widget_Base {
 
 	/**
-	 * Constructeur de la class Off_Canvas_Widget
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		EAC_Plugin::instance()->register_script( 'eac-off-canvas', 'assets/js/elementor/eac-off-canvas', array( 'jquery', 'elementor-frontend' ), '1.8.5',
-			array(
-				'strategy' => 'defer',
-				'in_footer' => true,
-			)
-		);
-		wp_register_style( 'eac-off-canvas', EAC_Plugin::instance()->get_style_url( 'assets/css/off-canvas' ), array( 'eac-frontend' ), '1.8.5' );
-	}
-
-	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
 	 *
 	 * @var $slug
@@ -62,10 +46,10 @@ class Off_Canvas_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -73,10 +57,10 @@ class Off_Canvas_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -84,10 +68,10 @@ class Off_Canvas_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -95,10 +79,10 @@ class Off_Canvas_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -106,7 +90,7 @@ class Off_Canvas_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
 		return array( 'eac-off-canvas' );
@@ -117,7 +101,7 @@ class Off_Canvas_Widget extends Widget_Base {
 	 *
 	 * Les styles sont chargés dans le footer
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
 		return array( 'eac-off-canvas' );
@@ -132,8 +116,8 @@ class Off_Canvas_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -141,10 +125,10 @@ class Off_Canvas_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -154,6 +138,15 @@ class Off_Canvas_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -168,7 +161,7 @@ class Off_Canvas_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'oc_settings',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -179,28 +172,28 @@ class Off_Canvas_Widget extends Widget_Base {
 				'oc_content_position',
 				array(
 					'label'       => esc_html__( 'Position', 'eac-components' ),
-					'description' => esc_html__( "Position de l'Off-canvas et du bouton (collant)", 'eac-components' ),
+					'description' => esc_html__( 'Position of the Off-canvas and the button (sticky)', 'eac-components' ),
 					'type'        => Controls_Manager::CHOOSE,
 					'default'     => 'left',
 					'options'     => array(
 						'stretch'   => array(
-							'title' => 'Relative',
+							'title' => esc_html__( 'Relative', 'eac-components' ),
 							'icon'  => 'eicon-v-align-stretch',
 						),
 						'top'    => array(
-							'title' => esc_html__( 'Haut', 'eac-components' ),
+							'title' => esc_html__( 'Top', 'eac-components' ),
 							'icon'  => 'eicon-v-align-top',
 						),
 						'left'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'right'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 						'bottom' => array(
-							'title' => esc_html__( 'Bas', 'eac-components' ),
+							'title' => esc_html__( 'Bottom', 'eac-components' ),
 							'icon'  => 'eicon-v-align-bottom',
 						),
 					),
@@ -213,10 +206,10 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_control(
 				'oc_content_overlay',
 				array(
-					'label'        => esc_html__( 'Overlay actif', 'eac-components' ),
+					'label'        => esc_html__( 'Active overlay', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 					'separator'    => 'after',
@@ -228,19 +221,19 @@ class Off_Canvas_Widget extends Widget_Base {
 				$this->start_controls_tab(
 					'oc_content',
 					array(
-						'label'     => esc_html__( 'Contenu', 'eac-components' ),
+						'label'     => esc_html__( 'Content', 'eac-components' ),
 					)
 				);
 
 					$this->add_control(
 						'oc_content_title',
 						array(
-							'label'       => esc_html__( 'Titre', 'eac-components' ),
+							'label'       => esc_html__( 'Title', 'eac-components' ),
 							'type'        => Controls_Manager::TEXT,
 							'dynamic'     => array( 'active' => true ),
 							'ai'          => array( 'active' => false ),
-							'default'     => esc_html__( 'En-tête de contenu', 'eac-components' ),
-							'placeholder' => esc_html__( 'En-tête de contenu', 'eac-components' ),
+							'default'     => esc_html__( 'Content header', 'eac-components' ),
+							'placeholder' => esc_html__( 'Content header', 'eac-components' ),
 							'render_type' => 'ui',
 						)
 					);
@@ -248,17 +241,17 @@ class Off_Canvas_Widget extends Widget_Base {
 					$this->add_control(
 						'oc_content_type',
 						array(
-							'label'       => esc_html__( 'Type de contenu', 'eac-components' ),
+							'label'       => esc_html__( 'Content type', 'eac-components' ),
 							'type'        => Controls_Manager::SELECT,
 							'default'     => 'texte',
 							'options'     => array(
-								'form'      => esc_html__( 'Code court', 'eac-components' ),
+								'form'      => esc_html__( 'Shortcode', 'eac-components' ),
 								'menu'      => esc_html__( 'Menu', 'eac-components' ),
-								'texte'     => esc_html__( 'Texte personnalisé', 'eac-components' ),
-								'tmpl_cont' => esc_html__( 'Elementor modèle de conteneur', 'eac-components' ),
-								'tmpl_sec'  => esc_html__( 'Elementor modèle de section', 'eac-components' ),
-								'tmpl_page' => esc_html__( 'Elementor modèle de page', 'eac-components' ),
-								'widget'    => esc_html__( 'Widget', 'eac-components' ),
+								'texte'     => esc_html__( 'Custom text', 'eac-components' ),
+								'tmpl_cont' => esc_html__( 'Elementor template container', 'eac-components' ),
+								'tmpl_sec'  => esc_html__( 'Elementor template section', 'eac-components' ),
+								'tmpl_page' => esc_html__( 'Elementor template page', 'eac-components' ),
+								'widget'    => esc_html( 'Widget' ),
 							),
 						)
 					);
@@ -266,7 +259,7 @@ class Off_Canvas_Widget extends Widget_Base {
 					$this->add_control(
 						'oc_content_shortcode',
 						array(
-							'label'       => esc_html__( 'Entrer le code court', 'eac-components' ),
+							'label'       => esc_html__( 'Enter shortcode', 'eac-components' ),
 							'type'        => Controls_Manager::TEXTAREA,
 							'placeholder' => '[eac_elementor_tmpl id="xxxx"]',
 							'ai'          => array( 'active' => false ),
@@ -287,7 +280,7 @@ class Off_Canvas_Widget extends Widget_Base {
 					$this->add_control(
 						'oc_content_container',
 						array(
-							'label'       => esc_html__( 'Elementor modèle de conteneur', 'eac-components' ),
+							'label'       => esc_html__( 'Elementor template container', 'eac-components' ),
 							'type'        => Controls_Manager::SELECT,
 							'options'     => Eac_Tools_Util::get_elementor_templates( 'container' ),
 							'condition'   => array( 'oc_content_type' => 'tmpl_cont' ),
@@ -298,7 +291,7 @@ class Off_Canvas_Widget extends Widget_Base {
 					$this->add_control(
 						'oc_content_section',
 						array(
-							'label'       => esc_html__( 'Elementor modèle de section', 'eac-components' ),
+							'label'       => esc_html__( 'Elementor template section', 'eac-components' ),
 							'type'        => Controls_Manager::SELECT,
 							'options'     => Eac_Tools_Util::get_elementor_templates( 'section' ),
 							'condition'   => array( 'oc_content_type' => 'tmpl_sec' ),
@@ -309,7 +302,7 @@ class Off_Canvas_Widget extends Widget_Base {
 					$this->add_control(
 						'oc_content_page',
 						array(
-							'label'       => esc_html__( 'Elementor modèle de page', 'eac-components' ),
+							'label'       => esc_html__( 'Elementor template page', 'eac-components' ),
 							'type'        => Controls_Manager::SELECT,
 							'options'     => Eac_Tools_Util::get_elementor_templates( 'page' ),
 							'condition'   => array( 'oc_content_type' => 'tmpl_page' ),
@@ -324,7 +317,7 @@ class Off_Canvas_Widget extends Widget_Base {
 							'type'        => Controls_Manager::SELECT,
 							'options'     => Eac_Tools_Util::get_menus_list(),
 							'default'     => array_key_first( Eac_Tools_Util::get_menus_list() ),
-							'description' => sprintf( __( 'Aller à <a href="%s" target="_blank" rel="noopener noreferrer">Apparence/Menus</a> pour gérer vos menus.', 'eac-components' ), esc_url( admin_url( 'nav-menus.php' ) ) ),
+							'description' => sprintf( '<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>', esc_url( admin_url( 'nav-menus.php' ) ), esc_html__( 'Apparence/Menus to manage your menus.', 'eac-components' ) ),
 							'condition'   => array( 'oc_content_type' => 'menu' ),
 						)
 					);
@@ -332,8 +325,8 @@ class Off_Canvas_Widget extends Widget_Base {
 					$this->add_control(
 						'oc_content_menu_level',
 						array(
-							'label'       => esc_html__( 'Nombre de niveaux', 'eac-components' ),
-							'description' => esc_html__( '0 = Tous', 'eac-components' ),
+							'label'       => esc_html__( 'Number of levels', 'eac-components' ),
+							'description' => esc_html__( '0 = All', 'eac-components' ),
 							'default'     => 0,
 							'type'        => Controls_Manager::TEXT,
 							'ai'          => array( 'active' => false ),
@@ -344,9 +337,9 @@ class Off_Canvas_Widget extends Widget_Base {
 					$this->add_control(
 						'oc_content_widget',
 						array(
-							'label'       => esc_html__( 'Widgets', 'eac-components' ),
+							'label'       => esc_html( 'Widgets' ),
 							'type'        => Controls_Manager::SELECT2,
-							'options'     => Eac_Tools_Util::get_widgets_list(),
+							'options'     => Eac_Tools_Util::get_widget_list(),
 							'multiple'    => true,
 							'label_block' => true,
 							'condition'   => array( 'oc_content_type' => 'widget' ),
@@ -358,18 +351,18 @@ class Off_Canvas_Widget extends Widget_Base {
 				$this->start_controls_tab(
 					'oc_trigger',
 					array(
-						'label' => esc_html__( 'Déclencheur', 'eac-components' ),
+						'label' => esc_html__( 'Trigger', 'eac-components' ),
 					)
 				);
 
 					$this->add_control(
 						'oc_trigger_type',
 						array(
-							'label'       => esc_html__( 'Déclencheur', 'eac-components' ),
+							'label'       => esc_html__( 'Trigger', 'eac-components' ),
 							'type'        => Controls_Manager::SELECT,
 							'options'     => array(
-								'button' => esc_html__( 'Bouton', 'eac-components' ),
-								'text'   => esc_html__( 'Texte', 'eac-components' ),
+								'button' => esc_html__( 'Button', 'eac-components' ),
+								'text'   => esc_html__( 'Text', 'eac-components' ),
 							),
 							'default'     => 'button',
 						)
@@ -378,8 +371,8 @@ class Off_Canvas_Widget extends Widget_Base {
 					$this->add_control(
 						'oc_display_text',
 						array(
-							'label'       => esc_html__( 'Texte', 'eac-components' ),
-							'default'     => esc_html__( 'Ouvrir la barre latérale', 'eac-components' ),
+							'label'       => esc_html__( 'Text', 'eac-components' ),
+							'default'     => esc_html__( 'Open Off-canvas', 'eac-components' ),
 							'type'        => Controls_Manager::TEXT,
 							'dynamic'     => array( 'active' => true ),
 							'ai'          => array( 'active' => false ),
@@ -391,8 +384,8 @@ class Off_Canvas_Widget extends Widget_Base {
 					$this->add_control(
 						'oc_display_text_button',
 						array(
-							'label'       => esc_html__( 'Libellé du bouton', 'eac-components' ),
-							'default'     => esc_html__( 'Ouvrir la barre latérale', 'eac-components' ),
+							'label'       => esc_html__( 'Button label', 'eac-components' ),
+							'default'     => esc_html__( 'Open Off-canvas', 'eac-components' ),
 							'type'        => Controls_Manager::TEXT,
 							'dynamic'     => array( 'active' => true ),
 							'ai'          => array( 'active' => false ),
@@ -404,19 +397,19 @@ class Off_Canvas_Widget extends Widget_Base {
 					$this->add_responsive_control(
 						'oc_align_button',
 						array(
-							'label'     => esc_html__( 'Alignement', 'eac-components' ),
+							'label'     => esc_html__( 'Alignment', 'eac-components' ),
 							'type'      => Controls_Manager::CHOOSE,
 							'options'   => array(
 								'left'   => array(
-									'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+									'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 									'icon'  => "eicon-h-align-{$start}",
 								),
 								'center' => array(
-									'title' => esc_html__( 'Centre', 'eac-components' ),
+									'title' => esc_html__( 'Center', 'eac-components' ),
 									'icon'  => 'eicon-h-align-center',
 								),
 								'right'  => array(
-									'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+									'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 									'icon'  => "eicon-h-align-{$end}",
 								),
 							),
@@ -436,10 +429,10 @@ class Off_Canvas_Widget extends Widget_Base {
 					$this->add_control(
 						'oc_icon_sticky',
 						array(
-							'label'        => esc_html__( 'Bouton collant', 'eac-components' ),
+							'label'        => esc_html__( 'Sticky button', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => '',
 							'condition'    => array(
@@ -478,10 +471,10 @@ class Off_Canvas_Widget extends Widget_Base {
 					$this->add_control(
 						'oc_icon_activated',
 						array(
-							'label'        => esc_html__( 'Ajouter un pictogramme', 'eac-components' ),
+							'label'        => esc_html__( 'Add pictogram', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => '',
 							'separator'    => 'before',
@@ -492,7 +485,7 @@ class Off_Canvas_Widget extends Widget_Base {
 					$this->add_control(
 						'oc_display_icon_button',
 						array(
-							'label'                  => esc_html__( 'Pictogrammes', 'eac-components' ),
+							'label'                  => esc_html__( 'Pictograms', 'eac-components' ),
 							'type'                   => Controls_Manager::ICONS,
 							'default'                => array(
 								'value'   => 'fas fa-angle-double-right',
@@ -513,8 +506,8 @@ class Off_Canvas_Widget extends Widget_Base {
 							'type'      => Controls_Manager::SELECT,
 							'default'   => 'before',
 							'options'   => array(
-								'before' => esc_html__( 'Avant', 'eac-components' ),
-								'after'  => esc_html__( 'Après', 'eac-components' ),
+								'before' => esc_html__( 'Before', 'eac-components' ),
+								'after'  => esc_html__( 'After', 'eac-components' ),
 							),
 							'condition' => array(
 								'oc_trigger_type'   => 'button',
@@ -526,7 +519,7 @@ class Off_Canvas_Widget extends Widget_Base {
 					$this->add_control(
 						'oc_marge_icon_button',
 						array(
-							'label'              => esc_html__( 'Marges', 'eac-components' ),
+							'label'              => esc_html__( 'Margin', 'eac-components' ),
 							'type'               => Controls_Manager::DIMENSIONS,
 							'allowed_dimensions' => array( 'left', 'right' ),
 							'default'            => array(
@@ -564,7 +557,7 @@ class Off_Canvas_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'oc_offcanvas_style',
 			array(
-				'label' => esc_html__( 'Conteneur', 'eac-components' ),
+				'label' => esc_html__( 'Container', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -572,7 +565,7 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'oc_content_width',
 				array(
-					'label'       => esc_html__( 'Largeur', 'eac-components' ),
+					'label'       => esc_html__( 'Width', 'eac-components' ),
 					'type'        => Controls_Manager::SLIDER,
 					'size_units'  => array( 'px', 'vw' ),
 					'default'     => array(
@@ -611,15 +604,15 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_control(
 				'oc_content_height_auto',
 				array(
-					'label'     => esc_html__( 'Hauteur automatique', 'eac-components' ),
+					'label'     => esc_html__( 'Auto height', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -632,7 +625,7 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'oc_content_height',
 				array(
-					'label'       => esc_html__( 'Hauteur', 'eac-components' ),
+					'label'       => esc_html__( 'Height', 'eac-components' ),
 					'type'        => Controls_Manager::SLIDER,
 					'size_units'  => array( 'px', 'vh' ),
 					'default'     => array(
@@ -685,8 +678,8 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_control(
 				'oc_content_box_blend',
 				array(
-					'label'       => esc_html__( 'Mode de fusion', 'eac-components' ),
-					'description' => esc_html__( 'Vous avez sélectionné une couleur et une image', 'eac-components' ),
+					'label'       => esc_html__( 'Blend mode', 'eac-components' ),
+					'description' => esc_html__( 'You have selected a color and an image', 'eac-components' ),
 					'type'        => Controls_Manager::SELECT,
 					'default'     => 'normal',
 					'options'     => array(
@@ -718,7 +711,7 @@ class Off_Canvas_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'oc_header_style',
 			array(
-				'label' => esc_html__( 'Entête du container', 'eac-components' ),
+				'label' => esc_html__( 'Container header', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -726,7 +719,7 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_control(
 				'oc_header_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'default'   => '#000',
 					'selectors' => array( '{{WRAPPER}} .oc-offcanvas__canvas-title, {{WRAPPER}} .oc-offcanvas__canvas-close .oc-first-element' => 'color: {{VALUE}};' ),
@@ -737,7 +730,7 @@ class Off_Canvas_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'oc_header_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .oc-offcanvas__canvas-title',
 				)
 			);
@@ -745,7 +738,7 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_control(
 				'oc_header_background',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .oc-offcanvas__canvas-header' => 'background-color: {{VALUE}};' ),
 				)
@@ -764,7 +757,7 @@ class Off_Canvas_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'oc_content_menu_style',
 			array(
-				'label'     => esc_html__( 'Contenu menu', 'eac-components' ),
+				'label'     => esc_html__( 'Menu content', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array( 'oc_content_type' => 'menu' ),
 			)
@@ -773,19 +766,23 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_control(
 				'oc_content_menu_color',
 				array(
-					'label'     => esc_html__( 'Couleur du texte', 'eac-components' ),
+					'label'     => esc_html__( 'Text color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
-					'selectors' => array( '{{WRAPPER}} .oc-offcanvas__menu-wrapper ul li, {{WRAPPER}} .oc-offcanvas__menu-wrapper ul li a' => 'color: {{VALUE}};' ),
+					'selectors' => array(
+						'{{WRAPPER}} .oc-offcanvas__menu-wrapper ul li, {{WRAPPER}} .oc-offcanvas__menu-wrapper ul li a' => 'color: {{VALUE}};',
+						'{{WRAPPER}} .oc-offcanvas__menu-wrapper ul li:before' => 'background-color: {{VALUE}};',
+					),
 				)
 			);
 
 			$this->add_control(
 				'oc_content_menu_color_hover',
 				array(
-					'label'     => esc_html__( 'Couleur du texte Hover', 'eac-components' ),
+					'label'     => esc_html__( 'Hover text color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array(
 						'{{WRAPPER}} .oc-offcanvas__menu-wrapper ul li a:hover, {{WRAPPER}} .oc-offcanvas__menu-wrapper ul li a:focus' => 'color: {{VALUE}};',
+						'{{WRAPPER}} .oc-offcanvas__menu-wrapper ul li:hover:before' => 'background-color: {{VALUE}};',
 					),
 				)
 			);
@@ -794,7 +791,7 @@ class Off_Canvas_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'           => 'oc_content_menu_typography',
-					'label'          => esc_html__( 'Typographie', 'eac-components' ),
+					'label'          => esc_html__( 'Typography', 'eac-components' ),
 					'fields_options' => array(
 						'font_size' => array(
 							'default' => array(
@@ -810,7 +807,7 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_control(
 				'oc_content_menu_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .oc-offcanvas__menu-wrapper' => 'background-color: {{VALUE}};' ),
 				)
@@ -821,7 +818,7 @@ class Off_Canvas_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'oc_content_text_style',
 			array(
-				'label'     => esc_html__( 'Contenu texte', 'eac-components' ),
+				'label'     => esc_html__( 'Text content', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array( 'oc_content_type' => 'texte' ),
 			)
@@ -830,7 +827,7 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_control(
 				'oc_content_text_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .oc-offcanvas__content-text' => 'color: {{VALUE}};' ),
 				)
@@ -840,7 +837,7 @@ class Off_Canvas_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'oc_content_text_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .oc-offcanvas__content-text',
 				)
 			);
@@ -848,7 +845,7 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'oc_content_text_margines',
 				array(
-					'label'     => esc_html__( 'Marges', 'eac-components' ),
+					'label'     => esc_html__( 'Margin', 'eac-components' ),
 					'type'      => Controls_Manager::DIMENSIONS,
 					'selectors' => array(
 						'{{WRAPPER}} .oc-offcanvas__content-text' => 'margin-block: {{TOP}}{{UNIT}} {{BOTTOM}}{{UNIT}}; margin-inline: {{LEFT}}{{UNIT}} {{RIGHT}}{{UNIT}};',
@@ -861,7 +858,7 @@ class Off_Canvas_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'oc_content_widget_style',
 			array(
-				'label'     => esc_html__( 'Contenu widget', 'eac-components' ),
+				'label'     => esc_html__( 'Widget content', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array( 'oc_content_type' => 'widget' ),
 			)
@@ -870,7 +867,7 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_control(
 				'oc_content_widget_title_color',
 				array(
-					'label'     => esc_html__( 'Couleur du titre', 'eac-components' ),
+					'label'     => esc_html__( 'Title color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array(
 						'{{WRAPPER}} .oc-offcanvas__canvas-content .widget .widgettitle,
@@ -884,7 +881,7 @@ class Off_Canvas_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'           => 'oc_content_widget_title_typography',
-					'label'          => esc_html__( 'Typographie du titre', 'eac-components' ),
+					'label'          => esc_html__( 'Title typography', 'eac-components' ),
 					'fields_options' => array(
 						'font_size' => array(
 							'default' => array(
@@ -902,12 +899,12 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_control(
 				'oc_content_widget_title_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond du titre', 'eac-components' ),
+					'label'     => esc_html__( 'Title background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'default'   => 'antiquewhite',
 					'selectors' => array(
 						'{{WRAPPER}} .oc-offcanvas__canvas-content .widget .widgettitle,
-					{{WRAPPER}} .oc-offcanvas__canvas-content .widget .widget-title'  => 'background-color: {{VALUE}};',
+						{{WRAPPER}} .oc-offcanvas__canvas-content .widget .widget-title'  => 'background-color: {{VALUE}};',
 					),
 				)
 			);
@@ -915,18 +912,19 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_control(
 				'oc_content_widget_text_color',
 				array(
-					'label'     => esc_html__( 'Couleur du texte', 'eac-components' ),
+					'label'     => esc_html__( 'Text color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'separator' => 'before',
 					'selectors' => array(
 						'{{WRAPPER}} .oc-offcanvas__canvas-content .widget ul li,
-					{{WRAPPER}} .oc-offcanvas__canvas-content .widget ul li a,
-					{{WRAPPER}} .oc-offcanvas__canvas-content aside.widget ul li,
-					{{WRAPPER}} .oc-offcanvas__canvas-content aside.widget ul li a,
-					{{WRAPPER}} .oc-offcanvas__canvas-content .widget.widget_calendar td,
-					{{WRAPPER}} .oc-offcanvas__canvas-content .widget.widget_calendar th,
-					{{WRAPPER}} .oc-offcanvas__canvas-content .widget .custom-html-widget,
-					{{WRAPPER}} .oc-offcanvas__canvas-content .widget .tagcloud .tag-cloud-link' => 'color: {{VALUE}};',
+						{{WRAPPER}} .oc-offcanvas__canvas-content .widget ul li a,
+						{{WRAPPER}} .oc-offcanvas__canvas-content aside.widget ul li,
+						{{WRAPPER}} .oc-offcanvas__canvas-content aside.widget ul li a,
+						{{WRAPPER}} .oc-offcanvas__canvas-content .widget.widget_calendar td,
+						{{WRAPPER}} .oc-offcanvas__canvas-content .widget.widget_calendar th,
+						{{WRAPPER}} .oc-offcanvas__canvas-content .widget .custom-html-widget,
+						{{WRAPPER}} .oc-offcanvas__canvas-content .widget .tagcloud .tag-cloud-link' => 'color: {{VALUE}};',
+						'{{WRAPPER}} .oc-offcanvas__canvas-content .widget ul li:before' => 'background-color: {{VALUE}};',
 					),
 				)
 			);
@@ -934,10 +932,11 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_control(
 				'oc_content_widget_text_color_hover',
 				array(
-					'label'     => esc_html__( 'Couleur du lien au survol', 'eac-components' ),
+					'label'     => esc_html__( 'Hover text color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array(
 						'{{WRAPPER}} .oc-offcanvas__canvas-content .widget ul li a:hover, {{WRAPPER}} .oc-offcanvas__canvas-content .widget ul li a:focus' => 'color: {{VALUE}};',
+						'{{WRAPPER}} .oc-offcanvas__canvas-content .widget ul li:hover:before' => 'background-color: {{VALUE}};',
 					),
 				)
 			);
@@ -946,7 +945,7 @@ class Off_Canvas_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'           => 'oc_content_widget_text_typography',
-					'label'          => esc_html__( 'Typographie du texte', 'eac-components' ),
+					'label'          => esc_html__( 'Text typography', 'eac-components' ),
 					'fields_options' => array(
 						'font_size' => array(
 							'default' => array(
@@ -966,7 +965,7 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_control(
 				'oc_content_widget_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'separator' => 'before',
 					'selectors' => array( '{{WRAPPER}} .oc-offcanvas__canvas-content .widget' => 'background-color: {{VALUE}};' ),
@@ -978,7 +977,7 @@ class Off_Canvas_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'oc_button_style',
 			array(
-				'label'     => esc_html__( 'Bouton déclencheur', 'eac-components' ),
+				'label'     => esc_html__( 'Trigger button', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array( 'oc_trigger_type' => 'button' ),
 			)
@@ -989,14 +988,14 @@ class Off_Canvas_Widget extends Widget_Base {
 				$this->start_controls_tab(
 					'oc_controls_tab_normal',
 					array(
-						'label' => esc_html( 'Normal' ),
+						'label' => esc_html__( 'Normal', 'eac-components' ),
 					)
 				);
 
 					$this->add_control(
 						'oc_button_color',
 						array(
-							'label'     => esc_html__( 'Couleur', 'eac-components' ),
+							'label'     => esc_html__( 'Color', 'eac-components' ),
 							'type'      => Controls_Manager::COLOR,
 							'selectors' => array(
 								'{{WRAPPER}} .oc-offcanvas__wrapper-btn' => 'color: {{VALUE}};',
@@ -1008,7 +1007,7 @@ class Off_Canvas_Widget extends Widget_Base {
 						Group_Control_Typography::get_type(),
 						array(
 							'name'     => 'oc_button_typography',
-							'label'    => esc_html__( 'Typographie', 'eac-components' ),
+							'label'    => esc_html__( 'Typography', 'eac-components' ),
 							'global'   => array( 'default' => Global_Typography::TYPOGRAPHY_TEXT ),
 							'selector' => '{{WRAPPER}} .oc-offcanvas__wrapper-btn',
 						)
@@ -1017,7 +1016,7 @@ class Off_Canvas_Widget extends Widget_Base {
 					$this->add_control(
 						'oc_button_background',
 						array(
-							'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+							'label'     => esc_html__( 'Background color', 'eac-components' ),
 							'type'      => Controls_Manager::COLOR,
 							'selectors' => array( '{{WRAPPER}} .oc-offcanvas__wrapper-btn' => 'background-color: {{VALUE}};' ),
 						)
@@ -1028,14 +1027,14 @@ class Off_Canvas_Widget extends Widget_Base {
 				$this->start_controls_tab(
 					'oc_controls_tab_hover',
 					array(
-						'label' => esc_html__( 'Survol', 'eac-components' ),
+						'label' => esc_html__( 'Hover', 'eac-components' ),
 					)
 				);
 
 					$this->add_control(
 						'oc_button_color_hover',
 						array(
-							'label'     => esc_html__( 'Couleur', 'eac-components' ),
+							'label'     => esc_html__( 'Color', 'eac-components' ),
 							'type'      => Controls_Manager::COLOR,
 							'selectors' => array(
 								'{{WRAPPER}} .oc-offcanvas__wrapper-btn:hover, {{WRAPPER}} .oc-offcanvas__wrapper-btn:focus' => 'color: {{VALUE}};',
@@ -1047,7 +1046,7 @@ class Off_Canvas_Widget extends Widget_Base {
 					$this->add_control(
 						'oc_button_background_hover',
 						array(
-							'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+							'label'     => esc_html__( 'Background color', 'eac-components' ),
 							'type'      => Controls_Manager::COLOR,
 							'selectors' => array(
 								'{{WRAPPER}} .oc-offcanvas__wrapper-btn:hover, {{WRAPPER}} .oc-offcanvas__wrapper-btn:focus' => 'background-color: {{VALUE}};',
@@ -1058,7 +1057,7 @@ class Off_Canvas_Widget extends Widget_Base {
 					$this->add_control(
 						'oc_button_border_color_hover',
 						array(
-							'label'     => esc_html__( 'Couleur de la bordure', 'eac-components' ),
+							'label'     => esc_html__( 'Border color', 'eac-components' ),
 							'type'      => Controls_Manager::COLOR,
 							'condition' => array( 'oc_button_border_border!' => 'none' ),
 							'selectors' => array(
@@ -1083,7 +1082,7 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_control(
 				'oc_button_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -1104,7 +1103,7 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'oc_button_padding',
 				array(
-					'label'     => esc_html__( 'Marges internes', 'eac-components' ),
+					'label'     => esc_html__( 'Padding', 'eac-components' ),
 					'type'      => Controls_Manager::DIMENSIONS,
 					'selectors' => array(
 						'{{WRAPPER}} .oc-offcanvas__wrapper-btn' => 'padding-block: {{TOP}}{{UNIT}} {{BOTTOM}}{{UNIT}}; padding-inline: {{LEFT}}{{UNIT}} {{RIGHT}}{{UNIT}};',
@@ -1116,7 +1115,7 @@ class Off_Canvas_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'     => 'oc_button_shadow',
-					'label'    => esc_html__( 'Ombre', 'eac-components' ),
+					'label'    => esc_html__( 'Shadow', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .oc-offcanvas__wrapper-btn',
 				)
 			);
@@ -1126,7 +1125,7 @@ class Off_Canvas_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'oc_texte_style',
 			array(
-				'label'     => esc_html__( 'Texte déclencheur', 'eac-components' ),
+				'label'     => esc_html__( 'Trigger text', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array( 'oc_trigger_type' => 'text' ),
 			)
@@ -1135,7 +1134,7 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_control(
 				'oc_texte_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .oc-offcanvas__wrapper-text span' => 'color: {{VALUE}} !important;' ),
 				)
@@ -1145,7 +1144,7 @@ class Off_Canvas_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'oc_texte_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .oc-offcanvas__wrapper-text span',
 				)
 			);
@@ -1153,7 +1152,7 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_control(
 				'oc_texte_background',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .oc-offcanvas__wrapper-text span' => 'background-color: {{VALUE}};' ),
 				)
@@ -1162,7 +1161,7 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_control(
 				'fv_text_style_marges',
 				array(
-					'label'     => esc_html__( 'Marges internes', 'eac-components' ),
+					'label'     => esc_html__( 'Padding', 'eac-components' ),
 					'type'      => Controls_Manager::DIMENSIONS,
 					'selectors' => array( '{{WRAPPER}} .oc-offcanvas__wrapper-text span' => 'padding-block: {{TOP}}{{UNIT}} {{BOTTOM}}{{UNIT}}; padding-inline: {{LEFT}}{{UNIT}} {{RIGHT}}{{UNIT}};' ),
 				)
@@ -1178,7 +1177,7 @@ class Off_Canvas_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		?>
 		<div class='eac-off-canvas'>
 			<?php $this->render_offcanvas(); ?>
@@ -1193,7 +1192,7 @@ class Off_Canvas_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render_offcanvas() {
+	protected function render_offcanvas(): void {
 		$settings = $this->get_settings_for_display();
 
 		$trigger        = $settings['oc_trigger_type'];
@@ -1208,13 +1207,7 @@ class Off_Canvas_Widget extends Widget_Base {
 		$tmplpage       = $settings['oc_content_page'];
 
 		// Quelques tests
-		if ( ( 'widget' === $content && empty( $widget_classes ) ) ||
-			( 'texte' === $content && empty( $texte ) ) ||
-			( 'menu' === $content && empty( $menu ) ) ||
-			( 'form' === $content && empty( $short_code ) ) ||
-			( 'tmpl_cont' === $content && empty( $tmplcont ) ) ||
-			( 'tmpl_sec' === $content && empty( $tmplsec ) ) ||
-			( 'tmpl_page' === $content && empty( $tmplpage ) ) ) {
+		if ( ( 'widget' === $content && empty( $widget_classes ) ) || ( 'texte' === $content && empty( $texte ) ) || ( 'menu' === $content && empty( $menu ) ) || ( 'form' === $content && empty( $short_code ) ) || ( 'tmpl_cont' === $content && empty( $tmplcont ) ) || ( 'tmpl_sec' === $content && empty( $tmplsec ) ) || ( 'tmpl_page' === $content && empty( $tmplpage ) ) ) {
 			return;
 		}
 
@@ -1248,7 +1241,7 @@ class Off_Canvas_Widget extends Widget_Base {
 			$this->add_render_attribute( 'trigger', 'aria-expanded', 'false' );
 			$this->add_render_attribute( 'trigger', 'aria-controls', 'offcanvas_' . esc_attr( $id ) );
 			$this->add_render_attribute( 'trigger', 'aria-haspopup', 'dialog' );
-			$this->add_render_attribute( 'trigger', 'aria-label', esc_attr__( 'Ouvrir la barre latérale', 'eac-components' ) . ' ' . esc_attr( $settings['oc_display_text_button'] ) );
+			$this->add_render_attribute( 'trigger', 'aria-label', esc_attr__( 'Open Off-canvas', 'eac-components' ) . ' ' . esc_attr( $settings['oc_display_text_button'] ) );
 			$this->add_inline_editing_attributes( 'oc_display_text_button', 'none' );
 			$this->add_render_attribute( 'oc_display_text_button', 'class', 'label-icon' );
 		} elseif ( 'text' === $trigger ) {
@@ -1269,7 +1262,7 @@ class Off_Canvas_Widget extends Widget_Base {
 		$this->add_render_attribute( 'a_fancybox', 'aria-controls', 'offcanvas_' . esc_attr( $id ) );
 		$this->add_render_attribute( 'a_fancybox', 'aria-haspopup', 'dialog' );
 		$label = 'button' === $trigger ? $settings['oc_display_text_button'] : $settings['oc_display_text'];
-		$this->add_render_attribute( 'a_fancybox', 'aria-label', esc_attr__( 'Ouvrir la barre latérale', 'eac-components' ) . ' ' . esc_attr( $label ) );
+		$this->add_render_attribute( 'a_fancybox', 'aria-label', esc_attr__( 'Open Off-canvas', 'eac-components' ) . ' ' . esc_attr( $label ) );
 		?>
 
 		<div <?php $this->print_render_attribute_string( 'oc_wrapper' ); ?>>
@@ -1303,7 +1296,7 @@ class Off_Canvas_Widget extends Widget_Base {
 		<div id="offcanvas_<?php echo esc_attr( $id ); ?>" class="oc-offcanvas__wrapper-canvas elementor-<?php echo esc_attr( $main_id ); ?>" role='dialog' aria-labelledby="modal-<?php echo esc_attr( $id ); ?>" aria-modal='true'>
 			<div class="elementor-element elementor-element-<?php echo esc_attr( $id ); ?>">
 				<div class='oc-offcanvas__canvas-header'>
-					<div class='oc-offcanvas__canvas-close'><a class='oc-first-element' href='#' aria-label="<?php esc_html_e( 'Fermer la barre latérale', 'eac-components' ); ?>">X</a></div>
+					<div class='oc-offcanvas__canvas-close'><a class='oc-first-element' href='#' aria-label="<?php esc_html_e( 'Close off-canvas', 'eac-components' ); ?>">X</a></div>
 					<div class='oc-offcanvas__canvas-title'>
 						<span id="modal-<?php echo esc_attr( $id ); ?>"><?php echo esc_html( $settings['oc_content_title'] ); ?></span>
 					</div>
@@ -1313,21 +1306,21 @@ class Off_Canvas_Widget extends Widget_Base {
 						<div class='oc-offcanvas__content-text'><?php echo wp_kses_post( $texte ); ?></div>
 					<?php } elseif ( 'tmpl_cont' === $content ) {
 						if ( get_the_ID() === (int) $tmplcont ) {
-							esc_html_e( 'ID du modèle ne peut pas être le même que le modèle actuel', 'eac-components' );
+							esc_html_e( 'The Template ID cannot be the same as the currently edited template', 'eac-components' );
 						} else {
 							$tmplcont = apply_filters( 'wpml_object_id', $tmplcont, Source_Local::CPT, true );
 							echo \Elementor\Plugin::$instance->frontend->get_builder_content_for_display( $tmplcont ); // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 						}
 					} elseif ( 'tmpl_sec' === $content ) {
 						if ( get_the_ID() === (int) $tmplsec ) {
-							esc_html_e( 'ID du modèle ne peut pas être le même que le modèle actuel', 'eac-components' );
+							esc_html_e( 'The Template ID cannot be the same as the currently edited template', 'eac-components' );
 						} else {
 							$tmplsec = apply_filters( 'wpml_object_id', $tmplsec, Source_Local::CPT, true );
 							echo \Elementor\Plugin::$instance->frontend->get_builder_content_for_display( $tmplsec ); // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 						}
 					} elseif ( 'tmpl_page' === $content ) {
 						if ( get_the_ID() === (int) $tmplpage ) {
-							esc_html_e( 'ID du modèle ne peut pas être le même que le modèle actuel', 'eac-components' );
+							esc_html_e( 'The Template ID cannot be the same as the currently edited template', 'eac-components' );
 						} else {
 							$tmplpage = apply_filters( 'wpml_object_id', $tmplpage, Source_Local::CPT, true );
 							echo \Elementor\Plugin::$instance->frontend->get_builder_content_for_display( $tmplpage ); // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -1354,32 +1347,31 @@ class Off_Canvas_Widget extends Widget_Base {
 							// Widgets standards
 							if ( empty( $title ) ) {
 								if ( 'WP_Widget_Calendar' === $classname ) {
-									$instance = array( 'title' => esc_html__( 'Calendrier', 'eac-components' ) );
+									$instance = array( 'title' => esc_html__( 'Calendar', 'eac-components' ) );
 								} elseif ( 'WP_Widget_Search' === $classname ) {
-									$instance = array( 'title' => esc_html__( 'Rechercher', 'eac-components' ) );
+									$instance = array( 'title' => esc_html__( 'Search', 'eac-components' ) );
 								} elseif ( 'WP_Widget_Tag_Cloud' === $classname ) {
-									$instance = array( 'title' => esc_html__( 'Nuage de Tags', 'eac-components' ) );
+									$instance = array( 'title' => esc_html__( 'Tags cloud', 'eac-components' ) );
 								} elseif ( 'WP_Widget_Recent_Posts' === $classname ) {
-									$instance = array( 'title' => esc_html__( 'Articles récents', 'eac-components' ) );
+									$instance = array( 'title' => esc_html__( 'Recent posts', 'eac-components' ) );
 								} elseif ( 'WP_Widget_Recent_Comments' === $classname ) {
-									$instance = array( 'title' => esc_html__( 'Derniers commentaires', 'eac-components' ) );
+									$instance = array( 'title' => esc_html__( 'Last comments', 'eac-components' ) );
 								} elseif ( 'WP_Widget_RSS' === $classname ) {
 									$instance = array(
-										'title' => esc_html__( 'Flux RSS', 'eac-components' ),
+										'title' => esc_html__( 'RSS feeds', 'eac-components' ),
 										'url'   => get_bloginfo( 'rss2_url' ),
 									);
 								} elseif ( 'WP_Widget_Pages' === $classname ) {
-									$instance = array( 'title' => 'Pages' );
+									$instance = array( 'title' => esc_html__( 'Pages', 'eac-components' ) );
 								} elseif ( 'WP_Widget_Archives' === $classname ) {
-									$instance = array( 'title' => 'Archives' );
+									$instance = array( 'title' => esc_html__( 'Archives', 'eac-components' ) );
 								} elseif ( 'WP_Widget_Meta' === $classname ) {
 									$instance = array( 'title' => 'Meta' );
 								} elseif ( 'WP_Widget_Categories' === $classname ) {
-									$instance = array( 'title' => esc_html__( 'Catégories', 'eac-components' ) );
+									$instance = array( 'title' => esc_html__( 'Categories', 'eac-components' ) );
 								}
 								// Affiche le widget
 								the_widget( $classname, $instance, $args );
-
 							} else {
 								dynamic_sidebar( $classname );
 							}
@@ -1406,7 +1398,7 @@ class Off_Canvas_Widget extends Widget_Base {
 	 *
 	 * @access   protected
 	 */
-	protected function get_settings_json() {
+	protected function get_settings_json(): string {
 		$module_settings = $this->get_settings_for_display();
 
 		$settings = array(
@@ -1418,5 +1410,5 @@ class Off_Canvas_Widget extends Widget_Base {
 		return wp_json_encode( $settings );
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

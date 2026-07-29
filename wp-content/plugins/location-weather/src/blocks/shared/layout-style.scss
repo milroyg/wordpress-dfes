@@ -1,0 +1,552 @@
+// all block wrapper .
+.sp-location-weather-block-wrapper {
+    margin: 0 auto;
+    overflow: hidden;
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .spl-weather-tab-pane {
+        display: none;
+
+        &.active {
+            display: block;
+        }
+    }
+
+    .spl-weather-detailed {
+        width: 100%;
+        position: relative;
+        z-index: 1;
+    }
+
+    table,
+    td,
+    th {
+        border: none;
+    }
+
+    .spl-weather-card-location-name {
+        display: flex;
+
+        .spl-weather-search-block {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+    }
+
+    .spl-weather-search-block-wrapper {
+        margin: 0;
+    }
+
+    .spl-weather-search-popup {
+        position: absolute !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        display: none;
+        z-index: 9999;
+        background: rgba(0, 0, 0, 0.4);
+
+        &.active {
+            display: flex;
+        }
+    }
+
+    .spl-weather-spinner {
+        display: none;
+        width: 30px;
+        height: 30px;
+        border: 4px solid #f8f8f8;
+        border-top-color: #F26C0D;
+        border-radius: 50%;
+        animation: splw-spin .8s linear infinite;
+        position: absolute;
+        top: 300px;
+    }
+
+    @keyframes splw-spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+}
+
+// vertical block one css.
+.spl-weather-vertical-one-wrapper {
+
+    .spl-weather-card-date-time,
+    .spl-weather-card-location-name {
+        text-align: center;
+    }
+
+    .spl-weather-card-location-name {
+        justify-content: center;
+    }
+
+    .spl-weather-card-current-weather {
+        flex-direction: column;
+    }
+}
+
+// vertical three (using as vertical-two).
+.spl-weather-vertical-three-wrapper {
+    .spl-weather-card-current-weather {
+        flex-wrap: wrap;
+    }
+
+    .spl-weather-card-location-name,
+    .spl-weather-card-date-time,
+    .spl-weather-current-weather-icon-wrapper {
+        width: 50%;
+        justify-content: flex-start;
+    }
+
+    .spl-weather-card-date-time {
+        justify-content: flex-end;
+    }
+
+    .spl-weather-real-feel-desc-wrapper {
+        justify-content: flex-start;
+        width: 100%;
+    }
+}
+
+// horizontal one block.
+.spl-weather-horizontal-one-wrapper {
+    .spl-weather-card-current-weather {
+        flex-wrap: wrap;
+    }
+
+    .spl-weather-card-current-weather {
+        gap: 8px;
+    }
+
+    .spl-weather-forecast-date-time {
+        line-height: 1;
+    }
+
+    .spl-weather-horizontal-left-wrapper {
+        width: 100%;
+    }
+
+    .spl-weather-card-date-time {
+        width: 50%;
+    }
+
+    .spl-weather-forecast-header-area {
+        margin-bottom: 10px;
+    }
+
+    .spl-weather-forecast-data {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .spl-weather-card-forecast-data .spl-weather-forecast-container {
+        flex-direction: column;
+        width: auto;
+        .spl-weather-forecast-date-time,
+        .spl-weather-forecast-value-wrapper {
+            width: auto;
+        }
+    }
+}
+
+/*
+* tabs block css.
+*/
+// tab navigation styles.
+.spl-weather-tab-nav {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    line-height: 26px;
+}
+
+// tabs one css.
+.spl-weather-tabs-card {
+    .spl-weather-forecast-min-temp {
+        opacity: 0.7;
+    }
+
+    .spl-weather-details:hover {
+        background: rgba(204, 204, 204, .4);
+        transition: all 0.3s ease;
+    }
+
+    .spl-weather-tab-navs {
+        display: flex;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+}
+
+.spl-weather-tabs-one-block-wrapper {
+
+    .spl-weather-card-separator {
+        color: #fff;
+    }
+
+    .spl-weather-current-data {
+        width: 100%;
+    }
+
+    .spl-weather-card-current-weather {
+        width: 60%;
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .spl-weather-sun-orbit {
+        width: 40%;
+    }
+
+    .spl-weather-sun-orbit-sky {
+        width: 278px;
+        height: 280px;
+    }
+	.spl-weather-sun-orbit-sky i {
+		font-size: 18px;
+	}
+	.spl-weather-sun-orbit-sky {
+        top: -60px;
+    }
+
+    .spl-weather-sunrise,
+    .spl-weather-sunset {
+        margin-bottom: -30px;
+    }
+
+    .spl-weather-real-feel-desc-wrapper {
+        justify-content: start;
+    }
+}
+
+/*
+* table block css.
+*/
+.spl-weather-table {
+    &-header {
+        th {
+            font-size: 16px;
+            line-height: 24px;
+            padding: 12px;
+            font-weight: 600;
+        }
+    }
+
+    &-current-data {
+
+        table,
+        th,
+        td {
+            border-collapse: collapse;
+        }
+    }
+}
+
+// table one css .
+.spl-weather-table-one-block-wrapper {
+    overflow: hidden;
+
+    .spl-weather-current-data-table-left {
+        justify-items: center;
+    }
+
+    .spl-weather-current-data-table-right {
+        vertical-align: top;
+        padding: 0;
+    }
+
+    .spl-weather-card-current-weather {
+        flex-direction: column;
+    }
+}
+
+/*
+* grid block css.
+*/
+
+.spl-weather-temperature-grid {
+    &.vertical {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        min-width: 200px;
+    }
+
+    &.horizontal {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .spl-weather-temperature-parts {
+            .temperature-cell {
+                text-align: center;
+            }
+
+            text-align: center;
+        }
+
+        .spl-weather-temp-details-values,
+        .spl-weather-temperature-parts {
+            flex-direction: row;
+            flex: 1;
+        }
+
+        .temperature-cell {
+            flex: 1;
+        }
+
+        .spl-weather-empty-temperature-part {
+            flex: 1;
+        }
+    }
+
+    .spl-weather-empty-temperature-part {
+        display: block;
+        height: 21px;
+    }
+
+    .temperature-row {
+        display: flex;
+    }
+}
+
+.spl-weather-grid-card-select-forecast {
+    .spl-weather-forecast-container {
+        width: 100%;
+
+        div {
+            width: 33%;
+        }
+    }
+
+    .spl-weather-forecast-header-area {
+        margin-bottom: 5px;
+    }
+}
+
+/*
+* grid one block css.
+*/
+.spl-weather-grid-card {
+    .spl-weather-normal {
+        .spl-weather-grid-card-tabs-forecast {
+            .spl-weather-forecast-value.temperature {
+                display: flex;
+                flex-direction: row-reverse;
+                gap: 2px;
+            }
+
+            .spl-weather-forecast-max-temp,
+            .spl-weather-forecast-separator {
+                font-weight: 600;
+            }
+        }
+
+        .spl-weather-forecast-date-time {
+            line-height: 1;
+        }
+    }
+}
+
+.spl-weather-grid-one-wrapper {
+    row-gap: 20px;
+
+    .spl-weather-modal,
+    .spl-weather-forecast-card {
+        border-width: 1px;
+        border-style: solid;
+    }
+
+    // grid daily forecast data css.
+    .spl-weather-grid-card-daily-forecast {
+        gap: 20px;
+    }
+
+    .spl-weather-details-icon {
+        svg {
+            height: 18px;
+            width: 18px;
+        }
+    }
+
+    // forecast css.
+    .spl-weather-modal-forecast-data {
+        .spl-weather-forecast-card {
+            padding: 10px;
+            border-radius: 4px;
+            line-height: 1.4;
+            width: calc((100% - 45px) / 4);
+        }
+
+        .spl-weather-modal-forecast-top {
+            grid-template-columns: 30% 70%;
+            gap: 20px;
+            border-bottom: 1px solid #efefef;
+            padding: 20px 0;
+            margin: 0 20px;
+        }
+
+        .spl-weather-details-icon {
+            margin-bottom: 4px;
+        }
+
+        .spl-weather-forecast-details {
+            margin-top: 25px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .spl-weather-forecast-details-label {
+            font-size: 12px;
+        }
+
+        .spl-weather-forecast-value {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .spl-weather-forecast-details-value,
+        .spl-weather-forecast-details-value span {
+            font-size: 16px;
+            line-height: 22px;
+            font-weight: 500 !important;
+        }
+
+        .temperature-cell {
+            font-size: 14px;
+            line-height: 21px;
+            font-weight: 600;
+        }
+
+        .spl-weather-details-icon i {
+            font-size: 14px;
+            line-height: 1;
+        }
+
+    }
+
+    .spl-weather-forecast-low-high-temp {
+        font-size: 16px;
+        line-height: 22px;
+        font-weight: 400;
+
+        .spl-weather-min-temp {
+            margin-left: 8px;
+        }
+    }
+
+    .spl-weather-forecast-description {
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .spl-weather-grid-item:hover {
+        position: relative;
+
+        &::after {
+            position: absolute;
+            content: '\e80d';
+            top: auto;
+            bottom: 10px;
+            left: auto;
+            right: 20px;
+            font-family: splw-fontello;
+            color: #fff;
+            transition: .3s ease-in-out all;
+        }
+    }
+}
+
+// map css for others blocks.
+.sp-location-weather-block-wrapper {
+    .sp-location-weather-windy {
+        border-radius: 4px;
+    }
+
+    .sp-weather-card-map-renderer {
+        .spl-weather-map-template {
+            max-width: 100%;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .spl-weather-tabs-block-content {
+        .sp-weather-card-map-renderer {
+            height: 600px;
+        }
+    }
+
+    .spl-weather-map-template {
+        margin: 0 auto;
+    }
+
+    .spl-weather-custom-slider-nav {
+        position: absolute;
+        border: none;
+        cursor: pointer;
+        height: 40px;
+        position: absolute;
+        padding: 5px;
+        border-radius: 2px;
+        background-color: #dfe2e5;
+        color: #000;
+        font-size: 12px;
+
+        &:hover {
+            background-color: #dfe2e5b5;
+            transition: background-color 0.3s ease-in-out;
+        }
+    }
+}
+.spl-weather-custom-slider {
+    display: flex;
+}
+
+// Scroll Chart to horizontal position and hide the scrollbar.
+.spl-weather-custom-slider{
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+// Forecast filter tabs.
+.spl-weather-forecast-tab {
+    font-size: 16px;
+    line-height: 1;
+    font-weight: 500;
+    padding-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+@media only screen and (max-width: 780px) {
+    .spl-weather-combined-card {
+        .spl-weather-combined-forecast-more-details {
+            flex-direction: column;
+
+            .spl-weather-forecast-details {
+                width: 90%;
+            }
+        }
+
+        .spl-weather-combined-day-length-sun-orbit {
+            width: 90%;
+        }
+    }
+}

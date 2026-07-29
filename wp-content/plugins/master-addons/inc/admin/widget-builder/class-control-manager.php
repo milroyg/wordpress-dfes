@@ -1,5 +1,5 @@
 <?php
-namespace MasterAddons\Admin\WidgetBuilder;
+namespace MasterAddons\Inc\Admin\WidgetBuilder;
 
 defined('ABSPATH') || exit;
 
@@ -30,38 +30,14 @@ class Control_Manager {
         // Load base class first
         require_once __DIR__ . '/controls/class-control-base.php';
 
-        // Load all control type classes
+        // Load FREE control type classes only
         $control_files = [
-            'background',
-            'border',
-            'box-shadow',
-            'choose',
-            'code',
             'color',
-            'date-time',
-            'dimensions',
-            'divider',
-            'font',
-            'gallery',
             'heading',
             'hidden',
-            'icons',
-            'media',
-            'number',
-            'popover-toggle',
-            'repeater',
-            'select',
-            'select2',
-            'slider',
-            'switcher',
-            'tabs',
             'text',
             'textarea',
-            'text-shadow',
-            'typography',
             'url',
-            'visual-choice',
-            'wysiwyg',
         ];
 
         foreach ($control_files as $file) {
@@ -70,6 +46,9 @@ class Control_Manager {
                 require_once $file_path;
             }
         }
+
+        // Allow Pro to load additional controls
+        do_action('jltma_widget_builder_load_controls');
     }
 
     /**
@@ -87,45 +66,29 @@ class Control_Manager {
             return $this->controls[$type];
         }
 
-        // Map control types to classes
+        // Map control types to classes (FREE controls only)
         $class_map = [
-            'BACKGROUND' => 'Background',
-            'BORDER' => 'Border',
-            'BOX_SHADOW' => 'Box_Shadow',
-            'CHOOSE' => 'Choose',
-            'CODE' => 'Code',
             'COLOR' => 'Color',
-            'DATE_TIME' => 'Date_Time',
-            'DIMENSIONS' => 'Dimensions',
-            'DIVIDER' => 'Divider',
-            'FONT' => 'Font',
-            'GALLERY' => 'Gallery',
-            'GROUP_CONTROL_TYPOGRAPHY' => 'Typography',
             'HEADING' => 'Heading',
             'HIDDEN' => 'Hidden',
-            'ICONS' => 'Icons',
-            'MEDIA' => 'Media',
-            'NUMBER' => 'Number',
-            'POPOVER_TOGGLE' => 'Popover_Toggle',
-            'REPEATER' => 'Repeater',
-            'SELECT' => 'Select',
-            'SELECT2' => 'Select2',
-            'SLIDER' => 'Slider',
-            'SWITCHER' => 'Switcher',
-            'TABS' => 'Tabs',
             'TEXT' => 'Text',
             'TEXTAREA' => 'Textarea',
-            'TEXT_SHADOW' => 'Text_Shadow',
-            'TYPOGRAPHY' => 'Typography',
             'URL' => 'Url',
-            'VISUAL_CHOICE' => 'Visual_Choice',
-            'WYSIWYG' => 'Wysiwyg',
         ];
+
+        // Allow Pro to add additional control class mappings
+        $class_map = apply_filters('jltma_widget_builder_control_class_map', $class_map);
+
         if (!isset($class_map[$type])) {
             return null;
         }
 
-        $class_name = '\\MasterAddons\\Admin\\WidgetBuilder\\Controls\\' . $class_map[$type];
+        // Check if class_map value is a full class name (from Pro) or just class name (free)
+        if (strpos($class_map[$type], '\\') !== false) {
+            $class_name = $class_map[$type];
+        } else {
+            $class_name = '\\MasterAddons\\Inc\\Admin\\WidgetBuilder\\Controls\\' . $class_map[$type];
+        }
 
         if (!class_exists($class_name)) {
             return null;
@@ -157,6 +120,62 @@ class Control_Manager {
     }
 
     /**
+     * Build control config ARRAY (runtime equivalent of build_control()).
+     * Consumed by Dynamic_Widget::register_controls() so no PHP file is generated.
+     *
+     * @param string $control_key Control key
+     * @param array  $field       Field configuration
+     * @param string $type        Control type
+     * @return array ['key' => string, 'responsive' => bool, 'args' => array]
+     */
+    public function build_control_config($control_key, $field, $type) {
+        $control = $this->get_control($type);
+
+        if (!$control || !method_exists($control, 'get_config')) {
+            return $this->build_fallback_control_config($control_key, $field, $type);
+        }
+
+        return $control->get_config($control_key, $field);
+    }
+
+    /**
+     * Fallback control config for unknown types (array equivalent of build_fallback_control()).
+     *
+     * @param string $control_key Control key
+     * @param array  $field       Field configuration
+     * @param string $type        Control type
+     * @return array
+     */
+    private function build_fallback_control_config($control_key, $field, $type) {
+        $type_const = strtoupper(preg_replace('/[^A-Za-z0-9_]/', '', (string) $type));
+        if ('' === $type_const) {
+            $type_const = 'TEXT';
+        }
+
+        $const = '\\Elementor\\Controls_Manager::' . $type_const;
+        $args  = [
+            // translators: dynamic user-defined control label.
+            'label' => esc_html(!empty($field['label']) ? $field['label'] : 'Control'),
+            'type'  => defined($const) ? constant($const) : 'text',
+        ];
+
+        // REPEATER must always carry a 'fields' array.
+        if ('REPEATER' === $type_const) {
+            $args['fields'] = [];
+        }
+
+        if (isset($field['default'])) {
+            $args['default'] = $field['default'];
+        }
+
+        return [
+            'key'        => $control_key,
+            'responsive' => !empty($field['responsive']),
+            'args'       => $args,
+        ];
+    }
+
+    /**
      * Build fallback control for unknown types
      *
      * @param string $control_key Control key
@@ -167,14 +186,27 @@ class Control_Manager {
     private function build_fallback_control($control_key, $field, $type) {
         $label = !empty($field['label']) ? esc_js($field['label']) : 'Control';
 
+        // Elementor control constants are upper-case (e.g. REPEATER, SELECT). Normalise
+        // the type to a safe constant name so the generated PHP is always valid.
+        $type_const = strtoupper(preg_replace('/[^A-Za-z0-9_]/', '', (string) $type));
+        if ('' === $type_const) {
+            $type_const = 'TEXT';
+        }
+
         $content = "\t\t\$this->add_control(\n";
         $content .= "\t\t\t'{$control_key}',\n";
         $content .= "\t\t\t[\n";
         $content .= "\t\t\t\t'label' => esc_html__('{$label}', 'master-addons'),\n";
-        $content .= "\t\t\t\t'type' => Controls_Manager::{$type},\n";
+        $content .= "\t\t\t\t'type' => Controls_Manager::{$type_const},\n";
+
+        // REPEATER must always carry a 'fields' array, otherwise Elementor's
+        // sanitize_settings() throws a TypeError when iterating null fields.
+        if ('REPEATER' === $type_const) {
+            $content .= "\t\t\t\t'fields' => array(),\n";
+        }
 
         if (isset($field['default'])) {
-            $default = is_string($field['default']) ? "'" . esc_js($field['default']) . "'" : $field['default'];
+            $default = $this->export_default_value($field['default']);
             $content .= "\t\t\t\t'default' => {$default},\n";
         }
 
@@ -182,5 +214,30 @@ class Control_Manager {
         $content .= "\t\t);\n\n";
 
         return $content;
+    }
+
+    /**
+     * Convert a control default value into a valid PHP literal for the generated file.
+     * Arrays (e.g. repeater/group-control defaults) must never be interpolated directly,
+     * which would emit the literal token "Array" and produce a fatal parse error.
+     *
+     * @param mixed $value
+     * @return string
+     */
+    private function export_default_value($value) {
+        if (is_array($value)) {
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export -- generating PHP source, not debug output
+            return var_export($value, true);
+        }
+        if (is_bool($value)) {
+            return $value ? 'true' : 'false';
+        }
+        if (is_int($value) || is_float($value)) {
+            return (string) $value;
+        }
+        if (null === $value) {
+            return "''";
+        }
+        return "'" . esc_js((string) $value) . "'";
     }
 }

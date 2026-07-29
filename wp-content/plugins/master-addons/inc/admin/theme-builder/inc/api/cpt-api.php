@@ -1,8 +1,10 @@
 <?php
 
-namespace MasterHeaderFooter;
+namespace MasterAddons\Inc\Admin\Theme_Builder\Api;
 
-class JLTMA_Header_Footer_CPT_API extends JLTMA_Header_Footer_Rest_API
+defined( 'ABSPATH' ) || exit;
+
+class CPT_API extends Rest_API
 {
     public function __construct()
     {
@@ -41,8 +43,16 @@ class JLTMA_Header_Footer_CPT_API extends JLTMA_Header_Footer_Rest_API
         $title = ($this->request['title'] == '') ? ('Master Addons Template #' . time()) : $this->request['title'];
         $activation = isset($this->request['activation']) ? $this->request['activation'] : '';
         $type = isset($this->request['type']) ? $this->request['type'] : 'header';
-        
-        
+
+        // Free mode: only allow free template types
+        $pro_conditions = apply_filters('master_addons/theme_builder/pro_conditions', false);
+        if (!$pro_conditions) {
+            $free_types = ['header', 'footer', 'comment'];
+            if (!in_array($type, $free_types, true)) {
+                $type = 'header'; // Fallback to default free type
+            }
+            // Also force activation off for safety
+        }
 
         // Handle new repeater-based conditions
         $condition_types = isset($this->request['jltma_condition_type']) ? (array)$this->request['jltma_condition_type'] : [];
@@ -56,7 +66,7 @@ class JLTMA_Header_Footer_CPT_API extends JLTMA_Header_Footer_Rest_API
             $has_include = false;
             $include_entire_site = false;
             $has_other_includes = false;
-            
+
             for ($i = 0; $i < count($condition_types); $i++) {
                 if (isset($condition_types[$i]) && isset($condition_rules[$i])) {
                     $condition_type = sanitize_text_field($condition_types[$i]);
@@ -94,6 +104,26 @@ class JLTMA_Header_Footer_CPT_API extends JLTMA_Header_Footer_Rest_API
                 }
             }
             
+            // Free mode: strip pro conditions (only allow include + entire_site)
+            if (!$pro_conditions) {
+                $conditions_data = array_filter($conditions_data, function ($c) {
+                    return $c['type'] === 'include' && $c['rule'] === 'entire_site';
+                });
+                $conditions_data = array_values($conditions_data);
+                // Ensure at least one default condition remains
+                if (empty($conditions_data)) {
+                    $conditions_data[] = [
+                        'type' => 'include',
+                        'rule' => 'entire_site',
+                        'specific' => '',
+                        'posts' => []
+                    ];
+                }
+                $has_include = true;
+                $include_entire_site = true;
+                $has_other_includes = false;
+            }
+
             // Backend validation - ensure at least one include condition
             if (!$has_include) {
                 return new \WP_Error('validation_error', 'At least one "Include" condition is required.', array('status' => 400));
@@ -182,7 +212,7 @@ class JLTMA_Header_Footer_CPT_API extends JLTMA_Header_Footer_Rest_API
 
         if ($open_editor == 'true') {
             $url = get_admin_url() . '/post.php?post=' . $id . '&action=elementor';
-            wp_redirect($url);
+            wp_safe_redirect($url);
             exit;
         } else {
             
@@ -285,7 +315,7 @@ class JLTMA_Header_Footer_CPT_API extends JLTMA_Header_Footer_Rest_API
             }
 
             // Add edit icon to condition text for admin display
-            $cond_with_edit = $cond . '<br><a href="#" class="jltma-theme-builder-edit-cond" id="' . $id . '">Edit Conditions <span class="dashicons dashicons-edit"></span></a>';
+            $cond_with_edit = wp_kses_post($cond) . '<br><a href="#" class="jltma-theme-builder-edit-cond" id="' . esc_attr($id) . '">Edit Conditions <span class="dashicons dashicons-edit"></span></a>';
 
 
             return [
@@ -587,4 +617,4 @@ class JLTMA_Header_Footer_CPT_API extends JLTMA_Header_Footer_Rest_API
     }
 }
 
-new JLTMA_Header_Footer_CPT_API();
+new CPT_API();

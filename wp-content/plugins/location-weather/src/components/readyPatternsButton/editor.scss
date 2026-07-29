@@ -1,0 +1,25 @@
+.spl-weather-layout-variation-picker-modal {
+    .spl-weather-patterns-btn {
+        color: #fff;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 12px 20px;
+        border-radius: 2px;
+        transition: background-color 0.3s ease;
+        border: none;
+        margin-right: 28px;
+        // height: 36px;
+    }
+}
+
+.spl-weather-layout-variation-picker-modal,
+.spl-weather-tab-panel-header {
+    .spl-weather-patterns-btn {
+        background-color: #f26c0d;
+
+        &:hover {
+            background-color: #e9510c;
+        }
+    }
+}

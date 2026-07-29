@@ -1,0 +1,116 @@
+/* Jltma Progress Bar */
+[class*=jltma-progress-bar-] {
+  width: 100%;
+  display: inline-block;
+}
+
+.ldBar {
+  position: relative;
+  width: 100%;
+}
+.ldBar.label-center > .ldBar-label {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  text-shadow: 0 0 3px #fff;
+}
+.ldBar .ldBar-label:after {
+  content: "%";
+  display: inline;
+}
+.ldBar.no-percent .ldBar-label:after {
+  content: "";
+}
+.ldBar svg {
+  width: 100% !important;
+}
+
+[class*=jltma-progress-bar-].line {
+  position: relative;
+}
+[class*=jltma-progress-bar-].line .jltma-progress-bar-title {
+  margin: 0;
+}
+[class*=jltma-progress-bar-].line .ldBar-label {
+  position: absolute;
+  top: -26px;
+  left: 0;
+  color: #132c47;
+}
+[class*=jltma-progress-bar-].line:has(h6) .ldBar-label {
+  top: 0 !important;
+}
+
+[class*=jltma-progress-bar-].line-bubble {
+  position: relative;
+}
+[class*=jltma-progress-bar-].line-bubble .ldBar-label {
+  position: absolute;
+  right: 0;
+  top: 56%;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  line-height: 50px;
+  text-align: center;
+  font-size: 12px;
+  color: #fff;
+  margin-top: -16.5px;
+  transform: translateX(50%);
+}
+
+[class*=jltma-progress-bar-].circle {
+  position: relative;
+}
+[class*=jltma-progress-bar-].circle .ldBar-label {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  font-size: 36px;
+  color: #132c47;
+  transform: translate(50%, -50%);
+}
+[class*=jltma-progress-bar-].circle h3 {
+  position: absolute;
+  bottom: -20px;
+  right: 50%;
+  transform: translateX(50%);
+}
+[class*=jltma-progress-bar-].circle h6 {
+  text-align: center;
+}
+
+[class*=jltma-progress-bar-].fan {
+  position: relative;
+}
+[class*=jltma-progress-bar-].fan h3 {
+  position: absolute;
+  bottom: -20px;
+  right: 50%;
+  transform: translateX(50%);
+}
+[class*=jltma-progress-bar-].fan .ldBar-label {
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  transform: translate(50%, -20%);
+  font-size: 30px;
+}
+[class*=jltma-progress-bar-].fan .left-title {
+  position: absolute;
+  font-size: 14px;
+  right: 0;
+  bottom: -10px;
+}
+[class*=jltma-progress-bar-].fan .right-title {
+  position: absolute;
+  font-size: 14px;
+  bottom: -10px;
+  left: 0;
+}
+[class*=jltma-progress-bar-].fan h6 {
+  text-align: center;
+}
+
+/* Jltma Progress Bar */

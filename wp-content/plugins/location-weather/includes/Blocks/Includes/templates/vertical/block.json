@@ -1,0 +1,16 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "sp-location-weather-pro/vertical-card",
+	"title": "Weather Card",
+	"category": "location-weather",
+	"description": "A clean vertical card showing current weather and upcoming forecasts.",
+	"keywords": [ "weather", "aqi", "map" ],
+	"textdomain": "location-weather",
+	"supports": {
+		"html": false
+	},
+	"editorStyle": "splw_index_editor_style",
+	"style": "splw_index_style",
+	"script": "spl-weather-block-script"
+}

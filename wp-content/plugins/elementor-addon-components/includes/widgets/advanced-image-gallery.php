@@ -16,8 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 use EACCustomWidgets\Core\Utils\Eac_Tools_Util;
 
 use Elementor\Widget_Base;
@@ -36,26 +35,8 @@ use Elementor\Utils;
 use Elementor\Modules\DynamicTags\Module as TagsModule;
 
 class Advanced_Image_Gallery_Widget extends Widget_Base {
-	/** Le slider Trait */
 	use \EACCustomWidgets\Includes\Traits\Slider_Trait;
 	use \EACCustomWidgets\Includes\Traits\Button_Read_More_Trait;
-
-	/** Constructeur */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		wp_register_script( 'swiper-bundle', EAC_PLUGIN_URL . 'assets/js/swiper/swiper-bundle.min.js', array( 'jquery' ), '9.4.1', true );
-		wp_register_script( 'imagesloaded', ABSPATH . WPINC . '/js/imagesloaded.min.js', array(), '5.0.0', true );
-		wp_register_script( 'isotope', EAC_Plugin::instance()->get_script_url( 'assets/js/isotope/isotope.pkgd' ), array( 'jquery', 'imagesloaded' ), '3.0.6', true );
-		wp_register_script( 'fit-rows', EAC_Plugin::instance()->get_script_url( 'assets/js/isotope/fit-rows' ), array( 'jquery', 'isotope' ), '1.0.0', true );
-		wp_register_script( 'fj-gallery', EAC_PLUGIN_URL . 'assets/js/elementor/eac-image-fjgallery.min.js', array( 'jquery' ), '2.2.0', true );
-		wp_register_script( 'eac-advanced-gallery', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-advanced-gallery' ), array( 'jquery', 'elementor-frontend', 'swiper-bundle', 'imagesloaded', 'isotope', 'fit-rows', 'fj-gallery' ), '2.2.0', true );
-
-		wp_register_style( 'swiper-bundle', EAC_PLUGIN_URL . 'assets/css/swiper-bundle.min.css', array(), '9.4.1' );
-		wp_register_style( 'fj-gallery', EAC_PLUGIN_URL . 'assets/css/image-fjgallery.min.css', array(), '2.2.0' );
-		wp_register_style( 'eac-swiper', EAC_Plugin::instance()->get_style_url( 'assets/css/eac-swiper' ), array(), '1.9.7' );
-		wp_register_style( 'eac-advanced-gallery', EAC_Plugin::instance()->get_style_url( 'assets/css/advanced-gallery' ), array( 'eac-frontend', 'eac-swiper', 'fj-gallery' ), '2.2.0' );
-	}
 
 	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
@@ -73,8 +54,8 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 	 *
 	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -84,8 +65,8 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 	 *
 	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -95,8 +76,8 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 	 *
 	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -104,10 +85,10 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -115,10 +96,10 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
-		return array( 'swiper-bundle', 'imagesloaded', 'isotope', 'fit-rows', 'fj-gallery', 'eac-advanced-gallery' );
+		return array( 'eac-advanced-gallery' );
 	}
 
 	/**
@@ -127,10 +108,10 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
-		return array( 'swiper-bundle', 'fj-gallery', 'eac-swiper', 'eac-advanced-gallery' );
+		return array( 'eac-advanced-gallery' );
 	}
 
 	/**
@@ -142,8 +123,8 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -151,10 +132,10 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -164,6 +145,15 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -200,7 +190,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ag_galerie_settings',
 			array(
-				'label' => esc_html__( 'Galerie', 'eac-components' ),
+				'label' => esc_html__( 'Gallery', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -208,7 +198,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'advanced_gallery',
 				array(
-					'label'      => esc_html__( 'Ajouter des images', 'eac-components' ),
+					'label'      => esc_html__( 'Add images', 'eac-components' ),
 					'type'       => Controls_Manager::GALLERY,
 					'show_label' => true,
 					'dynamic'    => array(
@@ -226,7 +216,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ag_layout_type_settings',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -234,7 +224,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_layout_content',
 				array(
-					'label'     => esc_html__( 'Disposition', 'eac-components' ),
+					'label'     => esc_html__( 'Layout', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 				)
 			);
@@ -246,11 +236,101 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'masonry',
 					'options' => array(
-						'masonry'     => esc_html__( 'Mosaïque', 'eac-components' ),
-						'equalHeight' => esc_html__( 'Grille', 'eac-components' ),
-						'metro'       => esc_html__( 'Metro', 'eac-components' ),
-						'justify'     => esc_html__( 'Justifier', 'eac-components' ),
+						'masonry'     => esc_html__( 'Masonry', 'eac-components' ),
+						'equalHeight' => esc_html__( 'Grid', 'eac-components' ),
+						'metro'       => esc_html( 'Metro' ),
+						'justify'     => esc_html__( 'Justify', 'eac-components' ),
 						'slider'      => esc_html( 'Slider' ),
+					),
+					'assets' => array(
+						'styles' => array(
+							array(
+								'name' => 'swiper-bundle',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'ag_layout_type',
+											'operator' => '===',
+											'value'    => 'slider',
+										),
+									),
+								),
+							),
+							array(
+								'name' => 'eac-swiper',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'ag_layout_type',
+											'operator' => '===',
+											'value'    => 'slider',
+										),
+									),
+								),
+							),
+							array(
+								'name' => 'fj-gallery',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'ag_layout_type',
+											'operator' => '===',
+											'value'    => 'justify',
+										),
+									),
+								),
+							),
+						),
+						'scripts' => array(
+							array(
+								'name' => 'swiper-bundle',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'ag_layout_type',
+											'operator' => '===',
+											'value'    => 'slider',
+										),
+									),
+								),
+							),
+							array(
+								'name' => 'isotope',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'ag_layout_type',
+											'operator' => 'in',
+											'value'    => array( 'equalHeight', 'masonry', 'metro' ),
+										),
+									),
+								),
+							),
+							array(
+								'name' => 'fit-rows',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'ag_layout_type',
+											'operator' => 'in',
+											'value'    => array( 'equalHeight', 'masonry', 'metro' ),
+										),
+									),
+								),
+							),
+							array(
+								'name' => 'fj-gallery',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'ag_layout_type',
+											'operator' => '===',
+											'value'    => 'justify',
+										),
+									),
+								),
+							),
+						),
 					),
 				)
 			);
@@ -258,7 +338,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'ag_columns',
 				array(
-					'label'        => esc_html__( 'Nombre de colonnes', 'eac-components' ),
+					'label'        => esc_html__( 'Columns count', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
 					'default'      => '3',
 					'device_args'  => $columns_device_args,
@@ -279,15 +359,15 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_enable_animation',
 				array(
-					'label'     => esc_html( 'Animation' ),
+					'label'     => esc_html__( 'Animation', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -300,7 +380,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_image_settings',
 				array(
-					'label'     => esc_html__( "Disposition de l'image", 'eac-components' ),
+					'label'     => esc_html__( 'Image layout', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -310,7 +390,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 				Group_Control_Image_Size::get_type(),
 				array(
 					'name'      => 'ag_image_size',
-					'label'     => esc_html__( 'Dimension des images', 'eac-components' ),
+					'label'     => esc_html__( 'Image size', 'eac-components' ),
 					'default'   => 'medium',
 					'exclude'   => array( 'custom' ),
 				)
@@ -323,11 +403,11 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -339,7 +419,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'ag_image_height',
 				array(
-					'label'              => esc_html__( 'Hauteur (px)', 'eac-components' ),
+					'label'              => esc_html__( 'Height (px)', 'eac-components' ),
 					'type'               => Controls_Manager::SLIDER,
 					'size_units'         => array( 'px' ),
 					'devices'            => $responsive_breakpoints,
@@ -372,15 +452,15 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_enable_image_ratio',
 				array(
-					'label'       => esc_html__( 'Activer le ratio image', 'eac-components' ),
+					'label'       => esc_html__( 'Enable image ratio', 'eac-components' ),
 					'type'        => Controls_Manager::CHOOSE,
 					'options'     => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -397,13 +477,13 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'ag_image_ratio',
 				array(
-					'label'          => esc_html__( 'Ratio', 'eac-components' ),
+					'label'          => esc_html( 'Ratio' ),
 					'type'           => Controls_Manager::SELECT,
 					'default'        => '1 / 1',
 					'tablet_default' => '1 / 1',
 					'mobile_default' => '9 / 16',
 					'options'        => array(
-						'1 / 1'  => esc_html__( 'Défaut', 'eac-components' ),
+						'1 / 1'  => esc_html__( 'Default', 'eac-components' ),
 						'9 / 16' => esc_html( '9-16' ),
 						'4 / 3'  => esc_html( '4-3' ),
 						'3 / 2'  => esc_html( '3-2' ),
@@ -422,7 +502,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'ag_image_ratio_position_y',
 				array(
-					'label'       => esc_html__( 'Position verticale', 'eac-components' ),
+					'label'       => esc_html__( 'Vertical position', 'eac-components' ),
 					'type'        => Controls_Manager::SLIDER,
 					'size_units'  => array( '%' ),
 					'default'     => array(
@@ -448,7 +528,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_overlay_content',
 				array(
-					'label'     => esc_html__( 'Disposition du contenu', 'eac-components' ),
+					'label'     => esc_html__( 'Content layout', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -457,13 +537,13 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_overlay_inout',
 				array(
-					'label'   => esc_html__( 'Affichage du contenu', 'eac-components' ),
+					'label'   => esc_html__( 'Display content', 'eac-components' ),
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'overlay-out',
 					'options' => array(
-						'overlay-out' => esc_html__( 'Carte ', 'eac-components' ),
-						'overlay-in'  => esc_html__( 'Calque', 'eac-components' ),
-						'overlay-fix' => esc_html__( 'Calque partiel', 'eac-components' ),
+						'overlay-out' => esc_html__( 'Card', 'eac-components' ),
+						'overlay-in'  => esc_html__( 'Overlay', 'eac-components' ),
+						'overlay-fix' => esc_html__( 'Overlay partial', 'eac-components' ),
 					),
 					'condition' => array( 'ag_layout_type!' => 'justify' ),
 				)
@@ -472,23 +552,23 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_overlay_direction',
 				array(
-					'label'        => esc_html__( "Direction de l'overlay", 'eac-components' ),
+					'label'        => esc_html__( 'Overlay direction', 'eac-components' ),
 					'type'         => Controls_Manager::CHOOSE,
 					'options'      => array(
 						'bottom' => array(
-							'title' => esc_html__( 'Haut', 'eac-components' ),
+							'title' => esc_html__( 'Top', 'eac-components' ),
 							'icon'  => 'eicon-v-align-top',
 						),
 						'left'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'right'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 						'top'    => array(
-							'title' => esc_html__( 'Bas', 'eac-components' ),
+							'title' => esc_html__( 'Bottom', 'eac-components' ),
 							'icon'  => 'eicon-v-align-bottom',
 						),
 					),
@@ -524,7 +604,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'ag_overlayfix-height',
 				array(
-					'label'       => esc_html__( 'Hauteur (%)', 'eac-components' ),
+					'label'       => esc_html__( 'Height (%)', 'eac-components' ),
 					'type'        => Controls_Manager::SLIDER,
 					'size_units'  => array( '%' ),
 					'default'     => array(
@@ -550,31 +630,31 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'ag_overlay_alignment_v',
 				array(
-					'label'       => esc_html__( 'Alignement vertical', 'eac-components' ),
+					'label'       => esc_html__( 'Vertical alignment', 'eac-components' ),
 					'type'        => Controls_Manager::CHOOSE,
 					'options'     => array(
 						'flex-start'    => array(
-							'title' => esc_html__( 'Haut', 'eac-components' ),
+							'title' => esc_html__( 'Top', 'eac-components' ),
 							'icon'  => 'eicon-justify-start-v',
 						),
 						'center'        => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-justify-center-v',
 						),
 						'flex-end'      => array(
-							'title' => esc_html__( 'Bas', 'eac-components' ),
+							'title' => esc_html__( 'Bottom', 'eac-components' ),
 							'icon'  => 'eicon-justify-end-v',
 						),
 						'space-between' => array(
-							'title' => esc_html__( 'Espace entre', 'eac-components' ),
+							'title' => esc_html__( 'Space between', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-between-v',
 						),
 						'space-around'  => array(
-							'title' => esc_html__( 'Espace autour', 'eac-components' ),
+							'title' => esc_html__( 'Space around', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-around-v',
 						),
 						'space-evenly'  => array(
-							'title' => esc_html__( 'Espace uniforme', 'eac-components' ),
+							'title' => esc_html__( 'Space evenly', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-evenly-v',
 						),
 					),
@@ -615,19 +695,19 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'ag_overlay_alignment_h',
 				array(
-					'label'     => esc_html__( 'Alignement horizontal', 'eac-components' ),
+					'label'     => esc_html__( 'Horizontal alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'start'  => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'end'    => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -659,7 +739,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ag_gallery_content',
 			array(
-				'label' => esc_html__( 'Contenu', 'eac-components' ),
+				'label' => esc_html__( 'Content', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -667,7 +747,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_filter_heading',
 				array(
-					'label'     => esc_html__( 'Filtres', 'eac-components' ),
+					'label'     => esc_html__( 'Filter', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array( 'ag_layout_type!' => 'slider' ),
 				)
@@ -676,15 +756,15 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_content_filter_display',
 				array(
-					'label'     => esc_html__( 'Afficher les filtres', 'eac-components' ),
+					'label'     => esc_html__( 'Display filters', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -697,19 +777,19 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_content_filter_align',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'left'  => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'right'    => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -732,7 +812,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_post_heading',
 				array(
-					'label'     => esc_html__( 'Article', 'eac-components' ),
+					'label'     => esc_html__( 'Post', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -741,15 +821,15 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_content_title',
 				array(
-					'label'   => esc_html__( 'Afficher le titre', 'eac-components' ),
+					'label'   => esc_html__( 'Title', 'eac-components' ),
 					'type'    => Controls_Manager::CHOOSE,
 					'options' => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -761,11 +841,10 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_title_tag',
 				array(
-					'label'     => esc_html__( 'Étiquette du titre', 'eac-components' ),
+					'label'     => esc_html__( 'Title tag', 'eac-components' ),
 					'type'      => Controls_Manager::SELECT,
 					'default'   => 'h2',
 					'options'   => array(
-						'h1'   => 'H1',
 						'h2'   => 'H2',
 						'h3'   => 'H3',
 						'h4'   => 'H4',
@@ -781,15 +860,15 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_content_description',
 				array(
-					'label'   => esc_html__( 'Afficher la description', 'eac-components' ),
+					'label'   => esc_html__( 'Description', 'eac-components' ),
 					'type'    => Controls_Manager::CHOOSE,
 					'options' => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -801,7 +880,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_excerpt_length',
 				array(
-					'label'     => esc_html__( 'Nombre de mots', 'eac-components' ),
+					'label'     => esc_html__( 'Number of words', 'eac-components' ),
 					'type'      => Controls_Manager::NUMBER,
 					'min'       => 3,
 					'max'       => 100,
@@ -814,7 +893,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_links_heading',
 				array(
-					'label'      => esc_html__( 'Liens', 'eac-components' ),
+					'label'      => esc_html__( 'Link', 'eac-components' ),
 					'type'       => Controls_Manager::HEADING,
 					'condition' => array( 'ag_content_title' => 'yes' ),
 					'separator'  => 'before',
@@ -824,15 +903,15 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_link_nofollow',
 				array(
-					'label'      => esc_html__( "Ajouter 'nofollow' aux liens", 'eac-components' ),
+					'label'      => esc_html__( "Add 'nofollow' to links", 'eac-components' ),
 					'type'       => Controls_Manager::CHOOSE,
 					'options'    => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -864,15 +943,15 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_content_readmore',
 				array(
-					'label'   => esc_html__( 'Bouton', 'eac-components' ),
+					'label'   => esc_html__( 'Button', 'eac-components' ),
 					'type'    => Controls_Manager::CHOOSE,
 					'options' => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -884,15 +963,15 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_content_title_link',
 				array(
-					'label'     => esc_html__( "Lien de l'article sur le titre", 'eac-components' ),
+					'label'     => esc_html__( 'Post link on title', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -905,15 +984,15 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_image_link',
 				array(
-					'label'     => esc_html__( "Lien de l'article sur l'image", 'eac-components' ),
+					'label'     => esc_html__( 'Post link on image', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -930,16 +1009,16 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_article_link',
 				array(
-					'label'        => esc_html__( 'Appliquer le lien globalement', 'eac-components' ),
-					'description'  => esc_html__( 'Le lien enveloppe chaque item', 'eac-components' ),
+					'label'        => esc_html__( 'Enable the link globally', 'eac-components' ),
+					'description'  => esc_html__( 'The link wraps each item', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -972,12 +1051,22 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 										'value'    => 'yes',
 									),
 									array(
-										'name'     => 'ag_image_link',
-										'operator' => '===',
-										'value'    => 'yes',
+										'relation' => 'and',
+										'terms'    => array(
+											array(
+												'name'     => 'ag_content_title',
+												'operator' => '===',
+												'value'    => 'yes',
+											),
+											array(
+												'name'     => 'ag_content_title_link',
+												'operator' => '===',
+												'value'    => 'yes',
+											),
+										),
 									),
 									array(
-										'name'     => 'ag_content_title_link',
+										'name'     => 'ag_image_link',
 										'operator' => '===',
 										'value'    => 'yes',
 									),
@@ -991,15 +1080,15 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_image_lightbox',
 				array(
-					'label'     => esc_html__( "Visionneuse sur l'image", 'eac-components' ),
+					'label'     => esc_html__( 'Lightbox on image', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -1017,7 +1106,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_readmore_settings',
 				array(
-					'label'     => esc_html__( 'Bouton', 'eac-components' ),
+					'label'     => esc_html__( 'Button', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array( 'ag_content_readmore' => 'yes' ),
@@ -1034,7 +1123,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ag_section_general_style',
 			array(
-				'label' => esc_html__( 'Général', 'eac-components' ),
+				'label' => esc_html__( 'General', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1043,7 +1132,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_container_style',
 				array(
-					'label'     => esc_html__( 'Conteneur', 'eac-components' ),
+					'label'     => esc_html__( 'Container', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 				)
 			);
@@ -1051,7 +1140,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_container_style_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .swiper .swiper-slide, {{WRAPPER}} .advanced-gallery' => 'background-color: {{VALUE}};' ),
@@ -1062,7 +1151,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_items_style',
 				array(
-					'label'     => esc_html__( 'Articles', 'eac-components' ),
+					'label'     => esc_html__( 'Post', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array( 'ag_overlay_inout' => 'overlay-out' ),
@@ -1074,9 +1163,9 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 				array(
 					'label'        => esc_html__( 'Style', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
-					'default'      => 'style-1',
+					'default'      => 'style-0',
 					'options'      => array(
-						'style-0'  => esc_html__( 'Défaut', 'eac-components' ),
+						'style-0'  => esc_html__( 'Default', 'eac-components' ),
 						'style-1'  => 'Style 1',
 						'style-2'  => 'Style 2',
 						'style-3'  => 'Style 3',
@@ -1094,7 +1183,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'ag_items_margin',
 				array(
-					'label'      => esc_html__( 'Marge entre les images', 'eac-components' ),
+					'label'      => esc_html__( 'Margin between images', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( 'px' ),
 					'devices'    => $responsive_breakpoints,
@@ -1105,12 +1194,13 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 					'range'      => array(
 						'px' => array(
 							'min'  => 0,
-							'max'  => 50,
-							'step' => 1,
+							'max'  => 150,
+							'step' => 10,
 						),
 					),
 					'selectors'  => array(
-						'{{WRAPPER}} .advanced-gallery__item:not(.fj-gallery-item) .advanced-gallery__inner-wrapper' => 'block-size: calc(100% - {{SIZE}}{{UNIT}}); margin-block: calc({{SIZE}}{{UNIT}} / 2); margin-inline: calc({{SIZE}}{{UNIT}} / 2);',
+						'{{WRAPPER}} .advanced-gallery__item:not(.fj-gallery-item) .advanced-gallery__inner-wrapper' => 'block-size: calc(100% - {{SIZE}}px); margin: calc({{SIZE}}px / 2);',
+						'(mobile) {{WRAPPER}} .advanced-gallery__item:not(.fj-gallery-item) .advanced-gallery__inner-wrapper' => 'margin-block: 0 {{SIZE}}px !important; margin-inline: 0 !important;',
 					),
 					'condition'  => array( 'ag_layout_type!' => 'justify' ),
 				)
@@ -1119,7 +1209,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_items_justify_margin',
 				array(
-					'label'       => esc_html__( 'Marge entre les images', 'eac-components' ),
+					'label'       => esc_html__( 'Margin between images', 'eac-components' ),
 					'type'        => Controls_Manager::SLIDER,
 					'size_units'  => array( 'px' ),
 					'default'     => array(
@@ -1144,7 +1234,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_items_bg_color',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .advanced-gallery__inner-wrapper, {{WRAPPER}} .advanced-gallery__content.overlay-out' => 'background-color: {{VALUE}};' ),
@@ -1164,7 +1254,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_container_style_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -1187,7 +1277,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'      => 'ag_container_style_shadow',
-					'label'     => esc_html__( 'Ombre', 'eac-components' ),
+					'label'     => esc_html__( 'Shadow', 'eac-components' ),
 					'selector'  => '{{WRAPPER}} .advanced-gallery__inner-wrapper',
 					'condition' => array( 'ag_img_style' => 'style-0' ),
 				)
@@ -1196,7 +1286,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_filter_style',
 				array(
-					'label'     => esc_html__( 'Filtre', 'eac-components' ),
+					'label'     => esc_html__( 'Filter', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array(
@@ -1209,7 +1299,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_filter_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array(
@@ -1226,7 +1316,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'ag_filter_typography',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'selector'  => '{{WRAPPER}} .ag-filters__wrapper .ag-filters__item, {{WRAPPER}} .ag-filters__wrapper .ag-filters__item a',
 					'condition' => array(
@@ -1239,7 +1329,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_filter_background',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'selectors' => array( '{{WRAPPER}} .ag-filters__wrapper .ag-filters__item a' => 'background-color: {{VALUE}};' ),
@@ -1253,7 +1343,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_filter_outline',
 				array(
-					'label'     => esc_html__( 'Couleur du filtre sélectionné', 'eac-components' ),
+					'label'     => esc_html__( 'Color of selected filter', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'selectors' => array(
@@ -1270,7 +1360,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'ag_filter_padding',
 				array(
-					'label'     => esc_html__( 'Marges internes', 'eac-components' ),
+					'label'     => esc_html__( 'Padding', 'eac-components' ),
 					'type'      => Controls_Manager::DIMENSIONS,
 					'selectors' => array(
 						'{{WRAPPER}} .ag-filters__wrapper .ag-filters__item a' => 'padding-block: {{TOP}}{{UNIT}} {{BOTTOM}}{{UNIT}}; padding-inline: {{RIGHT}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -1297,7 +1387,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_filter_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -1332,7 +1422,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_image_border_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -1362,7 +1452,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_titre_section_style',
 				array(
-					'label'     => esc_html__( 'Titre', 'eac-components' ),
+					'label'     => esc_html__( 'Title', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array( 'ag_content_title' => 'yes' ),
@@ -1372,7 +1462,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_titre_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array(
@@ -1386,7 +1476,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'ag_titre_typography',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'selector'  => '{{WRAPPER}} .advanced-gallery__item .advanced-gallery__content .advanced-gallery__overlay .advanced-gallery__title',
 					'condition' => array( 'ag_content_title' => 'yes' ),
@@ -1406,7 +1496,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_texte_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_TEXT ),
 					'selectors' => array( '{{WRAPPER}} .advanced-gallery__item .advanced-gallery__content .advanced-gallery__overlay .advanced-gallery__description-wrapper' => 'color: {{VALUE}};' ),
@@ -1418,7 +1508,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'ag_texte_typography',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_TEXT ),
 					'selector'  => '{{WRAPPER}} .advanced-gallery__item .advanced-gallery__content .advanced-gallery__overlay .advanced-gallery__description-wrapper',
 					'condition' => array( 'ag_content_description' => 'yes' ),
@@ -1429,7 +1519,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_overlay_section_style',
 				array(
-					'label'     => esc_html__( 'Superposition', 'eac-components' ),
+					'label'     => esc_html__( 'Overlay', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array( 'ag_overlay_inout' => 'overlay-fix' ),
@@ -1439,7 +1529,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_overlay_style_bg',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'selectors' => array(
@@ -1452,7 +1542,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_overlay_style__opacity',
 				array(
-					'label'     => esc_html__( 'Opacité', 'eac-components' ),
+					'label'     => esc_html__( 'Opacity', 'eac-components' ),
 					'type'      => Controls_Manager::SLIDER,
 					'default'   => array( 'size' => 0.5 ),
 					'range'     => array(
@@ -1470,7 +1560,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$this->add_control(
 				'ag_readmore_style',
 				array(
-					'label'     => esc_html__( 'Bouton', 'eac-components' ),
+					'label'     => esc_html__( 'Button', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array( 'ag_content_readmore' => 'yes' ),
@@ -1484,7 +1574,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ag_slider_section_style',
 			array(
-				'label'      => esc_html__( 'Contrôles du slider', 'eac-components' ),
+				'label'      => esc_html__( 'Slider controls', 'eac-components' ),
 				'tab'        => Controls_Manager::TAB_STYLE,
 				'conditions' => array(
 					'relation' => 'or',
@@ -1535,7 +1625,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings    = $this->get_settings_for_display();
 		$layout_type = $settings['ag_layout_type'];
 
@@ -1573,9 +1663,9 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 		$this->add_render_attribute( 'gallery_instance', 'id', esc_attr( $id ) );
 		if ( $has_filters ) {
 			$this->add_render_attribute( 'gallery_instance', 'role', 'region' );
-			$this->add_render_attribute( 'gallery_instance', 'aria-relevant', 'additions' );
+			$this->add_render_attribute( 'gallery_instance', 'aria-relevant', 'additions removals' );
 			$this->add_render_attribute( 'gallery_instance', 'aria-live', 'polite' );
-			$this->add_render_attribute( 'gallery_instance', 'aria-atomic', 'true' );
+			$this->add_render_attribute( 'gallery_instance', 'aria-atomic', 'false' );
 		}
 		$this->add_render_attribute( 'gallery_instance', 'data-settings', $this->get_settings_json() );
 
@@ -1586,7 +1676,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 		<?php }
 
 		if ( $has_filters ) {
-			$this->render_advanced_gallery_filter();
+			$this->render_advanced_gallery_filter( $id );
 		}
 		?>
 			<div <?php $this->print_render_attribute_string( 'gallery_instance' ); ?>>
@@ -1606,7 +1696,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 				<div class='swiper-pagination-bullet'></div>
 			<?php } ?>
 			<div class='eac-skip-grid' tabindex='0'>
-				<span class='visually-hidden'><?php esc_html_e( 'Sortir de la grille', 'eac-components' ); ?></span>
+				<span class='visually-hidden'><?php esc_html_e( 'Exit grid', 'eac-components' ); ?></span>
 			</div>
 		</div>
 		<?php
@@ -1619,7 +1709,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render_gallery() {
+	protected function render_gallery(): void {
 		$settings = $this->get_settings_for_display();
 
 		/** ID de l'article */
@@ -1655,7 +1745,6 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 
 		/** Le bouton read more */
 		$has_button_readmore = 'yes' === $settings['ag_content_readmore'] ? true : false;
-		$has_readmore_picto  = $has_button_readmore && 'yes' === $settings['button_add_more_picto'] ? true : false;
 
 		/** Le lien est global */
 		$has_global_link = isset( $settings['ag_article_link'] ) && 'yes' === $settings['ag_article_link'] ? true : false;
@@ -1676,17 +1765,17 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 		}
 
 		/** Boucle sur tous les items de la galerie */
-		ob_start( array( '\EACCustomWidgets\Core\Utils\Eac_Tools_Util', 'compress_html_output' ), 0, PHP_OUTPUT_HANDLER_REMOVABLE );
+		ob_start( array( '\EACCustomWidgets\Core\Utils\Eac_Tools_Util', 'compress_html_full_output' ), 0, PHP_OUTPUT_HANDLER_REMOVABLE );
 		foreach ( $settings['advanced_gallery'] as $image ) {
 			$attachment    = array();
 			$attachment_id = isset( $image['id'] ) ? $image['id'] : false;
 
 			if ( $attachment_id ) {
 				list($id, $filter, $post_id, $count_item) = array_pad( explode( '::', $attachment_id ), 4, '' );
-				$attachment = Eac_Tools_Util::wp_get_attachment_data( $id, $image_size, $filter, $post_id, $count_item );
+				$attachment = Eac_Tools_Util::wp_get_attachment_data( intval( $id ), $image_size, $filter, intval( $post_id ), absint( $count_item ) );
 			}
 
-			if ( ! $attachment || empty( $attachment ) ) {
+			if ( empty( $attachment ) ) {
 				continue;
 			}
 
@@ -1710,27 +1799,15 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			// L'URL cible des attachments
 			$media_url = ! empty( $attachment['media_url'] ) ? $attachment['media_url'] : false;
 
-			if ( $has_button_readmore && $media_url ) {
-				if ( $has_global_link ) {
-					$this->add_render_attribute( 'button_readmore', 'class', 'button-readmore card-link' );
-				} else {
-					$this->add_render_attribute( 'button_readmore', 'class', 'button-readmore' );
-				}
-				$this->add_render_attribute( 'button_readmore', 'role', 'button' );
-				$this->add_render_attribute( 'button_readmore', 'aria-label', esc_attr( $settings['button_more_label'] ) . ' ' . esc_attr( $attachment['title'] ) );
-				$this->add_render_attribute( 'button_readmore', 'href', esc_url( $media_url ) );
-				if ( $has_noffolow ) {
-					$this->add_render_attribute( 'button_readmore', 'rel', 'nofollow' );
-				}
-			}
-
 			if ( $has_image_lightbox ) {
 				$this->add_render_attribute( 'image_link', 'href', esc_url( $attachment['src'] ) );
 				$this->add_render_attribute( 'image_link', 'class', 'eac-accessible-link' );
 				$this->add_render_attribute( 'image_link', 'data-elementor-open-lightbox', 'no' );
 				$this->add_render_attribute( 'image_link', 'data-fancybox', esc_attr( $unique_id ) );
 				$this->add_render_attribute( 'image_link', 'data-caption', esc_attr( ucfirst( $attachment['title'] ) ) );
-				$this->add_render_attribute( 'image_link', 'aria-label', esc_attr__( "Voir l'image", 'eac-components' ) . ' ' . esc_attr( ucfirst( $attachment['title'] ) ) );
+				$this->add_render_attribute( 'image_link', 'aria-haspopup', 'dialog' );
+				$this->add_render_attribute( 'image_link', 'aria-expanded', 'false' );
+				$this->add_render_attribute( 'image_link', 'aria-label', sprintf( '%1$s - %2$s', esc_attr__( 'View image', 'eac-components' ), esc_attr( ucfirst( $attachment['title'] ) ) ) );
 			} elseif ( $has_image_link && $media_url ) {
 				if ( $has_global_link ) {
 					$this->add_render_attribute( 'image_link', 'class', 'eac-accessible-link card-link' );
@@ -1738,7 +1815,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 					$this->add_render_attribute( 'image_link', 'class', 'eac-accessible-link' );
 				}
 				$this->add_render_attribute( 'image_link', 'href', esc_url( $media_url ) );
-				$this->add_render_attribute( 'image_link', 'aria-label', esc_attr__( "Voir l'article", 'eac-components' ) . ' ' . esc_attr( ucfirst( $attachment['title'] ) ) );
+				$this->add_render_attribute( 'image_link', 'aria-label', sprintf( '%1$s - %2$s', esc_attr__( 'Read post', 'eac-components' ), esc_attr( ucfirst( $attachment['title'] ) ) ) );
 				if ( $has_noffolow ) {
 					$this->add_render_attribute( 'image_link', 'rel', 'nofollow' );
 				}
@@ -1756,19 +1833,16 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 				}
 			}
 
-			/** La classe du contenu de l'item */
-			$this->add_render_attribute( 'inner_wrapper', 'class', 'advanced-gallery__inner-wrapper advanced-gallery__content-wrapper' );
-
 			$this->add_render_attribute(
 				'gallery_image',
 				array(
-					'class'  => 'img-focusable advanced-gallery__image-instance',
+					'class'  => 'eac-accessible-img advanced-gallery__image-instance',
 					'src'    => esc_url( $attachment['src'] ),
 					'srcset' => esc_attr( $attachment['srcset'] ),
 					'sizes'  => esc_attr( $attachment['srcsize'] ),
 					'width'  => esc_attr( $attachment['width'] ),
 					'height' => esc_attr( $attachment['height'] ),
-					'alt'    => esc_attr( $attachment['alt'] ),
+					'alt'    => '',
 				)
 			);
 			if ( 'eager' === $lazy_load ) {
@@ -1776,7 +1850,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			}
 			?>
 			<article <?php $this->print_render_attribute_string( 'gallery_wrapper' ); ?>>
-				<div <?php $this->print_render_attribute_string( 'inner_wrapper' ); ?>>
+				<div class='advanced-gallery__inner-wrapper'>
 					<?php if ( $has_image ) : ?>
 						<div class='advanced-gallery__image'>
 							<?php if ( $has_image_lightbox || $has_image_link ) : ?>
@@ -1793,11 +1867,11 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 						<div class='advanced-gallery__overlay'>
 							<?php if ( $has_title && ! Utils::is_empty( $attachment['title'] ) ) : ?>
 								<div class='advanced-gallery__title-wrapper'>
-									<?php $title_with_tag = '<' . $title_tag . ' class="advanced-gallery__title">' . esc_html( ucfirst( $attachment['title'] ) ) . '</' . $title_tag . '>';
+									<?php
 									if ( $has_title_link && $media_url ) : ?>
 										<a <?php $this->print_render_attribute_string( 'title_link' ); ?>>
 									<?php endif;
-										echo $title_with_tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+										printf( '<%1$s class="advanced-gallery__title global__line-height">%2$s</%1$s>', esc_attr( $title_tag ), esc_html( ucfirst( $attachment['title'] ) ) );
 									if ( $has_title_link && $media_url ) : ?>
 										</a>
 									<?php endif; ?>
@@ -1807,46 +1881,33 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 							<?php if ( $has_description && ! empty( $attachment['description'] ) ) :
 								$trim_words = wp_trim_words( $attachment['description'], absint( $settings['ag_excerpt_length'] ), '...' );
 								$trim_words = preg_replace( '/\|/', '<br>', $trim_words ); ?>
-								<div class='advanced-gallery__description-wrapper'>
+								<div class='advanced-gallery__description-wrapper global__line-height'>
 									<span dir='ltr'><?php echo $trim_words; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 								</div>
 							<?php endif; ?>
 
-							<?php if ( $has_button_readmore && $media_url ) : ?>
+							<?php if ( $has_button_readmore && $media_url ) { ?>
 								<div class='buttons-wrapper'>
-									<a <?php $this->print_render_attribute_string( 'button_readmore' ); ?>>
-										<span class='button__readmore-wrapper'>
-											<?php
-											if ( $has_readmore_picto && 'before' === $settings['button_more_position'] ) { ?>
-												<span class='button-icon eac-icon-svg'>
-													<?php ob_start();
-													Icons_Manager::render_icon( $settings['button_more_picto'], array( 'aria-hidden' => 'true' ) );
-													echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-												</span>
-											<?php }
-												echo '<span class="label-icon">' . esc_html( $settings['button_more_label'] ) . '</span>';
-											if ( $has_readmore_picto && 'after' === $settings['button_more_position'] ) { ?>
-												<span class='button-icon eac-icon-svg'>
-													<?php ob_start();
-													Icons_Manager::render_icon( $settings['button_more_picto'], array( 'aria-hidden' => 'true' ) );
-													echo ob_get_clean();  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-												</span>
-											<?php } ?>
-										</span>
-									</a>
+									<?php $this->render_button_more(
+										array(
+											'permalink'     => $media_url,
+											'item_title'    => $attachment['title'],
+											'global_link'   => $has_global_link,
+											'default_label' => esc_html__( 'Read more', 'eac-components' ),
+											'nofollow'      => $has_noffolow,
+										)
+									); ?>
 								</div>
-							<?php endif; ?>
+							<?php } ?>
 						</div> <!-- gallery_overlay -->
 					</div> <!-- gallery_content -->
-				</div> <!-- inner_wrapper -->
+				</div> <!-- advanced-gallery__inner-wrapper -->
 			</article>
 			<?php
 			$this->remove_render_attribute( 'gallery_image' );
 			$this->remove_render_attribute( 'gallery_wrapper' );
-			$this->remove_render_attribute( 'button_readmore' );
 			$this->remove_render_attribute( 'image_link' );
 			$this->remove_render_attribute( 'title_link' );
-			$this->remove_render_attribute( 'inner_wrapper' );
 		}
 		ob_end_flush();
 	}
@@ -1861,7 +1922,7 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 	 * @return    JSON oject
 	 * @access    protected
 	 */
-	protected function get_settings_json() {
+	protected function get_settings_json(): string {
 		$settings    = $this->get_settings_for_display();
 		$layout_type = $settings['ag_layout_type'];
 
@@ -1923,11 +1984,14 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 
 	/**
 	 * render_advanced_gallery_filter
-	 *
 	 * Description: Retourne les filtres formaté en HTML en ligne
 	 * ou sous forme de liste pour les media query
+	 *
+	 * @param string $wrapper_id
+	 *
+	 * @return void
 	 */
-	protected function render_advanced_gallery_filter() {
+	protected function render_advanced_gallery_filter( string $wrapper_id ): void {
 		$settings     = $this->get_settings_for_display();
 		$id           = $this->get_id();
 		$filters_name = array();
@@ -1938,7 +2002,11 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			$image_size = $settings['ag_image_size_size'];
 			$image_id   = isset( $image['id'] ) ? $image['id'] : false;
 			if ( $image_id ) {
-				$attachment = Eac_Tools_Util::wp_get_attachment_data( $image_id, $image_size );
+				$attachment = Eac_Tools_Util::wp_get_attachment_data( intval( $image_id ), $image_size );
+				if ( empty( $attachment ) ) {
+					continue;
+				}
+
 				if ( ! empty( $attachment['src'] ) && ! empty( $attachment['media_cat'] ) ) {
 					$current_filters = explode( ',', $attachment['media_cat'] );
 					foreach ( $current_filters as $current_filter ) {
@@ -1953,17 +2021,17 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 			ksort( $filters_name, SORT_FLAG_CASE | SORT_NATURAL );
 
 			$html .= "<div class='ag-filters__wrapper'>";
-			$html .= "<div class='ag-filters__item ag-active'><a href='#' class='eac-accessible-link' role='button' data-filter='*' aria-label='" . esc_html__( 'Filtrer les résultats par', 'eac-components' ) . ' ' . esc_html__( 'Tous', 'eac-components' ) . "'>" . esc_html__( 'Tous', 'eac-components' ) . '</a></div>';
+			$html .= "<div class='ag-filters__item ag-active'><a href='#' class='eac-accessible-link' data-filter='*' role='button' aria-pressed='true' aria-controls='" . esc_attr( $wrapper_id ) . "' aria-label='" . esc_html__( 'Filter gallery by', 'eac-components' ) . ' ' . esc_html__( 'All', 'eac-components' ) . "'>" . esc_html__( 'All', 'eac-components' ) . '</a></div>';
 			foreach ( $filters_name as $filter_name ) {
-				$html .= "<div class='ag-filters__item'><a href='#' class='eac-accessible-link' role='button' data-filter='." . sanitize_title( $filter_name ) . "' aria-label='" . esc_html__( 'Filtrer les résultats par', 'eac-components' ) . ' ' . ucfirst( $filter_name ) . "'>" . ucfirst( $filter_name ) . '</a></div>';
+				$html .= "<div class='ag-filters__item'><a href='#' class='eac-accessible-link' data-filter='." . sanitize_title( $filter_name ) . "' role='button' aria-pressed='false' aria-controls='" . esc_attr( $wrapper_id ) . "' aria-label='" . esc_html__( 'Filter gallery by', 'eac-components' ) . ' ' . ucfirst( $filter_name ) . "'>" . ucfirst( $filter_name ) . '</a></div>';
 			}
 			$html .= '</div>';
 
 			// Filtre dans une liste pour les media query
 			$html     .= "<div class='ag-filters__wrapper-select'>";
-			$html     .= "<label id='label_" . esc_attr( $id ) . "' class='visually-hidden' for='listbox_" . esc_attr( $id ) . "'>" . esc_html__( 'Filtres personnalisés', 'eac-components' ) . '</label>';
+			$html     .= "<label id='label_" . esc_attr( $id ) . "' class='visually-hidden' for='listbox_" . esc_attr( $id ) . "'>" . esc_html__( 'Custom filters', 'eac-components' ) . '</label>';
 			$html     .= "<select id='listbox_" . esc_attr( $id ) . "' class='ag-filters__select' aria-labelledby='label_" . esc_attr( $id ) . "'>";
-				$html .= "<option value='*' selected>" . esc_html__( 'Tous', 'eac-components' ) . '</option>';
+				$html .= "<option value='*' selected>" . esc_html__( 'All', 'eac-components' ) . '</option>';
 			foreach ( $filters_name as $filter_name ) {
 				$html .= "<option value='." . sanitize_title( $filter_name ) . "'>" . ucfirst( $filter_name ) . '</option>';
 			}
@@ -1973,5 +2041,5 @@ class Advanced_Image_Gallery_Widget extends Widget_Base {
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

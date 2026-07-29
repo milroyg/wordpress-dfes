@@ -51,7 +51,7 @@ class Eac_Injection_Background_Images {
 		add_filter( 'elementor/column/print_template', array( $this, 'print_template' ), 10, 2 );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts_jquery' ) );
-		add_action( 'elementor/frontend/after_enqueue_scripts', array( $this, 'enqueue_scripts' ), 11 );
+		add_action( 'elementor/frontend/after_enqueue_scripts', array( $this, 'enqueue_scripts' ), 12 );
 	}
 
 	/**
@@ -71,8 +71,8 @@ class Eac_Injection_Background_Images {
 	 * Mets le style/script dans le file
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'eac-background-images', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-background-images' ), array( 'jquery', 'elementor-frontend' ), '2.0.0', true );
-		wp_enqueue_style( 'eac-background-images', EAC_Plugin::instance()->get_style_url( 'assets/css/background-images' ), array( 'eac-frontend' ), '2.0.0' );
+		wp_enqueue_script( 'eac-background-images', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-background-images' ), array( 'jquery', 'elementor-frontend' ), EAC_PLUGIN_VERSION, true );
+		wp_enqueue_style( 'eac-background-images', EAC_Plugin::instance()->get_style_url( 'assets/css/background-images' ), array(), EAC_PLUGIN_VERSION );
 	}
 
 	/**
@@ -92,7 +92,7 @@ class Eac_Injection_Background_Images {
 		$element->start_controls_section(
 			'eac_custom_element_bg_images',
 			array(
-				'label' => esc_html__( 'Images de fond', 'eac-components' ),
+				'label' => esc_html__( 'Background images', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -100,10 +100,10 @@ class Eac_Injection_Background_Images {
 			$element->add_control(
 				'bgi_element_active',
 				array(
-					'label'        => esc_html__( 'Activer les images de fond', 'eac-components' ),
+					'label'        => esc_html__( 'Background images', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html( 'On' ),
+					'label_off'    => esc_html( 'Off' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -113,11 +113,11 @@ class Eac_Injection_Background_Images {
 				'bgi_element_usage',
 				array(
 					'type' => Controls_Manager::RAW_HTML,
-					'raw' => sprintf(
-						/* translators: 1: Link opening tag, 2: Link closing tag. */
-						esc_html__( '%1$sConsulter la documentation%2$s', 'eac-components' ),
+					'raw'  => sprintf(
+						'%1$s%2$s%3$s',
 						'<a href="https://elementor-addon-components.com/add-multiple-background-images-elementor/" target="_blank" rel="noopener noreferrer">',
-						'</a>',
+						esc_html__( 'Consult the documentation', 'eac-components' ),
+						'</a>'
 					),
 					'content_classes' => 'elementor-descriptor',
 					'condition'       => array( 'bgi_element_active' => 'yes' ),
@@ -129,7 +129,7 @@ class Eac_Injection_Background_Images {
 				$element->start_controls_tab(
 					'bgi_content_tab',
 					array(
-						'label'     => esc_html__( 'Images', 'eac-components' ),
+						'label'     => esc_html__( 'Image', 'eac-components' ),
 						'condition' => array( 'bgi_element_active' => 'yes' ),
 					)
 				);
@@ -164,16 +164,16 @@ class Eac_Injection_Background_Images {
 							'type'    => Controls_Manager::SELECT,
 							'default' => 'center center',
 							'options' => array(
-								'top left'      => esc_html__( 'Haut gauche', 'eac-components' ),
-								'top center'    => esc_html__( 'Haut centré', 'eac-components' ),
-								'top right'     => esc_html__( 'Haut droit', 'eac-components' ),
-								'center left'   => esc_html__( 'Centre gauche', 'eac-components' ),
-								'center center' => esc_html__( 'Centre centré', 'eac-components' ),
-								'center right'  => esc_html__( 'Centre droit', 'eac-components' ),
-								'bottom left'   => esc_html__( 'Bas gauche', 'eac-components' ),
-								'bottom center' => esc_html__( 'Bas centré', 'eac-components' ),
-								'bottom right'  => esc_html__( 'Bas droit', 'eac-components' ),
-								'initial'       => esc_html__( 'Personnaliser', 'eac-components' ),
+								'top left'      => esc_html__( 'Top left', 'eac-components' ),
+								'top center'    => esc_html__( 'Top center', 'eac-components' ),
+								'top right'     => esc_html__( 'Top right', 'eac-components' ),
+								'center left'   => esc_html__( 'Center left', 'eac-components' ),
+								'center center' => esc_html__( 'Center center', 'eac-components' ),
+								'center right'  => esc_html__( 'Center right', 'eac-components' ),
+								'bottom left'   => esc_html__( 'Bottom left', 'eac-components' ),
+								'bottom center' => esc_html__( 'Bottom center', 'eac-components' ),
+								'bottom right'  => esc_html__( 'Bottom right', 'eac-components' ),
+								'initial'       => esc_html__( 'Custom', 'eac-components' ),
 							),
 						)
 					);
@@ -181,7 +181,7 @@ class Eac_Injection_Background_Images {
 					$repeater->add_control(
 						'bgi_position_x',
 						array(
-							'label'      => esc_html__( 'Position horizontale (%)', 'eac-components' ),
+							'label'      => esc_html__( 'Horizontal position (%)', 'eac-components' ),
 							'type'       => Controls_Manager::SLIDER,
 							'size_units' => array( '%' ),
 							'default'    => array(
@@ -202,7 +202,7 @@ class Eac_Injection_Background_Images {
 					$repeater->add_control(
 						'bgi_position_y',
 						array(
-							'label'      => esc_html__( 'Position verticale (%)', 'eac-components' ),
+							'label'      => esc_html__( 'Vertical position (%)', 'eac-components' ),
 							'type'       => Controls_Manager::SLIDER,
 							'size_units' => array( '%' ),
 							'default'    => array(
@@ -223,14 +223,14 @@ class Eac_Injection_Background_Images {
 					$repeater->add_control(
 						'bgi_repeat',
 						array(
-							'label'   => esc_html__( 'Répéter', 'eac-components' ),
+							'label'   => esc_html__( 'Repeat', 'eac-components' ),
 							'type'    => Controls_Manager::SELECT,
 							'default' => 'no-repeat',
 							'options' => array(
-								'no-repeat' => esc_html__( 'Non répété', 'eac-components' ),
-								'repeat'    => esc_html__( 'Répéter', 'eac-components' ),
-								'repeat-x'  => esc_html__( 'Répéter horizontalement', 'eac-components' ),
-								'repeat-y'  => esc_html__( 'Répéter verticalement', 'eac-components' ),
+								'no-repeat' => esc_html__( 'No-repeat', 'eac-components' ),
+								'repeat'    => esc_html__( 'Repeat', 'eac-components' ),
+								'repeat-x'  => esc_html__( 'Repeat X', 'eac-components' ),
+								'repeat-y'  => esc_html__( 'Repeat Y', 'eac-components' ),
 							),
 						)
 					);
@@ -238,14 +238,14 @@ class Eac_Injection_Background_Images {
 					$repeater->add_control(
 						'bgi_size',
 						array(
-							'label'   => esc_html__( 'Taille', 'eac-components' ),
+							'label'   => esc_html__( 'Size', 'eac-components' ),
 							'type'    => Controls_Manager::SELECT,
 							'default' => 'auto',
 							'options' => array(
-								'auto'    => esc_html__( 'Auto', 'eac-components' ),
-								'cover'   => esc_html__( 'Couvrir', 'eac-components' ),
-								'contain' => esc_html__( 'Contenir', 'eac-components' ),
-								'initial' => esc_html__( 'Personnaliser', 'eac-components' ),
+								'auto'    => esc_html( 'Auto' ),
+								'cover'   => esc_html__( 'Cover', 'eac-components' ),
+								'contain' => esc_html__( 'Contain', 'eac-components' ),
+								'initial' => esc_html__( 'Custom', 'eac-components' ),
 							),
 						)
 					);
@@ -253,7 +253,7 @@ class Eac_Injection_Background_Images {
 					$repeater->add_control(
 						'bgi_size_width',
 						array(
-							'label'       => esc_html__( 'Largeur', 'eac-components' ),
+							'label'       => esc_html__( 'Width', 'eac-components' ),
 							'type'        => Controls_Manager::SLIDER,
 							'size_units'  => array( 'px', 'em', '%', 'vw' ),
 							'default'     => array(
@@ -291,7 +291,7 @@ class Eac_Injection_Background_Images {
 						'bgi_size_width_calc',
 						array(
 							'label'       => 'Calc CSS',
-							'description' => esc_html__( "Utilisez la fonction CSS 'calc' pour appliquer une largeur personnalisée à l'image", 'eac-components' ),
+							'description' => esc_html__( "Use the CSS 'calc' function to apply a custom width to the image", 'eac-components' ),
 							'type'        => Controls_Manager::TEXT,
 							'placeholder' => 'calc(50% - 10px)',
 							'label_block' => true,
@@ -312,7 +312,7 @@ class Eac_Injection_Background_Images {
 					$element->add_control(
 						'bgi_images_list',
 						array(
-							'label'       => esc_html__( 'Images de fond', 'eac-components' ),
+							'label'       => esc_html__( 'Background images', 'eac-components' ),
 							'type'        => Controls_Manager::REPEATER,
 							'fields'      => $repeater->get_controls(),
 							'default'     => array(
@@ -332,7 +332,7 @@ class Eac_Injection_Background_Images {
 								),
 							),
 							'title_field' => '{{{ bgi_name }}}',
-							'button_text' => esc_html__( 'Ajouter une image', 'eac-components' ),
+							'button_text' => esc_html__( 'Add image', 'eac-components' ),
 							'condition'   => array( 'bgi_element_active' => 'yes' ),
 						)
 					);
@@ -342,7 +342,7 @@ class Eac_Injection_Background_Images {
 				$element->start_controls_tab(
 					'bgi_background_tab',
 					array(
-						'label'     => esc_html__( 'Effets', 'eac-components' ),
+						'label'     => esc_html__( 'Effects', 'eac-components' ),
 						'condition' => array( 'bgi_element_active' => 'yes' ),
 					)
 				);
@@ -350,7 +350,7 @@ class Eac_Injection_Background_Images {
 					$element->add_control(
 						'bgi_background_color',
 						array(
-							'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+							'label'     => esc_html__( 'Background color', 'eac-components' ),
 							'type'      => Controls_Manager::COLOR,
 							'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 							'selectors' => array( '{{WRAPPER}} .eac-background__images-wrapper' => 'background-color: {{VALUE}} !important;' ),
@@ -361,7 +361,7 @@ class Eac_Injection_Background_Images {
 					$element->add_control(
 						'bgi_blend_mode',
 						array(
-							'label'     => esc_html__( 'Mode de fusion', 'eac-components' ),
+							'label'     => esc_html__( 'Blend mode', 'eac-components' ),
 							'type'      => Controls_Manager::SELECT,
 							'default'   => 'normal',
 							'options'   => array(
@@ -390,7 +390,7 @@ class Eac_Injection_Background_Images {
 					$element->add_control(
 						'bgi_opacity',
 						array(
-							'label'     => esc_html__( 'Opacité', 'eac-components' ),
+							'label'     => esc_html__( 'Opacity', 'eac-components' ),
 							'type'      => Controls_Manager::SLIDER,
 							'default'   => array( 'size' => 1 ),
 							'range'     => array(
@@ -482,7 +482,7 @@ class Eac_Injection_Background_Images {
 				<script type="text/javascript" bgi-js-id="<?php echo esc_attr( $element->get_id() ); ?>">
 					jQuery(document).ready(function() {
 						jQuery('.elementor-element-<?php echo esc_attr( $element->get_id() ); ?>')
-							.prepend("<div class='eac-background__images-wrapper' role='img' data-elem-id='<?php echo esc_attr( $element->get_id() ); ?>' style='background-image:<?php echo implode( ',', $bg_url ); ?>; background-position:<?php echo implode( ',', array_map( 'esc_attr', $bg_position ) ); ?>; background-repeat:<?php echo implode( ',', array_map( 'esc_attr', $bg_repeat ) ); ?>; background-size:<?php echo implode( ',', array_map( 'esc_attr', $bg_size ) ); ?>; background-attachment:scroll;'></div>");
+							.prepend("<div class='eac-background__images-wrapper' data-elem-id='<?php echo esc_attr( $element->get_id() ); ?>' style='background-image:<?php echo implode( ',', $bg_url ); ?>; background-position:<?php echo implode( ',', array_map( 'esc_attr', $bg_position ) ); ?>; background-repeat:<?php echo implode( ',', array_map( 'esc_attr', $bg_repeat ) ); ?>; background-size:<?php echo implode( ',', array_map( 'esc_attr', $bg_size ) ); ?>; background-attachment:scroll;'></div>");
 					});
 				</script>
 			<?php }

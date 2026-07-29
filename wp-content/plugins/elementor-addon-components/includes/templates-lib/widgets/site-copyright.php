@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;   // Exit if accessed directly.
 }
 
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Controls_Manager;
 use Elementor\Widget_Base;
@@ -29,7 +29,7 @@ class Site_Copyright_Widget extends Widget_Base {
 	/**
 	 * Constructeur de la class
 	 */
-	public function __construct( $data = array(), $args = null ) {
+	public function __construct( array $data = array(), ?array $args = null ) {
 		parent::__construct( $data, $args );
 
 		$full_class_name = __NAMESPACE__ . '\Copyright_Shortcode';
@@ -50,10 +50,10 @@ class Site_Copyright_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -61,10 +61,10 @@ class Site_Copyright_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -72,10 +72,10 @@ class Site_Copyright_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -85,8 +85,8 @@ class Site_Copyright_Widget extends Widget_Base {
 	 *
 	 * @return widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -98,8 +98,8 @@ class Site_Copyright_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -107,10 +107,10 @@ class Site_Copyright_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -120,6 +120,15 @@ class Site_Copyright_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -142,7 +151,7 @@ class Site_Copyright_Widget extends Widget_Base {
 			$this->add_control(
 				'sc_shortcode',
 				array(
-					'label'   => esc_html__( 'Contenu du copyright', 'eac-components' ),
+					'label'   => esc_html__( 'Copyright content', 'eac-components' ),
 					'type'    => Controls_Manager::TEXTAREA,
 					'dynamic' => array(
 						'active' => true,
@@ -150,16 +159,16 @@ class Site_Copyright_Widget extends Widget_Base {
 					'ai'      => array(
 						'active' => false,
 					),
-					'default' => esc_html__( 'Copyright © [eac_current_year] [eac_site_title] | Construit avec [eac_theme_name]', 'eac-components' ),
+					'default' => esc_html__( 'Copyright © [eac_current_year] [eac_site_title] | Built with [eac_theme_name]', 'eac-components' ),
 				)
 			);
 
 			$this->add_control(
 				'sc_link',
 				array(
-					'label'        => esc_html__( 'Lien', 'eac-components' ),
+					'label'        => esc_html__( 'Link', 'eac-components' ),
 					'type'         => Controls_Manager::URL,
-					'placeholder'  => esc_html__( 'Coller une URL ou taper', 'eac-components' ),
+					'placeholder'  => esc_html__( 'Type or paste your URL', 'eac-components' ),
 					'dynamic'      => array(
 						'active' => true,
 					),
@@ -172,19 +181,19 @@ class Site_Copyright_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'sc_alignment',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'left'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-text-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-text-align-center',
 						),
 						'right'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-text-align-{$end}",
 						),
 					),
@@ -214,7 +223,7 @@ class Site_Copyright_Widget extends Widget_Base {
 			$this->add_control(
 				'sc_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array(
 						'default' => Global_Colors::COLOR_TEXT,
@@ -229,7 +238,7 @@ class Site_Copyright_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'sc_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .eac-copyright-wrapper, {{WRAPPER}} .eac-copyright-wrapper a',
 					'global'   => array(
 						'default' => Global_Typography::TYPOGRAPHY_TEXT,
@@ -247,7 +256,7 @@ class Site_Copyright_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 		if ( empty( $settings['sc_shortcode'] ) ) {
 			return;
@@ -279,7 +288,7 @@ class Site_Copyright_Widget extends Widget_Base {
 	 *
 	 * Override the default behavior by printing the shortcode instead of rendering it.
 	 */
-	public function render_plain_content() {
+	public function render_plain_content(): void {
 		// En mode plain texte, le rendu se fait sans exécution du shortcode
 		echo esc_attr( $this->get_settings( 'sc_shortcode' ) );
 	}
@@ -291,5 +300,5 @@ class Site_Copyright_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

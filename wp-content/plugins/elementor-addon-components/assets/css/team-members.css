@@ -50,14 +50,14 @@
 	margin-block-end: 10px;
 }
 
-.team-member_name:after {
+/**.team-member_name:after {
 	display: block;
 	content: '';
 	border-block-start: 2px solid white;
 	max-inline-size: 40%;
 	margin-block: 5px;
 	margin-inline: auto;
-}
+}*/
 
 .team-member_name .team-members_name-content,
 .team-member_title .team-members_title-content {

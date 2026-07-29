@@ -1,6 +1,6 @@
 <?php
-namespace MasterHeaderFooter\Theme_Hooks;
-use MasterHeaderFooter\Master_Header_Footer;
+namespace MasterAddons\Inc\Admin\Theme_Builder\Theme_Hooks;
+use MasterAddons\Inc\Admin\Theme_Builder\Theme_Builder;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -52,7 +52,7 @@ class Oceanwp {
 
 	public function jltma_get_comment_form( $comment_template ){
         ob_start();
-		return JLTMA_PATH . 'inc/admin/theme-builder/inc/view/theme-support-comment.php';
+		return \JLTMA_PATH . 'inc/admin/theme-builder/inc/view/theme-support-comment.php';
 		ob_get_clean();
 	}
 
@@ -67,7 +67,7 @@ class Oceanwp {
     public function add_plugin_header_markup(){
 		do_action('masteraddons/template/before_header');
 		echo '<div class="jltma-template-content-markup jltma-template-content-header">';
-		echo \MasterHeaderFooter\Master_Header_Footer::render_elementor_content($this->header); 
+		echo \MasterAddons\Inc\Admin\Theme_Builder\Theme_Builder::render_elementor_content($this->header); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- render_elementor_content returns Elementor-rendered HTML
 		echo '</div>';
 		do_action('masteraddons/template/after_header');
     }
@@ -81,7 +81,7 @@ class Oceanwp {
 	public function add_plugin_footer_markup(){
 		do_action('masteraddons/template/before_footer');
 		echo '<div class="jltma-template-content-markup jltma-template-content-footer">';
-		echo \MasterHeaderFooter\Master_Header_Footer::render_elementor_content($this->footer); 
+		echo \MasterAddons\Inc\Admin\Theme_Builder\Theme_Builder::render_elementor_content($this->footer); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- render_elementor_content returns Elementor-rendered HTML
 		echo '</div>';
 		do_action('masteraddons/template/after_footer');
 	}

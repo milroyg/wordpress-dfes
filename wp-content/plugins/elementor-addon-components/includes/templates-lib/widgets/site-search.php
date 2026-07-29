@@ -15,8 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;   // Exit if accessed directly.
 }
 
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Controls_Manager;
 use Elementor\Widget_Base;
@@ -27,20 +26,6 @@ use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
 
 class Site_Search_Widget extends Widget_Base {
 	use \EACCustomWidgets\Includes\Traits\Icon_Svg_Trait;
-
-	/**
-	 * Constructeur de la class
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		EAC_Plugin::instance()->register_script( 'eac-site-search', 'includes/templates-lib/assets/js/site-search', array( 'jquery', 'elementor-frontend' ), '2.1.0',
-			array(
-				'strategy' => 'defer',
-				'in_footer' => true,
-			)
-		);
-	}
 
 	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
@@ -56,10 +41,10 @@ class Site_Search_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -67,10 +52,10 @@ class Site_Search_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -78,10 +63,10 @@ class Site_Search_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -91,8 +76,8 @@ class Site_Search_Widget extends Widget_Base {
 	 *
 	 * @return widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -100,7 +85,7 @@ class Site_Search_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
 		return array( 'eac-site-search' );
@@ -115,8 +100,8 @@ class Site_Search_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -124,10 +109,10 @@ class Site_Search_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -137,6 +122,15 @@ class Site_Search_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -153,7 +147,7 @@ class Site_Search_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'site_search_settings_fields',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -161,17 +155,93 @@ class Site_Search_Widget extends Widget_Base {
 			$this->add_control(
 				'ss_content_placeholder',
 				array(
-					'label'   => esc_html__( 'Texte suggéré', 'eac-components' ),
+					'label'   => esc_html__( 'Placeholder', 'eac-components' ),
 					'type'    => Controls_Manager::TEXT,
-					'default' => esc_html__( 'Rechercher', 'eac-components' ),
+					'default' => esc_html__( 'At least 3 characters', 'eac-components' ),
 					'dynamic' => array( 'active' => true ),
+				)
+			);
+
+			$this->add_control(
+				'ss_autocomplete',
+				array(
+					'label'     => esc_html__( 'Enable autocomplete', 'eac-components' ),
+					'type'      => Controls_Manager::CHOOSE,
+					'options'   => array(
+						'yes' => array(
+							'title' => esc_html__( 'Yes', 'eac-components' ),
+							'icon'  => 'eicon-check',
+						),
+						'no'  => array(
+							'title' => esc_html__( 'No', 'eac-components' ),
+							'icon'  => 'eicon-ban',
+						),
+					),
+					'default'   => 'no',
+					'toggle'    => false,
+				)
+			);
+
+			$this->add_control(
+				'ss_button_hidden',
+				array(
+					'label'     => esc_html__( 'Hide button', 'eac-components' ),
+					'type'      => Controls_Manager::CHOOSE,
+					'options'   => array(
+						'yes' => array(
+							'title' => esc_html__( 'Yes', 'eac-components' ),
+							'icon'  => 'eicon-check',
+						),
+						'no'  => array(
+							'title' => esc_html__( 'No', 'eac-components' ),
+							'icon'  => 'eicon-ban',
+						),
+					),
+					'default'   => 'yes',
+					'toggle'    => false,
+				)
+			);
+
+			$this->add_control(
+				'ss_button_position',
+				array(
+					'label'     => esc_html__( 'Button position', 'eac-components' ),
+					'type'      => Controls_Manager::CHOOSE,
+					'options'   => array(
+						'left'   => array(
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
+							'icon'  => "eicon-h-align-{$start}",
+						),
+						'right'  => array(
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
+							'icon'  => "eicon-h-align-{$end}",
+						),
+					),
+					'default'   => 'left',
+					'toggle'    => false,
+					'condition' => array( 'ss_button_hidden' => 'no' ),
+				)
+			);
+
+			$this->add_control(
+				'ss_button_icon',
+				array(
+					'label'       => esc_html__( 'Icon', 'eac-components' ),
+					'type'        => Controls_Manager::ICONS,
+					'label_block' => 'true',
+					'default'     => array(
+						'value'   => 'fas fa-search',
+						'library' => 'fa-solid',
+					),
+					'skin'        => 'inline',
+					'condition'   => array( 'ss_button_hidden' => 'no' ),
 				)
 			);
 
 			$this->add_responsive_control(
 				'ss_content_width',
 				array(
-					'label'          => esc_html__( 'Largeur (%)', 'eac-components' ),
+					'label'          => esc_html__( 'Width (%)', 'eac-components' ),
 					'type'           => Controls_Manager::SLIDER,
 					'size_units'     => array( '%' ),
 					'default'        => array(
@@ -182,6 +252,7 @@ class Site_Search_Widget extends Widget_Base {
 						'unit' => '%',
 					),
 					'mobile_default' => array(
+						'size' => 100,
 						'unit' => '%',
 					),
 					'range'          => array(
@@ -194,26 +265,27 @@ class Site_Search_Widget extends Widget_Base {
 					'selectors'      => array(
 						'{{WRAPPER}} .eac-search_form-wrapper' => 'inline-size: {{SIZE}}%;',
 					),
+					'separator'      => 'before',
 				)
 			);
 
 			$this->add_responsive_control(
 				'ss_button_icon_align',
 				array(
-					'label'                => esc_html__( 'Alignement', 'eac-components' ),
+					'label'                => esc_html__( 'Alignment', 'eac-components' ),
 					'type'                 => Controls_Manager::CHOOSE,
 					'default'              => 'center',
 					'options'              => array(
 						'left'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'right'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -229,63 +301,6 @@ class Site_Search_Widget extends Widget_Base {
 				)
 			);
 
-			$this->add_control(
-				'ss_button_hidden',
-				array(
-					'label'     => esc_html__( 'Cacher le bouton', 'eac-components' ),
-					'type'      => Controls_Manager::CHOOSE,
-					'options'   => array(
-						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
-							'icon'  => 'eicon-check',
-						),
-						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
-							'icon'  => 'eicon-ban',
-						),
-					),
-					'default'   => 'no',
-					'toggle'    => false,
-					'separator' => 'before',
-				)
-			);
-
-			$this->add_control(
-				'ss_button_position',
-				array(
-					'label'     => esc_html__( 'Position du bouton', 'eac-components' ),
-					'type'      => Controls_Manager::CHOOSE,
-					'options'   => array(
-						'left'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
-							'icon'  => "eicon-h-align-{$start}",
-						),
-						'right'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
-							'icon'  => "eicon-h-align-{$end}",
-						),
-					),
-					'default'   => 'left',
-					'toggle'    => false,
-					'condition' => array( 'ss_button_hidden' => 'no' ),
-				)
-			);
-
-			$this->add_control(
-				'ss_button_icon',
-				array(
-					'label'       => esc_html__( 'Icône', 'eac-components' ),
-					'type'        => Controls_Manager::ICONS,
-					'label_block' => 'true',
-					'default'     => array(
-						'value'   => 'fas fa-search',
-						'library' => 'fa-solid',
-					),
-					'skin'        => 'inline',
-					'condition'   => array( 'ss_button_hidden' => 'no' ),
-				)
-			);
-
 		$this->end_controls_section();
 
 		/**
@@ -294,7 +309,7 @@ class Site_Search_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ss_text_field_style',
 			array(
-				'label' => esc_html__( 'Champ de saisie', 'eac-components' ),
+				'label' => esc_html__( 'Input field', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -302,7 +317,7 @@ class Site_Search_Widget extends Widget_Base {
 			$this->add_control(
 				'ss_text_field_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .eac-search_form-input' => 'color: {{VALUE}};' ),
@@ -313,7 +328,7 @@ class Site_Search_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'ss_text_field_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'global'   => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'selector' => '{{WRAPPER}} .eac-search_form-input',
 				)
@@ -322,7 +337,7 @@ class Site_Search_Widget extends Widget_Base {
 			$this->add_control(
 				'ss_text_field_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array(
@@ -334,7 +349,7 @@ class Site_Search_Widget extends Widget_Base {
 			$this->add_control(
 				'ss_text_field_icon_color',
 				array(
-					'label'     => esc_html__( 'Couleur des icônes', 'eac-components' ),
+					'label'     => esc_html__( 'Icon color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .eac-search_form-container svg' => 'fill: {{VALUE}};' ),
@@ -346,7 +361,7 @@ class Site_Search_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'ss_button_style',
 			array(
-				'label'     => esc_html__( 'Bouton', 'eac-components' ),
+				'label'     => esc_html__( 'Button', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array( 'ss_button_hidden' => 'no' ),
 			)
@@ -356,7 +371,7 @@ class Site_Search_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'ss_style_button_typo',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'global'   => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'selector' => '{{WRAPPER}} .eac-search_button-toggle',
 				)
@@ -365,7 +380,7 @@ class Site_Search_Widget extends Widget_Base {
 			$this->add_control(
 				'ss_style_button_color',
 				array(
-					'label'     => esc_html__( "Couleur de l'icône", 'eac-components' ),
+					'label'     => esc_html__( 'Icon color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array(
@@ -377,7 +392,7 @@ class Site_Search_Widget extends Widget_Base {
 			$this->add_control(
 				'ss_style_button_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array(
@@ -389,7 +404,7 @@ class Site_Search_Widget extends Widget_Base {
 			$this->add_control(
 				'ss_style_button_bgcolor_hover',
 				array(
-					'label'     => esc_html__( 'Couleur du fond au survol', 'eac-components' ),
+					'label'     => esc_html__( 'Hover background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array(
@@ -408,50 +423,51 @@ class Site_Search_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings         = $this->get_settings_for_display();
 		$is_button_hidden = 'yes' === $settings['ss_button_hidden'] ? true : false;
+		$has_autocomplete = 'yes' === $settings['ss_autocomplete'] ? true : false;
 		$this->add_render_attribute(
 			'input',
 			array(
-				'placeholder'     => sanitize_text_field( $settings['ss_content_placeholder'] ),
-				'class'           => 'eac-search_form-input',
-				'type'            => 'search',
-				'name'            => 's',
-				'id'              => 'eac-search',
-				'aria-labelledby' => 'eac-search-label',
-				'value'           => get_search_query(),
+				'placeholder'       => esc_html( $settings['ss_content_placeholder'] ),
+				'class'             => 'eac-search_form-input',
+				'type'              => 'search',
+				'name'              => 's',
+				'id'                => 'eac-search',
+				'aria-labelledby'   => 'eac-search-label',
+				'autocapitalize'    => 'none',
+				'autocorrect'       => 'off',
+				'spellcheck'        => 'false',
+				'maxlength'         => '50',
+				'value'             => get_search_query(),
 			)
 		);
+		if ( 'yes' === $settings['ss_autocomplete'] ) {
+			$this->add_render_attribute( 'input', 'aria-autocomplete', 'list' );
+			$this->add_render_attribute( 'input', 'aria-expanded', 'false' );
+		}
+
 		$this->add_render_attribute(
 			'wrapper',
 			array(
-				'class'            => 'eac-search_form-wrapper',
-				'data-hide-button' => $is_button_hidden,
+				'class'             => 'eac-search_form-wrapper',
+				'data-hide-button'  => $is_button_hidden,
+				'data-autocomplete' => $has_autocomplete,
 			)
 		);
 		?>
 		<div <?php $this->print_render_attribute_string( 'wrapper' ); ?>>
 			<?php
 			if ( ! $is_button_hidden && 'left' === $settings['ss_button_position'] ) { ?>
-				<button class='eac-search_button-toggle' type='button' aria-expanded='false' aria-controls='eac-search_form' aria-label="<?php esc_html_e( 'Formulaire de recherche', 'eac-components' ); ?>">
+				<button class='eac-search_button-toggle' type='button' aria-expanded='false' aria-controls='eac-search_form' aria-label="<?php esc_html_e( 'Open search form', 'eac-components' ); ?>">
 					<?php Icons_Manager::render_icon( $settings['ss_button_icon'], array( 'aria-hidden' => 'true' ) ); ?>
 				</button>
 			<?php } ?>
-			<div class='eac-search_select-wrapper'>
-				<select class='eac-search_select-post-type' name='eac_advanced' id='eac_advanced' aria-label="<?php esc_html_e( "Rechercher: filtre par type d'article", 'eac-components' ); ?>">
-					<option value='any'><?php esc_html_e( 'Tous', 'eac-components' ); ?></option>
-					<option value='page'><?php esc_html_e( 'Page', 'eac-components' ); ?></option>
-					<option value='post'><?php esc_html_e( 'Article', 'eac-components' ); ?></option>
-					<?php if ( class_exists( 'WooCommerce' ) ) { ?>
-						<option value='product'><?php esc_html_e( 'Produit', 'eac-components' ); ?></option>
-					<?php } ?>
-				</select>
-			</div>
 			<form id='eac-search_form' class='eac-search_form' role='search' action='<?php echo esc_url( home_url() ); ?>' method='get'>
 				<input class='eac-search_form-post-type' type='hidden' name='post_type' value='any' />
 				<div class='eac-search_form-container'>
-					<label id='eac-search-label' for='eac-search' class='visually-hidden'>Label for search field</label>
+					<label id='eac-search-label' for='eac-search' class='visually-hidden'>Search form field</label>
 					<input <?php $this->print_render_attribute_string( 'input' ); ?>>
 					<span class='search-icon'> <!-- Les icones SVG sont safe -->
 						<?php echo $this->get_svg_icon_search(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -463,7 +479,7 @@ class Site_Search_Widget extends Widget_Base {
 			</form>
 			<?php
 			if ( ! $is_button_hidden && 'right' === $settings['ss_button_position'] ) { ?>
-				<button class='eac-search_button-toggle' type='button' aria-expanded='false' aria-controls='eac-search_form' aria-label="<?php esc_html_e( 'Ouvrir le formulaire de recherche', 'eac-components' ); ?>">
+				<button class='eac-search_button-toggle' type='button' aria-expanded='false' aria-controls='eac-search_form' aria-label="<?php esc_html_e( 'Open search form', 'eac-components' ); ?>">
 					<?php Icons_Manager::render_icon( $settings['ss_button_icon'], array( 'aria-hidden' => 'true' ) ); ?>
 				</button>
 			<?php } ?>
@@ -478,5 +494,5 @@ class Site_Search_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

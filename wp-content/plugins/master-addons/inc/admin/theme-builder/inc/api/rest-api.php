@@ -1,9 +1,9 @@
 <?php
-namespace MasterHeaderFooter;
+namespace MasterAddons\Inc\Admin\Theme_Builder\Api;
 
 defined( 'ABSPATH' ) || exit;
 
-class JLTMA_Header_Footer_Rest_API{
+class Rest_API{
 
     private static $_instance = null;
 
@@ -60,4 +60,4 @@ class JLTMA_Header_Footer_Rest_API{
     }
 }
 
-// JLTMA_Header_Footer_Rest_API::get_instance();
+// Header_Footer_Rest_API::get_instance();

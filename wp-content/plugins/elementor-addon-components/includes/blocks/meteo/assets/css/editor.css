@@ -1,0 +1,13 @@
+.eac-meteo-editor-preview {
+	position: relative;
+	display: block;
+	float: none !important;
+}
+
+/* Désactive les liens dans l'éditeur */
+.eac-meteo-editor-preview a {
+	pointer-events: none;
+	cursor: default;
+	text-decoration: none;
+	color: inherit;
+}

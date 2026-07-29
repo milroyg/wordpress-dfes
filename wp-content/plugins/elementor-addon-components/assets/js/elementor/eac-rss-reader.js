@@ -48,10 +48,10 @@ class widgetRssReader extends elementorModules.frontend.handlers.Base {
 
     bindEvents() {
         if (Object.keys(this.elements.settings).length > 0 && !elementorFrontend.isEditMode()) {
-            this.elements.$targetSelect.on('change', this.onSelectChange.bind(this));
-            this.elements.$targetButton.on('click touch', this.onTriggerButton.bind(this));
-            this.elements.$targetInstance.on('keydown', this.onTriggerKeyboard.bind(this));
-            jQuery(document).on('ajaxComplete', this.ajaxQueryComplete.bind(this));
+            this.elements.$targetSelect.on('change', (evt) => { this.onSelectChange(evt); });
+            this.elements.$targetButton.on('click touch', (evt) => { this.onTriggerButton(evt); });
+            this.elements.$targetInstance.on('keydown', (evt) => { this.onTriggerKeyboard(evt); });
+            jQuery(document).on('ajaxComplete', (evt, xhr, ajax) => { this.ajaxQueryComplete(evt, xhr, ajax); });
         }
     }
 
@@ -106,9 +106,9 @@ class widgetRssReader extends elementorModules.frontend.handlers.Base {
         }
     }
 
-    ajaxQueryComplete(event, xhr, ajaxSettings) {
+    ajaxQueryComplete(evt, xhr, ajaxSettings) {
         if (this.elements.instanceAjax !== null && ajaxSettings.ajaxOptions && ajaxSettings.ajaxOptions === this.elements.instanceAjax.getOptions()) { // Le même random number généré lors de la création de l'objet Ajax
-            event.stopImmediatePropagation();
+            evt.stopImmediatePropagation();
             this.elements.$targetLoader.hide();
             this.elements.$target.attr('aria-busy', 'false');
 
@@ -192,11 +192,11 @@ class widgetRssReader extends elementorModules.frontend.handlers.Base {
                     } else if (this.elements.settings.data_lightbox) { // Fancybox activée
                         img = '<div class="rss-galerie__item-image">' +
                             '<a href="' + item.imgLink + '" class="eac-accessible-link" aria-label="View feed image ' + titreImg + '" data-elementor-open-lightbox="no" data-fancybox="rss-gallery" data-caption="' + titreImg + '">' +
-                            '<img class="img-focusable" src="' + item.img + '"></a></div>';
+                            '<img class="eac-accessible-img" src="' + item.img + '"></a></div>';
                     } else if (this.elements.settings.data_image_link) { // Lien de l'article sur l'image
                         img = '<div class="rss-galerie__item-image">' +
                             '<a href="' + item.lien + '" class="' + classGlobalLink + '" aria-label="View feed ' + titreImg + '">' +
-                            '<img class="img-focusable" src="' + item.img + '"></a></div>';
+                            '<img class="eac-accessible-img" src="' + item.img + '"></a></div>';
                     } else {
                         img = '<div class="rss-galerie__item-image"><img src="' + item.img + '"></div>';
                     }
@@ -247,13 +247,13 @@ class widgetRssReader extends elementorModules.frontend.handlers.Base {
                     }
                     let classGlobalLink = '';
                     if (this.elements.settings.data_global_link) {
-                        classGlobalLink = 'button-readmore card-link';
+                        classGlobalLink = 'button-readmore eac-accessible-link card-link';
                     } else {
-                        classGlobalLink = 'button-readmore';
+                        classGlobalLink = 'button-readmore eac-accessible-link';
                     }
 
                     const buttonReadmore = '<div class="buttons-wrapper">' +
-                        '<a href="' + item.lien + '" class="' + classGlobalLink + '" aria-label="View feed ' + item.title + '">' +
+                        '<a href="' + item.lien + '" class="' + classGlobalLink + '" aria-label="View feed - ' + item.title + '" rel="nofollow">' +
                         '<span class="button__readmore-wrapper">' + buttonLabel + '</span>' +
                         '</a></div>';
                     $wrapperContentInner.append(buttonReadmore);

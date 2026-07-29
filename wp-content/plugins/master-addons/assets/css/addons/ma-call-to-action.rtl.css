@@ -1,0 +1,97 @@
+/* Jltma Call To Actions */
+.jltma-call-action-content {
+  padding: 70px 0;
+}
+.jltma-call-action-content .jltma-row {
+  align-items: flex-end;
+}
+.jltma-call-action-content .jltma-call-action-title {
+  font-size: 1.75rem;
+  margin-bottom: 1.125rem;
+}
+.jltma-call-action-content .jltma-call-action-description {
+  font-size: 15px;
+  font-weight: normal;
+  line-height: 25px;
+  margin-bottom: 0;
+}
+.jltma-call-action-content .jltma-call-action-btn {
+  border: none;
+  border-radius: 5px;
+  box-shadow: none;
+  color: #fff;
+  display: inline-block;
+  font-size: 1rem;
+  padding: 1rem 2.5rem;
+  text-align: center;
+  text-decoration: none;
+}
+.jltma-call-action-content .jltma-call-action-btn:hover {
+  background: #8dc63f;
+  color: #fff;
+}
+
+.style-02 .jltma-call-action-content .jltma-row {
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 650px;
+  text-align: center;
+}
+.style-02 .jltma-call-action-content .jltma-call-action-title {
+  color: #fff;
+}
+.style-02 .jltma-call-action-content [class*=col] {
+  flex: 0 0 100%;
+  max-width: 100%;
+  text-align: center !important;
+}
+.style-02 .jltma-call-action-content .jltma-call-action-btn {
+  margin-top: 40px;
+}
+
+.style-03 .jltma-call-action-content .jltma-row {
+  border-right: 10px solid #4b00e7;
+  padding-right: 1rem;
+}
+
+.style-04 .jltma-call-action-content .jltma-row {
+  border-right: 5px solid #f0f2f4;
+  border-left: 5px solid #f0f2f4;
+  padding: 2.25rem 1.25rem;
+}
+
+.style-05 .jltma-call-action-content {
+  background: #4b00e7;
+}
+.style-05 .jltma-call-action-content .jltma-row {
+  padding: 0 1.75rem;
+}
+.style-05 .jltma-call-action-content .jltma-call-action-title,
+.style-05 .jltma-call-action-content .jltma-call-action-description {
+  color: #fff;
+}
+.style-05 .jltma-call-action-content .jltma-call-action-btn {
+  background-color: #fff;
+  color: #4b00e7;
+}
+
+.style-06 .jltma-call-action-content .jltma-row,
+.style-07 .jltma-call-action-content .jltma-row {
+  padding: 0 3.5rem;
+}
+.style-06 .jltma-call-action-content .jltma-call-action-btn,
+.style-07 .jltma-call-action-content .jltma-call-action-btn {
+  border: 2px solid #fff;
+  color: #fff;
+}
+
+.style-07 .jltma-media-left {
+  margin-left: 1.875rem;
+}
+.style-07 .jltma-call-action-content i {
+  color: #fff;
+  font-size: 4rem;
+}
+
+/* Jltma Call To Actions */

@@ -1,7 +1,7 @@
 <?php
 /**
  * Class: News_Ticker_Widget
- * Name: .Fil d'actualité
+ * Name: .News ticker
  *
  * Slug: eac-addon-news-ticker
  *
@@ -16,8 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -31,21 +30,6 @@ use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
 
 class News_Ticker_Widget extends Widget_Base {
-
-	/**
-	 * Constructeur de la class News_Ticker_Widget
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		EAC_Plugin::instance()->register_script( 'eac-news-ticker', 'assets/js/elementor/eac-news-ticker', array( 'jquery', 'elementor-frontend' ), '1.9.2',
-			array(
-				'strategy' => 'defer',
-				'in_footer' => true,
-			)
-		);
-		wp_register_style( 'eac-news-ticker', EAC_Plugin::instance()->get_style_url( 'assets/css/news-ticker' ), array( 'eac-frontend' ), '1.9.2' );
-	}
 
 	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
@@ -63,8 +47,8 @@ class News_Ticker_Widget extends Widget_Base {
 	 *
 	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -74,8 +58,8 @@ class News_Ticker_Widget extends Widget_Base {
 	 *
 	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -85,8 +69,8 @@ class News_Ticker_Widget extends Widget_Base {
 	 *
 	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -94,10 +78,10 @@ class News_Ticker_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -132,8 +116,8 @@ class News_Ticker_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -141,10 +125,10 @@ class News_Ticker_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -168,26 +152,17 @@ class News_Ticker_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'news_ticker_settings',
 			array(
-				'label' => esc_html__( 'Flux RSS', 'eac-components' ),
+				'label' => esc_html__( 'RSS feeds', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
-
-			$this->add_control(
-				'news_unique_instance',
-				array(
-					'type'            => Controls_Manager::RAW_HTML,
-					'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
-					'raw'             => __( "Atlas des flux RSS des journaux de langue Française - <a href='http://atlasflux.saynete.net/' target='_blank' rel='nofolow noopener noreferrer'>Consulter ce site</a>", 'eac-components' ),
-				)
-			);
 
 			$repeater = new Repeater();
 
 			$repeater->add_control(
 				'news_item_title',
 				array(
-					'label' => esc_html__( 'Titre', 'eac-components' ),
+					'label' => esc_html__( 'Title', 'eac-components' ),
 					'type'  => Controls_Manager::TEXT,
 					'ai'    => array( 'active' => false ),
 				)
@@ -196,7 +171,7 @@ class News_Ticker_Widget extends Widget_Base {
 			$repeater->add_control(
 				'news_item_url',
 				array(
-					'label'       => esc_html__( 'URL', 'eac-components' ),
+					'label'       => esc_html( 'URL' ),
 					'type'        => Controls_Manager::URL,
 					'placeholder' => 'http://your-link.com/index.xml/',
 				)
@@ -246,7 +221,7 @@ class News_Ticker_Widget extends Widget_Base {
 						),
 					),
 					'title_field' => '{{{ news_item_title }}}',
-					'button_text' => esc_html__( 'Ajouter un flux', 'eac-components' ),
+					'button_text' => esc_html__( 'Add feed', 'eac-components' ),
 				)
 			);
 
@@ -255,7 +230,7 @@ class News_Ticker_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'news_items_settings',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -263,7 +238,7 @@ class News_Ticker_Widget extends Widget_Base {
 			$this->add_control(
 				'news_item_nombre',
 				array(
-					'label'   => esc_html__( "Nombre d'articles", 'eac-components' ),
+					'label'   => esc_html__( 'Post count', 'eac-components' ),
 					'type'    => Controls_Manager::NUMBER,
 					'min'     => 5,
 					'max'     => 50,
@@ -275,7 +250,7 @@ class News_Ticker_Widget extends Widget_Base {
 			$this->add_control(
 				'news_item_speed',
 				array(
-					'label'       => esc_html__( 'Vitesse de défilement (secondes)', 'eac-components' ),
+					'label'       => esc_html__( 'Scroll speed (seconds)', 'eac-components' ),
 					'type'        => Controls_Manager::SLIDER,
 					'size_units'  => array( 'px' ),
 					'default'     => array(
@@ -296,7 +271,7 @@ class News_Ticker_Widget extends Widget_Base {
 			/**
 			$this->add_control('news_item_speed',
 				[
-					'label' => esc_html__('Vitesse de défilement (secondes)', 'eac-components'),
+					'label' => esc_html__('Scroll speed (seconds)', 'eac-components'),
 					'type' => Controls_Manager::SLIDER,
 					'default'   => array(
 					'sizes' => array(
@@ -319,8 +294,8 @@ class News_Ticker_Widget extends Widget_Base {
 			$this->add_control(
 				'news_item_loop',
 				array(
-					'label'       => esc_html__( "Nombre d'itérations", 'eac-components' ),
-					'description' => esc_html__( "Nombre d'itération du contenu de chaque flux avant de charger le flux suivant. 0 = infini", 'eac-components' ),
+					'label'       => esc_html__( 'Count of iterations', 'eac-components' ),
+					'description' => esc_html__( 'Number of iterations of the contents of each feed before loading the next feed. 0 = infinite', 'eac-components' ),
 					'type'        => Controls_Manager::NUMBER,
 					'min'         => 0,
 					'max'         => 20,
@@ -332,7 +307,7 @@ class News_Ticker_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'news_item_height',
 				array(
-					'label'          => esc_html__( 'Hauteur (px)', 'eac-components' ),
+					'label'          => esc_html__( 'Height (px)', 'eac-components' ),
 					'type'           => Controls_Manager::SLIDER,
 					'size_units'     => array( 'px' ),
 					'default'        => array(
@@ -363,15 +338,15 @@ class News_Ticker_Widget extends Widget_Base {
 			$this->add_control(
 				'news_item_scroll',
 				array(
-					'label'        => esc_html__( "Direction de l'affichage", 'eac-components' ),
+					'label'        => esc_html__( 'Display direction', 'eac-components' ),
 					'type'         => Controls_Manager::CHOOSE,
 					'options'      => array(
 						'left'  => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-order-{$order_end}",
 						),
 						'right' => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-order-{$order_start}",
 						),
 					),
@@ -386,15 +361,15 @@ class News_Ticker_Widget extends Widget_Base {
 			$this->add_control(
 				'news_item_date',
 				array(
-					'label'   => esc_html__( 'Date de publication', 'eac-components' ),
+					'label'   => esc_html__( 'Publishing date', 'eac-components' ),
 					'type'    => Controls_Manager::CHOOSE,
 					'options' => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -406,15 +381,15 @@ class News_Ticker_Widget extends Widget_Base {
 			$this->add_control(
 				'news_item_read_auto',
 				array(
-					'label'   => esc_html__( 'Lecture automatique', 'eac-components' ),
+					'label'   => esc_html__( 'Autoplay', 'eac-components' ),
 					'type'    => Controls_Manager::CHOOSE,
 					'options' => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -426,15 +401,15 @@ class News_Ticker_Widget extends Widget_Base {
 			$this->add_control(
 				'news_item_controls',
 				array(
-					'label'   => esc_html__( 'Boutons En avant/En arrière', 'eac-components' ),
+					'label'   => esc_html__( 'Forward/Backward buttons', 'eac-components' ),
 					'type'    => Controls_Manager::CHOOSE,
 					'options' => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -448,7 +423,7 @@ class News_Ticker_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'news_general_style',
 			array(
-				'label' => esc_html__( 'Général', 'eac-components' ),
+				'label' => esc_html__( 'General', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -460,7 +435,7 @@ class News_Ticker_Widget extends Widget_Base {
 					'type'         => Controls_Manager::SELECT,
 					'default'      => 'style-0',
 					'options'      => array(
-						'style-0'  => esc_html__( 'Défaut', 'eac-components' ),
+						'style-0'  => esc_html__( 'Default', 'eac-components' ),
 						'style-1'  => 'Style 1',
 						'style-2'  => 'Style 2',
 						'style-3'  => 'Style 3',
@@ -481,7 +456,7 @@ class News_Ticker_Widget extends Widget_Base {
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
 					'content_classes' => 'elementor-panel-alert elementor-panel-alert-warning',
-					'raw'             => esc_html__( "N'oubliez-pas d'activer la lecture automatique.", 'eac-components' ),
+					'raw'             => esc_html__( "Don't forget to enable autoplay.", 'eac-components' ),
 					'condition'       => array( 'news_wrapper_style' => 'style-10' ),
 				)
 			);
@@ -491,7 +466,7 @@ class News_Ticker_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'news_title_style',
 			array(
-				'label' => esc_html__( 'Titre', 'eac-components' ),
+				'label' => esc_html__( 'Title', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -499,7 +474,7 @@ class News_Ticker_Widget extends Widget_Base {
 			$this->add_control(
 				'news_title_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .news-ticker_wrapper-title a, {{WRAPPER}} .news-ticker_wrapper-control' => 'color: {{VALUE}};' ),
@@ -510,7 +485,7 @@ class News_Ticker_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'news_title_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'global'   => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'selector' => '{{WRAPPER}} .news-ticker_wrapper-title',
 				)
@@ -519,7 +494,7 @@ class News_Ticker_Widget extends Widget_Base {
 			$this->add_control(
 				'news_title_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .news-ticker_wrapper-title, {{WRAPPER}} .news-ticker_wrapper-control' => 'background-color: {{VALUE}};' ),
@@ -537,7 +512,7 @@ class News_Ticker_Widget extends Widget_Base {
 			$this->add_control(
 				'news_title_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -560,7 +535,7 @@ class News_Ticker_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'news_picto_style',
 			array(
-				'label' => esc_html__( 'Pictogrammes', 'eac-components' ),
+				'label' => esc_html__( 'Pictograms', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -568,7 +543,7 @@ class News_Ticker_Widget extends Widget_Base {
 			$this->add_control(
 				'news_picto_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .left, {{WRAPPER}} .play, {{WRAPPER}} .pause, {{WRAPPER}} .right' => 'color: {{VALUE}};' ),
 				)
@@ -578,7 +553,7 @@ class News_Ticker_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'news_picto_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .left, {{WRAPPER}} .play, {{WRAPPER}} .pause, {{WRAPPER}} .right',
 				)
 			);
@@ -588,7 +563,7 @@ class News_Ticker_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'news_content_style',
 			array(
-				'label' => esc_html__( 'Contenu', 'eac-components' ),
+				'label' => esc_html__( 'Content', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -596,7 +571,7 @@ class News_Ticker_Widget extends Widget_Base {
 			$this->add_control(
 				'news_content_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .news-ticker_wrapper-content .animationHorizontal .news' => 'color: {{VALUE}};' ),
@@ -607,7 +582,7 @@ class News_Ticker_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'           => 'news_content_typography',
-					'label'          => esc_html__( 'Typographie', 'eac-components' ),
+					'label'          => esc_html__( 'Typography', 'eac-components' ),
 					'global'         => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'fields_options' => array(
 						'font_size' => array(
@@ -633,7 +608,7 @@ class News_Ticker_Widget extends Widget_Base {
 			$this->add_control(
 				'news_content_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .news-ticker_wrapper-content' => 'background-color: {{VALUE}};' ),
@@ -652,7 +627,7 @@ class News_Ticker_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'     => 'news_content_shadow',
-					'label'    => esc_html__( 'Ombre', 'eac-components' ),
+					'label'    => esc_html__( 'Shadow', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .news-ticker_wrapper',
 				)
 			);
@@ -671,7 +646,7 @@ class News_Ticker_Widget extends Widget_Base {
 			$this->add_control(
 				'news_date_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .news-ticker_wrapper-content .animationHorizontal .date' => 'color: {{VALUE}};' ),
@@ -683,7 +658,7 @@ class News_Ticker_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'news_sep_style',
 			array(
-				'label' => esc_html__( 'Séparateur', 'eac-components' ),
+				'label' => esc_html__( 'Separator', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -691,7 +666,7 @@ class News_Ticker_Widget extends Widget_Base {
 			$this->add_control(
 				'news_sep_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .news-ticker_wrapper-content .animationHorizontal .separator' => 'color: {{VALUE}};' ),
@@ -702,7 +677,7 @@ class News_Ticker_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'news_sep_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'global'   => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'selector' => '{{WRAPPER}} .news-ticker_wrapper-content .animationHorizontal .separator',
 				)
@@ -718,7 +693,7 @@ class News_Ticker_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 		if ( ! $settings['news_image_list'] ) {
 			return;
@@ -735,7 +710,7 @@ class News_Ticker_Widget extends Widget_Base {
 				</div>
 				<div class='news-ticker_wrapper-control'>
 					<?php if ( 'yes' === $settings['news_item_controls'] ) : ?>
-						<span class='left eac-icon-svg' role='button' tabindex='0' aria-label="<?php esc_html_e( 'Flux précédent', 'eac-components' ); ?>" aria-controls='news-ticker_wrapper-content' title="<?php esc_html_e( 'Flux précédent', 'eac-components' ); ?>">
+						<span class='left eac-icon-svg' role='button' tabindex='0' aria-label="<?php esc_html_e( 'Previous feed', 'eac-components' ); ?>" aria-controls='news-ticker_wrapper-content' title="<?php esc_html_e( 'Previous feed', 'eac-components' ); ?>">
 							<?php
 							Icons_Manager::render_icon(
 								array(
@@ -747,7 +722,7 @@ class News_Ticker_Widget extends Widget_Base {
 							?>
 						</span>
 					<?php endif; ?>
-					<span class='play eac-icon-svg' role='button' tabindex='0' aria-label="<?php esc_html_e( 'Commencer à lire', 'eac-components' ); ?>" aria-controls='news-ticker_wrapper-content' title="<?php esc_html_e( 'Commencer à lire', 'eac-components' ); ?>">
+					<span class='play eac-icon-svg' role='button' tabindex='0' aria-label="<?php esc_html_e( 'Start reading', 'eac-components' ); ?>" aria-controls='news-ticker_wrapper-content' title="<?php esc_html_e( 'Start reading', 'eac-components' ); ?>">
 						<?php
 						Icons_Manager::render_icon(
 							array(
@@ -757,7 +732,7 @@ class News_Ticker_Widget extends Widget_Base {
 							array( 'aria-hidden' => 'true' )
 						); ?>
 					</span>
-					<span class='pause eac-icon-svg' role='button' tabindex='0' aria-label="<?php esc_html_e( 'Arrêter la lecture', 'eac-components' ); ?>" aria-controls='news-ticker_wrapper-content' title="<?php esc_html_e( 'Arrêter la lecture', 'eac-components' ); ?>">
+					<span class='pause eac-icon-svg' role='button' tabindex='0' aria-label="<?php esc_html_e( 'Stop reading', 'eac-components' ); ?>" aria-controls='news-ticker_wrapper-content' title="<?php esc_html_e( 'Stop reading', 'eac-components' ); ?>">
 						<?php
 						Icons_Manager::render_icon(
 							array(
@@ -768,7 +743,7 @@ class News_Ticker_Widget extends Widget_Base {
 						); ?>
 					</span>
 					<?php if ( 'yes' === $settings['news_item_controls'] ) : ?>
-						<span class='right eac-icon-svg' role='button' tabindex='0' aria-label="<?php esc_html_e( 'Flux suivant', 'eac-components' ); ?>" aria-controls='news-ticker_wrapper-content' title="<?php esc_html_e( 'Flux suivant', 'eac-components' ); ?>">
+						<span class='right eac-icon-svg' role='button' tabindex='0' aria-label="<?php esc_html_e( 'Next feed', 'eac-components' ); ?>" aria-controls='news-ticker_wrapper-content' title="<?php esc_html_e( 'Next feed', 'eac-components' ); ?>">
 							<?php
 							Icons_Manager::render_icon(
 								array(
@@ -794,7 +769,7 @@ class News_Ticker_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render_news() {
+	protected function render_news(): void {
 		$settings = $this->get_settings_for_display(); ?>
 		<div class='news-ticker_item-list'>
 			<?php
@@ -820,7 +795,7 @@ class News_Ticker_Widget extends Widget_Base {
 	 * @access    protected
 	 */
 
-	protected function get_settings_json() {
+	protected function get_settings_json(): string {
 		$module_settings = $this->get_settings_for_display();
 
 		$settings = array(
@@ -836,5 +811,5 @@ class News_Ticker_Widget extends Widget_Base {
 		return wp_json_encode( $settings );
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

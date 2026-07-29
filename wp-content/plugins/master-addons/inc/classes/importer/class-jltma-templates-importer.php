@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
  * Master Addons Templates Kit Importer
  * Handles importing template kits from local JSON files
  */
-class JLTMA_Templates_Importer {
+class Templates_Importer {
 
     private $kit_id;
     private $kit_path;
@@ -29,14 +29,14 @@ class JLTMA_Templates_Importer {
         $manifest_file = $this->kit_path . 'manifest.json';
 
         if (!file_exists($manifest_file)) {
-            throw new \Exception('Template kit manifest not found: ' . $this->kit_id);
+            throw new \Exception('Template kit manifest not found: ' . esc_html($this->kit_id)); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- exception message used internally, not echoed directly
         }
 
         $manifest_content = file_get_contents($manifest_file);
         $this->manifest_data = json_decode($manifest_content, true);
 
         if (!$this->manifest_data) {
-            throw new \Exception('Invalid manifest data for kit: ' . $this->kit_id);
+            throw new \Exception('Invalid manifest data for kit: ' . esc_html($this->kit_id)); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- exception message used internally, not echoed directly
         }
     }
 
@@ -89,20 +89,22 @@ class JLTMA_Templates_Importer {
         $template_file = $this->kit_path . $template_slug . '.json';
 
         if (!file_exists($template_file)) {
-            throw new \Exception('Template file not found: ' . $template_slug);
+            throw new \Exception('Template file not found: ' . esc_html($template_slug)); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- exception message used internally, not echoed directly
         }
 
         $template_content = file_get_contents($template_file);
         $template_data = json_decode($template_content, true);
 
         if (!$template_data) {
-            throw new \Exception('Invalid template data: ' . $template_slug);
+            throw new \Exception('Invalid template data: ' . esc_html($template_slug)); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- exception message used internally, not echoed directly
         }
 
         // Create WordPress page
+        $post_type = $template_data['page_settings']['post_type'] ?? 'page';
+
         $page_id = wp_insert_post(array(
             'post_title' => $template_data['page_settings']['post_title'],
-            'post_type' => $template_data['page_settings']['post_type'],
+            'post_type' => $post_type,
             'post_status' => 'publish',
             'post_content' => '', // Elementor handles content
             'meta_input' => array(
@@ -111,12 +113,14 @@ class JLTMA_Templates_Importer {
                 '_elementor_version' => $template_data['version'],
                 '_elementor_data' => wp_slash(json_encode($template_data['content'])),
                 '_jltma_demo_import_item' => true,
-                '_jltma_import_kit_id' => $this->kit_id
+                '_jltma_import_kit_id' => $this->kit_id,
+                '_jltma_import_date' => current_time('mysql'),
+                '_wp_page_template' => 'elementor_canvas',
             )
         ));
 
         if (is_wp_error($page_id)) {
-            throw new \Exception('Failed to create page: ' . $page_id->get_error_message());
+            throw new \Exception('Failed to create page: ' . esc_html($page_id->get_error_message())); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- exception message used internally, not echoed directly
         }
 
         return $page_id;
@@ -129,10 +133,10 @@ class JLTMA_Templates_Importer {
         // Disable image generation during import
         add_filter('intermediate_image_sizes_advanced', '__return_empty_array');
 
-        // Increase memory and time limits
-        if (function_exists('ini_set')) {
-            ini_set('memory_limit', '256M');
-            ini_set('max_execution_time', 300);
+        // Increase memory and time limits for the import.
+        wp_raise_memory_limit('admin');
+        if (function_exists('set_time_limit')) {
+            set_time_limit(300);
         }
     }
 

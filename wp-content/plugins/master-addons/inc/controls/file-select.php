@@ -3,12 +3,13 @@
 namespace MasterAddons\Inc\Controls;
 
 use Elementor\Base_Data_Control;
+use MasterAddons\Inc\Classes\Assets_Manager;
 
 if (!defined('ABSPATH')) {
     exit;
 };
 
-class JLTMA_Control_File_Select extends Base_Data_Control
+class JLTMA_File_Select extends Base_Data_Control
 {
 
     public function get_type()
@@ -32,9 +33,7 @@ class JLTMA_Control_File_Select extends Base_Data_Control
         wp_enqueue_script('media-upload');
         wp_enqueue_script('thickbox');
 
-        // Scripts
-        wp_enqueue_script('jltma-file-select-control', JLTMA_ADMIN_ASSETS . 'js/file-select-control.js', array('jquery'), JLTMA_VER, true);
-        wp_enqueue_script('jltma-file-select-control');
+        Assets_Manager::enqueue('file-select-control');
     }
 
     /**
@@ -63,7 +62,7 @@ class JLTMA_Control_File_Select extends Base_Data_Control
         <div class="elementor-control-field">
             <label for="<?php echo esc_attr($control_uid); ?>" class="elementor-control-title">{{{ data.label }}}</label>
             <div class="elementor-control-input-wrapper">
-                <a href="#" class="jltma-select-file elementor-button elementor-button-success" style="padding: 10px 15px;border:none !important;display: block;text-align: center;" id="select-file-<?php echo esc_attr($control_uid); ?>"><?php echo esc_html__("Choose / Upload File", 'theme-masters-elementor'); ?></a> <br />
+                <a href="#" class="jltma-select-file elementor-button elementor-button-success" style="padding: 10px 15px;border:none !important;display: block;text-align: center;" id="select-file-<?php echo esc_attr($control_uid); ?>"><?php echo esc_html__("Choose / Upload File", 'master-addons'); ?></a> <br />
 
                 <input type="text" class="jltma-selected-file-url" id="<?php echo esc_attr($control_uid); ?>" data-setting="{{ data.name }}" placeholder="{{ data.placeholder }}">
             </div>

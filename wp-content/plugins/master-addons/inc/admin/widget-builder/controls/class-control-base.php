@@ -1,5 +1,5 @@
 <?php
-namespace MasterAddons\Admin\WidgetBuilder\Controls;
+namespace MasterAddons\Inc\Admin\WidgetBuilder\Controls;
 
 defined('ABSPATH') || exit;
 
@@ -501,18 +501,46 @@ abstract class Control_Base {
      * @return string Full control key
      */
     protected function convert_to_control_key($name, $field = []) {
-        // If already a full key (starts with jltma_), return as-is
-        if (strpos($name, 'jltma_') === 0) {
+        $widget_id = $field['_widget_id'] ?? '';
+        $widget_id_suffix = '_' . $widget_id;
+
+        // If already a full key (ends with _widget_id), return as-is
+        if (!empty($widget_id) && substr($name, -strlen($widget_id_suffix)) === $widget_id_suffix) {
             return $name;
         }
 
-        // Extract context
-        $tab_prefix = $field['_tab_prefix'] ?? 'jltma_content_';
-        $widget_id = $field['_widget_id'] ?? '';
+        // If name already has a jltma_ prefix (but no widget_id suffix), just append widget_id
+        if (strpos($name, 'jltma_content_') === 0 || strpos($name, 'jltma_style_') === 0 || strpos($name, 'jltma_advanced_') === 0) {
+            return $name . $widget_id_suffix;
+        }
 
-        // Build full key: tab_prefix + sanitized_name + '_' + widget_id
+        // Search across ALL sections to find which tab the target control actually lives in
         $sanitized_name = $this->sanitize_key($name);
-        return $tab_prefix . $sanitized_name . '_' . $widget_id;
+        if (!empty($field['_sections_data']) && is_array($field['_sections_data'])) {
+            $tab_prefix_map = [
+                'content' => 'jltma_content_',
+                'style' => 'jltma_style_',
+                'advanced' => 'jltma_advanced_',
+            ];
+
+            foreach ($field['_sections_data'] as $section) {
+                if (!is_array($section)) {
+                    continue;
+                }
+                $controls = !empty($section['controls']) ? $section['controls'] : (!empty($section['fields']) ? $section['fields'] : []);
+                foreach ($controls as $control) {
+                    if (!empty($control['name']) && $this->sanitize_key($control['name']) === $sanitized_name) {
+                        $tab = !empty($section['tab']) ? $section['tab'] : 'content';
+                        $prefix = $tab_prefix_map[$tab] ?? 'jltma_content_';
+                        return $prefix . $sanitized_name . $widget_id_suffix;
+                    }
+                }
+            }
+        }
+
+        // Fallback: use current field's tab prefix
+        $tab_prefix = $field['_tab_prefix'] ?? 'jltma_content_';
+        return $tab_prefix . $sanitized_name . $widget_id_suffix;
     }
 
     /**
@@ -604,5 +632,271 @@ abstract class Control_Base {
      */
     protected function build_control_footer() {
         return "\t\t\t]\n\t\t);\n\n";
+    }
+
+    /* ---------------------------------------------------------------------
+     * Runtime config layer
+     *
+     * Parallel to build() / build_common_properties(), but returns a plain
+     * config ARRAY instead of generated PHP source. Consumed by Dynamic_Widget
+     * at register_controls() time so no PHP file is ever written or executed.
+     * ------------------------------------------------------------------- */
+
+    /**
+     * Default control label when the field has none. Overridden per control.
+     *
+     * @return string
+     */
+    protected function default_label() {
+        return 'Control';
+    }
+
+    /**
+     * Resolve the Elementor Controls_Manager constant value for this control type.
+     *
+     * @return string
+     */
+    protected function type_constant() {
+        $const = '\\Elementor\\Controls_Manager::' . $this->get_type();
+        return defined($const) ? constant($const) : 'text';
+    }
+
+    /**
+     * Control-type-specific args (input_type, rows, options, ...). Overridden per control.
+     *
+     * @param array $field
+     * @return array
+     */
+    protected function get_type_specific_config($field) {
+        return [];
+    }
+
+    /**
+     * Build the control config array (runtime equivalent of build()).
+     *
+     * @param string $control_key Unique control key.
+     * @param array  $field       Field configuration from stored schema.
+     * @return array ['key' => string, 'responsive' => bool, 'args' => array]
+     */
+    public function get_config($control_key, $field) {
+        $label = !empty($field['label']) ? $field['label'] : $this->default_label();
+
+        $args = [
+            // translators: dynamic user-defined control label.
+            'label' => esc_html($label),
+            'type'  => $this->type_constant(),
+        ];
+
+        $args = array_merge($args, $this->get_type_specific_config($field));
+        $args = array_merge($args, $this->get_common_config($field));
+
+        return [
+            'key'        => $control_key,
+            'responsive' => !empty($field['responsive']),
+            'args'       => $args,
+        ];
+    }
+
+    /**
+     * Common control args (default, placeholder, description, label_block,
+     * show_label, dynamic, frontend_available, separator, condition(s), selectors).
+     * Array equivalent of build_common_properties().
+     *
+     * @param array $field
+     * @return array
+     */
+    protected function get_common_config($field) {
+        $config = [];
+
+        if (isset($field['default'])) {
+            $config['default'] = $field['default'];
+        }
+        if (!empty($field['placeholder'])) {
+            // translators: dynamic user-defined placeholder.
+            $config['placeholder'] = esc_html($field['placeholder']);
+        }
+        if (!empty($field['description'])) {
+            // translators: dynamic user-defined description.
+            $config['description'] = esc_html($field['description']);
+        }
+        if (isset($field['label_block'])) {
+            $config['label_block'] = (bool) $field['label_block'];
+        }
+        if (isset($field['show_label'])) {
+            $config['show_label'] = (bool) $field['show_label'];
+        }
+        if (!empty($field['dynamic'])) {
+            $config['dynamic'] = ['active' => true];
+        }
+        if (!empty($field['frontend_available'])) {
+            $config['frontend_available'] = true;
+        }
+        if (!empty($field['separator']) && $field['separator'] !== 'default') {
+            $config['separator'] = $field['separator'];
+        }
+        if (!empty($field['conditions']) && is_array($field['conditions'])) {
+            $config = array_merge($config, $this->get_conditions_config($field['conditions'], $field));
+        }
+        if (!empty($field['selectors']) && is_array($field['selectors'])) {
+            $config = array_merge($config, $this->get_selectors_config($field['selectors']));
+        } elseif (!empty($field['selector']) && is_string($field['selector'])) {
+            $config = array_merge($config, $this->get_single_selector_config($field));
+        }
+
+        return $config;
+    }
+
+    /**
+     * Conditions config (array equivalent of build_conditions/build_advanced_conditions).
+     *
+     * @param array $conditions_array
+     * @param array $field
+     * @return array
+     */
+    protected function get_conditions_config($conditions_array, $field = []) {
+        if (empty($conditions_array) || !is_array($conditions_array)) {
+            return [];
+        }
+
+        $has_multiple   = count($conditions_array) > 1;
+        $has_non_equal  = false;
+        foreach ($conditions_array as $condition) {
+            if (!empty($condition['equality']) && $condition['equality'] !== 'equal') {
+                $has_non_equal = true;
+                break;
+            }
+        }
+
+        if ($has_multiple || $has_non_equal) {
+            $operator_map = [
+                'equal'        => '===',
+                'not_equal'    => '!==',
+                'in'           => 'in',
+                'not_in'       => '!in',
+                'contains'     => 'contains',
+                'not_contains' => '!contains',
+            ];
+            $terms = [];
+            foreach ($conditions_array as $condition) {
+                if (!empty($condition['control_name']) && isset($condition['control_value'])) {
+                    $equality = $condition['equality'] ?? 'equal';
+                    $terms[]  = [
+                        'name'     => $this->convert_to_control_key($condition['control_name'], $field),
+                        'operator' => $operator_map[$equality] ?? '===',
+                        'value'    => $condition['control_value'],
+                    ];
+                }
+            }
+            return $terms ? ['conditions' => ['terms' => $terms]] : [];
+        }
+
+        $condition = $conditions_array[0];
+        if (!empty($condition['control_name']) && isset($condition['control_value'])) {
+            return [
+                'condition' => [
+                    $this->convert_to_control_key($condition['control_name'], $field) => $condition['control_value'],
+                ],
+            ];
+        }
+
+        return [];
+    }
+
+    /**
+     * Selectors config from the React selectors array (array equivalent of build_selectors).
+     *
+     * @param array $selectors_array
+     * @return array
+     */
+    protected function get_selectors_config($selectors_array) {
+        if (empty($selectors_array) || !is_array($selectors_array)) {
+            return [];
+        }
+        $out = [];
+        foreach ($selectors_array as $item) {
+            if (!empty($item['selector']) && !empty($item['properties'])) {
+                $out[$this->normalize_selector($item['selector'])] = $item['properties'];
+            }
+        }
+        return $out ? ['selectors' => $out] : [];
+    }
+
+    /**
+     * Single-selector config (array equivalent of the inline selector handling
+     * in build_common_properties).
+     *
+     * @param array $field
+     * @return array
+     */
+    protected function get_single_selector_config($field) {
+        $default_property = 'color: {{VALUE}};';
+        if (isset($field['type'])) {
+            $type = strtolower($field['type']);
+            if (in_array($type, ['slider', 'number'], true)) {
+                $default_property = '{{VALUE}}';
+            } elseif ($type === 'dimensions') {
+                return [];
+            }
+        }
+        return ['selectors' => [$this->normalize_selector($field['selector']) => $default_property]];
+    }
+
+    /**
+     * Build a group-control descriptor consumed by Dynamic_Widget::jltma_apply_control().
+     * Group controls register via add_group_control() (no 'type', no responsive method).
+     *
+     * @param string $control_key Control key (kept for descriptor shape; group uses args['name']).
+     * @param string $group_class Fully-qualified Elementor Group_Control_* class.
+     * @param array  $args        add_group_control args.
+     * @return array
+     */
+    protected function group_descriptor($control_key, $group_class, $args) {
+        return [
+            'key'        => $control_key,
+            'method'     => 'add_group_control',
+            'group_type' => call_user_func([$group_class, 'get_type']),
+            'args'       => $args,
+        ];
+    }
+
+    /**
+     * Partial common args used by Border/Box_Shadow group controls (show_label,
+     * separator, conditions only — they do NOT emit the full common set).
+     *
+     * @param array $field
+     * @return array
+     */
+    protected function get_group_partial_common($field) {
+        $common = [];
+        if (isset($field['show_label'])) {
+            $common['show_label'] = (bool) $field['show_label'];
+        }
+        if (!empty($field['separator']) && $field['separator'] !== 'default') {
+            $common['separator'] = $field['separator'];
+        }
+        if (!empty($field['conditions']) && is_array($field['conditions'])) {
+            $common = array_merge($common, $this->get_conditions_config($field['conditions'], $field));
+        }
+        return $common;
+    }
+
+    /**
+     * Ensure each selector part is scoped with {{WRAPPER}}.
+     *
+     * @param string $selector
+     * @return string
+     */
+    protected function normalize_selector($selector) {
+        if (strpos($selector, ',') !== false) {
+            $parts = array_map('trim', explode(',', $selector));
+            foreach ($parts as &$part) {
+                if ($part !== '' && strpos($part, '{{WRAPPER}}') === false) {
+                    $part = '{{WRAPPER}} ' . $part;
+                }
+            }
+            unset($part);
+            return implode(', ', $parts);
+        }
+        return strpos($selector, '{{WRAPPER}}') === false ? '{{WRAPPER}} ' . $selector : $selector;
     }
 }

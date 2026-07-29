@@ -13,11 +13,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Includes\TemplatesLib\Documents\SiteHeader;
-use EACCustomWidgets\Includes\TemplatesLib\Documents\SiteFooter;
+use EACCustomWidgets\Includes\TemplatesLib\Documents\Site_Header;
+use EACCustomWidgets\Includes\TemplatesLib\Documents\Site_Footer;
 use Elementor\Plugin;
 use Elementor\TemplateLibrary\Source_Local;
+use Elementor\Core\Base\Document;
 
 /**
  * Duplicate_Header_Footer
@@ -25,8 +25,8 @@ use Elementor\TemplateLibrary\Source_Local;
 final class Duplicate_Header_Footer {
 	use \EACCustomWidgets\Includes\Traits\Role_Manager_Trait;
 
-	const ELEMENTOR_MENU_SLUG = 'edit.php?post_type=elementor_library';
-	const EAC_EHF_DUPLICATE_ACTION = 'eac_ehf_duplicate';
+	private const ELEMENTOR_MENU_SLUG      = 'edit.php?post_type=elementor_library';
+	private const EAC_EHF_DUPLICATE_ACTION = 'eac_ehf_duplicate';
 
 	/**
 	 * @var $instance
@@ -75,7 +75,7 @@ final class Duplicate_Header_Footer {
 	/**
 	 * duplicate
 	 */
-	public function ehf_duplicate() {
+	public function ehf_duplicate(): void {
 		$nonce       = isset( $_REQUEST['_wpnonce'] ) && ! empty( $_REQUEST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ) : null;
 		$old_post_id = isset( $_REQUEST['post'] ) && ! empty( $_REQUEST['post'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['post'] ) ) ) : null;
 		$action      = isset( $_REQUEST['action'] ) && ! empty( $_REQUEST['action'] ) ? trim( sanitize_text_field( wp_unslash( $_REQUEST['action'] ) ) ) : null;
@@ -142,8 +142,8 @@ final class Duplicate_Header_Footer {
 					$meta_value = $post_meta->meta_value;
 
 					/** wp_insert_post Elementor crée la meta, on la supprime avant d'afficher la bonne meta/value */
-					if ( Source_Local::TYPE_META_KEY === $meta_key ) {
-						delete_post_meta( $new_post_id, Source_Local::TYPE_META_KEY );
+					if ( Document::TYPE_META_KEY === $meta_key ) {
+						delete_post_meta( $new_post_id, Document::TYPE_META_KEY );
 					}
 
 					$wpdb->query(
@@ -170,13 +170,13 @@ final class Duplicate_Header_Footer {
 	 *
 	 * Ajoute un lien sur chaque Entête ou Pied de page pour cloner le modèle
 	 */
-	public function add_ehf_links_duplicate( $actions, $post ) {
+	public function add_ehf_links_duplicate( array $actions, object $post ): array {
 		$user_can = \Elementor\User::is_current_user_can_edit( $post->ID ); /** && current_user_can( 'edit_others_posts' ); */
 
 		if ( Source_Local::CPT === $post->post_type && 'publish' === $post->post_status && ! self::$is_a_restricted_role ) {
-			$meta = get_post_meta( $post->ID, Source_Local::TYPE_META_KEY, true );
+			$meta = get_post_meta( $post->ID, Document::TYPE_META_KEY, true );
 
-			if ( ! empty( $meta ) && in_array( $meta, array( SiteHeader::TYPE, SiteFooter::TYPE ), true ) ) {
+			if ( ! empty( $meta ) && in_array( $meta, array( Site_Header::TYPE, Site_Footer::TYPE ), true ) ) {
 				$url = esc_url( add_query_arg(
 					array(
 						'post'     => $post->ID,
@@ -202,7 +202,7 @@ final class Duplicate_Header_Footer {
 	 *
 	 * Supprime l'entrée 'Categories' du menu Templates d'Elementor
 	 */
-	public function set_elementor_view_restriction() {
+	public function set_elementor_view_restriction(): void {
 		self::$is_a_restricted_role = $this->get_elementor_restriction();
 
 		if ( self::$is_a_restricted_role ) {
@@ -215,16 +215,15 @@ final class Duplicate_Header_Footer {
 	 *
 	 * Supprime les templates header/footer de la boite de dialogue 'Add new' template
 	 */
-	public function set_filter_add_new_template( $types ) {
+	public function set_filter_add_new_template( array $dialog_entries ): array {
 		if ( self::$is_a_restricted_role ) {
-			if ( isset( $types[ SiteHeader::TYPE ] ) ) {
-				unset( $types[ SiteHeader::TYPE ] );
+			if ( isset( $dialog_entries[ Site_Header::TYPE ] ) ) {
+				unset( $dialog_entries[ Site_Header::TYPE ] );
 			}
-			if ( isset( $types[ SiteFooter::TYPE ] ) ) {
-				unset( $types[ SiteFooter::TYPE ] );
+			if ( isset( $dialog_entries[ Site_Footer::TYPE ] ) ) {
+				unset( $dialog_entries[ Site_Footer::TYPE ] );
 			}
 		}
-		return $types;
+		return $dialog_entries;
 	}
 }
-Duplicate_Header_Footer::instance();

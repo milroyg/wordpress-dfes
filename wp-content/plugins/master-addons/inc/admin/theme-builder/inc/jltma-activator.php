@@ -1,11 +1,9 @@
 <?php
-namespace MasterHeaderFooter;
-use MasterHeaderFooter\Master_Header_Footer;
-
+namespace MasterAddons\Inc\Admin\Theme_Builder;
 
 defined( 'ABSPATH' ) || exit;
 
-class JLTMA_HF_Activator {
+class Activator {
     public static $instance = null;
 
     protected $templates;
@@ -21,7 +19,7 @@ class JLTMA_HF_Activator {
     protected $post_type = 'master_template';
 
     public function __construct() {
-        $this->jltma_plugin_path = JLTMA_PATH;
+        $this->jltma_plugin_path = \JLTMA_PATH;
         $this->jltma_include_theme_support_files();
 
         add_action( 'wp', array( $this, 'jltma_hooks' ) );
@@ -32,6 +30,17 @@ class JLTMA_HF_Activator {
 
         // Also try template_redirect as a backup
         add_action( 'template_redirect', array( $this, 'jltma_template_redirect' ), 1 );
+    }
+
+    /**
+     * Check if current request is an Elementor preview/editor context
+     */
+    private function is_elementor_preview() {
+        return isset( $_GET['elementor-preview'] ) || isset( $_GET['elementor_library'] ) || // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only existence check for Elementor context detection
+               ( class_exists( '\Elementor\Plugin' ) && (
+                   \Elementor\Plugin::$instance->preview->is_preview_mode() ||
+                   \Elementor\Plugin::$instance->editor->is_edit_mode()
+               ));
     }
 
     public function jltma_include_theme_support_files(){
@@ -65,7 +74,7 @@ class JLTMA_HF_Activator {
                 new Theme_Hooks\Hello_Elementor(self::template_ids());
                 break;
 
-            case 'astra':
+            case 'astra': case 'el-master-addons':
                 new Theme_Hooks\Astra(self::template_ids());
                 break;
 
@@ -114,8 +123,8 @@ class JLTMA_HF_Activator {
      * @return string
      */
     public function jltma_template_include( $template ) {
-        // Only run on frontend
-        if ( is_admin() ) {
+        // Only run on frontend, skip Elementor preview/editor
+        if ( is_admin() || $this->is_elementor_preview() ) {
             return $template;
         }
 
@@ -148,8 +157,8 @@ class JLTMA_HF_Activator {
      * Template redirect fallback - force include our template if found
      */
     public function jltma_template_redirect() {
-        // Only run on frontend
-        if ( is_admin() ) {
+        // Only run on frontend, skip Elementor preview/editor
+        if ( is_admin() || $this->is_elementor_preview() ) {
             return;
         }
 
@@ -350,23 +359,23 @@ class JLTMA_HF_Activator {
         ];
 
         if($instance->templates_template != null){
-            Master_Header_Footer::render_elementor_content_css($instance->templates_template);
+            Theme_Builder::render_elementor_content_css($instance->templates_template);
         }
 
         if($instance->popup_template != null){
-            Master_Header_Footer::render_elementor_content_css($instance->popup_template);
+            Theme_Builder::render_elementor_content_css($instance->popup_template);
         }
 
         if($instance->header_template != null){
-            Master_Header_Footer::render_elementor_content_css($instance->header_template);
+            Theme_Builder::render_elementor_content_css($instance->header_template);
         }
 
         if($instance->footer_template != null){
-            Master_Header_Footer::render_elementor_content_css($instance->footer_template);
+            Theme_Builder::render_elementor_content_css($instance->footer_template);
         }
 
         if($instance->comment_template != null){
-            Master_Header_Footer::render_elementor_content_css($instance->comment_template);
+            Theme_Builder::render_elementor_content_css($instance->comment_template);
         }
 
         wp_cache_set( 'master_template_ids', $ids );
@@ -447,10 +456,10 @@ class JLTMA_HF_Activator {
                         $this->comment_template = isset( $template_id['comment'] ) ? $template_id['comment'] : $template['ID'];
                     }
 
-                    // Handle new template types (Search, 404, Single, Archive, Category, Tag, Author, Date, Page Single, Product)
-                    if(in_array($template['type'], ['search', 'single', 'archive', '404', 'category', 'tag', 'author', 'date', 'page_single', 'product', 'product_archive'])){
-                        $this->templates_template = isset( $template_id['templates'] ) ? $template_id['templates'] : $template['ID'];
-                    }
+                    // Location-specific templates (404, search, single, archive, etc.) are handled
+                    // by jltma_template_include() / find_template_for_location() at runtime.
+                    // Do NOT assign them to templates_template, as that would cause Theme_Support
+                    // to unconditionally override ALL pages with this template.
                 } else {
                 }
             }
@@ -672,4 +681,4 @@ class JLTMA_HF_Activator {
 
 }
 
-JLTMA_HF_Activator::instance();
+Activator::instance();

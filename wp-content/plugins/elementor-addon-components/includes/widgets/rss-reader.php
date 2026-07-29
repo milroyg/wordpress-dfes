@@ -16,8 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -35,18 +34,6 @@ class Rss_Reader_Widget extends Widget_Base {
 	use \EACCustomWidgets\Includes\Traits\Button_Read_More_Trait;
 
 	/**
-	 * Constructeur de la class Rss_Reader_Widget
-	 *
-	 * Enregistre les scripts et les styles
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		wp_register_script( 'eac-rss-reader', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-rss-reader' ), array( 'jquery', 'elementor-frontend' ), '1.0.0', true );
-		wp_register_style( 'eac-rss-reader', EAC_Plugin::instance()->get_style_url( 'assets/css/rss-reader' ), array( 'eac-frontend' ), '1.0.0' );
-	}
-
-	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
 	 *
 	 * @var $slug
@@ -62,8 +49,8 @@ class Rss_Reader_Widget extends Widget_Base {
 	 *
 	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -73,8 +60,8 @@ class Rss_Reader_Widget extends Widget_Base {
 	 *
 	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -84,8 +71,8 @@ class Rss_Reader_Widget extends Widget_Base {
 	 *
 	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -93,10 +80,10 @@ class Rss_Reader_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -104,7 +91,7 @@ class Rss_Reader_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
 		return array( 'eac-rss-reader' );
@@ -116,7 +103,7 @@ class Rss_Reader_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
 		return array( 'eac-rss-reader' );
@@ -131,8 +118,8 @@ class Rss_Reader_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -140,10 +127,10 @@ class Rss_Reader_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -153,6 +140,15 @@ class Rss_Reader_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -186,26 +182,17 @@ class Rss_Reader_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'rss_galerie_settings',
 			array(
-				'label' => esc_html__( 'Liste des flux RSS', 'eac-components' ),
+				'label' => esc_html__( 'List of RSS feeds', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
-
-			$this->add_control(
-				'rss_unique_instance',
-				array(
-					'type'            => Controls_Manager::RAW_HTML,
-					'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
-					'raw'             => __( "Atlas des flux RSS des journaux de langue Française - <a href='http://atlasflux.saynete.net/' target='_blank' rel='nofolow noopener noreferrer'>Consulter ce site</a>", 'eac-components' ),
-				)
-			);
 
 			$repeater = new Repeater();
 
 			$repeater->add_control(
 				'rss_item_title',
 				array(
-					'label'       => esc_html__( 'Titre', 'eac-components' ),
+					'label'       => esc_html__( 'Title', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
@@ -216,9 +203,10 @@ class Rss_Reader_Widget extends Widget_Base {
 			$repeater->add_control(
 				'rss_item_url',
 				array(
-					'label'       => esc_html__( 'URL', 'eac-components' ),
+					'label'       => esc_html( 'URL' ),
 					'type'        => Controls_Manager::URL,
 					'placeholder' => 'https://your-link.com/xml/',
+					'render_type' => 'none',
 				)
 			);
 
@@ -318,7 +306,7 @@ class Rss_Reader_Widget extends Widget_Base {
 						),
 					),
 					'title_field' => '{{{ rss_item_title }}}',
-					'button_text' => esc_html__( 'Ajouter un flux', 'eac-components' ),
+					'button_text' => esc_html__( 'Add feed', 'eac-components' ),
 				)
 			);
 
@@ -327,7 +315,7 @@ class Rss_Reader_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'rss_layout_type_settings',
 			array(
-				'label' => esc_html__( 'Disposition', 'eac-components' ),
+				'label' => esc_html__( 'Layout', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -353,7 +341,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'rss_columns',
 				array(
-					'label'        => esc_html__( 'Nombre de colonnes', 'eac-components' ),
+					'label'        => esc_html__( 'Columns count', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
 					'default'      => '3',
 					'device_args'  => $columns_device_args,
@@ -372,7 +360,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_image_settings',
 				array(
-					'label'     => esc_html__( "Disposition de l'image", 'eac-components' ),
+					'label'     => esc_html__( 'Image layout', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array( 'rss_item_image' => 'yes' ),
 					'separator' => 'before',
@@ -382,10 +370,10 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_item_image_height_auto',
 				array(
-					'label'        => esc_html__( 'Hauteur automatique', 'eac-components' ),
+					'label'        => esc_html__( 'Auto height', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -394,7 +382,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'rss_item_image_height',
 				array(
-					'label'          => esc_html__( "Hauteur de l'image", 'eac-components' ),
+					'label'          => esc_html__( 'Image height', 'eac-components' ),
 					'type'           => Controls_Manager::SLIDER,
 					'size_units'     => array( 'px' ),
 					'default'        => array(
@@ -428,7 +416,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'rss_item_image_position_y',
 				array(
-					'label'       => esc_html__( 'Position verticale', 'eac-components' ),
+					'label'       => esc_html__( 'Vertical position', 'eac-components' ),
 					'type'        => Controls_Manager::SLIDER,
 					'size_units'  => array( '%' ),
 					'default'     => array(
@@ -451,7 +439,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_content_layout',
 				array(
-					'label'     => esc_html__( 'Disposition du contenu', 'eac-components' ),
+					'label'     => esc_html__( 'Content layout', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -460,31 +448,31 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'rss_item_content_align_v',
 				array(
-					'label'       => esc_html__( 'Alignement vertical', 'eac-components' ),
+					'label'       => esc_html__( 'Vertical alignment', 'eac-components' ),
 					'type'        => Controls_Manager::CHOOSE,
 					'options'     => array(
 						'flex-start'    => array(
-							'title' => esc_html__( 'Haut', 'eac-components' ),
+							'title' => esc_html__( 'Top', 'eac-components' ),
 							'icon'  => 'eicon-justify-start-v',
 						),
 						'center'        => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-justify-center-v',
 						),
 						'flex-end'      => array(
-							'title' => esc_html__( 'Bas', 'eac-components' ),
+							'title' => esc_html__( 'Bottom', 'eac-components' ),
 							'icon'  => 'eicon-justify-end-v',
 						),
 						'space-between' => array(
-							'title' => esc_html__( 'Espace entre', 'eac-components' ),
+							'title' => esc_html__( 'Space between', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-between-v',
 						),
 						'space-around'  => array(
-							'title' => esc_html__( 'Espace autour', 'eac-components' ),
+							'title' => esc_html__( 'Space around', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-around-v',
 						),
 						'space-evenly'  => array(
-							'title' => esc_html__( 'Espace uniforme', 'eac-components' ),
+							'title' => esc_html__( 'Space evenly', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-evenly-v',
 						),
 					),
@@ -499,19 +487,19 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'rss_item_content_align_h',
 				array(
-					'label'     => esc_html__( 'Alignement horizontal', 'eac-components' ),
+					'label'     => esc_html__( 'Horizontal alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'start'  => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'end'    => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -529,7 +517,7 @@ class Rss_Reader_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'rss_items_content',
 			array(
-				'label' => esc_html__( 'Contenu', 'eac-components' ),
+				'label' => esc_html__( 'Content', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -538,7 +526,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_item_posts',
 				array(
-					'label' => esc_html__( 'Article', 'eac-components' ),
+					'label' => esc_html__( 'Post', 'eac-components' ),
 					'type'  => Controls_Manager::HEADING,
 				)
 			);
@@ -548,8 +536,8 @@ class Rss_Reader_Widget extends Widget_Base {
 				array(
 					'label'        => esc_html__( 'Image', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -558,10 +546,10 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_content_item_title',
 				array(
-					'label'        => esc_html__( 'Titre', 'eac-components' ),
+					'label'        => esc_html__( 'Title', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -570,10 +558,10 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_item_excerpt',
 				array(
-					'label'        => esc_html__( 'Résumé', 'eac-components' ),
+					'label'        => esc_html__( 'Excerpt', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -582,10 +570,10 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_item_date',
 				array(
-					'label'        => esc_html__( 'Date de Publication/Auteur', 'eac-components' ),
+					'label'        => esc_html__( 'Publication/Author date', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -595,7 +583,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_item_numbers',
 				array(
-					'label'     => esc_html__( 'Densité', 'eac-components' ),
+					'label'     => esc_html__( 'Density', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -604,7 +592,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_item_nombre',
 				array(
-					'label'       => esc_html__( "Nombre d'articles", 'eac-components' ),
+					'label'       => esc_html__( 'Post count', 'eac-components' ),
 					'type'        => Controls_Manager::NUMBER,
 					'min'         => 5,
 					'max'         => 50,
@@ -616,8 +604,8 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_item_length',
 				array(
-					'label'       => esc_html__( 'Nombre de mots', 'eac-components' ),
-					'description' => esc_html__( 'Résumé', 'eac-components' ),
+					'label'       => esc_html__( 'Number of words', 'eac-components' ),
+					'description' => esc_html__( 'Excerpt', 'eac-components' ),
 					'type'        => Controls_Manager::NUMBER,
 					'min'         => 3,
 					'max'         => 100,
@@ -632,7 +620,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_item_links',
 				array(
-					'label'     => esc_html__( 'Liens', 'eac-components' ),
+					'label'     => esc_html__( 'Link', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -641,10 +629,10 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_item_readmore',
 				array(
-					'label'        => esc_html__( 'Bouton', 'eac-components' ),
+					'label'        => esc_html__( 'Button', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -653,10 +641,10 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_item_title_link',
 				array(
-					'label'        => esc_html__( "Lien de l'article sur le titre", 'eac-components' ),
+					'label'        => esc_html__( 'Post link on title', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array(
@@ -668,10 +656,10 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_item_image_link',
 				array(
-					'label'        => esc_html__( "Lien de l'article sur l'image", 'eac-components' ),
+					'label'        => esc_html__( 'Post link on image', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array(
@@ -684,16 +672,16 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_item_article_link',
 				array(
-					'label'        => esc_html__( 'Appliquer le lien globalement', 'eac-components' ),
-					'description'  => esc_html__( 'Le lien enveloppe chaque item', 'eac-components' ),
+					'label'        => esc_html__( 'Enable the link globally', 'eac-components' ),
+					'description'  => esc_html__( 'The link wraps each item', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -708,14 +696,34 @@ class Rss_Reader_Widget extends Widget_Base {
 								'value'    => 'yes',
 							),
 							array(
-								'name'     => 'rss_item_image_link',
-								'operator' => '===',
-								'value'    => 'yes',
+								'relation' => 'and',
+								'terms'    => array(
+									array(
+										'name'     => 'rss_content_item_title',
+										'operator' => '===',
+										'value'    => 'yes',
+									),
+									array(
+										'name'     => 'rss_item_title_link',
+										'operator' => '===',
+										'value'    => 'yes',
+									),
+								),
 							),
 							array(
-								'name'     => 'rss_item_title_link',
-								'operator' => '===',
-								'value'    => 'yes',
+								'relation' => 'and',
+								'terms'    => array(
+									array(
+										'name'     => 'rss_item_image',
+										'operator' => '===',
+										'value'    => 'yes',
+									),
+									array(
+										'name'     => 'rss_item_image_link',
+										'operator' => '===',
+										'value'    => 'yes',
+									),
+								),
 							),
 						),
 					),
@@ -725,10 +733,10 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_item_lightbox',
 				array(
-					'label'        => esc_html__( 'Visionneuse', 'eac-components' ),
+					'label'        => esc_html__( 'Lightbox', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array(
@@ -743,7 +751,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_item_buttons',
 				array(
-					'label'     => esc_html__( 'Bouton Lire le flux', 'eac-components' ),
+					'label'     => esc_html__( 'Button Read the feed', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -754,7 +762,7 @@ class Rss_Reader_Widget extends Widget_Base {
 				array(
 					'label'       => esc_html__( 'Label', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
-					'default'     => esc_html__( 'Lire le flux', 'eac-components' ),
+					'default'     => esc_html__( 'Read the feed', 'eac-components' ),
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
 					'label_block' => true,
@@ -764,7 +772,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_more_settings',
 				array(
-					'label'     => esc_html__( 'Bouton', 'eac-components' ),
+					'label'     => esc_html__( 'Button', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array( 'rss_item_readmore' => 'yes' ),
 					'separator' => 'before',
@@ -779,7 +787,7 @@ class Rss_Reader_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'rss_general_style',
 			array(
-				'label' => esc_html__( 'Général', 'eac-components' ),
+				'label' => esc_html__( 'General', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -788,7 +796,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_container_style',
 				array(
-					'label'     => esc_html__( 'Conteneur', 'eac-components' ),
+					'label'     => esc_html__( 'Container', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 				)
 			);
@@ -797,7 +805,7 @@ class Rss_Reader_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'rss_list_options_typo',
-					'label'     => esc_html__( 'Typographie de la liste', 'eac-components' ),
+					'label'     => esc_html__( 'List typography', 'eac-components' ),
 					'selector'  => '.rss-options__items-list .select__options-items',
 				)
 			);
@@ -805,7 +813,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_wrapper_bg_color',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .eac-rss-galerie' => 'background-color: {{VALUE}};' ),
 				)
@@ -822,7 +830,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_wrapper_radius',
 				array(
-					'label'      => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'      => esc_html__( 'Border radius', 'eac-components' ),
 					'type'       => Controls_Manager::DIMENSIONS,
 					'size_units' => array( 'px', '%' ),
 					'selectors'  => array(
@@ -835,8 +843,26 @@ class Rss_Reader_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'      => 'rss_wrapper_shadow',
-					'label'     => esc_html__( 'Ombre', 'eac-components' ),
+					'label'     => esc_html__( 'Shadow', 'eac-components' ),
 					'selector'  => '{{WRAPPER}} .eac-rss-galerie',
+				)
+			);
+
+			/** La liste select */
+			$this->add_control(
+				'rss_select_style',
+				array(
+					'label'     => esc_html__( 'List RSS feeds', 'eac-components' ),
+					'type'      => Controls_Manager::HEADING,
+				)
+			);
+
+			$this->add_group_control(
+				Group_Control_Typography::get_type(),
+				array(
+					'name'     => 'rss_select_typography',
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
+					'selector' => '{{WRAPPER}} .select__options-items',
 				)
 			);
 
@@ -844,7 +870,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_items_style',
 				array(
-					'label'     => esc_html__( 'Articles', 'eac-components' ),
+					'label'     => esc_html__( 'Post', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -855,9 +881,9 @@ class Rss_Reader_Widget extends Widget_Base {
 				array(
 					'label'        => esc_html__( 'Style', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
-					'default'      => 'style-1',
+					'default'      => 'style-0',
 					'options'      => array(
-						'style-0' => esc_html__( 'Défaut', 'eac-components' ),
+						'style-0' => esc_html__( 'Default', 'eac-components' ),
 						'style-1' => 'Style 1',
 						'style-2' => 'Style 2',
 						'style-3' => 'Style 3',
@@ -875,7 +901,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'rss_wrapper_gap',
 				array(
-					'label'      => esc_html__( 'Marge entre les items', 'eac-components' ),
+					'label'      => esc_html__( 'Margin between items', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( 'px' ),
 					'default'    => array(
@@ -899,7 +925,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_items_bg_color',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .rss-galerie__item' => 'background-color: {{VALUE}};' ),
 				)
@@ -917,7 +943,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_items_radius',
 				array(
-					'label'      => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'      => esc_html__( 'Border radius', 'eac-components' ),
 					'type'       => Controls_Manager::DIMENSIONS,
 					'size_units' => array( 'px', '%' ),
 					'selectors'  => array(
@@ -931,7 +957,7 @@ class Rss_Reader_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'      => 'rss_items_shadow',
-					'label'     => esc_html__( 'Ombre', 'eac-components' ),
+					'label'     => esc_html__( 'Shadow', 'eac-components' ),
 					'selector'  => '{{WRAPPER}} .rss-galerie__item',
 					'condition' => array( 'rss_wrapper_style' => 'style-0' ),
 				)
@@ -960,7 +986,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_image_border_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -983,7 +1009,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_title_style',
 				array(
-					'label'     => esc_html__( 'Titre', 'eac-components' ),
+					'label'     => esc_html__( 'Title', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array( 'rss_content_item_title' => 'yes' ),
@@ -993,7 +1019,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_titre_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .rss-galerie__item-titre' => 'color: {{VALUE}};' ),
 					'condition' => array( 'rss_content_item_title' => 'yes' ),
@@ -1004,7 +1030,7 @@ class Rss_Reader_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'rss_titre_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .rss-galerie__item-titre',
 					'condition' => array( 'rss_content_item_title' => 'yes' ),
 				)
@@ -1014,7 +1040,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_excerpt_style',
 				array(
-					'label'     => esc_html__( 'Résumé', 'eac-components' ),
+					'label'     => esc_html__( 'Excerpt', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array( 'rss_item_excerpt' => 'yes' ),
@@ -1024,7 +1050,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_excerpt_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .rss-galerie__item-description p' => 'color: {{VALUE}};' ),
 					'condition' => array( 'rss_item_excerpt' => 'yes' ),
@@ -1035,7 +1061,7 @@ class Rss_Reader_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'rss_excerpt_typography',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'selector'  => '{{WRAPPER}} .rss-galerie__item-description p',
 					'condition' => array( 'rss_item_excerpt' => 'yes' ),
 				)
@@ -1045,7 +1071,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_icone_style',
 				array(
-					'label'     => esc_html__( 'Date de Publication/Auteur', 'eac-components' ),
+					'label'     => esc_html__( 'Publication/Author date', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array( 'rss_item_date' => 'yes' ),
@@ -1055,7 +1081,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_icone_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array(
 						'{{WRAPPER}} .rss-galerie__item-date, {{WRAPPER}} .rss-galerie__item-auteur' => 'color: {{VALUE}};',
@@ -1068,7 +1094,7 @@ class Rss_Reader_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'rss_icone_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .rss-galerie__item-date, {{WRAPPER}} .rss-galerie__item-auteur',
 					'condition' => array( 'rss_item_date' => 'yes' ),
 				)
@@ -1077,7 +1103,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_control(
 				'rss_more_style',
 				array(
-					'label'     => esc_html__( 'Bouton', 'eac-components' ),
+					'label'     => esc_html__( 'Button', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array( 'rss_item_readmore' => 'yes' ),
 					'separator' => 'before',
@@ -1097,7 +1123,7 @@ class Rss_Reader_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 		if ( ! $settings['rss_image_list'] ) {
 			return;
@@ -1123,13 +1149,13 @@ class Rss_Reader_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render_galerie() {
+	protected function render_galerie(): void {
 		$settings = $this->get_settings_for_display();
 		$id       = $this->get_id();
 		?>
 		<div class='rss-select__item-list'>
 			<div class='rss-options__items-list'>
-				<label id="label_<?php echo esc_attr( $id ); ?>" class='visually-hidden' for="listbox_<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Liste des flux RSS', 'eac-components' ); ?></label>
+				<label id="label_<?php echo esc_attr( $id ); ?>" class='visually-hidden' for="listbox_<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'List of RSS feeds', 'eac-components' ); ?></label>
 				<select id="listbox_<?php echo esc_attr( $id ); ?>" class='select__options-items' aria-labelledby="label_<?php echo esc_attr( $id ); ?>">
 					<?php foreach ( $settings['rss_image_list'] as $item ) {
 						if ( ! empty( $item['rss_item_url']['url'] ) && $this->is_valid_url( $item['rss_item_url']['url'] ) ) : ?>
@@ -1144,12 +1170,12 @@ class Rss_Reader_Widget extends Widget_Base {
 			$this->add_render_attribute( 'read_button', 'type', 'button' );
 			$this->add_render_attribute( 'read_button', 'aria-expanded', 'false' );
 			$this->add_render_attribute( 'read_button', 'aria-controls', 'rss-galerie' );
-			$this->add_render_attribute( 'read_button', 'aria-label', esc_attr__( 'Afficher le contenu du flux sélectionné', 'eac-components' ) );
+			$this->add_render_attribute( 'read_button', 'aria-label', esc_attr__( 'View content of selected feed', 'eac-components' ) );
 			$this->add_inline_editing_attributes( 'rss_item_button_label', 'none' );
 			$this->add_render_attribute( 'rss_item_button_label', 'class', 'label-icon' );
-			$label        = ! empty( $settings['rss_item_button_label'] ) ? esc_html( $settings['rss_item_button_label'] ) : esc_html__( 'Lire le flux', 'eac-components' );
-			$label_button = '<span ' . $this->get_render_attribute_string( 'rss_item_button_label' ) . '>' . $label . '</span>';
-			$button       = '<button ' . $this->get_render_attribute_string( 'read_button' ) . '>' . $label_button . '</button>';
+			$label        = ! empty( $settings['rss_item_button_label'] ) ? esc_html( $settings['rss_item_button_label'] ) : esc_html__( 'Read the feed', 'eac-components' );
+			$label_button = '<span ' . $this->get_render_attribute_string( 'rss_item_button_label' ) . '>' . trim( $label ) . '</span>';
+			$button       = '<button ' . $this->get_render_attribute_string( 'read_button' ) . '>' . trim( $label_button ) . '</button>';
 			?>
 			<div class='buttons-wrapper'><?php echo wp_kses_post( $button ); ?></div>
 			<div id='rss__loader-wheel' class='eac__loader-spin'></div>
@@ -1180,7 +1206,7 @@ class Rss_Reader_Widget extends Widget_Base {
 	 * @return    JSON oject
 	 */
 
-	protected function get_settings_json() {
+	protected function get_settings_json(): string {
 		$settings = $this->get_settings_for_display();
 
 		$module_settings = array(
@@ -1195,7 +1221,7 @@ class Rss_Reader_Widget extends Widget_Base {
 			'data_excerpt'        => 'yes' === $settings['rss_item_excerpt'] ? true : false,
 			'data_excerpt_lenght' => 'yes' === $settings['rss_item_excerpt'] && ! empty( $settings['rss_item_length'] ) ? absint( $settings['rss_item_length'] ) : 25,
 			'data_readmore'       => 'yes' === $settings['rss_item_readmore'] ? true : false,
-			'data_readmore_label' => 'yes' === $settings['rss_item_readmore'] ? esc_html( $settings['button_more_label'] ) : '',
+			'data_readmore_label' => 'yes' === $settings['rss_item_readmore'] ? esc_html( trim( $settings['button_more_label'] ) ) : '',
 			'data_icon_pos'       => isset( $settings['button_more_position'] ) ? $settings['button_more_position'] : '',
 			'data_global_link'    => isset( $settings['rss_item_article_link'] ) && 'yes' === $settings['rss_item_article_link'] ? true : false,
 			'data_locale'         => str_replace( '_', '-', get_user_locale() ),
@@ -1204,5 +1230,5 @@ class Rss_Reader_Widget extends Widget_Base {
 		return wp_json_encode( $module_settings );
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

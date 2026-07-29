@@ -37,10 +37,10 @@ class Eac_Select2_Actions {
 	 * @return Array of objects {"id": id, "text": text}
 	 */
 	public function autocomplete_ajax() {
-		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'eac_autocomplete_search_nonce' ) ) {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'autocomplete_ajax_nonce' ) ) {
 			$error[] = array(
 				'id'   => 0,
-				'text' => esc_html__( 'Erreur de sécurité', 'eac-components' ),
+				'text' => esc_html__( 'Security error', 'eac-components' ),
 			);
 			wp_send_json_error( wp_json_encode( $error ) );
 		}
@@ -48,16 +48,27 @@ class Eac_Select2_Actions {
 		global $wpdb;
 		// Chaine à rechercher
 		$search = sanitize_text_field( wp_unslash( $_POST['search'] ) );
-		// post_type ou all
-		$post_type = sanitize_text_field( wp_unslash( $_POST['object_type'] ) );
-		// post, taxonomy ou term
+
+		// post, page, product... et 'any' pour tous les post_types
+		if ( ! empty( $_POST['object_type'] ) ) {
+			$raw = wp_unslash( $_POST['object_type'] );
+			if ( ! is_array( $raw ) ) {
+				$post_type = sanitize_text_field( $raw );
+			} else {
+				$post_type = array_map( 'sanitize_text_field', $raw );
+			}
+		}
+
+		// taxonomy, term, author, url. défaut 'post'
 		$query_type = sanitize_text_field( wp_unslash( $_POST['query_type'] ) );
+
 		// category, post_tag, product_cat, product_tag, pa_xxxxx (attribute: pa_tissu)
 		if ( ! empty( $_POST['query_taxo'] ) ) {
-			if ( ! is_array( $_POST['query_taxo'] ) ) {
-				$query_taxo = array( sanitize_text_field( wp_unslash( $_POST['query_taxo'] ) ) );
+			$raw = wp_unslash( $_POST['query_taxo'] );
+			if ( ! is_array( $raw ) ) {
+				$query_taxo = array( sanitize_text_field( $raw ) );
 			} else {
-				$query_taxo = array_map( 'sanitize_text_field', wp_unslash( $_POST['query_taxo'] ) );
+				$query_taxo = array_map( 'sanitize_text_field', $raw );
 			}
 		}
 
@@ -71,15 +82,14 @@ class Eac_Select2_Actions {
 		$list_author = array();
 		$list_url    = array();
 
-		if ( 'all' === $post_type ) {
+		if ( 'any' === $post_type ) {
 			$all_post_type = \EACCustomWidgets\Core\Utils\Eac_Tools_Util::get_all_post_types();
 			if ( ! empty( $all_post_type ) ) {
-				foreach ( $all_post_type as $name => $pt ) {
-					list($slug, $label) = explode( '::', $pt );
-					if ( \str_contains( strtolower( $label ), $search ) ) {
+				foreach ( $all_post_type as $post_type_name => $post_type_label ) {
+					if ( \str_contains( strtolower( $post_type_label ), $search ) ) {
 						$suggestions[] = array(
-							'id'   => esc_attr( $name ),
-							'text' => esc_attr( $label ),
+							'id'   => esc_attr( $post_type_name ),
+							'text' => esc_attr( $post_type_label ),
 						);
 					}
 				}
@@ -91,7 +101,7 @@ class Eac_Select2_Actions {
 
 			$error[] = array(
 				'id'   => 0,
-				'text' => esc_html__( 'Aucun résultat trouvé', 'eac-components' ),
+				'text' => esc_html__( 'No result found', 'eac-components' ),
 			);
 			wp_send_json_error( wp_json_encode( $error ) );
 		}
@@ -115,6 +125,7 @@ class Eac_Select2_Actions {
 				break;
 			case 'term':
 				$args = array(
+					'taxonomy'   => '',
 					'hide_empty' => true,
 					'orderby'    => 'name',
 					'order'      => 'ASC',
@@ -123,9 +134,13 @@ class Eac_Select2_Actions {
 				if ( ! empty( $search ) ) {
 					$args['name__like'] = $search;
 				}
+
 				if ( ! empty( $query_taxo ) ) {
 					$args['taxonomy'] = $query_taxo;
+				} else {
+					unset( $args['taxonomy'] );
 				}
+
 				$terms = get_terms( $args );
 				break;
 			case 'author':
@@ -134,13 +149,13 @@ class Eac_Select2_Actions {
 						"SELECT ID, display_name
 						FROM {$wpdb->prefix}users
 						WHERE display_name LIKE %s",
-						'%' . $wpdb->esc_like( $search ) . '%'
+						'%' . $wpdb->esc_like( $search ) . '%' // Le LIKE peut être vide retourne toutes les lignes
 					)
 				);
 
 				if ( $users && ! empty( $users ) ) {
 					foreach ( $users as $user ) {
-						$list_author[ $user->ID ] = esc_html( $user->display_name );
+						$list_author[ $user->ID ] = ucfirst( $user->display_name );
 					}
 				}
 				break;
@@ -160,26 +175,53 @@ class Eac_Select2_Actions {
 			wp_send_json_success( wp_json_encode( $suggestions ) );
 		} elseif ( ! is_wp_error( $taxonomies ) && ! empty( $taxonomies ) ) {
 			// @since 2.3.7
-			foreach ( $taxonomies as $key ) {
-				if ( \str_contains( strtolower( $key->label ), $search ) ) {
+			foreach ( $taxonomies as $taxonomy ) {
+				// Si $search est vide str_contains retourne toujouts true
+				if ( \str_contains( strtolower( $taxonomy->label ), $search ) ) {
 					$suggestions[] = array(
-						'id'   => esc_attr( $key->name ),
-						'text' => esc_attr( $key->label ),
+						'id'   => esc_attr( $taxonomy->name ),
+						'text' => esc_attr( $taxonomy->label ),
 					);
 				}
 			}
+			usort( $suggestions, function ( $a, $b ) {
+				return strcasecmp( $a['text'], $b['text'] );
+			} );
 			wp_send_json_success( wp_json_encode( $suggestions ) );
 		} elseif ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
-			$taxos = get_object_taxonomies( $post_type, 'names' );
-			foreach ( $terms as $term ) {
-				if ( in_array( $term->taxonomy, $taxos, true ) ) {
-					$suggestions[] = array(
-						'id'   => esc_attr( $term->term_id ),
-						'text' => esc_attr( $term->name ),
+			$groups = array();
+			$taxonomies_object = get_object_taxonomies( $post_type, 'objects' );
+
+			if ( ! is_wp_error( $taxonomies_object ) && ! empty( $taxonomies_object ) ) {
+				foreach ( $taxonomies_object as $taxonomy ) {
+					$suggestions = array();
+					foreach ( $terms as $term ) {
+						if ( $term->taxonomy === $taxonomy->name ) {
+							$suggestions[] = array(
+								'id'   => esc_attr( $term->slug ),
+								'text' => esc_attr( $term->name ),
+							);
+						}
+					}
+					if ( empty( $suggestions ) ) {
+						continue;
+					}
+
+					usort( $suggestions, function ( $a, $b ) {
+						return strcasecmp( $a['text'], $b['text'] );
+					} );
+
+					$groups[] = array(
+						'id'       => esc_attr( $taxonomy->name ),
+						'text'     => esc_attr( $taxonomy->labels->singular_name ),
+						'children' => $suggestions,
 					);
 				}
+				usort( $groups, function ( $a, $b ) {
+					return strcasecmp( $a['text'], $b['text'] );
+				} );
 			}
-			wp_send_json_success( wp_json_encode( $suggestions ) );
+			wp_send_json_success( wp_json_encode( $groups ) );
 		} elseif ( ! empty( $list_author ) ) {
 			foreach ( $list_author as $key => $name ) {
 				$suggestions[] = array(
@@ -187,6 +229,9 @@ class Eac_Select2_Actions {
 					'text' => esc_attr( $name ),
 				);
 			}
+			usort( $suggestions, function ( $a, $b ) {
+				return strcasecmp( $a['text'], $b['text'] );
+			} );
 			wp_send_json_success( wp_json_encode( $suggestions ) );
 		} elseif ( ! empty( $list_url ) ) {
 			wp_send_json_success( wp_json_encode( $list_url ) );
@@ -194,7 +239,7 @@ class Eac_Select2_Actions {
 
 		$error[] = array(
 			'id'   => 0,
-			'text' => esc_html__( 'Aucun résultat trouvé', 'eac-components' ),
+			'text' => esc_html__( 'No result found', 'eac-components' ),
 		);
 		wp_send_json_error( wp_json_encode( $error ) );
 	}
@@ -214,34 +259,44 @@ class Eac_Select2_Actions {
 	public function autocomplete_ajax_reload() {
 		global $wpdb;
 
-		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'eac_autocomplete_search_nonce' ) ) {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'autocomplete_ajax_nonce' ) ) {
 			$error[] = array(
 				'id'   => 0,
-				'text' => esc_html__( 'Erreur de sécurité', 'eac-components' ),
+				'text' => esc_html__( 'Security error', 'eac-components' ),
 			);
 			wp_send_json_error( wp_json_encode( $error ) );
 		}
 
-		if ( empty( $_POST['search'] ) ) {
+		if ( ! isset( $_POST['search'] ) || empty( $_POST['search'] ) ) {
 			$error[] = array(
 				'id'   => 0,
-				'text' => esc_html__( 'Aucun résultat trouvé', 'eac-components' ),
+				'text' => '',
 			);
 			wp_send_json_error( wp_json_encode( $error ) );
 		}
 
 		$search = is_array( $_POST['search'] ) ? $_POST['search'] : explode( ',', $_POST['search'] );
 		$search = array_map( 'sanitize_text_field', $search );
-		// post_type
-		$post_type = sanitize_text_field( wp_unslash( $_POST['object_type'] ) );
+
+		if ( ! empty( $_POST['object_type'] ) ) {
+			$raw = wp_unslash( $_POST['object_type'] );
+			if ( ! is_array( $raw ) ) {
+				$post_type = sanitize_text_field( $raw );
+			} else {
+				$post_type = array_map( 'sanitize_text_field', $raw );
+			}
+		}
+
 		// post ou taxonomy
 		$query_type = sanitize_text_field( wp_unslash( $_POST['query_type'] ) );
+
 		// category, post_tag, product_cat, product_tag, pa_xxxxx (attribute: pa_tissu)
 		if ( ! empty( $_POST['query_taxo'] ) ) {
-			if ( ! is_array( $_POST['query_taxo'] ) ) {
-				$query_taxo = array( sanitize_text_field( wp_unslash( $_POST['query_taxo'] ) ) );
+			$raw = wp_unslash( $_POST['query_taxo'] );
+			if ( ! is_array( $raw ) ) {
+				$query_taxo = array( sanitize_text_field( $raw ) );
 			} else {
-				$query_taxo = array_map( 'sanitize_text_field', wp_unslash( $_POST['query_taxo'] ) );
+				$query_taxo = array_map( 'sanitize_text_field', $raw );
 			}
 		}
 
@@ -252,13 +307,13 @@ class Eac_Select2_Actions {
 		$list_author = array();
 		$list_url    = array();
 
-		if ( 'all' === $post_type ) {
-			foreach ( $search as $posttype ) {
-				$pt = get_post_type_object( $posttype );
-				if ( $pt ) {
+		if ( 'any' === $post_type ) {
+			foreach ( $search as $post_type ) {
+				$the_post_type = get_post_type_object( $post_type );
+				if ( $the_post_type ) {
 					$suggestions[] = array(
-						'id'   => esc_attr( $pt->name ),
-						'text' => esc_attr( $pt->label ),
+						'id'   => esc_attr( $the_post_type->name ),
+						'text' => esc_attr( $the_post_type->labels->singular_name ),
 					);
 				}
 			}
@@ -276,28 +331,48 @@ class Eac_Select2_Actions {
 				break;
 			case 'taxonomy':
 				foreach ( $search as $name ) {
-					$taxonomies[] = get_taxonomies( array( 'name' => $name ) );
+					$taxonomies[] = get_taxonomies( array( 'name' => $name ), 'objects' );
 				}
 				break;
 			case 'term':
+				$term_ids = array();
+				$all_taxonomy = get_taxonomies( array(), 'names' );
+				$search = array_map( function ( $item ) {
+					return \str_contains( $item, '::' ) ? explode( '::', $item, 2 )[1] : $item;
+				}, $search);
+
+				/** slug to term_id nécessaire pour param 'include' de $args */
+				foreach ( $search as $slug ) {
+					foreach ( $all_taxonomy as $taxonomy ) {
+						$term = get_term_by( 'slug', $slug, $taxonomy );
+						if ( $term && ! is_wp_error( $term ) ) {
+							$term_ids[] = (string) $term->term_id;
+							break;
+						}
+					}
+				}
+
 				$args = array(
+					'taxonomy'   => '',
 					'hide_empty' => true,
 					'orderby'    => 'name',
 					'order'      => 'ASC',
-					'include'    => $search,
+					'include'    => $term_ids,
 				);
 
 				if ( ! empty( $query_taxo ) ) {
 					$args['taxonomy'] = $query_taxo;
+				} else {
+					unset( $args['taxonomy'] );
 				}
 
-				$terms = wp_list_pluck( get_terms( $args ), 'name', 'term_id' );
+				$terms = wp_list_pluck( get_terms( $args ), 'name', 'slug' );
 				break;
 			case 'author':
 				foreach ( $search as $author ) {
 					$auteur = get_user_by( 'ID', $author );
 					if ( $auteur ) {
-						$list_author[ $auteur->ID ] = $auteur->display_name;
+						$list_author[ $auteur->ID ] = ucfirst( $auteur->display_name );
 					}
 				}
 				break;
@@ -316,10 +391,10 @@ class Eac_Select2_Actions {
 			wp_send_json_success( wp_json_encode( $suggestions ) );
 		} elseif ( ! is_wp_error( $taxonomies ) && ! empty( $taxonomies ) ) {
 			foreach ( $taxonomies as $taxonomie ) {
-				foreach ( $taxonomie as $key => $text ) {
+				foreach ( $taxonomie as $key => $value ) {
 					$suggestions[] = array(
-						'id'   => esc_attr( $key ),
-						'text' => esc_attr( $text ),
+						'id'   => esc_attr( $value->name ),
+						'text' => esc_attr( $value->label ),
 					);
 				}
 			}
@@ -346,24 +421,23 @@ class Eac_Select2_Actions {
 
 		$error[] = array(
 			'id'   => 0,
-			'text' => esc_html__( 'Aucun résultat trouvé', 'eac-components' ),
+			'text' => esc_html__( 'No result found', 'eac-components' ),
 		);
 		wp_send_json_error( wp_json_encode( $error ) );
 	}
 
-	private function get_post_type_data( $search ) {
+	private function get_post_type_data( $search ): array {
 		$groups     = array();
 		$post_types = \EACCustomWidgets\Core\Utils\Eac_Tools_Util::get_filter_post_types();
 
-		foreach ( $post_types as $post_name => $post_type ) {
-			$all_posts           = array();
-			$options             = array();
-			list($name, $label) = explode( '::', $post_type );
+		foreach ( $post_types as $post_type_name => $post_type_label ) {
+			$all_posts = array();
+			$options   = array();
 
 			if ( is_string( $search ) ) {
-				$all_posts = $this->get_all_post_data( $name, $search );
+				$all_posts = $this->get_all_post_data( $post_type_name, $search );
 			} elseif ( is_array( $search ) && ! empty( $search ) ) {
-				$all_posts = $this->get_post_data( $name, $search );
+				$all_posts = $this->get_post_data( $post_type_name, $search );
 			}
 
 			if ( ! empty( $all_posts ) && ! is_wp_error( $all_posts ) ) {
@@ -378,8 +452,8 @@ class Eac_Select2_Actions {
 				}
 				usort( $options, fn( $a, $b ) => strcmp( $a->text, $b->text ) );
 				$groups[] = array(
-					'id'       => esc_attr( $post_name ),
-					'text'     => esc_attr( $label ),
+					'id'       => esc_attr( $post_type_name ),
+					'text'     => esc_attr( $post_type_label ),
 					'children' => $options,
 				);
 			}
@@ -387,7 +461,7 @@ class Eac_Select2_Actions {
 		return $groups;
 	}
 
-	private function get_all_post_data( $post_type, $search ) {
+	private function get_all_post_data( $post_type, $search ): array {
 		global $wpdb;
 
 		$posts_list = get_posts( array(
@@ -400,9 +474,9 @@ class Eac_Select2_Actions {
 		return $posts_list;
 	}
 
-	private function get_post_data( $post_type, $search ) {
+	private function get_post_data( $post_type, $search ): array {
 		global $wpdb;
-		$search = implode( ',', array_map( 'intval', $search ) );
+		$search = implode( ',', array_map( 'absint', $search ) );
 
 		$posts_list = $wpdb->get_results(
 			$wpdb->prepare(

@@ -1,9 +1,10 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <div class="jltma-pop-contents-head">
     <!-- Header top section with logo and close button -->
     <div class="jltma-header-top">
         <div class="jltma-popup-head-content" style="display: flex; align-items:center; gap:8px">
             <span>
-                <img src="<?php echo JLTMA_IMAGE_DIR . 'logo.svg'; ?>" style="width: 30px;">
+                <img src="<?php echo esc_url( JLTMA_IMAGE_DIR . 'logo.svg' ); ?>" style="width: 30px;">
             </span>
             <h3>
                 <?php echo esc_html__(' Theme Builder', 'master-addons' );?>

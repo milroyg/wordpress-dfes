@@ -22,8 +22,8 @@
 	display: inline-block;
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
-	text-rendering: auto;*/
-}
+	text-rendering: auto;
+}*/
 .icons-selector {
  display:inline-block;
  vertical-align:middle;
@@ -181,7 +181,6 @@
  font-family:iconpicker;
  font-style:normal;
  font-weight:400;
- speak:none;
  display:inline-block;
  text-decoration:inherit;
  width:1em;

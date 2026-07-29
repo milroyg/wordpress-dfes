@@ -42,13 +42,13 @@ class Gutenberg_Block_Init {
 	 * Register block editor script for backend.
 	 */
 	public function location_weather_block_editor_assets() {
-		wp_enqueue_script(
-			'sp-location-weather-shortcode-block',
-			plugins_url( '/Gutenberg_Block/build/index.js', __DIR__ ),
-			array( 'jquery' ),
-			LOCATION_WEATHER_VERSION,
-			true
-		);
+		// wp_enqueue_script(
+		// 	'sp-location-weather-shortcode-block',
+		// 	plugins_url( '/Gutenberg_Block/build/index.js', __DIR__ ),
+		// 	array( 'jquery' ),
+		// 	LOCATION_WEATHER_VERSION,
+		// 	true
+		// );
 
 		/**
 		 * Register block editor css file enqueue for backend.
@@ -101,7 +101,7 @@ class Gutenberg_Block_Init {
 			'sp_location_weather',
 			array(
 				'ajax_url'      => admin_url( 'admin-ajax.php' ),
-				'url'           => LOCATION_WEATHER_URL,
+				'url'           => LOCATION_WEATHER_ASSETS,
 				'loadScript'    => LOCATION_WEATHER_ASSETS . '/js/Old-locationWeather' . $this->suffix . '.js',
 				'loadScript'    => LOCATION_WEATHER_ASSETS . '/js/lw-scripts' . $this->suffix . '.js',
 				'link'          => admin_url( 'post-new.php?post_type=location_weather' ),
@@ -115,10 +115,10 @@ class Gutenberg_Block_Init {
 			'sp-location-weather-pro/shortcode',
 			array(
 				'attributes'      => array(
-					'shortcodelist'      => array(
-						'type'    => 'object',
-						'default' => '',
-					),
+					// 'shortcodelist'      => array(
+					// 'type'    => 'object',
+					// 'default' => '',
+					// ),
 					'shortcode'          => array(
 						'type'    => 'string',
 						'default' => '',
@@ -135,11 +135,18 @@ class Gutenberg_Block_Init {
 						'type'    => 'boolean',
 						'default' => is_admin(),
 					),
+					'align'              => array(
+						'type'    => 'string',
+						'default' => '',
+					),
 				),
 				'example'         => array(
 					'attributes' => array(
 						'preview' => true,
 					),
+				),
+				'supports'        => array(
+					'align' => array( 'wide', 'full' ),
 				),
 				// Enqueue blocks.editor.build.js in the editor only.
 				'editor_script'   => array(

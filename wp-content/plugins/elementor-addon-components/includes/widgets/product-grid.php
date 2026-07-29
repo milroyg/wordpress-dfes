@@ -16,9 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\Core\Eac_Config_Elements;
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Utils\Eac_Helpers_Util;
+use EACCustomWidgets\Core\Eac_Load_Config;
+use EACCustomWidgets\Core\Utils\Eac_Helper_Util;
 use EACCustomWidgets\Core\Utils\Eac_Tools_Util;
 
 use Elementor\Widget_Base;
@@ -39,32 +38,16 @@ use Elementor\Utils;
 class Product_Grid_Widget extends Widget_Base {
 	/** Les Traits */
 	use \EACCustomWidgets\Includes\Traits\Slider_Trait;
-	use \EACCustomWidgets\Includes\Traits\Badge_New_Trait;
-	use \EACCustomWidgets\Includes\Traits\Badge_Sale_Trait;
-	use \EACCustomWidgets\Includes\Traits\Badge_Stock_Trait;
+	use \EACCustomWidgets\Includes\Traits\Badges_Trait;
 	use \EACCustomWidgets\Includes\Traits\Button_Add_To_Cart_Trait;
 	use \EACCustomWidgets\Includes\Traits\Button_Read_More_Trait;
 	use \EACCustomWidgets\Includes\Traits\Icon_Svg_Trait;
 
 	/** Constructeur */
-	public function __construct( $data = array(), $args = null ) {
+	public function __construct( array $data = array(), ?array $args = null ) {
 		parent::__construct( $data, $args );
 
-		if ( class_exists( Eac_Helpers_Util::class ) ) {
-			new Eac_Helpers_Util();
-		}
-
-		wp_register_script( 'swiper-bundle', EAC_PLUGIN_URL . 'assets/js/swiper/swiper-bundle.min.js', array( 'jquery' ), '9.4.1', true );
-		wp_register_script( 'imagesloaded', ABSPATH . WPINC . '/js/imagesloaded.min.js', array(), '5.0.0', true );
-		wp_register_script( 'isotope', EAC_Plugin::instance()->get_script_url( 'assets/js/isotope/isotope.pkgd' ), array( 'jquery', 'imagesloaded' ), '3.0.6', true );
-		wp_register_script( 'fit-rows', EAC_Plugin::instance()->get_script_url( 'assets/js/isotope/fit-rows' ), array( 'jquery', 'isotope' ), '1.0.0', true );
-		wp_register_script( 'infinite-scroll', EAC_PLUGIN_URL . 'assets/js/isotope/infinite-scroll.pkgd.min.js', array( 'jquery', 'isotope' ), '4.0.1', true );
-		wp_register_script( 'eac-post-grid', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-post-grid' ), array( 'jquery', 'elementor-frontend', 'swiper-bundle', 'imagesloaded', 'isotope', 'fit-rows', 'infinite-scroll' ), '1.0.0', true );
-
-		wp_register_style( 'swiper-bundle', EAC_PLUGIN_URL . 'assets/css/swiper-bundle.min.css', array(), '9.4.1' );
-		wp_register_style( 'eac-swiper', EAC_Plugin::instance()->get_style_url( 'assets/css/eac-swiper' ), array(), '1.9.7' );
-		wp_register_style( 'eac-post-grid', EAC_Plugin::instance()->get_style_url( 'assets/css/post-grid' ), array( 'eac-frontend', 'eac-swiper' ), '1.0.0' );
-		wp_register_style( 'eac-product-grid', EAC_Plugin::instance()->get_style_url( 'assets/css/wc-product' ), array( 'eac-post-grid' ), '1.9.8' );
+		$this->helper_util = new Eac_Helper_Util();
 
 		// Supprime les callbacks du filtre de la liste 'orderby'
 		remove_all_filters( 'eac/tools/post_orderby' );
@@ -81,6 +64,13 @@ class Product_Grid_Widget extends Widget_Base {
 	}
 
 	/**
+	 * $helper_util
+	 *
+	 * @var null
+	 */
+	private $helper_util = null;
+
+	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
 	 *
 	 * @var $slug
@@ -94,10 +84,10 @@ class Product_Grid_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -105,10 +95,10 @@ class Product_Grid_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -116,10 +106,10 @@ class Product_Grid_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -127,10 +117,10 @@ class Product_Grid_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -138,10 +128,10 @@ class Product_Grid_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
-		return array( 'swiper-bundle', 'imagesloaded', 'isotope', 'fit-rows', 'infinite-scroll', 'eac-post-grid' );
+		return array( 'eac-post-grid' );
 	}
 
 	/**
@@ -150,10 +140,10 @@ class Product_Grid_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
-		return array( 'swiper-bundle', 'eac-swiper', 'eac-post-grid', 'eac-product-grid' );
+		return array( 'eac-product-grid' );
 	}
 
 	/**
@@ -165,8 +155,8 @@ class Product_Grid_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -174,10 +164,10 @@ class Product_Grid_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -187,6 +177,15 @@ class Product_Grid_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -203,11 +202,28 @@ class Product_Grid_Widget extends Widget_Base {
 		// Récupère tous les breakpoints actifs
 		$active_breakpoints     = Plugin::$instance->breakpoints->get_active_breakpoints();
 		$has_active_breakpoints = Plugin::$instance->breakpoints->has_custom_breakpoints();
+		// Add default values for all active breakpoints.
+		$columns_device_args = array();
+		foreach ( $active_breakpoints as $breakpoint_name => $breakpoint_instance ) {
+			if ( Breakpoints_manager::BREAKPOINT_KEY_WIDESCREEN === $breakpoint_name ) {
+				$columns_device_args[ $breakpoint_name ] = array( 'default' => '4' );
+			} elseif ( Breakpoints_manager::BREAKPOINT_KEY_LAPTOP === $breakpoint_name ) {
+				$columns_device_args[ $breakpoint_name ] = array( 'default' => '4' );
+			} elseif ( Breakpoints_manager::BREAKPOINT_KEY_TABLET_EXTRA === $breakpoint_name ) {
+					$columns_device_args[ $breakpoint_name ] = array( 'default' => '3' );
+			} elseif ( Breakpoints_manager::BREAKPOINT_KEY_TABLET === $breakpoint_name ) {
+					$columns_device_args[ $breakpoint_name ] = array( 'default' => '3' );
+			} elseif ( Breakpoints_manager::BREAKPOINT_KEY_MOBILE_EXTRA === $breakpoint_name ) {
+				$columns_device_args[ $breakpoint_name ] = array( 'default' => '2' );
+			} elseif ( Breakpoints_manager::BREAKPOINT_KEY_MOBILE === $breakpoint_name ) {
+				$columns_device_args[ $breakpoint_name ] = array( 'default' => '1' );
+			}
+		}
 
 		$this->start_controls_section(
 			'al_post_filter',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -229,223 +245,103 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_post_filter_heading',
 				array(
-					'label'     => esc_html__( 'Filtre de requête', 'eac-components' ),
+					'label'     => esc_html__( 'Query filter', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 				)
 			);
 
-			$this->start_controls_tabs( 'al_article_tabs' );
+			$this->add_control(
+				'al_article_type',
+				array(
+					'label'       => esc_html__( 'Product type', 'eac-components' ),
+					'type'        => Controls_Manager::SELECT,
+					'label_block' => true,
+					'options'     => Eac_Tools_Util::get_product_post_types(),
+					'default'     => 'product',
+				)
+			);
 
-				$this->start_controls_tab(
-					'al_article_post_tab',
-					array(
-						'label' => esc_html__( 'Produits', 'eac-components' ),
-					)
-				);
+			$this->add_control(
+				'al_article_taxonomy',
+				array(
+					'label'       => esc_html__( 'Taxonomy filter', 'eac-components' ),
+					'type'        => Controls_Manager::SELECT2,
+					'label_block' => true,
+					'options'     => Eac_Tools_Util::get_product_taxonomies(),
+					'default'     => array( 'product_cat' ),
+					'multiple'    => true,
+				)
+			);
 
-					$this->add_control(
-						'al_article_type',
-						array(
-							'label'       => esc_html__( 'Type de produit', 'eac-components' ),
-							'type'        => Controls_Manager::SELECT,
-							'label_block' => true,
-							'options'     => Eac_Tools_Util::get_product_post_types(),
-							'default'     => 'product',
-						)
-					);
+			$this->add_control(
+				'al_article_term',
+				array(
+					'label'       => esc_html__( 'Tag filter', 'eac-components' ),
+					'type'        => Controls_Manager::SELECT2,
+					'label_block' => true,
+					'options'     => Eac_Tools_Util::get_product_terms(),
+					'multiple'    => true,
+				)
+			);
 
-					$this->add_control(
-						'al_article_taxonomy',
-						array(
-							'label'       => esc_html__( 'Sélectionner la taxonomie', 'eac-components' ),
-							'type'        => Controls_Manager::SELECT2,
-							'label_block' => true,
-							'options'     => Eac_Tools_Util::get_product_taxonomies(),
-							'default'     => array( 'product_cat' ),
-							'multiple'    => true,
-						)
-					);
+			/**$this->add_control(
+				'al_article_term',
+				array(
+					'label'          => esc_html__( 'Tag filter', 'eac-components' ),
+					'type'           => 'eac-select2',
+					'select2Options' => array(
+						'object_type' => 'product',
+						'query_type'  => 'term',
+						//'query_taxo'  => array( 'product_cat', 'product_tag' ),
+					),
+					'multiple'       => true,
+				)
+			);*/
 
-					$this->add_control(
-						'al_article_term',
-						array(
-							'label'       => esc_html__( 'Sélectionner les étiquettes', 'eac-components' ),
-							'type'        => Controls_Manager::SELECT2,
-							'label_block' => true,
-							'options'     => Eac_Tools_Util::get_product_terms(),
-							'multiple'    => true,
-						)
-					);
+			$this->add_control(
+				'al_content_user',
+				array(
+					'label'       => esc_html__( 'Author filter', 'eac-components' ),
+					'description' => esc_html__( "Dynamic Tags 'Post/Authors'", 'eac-components' ),
+					'type'        => Controls_Manager::TEXT,
+					'dynamic'     => array(
+						'active'     => true,
+						'categories' => array(
+							TagsModule::POST_META_CATEGORY,
+						),
+					),
+					'ai'          => array( 'active' => false ),
+					'label_block' => true,
+				)
+			);
 
-					$this->add_control(
-						'al_article_orderby',
-						array(
-							'label'     => esc_html__( 'Triés par', 'eac-components' ),
-							'type'      => Controls_Manager::SELECT,
-							'options'   => Eac_Tools_Util::get_post_orderby(),
-							'default'   => 'title',
-						)
-					);
+			$this->add_control(
+				'al_content_user_alert',
+				array(
+					'type'       => Controls_Manager::ALERT,
+					'alert_type' => 'warning',
+					'heading'    => esc_html__( 'Security Alert', 'eac-components' ),
+					'content'    => esc_html__( 'It is not recommended to expose the name (nickname) of your users, as this can facilitate targeting by malicious individuals, increasing the risk of intrusion attempts.', 'eac-components' ),
+					'condition'  => array( 'al_content_user!' => '' ),
+				)
+			);
 
-					$this->add_control(
-						'al_article_order',
-						array(
-							'label'   => esc_html__( 'Affichage', 'eac-components' ),
-							'type'    => Controls_Manager::SELECT,
-							'options' => array(
-								'asc'  => esc_html__( 'Ascendant', 'eac-components' ),
-								'desc' => esc_html__( 'Descendant', 'eac-components' ),
-							),
-							'default' => 'asc',
-						)
-					);
-
-					$this->add_control(
-						'al_display_content_args',
-						array(
-							'label'        => esc_html__( 'Afficher la requête', 'eac-components' ),
-							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
-							'return_value' => 'yes',
-							'default'      => '',
-						)
-					);
-
-				$this->end_controls_tab();
-
-				$this->start_controls_tab(
-					'al_article_query_tab',
-					array(
-						'label' => esc_html__( 'Requêtes', 'eac-components' ),
-					)
-				);
-
-					$this->add_control(
-						'al_content_user',
-						array(
-							'label'       => esc_html__( 'Selection des auteurs', 'eac-components' ),
-							'description' => esc_html__( "Balises dynamiques 'Article/Auteurs'", 'eac-components' ),
-							'type'        => Controls_Manager::TEXT,
-							'dynamic'     => array(
-								'active'     => true,
-								'categories' => array(
-									TagsModule::POST_META_CATEGORY,
-								),
-							),
-							'ai'          => array( 'active' => false ),
-							'label_block' => true,
-						)
-					);
-
-					$repeater = new Repeater();
-
-					$repeater->add_control(
-						'al_content_metadata_title',
-						array(
-							'label'   => esc_html__( 'Titre', 'eac-components' ),
-							'type'    => Controls_Manager::TEXT,
-							'dynamic' => array( 'active' => true ),
-							'ai'      => array( 'active' => false ),
-						)
-					);
-
-					$repeater->add_control(
-						'al_content_metadata_keys',
-						array(
-							'label'       => esc_html__( 'Sélectionner une clé', 'eac-components' ),
-							'description' => esc_html__( "Balises dynamiques 'WooCommerce|Clés des champs' ou entrer la clé dans le champ (sensible à la casse).", 'eac-components' ),
-							'type'        => Controls_Manager::TEXT,
-							'dynamic'     => array(
-								'active'     => true,
-								'categories' => array(
-									TagsModule::POST_META_CATEGORY,
-								),
-							),
-							'ai'          => array( 'active' => false ),
-							'label_block' => true,
-						)
-					);
-
-					$repeater->add_control(
-						'al_content_metadata_type',
-						array(
-							'label'       => esc_html__( 'Type des données', 'eac-components' ),
-							'description' => esc_html__( "Utiliser le type 'TIMESTAMP' pour comparer des dates", 'eac-components' ),
-							'type'        => Controls_Manager::SELECT,
-							'options'     => array(
-								'CHAR'          => esc_html__( 'Caractère', 'eac-components' ),
-								'NUMERIC'       => esc_html__( 'Numérique', 'eac-components' ),
-								'DECIMAL(10,2)' => esc_html__( 'Décimal', 'eac-components' ),
-								'TIMESTAMP'     => esc_html__( 'TimeStamp', 'eac-components' ),
-							),
-							'default'     => 'CHAR',
-						)
-					);
-
-					$repeater->add_control(
-						'al_content_metadata_compare',
-						array(
-							'label'   => esc_html__( 'Opérateur de comparaison', 'eac-components' ),
-							'type'    => Controls_Manager::SELECT,
-							'options' => Eac_Tools_Util::get_operateurs_comparaison(),
-							'default' => 'IN',
-						)
-					);
-
-					$repeater->add_control(
-						'al_content_metadata_values',
-						array(
-							'label'       => esc_html__( 'Sélection des valeurs', 'eac-components' ),
-							'description' => esc_html__( "Balises dynamiques 'WooCommerce|Valeurs des champs' ou entrer les valeurs dans le champ (insensible à la casse) et utiliser le pipe '|' comme séparateur.", 'eac-components' ),
-							'type'        => Controls_Manager::TEXT,
-							'dynamic'     => array(
-								'active'     => true,
-								'categories' => array(
-									TagsModule::POST_META_CATEGORY,
-								),
-							),
-							'ai'          => array( 'active' => false ),
-							'label_block' => true,
-						)
-					);
-
-					$this->add_control(
-						'al_content_metadata_list',
-						array(
-							'label'       => esc_html__( 'Requêtes', 'eac-components' ),
-							'type'        => Controls_Manager::REPEATER,
-							'fields'      => $repeater->get_controls(),
-							'default'     => array(
-								array(
-									'al_content_metadata_title' => esc_html__( 'Requête #1', 'eac-components' ),
-								),
-							),
-							'title_field' => '{{{ al_content_metadata_title }}}',
-							'button_text' => esc_html__( 'Ajouter une requête', 'eac-components' ),
-						)
-					);
-
-					$this->add_control(
-						'al_content_metadata_keys_relation',
-						array(
-							'label'        => esc_html__( 'Relation entre les requêtes', 'eac-components' ),
-							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => 'AND',
-							'label_off'    => 'OR',
-							'return_value' => 'yes',
-							'default'      => '',
-						)
-					);
-
-				$this->end_controls_tab();
-
-			$this->end_controls_tabs();
+			$this->add_control(
+				'al_display_content_args',
+				array(
+					'label'        => esc_html__( 'Display query content', 'eac-components' ),
+					'type'         => Controls_Manager::SWITCHER,
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
+					'return_value' => 'yes',
+					'default'      => '',
+				)
+			);
 
 			$this->add_control(
 				'al_post_settings_heading',
 				array(
-					'label'     => esc_html__( 'Produits', 'eac-components' ),
+					'label'     => esc_html__( 'Product', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array( 'al_layout_type!' => 'slider' ),
 					'separator' => 'before',
@@ -455,8 +351,8 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_article_nombre',
 				array(
-					'label'       => esc_html__( 'Nombre de produits', 'eac-components' ),
-					'description' => esc_html__( '-1 = Tous', 'eac-components' ),
+					'label'       => esc_html__( 'Product count', 'eac-components' ),
+					'description' => esc_html__( '0 = All', 'eac-components' ),
 					'type'        => Controls_Manager::NUMBER,
 					'default'     => 10,
 					'condition'   => array( 'al_layout_type!' => 'slider' ),
@@ -464,78 +360,35 @@ class Product_Grid_Widget extends Widget_Base {
 			);
 
 			$this->add_control(
-				'al_content_pagging_display',
+				'al_article_orderby',
 				array(
-					'label'        => esc_html__( 'Pagination AJAX', 'eac-components' ),
-					'description'  => esc_html__( 'Sans rechargement de la page', 'eac-components' ),
-					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
-					'return_value' => 'yes',
-					'default'      => '',
-					'conditions'   => array(
-						'relation' => 'and',
-						'terms'    => array(
-							array(
-								'name'     => 'al_article_nombre',
-								'operator' => '!in',
-								'value'    => array( -1, 0, '' ),
-							),
-							array(
-								'name'     => 'al_layout_type',
-								'operator' => '!==',
-								'value'    => 'slider',
-							),
-							array(
-								'name'     => 'al_content_nav_display',
-								'operator' => '!==',
-								'value'    => 'yes',
-							),
-						),
-					),
+					'label'     => esc_html__( 'Sorted by', 'eac-components' ),
+					'type'      => Controls_Manager::SELECT,
+					'options'   => Eac_Tools_Util::get_post_orderby(),
+					'default'   => 'title',
 				)
 			);
 
 			$this->add_control(
-				'al_content_nav_display',
+				'al_article_order',
 				array(
-					'label'        => esc_html__( 'Pagination', 'eac-components' ),
-					'description'  => esc_html__( 'Avec rechargement de la page', 'eac-components' ),
-					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
-					'return_value' => 'yes',
-					'default'      => '',
-					'conditions'   => array(
-						'relation' => 'and',
-						'terms'    => array(
-							array(
-								'name'     => 'al_article_nombre',
-								'operator' => '!in',
-								'value'    => array( -1, 0, '' ),
-							),
-							array(
-								'name'     => 'al_layout_type',
-								'operator' => '!==',
-								'value'    => 'slider',
-							),
-							array(
-								'name'     => 'al_content_pagging_display',
-								'operator' => '!==',
-								'value'    => 'yes',
-							),
-						),
+					'label'   => esc_html__( 'Display', 'eac-components' ),
+					'type'    => Controls_Manager::SELECT,
+					'options' => array(
+						'asc'  => esc_html__( 'Top-bottom', 'eac-components' ),
+						'desc' => esc_html__( 'Bottom-up', 'eac-components' ),
 					),
+					'default' => 'asc',
 				)
 			);
 
 			$this->add_control(
 				'al_article_id',
 				array(
-					'label'        => esc_html__( 'Exclure IDs', 'eac-components' ),
+					'label'        => esc_html__( 'Exclude IDs', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array( 'al_layout_type!' => 'slider' ),
@@ -545,8 +398,8 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_article_exclude',
 				array(
-					'label'       => esc_html__( 'IDs', 'eac-components' ),
-					'description' => esc_html__( 'Les ID séparés par une virgule sans espace', 'eac-components' ),
+					'label'       => esc_html( 'IDs' ),
+					'description' => esc_html__( 'ID separated by comma without space', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'ai'          => array( 'active' => false ),
 					'label_block' => true,
@@ -559,28 +412,50 @@ class Product_Grid_Widget extends Widget_Base {
 			);
 
 			$this->add_control(
-				'al_article_include',
+				'al_content_pagging_heading',
 				array(
-					'label'        => esc_html__( 'Inclure les enfants', 'eac-components' ),
+					'label'     => esc_html__( 'Paging', 'eac-components' ),
+					'type'      => Controls_Manager::HEADING,
+					'separator' => 'before',
+					'condition'   => array(
+						'al_article_nombre!' => array( -1, 0, '' ),
+						'al_layout_type!'    => 'slider',
+					),
+				)
+			);
+
+			$this->add_control(
+				'al_content_pagging_display',
+				array(
+					'label'        => esc_html__( 'Paging AJAX', 'eac-components' ),
+					'description'  => esc_html__( 'Without page reload', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
-					'conditions'   => array(
-						'relation' => 'and',
-						'terms' => array(
-							array(
-								'name'     => 'al_article_type',
-								'operator' => '!in',
-								'value'    => array( 'post', 'product' ),
-							),
-							array(
-								'name'     => 'al_layout_type',
-								'operator' => '!==',
-								'value'    => 'slider',
-							),
-						),
+					'condition'   => array(
+						'al_article_nombre!'      => array( -1, 0, '' ),
+						'al_layout_type!'         => 'slider',
+						'al_content_nav_display!' => 'yes',
+					),
+				)
+			);
+
+			$this->add_control(
+				'al_content_nav_display',
+				array(
+					'label'        => esc_html__( 'Paging', 'eac-components' ),
+					'description'  => esc_html__( 'With page reload', 'eac-components' ),
+					'type'         => Controls_Manager::SWITCHER,
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
+					'return_value' => 'yes',
+					'default'      => '',
+					'condition'   => array(
+						'al_article_nombre!'          => array( -1, 0, '' ),
+						'al_layout_type!'             => 'slider',
+						'al_content_pagging_display!' => 'yes',
 					),
 				)
 			);
@@ -590,7 +465,7 @@ class Product_Grid_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'al_layout_settings',
 			array(
-				'label' => esc_html__( 'Disposition', 'eac-components' ),
+				'label' => esc_html__( 'Layout', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -602,35 +477,95 @@ class Product_Grid_Widget extends Widget_Base {
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'masonry',
 					'options' => array(
-						'masonry'     => esc_html__( 'Mosaïque', 'eac-components' ),
-						'equalHeight' => esc_html__( 'Grille', 'eac-components' ),
+						'masonry'     => esc_html__( 'Masonry', 'eac-components' ),
+						'equalHeight' => esc_html__( 'Grid', 'eac-components' ),
 						'slider'      => esc_html( 'Slider' ),
+					),
+					'assets' => array(
+						'styles' => array(
+							array(
+								'name' => 'swiper-bundle',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'al_layout_type',
+											'operator' => '===',
+											'value'    => 'slider',
+										),
+									),
+								),
+							),
+							array(
+								'name' => 'eac-swiper',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'al_layout_type',
+											'operator' => '===',
+											'value'    => 'slider',
+										),
+									),
+								),
+							),
+						),
+						'scripts' => array(
+							array(
+								'name' => 'swiper-bundle',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'al_layout_type',
+											'operator' => '===',
+											'value'    => 'slider',
+										),
+									),
+								),
+							),
+							array(
+								'name' => 'isotope',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'al_layout_type',
+											'operator' => 'in',
+											'value'    => array( 'equalHeight', 'masonry' ),
+										),
+									),
+								),
+							),
+							array(
+								'name' => 'fit-rows',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'al_layout_type',
+											'operator' => 'in',
+											'value'    => array( 'equalHeight', 'masonry' ),
+										),
+									),
+								),
+							),
+							array(
+								'name' => 'infinite-scroll',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'al_layout_type',
+											'operator' => 'in',
+											'value'    => array( 'equalHeight', 'masonry' ),
+										),
+									),
+								),
+							),
+						),
 					),
 				)
 			);
 
-			// Add default values for all active breakpoints.
-			$columns_device_args = array();
-		foreach ( $active_breakpoints as $breakpoint_name => $breakpoint_instance ) {
-			if ( Breakpoints_manager::BREAKPOINT_KEY_WIDESCREEN === $breakpoint_name ) {
-				$columns_device_args[ $breakpoint_name ] = array( 'default' => '4' );
-			} elseif ( Breakpoints_manager::BREAKPOINT_KEY_LAPTOP === $breakpoint_name ) {
-				$columns_device_args[ $breakpoint_name ] = array( 'default' => '4' );
-			} elseif ( Breakpoints_manager::BREAKPOINT_KEY_TABLET_EXTRA === $breakpoint_name ) {
-					$columns_device_args[ $breakpoint_name ] = array( 'default' => '3' );
-			} elseif ( Breakpoints_manager::BREAKPOINT_KEY_TABLET === $breakpoint_name ) {
-					$columns_device_args[ $breakpoint_name ] = array( 'default' => '3' );
-			} elseif ( Breakpoints_manager::BREAKPOINT_KEY_MOBILE_EXTRA === $breakpoint_name ) {
-				$columns_device_args[ $breakpoint_name ] = array( 'default' => '2' );
-			} elseif ( Breakpoints_manager::BREAKPOINT_KEY_MOBILE === $breakpoint_name ) {
-				$columns_device_args[ $breakpoint_name ] = array( 'default' => '1' );
-			}
-		}
-
 			$this->add_responsive_control(
 				'al_columns',
 				array(
-					'label'        => esc_html__( 'Nombre de colonnes', 'eac-components' ),
+					'label'        => esc_html__( 'Columns count', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
 					'default'      => '3',
 					'device_args'  => $columns_device_args,
@@ -651,15 +586,15 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_enable_animation',
 				array(
-					'label'     => esc_html( 'Animation' ),
+					'label'     => esc_html__( 'Animation', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -672,7 +607,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_layout_image',
 				array(
-					'label'     => esc_html__( "Disposition de l'image", 'eac-components' ),
+					'label'     => esc_html__( 'Image layout', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -682,7 +617,7 @@ class Product_Grid_Widget extends Widget_Base {
 				Group_Control_Image_Size::get_type(),
 				array(
 					'name'    => 'al_image_dimension',
-					'label'   => esc_html__( 'Dimension', 'eac-components' ),
+					'label'   => esc_html__( 'Size', 'eac-components' ),
 					'default' => 'medium',
 					'exclude' => array( 'custom' ),
 				)
@@ -695,11 +630,11 @@ class Product_Grid_Widget extends Widget_Base {
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -711,15 +646,15 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_enable_image_ratio',
 				array(
-					'label'        => esc_html__( 'Activer le ratio image', 'eac-components' ),
+					'label'        => esc_html__( 'Enable image ratio', 'eac-components' ),
 					'type'         => Controls_Manager::CHOOSE,
 					'options'      => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -734,13 +669,13 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'al_image_ratio',
 				array(
-					'label'       => esc_html__( 'Ratio', 'eac-components' ),
+					'label'       => esc_html( 'Ratio' ),
 					'type'           => Controls_Manager::SELECT,
 					'default'        => '1 / 1',
 					'tablet_default' => '1 / 1',
 					'mobile_default' => '9 / 16',
 					'options'        => array(
-						'1 / 1'  => esc_html__( 'Défaut', 'eac-components' ),
+						'1 / 1'  => esc_html__( 'Default', 'eac-components' ),
 						'9 / 16' => esc_html( '9-16' ),
 						'4 / 3'  => esc_html( '4-3' ),
 						'3 / 2'  => esc_html( '3-2' ),
@@ -759,7 +694,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'al_image_ratio_position_y',
 				array(
-					'label'      => esc_html__( 'Position verticale', 'eac-components' ),
+					'label'      => esc_html__( 'Vertical position', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( '%' ),
 					'default'    => array(
@@ -784,7 +719,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_layout_content',
 				array(
-					'label'     => esc_html__( 'Disposition du contenu', 'eac-components' ),
+					'label'     => esc_html__( 'Content layout', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -793,7 +728,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_layout_side_by_side',
 				array(
-					'label'     => esc_html__( 'Côte à côte', 'eac-components' ),
+					'label'     => esc_html__( 'Side by side', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 				)
 			);
@@ -801,11 +736,11 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_layout_texte',
 				array(
-					'label'        => esc_html__( 'Droite', 'eac-components' ),
+					'label'        => esc_html__( 'Right', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'description'  => esc_html__( 'Image à gauche Contenu à droite', 'eac-components' ),
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'description'  => esc_html__( 'Image on the left Content on the right', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'render_type'  => 'template',
@@ -817,11 +752,11 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_layout_texte_left',
 				array(
-					'label'        => esc_html__( 'Gauche', 'eac-components' ),
+					'label'        => esc_html__( 'Left', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'description'  => esc_html__( 'Contenu à gauche Image à droite', 'eac-components' ),
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'description'  => esc_html__( 'Content on the left Image on the right', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'render_type'  => 'template',
@@ -833,7 +768,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'al_image_width',
 				array(
-					'label'          => esc_html__( "Largeur de l'image (%)", 'eac-components' ),
+					'label'          => esc_html__( 'Image width (%)', 'eac-components' ),
 					'type'           => Controls_Manager::SLIDER,
 					'size_units'     => array( '%' ),
 					'default'        => array(
@@ -878,7 +813,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_layout_content_alignment',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -891,27 +826,27 @@ class Product_Grid_Widget extends Widget_Base {
 					'type'        => Controls_Manager::CHOOSE,
 					'options'     => array(
 						'flex-start'    => array(
-							'title' => esc_html__( 'Haut', 'eac-components' ),
+							'title' => esc_html__( 'Top', 'eac-components' ),
 							'icon'  => 'eicon-justify-start-v',
 						),
 						'center'        => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-justify-center-v',
 						),
 						'flex-end'      => array(
-							'title' => esc_html__( 'Bas', 'eac-components' ),
+							'title' => esc_html__( 'Bottom', 'eac-components' ),
 							'icon'  => 'eicon-justify-end-v',
 						),
 						'space-between' => array(
-							'title' => esc_html__( 'Espace entre', 'eac-components' ),
+							'title' => esc_html__( 'Space between', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-between-v',
 						),
 						'space-around'  => array(
-							'title' => esc_html__( 'Espace autour', 'eac-components' ),
+							'title' => esc_html__( 'Space around', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-around-v',
 						),
 						'space-evenly'  => array(
-							'title' => esc_html__( 'Espace uniforme', 'eac-components' ),
+							'title' => esc_html__( 'Space evenly', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-evenly-v',
 						),
 					),
@@ -931,15 +866,15 @@ class Product_Grid_Widget extends Widget_Base {
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'flex-start' => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center'     => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'flex-end'   => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -976,7 +911,7 @@ class Product_Grid_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'al_product_content',
 			array(
-				'label' => esc_html__( 'Contenu', 'eac-components' ),
+				'label' => esc_html__( 'Content', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -984,7 +919,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_filter_heading',
 				array(
-					'label'     => esc_html__( 'Filtres', 'eac-components' ),
+					'label'     => esc_html__( 'Filter', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'conditions' => array(
 						'relation' => 'and',
@@ -1017,10 +952,10 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_filter',
 				array(
-					'label'        => esc_html__( 'Filtres', 'eac-components' ),
+					'label'        => esc_html__( 'Filter', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 					'conditions' => array(
@@ -1054,19 +989,19 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_filter_align',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'left'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'right'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -1126,14 +1061,14 @@ class Product_Grid_Widget extends Widget_Base {
 				$this->start_controls_tab(
 					'al_content_product',
 					array(
-						'label' => '<span class="eicon eicon-products-archive" title="Product"></span>',
+						'label' => sprintf( '<span class="eicon eicon-products-archive" title="%s"></span>', esc_html__( 'Product', 'eac-components' ) ),
 					)
 				);
 
 					$this->add_control(
 						'al_product_heading',
 						array(
-							'label' => esc_html__( 'Produit', 'eac-components' ),
+							'label' => esc_html__( 'Product', 'eac-components' ),
 							'type'  => Controls_Manager::HEADING,
 						)
 					);
@@ -1141,10 +1076,10 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'al_title',
 						array(
-							'label'        => esc_html__( 'Titre', 'eac-components' ),
+							'label'        => esc_html__( 'Title', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => 'yes',
 						)
@@ -1153,11 +1088,10 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'al_title_tag',
 						array(
-							'label'   => esc_html__( 'Étiquette du titre', 'eac-components' ),
+							'label'   => esc_html__( 'Title tag', 'eac-components' ),
 							'type'    => Controls_Manager::SELECT,
 							'default' => 'h2',
 							'options' => array(
-								'h1'   => 'H1',
 								'h2'   => 'H2',
 								'h3'   => 'H3',
 								'h4'   => 'H4',
@@ -1175,8 +1109,8 @@ class Product_Grid_Widget extends Widget_Base {
 						array(
 							'label'        => esc_html__( 'Description', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => 'yes',
 						)
@@ -1185,9 +1119,9 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'al_excerpt_length',
 						array(
-							'label'   => esc_html__( 'Nombre de mots', 'eac-components' ),
+							'label'   => esc_html__( 'Number of words', 'eac-components' ),
 							'type'    => Controls_Manager::NUMBER,
-							'min'     => 3,
+							'min'     => 0,
 							'max'     => 100,
 							'step'    => 5,
 							'default' => 25,
@@ -1198,10 +1132,10 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'al_reviews',
 						array(
-							'label'        => esc_html__( 'Avis', 'eac-components' ),
+							'label'        => esc_html__( 'Reviews', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => '',
 						)
@@ -1210,14 +1144,14 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'al_reviews_format',
 						array(
-							'label'     => esc_html__( 'Format avis', 'eac-components' ),
+							'label'     => esc_html__( 'Review format', 'eac-components' ),
 							'type'      => Controls_Manager::SELECT,
 							'options'   => array(
-								'average_rating'    => esc_html__( 'Moyenne des notes', 'eac-components' ),  // Average rating
-								'average_html'      => esc_html__( 'Moyenne HTML', 'eac-components' ),
-								'average_html_long' => esc_html__( 'Moyenne HTML + Avis', 'eac-components' ),
-								'rating_count'      => esc_html__( 'Nombre de notes', 'eac-components' ),      // Rating count
-								'review_count'      => esc_html__( "Nombre d'avis", 'eac-components' ),        // Review count
+								'average_rating'    => esc_html__( 'Average notes', 'eac-components' ),  // Average rating
+								'average_html'      => esc_html__( 'Average HTML', 'eac-components' ),
+								'average_html_long' => esc_html__( 'Average HTML + Reviews', 'eac-components' ),
+								'rating_count'      => esc_html__( 'Number of notes', 'eac-components' ),      // Rating count
+								'review_count'      => esc_html__( 'Review count', 'eac-components' ),        // Review count
 							),
 							'default'   => 'average_rating',
 							'condition' => array( 'al_reviews' => 'yes' ),
@@ -1227,10 +1161,10 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'al_prices',
 						array(
-							'label'        => esc_html__( 'Prix', 'eac-components' ),
+							'label'        => esc_html__( 'Price', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => 'yes',
 						)
@@ -1239,13 +1173,13 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'al_prices_format',
 						array(
-							'label'     => esc_html__( 'Format prix', 'eac-components' ),
+							'label'     => esc_html__( 'Price format', 'eac-components' ),
 							'type'      => Controls_Manager::SELECT,
 							'options'   => array(
-								'regular' => esc_html__( 'Régulier', 'eac-components' ),
-								'promo'   => esc_html__( 'Promotion', 'eac-components' ),
-								'both'    => esc_html__( 'Les deux', 'eac-components' ),
-								'dateto'  => esc_html__( 'Date de fin de promo', 'eac-components' ),
+								'regular' => esc_html__( 'Regular', 'eac-components' ),
+								'promo'   => esc_html__( 'Sale', 'eac-components' ),
+								'both'    => esc_html__( 'Both', 'eac-components' ),
+								'dateto'  => esc_html__( 'Sale end date', 'eac-components' ),
 							),
 							'default'   => 'regular',
 							'condition' => array(
@@ -1259,8 +1193,8 @@ class Product_Grid_Widget extends Widget_Base {
 						array(
 							'label'        => esc_html__( 'Stock', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => '',
 							'condition'    => array( 'shop_is_a_catalog' => false ),
@@ -1270,15 +1204,15 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'al_stock_format',
 						array(
-							'label'     => esc_html__( 'Format stock', 'eac-components' ),
+							'label'     => esc_html__( 'Stock format', 'eac-components' ),
 							'type'      => Controls_Manager::CHOOSE,
 							'options'   => array(
 								'yes' => array(
-									'title' => esc_html__( 'Afficher', 'eac-components' ),
+									'title' => esc_html__( 'Display', 'eac-components' ),
 									'icon'  => 'eicon-check',
 								),
 								'no'  => array(
-									'title' => esc_html__( 'Cacher', 'eac-components' ),
+									'title' => esc_html__( 'Hide', 'eac-components' ),
 									'icon'  => 'eicon-ban',
 								),
 							),
@@ -1294,10 +1228,10 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'al_quantity_sold',
 						array(
-							'label'        => esc_html__( 'Quantité vendue', 'eac-components' ),
+							'label'        => esc_html__( 'Quantity sold', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => '',
 							'condition'    => array( 'shop_is_a_catalog' => false ),
@@ -1307,12 +1241,12 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'al_quantity_sold_fallback',
 						array(
-							'label'       => esc_html__( 'Texte alternatif', 'eac-components' ),
+							'label'       => esc_html__( 'Alternate text', 'eac-components' ),
 							'type'        => Controls_Manager::TEXT,
 							'dynamic'     => array( 'active' => true ),
 							'ai'          => array( 'active' => false ),
-							'description' => esc_html__( 'Si la quantité est égale à zero', 'eac-components' ),
-							'placeholder' => esc_html__( 'Soyez le premier à acheter ce produit', 'eac-components' ),
+							'description' => esc_html__( 'If quantity is zero', 'eac-components' ),
+							'placeholder' => esc_html__( 'Be the first to buy this product', 'eac-components' ),
 							'label_block' => true,
 							'condition'   => array(
 								'al_quantity_sold'  => 'yes',
@@ -1333,7 +1267,7 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'al_terms_heading',
 						array(
-							'label' => esc_html__( 'Metas', 'eac-components' ),
+							'label' => esc_html( 'Metas' ),
 							'type'  => Controls_Manager::HEADING,
 						)
 					);
@@ -1341,10 +1275,10 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'al_term',
 						array(
-							'label'        => esc_html__( 'Étiquettes', 'eac-components' ),
+							'label'        => esc_html__( 'Tags', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => '',
 						)
@@ -1353,22 +1287,33 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'al_author',
 						array(
-							'label'        => esc_html__( 'Auteur', 'eac-components' ),
+							'label'        => esc_html__( 'Author', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => '',
 						)
 					);
 
 					$this->add_control(
+						'al_author_alert',
+						array(
+							'type'       => Controls_Manager::ALERT,
+							'alert_type' => 'warning',
+							'heading'    => esc_html__( 'Security Alert', 'eac-components' ),
+							'content'    => esc_html__( 'It is not recommended to expose the name (nickname) of your users, as this can facilitate targeting by malicious individuals, increasing the risk of intrusion attempts.', 'eac-components' ),
+							'condition'  => array( 'al_author' => 'yes' ),
+						)
+					);
+
+					$this->add_control(
 						'al_avatar',
 						array(
-							'label'        => esc_html__( 'Avatar auteur', 'eac-components' ),
+							'label'        => esc_html__( 'Author avatar', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => '',
 						)
@@ -1379,8 +1324,8 @@ class Product_Grid_Widget extends Widget_Base {
 						array(
 							'label'        => esc_html__( 'Date', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => '',
 						)
@@ -1391,7 +1336,7 @@ class Product_Grid_Widget extends Widget_Base {
 				$this->start_controls_tab(
 					'al_content_badges',
 					array(
-						'label'     => '<span class="eicon eicon-product-info" data-tooltip="Badges" title="Badges"></span>',
+						'label'     => sprintf( '<span class="eicon eicon-product-info" title="%s"></span>', esc_html__( 'Badges', 'eac-components' ) ),
 						'condition' => array( 'shop_is_a_catalog' => false ),
 					)
 				);
@@ -1407,10 +1352,10 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'promo_activate',
 						array(
-							'label'        => esc_html__( 'Badge promotion', 'eac-components' ),
+							'label'        => esc_html__( 'Badge sale', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => '',
 							'prefix_class' => 'badge-sale-',
@@ -1424,8 +1369,8 @@ class Product_Grid_Widget extends Widget_Base {
 						array(
 							'label'        => esc_html__( 'Badge stock', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => '',
 							'prefix_class' => 'badge-stock-',
@@ -1437,10 +1382,10 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'new_activate',
 						array(
-							'label'        => esc_html__( 'Badge nouveau produit', 'eac-components' ),
+							'label'        => esc_html__( 'Badge new product', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => '',
 							'prefix_class' => 'badge-new-',
@@ -1452,11 +1397,11 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'cart_quantity_activate',
 						array(
-							'label'        => esc_html__( 'Badge quantité dans le panier', 'eac-components' ),
-							'description'  => esc_html__( "Ajoute au bouton 'Ajouter au panier' un badge indiquant la quantité du produit dans le panier", 'eac-components' ),
+							'label'        => esc_html__( 'Badge quantity in cart', 'eac-components' ),
+							'description'  => esc_html__( "Adds to the 'Add to cart' button a badge indicating the quantity of the product in the cart", 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => '',
 							'prefix_class' => 'badge-cart-quantity-',
@@ -1473,14 +1418,14 @@ class Product_Grid_Widget extends Widget_Base {
 				$this->start_controls_tab(
 					'al_content_buttons',
 					array(
-						'label' => '<span class="eicon eicon-button" title="Buttons"></span>',
+						'label' => sprintf( '<span class="eicon eicon-button" title="%s"></span>', esc_html__( 'Buttons', 'eac-components' ) ),
 					)
 				);
 
 					$this->add_control(
 						'al_buttons_heading',
 						array(
-							'label' => esc_html__( 'Boutons', 'eac-components' ),
+							'label' => esc_html__( 'Buttons', 'eac-components' ),
 							'type'  => Controls_Manager::HEADING,
 						)
 					);
@@ -1488,10 +1433,10 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'button_more',
 						array(
-							'label'        => esc_html__( 'En savoir plus', 'eac-components' ),
+							'label'        => esc_html__( 'View product', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => 'yes',
 						)
@@ -1500,10 +1445,10 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'button_cart',
 						array(
-							'label'        => esc_html__( 'Ajouter au panier', 'eac-components' ),
+							'label'        => esc_html__( 'Add to cart', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => 'yes',
 							'condition'    => array( 'shop_is_a_catalog' => false ),
@@ -1515,14 +1460,14 @@ class Product_Grid_Widget extends Widget_Base {
 				$this->start_controls_tab(
 					'al_content_links',
 					array(
-						'label' => '<span class="eicon eicon-link tooltip-target" data-tooltip="Links" title="Links"></span>',
+						'label' => sprintf( '<span class="eicon eicon-link" title="%s"></span>', esc_html__( 'Link', 'eac-components' ) ),
 					)
 				);
 
 					$this->add_control(
 						'al_links_heading',
 						array(
-							'label' => esc_html__( 'Liens', 'eac-components' ),
+							'label' => esc_html__( 'Link', 'eac-components' ),
 							'type'  => Controls_Manager::HEADING,
 						)
 					);
@@ -1530,10 +1475,10 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'al_title_link',
 						array(
-							'label'        => esc_html__( 'Lien de la page produit sur le titre', 'eac-components' ),
+							'label'        => esc_html__( 'Product page link on title', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => '',
 							'condition'    => array( 'al_title' => 'yes' ),
@@ -1543,10 +1488,10 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'al_image_link',
 						array(
-							'label'        => esc_html__( "Lien de la page produit sur l'image", 'eac-components' ),
+							'label'        => esc_html__( 'Product page link on image', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => '',
 							'condition'    => array( 'al_lightbox!' => 'yes' ),
@@ -1556,22 +1501,22 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'al_article_link',
 						array(
-							'label'        => esc_html__( 'Appliquer le lien globalement', 'eac-components' ),
-							'description'  => esc_html__( 'Le lien enveloppe chaque item', 'eac-components' ),
+							'label'        => esc_html__( 'Enable the link globally', 'eac-components' ),
+							'description'  => esc_html__( 'The link wraps each item', 'eac-components' ),
 							'type'      => Controls_Manager::CHOOSE,
 							'options'   => array(
 								'yes' => array(
-									'title' => esc_html__( 'Oui', 'eac-components' ),
+									'title' => esc_html__( 'Yes', 'eac-components' ),
 									'icon'  => 'eicon-check',
 								),
 								'no'  => array(
-									'title' => esc_html__( 'Non', 'eac-components' ),
+									'title' => esc_html__( 'No', 'eac-components' ),
 									'icon'  => 'eicon-ban',
 								),
 							),
 							'default'   => 'no',
 							'toggle'    => false,
-							'conditions'   => array(
+							'conditions' => array(
 								'relation' => 'or',
 								'terms'    => array(
 									array(
@@ -1580,9 +1525,19 @@ class Product_Grid_Widget extends Widget_Base {
 										'value'    => 'yes',
 									),
 									array(
-										'name'     => 'al_title_link',
-										'operator' => '===',
-										'value'    => 'yes',
+										'relation' => 'and',
+										'terms'    => array(
+											array(
+												'name'     => 'al_title',
+												'operator' => '===',
+												'value'    => 'yes',
+											),
+											array(
+												'name'     => 'al_title_link',
+												'operator' => '===',
+												'value'    => 'yes',
+											),
+										),
 									),
 									array(
 										'name'     => 'al_image_link',
@@ -1597,10 +1552,10 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'al_lightbox',
 						array(
-							'label'        => esc_html__( "Visionneuse sur l'image", 'eac-components' ),
+							'label'        => esc_html__( 'Lightbox on image', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => '',
 							'condition'    => array(
@@ -1613,11 +1568,11 @@ class Product_Grid_Widget extends Widget_Base {
 					$this->add_control(
 						'al_avatar_link',
 						array(
-							'label'        => esc_html__( "Lien sur l'avatar", 'eac-components' ),
-							'description'  => esc_html__( "Archives de l'auteur", 'eac-components' ),
+							'label'        => esc_html__( 'Link on avatar', 'eac-components' ),
+							'description'  => esc_html__( 'Author archives', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+							'label_off'    => esc_html__( 'No', 'eac-components' ),
 							'return_value' => 'yes',
 							'default'      => '',
 							'condition'    => array( 'al_avatar' => 'yes' ),
@@ -1633,7 +1588,7 @@ class Product_Grid_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'al_pagination_settings',
 			array(
-				'label'     => esc_html__( 'Bouton pagination', 'eac-components' ),
+				'label'     => esc_html__( 'Button Pagination', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_CONTENT,
 				'condition' => array( 'al_content_pagging_display' => 'yes' ),
 			)
@@ -1647,7 +1602,7 @@ class Product_Grid_Widget extends Widget_Base {
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
 					'label_block' => true,
-					'default'     => esc_html__( 'Plus de produits', 'eac-components' ),
+					'default'     => esc_html__( 'More products', 'eac-components' ),
 				)
 			);
 
@@ -1656,7 +1611,7 @@ class Product_Grid_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'al_more_settings',
 			array(
-				'label'     => esc_html__( "Bouton 'En savoir plus'", 'eac-components' ),
+				'label'     => esc_html__( 'Button View product', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_CONTENT,
 				'condition' => array( 'button_more' => 'yes' ),
 			)
@@ -1670,7 +1625,7 @@ class Product_Grid_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'al_cart_settings',
 			array(
-				'label'     => esc_html__( "Bouton 'Ajouter au panier'", 'eac-components' ),
+				'label'     => esc_html__( 'Button Add to cart', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_CONTENT,
 				'condition' => array(
 					'button_cart'       => 'yes',
@@ -1687,7 +1642,7 @@ class Product_Grid_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'al_badge_promo_settings',
 			array(
-				'label'     => esc_html__( 'Badge promotion', 'eac-components' ),
+				'label'     => esc_html__( 'Badge sale', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_CONTENT,
 				'condition' => array(
 					'promo_activate'    => 'yes',
@@ -1721,7 +1676,7 @@ class Product_Grid_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'al_badge_cart_quantity_settings',
 			array(
-				'label'     => esc_html__( 'Badge quantité du panier', 'eac-components' ),
+				'label'     => esc_html__( 'Badge cart quantity', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_CONTENT,
 				'condition' => array(
 					'cart_quantity_activate' => 'yes',
@@ -1740,11 +1695,11 @@ class Product_Grid_Widget extends Widget_Base {
 					'type'         => Controls_Manager::CHOOSE,
 					'options'      => array(
 						'left'  => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-order-{$order_start}",
 						),
 						'right' => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-order-{$order_end}",
 						),
 					),
@@ -1759,7 +1714,7 @@ class Product_Grid_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'al_badge_new_settings',
 			array(
-				'label'     => esc_html__( 'Badge nouveau produit', 'eac-components' ),
+				'label'     => esc_html__( 'Badge new product', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_CONTENT,
 				'condition' => array(
 					'new_activate'      => 'yes',
@@ -1779,7 +1734,7 @@ class Product_Grid_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'al_general_style',
 			array(
-				'label' => esc_html__( 'Général', 'eac-components' ),
+				'label' => esc_html__( 'General', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1788,7 +1743,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_container_style',
 				array(
-					'label'     => esc_html__( 'Conteneur', 'eac-components' ),
+					'label'     => esc_html__( 'Container', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 				)
 			);
@@ -1796,7 +1751,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_wrapper_bg_color',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'selectors' => array( '{{WRAPPER}} .swiper .swiper-slide, {{WRAPPER}} .al-posts__wrapper' => 'background-color: {{VALUE}};' ),
@@ -1807,7 +1762,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_items_style',
 				array(
-					'label'     => esc_html__( 'Produit', 'eac-components' ),
+					'label'     => esc_html__( 'Product', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -1818,9 +1773,9 @@ class Product_Grid_Widget extends Widget_Base {
 				array(
 					'label'        => esc_html__( 'Style', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
-					'default'      => 'style-1',
+					'default'      => 'style-0',
 					'options'      => array(
-						'style-0'  => esc_html__( 'Défaut', 'eac-components' ),
+						'style-0'  => esc_html__( 'Default', 'eac-components' ),
 						'style-1'  => 'Style 1',
 						'style-2'  => 'Style 2',
 						'style-3'  => 'Style 3',
@@ -1838,7 +1793,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'al_wrapper_margin',
 				array(
-					'label'      => esc_html__( 'Marge entre les items', 'eac-components' ),
+					'label'      => esc_html__( 'Margin between items', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( 'px' ),
 					'default'    => array(
@@ -1848,12 +1803,13 @@ class Product_Grid_Widget extends Widget_Base {
 					'range'      => array(
 						'px' => array(
 							'min'  => 0,
-							'max'  => 50,
-							'step' => 1,
+							'max'  => 150,
+							'step' => 10,
 						),
 					),
 					'selectors'  => array(
-						'{{WRAPPER}} .al-post__inner-wrapper' => 'block-size: calc(100% - {{SIZE}}{{UNIT}}); margin-block: calc({{SIZE}}{{UNIT}} / 2); margin-inline: calc({{SIZE}}{{UNIT}} / 2);',
+						'{{WRAPPER}} .al-post__inner-wrapper' => 'block-size: calc(100% - {{SIZE}}px); margin: calc({{SIZE}}px / 2);',
+						'(mobile) {{WRAPPER}} .al-post__inner-wrapper' => 'margin-block: 0 {{SIZE}}px !important; margin-inline: 0 !important;',
 					),
 				)
 			);
@@ -1861,7 +1817,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_items_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'selectors' => array( '{{WRAPPER}} .al-post__inner-wrapper' => 'background-color: {{VALUE}};' ),
@@ -1880,7 +1836,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_wrapper_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -1903,7 +1859,7 @@ class Product_Grid_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'      => 'al_wrapper_shadow',
-					'label'     => esc_html__( 'Ombre', 'eac-components' ),
+					'label'     => esc_html__( 'Shadow', 'eac-components' ),
 					'selector'  => '{{WRAPPER}} .al-post__inner-wrapper',
 					'condition' => array( 'al_wrapper_style' => 'style-0' ),
 				)
@@ -1913,7 +1869,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_filter_style',
 				array(
-					'label'     => esc_html__( 'Filtre', 'eac-components' ),
+					'label'     => esc_html__( 'Filter', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array(
 						'al_filter'       => 'yes',
@@ -1926,7 +1882,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_filter_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array(
@@ -1943,7 +1899,7 @@ class Product_Grid_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'al_filter_typography',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'selector'  => '{{WRAPPER}} .al-filters__wrapper .al-filters__item a',
 					'condition' => array(
@@ -1956,7 +1912,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_filter_background',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'selectors' => array( '{{WRAPPER}} .al-filters__wrapper .al-filters__item a' => 'background-color: {{VALUE}};' ),
@@ -1970,7 +1926,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_filter_outline',
 				array(
-					'label'     => esc_html__( 'Couleur du filtre sélectionné', 'eac-components' ),
+					'label'     => esc_html__( 'Color of selected filter', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'selectors' => array(
@@ -1987,7 +1943,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'al_filter_padding',
 				array(
-					'label'     => esc_html__( 'Marges internes', 'eac-components' ),
+					'label'     => esc_html__( 'Padding', 'eac-components' ),
 					'type'      => Controls_Manager::DIMENSIONS,
 					'selectors' => array(
 						'{{WRAPPER}} .al-filters__wrapper .al-filters__item a' => 'padding-block: {{TOP}}{{UNIT}} {{BOTTOM}}{{UNIT}}; padding-inline: {{LEFT}}{{UNIT}} {{RIGHT}}{{UNIT}};',
@@ -2014,7 +1970,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_filter_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -2049,7 +2005,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_image_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -2071,7 +2027,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_title_style',
 				array(
-					'label'     => esc_html__( 'Titre', 'eac-components' ),
+					'label'     => esc_html__( 'Title', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array( 'al_title' => 'yes' ),
 					'separator' => 'before',
@@ -2081,7 +2037,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_title_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .al-post__content-title, {{WRAPPER}} .al-post__content-title a' => 'color: {{VALUE}};' ),
@@ -2093,7 +2049,7 @@ class Product_Grid_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'al_title_typo',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'global'   => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'selector' => '{{WRAPPER}} .al-post__content-title',
 					'condition' => array( 'al_title' => 'yes' ),
@@ -2114,7 +2070,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_excerpt_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_TEXT ),
 					'selectors' => array( '{{WRAPPER}} .shop-product__excerpt-wrapper' => 'color: {{VALUE}};' ),
@@ -2126,7 +2082,7 @@ class Product_Grid_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'al_excerpt_typo',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_TEXT ),
 					'selector'  => '{{WRAPPER}} .shop-product__excerpt-wrapper',
 					'condition' => array( 'al_excerpt' => 'yes' ),
@@ -2137,7 +2093,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_reviews_style',
 				array(
-					'label'     => esc_html__( 'Avis', 'eac-components' ),
+					'label'     => esc_html__( 'Reviews', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array( 'al_reviews' => 'yes' ),
 					'separator' => 'before',
@@ -2147,7 +2103,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_reviews_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'selectors' => array(
@@ -2164,7 +2120,7 @@ class Product_Grid_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'al_reviews_typo',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_SECONDARY ),
 					'selector'  => '{{WRAPPER}} .shop-product__notes-wrapper,
 						{{WRAPPER}} .al_post_customer-review,
@@ -2177,7 +2133,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_prices_style',
 				array(
-					'label'     => esc_html__( 'Prix', 'eac-components' ),
+					'label'     => esc_html__( 'Price', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array(
@@ -2189,7 +2145,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_prices_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'selectors' => array( '{{WRAPPER}} .shop-product__prices-wrapper' => 'color: {{VALUE}};' ),
@@ -2203,7 +2159,7 @@ class Product_Grid_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'al_prices_typo',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_SECONDARY ),
 					'selector'  => '{{WRAPPER}} .shop-product__prices-wrapper',
 					'condition' => array(
@@ -2229,7 +2185,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_stock_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'selectors' => array( '{{WRAPPER}} .shop-product__stock-wrapper' => 'color: {{VALUE}};' ),
@@ -2244,7 +2200,7 @@ class Product_Grid_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'al_stock_typo',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_SECONDARY ),
 					'selector'  => '{{WRAPPER}} .shop-product__stock-wrapper',
 					'condition' => array(
@@ -2258,7 +2214,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_sold_style',
 				array(
-					'label'     => esc_html__( 'Vendu', 'eac-components' ),
+					'label'     => esc_html__( 'Sold', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array(
@@ -2271,7 +2227,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_sold_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'selectors' => array( '{{WRAPPER}} .shop-product__sold-wrapper' => 'color: {{VALUE}};' ),
@@ -2286,7 +2242,7 @@ class Product_Grid_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'al_sold_typo',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_SECONDARY ),
 					'selector'  => '{{WRAPPER}} .shop-product__sold-wrapper',
 					'condition' => array(
@@ -2300,7 +2256,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_avatar_style',
 				array(
-					'label'     => esc_html__( 'Avatar', 'eac-components' ),
+					'label'     => esc_html( 'Avatar' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array( 'al_avatar' => 'yes' ),
 					'separator' => 'before',
@@ -2310,7 +2266,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_avatar_size',
 				array(
-					'label'       => esc_html__( 'Dimension', 'eac-components' ),
+					'label'       => esc_html__( 'Size', 'eac-components' ),
 					'type'        => Controls_Manager::NUMBER,
 					'min'         => 40,
 					'max'         => 150,
@@ -2332,7 +2288,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_avatar_border_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -2347,17 +2303,17 @@ class Product_Grid_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'      => 'al_avatar_box_shadow',
-					'label'     => esc_html__( 'Ombre', 'eac-components' ),
+					'label'     => esc_html__( 'Shadow', 'eac-components' ),
 					'selector'  => '{{WRAPPER}} .al-post__avatar-wrapper',
 					'condition' => array( 'al_avatar' => 'yes' ),
 				)
 			);
 
-			/** Balises meta */
+			/** Meta tags */
 			$this->add_control(
 				'al_metas_style',
 				array(
-					'label'      => esc_html__( 'Balises meta', 'eac-components' ),
+					'label'      => esc_html__( 'Meta tags', 'eac-components' ),
 					'type'       => Controls_Manager::HEADING,
 					'conditions' => array(
 						'relation' => 'or',
@@ -2408,7 +2364,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_metas_color',
 				array(
-					'label'      => esc_html__( 'Couleur', 'eac-components' ),
+					'label'      => esc_html__( 'Color', 'eac-components' ),
 					'type'       => Controls_Manager::COLOR,
 					'global'     => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'conditions' => array(
@@ -2465,7 +2421,7 @@ class Product_Grid_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'       => 'al_metas_typo',
-					'label'      => esc_html__( 'Typographie', 'eac-components' ),
+					'label'      => esc_html__( 'Typography', 'eac-components' ),
 					'global'     => array( 'default' => Global_Typography::TYPOGRAPHY_SECONDARY ),
 					'conditions' => array(
 						'relation' => 'or',
@@ -2528,7 +2484,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_navigation_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .al-post__navigation .page-numbers:not(.current)' => 'color: {{VALUE}};' ),
@@ -2539,7 +2495,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_navigation_color_current',
 				array(
-					'label'     => esc_html__( 'Couleur nombre page courante', 'eac-components' ),
+					'label'     => esc_html__( 'Color number current page', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .al-post__navigation .page-numbers.current' => 'color: {{VALUE}};' ),
@@ -2551,7 +2507,7 @@ class Product_Grid_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'al_navigation_typography',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'selector'  => '{{WRAPPER}} .al-post__navigation',
 					'condition' => array( 'al_content_nav_display' => 'yes' ),
@@ -2570,7 +2526,7 @@ class Product_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_navigation_radius',
 				array(
-					'label'      => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'      => esc_html__( 'Border radius', 'eac-components' ),
 					'type'       => Controls_Manager::DIMENSIONS,
 					'size_units' => array( 'px', '%' ),
 					'selectors'  => array(
@@ -2585,7 +2541,7 @@ class Product_Grid_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'al_slider_section_style',
 			array(
-				'label'      => esc_html__( 'Contrôles du slider', 'eac-components' ),
+				'label'      => esc_html__( 'Slider controls', 'eac-components' ),
 				'tab'        => Controls_Manager::TAB_STYLE,
 				'conditions' => array(
 					'relation' => 'or',
@@ -2631,7 +2587,7 @@ class Product_Grid_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'al_more_style',
 			array(
-				'label'     => esc_html__( "Bouton 'En savoir plus'", 'eac-components' ),
+				'label'     => esc_html__( 'Button View product', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array( 'button_more' => 'yes' ),
 			)
@@ -2645,7 +2601,7 @@ class Product_Grid_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'al_cart_style',
 			array(
-				'label'     => esc_html__( "Bouton 'Ajouter au panier'", 'eac-components' ),
+				'label'     => esc_html__( 'Button Add to cart', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'button_cart'       => 'yes',
@@ -2662,7 +2618,7 @@ class Product_Grid_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'al_badge_promo_style',
 			array(
-				'label'     => esc_html__( 'Badge promotion', 'eac-components' ),
+				'label'     => esc_html__( 'Badge sale', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'promo_activate'    => 'yes',
@@ -2696,7 +2652,7 @@ class Product_Grid_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'al_badge_new_style',
 			array(
-				'label'     => esc_html__( 'Badge nouveau produit', 'eac-components' ),
+				'label'     => esc_html__( 'Badge new product', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'new_activate'      => 'yes',
@@ -2718,7 +2674,7 @@ class Product_Grid_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings       = $this->get_settings_for_display();
 		$id             = 'slider_post_grid_' . $this->get_id();
 		$has_swiper     = 'slider' === $settings['al_layout_type'] ? true : false;
@@ -2739,7 +2695,7 @@ class Product_Grid_Widget extends Widget_Base {
 				<div class='woocommerce-info'><?php echo esc_html( $message ); ?></div>
 			<?php }
 		}
-		$this->render_articles();
+		$this->render_products();
 		if ( $has_navigation ) { ?>
 			<div class='swiper-button-prev'></div>
 			<div class='swiper-button-next'></div>
@@ -2751,7 +2707,7 @@ class Product_Grid_Widget extends Widget_Base {
 			<div class='swiper-pagination-bullet'></div>
 		<?php } ?>
 		<div class='eac-skip-grid' tabindex='0'>
-			<span class='visually-hidden'><?php esc_html_e( 'Sortir de la grille', 'eac-components' ); ?></span>
+			<span class='visually-hidden'><?php esc_html_e( 'Exit grid', 'eac-components' ); ?></span>
 		</div>
 		</div>
 		<?php
@@ -2764,7 +2720,7 @@ class Product_Grid_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render_articles() {
+	protected function render_products(): void {
 		$settings   = $this->get_settings_for_display();
 		$has_swiper = 'slider' === $settings['al_layout_type'] ? true : false;
 		// Affichage du contenu du produit
@@ -2782,7 +2738,7 @@ class Product_Grid_Widget extends Widget_Base {
 		$has_global_link    = isset( $settings['al_article_link'] ) && 'yes' === $settings['al_article_link'] ? true : false;
 		$max_num_pages      = 0;
 
-		$has_resum  = 'yes' === $settings['al_excerpt'] ? true : false;
+		$has_resum                  = 'yes' === $settings['al_excerpt'] ? true : false;
 		$has_promo                  = 'yes' === $settings['promo_activate'] ? true : false;
 		$has_stock_badge_initial    = 'yes' === $settings['stock_activate'] ? true : false;
 		$has_stock_initial          = 'yes' === $settings['al_stock'] ? true : false;
@@ -2802,21 +2758,21 @@ class Product_Grid_Widget extends Widget_Base {
 		$has_more_button_picto = 'yes' === $settings['button_add_more_picto'] && ! empty( $settings['button_more_picto'] ) ? true : false;
 		$has_cart_initial      = ! $is_a_catalog && 'yes' === $settings['button_cart'] ? true : false;
 		$has_cart_button       = 'yes' === $settings['button_add_cart_picto'] && ! empty( $settings['button_cart_picto'] ) ? true : false;
-		$has_cart_quantity     = 'yes' === $settings['cart_quantity_activate'] ? true : false;
 		// Filtre Users. Champ TEXT
 		$has_users        = ! empty( $settings['al_content_user'] ) ? true : false;
 		$user_filters     = esc_html( $settings['al_content_user'] );
 		$has_filters      = ! $has_swiper && isset( $settings['al_filter'] ) && 'yes' === $settings['al_filter'] ? true : false;
 
 		// Filtre Taxonomie. Champ SELECT2
-		$taxonomy_filters = $settings['al_article_taxonomy'];
+		$taxonomy_filter = $settings['al_article_taxonomy'];
+
 		// Filtre Étiquettes, on prélève le slug. Champ SELECT2
-		$term_filters = array();
+		$term_filter = array();
 		// Extrait les slugs du tableau de terms
 		if ( ! empty( $settings['al_article_term'] ) ) {
-			foreach ( $settings['al_article_term'] as $term_filter ) {
-				$term_filters[] = explode( '::', $term_filter )[1];  // Format term::term->slug
-			}
+			$term_filter = array_map( function ( $article_term ) {
+				return \str_contains( $article_term, '::' ) ? explode( '::', $article_term, 2 )[1] : $article_term;
+			}, $settings['al_article_term']);
 		}
 
 		// Pagination/Navigation
@@ -2828,17 +2784,14 @@ class Product_Grid_Widget extends Widget_Base {
 		// Ajoute l'ID de l'article au titre
 		$has_id = 'yes' === $settings['al_article_id'] ? true : false;
 		// Formate les arguments et exécute la requête WP_Query et mets en cache les résultats de la requête
-		$post_args = Eac_Helpers_Util::get_post_args( $settings );
+		$post_args = $this->helper_util->build_post_args( $settings );
 		$the_query = new \WP_Query( $post_args );
-		// La liste des meta_query
-		$meta_query_list = Eac_Helpers_Util::get_meta_query_list( $post_args );
-		$has_meta_query  = ! empty( $meta_query_list ) ? true : false;
 
 		// Wrapper de la liste des posts et du bouton de pagination avec l'ID du widget Elementor
-		$unique_id     = $this->get_id();
-		$id            = 'al_posts_wrapper_' . $unique_id;
-		$pagination_id = 'al_pagination_' . $unique_id;
-		$navigation_id = 'al_navigation_' . $unique_id;
+		$widget_id     = $this->get_id();
+		$wrapper_id    = 'al_posts_wrapper_' . $widget_id;
+		$pagination_id = 'al_pagination_' . $widget_id;
+		$navigation_id = 'al_navigation_' . $widget_id;
 
 		// La div wrapper
 		$layout = 'equalHeight' === $settings['al_layout_type'] ? 'fitRows' : $settings['al_layout_type'];
@@ -2851,33 +2804,31 @@ class Product_Grid_Widget extends Widget_Base {
 		}
 
 		$this->add_render_attribute( 'posts_wrapper', 'class', esc_attr( $class ) );
-		$this->add_render_attribute( 'posts_wrapper', 'id', esc_attr( $id ) );
+		$this->add_render_attribute( 'posts_wrapper', 'id', esc_attr( $wrapper_id ) );
 		if ( $has_filters || ( $has_pagging && $the_query->found_posts > 0 ) || $has_navigate ) {
 			$this->add_render_attribute( 'posts_wrapper', 'role', 'region' );
-			$this->add_render_attribute( 'posts_wrapper', 'aria-relevant', 'additions' );
+			$this->add_render_attribute( 'posts_wrapper', 'aria-relevant', 'additions removals' );
 			$this->add_render_attribute( 'posts_wrapper', 'aria-live', 'polite' );
-			$this->add_render_attribute( 'posts_wrapper', 'aria-atomic', $has_filters ? 'true' : 'false' );
+			$this->add_render_attribute( 'posts_wrapper', 'aria-atomic', 'false' );
 		}
 		$this->add_render_attribute( 'posts_wrapper', 'data-settings', $this->get_settings_json( $max_num_pages, $the_query->found_posts ) );
 
 		/** Affiche les arguments de la requête */
 		if ( 'yes' === $settings['al_display_content_args'] && \Elementor\Plugin::$instance->editor->is_edit_mode() ) { ?>
 			<div class='al-posts_query-args'>
-				<?php highlight_string( "<?php\nQuery Args =\n" . var_export( Eac_Helpers_Util::get_posts_query_args(), true ) . ";\n?>" ); // phpcs:ignore ?>
+				<?php highlight_string( "<?php\nQuery args =\n" . var_export( $this->helper_util->get_post_query_args(), true ) . ";\n?>" ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export ?>
 			</div>
 		<?php }
 
-		ob_start( array( '\EACCustomWidgets\Core\Utils\Eac_Tools_Util', 'compress_html_output' ), 0, PHP_OUTPUT_HANDLER_REMOVABLE );
+		ob_start( array( '\EACCustomWidgets\Core\Utils\Eac_Tools_Util', 'compress_html_full_output' ), 0, PHP_OUTPUT_HANDLER_REMOVABLE );
 		if ( $the_query->have_posts() ) {
 			/** Création et affichage des filtres avant le widget */
 			if ( $has_filters ) {
 				// phpcs:disable WordPress.Security.EscapeOutput
-				if ( $has_users && ! $has_meta_query ) {
-					echo Eac_Helpers_Util::get_user_filters( $user_filters, $unique_id );
-				} elseif ( $has_meta_query ) {
-					echo Eac_Helpers_Util::get_meta_query_filters( $post_args, $unique_id );
-				} elseif ( ! empty( $taxonomy_filters ) ) {
-					echo Eac_Helpers_Util::get_taxo_tag_filters( $taxonomy_filters, $term_filters, $unique_id );
+				if ( $has_users ) {
+					echo $this->helper_util->get_user_filter( $user_filters, $widget_id, $wrapper_id );
+				} elseif ( ! empty( $taxonomy_filter ) ) {
+					echo $this->helper_util->get_tax_query_filter( $taxonomy_filter, $term_filter, $widget_id, $wrapper_id );
 				}
 				// phpcs:enable WordPress.Security.EscapeOutput
 			} ?>
@@ -2888,29 +2839,18 @@ class Product_Grid_Widget extends Widget_Base {
 				/** Le loop */
 				while ( $the_query->have_posts() ) {
 					$the_query->the_post();
-
 					$terms_slug = array(); // Tableau de slug concaténé avec la class de l'article
 					$terms_name = array(); // Tableau du nom des slugs Concaténé pour les étiquettes
-
 					$product = null;
 					$product = wc_get_product( get_the_ID() );
 					if ( ! is_a( $product, 'WC_Product' ) ) {
 						continue;
 					}
 
-					$product_id               = $product->get_id();
-					$product_title            = $product->get_name();
-					$product_url              = $product->get_permalink();
-					$product_id_cart_quantity = 0;
-					$product_sold             = $product->get_total_sales();
-
-					if ( $has_cart_quantity && ! is_null( WC()->cart ) && ! WC()->cart->is_empty() ) {
-						foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
-							if ( $cart_item['product_id'] === $product_id ) {
-								$product_id_cart_quantity = $cart_item['quantity'];
-							}
-						}
-					}
+					$product_id    = $product->get_id();
+					$product_title = $product->get_name();
+					$product_url   = $product->get_permalink();
+					$product_sold  = $product->get_total_sales();
 
 					/**
 					 * Gérer le stock de chaque produit
@@ -2935,25 +2875,9 @@ class Product_Grid_Widget extends Widget_Base {
 						$has_cart        = false;
 					}
 
-					/**
-					 * error_log('has_stock::'.$has_stock.'::'.$product_title);
-					 * error_log('managing_stock::'.$product->managing_stock().'::'.$product_title);
-					 * error_log('is_in_stock::'.$product->is_in_stock().'::'.$product_title);
-					 * error_log('get_stock_quantity::'.$product->get_stock_quantity().'::'.$product_title);
-					 * error_log('is_purchasable::'.$product->is_purchasable().'::'.$product_title);
-					 * error_log('======================================================');
-					 */
-
-					// Redirection ?
-					if ( 'yes' === get_option( 'woocommerce_cart_redirect_after_add' ) ) {
-						$product_cart_url = wc_get_cart_url() . '?add-to-cart=' . $product_id;
-					} else {
-						$product_cart_url = $product_url . '?add-to-cart=' . $product_id;
-					}
-
 					$product_taxo = '';
-					if ( ! empty( $taxonomy_filters ) ) {
-						$product_taxo = get_the_term_list( $product_id, $taxonomy_filters[0], '', ' | ' );
+					if ( ! empty( $taxonomy_filter ) ) {
+						$product_taxo = get_the_term_list( $product_id, $taxonomy_filter[0], '', ' | ' );
 					}
 
 					$product_promo = esc_html( $settings['sale_text'] );
@@ -2976,37 +2900,21 @@ class Product_Grid_Widget extends Widget_Base {
 					}
 
 					/** Champ user renseigné */
-					if ( $has_users && ! $has_meta_query ) {
+					if ( $has_users ) {
 						$user                = get_the_author_meta( 'display_name' );
 						$terms_slug[ $user ] = sanitize_title( $user );
 						$terms_name[ $user ] = ucfirst( $user );
-					} elseif ( $has_meta_query ) {
-						$array_post_meta_values = array();
-						foreach ( $meta_query_list as $meta_query ) {
-							$term_tmp               = array();
-							$array_post_meta_values = get_post_custom_values( $meta_query['key'], $product_id );
-
-							if ( ! is_wp_error( $array_post_meta_values ) && ! empty( $array_post_meta_values ) ) {
-								$term_tmp = Eac_Helpers_Util::compare_meta_values( $array_post_meta_values, $meta_query );
-								if ( ! empty( $term_tmp ) ) {
-									foreach ( $term_tmp as $idx => $tmp ) {
-										$terms_slug = array_replace( $terms_slug, array( $idx => sanitize_title( $tmp ) ) );
-										$terms_name = array_replace( $terms_name, array( $idx => ucfirst( $tmp ) ) );
-									}
-								}
-							}
-						}
-					} elseif ( ! empty( $taxonomy_filters ) ) { /** Champ taxonomie renseigné */
+					} elseif ( ! empty( $taxonomy_filter ) ) {
 						$terms_array = array();
-						foreach ( $taxonomy_filters as $post_term ) {
+						foreach ( $taxonomy_filter as $post_term ) {
 							$terms_array = wp_get_post_terms( $product_id, $post_term );
 							if ( ! is_wp_error( $terms_array ) && ! empty( $terms_array ) ) {
 								foreach ( $terms_array as $term ) {
 									if ( 0 !== $term->parent ) {
 										$term_parent = get_term( $term->parent );
 										if ( ! is_wp_error( $term_parent ) ) {
-											if ( ! empty( $term_filters ) ) {
-												if ( in_array( $term_parent->slug, $term_filters, true ) ) {
+											if ( ! empty( $term_filter ) ) {
+												if ( in_array( $term_parent->slug, $term_filter, true ) ) {
 													$terms_slug[ $term_parent->slug ] = $term_parent->slug;
 													$terms_name[ $term_parent->name ] = ucfirst( $term_parent->name );
 												}
@@ -3016,8 +2924,8 @@ class Product_Grid_Widget extends Widget_Base {
 											}
 										}
 									}
-									if ( ! empty( $term_filters ) ) {
-										if ( in_array( $term->slug, $term_filters, true ) ) {
+									if ( ! empty( $term_filter ) ) {
+										if ( in_array( $term->slug, $term_filter, true ) ) {
 											$terms_slug[ $term->slug ] = $term->slug;
 											$terms_name[ $term->name ] = ucfirst( $term->name );
 										}
@@ -3030,101 +2938,107 @@ class Product_Grid_Widget extends Widget_Base {
 						}
 					}
 
-					// Wrapper interne du contenu
-					$this->add_render_attribute( 'inner_wrapper', 'class', 'al-post__inner-wrapper al-post__content-wrapper' );
-
 					if ( ! $has_swiper ) {
-						$post_class = sprintf( '%1$s %2$s %3$s %4$s', $unique_id, 'al-post__wrapper', implode( ' ', array_map( 'esc_attr', $terms_slug ) ), implode( ' ', get_post_class( '', get_the_ID() ) ) );
+						$post_class = sprintf( '%1$s %2$s %3$s %4$s', $widget_id, 'al-post__wrapper', implode( ' ', array_map( 'esc_attr', $terms_slug ) ), implode( ' ', get_post_class( '', get_the_ID() ) ) );
 					} else {
-						$post_class = sprintf( '%1$s %2$s %3$s', $unique_id, 'al-post__wrapper swiper-slide', implode( ' ', get_post_class( '', get_the_ID() ) ) );
+						$post_class = sprintf( '%1$s %2$s %3$s', $widget_id, 'al-post__wrapper swiper-slide', implode( ' ', get_post_class( '', get_the_ID() ) ) );
 					}
 					$attachment = Eac_Tools_Util::wp_get_attachment_data( get_post_thumbnail_id( $product_id ), $settings['al_image_dimension_size'] );
 					?>
 					<article id="<?php echo 'post-' . esc_attr( $product_id ); ?>" class="<?php echo esc_attr( $post_class ); ?>">
-						<div <?php $this->print_render_attribute_string( 'inner_wrapper' ); ?>>
-							<?php if ( $has_promo && $product->is_on_sale() && ! $is_a_catalog ) : ?>
-								<span class='badge-sale' dir='auto'><?php echo esc_html( $product_promo ); ?></span>
-							<?php endif; ?>
-							<?php if ( $has_stock_badge && ! $is_a_catalog ) : ?>
-								<span class='badge-stock'><?php echo esc_html( $settings['stock_text'] ); ?></span>
-							<?php endif; ?>
-							<?php if ( ! $has_expired ) : ?>
-								<span class='badge-new'><?php echo esc_html( $settings['new_text'] ); ?></span>
-							<?php endif; ?>
-							<?php if ( has_post_thumbnail() && $attachment ) : ?>
+						<div class='al-post__inner-wrapper'>
+							<?php if ( $has_promo && $product->is_on_sale() && ! $is_a_catalog ) { ?>
+								<span class='badge-sale' role='status' aria-live='polite' aria-atomic='true' dir='auto'><?php echo esc_html( $product_promo ); ?></span>
+							<?php } ?>
+							<?php if ( $has_stock_badge && ! $is_a_catalog ) { ?>
+								<span class='badge-stock' role='status' aria-live='polite' aria-atomic='true'><?php echo esc_html( $settings['stock_text'] ); ?></span>
+							<?php } ?>
+							<?php if ( ! $has_expired ) { ?>
+								<span class='badge-new' role='status' aria-live='polite' aria-atomic='true'><?php echo esc_html( $settings['new_text'] ); ?></span>
+							<?php } ?>
+							<?php if ( has_post_thumbnail() && ! empty( $attachment ) ) { ?>
 								<div class='al-post__image-wrapper'>
 									<?php
 									$this->add_render_attribute(
 										'post_image',
 										array(
-											'class'  => 'img-focusable al-post__image-loaded',
+											'class'  => 'eac-accessible-img al-post__image-loaded',
 											'src'    => esc_url( $attachment['src'] ),
 											'srcset' => esc_attr( $attachment['srcset'] ),
 											'sizes'  => esc_attr( $attachment['srcsize'] ),
 											'width'  => esc_attr( $attachment['width'] ),
 											'height' => esc_attr( $attachment['height'] ),
-											'alt'    => esc_attr( $attachment['alt'] ),
 										)
 									);
+									if ( ! $has_image_lightbox ) {
+										$this->add_render_attribute(
+											'post_image',
+											array(
+												'alt'  => '',
+											)
+										);
+									} elseif ( $has_image_lightbox ) {
+										$this->add_render_attribute( 'post_image', 'alt', esc_attr( $attachment['alt'] ) );
+									}
 									if ( 'eager' === $lazy_load ) {
 										$this->add_render_attribute( 'post_image', 'loading', $lazy_load );
 									}
-									if ( $has_image_lightbox ) : ?>
-										<a class='eac-accessible-link' href="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" data-elementor-open-lightbox='no' data-fancybox="al-gallery-<?php echo esc_attr( $unique_id ); ?>" data-caption="<?php echo esc_html( $product_title ); ?>" aria-label="<?php echo esc_html__( "Voir l'image", 'eac-components' ) . ' ' . esc_html( $product_title ); ?>">
-									<?php endif; ?>
-									<?php if ( $has_image_link && $product_url ) :
+									if ( $has_image_lightbox ) { ?>
+										<a class='eac-accessible-link' href="<?php echo esc_url( $attachment['image_url'] ); ?>" data-elementor-open-lightbox='no' data-fancybox="al-gallery-<?php echo esc_attr( $widget_id ); ?>" data-caption="<?php echo esc_html( $product_title ); ?>" role='button' aria-haspopup='dialog' aria-expanded='false' aria-label="<?php printf( '%1$s - %2$s', esc_html__( 'View image', 'eac-components' ), esc_html( $product_title ) ); ?>">
+									<?php } ?>
+									<?php if ( $has_image_link && $product_url ) {
 										$class_link = $has_global_link ? 'eac-accessible-link card-link' : 'eac-accessible-link'; ?>
-										<a class="<?php echo esc_attr( $class_link ); ?>" href="<?php echo esc_url( $product_url ); ?>" aria-label="<?php echo esc_html__( 'Voir la page produit', 'eac-components' ) . ' ' . esc_html( $product_title ); ?>">
-									<?php endif; ?>
+										<a class="<?php echo esc_attr( $class_link ); ?>" href="<?php echo esc_url( $product_url ); ?>" aria-label="<?php printf( '%1$s - %2$s', esc_html__( 'View product page', 'eac-components' ), esc_html( $product_title ) ); ?>">
+									<?php } ?>
 										<img <?php $this->print_render_attribute_string( 'post_image' ); ?>>
-									<?php if ( $has_image_lightbox || ( $has_image_link && $product_url ) ) : ?>
+									<?php if ( $has_image_lightbox || ( $has_image_link && $product_url ) ) { ?>
 										</a>
-									<?php endif; ?>
+									<?php } ?>
 								</div>
-							<?php endif; ?>
+							<?php } ?>
 
-							<?php if ( $has_title || $has_reviews || $has_prices || $has_stock || $has_quantity_sold || $has_readmore || $has_cart ) : ?>
+							<?php if ( $has_title || $has_reviews || $has_prices || $has_stock || $has_quantity_sold || $has_readmore || $has_cart ) { ?>
 								<div class='al-post__text-wrapper'>
 									<!-- Le titre -->
-									<?php if ( $has_title ) :
+									<?php if ( $has_title ) {
 										$class_link = $has_global_link ? 'eac-accessible-link card-link' : 'eac-accessible-link';
 										?>
 										<!-- Affiche les IDs -->
-										<?php if ( $has_id && $has_title_link && $product_url ) : ?>
+										<?php if ( $has_id && $has_title_link && $product_url ) { ?>
 											<a class="<?php echo esc_attr( $class_link ); ?>" href="<?php echo esc_url( $product_url ); ?>">
-												<?php echo '<' . esc_attr( $title_tag ) . ' class="al-post__content-title">' . absint( $product_id ) . ' : ' . esc_html( $product_title ) . '</' . esc_attr( $title_tag ) . '>'; ?>
+												<?php printf( '<%1$s class="al-post__content-title global__line-height">%2$s : %3$s</%1$s>', esc_attr( $title_tag ), esc_attr( intval( $product_id ) ), esc_html( $product_title ) ); ?>
 											</a>
-										<?php elseif ( $has_id && ! $has_title_link ) : ?>
-											<?php echo '<' . esc_attr( $title_tag ) . ' class="al-post__content-title">' . absint( $product_id ) . ' : ' . esc_html( $product_title ) . '</' . esc_attr( $title_tag ) . '>'; ?>
-										<?php elseif ( ! $has_id && $has_title_link && $product_url ) : ?>
-											<a class="<?php echo esc_attr( $class_link ); ?>" href="<?php echo esc_url( $product_url ); ?>">
-												<?php echo '<' . esc_attr( $title_tag ) . ' class="al-post__content-title">' . esc_html( $product_title ) . '</' . esc_attr( $title_tag ) . '>'; ?>
+										<?php } elseif ( $has_id && ! $has_title_link ) { ?>
+											<?php printf( '<%1$s class="al-post__content-title global__line-height">%2$s : %3$s</%1$s>', esc_attr( $title_tag ), esc_attr( intval( $product_id ) ), esc_html( $product_title ) ); ?>
+										<?php } elseif ( ! $has_id && $has_title_link && $product_url ) { ?>
+											<a class="<?php echo esc_attr( $class_link ); ?>" href="<?php echo esc_url( $product_url ); ?>" aria-label="<?php printf( '%1$s - %2$s', esc_html__( 'View product page', 'eac-components' ), esc_html( $product_title ) ); ?>">
+												<?php printf( '<%1$s class="al-post__content-title global__line-height">%2$s</%1$s>', esc_attr( $title_tag ), esc_html( $product_title ) ); ?>
 											</a>
-										<?php else : ?>
-											<?php echo '<' . esc_attr( $title_tag ) . ' class="al-post__content-title">' . esc_html( $product_title ) . '</' . esc_attr( $title_tag ) . '>'; ?>
-										<?php endif; ?>
-									<?php endif; ?>
+										<?php } else { ?>
+											<?php printf( '<%1$s class="al-post__content-title global__line-height">%2$s</%1$s>', esc_attr( $title_tag ), esc_html( $product_title ) ); ?>
+										<?php } ?>
+									<?php } ?>
 
-									<!-- Le résumé de l'article. fonction dans helper.php -->
-									<?php if ( $has_resum ) : ?>
-										<div class='shop-product__excerpt-wrapper'>
-											<span dir='ltr'><?php echo Eac_Tools_Util::get_post_excerpt( $product_id, absint( $settings['al_excerpt_length'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-									</div>
-									<?php endif; ?>
+									<!-- Le résumé de l'article -->
+									<?php if ( $has_resum ) { ?>
+										<div class='shop-product__excerpt-wrapper global__line-height'>
+											<span dir='ltr'><?php echo esc_html( Eac_Tools_Util::get_post_excerpt( $product_id, absint( $settings['al_excerpt_length'] ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+										</div>
+									<?php } ?>
 
 									<!-- Avis -->
 									<?php
-									if ( $has_reviews ) :
+									if ( $has_reviews ) {
 										$notes       = '';
 										$long_format = '';
 										if ( absint( $product->get_review_count() ) > 0 ) {
-											$long_format = '<span class="al_post_customer-review"> (' . absint( $product->get_review_count() ) . esc_html__( ' Avis clients', 'eac-components' ) . ')</span>';
+											$long_format = '<span class="al_post_customer-review"> (' . absint( $product->get_review_count() ) . esc_html__( ' Customer reviews', 'eac-components' ) . ')</span>';
 										}
 										// Au moins une note
 										// if (absint($product->get_review_count()) > 0) {
 										switch ( $notes_format ) {
 											case 'average_rating':
-												$notes = esc_html__( 'Moyenne des notes', 'eac-components' ) . ' ' . $product->get_average_rating();
+												$notes = esc_html__( 'Average notes', 'eac-components' ) . ' ' . $product->get_average_rating();
 												break;
 											case 'average_html':
 												$notes = wc_get_rating_html( $product->get_average_rating() );
@@ -3133,21 +3047,21 @@ class Product_Grid_Widget extends Widget_Base {
 												$notes = wc_get_rating_html( $product->get_average_rating() ) . $long_format;
 												break;
 											case 'rating_count':
-												$notes = esc_html__( 'Nombre de notes', 'eac-components' ) . ' ' . absint( $product->get_rating_count() );
+												$notes = esc_html__( 'Number of notes', 'eac-components' ) . ' ' . absint( $product->get_rating_count() );
 												break;
 											case 'review_count':
-												$notes = esc_html__( "Nombre d'avis", 'eac-components' ) . ' ' . absint( $product->get_review_count() );
+												$notes = esc_html__( 'Review count', 'eac-components' ) . ' ' . absint( $product->get_review_count() );
 												break;
 										}
 
-										if ( ! empty( $notes ) ) : ?>
+										if ( ! empty( $notes ) ) { ?>
 											<div class="woocommerce shop-product__notes-wrapper"><?php echo $notes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
-										<?php endif; ?>
-									<?php endif; ?>
+										<?php } ?>
+									<?php } ?>
 
 									<!-- Prix -->
 									<?php
-									if ( $has_prices && $product->get_regular_price() ) :
+									if ( $has_prices && $product->get_regular_price() ) {
 										$prices         = '';
 										$sales_price_to = '';
 										$sales_price_to = get_post_meta( $product_id, '_sale_price_dates_to', true );
@@ -3159,7 +3073,7 @@ class Product_Grid_Widget extends Widget_Base {
 												$prices = $product->get_price_html();
 												if ( $product->is_type( 'simple' ) && '' !== $sales_price_to ) {
 													$sales_price_date_to = date_i18n( get_option( 'date_format' ), $sales_price_to );
-													$prices              = str_replace( '</ins>', ' </ins> (' . esc_html__( "jusqu'au ", 'eac-components' ) . $sales_price_date_to . ')', $prices );
+													$prices              = str_replace( '</ins>', ' </ins> (' . esc_html__( 'Until ', 'eac-components' ) . $sales_price_date_to . ')', $prices );
 												}
 												break;
 											case 'regular':
@@ -3169,165 +3083,177 @@ class Product_Grid_Widget extends Widget_Base {
 												$prices = wc_price( $product->get_sale_price() ) . $product->get_price_suffix();
 												break;
 										}
-										if ( ! empty( $prices ) ) : ?>
+										if ( ! empty( $prices ) ) { ?>
 											<div class='shop-product__prices-wrapper'><?php echo $prices; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
-										<?php endif; ?>
-									<?php endif; ?>
+										<?php } ?>
+									<?php } ?>
 
 									<!-- Stock -->
 									<?php
-									if ( $has_stock ) :
+									if ( $has_stock ) {
 										$stock = '';
 										if ( $has_stock_format ) {
 											$stock = wc_get_stock_html( $product );
 										} else {
-											$stock = esc_html__( 'Quantité', 'eac-components' ) . ' ' . (int) $product->get_stock_quantity();
+											$stock = esc_html__( 'Quantity', 'eac-components' ) . ' ' . (int) $product->get_stock_quantity();
 										}
 										?>
 										<div class='woocommerce shop-product__stock-wrapper'><?php echo $stock; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
-									<?php endif; ?>
+									<?php } ?>
 
 									<!-- Quantité vendue -->
 									<?php
 									/** Affiche le fallback quand le produit n'a pas été vendu et qu'il n'est pas en rupture de stock */
-									if ( $has_quantity_sold ) :
+									if ( $has_quantity_sold ) {
 										$quantity_sold = '';
-										if ( 0 !== absint( $product_sold ) ) :
-											$quantity_sold = esc_html__( 'Quantité vendue', 'eac-components' ) . ' ' . absint( $product_sold );
-										elseif ( 0 === absint( $product_sold ) && false === $has_stock_badge ) :
+										if ( 0 !== absint( $product_sold ) ) {
+											$quantity_sold = esc_html__( 'Quantity sold', 'eac-components' ) . ' ' . absint( $product_sold );
+										} elseif ( 0 === absint( $product_sold ) && false === $has_stock_badge ) {
 											$quantity_sold = esc_html( $has_quantity_sold_fallback );
-										endif;
-										if ( ! empty( $quantity_sold ) ) : ?>
+										}
+										if ( ! empty( $quantity_sold ) ) { ?>
 											<div class='shop-product__sold-wrapper'><?php echo $quantity_sold; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
-										<?php endif; ?>
-									<?php endif; ?>
+										<?php } ?>
+									<?php } ?>
 
 									<!-- Les boutons -->
-									<?php if ( $has_readmore || $has_cart ) : ?>
+									<?php if ( $has_readmore || $has_cart ) { ?>
 										<div class='buttons-wrapper'>
-											<?php if ( $has_readmore && $product_url ) :
-												$class_link = $has_global_link ? 'button-readmore card-link' : 'button-readmore'; ?>
-												<a href="<?php echo esc_url( $product_url ); ?>" class="<?php echo esc_attr( $class_link ); ?>" role='button' aria-label="<?php echo esc_html( $settings['button_more_label'] ) . ' ' . esc_html( $product_title ); ?>">
-													<span class='button__readmore-wrapper'>
-													<?php if ( $has_more_button_picto && 'before' === $settings['button_more_position'] ) { ?>
-														<span class='button-icon eac-icon-svg'>
-															<?php Icons_Manager::render_icon( $settings['button_more_picto'], array( 'aria-hidden' => 'true' ) ); ?>
-														</span>
-													<?php }
-													echo '<span class="label-icon">' . esc_html( $settings['button_more_label'] ) . '</span>';
-													if ( $has_more_button_picto && 'after' === $settings['button_more_position'] ) { ?>
-														<span class='button-icon eac-icon-svg'>
-															<?php Icons_Manager::render_icon( $settings['button_more_picto'], array( 'aria-hidden' => 'true' ) ); ?>
-														</span>
-													<?php } ?>
-													</span>
-												</a>
-											<?php endif; ?>
+											<?php if ( $has_readmore && $product_url ) {
+												$this->render_button_more(
+													array(
+														'permalink'     => $product_url,
+														'item_title'    => $product_title,
+														'global_link'   => $has_global_link,
+														'default_label' => esc_html__( 'View product page', 'eac-components' ),
+													)
+												);
+											}
 
-											<?php if ( $has_cart && $product->get_regular_price() ) : ?>
-												<a href="<?php echo esc_url( $product_cart_url ); ?>" class='button-cart' role='button' aria-label="<?php echo esc_html__( 'Ajouter au panier', 'eac-components' ) . ' ' . esc_html( $product_title ); ?>">
+											if ( $has_cart && $product->get_regular_price() ) {
+												$has_cart_quantity     = 'yes' === $settings['cart_quantity_activate'] ? true : false;
+												$product_cart_quantity = 0;
+												// Récupère la quantité dans le panier
+												if ( $has_cart_quantity && ! is_null( WC()->cart ) && ! WC()->cart->is_empty() ) {
+													foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+														if ( $cart_item['product_id'] === $product_id ) {
+															$product_cart_quantity = $cart_item['quantity'];
+														}
+													}
+												}
+												// Redirection ?
+												if ( 'yes' === get_option( 'woocommerce_cart_redirect_after_add' ) ) {
+													$product_cart_url = wc_get_cart_url() . '?add-to-cart=' . $product_id;
+												} else {
+													$product_cart_url = $product_url . '?add-to-cart=' . $product_id;
+												}
+												?>
+												<a href="<?php echo esc_url( $product_cart_url ); ?>" class='button-cart eac-accessible-link' aria-label="<?php printf( '%1$s - %2$s %3$s', esc_html__( 'Add to cart', 'eac-components' ), esc_html( $product_title ), esc_html__( 'and view the cart', 'eac-components' ) ); ?>">
 													<span class='button__cart-wrapper'>
-													<?php if ( $has_cart_quantity && 0 !== absint( $product_id_cart_quantity ) ) : ?>
-														<span class='badge-cart__quantity'><?php echo absint( $product_id_cart_quantity ); ?></span>
-													<?php endif; ?>
-													<?php if ( $has_cart_button && 'before' === $settings['button_cart_position'] ) { ?>
-														<span class='button-icon eac-icon-svg'>
-														<?php Icons_Manager::render_icon( $settings['button_cart_picto'], array( 'aria-hidden' => 'true' ) ); ?>
-														</span>
-													<?php }
-													echo '<span class="label-icon">' . esc_html( $settings['button_cart_label'] ) . '</span>';
-													if ( $has_cart_button && 'after' === $settings['button_cart_position'] ) { ?>
-														<span class='button-icon eac-icon-svg'>
-														<?php Icons_Manager::render_icon( $settings['button_cart_picto'], array( 'aria-hidden' => 'true' ) ); ?>
-														</span>
-													<?php } ?>
+														<?php if ( $has_cart_quantity && 0 !== absint( $product_cart_quantity ) ) { ?>
+															<span class='badge-cart__quantity' role='status' aria-live='polite' aria-atomic='true' aria-label="<?php printf( '%1$d %2$s', absint( $product_cart_quantity ), esc_html__( 'article(s) dans le panier', 'eac-components' ) ); ?>">
+																<span aria-hidden='true'><?php echo absint( $product_cart_quantity ); ?></span>
+															</span>
+														<?php }
+														if ( $has_cart_button && 'before' === $settings['button_cart_position'] ) { ?>
+															<span class='button-icon eac-icon-svg'>
+															<?php Icons_Manager::render_icon( $settings['button_cart_picto'], array( 'aria-hidden' => 'true' ) ); ?>
+															</span>
+														<?php }
+														printf( '<span class="label-icon">%s</span>', esc_html( trim( $settings['button_cart_label'] ) ) );
+														if ( $has_cart_button && 'after' === $settings['button_cart_position'] ) { ?>
+															<span class='button-icon eac-icon-svg'>
+															<?php Icons_Manager::render_icon( $settings['button_cart_picto'], array( 'aria-hidden' => 'true' ) ); ?>
+															</span>
+														<?php } ?>
 													</span>
 												</a>
-											<?php endif; ?>
+											<?php } ?>
 										</div>
-									<?php endif; ?>
+									<?php } ?>
 
-									<?php if ( $has_avatar || $has_term || $has_auteur || $has_date ) : ?>
+									<?php if ( $has_avatar || $has_term || $has_auteur || $has_date ) { ?>
 										<div class="al-post__meta-wrapper">
 											<!-- Ajout de l'attribut 'loading' à l'avatar -->
-											<?php if ( $has_avatar ) : ?>
+											<?php if ( $has_avatar ) { ?>
 												<?php
 												$author_url      = get_avatar_url( get_the_author_meta( 'ID' ), array( 'size' => absint( $avatar_size ) ) );
 												$author_archives = get_author_posts_url( get_the_author_meta( 'ID' ) );
 												$author_name     = get_the_author_meta( 'display_name' );
 												?>
 												<div class="al-post__avatar-wrapper">
-													<?php if ( $has_avatar_link ) : ?>
-														<a href="<?php echo esc_url( $author_archives ); ?>" class='eac-accessible-link avatar-link' aria-label="<?php echo esc_html__( 'Voir tous les articles de', 'eac-components' ) . ' ' . esc_html( $author_name ); ?>">
-													<?php endif; ?>
+													<?php if ( $has_avatar_link ) { ?>
+														<a href="<?php echo esc_url( $author_archives ); ?>" class='eac-accessible-link avatar-link' aria-label="<?php printf( '%1$s %2$s', esc_attr__( 'View posts from', 'eac-components' ), esc_attr( $author_name ) ); ?>">
+													<?php } ?>
 														<img class='avatar photo' src="<?php echo esc_url( $author_url ); ?>" alt="Avatar of <?php echo esc_html( $author_name ); ?>" loading='lazy' width="<?php echo absint( $avatar_size ); ?>" height="<?php echo absint( $avatar_size ); ?>" />
-													<?php if ( $has_avatar_link ) : ?>
+													<?php if ( $has_avatar_link ) { ?>
 														</a>
-													<?php endif; ?>
+													<?php } ?>
 												</div>
-											<?php endif; ?>
+											<?php } ?>
 
-											<?php if ( $has_term || $has_auteur || $has_date ) : ?>
+											<?php if ( $has_term || $has_auteur || $has_date ) { ?>
 												<div class='al-post__meta'>
 													<!-- Les étiquettes -->
-													<?php if ( $has_term ) :
+													<?php if ( $has_term ) {
 														$terms = $this->get_svg_icon_terms() . '<span>' . implode( '|', array_map( 'esc_html', $terms_name ) ) . '</span>'; ?>
 														<div class='al-post__meta-tags eac-icon-svg'>
 															<?php echo wp_kses_post( $terms ); ?>
 														</div>
-													<?php endif; ?>
+													<?php } ?>
 
 													<!-- L'auteur de l'article -->
-													<?php if ( $has_auteur ) :
+													<?php if ( $has_auteur ) {
 														$auteur = $this->get_svg_icon_user() . '<span>' . esc_html( get_the_author_meta( 'display_name' ) ) . '</span>'; ?>
 														<div class='al-post__meta-author eac-icon-svg'>
 															<?php echo wp_kses_post( $auteur ); ?>
 														</div>
-													<?php endif; ?>
+													<?php } ?>
 
 													<!-- Le date de création ou de dernière modification -->
-													<?php if ( $has_date ) :
-														if ( 'modified' === $settings['al_article_orderby'] ) :
+													<?php if ( $has_date ) {
+														if ( 'modified' === $settings['al_article_orderby'] ) {
 															$calendar = $this->get_svg_icon_calendar() . '<span>' . date_i18n( get_option( 'date_format' ), strtotime( $product->get_date_modified( 'Y-m-d' ) ) ) . '</span>';
-														else :
+														} else {
 															$calendar = $this->get_svg_icon_calendar() . '<span>' . date_i18n( get_option( 'date_format' ), strtotime( $product->get_date_created( 'Y-m-d' ) ) ) . '</span>';
-														endif; ?>
+														} ?>
 														<div class='al-post__meta-date eac-icon-svg'>
 															<?php echo wp_kses_post( $calendar ); ?>
 														</div>
-													<?php endif; ?>
+													<?php } ?>
 												</div>
-											<?php endif; ?>
+											<?php } ?>
 										</div> <!-- Fin al-post__meta-wrapper -->
-									<?php endif; ?>
+									<?php } ?>
 								</div> <!-- Fin al-post__text-wrapper -->
-							<?php endif; ?>
+							<?php } ?>
 						</div> <!-- Fin al-post__inner-wrapper -->
 					</article>
 					<?php
 					$this->remove_render_attribute( 'post_image' );
-					$this->remove_render_attribute( 'inner_wrapper' );
 				} ?>
 			</div>
-			<?php if ( $has_pagging && $the_query->post_count < $the_query->found_posts ) :
+			<?php if ( $has_pagging && $the_query->post_count < $the_query->found_posts ) {
 				$this->add_render_attribute( 'read_button', 'class', 'eac-accessible-link button__readmore-wrapper' );
 				$this->add_render_attribute( 'read_button', 'type', 'button' );
-				$this->add_render_attribute( 'read_button', 'aria-label', esc_attr__( 'Pagination charger la page suivante', 'eac-components' ) );
+				$this->add_render_attribute( 'read_button', 'aria-label', esc_attr__( 'Pagination load next page', 'eac-components' ) );
+
 				$this->add_inline_editing_attributes( 'al_pagination_label', 'none' );
 				$this->add_render_attribute( 'al_pagination_label', 'class', 'label-icon' );
-				$label        = ! empty( $settings['al_pagination_label'] ) ? esc_html( $settings['al_pagination_label'] ) : esc_html__( 'Plus de produits', 'eac-components' );
-				$label_button = '<span ' . $this->get_render_attribute_string( 'al_pagination_label' ) . '>' . $label . '</span><span class="al-more-button-paged">' . $the_query->post_count . '/' . $the_query->found_posts . '</span>';
-				$button       = '<button ' . $this->get_render_attribute_string( 'read_button' ) . '>' . $label_button . '</button>';
+
+				$label        = esc_html__( 'View more product', 'eac-components' );
+				$label_button = sprintf( '<span %1$s>%2$s</span><span class="al-more-button-paged">%3$s/%4$s</span>', $this->get_render_attribute_string( 'al_pagination_label' ), $label, $the_query->post_count, $the_query->found_posts );
+				$button       = sprintf( '<button %1$s>%2$s</button>', $this->get_render_attribute_string( 'read_button' ), $label_button );
 				?>
 				<div class='al-post__pagination' id="<?php echo esc_attr( $pagination_id ); ?>">
 					<div class='buttons-wrapper'><?php echo wp_kses_post( $button ); ?></div>
 					<div class='al-page-load-status'>
 						<div class='infinite-scroll-request eac__loader-spin'></div>
-						<p class='infinite-scroll-last'><?php esc_html_e( 'Plus de produit', 'eac-components' ); ?></p>
-						<p class='infinite-scroll-error'><?php esc_html_e( 'Aucun produit à charger', 'eac-components' ); ?></p>
+						<p class='infinite-scroll-last'><?php esc_html_e( 'View more product', 'eac-components' ); ?></p>
+						<p class='infinite-scroll-error'><?php esc_html_e( 'No more product', 'eac-components' ); ?></p>
 					</div>
 				</div>
-			<?php elseif ( $has_navigate ) :
+			<?php } elseif ( $has_navigate ) {
 				$page_links = paginate_links(
 					array(
 						'format'             => '?paged=%#%',
@@ -3338,12 +3264,12 @@ class Product_Grid_Widget extends Widget_Base {
 						'current'            => max( 1, get_query_var( 'paged' ) ),
 					)
 				);
-				if ( $page_links ) : ?>
-					<nav class='al-post__navigation' id="<?php echo esc_attr( $navigation_id ); ?>" aria-label="<?php esc_attr_e( 'Pagination', 'eac-components' ); ?>">
+				if ( $page_links ) { ?>
+					<nav class='al-post__navigation' id="<?php echo esc_attr( $navigation_id ); ?>" aria-label="<?php esc_attr_e( 'Paging', 'eac-components' ); ?>" itemprop='pagination'>
 						<div class='al-post__navigation-digit'><?php echo wp_kses_post( $page_links ); ?></div>
 					</nav>
-				<?php endif;
-			endif;
+				<?php }
+			}
 
 			wp_reset_postdata();
 		}
@@ -3363,7 +3289,7 @@ class Product_Grid_Widget extends Widget_Base {
 	 *
 	 * @access    protected
 	 */
-	protected function get_settings_json( $max_num_pages, $found_posts ) {
+	protected function get_settings_json( $max_num_pages, $found_posts ): string {
 		$settings      = $this->get_settings_for_display();
 		$unique_id     = esc_attr( $this->get_id() );
 		$wrapper_id    = '#al_posts_wrapper_' . $unique_id;
@@ -3419,5 +3345,5 @@ class Product_Grid_Widget extends Widget_Base {
 		return wp_json_encode( $module_settings );
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

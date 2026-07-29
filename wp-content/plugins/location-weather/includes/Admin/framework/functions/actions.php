@@ -18,6 +18,8 @@ if ( ! function_exists( 'splwt_get_icons' ) ) {
 	 * @version 1.0.0
 	 */
 	function splwt_get_icons() {
+		// Check user capabilities, current_user_can() is called internally.
+		location_weather_verify_capability();
 
 		$nonce = ( ! empty( $_POST['nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
 
@@ -65,6 +67,8 @@ if ( ! function_exists( 'splwt_export' ) ) {
 	 * @version 1.0.0
 	 */
 	function splwt_export() {
+		// Check user capabilities, current_user_can() is called internally.
+		location_weather_verify_capability();
 
 		$nonce  = ( ! empty( $_GET['nonce'] ) ) ? sanitize_text_field( wp_unslash( $_GET['nonce'] ) ) : '';
 		$unique = ( ! empty( $_GET['unique'] ) ) ? sanitize_text_field( wp_unslash( $_GET['unique'] ) ) : '';
@@ -100,7 +104,8 @@ if ( ! function_exists( 'splwt_import_ajax' ) ) {
 	 * @version 1.0.0
 	 */
 	function splwt_import_ajax() {
-
+		// Check user capabilities, current_user_can() is called internally.
+		location_weather_verify_capability();
 		$nonce  = ( ! empty( $_POST['nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
 		$unique = ( ! empty( $_POST['unique'] ) ) ? sanitize_text_field( wp_unslash( $_POST['unique'] ) ) : '';
 		$data   = ( ! empty( $_POST['data'] ) ) ? wp_kses_post_deep( json_decode( wp_unslash( trim( $_POST['data'] ) ), true ) ) : array(); // phpcs:ignore
@@ -134,6 +139,8 @@ if ( ! function_exists( 'splwt_reset_ajax' ) ) {
 	 * @version 1.0.0
 	 */
 	function splwt_reset_ajax() {
+		// Check user capabilities, current_user_can() is called internally.
+		location_weather_verify_capability();
 
 		$nonce  = ( ! empty( $_POST['nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
 		$unique = ( ! empty( $_POST['unique'] ) ) ? sanitize_text_field( wp_unslash( $_POST['unique'] ) ) : '';
@@ -158,6 +165,8 @@ if ( ! function_exists( 'lwp_clean_open_weather_transients' ) ) {
 	 * It performs nonce verification to ensure the request is legitimate.
 	 */
 	function lwp_clean_open_weather_transients() {
+		// Check user capabilities, current_user_can() is called internally.
+		location_weather_verify_capability();
 		$nonce = ( ! empty( $_POST['nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
 		if ( ! wp_verify_nonce( $nonce, 'splwt_options_nonce' ) ) {
 			wp_send_json_error(
@@ -173,13 +182,23 @@ if ( ! function_exists( 'lwp_clean_open_weather_transients' ) ) {
 		$wp_options = $wpdb->prefix . 'options';
 		if ( is_multisite() ) {
 			$wp_sitemeta = $wpdb->get_blog_prefix( BLOG_ID_CURRENT_SITE ) . 'sitemeta';
+			// Delete OpenWeather transients.
 			$wpdb->query( "DELETE FROM {$wp_sitemeta} WHERE `meta_key` LIKE ('%\_site_transient_sp_open_weather_%')" ); // phpcs:ignore -- intentionally used to remove specific transients.
 			$wpdb->query( "DELETE FROM {$wp_sitemeta} WHERE `meta_key` LIKE ('%\_transient_timeout_sp_open_weather_%')" );  // phpcs:ignore -- intentionally used to remove specific transients.
+
+			// Delete WeatherApi transients.
+			$wpdb->query( "DELETE FROM {$wp_sitemeta} WHERE `meta_key` LIKE ('%\_site_transient_sp_weather_api_%')" ); // phpcs:ignore -- intentionally used to remove specific transients.
+			$wpdb->query( "DELETE FROM {$wp_sitemeta} WHERE `meta_key` LIKE ('%\_transient_timeout_sp_weather_api_%')" );  // phpcs:ignore -- intentionally used to remove specific transients.
 			wp_send_json_success();
 		} else {
+			// Delete OpenWeather transients.
 			$wpdb->query( "DELETE FROM {$wp_options} WHERE `option_name` LIKE ('%\_transient_sp_open_weather_%')" ); // phpcs:ignore -- intentionally used to remove specific transients.
 			$wpdb->query( "DELETE FROM {$wp_options} WHERE `option_name` LIKE ('%\_transient_timeout_sp_open_weather_%')" ); // phpcs:ignore -- intentionally used to remove specific transients.
-				wp_send_json_success();
+
+			// Delete WeatherApi transients.
+			$wpdb->query( "DELETE FROM {$wp_options} WHERE `option_name` LIKE ('%\_transient_sp_weather_api_%')" ); // phpcs:ignore -- intentionally used to remove specific transients.
+			$wpdb->query( "DELETE FROM {$wp_options} WHERE `option_name` LIKE ('%\_transient_timeout_sp_weather_api_%')" ); // phpcs:ignore -- intentionally used to remove specific transients.
+			wp_send_json_success();
 		}
 	}
 

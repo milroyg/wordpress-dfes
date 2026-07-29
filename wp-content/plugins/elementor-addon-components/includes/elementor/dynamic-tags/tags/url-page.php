@@ -21,31 +21,31 @@ use Elementor\Controls_Manager;
  */
 class Url_Page extends Data_Tag {
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-page-url-tag';
 	}
 
-	public function get_title() {
+	public function get_title(): string {
 		return esc_html__( 'Pages', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-url';
+	public function get_group(): array {
+		return array( 'eac-url' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::URL_CATEGORY );
 	}
 
-	public function get_panel_template_setting_key() {
+	public function get_panel_template_setting_key(): string {
 		return 'single_page_url';
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->add_control(
 			'single_page_url',
 			array(
-				'label'       => esc_html__( 'Pages Url', 'eac-components' ),
+				'label'       => esc_html__( 'Page Url', 'eac-components' ),
 				'type'        => Controls_Manager::SELECT,
 				'options'     => $this->get_all_posts_url( 'page' ),
 				'label_block' => true,
@@ -53,7 +53,7 @@ class Url_Page extends Data_Tag {
 		);
 	}
 
-	public function get_value( array $options = array() ) {
+	public function get_value( array $options = array() ): string {
 		$param_name = $this->get_settings( 'single_page_url' );
 		return wp_kses_post( $param_name );
 	}

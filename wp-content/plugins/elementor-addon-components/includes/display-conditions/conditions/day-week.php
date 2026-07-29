@@ -18,10 +18,10 @@ use Elementor\Controls_Manager;
 
 class Day_Week extends Condition_Base {
 
-	public function get_target_control() {
+	public function get_target_control(): array {
 
 		return array(
-			'label'       => esc_html__( 'Liste des jours', 'eac-components' ),
+			'label'       => esc_html__( 'List of days', 'eac-components' ),
 			'type'        => Controls_Manager::SELECT2,
 			'default'     => array( 'sunday' ),
 			'label_block' => true,
@@ -34,11 +34,11 @@ class Day_Week extends Condition_Base {
 		);
 	}
 
-	public function get_called_classname() {
+	public function get_called_classname(): string {
 		return get_called_class();
 	}
 
-	public function check( $settings, $value, $operateur = '', $tz = '' ) {
+	public function check( $settings, $value, $operateur = '', $tz = '' ): bool {
 		if ( empty( $value ) ) {
 			return false;
 		}
@@ -58,22 +58,22 @@ class Day_Week extends Condition_Base {
 	}
 
 	/**
-	 * Get Controls Options.
+	 * get_day_of_the_week
 	 *
 	 * @access public
 	 * @since 2.1.7
 	 *
 	 * @return array Les jours de la semaine
 	 */
-	protected function get_day_of_the_week() {
+	protected function get_day_of_the_week(): array {
 		return array(
-			'monday'    => esc_html__( 'Lundi', 'eac-components' ),
-			'tuesday'   => esc_html__( 'Mardi', 'eac-components' ),
-			'wednesday' => esc_html__( 'Mercredi', 'eac-components' ),
-			'thursday'  => esc_html__( 'Jeudi', 'eac-components' ),
-			'friday'    => esc_html__( 'Vendredi', 'eac-components' ),
-			'saturday'  => esc_html__( 'Samedi', 'eac-components' ),
-			'sunday'    => esc_html__( 'Dimanche', 'eac-components' ),
+			'monday'    => esc_html__( 'Monday', 'eac-components' ),
+			'tuesday'   => esc_html__( 'Tuesday', 'eac-components' ),
+			'wednesday' => esc_html__( 'Wednesday', 'eac-components' ),
+			'thursday'  => esc_html__( 'Thursday', 'eac-components' ),
+			'friday'    => esc_html__( 'Friday', 'eac-components' ),
+			'saturday'  => esc_html__( 'Saturday', 'eac-components' ),
+			'sunday'    => esc_html__( 'Sunday', 'eac-components' ),
 		);
 	}
 }

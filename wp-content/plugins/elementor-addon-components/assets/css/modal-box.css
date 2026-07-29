@@ -15,7 +15,7 @@
 .mb-modalbox__hidden-content-wrapper {
 	padding-block: 20px;
 	padding-inline: 20px;
-	overflow-y: auto;
+	overflow-block: auto;
 }
 
 /** Elementor section stretched */

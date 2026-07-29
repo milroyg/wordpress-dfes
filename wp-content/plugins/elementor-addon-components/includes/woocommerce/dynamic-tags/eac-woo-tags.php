@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Eac_Woo_Tags {
 
-	const TAG_NAMESPACE  = __NAMESPACE__ . '\\tags\\';
+	private const TAG_NAMESPACE  = __NAMESPACE__ . '\\tags\\';
 
 	/**
 	 * $tags_list
@@ -37,23 +37,17 @@ class Eac_Woo_Tags {
 		'Product_Sale',
 		'Product_Category_Image',
 		'Product_Category_Url',
-		'Product_Field_Keys',
-		'Product_Field_Values',
 		'Product_Best_Selling_Gallery',
 		'Product_Category_Gallery',
 		'Product_Categories_Gallery',
 		'Product_Featured_Gallery',
 		'Product_Gallery_Images',
 		'Product_Recent_Sales_Gallery',
-		'Product_Similar_Gallery',
+		'Product_Related_Gallery',
 		'Product_Upsell_Gallery',
+		'Product_Cross_Sell_Gallery',
 	);
 
-	/**
-	 * Constructeur de la class
-	 *
-	 * @access public
-	 */
 	public function __construct() {
 		add_action( 'elementor/dynamic_tags/register', array( $this, 'register_tags' ) );
 
@@ -62,13 +56,18 @@ class Eac_Woo_Tags {
 	}
 
 	/**
+	 * register_tags
 	 * Enregistre le groupe et les balises dynamiques WooCommerce
+	 *
+	 * @param \Elementor\Core\DynamicTags\Manager $dynamic_tags
+	 *
+	 * @return void
 	 */
-	public function register_tags( $dynamic_tags ) {
+	public function register_tags( \Elementor\Core\DynamicTags\Manager $dynamic_tags ): void {
 		// Enregistre le nouveau groupe avant d'enregistrer les Tags
-		$dynamic_tags->register_group( 'eac-woo-groupe', array( 'title' => esc_html__( 'EAC WooCommerce', 'eac-components' ) ) );
+		$dynamic_tags->register_group( 'eac-woo-groupe', array( 'title' => esc_html( 'EAC WooCommerce' ) ) );
 
-		foreach ( $this->tags_list as $file => $class_name ) {
+		foreach ( $this->tags_list as $class_name ) {
 			$full_class_name = self::TAG_NAMESPACE . $class_name;
 			$dynamic_tags->register( new $full_class_name() );
 		}

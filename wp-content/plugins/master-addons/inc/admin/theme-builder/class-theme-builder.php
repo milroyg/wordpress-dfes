@@ -1,11 +1,11 @@
 <?php
-namespace MasterHeaderFooter;
+namespace MasterAddons\Inc\Admin\Theme_Builder;
 
 defined( 'ABSPATH' ) || exit;
 
-if( !class_exists('Master_Header_Footer') ){
+if( !class_exists(__NAMESPACE__ . '\Theme_Builder') ){
 
-	class Master_Header_Footer{
+	class Theme_Builder{
 
 		public $dir;
 
@@ -26,7 +26,7 @@ if( !class_exists('Master_Header_Footer') ){
 		private static $plugin_name = 'Master Header Footer & Comment Form Builder';
 
 	    public function __construct(){
-			$this->jltma_plugin_path = JLTMA_PATH;
+			$this->jltma_plugin_path = \JLTMA_PATH;
 			$this->jltma_include_files();
 
 	        add_action('admin_footer', [$this, 'jltma_header_footer_modal_view']);
@@ -73,5 +73,3 @@ if( !class_exists('Master_Header_Footer') ){
 	    }
 	}
 }
-
-\MasterHeaderFooter\Master_Header_Footer::get_instance();

@@ -22,38 +22,39 @@ use Elementor\Controls_Manager;
  */
 class Url_Audio extends Data_Tag {
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-audio-url';
 	}
 
-	public function get_title() {
+	public function get_title(): string {
 		return 'Audio';
 	}
 
-	public function get_group() {
-		return 'eac-url';
+	public function get_group(): array {
+		return array( 'eac-url' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::URL_CATEGORY );
 	}
 
-	public function get_panel_template_setting_key() {
+	public function get_panel_template_setting_key(): string {
 		return 'audio_url';
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->add_control(
 			'audio_url',
 			array(
-				'label'   => esc_html__( 'Audio Url', 'eac-components' ),
-				'type'    => Controls_Manager::SELECT,
-				'options' => $this->get_all_audio_url(),
+				'label'       => esc_html__( 'Audio URL', 'eac-components' ),
+				'type'        => Controls_Manager::SELECT,
+				'options'     => $this->get_all_audio_url(),
+				'label_block' => true,
 			)
 		);
 	}
 
-	protected function get_value( array $options = array() ) {
+	protected function get_value( array $options = array() ): string {
 		$param_name = $this->get_settings( 'audio_url' );
 		return wp_kses_post( $param_name );
 	}

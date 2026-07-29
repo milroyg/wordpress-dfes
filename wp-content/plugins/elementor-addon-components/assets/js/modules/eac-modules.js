@@ -169,7 +169,7 @@ export class EacReadTheFeed {
 		this.allItems = [];
 		this.itemError = {};
 		this.ajaxOption = Math.random().toString(36).substring(2, 10); // Génère un nombre aléatoire unique pour l'instance courante
-		this.proxy = eacElementsPath.proxies + 'proxy-rss.php'; // eacElementsPath est initialisé dans 'eac-register-scripts.php'
+		this.proxy = eacElementsPath.proxies + 'proxy-rss.php'; // eacElementsPath est initialisé dans 'eac-load-assets.php'
 		this.proxyUrl = encodeURIComponent(feedUrl);
 		this.proxyNonce = nonce;
 		this.proxyId = id;

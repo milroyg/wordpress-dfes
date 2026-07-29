@@ -20,45 +20,45 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 
 class Author_Info extends Tag {
 
-	const VALS_LENGTH = 25;
+	private const VALS_LENGTH = 25;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-author-info';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Info Auteur', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Author info', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-author-groupe';
+	public function get_group(): array {
+		return array( 'eac-author-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array(
 			TagsModule::TEXT_CATEGORY,
 			TagsModule::POST_META_CATEGORY,
 		);
 	}
 
-	public function get_panel_template_setting_key() {
+	public function get_panel_template_setting_key(): string {
 		return 'author_info_type';
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->add_control(
 			'author_info_type',
 			array(
-				'label'   => esc_html__( 'Champ', 'eac-components' ),
+				'label'   => esc_html__( 'Field', 'eac-components' ),
 				'type'    => Controls_Manager::SELECT,
 				'default' => '',
 				'options' => array(
 					''            => esc_html__( 'Select...', 'eac-components' ),
-					'role'        => esc_html__( 'Rôle', 'eac-components' ),
-					'description' => esc_html__( 'Bio', 'eac-components' ),
-					'email'       => esc_html__( 'Email', 'eac-components' ),
-					'url'         => esc_html__( 'Site Web', 'eac-components' ),
-					'meta'        => esc_html__( 'Meta auteur', 'eac-components' ),
+					'role'        => esc_html__( 'Role', 'eac-components' ),
+					'description' => esc_html( 'Bio' ),
+					'email'       => esc_html( 'Email' ),
+					'url'         => esc_html__( 'Website', 'eac-components' ),
+					'meta'        => esc_html__( 'Meta author', 'eac-components' ),
 				),
 			)
 		);
@@ -66,7 +66,7 @@ class Author_Info extends Tag {
 		$this->add_control(
 			'author_info_meta_key',
 			array(
-				'label'     => esc_html__( 'Clé', 'eac-components' ),
+				'label'     => esc_html__( 'Key', 'eac-components' ),
 				'type'      => Controls_Manager::SELECT,
 				'options'   => $this->get_author_metas(),
 				'default'   => 'nickname',
@@ -75,7 +75,7 @@ class Author_Info extends Tag {
 		);
 	}
 
-	public function render() {
+	public function render(): void {
 		// Allow HTML in author bio section
 		// remove_filter('pre_user_description', 'wp_filter_kses');
 		$value = '';
@@ -109,7 +109,7 @@ class Author_Info extends Tag {
 	public function get_author_metas() {
 		global $authordata;
 		$list             = array();
-		$user_meta_fields = Eac_Tools_Util::get_supported_user_meta_fields();
+		$user_meta_fields = Eac_Tools_Util::get_supported_user_meta_field();
 
 		/**
 		 * La variable globale n'est pas définie

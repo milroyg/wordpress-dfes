@@ -1,0 +1,71 @@
+.sp-location-weather-tabs-panel {
+  .spl-weather-border-component {
+    .components-select-control {
+      flex-direction: row;
+      align-items: center;
+
+      .components-input-control__container {
+        flex: 0;
+      }
+
+      .components-select-control__input {
+        width: 185px;
+      }
+
+      .components-input-control__label {
+        text-transform: capitalize;
+        font-size: 13px;
+        font-weight: 400 !important;
+        font-family: Inter, sans-serif;
+        color: #1e1e1e;
+      }
+    }
+
+    .components-button {
+      .spl-weather-button-group-content span {
+        border-color: #2F2F2F;
+        padding: 2px;
+        margin: 3px;
+        background-color: #fff;
+        color: #2F2F2F;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      &.active {
+        .spl-weather-button-group-content span {
+          border-color: #fff;
+          background-color: #F26C0D;
+          color: #fff;
+        }
+      }
+    }
+
+    .spl-weather-border {
+      &-none {
+        border-style: none;
+      }
+
+      &-solid {
+        border-width: 1px;
+        border-style: solid;
+      }
+
+      &-dashed {
+        border-width: 1px;
+        border-style: dashed;
+      }
+
+      &-dotted {
+        border-width: 1px;
+        border-style: dotted;
+      }
+
+      &-double {
+        border-width: 3px;
+        border-style: double;
+      }
+    }
+
+  }
+}

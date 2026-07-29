@@ -1,0 +1,11 @@
+.spl-weather-header-control-reset {
+    height: 20px;
+
+    &:focus:not(:disabled) {
+        box-shadow: none;
+    }
+
+    &.components-button:hover svg {
+        color: #F26C0D;
+    }
+}

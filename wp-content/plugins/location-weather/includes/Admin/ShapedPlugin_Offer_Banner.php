@@ -150,6 +150,8 @@ class ShapedPlugin_Offer_Banner {
 	 * @return void
 	 */
 	public function dismiss_offer_banner() {
+		// Check user capabilities, current_user_can() is called internally.
+		location_weather_verify_capability();
 		check_ajax_referer( 'smart_tabs_offer_dismiss', 'nonce' );
 		$offer_id = isset( $_POST['offer_id'] ) ? sanitize_text_field( wp_unslash( $_POST['offer_id'] ) ) : '';
 

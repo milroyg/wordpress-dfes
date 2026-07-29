@@ -54,7 +54,7 @@ class Eac_Custom_Attributes {
 				$element->start_controls_section(
 					'eac_custom_element_attributes',
 					array(
-						'label' => esc_html__( 'Attributs personnalisés', 'eac-components' ),
+						'label' => esc_html__( 'Custom attributes', 'eac-components' ),
 						'tab'   => Controls_Manager::TAB_ADVANCED,
 					)
 				);
@@ -62,9 +62,9 @@ class Eac_Custom_Attributes {
 				$element->add_control(
 					'eac_attributes',
 					array(
-						'label'       => esc_html__( 'Ajouter vos attributs', 'eac-components' ),
+						'label'       => esc_html__( 'Add your attributes', 'eac-components' ),
 						'type'        => Controls_Manager::TEXTAREA,
-						'placeholder' => esc_html__( 'Clé|Valeur', 'eac-components' ),
+						'placeholder' => esc_html__( 'Key|Value', 'eac-components' ),
 						'dynamic'     => array(
 							'active' => true,
 						),
@@ -77,12 +77,12 @@ class Eac_Custom_Attributes {
 					'eac_attributes_usage',
 					array(
 						'type' => Controls_Manager::RAW_HTML,
-						'raw' => sprintf(
-							/* translators: 1: Description, 2: Link opening tag, 3: Link closing tag. */
-							esc_html__( '%1$s %2$sConsulter la documentation%3$s', 'eac-components' ),
-							esc_html__( "Séparer la clé de sa valeur avec le caractère pipe '|'. Chaque attribut sur une ligne distincte.", 'eac-components' ),
+						'raw'  => sprintf(
+							'%1$s %2$s%3$s%4$s',
+							esc_html__( "Separate the attribute key from the value using the character pipe '|'. Each attribute on a separate line", 'eac-components' ),
 							'<a href="https://elementor-addon-components.com/add-your-custom-attributes-with-elementor/#how-to-add-attributes-to-an-element" target="_blank" rel="noopener noreferrer">',
-							'</a>',
+							esc_html__( 'Consult the documentation', 'eac-components' ),
+							'</a>'
 						),
 						'content_classes' => 'elementor-descriptor',
 					)

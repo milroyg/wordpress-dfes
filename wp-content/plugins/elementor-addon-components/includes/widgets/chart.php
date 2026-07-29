@@ -15,9 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
 use EACCustomWidgets\Core\Utils\Eac_Tools_Util;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Modules\DynamicTags\Module as TagsModule;
 use Elementor\Widget_Base;
@@ -29,21 +28,6 @@ use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
 use Elementor\Repeater;
 
 class Chart_Widget extends Widget_Base {
-
-	/**
-	 * Constructeur de la class Chart_Widget
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		wp_register_script( 'chart-src', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js', array(), '2.9.3', true );
-		wp_register_script( 'chart-color', 'https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.6.1/randomColor.min.js', array(), '0.6.1', true );
-		wp_register_script( 'chart-label', 'https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/0.7.0/chartjs-plugin-datalabels.min.js', array(), '0.7.0', true );
-		wp_register_script( 'chart-style', EAC_PLUGIN_URL . 'assets/js/chart/chartjs-plugin-style.min.js', array(), '0.5.0', true );
-		wp_register_script( 'eac-chart', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-chart' ), array( 'jquery', 'elementor-frontend', 'chart-src', 'chart-color', 'chart-label', 'chart-style' ), '1.5.4', true );
-
-		wp_register_style( 'eac-chart', EAC_Plugin::instance()->get_style_url( 'assets/css/eac-chart' ), array( 'eac-frontend' ), '1.5.4' );
-	}
 
 	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
@@ -59,10 +43,10 @@ class Chart_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -70,10 +54,10 @@ class Chart_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -81,10 +65,10 @@ class Chart_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -92,10 +76,10 @@ class Chart_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -103,10 +87,10 @@ class Chart_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
-		return array( 'chart-src', 'chart-color', 'chart-label', 'chart-style', 'eac-chart' );
+		return array( 'eac-chart' );
 	}
 
 	/**
@@ -115,7 +99,7 @@ class Chart_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
 		return array( 'eac-chart' );
@@ -130,8 +114,8 @@ class Chart_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -139,10 +123,10 @@ class Chart_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -152,6 +136,15 @@ class Chart_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -166,7 +159,7 @@ class Chart_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'chart_settings',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -174,10 +167,10 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_file_import',
 				array(
-					'label'        => esc_html__( 'Importer un fichier', 'eac-components' ),
+					'label'        => esc_html__( 'Import file', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -186,8 +179,8 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_file_url',
 				array(
-					'label'       => esc_html__( 'URL', 'eac-components' ),
-					'description' => esc_html__( 'Copier/Coller le chemin absolu du fichier: Format JSON', 'eac-components' ),
+					'label'       => esc_html( 'URL' ),
+					'description' => esc_html__( 'Copy/Paste the absolute path of the file: JSON format', 'eac-components' ),
 					'type'        => Controls_Manager::URL,
 					'dynamic'     => array( 'active' => true ),
 					'placeholder' => 'http://your-link.com/file-json.txt',
@@ -198,11 +191,11 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_name',
 				array(
-					'label'       => esc_html__( 'Titre du diagramme', 'eac-components' ),
+					'label'       => esc_html__( 'Chart title', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
-					'default'     => 'Titre du diagramme',
+					'default'     => 'Chart title',
 					'label_block' => true,
 					'condition'   => array( 'chart_file_import!' => 'yes' ),
 				)
@@ -211,17 +204,17 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_type',
 				array(
-					'label'   => esc_html__( 'Type de diagramme', 'eac-components' ),
+					'label'   => esc_html__( 'Chart type', 'eac-components' ),
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'bar',
 					'options' => array(
-						'bar'           => esc_html__( 'Barre', 'eac-components' ),
-						'horizontalBar' => esc_html__( 'Barre horizontale', 'eac-components' ),
-						'line'          => esc_html__( 'Ligne', 'eac-components' ),
-						'pie'           => esc_html__( 'Camembert', 'eac-components' ),
-						'doughnut'      => esc_html__( 'Donut', 'eac-components' ),
-						'radar'         => esc_html__( 'Radar', 'eac-components' ),
-						'polarArea'     => esc_html__( 'Polaire', 'eac-components' ),
+						'bar'           => esc_html__( 'Bar', 'eac-components' ),
+						'horizontalBar' => esc_html__( 'Horizontal bar', 'eac-components' ),
+						'line'          => esc_html__( 'Line', 'eac-components' ),
+						'pie'           => esc_html__( 'Pie', 'eac-components' ),
+						'doughnut'      => esc_html__( 'Doughnut', 'eac-components' ),
+						'radar'         => esc_html( 'Radar' ),
+						'polarArea'     => esc_html__( 'Polar', 'eac-components' ),
 					),
 				)
 			);
@@ -233,7 +226,7 @@ class Chart_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'chart_settings_x',
 			array(
-				'label'     => esc_html__( 'Abscisse (X)', 'eac-components' ),
+				'label'     => esc_html__( 'X Axis', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_CONTENT,
 				'condition' => array( 'chart_file_import!' => 'yes' ),
 			)
@@ -242,10 +235,10 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_x_title',
 				array(
-					'label'       => esc_html__( "Titre de l'axe", 'eac-components' ),
+					'label'       => esc_html__( 'Axis title', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
-					'default'     => 'Abscisses',
-					'placeholder' => esc_html__( 'Abscisses', 'eac-components' ),
+					'default'     => esc_html__( 'X Axis', 'eac-components' ),
+					'placeholder' => esc_html__( 'X Axis', 'eac-components' ),
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
 					'label_block' => true,
@@ -256,13 +249,13 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_x_data',
 				array(
-					'label'       => esc_html__( 'Liste des données', 'eac-components' ),
-					'description' => esc_html__( 'Virgule pour séparer les valeurs', 'eac-components' ),
+					'label'       => esc_html__( 'Data', 'eac-components' ),
+					'description' => esc_html__( 'Comma to separate values', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
-					'default'     => 'Un,Deux,Trois,Quatre,Cinq,Six',
-					'placeholder' => esc_html__( 'Un,Deux,Trois,Quatre,Cinq,Six', 'eac-components' ),
+					'default'     => esc_html( 'One,Two,Three,Four,Five,Six' ),
+					'placeholder' => esc_html( 'One,Two,Three,Four,Five,Six' ),
 					'label_block' => true,
 				)
 			);
@@ -274,7 +267,7 @@ class Chart_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'chart_settings_y',
 			array(
-				'label'     => esc_html__( 'Ordonnée (Y)', 'eac-components' ),
+				'label'     => esc_html__( 'Y Axis', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_CONTENT,
 				'condition' => array( 'chart_file_import!' => 'yes' ),
 			)
@@ -283,12 +276,12 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_y_title',
 				array(
-					'label'       => esc_html__( "Titre de l'axe", 'eac-components' ),
+					'label'       => esc_html__( 'Axis title', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
-					'default'     => 'Ordonnées',
+					'default'     => esc_html__( 'Y Axis', 'eac-components' ),
+					'placeholder' => esc_html__( 'Y Axis', 'eac-components' ),
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
-					'placeholder' => esc_html__( 'Ordonnées', 'eac-components' ),
 					'label_block' => true,
 					'condition'   => array( 'chart_type' => array( 'bar', 'line', 'horizontalBar' ) ),
 				)
@@ -297,10 +290,10 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_y_suffix',
 				array(
-					'label'        => esc_html__( 'Ajouter un suffixe', 'eac-components' ),
+					'label'        => esc_html__( 'Add suffix', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'separator'    => 'before',
@@ -311,11 +304,11 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_y_suffix_carac',
 				array(
-					'label'       => esc_html__( 'Suffixe', 'eac-components' ),
+					'label'       => esc_html__( 'Suffix', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'ai'          => array( 'active' => false ),
-					'default'     => esc_html__( ' €', 'eac-components' ),
-					'placeholder' => esc_html__( ' €', 'eac-components' ),
+					'default'     => esc_html( ' €' ),
+					'placeholder' => esc_html( ' €' ),
 					'condition'   => array( 'chart_y_suffix' => 'yes' ),
 				)
 			);
@@ -323,10 +316,10 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_stacked',
 				array(
-					'label'        => esc_html__( 'Empilées', 'eac-components' ),
+					'label'        => esc_html__( 'Stacked', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'separator'    => 'before',
@@ -337,10 +330,10 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_stepped',
 				array(
-					'label'        => esc_html__( 'En escalier', 'eac-components' ),
+					'label'        => esc_html__( 'Stepped', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'separator'    => 'before',
@@ -348,7 +341,7 @@ class Chart_Widget extends Widget_Base {
 				)
 			);
 
-			/*
+			/**
 			$this->add_control('chart_y_100',
 				[
 					'label' => esc_html__("Forcer à 100%", 'eac-components'),
@@ -366,15 +359,16 @@ class Chart_Widget extends Widget_Base {
 						],
 					],
 				]
-			);*/
+			);
+			*/
 
 			$this->add_control(
 				'chart_add_line',
 				array(
-					'label'        => esc_html__( 'Ajouter une ligne (Section suivante)', 'eac-components' ),
+					'label'        => esc_html__( 'Add line (Next section)', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array( 'chart_type' => 'bar' ),
@@ -387,7 +381,7 @@ class Chart_Widget extends Widget_Base {
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
 					'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
-					'raw'             => esc_html__( "Chaque série doit avoir autant de valeurs tel que défini pour l'axe des abscisses", 'eac-components' ),
+					'raw'             => esc_html__( 'Each series must have as many values as those defined for the X-Axis', 'eac-components' ),
 					'separator'       => 'before',
 				)
 			);
@@ -397,19 +391,19 @@ class Chart_Widget extends Widget_Base {
 			$repeater->add_control(
 				'chart_y_legend',
 				array(
-					'label'       => esc_html__( 'Étiquette de la série', 'eac-components' ),
+					'label'       => esc_html__( 'Serie label', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
-					'placeholder' => esc_html__( 'Série', 'eac-components' ),
+					'placeholder' => esc_html__( 'Serie', 'eac-components' ),
 				)
 			);
 
 			$repeater->add_control(
 				'chart_y_data',
 				array(
-					'label'       => esc_html__( 'Liste des données', 'eac-components' ),
-					'description' => esc_html__( 'Virgule pour séparer les valeurs<br>Point comme séparateur de décimal', 'eac-components' ),
+					'label'       => esc_html__( 'Data', 'eac-components' ),
+					'description' => esc_html__( 'Comma to separate values. Point as decimal separator', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
@@ -443,18 +437,18 @@ class Chart_Widget extends Widget_Base {
 						),
 					),
 					'title_field' => '{{{ chart_y_legend }}}',
-					'button_text' => esc_html__( 'Ajouter une étiquette', 'eac-components' ),
+					'button_text' => esc_html__( 'Add serie', 'eac-components' ),
 				)
 			);
 
 		$this->end_controls_section();
 
-		// -------------- Axe de droite Y2 ------------------
+		// -------------- Right axis Y2 ------------------
 
 		$this->start_controls_section(
 			'chart_settings_y2',
 			array(
-				'label'      => esc_html__( 'Ligne', 'eac-components' ),
+				'label'      => esc_html__( 'Line', 'eac-components' ),
 				'tab'        => Controls_Manager::TAB_CONTENT,
 				'conditions' => array(
 					'relation' => 'and',
@@ -482,10 +476,10 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_y2_addscale',
 				array(
-					'label'        => esc_html__( 'Axe de droite', 'eac-components' ),
+					'label'        => esc_html__( 'Right axis', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -494,11 +488,11 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_y2_title',
 				array(
-					'label'       => esc_html__( "Titre de l'axe", 'eac-components' ),
+					'label'       => esc_html__( 'Axis title', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'ai'          => array( 'active' => false ),
-					'default'     => 'Ordonnées 2',
-					'placeholder' => esc_html__( 'Ordonnées 2', 'eac-components' ),
+					'default'     => 'Y Axis 2',
+					'placeholder' => esc_html__( 'Y Axis 2', 'eac-components' ),
 					'label_block' => true,
 					'condition'   => array( 'chart_y2_addscale' => 'yes' ),
 				)
@@ -507,10 +501,10 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_y2_samescale',
 				array(
-					'label'        => esc_html__( 'Aligner les échelles', 'eac-components' ),
+					'label'        => esc_html__( 'Align scales', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array( 'chart_y2_addscale' => 'yes' ),
@@ -520,10 +514,10 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_y2_suffix',
 				array(
-					'label'        => esc_html__( 'Ajouter un suffixe', 'eac-components' ),
+					'label'        => esc_html__( 'Add suffix', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array( 'chart_y2_addscale' => 'yes' ),
@@ -533,11 +527,11 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_y2_suffix_carac',
 				array(
-					'label'       => esc_html__( 'Suffixe', 'eac-components' ),
+					'label'       => esc_html__( 'Suffix', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'ai'          => array( 'active' => false ),
-					'default'     => esc_html__( ' %', 'eac-components' ),
-					'placeholder' => esc_html__( ' %', 'eac-components' ),
+					'default'     => esc_html( ' %' ),
+					'placeholder' => esc_html( ' %' ),
 					'condition'   => array(
 						'chart_y2_addscale' => 'yes',
 						'chart_y2_suffix'   => 'yes',
@@ -548,11 +542,11 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_y2_label',
 				array(
-					'label'       => esc_html__( 'Étiquette de la série', 'eac-components' ),
+					'label'       => esc_html__( 'Serie label', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'ai'          => array( 'active' => false ),
-					'default'     => esc_html__( 'Serie ligne', 'eac-components' ),
-					'placeholder' => esc_html__( 'Serie ligne', 'eac-components' ),
+					'default'     => esc_html__( 'Line serie', 'eac-components' ),
+					'placeholder' => esc_html__( 'Line serie', 'eac-components' ),
 					'label_block' => true,
 					'separator'   => 'before',
 				)
@@ -561,8 +555,8 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_y2_data',
 				array(
-					'label'       => esc_html__( 'Liste des données', 'eac-components' ),
-					'description' => esc_html__( 'Virgule pour séparer les valeurs. Point comme séparateur de décimal', 'eac-components' ),
+					'label'       => esc_html__( 'Data', 'eac-components' ),
+					'description' => esc_html__( 'Comma to separate values. Point as decimal separator', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'ai'          => array( 'active' => false ),
 					'default'     => '10,15,17,16.3,17.4,14.2',
@@ -578,8 +572,8 @@ class Chart_Widget extends Widget_Base {
 					'type'    => Controls_Manager::SELECT,
 					'default' => '1',
 					'options' => array(
-						'1' => esc_html__( 'Devant', 'eac-components' ),
-						'2' => esc_html__( 'Derrière', 'eac-components' ),
+						'1' => esc_html__( 'In front', 'eac-components' ),
+						'2' => esc_html__( 'Behind', 'eac-components' ),
 					),
 				)
 			);
@@ -590,7 +584,7 @@ class Chart_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'chart_content',
 			array(
-				'label' => esc_html__( 'Contenu', 'eac-components' ),
+				'label' => esc_html__( 'Content', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -598,10 +592,10 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_content_legend',
 				array(
-					'label'        => esc_html__( 'Légende', 'eac-components' ),
+					'label'        => esc_html__( 'Legend', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -610,10 +604,10 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_grid_xaxis',
 				array(
-					'label'        => esc_html__( 'Grille des abscisses (X)', 'eac-components' ),
+					'label'        => esc_html__( 'X axis grid', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 					'condition'    => array( 'chart_type' => array( 'bar', 'line', 'horizontalBar' ) ),
@@ -623,10 +617,10 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_grid_yaxis',
 				array(
-					'label'        => esc_html__( 'Grille des ordonnées (Y)', 'eac-components' ),
+					'label'        => esc_html__( 'Y axis grid', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 					'condition'    => array( 'chart_type' => array( 'bar', 'line', 'horizontalBar' ) ),
@@ -636,10 +630,10 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_grid_yaxis2',
 				array(
-					'label'        => esc_html__( 'Grille des ordonnées (Y2)', 'eac-components' ),
+					'label'        => esc_html__( 'Y2 axis grid', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array(
@@ -652,10 +646,10 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_content_value',
 				array(
-					'label'        => esc_html__( 'Afficher les valeurs', 'eac-components' ),
+					'label'        => esc_html__( 'Display values', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -669,7 +663,7 @@ class Chart_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'chart_general_style',
 			array(
-				'label' => esc_html__( 'Général', 'eac-components' ),
+				'label' => esc_html__( 'General', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -677,7 +671,7 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_wrapper',
 				array(
-					'label'     => esc_html__( 'Conteneur', 'eac-components' ),
+					'label'     => esc_html__( 'Container', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 				)
 			);
@@ -685,7 +679,7 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_wrapper_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .chart__wrapper' => 'background-color: {{VALUE}};' ),
 				)
@@ -694,7 +688,7 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_global_fontsize',
 				array(
-					'label'   => esc_html__( 'Taille de la police', 'eac-components' ),
+					'label'   => esc_html__( 'Font size', 'eac-components' ),
 					'type'    => Controls_Manager::SLIDER,
 					'default' => array(
 						'size' => 15,
@@ -722,7 +716,7 @@ class Chart_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'     => 'chart_global_shadow',
-					'label'    => esc_html__( 'Ombre', 'eac-components' ),
+					'label'    => esc_html__( 'Shadow', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .chart__wrapper',
 				)
 			);
@@ -730,7 +724,7 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_palette_series',
 				array(
-					'label'     => esc_html__( 'Séries', 'eac-components' ),
+					'label'     => esc_html__( 'Series', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -740,10 +734,10 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_palette_color',
 				array(
-					'label'        => esc_html__( 'Couleurs globales', 'eac-components' ),
+					'label'        => esc_html__( 'Global colors', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array( 'chart_random_color!' => 'yes' ),
@@ -753,10 +747,10 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_random_color',
 				array(
-					'label'        => esc_html__( 'Couleurs aléatoires', 'eac-components' ),
+					'label'        => esc_html__( 'Random color', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array( 'chart_palette_color!' => 'yes' ),
@@ -766,10 +760,10 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_transparence_color',
 				array(
-					'label'   => esc_html__( 'Transparence des couleurs', 'eac-components' ),
+					'label'   => esc_html__( 'Color transparency', 'eac-components' ),
 					'type'    => Controls_Manager::SLIDER,
 					'default' => array(
-						'size' => .8,
+						'size' => 1,
 						'unit' => 'px',
 					),
 					'range'   => array(
@@ -785,7 +779,7 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_palette_legend',
 				array(
-					'label'     => esc_html__( 'Légende', 'eac-components' ),
+					'label'     => esc_html__( 'Legend', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -794,7 +788,7 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_legend_color',
 				array(
-					'label'       => esc_html__( 'Couleur des étiquettes', 'eac-components' ),
+					'label'       => esc_html__( 'Labels color', 'eac-components' ),
 					'type'        => Controls_Manager::COLOR,
 					'global'      => array( 'default' => Global_Colors::COLOR_TEXT ),
 					'render_type' => 'template',
@@ -804,7 +798,7 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_gridline_color',
 				array(
-					'label'       => esc_html__( 'Couleur de la grille', 'eac-components' ),
+					'label'       => esc_html__( 'Grid color', 'eac-components' ),
 					'type'        => Controls_Manager::COLOR,
 					'global'      => array( 'default' => Global_Colors::COLOR_ACCENT ),
 					'render_type' => 'template',
@@ -817,7 +811,7 @@ class Chart_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'chart_values_style',
 			array(
-				'label'     => esc_html__( 'Valeurs', 'eac-components' ),
+				'label'     => esc_html__( 'Values', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array( 'chart_content_value' => 'yes' ),
 			)
@@ -826,12 +820,12 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_position_value',
 				array(
-					'label'   => esc_html__( "Position de l'étiquette", 'eac-components' ),
+					'label'   => esc_html__( 'Label position', 'eac-components' ),
 					'type'    => Controls_Manager::SELECT,
 					'default' => '0',
 					'options' => array(
-						'0' => esc_html__( "À l'intérieur", 'eac-components' ),
-						'1' => esc_html__( "À l'extérieur", 'eac-components' ),
+						'0' => esc_html__( 'Inside', 'eac-components' ),
+						'1' => esc_html__( 'Outside', 'eac-components' ),
 					),
 				)
 			);
@@ -839,10 +833,10 @@ class Chart_Widget extends Widget_Base {
 			$this->add_control(
 				'chart_percent_value',
 				array(
-					'label'        => esc_html__( 'Afficher en pourcentage', 'eac-components' ),
+					'label'        => esc_html__( 'Display percent', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array( 'chart_type' => array( 'pie', 'doughnut', 'polarArea' ) ),
@@ -859,7 +853,7 @@ class Chart_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 		/**
 		 * highlight_string("<?php\n\$settings =\n" . var_export(explode("=", explode(" ", str_replace(array("[","]"), '', $settings['__dynamic__']['chart_file_url']))[3])[1], true) . ";\n?>");
@@ -917,7 +911,7 @@ class Chart_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render_chart( $datajson ) {
+	protected function render_chart( $datajson ): void {
 		$settings = $this->get_settings_for_display();
 
 		// Wrapper de la liste des posts et data-settings avec un ID unique
@@ -931,11 +925,11 @@ class Chart_Widget extends Widget_Base {
 		$this->add_render_attribute( 'chart_wrapper', 'class', 'chart__wrapper' );
 		$this->add_render_attribute( 'chart_wrapper', 'id', esc_attr( $container_id ) );
 		$this->add_render_attribute( 'chart_wrapper', 'data-settings', $this->get_settings_json( esc_attr( $container_id ), esc_attr( $canvas_id ), esc_attr( $download_id ), $datajson ) );
-		$label = esc_html__( 'Type de diagramme', 'eac-components' ) . ' ' . ucfirst( $settings['chart_type'] ) . '. ' . esc_html( $title );
+		$label = sprintf( '%1$s %2$s - %3$s', esc_html__( 'Chart type', 'eac-components' ), ucfirst( $settings['chart_type'] ), esc_html( $title ) );
 		?>
 		<div <?php $this->print_render_attribute_string( 'chart_wrapper' ); ?>>
 			<div class='chart__wrapper-download eac-icon-svg'>
-				<a id='<?php echo esc_attr( $download_id ); ?>' download='eac-media_chart.png' href='#' aria-label='<?php echo esc_attr__( 'Sauvegarder comme une image', 'eac-components' ); ?>'>
+				<a id='<?php echo esc_attr( $download_id ); ?>' download='eac-media_chart.png' href='#' aria-label='<?php echo esc_attr__( 'Save as image', 'eac-components' ); ?>'>
 				<?php
 				Icons_Manager::render_icon(
 					array(
@@ -946,7 +940,7 @@ class Chart_Widget extends Widget_Base {
 				); ?>
 				</a>
 			</div>
-			<div id='chart__wrapper-swap' class='chart__wrapper-swap eac-icon-svg'  aria-label='<?php echo esc_attr__( 'Inverser les axes', 'eac-components' ); ?>' tabindex='0'>
+			<div id='chart__wrapper-swap' class='chart__wrapper-swap eac-icon-svg'  aria-label='<?php echo esc_attr__( 'Swap axis', 'eac-components' ); ?>' tabindex='0'>
 				<?php
 				Icons_Manager::render_icon(
 					array(
@@ -973,9 +967,8 @@ class Chart_Widget extends Widget_Base {
 	 *
 	 * @access    protected
 	 */
-	protected function get_settings_json( $rid, $sid, $did, $data_json = array() ) {
-		$module_settings = $this->get_settings_for_display();
-
+	protected function get_settings_json( $rid, $sid, $did, $data_json = array() ): string {
+		$settings          = $this->get_settings_for_display();
 		$array_label       = array();
 		$array_data_series = array();
 		$dboolean          = array();
@@ -983,19 +976,19 @@ class Chart_Widget extends Widget_Base {
 		$suffix_y2         = 0;
 
 		// Ajout d'un ligne
-		$addline   = 'yes' === $module_settings['chart_add_line'] ? 1 : 0;
-		$orderline = 1 === $addline ? $module_settings['chart_order_line'] : 0;
-		$addscale  = 1 === $addline ? 'yes' === $module_settings['chart_y2_addscale'] ? 1 : 0 : 0;
-		$samescale = 1 === $addline ? 'yes' === $module_settings['chart_y2_samescale'] ? 1 : 0 : 0;
-		$y2title   = 1 === $addline ? esc_html( $module_settings['chart_y2_title'] ) : '';
-		$y2label   = 1 === $addline ? esc_html( $module_settings['chart_y2_label'] ) : '';
-		$y2data    = 1 === $addline && ! empty( $module_settings['chart_y2_data'] ) ? esc_html( $module_settings['chart_y2_data'] ) : '';
+		$addline   = 'yes' === $settings['chart_add_line'] ? 1 : 0;
+		$orderline = 1 === $addline ? $settings['chart_order_line'] : 0;
+		$addscale  = 1 === $addline ? 'yes' === $settings['chart_y2_addscale'] ? 1 : 0 : 0;
+		$samescale = 1 === $addline ? 'yes' === $settings['chart_y2_samescale'] ? 1 : 0 : 0;
+		$y2title   = 1 === $addline ? esc_html( $settings['chart_y2_title'] ) : '';
+		$y2label   = 1 === $addline ? esc_html( $settings['chart_y2_label'] ) : '';
+		$y2data    = 1 === $addline && ! empty( $settings['chart_y2_data'] ) ? esc_html( $settings['chart_y2_data'] ) : '';
 
 		// C'est un fichier JSON. Boucle sur les données
 		if ( ! empty( $data_json ) ) {
 			foreach ( $data_json['datasets'] as $item ) {
 				// type de chart === bar et key/value 'type: line' pour l'ajout d'une ligne
-				if ( 'bar' === $module_settings['chart_type'] && isset( $item['type'] ) && 'line' === $item['type'] ) {
+				if ( 'bar' === $settings['chart_type'] && isset( $item['type'] ) && 'line' === $item['type'] ) {
 					$addline   = 1;
 					$orderline = 1;
 					$addscale  = isset( $data_json['options']['y_axis2']['display'] ) ? $data_json['options']['y_axis2']['display'] : 0; // Axe Y de droite
@@ -1009,7 +1002,7 @@ class Chart_Widget extends Widget_Base {
 				}
 			}
 		} else { // Champs standards
-			foreach ( $module_settings['chart_y_data_list'] as $item ) {
+			foreach ( $settings['chart_y_data_list'] as $item ) {
 				if ( ! empty( $item['chart_y_data'] ) ) {
 					array_push( $array_label, esc_html( $item['chart_y_legend'] ) );
 					array_push( $array_data_series, esc_html( $item['chart_y_data'] ) );
@@ -1021,9 +1014,9 @@ class Chart_Widget extends Widget_Base {
 		if ( ! empty( $data_json ) ) {
 			$suffix_y  = isset( $data_json['options']['y_axis']['suffix'] ) ? esc_html( $data_json['options']['y_axis']['suffix'] ) : 0;
 			$suffix_y2 = isset( $data_json['options']['y_axis2']['suffix'] ) ? esc_html( $data_json['options']['y_axis2']['suffix'] ) : 0;
-		} elseif ( 'yes' === $module_settings['chart_y_suffix'] || 'yes' === $module_settings['chart_y2_suffix'] ) {
-			$suffix_y  = ! empty( $module_settings['chart_y_suffix_carac'] ) ? esc_html( $module_settings['chart_y_suffix_carac'] ) : 0;
-			$suffix_y2 = ! empty( $module_settings['chart_y2_suffix_carac'] ) ? esc_html( $module_settings['chart_y2_suffix_carac'] ) : 0;
+		} elseif ( 'yes' === $settings['chart_y_suffix'] || 'yes' === $settings['chart_y2_suffix'] ) {
+			$suffix_y  = ! empty( $settings['chart_y_suffix_carac'] ) ? esc_html( $settings['chart_y_suffix_carac'] ) : 0;
+			$suffix_y2 = ! empty( $settings['chart_y2_suffix_carac'] ) ? esc_html( $settings['chart_y2_suffix_carac'] ) : 0;
 		}
 
 		array_push( $dboolean, $addline ); // Rang 0
@@ -1031,59 +1024,59 @@ class Chart_Widget extends Widget_Base {
 		array_push( $dboolean, $addscale );
 		array_push( $dboolean, $samescale );
 
-		array_push( $dboolean, 'yes' === $module_settings['chart_content_legend'] ? 1 : 0 );
-		array_push( $dboolean, 'yes' === $module_settings['chart_grid_xaxis'] ? 1 : 0 );
-		array_push( $dboolean, 'yes' === $module_settings['chart_grid_yaxis'] ? 1 : 0 );
-		array_push( $dboolean, 'yes' === $module_settings['chart_grid_yaxis2'] ? 1 : 0 );
+		array_push( $dboolean, 'yes' === $settings['chart_content_legend'] ? 1 : 0 );
+		array_push( $dboolean, 'yes' === $settings['chart_grid_xaxis'] ? 1 : 0 );
+		array_push( $dboolean, 'yes' === $settings['chart_grid_yaxis'] ? 1 : 0 );
+		array_push( $dboolean, 'yes' === $settings['chart_grid_yaxis2'] ? 1 : 0 );
 
-		array_push( $dboolean, 'yes' === $module_settings['chart_content_value'] ? 1 : 0 );
-		array_push( $dboolean, $module_settings['chart_position_value'] );
-		array_push( $dboolean, 'yes' === $module_settings['chart_percent_value'] ? 1 : 0 );
+		array_push( $dboolean, 'yes' === $settings['chart_content_value'] ? 1 : 0 );
+		array_push( $dboolean, 'yes' === $settings['chart_content_value'] ? $settings['chart_position_value'] : 0 );
+		array_push( $dboolean, 'yes' === $settings['chart_percent_value'] ? 1 : 0 );
 
 		// Unparenthesized deprecated(a ? b : c) ? d : e` or `a ? b : (c ? d : e)
-		array_push( $dboolean, ( ! empty( $data_json ) && isset( $data_json['options']['stacked'] ) ? $data_json['options']['stacked'] : 'yes' === $module_settings['chart_stacked'] ) ? 1 : 0 );
-		array_push( $dboolean, ( ! empty( $data_json ) && isset( $data_json['options']['stepped'] ) ? $data_json['options']['stepped'] : 'yes' === $module_settings['chart_stepped'] ) ? 1 : 0 );
+		array_push( $dboolean, ( ! empty( $data_json ) && isset( $data_json['options']['stacked'] ) ? $data_json['options']['stacked'] : 'yes' === $settings['chart_stacked'] ) ? 1 : 0 );
+		array_push( $dboolean, ( ! empty( $data_json ) && isset( $data_json['options']['stepped'] ) ? $data_json['options']['stepped'] : 'yes' === $settings['chart_stepped'] ) ? 1 : 0 );
 
 		array_push( $dboolean, 0 ); // Y Forced 100%
-		array_push( $dboolean, $module_settings['chart_transparence_color']['size'] );
-		array_push( $dboolean, 'yes' === $module_settings['chart_random_color'] ? 1 : 0 );
-		array_push( $dboolean, 'yes' === $module_settings['chart_palette_color'] ? 1 : 0 );
-		array_push( $dboolean, $module_settings['chart_global_fontsize']['size'] );
+		array_push( $dboolean, $settings['chart_transparence_color']['size'] );
+		array_push( $dboolean, 'yes' === $settings['chart_random_color'] ? 1 : 0 );
+		array_push( $dboolean, 'yes' === $settings['chart_palette_color'] ? 1 : 0 );
+		array_push( $dboolean, $settings['chart_global_fontsize']['size'] );
 
 		array_push( $dboolean, $suffix_y );
 		array_push( $dboolean, $suffix_y2 );
 
-		$settings = array(
+		$module_settings = array(
 			'data_sid'     => esc_attr( $sid ),
 			'data_rid'     => esc_attr( $rid ),
 			'data_did'     => esc_attr( $did ),
 
-			'data_type'    => $module_settings['chart_type'],
-			'data_title'   => ! empty( $data_json ) && isset( $data_json['title'] ) ? esc_html( $data_json['title'] ) : esc_html( $module_settings['chart_name'] ),
-			'data_labels'  => ! empty( $data_json ) && isset( $data_json['labels'] ) ? esc_html( $data_json['labels'] ) : esc_html( $module_settings['chart_x_data'] ),
+			'data_type'    => $settings['chart_type'],
+			'data_title'   => ! empty( $data_json ) && isset( $data_json['title'] ) ? esc_html( $data_json['title'] ) : esc_html( $settings['chart_name'] ),
+			'data_labels'  => ! empty( $data_json ) && isset( $data_json['labels'] ) ? esc_html( $data_json['labels'] ) : esc_html( $settings['chart_x_data'] ),
 
 			// Plusieurs séries. Séparateur = virgule pour chaque label
 			'x_label'      => implode( ',', $array_label ),
-			'x_title'      => ! empty( $data_json ) && isset( $data_json['options']['x_axis']['title'] ) ? esc_html( $data_json['options']['x_axis']['title'] ) : esc_html( $module_settings['chart_x_title'] ),
+			'x_title'      => ! empty( $data_json ) && isset( $data_json['options']['x_axis']['title'] ) ? esc_html( $data_json['options']['x_axis']['title'] ) : esc_html( $settings['chart_x_title'] ),
 
 			// Plusieurs séries de données. Séparateur = point-virgule pour chaque série de données
 			'y_data'       => implode( ';', $array_data_series ),
-			'y_title'      => ! empty( $data_json ) && isset( $data_json['options']['y_axis']['title'] ) ? esc_html( $data_json['options']['y_axis']['title'] ) : esc_html( $module_settings['chart_y_title'] ),
+			'y_title'      => ! empty( $data_json ) && isset( $data_json['options']['y_axis']['title'] ) ? esc_html( $data_json['options']['y_axis']['title'] ) : esc_html( $settings['chart_y_title'] ),
 
 			'y2_data'      => $y2data,
 			'y2_title'     => $y2title,
 			'y2_label'     => $y2label,
 
-			'color_legend' => $module_settings['chart_legend_color'],      // Couleur légende, labels et titre
-			'color_grid'   => $module_settings['chart_gridline_color'],    // Couleur de la grille
+			'color_legend' => $settings['chart_legend_color'],      // Couleur légende, labels et titre
+			'color_grid'   => $settings['chart_gridline_color'],    // Couleur de la grille
 
 			'data_boolean' => implode( ',', $dboolean ),
 
-			'data_color'   => Eac_Tools_Util::get_palette_colors(),
+			'data_color'   => implode( ',', Eac_Tools_Util::get_palettes_color() ),
 		);
 
-		return wp_json_encode( $settings );
+		return wp_json_encode( $module_settings );
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

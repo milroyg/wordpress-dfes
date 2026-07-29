@@ -20,32 +20,32 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 class Product_Recent_Sales_Gallery extends Data_Tag {
 	use \EACCustomWidgets\Includes\Traits\Product_Trait;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-woo-recent-sales-gallery';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Galerie des ventes récentes', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Recent sales gallery', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-woo-groupe';
+	public function get_group(): array {
+		return array( 'eac-woo-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::GALLERY_CATEGORY );
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->add_control(
 			'woo_recent_status',
 			array(
-				'label'       => esc_html__( 'Statut des commandes', 'eac-components' ),
+				'label'       => esc_html__( 'Order status', 'eac-components' ),
 				'type'        => Controls_Manager::SELECT2,
 				'label_block' => true,
 				'options'     => array(
-					'wc-pending'   => esc_html__( 'Paiement en attente', 'eac-components' ),
-					'wc-completed' => esc_html__( 'Paiement effectué', 'eac-components' ),
+					'wc-pending'   => esc_html__( 'Pending payment', 'eac-components' ),
+					'wc-completed' => esc_html__( 'Payment completed', 'eac-components' ),
 				),
 				'default'     => array( 'wc-completed' ),
 				'multiple'    => true,
@@ -55,7 +55,7 @@ class Product_Recent_Sales_Gallery extends Data_Tag {
 		$this->add_control(
 			'woo_recent_days',
 			array(
-				'label'   => esc_html__( 'Nombre de jours', 'eac-components' ),
+				'label'   => esc_html__( 'Number of days', 'eac-components' ),
 				'type'    => Controls_Manager::NUMBER,
 				'min'     => 1,
 				'max'     => 1000,
@@ -67,7 +67,7 @@ class Product_Recent_Sales_Gallery extends Data_Tag {
 		$this->add_control(
 			'woo_recent_count',
 			array(
-				'label'   => esc_html__( 'Nombre de produits', 'eac-components' ),
+				'label'   => esc_html__( 'Product count', 'eac-components' ),
 				'type'    => Controls_Manager::NUMBER,
 				'min'     => 1,
 				'max'     => 50,
@@ -79,10 +79,10 @@ class Product_Recent_Sales_Gallery extends Data_Tag {
 		$this->register_product_term_control();
 	}
 
-	public function get_value( array $options = array() ) {
+	public function get_value( array $options = array() ): array {
 		$status   = $this->get_settings( 'woo_recent_status' );
-		$days     = $this->get_settings( 'woo_recent_days' );
-		$count    = $this->get_settings( 'woo_recent_count' );
+		$days     = ! empty( $this->get_settings( 'woo_recent_days' ) ) ? $this->get_settings( 'woo_recent_days' ) : 7;
+		$count    = ! empty( $this->get_settings( 'woo_recent_count' ) ) ? $this->get_settings( 'woo_recent_count' ) : 10;
 		$termid   = $this->get_settings( 'product_category' );
 		$value    = array();
 
@@ -111,7 +111,7 @@ class Product_Recent_Sales_Gallery extends Data_Tag {
 					continue;
 				}
 
-				$thumb_id   = $product->get_image_id();
+				$thumb_id = $product->get_image_id();
 				if ( $thumb_id ) {
 					$qty                           = isset( $value[ $product->get_slug() ] ) ? $item->get_quantity() + (int) explode( '::', implode( $value[ $product->get_slug() ] ) )[3] : $item->get_quantity();
 					$value[ $product->get_slug() ] = array( 'id' => $thumb_id . '::recent::' . $product_id . '::' . $qty );

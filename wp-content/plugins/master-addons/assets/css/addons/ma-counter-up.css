@@ -1,0 +1,93 @@
+/* Counter Up */
+.jltma-counterup-items {
+  display: flex;
+  flex-wrap: wrap;
+}
+.jltma-counterup-items .jltma-counterup {
+  background-color: #fff;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  position: relative;
+  padding: 30px 20px;
+  transition: 0.3s;
+}
+.jltma-counterup-items .jltma-counterup .jltma-counterup-icon.jltma-counterup-icon--icon {
+  background-color: #4b00e7;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  width: 70px;
+}
+.jltma-counterup-items .jltma-counterup .jltma-counterup-icon i, .jltma-counterup-items .jltma-counterup .jltma-counterup-icon svg {
+  color: #fff;
+  fill: #fff;
+  font-size: 30px;
+  line-height: 1;
+}
+.jltma-counterup-items .jltma-counterup .jltma-counterup-icon i {
+  height: 1em;
+  width: 1em;
+}
+.jltma-counterup-items .jltma-counterup .jltma-counterup-icon svg {
+  height: 0.8em;
+  width: 0.8em;
+}
+.jltma-counterup-items .jltma-counterup .counterup-icon-text-center {
+  text-align: center;
+  display: block;
+  margin-bottom: 25px;
+}
+.jltma-counterup-items .jltma-counterup h3 {
+  display: inline-block;
+  color: #333;
+  margin: 0;
+}
+.jltma-counterup-items .jltma-counterup h3 .jltma-counter-up-number {
+  display: inline-block;
+}
+.jltma-counterup-items .jltma-counterup h3.jltma-counterup-number {
+  font-size: 24px;
+  line-height: 40px;
+  margin-top: 0px;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  font-weight: 700;
+  color: #333;
+}
+.jltma-counterup-items .jltma-counterup span.jltma-counterup-title {
+  margin-top: 0;
+  font-size: 16px;
+  font-weight: 500;
+  display: inline-block;
+  color: #525151;
+}
+.jltma-counterup-items .jltma-counterup-icon-left,
+.jltma-counterup-items .jltma-counterup-icon-right {
+  display: flex;
+  align-items: center;
+}
+.jltma-counterup-items .jltma-counterup-icon-right {
+  justify-content: flex-end;
+}
+.jltma-counterup-items .counterup-icon-text-right {
+  order: 2;
+}
+.jltma-counterup-items .jltma-counterup-icon-center {
+  text-align: center;
+}
+.jltma-counterup-items .counterup-icon-text-left {
+  margin-right: 30px;
+}
+.jltma-counterup-items .counterup-icon-text-right {
+  margin-left: 30px;
+}
+.jltma-counterup-items .jltma-counterup-icon-right .jltma-counterup-content {
+  text-align: right;
+}
+.jltma-counterup-items .counterup-icon-text-center img {
+  margin-left: auto;
+  margin-right: auto;
+}

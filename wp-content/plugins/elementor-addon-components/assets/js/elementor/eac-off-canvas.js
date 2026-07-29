@@ -54,11 +54,11 @@ class widgetOffCanvas extends elementorModules.frontend.handlers.Base {
     }
 
     bindEvents() {
-        this.elements.$triggerId.on('click', this.onButtonTriggerClick.bind(this));
-        this.elements.$targetCloseId.add(this.elements.$targetOverlay).on('click', this.onCloseButtonOverlayClick.bind(this));
-        this.elements.$targetCloseId.on('keydown', this.onCloseButtonWithKeyboard.bind(this));
-        jQuery(document.body).on('keydown', this.onCloseBodyWithEscape.bind(this));
-        this.elements.$targetVisibleWrapper.on('keydown', this.onNavigateWithKeyboard.bind(this));
+        this.elements.$triggerId.on('click', (evt) => { this.onButtonTriggerClick(evt); });
+        this.elements.$targetCloseId.add(this.elements.$targetOverlay).on('click', (evt) => { this.onCloseButtonOverlayClick(evt); });
+        this.elements.$targetCloseId.on('keydown', (evt) => { this.onCloseButtonWithKeyboard(evt); });
+        jQuery(document.body).on('keydown', (evt) => { this.onCloseBodyWithEscape(evt); });
+        this.elements.$targetVisibleWrapper.on('keydown', (evt) => { this.onNavigateWithKeyboard(evt); });
     }
 
     onButtonTriggerClick(evt) {

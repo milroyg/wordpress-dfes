@@ -5,37 +5,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/**
- * eac_register_shortcode
- *
- * Crée le point d'accès Shortcode pour les images externes 'eac_img_shortcode'
- * Crée le point d'accès pour l'intégration des Templates Elementor
- *
- * @since 1.5.3
- */
-/**
-global $shortcode_tags;
-write_log( $shortcode_tags );
-*/
 function eac_register_shortcode() {
-	add_shortcode( 'eac_img', 'eac_img_shortcode' );
-	add_shortcode( 'eac_elementor_tmpl', 'eac_elementor_add_tmpl' );
-	if ( \EACCustomWidgets\Core\Eac_Config_Elements::is_widget_active( 'breadcrumbs' ) ) {
-		add_shortcode( 'eac_breadcrumb', 'eac_shortcode_breadcrumb' );
+	add_shortcode( 'eac_img', 'eac_display_image' );
+
+	if ( \EACCustomWidgets\Core\Eac_Load_Config::is_widget_active( 'breadcrumbs' ) ) {
+		add_shortcode( 'eac_breadcrumb', 'eac_display_breadcrumb' );
 	}
-	if ( class_exists( 'WooCommerce' ) ) {
+	if ( class_exists( 'WooCommerce', false ) ) {
 		add_shortcode( 'eac_product_rating', 'eac_display_product_rating' );
 		add_shortcode( 'eac_widget_mini_cart', 'eac_display_widget_mini_cart' );
 	}
-	if ( class_exists( 'ACF' ) ) {
-		add_shortcode( 'eac_image_gallery', 'eac_display_acf_image_gallery' );
+	if ( class_exists( 'ACF', false ) ) {
+		add_shortcode( 'eac_image_gallery', 'eac_display_acf_gallery' );
+		add_shortcode( 'eac_gallery', 'eac_display_acf_gallery' );
+		add_shortcode( 'eac_repeater', 'eac_display_acf_repeater' );
 	}
 }
 add_action( 'init', 'eac_register_shortcode', 25 );
 
 /** Affiche le mini-cart */
 if ( ! function_exists( 'eac_display_widget_mini_cart' ) ) {
-	function eac_display_widget_mini_cart( $params = array() ) {
+	function eac_display_widget_mini_cart( $params = array() ): string {
 		$args = shortcode_atts(
 			array(
 				'title' => '',
@@ -44,7 +34,7 @@ if ( ! function_exists( 'eac_display_widget_mini_cart' ) ) {
 			'eac_widget_mini_cart'
 		);
 		/**$has_cart = ! is_null( WC()->cart && WC()->cart->get_cart_contents_count() !== 0 );*/
-		$title = ! empty( $args['title'] ) ? sanitize_text_field( trim( $args['title'] ) ) : esc_html__( 'Mon panier', 'eac-components' );
+		$title = ! empty( $args['title'] ) ? sanitize_text_field( trim( $args['title'] ) ) : esc_html__( 'My cart', 'eac-components' );
 		ob_start();
 		?>
 		<div class="eac_widget_mini_cart">
@@ -81,16 +71,18 @@ if ( ! function_exists( 'eac_display_product_rating' ) ) {
 }
 
 /**
- * eac_img_shortcode
+ * eac_display_image
  * Shortcode d'intégration d'une image avec lien externe, fancybox et caption
  *
  * Ex:  [eac_img src="https://www.cestpascommode.fr/wp-content/uploads/2019/04/fauteuil-louis-philippe-zebre-01.jpg" fancybox="yes" caption="Fauteuil Zèbre"]
  *      [eac_img src="https://www.cestpascommode.fr/wp-content/uploads/2020/04/chaise-victoria-01.jpg" link="https://www.cestpascommode.fr/realisations/chaise-victoria" caption="Chaise Victoria"]
  *      [eac_img link="https://www.cestpascommode.fr/realisations/bergere-louis-xv-et-sa-chaise" embed="yes"]
  *
- * @since 1.6.0
+ * @param array $params
+ *
+ * @return string
  */
-function eac_img_shortcode( $params = array() ) {
+function eac_display_image( $params = array() ): string {
 	$args = shortcode_atts(
 		array(
 			'src'      => '',
@@ -143,59 +135,15 @@ function eac_img_shortcode( $params = array() ) {
 }
 
 /**
- * eac_elementor_tmpl
- * Shortcode d'intégration d'un modèle Elementor
- *
- * Ex: [eac_elementor_tmpl id="XXXXX"]
- *
- * @since 1.6.0
- */
-function eac_elementor_add_tmpl( $params = array() ) {
-	$args = shortcode_atts(
-		array(
-			'id'  => '',
-			'css' => 'false',
-		),
-		$params,
-		'eac_elementor_tmpl'
-	);
-
-	$id_tmpl  = absint( sanitize_text_field( trim( $args['id'] ) ) );
-	if ( empty( $id_tmpl ) ) {
-		return '';
-	}
-	$css_tmpl = 'false' === sanitize_text_field( trim( $args['css'] ) ) ? false : true;
-	$post_tmpl = get_posts(
-		array(
-			'post_type' => get_post_type( $id_tmpl ),
-			'post__in' => array( $id_tmpl ),
-		)
-	);
-
-	if ( is_wp_error( $post_tmpl ) || empty( $post_tmpl ) ) {
-		return '';
-	}
-
-	// Évite la récursivité
-	if ( get_the_ID() === $id_tmpl ) {
-		return esc_html__( 'ID du modèle ne peut pas être le même que le modèle actuel', 'eac-components' );
-	}
-
-	$id_tmpl = apply_filters( 'wpml_object_id', $id_tmpl, \Elementor\TemplateLibrary\Source_Local::CPT, true );
-
-	return \Elementor\Plugin::$instance->frontend->get_builder_content_for_display( $id_tmpl );
-}
-
-/**
- * eac_display_acf_image_gallery
- *
+ * eac_display_acf_gallery
  * Affiche le contenu d'une galerie créée avec le champ personnalisé 'eac_gallery'
  * [eac_image_gallery type="post|user" field="field_name" id="get_theID()|Option page ID" size="medium" title="true|false" fb="true|false"]
  *
- * @since 2.3.0
- * @since 2.3.1 Ajout de la fancybox
+ * @param array $params
+ *
+ * @return string
  */
-function eac_display_acf_image_gallery( $params = array() ) {
+function eac_display_acf_gallery( $params = array() ): string {
 	$args = shortcode_atts(
 		array(
 			'field' => '',
@@ -205,6 +153,7 @@ function eac_display_acf_image_gallery( $params = array() ) {
 			'fb'    => 'false',
 			'type'  => 'post',
 			'gap'   => '20',
+			'col'   => '5',
 		),
 		$params,
 		'eac_image_gallery'
@@ -217,6 +166,7 @@ function eac_display_acf_image_gallery( $params = array() ) {
 	$fb    = filter_var( $args['fb'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
 	$type  = sanitize_text_field( trim( $args['type'] ) );
 	$gap   = absint( sanitize_text_field( trim( $args['gap'] ) ) ) . 'px';
+	$col   = absint( sanitize_text_field( trim( $args['col'] ) ) );
 	if ( empty( $field ) ) {
 		return '';
 	}
@@ -224,7 +174,7 @@ function eac_display_acf_image_gallery( $params = array() ) {
 	/**
 	 * get_field
 	 * Impérativement 3ème param à false
-	 * sinon renvoie les posts attachments au lieu des ID
+	 * sinon renvoie le contenu de l'attachment au lieu des ID
 	 */
 	if ( 'user' === $type ) {
 		$attachment_ids = get_field( $field, 'user_' . get_the_author_meta( 'ID' ), false );
@@ -237,21 +187,22 @@ function eac_display_acf_image_gallery( $params = array() ) {
 		<div class='acf-gallery__container'>
 			<?php
 			foreach ( $attachment_ids as $attachment_id ) :
-				$attachment = \EACCustomWidgets\Core\Utils\Eac_Tools_Util::wp_get_attachment_data( $attachment_id, $size );
-				if ( ! $attachment || empty( $attachment ) ) {
+				$attachment = \EACCustomWidgets\Core\Utils\Eac_Tools_Util::wp_get_attachment_data( intval( $attachment_id ), $size );
+				if ( empty( $attachment ) ) {
 					continue;
 				}
 				$attach_title = ucfirst( $attachment['title'] );
+				/**$media_url = get_post_meta( $attachment_id, 'eac_media_url', true );*/
 				$media_url    = ! empty( $attachment['media_url'] ) ? $attachment['media_url'] : false; ?>
 				<div class='acf-gallery__container-image'>
 					<?php if ( $fb ) :
-						$aria_label = sprintf( '%1$s %2$s', esc_html__( "Voir l'image", 'eac-components' ), $attach_title ); ?>
+						$aria_label = sprintf( '%1$s - %2$s', esc_html__( 'View image', 'eac-components' ), $attach_title ); ?>
 						<a class='eac-accessible-link' href="<?php echo esc_url( $attachment['src'] ); ?>" data-elementor-open-lightbox='no' data-fancybox='acf-field-gallery' data-caption="<?php echo esc_attr( $attach_title ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>">
 					<?php elseif ( $media_url ) :
-						$aria_label = sprintf( '%1$s %2$s', esc_html__( "Voir l'article", 'eac-components' ), $attach_title ); ?>
+						$aria_label = sprintf( '%1$s - %2$s', esc_html__( 'Read post', 'eac-components' ), $attach_title ); ?>
 						<a class='eac-accessible-link' href="<?php echo esc_url( $media_url ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>">
 					<?php endif; ?>
-						<img class='img-focusable acf-gallery__image' src="<?php echo esc_url( $attachment['src'] ); ?>" srcset="<?php echo esc_attr( $attachment['srcset'] ); ?>" sizes="<?php echo esc_attr( $attachment['srcsize'] ); ?>" width="<?php echo esc_attr( $attachment['width'] ); ?>" height="<?php echo esc_attr( $attachment['height'] ); ?>" alt="<?php echo esc_attr( $attachment['alt'] ); ?>"/>
+						<img class='eac-accessible-img acf-gallery__image' src="<?php echo esc_url( $attachment['src'] ); ?>" srcset="<?php echo esc_attr( $attachment['srcset'] ); ?>" sizes="<?php echo esc_attr( $attachment['srcsize'] ); ?>" width="<?php echo esc_attr( $attachment['width'] ); ?>" height="<?php echo esc_attr( $attachment['height'] ); ?>" alt="<?php echo esc_attr( $attachment['alt'] ); ?>"/>
 						<?php if ( $title ) : ?>
 							<div class='acf-gallery__caption'><?php echo esc_html( $attach_title ); ?></div>
 						<?php endif; ?>
@@ -262,7 +213,7 @@ function eac_display_acf_image_gallery( $params = array() ) {
 			<?php endforeach;
 			?>
 			<div class='eac-skip-grid' tabindex='0'>
-				<span class='visually-hidden'><?php esc_html_e( 'Sortir de la galerie', 'eac-components' ); ?></span>
+				<span class='visually-hidden'><?php esc_html_e( 'Exit gallery', 'eac-components' ); ?></span>
 			</div>
 		</div>
 		<script>
@@ -290,8 +241,8 @@ function eac_display_acf_image_gallery( $params = array() ) {
 			/* Gallery wrapper class */
 			.acf-gallery__container {
 				display: grid;
-				grid-template-columns: repeat(5, 1fr);
-				gap: <?php echo esc_html( $gap ); ?>;
+				grid-template-columns: repeat(<?php echo esc_attr( $col ); ?>, 1fr);
+				gap: <?php echo esc_attr( $gap ); ?>; /** clamp(1rem, 3vw, 10rem); */
 				margin-block: 20px;
 			}
 			/* Image wrapper class */
@@ -352,13 +303,303 @@ function eac_display_acf_image_gallery( $params = array() ) {
 }
 
 /**
- * eac_shortcode_breadcrumb
+ * eac_display_acf_repeater
  *
  * @param array $params
  *
  * @return string
  */
-function eac_shortcode_breadcrumb( $params = array() ) {
+function eac_display_acf_repeater( $params = array() ): string {
+	$acf_supported_fields = array(
+		'image',
+		'text',
+		'textarea',
+		'email',
+		'url',
+		'link',
+		'page_link',
+		'select',
+		'number',
+		'date_picker',
+		'file',
+	);
+
+	$args = shortcode_atts(
+		array(
+			'field' => '',
+			'id'    => get_the_ID(),
+			'col'   => '4',
+			'mode'  => 'grid',
+			'gap'   => '20',
+		),
+		$params,
+		'eac_repeater'
+	);
+
+	$field = sanitize_text_field( trim( $args['field'] ) );
+	$id    = absint( sanitize_text_field( trim( $args['id'] ) ) );
+	$col   = absint( sanitize_text_field( trim( $args['col'] ) ) );
+	$mode  = sanitize_text_field( trim( $args['mode'] ) );
+	$gap   = absint( sanitize_text_field( trim( $args['gap'] ) ) ) . 'px';
+	if ( empty( $field ) ) {
+		return '';
+	}
+
+	$count_of_row  = is_countable( get_field( $field, $id ) ) ? count( get_field( $field, $id ) ) : 0;
+	if ( 0 === $count_of_row ) {
+		return '';
+	}
+	$wrapper     = 'acf-repeater__container-' . uniqid();
+	$wrapper_dot = '.' . $wrapper;
+	$inner_wrapper = 'acf-repeater__inner-wrapper ' . $mode;
+
+	ob_start();
+	?>
+	<div class="<?php echo esc_attr( $wrapper ); ?>">
+		<?php
+		while ( have_rows( $field, $id ) ) :
+			$the_row = the_row();
+			$has_repeater_content = false; ?>
+			<article class='acf-repeater__wrapper'>
+				<div class="<?php echo esc_attr( $inner_wrapper ); ?>">
+					<?php foreach ( $the_row as $field_key => $any_value ) :
+						$sub_field = get_sub_field_object( $field_key );
+						if ( $sub_field && in_array( $sub_field['type'], $acf_supported_fields, true ) ) :
+							$field_value = $sub_field['value'];
+							$field_label = $sub_field['label'];
+							$field_name  = $sub_field['_name'];
+							if ( 'image' === $sub_field['type'] && ! empty( $field_value ) ) :
+								if ( $has_repeater_content ) :
+									$has_repeater_content = false; ?>
+									</div>
+								<?php endif;
+								switch ( $sub_field['return_format'] ) {
+									case 'array':
+										$field_value = $sub_field['value']['ID'];
+										break;
+									case 'url':
+										$field_value = attachment_url_to_postid( $sub_field['value'] );
+										break;
+								}
+
+								$atributs = array(
+									'class'    => 'attachment-large size-large acf-repeater__img',
+									'loading'  => 'lazy',
+									'decoding' => 'async',
+								);
+								/**<?php echo wp_get_attachment_image( intval( $field_value ), 'large', false, $atributs ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>*/
+								$attachment = \EACCustomWidgets\Core\Utils\Eac_Tools_Util::wp_get_attachment_data( intval( $field_value ), 'large' );
+								if ( ! empty( $attachment ) ) : ?>
+									<div class="acf-repeater__wrapper-img <?php echo esc_attr( $field_name ); ?>">
+										<img class='acf-repeater__img' src="<?php echo esc_url( $attachment['src'] ); ?>" srcset="<?php echo esc_attr( $attachment['srcset'] ); ?>" sizes="<?php echo esc_attr( $attachment['srcsize'] ); ?>" width="<?php echo esc_attr( $attachment['width'] ); ?>" height="<?php echo esc_attr( $attachment['height'] ); ?>" alt="<?php echo esc_attr( $attachment['alt'] ); ?>"/>
+									</div>
+								<?php endif;
+							elseif ( 'text' === $sub_field['type'] && ! empty( $field_value ) ) :
+								if ( ! $has_repeater_content ) :
+									$has_repeater_content = true; ?>
+									<div class='acf-repeater__wrapper-content'>
+								<?php endif;
+								$field_value = sprintf( '%1$s %2$s %3$s', $sub_field['prepend'], $sub_field['value'], $sub_field['append'] ); ?>
+								<div class="acf-repeater__text <?php echo esc_attr( $field_name ); ?>"><?php echo esc_html( $field_value ); ?></div>
+							<?php elseif ( 'textarea' === $sub_field['type'] && ! empty( $field_value ) ) :
+								if ( ! $has_repeater_content ) :
+									$has_repeater_content = true; ?>
+									<div class='acf-repeater__wrapper-content'>
+								<?php endif;
+								?>
+								<div class="acf-repeater__text <?php echo esc_attr( $field_name ); ?>"><?php echo esc_html( $field_value ); ?></div>
+							<?php elseif ( 'select' === $sub_field['type'] && ! empty( $field_value ) ) :
+								if ( ! $has_repeater_content ) :
+									$has_repeater_content = true; ?>
+									<div class='acf-repeater__wrapper-content'>
+								<?php endif;
+								$values = array();
+								foreach ( $field_value as $value ) :
+									if ( 'array' === $sub_field['return_format'] ) :
+										$values[] = $value['value'];
+									else :
+										$values[] = $value;
+									endif;
+								endforeach;
+								$field_value = implode( ', ', $values ); ?>
+								<div class="acf-repeater__select <?php echo esc_attr( $field_name ); ?>"><?php echo esc_html( $field_value ); ?></div>
+							<?php elseif ( 'number' === $sub_field['type'] && ! empty( $field_value ) ) :
+								if ( ! $has_repeater_content ) :
+										$has_repeater_content = true; ?>
+										<div class='acf-repeater__wrapper-content'>
+								<?php endif;
+								$field_value = sprintf( '%1$s %2$s %3$s', $sub_field['prepend'], $sub_field['value'], $sub_field['append'] ); ?>
+								<div class="acf-repeater__number <?php echo esc_attr( $field_name ); ?>"><?php echo esc_html( $field_value ); ?></div>
+							<?php elseif ( in_array( $sub_field['type'], array( 'url', 'link', 'page_link' ), true ) && ! empty( $field_value ) ) :
+								if ( ! $has_repeater_content ) :
+									$has_repeater_content = true; ?>
+									<div class='acf-repeater__wrapper-content'>
+								<?php endif;
+								if ( in_array( $sub_field['type'], array( 'url', 'page_link' ), true ) ) :
+									$field_value = is_array( $sub_field['value'] ) ? $sub_field['value'][0] : $sub_field['value'];
+								elseif ( 'link' === $sub_field['type'] ) :
+									$field_value  = 'array' === $sub_field['return_format'] ? $sub_field['value']['url'] : $sub_field['value'];
+									$field_label  = 'array' === $sub_field['return_format'] ? $sub_field['value']['title'] : $sub_field['label'];
+								endif;
+								$aria_label = sprintf( '%1$s - %2$s', esc_html__( 'Open link', 'eac-components' ), esc_html( $field_label ) );
+								?>
+								<div class="acf-repeater__url <?php echo esc_attr( $field_name ); ?>">
+									<a href="<?php echo esc_url( $field_value ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php echo esc_html( $field_label ); ?></a>
+								</div>
+							<?php elseif ( 'email' === $sub_field['type'] && ! empty( $field_value ) ) :
+								if ( ! $has_repeater_content ) :
+									$has_repeater_content = true; ?>
+									<div class='acf-repeater__wrapper-content'>
+								<?php endif;
+								$label_email = $field_label;
+								$email       = sanitize_email( $field_value );
+								$email_obf   = \str_contains( $email, '@' ) ? sprintf( '%1$s#actus.%2$s', explode( '@', $email )[0], explode( '@', $email )[1] ) : '';
+								?>
+								<div class="acf-repeater__email <?php echo esc_attr( $field_name ); ?>">
+									<a class='eac-accessible-link obfuscated-link' href='#' data-link="<?php echo esc_attr( $email_obf ); ?>" rel='nofollow' aria-label="<?php echo esc_attr( $label_email ); ?>"><?php echo esc_html( $label_email ); ?></a>
+								</div>
+							<?php elseif ( 'date_picker' === $sub_field['type'] && ! empty( $field_value ) ) :
+								if ( ! $has_repeater_content ) :
+									$has_repeater_content = true; ?>
+									<div class='acf-repeater__wrapper-content'>
+								<?php endif;
+								?>
+								<div class="acf-repeater__date <?php echo esc_attr( $field_name ); ?>"><?php echo esc_html( $field_value ); ?></div>
+							<?php elseif ( 'file' === $sub_field['type'] && ! empty( $field_value ) ) :
+								switch ( $sub_field['return_format'] ) {
+									case 'array':
+										$field_value = $field_value['url'];
+										break;
+									case 'id':
+										$field_value = wp_get_attachment_url( $field_value );
+										break;
+								}
+								$default_img = includes_url( 'images/media/document.png' ); ?>
+								<div  class="acf-repeater__file <?php echo esc_attr( $field_name ); ?>">
+									<a class='eac-accessible-link' href="<?php echo esc_url( $field_value ); ?>" aria-label="<?php printf( '%1$s %2$s', esc_attr__( 'Open file', 'eac-components' ), esc_attr( $field_label ) ); ?>">
+										<img src="<?php echo esc_url( $default_img ); ?>" alt='Default image file' />
+									</a>
+								</div>
+							<?php endif;
+						endif;
+					endforeach;
+					if ( $has_repeater_content ) : ?>
+						</div> <!-- Fin div acf-repeater__wrapper-content -->
+					<?php endif; ?>
+				</div>
+			</article>
+		<?php endwhile;
+		?>
+	</div>
+	<style>
+		/* Repeater wrapper class */
+		<?php echo esc_attr( $wrapper_dot ); ?> {
+			display: grid;
+			grid-template-columns: repeat(<?php echo esc_attr( $col ); ?>, 1fr);
+			gap: <?php echo esc_attr( $gap ); ?>;
+			margin-block: 20px;
+		}
+		.acf-repeater__wrapper {
+			border: 2px solid antiquewhite;
+		}
+		<?php echo esc_attr( $wrapper_dot ); ?> .acf-repeater__inner-wrapper {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			flex-wrap: nowrap;
+			overflow: hidden;
+			block-size: 100%;
+		}
+		<?php echo esc_attr( $wrapper_dot ); ?> .acf-repeater__inner-wrapper.list {
+			flex-direction: row;
+		}
+		<?php echo esc_attr( $wrapper_dot ); ?> .acf-repeater__wrapper-content {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+			block-size: 100%;
+			inline-size: 100%;
+			margin-block: 10px;
+			padding-inline: 10px;
+			font-size: 1rem;
+		}
+		<?php echo esc_attr( $wrapper_dot ); ?>  .acf-repeater__inner-wrapper.list .acf-repeater__wrapper-content {
+			align-items: flex-start;
+		}
+		/* type file A et IMG */
+		<?php echo esc_attr( $wrapper_dot ); ?> .acf-repeater__inner-wrapper .acf-repeater__file {
+			position: relative;
+			max-width: fit-content;
+			margin-block-start: 10px;
+			margin-inline: auto;
+		}
+		<?php echo esc_attr( $wrapper_dot ); ?> .acf-repeater__inner-wrapper.list .acf-repeater__file {
+			/*margin-block: auto;*/
+		}
+		<?php echo esc_attr( $wrapper_dot ); ?> .acf-repeater__inner-wrapper .acf-repeater__file img {
+			display: block;
+			position: relative;
+		}
+		<?php echo esc_attr( $wrapper_dot ); ?> .acf-repeater__inner-wrapper.list .acf-repeater__file img {
+			padding-inline-start: 10px;
+		}
+		/* Image wrapper class */
+		.acf-repeater__wrapper-img {
+			position: relative;
+			display: block;
+		}
+		<?php echo esc_attr( $wrapper_dot ); ?> .acf-repeater__inner-wrapper.list .acf-repeater__wrapper-img {
+			inline-size: 100%;
+		}
+		.acf-repeater__wrapper-img a {
+			position: relative;
+			display: block;
+			block-size: 100%;
+		}
+		/* Image class */
+		.acf-repeater__img {
+			display: block;
+			position: relative;
+			block-size: auto;
+			inline-size: 100%;
+			aspect-ratio: 1 / 1;
+			object-fit: cover;
+			object-position: 50% 15%;
+		}
+		/* Mode responsive */
+		@media (max-width: 880px) {
+			div[class^="acf-repeater__container-"] {
+				grid-template-columns: repeat(3, 1fr);
+			}
+		}
+		@media (max-width: 767px) {
+			div[class^="acf-repeater__container-"] {
+				grid-template-columns: repeat(2, 1fr);
+			}
+		}
+		@media (max-width: 640px) {
+			div[class^="acf-repeater__container-"] {
+				grid-template-columns: repeat(1, 1fr);
+			}
+			<?php echo esc_attr( $wrapper_dot ); ?> .acf-repeater__inner-wrapper.list {
+				flex-direction: column;
+			}
+		}
+	</style>
+	<?php
+	return ob_get_clean();
+}
+
+/**
+ * eac_display_breadcrumb
+ *
+ * @param array $params
+ *
+ * @return string
+ */
+function eac_display_breadcrumb( $params = array() ): string {
 	$kses_defaults = wp_kses_allowed_html( 'post' );
 	$content_args = array(
 		'style' => array(),
@@ -375,7 +616,7 @@ function eac_shortcode_breadcrumb( $params = array() ) {
 		'eac_breadcrumb'
 	);
 	$sep   = ! empty( $attr['sep'] ) ? sanitize_text_field( $attr['sep'] ) : '|';
-	$home  = ! empty( $attr['home'] ) ? sanitize_text_field( $attr['home'] ) : esc_html__( 'Accueil', 'eac-components' );
+	$home  = ! empty( $attr['home'] ) ? sanitize_text_field( $attr['home'] ) : esc_html__( 'Home', 'eac-components' );
 	$color = ! empty( $attr['color'] ) ? sanitize_hex_color( $attr['color'] ) : '#000000';
 	$fs    = ! empty( $attr['fs'] ) ? sanitize_text_field( $attr['fs'] ) : '1em';
 	$style = '<style>
@@ -459,7 +700,7 @@ if ( ! function_exists( 'console_log' ) ) {
 // phpcs:disable WordPress.PHP.DevelopmentFunctions
 if ( ! function_exists( 'write_log' ) ) {
 	function write_log( $log ) {
-		if ( true === WP_DEBUG ) {
+		if ( true === WP_DEBUG && ! is_null( $log ) ) {
 			if ( is_array( $log ) || is_object( $log ) ) {
 				error_log( print_r( $log, true ) );
 			} else {
@@ -470,68 +711,40 @@ if ( ! function_exists( 'write_log' ) ) {
 }
 // phpcs:enable WordPress.PHP.DevelopmentFunctions
 
-/**
- * eac_add_author_infobox
- *
- * Ajoute le contenu du template Author infobox au contenu d'un post_type/posts
- *
- * @since 1.9.1
- */
-function eac_embed_author_infobox( $content ) {
-	$options = get_option( 'eac_options_infobox' );
+if ( ! function_exists( 'eac_retrieve_all_registered_styles' ) ) {
+	function eac_retrieve_all_registered_styles() {
+		global $wp_styles;
 
-	// Check if we're inside the main loop in a single Post.
-	/**if ( is_singular() && in_the_loop() && is_main_query() ) {
-		return $content;
-	}*/
-
-	// Le composant n'est pas actif, page d'accueil ou pas d'option pour l'infobox
-	if ( is_front_page() || false === $options ) {
-		return $content;
-	}
-
-	/**
-	 * Les options de l'infobox
-	 *
-	 * @since 2.1.0 Sanitize les options
-	 */
-	$template_id         = absint( $options['post_id'] );     // ID du modèle Elementor
-	$template_post_types = esc_html( $options['post_type'] ); // Le post_type qui peut afficher le contenu du template
-	$template_position   = esc_html( $options['position'] );  // La position du contenu du template
-	$template_post_ids   = array_map( 'absint', $options['post_ids'] ); // La liste des IDs qui peuvent afficher le contenu du template
-
-	// L'article courant
-	$current_id        = get_the_ID();
-	$current_post_type = get_post_type( $current_id );
-
-	// ID de l'article courant n'est pas dans la liste des articles qui peuvent afficher le template
-	if ( is_array( $template_post_ids ) && ! empty( $template_post_ids ) && ! in_array( $current_id, $template_post_ids, true ) ) {
-		return $content;
-	}
-
-	/**
-	$categories = get_the_category($current_id);
-	$category_list = wp_list_pluck($categories, 'name');
-	console_log($category_list);
-	*/
-
-	// Le template Elementor est publié ou le post_type de l'article courant n'est pas le post_type attendu et évite la récursivité
-	$template = get_post( $template_id );
-	if ( null === $template || 'publish' !== $template->post_status || $current_post_type !== $template_post_types || $current_id === $template_id ) {
-		return $content;
-	}
-
-	// Filtre wpml
-	$template_id = apply_filters( 'wpml_object_id', $template_id, \Elementor\TemplateLibrary\Source_Local::CPT, true );
-
-	// Ajoute le contenu du template selon sa position
-	if ( 'before' === $template_position ) {
-		return \Elementor\Plugin::$instance->frontend->get_builder_content_for_display( $template_id ) . $content;
-	} else {
-		return $content . \Elementor\Plugin::$instance->frontend->get_builder_content_for_display( $template_id );
+		// Check if there are any registered styles
+		if ( ! empty( $wp_styles->registered ) ) {
+			foreach ( $wp_styles->registered as $handle => $style ) {
+				write_log( 'Handle: ' . esc_html( $handle ) );
+				write_log( 'Src: ' . esc_url( $style->src ) );
+				write_log( 'Dependencies: ' . implode( ', ', array_map( 'esc_html', $style->deps ) ) );
+				write_log( 'Version: ' . esc_html( $style->ver ) );
+				write_log( 'Media: ' . esc_html( $style->args ) );
+			}
+		} else {
+			write_log( 'No styles registered.' );
+		}
 	}
 }
-/** Priorité 99 pour que le contenu des shortcodes soit affiché avant */
-if ( \EACCustomWidgets\Core\Eac_Config_Elements::is_widget_active( 'author-infobox' ) ) {
-	add_filter( 'the_content', 'eac_embed_author_infobox', 99 );
+
+if ( ! function_exists( 'eac_retrieve_all_registered_scripts' ) ) {
+	function eac_retrieve_all_registered_scripts() {
+		global $wp_scripts;
+
+		// Vérifiez s'il y a des scripts enregistrés
+		if ( ! empty( $wp_scripts->registered ) ) {
+			foreach ( $wp_scripts->registered as $handle => $script ) {
+				write_log( 'Handle: ' . esc_html( $handle ) );
+				write_log( 'Src: ' . esc_url( $script->src ) );
+				write_log( 'Dependencies: ' . implode( ', ', array_map( 'esc_html', $script->deps ) ) );
+				write_log( 'Version: ' . esc_html( $script->ver ) );
+				write_log( 'In Footer: ' . ( isset( $script->in_footer ) && $script->in_footer ? 'Yes' : 'No' ) );
+			}
+		} else {
+			write_log( 'No scripts registered.' );
+		}
+	}
 }

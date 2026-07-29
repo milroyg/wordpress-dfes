@@ -1,6 +1,6 @@
 <?php
 
-namespace MasterAddons\Inc\Controls;
+namespace MasterAddons\Inc\Controls\Group;
 
 use Elementor\Group_Control_Base;
 use Elementor\Controls_Manager;
@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 }
 
 
-abstract class MA_Control_Format_Date_Time extends Group_Control_Base
+abstract class JLTMA_Format_Date_Time extends Group_Control_Base
 {
 
     protected function init_fields()

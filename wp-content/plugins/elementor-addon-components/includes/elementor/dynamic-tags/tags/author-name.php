@@ -17,26 +17,26 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 
 class Author_Name extends Tag {
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-author-name';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Nom auteur', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Author name', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-author-groupe';
+	public function get_group(): array {
+		return array( 'eac-author-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array(
 			TagsModule::TEXT_CATEGORY,
 			TagsModule::POST_META_CATEGORY,
 		);
 	}
 
-	public function render() {
+	public function render(): void {
 		$author_id = get_the_author_meta( 'ID' );
 		$fname     = get_the_author_meta( 'first_name', $author_id );
 		$lname     = get_the_author_meta( 'last_name', $author_id );

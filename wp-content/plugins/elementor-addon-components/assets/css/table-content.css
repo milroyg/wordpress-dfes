@@ -20,8 +20,8 @@ html {
 #toctoc {
 	position: relative;
 	display: block;
-	inline-size: 500px;
 	block-size: auto;
+	inline-size: 50%;
 	margin-block: 0;
 	margin-inline: auto;
 }
@@ -68,34 +68,28 @@ html {
 	display: inline-block;
 }
 
-#toctoc #toctoc-body {
+#toctoc #toctoc-body__list {
 	position: relative;
 	display: none;
 	inline-size: 100%;
+	margin: 0;
 	padding: 10px;
 	font-size: 1.1rem;
+	list-style: none;
+	line-height: 1.6;
 	background-color: #FFFFFF;
 	border: 5px double #1569AE;
 }
 
 /* Le bloc est en position absolue au-dessus des autres widgets */
-.toctoc-block-no #toctoc #toctoc-body {
+.toctoc-block-no #toctoc #toctoc-body__list {
 	position: absolute;
 	inset-inline-start: 0;
 	z-index: 10002;
 }
 
-#toctoc #toctoc-body ol {
-	position: relative;
-	display: block;
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	line-height: 1.6;
-}
-
-#toctoc #toctoc-body ol li,
-#toctoc #toctoc-body li ol {
+#toctoc #toctoc-body__list li,
+#toctoc #toctoc-body__list li ol {
 	margin: 0;
 	padding: 0;
 }

@@ -71,30 +71,6 @@ SPLW::createSection(
 );
 
 SPLW::createMetabox(
-	'sp_lw_builder_option',
-	array(
-		'title'            => __( 'Page Builders', 'location-weather' ),
-		'post_type'        => 'location_weather',
-		'context'          => 'side',
-		'show_restore'     => false,
-		'sp_lcp_shortcode' => false,
-	)
-);
-
-SPLW::createSection(
-	'sp_lw_builder_option',
-	array(
-		'fields' => array(
-			array(
-				'type'      => 'shortcode',
-				'shortcode' => false,
-				'class'     => 'sp_tpro-admin-sidebar',
-			),
-		),
-	)
-);
-
-SPLW::createMetabox(
 	'sp_lw_pro_notice',
 	array(
 		'title'            => __( 'Unlock Pro Feature', 'location-weather' ),

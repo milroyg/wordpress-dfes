@@ -17,19 +17,19 @@ use Elementor\Core\DynamicTags\Tag;
 use Elementor\Modules\DynamicTags\Module as TagsModule;
 
 class Shortcode_Tag extends Tag {
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-shortcode';
 	}
 
-	public function get_title() {
+	public function get_title(): string {
 		return esc_html__( 'Shortcode', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-site-groupe';
+	public function get_group(): array {
+		return array( 'eac-site-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array(
 			TagsModule::TEXT_CATEGORY,
 			TagsModule::URL_CATEGORY,
@@ -39,7 +39,7 @@ class Shortcode_Tag extends Tag {
 		);
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->add_control(
 			'shortcode',
 			array(
@@ -52,17 +52,17 @@ class Shortcode_Tag extends Tag {
 		$this->add_control(
 			'shortcode_escape',
 			array(
-				'label'        => esc_html__( 'Échappement du code court', 'eac-components' ),
+				'label'        => esc_html__( 'Shortcode escape', 'eac-components' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => esc_html__( 'oui', 'eac-components' ),
-				'label_off'    => esc_html__( 'non', 'eac-components' ),
+				'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+				'label_off'    => esc_html__( 'No', 'eac-components' ),
 				'return_value' => 'yes',
 				'default'      => 'yes',
 			)
 		);
 	}
 
-	public function render() {
+	public function render(): void {
 		$settings = $this->get_settings();
 
 		if ( empty( $settings['shortcode'] ) ) {

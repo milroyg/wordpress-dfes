@@ -1,6 +1,6 @@
 <?php
-namespace MasterHeaderFooter\Theme_Hooks;
-use MasterHeaderFooter\Master_Header_Footer;
+namespace MasterAddons\Inc\Admin\Theme_Builder\Theme_Hooks;
+use MasterAddons\Inc\Admin\Theme_Builder\Theme_Builder;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -51,7 +51,7 @@ class Bbtheme {
 
 	public function jltma_get_comment_form( $comment_template ){
         ob_start();
-		return JLTMA_PATH . 'inc/admin/theme-builder/inc/view/theme-support-comment.php';
+		return \JLTMA_PATH . 'inc/admin/theme-builder/inc/view/theme-support-comment.php';
 		ob_get_clean();
 	}
 
@@ -71,7 +71,7 @@ class Bbtheme {
 		?>
 			<header id="masthead" itemscope="itemscope" itemtype="https://schema.org/WPHeader">
 				<div class="jltma-template-content-markup jltma-template-content-header">
-					<?php echo \MasterHeaderFooter\Master_Header_Footer::render_elementor_content($this->header); ?>
+					<?php echo \MasterAddons\Inc\Admin\Theme_Builder\Theme_Builder::render_elementor_content($this->header); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- method returns safe Elementor-rendered HTML ?>
 				</div>
 			</header>
 			<style>
@@ -93,7 +93,7 @@ class Bbtheme {
 			do_action('masteraddons/template/before_footer'); ?>
 
 				<footer itemscope="itemscope" itemtype="https://schema.org/WPFooter">
-				<?php echo \MasterHeaderFooter\Master_Header_Footer::render_elementor_content($this->footer); ; ?>
+				<?php echo \MasterAddons\Inc\Admin\Theme_Builder\Theme_Builder::render_elementor_content($this->footer); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- method returns safe Elementor-rendered HTML ?>
 				</footer>
 
 			<?php 

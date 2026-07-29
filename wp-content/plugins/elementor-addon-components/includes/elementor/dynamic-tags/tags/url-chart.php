@@ -23,38 +23,38 @@ use Elementor\Controls_Manager;
  */
 class Url_Chart extends Data_Tag {
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-chart-url-tag';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Diagrammes', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Charts', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-url';
+	public function get_group(): array {
+		return array( 'eac-url' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::URL_CATEGORY );
 	}
 
-	public function get_panel_template_setting_key() {
+	public function get_panel_template_setting_key(): string {
 		return 'chart_json_url';
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->add_control(
 			'chart_json_url',
 			array(
-				'label'   => esc_html__( 'Diagramme Url', 'eac-components' ),
+				'label'   => esc_html__( 'Url chart', 'eac-components' ),
 				'type'    => Controls_Manager::SELECT,
 				'options' => $this->get_all_chart_url(),
 			)
 		);
 	}
 
-	protected function get_value( array $options = array() ) {
+	protected function get_value( array $options = array() ): string {
 		$param_name = $this->get_settings( 'chart_json_url' );
 		return wp_kses_post( $param_name );
 	}
@@ -73,7 +73,7 @@ class Url_Chart extends Data_Tag {
 				'post_type'      => $posttype,
 				'post_status'    => 'any',
 				'posts_per_page' => -1,
-				'post_mime_type' => 'text/plain',
+				'post_mime_type' => array( 'text/plain', 'application/json' ),
 				'post_parent'    => null,
 				'orderby'        => 'title',
 				'order'          => 'ASC',

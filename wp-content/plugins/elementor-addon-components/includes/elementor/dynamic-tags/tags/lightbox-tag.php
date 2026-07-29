@@ -20,38 +20,38 @@ use Elementor\Embed;
 use Elementor\Plugin;
 
 class Lightbox_Tag extends Tag {
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-lightbox';
 	}
 
-	public function get_title() {
+	public function get_title(): string {
 		return esc_html( 'Lightbox' );
 	}
 
-	public function get_group() {
-		return 'eac-action';
+	public function get_group(): array {
+		return array( 'eac-action' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array(
 			TagsModule::URL_CATEGORY,
 		);
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->add_control(
 			'type',
 			array(
-				'label'       => __( 'Type', 'eac-components' ),
+				'label'       => esc_html__( 'Type', 'eac-components' ),
 				'type'        => Controls_Manager::CHOOSE,
 				'label_block' => false,
 				'options'     => array(
 					'video' => array(
-						'title' => __( 'Video', 'eac-components' ),
+						'title' => esc_html( 'Video' ),
 						'icon'  => 'eicon-video-camera',
 					),
 					'image' => array(
-						'title' => __( 'Image', 'eac-components' ),
+						'title' => esc_html__( 'Image', 'eac-components' ),
 						'icon'  => 'eicon-image-bold',
 					),
 				),
@@ -72,7 +72,7 @@ class Lightbox_Tag extends Tag {
 		$this->add_control(
 			'video_url',
 			array(
-				'label'       => esc_html__( 'URL de la vidéo', 'eac-components' ),
+				'label'       => esc_html__( 'Video URL', 'eac-components' ),
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
 				'condition'   => array(
@@ -122,7 +122,7 @@ class Lightbox_Tag extends Tag {
 	}
 
 
-	public function render() {
+	public function render(): void {
 		$settings = $this->get_settings();
 
 		$value = array();

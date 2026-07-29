@@ -1,0 +1,59 @@
+/* Jltma Progress Bars */
+.jltma-stats-bars {
+  clear: both;
+}
+.jltma-stats-bars .jltma-stats-bar {
+  width: 100%;
+  display: block;
+  margin: 0 0 18px;
+  overflow: visible;
+}
+.jltma-stats-bars .jltma-stats-title {
+  margin: 0;
+  display: block;
+  font-style: normal;
+  text-transform: none;
+  color: #333;
+  font-size: 16px;
+  line-height: 28px;
+}
+.jltma-stats-bars .jltma-stats-bar-wrap {
+  position: relative;
+}
+.jltma-stats-bars .jltma-stats-bar-content {
+  background: #e55a54;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 10px;
+  width: 0;
+  position: relative;
+  z-index: 1;
+  border-radius: 5px;
+}
+.jltma-stats-bars .jltma-stats-percentage {
+  position: absolute;
+  left: 0;
+  top: -25px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+}
+.jltma-stats-bars .jltma-stats-bar-bg {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  height: 10px;
+  display: block;
+  margin-top: -10px;
+  border-radius: 5px;
+}
+
+.jltma-dark-bg .jltma-stats-bar-bg {
+  background: rgba(255, 255, 255, 0.1);
+}
+.jltma-dark-bg .jltma-stats-title {
+  color: #ddd;
+}
+
+/* Jltma Progress Bars */

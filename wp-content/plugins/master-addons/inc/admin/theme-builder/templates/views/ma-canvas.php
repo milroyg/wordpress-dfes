@@ -3,7 +3,7 @@
  * Master Addons Canvas Template
  */
 
-use MasterHeaderFooter\Master_Header_Footer;
+use MasterAddons\Inc\Admin\Theme_Builder\Theme_Builder;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -32,8 +32,8 @@ $template_id = $wp_query->get( 'master_template_id' );
 do_action( 'wp_body_open' );
 
 // Render Master Addons template content
-if ( $template_id && class_exists( 'MasterHeaderFooter\Master_Header_Footer' ) ) {
-	echo Master_Header_Footer::render_elementor_content( $template_id );
+if ( $template_id && class_exists( 'MasterAddons\Inc\Admin\Theme_Builder\Theme_Builder' ) ) {
+	echo Theme_Builder::render_elementor_content( $template_id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- render_elementor_content() returns sanitized Elementor/wp_kses_post markup
 } else {
 	echo '<p>Master Addons template system not available.</p>';
 }

@@ -1,5 +1,5 @@
 <?php
-namespace MasterAddons\Admin\WidgetBuilder\Controls;
+namespace MasterAddons\Inc\Admin\WidgetBuilder\Controls;
 
 defined('ABSPATH') || exit;
 
@@ -92,6 +92,25 @@ class Text extends Control_Base {
         }
 
         return $content;
+    }
+
+    protected function default_label() {
+        return 'Text';
+    }
+
+    protected function get_type_specific_config($field) {
+        $config = [];
+        if (!empty($field['input_type']) && $field['input_type'] !== 'text') {
+            $config['input_type'] = $field['input_type'];
+        }
+        if (!empty($field['title'])) {
+            // translators: dynamic user-defined control title/tooltip.
+            $config['title'] = esc_html($field['title']);
+        }
+        if (!empty($field['classes'])) {
+            $config['classes'] = $field['classes'];
+        }
+        return $config;
     }
 }
 /**

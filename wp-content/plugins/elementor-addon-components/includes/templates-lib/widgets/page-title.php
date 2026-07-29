@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;   // Exit if accessed directly.
 }
 
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Text_Shadow;
@@ -44,10 +44,10 @@ class Page_Title_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -55,10 +55,10 @@ class Page_Title_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -66,10 +66,10 @@ class Page_Title_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -79,8 +79,8 @@ class Page_Title_Widget extends Widget_Base {
 	 *
 	 * @return widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -92,8 +92,8 @@ class Page_Title_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -101,10 +101,10 @@ class Page_Title_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -114,6 +114,15 @@ class Page_Title_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -128,7 +137,7 @@ class Page_Title_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'page_title_settings_fields',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -138,7 +147,7 @@ class Page_Title_Widget extends Widget_Base {
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
 					/* translators: %1$s doc link */
-					'raw'             => sprintf( esc_html__( "Le titre d'une page d'archive est uniquement visible sur le frontend.", 'eac-components' ) ),
+					'raw'             => sprintf( esc_html__( 'The title of an archive page is only visible on the frontend.', 'eac-components' ) ),
 					'content_classes' => 'elementor-panel-alert elementor-panel-alert-warning',
 				)
 			);
@@ -146,7 +155,7 @@ class Page_Title_Widget extends Widget_Base {
 			$this->add_control(
 				'page_title_tag',
 				array(
-					'label'   => esc_html__( 'Étiquette', 'eac-components' ),
+					'label'   => esc_html__( 'Tag', 'eac-components' ),
 					'type'    => Controls_Manager::CHOOSE,
 					'options' => array(
 						'h1' => array(
@@ -174,7 +183,7 @@ class Page_Title_Widget extends Widget_Base {
 							'icon'  => 'eicon-editor-h6',
 						),
 						'p'  => array(
-							'title' => esc_html__( 'Paragraphe', 'eac-components' ),
+							'title' => esc_html__( 'Paragraph', 'eac-components' ),
 							'icon'  => 'eicon-editor-paragraph',
 						),
 					),
@@ -186,15 +195,15 @@ class Page_Title_Widget extends Widget_Base {
 			$this->add_control(
 				'page_title_context',
 				array(
-					'label'   => esc_html__( 'Inclure le contexte', 'eac-components' ),
+					'label'   => esc_html__( 'Include context', 'eac-components' ),
 					'type'    => Controls_Manager::CHOOSE,
 					'options' => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -205,13 +214,13 @@ class Page_Title_Widget extends Widget_Base {
 			$this->add_control(
 				'page_title_type_link',
 				array(
-					'label'       => esc_html__( 'Type de lien', 'eac-components' ),
+					'label'       => esc_html__( 'Link type', 'eac-components' ),
 					'type'        => Controls_Manager::SELECT,
-					'description' => esc_html__( 'Défaut URL du site', 'eac-components' ),
+					'description' => esc_html__( 'Default Site URL', 'eac-components' ),
 					'options'     => array(
-						'none'    => esc_html__( 'Aucun', 'eac-components' ),
-						'default' => esc_html__( 'Défaut', 'eac-components' ),
-						'custom'  => esc_html__( 'URL', 'eac-components' ),
+						'none'    => esc_html__( 'None', 'eac-components' ),
+						'default' => esc_html__( 'Default', 'eac-components' ),
+						'custom'  => esc_html( 'URL' ),
 					),
 					'default'     => 'none',
 				)
@@ -220,9 +229,9 @@ class Page_Title_Widget extends Widget_Base {
 			$this->add_control(
 				'page_title_link',
 				array(
-					'label'        => esc_html__( 'URL', 'eac-components' ),
+					'label'        => esc_html( 'URL' ),
 					'type'         => Controls_Manager::URL,
-					'placeholder'  => esc_html__( 'Coller une URL ou taper', 'eac-components' ),
+					'placeholder'  => esc_html__( 'Type or paste your URL', 'eac-components' ),
 					'dynamic'      => array(
 						'active' => true,
 					),
@@ -244,7 +253,7 @@ class Page_Title_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'page_title_style',
 			array(
-				'label' => esc_html__( 'Titre', 'eac-components' ),
+				'label' => esc_html__( 'Title', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -254,19 +263,19 @@ class Page_Title_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'page_title_alignment',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'left'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-text-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-text-align-center',
 						),
 						'right'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-text-align-{$end}",
 						),
 					),
@@ -284,7 +293,7 @@ class Page_Title_Widget extends Widget_Base {
 			$this->add_control(
 				'page_title_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array(
 						'default' => Global_Colors::COLOR_TEXT,
@@ -301,7 +310,7 @@ class Page_Title_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'           => 'page_title_typography',
-					'label'          => esc_html__( 'Typographie', 'eac-components' ),
+					'label'          => esc_html__( 'Typography', 'eac-components' ),
 					'global'         => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'fields_options' => array(
 						'font_size' => array(
@@ -319,7 +328,7 @@ class Page_Title_Widget extends Widget_Base {
 				Group_Control_Text_Stroke::get_type(),
 				array(
 					'name'     => 'page_title_stroke',
-					'label'    => esc_html__( 'Contour du texte', 'eac-components' ),
+					'label'    => esc_html__( 'Text stroke', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .elementor-heading-title',
 				)
 			);
@@ -328,7 +337,7 @@ class Page_Title_Widget extends Widget_Base {
 				Group_Control_Text_Shadow::get_type(),
 				array(
 					'name'     => 'page_title_shadow',
-					'label'    => esc_html__( 'Ombre', 'eac-components' ),
+					'label'    => esc_html__( 'Shadow', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .elementor-heading-title',
 				)
 			);
@@ -343,7 +352,7 @@ class Page_Title_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 		$page_title_tag = ! empty( $settings['page_title_tag'] ) ? Utils::validate_html_tag( $settings['page_title_tag'] ) : 'div';
 		$head_type_link = $settings['page_title_type_link'];
@@ -355,7 +364,7 @@ class Page_Title_Widget extends Widget_Base {
 			$head_link_url = true;
 			$this->add_link_attributes( 'pt_link_to', $settings['page_title_link'] );
 			$this->add_render_attribute( 'pt_link_to', 'title', esc_attr( $title ) );
-			$this->add_render_attribute( 'pt_link_to', 'aria-label', esc_attr__( 'Titre de la page', 'eac-components' ) );
+			$this->add_render_attribute( 'pt_link_to', 'aria-label', esc_attr__( 'Page title', 'eac-components' ) );
 
 			if ( $settings['page_title_link']['is_external'] ) {
 				$this->add_render_attribute( 'pt_link_to', 'rel', 'noopener noreferrer' );
@@ -385,7 +394,7 @@ class Page_Title_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function content_template() {
+	protected function content_template(): void {
 		$home_url = get_home_url();
 		if ( is_archive() || is_home() ) {
 			$title = get_the_archive_title();

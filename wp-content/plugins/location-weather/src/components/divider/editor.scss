@@ -1,0 +1,20 @@
+.splw-divider {
+  border-bottom: 1px solid #aac6d9;
+  display: block;
+  width: calc(100% + 32px);
+  margin: 0 -16px;
+}
+
+.splw-divider.top {
+  margin-top: 20px;
+}
+
+.splw-divider.bottom {
+  margin-top: 12px;
+  margin-bottom: 6px;
+}
+
+.splw-divider.top-bottom {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}

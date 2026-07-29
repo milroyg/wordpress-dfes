@@ -16,25 +16,25 @@ use Elementor\Core\DynamicTags\Data_Tag;
 use Elementor\Modules\DynamicTags\Module as TagsModule;
 
 class Post_Gallery extends Data_Tag {
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-post-gallery';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Galerie d`images', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Image gallery', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-post';
+	public function get_group(): array {
+		return array( 'eac-post' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array(
 			TagsModule::GALLERY_CATEGORY,
 		);
 	}
 
-	public function get_value( array $options = array() ) {
+	public function get_value( array $options = array() ): array {
 		$value  = array();
 		$images = array();
 		$blocks = parse_blocks( get_the_content() );

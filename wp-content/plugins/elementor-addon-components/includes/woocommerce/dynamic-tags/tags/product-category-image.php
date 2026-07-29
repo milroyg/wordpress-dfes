@@ -19,27 +19,27 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 class Product_Category_Image extends Data_Tag {
 	use \EACCustomWidgets\Includes\Traits\Product_Trait;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-woo-category-image';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Produit image de la catégorie', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Product category image', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-woo-groupe';
+	public function get_group(): array {
+		return array( 'eac-woo-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::IMAGE_CATEGORY );
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->register_product_term_control();
 	}
 
-	public function get_value( array $options = array() ) {
+	public function get_value( array $options = array() ): array {
 		$cat_id = $this->get_settings( 'product_category' );
 
 		if ( $cat_id ) {

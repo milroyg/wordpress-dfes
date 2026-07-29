@@ -78,7 +78,6 @@ class ForecastData {
 		$location_tz    = new \DateTimeZone( $data->location->tz_id );
 		$this->location = new Location( $data->location->lat, $data->location->lon );
 		$forecast_count = count( $data->forecast->forecastday );
-		$is_day         = $data->current->is_day;
 
 		$daily_forecasts = $data->forecast->forecastday;
 		// Initialize hourly forecasts.
@@ -95,7 +94,7 @@ class ForecastData {
 						continue;
 					}
 
-					$hourly_forecast         = new Hourly( $hourly_forecast, $units, $location_tz, $hourly_type, $is_day );
+					$hourly_forecast         = new Hourly( $hourly_forecast, $units, $location_tz, $hourly_type, $hourly_forecast->is_day );
 					$this->hourly_forecast[] = $hourly_forecast;
 
 					++$hourly_counter;
@@ -120,7 +119,7 @@ class ForecastData {
 					// Process every 3-hour group.
 					if ( count( $group ) === 3 ) {
 						$avg_data                = $this->average_hourly_group( $group );
-						$hourly_forecast_obj     = new Hourly( (object) $avg_data, $units, $location_tz, $hourly_type, $is_day );
+						$hourly_forecast_obj     = new Hourly( (object) $avg_data, $units, $location_tz, $hourly_type, $hourly_forecast->is_day );
 						$this->hourly_forecast[] = $hourly_forecast_obj;
 
 						++$hourly_counter;

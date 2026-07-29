@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 use EACCustomWidgets\EAC_Plugin;
 
 use Elementor\Icons_Manager;
@@ -50,7 +50,7 @@ class Eac_Load_Nav_Menu {
 	public function __construct() {
 
 		/** L'option de modification du menu est actif */
-		if ( Eac_Config_Elements::is_feature_active( 'custom-nav-menu' ) ) {
+		if ( Eac_Load_Config::is_feature_active( 'custom-nav-menu' ) ) {
 			/** Bouton de chargement du template de menu */
 			if ( current_user_can( 'manage_options' ) ) {
 				add_action( 'wp_nav_menu_item_custom_fields', array( $this, 'add_menu_item_fields' ), 10, 1 );
@@ -91,19 +91,9 @@ class Eac_Load_Nav_Menu {
 			wp_enqueue_script( 'thickbox' );
 		}
 
-		// Ajout JS/CSS de la Fancybox
-		EAC_Plugin::instance()->register_script( 'eac-fancybox', 'assets/js/fancybox/jquery.fancybox', array( 'jquery' ), '3.5.7',
-			array(
-				'strategy' => 'defer',
-				'in_footer' => true,
-			)
-		);
-		wp_enqueue_script( 'eac-fancybox' );
-		wp_enqueue_style( 'eac-fancybox', EAC_PLUGIN_URL . 'assets/css/jquery.fancybox.min.css', array(), '3.5.7' );
-
 		// Ajout JS/CSS de gestion des événements de la Fancybox pour le menu de navigation
-		wp_enqueue_script( 'eac-admin-nav-menu', EAC_Plugin::instance()->get_script_url( 'admin/js/eac-admin-nav-menu' ), array( 'jquery', 'wp-color-picker' ), '1.9.6', true );
-		wp_enqueue_style( 'eac-admin-nav-menu', EAC_Plugin::instance()->get_style_url( 'admin/css/eac-admin-nav-menu' ), array(), '1.9.6' );
+		wp_register_script( 'eac-admin-nav-menu', EAC_Plugin::instance()->get_script_url( 'admin/js/eac-admin-nav-menu' ), array( 'jquery', 'wp-color-picker' ), EAC_PLUGIN_VERSION, true );
+		wp_enqueue_style( 'eac-admin-nav-menu', EAC_Plugin::instance()->get_style_url( 'admin/css/eac-admin-nav-menu' ), array(), EAC_PLUGIN_VERSION );
 
 		// Elegant icons
 		wp_enqueue_style( 'elegant-icons', EAC_Plugin::instance()->get_style_url( 'admin/css/elegant-icons' ), array(), '1.3.3' );
@@ -124,9 +114,10 @@ class Eac_Load_Nav_Menu {
 			'ajax_url'     => esc_url( admin_url( 'admin-ajax.php' ) ),
 			'ajax_action'  => 'save_menu_settings',
 			'ajax_nonce'   => wp_create_nonce( $this->menu_nonce ),
-			'ajax_content' => esc_url( EAC_PLUGIN_URL . 'admin/settings/eac-admin-popup-menu.php' ) . '?nonce=' . wp_create_nonce( $this->menu_url_nonce ) . '&item_id=',
+			'ajax_content' => esc_url( EAC_PLUGIN_URL . 'admin/settings/templates/eac-admin-popup-menu.php' ) . '?nonce=' . wp_create_nonce( $this->menu_url_nonce ) . '&item_id=',
 		);
 		wp_add_inline_script( 'eac-admin-nav-menu', 'var menu = ' . wp_json_encode( $settings_menu ), 'before' );
+		wp_enqueue_script( 'eac-admin-nav-menu' );
 	}
 
 	/**
@@ -147,7 +138,7 @@ class Eac_Load_Nav_Menu {
 		}
 
 		// Les styles de la fonctionnalité
-		wp_enqueue_style( 'eac-nav-menu', EAC_Plugin::instance()->get_style_url( 'admin/css/eac-nav-menu' ), array( 'eac-frontend' ), '1.9.6' );
+		wp_enqueue_style( 'eac-nav-menu', EAC_Plugin::instance()->get_style_url( 'admin/css/eac-nav-menu' ), array( 'eac-frontend' ), EAC_PLUGIN_VERSION );
 	}
 
 	/**
@@ -304,8 +295,8 @@ class Eac_Load_Nav_Menu {
 		$post_id = get_post_meta( (int) $item_id, '_menu_item_object_id', true );
 		?>
 		<p class='eac-field-button description description-thin'>
-			<label for="menu-item_button-<?php echo esc_attr( $item_id ); ?>"><?php esc_html_e( 'EAC Champs', 'eac-components' ); ?><br />
-			<button type='button' data-title="<?php echo esc_attr( get_the_title( $post_id ) ); ?>" data-id="<?php echo esc_attr( $item_id ); ?>" class='button menu-item_button' name="menu-item_button[<?php echo esc_attr( $item_id ); ?>]" id="menu-item_button-<?php echo esc_attr( $item_id ); ?>"><?php esc_html_e( 'Afficher les champs', 'eac-components' ); ?></button>
+			<label for="menu-item_button-<?php echo esc_attr( $item_id ); ?>"><?php esc_html_e( 'EAC Fields', 'eac-components' ); ?><br />
+			<button type='button' data-title="<?php echo esc_attr( get_the_title( $post_id ) ); ?>" data-id="<?php echo esc_attr( $item_id ); ?>" class='button menu-item_button' name="menu-item_button[<?php echo esc_attr( $item_id ); ?>]" id="menu-item_button-<?php echo esc_attr( $item_id ); ?>" aria-label="<?php esc_html_e( 'Display fields in a modal box', 'eac-components' ); ?>" aria-expanded='false' aria-haspopup='dialog'><?php esc_html_e( 'Show fields', 'eac-components' ); ?></button>
 			</label>
 		</p>
 		<?php
@@ -337,11 +328,11 @@ class Eac_Load_Nav_Menu {
 		);
 
 		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), $this->menu_nonce ) ) {
-			wp_send_json_error( esc_html__( "Les réglages n'ont pu être entegistrés (nonce)", 'eac-components' ) );
+			wp_send_json_error( esc_html__( 'Settings could not be saved (nonce)', 'eac-components' ) );
 		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( esc_html__( 'Vous ne pouvez pas modifier les réglages', 'eac-components' ) );
+			wp_send_json_error( esc_html__( 'You cannot change the settings', 'eac-components' ) );
 		}
 
 		/**
@@ -352,14 +343,14 @@ class Eac_Load_Nav_Menu {
 		if ( isset( $_POST['fields'] ) ) {
 			parse_str( wp_unslash( $_POST['fields'] ), $fields_on );
 		} else {
-			wp_send_json_error( esc_html__( "Les réglages n'ont pu être enregistrés (champs)", 'eac-components' ) );
+			wp_send_json_error( esc_html__( 'Settings could not be saved (fields)', 'eac-components' ) );
 		}
 
 		// Le post id de l'article du menu
 		if ( isset( $fields_on['menu-item_id'] ) && ! empty( $fields_on['menu-item_id'] ) ) {
 			$menu_item_id = absint( $fields_on['menu-item_id'] );
 		} else {
-			wp_send_json_error( esc_html__( "Les réglages n'ont pu être enregistrés (ID)", 'eac-components' ) );
+			wp_send_json_error( esc_html__( 'Settings could not be saved (ID)', 'eac-components' ) );
 		}
 
 		// Contenu du badge
@@ -410,6 +401,6 @@ class Eac_Load_Nav_Menu {
 		}
 
 		// retourne 'success' au script JS
-		wp_send_json_success( esc_html__( 'Réglages enregistrés', 'eac-components' ) );
+		wp_send_json_success( esc_html__( 'Settings saved', 'eac-components' ) );
 	}
 }

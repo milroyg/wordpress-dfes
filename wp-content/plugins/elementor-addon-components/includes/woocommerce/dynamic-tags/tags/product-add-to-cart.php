@@ -19,48 +19,48 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 class Product_Add_To_Cart extends Data_Tag {
 	use \EACCustomWidgets\Includes\Traits\Product_Trait;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-woo-add-to-cart';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Produit ajouter au panier', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Product add to cart', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-woo-groupe';
+	public function get_group(): array {
+		return array( 'eac-woo-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::URL_CATEGORY );
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 
 		$this->register_product_id_control();
 
 		$this->add_control(
 			'eac_woo_quantity',
 			array(
-				'label'   => esc_html__( 'Quantité', 'eac-components' ),
+				'label'   => esc_html__( 'Quantity', 'eac-components' ),
 				'type'    => Controls_Manager::NUMBER,
 				'default' => 1,
 			)
 		);
 	}
 
-	public function get_value( array $options = array() ) {
+	public function get_value( array $options = array() ): string {
 		$product_id        = $this->get_settings( 'product_id' );
 		$settings_quantity = absint( $this->get_settings( 'eac_woo_quantity' ) );
 		$url               = '';
 
 		if ( empty( $product_id ) ) {
-			return;
+			return '';
 		}
 
 		$product = wc_get_product( $product_id );
 		if ( ! $product ) {
-			return;   }
+			return '';   }
 
 		// Option de redirection onglet 'Products' option 'Add to cart behavior'
 		$redir_cart = get_option( 'woocommerce_cart_redirect_after_add' ) === 'yes' ? true : false;

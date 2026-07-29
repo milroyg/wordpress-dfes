@@ -15,8 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -25,18 +24,6 @@ use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
 
 class Lottie_Animations_Widget extends Widget_Base {
-
-	/**
-	 * Constructeur de la class Lottie_Animations_Widget
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		wp_register_script( 'lottie-animation', 'https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.8.1/lottie.min.js', array(), '5.8.1', true );
-		wp_register_script( 'eac-lottie-anim', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-lottie-animations' ), array( 'jquery', 'elementor-frontend', 'lottie-animation' ), '1.9.3', true );
-
-		wp_register_style( 'eac-lottie-anim', EAC_Plugin::instance()->get_style_url( 'assets/css/lottie-animations' ), array( 'eac-frontend' ), '1.9.3' );
-	}
 
 	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
@@ -54,8 +41,8 @@ class Lottie_Animations_Widget extends Widget_Base {
 	 *
 	 * @return string Widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -65,8 +52,8 @@ class Lottie_Animations_Widget extends Widget_Base {
 	 *
 	 * @return string Widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -74,10 +61,10 @@ class Lottie_Animations_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -85,10 +72,10 @@ class Lottie_Animations_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -96,10 +83,10 @@ class Lottie_Animations_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
-		return array( 'lottie-animation', 'eac-lottie-anim' );
+		return array( 'eac-lottie-anim' );
 	}
 
 	/**
@@ -107,7 +94,7 @@ class Lottie_Animations_Widget extends Widget_Base {
 	 *
 	 * Les styles sont chargés dans le footer
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
 		return array( 'eac-lottie-anim' );
@@ -122,8 +109,8 @@ class Lottie_Animations_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -131,10 +118,10 @@ class Lottie_Animations_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -144,6 +131,15 @@ class Lottie_Animations_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -158,7 +154,7 @@ class Lottie_Animations_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'lottie_settings_section',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -180,11 +176,11 @@ class Lottie_Animations_Widget extends Widget_Base {
 					'type'    => Controls_Manager::CHOOSE,
 					'options' => array(
 						'file' => array(
-							'title' => esc_html__( 'Fichier média', 'eac-components' ),
+							'title' => esc_html__( 'Media file', 'eac-components' ),
 							'icon'  => 'eicon-document-file',
 						),
 						'url'  => array(
-							'title' => esc_html__( 'URL', 'eac-components' ),
+							'title' => esc_html( 'URL' ),
 							'icon'  => 'eicon-link',
 						),
 					),
@@ -196,10 +192,10 @@ class Lottie_Animations_Widget extends Widget_Base {
 			$this->add_control(
 				'lottie_settings_media_file',
 				array(
-					'label'        => esc_html__( 'Sélectionner le fichier', 'eac-components' ),
+					'label'        => esc_html__( 'Select file', 'eac-components' ),
 					'type'         => 'FILE_VIEWER',
 					'library_type' => array( 'application/json' ), // propriété utilisée par le script 'eac-file-viewer-control.js'
-					'description'  => esc_html__( 'Sélectionner le fichier de la librairie des médias', 'eac-components' ),
+					'description'  => esc_html__( 'Select the file from the media library', 'eac-components' ),
 					'condition'    => array( 'lottie_settings_source' => 'file' ),
 				)
 			);
@@ -207,9 +203,9 @@ class Lottie_Animations_Widget extends Widget_Base {
 			$this->add_control(
 				'lottie_settings_media_url',
 				array(
-					'label'         => esc_html__( 'URL', 'eac-components' ),
+					'label'         => esc_html( 'URL' ),
 					'type'          => Controls_Manager::URL,
-					'description'   => __( "URL de l'animation <a href='https://lottiefiles.com/' target='_blank' rel='nofollow noopener noreferrer'>ici</a>", 'eac-components' ),
+					'description'   => esc_html__( "Animation URL <a href='https://lottiefiles.com/' target='_blank' rel='nofollow noopener noreferrer'>here</a>", 'eac-components' ),
 					'placeholder'   => 'https://lottiefiles.com/anim.json/',
 					'dynamic'       => array(
 						'active' => true,
@@ -226,7 +222,7 @@ class Lottie_Animations_Widget extends Widget_Base {
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
 					'content_classes' => 'elementor-panel-alert elementor-panel-alert-warning',
-					'raw'             => esc_html__( "Réglages Elementor/Avancé, activer l'option 'Permettre les téléversements de fichier non filtré'", 'eac-components' ),
+					'raw'             => esc_html__( "Elementor/Advanced settings, activate option 'Enable Unfiltered File Uploads'", 'eac-components' ),
 					'condition'     => array(
 						'lottie_settings_source' => 'url',
 						'lottie_is_json_enable'  => 'false',
@@ -237,13 +233,13 @@ class Lottie_Animations_Widget extends Widget_Base {
 			$this->add_control(
 				'lottie_settings_render',
 				array(
-					'label'        => esc_html__( 'Type de rendu', 'eac-components' ),
+					'label'        => esc_html__( 'Render type', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
-					'description'  => esc_html__( "Problèmes de performance ? Essayer la méthode 'Canvas'", 'eac-components' ),
+					'description'  => esc_html__( "Performance issues ? Try the 'Canvas' method", 'eac-components' ),
 					'default'      => 'svg',
 					'options'      => array(
-						'canvas' => esc_html__( 'Canvas', 'eac-components' ),
-						'svg'    => esc_html__( 'SVG', 'eac-components' ),
+						'canvas' => esc_html( 'Canvas' ),
+						'svg'    => esc_html( 'SVG' ),
 					),
 					'render_type'  => 'template',
 					'prefix_class' => 'lottie-anim_render-',
@@ -254,7 +250,7 @@ class Lottie_Animations_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'lottie_settings_animation_size',
 				array(
-					'label'       => esc_html__( 'Dimension', 'eac-components' ),
+					'label'       => esc_html__( 'Size', 'eac-components' ),
 					'type'        => Controls_Manager::SLIDER,
 					'size_units'  => array( 'px', '%' ),
 					'default'     => array(
@@ -304,19 +300,19 @@ class Lottie_Animations_Widget extends Widget_Base {
 			$this->add_control(
 				'lottie_settings_animation_align',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'flex-start'  => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'space-around' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'flex-end'    => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -333,15 +329,15 @@ class Lottie_Animations_Widget extends Widget_Base {
 			$this->add_control(
 				'lottie_settings_link_display',
 				array(
-					'label'     => esc_html__( "Ajouter un lien sur l'animation", 'eac-components' ),
+					'label'     => esc_html__( 'Add a link to the animation', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -353,9 +349,9 @@ class Lottie_Animations_Widget extends Widget_Base {
 			$this->add_control(
 				'lottie_settings_link',
 				array(
-					'label'         => esc_html__( 'URL', 'eac-components' ),
+					'label'         => esc_html( 'URL' ),
 					'type'          => Controls_Manager::URL,
-					'placeholder'   => 'https://you-site-url.com/',
+					'placeholder'   => esc_html__( 'Type or paste your URL', 'eac-components' ),
 					'dynamic'       => array(
 						'active' => true,
 					),
@@ -377,15 +373,15 @@ class Lottie_Animations_Widget extends Widget_Base {
 			$this->add_control(
 				'lottie_settings_loop',
 				array(
-					'label'       => esc_html__( 'Lire en boucle', 'eac-components' ),
+					'label'       => esc_html__( 'Loop', 'eac-components' ),
 					'type'        => Controls_Manager::CHOOSE,
 					'options'     => array(
 						'yes' => array(
-							'title' => esc_html__( 'Boucle', 'eac-components' ),
+							'title' => esc_html__( 'Loop', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Une fois', 'eac-components' ),
+							'title' => esc_html__( 'Only once', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -397,15 +393,15 @@ class Lottie_Animations_Widget extends Widget_Base {
 			$this->add_control(
 				'lottie_settings_reverse',
 				array(
-					'label'       => esc_html__( 'Inverser le sens', 'eac-components' ),
+					'label'       => esc_html__( 'Reverse direction', 'eac-components' ),
 					'type'        => Controls_Manager::CHOOSE,
 					'options'     => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -417,7 +413,7 @@ class Lottie_Animations_Widget extends Widget_Base {
 			$this->add_control(
 				'lottie_settings_speed',
 				array(
-					'label'       => esc_html__( 'Vitesse', 'eac-components' ),
+					'label'       => esc_html__( 'Speed', 'eac-components' ),
 					'type'        => Controls_Manager::NUMBER,
 					'default'     => 1,
 					'min'         => 0.1,
@@ -429,14 +425,14 @@ class Lottie_Animations_Widget extends Widget_Base {
 			$this->add_control(
 				'lottie_settings_trigger',
 				array(
-					'label'       => esc_html__( 'Déclencheur', 'eac-components' ),
+					'label'       => esc_html__( 'Trigger', 'eac-components' ),
 					'type'        => Controls_Manager::SELECT,
-					'description' => esc_html__( "Déclencheur de l'animation", 'eac-components' ),
+					'description' => esc_html__( 'Animation trigger', 'eac-components' ),
 					'default'     => 'none',
 					'options'     => array(
-						'none'     => esc_html__( 'Aucun', 'eac-components' ),
-						'hover'    => esc_html__( 'Au survol', 'eac-components' ),
-						'viewport' => esc_html__( 'Fenêtre visible', 'eac-components' ),
+						'none'     => esc_html__( 'None', 'eac-components' ),
+						'hover'    => esc_html__( 'Hover', 'eac-components' ),
+						'viewport' => esc_html__( 'Viewport', 'eac-components' ),
 					),
 				)
 			);
@@ -446,7 +442,7 @@ class Lottie_Animations_Widget extends Widget_Base {
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
 					'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
-					'raw'             => esc_html__( "Lance l'animation dans la partie visible de la fenêtre", 'eac-components' ),
+					'raw'             => esc_html__( 'When the animation is in the visible part of the window', 'eac-components' ),
 					'condition'       => array( 'lottie_settings_trigger' => 'viewport' ),
 				)
 			);
@@ -458,8 +454,8 @@ class Lottie_Animations_Widget extends Widget_Base {
 					'type'      => Controls_Manager::SLIDER,
 					'default'   => ['sizes' => ['start' => 0, 'end' => 200], 'unit'  => 'px'],
 					'labels'    => [
-						esc_html__('Bas', 'eac-components'),
-						esc_html__('Haut', 'eac-components'),
+						esc_html__('Bottom', 'eac-components'),
+						esc_html__('Top', 'eac-components'),
 					],
 					'scales'    => 1,
 					'handles'   => 'range',
@@ -475,7 +471,7 @@ class Lottie_Animations_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'lottie_style_animation',
 			array(
-				'label' => esc_html__( 'Général', 'eac-components' ),
+				'label' => esc_html__( 'General', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -483,7 +479,7 @@ class Lottie_Animations_Widget extends Widget_Base {
 			$this->add_control(
 				'lottie_style_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .lottie-anim_wrapper' => 'background-color: {{VALUE}};' ),
@@ -493,7 +489,7 @@ class Lottie_Animations_Widget extends Widget_Base {
 			$this->add_control(
 				'lottie_style_opacity',
 				array(
-					'label'     => esc_html__( 'Opacité', 'eac-components' ),
+					'label'     => esc_html__( 'Opacity', 'eac-components' ),
 					'type'      => Controls_Manager::SLIDER,
 					'default'   => array( 'size' => 1 ),
 					'range'     => array(
@@ -510,7 +506,7 @@ class Lottie_Animations_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'lottie_style_padding',
 				array(
-					'label'              => esc_html__( 'Marges internes', 'eac-components' ),
+					'label'              => esc_html__( 'Padding', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
 					'default'            => array(
@@ -539,7 +535,7 @@ class Lottie_Animations_Widget extends Widget_Base {
 			$this->add_control(
 				'lottie_style_border_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -561,7 +557,7 @@ class Lottie_Animations_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'     => 'lottie_style_shadow',
-					'label'    => esc_html__( 'Ombre', 'eac-components' ),
+					'label'    => esc_html__( 'Shadow', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .lottie-anim_wrapper',
 				)
 			);
@@ -577,7 +573,7 @@ class Lottie_Animations_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 		if ( empty( $settings['lottie_settings_media_file'] ) && empty( $settings['lottie_settings_media_url']['url'] ) ) {
 			return;
@@ -589,7 +585,7 @@ class Lottie_Animations_Widget extends Widget_Base {
 		<?php
 	}
 
-	protected function render_lottie() {
+	protected function render_lottie(): void {
 		$settings = $this->get_settings_for_display();
 		$has_link = false;
 		$url = '';
@@ -641,5 +637,5 @@ class Lottie_Animations_Widget extends Widget_Base {
 		<?php
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

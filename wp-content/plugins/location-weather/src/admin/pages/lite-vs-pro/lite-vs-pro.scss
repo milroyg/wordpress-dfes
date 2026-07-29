@@ -1,0 +1,540 @@
+/*----------------------------------------*/
+/*  Lite vs Pro style
+/*----------------------------------------*/
+
+.splw-lite-pro-page {
+
+  .splw-settings-info {
+    padding: 0 !important;
+    width: auto;
+  }
+
+  a,
+  button {
+    transition: all 0.3s ease;
+    font-size: 16px;
+    line-height: 1.3;
+    font-weight: 500;
+  }
+
+  .splw-lite-pro-subtitle {
+    color: #2F2F2F;
+    font-size: 16px;
+    line-height: 22px;
+    margin-top: 4px;
+  }
+
+  .splw-upgrade-to-pro-btn {
+    border-radius: 5px;
+    background: #02B472;
+    color: #FFFFFF;
+    display: flex;
+    padding: 18px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    svg {
+      transform: scale(1.5);
+    }
+
+    &:hover {
+      background: #019E64;
+    }
+  }
+
+  .splw-settings-info-text {
+    width: 400px !important;
+    text-align: left !important;
+    line-height: 1.3;
+    color: #3C434A;
+    background-color: #ffffff;
+    padding: 15px 20px;
+    font-size: 15px;
+
+    ul {
+      margin-top: 8px;
+      margin-left: 20px;
+    }
+
+    li {
+      list-style: disc;
+      margin-top: 4px;
+    }
+  }
+}
+
+.splw-lite-pro-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 6px;
+  background: #FFF3E0;
+  padding: 32px;
+  margin: 32px;
+
+  .splw-upgrade-to-pro-btn {
+    font-weight: 700;
+  }
+}
+
+.splw-lite-pro-table {
+  border-radius: 12px;
+  background: #FFF;
+  box-shadow: 0 1px 2px 0 rgba(17, 17, 17, 0.06);
+  padding: 8px;
+
+  &-list {
+    padding: 0 32px 18px;
+    ul {
+      border: 1px solid #DDD;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+  }
+
+  &-row {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    margin: 0;
+    padding-left: 30px;
+
+    // &:not(:first-child) {
+    //   border-top: 1px solid #E6E8EB;
+    // }
+
+    &:nth-child(odd):not(.splw-header) {
+      background-color: #F7F7F7;
+    }
+
+    &.splw-header {
+      height: 68px;
+      margin-bottom: 0;
+
+      span {
+        font-weight: 600;
+      }
+
+      &.splw-header-bg {
+        background-color: #F26C0D;
+
+        span {
+          color: #FFFFFF;
+        }
+      }
+
+      .splw-pro-icon {
+        gap: 6px;
+      }
+    }
+
+    >span {
+      flex: 1;
+      text-align: center;
+      font-size: 16px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .splw-free {
+      border-right: 1px solid #E6E8EB;
+      border-left: 1px solid #E6E8EB;
+    }
+
+    &:first-child .splw-free {
+      border-right: none;
+      border-left: none;
+    }
+
+    .splw-title {
+      flex-basis: 70%;
+      width: 70%;
+      text-align: left;
+      justify-content: left;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #00073A;
+      font-size: 16px;
+    }
+  }
+
+  .dashicons-no-alt,
+  .dashicons-saved {
+    font-size: 28px;
+    height: 28px;
+    width: 28px;
+    font-weight: 600;
+  }
+
+  .dashicons-saved {
+    color: #40CA8B;
+  }
+
+  .dashicons-no-alt {
+    color: #F76C63;
+  }
+
+  .splw-hot,
+  .splw-new {
+    display: inline-block;
+    background: #14ae5c;
+    color: #fff;
+    font-size: 10px;
+    text-align: center;
+    border-radius: 40px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 0 8px;
+  }
+
+  .splw-hot {
+    background-color: #ec2121;
+  }
+}
+
+.splw-upgrade-to-pro-promotion {
+  text-align: center;
+  margin: auto;
+  max-width: 750px;
+  margin-top: 60px;
+
+  .splw-section-subtitle {
+    margin: 18px 0 24px 0;
+    display: inline-block;
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  .splw-upgrade-to-pro-btn {
+    padding: 15px 24px;
+  }
+}
+
+.spl-weather-pro-block-admin-page {
+  .splw-upgrade-to-pro-promotion {
+    .splw-section-title {
+      font-size: 28px;
+    }
+  }
+}
+
+.splw-upgrade-to-pro-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+
+  .splw-upgrade-to-pro-btn {
+    &:nth-child(2) {
+      border: 1px solid #F26C0D;
+      background: #FFF;
+      color: #F26C0D;
+
+      &:hover {
+        background: #F26C0D;
+        color: #FFF;
+      }
+    }
+
+    &:nth-child(3) {
+      border: 1px solid #757575;
+      background: #FFF;
+      color: #2F2F2F;
+    }
+  }
+}
+
+.spl-weather-blocks-settings-page-wrapper .splw-lite-pro-wrap {
+  padding: 40px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.spl-weather-blocks-settings-page-wrapper .splw-features {
+  border-radius: 6px;
+  border: 1px solid #CCCCCC;
+  overflow: hidden;
+}
+
+.spl-weather-blocks-settings-page-wrapper .splw-upgrade-to-pro .splw-upgrade-to-pro-btn {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.spl-weather-blocks-settings-page-wrapper .splw-upgrade-to-pro .splw-upgrade-to-pro-btn .splw-action-btn span {
+  display: block;
+  font-size: 11px;
+  // ----------------------------------------
+  // SCSS Variables
+  // ----------------------------------------
+  color: inherit;
+  text-decoration: underline dotted;
+  transition: .2s linear;
+  // ----------------------------------------
+  // SCSS Mixins
+  // ----------------------------------------
+  color: #e36105;
+}
+
+// ----------------------------------------
+// Testimonial Section Styles
+// ----------------------------------------
+.splw-testimonial {
+  margin-top: 60px;
+
+  .splw-testimonial-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding-top: 28px;
+    margin-bottom: 50px;
+
+    .splw-testimonial-ratings {
+      display: flex;
+      gap: 16px;
+
+      .splw-testimonial-rating-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .splw-testimonial-rating-wordpress {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          .splw-wp-mark {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+          }
+
+          .splw-wp-text {
+            color: #444c50;
+            font-weight: 500;
+            font-size: 14px;
+            display: flex;
+          }
+        }
+
+        .splw-testimonial-rating-trustpilot {
+          width: 20px;
+          height: 20px;
+
+          .splw-trustpilot-mark {
+            color: #00b57a;
+            font-size: 20px;
+          }
+        }
+
+        .splw-trustpilot-stars {
+          color: #fff;
+          font-size: 14px;
+          display: flex;
+          gap: 2px;
+
+          svg {
+            background-color: #00b57a;
+            padding: 2px;
+            width: 10px;
+            height: 10px;
+          }
+        }
+
+        .splw-testimonial-rating-score {
+          color: #444c50;
+          font-weight: 600;
+          font-size: 16px;
+        }
+
+        .splw-testimonial-review-count {
+          color: #575f62;
+          font-weight: 500;
+          font-size: 14px;
+        }
+      }
+    }
+
+    .splw-testimonial-title {
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 28px;
+      color: #2f2f2f;
+      margin: 0;
+    }
+  }
+
+  .splw-testimonial-wrap {
+    display: flex;
+    gap: 24px;
+  }
+}
+
+.splw-testimonial-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 32px;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+
+  .splw-testimonial-card-header {
+    .splw-testimonial-reviewer {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+
+      .splw-testimonial-avatar {
+        position: relative;
+        width: 60px;
+        height: 60px;
+        flex-shrink: 0;
+
+        img {
+          width: 60px;
+          height: 60px;
+          border-radius: 99px;
+          object-fit: cover;
+        }
+
+        .splw-testimonial-source-badge {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          width: 24px;
+          height: 24px;
+          background: #fff;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1px;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+          span {
+            width: 16px;
+            height: 16px;
+            background: #1e1e1e;
+            border-radius: 4px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 10px;
+          }
+        }
+      }
+
+      .splw-testimonial-reviewer-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        h3 {
+          font-size: 16px;
+          font-weight: 500;
+          color: #1e1e1e;
+          margin: 0;
+        }
+
+        p {
+          font-size: 14px;
+          color: #757575;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  .splw-testimonial-rating-stars {
+    display: flex;
+    justify-content: flex-start;
+    gap: 2px;
+    align-items: center;
+
+    span {
+      color: #F4674D;
+      font-size: 16px;
+      display: flex;
+      gap: 2px;
+    }
+
+    // Trustpilot stars styling
+    .splw-testimonial-rating-trustpilot-stars {
+      display: flex;
+      gap: 2px;
+      align-items: center;
+
+      .splw-trustpilot-star-item {
+        background-color: #00b57a;
+        padding: 1.5px;
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 11px;
+        height: 11px;
+        flex-shrink: 0;
+
+        svg {
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
+  }
+
+  .splw-testimonial-card-content {
+    p {
+      font-size: 15px;
+      line-height: 24px;
+      color: #1e1e1e;
+      margin: 0;
+    }
+  }
+
+  // Trustpilot card specific styles
+  &.splw-testimonial-card-trustpilot {
+    .splw-testimonial-avatar {
+      // Yellow background for Trustpilot initials
+      .splw-testimonial-avatar-initials {
+        width: 60px;
+        height: 60px;
+        border-radius: 99px;
+        background-color: #fff7c4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+        font-size: 22px;
+        color: #000;
+      }
+    }
+
+    .splw-testimonial-source-badge {
+      svg {
+        color: #00b57a;
+      }
+    }
+  }
+}
+
+.spl-weather-blocks-settings-page-wrapper .splw-recommended-plugins {
+  overflow: hidden;
+}

@@ -16,8 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 use EACCustomWidgets\Core\Utils\Eac_Tools_Util;
 
 use Elementor\Widget_Base;
@@ -39,21 +38,12 @@ use Elementor\Utils;
 class Team_Members_Widget extends Widget_Base {
 
 	/**
-	 * Constructeur de la class Team_Members_Widget
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		wp_register_style( 'eac-team-members', EAC_Plugin::instance()->get_style_url( 'assets/css/team-members' ), array( 'eac-frontend' ), '1.9.1' );
-	}
-
-	/**
 	 * La taille de l'image par défaut
 	 *
 	 * @var IMAGE_SIZE
 	 *
 	 */
-	const IMAGE_SIZE = '300';
+	private const IMAGE_SIZE = '300';
 
 	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
@@ -71,8 +61,8 @@ class Team_Members_Widget extends Widget_Base {
 	 *
 	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -82,8 +72,8 @@ class Team_Members_Widget extends Widget_Base {
 	 *
 	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -93,8 +83,8 @@ class Team_Members_Widget extends Widget_Base {
 	 *
 	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -102,10 +92,10 @@ class Team_Members_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -114,7 +104,7 @@ class Team_Members_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
 		return array( 'eac-team-members' );
@@ -129,8 +119,8 @@ class Team_Members_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -138,10 +128,10 @@ class Team_Members_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -151,6 +141,15 @@ class Team_Members_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -168,7 +167,7 @@ class Team_Members_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'tm_members_settings',
 			array(
-				'label' => esc_html__( 'Liste des membres', 'eac-components' ),
+				'label' => esc_html__( 'Member list', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -180,7 +179,7 @@ class Team_Members_Widget extends Widget_Base {
 				$repeater->start_controls_tab(
 					'tm_member_skills_settings',
 					array(
-						'label' => esc_html__( 'Membre', 'eac-components' ),
+						'label' => esc_html__( 'Member', 'eac-components' ),
 					)
 				);
 
@@ -199,7 +198,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_name',
 						array(
-							'label'       => esc_html__( 'Nom', 'eac-components' ),
+							'label'       => esc_html__( 'Name', 'eac-components' ),
 							'type'        => Controls_Manager::TEXT,
 							'dynamic'     => array( 'active' => true ),
 							'ai'          => array( 'active' => false ),
@@ -211,10 +210,10 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_title',
 						array(
-							'label'       => esc_html__( 'Intitulé du poste', 'eac-components' ),
+							'label'       => esc_html__( 'Job title', 'eac-components' ),
 							'type'        => Controls_Manager::TEXT,
 							'ai'          => array( 'active' => false ),
-							'default'     => esc_html__( 'Développeur', 'eac-components' ),
+							'default'     => esc_html__( 'Developer', 'eac-components' ),
 							'label_block' => true,
 						)
 					);
@@ -222,9 +221,9 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_biography',
 						array(
-							'label'       => esc_html__( 'Biographie', 'eac-components' ),
+							'label'       => esc_html__( 'Biography', 'eac-components' ),
 							'type'        => Controls_Manager::TEXTAREA,
-							'default'     => esc_html__( "Le faux-texte en imprimerie, est un texte sans signification, qui sert à calibrer le contenu d'une page...", 'eac-components' ),
+							'default'     => esc_html( 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit…', ),
 							'label_block' => true,
 						)
 					);
@@ -234,7 +233,7 @@ class Team_Members_Widget extends Widget_Base {
 				$repeater->start_controls_tab(
 					'tm_member_social_settings',
 					array(
-						'label' => esc_html__( 'Réseaux sociaux', 'eac-components' ),
+						'label' => esc_html__( 'Social medias', 'eac-components' ),
 					)
 				);
 
@@ -242,7 +241,7 @@ class Team_Members_Widget extends Widget_Base {
 						'tm_member_social_info',
 						array(
 							'type'            => Controls_Manager::RAW_HTML,
-							'raw'             => esc_html__( "Le contenu n'est mis à jour que sur le frontend", 'eac-components' ),
+							'raw'             => esc_html__( 'Content is only updated on the frontend', 'eac-components' ),
 							'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
 						)
 					);
@@ -250,7 +249,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_email',
 						array(
-							'label'       => esc_html__( 'Email', 'eac-components' ),
+							'label'       => esc_html( 'Email' ),
 							'type'        => Controls_Manager::TEXT,
 							'dynamic'     => array(
 								'active'     => true,
@@ -268,7 +267,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_email_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -281,7 +280,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_phone',
 						array(
-							'label'       => esc_html__( 'Téléphone', 'eac-components' ),
+							'label'       => esc_html__( 'Phone', 'eac-components' ),
 							'type'        => Controls_Manager::TEXT,
 							'dynamic'     => array(
 								'active'     => true,
@@ -300,7 +299,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_phone_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -313,7 +312,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_url',
 						array(
-							'label'       => esc_html__( 'Site Web', 'eac-components' ),
+							'label'       => esc_html__( 'Website', 'eac-components' ),
 							'type'        => Controls_Manager::TEXT,
 							'dynamic'     => array(
 								'active'     => true,
@@ -332,7 +331,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_url_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -364,7 +363,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_facebook_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -396,7 +395,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_flickr_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -428,7 +427,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_github_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -460,7 +459,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_instagram_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -492,7 +491,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_linkedin_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -524,7 +523,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_mastodon_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -556,7 +555,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_pinterest_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -588,7 +587,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_quora_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -620,7 +619,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_reddit_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -652,7 +651,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_spotify_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -684,7 +683,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_telegram_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -716,7 +715,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_tiktok_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -748,7 +747,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_tumblr_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -780,7 +779,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_twitch_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -812,7 +811,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_twitter_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -844,7 +843,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_youtube_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -876,7 +875,7 @@ class Team_Members_Widget extends Widget_Base {
 					$repeater->add_control(
 						'tm_member_social_whatsapp_icon',
 						array(
-							'label'       => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'       => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'        => Controls_Manager::ICONS,
 							'skin'        => 'inline',
 							'default'     => array(
@@ -893,25 +892,25 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_member_list',
 				array(
-					'label'       => esc_html__( 'Liste des membres', 'eac-components' ),
+					'label'       => esc_html__( 'Member list', 'eac-components' ),
 					'type'        => Controls_Manager::REPEATER,
 					'fields'      => $repeater->get_controls(),
 					'default'     => array(
 						array(
 							'tm_member_name'  => 'John Doe',
-							'tm_member_title' => esc_html__( 'Développeur PHP', 'eac-components' ),
+							'tm_member_title' => esc_html__( 'Developer PHP', 'eac-components' ),
 						),
 						array(
 							'tm_member_name'  => 'Jane Doe',
-							'tm_member_title' => esc_html__( 'Développeur JS', 'eac-components' ),
+							'tm_member_title' => esc_html__( 'Developer JS', 'eac-components' ),
 						),
 						array(
 							'tm_member_name'  => 'Jcb Doe',
-							'tm_member_title' => esc_html__( 'Développeur CSS', 'eac-components' ),
+							'tm_member_title' => esc_html__( 'Developer CSS', 'eac-components' ),
 						),
 					),
 					'title_field' => '{{{ tm_member_name }}}',
-					'button_text' => esc_html__( 'Ajouter un membre', 'eac-components' ),
+					'button_text' => esc_html__( 'Add member', 'eac-components' ),
 				)
 			);
 
@@ -920,7 +919,7 @@ class Team_Members_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'tm_general_settings',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -928,7 +927,7 @@ class Team_Members_Widget extends Widget_Base {
 		$this->add_control(
 			'tm_settings_layout',
 			array(
-				'label'     => esc_html__( 'Disposition', 'eac-components' ),
+				'label'     => esc_html__( 'Layout', 'eac-components' ),
 				'type'      => Controls_Manager::HEADING,
 			)
 		);
@@ -953,7 +952,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'tm_columns',
 				array(
-					'label'          => esc_html__( 'Nombre de colonnes', 'eac-components' ),
+					'label'          => esc_html__( 'Columns count', 'eac-components' ),
 					'type'           => Controls_Manager::SELECT,
 					'default'        => '3',
 					'tablet_default' => '2',
@@ -973,7 +972,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_settings_member_style',
 				array(
-					'label'        => esc_html__( 'Habillage', 'eac-components' ),
+					'label'        => esc_html__( 'Skin', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
 					'default'      => 'skin-1',
 					'options'      => array(
@@ -991,11 +990,10 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_settings_name_tag',
 				array(
-					'label'   => esc_html__( 'Étiquette du nom', 'eac-components' ),
+					'label'   => esc_html__( 'Name tag', 'eac-components' ),
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'h2',
 					'options' => array(
-						'h1'  => 'H1',
 						'h2'  => 'H2',
 						'h3'  => 'H3',
 						'h4'  => 'H4',
@@ -1010,11 +1008,10 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_settings_title_tag',
 				array(
-					'label'   => esc_html__( "Étiquette de l'intitulé du poste", 'eac-components' ),
+					'label'   => esc_html__( 'Job title', 'eac-components' ),
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'h3',
 					'options' => array(
-						'h1'  => 'H1',
 						'h2'  => 'H2',
 						'h3'  => 'H3',
 						'h4'  => 'H4',
@@ -1029,7 +1026,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'tm_overlay_height',
 				array(
-					'label'      => esc_html__( "Hauteur de l'overlay (%)", 'eac-components' ),
+					'label'      => esc_html__( 'Overlay height (%)', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( '%' ),
 					'default'    => array(
@@ -1072,10 +1069,10 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_image_shape',
 				array(
-					'label'        => esc_html__( 'Image ronde', 'eac-components' ),
+					'label'        => esc_html__( 'Round image', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'round',
 					'default'      => 'round',
 					'prefix_class' => 'team-members_image-',
@@ -1086,7 +1083,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'tm_image_width',
 				array(
-					'label'      => esc_html__( "Largeur de l'image", 'eac-components' ),
+					'label'      => esc_html__( 'Image width', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( 'px' ),
 					'default'    => array(
@@ -1113,15 +1110,15 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_enable_image_ratio',
 				array(
-					'label'       => esc_html__( 'Activer le ratio image', 'eac-components' ),
+					'label'       => esc_html__( 'Enable image ratio', 'eac-components' ),
 					'type'        => Controls_Manager::CHOOSE,
 					'options'     => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -1134,13 +1131,13 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'tm_image_ratio',
 				array(
-					'label'          => esc_html__( 'Ratio', 'eac-components' ),
+					'label'          => esc_html( 'Ratio' ),
 					'type'           => Controls_Manager::SELECT,
 					'default'        => '1 / 1',
 					'tablet_default' => '1 / 1',
 					'mobile_default' => '9 / 16',
 					'options'        => array(
-						'1 / 1'  => esc_html__( 'Défaut', 'eac-components' ),
+						'1 / 1'  => esc_html__( 'Default', 'eac-components' ),
 						'9 / 16' => esc_html( '9-16' ),
 						'4 / 3'  => esc_html( '4-3' ),
 						'3 / 2'  => esc_html( '3-2' ),
@@ -1158,7 +1155,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'tm_image_position_y',
 				array(
-					'label'      => esc_html__( 'Position verticale (%)', 'eac-components' ),
+					'label'      => esc_html__( 'Vertical position (%)', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( '%' ),
 					'default'    => array(
@@ -1191,7 +1188,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_settings_social',
 				array(
-					'label'     => esc_html__( 'Réseaux sociaux', 'eac-components' ),
+					'label'     => esc_html__( 'Social medias', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -1200,15 +1197,15 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_settings_social_label',
 				array(
-					'label'     => esc_html__( 'Ajouter le label des réseaux sociaux', 'eac-components' ),
+					'label'     => esc_html__( 'Add social media label', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -1220,7 +1217,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'tm_settings_social_width',
 				array(
-					'label'      => esc_html__( 'Largeur du conteneur', 'eac-components' ),
+					'label'      => esc_html__( 'Container width', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( '%' ),
 					'default'    => array(
@@ -1249,20 +1246,20 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_settings_social_space_h',
 				array(
-					'label'       => esc_html__( 'Espacement horizontal', 'eac-components' ),
-					'description' => esc_html__( 'Espacement horizontal entre les icônes', 'eac-components' ),
+					'label'       => esc_html__( 'Horizontal spacing', 'eac-components' ),
+					'description' => esc_html__( 'Horizontal spacing between icons', 'eac-components' ),
 					'type'        => Controls_Manager::CHOOSE,
 					'options'     => array(
 						'space-between' => array(
-							'title' => esc_html__( 'Espace entre', 'eac-components' ),
+							'title' => esc_html__( 'Space between', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-between-h',
 						),
 						'space-around'  => array(
-							'title' => esc_html__( 'Espace autour', 'eac-components' ),
+							'title' => esc_html__( 'Space around', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-around-h',
 						),
 						'space-evenly'  => array(
-							'title' => esc_html__( 'Espace uniforme', 'eac-components' ),
+							'title' => esc_html__( 'Space evenly', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-evenly-h',
 						),
 					),
@@ -1275,7 +1272,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_settings_content',
 				array(
-					'label'     => esc_html__( 'Disposition du contenu', 'eac-components' ),
+					'label'     => esc_html__( 'Content layout', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -1284,31 +1281,31 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'tm_settings_alignment_v',
 				array(
-					'label'       => esc_html__( 'Alignement vertical', 'eac-components' ),
+					'label'       => esc_html__( 'Vertical alignment', 'eac-components' ),
 					'type'        => Controls_Manager::CHOOSE,
 					'options'     => array(
 						'flex-start'    => array(
-							'title' => esc_html__( 'Haut', 'eac-components' ),
+							'title' => esc_html__( 'Top', 'eac-components' ),
 							'icon'  => 'eicon-justify-start-v',
 						),
 						'center'        => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-justify-center-v',
 						),
 						'flex-end'      => array(
-							'title' => esc_html__( 'Bas', 'eac-components' ),
+							'title' => esc_html__( 'Bottom', 'eac-components' ),
 							'icon'  => 'eicon-justify-end-v',
 						),
 						'space-between' => array(
-							'title' => esc_html__( 'Espace entre', 'eac-components' ),
+							'title' => esc_html__( 'Space between', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-between-v',
 						),
 						'space-around'  => array(
-							'title' => esc_html__( 'Espace autour', 'eac-components' ),
+							'title' => esc_html__( 'Space around', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-around-v',
 						),
 						'space-evenly'  => array(
-							'title' => esc_html__( 'Espace uniforme', 'eac-components' ),
+							'title' => esc_html__( 'Space evenly', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-evenly-v',
 						),
 					),
@@ -1326,19 +1323,19 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'tm_settings_alignment_h',
 				array(
-					'label'     => esc_html__( 'Alignement horizontal', 'eac-components' ),
+					'label'     => esc_html__( 'Horizontal alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'start'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'end'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -1359,7 +1356,7 @@ class Team_Members_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'tm_section_global_style',
 			array(
-				'label' => esc_html__( 'Général', 'eac-components' ),
+				'label' => esc_html__( 'General', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1368,7 +1365,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'ig_container_style',
 				array(
-					'label'     => esc_html__( 'Conteneur', 'eac-components' ),
+					'label'     => esc_html__( 'Container', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 				)
 			);
@@ -1376,7 +1373,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_container_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .team-members_container' => 'background-color: {{VALUE}};' ),
@@ -1387,7 +1384,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_items_section_style',
 				array(
-					'label'     => esc_html__( 'Articles', 'eac-components' ),
+					'label'     => esc_html__( 'Post', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -1398,9 +1395,9 @@ class Team_Members_Widget extends Widget_Base {
 				array(
 					'label'        => esc_html__( 'Style', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
-					'default'      => 'style-1',
+					'default'      => 'style-0',
 					'options'      => array(
-						'style-0'  => esc_html__( 'Défaut', 'eac-components' ),
+						'style-0'  => esc_html__( 'Default', 'eac-components' ),
 						'style-1'  => 'Style 1',
 						'style-2'  => 'Style 2',
 						'style-3'  => 'Style 3',
@@ -1416,24 +1413,25 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'tm_container_gap',
 				array(
-					'label'      => esc_html__( 'Marge entre les items', 'eac-components' ),
+					'label'      => esc_html__( 'Margin between items', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( 'px' ),
 					'default'    => array(
 						'px' => array(
-							'size' => 10,
+							'size' => 20,
 							'unit' => 'px',
 						),
 					),
 					'range'      => array(
 						'px' => array(
 							'min'  => 0,
-							'max'  => 50,
-							'step' => 1,
+							'max'  => 150,
+							'step' => 10,
 						),
 					),
 					'selectors'  => array(
-						'{{WRAPPER}} .team-members_container' => 'gap: {{SIZE}}{{UNIT}}; padding-block: calc({{SIZE}}{{UNIT}} / 2); padding-inline: calc({{SIZE}}{{UNIT}} / 2);',
+						'{{WRAPPER}} .team-members_container' => 'gap: {{SIZE}}px; padding: calc({{SIZE}}px / 2);',
+						'(mobile) {{WRAPPER}} .team-members_container' => 'padding: 0 !important;',
 					),
 				)
 			);
@@ -1441,7 +1439,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_global_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .team-member_content' => 'background-color: {{VALUE}};' ),
@@ -1460,7 +1458,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_global_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -1483,7 +1481,7 @@ class Team_Members_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'      => 'tm_global_shadow',
-					'label'     => esc_html__( 'Ombre', 'eac-components' ),
+					'label'     => esc_html__( 'Shadow', 'eac-components' ),
 					'selector'  => '{{WRAPPER}} .team-member_content',
 					'condition' => array( 'tm_global_style' => 'style-0' ),
 				)
@@ -1530,7 +1528,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_name_section_style',
 				array(
-					'label'     => esc_html__( 'Nom', 'eac-components' ),
+					'label'     => esc_html__( 'Name', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -1539,7 +1537,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_name_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'default'   => '#000000',
@@ -1554,7 +1552,7 @@ class Team_Members_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'           => 'tm_name_typography',
-					'label'          => esc_html__( 'Typographie', 'eac-components' ),
+					'label'          => esc_html__( 'Typography', 'eac-components' ),
 					'global'         => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'fields_options' => array(
 						'font_size' => array(
@@ -1572,7 +1570,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_job_section_style',
 				array(
-					'label'     => esc_html__( 'Intitulé du poste', 'eac-components' ),
+					'label'     => esc_html__( 'Job title', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -1581,7 +1579,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_job_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'default'   => '#000000',
@@ -1593,7 +1591,7 @@ class Team_Members_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'           => 'tm_job_typography',
-					'label'          => esc_html__( 'Typographie', 'eac-components' ),
+					'label'          => esc_html__( 'Typography', 'eac-components' ),
 					'global'         => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'fields_options' => array(
 						'font_size' => array(
@@ -1607,11 +1605,11 @@ class Team_Members_Widget extends Widget_Base {
 				)
 			);
 
-			/** Biographie */
+			/** Biography */
 			$this->add_control(
 				'tm_biography_section_style',
 				array(
-					'label'     => esc_html__( 'Biographie', 'eac-components' ),
+					'label'     => esc_html__( 'Biography', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -1620,7 +1618,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_biography_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'default'   => '#919CA7',
@@ -1632,7 +1630,7 @@ class Team_Members_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'tm_biography_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'global'   => array( 'default' => Global_Typography::TYPOGRAPHY_SECONDARY ),
 					'selector' => '{{WRAPPER}} .team-member_biography p',
 				)
@@ -1642,7 +1640,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_icon_section_style',
 				array(
-					'label'     => esc_html__( 'Réseaux sociaux', 'eac-components' ),
+					'label'     => esc_html__( 'Social medias', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -1652,7 +1650,7 @@ class Team_Members_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'           => 'tm_icon_typography',
-					'label'          => esc_html__( 'Typographie', 'eac-components' ),
+					'label'          => esc_html__( 'Typography', 'eac-components' ),
 					'global'         => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'fields_options' => array(
 						'font_size' => array(
@@ -1669,7 +1667,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_style_social_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .dynamic-tags_social-container' => 'background-color: {{VALUE}};' ),
@@ -1679,7 +1677,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'tm_style_social_padding',
 				array(
-					'label'     => esc_html__( 'Marges internes', 'eac-components' ),
+					'label'     => esc_html__( 'Padding', 'eac-components' ),
 					'type'      => Controls_Manager::DIMENSIONS,
 					'selectors' => array(
 						'{{WRAPPER}} .dynamic-tags_social-container' => 'padding-block: {{TOP}}{{UNIT}} {{BOTTOM}}{{UNIT}}; padding-inline: {{LEFT}}{{UNIT}} {{RIGHT}}{{UNIT}};',
@@ -1698,7 +1696,7 @@ class Team_Members_Widget extends Widget_Base {
 			$this->add_control(
 				'tm_style_social_radius',
 				array(
-					'label'      => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'      => esc_html__( 'Border radius', 'eac-components' ),
 					'type'       => Controls_Manager::DIMENSIONS,
 					'size_units' => array( 'px', '%' ),
 					'selectors'  => array(
@@ -1717,7 +1715,7 @@ class Team_Members_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$id = $this->get_id();
 
 		// Le wrapper du container
@@ -1739,7 +1737,7 @@ class Team_Members_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render_members() {
+	protected function render_members(): void {
 		$settings = $this->get_settings_for_display();
 
 		/** Formate le nom avec son tag */
@@ -1752,7 +1750,7 @@ class Team_Members_Widget extends Widget_Base {
 		$this->add_render_attribute( 'content_wrapper', 'class', 'team-member_content' );
 
 		// Boucle sur tous les items
-		ob_start( array( '\EACCustomWidgets\Core\Utils\Eac_Tools_Util', 'compress_html_output' ), 0, PHP_OUTPUT_HANDLER_REMOVABLE );
+		ob_start( array( '\EACCustomWidgets\Core\Utils\Eac_Tools_Util', 'compress_html_full_output' ), 0, PHP_OUTPUT_HANDLER_REMOVABLE );
 		foreach ( $settings['tm_member_list'] as $index => $item ) {
 			$member_name_setting_key = $this->get_repeater_setting_key( 'tm_member_name', 'tm_member_list', $index );
 			$this->add_inline_editing_attributes( $member_name_setting_key, 'none' );
@@ -1774,25 +1772,25 @@ class Team_Members_Widget extends Widget_Base {
 
 				// Le nom
 				if ( ! empty( $item['tm_member_name'] ) ) {
-					$name_with_tag = '<' . $tag_name . ' ' . $this->get_render_attribute_string( $member_name_setting_key ) . '>' . esc_html( $item['tm_member_name'] ) . '</' . $tag_name . '>';
+					$name_with_tag = sprintf( '<%1$s %2$s>%3$s</%1$s>', $tag_name, $this->get_render_attribute_string( $member_name_setting_key ), esc_html( $item['tm_member_name'] ) );
 				}
 
 				// Le job
 				if ( ! empty( $item['tm_member_title'] ) ) {
-					$title_with_tag = '<' . $tag_title . ' ' . $this->get_render_attribute_string( $member_title_setting_key ) . '>' . esc_html( $item['tm_member_title'] ) . '</' . $tag_title . '>';
+					$title_with_tag = sprintf( '<%1$s %2$s>%3$s</%1$s>', $tag_title, $this->get_render_attribute_string( $member_title_setting_key ), esc_html( $item['tm_member_title'] ) );
 				}
 
 				/** L'image vient de la librarie des médias */
 				if ( ! empty( $item['tm_member_image']['id'] ) ) {
-					$attachment = Eac_Tools_Util::wp_get_attachment_data( $item['tm_member_image']['id'], $settings['tm_image_size_size'] );
+					$attachment = Eac_Tools_Util::wp_get_attachment_data( intval( $item['tm_member_image']['id'] ), $settings['tm_image_size_size'] );
 				} else { // Image avec Url externe
 					$attachment['src']    = $item['tm_member_image']['url'];
 					$attachment['width']  = self::IMAGE_SIZE;
 					$attachment['height'] = self::IMAGE_SIZE;
-					$attachment['alt']    = 'Team member image';
+					$attachment['alt']    = 'Team member photo';
 				}
 
-				if ( ! $attachment || empty( $attachment ) ) {
+				if ( empty( $attachment ) ) {
 					continue;
 				}
 
@@ -1807,7 +1805,6 @@ class Team_Members_Widget extends Widget_Base {
 				if ( $settings['tm_image_animation'] ) {
 					$this->add_render_attribute( 'tm_image', 'class', 'elementor-animation-' . $settings['tm_image_animation'] );
 				}
-
 				?>
 				<div <?php $this->print_render_attribute_string( 'content_wrapper' ); ?>>
 					<div class="team-member_image">
@@ -1851,7 +1848,7 @@ class Team_Members_Widget extends Widget_Base {
 	 * @param object $repeater_item item courant du repeater
 	 */
 	private function get_social_medias( $repeater_item ) {
-		$social_medias   = Eac_Tools_Util::get_all_social_medias_icon();
+		$social_medias   = Eac_Tools_Util::get_all_social_media_icon();
 		$add_label       = 'yes' === $this->get_settings( 'tm_settings_social_label' ) ? true : false;
 
 		ob_start();
@@ -1860,13 +1857,13 @@ class Team_Members_Widget extends Widget_Base {
 				continue; }
 
 			$label = $value['name'];
-			$name  = ucfirst( $site ) . ' ' . esc_html__( 'de', 'eac-components' ) . ' ' . ucfirst( $repeater_item['tm_member_name'] );
+			$name  = sprintf( '%1$s %2$s %3$s', ucfirst( $site ), esc_html__( 'of', 'eac-components' ), ucfirst( $repeater_item['tm_member_name'] ) );
 			if ( 'email' === $site ) {
 				$email     = sanitize_email( $repeater_item[ 'tm_member_social_' . $site ] );
-				$email_obf = \str_contains( $email, '@' ) ? explode( '@', $email )[0] . '#actus.' . explode( '@', $email )[1] : '';
+				$email_obf = $email && \str_contains( $email, '@' ) ? sprintf( '%1$s#actus.%2$s', explode( '@', $email )[0], explode( '@', $email )[1] ) : '';
 				echo '<a class="eac-accessible-link obfuscated-link" href="#" data-link="' . esc_attr( $email_obf ) . '" rel="nofollow" aria-label="' . esc_attr( $name ) . '">';
 			} elseif ( 'url' === $site ) {
-				echo '<a class="eac-accessible-link" href="' . esc_url( $repeater_item[ 'tm_member_social_' . $site ] ) . '" rel="nofollow" aria-label="' . esc_html__( 'Voir le site web', 'eac-components' ) . '">';
+				echo '<a class="eac-accessible-link" href="' . esc_url( $repeater_item[ 'tm_member_social_' . $site ] ) . '" rel="nofollow" aria-label="' . esc_html__( 'View website', 'eac-components' ) . '">';
 			} elseif ( 'phone' === $site ) {
 				$label     = $repeater_item[ 'tm_member_social_' . $site ];
 				$url_phone = preg_replace( '/[^\d+]/', '', $repeater_item[ 'tm_member_social_' . $site ] ?? '' );
@@ -1890,5 +1887,5 @@ class Team_Members_Widget extends Widget_Base {
 		}
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

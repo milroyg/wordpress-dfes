@@ -1,0 +1,41 @@
+.spl-weather-sun-orbit {
+    margin-top: 56px;
+    position: relative;
+
+    &-sky {
+        width: 120px;
+        height: 120px;
+        border-color: #ff2252;
+        border-top-width: 4px;
+        border-top-style: dotted;
+        position: absolute;
+        border-radius: 50%;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        fill: #ffd870;
+    }
+
+    &-sun {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+        margin: auto !important;
+        animation: circle 6s linear;
+    }
+
+    &-sunrise-icon {
+        margin-left: -10px;
+    }
+
+    &-sunset-icon {
+        margin-right: -10px;
+    }
+}

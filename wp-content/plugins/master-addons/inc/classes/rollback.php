@@ -1,12 +1,18 @@
 <?php
 
-namespace MasterAddons\Inc;
-
-use MasterAddons\Inc\Helper\Master_Addons_Helper;
+namespace MasterAddons\Inc\Classes;
+use MasterAddons\Inc\Classes\Helper;
 
 if (!defined('ABSPATH')) exit;
 
-class Master_Addons_Rollback
+/**
+ * Master Addons Rollback
+ *
+ * Allows rolling back to previous versions of the free plugin from WordPress.org.
+ * This feature is only available for the free version installed from WordPress.org.
+ * Pro versions should use Freemius for version management.
+ */
+class Rollback
 {
 
 	protected $package_url;
@@ -21,7 +27,13 @@ class Master_Addons_Rollback
 
 	public function __construct($args = [])
 	{
-		$this->plugin_name = Master_Addons_Helper::jltma_premium() ?  JLTMA_PRO : JLTMA ;
+		// Rollback is only available for free version from WordPress.org
+		// Pro users should use Freemius account for version management
+		if (Helper::jltma_premium()) {
+			return;
+		}
+
+		$this->plugin_name = JLTMA;
 		add_action('admin_post_master_addons_rollback', [$this, 'jltma_post_addons_rollback']);
 
 		foreach ($args as $key => $value) {
@@ -38,6 +50,10 @@ class Master_Addons_Rollback
 
 		check_admin_referer('master_addons_rollback');
 
+		if (!current_user_can('update_plugins')) {
+			wp_die(esc_html__('You are not allowed to roll back this plugin.', 'master-addons'));
+		}
+
 		$rollback_versions = $this->get_rollback_versions();
 
 		if (empty($_GET['version']) || !in_array($_GET['version'], $rollback_versions)) {
@@ -45,7 +61,7 @@ class Master_Addons_Rollback
 		}
 
 		$plugin_slug = basename(JLTMA_BASE, '.php');
-		$plugin_version = sanitize_text_field($_GET['version']);
+		$plugin_version = sanitize_text_field( wp_unslash( $_GET['version'] ) );
 
 		$jltma_rollback = new self(
 			[
@@ -58,7 +74,7 @@ class Master_Addons_Rollback
 
 		$jltma_rollback->run();
 
-		wp_die('', __('Rollback to Previous Version', 'master-addons' ), ['response' => 200,]);
+		wp_die('', esc_html__('Rollback to Previous Version', 'master-addons' ), ['response' => 200,]);
 	}
 
 
@@ -212,4 +228,4 @@ class Master_Addons_Rollback
 	}
 }
 
-Master_Addons_Rollback::get_instance();
+Rollback::get_instance();

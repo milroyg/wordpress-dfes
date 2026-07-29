@@ -44,7 +44,7 @@
 	inline-size: 100%;
 	background-color: #fff;
 	color: #000;
-	overflow-x: hidden;
+	overflow-inline: hidden;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	z-index: 998;

@@ -20,32 +20,32 @@ use Elementor\Controls_Manager;
 
 class Cookies_Tag extends Tag {
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-site-cookies';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Cookies', 'eac-components' );
+	public function get_title(): string {
+		return esc_html( 'Cookies' );
 	}
 
-	public function get_group() {
-		return 'eac-site-groupe';
+	public function get_group(): array {
+		return array( 'eac-site-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::TEXT_CATEGORY );
 	}
 
-	public function get_panel_template_setting_key() {
+	public function get_panel_template_setting_key(): string {
 		return 'cookie_name';
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 
 		$this->add_control(
 			'cookie_name',
 			array(
-				'label'       => esc_html__( 'Nom du cookie', 'eac-components' ),
+				'label'       => esc_html__( 'Cookie name', 'eac-components' ),
 				'type'        => Controls_Manager::SELECT2,
 				'label_block' => true,
 				'default'     => array(),
@@ -56,12 +56,11 @@ class Cookies_Tag extends Tag {
 		);
 	}
 
-	public function render() {
+	public function render(): void {
 		$cookies_array = array();
 		$settings      = $this->get_settings();
 		$keys          = $settings['cookie_name'];
 		if ( empty( $keys ) ) {
-			echo '';
 			return;
 		}
 

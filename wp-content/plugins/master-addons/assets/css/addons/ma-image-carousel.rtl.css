@@ -1,0 +1,55 @@
+.jltma-arrows {
+  pointer-events: none;
+}
+
+.swiper-pagination,
+.jltma-swiper__button {
+  pointer-events: auto;
+}
+
+.swiper-scrollbar {
+  opacity: 1 !important;
+  background: rgba(0, 0, 0, 0.25);
+  height: 4px;
+  right: 10px;
+  width: calc(100% - 20px) !important;
+}
+
+.swiper-scrollbar-drag {
+  background: #007aff;
+}
+
+.jltma-arrow {
+  position: relative;
+}
+
+.jltma-fancybox-caption .jltma-image-carousel-title {
+  margin: 0 10px;
+}
+
+.jltma-image-carousel-figure {
+  position: relative;
+}
+
+.jltma-image-carousel-figure i,
+.jltma-image-carousel-figure svg {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  z-index: 999;
+  fill: #fff;
+  left: 10px;
+  top: 10px;
+}
+
+.jltma-image-carousel-figure i {
+  color: #fff;
+}
+
+.fancybox-container.fancybox-is-open .fancybox-bg {
+  opacity: 1 !important;
+}
+
+.fancybox-container.fancybox-is-open .fancybox-caption .fancybox-caption__body {
+  overflow-y: hidden;
+}

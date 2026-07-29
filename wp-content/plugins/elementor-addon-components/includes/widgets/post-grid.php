@@ -16,9 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\Core\Eac_Config_Elements;
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Utils\Eac_Helpers_Util;
+use EACCustomWidgets\Core\Eac_Load_Config;
+use EACCustomWidgets\Core\Utils\Eac_Helper_Util;
 use EACCustomWidgets\Core\Utils\Eac_Tools_Util;
 
 use Elementor\Widget_Base;
@@ -42,26 +41,20 @@ class Post_Grid_Widget extends Widget_Base {
 	use \EACCustomWidgets\Includes\Traits\Icon_Svg_Trait;
 
 	/** Constructeur */
-	public function __construct( $data = array(), $args = null ) {
+	public function __construct( array $data = array(), ?array $args = null ) {
 		parent::__construct( $data, $args );
 
-		if ( class_exists( Eac_Helpers_Util::class ) ) {
-			new Eac_Helpers_Util();
-		}
-
-		wp_register_script( 'swiper-bundle', EAC_PLUGIN_URL . 'assets/js/swiper/swiper-bundle.min.js', array( 'jquery' ), '9.4.1', true );
-		wp_register_script( 'imagesloaded', ABSPATH . WPINC . '/js/imagesloaded.min.js', array(), '5.0.0', true );
-		wp_register_script( 'isotope', EAC_Plugin::instance()->get_script_url( 'assets/js/isotope/isotope.pkgd' ), array( 'jquery', 'imagesloaded' ), '3.0.6', true );
-		wp_register_script( 'fit-rows', EAC_Plugin::instance()->get_script_url( 'assets/js/isotope/fit-rows' ), array( 'jquery', 'isotope' ), '1.0.0', true );
-		wp_register_script( 'infinite-scroll', EAC_PLUGIN_URL . 'assets/js/isotope/infinite-scroll.pkgd.min.js', array( 'jquery', 'isotope' ), '4.0.1', true );
-		wp_register_script( 'eac-post-grid', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-post-grid' ), array( 'jquery', 'elementor-frontend', 'swiper-bundle', 'imagesloaded', 'isotope', 'fit-rows', 'infinite-scroll' ), '1.0.0', true );
-
-		wp_register_style( 'swiper-bundle', EAC_PLUGIN_URL . 'assets/css/swiper-bundle.min.css', array(), '9.4.1' );
-		wp_register_style( 'eac-swiper', EAC_Plugin::instance()->get_style_url( 'assets/css/eac-swiper' ), array(), '1.9.7' );
-		wp_register_style( 'eac-post-grid', EAC_Plugin::instance()->get_style_url( 'assets/css/post-grid' ), array( 'eac-frontend', 'eac-swiper' ), '1.0.0' );
+		$this->helper_util = new Eac_Helper_Util();
 
 		remove_all_filters( 'eac/tools/post_orderby' );
 	}
+
+	/**
+	 * $helper_util
+	 *
+	 * @var null
+	 */
+	private $helper_util = null;
 
 	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
@@ -77,10 +70,10 @@ class Post_Grid_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -88,10 +81,10 @@ class Post_Grid_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -99,10 +92,10 @@ class Post_Grid_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -110,10 +103,10 @@ class Post_Grid_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -121,10 +114,10 @@ class Post_Grid_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
-		return array( 'swiper-bundle', 'imagesloaded', 'isotope', 'fit-rows', 'infinite-scroll', 'eac-post-grid' );
+		return array( 'eac-post-grid' );
 	}
 
 	/**
@@ -133,10 +126,10 @@ class Post_Grid_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
-		return array( 'swiper-bundle', 'eac-swiper', 'eac-post-grid' );
+		return array( 'eac-post-grid' );
 	}
 
 	/**
@@ -148,8 +141,8 @@ class Post_Grid_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -157,10 +150,10 @@ class Post_Grid_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -170,6 +163,15 @@ class Post_Grid_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -188,7 +190,7 @@ class Post_Grid_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'al_post_filter',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -196,240 +198,104 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_post_filter_heading',
 				array(
-					'label'     => esc_html__( 'Filtre de requête', 'eac-components' ),
+					'label'     => esc_html__( 'Query filter', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 				)
 			);
 
-			$this->start_controls_tabs( 'al_article_tabs' );
+			$this->add_control(
+				'al_article_type',
+				array(
+					'label'       => esc_html__( 'Post type', 'eac-components' ),
+					'type'        => Controls_Manager::SELECT2,
+					'label_block' => true,
+					'options'     => Eac_Tools_Util::get_filter_post_types( array( 'product' ) ),
+					'default'     => array( 'post' ),
+					'multiple'    => true,
+				)
+			);
 
-				$this->start_controls_tab(
-					'al_article_post_tab',
-					array(
-						'label' => esc_html__( "Type d'article", 'eac-components' ),
-					)
-				);
+			$this->add_control(
+				'al_article_taxonomy',
+				array(
+					'label'       => esc_html__( 'Taxonomy filter', 'eac-components' ),
+					'type'        => Controls_Manager::SELECT2,
+					'label_block' => true,
+					'options'     => Eac_Tools_Util::get_all_taxonomies( array( 'product' ) ),
+					'default'     => array( 'category' ),
+					'multiple'    => true,
+				)
+			);
 
-					$this->add_control(
-						'al_article_type',
-						array(
-							'label'       => esc_html__( "Type d'article", 'eac-components' ),
-							'type'        => Controls_Manager::SELECT2,
-							'label_block' => true,
-							'options'     => Eac_Tools_Util::get_filter_post_types(),
-							'default'     => array( 'post' ),
-							'multiple'    => true,
-						)
-					);
+			$this->add_control(
+				'al_article_term',
+				array(
+					'label'       => esc_html__( 'Tag filter', 'eac-components' ),
+					'type'        => Controls_Manager::SELECT2,
+					'label_block' => true,
+					'options'     => Eac_Tools_Util::get_all_terms( array( 'product' ) ),
+					'multiple'    => true,
+				)
+			);
 
-					$this->add_control(
-						'al_article_taxonomy',
-						array(
-							'label'       => esc_html__( 'Sélectionner la taxonomie', 'eac-components' ),
-							'type'        => Controls_Manager::SELECT2,
-							'label_block' => true,
-							'options'     => Eac_Tools_Util::get_all_taxonomies(),
-							'default'     => array( 'category' ),
-							'multiple'    => true,
-						)
-					);
+			/**$this->add_control(
+				'al_article_term',
+				array(
+					'label'          => esc_html__( 'Tag filter', 'eac-components' ),
+					'type'           => 'eac-select2',
+					'select2Options' => array(
+						'object_type' => Eac_Tools_Util::get_filter_post_types( array( 'product' ), false ),
+						'query_type'  => 'term',
+						//'query_taxo'  => array( 'category', 'post_tag' ),
+					),
+					'multiple'    => true,
+				)
+			);*/
 
-					/**
-					$this->add_control(
-						'al_article_term',
-						array(
-							'label'       => esc_html__( 'Sélectionner les étiquettes', 'eac-components' ),
-							'type'        => 'eac-select2',
-							'select2Options' => array(
-								'object_type' => 'post',
-								'query_type'  => 'term',
-								'query_taxo'  => array( 'category', 'post_tag' ),
-							),
-							'multiple'    => true,
-							'label_block' => true,
-						)
-					);
-					*/
+			$this->add_control(
+				'al_content_user',
+				array(
+					'label'       => esc_html__( 'Author filter', 'eac-components' ),
+					'description' => esc_html__( "Dynamic Tags 'Post/Authors'", 'eac-components' ),
+					'type'        => Controls_Manager::TEXT,
+					'dynamic'     => array(
+						'active'     => true,
+						'categories' => array(
+							TagsModule::POST_META_CATEGORY,
+						),
+					),
+					'ai'          => array( 'active' => false ),
+					'label_block' => true,
+				)
+			);
 
-					$this->add_control(
-						'al_article_term',
-						array(
-							'label'       => esc_html__( 'Sélectionner les étiquettes', 'eac-components' ),
-							'type'        => Controls_Manager::SELECT2,
-							'label_block' => true,
-							'options'     => Eac_Tools_Util::get_all_terms(),
-							'multiple'    => true,
-						)
-					);
+			$this->add_control(
+				'al_content_user_alert',
+				array(
+					'type'       => Controls_Manager::ALERT,
+					'alert_type' => 'warning',
+					'heading'    => esc_html__( 'Security Alert', 'eac-components' ),
+					'content'    => esc_html__( 'It is not recommended to expose the name (nickname) of your users, as this can facilitate targeting by malicious individuals, increasing the risk of intrusion attempts.', 'eac-components' ),
+					'condition'  => array( 'al_content_user!' => '' ),
+				)
+			);
 
-					$this->add_control(
-						'al_article_orderby',
-						array(
-							'label'     => esc_html__( 'Triés par', 'eac-components' ),
-							'type'      => Controls_Manager::SELECT,
-							'options'   => Eac_Tools_Util::get_post_orderby(),
-							'default'   => 'title',
-						)
-					);
-
-					$this->add_control(
-						'al_article_order',
-						array(
-							'label'   => esc_html__( 'Affichage', 'eac-components' ),
-							'type'    => Controls_Manager::SELECT,
-							'options' => array(
-								'asc'  => esc_html__( 'Ascendant', 'eac-components' ),
-								'desc' => esc_html__( 'Descendant', 'eac-components' ),
-							),
-							'default' => 'asc',
-						)
-					);
-
-					$this->add_control(
-						'al_display_content_args',
-						array(
-							'label'        => esc_html__( 'Afficher la requête', 'eac-components' ),
-							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
-							'return_value' => 'yes',
-							'default'      => '',
-						)
-					);
-
-				$this->end_controls_tab();
-
-				$this->start_controls_tab(
-					'al_article_query_tab',
-					array(
-						'label' => esc_html__( 'Requêtes', 'eac-components' ),
-					)
-				);
-
-					$this->add_control(
-						'al_content_user',
-						array(
-							'label'       => esc_html__( 'Selection des auteurs', 'eac-components' ),
-							'description' => esc_html__( "Balises dynamiques 'Article/Auteurs'", 'eac-components' ),
-							'type'        => Controls_Manager::TEXT,
-							'dynamic'     => array(
-								'active'     => true,
-								'categories' => array(
-									TagsModule::POST_META_CATEGORY,
-								),
-							),
-							'ai'          => array( 'active' => false ),
-							'label_block' => true,
-						)
-					);
-
-					$repeater = new Repeater();
-
-					$repeater->add_control(
-						'al_content_metadata_title',
-						array(
-							'label'   => esc_html__( 'Titre', 'eac-components' ),
-							'type'    => Controls_Manager::TEXT,
-							'dynamic' => array( 'active' => true ),
-							'ai'      => array( 'active' => false ),
-						)
-					);
-
-					$repeater->add_control(
-						'al_content_metadata_keys',
-						array(
-							'label'       => esc_html__( 'Sélectionner UNE seule clé', 'eac-components' ),
-							'description' => esc_html__( "Balises dynamiques 'Article|ACF Clés' ou entrer la clé dans le champ (sensible à la casse).", 'eac-components' ),
-							'type'        => Controls_Manager::TEXT,
-							'dynamic'     => array(
-								'active'     => true,
-								'categories' => array(
-									TagsModule::POST_META_CATEGORY,
-								),
-							),
-							'ai'          => array( 'active' => false ),
-							'label_block' => true,
-						)
-					);
-
-					$repeater->add_control(
-						'al_content_metadata_type',
-						array(
-							'label'   => esc_html__( 'Type des données', 'eac-components' ),
-							'type'    => Controls_Manager::SELECT,
-							'options' => array(
-								'CHAR'          => esc_html__( 'Caractère', 'eac-components' ),
-								'NUMERIC'       => esc_html__( 'Numérique', 'eac-components' ),
-								'DECIMAL(10,2)' => esc_html__( 'Décimal', 'eac-components' ),
-								'DATE'          => esc_html__( 'Date', 'eac-components' ),
-							),
-							'default' => 'CHAR',
-						)
-					);
-
-					$repeater->add_control(
-						'al_content_metadata_compare',
-						array(
-							'label'   => esc_html__( 'Opérateur de comparaison', 'eac-components' ),
-							'type'    => Controls_Manager::SELECT,
-							'options' => Eac_Tools_Util::get_operateurs_comparaison(),
-							'default' => 'IN',
-						)
-					);
-
-					$repeater->add_control(
-						'al_content_metadata_values',
-						array(
-							'label'       => esc_html__( 'Sélection des valeurs', 'eac-components' ),
-							'description' => esc_html__( "Balises dynamiques 'Article|ACF Valeurs' ou entrer les valeurs dans le champ (insensible à la casse) et utiliser le pipe '|' comme séparateur.", 'eac-components' ),
-							'type'        => Controls_Manager::TEXT,
-							'dynamic'     => array(
-								'active'     => true,
-								'categories' => array(
-									TagsModule::POST_META_CATEGORY,
-								),
-							),
-							'ai'          => array( 'active' => false ),
-							'label_block' => true,
-						)
-					);
-
-					$this->add_control(
-						'al_content_metadata_list',
-						array(
-							'label'       => esc_html__( 'Requêtes', 'eac-components' ),
-							'type'        => Controls_Manager::REPEATER,
-							'fields'      => $repeater->get_controls(),
-							'default'     => array(
-								array(
-									'al_content_metadata_title' => esc_html__( 'Requête #1', 'eac-components' ),
-								),
-							),
-							'title_field' => '{{{ al_content_metadata_title }}}',
-							'button_text' => esc_html__( 'Ajouter une requête', 'eac-components' ),
-						)
-					);
-
-					$this->add_control(
-						'al_content_metadata_keys_relation',
-						array(
-							'label'        => esc_html__( 'Relation entre les requêtes', 'eac-components' ),
-							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => 'AND',
-							'label_off'    => 'OR',
-							'return_value' => 'yes',
-							'default'      => '',
-						)
-					);
-
-				$this->end_controls_tab();
-
-			$this->end_controls_tabs();
+			$this->add_control(
+				'al_display_content_args',
+				array(
+					'label'        => esc_html__( 'Display query content', 'eac-components' ),
+					'type'         => Controls_Manager::SWITCHER,
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
+					'return_value' => 'yes',
+					'default'      => '',
+				)
+			);
 
 			$this->add_control(
 				'al_post_settings_heading',
 				array(
-					'label'     => esc_html__( 'Articles', 'eac-components' ),
+					'label'     => esc_html__( 'Post', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array( 'al_layout_type!' => 'slider' ),
 					'separator' => 'before',
@@ -439,8 +305,8 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_article_nombre',
 				array(
-					'label'       => esc_html__( "Nombre d'articles", 'eac-components' ),
-					'description' => esc_html__( '-1 = Tous', 'eac-components' ),
+					'label'       => esc_html__( 'Post count', 'eac-components' ),
+					'description' => esc_html__( '0 = All', 'eac-components' ),
 					'type'        => Controls_Manager::NUMBER,
 					'default'     => 10,
 					'condition'   => array( 'al_layout_type!' => 'slider' ),
@@ -448,78 +314,35 @@ class Post_Grid_Widget extends Widget_Base {
 			);
 
 			$this->add_control(
-				'al_content_pagging_display',
+				'al_article_orderby',
 				array(
-					'label'        => esc_html__( 'Pagination AJAX', 'eac-components' ),
-					'description'  => esc_html__( 'Sans rechargement de la page', 'eac-components' ),
-					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
-					'return_value' => 'yes',
-					'default'      => '',
-					'conditions'   => array(
-						'relation' => 'and',
-						'terms'    => array(
-							array(
-								'name'     => 'al_article_nombre',
-								'operator' => '!in',
-								'value'    => array( -1, 0, '' ),
-							),
-							array(
-								'name'     => 'al_layout_type',
-								'operator' => '!==',
-								'value'    => 'slider',
-							),
-							array(
-								'name'     => 'al_content_nav_display',
-								'operator' => '!==',
-								'value'    => 'yes',
-							),
-						),
-					),
+					'label'     => esc_html__( 'Sorted by', 'eac-components' ),
+					'type'      => Controls_Manager::SELECT,
+					'options'   => Eac_Tools_Util::get_post_orderby(),
+					'default'   => 'title',
 				)
 			);
 
 			$this->add_control(
-				'al_content_nav_display',
+				'al_article_order',
 				array(
-					'label'        => esc_html__( 'Pagination', 'eac-components' ),
-					'description'  => esc_html__( 'Avec rechargement de la page', 'eac-components' ),
-					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
-					'return_value' => 'yes',
-					'default'      => '',
-					'conditions'   => array(
-						'relation' => 'and',
-						'terms'    => array(
-							array(
-								'name'     => 'al_article_nombre',
-								'operator' => '!in',
-								'value'    => array( -1, 0, '' ),
-							),
-							array(
-								'name'     => 'al_layout_type',
-								'operator' => '!==',
-								'value'    => 'slider',
-							),
-							array(
-								'name'     => 'al_content_pagging_display',
-								'operator' => '!==',
-								'value'    => 'yes',
-							),
-						),
+					'label'   => esc_html__( 'Display', 'eac-components' ),
+					'type'    => Controls_Manager::SELECT,
+					'options' => array(
+						'asc'  => esc_html__( 'Top-bottom', 'eac-components' ),
+						'desc' => esc_html__( 'Bottom-up', 'eac-components' ),
 					),
+					'default' => 'asc',
 				)
 			);
 
 			$this->add_control(
 				'al_article_id',
 				array(
-					'label'        => esc_html__( 'Exclure IDs', 'eac-components' ),
+					'label'        => esc_html__( 'Exclude IDs', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array( 'al_layout_type!' => 'slider' ),
@@ -530,7 +353,7 @@ class Post_Grid_Widget extends Widget_Base {
 				'al_article_exclude',
 				array(
 					'label'       => esc_html__( 'IDs', 'eac-components' ),
-					'description' => esc_html__( 'Les ID séparés par une virgule sans espace', 'eac-components' ),
+					'description' => esc_html__( 'ID separated by comma without space', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'ai'          => array( 'active' => false ),
 					'label_block' => true,
@@ -545,10 +368,10 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_article_include',
 				array(
-					'label'        => esc_html__( 'Inclure les enfants', 'eac-components' ),
+					'label'        => esc_html__( 'Include children', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'conditions'   => array(
@@ -569,12 +392,61 @@ class Post_Grid_Widget extends Widget_Base {
 				)
 			);
 
+			$this->add_control(
+				'al_content_pagging_heading',
+				array(
+					'label'     => esc_html__( 'Paging', 'eac-components' ),
+					'type'      => Controls_Manager::HEADING,
+					'separator' => 'before',
+					'condition'   => array(
+						'al_article_nombre!' => array( -1, 0, '' ),
+						'al_layout_type!'    => 'slider',
+					),
+				)
+			);
+
+			$this->add_control(
+				'al_content_pagging_display',
+				array(
+					'label'        => esc_html__( 'Paging AJAX', 'eac-components' ),
+					'description'  => esc_html__( 'Without page reload', 'eac-components' ),
+					'type'         => Controls_Manager::SWITCHER,
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
+					'return_value' => 'yes',
+					'default'      => '',
+					'condition'   => array(
+						'al_article_nombre!'      => array( -1, 0, '' ),
+						'al_layout_type!'         => 'slider',
+						'al_content_nav_display!' => 'yes',
+					),
+				)
+			);
+
+			$this->add_control(
+				'al_content_nav_display',
+				array(
+					'label'        => esc_html__( 'Paging', 'eac-components' ),
+					'description'  => esc_html__( 'With page reload', 'eac-components' ),
+					'type'         => Controls_Manager::SWITCHER,
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
+					'return_value' => 'yes',
+					'default'      => '',
+					'condition'   => array(
+						'al_article_nombre!'          => array( -1, 0, '' ),
+						'al_layout_type!'             => 'slider',
+						'al_content_pagging_display!' => 'yes',
+					),
+				)
+			);
+
 		$this->end_controls_section();
 
 		$this->start_controls_section(
 			'al_layout_type_settings',
 			array(
-				'label' => esc_html__( 'Disposition', 'eac-components' ),
+				'label' => esc_html__( 'Layout', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -586,9 +458,87 @@ class Post_Grid_Widget extends Widget_Base {
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'masonry',
 					'options' => array(
-						'masonry'     => esc_html__( 'Mosaïque', 'eac-components' ),
-						'equalHeight' => esc_html__( 'Grille', 'eac-components' ),
+						'masonry'     => esc_html__( 'Masonry', 'eac-components' ),
+						'equalHeight' => esc_html__( 'Grid', 'eac-components' ),
 						'slider'      => esc_html( 'Slider' ),
+					),
+					'assets' => array(
+						'styles' => array(
+							array(
+								'name' => 'swiper-bundle',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'al_layout_type',
+											'operator' => '===',
+											'value'    => 'slider',
+										),
+									),
+								),
+							),
+							array(
+								'name' => 'eac-swiper',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'al_layout_type',
+											'operator' => '===',
+											'value'    => 'slider',
+										),
+									),
+								),
+							),
+						),
+						'scripts' => array(
+							array(
+								'name' => 'swiper-bundle',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'al_layout_type',
+											'operator' => '===',
+											'value'    => 'slider',
+										),
+									),
+								),
+							),
+							array(
+								'name' => 'isotope',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'al_layout_type',
+											'operator' => 'in',
+											'value'    => array( 'equalHeight', 'masonry' ),
+										),
+									),
+								),
+							),
+							array(
+								'name' => 'fit-rows',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'al_layout_type',
+											'operator' => 'in',
+											'value'    => array( 'equalHeight', 'masonry' ),
+										),
+									),
+								),
+							),
+							array(
+								'name' => 'infinite-scroll',
+								'conditions' => array(
+									'terms' => array(
+										array(
+											'name'     => 'al_layout_type',
+											'operator' => 'in',
+											'value'    => array( 'equalHeight', 'masonry' ),
+										),
+									),
+								),
+							),
+						),
 					),
 				)
 			);
@@ -613,7 +563,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'al_columns',
 				array(
-					'label'        => esc_html__( 'Nombre de colonnes', 'eac-components' ),
+					'label'        => esc_html__( 'Columns count', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
 					'default'      => '3',
 					'device_args'  => $columns_device_args,
@@ -634,15 +584,15 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_enable_animation',
 				array(
-					'label'     => esc_html( 'Animation' ),
+					'label'     => esc_html__( 'Animation', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -658,7 +608,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_image_heading',
 				array(
-					'label'     => esc_html__( "Disposition de l'image", 'eac-components' ),
+					'label'     => esc_html__( 'Image layout', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array( 'al_content_image' => 'yes' ),
 					'separator' => 'before',
@@ -668,15 +618,15 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_image_dimension',
 				array(
-					'label'   => esc_html__( 'Dimension', 'eac-components' ),
+					'label'   => esc_html__( 'Size', 'eac-components' ),
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'medium',
 					'options' => array(
-						'thumbnail'    => esc_html__( 'Miniature', 'eac-components' ),
-						'medium'       => esc_html__( 'Moyenne', 'eac-components' ),
-						'medium_large' => esc_html__( 'Moyenne-large', 'eac-components' ),
+						'thumbnail'    => esc_html__( 'Thumbnail', 'eac-components' ),
+						'medium'       => esc_html__( 'Medium', 'eac-components' ),
+						'medium_large' => esc_html__( 'Medium-large', 'eac-components' ),
 						'large'        => esc_html__( 'Large', 'eac-components' ),
-						'full'         => esc_html__( 'Originale', 'eac-components' ),
+						'full'         => esc_html__( 'Original', 'eac-components' ),
 					),
 					'condition' => array( 'al_content_image' => 'yes' ),
 				)
@@ -689,11 +639,11 @@ class Post_Grid_Widget extends Widget_Base {
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -706,15 +656,15 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_enable_image_ratio',
 				array(
-					'label'        => esc_html__( 'Activer le ratio image', 'eac-components' ),
+					'label'        => esc_html__( 'Enable image ratio', 'eac-components' ),
 					'type'         => Controls_Manager::CHOOSE,
 					'options'      => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -723,7 +673,7 @@ class Post_Grid_Widget extends Widget_Base {
 					'render_type'  => 'template',
 					'prefix_class' => 'al-post__ratio-',
 					'condition' => array(
-						'al_layout_type'   => array( 'equalHeight', 'fitRows' ),
+						'al_layout_type'   => 'equalHeight',
 						'al_content_image' => 'yes',
 					),
 				)
@@ -732,13 +682,13 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'al_image_ratio',
 				array(
-					'label'       => esc_html__( 'Ratio', 'eac-components' ),
+					'label'       => esc_html( 'Ratio' ),
 					'type'           => Controls_Manager::SELECT,
 					'default'        => '1 / 1',
 					'tablet_default' => '1 / 1',
 					'mobile_default' => '9 / 16',
 					'options'        => array(
-						'1 / 1'  => esc_html__( 'Défaut', 'eac-components' ),
+						'1 / 1'  => esc_html__( 'Default', 'eac-components' ),
 						'9 / 16' => esc_html( '9-16' ),
 						'4 / 3'  => esc_html( '4-3' ),
 						'3 / 2'  => esc_html( '3-2' ),
@@ -749,7 +699,7 @@ class Post_Grid_Widget extends Widget_Base {
 					'condition'   => array(
 						'al_content_image'      => 'yes',
 						'al_enable_image_ratio' => 'yes',
-						'al_layout_type'        => array( 'equalHeight', 'fitRows' ),
+						'al_layout_type'        => 'equalHeight',
 					),
 					'render_type' => 'template',
 				)
@@ -758,7 +708,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'al_image_ratio_position_y',
 				array(
-					'label'      => esc_html__( 'Position verticale', 'eac-components' ),
+					'label'      => esc_html__( 'Vertical position', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( '%' ),
 					'default'    => array(
@@ -776,7 +726,7 @@ class Post_Grid_Widget extends Widget_Base {
 					'condition'  => array(
 						'al_content_image'      => 'yes',
 						'al_enable_image_ratio' => 'yes',
-						'al_layout_type'        => array( 'equalHeight', 'fitRows' ),
+						'al_layout_type'        => 'equalHeight',
 					),
 				)
 			);
@@ -784,7 +734,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_content_layout',
 				array(
-					'label'     => esc_html__( 'Disposition du contenu', 'eac-components' ),
+					'label'     => esc_html__( 'Content layout', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 					'condition' => array( 'al_content_image' => 'yes' ),
@@ -794,7 +744,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_layout_side_by_side',
 				array(
-					'label'     => esc_html__( 'Côte à côte', 'eac-components' ),
+					'label'     => esc_html__( 'Side by side', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array( 'al_content_image' => 'yes' ),
 				)
@@ -803,11 +753,11 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_layout_texte',
 				array(
-					'label'        => esc_html__( 'Droite', 'eac-components' ),
-					'description'  => esc_html__( 'Image à gauche Contenu à droite', 'eac-components' ),
+					'label'        => esc_html__( 'Right', 'eac-components' ),
+					'description'  => esc_html__( 'Image on the left Content on the right', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'render_type'  => 'template',
@@ -822,11 +772,11 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_layout_texte_left',
 				array(
-					'label'        => esc_html__( 'Gauche', 'eac-components' ),
+					'label'        => esc_html__( 'Left', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'description'  => esc_html__( 'Contenu à gauche Image à droite', 'eac-components' ),
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'description'  => esc_html__( 'Content on the left Image on the right', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'render_type'  => 'template',
@@ -841,7 +791,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'al_layout_image_width',
 				array(
-					'label'          => esc_html__( "Largeur de l'image (%)", 'eac-components' ),
+					'label'          => esc_html__( 'Image width (%)', 'eac-components' ),
 					'type'           => Controls_Manager::SLIDER,
 					'size_units'     => array( '%' ),
 					'default'        => array(
@@ -886,7 +836,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_layout_content_alignment',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -899,27 +849,27 @@ class Post_Grid_Widget extends Widget_Base {
 					'type'        => Controls_Manager::CHOOSE,
 					'options'     => array(
 						'flex-start'    => array(
-							'title' => esc_html__( 'Haut', 'eac-components' ),
+							'title' => esc_html__( 'Top', 'eac-components' ),
 							'icon'  => 'eicon-justify-start-v',
 						),
 						'center'        => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-justify-center-v',
 						),
 						'flex-end'      => array(
-							'title' => esc_html__( 'Bas', 'eac-components' ),
+							'title' => esc_html__( 'Bottom', 'eac-components' ),
 							'icon'  => 'eicon-justify-end-v',
 						),
 						'space-between' => array(
-							'title' => esc_html__( 'Espace entre', 'eac-components' ),
+							'title' => esc_html__( 'Space between', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-between-v',
 						),
 						'space-around'  => array(
-							'title' => esc_html__( 'Espace autour', 'eac-components' ),
+							'title' => esc_html__( 'Space around', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-around-v',
 						),
 						'space-evenly'  => array(
-							'title' => esc_html__( 'Espace uniforme', 'eac-components' ),
+							'title' => esc_html__( 'Space evenly', 'eac-components' ),
 							'icon'  => 'eicon-justify-space-evenly-v',
 						),
 					),
@@ -928,7 +878,7 @@ class Post_Grid_Widget extends Widget_Base {
 					'selectors'   => array(
 						'{{WRAPPER}} .al-post__text-wrapper' => 'justify-content: {{VALUE}};',
 					),
-					'condition'   => array( 'al_layout_type' => array( 'equalHeight', 'fitRows', 'slider' ) ),
+					'condition'   => array( 'al_layout_type' => array( 'equalHeight', 'slider' ) ),
 				)
 			);
 
@@ -939,15 +889,15 @@ class Post_Grid_Widget extends Widget_Base {
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'start'  => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'end'    => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -979,7 +929,7 @@ class Post_Grid_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'al_article_content',
 			array(
-				'label' => esc_html__( 'Contenu', 'eac-components' ),
+				'label' => esc_html__( 'Content', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -987,7 +937,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_filter_heading',
 				array(
-					'label'     => esc_html__( 'Filtres', 'eac-components' ),
+					'label'     => esc_html__( 'Filter', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'conditions' => array(
 						'relation' => 'and',
@@ -1020,10 +970,10 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_content_filter_display',
 				array(
-					'label'        => esc_html__( 'Filtres', 'eac-components' ),
+					'label'        => esc_html__( 'Filter', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 					'conditions' => array(
@@ -1057,19 +1007,19 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_content_filter_align',
 				array(
-					'label'     => esc_html__( 'Alignement des filtres', 'eac-components' ),
+					'label'     => esc_html__( 'Filter alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'left'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'right'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -1122,7 +1072,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_post_heading',
 				array(
-					'label'     => esc_html__( 'Article', 'eac-components' ),
+					'label'     => esc_html__( 'Post', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -1131,10 +1081,10 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_content_image',
 				array(
-					'label'        => esc_html__( 'Image en avant', 'eac-components' ),
+					'label'        => esc_html__( 'Featured image', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -1143,10 +1093,10 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_content_title',
 				array(
-					'label'        => esc_html__( 'Titre', 'eac-components' ),
+					'label'        => esc_html__( 'Title', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -1155,11 +1105,10 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_title_tag',
 				array(
-					'label'   => esc_html__( 'Étiquette du titre', 'eac-components' ),
+					'label'   => esc_html__( 'Title tag', 'eac-components' ),
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'h2',
 					'options' => array(
-						'h1'  => 'H1',
 						'h2'  => 'H2',
 						'h3'  => 'H3',
 						'h4'  => 'H4',
@@ -1175,10 +1124,10 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_content_excerpt',
 				array(
-					'label'        => esc_html__( 'Résumé', 'eac-components' ),
+					'label'        => esc_html__( 'Excerpt', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -1187,9 +1136,9 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_excerpt_length',
 				array(
-					'label'   => esc_html__( 'Nombre de mots', 'eac-components' ),
+					'label'   => esc_html__( 'Number of words', 'eac-components' ),
 					'type'    => Controls_Manager::NUMBER,
-					'min'     => 3,
+					'min'     => 0,
 					'max'     => 100,
 					'step'    => 5,
 					'default' => 25,
@@ -1200,7 +1149,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_meta_heading',
 				array(
-					'label'     => esc_html__( 'Balises meta', 'eac-components' ),
+					'label'     => esc_html__( 'Meta tags', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -1209,10 +1158,10 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_content_term',
 				array(
-					'label'        => esc_html__( 'Étiquettes', 'eac-components' ),
+					'label'        => esc_html__( 'Tags', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -1221,22 +1170,33 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_content_author',
 				array(
-					'label'        => esc_html__( 'Auteur', 'eac-components' ),
+					'label'        => esc_html__( 'Author', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
 			);
 
 			$this->add_control(
+				'al_content_author_alert',
+				array(
+					'type'       => Controls_Manager::ALERT,
+					'alert_type' => 'warning',
+					'heading'    => esc_html__( 'Security Alert', 'eac-components' ),
+					'content'    => esc_html__( 'It is not recommended to expose the name (nickname) of your users, as this can facilitate targeting by malicious individuals, increasing the risk of intrusion attempts.', 'eac-components' ),
+					'condition'  => array( 'al_content_author' => 'yes' ),
+				)
+			);
+
+			$this->add_control(
 				'al_content_avatar',
 				array(
-					'label'        => esc_html__( "Avatar de l'auteur", 'eac-components' ),
+					'label'        => esc_html__( 'Author avatar', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -1247,8 +1207,8 @@ class Post_Grid_Widget extends Widget_Base {
 				array(
 					'label'        => esc_html__( 'Date', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -1257,10 +1217,10 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_content_comment',
 				array(
-					'label'        => esc_html__( 'Commentaires', 'eac-components' ),
+					'label'        => esc_html__( 'Comments', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -1269,7 +1229,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_links_heading',
 				array(
-					'label'     => esc_html__( 'Liens', 'eac-components' ),
+					'label'     => esc_html__( 'Link', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -1278,10 +1238,10 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_content_readmore',
 				array(
-					'label'        => esc_html__( 'Bouton', 'eac-components' ),
+					'label'        => esc_html__( 'Button', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -1290,10 +1250,10 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_content_title_link',
 				array(
-					'label'        => esc_html__( "Lien de l'article sur le titre", 'eac-components' ),
+					'label'        => esc_html__( 'Post link on title', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array( 'al_content_title' => 'yes' ),
@@ -1303,10 +1263,10 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_image_link',
 				array(
-					'label'        => esc_html__( "Lien de l'article sur l'image", 'eac-components' ),
+					'label'        => esc_html__( 'Post link on image', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array(
@@ -1319,22 +1279,22 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_content_article_link',
 				array(
-					'label'        => esc_html__( 'Appliquer le lien globalement', 'eac-components' ),
-					'description'  => esc_html__( 'Le lien enveloppe chaque item', 'eac-components' ),
+					'label'        => esc_html__( 'Enable the link globally', 'eac-components' ),
+					'description'  => esc_html__( 'The link wraps each item', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
 					'default'   => 'no',
 					'toggle'    => false,
-					'conditions'   => array(
+					'conditions' => array(
 						'relation' => 'or',
 						'terms'    => array(
 							array(
@@ -1343,14 +1303,34 @@ class Post_Grid_Widget extends Widget_Base {
 								'value'    => 'yes',
 							),
 							array(
-								'name'     => 'al_content_title_link',
-								'operator' => '===',
-								'value'    => 'yes',
+								'relation' => 'and',
+								'terms'    => array(
+									array(
+										'name'     => 'al_content_title',
+										'operator' => '===',
+										'value'    => 'yes',
+									),
+									array(
+										'name'     => 'al_content_title_link',
+										'operator' => '===',
+										'value'    => 'yes',
+									),
+								),
 							),
 							array(
-								'name'     => 'al_image_link',
-								'operator' => '===',
-								'value'    => 'yes',
+								'relation' => 'and',
+								'terms'    => array(
+									array(
+										'name'     => 'al_content_image',
+										'operator' => '===',
+										'value'    => 'yes',
+									),
+									array(
+										'name'     => 'al_image_link',
+										'operator' => '===',
+										'value'    => 'yes',
+									),
+								),
 							),
 						),
 					),
@@ -1360,10 +1340,10 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_image_lightbox',
 				array(
-					'label'        => esc_html__( "Visionneuse sur l'image", 'eac-components' ),
+					'label'        => esc_html__( 'Lightbox on image', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array(
@@ -1377,11 +1357,11 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_content_avatar_link',
 				array(
-					'label'        => esc_html__( "Lien sur l'avatar", 'eac-components' ),
-					'description'  => esc_html__( "Archives de l'auteur", 'eac-components' ),
+					'label'        => esc_html__( 'Link on avatar', 'eac-components' ),
+					'description'  => esc_html__( 'Author archives', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array( 'al_content_avatar' => 'yes' ),
@@ -1391,7 +1371,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_readmore_settings',
 				array(
-					'label'     => esc_html__( 'Bouton', 'eac-components' ),
+					'label'     => esc_html__( 'Button', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array( 'al_content_readmore' => 'yes' ),
 					'separator' => 'before',
@@ -1404,7 +1384,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_pagination_settings',
 				array(
-					'label'     => esc_html__( 'Bouton pagination', 'eac-components' ),
+					'label'     => esc_html__( 'Button Pagination', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array( 'al_content_pagging_display' => 'yes' ),
 					'separator' => 'before',
@@ -1419,7 +1399,7 @@ class Post_Grid_Widget extends Widget_Base {
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
 					'label_block' => true,
-					'default'     => esc_html__( "Plus d'articles", 'eac-components' ),
+					'default'     => esc_html__( 'More posts', 'eac-components' ),
 					'condition'   => array( 'al_content_pagging_display' => 'yes' ),
 				)
 			);
@@ -1431,7 +1411,7 @@ class Post_Grid_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'al_general_style',
 			array(
-				'label' => esc_html__( 'Général', 'eac-components' ),
+				'label' => esc_html__( 'General', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -1440,7 +1420,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_container_style',
 				array(
-					'label'     => esc_html__( 'Conteneur', 'eac-components' ),
+					'label'     => esc_html__( 'Container', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 				)
 			);
@@ -1448,7 +1428,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_wrapper_bg_color',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .swiper .swiper-slide, {{WRAPPER}} .al-posts__wrapper' => 'background-color: {{VALUE}};' ),
@@ -1459,7 +1439,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_items_style',
 				array(
-					'label'     => esc_html__( 'Articles', 'eac-components' ),
+					'label'     => esc_html__( 'Post', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'separator' => 'before',
 				)
@@ -1470,9 +1450,9 @@ class Post_Grid_Widget extends Widget_Base {
 				array(
 					'label'        => esc_html__( 'Style', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
-					'default'      => 'style-1',
+					'default'      => 'style-0',
 					'options'      => array(
-						'style-0'  => esc_html__( 'Défaut', 'eac-components' ),
+						'style-0'  => esc_html__( 'Default', 'eac-components' ),
 						'style-1'  => 'Style 1',
 						'style-2'  => 'Style 2',
 						'style-3'  => 'Style 3',
@@ -1490,7 +1470,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'al_wrapper_margin',
 				array(
-					'label'      => esc_html__( 'Marge entre les items', 'eac-components' ),
+					'label'      => esc_html__( 'Margin between items', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( 'px' ),
 					'default'    => array(
@@ -1500,12 +1480,13 @@ class Post_Grid_Widget extends Widget_Base {
 					'range'      => array(
 						'px' => array(
 							'min'  => 0,
-							'max'  => 50,
-							'step' => 1,
+							'max'  => 150,
+							'step' => 10,
 						),
 					),
 					'selectors'  => array(
-						'{{WRAPPER}} .al-post__inner-wrapper' => 'block-size: calc(100% - {{SIZE}}{{UNIT}}); margin-block: calc({{SIZE}}{{UNIT}} / 2); margin-inline: calc({{SIZE}}{{UNIT}} / 2);',
+						'{{WRAPPER}} .al-post__inner-wrapper' => 'block-size: calc(100% - {{SIZE}}px); margin: calc({{SIZE}}px / 2);',
+						'(mobile) {{WRAPPER}} .al-post__inner-wrapper' => 'margin-block: 0 {{SIZE}}px !important; margin-inline: 0 !important;',
 					),
 				)
 			);
@@ -1513,7 +1494,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_items_bg_color',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .al-post__inner-wrapper, {{WRAPPER}} .al-post__text-wrapper' => 'background-color: {{VALUE}};' ),
@@ -1532,7 +1513,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_wrapper_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -1555,7 +1536,7 @@ class Post_Grid_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'      => 'al_wrapper_shadow',
-					'label'     => esc_html__( 'Ombre', 'eac-components' ),
+					'label'     => esc_html__( 'Shadow', 'eac-components' ),
 					'selector'  => '{{WRAPPER}} .al-post__inner-wrapper',
 					'condition' => array( 'al_wrapper_style' => 'style-0' ),
 				)
@@ -1565,7 +1546,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_filter_style',
 				array(
-					'label'     => esc_html__( 'Filtre', 'eac-components' ),
+					'label'     => esc_html__( 'Filter', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array(
 						'al_content_filter_display' => 'yes',
@@ -1578,7 +1559,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_filter_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array(
@@ -1595,7 +1576,7 @@ class Post_Grid_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'al_filter_typography',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'selector'  => '{{WRAPPER}} .al-filters__wrapper .al-filters__item, {{WRAPPER}} .al-filters__wrapper .al-filters__item a',
 					'condition' => array(
@@ -1608,7 +1589,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_filter_background',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'selectors' => array( '{{WRAPPER}} .al-filters__wrapper .al-filters__item a' => 'background-color: {{VALUE}};' ),
@@ -1622,7 +1603,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_filter_outline',
 				array(
-					'label'     => esc_html__( 'Couleur du filtre sélectionné', 'eac-components' ),
+					'label'     => esc_html__( 'Color of selected filter', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'selectors' => array(
@@ -1639,7 +1620,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'al_filter_padding',
 				array(
-					'label'     => esc_html__( 'Marges internes', 'eac-components' ),
+					'label'     => esc_html__( 'Padding', 'eac-components' ),
 					'type'      => Controls_Manager::DIMENSIONS,
 					'selectors' => array(
 						'{{WRAPPER}} .al-filters__wrapper .al-filters__item a' => 'padding-block: {{TOP}}{{UNIT}} {{BOTTOM}}{{UNIT}}; padding-inline: {{LEFT}}{{UNIT}} {{RIGHT}}{{UNIT}};',
@@ -1666,7 +1647,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_filter_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -1703,7 +1684,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_image_border_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -1726,7 +1707,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_title_style',
 				array(
-					'label'     => esc_html__( 'Titre', 'eac-components' ),
+					'label'     => esc_html__( 'Title', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array( 'al_content_title' => 'yes' ),
 					'separator' => 'before',
@@ -1736,7 +1717,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_titre_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .al-post__content-title a, {{WRAPPER}} .al-post__content-title' => 'color: {{VALUE}};' ),
@@ -1748,7 +1729,7 @@ class Post_Grid_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'al_titre_typography',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'selector'  => '{{WRAPPER}} .al-post__content-title',
 					'condition' => array( 'al_content_title' => 'yes' ),
@@ -1759,7 +1740,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_excerpt_style',
 				array(
-					'label'     => esc_html__( 'Résumé', 'eac-components' ),
+					'label'     => esc_html__( 'Excerpt', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array( 'al_content_excerpt' => 'yes' ),
 					'separator' => 'before',
@@ -1769,7 +1750,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_excerpt_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_TEXT ),
 					'selectors' => array(
@@ -1783,7 +1764,7 @@ class Post_Grid_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'al_excerpt_typography',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_TEXT ),
 					'selector'  => '{{WRAPPER}} .al-post__excerpt-wrapper',
 					'condition' => array( 'al_content_excerpt' => 'yes' ),
@@ -1793,7 +1774,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_readmore_style',
 				array(
-					'label'     => esc_html__( 'Bouton', 'eac-components' ),
+					'label'     => esc_html__( 'Button', 'eac-components' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array( 'al_content_readmore' => 'yes' ),
 					'separator' => 'before',
@@ -1806,7 +1787,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_avatar_style',
 				array(
-					'label'     => esc_html__( 'Avatar', 'eac-components' ),
+					'label'     => esc_html( 'Avatar' ),
 					'type'      => Controls_Manager::HEADING,
 					'condition' => array( 'al_content_avatar' => 'yes' ),
 					'separator' => 'before',
@@ -1816,7 +1797,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_avatar_size',
 				array(
-					'label'       => esc_html__( 'Dimension', 'eac-components' ),
+					'label'       => esc_html__( 'Size', 'eac-components' ),
 					'type'        => Controls_Manager::NUMBER,
 					'min'         => 40,
 					'max'         => 150,
@@ -1838,7 +1819,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_avatar_border_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -1853,7 +1834,7 @@ class Post_Grid_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'      => 'al_avatar_box_shadow',
-					'label'     => esc_html__( 'Ombre', 'eac-components' ),
+					'label'     => esc_html__( 'Shadow', 'eac-components' ),
 					'selector'  => '{{WRAPPER}} .al-post__avatar-wrapper',
 					'condition' => array( 'al_content_avatar' => 'yes' ),
 				)
@@ -1863,7 +1844,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_icone_style',
 				array(
-					'label'      => esc_html__( 'Balises meta', 'eac-components' ),
+					'label'      => esc_html__( 'Meta tags', 'eac-components' ),
 					'type'       => Controls_Manager::HEADING,
 					'conditions' => array(
 						'relation' => 'or',
@@ -1894,11 +1875,11 @@ class Post_Grid_Widget extends Widget_Base {
 				)
 			);
 
-			/** Balises meta */
+			/** Meta tags */
 			$this->add_control(
 				'al_icone_color',
 				array(
-					'label'      => esc_html__( 'Couleur', 'eac-components' ),
+					'label'      => esc_html__( 'Color', 'eac-components' ),
 					'type'       => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'selectors'  => array(
@@ -1939,7 +1920,7 @@ class Post_Grid_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'       => 'al_icone_typography',
-					'label'      => esc_html__( 'Typographie', 'eac-components' ),
+					'label'      => esc_html__( 'Typography', 'eac-components' ),
 					'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_SECONDARY ),
 					'selector'   => '{{WRAPPER}} .al-post__meta-tags,
 						{{WRAPPER}} .al-post__meta-author,
@@ -1986,7 +1967,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_navigation_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .al-post__navigation .page-numbers:not(.current)' => 'color: {{VALUE}};' ),
@@ -1997,7 +1978,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_navigation_color_current',
 				array(
-					'label'     => esc_html__( 'Couleur nombre page courante', 'eac-components' ),
+					'label'     => esc_html__( 'Color number current page', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .al-post__navigation .page-numbers.current' => 'color: {{VALUE}};' ),
@@ -2009,7 +1990,7 @@ class Post_Grid_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'      => 'al_navigation_typography',
-					'label'     => esc_html__( 'Typographie', 'eac-components' ),
+					'label'     => esc_html__( 'Typography', 'eac-components' ),
 					'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'selector'  => '{{WRAPPER}} .al-post__navigation',
 					'condition' => array( 'al_content_nav_display' => 'yes' ),
@@ -2028,7 +2009,7 @@ class Post_Grid_Widget extends Widget_Base {
 			$this->add_control(
 				'al_navigation_radius',
 				array(
-					'label'      => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'      => esc_html__( 'Border radius', 'eac-components' ),
 					'type'       => Controls_Manager::DIMENSIONS,
 					'size_units' => array( 'px', '%' ),
 					'selectors'  => array(
@@ -2043,7 +2024,7 @@ class Post_Grid_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'al_slider_section_style',
 			array(
-				'label'      => esc_html__( 'Contrôles du slider', 'eac-components' ),
+				'label'      => esc_html__( 'Slider controls', 'eac-components' ),
 				'tab'        => Controls_Manager::TAB_STYLE,
 				'conditions' => array(
 					'relation' => 'or',
@@ -2094,8 +2075,9 @@ class Post_Grid_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
+		$raw_data = $this->get_raw_data();
 
 		$id             = 'slider_post_grid_' . $this->get_id();
 		$has_swiper     = 'slider' === $settings['al_layout_type'] ? true : false;
@@ -2108,10 +2090,10 @@ class Post_Grid_Widget extends Widget_Base {
 		<?php } else { ?>
 		<div class='eac-post-grid'>
 		<?php }
-		$this->render_articles();
+		$this->render_posts();
 		if ( $has_navigation ) { ?>
 			<div class='swiper-button-prev'></div>
-				<div class='swiper-button-next'></div>
+			<div class='swiper-button-next'></div>
 		<?php } ?>
 		<?php if ( $has_scrollbar ) { ?>
 			<div class='swiper-scrollbar'></div>
@@ -2120,7 +2102,7 @@ class Post_Grid_Widget extends Widget_Base {
 			<div class='swiper-pagination-bullet'></div>
 		<?php } ?>
 		<div class='eac-skip-grid' tabindex='0'>
-			<span class='visually-hidden'><?php esc_html_e( 'Sortir de la grille', 'eac-components' ); ?></span>
+			<span class='visually-hidden'><?php esc_html_e( 'Exit grid', 'eac-components' ); ?></span>
 		</div>
 		</div>
 		<?php
@@ -2133,7 +2115,7 @@ class Post_Grid_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render_articles() {
+	protected function render_posts(): void {
 		$settings = $this->get_settings_for_display();
 		$has_swiper = 'slider' === $settings['al_layout_type'] ? true : false;
 		$has_title          = 'yes' === $settings['al_content_title'] ? true : false;
@@ -2163,14 +2145,15 @@ class Post_Grid_Widget extends Widget_Base {
 		$has_filters = ! $has_swiper && isset( $settings['al_content_filter_display'] ) && 'yes' === $settings['al_content_filter_display'] ? true : false;
 
 		// Filtre Taxonomie. Champ SELECT2
-		$taxonomy_filters = $settings['al_article_taxonomy'];
+		$taxonomy_filter = $settings['al_article_taxonomy'];
+
 		// Filtre Étiquettes, on prélève le slug. Champ SELECT2
-		$term_filters = array();
+		$term_filter = array();
 		// Extrait les slugs du tableau de terms
-		if ( ! empty( $settings['al_article_term'] ) ) { // Le champ étiquette est renseigné
-			foreach ( $settings['al_article_term'] as $term_filter ) {
-				$term_filters[] = explode( '::', $term_filter )[1]; // Format term::term->slug
-			}
+		if ( ! empty( $settings['al_article_term'] ) ) {
+			$term_filter = array_map( function ( $article_term ) {
+				return \str_contains( $article_term, '::' ) ? explode( '::', $article_term, 2 )[1] : $article_term;
+			}, $settings['al_article_term']);
 		}
 
 		// Pagination/Navigation
@@ -2184,17 +2167,14 @@ class Post_Grid_Widget extends Widget_Base {
 		$has_id = 'yes' === $settings['al_article_id'] ? true : false;
 
 		// Formate les arguments et exécute la requête WP_Query et mets en cache les résultats de la requête
-		$post_args = Eac_Helpers_Util::get_post_args( $settings );
+		$post_args = $this->helper_util->build_post_args( $settings );
 		$the_query = new \WP_Query( $post_args );
-		// La liste des meta_query
-		$meta_query_list = Eac_Helpers_Util::get_meta_query_list( $post_args );
-		$has_meta_query  = ! empty( $meta_query_list ) ? true : false;
 
 		// Wrapper de la liste des posts et du bouton de pagination avec l'ID du widget Elementor
-		$unique_id     = $this->get_id();
-		$id            = 'al_posts_wrapper_' . $unique_id;
-		$pagination_id = 'al_pagination_' . $unique_id;
-		$navigation_id = 'al_navigation_' . $unique_id;
+		$widget_id     = $this->get_id();
+		$wrapper_id    = 'al_posts_wrapper_' . $widget_id;
+		$pagination_id = 'al_pagination_' . $widget_id;
+		$navigation_id = 'al_navigation_' . $widget_id;
 
 		// La div wrapper
 		$layout = 'equalHeight' === $settings['al_layout_type'] ? 'fitRows' : $settings['al_layout_type'];
@@ -2208,33 +2188,31 @@ class Post_Grid_Widget extends Widget_Base {
 		}
 
 		$this->add_render_attribute( 'posts_wrapper', 'class', esc_attr( $class ) );
-		$this->add_render_attribute( 'posts_wrapper', 'id', esc_attr( $id ) );
+		$this->add_render_attribute( 'posts_wrapper', 'id', esc_attr( $wrapper_id ) );
 		if ( $has_filters || ( $has_pagging && $the_query->found_posts > 0 ) || $has_navigate ) {
 			$this->add_render_attribute( 'posts_wrapper', 'role', 'region' );
-			$this->add_render_attribute( 'posts_wrapper', 'aria-relevant', 'additions' );
+			$this->add_render_attribute( 'posts_wrapper', 'aria-relevant', 'additions removals' );
 			$this->add_render_attribute( 'posts_wrapper', 'aria-live', 'polite' );
-			$this->add_render_attribute( 'posts_wrapper', 'aria-atomic', $has_filters ? 'true' : 'false' );
+			$this->add_render_attribute( 'posts_wrapper', 'aria-atomic', 'false' );
 		}
 		$this->add_render_attribute( 'posts_wrapper', 'data-settings', $this->get_settings_json( $max_num_pages, $the_query->found_posts ) );
 
 		/** Affiche les arguments de la requête */
 		if ( 'yes' === $settings['al_display_content_args'] && Plugin::$instance->editor->is_edit_mode() ) { ?>
 			<div class='al-posts_query-args'>
-				<?php highlight_string( "<?php\nQuery Args =\n" . var_export( Eac_Helpers_Util::get_posts_query_args(), true ) . ";\n?>" );  // phpcs:ignore ?>
+				<?php highlight_string( "<?php\nQuery args =\n" . var_export( $this->helper_util->get_post_query_args(), true ) . ";\n?>" ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export ?>
 			</div>
 		<?php }
 
-		ob_start( array( '\EACCustomWidgets\Core\Utils\Eac_Tools_Util', 'compress_html_output' ), 0, PHP_OUTPUT_HANDLER_REMOVABLE );
+		ob_start( array( '\EACCustomWidgets\Core\Utils\Eac_Tools_Util', 'compress_html_full_output' ), 0, PHP_OUTPUT_HANDLER_REMOVABLE );
 		if ( $the_query->have_posts() ) {
 			/** Création et affichage des filtres avant le widget */
 			if ( $has_filters ) {
 				// phpcs:disable WordPress.Security.EscapeOutput
-				if ( $has_users && ! $has_meta_query ) {
-					echo Eac_Helpers_Util::get_user_filters( $user_filters, $unique_id );
-				} elseif ( $has_meta_query ) {
-					echo Eac_Helpers_Util::get_meta_query_filters( $post_args, $unique_id );
-				} elseif ( ! empty( $taxonomy_filters ) ) {
-					echo Eac_Helpers_Util::get_taxo_tag_filters( $taxonomy_filters, $term_filters, $unique_id );
+				if ( $has_users ) {
+					echo $this->helper_util->get_user_filter( $user_filters, $widget_id, $wrapper_id );
+				} elseif ( ! empty( $taxonomy_filter ) ) {
+					echo $this->helper_util->get_tax_query_filter( $taxonomy_filter, $term_filter, $widget_id, $wrapper_id );
 				}
 				// phpcs:enable WordPress.Security.EscapeOutput
 			} ?>
@@ -2243,40 +2221,24 @@ class Post_Grid_Widget extends Widget_Base {
 					<div class='al-posts__wrapper-sizer'></div>
 				<?php }
 
-				/** La loop */
+				/** Le loop */
 				while ( $the_query->have_posts() ) {
 					$the_query->the_post();
 					$terms_slug = array(); // Tableau de slug concaténé avec la class de l'article
 					$terms_name = array(); // Tableau du nom des slugs Concaténé pour les étiquettes
 
-					if ( $has_users && ! $has_meta_query ) {
+					if ( $has_users ) {
 						$user                = get_the_author_meta( 'display_name' );
 						$terms_slug[ $user ] = sanitize_title( $user );
 						$terms_name[ $user ] = ucfirst( $user );
-					} elseif ( $has_meta_query ) {
-						$array_post_meta_values = array();
-						foreach ( $meta_query_list as $meta_query ) {
-							$term_tmp               = array();
-							$array_post_meta_values = get_post_custom_values( $meta_query['key'], get_the_ID() );
-
-							if ( ! is_wp_error( $array_post_meta_values ) && ! empty( $array_post_meta_values ) ) {
-								$term_tmp = Eac_Helpers_Util::compare_meta_values( $array_post_meta_values, $meta_query );
-								if ( ! empty( $term_tmp ) ) {
-									foreach ( $term_tmp as $idx => $tmp ) {
-										$terms_slug = array_replace( $terms_slug, array( $idx => sanitize_title( $tmp ) ) );
-										$terms_name = array_replace( $terms_name, array( $idx => ucfirst( $tmp ) ) );
-									}
-								}
-							}
-						}
-					} elseif ( ! empty( $taxonomy_filters ) ) { // Champ taxonomie renseigné
+					} elseif ( ! empty( $taxonomy_filter ) ) {
 						$terms_array = array();
-						foreach ( $taxonomy_filters as $post_term ) {
+						foreach ( $taxonomy_filter as $post_term ) {
 							$terms_array = wp_get_post_terms( get_the_ID(), $post_term );
 							if ( ! is_wp_error( $terms_array ) && ! empty( $terms_array ) ) {
 								foreach ( $terms_array as $term ) {
-									if ( ! empty( $term_filters ) ) {
-										if ( in_array( $term->slug, $term_filters, true ) ) {
+									if ( ! empty( $term_filter ) ) {
+										if ( in_array( $term->slug, $term_filter, true ) ) {
 											$terms_slug[ $term->slug ] = $term->slug;
 											$terms_name[ $term->name ] = ucfirst( $term->name );
 										}
@@ -2294,42 +2256,49 @@ class Post_Grid_Widget extends Widget_Base {
 					 * Voir eac-post-grid.js:selectedItems
 					 */
 					if ( ! $has_swiper ) {
-						$post_class = sprintf( '%1$s %2$s %3$s %4$s', $unique_id, 'al-post__wrapper', implode( ' ', array_map( 'esc_attr', $terms_slug ) ), implode( ' ', get_post_class( '', get_the_ID() ) ) );
+						$post_class = sprintf( '%1$s %2$s %3$s %4$s', $widget_id, 'al-post__wrapper', implode( ' ', array_map( 'esc_attr', $terms_slug ) ), implode( ' ', get_post_class( '', get_the_ID() ) ) );
 					} else {
-						$post_class = sprintf( '%1$s %2$s %3$s', $unique_id, 'al-post__wrapper swiper-slide', implode( ' ', get_post_class( '', get_the_ID() ) ) );
+						$post_class = sprintf( '%1$s %2$s %3$s', $widget_id, 'al-post__wrapper swiper-slide', implode( ' ', get_post_class( '', get_the_ID() ) ) );
 					}
 					$permalink  = get_permalink( get_the_ID() );
-					$attachment = Eac_Tools_Util::wp_get_attachment_data( get_post_thumbnail_id( get_the_ID() ), $settings['al_image_dimension'] );
-
-					// Wrapper du contenu interne
-					$this->add_render_attribute( 'inner_wrapper', 'class', 'al-post__inner-wrapper al-post__content-wrapper' );
+					$size_image = isset( $settings['al_image_dimension'] ) ? $settings['al_image_dimension'] : 'medium';
+					$attachment = Eac_Tools_Util::wp_get_attachment_data( get_post_thumbnail_id( get_the_ID() ), $size_image );
 					?>
 					<article id="<?php echo 'post-' . esc_attr( get_the_ID() ); ?>" class="<?php echo esc_attr( $post_class ); ?>">
-						<div <?php $this->print_render_attribute_string( 'inner_wrapper' ); ?>>
-							<?php if ( $has_image && has_post_thumbnail() && $attachment ) : ?>
+						<div class='al-post__inner-wrapper'>
+							<?php if ( $has_image && has_post_thumbnail() && ! empty( $attachment ) ) : ?>
 								<div class='al-post__image-wrapper'>
 									<?php
 									$this->add_render_attribute(
 										'post_image',
 										array(
-											'class'  => 'img-focusable al-post__image-loaded',
+											'class'   => 'eac-accessible-img al-post__image-loaded',
 											'src'    => esc_url( $attachment['src'] ),
 											'srcset' => esc_attr( $attachment['srcset'] ),
 											'sizes'  => esc_attr( $attachment['srcsize'] ),
 											'width'  => esc_attr( $attachment['width'] ),
 											'height' => esc_attr( $attachment['height'] ),
-											'alt'    => esc_attr( $attachment['alt'] ),
 										)
 									);
+									if ( ! $has_image_lightbox ) {
+										$this->add_render_attribute(
+											'post_image',
+											array(
+												'alt'  => '',
+											)
+										);
+									} elseif ( $has_image_lightbox ) {
+										$this->add_render_attribute( 'post_image', 'alt', esc_attr( $attachment['alt'] ) );
+									}
 									if ( 'eager' === $lazy_load ) {
 										$this->add_render_attribute( 'post_image', 'loading', $lazy_load );
 									}
 									if ( $has_image_lightbox ) : ?>
-										<a class='eac-accessible-link' href="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" data-elementor-open-lightbox='no' data-fancybox="al-gallery-<?php echo esc_attr( $unique_id ); ?>" data-caption="<?php echo esc_html( get_the_title() ); ?>" aria-label="<?php echo esc_html__( "Voir l'image", 'eac-components' ) . ' ' . esc_html( get_the_title() ); ?>">
+										<a class='eac-accessible-link' href="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" data-elementor-open-lightbox='no' data-fancybox="al-gallery-<?php echo esc_attr( $widget_id ); ?>" data-caption="<?php echo esc_html( get_the_title() ); ?>" role='button' aria-haspopup='dialog' aria-expanded='false' aria-label="<?php printf( '%1$s - %2$s', esc_html__( 'View image', 'eac-components' ), esc_html( get_the_title() ) ); ?>">
 									<?php endif; ?>
 									<?php if ( $has_image_link && $permalink ) :
 										$class_link = $has_global_link ? 'eac-accessible-link card-link' : 'eac-accessible-link'; ?>
-										<a class="<?php echo esc_attr( $class_link ); ?>" href="<?php echo esc_url( $permalink ); ?>" aria-label="<?php echo esc_html__( "Voir l'article", 'eac-components' ) . ' ' . esc_html( get_the_title() ); ?>">
+										<a class="<?php echo esc_attr( $class_link ); ?>" href="<?php echo esc_url( $permalink ); ?>" aria-label="<?php printf( '%1$s - %2$s', esc_html__( 'Read post', 'eac-components' ), esc_html( get_the_title() ) ); ?>">
 									<?php endif; ?>
 										<img <?php $this->print_render_attribute_string( 'post_image' ); ?>>
 									<?php if ( $has_image_lightbox || ( $has_image_link && $permalink ) ) : ?>
@@ -2348,51 +2317,40 @@ class Post_Grid_Widget extends Widget_Base {
 										<!-- Affiche les IDs -->
 										<?php if ( $has_id && $has_title_link && $permalink ) : ?>
 											<a class="<?php echo esc_attr( $class_link ); ?>" href="<?php echo esc_url( $permalink ); ?>">
-												<?php echo '<' . esc_attr( $title_tag ) . ' class="al-post__content-title">' . esc_attr( get_the_ID() ) . ' : ' . esc_html( get_the_title() ) . '</' . esc_attr( $title_tag ) . '>'; ?>
+												<?php printf( '<%1$s class="al-post__content-title global__line-height">%2$s : %3$s</%1$s>', esc_attr( $title_tag ), esc_attr( get_the_ID() ), esc_html( get_the_title() ) ); ?>
 											</a>
 										<?php elseif ( $has_id && ! $has_title_link ) : ?>
-											<?php echo '<' . esc_attr( $title_tag ) . ' class="al-post__content-title">' . esc_attr( get_the_ID() ) . ' : ' . esc_html( get_the_title() ) . '</' . esc_attr( $title_tag ) . '>'; ?>
+											<?php printf( '<%1$s class="al-post__content-title global__line-height">%2$s : %3$s</%1$s>', esc_attr( $title_tag ), esc_attr( get_the_ID() ), esc_html( get_the_title() ) ); ?>
 										<?php elseif ( ! $has_id && $has_title_link && $permalink ) : ?>
-											<a class="<?php echo esc_attr( $class_link ); ?>" href="<?php echo esc_url( $permalink ); ?>" aria-label="<?php printf( '%1$s %2$s', esc_html__( 'En savoir plus', 'eac-components' ), esc_html( get_the_title() ) ); ?>">
-												<?php echo '<' . esc_attr( $title_tag ) . ' class="al-post__content-title">' . esc_html( get_the_title() ) . '</' . esc_attr( $title_tag ) . '>'; ?>
+											<a class="<?php echo esc_attr( $class_link ); ?>" href="<?php echo esc_url( $permalink ); ?>" aria-label="<?php printf( '%1$s - %2$s', esc_html__( 'Read post', 'eac-components' ), esc_html( get_the_title() ) ); ?>">
+												<?php printf( '<%1$s class="al-post__content-title global__line-height">%2$s</%1$s>', esc_attr( $title_tag ), esc_html( get_the_title() ) ); ?>
 											</a>
 										<?php else : ?>
-											<?php echo '<' . esc_attr( $title_tag ) . ' class="al-post__content-title">' . esc_html( get_the_title() ) . '</' . esc_attr( $title_tag ) . '>'; ?>
+											<?php printf( '<%1$s class="al-post__content-title global__line-height">%2$s</%1$s>', esc_attr( $title_tag ), esc_html( get_the_title() ) ); ?>
 										<?php endif; ?>
 									<?php endif; ?>
 
 									<!-- Le résumé de l'article. fonction dans helper.php -->
 									<?php if ( $has_resum ) : ?>
-										<div class='al-post__excerpt-wrapper'>
-											<span dir='ltr'><?php echo Eac_Tools_Util::get_post_excerpt( get_the_ID(), absint( $settings['al_excerpt_length'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+										<div class='al-post__excerpt-wrapper global__line-height'>
+											<span dir='ltr'><?php echo esc_html( Eac_Tools_Util::get_post_excerpt( get_the_ID(), absint( $settings['al_excerpt_length'] ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 										</div>
 									<?php endif; ?>
 
 									<!-- Le bouton pour ouvrir l'article/page -->
 									<?php
-									if ( $has_readmore && $permalink ) :
-										$class_link = $has_global_link ? 'button-readmore card-link' : 'button-readmore';
-										$label = ! empty( $settings['button_more_label'] ) ? $settings['button_more_label'] : esc_html__( 'En savoir plus', 'eac-components' );
-										?>
+									if ( $has_readmore && $permalink ) { ?>
 										<div class='buttons-wrapper'>
-											<a href="<?php echo esc_url( $permalink ); ?>" class="<?php echo esc_attr( $class_link ); ?>" role='button' aria-label="<?php echo esc_html( $label ) . ' ' . esc_html( get_the_title() ); ?>">
-												<span class='button__readmore-wrapper'>
-												<?php
-												if ( $has_readmore_picto && 'before' === $settings['button_more_position'] ) { ?>
-													<span class='button-icon eac-icon-svg'>
-														<?php Icons_Manager::render_icon( $settings['button_more_picto'], array( 'aria-hidden' => 'true' ) ); ?>
-													</span>
-												<?php }
-												echo '<span class="label-icon">' . esc_html( $label ) . '</span>';
-												if ( $has_readmore_picto && 'after' === $settings['button_more_position'] ) { ?>
-													<span class='button-icon eac-icon-svg'>
-														<?php Icons_Manager::render_icon( $settings['button_more_picto'], array( 'aria-hidden' => 'true' ) ); ?>
-													</span>
-												<?php } ?>
-												</span>
-											</a>
+											<?php $this->render_button_more(
+												array(
+													'permalink'     => $permalink,
+													'item_title'    => get_the_title(),
+													'global_link'   => $has_global_link,
+													'default_label' => esc_html__( 'Read post', 'eac-components' ),
+												)
+											); ?>
 										</div>
-									<?php endif; ?>
+									<?php } ?>
 
 									<?php if ( $has_avatar || $has_term || $has_auteur || $has_date || $has_comment ) : ?>
 										<div class='al-post__meta-wrapper'>
@@ -2403,9 +2361,9 @@ class Post_Grid_Widget extends Widget_Base {
 												?>
 												<div class='al-post__avatar-wrapper'>
 													<?php if ( $has_avatar_link ) : ?>
-														<a href="<?php echo esc_url( $author_archives ); ?>" class='eac-accessible-link avatar-link' aria-label="<?php echo esc_html__( 'Voir tous les articles de', 'eac-components' ) . ' ' . esc_html( $author_name ); ?>">
+														<a href="<?php echo esc_url( $author_archives ); ?>" class='eac-accessible-link avatar-link' aria-label="<?php printf( '%1$s %2$s', esc_attr__( 'View posts from', 'eac-components' ), esc_attr( $author_name ) ); ?>">
 													<?php endif; ?>
-														<img class='avatar photo' src="<?php echo esc_url( $author_url ); ?>" alt="Avatar of <?php echo esc_html( $author_name ); ?>" loading='lazy' width="<?php echo absint( $avatar_size ); ?>" height="<?php echo absint( $avatar_size ); ?>" />
+														<img class='avatar photo' src="<?php echo esc_url( $author_url ); ?>" alt="Avatar of <?php echo esc_attr( $author_name ); ?>" loading='lazy' width="<?php echo absint( $avatar_size ); ?>" height="<?php echo absint( $avatar_size ); ?>" />
 													<?php if ( $has_avatar_link ) : ?>
 														</a>
 													<?php endif; ?>
@@ -2455,29 +2413,30 @@ class Post_Grid_Widget extends Widget_Base {
 									<?php endif; ?>
 								</div>
 							<?php endif; ?>
-						</div>
+						</div> <!-- Fin al-post__inner-wrapper -->
 					</article>
 					<?php
 					$this->remove_render_attribute( 'post_image' );
-					$this->remove_render_attribute( 'inner_wrapper' );
 				} ?>
 			</div>
 			<?php if ( $has_pagging && $the_query->post_count < $the_query->found_posts ) :
 				$this->add_render_attribute( 'read_button', 'class', 'eac-accessible-link button__readmore-wrapper' );
 				$this->add_render_attribute( 'read_button', 'type', 'button' );
-				$this->add_render_attribute( 'read_button', 'aria-label', esc_attr__( 'Pagination charger la page suivante', 'eac-components' ) );
+				$this->add_render_attribute( 'read_button', 'aria-label', esc_attr__( 'Pagination load next page', 'eac-components' ) );
+
 				$this->add_inline_editing_attributes( 'al_pagination_label', 'none' );
 				$this->add_render_attribute( 'al_pagination_label', 'class', 'label-icon' );
-				$label        = ! empty( $settings['al_pagination_label'] ) ? esc_html( $settings['al_pagination_label'] ) : esc_html__( "Plus d'articles", 'eac-components' );
-				$label_button = '<span ' . $this->get_render_attribute_string( 'al_pagination_label' ) . '>' . $label . '</span><span class="al-more-button-paged">' . $the_query->post_count . '/' . $the_query->found_posts . '</span>';
-				$button       = '<button ' . $this->get_render_attribute_string( 'read_button' ) . '>' . $label_button . '</button>';
+
+				$label        = esc_html__( 'View more post', 'eac-components' );
+				$label_button = sprintf( '<span %1$s>%2$s</span><span class="al-more-button-paged">%3$s/%4$s</span>', $this->get_render_attribute_string( 'al_pagination_label' ), $label, $the_query->post_count, $the_query->found_posts );
+				$button       = sprintf( '<button %1$s>%2$s</button>', $this->get_render_attribute_string( 'read_button' ), $label_button );
 				?>
 				<div class='al-post__pagination' id="<?php echo esc_attr( $pagination_id ); ?>">
 					<div class='buttons-wrapper'><?php echo wp_kses_post( $button ); ?></div>
 					<div class='al-page-load-status'>
 						<div class='infinite-scroll-request eac__loader-spin'></div>
-						<p class='infinite-scroll-last'><?php esc_html_e( "Plus d'article", 'eac-components' ); ?></p>
-						<p class='infinite-scroll-error'><?php esc_html_e( 'Aucun article à charger', 'eac-components' ); ?></p>
+						<p class='infinite-scroll-last'><?php esc_html_e( 'View more post', 'eac-components' ); ?></p>
+						<p class='infinite-scroll-error'><?php esc_html_e( 'No more post', 'eac-components' ); ?></p>
 					</div>
 				</div>
 			<?php elseif ( $has_navigate ) :
@@ -2492,7 +2451,7 @@ class Post_Grid_Widget extends Widget_Base {
 					)
 				);
 				if ( $page_links ) : ?>
-					<nav class='al-post__navigation' id="<?php echo esc_attr( $navigation_id ); ?>" aria-label="<?php esc_attr_e( 'Pagination', 'eac-components' ); ?>">
+					<nav class='al-post__navigation' id="<?php echo esc_attr( $navigation_id ); ?>" aria-label="<?php esc_attr_e( 'Paging', 'eac-components' ); ?>" itemprop='pagination'>
 						<div class='al-post__navigation-digit'><?php echo wp_kses_post( $page_links ); ?></div>
 					</nav>
 				<?php endif;
@@ -2516,7 +2475,7 @@ class Post_Grid_Widget extends Widget_Base {
 	 *
 	 * @access    protected
 	 */
-	protected function get_settings_json( $max_num_pages, $found_posts ) {
+	protected function get_settings_json( $max_num_pages, $found_posts ): string {
 		$settings      = $this->get_settings_for_display();
 		$unique_id     = esc_attr( $this->get_id() );
 		$wrapper_id    = '#al_posts_wrapper_' . $unique_id;
@@ -2571,5 +2530,5 @@ class Post_Grid_Widget extends Widget_Base {
 		return wp_json_encode( $module_settings );
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

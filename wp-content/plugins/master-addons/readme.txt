@@ -1,703 +1,414 @@
-=== Master Addons For Elementor - White Label, Free Widgets, Hover Effects, Conditions, & Animations ===
+=== Master Addons for Elementor – Elementor Addons, Widgets, Mega Menu Builder, Popup Builder, Widget Builder & Template Kits ===
 Contributors: jwthemeltd, litonice13, masteraddons
-Tags: elementor, elementor templates, elementor addons, widgets for elementor, elementor widgets
-Requires at least: 5.0
-Tested up to: 6.9
+Tags: elementor addons, elementor widgets, mega menu builder, popup builder, elementor template kits
+Requires at least: 6.0
+Tested up to: 7.0
 Requires PHP: 7.0
-Stable tag: 2.1.2
+Stable tag: 3.1.6
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-
-Get Image Hover Effects, Hotspots, Animated Headlines, Image Comparison, Gradient Headlines, Dual Heading, Tooltips, and more 50+ Elements & 20+ Extensions.
+The complete Elementor addons plugin: 55+ widgets for Elementor, Mega Menu Builder, Popup Builder, Widget Builder & Elementor Template Kits.
 
 == Description ==
+**[Master Addons for Elementor](https://master-addons.com/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons)** is the Elementor addons plugin built for teams that need more than a widget pack: 55+ widgets for Elementor, 20+ Elementor extensions, a Theme Builder, a Popup Builder, a Widget Builder, a Mega Menu Builder, and a full library of Elementor Template Kits — active on 30,000+ sites. If you searched for addons for Elementor that replace three or four single-purpose plugins, this Elementor plugin is that plugin.
 
-With [Master Addons for Elementor](https://master-addons.com/), building a beautiful website is now easier with animated headlines, image hover effects, and creative buttons. It's like having a magic box of 50+ premium elementor addons and 20+ elementor extensions to make your site look amazing.
+[Demo](https://demo.pixarlabs.com/?pl-product=master-addons) | [Docs](https://master-addons.com/docs/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) | [Widgets](https://master-addons.com/widgets-and-extensions/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) | [Support](https://master-addons.com/contact-us/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) | [Go Pro](https://master-addons.com/pricing/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) | [Rate ★★★★★](https://wordpress.org/support/plugin/master-addons/reviews/)
 
-[Live Demo](https://demo.pixarlabs.com/?pl-product=master-addons) | [Docs](https://master-addons.com/docs/) | [All Widgets](https://master-addons.com/widgets-and-extensions/) | [Support Ticket](https://master-addons.com/contact-us/) | [Upgrade Pro](https://master-addons.com/pricing/)
+Most Elementor addons stop at a widget pack. These widgets for Elementor ship with builders that normally cost three extra plugins — a Popup Builder, a Mega Menu Builder, a Widget Builder — which is why Master Addons keeps landing on best plugins for Elementor lists, and why agencies comparing the best Elementor plugins on free-tier features end up here.
 
-From intricate navigation menus to engaging elementor media carousels, informative blogs to professional team member showcases – every element is designed with customization in mind. Adjust margins, padding, typography, borders, and more to match your unique style. Plus, captivate your audience with interactive image hover effects and image hotspots.
+Install the free build and every Elementor element below is live in the editor: no account, no trial timer. These are easy Elementor addons for beginners and a serious toolkit for developers — enable only what a project needs.
 
-== But that's not all – AS an Elementor addon plugin, Master Addons goes beyond the basics with advanced extensions like Display Condition, Floating Effect, Custom CSS, Tooltip, Icon Library for Elementor and Positioning to give you complete control over your website's look and feel. ==
+[youtube https://www.youtube.com/watch?v=t8Qa4pq7WLs]
 
-Ready to transform your ideas into reality? Download the free version of Master Addons today and start building the website of your dreams! 🚀
+= What You Can Build with These Elementor Addons =
 
+- Header footer builder output, plus an Elementor sticky header and an Elementor transparent header
+- A WordPress mega menu from the Mega Menu Builder — multi-column panels on desktop, an Elementor hamburger menu on mobile
+- Lead-capture popups on scroll, exit intent, click, inactivity, or page load, including an Elementor age gate
+- Custom widgets and custom elements built from pasted HTML/CSS/JS in the Widget Builder — no PHP
+- Comparison pages: a Pricing Table plus a drag-and-drop table builder
+- Portfolio proof: the Image Comparison before/after slider and a Gallery Slider for a full product gallery or image gallery
+- Whole Elementor website templates in one click from the Elementor Template Kits library
 
-***Every Elementor Addon has Extensive Customization Options.***
+This is an Elementor plugin first: every builder and every widget runs inside the standard Elementor editor, so anyone who already knows the Elementor page builder is productive immediately. This Elementor WordPress plugin activates in one click, with no separate setup wizard to run through first.
 
-== Master Addons Overview: ==
+== The Builders ==
 
-[youtube https://www.youtube.com/watch?v=t8Qa4pq7WLs] 
+= Popup Builder =
 
+The Elementor Popup Builder creates popups with five triggers: page load with delay, scroll depth (25/50/70/90%), exit intent, click, and inactivity. Target each by page, post type, or role.
 
-To use Master Addons you will have to activate the Elementor plugin in your WordPress first. 
+Because this Popup Builder is bundled, you never need a separate popup builder plugin — the free Elementor Popup Builder covers opt-ins, an Elementor age gate, GDPR cookie consent notices, and promos. Every popup is a normal Elementor template, so any widget in this plugin drops straight inside it, and the Elementor Popup Builder ships free, not gated behind Pro. [Docs →](https://master-addons.com/popup-builder/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons)
 
-Here is the Download link for [Elementor](https://wordpress.org/plugins/elementor/) WordPress Plugin. 
 
-The Pro versions contains 10+ Premium Elementor addons, 8 Premium Elementor Extensions with lots of other added features which lets you unlock 100% customization capabilities of Elementor. **All Star marked Elements, Extensions & features are available in the pro version.** Without further delay let’s dive into Master Addons' extensive list of Elements and Extensions. 
+= Widget Builder & Custom Elements =
 
-== ⭐ Master Addons White Label ==
+The Elementor Widget Builder turns HTML, CSS, or JavaScript — an AI-generated component, a CodePen snippet, your own markup — into a native, editable widget. This is Elementor widget development with no PHP:
 
-The Master Addons White Label Branding feature allows you to customize your **Plugin name, plugin description, Plugin logo, Developer/Agency Name, Plugin Menu label, Plugin URL.** You can even hide the **plugin option panel tab** to keep your dashboard less cluttered. White label Elementor branding is a must have feature for most agency owners as it allows them to establish their own branding. The White Label Elementor feature is only available on our Agency plan. 
+- Text, color, toggle, and select controls from a visual panel
+- Shortcodes like `{{color}}` map inputs into your code
+- Conditions and loops render markup per setting
+- Save once, drag the finished widget in like a native element
+- Export custom elements from one site, import on the next
 
+The Widget Builder is the fastest route from snippet to client-editable widget, and a genuine dynamic builder: change one control and every instance of the widget updates. Designers use it to turn brand components into custom widgets; developers reach for the Elementor Widget Builder instead of scaffolding a plugin for one-off elements. Widgets built here appear under your own category, and the Widget Builder handles escaping and assets automatically. The free Widget Builder supports HTML; CSS and JS inside the Widget Builder are Pro. No other Elementor widget builder ships this much free. [Docs →](https://master-addons.com/widget-builder/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons)
 
-## Use These Elements to Design Pages ##
 
-Master Addons is an Elementor addons plugin that gives you access to the following elements and widgets for elementor. 
+= Mega Menu Builder =
 
+Drop any Elementor widget into a menu panel — pricing tables, images, forms, blog grids — with 3,000+ icons, hover or click events, and Atomic Elements support for Elementor atomic elements.
 
-1. [**Animated Headlines Elementor**](https://master-addons.com/element/animated-headlines): Make your animated headlines pop with cool animations and colors. Perfect for grabbing attention on your homepage with dynamic text effects.
+The Mega Menu Builder is a full Elementor mega menu plugin on desktop and an Elementor hamburger menu plugin on mobile, with off-canvas, dropdown, and full-screen modes. The Elementor hamburger menu toggle is accessible (Enter / Space / Esc), and it doubles as a mobile menu on any theme. Want a WordPress mega menu without a second Elementor mega menu plugin? This is the mega menu Elementor sites reach for instead of stacking a standalone plugin on top of Elementor mega menu functionality that's already free — one Mega Menu Builder covers both breakpoints. [Docs →](https://master-addons.com/extension/mega-menu/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons)
 
-2. [**Dual Heading**](https://master-addons.com/element/dual-heading): Create stunning dual heading designs with two colors, giving your content a fun, eye-catching look that stands out. 
 
-3. [**Gradient Headline**](https://master-addons.com/element/gradient-headline): Create fancy gradient headlines with color gradients that look great on any device, no coding needed. 
+= Theme Builder & Header Footer Builder =
 
-4. [**Advanced Accordion**](https://master-addons.com/element/advanced-accordion): Neatly organize content with advanced accordion sections, saving space and keeping things organized. 
+The Theme Builder is Master Addons' header footer builder: headers, footers, single post and page layouts, archive, category, author, 404, and search templates, all assigned by page, post type, or role. Add an Elementor sticky header or an Elementor transparent header from the same panel.
 
-5. [**Tabs**](https://master-addons.com/element/tabs): Sort your content into advanced tabs for an interactive experience that works on all devices. 
+The same engine powers Elementor WooCommerce templates: build a product layout once and assign it shop-wide. As a light WooCommerce builder covering WooCommerce widgets like Featured Product alongside product and archive pages, it lets small stores skip a dedicated WooCommerce builder plugin and keep every Elementor WooCommerce template editable in the same header footer builder. Paired with Elementor, that turns Master Addons into an Elementor website builder for the whole site, not just isolated pages. [Docs →](https://master-addons.com/theme-builder/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons)
 
-6. [**Team Member**](https://master-addons.com/element/team-member): Introduce your team members with style. Add bios, photos, and social links to give a personal touch to your business. 
 
-7. [**Team Carousel Slider**](https://master-addons.com/element/team-slider): Showcase your team members with a cool team slider that lets you flip through member profiles with ease using our team carousel slider element. 
+= Elementor Template Kits & Template Library =
 
-8. [**Flipbox**](https://master-addons.com/element/flipbox): Share your message with a twist. Flipboxes reveals content when hovered over, adding a creative flair to your site. 
+Elementor Template Kits are complete Elementor website templates — home, inner pages, header, footer — imported in one click from the template library. Preview an Elementor kit, then import only the templates you want.
 
-9. [**Infobox**](https://master-addons.com/element/infobox): Use the infobox to display information beautifully. Choose from over 20 styles and customize to your heart's content. 
+New Elementor Template Kits ship regularly and land in your template library as ordinary templates alongside your saved sections, so the library keeps growing without another import step. Beginners get starter templates to launch from; agencies get Elementor free templates to customize on every new build. Browse the full set of Elementor templates and Template Kits before you start a page from scratch. [Browse →](https://master-addons.com/template-kits/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons)
 
-10. [**Blog Elements**](https://master-addons.com/element/blog): Easily arrange your blog posts using cool blog layouts like grids, lists, and other blog elements. Plus, you can sort them by category. 
 
-11. [⭐ **News Ticker**](https://master-addons.com/element/news-ticker): Highlight your top posts with a scrolling news ticker that you can customize with different animations and settings. 
+= White Label =
 
-12. [**Tooltip**](https://master-addons.com/element/tooltip): Offer extra info to your visitors with pop-up tooltips for text, icons, and images. They’ll appear with a tap or hover. 
+Elementor white label renames the plugin, swaps the logo, sets your agency name and URL, and hides the options panel from clients. Few Elementor extensions go this deep; Elementor white label locks branding across every site, on the Agency plan.
 
-13. [**Dynamic Table Builder Elementor**](https://master-addons.com/element/dynamic-table): Get access to a dynamic table builder to create highly customizable tables without any coding. Drag and drop to add columns, colors, and even pictures. 
+== All Elementor Widgets ==
 
-14. [**Progress Bar**](https://master-addons.com/element/progress-bar): Show off skills or stats with animated bars. Pick from different styles and colors to match your site’s vibe. 
+== 55+ Elementor Widgets ==
+Every widget below is one of the Elementor elements available the moment you activate the plugin — no separate installs, no mixing five different widgets for Elementor from five different authors. Toggle the ones you don't use off from the settings screen; disabled elements skip loading their assets, so pages stay light.
 
-15. [**Progress Bars**](https://master-addons.com/element/progress-bars): Display a set of colorful skill bars to represent various stats or skills in a creative way using our progress bar element. 
+= Heading & Text =
 
-== Special Content Elements ==
+1. [**Animated Headlines**](https://master-addons.com/element/animated-headlines?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Elementor rotating text with loading bar, delay, and color controls. The classic Elementor rotating text hero, no JS; every rotating text set loops or stops on the last word.
+2. [**Dual Heading**](https://master-addons.com/element/dual-heading?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — A two-tone Dual Heading with independent colors, typography, and link controls.
+3. [**Gradient Headline**](https://master-addons.com/element/gradient-headline?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Elementor gradient text with multi-color stops. Responsive gradient text needs no CSS, and the same engine drives hover states.
+4. [**Blockquote**](https://master-addons.com/element/blockquote?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Pull quotes with author typography.
 
-1. [**Table of Contents**](https://master-addons.com/wordpress-admin-dashboard-plugin/): Help readers navigate your blog posts with an easy-to-use table of contents that you can personalize. 
 
-2. [**Timelines Widget**](https://master-addons.com/element/timeline): Create visual timelines for projects or step-by-step guides. Choose from horizontal or vertical layouts and easily add content using our timeline widget. 
+= Content Layout =
 
-3. [⭐ **Toggle Content**](https://master-addons.com/element/toggle-content): Switch between different content sections, like monthly and yearly pricing, with a simple toggle. 
+5. [**Advanced Accordion**](https://master-addons.com/element/advanced-accordion?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — An Elementor nested accordion with toggle icons and border styling. For FAQ blocks a nested accordion beats a flat list, and each row keeps its own icon.
+6. [**Advanced Tabs**](https://master-addons.com/element/tabs?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Responsive horizontal/vertical tabs.
+7. [**Table of Contents**](https://master-addons.com/element/table-of-contents/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — The Elementor table of contents widget builds jump links from your headings — sticky, collapsible, and hierarchy-aware. This table of contents widget suits long posts and documentation.
+8. [**Timeline**](https://master-addons.com/element/timeline?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — The Elementor timeline widget builds horizontal or vertical timelines. It pulls a live post timeline from any post type or takes a hand-written one; every card styles separately.
+9. [**Source Code**](https://master-addons.com/element/source-code/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Syntax highlighting, 70+ languages.
+10. [**Changelogs**](https://master-addons.com/element/changelogs/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Structured release notes for digital products.
+11. [**Current Time**](https://master-addons.com/element/current-time?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Live clock with custom format.
+12. [**Toggle Content**](https://master-addons.com/element/toggle-content?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Switch content sets, e.g. monthly/yearly pricing.
 
-4. [⭐ **Source Code**](https://master-addons.com/element/source-code/): Display and highlight code snippets in over 70 languages with customizable themes and a copy button. 
+= Visual & Interactive =
 
-5. [**Search**](https://master-addons.com/element/search): Add a custom search bar or popup to help visitors quickly find what they’re looking for on your site. 
-
-6. [**Blockquote**](https://master-addons.com/element/blockquote): Feature quotes in a stylish way with customizable colors, typography, and backgrounds. 
-
-7. [**Changelogs**](https://master-addons.com/element/changelogs/): Keep users informed about updates with a customizable changelog section for your digital products. 
-
-8. [**Current Time**](https://master-addons.com/element/current-time): Show the current time on your site, just like a newspaper. It’s easy to set up and you can choose how it looks. 
-
-9. [⭐ **Domain Search**](https://master-addons.com/element/domain-search): Start your own domain hosting or affiliate service with a customizable search tool that fits right into your site. 
-
-== Marketing Elements ==
-
-1. [**Call to Action**](https://master-addons.com/element/call-to-action): Get more clicks and leads with eye-catching buttons that guide visitors to your offers or products. 
-
-2. [**⭐Restrict Content WordPress**](https://master-addons.com/element/restrict-content): Restrict content with a lock that only lets the right people in, using passwords or other conditions. 
-
-3. [**Counter Up**](https://master-addons.com/element/counter-up): Display your achievements or fun facts with animated counters that are simple to create and customize. 
-
-4. [**Countdown Timer**](https://master-addons.com/element/countdown-timer): Build excitement for events or sales with a countdown that’s easy to set up and style to match your site. 
-
-5. [**Pricing Table Elementor**](https://master-addons.com/element/pricing-table): Create attractive dynamic Elementor pricing tables with easy switchers to display your product prices. Customize to your heart’s content with various layouts. 
-
-6. [**Business Hours**](https://master-addons.com/element/business-hours): Let customers know when you’re open with a customizable business hours table that can be placed anywhere on your site. 
-
-7. [**Nav Menu**](https://master-addons.com/element/nav-menu): Design a lively header and footer with a navigation menu that’s fully customizable and responsive. 
-
-8. [**Creative Button**](https://master-addons.com/element/creative-button): Spice up your site with over 30 types of creative buttons, complete with creative buttons styles and effects to guide visitors where you want them to go. 
-
-9. [**Creative Links**](https://master-addons.com/element/creative-links): Spice up your site linking using creative links with animated effects, making your text more engaging and fun. 
-
-10. [**Mailchimp**](https://master-addons.com/element/mailchimp/): Easily integrate Mailchimp forms into your site and customize them without needing a pro version. 
-
-==Best Image & Media Elements for Elementor==
-
-1. [**Image Hover Effects**](https://master-addons.com/element/image-hover-effects): Add cool titles and descriptions to your images with over 20 customizable effects. Get creative and make your images interactive. 
-
-2. [**Image Comparison**](https://master-addons.com/element/image-comparison): Show off before-and-after shots with an easy-to-use comparison tool. Perfect for photographers and designers to highlight their work. 
-
-3. [**Advanced Image**](https://master-addons.com/element/advanced-image): Change up your images on hover and add stylish ribbons. Customize the look with lightbox effects, image tilt, and more. 
-
-4. [⭐ **Image Hotspot**](https://master-addons.com/element/image-hotspot): Point out details in your media with image hotspots that can show more info on click or hover. Great for explaining features of a product. 
-
-5. [⭐ **Gallery Slider**](https://master-addons.com/element/gallery-slider): Create a photo gallery slider with thumbnails. Click on a thumb to see a larger image and customize the slider settings to fit your site. 
-
-6. [**Filterable Image Gallery**](https://master-addons.com/element/filterable-image-gallery/): Get filterable gallery features to sort and display your images with custom labels and categories. You can even link images to other pages and control which labels show up. 
-
-7. [**Elementor Media Carousel(Image Carousel)**](https://master-addons.com/element/image-carousel): Keep visitors engaged with a carousel that shows off your photos. Customize it with different navigation options and settings to fit your site perfectly. 
-
-
-== Product Comparison & Feature Elements ==
-
-1. [⭐ **Comparison Table**](https://master-addons.com/element/comparison-table): Compare products side-by-side with ease. Add titles, prices, features, and more to help customers make informed decisions. 
-
-2. [⭐ **Featured Product**](https://master-addons.com/element/featured-product): Highlight your products with attractive layouts. Ideal for showcasing a small selection or affiliate products to catch your visitors’ attention. 
-
-
-==Elementor Form Elements==
-
-1. [**Contact Form 7**](https://master-addons.com/element/contact-form-7/): Easily integrate and style Contact Form 7 in Elementor. Customize layout, colors, and more with 10 unique variations. 
-
-2. [**Ninja Form**](https://master-addons.com/element/ninja-form/): Insert and style Ninja Forms without needing the pro version. Full customization options available right in Elementor. 
-
-3. [**WP Forms**](https://master-addons.com/element/wp-forms/): Create and customize beautiful forms with WP Forms. The Elementor addon makes it simple to adjust layout and styling. 
-
-4. [**Gravity Forms**](https://master-addons.com/element/gravity-forms/): Enhance Gravity Forms with custom styles to match your brand. Edit and style forms directly in Elementor. 
-
-5. [**Caldera Forms**](https://master-addons.com/element/caldera-forms/): Collect feedback creatively with Caldera Forms. Customize forms in Elementor without needing CSS expertise. 
-
-6. [**weForms**](https://master-addons.com/element/weform/): Change the layout of weForms easily. Use pre-built styles or customize as needed in Elementor. 
-
-==Best Elementor Extensions==
-
-1. [**Custom Breakpoints**](https://master-addons.com/extension/custom-breakpoints/): Customize your site’s look for any device size, from large screens to mobile phones, with easy-to-set breakpoints. 
-
-2. [**Particles**](https://master-addons.com/extension/particles/): Add cool particle effects like polygons and snow to your pages for a dynamic look. 
-
-3. [⭐ **Animated Gradient BG**](https://master-addons.com/extension/animated-gradient-bg/): Create beautiful, animated gradient backgrounds for your sections and columns. 
-
-4. [**Reading Progress Bar**](https://master-addons.com/extension/reading-progress-bar/): Keep readers engaged with a progress bar that shows how much they’ve read. 
-
-5. [**Background Slider**](https://master-addons.com/extension/background-slider/): Enhance your backgrounds with a slider featuring transitions and the Ken Burns effect. 
-
-6. [**Custom CSS Elementor**](https://master-addons.com/extension/custom-css/): Elementor custom CSS allows you to write CSS directly in Elementor to personalize your site even further. 
-
-7. [**Custom JS Elementor**](https://master-addons.com/extension/custom-js/): Elementor custom Javascript allows you to implement custom JavaScript directly within Elementor to add advanced functionality and interactivity to your website. 
-
-8. [**Positioning**](https://master-addons.com/extension/positioning/): Place elements anywhere on your page with different position types like static or absolute, and customize for various devices. 
-
-9. [**Container Extras**](https://master-addons.com/extension/container-extras/): Control the size of sections and columns beyond default settings, using units like pixels or percentages for precise design. 
-
-10. [**Mega Menu**](https://master-addons.com/extension/mega-menu/): Create detailed, attention-grabbing mega menus for your site, similar to those on popular e-commerce sites and blogs. 
-
-11.  [⭐ **Entrance Animation**](https://master-addons.com/extension/entrance-animation/): Add eye-catching animations to your webpage elements with a variety of styles and customization options. 
-
-12. [⭐ **Transforms**](https://master-addons.com/extension/transforms/): Animate elements with CSS transforms, allowing you to move, rotate, scale, and skew them on your pages. 
-
-13. [⭐ **Rellax**](https://master-addons.com/extension/rellax/): Implement parallax scrolling effects to add depth and motion to your landing page, with controls for speed and layering. 
-
-14. [⭐ **Reveal**](https://master-addons.com/extension/reveal/): Create cool reveal effects for your content with customizable directions, speeds, delays, and colors. 
-
-15. [**Theme Builder**](https://master-addons.com/theme-builder/): Design your site’s header, footer, single, 404, search, Archive and comment forms with dynamic conditions for different pages or sections. 
-
-16. [⭐ **Display Conditions**](https://master-addons.com/extension/display-conditions/): Show content based on user behavior like browser type or operating system, perfect for targeting specific audiences. 
-
-17. [**Dynamic Tags**](https://master-addons.com/extension/dynamic-tags/): Automatically display dynamic content like author bios or post details without manual updates. 
-
-18. [⭐ **Floating Effects**](https://master-addons.com/extension/floating-effects/): Add eye-catching floating animations to elements on your page to make them stand out. 
-
-19. [**Wrapper Link**](https://master-addons.com/extension/wrapper-link/): Easily link entire sections or specific elements to keep visitors engaged and increase page views. 
-
-20. [**Post/Page Duplicator**](https://master-addons.com/extension/post-page-duplicator/): Clone any post, page, or custom post type with a single click, including full support for WooCommerce products. 
-
-21. [**Glassmorphism**](https://master-addons.com/extension/glassmorphism/): Create a modern, frosted glass effect on your elements with a background blur, enhancing accessibility and design aesthetics. 
-
-22. [**Icons Extended**](https://master-addons.com/icon-library/): Access a rich library of icons beyond Font Awesome, including Simple Line Icons, Elementor custom Icons, Ionic Font, Linear Icons, and Material Icons. 
-
-23. [⭐ **Tooltips**](https://master-addons.com/extension/tooltips/): Add informative tooltips to any section, column, or element, with full customization of content, position, size, background, and text style. 
-
-24. [**Pricing Table Elementor**](https://master-addons.com/element/pricing-table/): Create easy to understand Elementor pricing tables with smooth switchers to display your product prices. Various layouts also available. 
-
-==8 Awesome Custom Elementor Icon Library==
-
-👉 **Simple Line Icons:** Input any icon from this Simple Line Icons library for elementor to your webpage. This library provides a lot of minimal eye-catching icons. 
-👉 **Elementor Icons:** I hope you are already familiar with the default Elementor Icon list, enable this elementor icon library and access default Elementor icons. 
-👉 **Iconic Font:** Insert some cool Iconic Font icons inside your page and make an outstanding webpage. 
-👉 **Linear Icons:** This icon library comes with some bold handy icons that are highly recommended for any online professional. 
-👉 **Material Icons:** These bold icons will attract your visitor's intention when they visit your Website. Just enable Material icons and insert them on any page. 
-👉 **Remix Icons:** A versatile open-source library offering both lined and filled styles for extensive variety.
-👉 **Feather Icons:** Neat and friendly open-source icons with a simple and consistent stroke-based style.
-👉 **Teeny Icons**: Ultra-minimal 14x14 pixel icons packed with detail for dense or compact UI requirements.
-
-==Rollback to Previous Version==
-If an update to Master Addons for Elementor causes issues, the Rollback feature allows you to revert to a previous version easily. This can be a quick fix while you reach out to the support team for a permanent solution. 
-
-==System Information==
-Curious about your site’s setup? The System Information feature in Master Addons lets you view your WordPress environment and server details all in one place. It’s a handy tool for troubleshooting without needing to dig through your hosting panel. If something’s not meeting the requirements, you’ll see a clear indicator, helping you pinpoint the problem. 
-
-
-[Upgrade to Master Addons Pro]( https://master-addons.com/pricing/ ) 
-
-== Common Problems with Solutions: ==
-Elementor not loading problem
-- There are various reasons for Elementor not loading issue. For more details please check the Tutorial below.
-Increasing PHP Memory limit from wp-config.php or php.ini file is simplest solutions. But there are others too -
-[View Tutorial](https://master-addons.com/elementor-editor-not-loading-issue/) 
-
-
-## Why Use Master Addons For Elementor? ##
-
-= Easy To Implement =
-Master Addons makes it a breeze to build interactive pages with Elementor. Just a click to toggle, and you can add any element effortlessly to your page. It’s designed to be user-friendly, so you spend less time figuring things out and more time creating. 
-
-= Built For Speed =
-We know your website’s performance is crucial. That’s why Master Addons lets you load only what you need, ensuring your pages run smoothly and quickly. We’re committed to keeping our code lean and efficient, so your site stays fast and responsive. 
-
-= COMPLETELY CUSTOMIZABLE =
-The plugin is customizable by providing every element with lots of option to control every possible thing. You have the power to customize the blocks as per your choice. 
-
-= LIGHTWEIGHT & INSTANT LOADING =
-The plugin does not allow messy code or extra assets which slow down your internet speed. It offers deactivation of unnecessary widgets for Elementor to keep your site work smoothly. 
-
-= EXPERT SUPPORT =
-We have an excellent and friendly support team for your assistance. Put your question in the [Facebook Group](https://www.facebook.com/groups/2495256720521297/) or you can contact us directly via live chat and [Support Forum](https://wordpress.org/support/plugin/master-addons/). 
-
-
-### Liked Master Addons Plugins?
-Rate us on [WordPress Forum](https://wordpress.org/support/plugin/master-addons/reviews/#new-post) 🙂 
-
-## 🏆 Master Addons For Elementor Customers Feedback ##
-
-[Professional, diverse layout options perfect for any site (useful free version)](https://wordpress.org/support/topic/professional-diverse-layout-options-perfect-for-any-site-useful-free-version/) 
-
-[EXCELLENT Customer Support Service – HIGHLY RECOMMENDED!](https://wordpress.org/support/topic/excellent-customer-support-service-highly-recommended/) 
-
-
-[Great Features, Great Support and Fast Fixes When Needed](https://wordpress.org/support/topic/great-features-great-support-and-fast-fixes-when-needed/) 
-
-
-[Master Addons is the Best Plugin for Elementor](https://wordpress.org/support/topic/master-addons-is-the-best-plugin-for-elementor/) 
-
-[Top Priority Add on for Elementor](https://wordpress.org/support/topic/top-priority-add-on-for-elementor/) 
-
-[Great Plugin and Insane support!](https://wordpress.org/support/topic/great-plugin-and-insane-support/) 
-
-== Support ==
-[Support Forum](https://master-addons.com/support) 
-Join our [Master Addons Community](https://www.facebook.com/groups/2495256720521297/) 
-Learn from our Tutorials on [Youtube Playlist](https://www.youtube.com/watch?v=rdrqWa-tf6Q&list=PLqpMw0NsHXV9V6UwRniXTUkabCJtOhyIf) 
-Like on our [Facebook Fan Page](https://www.facebook.com/masteraddons/) 
-[Pre-Sale Questions](https://master-addons.com/contact-us/) 
-
-== ✋Want More - ==
-
-If you like our Master Addons plugin then why not check some other plugins that developed by us: 
-
-🚀 [WP Adminify:](https://wordpress.org/plugins/adminify) - The best WordPress Dashboard Customization plugin available in the market. With this plugin you will get 18+ modules like Dark Mode, Menu Editor, Folders, Dashboard Elementor Widget Manager, Login Customizer, Admin Columns, Activity Logs and many more. 
-
-🚴🏻‍♂️ [Image Comparison Elementor:](https://wordpress.org/plugins/image-comparison-elementor-addon/) - This plugin is dedicatedly made for image comparison element. You will get a multiple variations of image comparison slider. Showcase your before after work easily with the help of this plugin. 
-
-🍡 [Master Accordion:](https://wordpress.org/plugins/wp-awesome-faq/) - If you are a default WordPress user and need a proper accordion plugin then Master Accordion is for you. You can add as much accordion as you need in multiple way. 
-
-🏕 [WordPress prettyPhoto:](https://wordpress.org/plugins/prettyphoto/) - This plugin helps you to enable lightbox for your any media file, flash, YouTube, iframes and ajax. Just enable PreetyPhoto in your desired media file and you are done. 
-
-We're adding new Features everyday. You'll get regular Updates also ! 
-
-
-== Frequently Asked Questions ==
-= Can I use "Master Addons" Plugin without Elementor Plugin? =
-No, Elementor page builder plugin is required to use Master Addons Plugin. You must have Installed "Elementor" Page
-builder plugin to work with this Master Addons. If you forgot to Install or Active, you'll see a notice for
-Installing/Activate. 
-
-= How to Install this Plugin ? =
-Installation Process has been discussed on "Installation" Section. Video Tutorial will help you about Installation
-Process. Learn from our Tutorials on [Youtube Channel](https://www.youtube.com/channel/UCAPfTXvzbNebKsB322Iz6HQ) 
-
-= How to Configure this Plugin? =
-Basically, there's no configuration required for using the Master Addons for Elementor Plugin. You can Turn On/Off Add-ons you like on "Addons" Section. It will make your website faster loading. 
-
-= How to add Master Addons on Page/Post? =
-Navigate to any post or page which you want to Create/Edit with Elementor. Scroll down or search for "Master Addons" Category. Click on that option and you will all Master Addons Elements. Just add the element you like and Customize it as like your own. 
-
-= How to fix "Master Addons" Installed but Not Working Issue?
-First, deactive Other "Addons" plugin and try again. If nothing works then reach out to us on our Support Form(Link Mentioned above) or post a ticket using the support button on the top right just below the download button. 
-
-= Is it compatible with any Theme? =
-Yes, it's compatible with any WordPress Theme. 
-
-= Is there any way to test Premium Features without Purchasing Master Addons?
-Yes, we're offering 14 Day Free Trial ( No Payment, No Credit Card, No Paypal account required) for testing all Premium
-Features. 
-
-= How can I get faster Support? =
-We've two ways to give Supports for "Master Addons" Plugin - 1. [WordPress Support Forum](https://wordpress
-.org/support/plugin/master-addons) and 2. [Support Forum](https://wordpress.org/support/plugin/master-addons/). Since, this is a Free Plugin, Support reply may delay for answer
-but we're Dedicated on our [FB Page](https://www.facebook.com/masteraddons/) for chatting. 
-
-= Where do I report security bugs found in this plugin? =
-Please report security bugs found in the source code of the Master Addons for Elementor plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/9e5fb6e3-e633-4f5e-853f-21e88c02fd30). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin. 
-
-
-== Screenshots ==
-1. Master Addons - Elementor Accordion, Call to Action, Tooltips, Team Carousel, Flipbox, team members
-2. Master Addons - Business Hour, Image Hover Effects, Blog List Cards, Dual Heading
-3. Master Addons control Panel
-4. Image Hover Effects Element
-5. before after Image Comparison
-6. Filterable Image Gallery
-7. Gradient Headline
-8. Gallery slider Elementor widget 
+13. [**Flip Box**](https://master-addons.com/element/flipbox?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — The flip box widget builds two-sided cards that flip on hover in 10 directions. Use the flip box widget for service and team cards; each flip box widget face takes its own background.
+14. [**Tooltip**](https://master-addons.com/element/tooltip?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — The Elementor tooltip widget shows info on hover or tap. A global Elementor tooltip extension puts an Elementor tooltip on any section too.
+15. [**Infobox**](https://master-addons.com/element/infobox?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Icon, heading, and text boxes, 10+ styles.
+16. [**Search**](https://master-addons.com/element/search?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Inline or popup site search bar.
+17. [**Team Member**](https://master-addons.com/element/team-member?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Profiles with bio, photo, and social links.
+18. [**Team Carousel**](https://master-addons.com/element/team-slider?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Swipeable team slider, responsive columns.
+
+= Blog, Data & Tables =
+
+19. [**Blog Elements**](https://master-addons.com/element/blog?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Grid, list, and card layouts with filtering.
+20. [**News Ticker**](https://master-addons.com/element/news-ticker?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — The Elementor news ticker scrolls headlines in a Swiper strip with thumbnail controls. Feed the Elementor news ticker from any post type; the Elementor news ticker doubles as an announcement bar.
+21. [**Dynamic Table**](https://master-addons.com/element/dynamic-table?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — A drag-and-drop table builder with columns, images, colors, and odd/even rows. This table builder replaces pasted HTML: build visually, edit later — no separate table builder plugin.
+22. [**Progress Bar**](https://master-addons.com/element/progress-bar?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Animated stat bar in line or Elementor circle progress bar style; the Elementor circle progress bar suits dials.
+23. [**Progress Bars**](https://master-addons.com/element/progress-bars?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Grouped skill sets; each row can take the Elementor circle progress bar layout.
+
+= Marketing & Conversion =
+
+24. [**Counter Up**](https://master-addons.com/element/counter-up?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Counter Up animates numbers on scroll with prefix, suffix, and responsive columns. Drop a Counter Up row into any stats band.
+25. [**Pricing Table**](https://master-addons.com/element/pricing-table?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — The pricing table widget ships with a toggle switcher, tooltips, and gradient buttons. Build a monthly/yearly pricing table fast; each pricing table widget column takes its own highlight.
+26. [**Countdown Timer**](https://master-addons.com/element/countdown-timer?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — An evergreen or scheduled countdown timer with Card, Flip, Circle, Gradient, and Neon presets. In evergreen mode the countdown timer runs per visitor.
+27. [**Creative Button**](https://master-addons.com/element/creative-button?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — 30+ button styles with hover effects and radius controls. Build a gradient button with hover-state color stops; every gradient button keeps its own icon animation.
+28. [**Call to Action**](https://master-addons.com/element/call-to-action?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — CTA block with title, text, and button.
+29. [**Creative Links**](https://master-addons.com/element/creative-links?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Animated hyperlinks with 3D effects.
+30. [**Nav Menu**](https://master-addons.com/element/nav-menu?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Responsive nav with off-canvas and dropdown modes.
+31. [**Business Hours**](https://master-addons.com/element/business-hours?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Weekly opening-hours table.
+32. [**Mailchimp**](https://master-addons.com/element/mailchimp/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Native signup form with full styling.
+33. [**Restrict Content**](https://master-addons.com/element/restrict-content?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Gate content by password, role, or age.
+34. [**Domain Search**](https://master-addons.com/element/domain-search?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Domain lookup for hosting affiliates.
+
+= Image & Media =
+
+35. [**Image Hover Effects**](https://master-addons.com/element/image-hover-effects?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — 20+ Image Hover Effects with title and description overlays: zoom, slide, blur, grayscale, split reveals. Each of the Image Hover Effects keeps its own radius and color, and CSS-driven hover effects stay smooth on mobile.
+36. [**Image Comparison**](https://master-addons.com/element/image-comparison?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — The Image Comparison widget is a drag-to-compare before after slider for proof shots. This Image Comparison widget runs the before after slider vertically too, with no shortcode.
+37. [**Gallery Slider**](https://master-addons.com/element/gallery-slider?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — A thumbnail-driven gallery slider with a large preview pane. The gallery slider supports lightbox, autoplay, and per-device columns — one gallery slider for a product gallery or portfolio.
+38. [**Filterable Gallery**](https://master-addons.com/element/filterable-image-gallery/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — A category-filtered gallery with custom labels. The filterable gallery animates between filters, and each filterable gallery item links to its own page.
+39. [**Advanced Image**](https://master-addons.com/element/advanced-image?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Hover image swap, ribbons, lightbox, tilt.
+40. [**Image Hotspot**](https://master-addons.com/element/image-hotspot?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Clickable hotspots with tooltip overlays.
+41. [**Image Carousel**](https://master-addons.com/element/image-carousel?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Photo carousel with navigation options.
+42. [**Logo Slider**](https://master-addons.com/element/logo-slider?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Auto-scrolling brand logo strip.
+43. [**Comparison Table**](https://master-addons.com/element/comparison-table?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Side-by-side feature comparison with checkmarks.
+44. [**Featured Product**](https://master-addons.com/element/featured-product?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Highlight one product or affiliate offer.
+
+= Form Stylers =
+
+45. [**Contact Form 7**](https://master-addons.com/element/contact-form-7/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — A Contact Form 7 styler with ten layouts. Field, label, and button styling live in the panel, so your CF7 Elementor form matches your brand and the CF7 Elementor widget takes any form ID. This Contact Form 7 styler covers checkboxes, radios, selects, and file inputs — no extra Contact Form 7 styler plugin needed.
+46. [**Gravity Forms**](https://master-addons.com/element/gravity-forms/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — A Gravity Forms styler for brand-matched forms. Conditional and multi-page logic stays intact while Gravity Forms styling handles typography and buttons. This Gravity Forms styler covers every field type, so Gravity Forms styling holds across long forms.
+47. [**WP Forms**](https://master-addons.com/element/wp-forms/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — The WPForms Elementor styler restyles fields, labels, and buttons; drag the WPForms Elementor widget anywhere.
+48. [**Ninja Forms**](https://master-addons.com/element/ninja-form/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Full Ninja Forms styling in Elementor.
+49. [**Caldera Forms**](https://master-addons.com/element/caldera-forms/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Mobile-friendly Caldera Forms styling.
+50. [**weForms**](https://master-addons.com/element/weform/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — weForms layout and style controls.
+
+== Elementor Extensions ==
+
+These Elementor extensions work at section, column, and container level — no code. Every one of the Elementor extensions toggles off individually.
+
+- [**Wrapper Link**](https://master-addons.com/extension/wrapper-link/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Make any section or card clickable with one URL. The Elementor wrapper link replaces a click-through plugin; card grids use an Elementor wrapper link, and each Elementor wrapper link opens in a new tab.
+- [**Glassmorphism**](https://master-addons.com/extension/glassmorphism/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — The Elementor glass effect: frosted blur with saturation and tint. Apply the Elementor glass effect to cards, headers, or popups — a real Elementor glass effect, no CSS.
+- [**Entrance Animation**](https://master-addons.com/extension/entrance-animation/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — An extended Elementor entrance animation library: every Elementor entrance animation takes duration and delay, each Elementor entrance animation tunes per device, and any Elementor entrance animation loops.
+- [**Display Conditions**](https://master-addons.com/extension/display-conditions/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Elementor display conditions show or hide any section by user role, browser, OS, login status, or URL parameter. One Elementor display conditions rule hides a promo from members; stacked Elementor display conditions target campaigns.
+- [**Positioning**](https://master-addons.com/extension/positioning/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Absolute, relative, or fixed placement per device — how you pin an Elementor sticky header or floating CTA, with no theme support needed.
+- [**Reading Progress Bar**](https://master-addons.com/extension/reading-progress-bar/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — A reading progress bar for long pages with height, color, and position controls. The reading progress bar sits under a sticky header or at the viewport foot.
+- [**Custom Breakpoints**](https://master-addons.com/extension/custom-breakpoints/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Responsive breakpoints beyond Elementor defaults.
+- [**Container Extras**](https://master-addons.com/extension/container-extras/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Precise px or % sizing for containers.
+- [**Post/Page Duplicator**](https://master-addons.com/extension/post-page-duplicator/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Clone any post, page, or product with meta.
+- [**Particles**](https://master-addons.com/extension/particles/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Particle backgrounds: polygons, snow, stars.
+- [**Background Slider**](https://master-addons.com/extension/background-slider/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Multi-image background slider, Ken Burns effect.
+- [**Animated Gradient BG**](https://master-addons.com/extension/animated-gradient-bg/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Smoothly shifting gradient backgrounds.
+- [**Floating Effects**](https://master-addons.com/extension/floating-effects/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Floating, bobbing, and rotating motion.
+- [**Transforms**](https://master-addons.com/extension/transforms/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Move, rotate, scale, skew on interaction.
+- [**Rellax**](https://master-addons.com/extension/rellax/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Parallax scrolling with speed and depth.
+- [**Reveal**](https://master-addons.com/extension/reveal/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Directional reveals with speed and delay.
+- [**Custom CSS**](https://master-addons.com/extension/custom-css/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Scoped CSS applied only to that element.
+- [**Custom JS**](https://master-addons.com/extension/custom-js/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Scoped JavaScript per element.
+- [**Dynamic Tags**](https://master-addons.com/extension/dynamic-tags/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Insert post title, author, or custom fields.
+- [**Global Tooltips**](https://master-addons.com/extension/tooltips/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons) — Tooltip on any section or widget.
+
+Plus **8 icon libraries**: Simple Line, Elementor, Iconic, Linear, Material, Remix, Feather, Teeny.
+
+== Elementor Template Kits by Industry ==
+
+Import a full site in one click, then edit every page in Elementor. Live demos:
+
+= Agency Template Kits =
+- [**Travel Agency**](https://el.master-addons.com/travello/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Design Agency**](https://el.master-addons.com/wiro/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Cybersecurity Agency**](https://el.master-addons.com/klyro/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Digital Product Agency**](https://el.master-addons.com/sempla/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Fintech Agency**](https://el.master-addons.com/nexis/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Business Growth Agency**](https://el.master-addons.com/sabrion/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Video Marketing Agency**](https://el.master-addons.com/vaylo/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+
+= Business Template Kits =
+- [**Nonprofit & Charity**](https://el.master-addons.com/fundora/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Job Board**](https://el.master-addons.com/shiftflow/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**SaaS Business**](https://el.master-addons.com/finix/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Plumbing Services**](https://el.master-addons.com/plumbiq/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Cleaning Services**](https://el.master-addons.com/cleaner/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+
+= Creative Template Kits =
+- [**Creative Digital Agency**](https://el.master-addons.com/grip/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Creative Business**](https://el.master-addons.com/craftova/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Events & Venue**](https://el.master-addons.com/nexvent/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+
+= Fashion Template Kits =
+- [**Fashion Store**](https://el.master-addons.com/sartivo/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+
+= Health Template Kits =
+- [**Healthcare Clinic**](https://el.master-addons.com/carehub/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Wellness Platform**](https://el.master-addons.com/optivue/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Physiotherapy & Rehab**](https://el.master-addons.com/balanciq/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Dental Clinic**](https://el.master-addons.com/dental/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+
+= Real Estate Template Kits =
+- [**Interior & Architecture**](https://el.master-addons.com/vibespace/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Real Estate Listing**](https://el.master-addons.com/homeaxis/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+
+= Restaurant Template Kits =
+- [**Restaurant & Menu**](https://el.master-addons.com/culinary/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+
+= Startup Template Kits =
+- [**Task Management SaaS**](https://el.master-addons.com/flowdesk/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Email Management SaaS**](https://el.master-addons.com/drift/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+
+= Technology Template Kits =
+- [**Web3 & Blockchain**](https://el.master-addons.com/tokenaid/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Customer Support Desk — Free**](https://el.master-addons.com/servedesk/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**IT Analytics — Free**](https://el.master-addons.com/techbyte/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**No-Code Website Builder**](https://el.master-addons.com/clowdify/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Lead Management**](https://el.master-addons.com/lead-lift/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**Personal Finance**](https://el.master-addons.com/zaplyte/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+- [**IT Support Services**](https://el.master-addons.com/tecpart/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=template-kits)
+
+== Popular Use Cases ==
+
+- **Agency sites** — Elementor white label, Elementor Template Kits, easy Elementor addons clients can edit.
+- **Landing pages** — an Elementor Popup Builder opt-in, Counter Up proof, an Elementor circle progress bar, a countdown timer.
+- **Pricing pages** — the pricing table widget, a gradient button per column.
+- **Blogs** — the Elementor table of contents widget, a reading progress bar, an Elementor nested accordion FAQ.
+- **Portfolios** — the filterable gallery, the gallery slider, Image Comparison as a before after slider.
+- **SaaS pages** — Elementor rotating text hero, gradient text titles, the flip box widget.
+- **Docs** — Elementor tooltip hints plus the Elementor table of contents widget.
+- **Magazines** — the Elementor news ticker under an Elementor sticky header, a post timeline archive.
+- **Card grids** — the Elementor wrapper link plus Image Hover Effects.
+- **Company history** — the Elementor timeline widget with the Elementor glass effect.
+- **Local business** — Business Hours, a WordPress mega menu, a Dual Heading title.
+- **Lead gen** — a CF7 Elementor form, the WPForms Elementor styler, the Gravity Forms styler.
+- **Small stores** — Elementor WooCommerce templates plus Featured Product.
+
+== Why Master Addons? ==
+
+**Lightweight.** Only active widget assets load; every widget and each of the Elementor extensions switches off.
+
+**More than a widget pack.** Theme Builder, Popup Builder, Widget Builder, Mega Menu Builder, table builder, and a full template library in one install — why it keeps appearing on best plugins for Elementor lists.
+
+**Genuinely free.** The free Elementor addons build covers the widgets, Popup Builder, Widget Builder, and Mega Menu Builder. Compare free Elementor addons on free-tier features — the honest way to rank the best Elementor plugins.
+
+**Built for agencies.** White label, Elementor display conditions, exportable Widget Builder widgets. Client work moves faster when the addons for Elementor you install also handle headers, popups, and menus.
+
+**Support** via the [WordPress Support Forum](https://wordpress.org/support/plugin/master-addons/), live chat, or our [Facebook Community](https://www.facebook.com/groups/2495256720521297/).
+
+== Reviews & Other Plugins ==
+
+[Best Plugin for Elementor](https://wordpress.org/support/topic/master-addons-is-the-best-plugin-for-elementor/) | [Excellent Support](https://wordpress.org/support/topic/excellent-customer-support-service-highly-recommended/) | [Rate us ⭐⭐⭐⭐⭐](https://wordpress.org/support/plugin/master-addons/reviews/)
+
+Also from us: [**WP Adminify**](https://wordpress.org/plugins/adminify), [**Image Comparison Elementor**](https://wordpress.org/plugins/image-comparison-elementor-addon/), [**Master Accordion**](https://wordpress.org/plugins/wp-awesome-faq/), [**WordPress prettyPhoto**](https://wordpress.org/plugins/prettyphoto/).
 
 
 == Installation ==
-1. Upload the Downloaded "master-addons.zip" Folder to the `/wp-content/plugins/` directory
-2. Or, UNZIP "master-addons.zip" folder and Upload master-addons on "wp-content/plugins/" folder via FTP or Copy and
-Paste on your Local Computer
-3. Activate the "Master Addons for Elementor" Plugin through the 'Plugins' menu in WordPress 
+
+1. In your WordPress dashboard go to **Plugins → Add New** and search for **"Master Addons"**.
+2. Click **Install Now**, then **Activate**.
+3. Alternatively, download `master-addons.zip` and upload it via **Plugins → Add New → Upload Plugin**.
+4. Or install manually: upload the extracted `master-addons` folder to `/wp-content/plugins/` via FTP, then activate it from the **Plugins** screen.
+
+> Note: Elementor must be installed and activated before you can use Master Addons.
+
+== Frequently Asked Questions ==
+
+= Can I use Master Addons without Elementor? =
+No. The Elementor page builder is required. If it is missing, Master Addons shows an installation notice automatically.
+
+= How do I install this Elementor addons plugin? =
+Go to **Plugins → Add New**, search "Master Addons for Elementor", and click Install Now. You can also upload the ZIP via FTP. This Elementor addons plugin activates in one click with no setup wizard.
+
+= Are these really free Elementor addons? =
+Yes. The core widgets, the Popup Builder, the Widget Builder, and the Mega Menu Builder are all in the free build. Pro unlocks white label, premium widgets, and advanced effects, but the free Elementor addons alone cover most sites.
+
+= Are these easy Elementor addons for beginners? =
+Yes — easy Elementor addons with no API key and no theme dependency. Beginners stay in visual controls; developers get the Widget Builder, Custom CSS, and Dynamic Tags underneath. Both audiences use the same easy Elementor addons panel to toggle features on and off.
+
+= Which widgets for Elementor are included? =
+All 50 listed above — the Elementor timeline widget, Counter Up, Image Comparison, the flip box widget, Dual Heading, the pricing table widget, the gallery slider, and more. These widgets for Elementor live in one plugin instead of five, and the Elementor widgets panel groups them under Master Addons.
+
+= Is this one of the best plugins for Elementor? =
+Reviewers say so, because one install replaces a widget pack, a popup plugin, and a menu plugin. Compare it against other best plugins for Elementor on free-tier feature count — that is the fairest way to judge the best Elementor plugins, and lists of the best Elementor plugins shift every year while the free feature count here keeps growing.
+
+= Can I build a mega menu with this? =
+Yes. The Mega Menu Builder is free. It works as a complete Elementor mega menu plugin with multi-column panels and as an Elementor hamburger menu plugin on mobile, so you never need a second WordPress mega menu plugin.
+
+= Is there a hamburger menu for mobile? =
+Yes. Nav Menu and Mega Menu both include an accessible mobile toggle, so a dedicated Elementor hamburger menu plugin is unnecessary. Off-canvas, dropdown, and full-screen modes are supported.
+
+= Can I create popups without Elementor Pro? =
+Yes. The Popup Builder is free and works with Elementor free. Build a popup with page-load, scroll, exit-intent, click, or inactivity triggers — a full popup builder at no cost.
+
+= What is the Widget Builder? =
+The Widget Builder converts HTML, CSS, and JS into a native Elementor widget with editor controls. It is the only Elementor widget builder that requires no PHP, and widgets built with it export between sites.
+
+= Does it include a table builder? =
+Yes. Dynamic Table is a visual table builder with images, colors, and row styling, edited without touching HTML.
+
+= Can I white label the plugin for clients? =
+Yes, on the Agency plan. Elementor white label lets you rename the plugin, replace the logo, and set your own agency URL.
+
+= Which form plugins are supported? =
+Contact Form 7, Ninja Forms, WPForms, Gravity Forms, Caldera Forms, and weForms. The Contact Form 7 styler, the WPForms Elementor styler, and the Gravity Forms styler are included free, so Gravity Forms styling needs no extra plugin, Gravity Forms styling survives form updates, and CF7 Elementor styling is built in.
+
+= Does it work with WooCommerce? =
+Partly. The Theme Builder creates Elementor WooCommerce templates for product and archive pages and acts as a light WooCommerce builder, and the Featured Product widget highlights single items. It is not a full WooCommerce builder replacement for cart or checkout customization.
+
+= Is it compatible with all WordPress themes? =
+Yes. It works with any theme that supports Elementor.
+
+= Master Addons is installed but not working — what now? =
+Deactivate other addon plugins and retry. If it persists, open a ticket on the [WordPress Support Forum](https://wordpress.org/support/plugin/master-addons/) or use live chat.
+
+= Where do I report security vulnerabilities? =
+Report through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/9e5fb6e3-e633-4f5e-853f-21e88c02fd30). Patchstack handles verification, CVE assignment, and developer notification.
+
+== Screenshots ==
+
+1. Master Addons — widget panel with Accordion, Call to Action, Tooltips, Team Carousel, Flip Box
+2. Master Addons — Business Hours, Image Hover Effects, Blog List Cards, Dual Heading
+3. Master Addons control panel
+4. Image Hover Effects widget
+5. Image Comparison — before after slider
+6. Filterable Gallery widget
+7. Gradient Headline — gradient text
+8. Gallery Slider widget
+
+== Source Code ==
+
+The JavaScript and CSS files in this plugin are compiled from source using npm and Vite (Node.js 20.19.0 or newer — see .nvmrc). The complete source, including build configuration and unminified files, is public at:
+
+**https://github.com/litonarefin/master-addons-public**
+
+To build: `git clone https://github.com/litonarefin/master-addons-public.git`, then `npm install`, then `npm run prod`. For development, `npm start` watches and rebuilds automatically, and `npm run assets:dev` builds the vanilla JavaScript and SCSS assets in development mode.
+
+== External Services ==
+
+This plugin connects to a few external services from inside the WordPress admin. Each is listed with what it does and what data it sends.
+
+= Pixar Labs =
+**Templates & Template Kits:** Loads ready-made templates, Template Kits, and preview images from the Pixar Labs template service (`el.master-addons.com`) when an administrator browses or imports them. No personal data is sent.
+**Dashboard widget:** Loads update notices and announcements shown inside the plugin and on the WordPress dashboard. No personal data is sent, and the widget can be dismissed at any time.
+**Form submissions:** When an administrator voluntarily submits a form inside the plugin (for example, an email address), that data is sent to Pixar Labs for processing. Nothing is collected unless a form is filled in and submitted.
+
+- Website: [https://pixarlabs.com](https://pixarlabs.com)
+- Terms of Service: [https://pixarlabs.com/terms-of-use](https://pixarlabs.com/terms-of-use)
+- Privacy Policy: [https://pixarlabs.com/privacy-policy](https://pixarlabs.com/privacy-policy)
+
 
 == Changelog ==
-= 2.1.2 (15-02-2026) =
-* Security: Stored Cross-Site Scripting (XSS) vulnerability in 15 widget settings across 10 widgets
-* Security: Business Hours widget - unescaped `ma_el_bh_table_btn_text` output
-* Security: Creative Links widget - unescaped `creative_link_text` output
-* Security: Call to Action widget - unescaped `ma_el_call_to_action_title` and `ma_el_call_to_action_button_text` output
-* Security: Flipbox widget - unescaped `front_title` output
-* Security: Infobox widget - unescaped `ma_el_infobox_title` output
-* Security: Progress Bar widget - unescaped `ma_el_progress_bar_title` output
-* Security: Blockquote widget - unescaped `jltma_blockquote_text` and `jltma_blockquote_author` output
-* Security: Dual Heading widget - unescaped `ma_el_dual_first_heading`, `ma_el_dual_second_heading`, and `ma_el_dual_heading_description` output
-* Security: Creative Buttons widget - unescaped `creative_button_text` output
-* Security: Changelog widget - unescaped `ma_el_changelog_heading` and `ma_el_changelog_main_title` output
 
-= 2.1.1 (25-01-2026) =
-Fixed: Timeline icon not showing issue fixed.
+= Master Elementor Addons v3.1.6 (23-07-2026) =
+* Fixed: Blog Posts widget date, author, category, and tag links now open the correct archive, including for custom post types (the post type is kept in the link).
+* Fixed: Blog Posts pagination now counts only the posts the widget actually queries, so an extra empty page no longer appears — and the Next/page links now work when the widget is placed on a normal page.
+* Fixed: Blog Posts responsive "Number of Columns" for tablet and mobile now applies correctly.
+* Added: Blog Posts filter tabs and query now support custom taxonomies, so custom post types (e.g. from ACF) can be filtered.
+* Added: Blog Posts now shows custom taxonomy terms in the bottom tag list.
+* Fixed: Background Slider overlay images now load from the correct assets URL, so overlays show up on both the free and Pro builds.
+* Maintenance: Updated the Freemius licensing library to 2.13.4.
 
+= Master Elementor Addons v3.1.5 (18-06-2026) =
+* Security: Made the Recommended Plugins screen safer so only the plugins we list can be installed or activated.
+* Security: Tightened the Mega Menu so it only responds to its own known actions.
+* Security: Added safety checks when importing Template Kits to block unsafe files.
+* Fixed: Some admin screens (Settings, Template Kits, Template Library, Setup Wizard) could show up blank — they now load correctly.
+* Improved: Mega Menu now works smoothly with Elementor's new Atomic Elements, and only loads its styles on the pages that use a Mega Menu — so menus look right everywhere and your pages stay fast.
+* Improved: General compatibility and code-quality tidy-up for the WordPress.org review.
+* Maintenance: Updated the licensing library and removed unused files.
 
+= Master Elementor Addons v3.1.4 (18-06-2026) =
+* Security: Moved the Custom CSS editor to the Pro build (no arbitrary CSS insertion in the free plugin).
+* Security: Added nonce verification to Mega Menu options save.
+* Security: Added capability checks to popup, template-save, white-label, and rollback handlers.
+* Security: Whitelisted option-name prefixes in the internal options helper.
+* Compliance: Renamed short/reserved identifiers to the unique jltma prefix; migrated popup table/option to prefixed names.
+* Maintenance: Removed unused bundled readme/markdown libraries; dropped a legacy Elementor (< 2.2.8) AJAX hook.
 
-= 2.1.0 (11-01-2026) =
+= Master Elementor Addons 3.1.3 (14-06-2026) =
+* Added: Timeline widget Title and Content typography and color controls (Cards section), applied to both Post and Custom timeline items.
+* Security: Hardened popup list sorting so it only accepts known sort options.
+* Security: Tightened permissions on the Mega Menu content editor so only menu managers can use it.
+* Improved: Custom CSS and JS in the Widget Builder are now a Pro feature; HTML stays available for everyone.
+* Improved: Template previews now open in a new browser tab instead of loading inside the dashboard.
+* Improved: Used unique name prefixes across the plugin for better compatibility with other plugins.
+* Improved: Updated the Select2 library to the latest stable version.
+* Improved: Timeline date background colors (Default/Hover/Focused) are now a Pro feature.
+* Fixed: Template Live Preview link is now easy to read in Elementor's dark mode.
+* Fixed: Counter Up icons chosen from the icon library now match the font icons in size, color, and circle shape.
+* Fixed: Comments widget no longer triggers a PHP notice when reCAPTCHA keys are not configured.
+* Fixed: Domain Checker no longer reports available domains as already taken.
+* Fixed: Removed an empty duplicate Patterns section from the Advanced tab.
 
-**WHITE LABEL**
-* Fixed: Fatal error "Class Master_Addons_Helper not found" - corrected namespace path
-* Added: `show_icon` and `show_heading` arguments for flexible display
-* Improved: White label upgrade popup styling with proper button spacing
-* Improved: Logo upload preview with constrained dimensions and proper border styling
-* Updated: White label description text - shorter, professional with highlighted key terms
-* Fixed: Pro element lock icons now hidden when Pro version is active
-
-**PLUGIN FILTERS**
-* Fixed: PHP Warning "Trying to access array offset on value of type bool" in Plugin_Filters.php
-
-**ADVANCED ACCORDION**
-* Fixed: Content Type dropdown showing "[object Object]" - corrected filter return format to simple key-value pairs
-
-**THEME BUILDER**
-* Improved: Template Type dropdown now uses grouped options (Theme, Post, Page, WooCommerce)
-* Added: New Post template types - Category, Tag, Author, Date
-* Added: New Page template type - Single
-* Added: Template activation for new template types with proper WordPress conditional checks
-* Added: Fallback content rendering for all new template types
-
-**SECURITY**
-* Fixed: XSS vulnerability in Flipbox widget
-* Fixed: XSS vulnerability in Gradient Headline widget
-* Fixed: IDOR vulnerability - added proper permission checks
-* Security: All widgets with HTML tag selectors now use whitelist validation to prevent script injection
-
-**WHITE LABEL**
-* Fixed: PHP Warning "Undefined array key jltma_wl_plugin_logo" in dashboard-settings.php
-* Improved: Moved white label options to premium file using filter pattern
-* Added: New filters for white label customization
-
-**EDITOR STYLES**
-* Fixed: Countdown timer not visible in light mode for upgrade banner
-* Added: Dark mode support for countdown timer using .e-theme-dark and prefers-color-scheme
-* Updated: Countdown timer dimensions (44x40px) and spacing adjustments
-
-**GENERAL**
-* Fixed: JavaScript error "initMacyLayout is not defined" - added missing function in assets.php
-* Updated: Replaced 'fa fa-unlock-alt' icons with 'eicon-lock' Elementor icons in multiple widgets
-
-**TIMELINE**
-* Fixed: Cards Hover controls not working (color, background, box shadow, text shadow)
-  - Added `.jltma-timeline` parent class prefix to all Cards style selectors
-  - Changed hover target from `.timeline-item:hover` to `.jltma-blog-timeline-post:hover` matching DOM structure
-  - Added `.jltma-timeline-entry-content` as alternative selector for different skins
-  - Added Text Shadow controls inside Default, Hover, and Focused tabs
-  - Updated Typography selector to include both content wrapper classes
-* Fixed: Double background on hover - removed nested `.jltma-timeline-entry-content` from background selectors
-* Fixed: Icon not showing on frontend - changed `$item` to `$settings` for FA4 migration checks
-* Fixed: Default icon changed to `dashicons dashicons-calendar`
-* Fixed: Numbers/Letters switch case empty - added separate case bodies for all switch statements
-* Fixed: Default pointers now render simple circle div with background color
-* Fixed: Undefined variable $index error - added static counter for post index tracking
-* Fixed: Points controls not working (Default, Hover, Focused tabs)
-  - Added `.jltma-timeline` parent class prefix to all Points selectors
-  - Fixed Focused tab using wrong class `.jltma-timeline__item__icon` to `.jltma-timeline-post-type-icon`
-* Fixed: Meta/date not showing for left, right, overlay alignments
-  - Added `display: block` for `.timeline-item__card-wrapper .timeline-item__meta` in SCSS
-* Fixed: Read More button styling - moved button outside paragraph tag with proper `.jltma-post-btn` class
-* Fixed: Read More button controls organized into Normal/Hover tabs with Typography, Padding, Border Radius
-* Fixed: Excerpt styling controls (Color, Typography, Padding) not working - added wrapper `.timeline-item__excerpt` class
-* Fixed: Read More Text not showing - added proper condition check for `read_more_link` excerpt type
-* Fixed: Undefined array key `ma_el_post_grid_type` warning - added null coalescing with timeline fallbacks
-* Fixed: Pointer icons not rendering for Post and Custom timeline types
-  - Corrected `isset()` logic errors that returned boolean instead of checking values
-  - Fixed item-level custom style condition check
-* Fixed: Empty icon wrapper when no icon selected - added fallback default calendar icon
-* Fixed: Empty point content for non-premium users - added default circle point fallback
-* Fixed: Custom timeline point variations not working (numbers, letters, image, icons)
-  - Used wrong item key `ma_el_custom_timeline_point_content` (text content) instead of global `ma_el_timeline_points_content` (type)
-  - Added proper isset checks for custom style conditions
-* Fixed: Post timeline icons variation not working
-  - Added proper isset check with default fallback to 'icons'
-  - Added safer global icon value retrieval to prevent undefined index errors
-  - Changed all point helper functions to use `get_settings_for_display()` instead of `get_settings()` to properly retrieve default values
-  - Refactored icon rendering to check if icon actually rendered content
-  - Fixed: `wp_kses_post()` was stripping icon/SVG content - changed to `parse_text_editor()` to match custom timeline behavior
-
-**NAVMENU**
-* Fixed: PHP Warning "Undefined array key indicator_main_animation" - added isset checks for animation settings
-
-**ADVANCED IMAGE**
-* Fixed: PHP Warning "Trying to access array offset on value of type bool" - added check for valid attachment before accessing URL
-
-**CREATIVE LINKS**
-* Fixed: Border-radius not working - converted to DIMENSIONS control with proper selectors
-* Fixed: Hover tab controls not working - corrected CSS selectors (removed spaces, fixed class names)
-* Updated: DOM structure refactored for proper vertical centering of icon and text using flexbox
-
-**ADVANCED ACCORDION**
-* Fixed: Toggle icons (active_icon/toggle_icon) not updating on DOM - simplified render logic
-* Fixed: Toggle icon position not rendering instantly - added render_type template
-* Fixed: Toggle icon background color not applying - fixed {{WRAPPER}} selector prefix
-* Fixed: Icon spacing not working - corrected selector class names
-* Added: Expand/Collapse Icon picker controls with conditional visibility (toggle_icon_show)
-* Added: Icon Position control now conditional on toggle_icon_show
-* Updated: Default border 1px solid #eee for accordion items
-* Updated: Custom icon per item (accordion_tab_icon_show) default changed to 'no'
-* Removed: Default box-shadow from accordion tab title
-* Updated: Toggle icon SCSS - improved flexbox layout for proper background visibility
-* Updated: Consolidated Icon Size, Icon Spacing, Icon Padding controls - moved after Icon Position
-* Removed: Duplicate Icon Size/Padding controls from Normal, Hover, Active tabs (now uniform across states)
-* Updated: Icon Colors tabs now only contain color and background controls
-
-**BLOG**
-* Fixed: Post title typography (font-size, weight) not working - selector now includes anchor tag
-
-**INFOBOX**
-* Fixed: Icon Background Color not working with Variation Five, Six, and Eight - updated selectors to target hexagon shape elements
-* Fixed: Variation Six solid background color now properly overrides default SCSS gradient using fields_options
-* Fixed: Icon Alignment not working with Variation Five - now uses flexbox justify-content
-* Fixed: Icon Alignment not working with Variation Six - uses text-align on parent with inline-block icon, content area stays centered
-* Fixed: Icon Alignment not working with Variation Three - overrides absolute positioning with relative and inline-block
-* Fixed: Icon Alignment not working with Variation Four - overrides margin: 0 auto with inline-block display
-* Fixed: Icon Padding not working with all variations - simplified selectors to target .jltma-inner-content
-* Fixed: Icon Padding not working with Variation Eight and Ten - added specific selectors targeting icon elements
-* Fixed: Icon Size not working with Variation Five, Six, and Eight - updated selectors
-* Fixed: Icon Size for Variation Four - container scales proportionally (original: 32px icon → 90px container, ratio 90/32)
-* Fixed: Icon Size for Variation Ten - container scales proportionally maintaining original 90:58 aspect ratio
-* Fixed: Icon Color not working with Variation Five, Six, and Eight - updated selectors
-* Fixed: Icon Hover Color not working with Variation Five, Six, and Eight - updated selectors
-* Fixed: Icon Hover Background not working with Variation Five, Six, and Eight - updated selectors
-* Fixed: Duplicate key conditions for BG Icon controls (two/three presets) - now uses array syntax
-* Updated: Icon Background control converted to Group Control Background supporting classic and gradient types
-* Updated: Icon Hover Background control converted to Group Control Background
-* Fixed: Variation Nine 3D flip animation broken - excluded from generic alignment and padding controls that override absolute positioning
-* Added: Flip Box Height control for Variation Nine - enforces critical 3D flip layout styles (position, perspective, transforms) directly via Elementor controls to work properly in containers
-* Fixed: Variation Nine not filling container width - added width: 100% to infobox and item containers
-* Fixed: Variation Nine icon not centered - updated inner content positioning with text-align: center and left/right: 0
-* Fixed: Variation Ten icon not centered when size changes - now uses translate(-50%, -50%) centering instead of fixed left/top values
-* Fixed: Variation Ten icon size scaling - width now calculates proportionally based on icon size value
-* Updated: Icon Padding control simplified - now applies padding only to appropriate containers for each variation to avoid breaking centered icons
-* Fixed: Variation One, Two, Seven icon background stretching full width - container now scales with icon size + 30px padding using inline-flex
-
-**MEGA MENU**
-* Fixed: Mega Menu content not editable with Elementor - auto-enable 'mastermega_content' post type in Elementor's Post Types settings on plugin init
-
-**RESTRICT CONTENT**
-* Fixed: JavaScript handler not triggering due to widget name mismatch between PHP and JS registration
-* Fixed: Password validation failing due to form field name mismatch (ma_el_restrict_content_pass)
-* Fixed: Error message showing wrong text for password restriction - now uses correct warning message control
-* Fixed: Escaped quotes in error messages (e.g., "don\'t" now shows as "don't")
-* Fixed: Form alignment - password input and submit button now display on same row
-* Fixed: Error message position for age verification - now appears after submit button
-* Added: Beautiful error result message styling with icon, red background, border, and rounded corners
-* Added: Popup Button Style controls section with comprehensive styling options:
-  - Text Color with Normal/Hover states
-  - Background Color with Normal/Hover states
-  - Padding control
-  - Border controls (type, width, color)
-  - Border Radius control
-  - Typography control
-  - Box Shadow control
-
-**NEW FEATURES**
-* Added: Popup Builder - Professional popup creation and management system with advanced triggers and conditions
-* Added: Template Kit System - Pre-built template collection with demo importer functionality
-* Added: Template Library - Cloud-based template storage and management system
-* Added: Theme Builder - Complete theme building solution for headers, footers, and template parts
-* Added: Demo Importer - One-click demo content import with variation support
-* Added: Extension "Element Name" - Name and organize your elements for better workflow
-* Added: MA Navmenu - Name and organize your elements for better workflow
-* Updated: Animated Headlines - Updated Padding, Margin with responsive controls
-* Updated: Animated Headlines - Animation Delay Settings Tab Moved on "Content" Tab
-* Added: Animated Headlines - added "Bar Color", "Height", "Bar Position" on Loading Bar "Style" Tab
-* Updated: Animated Headlines - Bar Position now shows only Bottom and Left options with default values
-* Added: Counter Up - added Number Suffix and Prefix Color, Size and Margin Options
-* Added: Counter Up - Responsive Columns Options Added. Now Columns can be responsive as well.
-* Fixed: Counter Up - Responsive Columns now properly working with CSS selectors
-* Updated: Creative Buttons - added default border radius 8px, Move Button Controls into Content Section
-* Updated: Creative Buttons - Icon Position control now uses icon-based toggle instead of dropdown
-* Fixed: Creative Buttons - Icon positioning now correctly places icon before or after text
-* Added: Creative Buttons - default icon spacing 5px
-* Added: Creative Buttons - Icon Color control for Hover state
-* Updated: Creative Buttons - Hover Border Color now conditional on Border Type selection
-* Added: Creative Buttons - Button Text Alignment control with responsive support
-* Updated: Pricing Table - Left Align Period overlap issue fixed, default period separator alignment issue fixed.
-* Fixed: Pricing Table - Feature list divider now appears only under text, not under icon (Active Zoom & Skew BG Pattern styles)
-* Updated: Pricing Table - Divider controls now properly target text element with yellow default color
-* Removed: Pricing Table - Period Position removed from Style Tab
-* Fixed: Pricing Table - Button background now respects custom color selection while keeping default gradient
-* Updated: Pricing Table - Button hover background now supports both solid and gradient colors
-* Added: Pricing Table - Feature List Margin option with responsive support
-* Fixed: Pricing Table - Icon style options (color, size, padding, margin) now work even when text is empty
-* Fixed: Pricing Table - Tooltip no longer gets cut off on center-aligned tables
-* Fixed: Pricing Table - Icon style options now work correctly for SVG icons (color uses fill, size uses width/height)
-* Fixed: News Ticker - Content type now properly uses all query settings (post type, categories, tags, order)
-* Updated: News Ticker - Refactored to use Swiper.js for better performance and vertical centering
-* Fixed: News Ticker - Thumbnail and title now properly vertically centered
-* Updated: News Ticker - Ribbon design with rounded corners on both label and content area
-* Added: News Ticker - Height control to customize ticker height
-* Added: News Ticker - Thumbnail Width control with responsive support (when Show Thumbnail enabled)
-* Added: News Ticker - Thumbnail Shape control (Square or Rounded options)
-* Fixed: Progress Bar - Now takes full width inside Elementor containers
-* Fixed: Progress Bar - Now properly renders in Elementor editor (added edit mode hook and cleanup)
-* Updated: Progress Bars - Percentage now displays at the end of the active bar (tracks the bar)
-* Updated: Blockquote - Redesigned with decorative quote marks (" ") and author bar symbol
-* Added: Blockquote - Show Author toggle to show/hide author section
-* Added: Blockquote - Show Start Symbol toggle for opening quote mark (")
-* Added: Blockquote - Show End Symbol toggle for closing quote mark (")
-* Added: Blockquote - Show Author Symbol toggle for the red bar before author name
-* Added: Blockquote - Author Text Color and Author Typography controls
-* Updated: Blockquote - Content Alignment now properly aligns both text and author (flexbox)
-* Added: Blockquote - Width and Height controls for author symbol bar with default 5px height
-* Fixed: Creative Links - Border radius now properly applies to link element, pseudo-elements, and spans
-* Updated: Creative Links - Border radius control upgraded to DIMENSIONS type with responsive support
-* Fixed: Creative Links - Hover tab controls now work (fixed invalid CSS selectors and wrong class names)
-* Updated: Creative Links - Refactored DOM structure with flexbox for proper vertical centering of icon and text
-* Updated: Creative Links - Simplified and cleaned up render method for better maintainability
-* Added: Creative Links - Default border 1px solid #E2E8F0
-* Added: Creative Links - Default border radius 8px
-* Fixed: Creative Links - Item Alignment now uses flexbox justify-content for proper positioning
-* Updated: Creative Links - Icon defaults to none, Icon Position only shows when icon is selected
-* Fixed: Creative Links - SVG icon color now properly applies using fill property (normal and hover)
-* Fixed: Creative Links - Border and Border Radius now target correct element (.jltma-creative-link-item)
-* Updated: Creative Links - Renamed Span BG Color to Front/Back BG Color for 3D effect clarity
-* Fixed: Timeline - Read More Text now properly displays when excerpt type is set to "Read More Link"
-* Fixed: Timeline - Undefined array key warnings for post settings (ma_el_post_grid_type, etc.)
-* Fixed: Timeline - Excerpt Color, Typography, and Padding controls now work (added missing wrapper class)
-* Added: Timeline - Read More Button styling with Normal/Hover tabs (Typography, Padding, Border Radius, Text Color, Background, Border)
-* Fixed: Timeline - Read More button now renders outside paragraph for proper independent styling
-* Fixed: Dynamic Table - Header alignment control now works properly (removed conflicting SCSS)
-* Added: Dynamic Table - Default header background color #020817
-* Added: Dynamic Table - Odd and Even Background Color issue fixed
-* Added: Dynamic Table - Border Radius control for rounded table corners
-
-
-
-**ADVANCED IMAGE WIDGET**
-* Added: Ribbon Width control with flexible px/% units
-* Added: Ribbon Position controls (Top, Bottom, Left, Right) with range sliders
-* Added: Border Radius control for Ribbon with individual corner control
-* Fixed: Image Border Radius not working issue
-* Improved: Optimized simple ribbon padding for better width control
-* Improved: Ribbon style and positioning system completely revamped
-
-**EXTENSIONS IMPROVEMENTS**
-* Improved: Glassmorphism Effect Extension - Enhanced background blur effects and styling options
-* Improved: Display Options Extension - Better conditional display controls
-* Improved: Reading Progress Bar Extension - Fixed missing paths and functionality issues
-* Improved: Animation Extension - Fixed loading and execution issues
-
-**MEGA MENU**
-* Added: MA Mega Menu updated - Icon Picker with 3000+ Icons Libary added
-* Improved: Icon picker updated to latest Elementor icon library
-* Improved: Mega Menu Color Picker Updated
-* Improved: Mega Menu Submenu Indicator update with smooth animations
-* Improved: Close icon design and positioning
-* Fixed: Non-pretty permalink support added
-* Update: MA Mega Menu updated - Hover and Click event not working issue fixed
-* Update: MA Mega Menu updated - Icon Picker Default Icon not working issue fixed
-
-**DYNAMIC TABLE**
-* Added: Non-responsive option for better control on mobile devices
-* Improved: Table rendering performance
-
-**BUILDER SYSTEMS**
-* Improved: Popup Builder - Frontend CSS/JS loading optimization
-* Improved: Popup Builder - Settings panel JavaScript functionality
-* Improved: Theme Builder - Conditional logic and display rules
-* Improved: Theme Builder - Table condition columns and redirection rules
-* Fixed: Popup Builder CSS and JS file missing issues
-* Fixed: Theme Builder path resolution for Pro version
-* Fixed: Theme Builder condition issues and select options
-* Fixed: Template cache refresh for Elementor editor
-* Fixed: Template Kit plugin URL resolution
-
-
-**DEVELOPMENT**
-* Updated: Freemius SDK to latest version with security improvements
-* Updated: Asset folder paths and structure reorganization
-* Updated: Module loader with better dependency management
-* Updated: Extension loader optimized for Pro version
-* Improved: Editor template library CSS issues resolved
-* Improved: Preview options and functionality
-* Fixed: Module path resolution throughout the plugin
-* Fixed: Missing asset paths causing 404 errors
-* Fixed: Blur effect naming conventions
-* Added: Added "MA Post Content" for Dynamic Tags
-
-
-**BUG FIXES**
-* Fixed: Mega menu close icon not showing properly
-* Fixed: Off-canvas content widget rendering issues
-* Fixed: Alignment issues in code editor
-* Fixed: Template kit loading and caching
-* Fixed: Redirection errors in admin panel
-
-= 2.0.9.9.4 (10-12-2025) =
-* Fixed: Custom JS module issue - fixed code not showing on frontend. Thanks [@alvarogarciar](https://wordpress.org/support/topic/custom-js-only-visible-to-users-with-edit_posts-capability/) for informing about the issue.
-
-= 2.0.9.9.3 (07-12-2025) =
-* Fixed: Post Types Pagination issue fixed
-
-= 2.0.9.9.2 (06-12-2025) =
-* Fixed: Fatal error "Class Elementor\Plugin not found" in Custom JS module when Elementor is not active.
-
-
-= 2.0.9.9 (29-10-2025) =
-* Fixed: display condition for terms and archive.
-* Fixed: Dynamic tags showing twice for widgets
-* UX Improvement : Gallery slider ui and ui improvement.
-* Improvement: Dynamic table has option to set non responsive
-
-= 2.0.9.8 (06-10-2025) =
-* Fixed: display condition for logged out user only. Thanks [@hamiddavodi](https://wordpress.org/support/topic/display-element-only-for-logged-out-users/) for informing about the issue.
-* Fixed: Wrapper link is not working in Safari browser Thanks [@adzpz](https://wordpress.org/support/topic/wrapper-link-not-working-on-safari-ipad/) for informing about the issue.
-* UX Improvement : UX Improved for notice.
-
-= 2.0.9.7 (23-09-2025) =
-* Fixed: Mobile nav menu toggle is not working properly in free version.
-* Security Patch: Freemius SDK updated for better security.
-
-= 2.0.9.6 (31-08-2025) =
-* Added: Dynamic Tags added on Image Hover Effects
-* Update: Master Addons Mega menu feature updated
-* Fixed: Animated Gradient Background extension not working issue fixed
-* Fixed: Particles background not working issue fixed, also working on Editor Mode
-* Fixed: Background Slider not working issue fixed, working on both editor and frontend
-* Fixed: Extensions not showing on Advanced/Style tabs, Container supports for Particles, Animated Background etc
-
-= 2.0.9.5 (19-08-2025) =
-* Updated: Minor Bugs fixed
-
-= 2.0.9.4 (18-08-2025) =
-* Updated: Minor Bugs fixed
-
-= 2.0.9.3 (18-08-2025) =
-* Updated: Team Slider Controls updated for Mobile Devices
-* Fixed: Custom CSS for Elementor not working on frontend issue fixed
-* Fixed: Custom JS for Elementor not showing on Editor and appying on frontend issue fixed
-
-
-Details [Changelogs here](https://master-addons.com/changelogs/)
+[Full Changelog →](https://master-addons.com/changelogs/?utm_source=wordpressorg&utm_medium=readme&utm_campaign=master-addons)

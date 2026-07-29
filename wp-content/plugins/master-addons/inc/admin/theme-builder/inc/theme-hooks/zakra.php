@@ -1,5 +1,5 @@
 <?php
-namespace MasterHeaderFooter\Theme_Hooks;
+namespace MasterAddons\Inc\Admin\Theme_Builder\Theme_Hooks;
 
 defined( 'ABSPATH' ) || exit;
 

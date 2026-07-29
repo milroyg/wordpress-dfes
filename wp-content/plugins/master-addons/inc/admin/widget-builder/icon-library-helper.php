@@ -1,5 +1,5 @@
 <?php
-namespace MasterAddons\Admin\WidgetBuilder;
+namespace MasterAddons\Inc\Admin\WidgetBuilder;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -32,14 +32,11 @@ class Icon_Library_Helper
         $plugin_url = trailingslashit(JLTMA_URL);
         $fonts_path = $plugin_url . 'assets/fonts/';
 
-        // Elementor Icons (already loaded by Elementor)
-        if (!wp_style_is('elementor-icons', 'enqueued')) {
-            wp_enqueue_style(
-                'elementor-icons',
-                ELEMENTOR_ASSETS_URL . 'lib/eicons/css/elementor-icons.min.css',
-                [],
-                JLTMA_VER
-            );
+        // Elementor Icons — use Elementor's copy if available, otherwise local fallback
+        if (wp_style_is('elementor-icons', 'registered')) {
+            wp_enqueue_style('elementor-icons');
+        } else {
+            wp_enqueue_style('jltma-elementor-icons');
         }
 
         // Simple Line Icons
@@ -74,29 +71,25 @@ class Icon_Library_Helper
             JLTMA_VER
         );
 
-        // Feather Icons
-        wp_enqueue_style(
-            'jltma-feather-icons',
-            $fonts_path . 'feather-icons/feather-icons.min.css',
-            [],
-            JLTMA_VER
-        );
+        /**
+         * Allow premium to register extra icon font stylesheets (Feather, Remix, Teeny, etc.).
+         *
+         * Each entry: [ 'handle' => string, 'src' => string (absolute URL) ].
+         *
+         * @param array  $extra_fonts Additional icon font stylesheets to enqueue.
+         * @param string $fonts_path  Base URL of the free icon fonts folder.
+         */
+        $extra_fonts = apply_filters('master_addons/widget_builder/icon_libraries', [], $fonts_path);
 
-        // Remix Icons
-        wp_enqueue_style(
-            'jltma-remix-icons',
-            $fonts_path . 'remix-icons/remix-icons.min.css',
-            [],
-            JLTMA_VER
-        );
+        if (is_array($extra_fonts)) {
+            foreach ($extra_fonts as $font) {
+                if (empty($font['handle']) || empty($font['src'])) {
+                    continue;
+                }
 
-        // Teeny Icons
-        wp_enqueue_style(
-            'jltma-teeny-icons',
-            $fonts_path . 'teeny-icons/teeny-icons.min.css',
-            [],
-            JLTMA_VER
-        );
+                wp_enqueue_style($font['handle'], $font['src'], [], JLTMA_VER);
+            }
+        }
     }
 
     /**
@@ -109,14 +102,20 @@ class Icon_Library_Helper
 
         $libraries = [];
 
-        // Add Elementor Icons if Elementor is active
+        // Add Elementor Icons — use Elementor's copy if available, otherwise local fallback
+        $eicons_css = null;
         if (defined('ELEMENTOR_ASSETS_PATH') && file_exists(ELEMENTOR_ASSETS_PATH . 'lib/eicons/css/elementor-icons.min.css')) {
+            $eicons_css = ELEMENTOR_ASSETS_PATH . 'lib/eicons/css/elementor-icons.min.css';
+        } elseif (file_exists(JLTMA_PATH . 'assets/fonts/elementor-icon/elementor-icons.css')) {
+            $eicons_css = JLTMA_PATH . 'assets/fonts/elementor-icon/elementor-icons.css';
+        }
+        if ($eicons_css) {
             $libraries['Elementor Icons'] = [
                 'prefix' => 'eicon-',
                 'display_prefix' => 'eicon eicon-',
                 'list-icon' => 'eicon eicon-elementor',
                 'icon-style' => 'elementor-icons',
-                'css_file' => ELEMENTOR_ASSETS_PATH . 'lib/eicons/css/elementor-icons.min.css'
+                'css_file' => $eicons_css
             ];
         }
 
@@ -150,28 +149,18 @@ class Icon_Library_Helper
                 'icon-style' => 'material-icons',
                 'css_file' => $fonts_dir . 'material-icons/material-icons.css'
             ],
-            'Feather Icons' => [
-                'prefix' => 'jltma-feather-icon-',
-                'display_prefix' => 'jltma-feather-icon-',
-                'list-icon' => 'jltma-feather-icon-feather',
-                'icon-style' => 'feather-icons',
-                'css_file' => $fonts_dir . 'feather-icons/feather-icons.min.css'
-            ],
-            'Remix Icons' => [
-                'prefix'         => 'jltma-ri-',
-                'display_prefix' => 'jltma-ri-',
-                'list-icon'      => 'jltma-ri-remixicon-fill',
-                'icon-style'     => 'remix-icons',
-                'css_file'       => $fonts_dir . 'remix-icons/remix-icons.min.css'
-            ],
-            'Teeny Icons' => [
-                'prefix'         => 'jltma-ti-',
-                'display_prefix' => 'jltma-ti-',
-                'list-icon'      => 'jltma-ti-mood-laugh',
-                'icon-style'     => 'teeny-icons',
-                'css_file'       => $fonts_dir . 'teeny-icons/teeny-icons.min.css'
-            ],
         ]);
+
+        /**
+         * Allow premium to register extra icon libraries (Feather, Remix, Teeny, etc.).
+         *
+         * Each entry keyed by library name:
+         * [ 'prefix' => ..., 'display_prefix' => ..., 'list-icon' => ..., 'icon-style' => ..., 'css_file' => absolute path ].
+         *
+         * @param array  $libraries Icon libraries to parse.
+         * @param string $base_path Plugin filesystem base path (JLTMA_PATH).
+         */
+        $libraries = apply_filters('master_addons/widget_builder/icon_library_config', $libraries, JLTMA_PATH);
 
         $config = [];
 

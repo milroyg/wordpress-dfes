@@ -56,10 +56,8 @@
 }
 
 /* Formate la liste des options et le champ texte */
-.rss-options__items-list,
-.rss-select__item {
-	display: inline-block;
-	margin-block-start: 10px;
+.rss-options__items-list {
+	margin-block-start: 20px;
 }
 
 /* Formate le header */

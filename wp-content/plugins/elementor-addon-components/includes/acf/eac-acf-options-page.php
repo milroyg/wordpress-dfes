@@ -6,6 +6,7 @@
  * utilisé comme support pour les pages d'options ACF
  *
  * @since 1.8.4
+ * @since 2.5.0 Supprimer le style en ligne, ligne 618 après add_menu_page
  */
 
 namespace EACCustomWidgets\Includes\Acf;
@@ -15,19 +16,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use EACCustomWidgets\Core\Eac_Config_Elements;
-
-/**
- * Administrateur ou nouvelle capacité
- * Check capacité 'edit_page_options'
- * $setting_page   = isset( $_GET['page'] ) && EAC_DOMAIN_NAME === $_GET['page'];
- */
-$option_capa = get_option( Eac_Config_Elements::get_option_page_capability_name() );
-if ( ! current_user_can( 'manage_options' ) && ( ! $option_capa || ! current_user_can( $option_capa ) ) ) {
-	return;
-}
+use EACCustomWidgets\EAC_Plugin;
 
 class Eac_Acf_Options_Page {
+
+	/**
+	 * @var $is_config_loaded
+	 *
+	 * La classe Eac_Load_Config est chargée et instanciée
+	 */
+	private static $is_config_loaded = false;
 
 	/**
 	 * @var $instance
@@ -37,11 +35,11 @@ class Eac_Acf_Options_Page {
 	private static $instance = null;
 
 	/**
-	 * @var $acf_post_type
+	 * @var $eac_post_type
 	 *
 	 * Le libellé du type d'article
 	 */
-	private static $acf_post_type = 'eac_options_page';
+	private static $eac_post_type = 'eac_options_page';
 
 	/**
 	 * @var $options_page_name
@@ -49,6 +47,26 @@ class Eac_Acf_Options_Page {
 	 * Le libellé de la page d'options
 	 */
 	private static $options_page_name = 'eac_options_page-';
+
+	/**
+	 * @var $arg_caps
+	 *
+	 * La liste des capabilities pour les pages d'options
+	 */
+	private static $arg_caps = array(
+		'create_posts'           => 'create_page_options',
+		'read'                   => 'read_page_options',
+		'read_post'              => 'read_page_option',
+		'edit_post'              => 'edit_page_option',
+		'edit_posts'             => 'edit_page_options',
+		'edit_others_posts'      => 'edit_others_page_options',
+		'edit_published_posts'   => 'edit_published_page_options',
+		'delete_post'            => 'delete_page_option',
+		'delete_posts'           => 'delete_page_options',
+		'delete_others_posts'    => 'delete_others_page_options',
+		'publish_posts'          => 'publish_page_options',
+		'delete_published_posts' => 'delete_published_page_options',
+	);
 
 	/**
 	 * instance.
@@ -70,18 +88,23 @@ class Eac_Acf_Options_Page {
 	 * @access private
 	 */
 	public function __construct() {
-		// Construction du post_type
-		add_action( 'init', array( $this, 'register_post_type_option_page' ) );
+		self::$is_config_loaded = class_exists( \EACCustomWidgets\Core\Eac_Load_Config::class, false );
 
-		// Ajout du sous-menu
-		add_action( 'admin_menu', array( $this, 'add_submenu_to_admin_menu' ) );
+		// Construction du post_type
+		add_action( 'init', array( $this, 'register_option_page' ) );
+
+		// Ajout des capabilities pour le post_type
+		add_action( 'admin_init', array( $this, 'add_option_page_capabilities' ), 11 );
+
+		// Ajout du menu/sous-menu
+		add_action( 'admin_menu', array( $this, 'add_submenu_to_admin_menu' ), 11 );
 
 		// Ajout des colonnes et des données dans la vue du post_type
-		add_filter( 'manage_' . self::$acf_post_type . '_posts_columns', array( $this, 'add_columns' ) );
-		add_action( 'manage_' . self::$acf_post_type . '_posts_custom_column', array( $this, 'data_columns' ), 10, 2 );
+		add_filter( 'manage_' . self::$eac_post_type . '_posts_columns', array( $this, 'add_columns' ) );
+		add_action( 'manage_' . self::$eac_post_type . '_posts_custom_column', array( $this, 'data_columns' ), 10, 2 );
 
 		// L'article page d'options est enregistré
-		add_action( 'save_post_' . self::$acf_post_type, array( $this, 'save_options_page' ), 10, 2 );
+		add_action( 'save_post_' . self::$eac_post_type, array( $this, 'save_options_page' ), 10, 2 );
 
 		// L'article est mis dans la poubelle
 		add_action( 'wp_trash_post', array( $this, 'delete_options_page' ), 10 );
@@ -104,11 +127,11 @@ class Eac_Acf_Options_Page {
 	 *
 	 * @var $group Le groupe cible à mettre à jour
 	 */
-	public function update_acf_field_group( $group_updated ) {
+	public function update_acf_field_group( $group_updated ): void {
 		// Récupère tous les articles du post type
 		$articles = get_posts(
 			array(
-				'post_type'      => self::$acf_post_type,
+				'post_type'      => self::$eac_post_type,
 				'post_status'    => 'publish',
 				'posts_per_page' => -1,
 			)
@@ -136,7 +159,7 @@ class Eac_Acf_Options_Page {
 	 *
 	 * @var $group Le groupe de champ ACF mis à la poubelle
 	 */
-	public function delete_acf_group( $group ) {
+	public function delete_acf_group( $group ): void {
 		$fields = acf_get_fields( $group['ID'] );
 		// Pas de champ
 		if ( ! is_array( $fields ) ) {
@@ -155,7 +178,7 @@ class Eac_Acf_Options_Page {
 	 *
 	 * @var $field L'objet champ à supprimer
 	 */
-	public function delete_acf_field( $field ) {
+	public function delete_acf_field( $field ): void {
 		global $wpdb;
 		$key = $field['key'];
 
@@ -221,7 +244,7 @@ class Eac_Acf_Options_Page {
 	 * @var $post_id ID de l'article
 	 * @var $post l'objet article
 	 */
-	public function save_options_page( $post_id, $post ) {
+	public function save_options_page( $post_id, $post ): void {
 		$post_title  = $post->post_title;
 		$post_type   = $post->post_type;
 		$post_status = $post->post_status;
@@ -229,7 +252,7 @@ class Eac_Acf_Options_Page {
 		/** if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) { return; } */
 
 		// Ce n'est pas le type d'article attendu
-		if ( self::$acf_post_type !== $post_type ) {
+		if ( self::$eac_post_type !== $post_type ) {
 			return;
 		}
 
@@ -273,7 +296,7 @@ class Eac_Acf_Options_Page {
 				}
 
 				foreach ( $locations as $rule ) {
-					if ( 'post_type' === $rule['param'] && '==' === $rule['operator'] && self::$acf_post_type === $rule['value'] ) {
+					if ( 'post_type' === $rule['param'] && '==' === $rule['operator'] && self::$eac_post_type === $rule['value'] ) {
 						$continue_loop = true;
 					}
 				}
@@ -374,12 +397,12 @@ class Eac_Acf_Options_Page {
 	 *
 	 * @var $post_id ID de l'article
 	 */
-	public function delete_options_page( $post_id ) {
+	public function delete_options_page( $post_id ): void {
 		$post      = get_post( $post_id );
 		$post_type = $post->post_type;
 
 		// Ce n'est pas le type d'article attendu
-		if ( self::$acf_post_type !== $post_type ) {
+		if ( self::$eac_post_type !== $post_type ) {
 			return;
 		}
 
@@ -400,7 +423,7 @@ class Eac_Acf_Options_Page {
 	 *
 	 * @var $post_id ID de l'article
 	 */
-	public function delete_all_options_page( $post_id ) {
+	public function delete_all_options_page( $post_id ): void {
 		global $wpdb;
 		$option_name = self::$options_page_name . $post_id;
 
@@ -427,7 +450,7 @@ class Eac_Acf_Options_Page {
 	 *
 	 * @var $key La clé du champ
 	 */
-	public static function get_options_page_id( $key ) {
+	public static function get_options_page_id( $key ): string {
 		global $wpdb;
 
 		/** Recherche de l'option par sa clé dans la table eac_options */
@@ -443,13 +466,8 @@ class Eac_Acf_Options_Page {
 		// Une seule option pour la clé
 		if ( $option && ! empty( $option ) && count( $option ) === 1 ) {
 			$name                          = reset( $option )->option_name;
-			$value                         = maybe_unserialize( reset( $option )->option_value );
 			list($prefix, $id, $field_key) = array_pad( explode( '-', $name ), 3, '' ); // eac_options_page-9602-field_63e0fbabf2cea
 
-			/**
-			C'est un article et c'est la bonne clé du groupe
-			if (is_string(get_post_status($id)) && $group_key && ! empty($group_key) && $value['group'] === $group_key) {
-			*/
 			if ( ! empty( $id ) && is_string( get_post_status( $id ) ) ) {
 				return $id;
 			}
@@ -458,34 +476,34 @@ class Eac_Acf_Options_Page {
 	}
 
 	/**
-	 * register_post_type_option_page
+	 * register_option_page
 	 *
 	 * Enregistre un nouveau type d'article
 	 *
 	 * @return void
 	 */
-	public function register_post_type_option_page(): void {
+	public function register_option_page(): void {
 		$labels = array(
-			'name'               => esc_html_x( "ACF Pages d'Options", 'Post type general name', 'eac-components' ),
-			'singular_name'      => esc_html_x( "ACF Page d'Options", 'Post type singular name', 'eac-components' ),
-			'menu_name'          => esc_html__( "ACF Pages d'Options", 'eac-components' ),
-			'name_admin_bar'     => esc_html__( "ACF Pages d'Options", 'eac-components' ),
-			'archives'           => esc_html__( 'Liste Archives', 'eac-components' ),
-			'parent_item_colon'  => esc_html__( 'Parent', 'eac-components' ),
-			'all_items'          => esc_html__( "Toutes les Pages d'Options", 'eac-components' ),
-			'add_new_item'       => esc_html__( "Nouvelle Page d'Options", 'eac-components' ),
-			'add_new'            => esc_html__( 'Ajouter', 'eac-components' ),
-			'new_item'           => esc_html__( "Nouvelle Page d'Options", 'eac-components' ),
-			'edit_item'          => esc_html__( "Ajouter une Page d'Options", 'eac-components' ),
-			'update_item'        => esc_html__( "Modifier une Page d'Options", 'eac-components' ),
-			'view_item'          => esc_html__( "Voir une Page d'Options", 'eac-components' ),
-			'search_items'       => esc_html__( "Chercher dans les Pages d'Options", 'eac-components' ),
-			'not_found'          => esc_html__( 'Pas trouvé', 'eac-components' ),
-			'not_found_in_trash' => esc_html__( 'Pas trouvé dans la poubelle', 'eac-components' ),
+			'name'               => esc_html_x( 'EAC Options Pages', 'Post type general name', 'eac-components' ),
+			'singular_name'      => esc_html_x( 'EAC Options Page', 'Post type singular name', 'eac-components' ),
+			'menu_name'          => esc_html__( 'EAC Options Pages', 'eac-components' ),
+			'name_admin_bar'     => esc_html__( 'EAC Options Pages', 'eac-components' ),
+			'archives'           => esc_html__( 'Archives list', 'eac-components' ),
+			'parent_item_colon'  => esc_html( 'Parent' ),
+			'all_items'          => esc_html__( 'All Options Pages', 'eac-components' ),
+			'add_new_item'       => esc_html__( 'New Options Page', 'eac-components' ),
+			'add_new'            => esc_html__( 'Add New', 'eac-components' ),
+			'new_item'           => esc_html__( 'New Options Page', 'eac-components' ),
+			'edit_item'          => esc_html__( 'Add Options Page', 'eac-components' ),
+			'update_item'        => esc_html__( 'Edit Options Page', 'eac-components' ),
+			'view_item'          => esc_html__( 'Open Options Page', 'eac-components' ),
+			'search_items'       => esc_html__( 'Search in Options Page', 'eac-components' ),
+			'not_found'          => esc_html__( 'Not found', 'eac-components' ),
+			'not_found_in_trash' => esc_html__( 'Not found in the trash', 'eac-components' ),
 		);
 
 		$args = array(
-			'label'               => esc_html__( "Liste des Pages d'Options", 'eac-components' ),
+			'label'               => esc_html__( 'List of Option Pages', 'eac-components' ),
 			'labels'              => $labels,
 			'supports'            => array( 'title', 'author', 'editor' ),
 			'public'              => false,
@@ -498,17 +516,81 @@ class Eac_Acf_Options_Page {
 			'publicly_queryable'  => false,
 			'query_var'           => false,
 			'has_archive'         => false,
-			'show_in_rest'        => true,
+			'show_in_rest'        => false,
 			'taxonomies'          => array( 'category', 'post_tag' ),
-			'capabilities'        => Eac_Config_Elements::get_option_page_capabilities(),
+			'capabilities'        => self::$arg_caps,
 		);
 
-		if ( ! post_type_exists( self::$acf_post_type ) ) {
-			register_post_type( self::$acf_post_type, $args );
+		if ( ! post_type_exists( self::$eac_post_type ) ) {
+			register_post_type( self::$eac_post_type, $args );
 		}
 		/**write_log( $GLOBALS['wp_post_types']['eac_options_page']->capability_type );
 		write_log( $GLOBALS['wp_post_types']['eac_options_page']->map_meta_cap );
 		write_log( $GLOBALS['wp_post_types']['eac_options_page']->cap );*/
+	}
+
+	/**
+	 * add_option_page_capabilities
+	 *
+	 * @return void
+	 *
+	 * @since 2.3.4
+	 * @since 2.4.9 Supprime les anciennes capabilities et ajoute les nouvelles capabilities pour le post type 'eac_options_page' en fonction des rôles et des fonctionnalités actives
+	 */
+	public function add_option_page_capabilities(): void {
+		// Supprime l'ancienne capability
+		delete_option( 'eac_options_page_capability' );
+
+		// Récupère tous les rôles disponibles dans WordPress
+		$wp_roles = wp_roles();
+
+		foreach ( $wp_roles->roles as $role_slug => $role_data ) {
+			$role = get_role( $role_slug );
+			if ( ! $role ) {
+				continue;
+			}
+
+			$role->remove_cap( 'eac_manage_options' ); // Supprime l'ancienne capability
+
+			// Supprimer tous les droits d'abord
+			foreach ( self::$arg_caps as $cap ) {
+				$role->remove_cap( $cap );
+			}
+
+			if ( self::$is_config_loaded && \EACCustomWidgets\Core\Eac_Load_Config::is_feature_active( 'acf-option-page' ) ) {
+				// Les administrateurs ont tous les droits
+				if ( 'administrator' === $role_slug ) {
+					foreach ( self::$arg_caps as $cap ) {
+						$role->add_cap( $cap );
+					}
+				} elseif ( in_array( $role_slug, array( 'editor', 'shop_manager', 'author' ), true ) ) {
+					$role->add_cap( self::$arg_caps['edit_posts'] );
+				}
+
+				// Si la fonctionnalité de granting des pages d'options est active, accorde tous les droits aux rôles editor et shop_manager
+				if ( \EACCustomWidgets\Core\Eac_Load_Config::is_feature_active( 'grant-option-page' ) && in_array( $role_slug, array( 'editor', 'shop_manager' ), true ) ) {
+					foreach ( self::$arg_caps as $cap ) {
+						$role->add_cap( $cap );
+					}
+				}
+			} elseif ( ! self::$is_config_loaded ) {
+				// Les administrateurs ont tous les droits
+				if ( 'administrator' === $role_slug ) {
+					foreach ( self::$arg_caps as $cap ) {
+						$role->add_cap( $cap );
+					}
+				} elseif ( in_array( $role_slug, array( 'editor', 'shop_manager', 'author' ), true ) ) {
+					// Pas certain: Permet de lire/consulter la liste générale des pages d'options
+					//$role->add_cap( $this->args_cap['read'] );
+
+					// Pas certain: Permet de lire/consulter une page d'options individuelle
+					//$role->add_cap( $this->args_cap['read_post'] );
+
+					// Nécessaire pour accéder à la liste des pages d'options
+					$role->add_cap( self::$arg_caps['edit_posts'] );
+				}
+			}
+		}
 	}
 
 	/**
@@ -517,21 +599,23 @@ class Eac_Acf_Options_Page {
 	 * Ajout d'un sous-menu pour le type d'article au menu pricipal 'EAC composants'
 	 * Check nouvelle capacité pour ajouter le sous-menu
 	 */
-	public function add_submenu_to_admin_menu() {
-		$callback    = 'edit.php?post_type=' . self::$acf_post_type;
-		$title       = esc_html__( "ACF Page d'Options", 'eac-components' );
-		$main_menu   = menu_page_url( EAC_DOMAIN_NAME, false );
-		$option      = get_option( Eac_Config_Elements::get_option_page_capability_name(), false );
+	public function add_submenu_to_admin_menu(): void {
+		$callback    = 'edit.php?post_type=' . self::$eac_post_type;
+		$title       = esc_html__( 'EAC Options Page', 'eac-components' );
+		$main_menu   = menu_page_url( EAC_DOMAIN_NAME, false ); // Il y a un menu principal 'EAC composants' ? Si oui, on ajoute un sous-menu, sinon on ajoute un menu
+		$option      = self::$arg_caps['edit_posts'];
 		$menu_option = '';
 
 		if ( current_user_can( 'manage_options' ) ) {
 			$menu_option = 'manage_options';
-		} elseif ( $option && current_user_can( $option ) ) {
+		} elseif ( current_user_can( $option ) ) {
 			$menu_option = $option;
 		}
 
 		if ( $main_menu && ! empty( $menu_option ) ) {
 			add_submenu_page( EAC_DOMAIN_NAME, $title, $title, $menu_option, $callback );
+		} elseif ( ! empty( $menu_option ) ) {
+			add_menu_page( $title, $title, $option, $callback, '', EAC_Plugin::instance()->get_dashboard_icon_url(), 58.2 );
 		}
 	}
 
@@ -540,16 +624,16 @@ class Eac_Acf_Options_Page {
 	 *
 	 * Ajout des colonnes à la vue d'admin des pages
 	 */
-	public function add_columns( $columns ) {
+	public function add_columns( $columns ): array {
 		unset( $columns['date'] );
 		return array_merge(
 			$columns,
 			array(
 				'eac_type'        => esc_html__( 'Type', 'eac-components' ),
-				'eac_group'       => esc_html__( 'Groupes', 'eac-components' ),
-				'eac_field'       => esc_html__( 'Champs', 'eac-components' ),
-				'eac_field_saved' => esc_html__( 'Enregistrés', 'eac-components' ),
-				'eac_id'          => 'ID',
+				'eac_group'       => esc_html__( 'Groups', 'eac-components' ),
+				'eac_field'       => esc_html__( 'Fields', 'eac-components' ),
+				'eac_field_saved' => esc_html__( 'Saved', 'eac-components' ),
+				'eac_id'          => esc_html( 'ID' ),
 			)
 		);
 	}
@@ -559,7 +643,7 @@ class Eac_Acf_Options_Page {
 	 *
 	 * Ajoute le contenu des colonnes à la vue d'admin des pages d'options
 	 */
-	public function data_columns( $column_name, $post_id ) {
+	public function data_columns( $column_name, $post_id ): void {
 		?><style type="text/css">
 			th#categories { width: 8%; }
 			th#eac_type { width: 7%; }
@@ -578,7 +662,7 @@ class Eac_Acf_Options_Page {
 				if ( ! empty( $title ) ) {
 					echo implode( '<br /> ', $title ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				} else {
-					echo 'Not found';
+					esc_html_e( 'Not found', 'eac-components' );
 				}
 				break;
 			case 'eac_field':
@@ -607,13 +691,13 @@ class Eac_Acf_Options_Page {
 				if ( ! empty( $id ) ) {
 					echo implode( '<br />', $id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				} else {
-					echo 'Not found';
+					esc_html_e( 'Not found', 'eac-components' );
 				}
 
 				break;
 			case 'eac_field_saved':
 				$fields_count = 0;
-				$saved        = esc_html__( 'Oui', 'eac-components' );
+				$saved        = esc_html__( 'Yes', 'eac-components' );
 				$groups       = acf_get_field_groups( array( 'post_id' => $post_id ) );
 
 				foreach ( $groups as $group ) {
@@ -625,7 +709,7 @@ class Eac_Acf_Options_Page {
 						}
 
 						foreach ( $locations as $rule ) {
-							if ( 'post_type' === $rule['param'] && '==' === $rule['operator'] && self::$acf_post_type === $rule['value'] ) {
+							if ( 'post_type' === $rule['param'] && '==' === $rule['operator'] && self::$eac_post_type === $rule['value'] ) {
 								$continue_loop = true;
 							}
 						}
@@ -648,20 +732,20 @@ class Eac_Acf_Options_Page {
 							foreach ( $field['sub_fields'] as $sub_field ) {
 								$option_name = self::$options_page_name . $post_id . '-' . $sub_field['key'];
 								if ( get_option( $option_name ) === false ) {
-									$saved = esc_html__( 'Non', 'eac-components' );
+									$saved = esc_html__( 'No', 'eac-components' );
 								}
 							}
 						} else {
 							$option_name = self::$options_page_name . $post_id . '-' . $field['key'];
 							if ( get_option( $option_name ) === false ) {
-								$saved = esc_html__( 'Non', 'eac-components' );
+								$saved = esc_html__( 'No', 'eac-components' );
 							}
 						}
 					}
 				}
 
 				if ( 0 === $fields_count ) {
-					echo '----';
+					echo esc_html( '----' );
 				} else {
 					echo esc_html( $saved );
 				}
@@ -685,7 +769,7 @@ class Eac_Acf_Options_Page {
 	 */
 	public static function transient_get_acf_field_groups( string $post_type = '' ): array {
 		if ( empty( $post_type ) ) {
-			$post_type = self::$acf_post_type;
+			$post_type = self::$eac_post_type;
 		}
 
 		$groups = get_transient( 'eac_options_page_acf' );
@@ -725,7 +809,7 @@ class Eac_Acf_Options_Page {
 	 */
 	public static function get_acf_field_groups( string $post_type = '' ): array {
 		if ( empty( $post_type ) ) {
-			$post_type = self::$acf_post_type;
+			$post_type = self::$eac_post_type;
 		}
 
 		$groups           = array();

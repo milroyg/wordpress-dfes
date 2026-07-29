@@ -42,10 +42,12 @@ class widgetClassCountDown extends elementorModules.frontend.handlers.Base {
                 minute: 0,
                 second: 0,
             },
+            localStorageRedirect: 'eac_countdown-' + this.$element.data('id'),
             localStorageName: 'eac_evgtimer-' + this.$element.data('id'),
             localStorageInit: 'eac_evgtimer_init-' + this.$element.data('id'),
         };
         if (Object.keys(components.settings).length !== 0) {
+            components.dueDate = components.settings.data_due_date;
             components.globalTime.day = components.settings.data_days_val;
             components.globalTime.hour = components.settings.data_hours_val;
             components.globalTime.minute = components.settings.data_minutes_val;

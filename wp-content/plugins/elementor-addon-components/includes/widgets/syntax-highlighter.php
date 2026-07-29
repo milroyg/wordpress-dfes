@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -27,15 +27,6 @@ use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 use Elementor\Modules\DynamicTags\Module as TagsModule;
 
 class Syntax_Highlighter_Widget extends Widget_Base {
-
-	/**
-	 * Constructeur de la class Syntax_Highlighter_Widget
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		wp_register_style( 'eac-syntax-highlight', EAC_Plugin::instance()->get_style_url( 'assets/css/prism' ), array( 'eac-frontend' ), '1.6.4' );
-	}
 
 	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
@@ -51,10 +42,10 @@ class Syntax_Highlighter_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -62,10 +53,10 @@ class Syntax_Highlighter_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -73,10 +64,10 @@ class Syntax_Highlighter_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -84,10 +75,10 @@ class Syntax_Highlighter_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -95,7 +86,7 @@ class Syntax_Highlighter_Widget extends Widget_Base {
 	 *
 	 * Les styles sont chargés dans le footer
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
 		return array( 'eac-syntax-highlight' );
@@ -110,8 +101,8 @@ class Syntax_Highlighter_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -119,10 +110,10 @@ class Syntax_Highlighter_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -132,6 +123,15 @@ class Syntax_Highlighter_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -149,7 +149,7 @@ class Syntax_Highlighter_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'sh_syntax_highlighter',
 			array(
-				'label' => esc_html__( 'Contenu', 'eac-components' ),
+				'label' => esc_html__( 'Content', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -157,7 +157,7 @@ class Syntax_Highlighter_Widget extends Widget_Base {
 			$this->add_control(
 				'sh_syntax_language',
 				array(
-					'label'   => esc_html__( 'Langage', 'eac-components' ),
+					'label'   => esc_html__( 'Language', 'eac-components' ),
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'php',
 					'options' => array(
@@ -186,15 +186,15 @@ class Syntax_Highlighter_Widget extends Widget_Base {
 			$this->add_control(
 				'sh_syntax_linenumbers',
 				array(
-					'label'   => esc_html__( 'Numéros de ligne', 'eac-components' ),
+					'label'   => esc_html__( 'Line numbers', 'eac-components' ),
 					'type'    => Controls_Manager::CHOOSE,
 					'options' => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -233,7 +233,7 @@ class Syntax_Highlighter_Widget extends Widget_Base {
 			$this->add_control(
 				'sh_syntax_height',
 				array(
-					'label'       => esc_html__( 'Hauteur', 'eac-components' ),
+					'label'       => esc_html__( 'Height', 'eac-components' ),
 					'type'        => Controls_Manager::SLIDER,
 					'size_units'  => array( 'px' ),
 					'range'       => array(
@@ -251,11 +251,11 @@ class Syntax_Highlighter_Widget extends Widget_Base {
 			$this->add_control(
 				'sh_syntax_theme',
 				array(
-					'label'   => esc_html__( 'Choix du thème', 'eac-components' ),
+					'label'   => esc_html__( 'Select theme', 'eac-components' ),
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'default',
 					'options' => array(
-						'default'        => esc_html__( 'Défaut', 'eac-components' ),
+						'default'        => esc_html__( 'Default', 'eac-components' ),
 						'coy'            => 'Coy',
 						'dark'           => 'Dark',
 						'funky'          => 'Funky',
@@ -271,7 +271,7 @@ class Syntax_Highlighter_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'sh_syntax_typo',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'global'   => array(
 						'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
 					),
@@ -282,7 +282,7 @@ class Syntax_Highlighter_Widget extends Widget_Base {
 			$this->add_control(
 				'sh_syntax_bg_color',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array(
 						'default' => Global_Colors::COLOR_PRIMARY,
@@ -301,7 +301,7 @@ class Syntax_Highlighter_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings    = $this->get_settings_for_display();
 		$pre_wrapper = 'sh-syntax_wrapper-code ';
 		$code_class  = '';
@@ -326,9 +326,9 @@ class Syntax_Highlighter_Widget extends Widget_Base {
 		$code_class .= ' language-' . $language;
 
 		$this->add_render_attribute( 'pre_wrapper', 'class', $pre_wrapper );
-		$this->add_render_attribute( 'pre_wrapper', 'data-prismjs-copy', esc_html__( 'Copier', 'eac-components' ) );
+		$this->add_render_attribute( 'pre_wrapper', 'data-prismjs-copy', esc_html__( 'Copy', 'eac-components' ) );
 		$this->add_render_attribute( 'pre_wrapper', 'data-prismjs-copy-error', 'Ctrl+C' );
-		$this->add_render_attribute( 'pre_wrapper', 'data-prismjs-copy-success', esc_html__( 'Copié', 'eac-components' ) );
+		$this->add_render_attribute( 'pre_wrapper', 'data-prismjs-copy-success', esc_html__( 'Copied', 'eac-components' ) );
 		$this->add_render_attribute( 'pre_wrapper', 'data-prismjs-copy-timeout', 3000 );
 		$this->add_render_attribute( 'code_class', 'class', $code_class );
 
@@ -358,5 +358,5 @@ document.body.appendChild(eac_core_prism);
 EOT;
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

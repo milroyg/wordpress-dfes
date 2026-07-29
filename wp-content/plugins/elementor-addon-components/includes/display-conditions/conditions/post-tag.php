@@ -18,12 +18,11 @@ use Elementor\Controls_Manager;
 
 class Post_Tag extends Condition_Base {
 
-	public function get_target_control() {
+	public function get_target_control(): array {
 		return array(
-			'label'       => esc_html__( 'Liste des étiquettes', 'eac-components' ),
+			'label'       => esc_html__( 'List of tags', 'eac-components' ),
 			'type'        => 'eac-select2',
 			'select2Options' => array(
-				'object_type' => 'post',
 				'query_type'  => 'term',
 				'query_taxo'  => 'post_tag',
 			),
@@ -35,25 +34,25 @@ class Post_Tag extends Condition_Base {
 		);
 	}
 
-	public function get_called_classname() {
+	public function get_called_classname(): string {
 		return get_called_class();
 	}
 
-	public function check( $settings, $value, $operateur = '', $tz = '' ) {
+	public function check( $settings, $value, $operateur = '', $tz = '' ): bool {
 		if ( ! is_array( $value ) ) {
 			return true;
 		}
 
-		$etat     = true;
-		$tags_ids = array();
-		$tags     = get_the_tags( get_the_ID() );
+		$etat    = true;
+		$tag_ids = array();
+		$tags    = get_the_tags( get_the_ID() );
 
 		if ( ! is_wp_error( $tags ) && ! empty( $tags ) ) {
 			foreach ( $tags as $index => $tag ) {
-				array_push( $tags_ids, $tag->term_id );
+				array_push( $tag_ids, $tag->term_id );
 			}
 
-			$inside = array_intersect( $tags_ids, $value );
+			$inside = array_intersect( $tag_ids, $value );
 
 			switch ( $operateur ) {
 				case 'in':

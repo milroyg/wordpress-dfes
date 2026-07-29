@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\Includes\Acf\DynamicTags\Eac_Acf_Lib;
+use EACCustomWidgets\Includes\Acf\Eac_Acf_Lib;
 use Elementor\Controls_Manager;
 use Elementor\Core\DynamicTags\Data_Tag;
 use Elementor\Modules\DynamicTags\Module as TagsModule;
@@ -24,45 +24,45 @@ class Eac_Acf_Date extends Data_Tag {
 	use \EACCustomWidgets\Includes\Traits\Panel_Template_Trait;
 	use \EACCustomWidgets\Includes\Traits\Post_Main_Id_Trait;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-date-acf-values';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Date heure', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Date time', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-acf-groupe';
+	public function get_group(): array {
+		return array( 'eac-acf-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array(
 			TagsModule::DATETIME_CATEGORY,
 			TagsModule::TEXT_CATEGORY,
 		);
 	}
 
-	public function get_panel_template_setting_key() {
+	public function get_panel_template_setting_key(): string {
 		return 'acf_date_key';
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 
 		$output_format_options = array(
-			'default'    => esc_html__( 'Format de sortie ACF', 'eac-components' ),
+			'default'    => esc_html__( 'ACF output format', 'eac-components' ),
 			'Y-m-d H:i'  => date_i18n( 'Y-m-d H:i' ) . ' (Y-m-d H:i)',
 			'F j, Y H:i' => date_i18n( 'F j, Y H:i' ) . ' (F j, Y H:i)',
 			'm/d/Y H:i'  => date_i18n( 'm/d/Y H:i' ) . ' (m/d/Y H:i)',
 			'd/m/Y H:i'  => date_i18n( 'd/m/Y H:i' ) . ' (d/m/Y H:i)',
 			'Ymd H:i'    => date_i18n( 'Ymd H:i' ) . ' (Ymd H:i)',
-			'custom'     => esc_html__( 'Personnalité', 'eac-components' ),
+			'custom'     => esc_html__( 'Custom', 'eac-components' ),
 		);
 
 		$this->add_control(
 			'acf_date_key',
 			array(
-				'label'       => esc_html__( 'Champ', 'eac-components' ),
+				'label'       => esc_html__( 'Field', 'eac-components' ),
 				'type'        => Controls_Manager::SELECT,
 				'groups'      => Eac_Acf_Lib::get_acf_fields_options( $this->get_acf_supported_fields() ),
 				'label_block' => true,
@@ -72,7 +72,7 @@ class Eac_Acf_Date extends Data_Tag {
 		$this->add_control(
 			'acf_date_fallback',
 			array(
-				'label'           => esc_html__( 'Alternative', 'eac-components' ),
+				'label'           => esc_html__( 'Fallback', 'eac-components' ),
 				'type'            => Controls_Manager::DATE_TIME,
 				'picker_options'  => array(
 					'dateFormat'  => 'Y-m-d H:i',
@@ -88,11 +88,11 @@ class Eac_Acf_Date extends Data_Tag {
 		$this->add_control(
 			'acf_date_format',
 			array(
-				'label'       => esc_html__( 'Format de sortie', 'eac-components' ),
+				'label'       => esc_html__( 'Output format', 'eac-components' ),
 				'type'        => Controls_Manager::SELECT,
 				'description' => sprintf(
 					/* translators: 1: Date format */
-					esc_html__( 'Format de date %1$s', 'eac-components' ),
+					esc_html__( 'Date format %1$s', 'eac-components' ),
 					'<a href="https://flatpickr.js.org/formatting/#date-formatting-tokens" target="_autre" rel="noopener noreferrer nofollow">Site</a>'
 				),
 				'options'     => $output_format_options,
@@ -104,7 +104,7 @@ class Eac_Acf_Date extends Data_Tag {
 		$this->add_control(
 			'acf_date_custom',
 			array(
-				'label'       => esc_html__( 'Format personnalisé', 'eac-components' ),
+				'label'       => esc_html__( 'Custom format', 'eac-components' ),
 				'type'        => Controls_Manager::TEXT,
 				'placeholder' => 'Y-m-d H:i',
 				'ai'          => array( 'active' => false ),
@@ -116,7 +116,7 @@ class Eac_Acf_Date extends Data_Tag {
 		);
 	}
 
-	public function get_value( array $options = array() ) {
+	public function get_value( array $options = array() ): string {
 		$key                  = $this->get_settings( 'acf_date_key' );
 		$fallback_key         = $this->get_settings( 'acf_date_fallback' );
 		$output_format        = $this->get_settings( 'acf_date_format' );
@@ -151,7 +151,7 @@ class Eac_Acf_Date extends Data_Tag {
 		return $date_time instanceof \DateTime ? wp_kses_post( $date_time->format( $output_format ) ) : '';
 	}
 
-	protected function get_acf_supported_fields() {
+	protected function get_acf_supported_fields(): array {
 		return array(
 			'date_picker',
 			'date_time_picker',

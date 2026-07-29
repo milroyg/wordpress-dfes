@@ -1,0 +1,556 @@
+@charset "UTF-8";
+:root {
+  --jltma-popup-color: #FF631A;
+}
+
+@font-face {
+  font-family: "Master-Addons";
+  src: url("../../fonts/Master-Addons/Master-Addons.eot?e493qi");
+  src: url("../../fonts/Master-Addons/Master-Addons.eot?e493qi#iefix") format("embedded-opentype"), url("../../fonts/Master-Addons/Master-Addons.ttf?e493qi") format("truetype"), url("../../fonts/Master-Addons/Master-Addons.woff?e493qi") format("woff"), url("../../fonts/Master-Addons/Master-Addons.svg?e493qi#Master-Addons") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+[class^=jltma-icon-],
+[class*=" jltma-icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.jltma-icon-ma:after {
+  content: "\e901";
+  color: #fff;
+  background: rgb(74, 77, 236);
+  border-radius: 15px;
+  position: absolute;
+  top: 15px;
+  right: 30px;
+  font-size: 18px;
+  opacity: 0.8;
+  font-family: "Master-Addons" !important;
+}
+
+.elementor-icons-manager__tab-link {
+  display: flex;
+  align-items: center;
+}
+
+.jltma-icon {
+  color: #e0e1e3;
+}
+
+#elementor-panel #elementor-panel-header-title span.jltma-badge:after,
+#elementor-panel .elementor-control-title span.jltma-badge:after,
+#elementor-panel .elementor-section-title span.jltma-badge:after {
+  content: "MA";
+  background-color: #fff;
+  color: #d30c5c;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 30px;
+  padding: 2px 3px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+#elementor-panel .elementor-control-title span.jltma-badge:after,
+#elementor-panel .elementor-section-title span.jltma-badge:after {
+  background-color: #e0e6ec;
+  color: #50565d;
+}
+
+.jltma-editor-doc-links {
+  font-size: 12px;
+}
+
+.jltma-editor-doc-links a {
+  color: #999 !important;
+  display: inline-block;
+  line-height: 1.2;
+  padding-left: 10px;
+  position: relative;
+}
+
+.jltma-editor-doc-links a:hover {
+  color: #cf0c5d !important;
+}
+
+.jltma-editor-doc-links a:before {
+  content: "»";
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* Tabs Section Identifier */
+/*div[class*="elementor-control-ma_el"]:before{
+    content: 'Master Addons';
+    letter-spacing: 0.1em;
+    color: #aaa;
+}
+div[class*="elementor-control-ma_"]:before {
+    position: absolute;
+    top: 13px;
+    right: 8px;
+    text-transform: uppercase;
+    font-size: 9px;
+    padding: 2px 2px 1px;
+    border: 1px solid #ddd;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    color: #aaa;
+}
+*/
+/* Master Custom Breakpoint */
+.master-cbp-device-landscape {
+  transform: rotate(90deg);
+}
+
+.elementor-panel .elementor-panel-footer-sub-menu-item {
+  padding: 3px 0;
+}
+
+#elementor-panel-footer-responsive .elementor-panel-footer-sub-menu {
+  overflow-y: auto;
+  height: 400px;
+  max-height: 30vh;
+}
+
+.elementor-panel-footer-sub-menu-item i.master-cbp-device {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+}
+
+.elementor-responsive-switcher i.master-cbp-device {
+  width: 20px;
+  height: 20px;
+}
+
+#elementor-panel-footer-responsive .tooltip-target[class*=eicon-device-] {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+}
+
+/* overlapping the device popup */
+.elementor-control-responsive-switchers .elementor-control-responsive-switchers__holder {
+  top: 50% !important;
+  bottom: auto !important;
+  transform: translateY(-50%) !important;
+}
+
+/* Text Choose Control */
+.elementor-control-type-jltma-choose-text.elementor-label-inline > .elementor-control-content > .elementor-control-field > .elementor-control-input-wrapper {
+  width: auto;
+  min-width: 52%;
+}
+
+.elementor-control-type-jltma-choose-text .elementor-choices {
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.elementor-control-type-jltma-choose-text .elementor-choices .elementor-choices-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  width: 50%;
+  min-width: -webkit-fit-content;
+  min-width: fit-content;
+  min-width: -moz-fit-content;
+  padding: 0 7px;
+}
+
+.elementor-control-type-jltma-choose-text.elementor-label-block .elementor-choices {
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.elementor-control-type-jltma-choose-text.elementor-label-block .elementor-choices .elementor-choices-label {
+  white-space: nowrap;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.elementor-control-type-jltma-choose-text.elementor-label-inline > .elementor-control-content > .elementor-control-field > .elementor-control-input-wrapper {
+  width: auto;
+  min-width: 52%;
+}
+
+/** Pro Notice Start **/
+.elementor-control-content .jltma-upgrade-banner {
+  background: linear-gradient(180deg, #E9D5FF 0%, #F3E8FF 30%, #FAF5FF 60%, #FFFFFF 100%);
+  border-radius: 12px;
+  padding: 30px 20px 50px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+.elementor-control-content .jltma-upgrade-banner:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1px), radial-gradient(circle, rgba(255, 255, 255, 0.6) 1px, transparent 1px), radial-gradient(circle, rgba(255, 255, 255, 0.9) 1px, transparent 1px);
+  background-size: 100px 100px, 150px 150px, 200px 200px;
+  background-position: 0 0, 40px 60px, 130px 270px;
+  opacity: 0.6;
+  z-index: 0;
+}
+.elementor-control-content .jltma-upgrade-banner:after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100'%3E%3Cpath fill='%23ffffff' d='M0,50 Q120,20 240,50 T480,50 Q600,80 720,50 T960,50 Q1080,20 1200,50 T1440,50 L1440,100 L0,100 Z'%3E%3C/path%3E%3Cpath fill='%23ffffff' fill-opacity='0.7' d='M0,70 Q100,40 200,70 T400,70 Q500,90 600,70 T800,70 Q900,40 1000,70 T1200,70 Q1300,90 1400,70 L1440,100 L0,100 Z'%3E%3C/path%3E%3C/svg%3E") no-repeat bottom;
+  background-size: cover;
+  z-index: 0;
+}
+
+.elementor-control-content .jltma-upgrade-banner-content {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.elementor-control-content .jltma-upgrade-banner .jltma-popup-countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 15px 0;
+}
+
+.elementor-control-content .jltma-upgrade-banner .jltma-popup-countdown-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.elementor-control-content .jltma-upgrade-banner .jltma-popup-countdown-time {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.elementor-control-content .jltma-upgrade-banner .jltma-popup-countdown-time > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.elementor-control-content .jltma-upgrade-banner .jltma-popup-countdown-time > div > span:first-child {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1F2937;
+  background: #fff;
+  border: 2px solid rgba(31, 41, 55, 0.15);
+  border-radius: 6px;
+  width: 44px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.elementor-control-content .jltma-upgrade-banner .jltma-popup-countdown-time > div > span:last-child {
+  font-size: 11px;
+  font-weight: 500;
+  color: #6B7280;
+  text-transform: capitalize;
+}
+
+.elementor-control-content .jltma-upgrade-banner .jltma-popup-countdown-time > span {
+  font-size: 24px;
+  font-weight: 600;
+  color: #9CA3AF;
+  margin: 0 2px;
+  margin-top: -15px;
+}
+
+.elementor-control-content .jltma-upgrade-banner-icon-wrapper {
+  position: relative;
+  width: 100px;
+  height: 115px;
+  margin: 0 auto 12px;
+}
+.elementor-control-content .jltma-upgrade-banner-icon-wrapper:after {
+  content: "";
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 16px solid #6814cd;
+  filter: drop-shadow(0 3px 6px rgba(104, 20, 205, 0.2));
+  z-index: 1;
+}
+
+.elementor-control-content .jltma-upgrade-banner-icon {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #6814cd 0%, #8b5cf6 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(104, 20, 205, 0.3);
+  position: relative;
+  z-index: 2;
+}
+.elementor-control-content .jltma-upgrade-banner-icon:before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(104, 20, 205, 0.2), rgba(139, 92, 246, 0.2));
+  z-index: -1;
+}
+.elementor-control-content .jltma-upgrade-banner-icon svg {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.elementor-control-content .jltma-upgrade-banner-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #1F2937;
+  line-height: 1.3;
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+
+.elementor-control-content .jltma-upgrade-banner-subtitle {
+  font-size: 13px;
+  color: #6B7280;
+  line-height: 1.4;
+  margin: 0 0 16px;
+}
+
+.elementor-control-content .jltma-upgrade-banner-button {
+  display: inline-block;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #F50A7F 0%, #BE185D 100%);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(219, 39, 119, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+.elementor-control-content .jltma-upgrade-banner-button:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+.elementor-control-content .jltma-upgrade-banner-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(219, 39, 119, 0.5);
+  color: white;
+}
+.elementor-control-content .jltma-upgrade-banner-button:hover:before {
+  left: 100%;
+}
+.elementor-control-content .jltma-upgrade-banner-button:active {
+  transform: translateY(0);
+}
+
+.elementor-control-content .jltma-wwc > p {
+  margin-top: 0;
+  padding-top: 0;
+  margin-bottom: 20px;
+}
+
+.elementor-control-content .jltma-wwc-content {
+  margin-bottom: 25px;
+  color: #646970;
+}
+
+@media (max-width: 576px) {
+  .elementor-control-content .jltma-upgrade-banner {
+    padding: 25px 15px 40px;
+  }
+  .elementor-control-content .jltma-upgrade-banner-icon-wrapper {
+    width: 80px;
+    height: 95px;
+    margin: 0 auto 10px;
+  }
+  .elementor-control-content .jltma-upgrade-banner-icon {
+    width: 80px;
+    height: 80px;
+  }
+  .elementor-control-content .jltma-upgrade-banner-title {
+    font-size: 16px;
+  }
+  .elementor-control-content .jltma-upgrade-banner-subtitle {
+    font-size: 12px;
+    margin: 0 0 14px;
+  }
+  .elementor-control-content .jltma-upgrade-banner-button {
+    padding: 10px 22px;
+    font-size: 14px;
+  }
+}
+/*
+.elementor-control-content .jltma-pro-notice {
+  padding: 15px 0;
+}
+
+.elementor-control-content .jltma-pro-notice-content {
+  text-align: center;
+}
+
+.elementor-control-content .jltma-pro-notice-content h4 {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-top: 20px;
+}
+
+.elementor-control-content .jltma-pro-notice-content p {
+  line-height: 1.8;
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.elementor-control-content .jltma-pro-notice-content .elementor-button {
+  background-color: #d30c5c;
+  color: #fff;
+  padding: 7px 25px;
+  margin-top: 20px;
+  border: none;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 2px rgba(0, 0, 0, 0.1);
+  transition: 0.5s;
+}
+
+.elementor-panel-heading-title.elementor-section-title span.jltma_pro_text {
+  background: #6814cd;
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 6px 3px;
+  line-height: 1.3;
+  border-radius: 3px;
+  box-shadow: none;
+  position: absolute;
+  top: 14px;
+  right: 15px;
+} */
+/** Pro Notice End **/
+/* Update Preview Button - Reusable component for extensions */
+.elementor-update-preview-button {
+  padding: 8px 15px;
+  margin: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  align-items: center;
+  background: #f1f3f5;
+  border-radius: 3px;
+  margin: 10px 0;
+}
+.elementor-update-preview-button span {
+  font-size: 12px;
+  color: #6d7882;
+  font-weight: 500;
+}
+.elementor-update-preview-button button {
+  padding: 5px 15px !important;
+  font-size: 11px !important;
+  border-radius: 3px !important;
+  min-height: auto !important;
+}
+
+/* ============================================================
+   Popup Builder - Editor Styles
+   ============================================================ */
+.jltma-popup-container .elementor-editor-section-settings {
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  border-radius: 0 0 5px 5px;
+}
+
+.jltma-popup-container .elementor-editor-section-settings .elementor-editor-element-setting:first-child {
+  border-radius: 0 0 0 5px;
+}
+
+.jltma-popup-container .elementor-editor-section-settings .elementor-editor-element-setting:first-child:before {
+  top: 0;
+  border-width: 0 12px 22px 0;
+}
+
+.jltma-popup-container .elementor-editor-section-settings .elementor-editor-element-setting:last-child {
+  border-radius: 0 0 5px 0;
+}
+
+.jltma-popup-container .elementor-editor-section-settings .elementor-editor-element-setting:last-child:after {
+  top: 0;
+  border-width: 0 0 22px 12px;
+}
+
+.elementor-editor-active [data-elementor-type=jltma_popup] .elementor-section-wrap:not(:empty) + #elementor-add-new-section,
+.elementor-editor-active [data-elementor-type=jltma_popup]:not(.elementor-edit-mode) {
+  display: none;
+}
+
+.elementor .elementor-widget-jltma-popup-trigger .jltma-popup-trigger-button {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Master Addons Dynamic Tags Badge */
+.elementor-tags-list__item[data-tag-name^=jltma-]:after {
+  margin-left: 6px;
+  font-size: 8px;
+  font-weight: 600;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  content: "\e901";
+  color: #fff;
+  background: rgb(74, 77, 236);
+  border-radius: 8px;
+  font-size: 12px;
+  opacity: 0.8;
+  font-family: "Master-Addons" !important;
+}

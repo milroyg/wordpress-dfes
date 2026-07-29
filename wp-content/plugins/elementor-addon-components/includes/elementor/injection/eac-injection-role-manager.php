@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Eac_Injection_Role_Manager {
-	const ROLE_MANAGER_OPTION_NAME = 'role-manager';
+	private const ROLE_MANAGER_OPTION_NAME = 'role-manager';
 
 	public function __construct() {
 		add_action( 'elementor/role/restrictions/controls', array( $this, 'add_content_role_controls' ), 99, 2 );
@@ -50,7 +50,7 @@ class Eac_Injection_Role_Manager {
 		<div class='elementor-role-control'>
 			<label for="<?php echo esc_attr( $id ); ?>">
 				<input type='checkbox' name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $id ); ?>" value="<?php echo esc_attr( $value ); ?>" <?php checked( in_array( $value, $checked, true ), true ); ?>>
-				<?php echo esc_html__( 'Modifie uniquement le contenu', 'eac-components' ); ?> <!--Access to edit content only-->
+				<?php echo esc_html__( 'Access to edit content only', 'eac-components' ); ?> <!--Access to edit content only-->
 			</label>
 		</div>
 		<?php

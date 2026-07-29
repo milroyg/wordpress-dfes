@@ -1,6 +1,6 @@
 <?php
 
-namespace MasterAddons\Inc\Controls;
+namespace MasterAddons\Inc\Controls\Group;
 
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Base;
@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) {
  * A base controls group for creating button background controls.
  * Displays fields to define the background color or gradient.
  */
-class MA_Group_Control_Button_Background extends Group_Control_Base
+class JLTMA_Button_Background extends Group_Control_Base
 {
 
     const JLTMA_BTN_BG_GROUP = 'jltma-button-background';

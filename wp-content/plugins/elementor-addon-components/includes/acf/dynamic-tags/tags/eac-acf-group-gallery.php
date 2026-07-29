@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\Includes\Acf\DynamicTags\Eac_Acf_Lib;
+use EACCustomWidgets\Includes\Acf\Eac_Acf_Lib;
 use Elementor\Controls_Manager;
 use Elementor\Core\DynamicTags\Data_Tag;
 use Elementor\Modules\DynamicTags\Module as TagsModule;
@@ -22,33 +22,33 @@ class Eac_Acf_Group_Gallery extends Data_Tag {
 	use \EACCustomWidgets\Includes\Traits\Panel_Template_Trait;
 	use \EACCustomWidgets\Includes\Traits\Post_Main_Id_Trait;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-group-gallery-acf-values';
 	}
 
-	public function get_title() {
-		return esc_html__( "Groupe galerie d'images", 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Group image gallery', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-acf-groupe';
+	public function get_group(): array {
+		return array( 'eac-acf-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array(
 			TagsModule::GALLERY_CATEGORY,
 		);
 	}
 
-	public function get_panel_template_setting_key() {
+	public function get_panel_template_setting_key(): string {
 		return 'acf_group_gallery_key';
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->add_control(
 			'acf_group_gallery_key',
 			array(
-				'label'       => esc_html__( 'Champ', 'eac-components' ),
+				'label'       => esc_html__( 'Field', 'eac-components' ),
 				'type'        => Controls_Manager::SELECT,
 				'groups'      => Eac_Acf_Lib::get_acf_fields_options( $this->get_acf_supported_fields(), '', 'group' ),
 				'label_block' => true,
@@ -106,7 +106,7 @@ class Eac_Acf_Group_Gallery extends Data_Tag {
 		return $data_gallery;
 	}
 
-	protected function get_acf_supported_fields() {
+	protected function get_acf_supported_fields(): array {
 		return array(
 			'eac_gallery',
 		);

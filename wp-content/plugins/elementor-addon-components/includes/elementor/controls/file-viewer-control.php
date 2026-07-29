@@ -52,8 +52,7 @@ class File_Viewer_Control extends Base_Data_Control {
 		}
 
 		// Charge le script
-		wp_register_script( 'eac-viewer-control', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/controls/eac-file-viewer-control' ), array( 'jquery' ), '1.8.9', true );
-		wp_enqueue_script( 'eac-viewer-control' );
+		wp_enqueue_script( 'eac-viewer-control', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/controls/eac-file-viewer-control' ), array( 'jquery' ), EAC_PLUGIN_VERSION, true );
 	}
 
 	/**
@@ -72,7 +71,7 @@ class File_Viewer_Control extends Base_Data_Control {
 	 *
 	 * @access public
 	 */
-	public function content_template() {
+	public function content_template(): void {
 		$control_uid = $this->get_control_uid();
 		?>
 		<div class='eac-viewer_control-field elementor-control-field'>
@@ -81,8 +80,8 @@ class File_Viewer_Control extends Base_Data_Control {
 			<div class='elementor-control-input-wrapper'>
 				<div>
 					<a href='#' class='eac-select-file elementor-button elementor-button-success tooltip-target' data-tooltip='Select file' id="select-file-<?php echo esc_attr( $control_uid ); ?>">
-						<# if (!data.controlValue) { #><?php echo esc_html__( 'Sélectionner', 'eac-components' ); ?><# } #>
-						<# if (!!data.controlValue) { #><?php echo esc_html__( 'Changer', 'eac-components' ); ?><# } #>
+						<# if (!data.controlValue) { #><?php echo esc_html__( 'Select', 'eac-components' ); ?><# } #>
+						<# if (!!data.controlValue) { #><?php echo esc_html__( 'Change', 'eac-components' ); ?><# } #>
 						<i class='eicon-upload' aria-hidden='true'></i>
 					</a>
 				</div>

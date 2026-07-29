@@ -1,0 +1,120 @@
+// location name and temperature scale css.
+.spl-weather-card-current-temperature {
+    .spl-weather-temperature-metric {
+        gap: 2px;
+    }
+
+    .splw-both-unit {
+        .spl-weather-temp-scale {
+            opacity: 0.6;
+
+            &.active {
+                opacity: 1;
+            }
+        }
+
+    }
+
+    .spl-weather-temperature-metric {
+        margin-top: 5px;
+    }
+}
+
+.spl-weather-map-and-current-weather {
+    gap: 20px;
+    flex-wrap: wrap;
+
+    .lw-leaflet-container {
+        border-radius: 4px;
+    }
+}
+
+// Current weather card which is being used by accordion, grid and combined block.
+.spl-weather-current-weather-card {
+    box-sizing: border-box;
+	overflow: hidden;
+
+    .spl-weather-card-date-time {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .spl-weather-card-daily-details {
+        position: relative;
+    }
+
+    .spl-weather-details {
+        flex-direction: column;
+        align-items: start;
+        display: inline-flex;
+
+        .spl-weather-details-value {
+            margin-left: 22px;
+        }
+    }
+
+    .spl-weather-national-weather-alerts-wrapper {
+        justify-content: start;
+    }
+}
+
+// weather alerts.
+.spl-weather-national-weather-alerts-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    .spl-weather-modal {
+        max-width: 700px;
+        width: 700px;
+    }
+}
+
+.spl-weather-national-weather-alerts {
+    display: inline-block;
+    padding: 7px 14px;
+    background-color: transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.spl-weather-tabs-card,
+.spl-weather-table-card {
+    .spl-weather-national-weather-alerts-wrapper {
+        margin-bottom: 12px;
+    }
+
+    .spl-weather-national-weather-alerts {
+        background-color: #e2e8f0;
+        color: #444;
+
+        &:hover {
+            color: #F26C0D;
+            border-color: #F26C0D;
+        }
+    }
+}
+
+.spl-weather-card-footer {
+    position: relative;
+    z-index: 1;
+    .spl-weather-attribution a {
+        all: unset;
+        cursor: pointer;
+    }
+}
+
+.spl-weather-map-template {
+    .lw-leaflet-container {
+        border-radius: 4px;
+    }
+}
+
+.spl-weather-forecast-desc {
+    text-transform: capitalize;
+}

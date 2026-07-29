@@ -21,7 +21,7 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 
 class Date_Compare extends Condition_Base {
 
-	public function get_target_control() {
+	public function get_target_control(): array {
 
 		return array(
 			'label'          => esc_html__( 'Date', 'eac-components' ),
@@ -44,11 +44,11 @@ class Date_Compare extends Condition_Base {
 		);
 	}
 
-	public function get_called_classname() {
+	public function get_called_classname(): string {
 		return get_called_class();
 	}
 
-	public function check( $settings, $value, $operateur = '', $tz = '' ) {
+	public function check( $settings, $value, $operateur = '', $tz = '' ): bool {
 		$date_du_jour = ! empty( $tz ) ? $tz : date_i18n( 'Y-m-d' );
 
 		if ( ! strtotime( $value ) ) {

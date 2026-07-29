@@ -13,7 +13,7 @@ trait Page_Post_Trait {
 		$this->add_control(
 			'single_page_url',
 			array(
-				'label'       => esc_html__( 'Sélectionner un titre', 'eac-components' ),
+				'label'       => esc_html__( 'Select title', 'eac-components' ),
 				'type'        => 'eac-select2',
 				'select2Options' => array(
 					'object_type' => 'page',
@@ -27,7 +27,7 @@ trait Page_Post_Trait {
 		$this->add_control(
 			'single_post_url',
 			array(
-				'label'       => esc_html__( 'Sélectionner un titre', 'eac-components' ),
+				'label'       => esc_html__( 'Select title', 'eac-components' ),
 				'type'        => 'eac-select2',
 				'select2Options' => array(
 					'object_type' => 'post',

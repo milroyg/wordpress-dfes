@@ -1,10 +1,9 @@
 <?php
-namespace MasterHeaderFooter;
-use MasterHeaderFooter\Handler_Api;
+namespace MasterAddons\Inc\Admin\Theme_Builder\Api;
 
 defined( 'ABSPATH' ) || exit;
 
-class JLTMA_Ajax_Select2_Api extends Handler_Api {
+class Select2_API extends Handler_API {
 
     public function config(){
         $this->prefix = 'select2';
@@ -15,10 +14,10 @@ class JLTMA_Ajax_Select2_Api extends Handler_Api {
      * This is called by WordPress REST API on each request
      */
     public function check_for_permission(){
-        // Allow any logged-in user who can read posts
-        // Using 'read' capability instead of 'edit_posts' to be more permissive
-        // Individual methods will perform their own capability checks as needed
-        return current_user_can('read');
+        // These endpoints feed editor-only post/page/term pickers, so require
+        // the same capability needed to edit content. The REST API validates the
+        // X-WP-Nonce cookie nonce before this callback runs for logged-in users.
+        return current_user_can('edit_posts');
     }
 
 
@@ -105,18 +104,10 @@ class JLTMA_Ajax_Select2_Api extends Handler_Api {
 
 
     public function get_singular_list(){
-        // Only perform security checks if user is logged in
-        if (is_user_logged_in()) {
-            // Verify REST API nonce that comes from JavaScript - be more lenient with nonce check
-            $nonce = $this->request->get_header('X-WP-Nonce');
-            if ($nonce && !wp_verify_nonce($nonce, 'wp_rest')) {
-                // If nonce verification fails, don't block the request
-            }
-
-            // Check if user can read posts
-            if (!current_user_can('read')) {
-                return new \WP_Error( 'rest_forbidden', __( 'Insufficient permissions.' ), [ 'status' => 403 ] );
-            }
+        // Capability is enforced here (and by check_for_permission()); the REST
+        // API has already validated the X-WP-Nonce cookie nonce at this point.
+        if ( ! current_user_can('edit_posts') ) {
+            return new \WP_Error( 'rest_forbidden', __( 'Insufficient permissions.', 'master-addons' ), [ 'status' => 403 ] );
         }
 
         $query_args = [
@@ -246,4 +237,4 @@ class JLTMA_Ajax_Select2_Api extends Handler_Api {
     }
 
 }
-new JLTMA_Ajax_Select2_Api();
+new Select2_API();

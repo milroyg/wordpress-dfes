@@ -20,9 +20,9 @@ abstract class Condition_Base {
 	 * @access public
 	 * @since 2.1.7
 	 *
-	 * @return array|void  controls options
+	 * @return array  controls options
 	 */
-	public function get_target_control() {}
+	public function get_target_control(): array {}
 
 	/**
 	 * Le nom de la class namespace inclus
@@ -30,9 +30,9 @@ abstract class Condition_Base {
 	 * @access public
 	 * @since 2.1.7
 	 *
-	 * @return string|void
+	 * @return string
 	 */
-	public function get_called_classname() {}
+	public function get_called_classname(): string {}
 
 	/**
 	 * Compare Condition Value.
@@ -45,7 +45,7 @@ abstract class Condition_Base {
 	 * @param string      $value    condition value.
 	 * @param string|bool $tz        time zone.
 	 *
-	 * @return bool|void
+	 * @return bool
 	 */
-	public function check( $settings, $value, $operateur, $tz ) {}
+	public function check( $settings, $value, $operateur, $tz ): bool {}
 }

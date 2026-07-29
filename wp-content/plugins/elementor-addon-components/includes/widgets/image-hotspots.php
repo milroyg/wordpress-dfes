@@ -4,7 +4,7 @@
  * Name: Image réactive 'Hotspots'
  * Slug: eac-addon-image-hotspots
  *
- * Description: Affiche une image et dispose des markers avec les infobulles correspondantes
+ * Description: Affiche une image et dispose des markers avec les 'Tooltip's correspondantes
  *
  * @since 1.8.6
  */
@@ -15,8 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -29,17 +28,6 @@ use Elementor\Utils;
 use Elementor\Control_Media;
 
 class Image_Hotspots_Widget extends Widget_Base {
-
-	/**
-	 * Constructeur de la class Image_Hotspots_Widget
-	 *
-	 * Enregistre les scripts et les styles
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		wp_register_style( 'eac-image-hotspots', EAC_Plugin::instance()->get_style_url( 'assets/css/image-hotspots' ), array( 'eac-frontend' ), '1.8.6' );
-	}
 
 	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
@@ -55,10 +43,10 @@ class Image_Hotspots_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -66,10 +54,10 @@ class Image_Hotspots_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -77,10 +65,10 @@ class Image_Hotspots_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -88,10 +76,10 @@ class Image_Hotspots_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -99,7 +87,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 	 *
 	 * Les styles sont chargés dans le footer
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
 		return array( 'eac-image-hotspots' );
@@ -114,8 +102,8 @@ class Image_Hotspots_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -123,10 +111,10 @@ class Image_Hotspots_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -136,6 +124,15 @@ class Image_Hotspots_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -177,16 +174,16 @@ class Image_Hotspots_Widget extends Widget_Base {
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'center center',
 					'options' => array(
-						'top left'      => esc_html__( 'Haut gauche', 'eac-components' ),
-						'top center'    => esc_html__( 'Haut centré', 'eac-components' ),
-						'top right'     => esc_html__( 'Haut droit', 'eac-components' ),
-						'center left'   => esc_html__( 'Centre gauche', 'eac-components' ),
-						'center center' => esc_html__( 'Centre centré', 'eac-components' ),
-						'center right'  => esc_html__( 'Centre droit', 'eac-components' ),
-						'bottom left'   => esc_html__( 'Bas gauche', 'eac-components' ),
-						'bottom center' => esc_html__( 'Bas centré', 'eac-components' ),
-						'bottom right'  => esc_html__( 'Bas droit', 'eac-components' ),
-						'initial'       => esc_html__( 'Personnaliser', 'eac-components' ),
+						'top left'      => esc_html__( 'Top left', 'eac-components' ),
+						'top center'    => esc_html__( 'Top center', 'eac-components' ),
+						'top right'     => esc_html__( 'Top right', 'eac-components' ),
+						'center left'   => esc_html__( 'Center left', 'eac-components' ),
+						'center center' => esc_html__( 'Center center', 'eac-components' ),
+						'center right'  => esc_html__( 'Center right', 'eac-components' ),
+						'bottom left'   => esc_html__( 'Bottom left', 'eac-components' ),
+						'bottom center' => esc_html__( 'Bottom center', 'eac-components' ),
+						'bottom right'  => esc_html__( 'Bottom right', 'eac-components' ),
+						'initial'       => esc_html__( 'Custom', 'eac-components' ),
 					),
 				)
 			);
@@ -194,7 +191,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 			$this->add_control(
 				'hst_image_position_x',
 				array(
-					'label'      => esc_html__( 'Position horizontale (%)', 'eac-components' ),
+					'label'      => esc_html__( 'Horizontal position (%)', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( '%' ),
 					'default'    => array(
@@ -215,7 +212,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 			$this->add_control(
 				'hst_image_position_y',
 				array(
-					'label'      => esc_html__( 'Position verticale (%)', 'eac-components' ),
+					'label'      => esc_html__( 'Vertical position (%)', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( '%' ),
 					'default'    => array(
@@ -236,14 +233,14 @@ class Image_Hotspots_Widget extends Widget_Base {
 			$this->add_control(
 				'hst_image_repeat',
 				array(
-					'label'   => esc_html__( 'Répéter', 'eac-components' ),
+					'label'   => esc_html__( 'Repeat', 'eac-components' ),
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'no-repeat',
 					'options' => array(
-						'no-repeat' => esc_html__( 'Non répété', 'eac-components' ),
-						'repeat'    => esc_html__( 'Répéter', 'eac-components' ),
-						'repeat-x'  => esc_html__( 'Répéter horizontalement', 'eac-components' ),
-						'repeat-y'  => esc_html__( 'Répéter verticalement', 'eac-components' ),
+						'no-repeat' => esc_html__( 'No-repeat', 'eac-components' ),
+						'repeat'    => esc_html__( 'Repeat', 'eac-components' ),
+						'repeat-x'  => esc_html__( 'Repeat X', 'eac-components' ),
+						'repeat-y'  => esc_html__( 'Repeat Y', 'eac-components' ),
 					),
 				)
 			);
@@ -251,13 +248,13 @@ class Image_Hotspots_Widget extends Widget_Base {
 			$this->add_control(
 				'hst_image_size',
 				array(
-					'label'   => esc_html__( 'Taille', 'eac-components' ),
+					'label'   => esc_html__( 'Size', 'eac-components' ),
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'cover',
 					'options' => array(
-						'auto'    => esc_html__( 'Auto', 'eac-components' ),
-						'cover'   => esc_html__( 'Couvrir', 'eac-components' ),
-						'contain' => esc_html__( 'Contenir', 'eac-components' ),
+						'auto'    => esc_html( 'Auto' ),
+						'cover'   => esc_html__( 'Cover', 'eac-components' ),
+						'contain' => esc_html__( 'Contain', 'eac-components' ),
 					),
 				)
 			);
@@ -265,7 +262,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'hst_image_height',
 				array(
-					'label'      => esc_html__( 'Hauteur min.', 'eac-components' ),
+					'label'      => esc_html__( 'Min. height', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( 'px' ),
 					'default'    => array(
@@ -288,7 +285,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'hst_hotspots_settings',
 			array(
-				'label' => esc_html__( 'Marqueurs', 'eac-components' ),
+				'label' => esc_html__( 'Markers', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -300,18 +297,18 @@ class Image_Hotspots_Widget extends Widget_Base {
 				$repeater->start_controls_tab(
 					'hst_trigger_tab_settings',
 					array(
-						'label' => esc_html__( 'Déclencheur', 'eac-components' ),
+						'label' => esc_html__( 'Trigger', 'eac-components' ),
 					)
 				);
 
 					$repeater->add_control(
 						'hst_trigger_label',
 						array(
-							'label'   => esc_html__( 'Titre', 'eac-components' ),
+							'label'   => esc_html__( 'Title', 'eac-components' ),
 							'type'    => Controls_Manager::TEXT,
 							'dynamic' => array( 'active' => true ),
 							'ai'      => array( 'active' => false ),
-							'default' => esc_html__( 'Marqueur #', 'eac-components' ),
+							'default' => esc_html__( 'Marker #', 'eac-components' ),
 						)
 					);
 
@@ -322,9 +319,9 @@ class Image_Hotspots_Widget extends Widget_Base {
 							'type'      => Controls_Manager::SELECT,
 							'default'   => 'picto',
 							'options'   => array(
-								'picto' => esc_html__( 'Pictogramme', 'eac-components' ),
-								'anim'  => esc_html__( 'Pictogramme animée', 'eac-components' ),
-								'text'  => esc_html__( 'Texte', 'eac-components' ),
+								'picto' => esc_html__( 'Pictogram', 'eac-components' ),
+								'anim'  => esc_html__( 'Animated pictogram', 'eac-components' ),
+								'text'  => esc_html__( 'Text', 'eac-components' ),
 							),
 						)
 					);
@@ -332,7 +329,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 					$repeater->add_control(
 						'hst_trigger_icon',
 						array(
-							'label'                  => esc_html__( 'Pictogramme', 'eac-components' ),
+							'label'                  => esc_html__( 'Pictogram', 'eac-components' ),
 							'type'                   => Controls_Manager::ICONS,
 							'skin'                   => 'inline',
 							'default'                => array(
@@ -346,7 +343,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 					$repeater->add_control(
 						'hst_trigger_icon_glow',
 						array(
-							'label'        => esc_html__( 'Effet Glow', 'eac-components' ),
+							'label'        => esc_html__( 'Glow effect', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
 							'label_on'     => esc_html__( 'show', 'eac-components' ),
 							'label_off'    => esc_html__( 'hide', 'eac-components' ),
@@ -358,7 +355,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 					$repeater->add_control(
 						'hst_trigger_anim',
 						array(
-							'label'     => esc_html__( 'Pictogramme animée', 'eac-components' ),
+							'label'     => esc_html__( 'Animated pictogram', 'eac-components' ),
 							'type'      => Controls_Manager::SELECT,
 							'default'   => 'sonar',
 							'options'   => array(
@@ -380,10 +377,10 @@ class Image_Hotspots_Widget extends Widget_Base {
 					$repeater->add_control(
 						'hst_trigger_text',
 						array(
-							'description' => esc_html__( 'Texte', 'eac-components' ),
+							'description' => esc_html__( 'Text', 'eac-components' ),
 							'type'        => Controls_Manager::TEXTAREA,
 							'ai'          => array( 'active' => false ),
-							'default'     => esc_html__( 'Votre texte', 'eac-components' ),
+							'default'     => esc_html__( 'Your text', 'eac-components' ),
 							'label_block' => true,
 							'condition'   => array( 'hst_trigger_type' => 'text' ),
 						)
@@ -401,7 +398,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 					$repeater->add_responsive_control(
 						'hst_marker_position_x',
 						array(
-							'label'      => esc_html__( 'Position horizontale (%)', 'eac-components' ),
+							'label'      => esc_html__( 'Horizontal position (%)', 'eac-components' ),
 							'type'       => Controls_Manager::SLIDER,
 							'size_units' => array( '%' ),
 							'default'    => array(
@@ -431,7 +428,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 					$repeater->add_responsive_control(
 						'hst_marker_position_y',
 						array(
-							'label'      => esc_html__( 'Position verticale (%)', 'eac-components' ),
+							'label'      => esc_html__( 'Vertical position (%)', 'eac-components' ),
 							'type'       => Controls_Manager::SLIDER,
 							'size_units' => array( '%' ),
 							'default'    => array(
@@ -484,7 +481,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 				$repeater->start_controls_tab(
 					'hst_tooltip_tab_settings',
 					array(
-						'label' => esc_html__( 'Infobulle', 'eac-components' ),
+						'label' => esc_html__( 'Tooltip', 'eac-components' ),
 					)
 				);
 
@@ -496,19 +493,19 @@ class Image_Hotspots_Widget extends Widget_Base {
 							'default' => 'top',
 							'options' => array(
 								'top'    => array(
-									'title' => esc_html__( 'Haut', 'eac-components' ),
+									'title' => esc_html__( 'Top', 'eac-components' ),
 									'icon'  => 'eicon-v-align-top',
 								),
 								'left'   => array(
-									'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+									'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 									'icon'  => "eicon-h-align-{$start}",
 								),
 								'right'  => array(
-									'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+									'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 									'icon'  => "eicon-h-align-{$end}",
 								),
 								'bottom' => array(
-									'title' => esc_html__( 'Bas', 'eac-components' ),
+									'title' => esc_html__( 'Bottom', 'eac-components' ),
 									'icon'  => 'eicon-v-align-bottom',
 								),
 							),
@@ -519,15 +516,15 @@ class Image_Hotspots_Widget extends Widget_Base {
 					$repeater->add_control(
 						'hst_tooltip_add_link',
 						array(
-							'label'     => esc_html__( 'Ajouter un lien', 'eac-components' ),
+							'label'     => esc_html__( 'Add link', 'eac-components' ),
 							'type'      => Controls_Manager::CHOOSE,
 							'options'   => array(
 								'yes' => array(
-									'title' => esc_html__( 'Oui', 'eac-components' ),
+									'title' => esc_html__( 'Yes', 'eac-components' ),
 									'icon'  => 'eicon-check',
 								),
 								'no'  => array(
-									'title' => esc_html__( 'Non', 'eac-components' ),
+									'title' => esc_html__( 'No', 'eac-components' ),
 									'icon'  => 'eicon-ban',
 								),
 							),
@@ -539,9 +536,9 @@ class Image_Hotspots_Widget extends Widget_Base {
 					$repeater->add_control(
 						'hst_tooltip_link',
 						array(
-							'label'         => esc_html__( 'URL', 'eac-components' ),
+							'label'         => esc_html( 'URL' ),
 							'type'          => Controls_Manager::URL,
-							'placeholder'   => esc_html__( 'Coller une URL ou taper', 'eac-components' ),
+							'placeholder'   => esc_html__( 'Type or paste your URL', 'eac-components' ),
 							'dynamic'       => array( 'active' => true ),
 							'autocomplete'  => true,
 							'render_type'   => 'ui',
@@ -552,10 +549,10 @@ class Image_Hotspots_Widget extends Widget_Base {
 					$repeater->add_control(
 						'hst_tooltip_content',
 						array(
-							'label'     => esc_html__( 'Contenu', 'eac-components' ),
+							'label'     => esc_html__( 'Content', 'eac-components' ),
 							'type'      => Controls_Manager::WYSIWYG,
 							'ai'        => array( 'active' => false ),
-							'default'   => esc_html__( "Contenu de l'infobulle", 'eac-components' ),
+							'default'   => esc_html__( 'Tooltip content', 'eac-components' ),
 							'separator' => 'before',
 						)
 					);
@@ -567,12 +564,12 @@ class Image_Hotspots_Widget extends Widget_Base {
 			$this->add_control(
 				'hst_markers_list',
 				array(
-					'label'       => esc_html__( 'Liste des marqueurs', 'eac-components' ),
+					'label'       => esc_html__( 'Marker list', 'eac-components' ),
 					'type'        => Controls_Manager::REPEATER,
 					'fields'      => $repeater->get_controls(),
 					'default'     => array(
 						array(
-							'hst_trigger_label'     => esc_html__( 'Marqueur #1', 'eac-components' ),
+							'hst_trigger_label'     => esc_html__( 'Marker #1', 'eac-components' ),
 							'hst_marker_position_x' => array(
 								'size' => 50,
 								'unit' => '%',
@@ -583,7 +580,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 							),
 						),
 						array(
-							'hst_trigger_label'     => esc_html__( 'Marqueur #2', 'eac-components' ),
+							'hst_trigger_label'     => esc_html__( 'Marker #2', 'eac-components' ),
 							'hst_marker_position_x' => array(
 								'size' => 50,
 								'unit' => '%',
@@ -594,7 +591,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 							),
 						),
 						array(
-							'hst_trigger_label'     => esc_html__( 'Marqueur #3', 'eac-components' ),
+							'hst_trigger_label'     => esc_html__( 'Marker #3', 'eac-components' ),
 							'hst_marker_position_x' => array(
 								'size' => 50,
 								'unit' => '%',
@@ -606,7 +603,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 						),
 					),
 					'title_field' => '{{{ elementor.helpers.renderIcon(this, hst_trigger_icon, {}, "i", "panel") || \'<i class="{{ icon }}" aria-hidden="true"></i>\' }}} {{{ hst_trigger_label }}}',
-					'button_text' => esc_html__( 'Ajouter un marqueur', 'eac-components' ),
+					'button_text' => esc_html__( 'Add marker', 'eac-components' ),
 				)
 			);
 
@@ -618,7 +615,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'hst_container_style',
 			array(
-				'label' => esc_html__( 'Conteneur', 'eac-components' ),
+				'label' => esc_html__( 'Container', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -634,7 +631,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 			$this->add_control(
 				'hst_container_radius',
 				array(
-					'label'      => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'      => esc_html__( 'Border radius', 'eac-components' ),
 					'type'       => Controls_Manager::DIMENSIONS,
 					'size_units' => array( 'px', '%' ),
 					'selectors'  => array(
@@ -647,7 +644,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'     => 'hst_container_shadow',
-					'label'    => esc_html__( 'Ombre', 'eac-components' ),
+					'label'    => esc_html__( 'Shadow', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .hst-hotspots__wrapper',
 				)
 			);
@@ -657,7 +654,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'hst_trigger_icon_style',
 			array(
-				'label' => esc_html__( 'Pictogramme déclencheur', 'eac-components' ),
+				'label' => esc_html__( 'Trigger pictogram', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -665,7 +662,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 			$this->add_control(
 				'hst_trigger_icon_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'default'   => '#FFFFFF',
 					'selectors' => array( '{{WRAPPER}} .hst-hotspots__wrapper-icon span, {{WRAPPER}} .hst-hotspots__wrapper-icon span i' => 'color: {{VALUE}};' ),
@@ -676,7 +673,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'           => 'hst_trigger_icon_typography',
-					'label'          => esc_html__( 'Dimension', 'eac-components' ),
+					'label'          => esc_html__( 'Size', 'eac-components' ),
 					'fields_options' => array(
 						'font_size' => array(
 							'default'        => array(
@@ -702,7 +699,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'hst_trigger_text_style',
 			array(
-				'label' => esc_html__( 'Texte déclencheur', 'eac-components' ),
+				'label' => esc_html__( 'Trigger text', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -710,7 +707,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 			$this->add_control(
 				'hst_trigger_text_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'default'   => '#000',
 					'selectors' => array( '{{WRAPPER}} .hst-hotspots__wrapper-text span' => 'color: {{VALUE}};' ),
@@ -721,7 +718,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'hst_trigger_text_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .hst-hotspots__wrapper-text span',
 				)
 			);
@@ -729,7 +726,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 			$this->add_control(
 				'hst_trigger_text_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'default'   => 'aliceblue',
 					'selectors' => array( '{{WRAPPER}} .hst-hotspots__wrapper-text' => 'background-color: {{VALUE}};' ),
@@ -748,7 +745,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 			$this->add_control(
 				'hst_trigger_text_radius',
 				array(
-					'label'      => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'      => esc_html__( 'Border radius', 'eac-components' ),
 					'type'       => Controls_Manager::DIMENSIONS,
 					'size_units' => array( 'px', '%' ),
 					'selectors'  => array(
@@ -762,7 +759,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'hst_tooltips_style',
 			array(
-				'label' => esc_html__( 'Infobulles', 'eac-components' ),
+				'label' => esc_html__( 'Tooltip', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -770,9 +767,9 @@ class Image_Hotspots_Widget extends Widget_Base {
 			$this->add_control(
 				'hst_tooltips_display',
 				array(
-					'label'        => esc_html__( 'Afficher les infobulles', 'eac-components' ),
+					'label'        => esc_html__( 'Display tooltips', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'description'  => esc_html__( "Désactiver les infobulles avant d'ajouer/supprimer un marqueur", 'eac-components' ),
+					'description'  => esc_html__( 'Deactivate tooltips before adding / deleting a marker', 'eac-components' ),
 					'label_on'     => esc_html__( 'show', 'eac-components' ),
 					'label_off'    => esc_html__( 'hide', 'eac-components' ),
 					'return_value' => 'show',
@@ -786,14 +783,14 @@ class Image_Hotspots_Widget extends Widget_Base {
 				$this->start_controls_tab(
 					'hst_shape_tab_style',
 					array(
-						'label' => esc_html__( 'Forme', 'eac-components' ),
+						'label' => esc_html__( 'Shape', 'eac-components' ),
 					)
 				);
 
 					$this->add_responsive_control(
 						'hst_shape_tooltips_width',
 						array(
-							'label'       => esc_html__( 'Largeur (px)', 'eac-components' ),
+							'label'       => esc_html__( 'Width (px)', 'eac-components' ),
 							'type'        => Controls_Manager::SLIDER,
 							'default'     => array(
 								'size' => 200,
@@ -816,7 +813,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 					$this->add_responsive_control(
 						'hst_shape_tooltips_padding',
 						array(
-							'label'     => esc_html__( 'Marges internes', 'eac-components' ),
+							'label'     => esc_html__( 'Padding', 'eac-components' ),
 							'type'      => Controls_Manager::DIMENSIONS,
 							'selectors' => array(
 								'{{WRAPPER}} .tooltip' => 'padding-block: {{TOP}}{{UNIT}} {{BOTTOM}}{{UNIT}}; padding-inline: {{RIGHT}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -827,7 +824,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 					$this->add_control(
 						'hst_shape_tooltips_bgcolor',
 						array(
-							'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+							'label'     => esc_html__( 'Background color', 'eac-components' ),
 							'type'      => Controls_Manager::COLOR,
 							'default'   => '#8512d5',
 							'selectors' => array(
@@ -847,7 +844,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 					$this->add_control(
 						'hst_shape_tooltips_radius',
 						array(
-							'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+							'label'              => esc_html__( 'Border radius', 'eac-components' ),
 							'type'               => Controls_Manager::DIMENSIONS,
 							'size_units'         => array( 'px', '%' ),
 							'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -861,7 +858,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 						Group_Control_Box_Shadow::get_type(),
 						array(
 							'name'     => 'hst_shape_tooltips_shadow',
-							'label'    => esc_html__( 'Ombre', 'eac-components' ),
+							'label'    => esc_html__( 'Shadow', 'eac-components' ),
 							'selector' => '{{WRAPPER}} .tooltip',
 						)
 					);
@@ -871,14 +868,14 @@ class Image_Hotspots_Widget extends Widget_Base {
 				$this->start_controls_tab(
 					'hst_content_tab_style',
 					array(
-						'label' => esc_html__( 'Contenu', 'eac-components' ),
+						'label' => esc_html__( 'Content', 'eac-components' ),
 					)
 				);
 
 					$this->add_control(
 						'hst_content_text_color',
 						array(
-							'label'     => esc_html__( 'Couleur', 'eac-components' ),
+							'label'     => esc_html__( 'Color', 'eac-components' ),
 							'type'      => Controls_Manager::COLOR,
 							'default'   => '#FFFFFF',
 							'selectors' => array(
@@ -891,7 +888,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 						Group_Control_Typography::get_type(),
 						array(
 							'name'     => 'hst_content_text_typography',
-							'label'    => esc_html__( 'Typographie', 'eac-components' ),
+							'label'    => esc_html__( 'Typography', 'eac-components' ),
 							'selector' => '{{WRAPPER}} .tooltip',
 						)
 					);
@@ -899,20 +896,20 @@ class Image_Hotspots_Widget extends Widget_Base {
 					$this->add_responsive_control(
 						'hst_content_text_position',
 						array(
-							'label'     => esc_html__( 'Alignement', 'eac-components' ),
+							'label'     => esc_html__( 'Alignment', 'eac-components' ),
 							'type'      => Controls_Manager::CHOOSE,
 							'default'   => 'center',
 							'options'   => array(
 								'left'   => array(
-									'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+									'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 									'icon'  => "eicon-text-align-{$start}",
 								),
 								'center' => array(
-									'title' => esc_html__( 'Centre', 'eac-components' ),
+									'title' => esc_html__( 'Center', 'eac-components' ),
 									'icon'  => 'eicon-text-align-center',
 								),
 								'right'  => array(
-									'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+									'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 									'icon'  => "eicon-text-align-{$end}",
 								),
 							),
@@ -938,7 +935,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 		if ( empty( $settings['hst_image_background']['url'] ) ) {
 			return;
@@ -950,7 +947,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 		<?php
 	}
 
-	protected function render_hotspots() {
+	protected function render_hotspots(): void {
 		$settings = $this->get_settings_for_display();
 		$url = '';
 
@@ -992,8 +989,8 @@ class Image_Hotspots_Widget extends Widget_Base {
 
 				if ( $has_link ) {
 					$this->add_link_attributes( 'hst_url', $item['hst_tooltip_link'] );
-					$this->add_render_attribute( 'hst_url', 'class', 'hst-hotspots__tooltip-link' );
-					$this->add_render_attribute( 'hst_url', 'aria-label', esc_attr__( 'Ouvrir le lien', 'eac-components' ) );
+					$this->add_render_attribute( 'hst_url', 'class', 'hst-hotspots__tooltip-link eac-accessible-link' );
+					$this->add_render_attribute( 'hst_url', 'aria-label', esc_attr__( 'Open link', 'eac-components' ) );
 					if ( $item['hst_tooltip_link']['is_external'] ) {
 						$this->add_render_attribute( 'hst_url', 'rel', 'noopener noreferrer' );
 					}
@@ -1005,7 +1002,7 @@ class Image_Hotspots_Widget extends Widget_Base {
 				} else {
 					$this->add_render_attribute( 'hst_trigger', 'class', 'hst-hotspots__wrapper-text' );
 				}
-				$this->add_render_attribute( 'hst_trigger', 'aria-label', esc_attr__( "Afficher le contenu de l'info-bulle", 'eac-components' ) );
+				$this->add_render_attribute( 'hst_trigger', 'aria-label', esc_attr__( 'Display tooltip content', 'eac-components' ) );
 				$this->add_render_attribute( 'hst_trigger', 'tabindex', '0' );
 				?>
 				<div <?php $this->print_render_attribute_string( 'hst_trigger' ); ?>>
@@ -1050,5 +1047,5 @@ class Image_Hotspots_Widget extends Widget_Base {
 		return ! preg_match( '/\bjavascript\b/i', $url ) && filter_var( $url, FILTER_VALIDATE_URL );
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

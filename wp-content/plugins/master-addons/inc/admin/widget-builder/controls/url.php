@@ -1,5 +1,5 @@
 <?php
-namespace MasterAddons\Admin\WidgetBuilder\Controls;
+namespace MasterAddons\Inc\Admin\WidgetBuilder\Controls;
 
 defined('ABSPATH') || exit;
 
@@ -91,5 +91,41 @@ class Url extends Control_Base {
         }
 
         return $content;
+    }
+
+    protected function default_label() {
+        return 'Link';
+    }
+
+    public function get_config($control_key, $field) {
+        // Ensure proper default structure for the URL control (mirrors build()).
+        if (!isset($field['default']) || (is_string($field['default']) && $field['default'] === '')) {
+            $field['default'] = [
+                'url'         => '',
+                'is_external' => '',
+                'nofollow'    => '',
+            ];
+        }
+        return parent::get_config($control_key, $field);
+    }
+
+    protected function get_type_specific_config($field) {
+        $config = [];
+
+        if (!empty($field['options']) && is_array($field['options'])) {
+            $config['options'] = array_values($field['options']);
+        } else {
+            $config['options'] = ['url', 'is_external', 'nofollow'];
+        }
+
+        if (isset($field['autocomplete'])) {
+            $config['autocomplete'] = (bool) $field['autocomplete'];
+        }
+
+        if (isset($field['show_external']) && !$field['show_external']) {
+            $config['show_external'] = false;
+        }
+
+        return $config;
     }
 }

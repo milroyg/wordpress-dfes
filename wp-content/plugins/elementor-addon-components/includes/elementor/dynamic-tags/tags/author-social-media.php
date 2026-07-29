@@ -24,54 +24,54 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 
 class Author_Social_Media extends Tag {
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-author-social-network';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Auteur réseaux sociaux', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Author social media', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-author-groupe';
+	public function get_group(): array {
+		return array( 'eac-author-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array(
 			TagsModule::TEXT_CATEGORY,
 			TagsModule::POST_META_CATEGORY,
 		);
 	}
 
-	public function get_panel_template_setting_key() {
+	public function get_panel_template_setting_key(): string {
 		return 'author_social_network';
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->add_control(
 			'author_social_network',
 			array(
-				'label'       => esc_html__( 'Champs', 'eac-components' ),
+				'label'       => esc_html__( 'Fields', 'eac-components' ),
 				'type'        => Controls_Manager::SELECT2,
 				'label_block' => true,
 				'multiple'    => true,
 				'default'     => '',
-				'options'     => Eac_Tools_Util::get_all_social_medias_name(),
+				'options'     => Eac_Tools_Util::get_all_social_media_name(),
 			)
 		);
 
 		$this->add_control(
 			'author_social_label',
 			array(
-				'label'     => esc_html__( 'Ajouter les labels', 'eac-components' ),
+				'label'     => esc_html__( 'Add labels', 'eac-components' ),
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'yes' => array(
-						'title' => esc_html__( 'Oui', 'eac-components' ),
+						'title' => esc_html__( 'Yes', 'eac-components' ),
 						'icon'  => 'eicon-check',
 					),
 					'no'  => array(
-						'title' => esc_html__( 'Non', 'eac-components' ),
+						'title' => esc_html__( 'No', 'eac-components' ),
 						'icon'  => 'eicon-ban',
 					),
 				),
@@ -81,7 +81,7 @@ class Author_Social_Media extends Tag {
 		);
 	}
 
-	public function render() {
+	public function render(): void {
 		global $authordata;
 
 		/** La variable globale n'est pas définie */
@@ -111,14 +111,14 @@ class Author_Social_Media extends Tag {
 			if ( ! empty( $value ) && ! is_null( $media ) ) {
 				$label       = $media['name'];
 				$author_meta = ucfirst( get_the_author_meta( 'display_name', $authordata->ID ) );
-				$name        = ucfirst( $label ) . ' ' . esc_html__( 'de', 'eac-components' ) . ' ' . $author_meta;
+				$name        = sprintf( '%1$s %2$s %3$s', ucfirst( $label ), esc_html__( 'of', 'eac-components' ), $author_meta );
 
 				if ( 'email' === $key ) {
 					$email     = sanitize_email( $value );
-					$email_obf = \str_contains( $email, '@' ) ? explode( '@', $email )[0] . '#actus.' . explode( '@', $email )[1] : '';
+					$email_obf = $email && \str_contains( $email, '@' ) ? sprintf( '%1$s#actus.%2$s', explode( '@', $email )[0], explode( '@', $email )[1] ) : '';
 					echo '<a class="eac-accessible-link obfuscated-link" href="#" data-link="' . esc_attr( $email_obf ) . '" rel="nofollow" aria-label="' . esc_attr( $name ) . '">';
 				} elseif ( 'url' === $key ) {
-					echo '<a class="eac-accessible-link" href="' . esc_url( $value ) . '" rel="nofollow" aria-label="' . esc_attr__( 'Voir le site web', 'eac-components' ) . '">';
+					echo '<a class="eac-accessible-link" href="' . esc_url( $value ) . '" rel="nofollow" aria-label="' . esc_attr__( 'View website', 'eac-components' ) . '">';
 				} elseif ( 'phone' === $key ) {
 					$label     = $value;
 					$url_phone = preg_replace( '/[^\d+]/', '', $value ?? '' );

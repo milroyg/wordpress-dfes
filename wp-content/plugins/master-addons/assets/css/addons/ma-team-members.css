@@ -1,0 +1,455 @@
+/* Jltma Team Members Slider */
+.jltma-team-item {
+  line-height: 1;
+  overflow: hidden;
+}
+.jltma-team-item .jltma-team-member-thumb {
+  border-radius: 5px;
+}
+.jltma-team-item .jltma-team-member-rounded img {
+  box-shadow: none;
+  padding: 1em;
+}
+.jltma-team-item .jltma-team-member-name {
+  font-size: 22px;
+  margin-bottom: 0;
+  font-weight: 600;
+}
+.jltma-team-item .jltma-team-member-name:before {
+  display: none;
+}
+.jltma-team-item .jltma-team-member-content {
+  color: #8a8d91;
+  padding: 10px;
+}
+.jltma-team-item .jltma-team-member-designation {
+  font-size: 15px;
+  display: block;
+}
+.jltma-team-item .jltma-team-member-about {
+  font-size: 15px;
+}
+.jltma-team-item .jltma-team-member-about {
+  margin: 10px auto;
+}
+.jltma-team-item svg {
+  height: 20px;
+  width: 20px;
+}
+
+.jltma-team-member-basic .jltma-team-member-about {
+  margin-bottom: 25px;
+}
+.jltma-team-member-basic p {
+  margin-top: 0;
+}
+.jltma-team-member-basic .jltma-team-member-social {
+  display: inline-block;
+  margin-bottom: 0;
+  width: 100%;
+}
+.jltma-team-member-basic .jltma-team-member-social li a {
+  color: #8a8d91;
+  display: block;
+  font-size: 16px;
+}
+.jltma-team-member-basic .jltma-team-member-social li a:hover {
+  color: #132c47;
+}
+.jltma-team-member-basic .jltma-team-member-social li:not(:last-child) {
+  margin-right: 15px;
+}
+
+.jltma-team-member-basic .jltma-team-member-social li,
+.jltma-team-member-rounded .jltma-team-member-social li,
+.jltma-team-member-content-hover .jltma-team-member-social li {
+  display: inline-block;
+}
+
+.jltma-team-member-basic-2,
+.jltma-team-member-basic-3 {
+  border-radius: 5px;
+  line-height: 1;
+  overflow: hidden;
+  position: relative;
+}
+.jltma-team-member-basic-2 .jltma-team-member-content,
+.jltma-team-member-basic-3 .jltma-team-member-content {
+  background-color: transparent;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  left: 0;
+  opacity: 0;
+  padding: 30px;
+  position: absolute;
+  z-index: 1;
+  transition: all 0.25s ease;
+}
+
+.jltma-team-member-basic-2 .jltma-team-member-content {
+  height: 100%;
+  top: 0;
+}
+.jltma-team-member-basic-2 .jltma-team-member-content:before {
+  content: "";
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  height: calc(100% - 30px);
+  width: calc(100% - 30px);
+  left: 15px;
+  top: 15px;
+  padding: 0;
+  position: absolute;
+  z-index: -1;
+}
+.jltma-team-member-basic-2:hover .jltma-team-member-content {
+  opacity: 1;
+}
+
+.jltma-team-member-basic-2 .jltma-team-member-name,
+.jltma-team-member-basic-3 .jltma-team-member-name,
+.jltma-team-member-basic-4 .jltma-team-member-name,
+.jltma-team-member-circle-2 .jltma-team-member-name {
+  margin-top: 0;
+}
+
+.jltma-team-member-basic-3 .jltma-team-member-content {
+  background-color: #fff;
+  bottom: -100%;
+}
+.jltma-team-member-basic-3:hover .jltma-team-member-content {
+  bottom: 0;
+  opacity: 1;
+}
+
+.jltma-team-member-basic-4 {
+  padding-bottom: 95px;
+  position: relative;
+}
+.jltma-team-member-basic-4 .bb {
+  border: 2px solid #4b00e7;
+}
+.jltma-team-member-basic-4 .jltma-team-member-thumb {
+  overflow: hidden;
+}
+.jltma-team-member-basic-4 .jltma-team-member-thumb img,
+.jltma-team-member-basic-4 .jltma-team-member-content,
+.jltma-team-member-basic-4 .jltma-team-member-name,
+.jltma-team-member-basic-4 .jltma-team-member-designation,
+.jltma-team-member-basic-4 .jltma-team-member-social a {
+  transition: all 0.4s ease;
+}
+.jltma-team-member-basic-4 .jltma-team-member-thumb img {
+  float: left;
+}
+.jltma-team-member-basic-4:hover .jltma-team-member-thumb img {
+  transform: translateY(-30px);
+}
+.jltma-team-member-basic-4:hover .jltma-team-member-content {
+  height: 130px;
+}
+.jltma-team-member-basic-4:hover .jltma-team-member-content:before {
+  background: #4b00e7;
+  height: 100%;
+}
+.jltma-team-member-basic-4:hover .jltma-team-member-name,
+.jltma-team-member-basic-4:hover .jltma-team-member-designation,
+.jltma-team-member-basic-4:hover .jltma-team-member-social a {
+  color: #fff;
+}
+.jltma-team-member-basic-4 .jltma-team-member-content {
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  height: 90px;
+  position: absolute;
+  text-align: center;
+  overflow: hidden;
+  z-index: 1;
+  transition: height 0.4s;
+}
+.jltma-team-member-basic-4 .jltma-team-member-content:before {
+  content: "";
+  height: 0;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  position: absolute;
+  z-index: -1;
+  transition: height 0.4s;
+}
+.jltma-team-member-basic-4 .jltma-team-member-name {
+  padding-top: 10px;
+}
+.jltma-team-member-basic-4 .jltma-team-member-social {
+  margin: 0;
+}
+
+.jltma-team-member-basic-4 p,
+.jltma-team-member-basic-5 p {
+  display: none;
+}
+.jltma-team-member-basic-4 .jltma-team-member-social,
+.jltma-team-member-basic-5 .jltma-team-member-social {
+  height: 0;
+  margin-top: 10px;
+  opacity: 0;
+  transform: translateY(100%);
+  backface-visibility: hidden;
+  transition: transform 0.4s, opacity 0.1s, height 0.4s;
+}
+.jltma-team-member-basic-4:hover .jltma-team-member-social,
+.jltma-team-member-basic-5:hover .jltma-team-member-social {
+  height: auto;
+  opacity: 1;
+  transform: translateY(0px);
+  transition: transform 0.4s, opacity 0.1s;
+}
+
+.jltma-team-member-basic-5 {
+  position: relative;
+}
+.jltma-team-member-basic-5 .jltma-team-member-content {
+  background-color: #fff;
+  border-radius: 5px 5px 0 0;
+  left: 20px;
+  bottom: 2px;
+  height: 88px;
+  width: calc(100% - 40px);
+  padding-top: 15px;
+  position: absolute;
+  text-align: center;
+  text-overflow: ellipsis;
+  transition: height 0.4s;
+}
+.jltma-team-member-basic-5:hover .jltma-team-member-content {
+  height: 130px;
+}
+.jltma-team-member-basic-5 .jltma-team-member-name {
+  margin-top: 0;
+}
+
+.BG {
+  background-color: rgb(106, 12, 237);
+  position: absolute;
+  left: 255px;
+  top: 880px;
+  width: 210px;
+  height: 60px;
+  z-index: 194;
+}
+
+.jltma-team-member-circle-2 {
+  border-top-left-radius: 3.75em;
+  border-top-right-radius: 3.75em;
+  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.jltma-team-member-circle-2 .jltma-team-member-thumb img {
+  border-radius: 50%;
+  max-width: 210px;
+  margin: 0 auto;
+  padding: 15px;
+  width: 100%;
+}
+
+.jltma-team-member-circle,
+.jltma-team-member-circle-animation {
+  padding: 70px 40px 30px;
+  text-align: center;
+  border-radius: 5px;
+}
+.jltma-team-member-circle .jltma-team-member-thumb,
+.jltma-team-member-circle-animation .jltma-team-member-thumb {
+  position: relative;
+  z-index: 1;
+  width: 122px;
+  height: 122px;
+  margin: 0 auto;
+  margin-bottom: 45px;
+}
+.jltma-team-member-circle .jltma-team-member-thumb img,
+.jltma-team-member-circle-animation .jltma-team-member-thumb img {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 44%;
+  left: 54%;
+  transform: translate(-50%, -50%);
+}
+.jltma-team-member-circle .jltma-team-member-thumb svg,
+.jltma-team-member-circle-animation .jltma-team-member-thumb svg {
+  position: absolute;
+  width: 123px;
+  height: 123px;
+  z-index: -1;
+}
+.jltma-team-member-circle .jltma-team-member-thumb svg:first-child,
+.jltma-team-member-circle-animation .jltma-team-member-thumb svg:first-child {
+  left: 7px;
+  bottom: 7px;
+}
+.jltma-team-member-circle .jltma-team-member-thumb svg:nth-child(2),
+.jltma-team-member-circle-animation .jltma-team-member-thumb svg:nth-child(2) {
+  top: 7px;
+  left: 7px;
+}
+.jltma-team-member-circle .jltma-team-member-thumb svg:nth-child(3),
+.jltma-team-member-circle-animation .jltma-team-member-thumb svg:nth-child(3) {
+  right: 4px;
+  top: 0;
+}
+.jltma-team-member-circle .jltma-team-member-thumb svg.violate,
+.jltma-team-member-circle-animation .jltma-team-member-thumb svg.violate {
+  fill: #826eff;
+}
+.jltma-team-member-circle .jltma-team-member-thumb svg.orange,
+.jltma-team-member-circle-animation .jltma-team-member-thumb svg.orange {
+  fill: #ff6a47;
+}
+.jltma-team-member-circle .jltma-team-member-thumb svg.cyan,
+.jltma-team-member-circle-animation .jltma-team-member-thumb svg.cyan {
+  fill: #3ad8f4;
+}
+.jltma-team-member-circle .rounded,
+.jltma-team-member-circle-animation .rounded {
+  border-radius: 8px;
+}
+.jltma-team-member-circle .circled,
+.jltma-team-member-circle-animation .circled {
+  border-radius: 50%;
+}
+.jltma-team-member-circle .jltma-team-member-about,
+.jltma-team-member-circle-animation .jltma-team-member-about {
+  margin-bottom: 40px;
+}
+.jltma-team-member-circle .jltma-team-member-social,
+.jltma-team-member-circle-animation .jltma-team-member-social {
+  padding-left: 0;
+}
+.jltma-team-member-circle .jltma-team-member-social li,
+.jltma-team-member-circle-animation .jltma-team-member-social li {
+  display: inline-block;
+}
+.jltma-team-member-circle .jltma-team-member-social li:not(:last-child),
+.jltma-team-member-circle-animation .jltma-team-member-social li:not(:last-child) {
+  margin-right: 2px;
+}
+.jltma-team-member-circle .jltma-team-member-social li a,
+.jltma-team-member-circle-animation .jltma-team-member-social li a {
+  padding: 0 10px;
+  color: #a4a7aa;
+}
+.jltma-team-member-circle .jltma-team-member-social li a:hover,
+.jltma-team-member-circle-animation .jltma-team-member-social li a:hover {
+  color: #8a8d91;
+  transition: 0.3s ease;
+}
+
+.jltma-team-member-circle-name {
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+.jltma-team-member-circle-designation {
+  font-size: 15px;
+  display: block;
+  color: #8a8d91;
+  margin-bottom: 12px;
+}
+
+.jltma-team-member-social-right {
+  box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.1);
+  padding: 1.125em;
+  position: relative;
+}
+.jltma-team-member-social-right:hover {
+  overflow: visible;
+}
+.jltma-team-member-social-right:hover .jltma-team-member-content {
+  opacity: 1;
+}
+.jltma-team-member-social-right .jltma-team-member-thumb img {
+  border-radius: 10px;
+}
+.jltma-team-member-social-right .jltma-team-member-content {
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  position: absolute;
+  text-align: center;
+  transition: all 0.4s ease;
+}
+.jltma-team-member-social-right .jltma-team-member-name {
+  margin-top: 0;
+}
+.jltma-team-member-social-right .jltma-team-member-social {
+  right: -40px;
+  top: 0;
+  position: absolute;
+  width: 40px;
+}
+.jltma-team-member-social-right .jltma-team-member-social a {
+  border-radius: 0;
+}
+
+.jltma-team-item.rounded {
+  box-shadow: none;
+}
+
+.jltma-team-member-rounded {
+  background-color: #fff !important;
+  border-top-left-radius: 144px;
+  border-top-right-radius: 144px;
+  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  max-width: 265px;
+}
+.jltma-team-member-rounded .jltma-team-member-thumb {
+  height: 265px;
+  padding: 1.875rem;
+  position: relative;
+  z-index: 0;
+}
+.jltma-team-member-rounded .jltma-team-member-thumb img {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  padding: 0;
+}
+.jltma-team-member-rounded .jltma-team-member-about {
+  background-color: #fff;
+  margin: 20px auto;
+}
+.jltma-team-member-rounded .jltma-team-member-social li a {
+  color: #fff;
+  display: block;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: #272c44;
+  line-height: 35px;
+  opacity: 0.4;
+  transition: 0.3s ease;
+}
+.jltma-team-member-rounded .jltma-team-member-social li a:hover {
+  opacity: 1;
+}
+
+.bg-transparent {
+  background-color: transparent;
+}
+
+/* Jltma Team Members Slider */

@@ -1,9 +1,10 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <div class="jltma-pop-contents-body" id="jltma_hf_modal_body">
 
     <div class="jltma-spinner"></div>
 
     <div class="jltma-pop-contents-padding">
-        <form action="" mathod="get" id="jltma_hf_modal_form" data-open-editor="0" data-editor-url="<?php echo get_admin_url(); ?>" data-nonce="<?php echo wp_create_nonce('wp_rest'); ?>">
+        <form action="" mathod="get" id="jltma_hf_modal_form" data-open-editor="0" data-editor-url="<?php echo esc_url(get_admin_url()); ?>" data-nonce="<?php echo esc_attr(wp_create_nonce('wp_rest')); ?>">
         <!-- Tab Contents Container -->
         <div class="jltma-modal-content-area">
             <!-- General Tab Content -->
@@ -30,108 +31,62 @@
                                 </label>
                             </div>
                             <div class="jltma-form-group mb-2 jltma-col-6">
+                                <?php
+                                // All template types shown. Free shows "(Pro)" suffix on pro types.
+                                // Pro filter removes the "(Pro)" suffix.
+                                $template_types = apply_filters('master_addons/theme_builder/template_types', [
+                                    'theme' => [
+                                        'label' => __('Theme', 'master-addons'),
+                                        'options' => [
+                                            'header'  => __('Header', 'master-addons'),
+                                            'footer'  => __('Footer', 'master-addons'),
+                                            'comment' => __('Comment', 'master-addons'),
+                                        ],
+                                    ],
+                                    'post' => [
+                                        'label' => __('Post', 'master-addons'),
+                                        'options' => [
+                                            'single'   => __('Single (Pro)', 'master-addons'),
+                                            'archive'  => __('Archive (Pro)', 'master-addons'),
+                                            'category' => __('Category (Pro)', 'master-addons'),
+                                            'tag'      => __('Tag (Pro)', 'master-addons'),
+                                            'author'   => __('Author (Pro)', 'master-addons'),
+                                            'date'     => __('Date (Pro)', 'master-addons'),
+                                        ],
+                                    ],
+                                    'page' => [
+                                        'label' => __('Page', 'master-addons'),
+                                        'options' => [
+                                            'page_single' => __('Single (Pro)', 'master-addons'),
+                                            'search'      => __('Search (Pro)', 'master-addons'),
+                                            '404'         => __('Error 404 (Pro)', 'master-addons'),
+                                        ],
+                                    ],
+                                ]);
+
+                                // WooCommerce group
+                                if (class_exists('WooCommerce')) {
+                                    $template_types['woocommerce'] = [
+                                        'label' => __('WooCommerce', 'master-addons'),
+                                        'options' => apply_filters('master_addons/theme_builder/woocommerce_types', [
+                                            'product'         => __('Product (Pro)', 'master-addons'),
+                                            'product_archive' => __('Product Archive (Pro)', 'master-addons'),
+                                        ]),
+                                    ];
+                                }
+                                ?>
                                 <select name="type" class="jltma-form-control jltma_hfc_type">
-                                    <!-- Theme Templates Group -->
-                                    <optgroup label="<?php esc_attr_e('Theme', 'master-addons'); ?>">
-                                        <option value="header" selected="selected">
-                                            <?php esc_html_e('Header', 'master-addons'); ?>
-                                        </option>
-                                        <option value="footer">
-                                            <?php esc_html_e('Footer', 'master-addons'); ?>
-                                        </option>
-                                        <option value="comment">
-                                            <?php esc_html_e('Comment', 'master-addons'); ?>
-                                        </option>
-                                    </optgroup>
-
-                                    <!-- Post Templates Group -->
-                                    <optgroup label="<?php esc_attr_e('Post', 'master-addons'); ?>">
-                                        <?php if (\MasterAddons\Inc\Helper\Master_Addons_Helper::jltma_premium()) { ?>
-                                            <option value="single">
-                                                <?php esc_html_e('Single', 'master-addons'); ?>
-                                            </option>
-                                            <option value="archive">
-                                                <?php esc_html_e('Archive', 'master-addons'); ?>
-                                            </option>
-                                            <option value="category">
-                                                <?php esc_html_e('Category', 'master-addons'); ?>
-                                            </option>
-                                            <option value="tag">
-                                                <?php esc_html_e('Tag', 'master-addons'); ?>
-                                            </option>
-                                            <option value="author">
-                                                <?php esc_html_e('Author', 'master-addons'); ?>
-                                            </option>
-                                            <option value="date">
-                                                <?php esc_html_e('Date', 'master-addons'); ?>
-                                            </option>
-                                        <?php } else { ?>
-                                            <option value="single_pro">
-                                                <?php esc_html_e('Single (Pro)', 'master-addons'); ?>
-                                            </option>
-                                            <option value="archive_pro">
-                                                <?php esc_html_e('Archive (Pro)', 'master-addons'); ?>
-                                            </option>
-                                            <option value="category_pro">
-                                                <?php esc_html_e('Category (Pro)', 'master-addons'); ?>
-                                            </option>
-                                            <option value="tag_pro">
-                                                <?php esc_html_e('Tag (Pro)', 'master-addons'); ?>
-                                            </option>
-                                            <option value="author_pro">
-                                                <?php esc_html_e('Author (Pro)', 'master-addons'); ?>
-                                            </option>
-                                            <option value="date_pro">
-                                                <?php esc_html_e('Date (Pro)', 'master-addons'); ?>
-                                            </option>
-                                        <?php } ?>
-                                    </optgroup>
-
-                                    <!-- Page Templates Group -->
-                                    <optgroup label="<?php esc_attr_e('Page', 'master-addons'); ?>">
-                                        <?php if (\MasterAddons\Inc\Helper\Master_Addons_Helper::jltma_premium()) { ?>
-                                            <option value="page_single">
-                                                <?php esc_html_e('Single', 'master-addons'); ?>
-                                            </option>
-                                            <option value="search">
-                                                <?php esc_html_e('Search', 'master-addons'); ?>
-                                            </option>
-                                            <option value="404">
-                                                <?php esc_html_e('Error 404', 'master-addons'); ?>
-                                            </option>
-                                        <?php } else { ?>
-                                            <option value="page_single_pro">
-                                                <?php esc_html_e('Single (Pro)', 'master-addons'); ?>
-                                            </option>
-                                            <option value="search_pro">
-                                                <?php esc_html_e('Search (Pro)', 'master-addons'); ?>
-                                            </option>
-                                            <option value="404_pro">
-                                                <?php esc_html_e('Error 404 (Pro)', 'master-addons'); ?>
-                                            </option>
-                                        <?php } ?>
-                                    </optgroup>
-
-                                    <?php if (class_exists('WooCommerce')) { ?>
-                                        <!-- WooCommerce Templates Group -->
-                                        <optgroup label="<?php esc_attr_e('WooCommerce', 'master-addons'); ?>">
-                                            <?php if (\MasterAddons\Inc\Helper\Master_Addons_Helper::jltma_premium()) { ?>
-                                                <option value="product">
-                                                    <?php esc_html_e('Product', 'master-addons'); ?>
+                                    <?php foreach ($template_types as $group_key => $group) :
+                                        if (empty($group['options'])) continue;
+                                    ?>
+                                        <optgroup label="<?php echo esc_attr($group['label']); ?>">
+                                            <?php foreach ($group['options'] as $value => $label) : ?>
+                                                <option value="<?php echo esc_attr($value); ?>" <?php echo ($value === 'header') ? 'selected="selected"' : ''; ?>>
+                                                    <?php echo esc_html($label); ?>
                                                 </option>
-                                                <option value="product_archive">
-                                                    <?php esc_html_e('Product Archive', 'master-addons'); ?>
-                                                </option>
-                                            <?php } else { ?>
-                                                <option value="product_pro">
-                                                    <?php esc_html_e('Product (Pro)', 'master-addons'); ?>
-                                                </option>
-                                                <option value="product_archive_pro">
-                                                    <?php esc_html_e('Product Archive (Pro)', 'master-addons'); ?>
-                                                </option>
-                                            <?php } ?>
+                                            <?php endforeach; ?>
                                         </optgroup>
-                                    <?php } ?>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
 
@@ -173,8 +128,13 @@
                             </div>
                             
                             <div class="jltma-add-condition-container">
-                                <button type="button" class="jltma-add-condition jltma-btn-add-condition" id="jltma-add-condition">
-                                    <?php esc_html_e('ADD CONDITIONS', 'master-addons'); ?>
+                                <?php $pro_conditions = apply_filters('master_addons/theme_builder/pro_conditions', false); ?>
+                                <button type="button" class="jltma-add-condition jltma-btn-add-condition<?php echo !$pro_conditions ? ' jltma-pro-locked' : ''; ?>" id="jltma-add-condition">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+                                    <?php esc_html_e('Add Condition', 'master-addons'); ?>
+                                    <?php if (!$pro_conditions) : ?>
+                                        <span class="jltma-badge-pro">Pro</span>
+                                    <?php endif; ?>
                                 </button>
                             </div>
                         </div>
@@ -195,28 +155,10 @@
                                         </select>
                                     </div>
 
-                                    <?php if (\MasterAddons\Inc\Helper\Master_Addons_Helper::jltma_premium()) { ?>
-                                        <br>
-                                        <div class="jltma_hf_modal-jltma_hfc_singular_id-container jltma_multipile_ajax_search_filed">
-                                            <div class="jltma-input-group">
-                                                <label class="jltma-attr-input-label"></label>
-                                                <select multiple name="jltma_hfc_singular_id[]" class="jltma_hf_modal-jltma_hfc_singular_id"></select>
-                                            </div>
-                                            <br />
-                                        </div>
-                                        <?php } ?>
+                                        <?php do_action('master_addons/theme_builder/singular_id_field'); ?>
                                     </div>
 
-                                    <?php if (\MasterAddons\Inc\Helper\Master_Addons_Helper::jltma_premium()) { ?>
-                                        <br>
-                                        <div class="jltma_hf_modal-jltma_hfc_post_types_id-container jltma_multipile_ajax_search_filed">
-                                            <div class="jltma-input-group">
-                                                <label class="jltma-attr-input-label"></label>
-                                                <select name="jltma_hfc_post_types_id[]" class="jltma_hf_modal-jltma_hfc_post_types_id" selected="selected"></select>
-                                            </div>
-                                            <br />
-                                        </div>
-                                    <?php } ?>
+                                    <?php do_action('master_addons/theme_builder/post_types_id_field'); ?>
 
                             </div>
 
@@ -228,7 +170,7 @@
         <!-- Modal Footer - Outside tabs, always visible -->
         <div class="jltma-modal-footer">
             <button type="button" class="jltma-btn-editor jltma-save-btn jltma-color-three">
-                <img class="mr-1 mb-1" src="<?php echo JLTMA_IMAGE_DIR . 'icon.png'; ?>" alt="Master Addons Logo">
+                <img class="mr-1 mb-1" src="<?php echo esc_url( JLTMA_IMAGE_DIR . 'icon.png' ); ?>" alt="Master Addons Logo">
                 <?php esc_html_e('Edit with Elementor', 'master-addons'); ?>
             </button>
             <button type="submit" class="jltma-hf-save jltma-save-btn jltma-color-two">

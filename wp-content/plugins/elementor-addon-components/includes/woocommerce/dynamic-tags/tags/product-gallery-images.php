@@ -19,51 +19,52 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 class Product_Gallery_Images extends Data_Tag {
 	use \EACCustomWidgets\Includes\Traits\Product_Trait;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-woo-gallery-images';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Galerie d`un produit', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Product gallery', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-woo-groupe';
+	public function get_group(): array {
+		return array( 'eac-woo-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::GALLERY_CATEGORY );
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 
 		$this->register_product_id_control();
 
 		$this->add_control(
 			'eac_woo_gallery_thumb',
 			array(
-				'label'        => esc_html__( "Ajouter l'image du produit", 'eac-components' ),
+				'label'        => esc_html__( 'Add product image', 'eac-components' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => esc_html__( 'oui', 'eac-components' ),
-				'label_off'    => esc_html__( 'non', 'eac-components' ),
+				'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+				'label_off'    => esc_html__( 'No', 'eac-components' ),
 				'return_value' => 'yes',
 				'default'      => '',
 			)
 		);
 	}
 
-	public function get_value( array $options = array() ) {
+	public function get_value( array $options = array() ): array {
 		$product_id     = $this->get_settings( 'product_id' );
-		$settings_thumb = $this->get_settings( 'eac_woo_gallery_thumb' ) === 'yes' ? true : false;
+		$settings_thumb = 'yes' === $this->get_settings( 'eac_woo_gallery_thumb' ) ? true : false;
 		$value          = array();
 
 		if ( empty( $product_id ) ) {
-			return '';
+			return $value;
 		}
 
 		$product = wc_get_product( $product_id );
 		if ( ! $product ) {
-			return '';    }
+			return $value;
+		}
 
 		if ( $settings_thumb ) {
 			$thumb_id = $product->get_image_id();

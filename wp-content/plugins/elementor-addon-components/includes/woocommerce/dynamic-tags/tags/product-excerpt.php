@@ -19,30 +19,30 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 class Product_Excerpt extends Tag {
 	use \EACCustomWidgets\Includes\Traits\Product_Trait;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-woo-excerpt';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Description du produit', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Product description', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-woo-groupe';
+	public function get_group(): array {
+		return array( 'eac-woo-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::TEXT_CATEGORY );
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 
 		$this->register_product_id_control();
 
 		$this->add_control(
 			'eac_woo_excerpt_len',
 			array(
-				'label'   => esc_html__( 'Type de description', 'eac-components' ),
+				'label'   => esc_html__( 'Description type', 'eac-components' ),
 				'type'    => Controls_Manager::CHOOSE,
 				'options' => array(
 					'long'  => array(
@@ -50,7 +50,7 @@ class Product_Excerpt extends Tag {
 						'icon'  => 'eicon-h-align-left',
 					),
 					'short' => array(
-						'title' => esc_html__( 'Résumé', 'eac-components' ),
+						'title' => esc_html__( 'Excerpt', 'eac-components' ),
 						'icon'  => 'eicon-h-align-right',
 					),
 				),
@@ -59,17 +59,18 @@ class Product_Excerpt extends Tag {
 		);
 	}
 
-	public function render() {
+	public function render(): void {
 		$product_id   = $this->get_settings( 'product_id' );
 		$settings_len = $this->get_settings( 'eac_woo_excerpt_len' );
 
 		if ( empty( $product_id ) ) {
-			return '';
+			return;
 		}
 
 		$product = wc_get_product( $product_id );
 		if ( ! $product ) {
-			return '';    }
+			return;
+		}
 
 		$texte = 'long' === $settings_len ? $product->get_description() : $product->get_short_description();
 		echo wp_kses_post( $texte );

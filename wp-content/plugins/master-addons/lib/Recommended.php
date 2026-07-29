@@ -60,6 +60,34 @@ if (!class_exists('Recommended')) {
 		}
 
 		/**
+		 * Exact allowlist of installed plugin files that belong to our known slugs.
+		 *
+		 * Returns real plugin basenames (e.g. "elementor/elementor.php") taken from the
+		 * actual installed plugin set, filtered to the slugs we manage. Used to validate
+		 * any $_POST plugin-file value before it reaches activate_plugin()/upgrade(), so
+		 * arbitrary input can never select an unrelated plugin file.
+		 *
+		 * @return string[]
+		 */
+		protected function get_allowed_plugin_files()
+		{
+			if (!function_exists('get_plugins')) {
+				require_once ABSPATH . 'wp-admin/includes/plugin.php';
+			}
+
+			$known_slugs = array_values(wp_list_pluck($this->plugins_list, 'slug'));
+			$allowed     = array();
+
+			foreach (array_keys(get_plugins()) as $plugin_file) {
+				if (in_array(dirname($plugin_file), $known_slugs, true)) {
+					$allowed[] = $plugin_file;
+				}
+			}
+
+			return $allowed;
+		}
+
+		/**
 		 * Menu Items
 		 *
 		 * @author Jewel Theme <support@jeweltheme.com>
@@ -95,6 +123,14 @@ if (!class_exists('Recommended')) {
 				<?php $this->header(); ?>
 				<?php $this->body(); ?>
 			</div>
+			<style>
+				/* Hide WordPress default admin notices on this page */
+				.jltma-recommended-wrapper ~ .notice,
+				.jltma-recommended-wrapper ~ .error,
+				.jltma-recommended-wrapper ~ .updated {
+					display: none;
+				}
+			</style>
 		<?php
 		}
 
@@ -105,38 +141,39 @@ if (!class_exists('Recommended')) {
 		{
 		?>
 			<div class='jltma-recommended-header'>
-				<div class='jltma-recommended-title'>
-					<h2>
-						<?php echo esc_html__('Recommended Plugins', 'master-addons'); ?>
-					</h2>
-				</div>
-				<div class='jltma-recommended-menu'>
-					<div class="wp-filter">
-						<ul class="filter-links">
-							<?php
-							$i = 0;
-
-							foreach ($this->menu_items as $menu) {
-								$class = str_replace(' ', '-', strtolower($menu['key']));
-							?>
-								<li class="plugin-install-<?php echo esc_attr($class); ?>">
-									<a href="#" class="<?php echo esc_attr(0 === $i ? 'current' : ''); ?>" data-type="<?php echo esc_attr($menu['key']); ?>"><?php echo esc_html($menu['label']); ?></a>
-								</li>
-							<?php
-								$i++;
-							}
-							?>
-						</ul>
-
-						<form class="search-form jltma-search-plugins mr-0" method="get">
+				<div class='jltma-recommended-header-top'>
+					<div class='jltma-recommended-title'>
+						<h2><?php echo esc_html__('Recommended Plugins', 'master-addons'); ?></h2>
+						<p><?php echo esc_html__('Starter and recommended plugins to extend your WordPress experience.', 'master-addons'); ?></p>
+					</div>
+					<div class='jltma-recommended-search'>
+						<form class="search-form jltma-search-plugins" method="get">
 							<input type="hidden" name="tab" value="search">
 							<label class="screen-reader-text" for="search-plugins">
 								<?php echo esc_html__('Search Plugins', 'master-addons'); ?>
 							</label>
-							<input type="search" name="s" id="search-plugins" value="" class="wp-filter-search" placeholder="<?php echo esc_html__('Search plugins...', 'master-addons'); ?>">
-							<input type="submit" id="search-submit" class="button hide-if-js" value="<?php echo esc_html__('Search Plugins', 'master-addons'); ?>">
+							<span class="jltma-search-icon">
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+							</span>
+							<input type="search" name="s" id="search-plugins" value="" class="jltma-search-input" placeholder="<?php echo esc_html__('Search plugins...', 'master-addons'); ?>">
 						</form>
 					</div>
+				</div>
+				<div class='jltma-recommended-tabs'>
+					<ul class="jltma-filter-links">
+						<?php
+						$i = 0;
+						foreach ($this->menu_items as $menu) {
+							$class = str_replace(' ', '-', strtolower($menu['key']));
+						?>
+							<li>
+								<a href="#" class="jltma-tab-link <?php echo esc_attr(0 === $i ? 'current' : ''); ?>" data-type="<?php echo esc_attr($menu['key']); ?>"><?php echo esc_html($menu['label']); ?></a>
+							</li>
+						<?php
+							$i++;
+						}
+						?>
+					</ul>
 				</div>
 			</div>
 		<?php
@@ -148,12 +185,8 @@ if (!class_exists('Recommended')) {
 		public function body()
 		{
 		?>
-			<div class="wp-list-table widefat plugin-install">
-				<div id="the-list">
-					<?php
-					$this->plugins();
-					?>
-				</div>
+			<div class="jltma-plugins-grid">
+				<?php $this->plugins(); ?>
 			</div>
 			<?php
 		}
@@ -164,7 +197,11 @@ if (!class_exists('Recommended')) {
 		public function plugins()
 		{
 			foreach ($this->plugins_list as $key => $plugin) {
-				$install_status = \install_plugin_install_status($plugin);
+				$plugin_api = (object) $plugin;
+				if (!isset($plugin_api->version)) {
+					$plugin_api->version = '';
+				}
+				$install_status = \install_plugin_install_status($plugin_api);
 				$classes        = implode(' ', $plugin['type']);
 
 				$more_details = self_admin_url(
@@ -172,114 +209,88 @@ if (!class_exists('Recommended')) {
 						'&amp;TB_iframe=true&amp;width=600&amp;height=550'
 				);
 			?>
-				<div class="plugin-card plugin-card-<?php echo esc_attr($key); ?> <?php echo esc_attr($classes); ?>">
-					<div class="plugin-card-top">
-						<div class="name column-name">
-							<h3>
-								<a href="<?php echo esc_url($more_details); ?>" class="thickbox open-plugin-details-modal">
-									<?php echo esc_html($plugin['name']); ?>
-									<img src="<?php echo esc_url($plugin['icon']); ?>" class="plugin-icon" alt="">
-								</a>
-							</h3>
+				<div class="jltma-plugin-card <?php echo esc_attr($classes); ?>" data-plugin="<?php echo esc_attr($key); ?>">
+					<div class="jltma-plugin-card-body">
+						<div class="jltma-plugin-icon">
+							<img src="<?php echo esc_url($plugin['icon']); ?>" alt="<?php echo esc_attr($plugin['name']); ?>">
 						</div>
-						<div class="desc column-description">
-							<p><?php echo wp_kses_post($plugin['short_description']); ?></p>
+						<div class="jltma-plugin-info">
+							<h3 class="jltma-plugin-name">
+								<a href="<?php echo esc_url($more_details); ?>" class="thickbox open-plugin-details-modal"><?php echo esc_html($plugin['name']); ?></a>
+							</h3>
+							<p class="jltma-plugin-desc"><?php echo wp_kses_post($plugin['short_description']); ?></p>
 						</div>
 					</div>
-					<div class="plugin-card-bottom">
-						<div class="column-downloaded">
-							<span class="plugin-status">
+					<div class="jltma-plugin-card-footer">
+						<span class="jltma-plugin-status">
+							<?php
+							if ('install' === $install_status['status']) {
+							?>
+								<span class="jltma-status-badge jltma-status-not-installed" data-plugin-url="<?php echo esc_attr($plugin['download_link']); ?>"><?php echo esc_html__('Not Installed', 'master-addons'); ?></span>
+							<?php
+							} elseif ('update_available' === $install_status['status']) {
+								if (is_plugin_active($install_status['file'])) {
+							?>
+									<span class="jltma-status-badge jltma-status-active"><?php echo esc_html__('Active', 'master-addons'); ?></span>
 								<?php
-								echo esc_html__('Status:', 'master-addons');
-
-								if ('install' === $install_status['status']) {
+								} else {
 								?>
-									<span class="plugin-status-not-install" data-plugin-url="<?php echo esc_attr($plugin['download_link']); ?>"><?php echo esc_html__('No Installed', 'master-addons'); ?></span>
-									<?php
-								} elseif ('update_available' === $install_status['status']) {
-									if (is_plugin_active($install_status['file'])) {
-									?>
-										<span class="plugin-status-active">
-											<?php echo esc_html__('Active', 'master-addons'); ?>
-										</span>
-									<?php
-									} else {
-									?>
-										<span class="plugin-status-inactive" data-plugin-file="<?php echo esc_attr(esc_attr($install_status['file'])); ?>">
-											<?php echo esc_html__('Inactive', 'master-addons'); ?>
-										</span>
-									<?php
-									}
-								} elseif (('latest_installed' === $install_status['status']) || ('newer_installed' === $install_status['status'])) {
-									if (is_plugin_active($install_status['file'])) {
-									?>
-										<span class="plugin-status-active">
-											<?php echo esc_html__('Active', 'master-addons'); ?>
-										</span>
-									<?php
-									} elseif (current_user_can('activate_plugin', $install_status['file'])) {
-									?>
-										<span class="plugin-status-inactive" data-plugin-file="<?php echo esc_attr($install_status['file']); ?>">
-											<?php echo esc_html__('Inactive', 'master-addons'); ?>
-										</span>
-									<?php
-									} else {
-									?>
-										<span class="plugin-status-inactive" data-plugin-file="<?php echo esc_attr($install_status['file']); ?>">
-											<?php echo esc_html__('Inactive', 'master-addons'); ?>
-										</span>
-								<?php
-									}
+									<span class="jltma-status-badge jltma-status-inactive" data-plugin-file="<?php echo esc_attr($install_status['file']); ?>"><?php echo esc_html__('Inactive', 'master-addons'); ?></span>
+							<?php
 								}
-								?>
-							</span>
-						</div>
-						<div class="column-compatibility">
-							<ul class="plugin-action-buttons mr-0">
+							} elseif (('latest_installed' === $install_status['status']) || ('newer_installed' === $install_status['status'])) {
+								if (is_plugin_active($install_status['file'])) {
+							?>
+									<span class="jltma-status-badge jltma-status-active"><?php echo esc_html__('Active', 'master-addons'); ?></span>
 								<?php
-								if ('install' === $install_status['status']) {
+								} else {
 								?>
-									<li class="mr-0">
-										<button class="install-now button button-primary" data-install-url="<?php echo esc_attr($plugin['download_link']); ?>">
-											<?php echo esc_html__('Install Now', 'master-addons'); ?>
-										</button>
-									</li>
-								<?php
-								} elseif ('update_available' === $install_status['status']) {
-								?>
-									<li class="mr-0">
-										<button class="update-now button" data-plugin="<?php echo esc_attr($install_status['file']); ?>" data-slug="<?php echo esc_attr($plugin['slug']); ?>" data-update-url="<?php echo esc_attr($install_status['url']); ?>">
-											<?php echo esc_html__('Update Now', 'master-addons'); ?>
-										</button>
-									</li>
-									<?php
-								} elseif (('latest_installed' === $install_status['status']) || ('newer_installed' === $install_status['status'])) {
-									if (is_plugin_active($install_status['file'])) {
-									?>
-										<li class="mr-0">
-											<button type="button" class="button button-disabled" disabled="disabled">
-												<?php echo esc_html__('Activated', 'master-addons'); ?>
-											</button>
-										</li>
-									<?php
-									} elseif (current_user_can('activate_plugin', $install_status['file'])) {
-									?>
-										<button class="button activate-now" data-plugin-file="<?php echo esc_attr($install_status['file']); ?>">
-											<?php echo esc_html__('Activate', 'master-addons'); ?>
-										</button>
-									<?php
-									} else {
-									?>
-										<li class="mr-0">
-											<button type="button" class="button button-disabled" disabled="disabled">
-												<?php echo esc_html__('Installed', 'master-addons'); ?>
-											</button>
-										</li>
-								<?php
-									}
+									<span class="jltma-status-badge jltma-status-inactive" data-plugin-file="<?php echo esc_attr($install_status['file']); ?>"><?php echo esc_html__('Inactive', 'master-addons'); ?></span>
+							<?php
 								}
+							}
+							?>
+						</span>
+						<div class="jltma-plugin-action">
+							<?php
+							if ('install' === $install_status['status']) {
+							?>
+								<button class="install-now jltma-btn jltma-btn-primary" data-install-url="<?php echo esc_attr($plugin['download_link']); ?>">
+									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+									<?php echo esc_html__('Install', 'master-addons'); ?>
+								</button>
+							<?php
+							} elseif ('update_available' === $install_status['status']) {
+							?>
+								<button class="update-now jltma-btn jltma-btn-warning" data-plugin="<?php echo esc_attr($install_status['file']); ?>" data-slug="<?php echo esc_attr($plugin['slug']); ?>" data-update-url="<?php echo esc_attr($install_status['url']); ?>">
+									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+									<?php echo esc_html__('Update', 'master-addons'); ?>
+								</button>
+							<?php
+							} elseif (('latest_installed' === $install_status['status']) || ('newer_installed' === $install_status['status'])) {
+								if (is_plugin_active($install_status['file'])) {
+							?>
+									<button type="button" class="jltma-btn jltma-btn-activated" disabled="disabled">
+										<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+										<?php echo esc_html__('Activated', 'master-addons'); ?>
+									</button>
+								<?php
+								} elseif (current_user_can('activate_plugin', $install_status['file'])) {
 								?>
-							</ul>
+									<button class="activate-now jltma-btn jltma-btn-success" data-plugin-file="<?php echo esc_attr($install_status['file']); ?>">
+										<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+										<?php echo esc_html__('Activate', 'master-addons'); ?>
+									</button>
+								<?php
+								} else {
+								?>
+									<button type="button" class="jltma-btn jltma-btn-activated" disabled="disabled">
+										<?php echo esc_html__('Installed', 'master-addons'); ?>
+									</button>
+							<?php
+								}
+							}
+							?>
 						</div>
 					</div>
 				</div>
@@ -306,14 +317,16 @@ if (!class_exists('Recommended')) {
 						wp_send_json_error(array('mess' => __('Invalid access', 'master-addons')));
 					}
 
-					$plugin = sanitize_text_field(wp_unslash($_POST['plugin']));
-					$plugin_links = array_values(wp_list_pluck($this->plugins_list, 'download_link'));
+					$file = sanitize_text_field(wp_unslash($_POST['file']));
 
-					if (!in_array($plugin, $plugin_links)) {
+					// Enforce an exact allowlist of real installed plugin files that
+					// belong to our known slugs. Arbitrary input (or a crafted basename
+					// whose dirname happens to match a slug) must never reach
+					// activate_plugin(); only an exact installed plugin file passes.
+					if (!in_array($file, $this->get_allowed_plugin_files(), true)) {
 						wp_send_json_error(array('mess' => __('Invalid plugin', 'master-addons')));
 					}
 
-					$file   = sanitize_text_field(wp_unslash($_POST['file']));
 					$result = activate_plugin($file);
 
 					if (is_wp_error($result)) {
@@ -332,19 +345,13 @@ if (!class_exists('Recommended')) {
 			} catch (\Exception $ex) {
 				wp_send_json_error(
 					array(
-						'mess' => __('Error exception.', 'master-addons'),
-						array(
-							'error' => $ex,
-						),
+						'mess' => $ex->getMessage(),
 					)
 				);
 			} catch (\Error $ex) {
 				wp_send_json_error(
 					array(
-						'mess' => __('Error.', 'master-addons'),
-						array(
-							'error' => $ex,
-						),
+						'mess' => $ex->getMessage(),
 					)
 				);
 			}
@@ -375,13 +382,26 @@ if (!class_exists('Recommended')) {
 					}
 
 					$plugin = sanitize_text_field(wp_unslash($_POST['plugin']));
-					$plugin_links = array_values(wp_list_pluck($this->plugins_list, 'download_link'));
+					$type   = isset($_POST['type']) ? sanitize_text_field(wp_unslash($_POST['type'])) : 'install';
 
-					if (!in_array($plugin, $plugin_links)) {
-						wp_send_json_error(array('mess' => __('Invalid plugin', 'master-addons')));
+					// Validate against an exact allowlist that depends on the operation:
+					//  - install: $plugin is a package source; must be exactly one of our
+					//    known download links.
+					//  - upgrade: $plugin is a plugin file; must be exactly one of the real
+					//    installed plugin files under our known slugs.
+					// dirname()-based matching is intentionally NOT used — it would accept a
+					// crafted value whose directory merely resembles a known slug.
+					if ('install' === $type) {
+						$plugin_links = array_values(wp_list_pluck($this->plugins_list, 'download_link'));
+						if (!in_array($plugin, $plugin_links, true)) {
+							wp_send_json_error(array('mess' => __('Invalid plugin', 'master-addons')));
+						}
+					} else {
+						if (!in_array($plugin, $this->get_allowed_plugin_files(), true)) {
+							wp_send_json_error(array('mess' => __('Invalid plugin', 'master-addons')));
+						}
 					}
 
-					$type     = isset($_POST['type']) ? sanitize_text_field(wp_unslash($_POST['type'])) : 'install';
 					$skin     = new \WP_Ajax_Upgrader_Skin();
 					$upgrader = new \Plugin_Upgrader($skin);
 
@@ -466,19 +486,13 @@ if (!class_exists('Recommended')) {
 			} catch (\Exception $ex) {
 				wp_send_json_error(
 					array(
-						'mess' => __('Error exception.', 'master-addons'),
-						array(
-							'error' => $ex,
-						),
+						'mess' => $ex->getMessage(),
 					)
 				);
 			} catch (\Error $ex) {
 				wp_send_json_error(
 					array(
-						'mess' => __('Error.', 'master-addons'),
-						array(
-							'error' => $ex,
-						),
+						'mess' => $ex->getMessage(),
 					)
 				);
 			}

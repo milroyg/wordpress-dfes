@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;   // Exit if accessed directly.
 }
 
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Controls_Manager;
 use Elementor\Widget_Base;
@@ -41,10 +41,10 @@ class Button_Back_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -52,10 +52,10 @@ class Button_Back_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -63,10 +63,10 @@ class Button_Back_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -76,8 +76,8 @@ class Button_Back_Widget extends Widget_Base {
 	 *
 	 * @return widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -89,8 +89,8 @@ class Button_Back_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -98,10 +98,10 @@ class Button_Back_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -125,7 +125,7 @@ class Button_Back_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'btt_settings',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -133,7 +133,7 @@ class Button_Back_Widget extends Widget_Base {
 			$this->add_control(
 				'btt_icon',
 				array(
-					'label'                  => esc_html__( 'Sélectionner un pictogramme', 'eac-components' ),
+					'label'                  => esc_html__( 'Select pictogram', 'eac-components' ),
 					'type'                   => Controls_Manager::ICONS,
 					'label_block'            => 'true',
 					'default'                => array(
@@ -149,19 +149,19 @@ class Button_Back_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'btt_alignment',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'flex-start' => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center'     => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'flex-end'   => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -180,7 +180,7 @@ class Button_Back_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'btt_button_style',
 			array(
-				'label' => esc_html__( 'Bouton', 'eac-components' ),
+				'label' => esc_html__( 'Button', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -188,7 +188,7 @@ class Button_Back_Widget extends Widget_Base {
 			$this->add_control(
 				'btt_button_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array(
@@ -201,7 +201,7 @@ class Button_Back_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'btt_button_width',
 				array(
-					'label'       => esc_html__( 'Largeur (%)', 'eac-components' ),
+					'label'       => esc_html__( 'Width (%)', 'eac-components' ),
 					'type'        => Controls_Manager::SLIDER,
 					'size_units'  => array( '%' ),
 					'default'     => array(
@@ -228,7 +228,7 @@ class Button_Back_Widget extends Widget_Base {
 			$this->add_control(
 				'btt_button_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array(
@@ -247,13 +247,13 @@ class Button_Back_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 
 		$settings = $this->get_settings_for_display();
 
 		?>
 		<div class="button-top_icon-wrapper">
-		<button onclick="jQuery('html,body').animate({ scrollTop: 0 }, 300)" id="button-top_icon" class="button-top_icon" aria-label="<?php echo esc_attr__( 'Retour en haut', 'eac-components' ); ?>">
+		<button onclick="jQuery('html,body').animate({ scrollTop: 0 }, 300)" id="button-top_icon" class="button-top_icon" aria-label="<?php echo esc_attr__( 'Back to top', 'eac-components' ); ?>">
 			<?php Icons_Manager::render_icon( $settings['btt_icon'], array( 'aria-hidden' => 'true' ) ); ?>
 		</button>
 		</div>
@@ -267,5 +267,5 @@ class Button_Back_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

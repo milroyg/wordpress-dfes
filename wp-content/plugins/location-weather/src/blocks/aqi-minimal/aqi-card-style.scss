@@ -1,0 +1,67 @@
+.spl-weather-aqi-minimal-card-wrapper {
+	overflow: hidden;
+	box-sizing: border-box;
+	position: relative;
+	z-index: 10;
+}
+
+.spl-weather-aqi-card-summary {
+	.spl-weather-card-date-time {
+		gap: 4px;
+	}
+	.spl-aqi-card-condition {
+		.title {
+			font-size: 14px;
+			font-weight: 500;
+			line-height: 1.2;
+		}
+
+		.condition {
+			display: flex;
+			padding: 4px 16px;
+			justify-content: center;
+			align-items: center;
+			gap: 8px;
+			border-radius: 3px;
+			font-size: 13px;
+			font-weight: 500;
+			line-height: 1.2;
+			color: rgb(var(--spl-aqi-condition-color));
+			background-color: rgba(var(--spl-aqi-condition-color), 0.2);
+			border: 1px solid rgba(var(--spl-aqi-condition-color), 0.4);
+		}
+	}
+
+	.spl-aqi-card-aqi-condition>.spl-aqi-card-progress-bar:last-child {
+		display: block;
+		text-align: center;
+		width: 100%;
+	}
+}
+
+.spl-aqi-card-pollutant-item {
+	flex-wrap: wrap;
+	overflow: hidden;
+
+	.spl-pollutant-title.indicator {
+		position: relative;
+		padding-left: 15px;
+
+		&::after {
+			position: absolute;
+			content: "";
+			width: 10px;
+			height: 10px;
+			border-radius: 50%;
+			left: 0px;
+			top: 50%;
+			bottom: 0;
+			right: auto;
+			transform: translateY(-50%);
+			background: rgb(var(--spl-pollutant-color));
+		}
+	}
+	.spl-pollutant-unit {
+		opacity: 0.7;
+	}
+}

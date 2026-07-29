@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
  * Displays radio buttons styled as groups of buttons with title
  * for each option.
  */
-class JLTMA_Control_Choose_Text extends Control_Choose
+class JLTMA_Choose_Text extends Control_Choose
 {
     public function get_type()
     {

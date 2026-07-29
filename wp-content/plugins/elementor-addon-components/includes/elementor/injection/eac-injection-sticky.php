@@ -62,7 +62,7 @@ class Eac_Injection_Sticky {
 		add_action( 'elementor/frontend/widget/before_render', array( $this, 'eac_render_sticky' ) );
 		add_action( 'elementor/frontend/container/before_render', array( $this, 'eac_render_sticky' ) );
 
-		add_action( 'elementor/frontend/after_enqueue_scripts', array( $this, 'eac_enqueue_scripts' ), 10 );
+		add_action( 'elementor/frontend/after_enqueue_scripts', array( $this, 'enqueue_scripts' ), 17 );
 	}
 
 	/**
@@ -70,8 +70,8 @@ class Eac_Injection_Sticky {
 	 *
 	 * Mets le script dans le file
 	 */
-	public function eac_enqueue_scripts() {
-		wp_enqueue_script( 'eac-element-sticky', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-element-sticky' ), array( 'jquery', 'elementor-frontend' ), '1.8.1', true );
+	public function enqueue_scripts() {
+		wp_enqueue_script( 'eac-element-sticky', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-element-sticky' ), array( 'jquery', 'elementor-frontend' ), EAC_PLUGIN_VERSION, true );
 	}
 
 	/**
@@ -105,7 +105,7 @@ class Eac_Injection_Sticky {
 
 			// Les options du control
 			foreach ( $this->active_devices as $device ) {
-				$label                           = 'desktop' === $device ? esc_html__( 'Ordinateur', 'eac-components' ) : $this->active_breakpoints[ $device ]->get_label();
+				$label                           = 'desktop' === $device ? esc_html__( 'Desktop', 'eac-components' ) : $this->active_breakpoints[ $device ]->get_label();
 				$this->device_options[ $device ] = $label;
 			}
 
@@ -117,7 +117,7 @@ class Eac_Injection_Sticky {
 			$element->start_controls_section(
 				'eac_custom_element_sticky',
 				array(
-					'label' => esc_html__( 'Effet sticky', 'eac-components' ),
+					'label' => esc_html__( 'Sticky effect', 'eac-components' ),
 					'tab'   => Controls_Manager::TAB_ADVANCED,
 				)
 			);
@@ -125,10 +125,10 @@ class Eac_Injection_Sticky {
 				$element->add_control(
 					'eac_element_sticky_on',
 					array(
-						'label'        => esc_html__( "Activer l'effect sticky", 'eac-components' ),
+						'label'        => esc_html__( 'Sticky effect', 'eac-components' ),
 						'type'         => Controls_Manager::SWITCHER,
-						'label_on'     => esc_html__( 'oui', 'eac-components' ),
-						'label_off'    => esc_html__( 'non', 'eac-components' ),
+						'label_on'     => esc_html( 'On' ),
+						'label_off'    => esc_html( 'Off' ),
 						'return_value' => 'yes',
 						'default'      => '',
 					)
@@ -138,11 +138,11 @@ class Eac_Injection_Sticky {
 					'eac_element_sticky_usage',
 					array(
 						'type' => Controls_Manager::RAW_HTML,
-						'raw' => sprintf(
-							/* translators: 1: Link opening tag, 2: Link closing tag. */
-							esc_html__( '%1$sConsulter la documentation%2$s', 'eac-components' ),
+						'raw'  => sprintf(
+							'%1$s%2$s%3$s',
 							'<a href="https://elementor-addon-components.com/use-sticky-scrolling-effect-with-elementor/" target="_blank" rel="noopener noreferrer">',
-							'</a>',
+							esc_html__( 'Consult the documentation', 'eac-components' ),
+							'</a>'
 						),
 						'content_classes' => 'elementor-descriptor',
 						'condition'       => array( 'eac_element_sticky_on' => 'yes' ),
@@ -152,7 +152,7 @@ class Eac_Injection_Sticky {
 				$element->add_control(
 					'eac_element_sticky_devices',
 					array(
-						'label'       => esc_html__( 'Actif avec', 'eac-components' ),
+						'label'       => esc_html__( 'Active with', 'eac-components' ),
 						'type'        => Controls_Manager::SELECT2,
 						'multiple'    => true,
 						'label_block' => true,
@@ -165,15 +165,15 @@ class Eac_Injection_Sticky {
 				$element->add_control(
 					'eac_element_sticky_class',
 					array(
-						'label'     => esc_html__( "Rendre l'entête collant", 'eac-components' ),
+						'label'     => esc_html__( 'Render sticky header', 'eac-components' ),
 						'type'      => Controls_Manager::CHOOSE,
 						'options'   => array(
 							'yes' => array(
-								'title' => esc_html__( 'Oui', 'eac-components' ),
+								'title' => esc_html__( 'Yes', 'eac-components' ),
 								'icon'  => 'eicon-check',
 							),
 							'no'  => array(
-								'title' => esc_html__( 'Non', 'eac-components' ),
+								'title' => esc_html__( 'No', 'eac-components' ),
 								'icon'  => 'eicon-ban',
 							),
 						),
@@ -187,7 +187,7 @@ class Eac_Injection_Sticky {
 					'eac_element_sticky_info',
 					array(
 						'type'            => Controls_Manager::RAW_HTML,
-						'raw'             => esc_html__( "Activez cette option pour rendre l'élément sélectionné de l'en-tête collant.", 'eac-components' ),
+						'raw'             => esc_html__( 'Enable this option to make the selected header element sticky.', 'eac-components' ),
 						'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
 						'condition'       => array( 'eac_element_sticky_on' => 'yes' ),
 					)
@@ -196,7 +196,7 @@ class Eac_Injection_Sticky {
 				$element->add_control(
 					'eac_element_sticky_top',
 					array(
-						'label'       => esc_html__( 'Seuil supérieur de déclenchement (px)', 'eac-components' ),
+						'label'       => esc_html__( 'Top trigger threshold (px)', 'eac-components' ),
 						'type'        => Controls_Manager::NUMBER,
 						'min'         => 0,
 						'max'         => 500,
@@ -213,7 +213,7 @@ class Eac_Injection_Sticky {
 				$element->add_control(
 					'eac_element_sticky_typography',
 					array(
-						'label'          => esc_html__( 'Taille de la fonte (%)', 'eac-components' ),
+						'label'          => esc_html__( 'Font-size (%)', 'eac-components' ),
 						'type'           => Controls_Manager::SLIDER,
 						'size_units'     => array( '%' ),
 						'default'        => array(
@@ -250,7 +250,7 @@ class Eac_Injection_Sticky {
 				$element->add_control(
 					'eac_element_sticky_opacity',
 					array(
-						'label'     => __( 'Opacité', 'eac-components' ),
+						'label'     => esc_html__( 'Opacity', 'eac-components' ),
 						'type'      => Controls_Manager::SLIDER,
 						'default'   => array( 'size' => 1 ),
 						'range'     => array(
@@ -273,7 +273,7 @@ class Eac_Injection_Sticky {
 				$element->add_control(
 					'eac_element_sticky_up',
 					array(
-						'label'       => esc_html__( 'Seuil supérieur de déclenchement (px)', 'eac-components' ),
+						'label'       => esc_html__( 'Top trigger threshold (px)', 'eac-components' ),
 						'type'        => Controls_Manager::NUMBER,
 						'min'         => 0,
 						'max'         => 500,
@@ -290,7 +290,7 @@ class Eac_Injection_Sticky {
 				$element->add_control(
 					'eac_element_sticky_down',
 					array(
-						'label'       => esc_html__( 'Seuil inférieur de déclenchement (px)', 'eac-components' ),
+						'label'       => esc_html__( 'Bottom trigger threshold (px)', 'eac-components' ),
 						'type'        => Controls_Manager::NUMBER,
 						'min'         => 0,
 						'max'         => 500,
@@ -307,7 +307,7 @@ class Eac_Injection_Sticky {
 				$element->add_control(
 					'eac_element_sticky_zindex',
 					array(
-						'label'       => esc_html__( "Ordre de l'élément (z-index)", 'eac-components' ),
+						'label'       => esc_html__( 'Element order (z-index)', 'eac-components' ),
 						'type'        => Controls_Manager::NUMBER,
 						'min'         => 0,
 						'max'         => 10000,

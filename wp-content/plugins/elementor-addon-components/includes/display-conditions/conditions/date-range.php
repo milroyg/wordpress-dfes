@@ -18,11 +18,11 @@ use Elementor\Controls_Manager;
 
 class Date_Range extends Condition_Base {
 
-	public function get_target_control() {
+	public function get_target_control(): array {
 		$date_default = array( wp_date( 'Y-m-d', strtotime( '-1 week' ) ), wp_date( 'Y-m-d', strtotime( '+1 week' ) ) );
 
 		return array(
-			'label'          => esc_html__( 'Interval de dates', 'eac-components' ),
+			'label'          => esc_html__( 'Date range', 'eac-components' ),
 			'type'           => Controls_Manager::DATE_TIME,
 			'picker_options' => array(
 				'dateFormat' => 'Y-m-d',
@@ -38,11 +38,11 @@ class Date_Range extends Condition_Base {
 		);
 	}
 
-	public function get_called_classname() {
+	public function get_called_classname(): string {
 		return get_called_class();
 	}
 
-	public function check( $settings, $value, $operateur = '', $tz = '' ) {
+	public function check( $settings, $value, $operateur = '', $tz = '' ): bool {
 		$date_du_jour = ! empty( $tz ) ? $tz : wp_date( 'Y-m-d' );
 		$date_range   = explode( 'to', sanitize_text_field( $value ) );
 

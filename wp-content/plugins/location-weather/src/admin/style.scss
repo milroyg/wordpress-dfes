@@ -1,0 +1,695 @@
+$primary-color : #F26C0D;
+$secondary-color : #F0F0F1;
+$primary-text-color: #1E1E1E;
+$secondary-text-color: #3C434A;
+$button-text-color: #756C69;
+$max-width: 1400px;
+
+@use './pages/quick-start/quick-start-style.scss';
+@use './pages/blocks/blocks-page-style.scss';
+@use './pages/lite-vs-pro/lite-vs-pro.scss';
+@use './pages/about-us/about-us.scss';
+@use './pages/settings/setting-styles.scss';
+@use './pages/saved-templates/saved-templates.scss';
+@use './setup-wizard/setup-wizard.scss';
+@use './responsive-css.scss';
+
+.spl-weather-pro-block-admin-page {
+    margin-left: -20px;
+    a {
+        text-decoration: none;
+    }
+
+    // icon 
+    .spl-weather-blocks-settings-card-icon {
+        width: 48px;
+        padding: 6px;
+        border: 2px solid #FFE0B3;
+        border-radius: 4px;
+    }
+
+    // title.
+    .spl-weather-blocks-setting-title {
+        margin: 0 0 24px 0;
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 28px;
+        margin-top: -6px;
+    }
+
+    // toggle buttons wrapper css.
+    .spl-weather-blocks-settings-card-wrapper {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+
+        .spl-weather-blocks-settings-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #ffffff;
+            padding: 20px 24px;
+            border-radius: 6px;
+            box-shadow: 0 1px 2px 0 hsla(0, 0%, 7%, .2);
+            position: relative;
+
+            &-icon,
+            &-docs ul,
+            &-info {
+                display: flex;
+                align-items: center;
+            }
+
+            &-docs {
+                margin-left: 10px;
+
+                li,
+                h4,
+                ul {
+                    margin: 0;
+                    padding: 0;
+                }
+
+                h4 {
+                    font-size: 16px;
+                    color: #1E1E1E;
+                    font-weight: 600;
+                    line-height: 20px;
+                    margin-bottom: 4px;
+                }
+
+                ul {
+                    display: flex;
+                    gap: 10px;
+
+                }
+
+                ul li a {
+                    color: #757575;
+                    font-size: 13px;
+                    font-weight: 400;
+                    display: flex;
+                    gap: 5px;
+                    line-height: 20px;
+                    align-items: center;
+
+                    &:hover {
+                        color: #f26c0d;
+
+                        [stroke="#757575"] {
+                            stroke: #f26c0d;
+                        }
+                    }
+                }
+
+                ul li a:focus {
+                    box-shadow: none;
+                }
+            }
+
+            &:hover {
+
+                /* Show text on hover */
+                .splw-pro-blocks-badge {
+                    width: 43px;
+                }
+            }
+        }
+    }
+
+    .splw-section-title {
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 28px;
+        color: #1d2327;
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    .spl-weather-blocks-settings-toggle-btn {
+        .react-toggle {
+            touch-action: pan-x;
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            background-color: transparent;
+            border: 0;
+            padding: 0;
+
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .react-toggle-screenreader-only {
+            border: 0;
+            clip: rect(0 0 0 0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+        }
+
+        .react-toggle--disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+            -webkit-transition: opacity 0.25s;
+            transition: opacity 0.25s;
+        }
+
+        .react-toggle-track {
+            width: 36px;
+            height: 18px;
+            padding: 0;
+            border-radius: 30px;
+            background-color: #BBBBBB;
+            -webkit-transition: all 0.2s ease;
+            -moz-transition: all 0.2s ease;
+            transition: all 0.2s ease;
+        }
+
+        .react-toggle:hover:not(.react-toggle--disabled) .react-toggle-track {
+            background-color: #BBBBBB;
+        }
+
+        .react-toggle--checked .react-toggle-track {
+            background-color: #4AB866;
+        }
+
+        .react-toggle--checked:hover:not(.react-toggle--disabled) .react-toggle-track {
+            background-color: #4AB866;
+        }
+
+        .react-toggle-track-check {
+            position: absolute;
+            width: 14px;
+            height: 10px;
+            top: 0px;
+            bottom: 0px;
+            margin-top: auto;
+            margin-bottom: auto;
+            line-height: 0;
+            left: 8px;
+            opacity: 0;
+            -webkit-transition: opacity 0.25s ease;
+            -moz-transition: opacity 0.25s ease;
+            transition: opacity 0.25s ease;
+        }
+
+        .react-toggle--checked .react-toggle-track-check {
+            opacity: 1;
+            -webkit-transition: opacity 0.25s ease;
+            -moz-transition: opacity 0.25s ease;
+            transition: opacity 0.25s ease;
+        }
+
+        .react-toggle-track-x {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            top: 0px;
+            bottom: 0px;
+            margin-top: auto;
+            margin-bottom: auto;
+            line-height: 0;
+            right: 10px;
+            opacity: 1;
+            -webkit-transition: opacity 0.25s ease;
+            -moz-transition: opacity 0.25s ease;
+            transition: opacity 0.25s ease;
+        }
+
+        .react-toggle--checked .react-toggle-track-x {
+            opacity: 0;
+        }
+
+        .react-toggle-thumb {
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 14px;
+            height: 14px;
+            border: 1px solid #BBBBBB;
+            border-radius: 50%;
+            background-color: #FAFAFA;
+
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+
+            -webkit-transition: all 0.25s ease;
+            -moz-transition: all 0.25s ease;
+            transition: all 0.25s ease;
+        }
+
+        .react-toggle--checked .react-toggle-thumb {
+            left: calc(58.33% + 0.17px);
+            border-color: #4ab866;
+        }
+
+        .react-toggle:active:not(.react-toggle--disabled) .react-toggle-thumb {
+            -webkit-box-shadow: 0px 0px 5px 5px #0099E0;
+            -moz-box-shadow: 0px 0px 5px 5px #0099E0;
+            box-shadow: 0px 0px 5px 5px #0099E0;
+        }
+    }
+}
+
+// weather admin panel tabs css.
+.spl-weather-block-settings-navigation {
+    padding-top: 26px;
+    background: #fff;
+    margin-bottom: 48px;
+    border-bottom: 1px solid #dedfe0;
+
+    ul {
+        display: flex;
+        margin: 0;
+        margin: 0 auto;
+        flex-wrap: wrap;
+
+        li {
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 20px;
+            margin: 0;
+            position: relative;
+
+            a {
+                text-decoration: none;
+                padding: 13px 16px;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                color: $primary-text-color;
+                border: 1px solid transparent;
+                border-radius: 4px 4px 0 0;
+                transition: all 0.2s;
+
+                &.active {
+                    color: $primary-color;
+                    border-color: $primary-color;
+                    background-color: #F0F0F1;
+                    border-bottom-color: #F0F0F1;
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        bottom: -1px;
+                        left: 0;
+                        right: 0;
+                        height: 2px;
+                        background-color: #F0F0F1;
+                    }
+                }
+
+                // Badge styles
+                .splwb-nav-badge {
+                    position: absolute;
+                    top: 4px;
+                    right: 4px;
+                    background-color: transparent;
+                    color: #007aff;
+                    font-size: 9px;
+                    font-weight: 500;
+                    padding: 0;
+                    border-radius: 0;
+                    white-space: nowrap;
+                    line-height: normal;
+                    text-transform: uppercase;
+                }
+
+                // Position badge for specific tabs
+                li:nth-child(2) .splwb-nav-badge {
+                    left: 50%;
+                }
+
+                // SVG icon styles
+                svg {
+                    flex-shrink: 0;
+                }
+            }
+
+            // Border-left for Our Plugins tab
+            &.splwb-nav-our-plugins {
+                position: relative;
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 1px;
+                    height: 20px;
+                    background-color: #ccc;
+                }
+
+                // Hide when our_plugins is active
+                &.active::after {
+                    display: none;
+                }
+            }
+
+            // Hide border when ul has splwb-hide-our-plugins-border class (about_us or our_plugins active)
+            &.splwb-nav-our-plugins:where(:has(~ .active), :has(+ .active))::after {
+                display: none;
+            }
+        }
+    }
+
+    // Alternative: Hide border when ul has splwb-hide-our-plugins-border class
+    ul.splwb-hide-our-plugins-border {
+        .splwb-nav-our-plugins::after {
+            display: none !important;
+        }
+    }
+}
+
+// .footer css
+.spl-weather-settings-page-footer {
+    margin: 80px auto 0;
+    width: 310px;
+
+    &-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+    }
+
+    h4 {
+        color: #6E6A69;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: center;
+    }
+
+    &-title {
+        h4 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+
+            i {
+                color: #E57373;
+            }
+        }
+    }
+
+    &-social-media {
+        h4 {
+            margin: 12px auto;
+        }
+
+        ul {
+            margin: 0 auto;
+            display: flex;
+            width: 120px;
+            gap: 16px;
+
+            li {
+                margin: 0;
+
+                a:focus {
+                    box-shadow: none;
+                    outline: none;
+                    border: none;
+                }
+            }
+        }
+    }
+}
+
+.splw-green-header-notice {
+    background-color: #148652;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .splw-green-header-notice-content {
+        display: flex;
+        align-items: center;
+        padding: 12px 0;
+
+        .splw-green-header-notice-text {
+            color: #fff;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            margin-left: 6px;
+        }
+
+        .splw-green-header-notice-link {
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            padding-left: 8px;
+            position: relative;
+            gap: 3px;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0px;
+                left: 8px;
+                right: 0;
+                height: 1px;
+                background-color: #fff;
+            }
+
+            &:hover {
+                text-decoration: none;
+                svg {
+                    transform: translateX(3px) rotate(45deg);
+                }
+            }
+
+            svg {
+                width: 11px;
+                height: 11px;
+                transform: rotate(45deg);
+                transition: all .3s ease-in-out;
+            }
+        }
+    }
+}
+
+.spl-weather-admin-page-header {
+    background: linear-gradient(90deg, #FF512F 26%, #F09819 100%);
+
+    .spl-weather-admin-page-header-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        span {
+            padding: 2px 10px;
+            border: 1px solid rgba(255, 255, 255, .4);
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .spl-weather-header-changelog-btn {
+            border: none;
+            background: none;
+            outline: none;
+            cursor: pointer;
+        }
+    }
+
+    .spl-weather-admin-page-header-right {
+        display: flex;
+        gap: 5px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #fff;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 12px 0;
+        position: relative;
+
+        &:hover {
+            .splw-help-drop-down {
+                display: flex;
+            }
+        }
+    }
+
+    .splw-help-drop-down {
+        display: none;
+        position: absolute;
+        background: #fff;
+        flex-direction: column;
+        top: 40px;
+        right: 0px;
+        padding: 10px;
+        text-align: left;
+        border-radius: 4px;
+        box-shadow: 0 2px 15px 0 rgba(17, 17, 17, 0.15);
+        z-index: 10;
+        width: 244px;
+
+        a {
+            font-size: 16px;
+            font-weight: 400;
+            color: #565A5F;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 5px;
+            transition: all 0.2s;
+
+            .drop-down-arrow {
+                width: 16px;
+                height: 18px;
+                scale: 0.8;
+                fill: #565A5F;
+                margin-left: auto;
+                position: relative;
+                overflow: hidden;
+
+                svg {
+                    position: absolute;
+                    top: 80%;
+                    left: -16px;
+                    transition: all 0.5s;
+                }
+            }
+
+            &:hover {
+                background: rgb(255, 240, 217);
+
+                .drop-down-arrow {
+                    svg {
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Pro badge.
+.splw-pro-blocks-badge {
+    background: #F2930D;
+    padding: 0 2px;
+    display: flex;
+    gap: 2px;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    border-radius: 4px;
+    align-items: center;
+    transition: width 0.3s ease;
+    width: 14px;
+    overflow: hidden;
+
+    * {
+        flex-shrink: 0;
+    }
+
+    span {
+        white-space: nowrap;
+    }
+
+}
+
+.spl-weather-admin-changelog-wrapper {
+    margin-top: 32px;
+    width: 350px;
+
+    .spl-weather-changelog-heading {
+        display: flex;
+        justify-content: space-between;
+        background: #fff;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
+        display: flex;
+        justify-content: space-between;
+        left: 0;
+        padding: 15px;
+        position: sticky;
+        top: 0;
+        z-index: 9;
+
+        .spl-weather-changelog-heading-title {
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 16px;
+            margin: 0;
+        }
+
+        .spl-weather-changelog-close-btn {
+            border: none;
+            background: none;
+            outline: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+
+            svg {
+                width: 12px;
+                height: 12px;
+            }
+        }
+    }
+
+    .spl-weather-changelog-details {
+        padding: 0 15px 50px;
+
+        h4 {
+            font-size: 16px;
+            margin: 20px 0;
+        }
+
+        ul {
+            font-size: 13px;
+            list-style: disc;
+
+            li {
+                margin-bottom: 5px;
+                margin-left: 18px;
+            }
+        }
+    }
+}
+
+.splw-recommended-plugins-wrapper .splw-section-title {
+    margin-bottom: 25px;
+    margin-top: -6px;
+}
+
+// Settings info button.
+.splw-settings-info {
+    i {
+        color: #757575;
+        font-size: 16px;
+        height: 16px;
+        width: 16px;
+    }
+}

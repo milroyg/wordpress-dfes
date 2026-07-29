@@ -1,0 +1,58 @@
+.sp-location-weather-tabs-panel {
+  .components-range-control__thumb-wrapper {
+    background: transparent;
+
+    span {
+      background-color: #f26c0d;
+    }
+  }
+
+  .components-range-control__thumb-wrapper span::after,
+  .components-range-control__thumb-wrapper span::before {
+    background-color: #f26c0d;
+  }
+
+  .spl-weather-header-control-left,
+  .spl-weather-header-control-right {
+    display: flex;
+    align-items: center;
+  }
+
+  .spl-weather-header-control {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .spl-weather-header-control-reset.components-button {
+    color: #8c8f94;
+  }
+
+  .spl-weather-header-control-reset.components-button:focus {
+    box-shadow: none;
+  }
+
+  .spl-weather-header-control-reset.components-button:hover svg {
+    color: #f26c0d;
+  }
+
+  .spl-weather-header-control-reset.components-button::after {
+    border: 0;
+  }
+
+  .spl-weather-ranger-length .spl-weather-units span,
+  .spl-weather-ranger-length .spl-weather-units button {
+    width: 38px;
+  }
+
+  .spl-weather-range-control {
+    .components-range-control {
+      .components-input-control {
+        .components-input-control__container {
+          input {
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}

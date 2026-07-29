@@ -18,7 +18,7 @@ use Elementor\Controls_Manager;
 
 class User_Role extends Condition_Base {
 
-	public function get_target_control() {
+	public function get_target_control(): array {
 		if ( ! function_exists( 'get_editable_roles' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/user.php';
 		}
@@ -30,7 +30,7 @@ class User_Role extends Condition_Base {
 		asort( $roles, SORT_STRING );
 
 		return array(
-			'label'       => esc_html__( 'Liste des rôles', 'eac-components' ),
+			'label'       => esc_html__( 'List of roles', 'eac-components' ),
 			'type'        => Controls_Manager::SELECT2,
 			'label_block' => true,
 			'default'     => array(),
@@ -43,11 +43,11 @@ class User_Role extends Condition_Base {
 		);
 	}
 
-	public function get_called_classname() {
+	public function get_called_classname(): string {
 		return get_called_class();
 	}
 
-	public function check( $settings, $value, $operateur = '', $tz = '' ) {
+	public function check( $settings, $value, $operateur = '', $tz = '' ): bool {
 		if ( ! is_user_logged_in() || empty( $value ) ) {
 			return false;
 		}

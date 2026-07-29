@@ -1,0 +1,78 @@
+@use './blocks/shared/templates/additionalData/additional-style.scss';
+@use './blocks/shared/templates/preloader/preloader-style.scss';
+@use './blocks/shared/templates/forecastData/style.scss';
+@use './components/modal/modal-style.scss';
+@use './blocks/shared/templates.scss';
+@use './blocks/shared/layout-style.scss';
+@use './tailwind-class.scss';
+@use './responsive-css.scss';
+@use './blocks/aqi-minimal/aqi-card-style.scss';
+@use './blocks/section-heading/section-heading.scss';
+// Tab Panel Style
+
+.sp-location-weather-tabs-panel {
+  margin: 0;
+  padding: 0;
+}
+
+p.location-weather-child-block-notice {
+  padding: 20px;
+  margin: 0 16px 16px;
+  background-color: #f1f1f1;
+}
+
+.spl-weather-vertical-card {
+  margin: auto;
+
+  .spl-weather-card-short-desc {
+    max-width: 60%;
+  }
+}
+
+// weather based background images class names.
+
+.spl-weather-current-weather-card {
+  .spl-weather-swiper-nav {
+    background-color: #dfe2e5;
+    border: none;
+    padding: 10px 2px;
+    cursor: pointer;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+}
+
+.sp-location-weather-block-wrapper.spl-weather-api-error {
+  padding: 20px;
+}
+
+// preloader css.
+.spl-weather-preloader {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
+.splwp-icon-chevron.right {
+  &::before {
+    transform: rotate(180deg);
+  }
+}
+
+.splwp-icon-arrow,
+.splwp-icon-angle {
+  &.left {
+    &::before {
+      transform: rotate(180deg);
+    }
+  }
+}

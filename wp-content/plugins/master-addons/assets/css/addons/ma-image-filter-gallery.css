@@ -1,0 +1,168 @@
+/* Start of MA Image Filter Gallery */
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-gallery {
+  display: flex;
+  flex-wrap: wrap;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item.jltma-col-1 {
+  width: 8.333333%;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item.jltma-col-2 {
+  width: 16.666667%;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item.jltma-col-3 {
+  width: 25%;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item.jltma-col-4 {
+  width: 33.333333%;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item.jltma-col-5 {
+  width: 41.666667%;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item.jltma-col-6 {
+  width: 50%;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item.jltma-col-7 {
+  width: 58.333333%;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item.jltma-col-8 {
+  width: 66.666667%;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item.jltma-col-9 {
+  width: 75%;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item.jltma-col-10 {
+  width: 83.333333%;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item.jltma-col-11 {
+  width: 91.666667%;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item.jltma-col-12 {
+  width: 100%;
+}
+@media (max-width: 767px) {
+  .jltma-image-filter-gallery-wrapper .jltma-image-filter-item {
+    width: 100% !important;
+  }
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-nav ul li {
+  background-color: #111111;
+  color: #ffffff;
+  display: inline-block;
+  font-size: 1em;
+  margin: 0 15px 10px 15px;
+  padding: 10px 22px;
+  text-decoration: none;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-nav .jltma-tooltip-text {
+  color: #000;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item {
+  position: relative;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item .jltma-image-hover-thumb {
+  position: relative;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item .jltma-image-hover-thumb img {
+  vertical-align: bottom;
+  transition: all 0.25s ease-in-out;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item .jltma-image-hover-title {
+  display: block;
+  font-size: 16px;
+  text-align: center;
+  width: 100%;
+  transition: all 0.25s ease-in-out;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item h2 {
+  word-spacing: -0.15em;
+  font-weight: 300;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item h2 span {
+  font-weight: 800;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item p {
+  margin: 0;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item .jltma-image-hover-content {
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  padding: 15px;
+  position: absolute;
+  transition: all 0.25s ease;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item .jltma-fancybox {
+  color: #fff;
+  font-size: 20px;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item .jltma-fancybox svg {
+  width: 80px;
+  height: 80px;
+  fill: white;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item .jltma-image-hover-desc {
+  font-size: 14px;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item .jltma-image-hover-item-info {
+  left: 10px;
+  top: 10px;
+  position: absolute;
+  z-index: 1;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item .jltma-image-hover-item-info .jltma-label {
+  line-height: 1;
+  margin-right: 5px;
+  padding: 5px 10px;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item .jltma-creative-button {
+  color: #fff;
+  background-color: rgba(51, 51, 51, 0);
+  border: 1px solid #fff;
+  border-radius: 5px;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item .jltma-creative-button:hover {
+  background-color: #4b00e7;
+  border-color: #4b00e7;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-item:hover .jltma-image-hover-content {
+  opacity: 1;
+}
+.jltma-image-filter-gallery-wrapper.jltma-image-ratio-yes .jltma-image-filter-item .jltma-image-hover-thumb {
+  position: relative;
+  top: 0;
+  overflow: hidden;
+  left: 0;
+  right: 0;
+  border: 0;
+}
+.jltma-image-filter-gallery-wrapper.jltma-image-ratio-yes .jltma-image-filter-item .jltma-image-hover-thumb img {
+  height: 100%;
+  width: 100%;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-gallery.jltma-editor-mode {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+}
+.jltma-image-filter-gallery-wrapper .jltma-image-filter-gallery.jltma-editor-mode .jltma-image-filter-item {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  transform: none !important;
+}
+
+/* End of MA Image Filter Gallery */

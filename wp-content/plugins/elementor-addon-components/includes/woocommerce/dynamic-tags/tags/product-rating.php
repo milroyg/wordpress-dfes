@@ -19,23 +19,23 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 class Product_Rating extends Tag {
 	use \EACCustomWidgets\Includes\Traits\Product_Trait;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-woo-rating';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Produit évaluation', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Product review', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-woo-groupe';
+	public function get_group(): array {
+		return array( 'eac-woo-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::TEXT_CATEGORY );
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 
 		$this->register_product_id_control();
 
@@ -45,10 +45,10 @@ class Product_Rating extends Tag {
 				'label'       => esc_html__( 'Notation', 'eac-components' ),
 				'type'        => Controls_Manager::SELECT,
 				'options'     => array(
-					'average_rating' => esc_html__( 'Moyenne des notes', 'eac-components' ),  // Average rating
-					'average_html'   => esc_html__( 'Moyenne des notes HTML', 'eac-components' ),
-					'rating_count'   => esc_html__( 'Nombre de notes', 'eac-components' ),      // Rating count
-					'review_count'   => esc_html__( "Nombre d'avis", 'eac-components' ),        // Review count
+					'average_rating' => esc_html__( 'Average notes', 'eac-components' ),  // Average rating
+					'average_html'   => esc_html__( 'Average notes HTML', 'eac-components' ),
+					'rating_count'   => esc_html__( 'Number of notes', 'eac-components' ),      // Rating count
+					'review_count'   => esc_html__( 'Review count', 'eac-components' ),        // Review count
 				),
 				'default'     => 'average_rating',
 				'label_block' => true,
@@ -56,18 +56,19 @@ class Product_Rating extends Tag {
 		);
 	}
 
-	public function render() {
+	public function render(): void {
 		$product_id    = $this->get_settings( 'product_id' );
 		$settings_mode = $this->get_settings( 'eac_woo_rating_mode' );
 		$value         = '';
 
 		if ( empty( $product_id ) ) {
-			return '';
+			return;
 		}
 
 		$product = wc_get_product( $product_id );
 		if ( ! $product ) {
-			return '';    }
+			return;
+		}
 
 		switch ( $settings_mode ) {
 			case 'average_rating':

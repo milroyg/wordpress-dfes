@@ -28,12 +28,14 @@ class widgetPdfViewer extends elementorModules.frontend.handlers.Base {
             urlProxy: eacElementsPath.proxies + 'proxy-pdf.php',
             isSafariBrowser: window.safari !== undefined,
             dataURI: '',
+            fileName: '',
         };
         components.$targetIframe = components.$targetWrapper.find('#iframe-' + components.settings.data_id);
         components.$targetFancybox = components.$targetWrapper.find('#fancybox-' + components.settings.data_id);
         components.$targetLoader = components.$targetWrapper.find('#fv-viewer_loader-wheel');
         components.targetNonce = components.$targetInstance.find('#pdf_nonce').val();
         components.options = '#pagemode=none&zoom=' + components.settings.data_zoom;
+        components.fileName = this.getFilenameFromUrl(components.settings.data_url);
 
         return components;
         //const dataURI = "http://www.pdf995.com/samples/pdf.pdf";
@@ -46,7 +48,11 @@ class widgetPdfViewer extends elementorModules.frontend.handlers.Base {
     onInit() {
         super.onInit();
 
-        if (this.elements.settings.data_url === '') { return; } else { this.elements.dataURI = this.elements.settings.data_url; }
+        if (this.elements.settings.data_url === '') {
+            return;
+        } else {
+            this.elements.dataURI = this.elements.settings.data_url;
+        }
         if (this.elements.$targetLoader.length > 0) { this.elements.$targetLoader.show(); }
         this.callAjaxPdf();
     }
@@ -72,7 +78,7 @@ class widgetPdfViewer extends elementorModules.frontend.handlers.Base {
             // Traitement de l'erreur ou pour SAFARI desktop utilise le lecteur intégré du navigateur
             if (contentType === 'text/plain' || this.elements.isSafariBrowser) {
                 this.elements.settings.data_display === 'fancybox' ? this.elements.$targetFancybox.attr("data-src", fileUrl) : this.elements.$targetIframe.attr('src', fileUrl);
-            } else if(contentType === 'application/pdf') { // Utilise le lecteur viewer.html + options
+            } else if (contentType === 'application/pdf') { // Utilise le lecteur viewer.html + options
                 this.elements.settings.data_display === 'fancybox' ? this.elements.$targetFancybox.attr("data-src", finalUrl) : this.elements.$targetIframe.attr('src', finalUrl);
             } else {
                 console.log('PDF viewer => The file could not be loaded: ' + this.elements.dataURI);
@@ -92,12 +98,29 @@ class widgetPdfViewer extends elementorModules.frontend.handlers.Base {
 
     displayPdfOnFancybox() {
         this.elements.$targetFancybox.fancybox({
+            idleTime: false,
             afterShow: (instance, current) => {
-                /** Accessibilité */
                 const $content = current.$content;
+                const $closeBtn = instance.$refs.container.find('.fancybox-button--close').first();
+                const $caption = instance.$refs.caption;
+                if ($closeBtn.length) {
+                    $closeBtn.focus();
+                    $closeBtn.css({
+                        'outline': '#fff solid 3px',
+                        'outline-offset': '-3px',
+                    });
+                }
+
+                /** Accessibilité */
                 $content.attr('aria-modal', 'true');
                 $content.attr('role', 'dialog');
                 this.elements.$targetTrigger.attr('aria-expanded', 'true');
+
+                if ($caption) {
+                    const decoded = decodeURIComponent(String(this.elements.fileName).replace(/\+/g, ' '));
+                    const safe = decoded.replace(/[<>:"\/\\|?*\x00-\x1F]/g, '').trim();
+                    $caption.text(safe).css({visibility: 'visible', opacity: 1});
+                }
 
                 if (!this.elements.settings.data_toolleft) {
                     current.$slide.find('iframe').contents().find('#sidebarToggle').css('display', 'none');
@@ -139,6 +162,15 @@ class widgetPdfViewer extends elementorModules.frontend.handlers.Base {
             }
         }, 2000);
     }
+
+    getFilenameFromUrl(url) {
+        if (!url) return '';
+        // Retirer les paramètres de requête et l'ancre
+        var clean = url.split('?')[0].split('#')[0];
+        // Récupérer la partie après le dernier slash
+        var parts = clean.split('/');
+        return parts.pop() || '';
+    }
 }
 
 /**
@@ -148,11 +180,5 @@ class widgetPdfViewer extends elementorModules.frontend.handlers.Base {
  * @since 2.1.2
  */
 jQuery(window).on('elementor/frontend/init', () => {
-    const EacAddonsPdfViewer = ($element) => {
-        elementorFrontend.elementsHandler.addHandler(widgetPdfViewer, {
-            $element,
-        });
-    };
-
-    elementorFrontend.hooks.addAction('frontend/element_ready/eac-addon-pdf-viewer.default', EacAddonsPdfViewer);
+    elementorFrontend.elementsHandler.attachHandler('eac-addon-pdf-viewer', widgetPdfViewer);
 });

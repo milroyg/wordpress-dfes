@@ -70,9 +70,7 @@ function eac_create_json_dir() {
 		// création du fichier index
 		$f = fopen( EAC_ACF_JSON_PATH . '/index.php', 'w' );
 		// écriture
-		fwrite( $f, "<?php\r\n" );
-		fwrite( $f, "// Silence is golden.\r\n" );
-		fwrite( $f, '?>' );
+		fwrite( $f, "<?php\r\n// Silence is golden.\r\n" );
 		// fermeture
 		fclose( $f );
 	}

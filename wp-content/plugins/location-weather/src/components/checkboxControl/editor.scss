@@ -1,0 +1,28 @@
+$primary-color: #F26C0D;
+
+.sp-location-weather-tabs-panel {
+    .spl-weather-checkbox-control-component {
+        .components-checkbox-control {
+            --checkbox-input-margin: 0;
+            --checkbox-input-size: 20px;
+
+            .components-base-control__field {
+                margin-bottom: 0;
+            }
+
+            &__input[type=checkbox] {
+                border-color: #757575;
+
+                &:focus {
+                    box-shadow: 0 0 0 2px #fff, 0 0 0 4px $primary-color;
+
+                }
+
+                &:checked {
+                    background-color: $primary-color;
+                    border-color: $primary-color;
+                }
+            }
+        }
+    }
+}

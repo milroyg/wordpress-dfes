@@ -1,0 +1,209 @@
+// wrap swiper default css.
+.sp-location-weather-tabs-panel {
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    background-color: #f26c0d !important;
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 50%;
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    color: white !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+  }
+
+  .swiper-pagination-bullet-active {
+    background-color: #f26c0d !important;
+  }
+}
+
+.splw-preset-image {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+// modal css
+.spl-weather-layout-variation-picker-modal {
+  background: #ffffff;
+  box-shadow: 6px 6px 0px 0px #FAE9E8;
+  border: 2px solid #FAE9E8;
+  border-radius: 6px;
+  width: 652px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 48px;
+  box-sizing: border-box;
+
+  .spl-weather-layout-modal-label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    h3 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 28px;
+      color: #2F2F2F;
+      text-align: center;
+      text-transform: capitalize;
+    }
+
+    p {
+      margin: 0 !important;
+      font-size: 15px;
+      color: #5B5B5B;
+      font-weight: 400;
+      line-height: 20px;
+      text-align: center;
+    }
+  }
+
+  .spl-weather-layout-modal-items {
+    margin: 0 auto;
+    list-style: none;
+    gap: 16px;
+
+    .spl-weather-layout-modal-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+
+      p {
+        color: #2F2F2F;
+        font-size: 13px;
+        line-height: 16px;
+        font-weight: 500;
+        margin: 0;
+      }
+
+      &.spl-only-pro-card .spl-pro-badge {
+        top: 60%;
+      }
+
+      &:hover {
+
+        svg rect:nth-child(2)[stroke="#8796A1"] {
+          stroke: #1A74E4;
+          stroke-width: 2;
+          rx: 2px;
+        }
+      }
+    }
+  }
+
+  .spl-weather-layout-modal-skip-button {
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 20px;
+    color: #2F2F2F;
+
+    &:hover {
+      color: #f26c0d;
+    }
+
+    &:focus:not(:disabled) {
+      box-shadow: none;
+      border: none;
+    }
+  }
+  
+}
+
+.spl-only-pro-card {
+  overflow: unset;
+  position: relative;
+
+  .splw-preset-icon-wrapper {
+    position: relative;
+  }
+
+  svg {
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Pro badge container */
+  .spl-pro-badge {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 5;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: #fff;
+      background: rgba(17, 161, 12, 1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      z-index: 2;
+      transition: background 0.3s ease;
+      line-height: 1.7;
+      font-size: 10px;
+
+
+      &:focus {
+        box-shadow: none;
+      }
+
+      &:hover {
+        background: rgba(15, 145, 11, 1);
+      }
+
+      /* Icon inside link */
+      &.spl-pro-card-link::before {
+        content: "";
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10' fill='none'%3E%3Cg clip-path='url(%23clip0_19846_6595)'%3E%3Cpath d='M6.38574 3.76074C6.50346 3.97645 6.70098 4.13761 6.94336 4.18848C7.18995 4.2401 7.44217 4.16788 7.63281 3.99316C8.11984 3.54672 8.60669 3.09979 9.09375 2.65332C8.93567 3.90923 8.7782 5.165 8.62012 6.4209H1.38867C1.23059 5.165 1.07215 3.90923 0.914062 2.65332C1.40131 3.09997 1.88876 3.54655 2.37598 3.99316C2.56663 4.16792 2.81882 4.24011 3.06543 4.18848C3.30784 4.13762 3.50532 3.97644 3.62305 3.76074L5.00391 1.22754L6.38574 3.76074Z' stroke='white' stroke-width='0.84656'/%3E%3Cpath d='M8.5771 9.28125H1.43153C1.20184 9.28125 1.01562 9.05366 1.01562 8.77292V7.65625H8.99304V8.77292C8.99301 9.05366 8.8068 9.28125 8.5771 9.28125Z' fill='white'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_19846_6595'%3E%3Crect width='10' height='10' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
+      }
+      &.spl-pro-card-demo-link {
+				position: absolute;
+				bottom: 100%;
+				left: 50%;
+				transform: translate(-50%, -5px);
+				background: #000000ba;
+				padding: 2px 9px;
+				white-space: nowrap;
+				transition: opacity 0.2s ease, transform 0.2s ease;
+			}
+    }
+  }
+
+  /* On hover show badge */
+  &:hover {
+    svg {
+      opacity: 0.3;
+    }
+
+    .spl-pro-badge {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(-50%);
+    }
+  }
+}

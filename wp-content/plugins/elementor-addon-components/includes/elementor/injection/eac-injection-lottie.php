@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Controls_Manager;
 use Elementor\Element_Base;
@@ -44,7 +44,7 @@ class Eac_Injection_Lottie {
 
 		/** Chargement de jQuery */
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts_jquery' ) );
-		add_action( 'elementor/frontend/after_enqueue_scripts', array( $this, 'enqueue_scripts' ), 15 );
+		add_action( 'elementor/frontend/after_enqueue_scripts', array( $this, 'enqueue_scripts' ), 16 );
 	}
 
 	/**
@@ -64,10 +64,10 @@ class Eac_Injection_Lottie {
 	 * Mets le script dans le file
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'lottie-animation', 'https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.8.1/lottie.min.js', array(), '5.8.1', true );
+		wp_enqueue_script( 'lottie-animation' );
 
-		wp_enqueue_script( 'eac-lottie-anim', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-lottie-animations' ), array( 'jquery', 'elementor-frontend', 'lottie-animation' ), '1.9.3', true );
-		wp_enqueue_style( 'eac-lottie-anim', EAC_Plugin::instance()->get_style_url( 'assets/css/lottie-animations' ), array( 'eac-frontend' ), '1.9.3' );
+		wp_enqueue_script( 'eac-lottie-anim', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-lottie-animations' ), array( 'jquery', 'lottie-animation', 'elementor-frontend' ), EAC_PLUGIN_VERSION, true );
+		wp_enqueue_style( 'eac-lottie-anim', EAC_Plugin::instance()->get_style_url( 'assets/css/lottie-animations' ), array(), EAC_PLUGIN_VERSION );
 	}
 
 	/**
@@ -87,7 +87,6 @@ class Eac_Injection_Lottie {
 		}
 
 		if ( 'section_effects' === $section_id && in_array( $element->get_name(), $this->target_elements, true ) ) {
-
 			$element->start_controls_section(
 				'eac_custom_element_lottie',
 				array(
@@ -99,10 +98,10 @@ class Eac_Injection_Lottie {
 				$element->add_control(
 					'eac_element_lottie',
 					array(
-						'label'        => esc_html__( 'Activer Lottie', 'eac-components' ),
+						'label'        => esc_html__( 'Lottie animation', 'eac-components' ),
 						'type'         => Controls_Manager::SWITCHER,
-						'label_on'     => esc_html__( 'oui', 'eac-components' ),
-						'label_off'    => esc_html__( 'non', 'eac-components' ),
+						'label_on'     => esc_html( 'On' ),
+						'label_off'    => esc_html( 'Off' ),
 						'return_value' => 'yes',
 						'default'      => '',
 					)
@@ -112,11 +111,11 @@ class Eac_Injection_Lottie {
 					'eac_element_lottie_usage',
 					array(
 						'type' => Controls_Manager::RAW_HTML,
-						'raw' => sprintf(
-							/* translators: 1: Link opening tag, 2: Link closing tag. */
-							esc_html__( '%1$sConsulter la documentation%2$s', 'eac-components' ),
+						'raw'  => sprintf(
+							'%1$s%2$s%3$s',
 							'<a href="https://elementor-addon-components.com/add-lottie-animation-in-elementor/#use-lottie-animations-in-the-background-of-an-element" target="_blank" rel="noopener noreferrer">',
-							'</a>',
+							esc_html__( 'Consult the documentation', 'eac-components' ),
+							'</a>'
 						),
 						'content_classes' => 'elementor-descriptor',
 						'condition'       => array( 'eac_element_lottie' => 'yes' ),
@@ -141,11 +140,11 @@ class Eac_Injection_Lottie {
 						'type'      => Controls_Manager::CHOOSE,
 						'options'   => array(
 							'file' => array(
-								'title' => esc_html__( 'Fichier média', 'eac-components' ),
+								'title' => esc_html__( 'Media file', 'eac-components' ),
 								'icon'  => 'eicon-document-file',
 							),
 							'url'  => array(
-								'title' => esc_html__( 'URL', 'eac-components' ),
+								'title' => esc_html( 'URL' ),
 								'icon'  => 'eicon-link',
 							),
 						),
@@ -157,10 +156,10 @@ class Eac_Injection_Lottie {
 				$element->add_control(
 					'eac_element_lottie_media_file',
 					array(
-						'label'        => esc_html__( 'Sélectionner le fichier', 'eac-components' ),
+						'label'        => esc_html__( 'Select file', 'eac-components' ),
 						'type'         => 'FILE_VIEWER',
 						'library_type' => array( 'application/json' ), // propriété utilisée par le script 'eac-file-viewer-control.js'
-						'description'  => esc_html__( 'Sélectionner le fichier de la librairie des médias', 'eac-components' ),
+						'description'  => esc_html__( 'Select the file from the media library', 'eac-components' ),
 						'condition'    => array(
 							'eac_element_lottie'        => 'yes',
 							'eac_element_lottie_source' => 'file',
@@ -171,9 +170,9 @@ class Eac_Injection_Lottie {
 				$element->add_control(
 					'eac_element_lottie_media_url',
 					array(
-						'label'       => esc_html__( 'URL', 'eac-components' ),
+						'label'       => esc_html( 'URL' ),
 						'type'        => Controls_Manager::URL,
-						'description' => __( "Obtenez l'URL de l'animation <a href='https://lottiefiles.com/' target='_blank' rel='nofollow noopener noreferrer'>ici</a>", 'eac-components' ),
+						'description' => esc_html__( "URL animation <a href='https://lottiefiles.com/' target='_blank' rel='nofollow noopener noreferrer'>here</a>", 'eac-components' ),
 						'placeholder' => 'https://lottiefiles.com/anim.json/',
 						'dynamic'     => array(
 							'active' => true,
@@ -191,7 +190,7 @@ class Eac_Injection_Lottie {
 					array(
 						'type'            => Controls_Manager::RAW_HTML,
 						'content_classes' => 'elementor-panel-alert elementor-panel-alert-warning',
-						'raw'             => esc_html__( "Réglages Elementor/Avancé, activer l'option 'Permettre les téléversements de fichier non filtré'", 'eac-components' ),
+						'raw'             => esc_html__( "Elementor/Advanced settings, activate option 'Enable Unfiltered File Uploads'", 'eac-components' ),
 						'condition'   => array(
 							'eac_element_lottie'                => 'yes',
 							'eac_element_lottie_source'         => 'url',
@@ -203,15 +202,15 @@ class Eac_Injection_Lottie {
 				$element->add_control(
 					'eac_element_lottie_loop',
 					array(
-						'label'       => esc_html__( 'Lire en boucle', 'eac-components' ),
+						'label'       => esc_html__( 'Loop', 'eac-components' ),
 						'type'        => Controls_Manager::CHOOSE,
 						'options'     => array(
 							'yes' => array(
-								'title' => esc_html__( 'Boucle', 'eac-components' ),
+								'title' => esc_html__( 'Loop', 'eac-components' ),
 								'icon'  => 'eicon-check',
 							),
 							'no'  => array(
-								'title' => esc_html__( 'Une fois', 'eac-components' ),
+								'title' => esc_html__( 'Only once', 'eac-components' ),
 								'icon'  => 'eicon-ban',
 							),
 						),
@@ -226,7 +225,7 @@ class Eac_Injection_Lottie {
 				$element->add_control(
 					'eac_element_lottie_speed',
 					array(
-						'label'     => esc_html__( 'Vitesse', 'eac-components' ),
+						'label'     => esc_html__( 'Speed', 'eac-components' ),
 						'type'      => Controls_Manager::NUMBER,
 						'default'   => 1,
 						'min'       => 0.1,
@@ -239,7 +238,7 @@ class Eac_Injection_Lottie {
 				/**$element->add_control(
 					'eac_element_lottie_rotate',
 					array(
-						'label'     => esc_html__( 'Rotation', 'eac-components' ),
+						'label'     => esc_html( 'Rotation' ),
 						'type'      => Controls_Manager::SLIDER,
 						'default'   => array(
 							'size' => 0,
@@ -260,16 +259,16 @@ class Eac_Injection_Lottie {
 				$element->add_control(
 					'eac_element_lottie_viewport',
 					array(
-						'label'       => esc_html__( 'Activer dans la fenêtre', 'eac-components' ),
-						'description' => esc_html__( 'Active uniquement dans la partie visible de la fenêtre', 'eac-components' ),
+						'label'       => esc_html__( 'Enable in Window', 'eac-components' ),
+						'description' => esc_html__( 'Active only in the visible part of the window', 'eac-components' ),
 						'type'        => Controls_Manager::CHOOSE,
 						'options'     => array(
 							'yes' => array(
-								'title' => esc_html__( 'Oui', 'eac-components' ),
+								'title' => esc_html__( 'Yes', 'eac-components' ),
 								'icon'  => 'eicon-check',
 							),
 							'no'  => array(
-								'title' => esc_html__( 'Non', 'eac-components' ),
+								'title' => esc_html__( 'No', 'eac-components' ),
 								'icon'  => 'eicon-ban',
 							),
 						),
@@ -283,7 +282,7 @@ class Eac_Injection_Lottie {
 				$element->add_control(
 					'eac_element_lottie_opacity',
 					array(
-						'label'     => esc_html__( 'Opacité', 'eac-components' ),
+						'label'     => esc_html__( 'Opacity', 'eac-components' ),
 						'type'      => Controls_Manager::SLIDER,
 						'default'   => array( 'size' => 1 ),
 						'range'     => array(
@@ -341,7 +340,7 @@ class Eac_Injection_Lottie {
 			<script type="text/javascript" lbg-js-id="<?php echo esc_attr( $element->get_id() ); ?>">
 				jQuery(document).ready(function () {
 					jQuery(".elementor-element-<?php echo esc_attr( $element->get_id() ); ?>")
-						.prepend("<div class='lottie-anim_wrapper lottie-anim_wrapper-bg' role='img' data-src='<?php echo esc_url( $url ); ?>' data-autoplay='<?php echo esc_attr( $autoplay ); ?>' data-loop='<?php echo esc_attr( $loop ); ?>' data-speed='<?php echo esc_attr( $speed ); ?>' data-reverse='1' data-renderer='svg' data-trigger='<?php echo esc_attr( $viewp ); ?>' data-elem-id='<?php echo esc_attr( $element->get_id() ); ?>' data-name='lottie_<?php echo esc_attr( $element->get_id() ); ?>' style='position: absolute; top: 0; left: 0; right: 0; bottom: 0; min-block-size: 50px;'></div>");
+						.prepend("<div class='lottie-anim_wrapper lottie-anim_wrapper-bg' data-src='<?php echo esc_url( $url ); ?>' data-autoplay='<?php echo esc_attr( $autoplay ); ?>' data-loop='<?php echo esc_attr( $loop ); ?>' data-speed='<?php echo esc_attr( $speed ); ?>' data-reverse='1' data-renderer='svg' data-trigger='<?php echo esc_attr( $viewp ); ?>' data-elem-id='<?php echo esc_attr( $element->get_id() ); ?>' data-name='lottie_<?php echo esc_attr( $element->get_id() ); ?>' style='position: absolute; top: 0; left: 0; right: 0; bottom: 0; min-block-size: 50px;'></div>");
 				});
 			</script>
 			<?php

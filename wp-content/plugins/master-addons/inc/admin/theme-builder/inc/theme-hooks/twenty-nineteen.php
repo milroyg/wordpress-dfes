@@ -1,5 +1,5 @@
 <?php
-namespace MasterHeaderFooter\Theme_Hooks;
+namespace MasterAddons\Inc\Admin\Theme_Builder\Theme_Hooks;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -26,7 +26,7 @@ class TwentyNineteen {
 
 	public function jltma_get_comment_form( $comment_template ){
 		ob_start();
-		return JLTMA_PATH . 'inc/admin/theme-builder/inc/view/theme-support-comment.php';
+		return \JLTMA_PATH . 'inc/admin/theme-builder/inc/view/theme-support-comment.php';
 		ob_get_clean();
 	}
 
@@ -37,7 +37,7 @@ class TwentyNineteen {
 			echo '<div id="content" class="site-content">';
 		});
 
-		require JLTMA_PATH . 'inc/admin/theme-builder/inc/view/theme-support-header.php';
+		require \JLTMA_PATH . 'inc/admin/theme-builder/inc/view/theme-support-header.php';
 
 		$templates = [];
 		$name = (string) $name;
@@ -60,7 +60,7 @@ class TwentyNineteen {
 			echo '</div></div>';
 		});
 
-		require JLTMA_PATH . 'inc/admin/theme-builder/inc/view/theme-support-footer.php';
+		require \JLTMA_PATH . 'inc/admin/theme-builder/inc/view/theme-support-footer.php';
 
 		$templates = [];
 		$name = (string) $name;

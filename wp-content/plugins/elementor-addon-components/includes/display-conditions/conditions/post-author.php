@@ -18,10 +18,10 @@ use Elementor\Controls_Manager;
 
 class Post_Author extends Condition_Base {
 
-	public function get_target_control() {
+	public function get_target_control(): array {
 
 		return array(
-			'label'       => esc_html__( 'Liste des auteurs', 'eac-components' ),
+			'label'       => esc_html__( 'List of authors', 'eac-components' ),
 			'type'        => 'eac-select2',
 			'select2Options' => array(
 				'query_type'  => 'author',
@@ -35,11 +35,11 @@ class Post_Author extends Condition_Base {
 		);
 	}
 
-	public function get_called_classname() {
+	public function get_called_classname(): string {
 		return get_called_class();
 	}
 
-	public function check( $settings, $value, $operateur = '', $tz = '' ) {
+	public function check( $settings, $value, $operateur = '', $tz = '' ): bool {
 		if ( ! is_array( $value ) ) {
 			return true;
 		}

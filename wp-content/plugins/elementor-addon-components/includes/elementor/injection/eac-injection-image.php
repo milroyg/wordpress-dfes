@@ -51,15 +51,15 @@ class Eac_Injection_Image {
 				'of' => 'mb_display_image',
 			)
 		);
-			// Ajoute le control Attribut ALT
+			// Ajoute le control ALT attribute
 			$element->add_control(
 				'image_link_alt',
 				array(
-					'label'       => esc_html__( 'Attribut ALT', 'eac-components' ),
+					'label'       => esc_html__( 'ALT attribute', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'ai'          => array( 'active' => false ),
 					'default'     => '',
-					'description' => esc_html__( "Valoriser l'attribut 'ALT' pour une image externe (SEO)", 'eac-components' ),
+					'description' => esc_html__( "Set 'ALT' attribut for external image (SEO)", 'eac-components' ),
 					'label_block' => true,
 					'render_type' => 'none',
 					'condition'   => array( 'mb_origin_trigger' => 'image' ),
@@ -88,14 +88,14 @@ class Eac_Injection_Image {
 				'of' => 'image',
 			)
 		);
-			// Ajoute le control Attribut ALT
+			// Ajoute le control ALT attribute
 			$element->add_control(
 				'image_link_alt',
 				array(
-					'label'       => esc_html__( 'Attribut ALT', 'eac-components' ),
+					'label'       => esc_html__( 'ALT attribute', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'default'     => '',
-					'description' => esc_html__( "Valoriser l'attribut 'ALT' pour une image externe (SEO)", 'eac-components' ),
+					'description' => esc_html__( "Set 'ALT' attribut for external image (SEO)", 'eac-components' ),
 					'label_block' => true,
 					'render_type' => 'none',
 				)
@@ -116,7 +116,6 @@ class Eac_Injection_Image {
 	public function add_image_custom_attribute( $content, $widget ) {
 		// Wiget image, image-box ou Modalbox
 		if ( 'image' === $widget->get_name() || 'image-box' === $widget->get_name() || 'eac-addon-modal-box' === $widget->get_name() ) {
-
 			// get widget image setting
 			$settings = $widget->get_settings_for_display();
 

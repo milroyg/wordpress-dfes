@@ -24,6 +24,7 @@ class widgetAdvancedGallery extends elementorModules.frontend.handlers.Base {
                 targetJustify: '.fj-gallery',
                 filterWrapperLink: '.ag-filters__wrapper a',
                 filterWrapperSelect: '.ag-filters__select',
+                targetFancybox: '.advanced-gallery__image a[data-fancybox]',
             },
         };
     }
@@ -43,6 +44,7 @@ class widgetAdvancedGallery extends elementorModules.frontend.handlers.Base {
             filterItem: '.ag-filters__item',
             filterActive: 'ag-active',
             $filterWrapperSelect: this.$element.find(selectors.filterWrapperSelect),
+            $targetFancybox: this.$element.find(selectors.targetFancybox),
             settings: this.$element.find(selectors.target).data('settings') || {},
             $targetId: null,
             widgetId: this.$element.data('id'),
@@ -101,7 +103,11 @@ class widgetAdvancedGallery extends elementorModules.frontend.handlers.Base {
     }
 
     bindEvents() {
-        if (!elementorFrontend.isEditMode()) {
+        const that = this;
+
+        if (elementorFrontend.isEditMode()) {
+            this.elements.$targetFancybox.on('click', function (evt) { evt.preventDefault(); }); // Le fancybox ne s'ouvre pas dans l'éditeur
+        } else if (!elementorFrontend.isEditMode()) {
             if (!this.elements.has_swiper && this.elements.settings.data_filtre) {
                 this.elements.$filterWrapperLink.on('click', (evt) => { this.onFilterGridClick(evt); });
                 this.elements.$filterWrapperSelect.on('change', (evt) => { this.onFilterGridChange(evt); });
@@ -110,6 +116,33 @@ class widgetAdvancedGallery extends elementorModules.frontend.handlers.Base {
             if (this.elements.$itemsInstance.length > 0) {
                 this.elements.$targetInstance.on('keydown', (evt) => { this.setKeyboardEvents(evt); });
             }
+
+            if (this.elements.$targetFancybox.length) {
+                this.elements.$targetFancybox.fancybox({
+                    afterShow: function (instance, current) {
+                        const $content = current.$content;
+                        $content.attr('aria-modal', 'true');
+                        $content.attr('role', 'dialog');
+                        that.elements.$targetFancybox.attr('aria-expanded', 'true');
+                    },
+                    afterClose: function (instance, current) {
+                        that.elements.$targetFancybox.attr('aria-expanded', 'false');
+                    }
+                });
+            }
+
+            /**$(document).on('afterShow.fb afterClose.fb', function (evt, instance, slide) {
+                // slide.src ou slide.opts.$orig pour retrouver l'élément d'origine
+                var $orig = slide && slide.opts && slide.opts.$orig ? slide.opts.$orig : null;
+
+                if ($orig && $orig.length) {
+                    if (evt.type === 'afterShow') {
+                        $orig.attr('aria-expanded', 'true');
+                    } else if (evt.type === 'afterClose') {
+                        $orig.attr('aria-expanded', 'false');
+                    }
+                }
+            });*/
         }
 
         /** @since 2.3.4 Dans l'éditeur Elementor désactive le lazyload, les images sont toutes chargées */
@@ -164,6 +197,10 @@ class widgetAdvancedGallery extends elementorModules.frontend.handlers.Base {
         if ($this.parents(this.elements.filterItem).hasClass(this.elements.filterActive)) {
             return;
         }
+
+        /** Accessibilmité */
+        this.elements.$filterWrapperLink.attr('aria-pressed','false');
+        $this.attr('aria-pressed','true');
 
         $optionSet.find('.' + this.elements.filterActive).removeClass(this.elements.filterActive);
         $this.parents(this.elements.filterItem).addClass(this.elements.filterActive);

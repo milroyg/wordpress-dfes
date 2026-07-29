@@ -1,0 +1,207 @@
+.sp-location-weather-tabs-panel {
+  .spl-weather-toggle-component {
+    position: relative;
+
+    .components-flex {
+      flex-direction: row-reverse;
+    }
+
+    .components-toggle-control__label {
+      margin-bottom: 0px;
+      font-size: 13px;
+      font-weight: 400;
+      // text-transform: capitalize;
+      color: #1e1e1e;
+    }
+
+    .components-form-toggle {
+      .components-form-toggle__track {
+        background: #BBBBBB;
+        border: none;
+      }
+
+      .components-form-toggle__thumb {
+        background: #BBBBBB;
+        border-color: #FFFFFF;
+      }
+
+      &.is-checked {
+        .components-form-toggle__track {
+          background: #f26c0d;
+          border-color: #f26c0d;
+
+        }
+
+        .components-form-toggle__thumb {
+          background: #fff;
+        }
+      }
+
+      .components-form-toggle__input:focus+.components-form-toggle__track {
+        box-shadow: 0 0 0 var(--wp-admin-border-width-focus) #fff,
+          0 0 0 calc(var(--wp-admin-border-width-focus) * 2) #FF5B2E;
+      }
+
+    }
+
+    &.updated-toggle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 8px;
+      background-color: #fff;
+      border: 1px solid #E0E0E0;
+      border-radius: 4px;
+
+      .spl-weather-toggle-left {
+        display: flex;
+        align-items: center;
+
+        svg {
+          margin-left: -4px;
+        }
+
+        span {
+          margin-bottom: 0px;
+          font-size: 13px;
+          font-weight: 400;
+          line-height: 20px;
+          text-transform: capitalize;
+          color: #1e1e1e;
+          font-family: Inter, sans-serif;
+        }
+      }
+
+      .components-base-control .components-base-control__field {
+        padding: 0;
+      }
+
+      .components-toggle-control {
+        margin: 0;
+      }
+    }
+
+    &.spl-weather-toggle-info-icon {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .components-toggle-control {
+        margin: 0;
+      }
+    }
+
+    .spl-weather-toggle-left {
+      display: flex;
+    }
+
+    &.spl-only-pro-toggle {
+      display: flex;
+      justify-content: space-between;
+
+      .spl-weather-toggle-left {
+        gap: 5px;
+
+        .spl-pro-title {
+          pointer-events: none;
+          opacity: 0.5;
+        }
+
+        .spl-pro-badge {
+          color: #159E2E;
+          font-size: 13px;
+          font-weight: 400;
+          line-height: 20px;
+          margin-left: 0;
+          text-decoration: none;
+        }
+
+        .spl-weather-video-tooltip {
+          width: 15px;
+          cursor: pointer;
+        }
+      }
+
+      .components-toggle-control {
+        margin-bottom: 0;
+        font-size: 13px;
+        font-weight: 400;
+        color: #1e1e1e;
+        pointer-events: none;
+        opacity: 0.5;
+      }
+    }
+  }
+
+  //Info Popup
+  .splw-info-icon {
+    svg {
+      width: 14px;
+    }
+
+    margin-left: 4px;
+    cursor: pointer;
+    padding-top: 21px;
+    transform: translateY(-20px);
+    margin-bottom: -20px;
+
+    svg {
+      fill: #ccc;
+    }
+  }
+
+  .location-auto-detect {
+    .spl-pro-badge {
+      position: absolute;
+      right: 34px;
+    }
+  }
+}
+
+.splw-info-popup {
+  background: #fff;
+  box-shadow: 0px 0px 10px 1px #cccccc;
+  border-radius: 4px;
+  border: none;
+
+  h4 {
+    margin: 0;
+    margin-bottom: 6px;
+  }
+
+  .splw-info-popup-content {
+    width: 248px;
+    padding: 20px;
+  }
+}
+
+.spl-video-tooltip-popup-portal {
+  width: 400px;
+  height: auto;
+  padding: 12px;
+  background: rgb(0 0 26 / 80%);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  .components-popover__content {
+    width: 100%;
+    height: auto;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .spl-video-tooltip-text {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-block;
+    margin-top: 12px;
+  }
+
+  video {
+    width: 100%;
+    display: block;
+    border-radius: 4px;
+  }
+}

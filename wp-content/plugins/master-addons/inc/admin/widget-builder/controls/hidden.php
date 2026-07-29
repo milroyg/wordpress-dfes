@@ -1,5 +1,5 @@
 <?php
-namespace MasterAddons\Admin\WidgetBuilder\Controls;
+namespace MasterAddons\Inc\Admin\WidgetBuilder\Controls;
 
 defined('ABSPATH') || exit;
 
@@ -39,5 +39,9 @@ class Hidden extends Control_Base {
         $content .= $this->build_control_footer();
 
         return $content;
+    }
+
+    protected function default_label() {
+        return 'Hidden';
     }
 }

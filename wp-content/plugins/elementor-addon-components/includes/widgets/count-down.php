@@ -16,8 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
+use EACCustomWidgets\Includes\TemplatesLib\Documents\Site_Header;
+use EACCustomWidgets\Includes\TemplatesLib\Documents\Site_Footer;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -30,21 +31,6 @@ use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
 
 class Count_Down_Widget extends Widget_Base {
-
-	/**
-	 * Constructeur de la class News_Ticker_Widget
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		EAC_Plugin::instance()->register_script( 'eac-count-down', 'assets/js/elementor/eac-count-down', array( 'jquery', 'elementor-frontend' ), '2.2.7',
-			array(
-				'strategy' => 'defer',
-				'in_footer' => true,
-			)
-		);
-		wp_register_style( 'eac-count-down', EAC_Plugin::instance()->get_style_url( 'assets/css/count-down' ), array(), '2.2.7' );
-	}
 
 	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
@@ -62,8 +48,8 @@ class Count_Down_Widget extends Widget_Base {
 	 *
 	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -73,8 +59,8 @@ class Count_Down_Widget extends Widget_Base {
 	 *
 	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -84,8 +70,8 @@ class Count_Down_Widget extends Widget_Base {
 	 *
 	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -93,10 +79,10 @@ class Count_Down_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -111,18 +97,6 @@ class Count_Down_Widget extends Widget_Base {
 	}
 
 	/**
-	 * Load dependent styles
-	 * Les styles sont chargés dans le footer
-	 *
-	 * @access public
-	 *
-	 * @return CSS Array.
-	 */
-	public function get_style_depends(): array {
-		return array( 'eac-count-down' );
-	}
-
-	/**
 	 * Get widget keywords.
 	 *
 	 * Retrieve the list of keywords the widget belongs to.
@@ -131,8 +105,8 @@ class Count_Down_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -140,10 +114,10 @@ class Count_Down_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -161,7 +135,7 @@ class Count_Down_Widget extends Widget_Base {
 	 * @return bool
 	 */
 	protected function is_dynamic_content(): bool {
-		return false;
+		return true;
 	}
 
 	/**
@@ -178,7 +152,7 @@ class Count_Down_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'cd_settings',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -189,8 +163,8 @@ class Count_Down_Widget extends Widget_Base {
 					'label'   => esc_html__( 'Type', 'eac-components' ),
 					'type'    => Controls_Manager::SELECT,
 					'options' => array(
-						'due_date'  => esc_html__( "Date d'échéance", 'eac-components' ),
-						'evergreen' => esc_html__( 'Evergreen', 'eac-components' ),
+						'due_date'  => esc_html__( 'Due date', 'eac-components' ),
+						'evergreen' => esc_html( 'Evergreen' ),
 					),
 					'default' => 'due_date',
 				)
@@ -201,7 +175,7 @@ class Count_Down_Widget extends Widget_Base {
 			$this->add_control(
 				'cd_due_date',
 				array(
-					'label'          => esc_html__( "Date d'échéance", 'eac-components' ),
+					'label'          => esc_html__( 'Due date', 'eac-components' ),
 					'type'           => Controls_Manager::DATE_TIME,
 					'picker_options' => array(
 						'dateFormat'        => 'Y-m-d H:i',
@@ -212,7 +186,7 @@ class Count_Down_Widget extends Widget_Base {
 					),
 					'default'        => $default_date,
 					/* translators: %s: Time zone. */
-					'description'    => sprintf( esc_html__( 'Votre fuseau horaire: %s.', 'eac-components' ), wp_timezone_string() ),
+					'description'    => sprintf( esc_html__( 'Your timezone: %s.', 'eac-components' ), wp_timezone_string() ),
 					'dynamic'        => array( 'active' => true ),
 					'condition'      => array( 'cd_type' => 'due_date' ),
 				)
@@ -221,7 +195,7 @@ class Count_Down_Widget extends Widget_Base {
 			$this->add_control(
 				'cd_evg_hours',
 				array(
-					'label'     => esc_html__( 'Heures', 'eac-components' ),
+					'label'     => esc_html__( 'Hours', 'eac-components' ),
 					'type'      => Controls_Manager::NUMBER,
 					'default'   => 25,
 					'condition'   => array( 'cd_type' => 'evergreen' ),
@@ -241,11 +215,11 @@ class Count_Down_Widget extends Widget_Base {
 			$this->add_control(
 				'cd_skin',
 				array(
-					'label'        => esc_html__( 'Habillage', 'eac-components' ),
+					'label'        => esc_html__( 'Skin', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
 					'default'      => 'default',
 					'options'      => array(
-						'default'  => esc_html__( 'Défaut', 'eac-components' ),
+						'default'  => esc_html__( 'Default', 'eac-components' ),
 						'skin-1' => 'Skin 1',
 						'skin-2' => 'Skin 2',
 						'skin-3' => 'Skin 3',
@@ -258,13 +232,9 @@ class Count_Down_Widget extends Widget_Base {
 			$this->add_control(
 				'cd_expire_action',
 				array(
-					'label'       => esc_html__( 'Action après expiration', 'eac-components' ),
+					'label'       => esc_html__( 'Action after expiration', 'eac-components' ),
 					'type'        => Controls_Manager::SELECT2,
-					'options'     => array(
-						'hide'     => esc_html__( 'Cacher', 'eac-components' ),
-						'redirect' => esc_html__( 'Rediriger', 'eac-components' ),
-						'message'  => esc_html__( 'Afficher message', 'eac-components' ),
-					),
+					'options'     => $this->get_options_action(),
 					'default'     => array( 'message' ),
 					'multiple'    => true,
 					'label_block' => true,
@@ -277,6 +247,7 @@ class Count_Down_Widget extends Widget_Base {
 				array(
 					'label'       => esc_html__( 'Message', 'eac-components' ),
 					'type'        => Controls_Manager::TEXTAREA,
+					'default'     => esc_html__( 'Offer ended — check out our new arrivals', 'eac-components' ),
 					'dynamic'     => array(
 						'active' => true,
 					),
@@ -291,19 +262,19 @@ class Count_Down_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'cd_message_alignment',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'start'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-text-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-text-align-center',
 						),
 						'end'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-text-align-{$end}",
 						),
 					),
@@ -315,26 +286,25 @@ class Count_Down_Widget extends Widget_Base {
 				)
 			);
 
-			/**$this->add_control(
-				'cd_action_url',
+			$this->add_control(
+				'cd_action_redirect',
 				array(
-					'label'       => esc_html__( 'URL', 'eac-components' ),
+					'label'       => esc_html( 'URL' ),
 					'type'        => 'eac-select2',
 					'select2Options' => array(
 						'query_type' => 'url',
 					),
-					'multiple'    => false,
 					'render_type' => 'none',
 					'condition'   => array( 'cd_expire_action' => 'redirect' ),
 				)
-			);*/
+			);
 
-			$this->add_control(
+			/**$this->add_control(
 				'cd_action_redirect',
 				array(
-					'label'        => esc_html__( 'URL', 'eac-components' ),
+					'label'        => esc_html( 'URL' ),
 					'type'         => Controls_Manager::URL,
-					'placeholder'  => esc_html__( 'Coller une URL ou taper', 'eac-components' ),
+					'placeholder'  => esc_html__( 'Type or paste your URL', 'eac-components' ),
 					'options'      => false,
 					'dynamic'      => array(
 						'active' => true,
@@ -344,12 +314,12 @@ class Count_Down_Widget extends Widget_Base {
 					'autocomplete' => true,
 					'condition'    => array( 'cd_expire_action' => 'redirect' ),
 				)
-			);
+			);*/
 
 			$this->add_control(
 				'cd_action_tempo',
 				array(
-					'label'       => esc_html__( 'Temporisation (s)', 'eac-components' ),
+					'label'       => esc_html__( 'Time delay (s)', 'eac-components' ),
 					'type'        => Controls_Manager::NUMBER,
 					'min'         => 2,
 					'step'        => 1,
@@ -359,12 +329,33 @@ class Count_Down_Widget extends Widget_Base {
 				)
 			);
 
+			$this->add_control(
+				'cd_show_action',
+				array(
+					'label'     => esc_html__( 'Display action', 'eac-components' ),
+					'type'      => Controls_Manager::CHOOSE,
+					'options'   => array(
+						'yes' => array(
+							'title' => esc_html__( 'Yes', 'eac-components' ),
+							'icon'  => 'eicon-check',
+						),
+						'no'  => array(
+							'title' => esc_html__( 'No', 'eac-components' ),
+							'icon'  => 'eicon-ban',
+						),
+					),
+					'default'   => 'no',
+					'toggle'    => false,
+					'prefix_class' => 'show-action-',
+				)
+			);
+
 		$this->end_controls_section();
 
 		$this->start_controls_section(
 			'cd_content',
 			array(
-				'label' => esc_html__( 'Contenu', 'eac-components' ),
+				'label' => esc_html__( 'Content', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -372,43 +363,108 @@ class Count_Down_Widget extends Widget_Base {
 			$this->add_control(
 				'cd_display_content',
 				array(
-					'label'        => esc_html__( 'Affichage', 'eac-components' ),
+					'label'        => esc_html__( 'Display', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
 					'options'      => array(
-						'block'  => esc_html__( 'Bloc', 'eac-components' ),
-						'inline' => esc_html__( 'En ligne', 'eac-components' ),
+						'block'  => esc_html__( 'Block', 'eac-components' ),
+						'inline' => esc_html__( 'Inline', 'eac-components' ),
 					),
 					'default'      => 'block',
 					'prefix_class' => 'cd-display-',
 				)
 			);
 
+			$this->add_responsive_control(
+				'cd_container_width',
+				array(
+					'label'       => esc_html__( 'Width', 'eac-components' ),
+					'type'        => Controls_Manager::SLIDER,
+					'size_units'  => array( 'px', 'em', '%' ),
+					'default'     => array(
+						'size' => 80,
+						'unit' => '%',
+					),
+					'tablet_default' => array(
+						'unit' => '%',
+					),
+					'mobile_default' => array(
+						'unit' => '%',
+					),
+					'range'       => array(
+						'px' => array(
+							'max'  => 1140,
+							'step' => 50,
+						),
+						'em' => array(
+							'max'  => 200,
+							'step' => 10,
+						),
+						'%'  => array(
+							'max'  => 100,
+							'step' => 10,
+						),
+					),
+					'label_block' => true,
+					'selectors'   => array( '{{WRAPPER}} .count-down_container' => 'inline-size: {{SIZE}}{{UNIT}};' ),
+				)
+			);
+
+			$this->add_responsive_control(
+				'cd_alignment',
+				array(
+					'label'   => esc_html__( 'Alignment', 'eac-components' ),
+					'type'    => Controls_Manager::CHOOSE,
+					'default' => 'center',
+					'options' => array(
+						'left'   => array(
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
+							'icon'  => "eicon-h-align-{$start}",
+						),
+						'center' => array(
+							'title' => esc_html__( 'Center', 'eac-components' ),
+							'icon'  => 'eicon-h-align-center',
+						),
+						'right'  => array(
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
+							'icon'  => "eicon-h-align-{$end}",
+						),
+					),
+					'selectors_dictionary' => array(
+						'left'   => '0 auto',
+						'center' => 'auto',
+						'right'  => 'auto 0',
+					),
+					'selectors' => array( '{{WRAPPER}} .count-down_container' => 'margin-inline: {{VALUE}};' ),
+				)
+			);
+
 			$this->add_control(
 				'cd_show_title',
 				array(
-					'label'     => esc_html__( 'Ajouter un titre', 'eac-components' ),
+					'label'     => esc_html__( 'Add title', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
 					'default'   => 'yes',
 					'toggle'    => false,
+					'separator' => 'before',
 				)
 			);
 
 			$this->add_control(
 				'cd_label_title',
 				array(
-					'label'      => esc_html__( 'Titre', 'eac-components' ),
+					'label'      => esc_html__( 'Title', 'eac-components' ),
 					'type'       => Controls_Manager::TEXT,
-					'default'    => esc_html__( 'Profiter de la réduction de 50% sur tout le catalogue', 'eac-components' ),
+					'default'    => esc_html__( 'Get 50% off the entire catalog', 'eac-components' ),
 					'dynamic'    => array(
 						'active' => true,
 					),
@@ -422,45 +478,18 @@ class Count_Down_Widget extends Widget_Base {
 				)
 			);
 
-			$this->add_responsive_control(
-				'cd_title_alignment',
-				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
-					'type'      => Controls_Manager::CHOOSE,
-					'options'   => array(
-						'start'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
-							'icon'  => "eicon-text-align-{$start}",
-						),
-						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
-							'icon'  => 'eicon-text-align-center',
-						),
-						'end'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
-							'icon'  => "eicon-text-align-{$end}",
-						),
-					),
-					'default'   => 'center',
-					'selectors' => array(
-						'{{WRAPPER}} .count-down_container-title' => 'text-align: {{VALUE}};',
-					),
-					'condition'   => array( 'cd_show_title' => 'yes' ),
-				)
-			);
-
 			$this->add_control(
 				'cd_show_labels',
 				array(
-					'label'     => esc_html__( 'Afficher les labels', 'eac-components' ),
+					'label'     => esc_html__( 'Display labels', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'    => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -473,15 +502,15 @@ class Count_Down_Widget extends Widget_Base {
 			$this->add_control(
 				'cd_show_days',
 				array(
-					'label'     => esc_html__( 'Jours', 'eac-components' ),
+					'label'     => esc_html__( 'Days', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -493,9 +522,9 @@ class Count_Down_Widget extends Widget_Base {
 			$this->add_control(
 				'cd_label_days',
 				array(
-					'label'   => esc_html__( 'Label jours', 'eac-components' ),
+					'label'   => esc_html__( 'Label days', 'eac-components' ),
 					'type'    => Controls_Manager::TEXT,
-					'default' => esc_html__( 'Jours', 'eac-components' ),
+					'default' => esc_html__( 'Days', 'eac-components' ),
 					'condition' => array(
 						'cd_show_labels' => 'yes',
 					),
@@ -511,15 +540,15 @@ class Count_Down_Widget extends Widget_Base {
 			$this->add_control(
 				'cd_show_hours',
 				array(
-					'label'   => esc_html__( 'Heures', 'eac-components' ),
+					'label'   => esc_html__( 'Hours', 'eac-components' ),
 					'type'    => Controls_Manager::CHOOSE,
 					'options' => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -531,9 +560,9 @@ class Count_Down_Widget extends Widget_Base {
 			$this->add_control(
 				'cd_label_hours',
 				array(
-					'label' => esc_html__( 'Label heures', 'eac-components' ),
+					'label' => esc_html__( 'Label hours', 'eac-components' ),
 					'type' => Controls_Manager::TEXT,
-					'default' => esc_html__( 'Heures', 'eac-components' ),
+					'default' => esc_html__( 'Hours', 'eac-components' ),
 					'condition' => array(
 						'cd_show_labels' => 'yes',
 						'cd_show_hours' => 'yes',
@@ -554,11 +583,11 @@ class Count_Down_Widget extends Widget_Base {
 					'type'        => Controls_Manager::CHOOSE,
 					'options'     => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -589,15 +618,15 @@ class Count_Down_Widget extends Widget_Base {
 			$this->add_control(
 				'cd_show_seconds',
 				array(
-					'label'     => esc_html__( 'Secondes', 'eac-components' ),
+					'label'     => esc_html__( 'Seconds', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -611,7 +640,7 @@ class Count_Down_Widget extends Widget_Base {
 				array(
 					'label' => esc_html__( 'Label secondes', 'eac-components' ),
 					'type' => Controls_Manager::TEXT,
-					'default' => esc_html__( 'Secondes', 'eac-components' ),
+					'default' => esc_html__( 'Seconds', 'eac-components' ),
 					'condition' => array(
 						'cd_show_labels'  => 'yes',
 					),
@@ -629,54 +658,15 @@ class Count_Down_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'cd_general_style',
 			array(
-				'label' => esc_html__( 'Général', 'eac-components' ),
+				'label' => esc_html__( 'General', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
 
-			$this->add_responsive_control(
-				'cd_container_width',
-				array(
-					'label'       => esc_html__( 'Largeur', 'eac-components' ),
-					'type'        => Controls_Manager::SLIDER,
-					'size_units'  => array( 'px', 'em', '%', 'vw' ),
-					'default'     => array(
-						'size' => 80,
-						'unit' => '%',
-					),
-					'tablet_default' => array(
-						'unit' => '%',
-					),
-					'mobile_default' => array(
-						'unit' => '%',
-					),
-					'range'       => array(
-						'px' => array(
-							'max'  => 1140,
-							'step' => 50,
-						),
-						'em' => array(
-							'max'  => 200,
-							'step' => 10,
-						),
-						'%'  => array(
-							'max'  => 100,
-							'step' => 10,
-						),
-						'vw' => array(
-							'max'  => 100,
-							'step' => 10,
-						),
-					),
-					'label_block' => true,
-					'selectors'   => array( '{{WRAPPER}} .count-down_container' => 'inline-size: {{SIZE}}{{UNIT}};' ),
-				)
-			);
-
 			$this->add_control(
 				'cd_container_bgcolor',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array( '{{WRAPPER}} .count-down_container' => 'background-color: {{VALUE}};' ),
@@ -694,7 +684,7 @@ class Count_Down_Widget extends Widget_Base {
 			$this->add_control(
 				'cd_container_radius',
 				array(
-					'label'      => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'      => esc_html__( 'Border radius', 'eac-components' ),
 					'type'       => Controls_Manager::DIMENSIONS,
 					'size_units' => array( 'px', '%' ),
 					'selectors'  => array(
@@ -706,7 +696,7 @@ class Count_Down_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'cd_container_padding',
 				array(
-					'label'     => esc_html__( 'Marges internes', 'eac-components' ),
+					'label'     => esc_html__( 'Padding', 'eac-components' ),
 					'type'      => Controls_Manager::DIMENSIONS,
 					'selectors' => array(
 						'{{WRAPPER}} .count-down_container' => 'padding-block: {{TOP}}{{UNIT}} {{BOTTOM}}{{UNIT}}; padding-inline: {{RIGHT}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -719,7 +709,7 @@ class Count_Down_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'cd_content_style',
 			array(
-				'label' => esc_html__( 'Contenu', 'eac-components' ),
+				'label' => esc_html__( 'Content', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -727,7 +717,7 @@ class Count_Down_Widget extends Widget_Base {
 		$this->add_control(
 			'cd_style_title',
 			array(
-				'label'     => esc_html__( 'Titre', 'eac-components' ),
+				'label'     => esc_html__( 'Title', 'eac-components' ),
 				'type'      => Controls_Manager::HEADING,
 				'condition' => array( 'cd_show_title' => 'yes' ),
 			)
@@ -736,7 +726,7 @@ class Count_Down_Widget extends Widget_Base {
 		$this->add_control(
 			'cd_title_color',
 			array(
-				'label'     => esc_html__( 'Couleur', 'eac-components' ),
+				'label'     => esc_html__( 'Color', 'eac-components' ),
 				'type'      => Controls_Manager::COLOR,
 				'global'    => array( 'default' => Global_Colors::COLOR_TEXT ),
 				'selectors' => array(
@@ -750,7 +740,7 @@ class Count_Down_Widget extends Widget_Base {
 			Group_Control_Typography::get_type(),
 			array(
 				'name'      => 'cd_title_typography',
-				'label'     => esc_html__( 'Typographie', 'eac-components' ),
+				'label'     => esc_html__( 'Typography', 'eac-components' ),
 				'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_TEXT ),
 				'selector'  => '{{WRAPPER}} .count-down_container-title',
 				'condition' => array( 'cd_show_title' => 'yes' ),
@@ -760,7 +750,7 @@ class Count_Down_Widget extends Widget_Base {
 		$this->add_control(
 			'cd_style_item',
 			array(
-				'label'     => esc_html__( 'Item', 'eac-components' ),
+				'label'     => esc_html__( 'Timer', 'eac-components' ),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 			)
@@ -769,7 +759,7 @@ class Count_Down_Widget extends Widget_Base {
 		$this->add_responsive_control(
 			'cd_items_margin',
 			array(
-				'label' => esc_html__( 'Marge', 'eac-components' ),
+				'label' => esc_html__( 'Margin', 'eac-components' ),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => array( 'px', 'em' ),
 				'default' => array(
@@ -783,14 +773,14 @@ class Count_Down_Widget extends Widget_Base {
 						'max' => 10,
 					),
 				),
-				'selectors' => array( '{{WRAPPER}} .count-down_container-items' => 'column-gap: {{SIZE}}{{UNIT}};' ),
+				'selectors' => array( '{{WRAPPER}} .count-down_container-items' => 'gap: {{SIZE}}{{UNIT}};' ),
 			)
 		);
 
 		$this->add_control(
 			'cd_item_color',
 			array(
-				'label'     => esc_html__( 'Couleur', 'eac-components' ),
+				'label'     => esc_html__( 'Color', 'eac-components' ),
 				'type'      => Controls_Manager::COLOR,
 				'global'    => array( 'default' => Global_Colors::COLOR_TEXT ),
 				'selectors' => array(
@@ -803,7 +793,7 @@ class Count_Down_Widget extends Widget_Base {
 			Group_Control_Typography::get_type(),
 			array(
 				'name'           => 'cd_item_typography',
-				'label'          => esc_html__( 'Typographie', 'eac-components' ),
+				'label'          => esc_html__( 'Typography', 'eac-components' ),
 				'global'         => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 				'selector'       => '{{WRAPPER}} div[class^="count-down_digit-"]',
 			)
@@ -813,7 +803,7 @@ class Count_Down_Widget extends Widget_Base {
 			Group_Control_Text_Shadow::get_type(),
 			array(
 				'name'     => 'cd_item_text_shadow',
-				'label'    => esc_html__( 'Ombre de texte', 'eac-components' ),
+				'label'    => esc_html__( 'Text shadow', 'eac-components' ),
 				'selector' => '{{WRAPPER}} div[class^="count-down_digit-"]',
 			)
 		);
@@ -821,7 +811,7 @@ class Count_Down_Widget extends Widget_Base {
 		$this->add_control(
 			'cd_item_bgcolor',
 			array(
-				'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+				'label'     => esc_html__( 'Background color', 'eac-components' ),
 				'type'      => Controls_Manager::COLOR,
 				'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 				'selectors' => array(
@@ -841,7 +831,7 @@ class Count_Down_Widget extends Widget_Base {
 		$this->add_control(
 			'cd_item_radius',
 			array(
-				'label'      => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+				'label'      => esc_html__( 'Border radius', 'eac-components' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%' ),
 				'selectors'  => array(
@@ -854,7 +844,7 @@ class Count_Down_Widget extends Widget_Base {
 			Group_Control_Box_Shadow::get_type(),
 			array(
 				'name'     => 'cd_item_shadow',
-				'label'    => esc_html__( 'Ombre', 'eac-components' ),
+				'label'    => esc_html__( 'Shadow', 'eac-components' ),
 				'selector' => '{{WRAPPER}} .count-down_container-item',
 			)
 		);
@@ -872,7 +862,7 @@ class Count_Down_Widget extends Widget_Base {
 		$this->add_responsive_control(
 			'cd_label_margin',
 			array(
-				'label'      => esc_html__( 'Marge supérieure', 'eac-components' ),
+				'label'      => esc_html__( 'Margin top', 'eac-components' ),
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => array( 'px', 'em' ),
 				'default'    => array(
@@ -889,7 +879,7 @@ class Count_Down_Widget extends Widget_Base {
 		$this->add_control(
 			'cd_label_color',
 			array(
-				'label'     => esc_html__( 'Couleur', 'eac-components' ),
+				'label'     => esc_html__( 'Color', 'eac-components' ),
 				'type'      => Controls_Manager::COLOR,
 				'global'    => array( 'default' => Global_Colors::COLOR_TEXT ),
 				'selectors' => array(
@@ -903,7 +893,7 @@ class Count_Down_Widget extends Widget_Base {
 			Group_Control_Typography::get_type(),
 			array(
 				'name'      => 'cd_label_typography',
-				'label'     => esc_html__( 'Typographie', 'eac-components' ),
+				'label'     => esc_html__( 'Typography', 'eac-components' ),
 				'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_SECONDARY ),
 				'selector'  => '{{WRAPPER}} div[class*="count-down_label-"]',
 				'condition' => array( 'cd_show_labels' => 'yes' ),
@@ -923,7 +913,7 @@ class Count_Down_Widget extends Widget_Base {
 		$this->add_control(
 			'cd_message_color',
 			array(
-				'label'     => esc_html__( 'Couleur', 'eac-components' ),
+				'label'     => esc_html__( 'Color', 'eac-components' ),
 				'type'      => Controls_Manager::COLOR,
 				'global'    => array( 'default' => Global_Colors::COLOR_TEXT ),
 				'selectors' => array(
@@ -937,7 +927,7 @@ class Count_Down_Widget extends Widget_Base {
 			Group_Control_Typography::get_type(),
 			array(
 				'name'      => 'cd_message_typography',
-				'label'     => esc_html__( 'Typographie', 'eac-components' ),
+				'label'     => esc_html__( 'Typography', 'eac-components' ),
 				'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_TEXT ),
 				'selector'  => '{{WRAPPER}} .count-down_expire-message',
 				'condition'   => array( 'cd_expire_action' => 'message' ),
@@ -954,10 +944,10 @@ class Count_Down_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 		?>
-		<div class='eac-count-down'>
+		<div class='eac-count-down' style='visibility: hidden;'>
 			<?php $this->render_countdown(); ?>
 		</div>
 		<?php
@@ -970,7 +960,30 @@ class Count_Down_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render_countdown() {
+	protected function render_countdown(): void {
+		$document = \Elementor\Plugin::$instance->documents->get_current();
+
+		/**if ( ! $document ) {
+			$main_id = $document->get_main_id();
+			$post    = $document->get_post();
+			$data = array(
+				'main_id'        => $main_id,
+				'document_id'    => $document->get_id(),
+				'title'          => $document->get_title(),
+				//'post_type'      => $document->get_post_type(),
+				'status'         => $post ? $post->post_status : null,
+				//'post'           => $post,
+				'settings'       => $document->get_settings(),
+				//'settings_display'=> $document->get_settings_for_display(),
+				//'elements_raw'   => $document->get_elements_raw(), // structure des widgets/sections
+				//'css'            => $document->get_css(),
+				'meta_type_key'  => get_post_meta( $main_id, \Elementor\Core\Base\Document::TYPE_META_KEY, true ),
+				'all_post_meta'  => get_post_meta( $main_id ),
+				'properties'     => $document->get_properties(),
+			);
+			write_log( $data );
+		}*/
+
 		$settings       = $this->get_settings_for_display();
 		$days           = 0;
 		$hours          = 0;
@@ -995,6 +1008,7 @@ class Count_Down_Widget extends Widget_Base {
 			$due_date = $today instanceof \DateTime ? $today->getTimestamp() - $now_tz->getTimestamp() : 0;
 		}
 
+		// Calculate days, hours, minutes, seconds.
 		if ( 0 < $due_date ) {
 			$days = floor( $due_date / DAY_IN_SECONDS );
 			$due_date -= $days * DAY_IN_SECONDS;
@@ -1014,7 +1028,7 @@ class Count_Down_Widget extends Widget_Base {
 				'aria-live'     => 'polite',
 				'aria-atomic'   => 'true',
 				'aria-interval' => '60',
-				'aria-label'    => esc_attr__( 'Compte à rebours', 'eac-components' ),
+				'aria-label'    => esc_attr__( 'Countdown', 'eac-components' ),
 				'tabindex'      => '0',
 				'data-settings' => $this->get_settings_json( $days, $hours, $minutes, $seconds ),
 			)
@@ -1085,18 +1099,20 @@ class Count_Down_Widget extends Widget_Base {
 			<?php if ( ! empty( $settings['cd_expire_action'] ) ) : ?>
 				<div class='count-down_container-expire'>
 					<?php if ( ! empty( $settings['cd_action_message'] ) && in_array( 'message', $settings['cd_expire_action'], true ) ) :
-						echo '<span class="count-down_expire-message">' . esc_html( $settings['cd_action_message'] ) . '</span>';
+						printf( '<span class="count-down_expire-message">%s</span>', nl2br( esc_html( $settings['cd_action_message'] ) ) );
 					endif;
-					if ( ! \Elementor\Plugin::$instance->editor->is_edit_mode() && in_array( 'redirect', $settings['cd_expire_action'], true ) && ! empty( $settings['cd_action_redirect']['url'] ) ) :
-						$url = $this->is_valid_url( $settings['cd_action_redirect']['url'] );
-						if ( $url ) :
-							echo '<span class="count-down_expire-redirect">' . esc_url( $settings['cd_action_redirect']['url'] ) . '</span>';
+					if ( ! \Elementor\Plugin::$instance->editor->is_edit_mode() && in_array( 'redirect', $settings['cd_expire_action'], true ) && ! empty( $settings['cd_action_redirect'] ) ) :
+						$is_valid_url = $this->is_valid_url( get_permalink( $settings['cd_action_redirect'] ) );
+						if ( $is_valid_url ) :
+							$url = get_permalink( $settings['cd_action_redirect'] );
+							printf( '<span class="count-down_expire-redirect">%s</span>', esc_url( $url ) );
 						endif;
 					endif; ?>
 				</div>
 			<?php endif; ?>
 		</div>
-	<?php }
+		<?php
+	}
 
 	/**
 	 * is_valid_url
@@ -1122,7 +1138,7 @@ class Count_Down_Widget extends Widget_Base {
 	 * @access    protected
 	 */
 
-	protected function get_settings_json( $d, $h, $m, $s ) {
+	protected function get_settings_json( $d, $h, $m, $s ): string {
 		$module_settings = $this->get_settings_for_display();
 
 		$settings = array(
@@ -1142,5 +1158,27 @@ class Count_Down_Widget extends Widget_Base {
 		return wp_json_encode( $settings );
 	}
 
-	protected function content_template() {}
+	/**
+	 * get_options_action
+	 *
+	 * @return array
+	 */
+	protected function get_options_action(): array {
+		$options = array(
+			'message' => esc_html__( 'Display message', 'eac-components' ),
+			'hide'    => esc_html__( 'Hide', 'eac-components' ),
+		);
+
+		$document = \Elementor\Plugin::$instance->documents->get_current();
+		if ( null !== $document ) {
+			$main_id = $document->get_main_id();
+			$template_name = get_post_meta( $main_id, \Elementor\Core\Base\Document::TYPE_META_KEY, true );
+			if ( ! in_array( $template_name, array( Site_Header::TYPE, Site_Footer::TYPE ), true ) ) {
+				$options['redirect'] = esc_html__( 'Redirect', 'eac-components' );
+			}
+		}
+		return $options;
+	}
+
+	protected function content_template(): void {}
 }

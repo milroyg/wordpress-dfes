@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
  * @subpackage Importer
  * @since 2.0.0
  */
-class JLTMA_Demo_Importer {
+class Demo_Importer {
   private static $instance = null;
   public $demo_path;
   public $demo_url;
@@ -69,7 +69,11 @@ class JLTMA_Demo_Importer {
     // Set demo path from manifest or use default
     if (!empty($this->manifest_data['demo_directory'])) {
         $this->demo_path = $this->manifest_data['demo_directory'];
-        $this->demo_url = str_replace(ABSPATH, site_url('/'), $this->demo_path);
+        $this->demo_url = str_replace(
+            wp_normalize_path(WP_CONTENT_DIR),
+            content_url(),
+            wp_normalize_path($this->demo_path)
+        );
         $this->has_variations = true;
     } else {
         // Fallback to old structure
@@ -121,7 +125,7 @@ class JLTMA_Demo_Importer {
     }
 
     // Enqueue Widget Builder admin script
-    $widget_admin_url = JLTMA_URL . '/inc/admin/widget-builder/assets/js/widget-admin.js';
+    $widget_admin_url = JLTMA_ASSETS . 'js/admin/widget-admin.js';
     wp_enqueue_script(
         'jltma-widget-admin',
         $widget_admin_url,
@@ -192,7 +196,7 @@ class JLTMA_Demo_Importer {
    */
   public function ajax_import_widgets() {
     // Check nonce
-    if ( ! isset( $_POST['_nonce'] ) || ! wp_verify_nonce( $_POST['_nonce'], 'jltma_demo_import' ) ) {
+    if ( ! isset( $_POST['_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_nonce'] ) ), 'jltma_demo_import' ) ) {
         wp_send_json_error( array( 'message' => 'Security check failed', 'debug' => 'Nonce verification failed' ) );
     }
 
@@ -244,7 +248,16 @@ class JLTMA_Demo_Importer {
         $widget_to_import = $widget_data['widget'];
 
         // Check if widget with same title already exists
-        $existing_widget = get_page_by_title($widget_to_import['title'], OBJECT, 'jltma_widget');
+        $existing_widget_query = new \WP_Query(array(
+            'post_type'              => 'jltma_widget',
+            'title'                  => $widget_to_import['title'],
+            'post_status'            => 'any',
+            'posts_per_page'         => 1,
+            'no_found_rows'          => true,
+            'update_post_meta_cache' => false,
+            'update_post_term_cache' => false,
+        ));
+        $existing_widget = $existing_widget_query->have_posts() ? $existing_widget_query->posts[0] : null;
         if ($existing_widget) {
             $skipped_count++;
             $imported_widgets[] = array(
@@ -329,9 +342,9 @@ class JLTMA_Demo_Importer {
    */
   public function ajax_import_template() {
     // Check nonce - accept both demo import and template library nonces
-    $valid_nonce = (isset($_POST['_nonce']) && wp_verify_nonce($_POST['_nonce'], 'jltma_demo_import')) ||
-                   (isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'jltma_template_library_nonce')) ||
-                   (isset($_POST['_wpnonce']) && wp_verify_nonce($_POST['_wpnonce'], 'jltma_template_kits_nonce_action'));
+    $valid_nonce = (isset($_POST['_nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_nonce'] ) ), 'jltma_demo_import')) ||
+                   (isset($_POST['_wpnonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'jltma_template_library_nonce')) ||
+                   (isset($_POST['_wpnonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'jltma_template_kits_nonce_action'));
 
     if (!$valid_nonce) {
         wp_send_json_error(array('message' => 'Security check failed'));
@@ -345,8 +358,8 @@ class JLTMA_Demo_Importer {
     }
 
     // Get parameters
-    $template_id = isset($_POST['template_id']) ? sanitize_text_field($_POST['template_id']) : '';
-    $page_name = isset($_POST['page_name']) ? sanitize_text_field($_POST['page_name']) : null;
+    $template_id = isset($_POST['template_id']) ? sanitize_text_field( wp_unslash( $_POST['template_id'] ) ) : '';
+    $page_name = isset($_POST['page_name']) ? sanitize_text_field( wp_unslash( $_POST['page_name'] ) ) : null;
     $is_reimport = isset($_POST['is_reimport']) && $_POST['is_reimport'] === '1';
 
     if (empty($template_id)) {
@@ -677,10 +690,12 @@ class JLTMA_Demo_Importer {
     if (file_exists($upload_path)) {
         // Try to find existing attachment
         global $wpdb;
-        $attachment_id = $wpdb->get_var($wpdb->prepare(
-            "SELECT ID FROM $wpdb->posts WHERE guid LIKE %s AND post_type = 'attachment'",
-            '%/' . $filename
-        ));
+        $attachment_id = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- direct query required for attachment lookup by guid; no core API supports LIKE on guid
+            $wpdb->prepare(
+                "SELECT ID FROM {$wpdb->posts} WHERE guid LIKE %s AND post_type = 'attachment'",
+                '%/' . $filename
+            )
+        );
 
         if ($attachment_id) {
             // Cache the result
@@ -731,7 +746,7 @@ class JLTMA_Demo_Importer {
    */
   public function ajax_get_templates() {
     // Check nonce
-    if ( ! isset( $_POST['_nonce'] ) || ! wp_verify_nonce( $_POST['_nonce'], 'jltma_demo_import' ) ) {
+    if ( ! isset( $_POST['_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_nonce'] ) ), 'jltma_demo_import' ) ) {
         wp_send_json_error( array( 'message' => 'Security check failed' ) );
     }
 
@@ -739,7 +754,7 @@ class JLTMA_Demo_Importer {
     if ( ! current_user_can( 'manage_options' ) ) {
         wp_send_json_error( array( 'message' => 'Insufficient permissions' ) );
     }
-    
+
     $pages = $this->demo_path . '/pages';
     $images_dir = $this->demo_path . '/images';
 
@@ -792,7 +807,7 @@ class JLTMA_Demo_Importer {
    */
   public function ajax_get_variations() {
     // Check nonce
-    if ( ! isset( $_POST['_nonce'] ) || ! wp_verify_nonce( $_POST['_nonce'], 'jltma_demo_import' ) ) {
+    if ( ! isset( $_POST['_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_nonce'] ) ), 'jltma_demo_import' ) ) {
         wp_send_json_error( array( 'message' => 'Security check failed' ) );
     }
 
@@ -813,7 +828,7 @@ class JLTMA_Demo_Importer {
     // Get selected category from POST (case-insensitive)
     $selected_category = 'all';
     if ( isset( $_POST['category'] ) && ! empty( $_POST['category'] ) ) {
-        $selected_category = strtolower( sanitize_text_field( $_POST['category'] ) );
+        $selected_category = strtolower( sanitize_text_field( wp_unslash( $_POST['category'] ) ) );
     }
 
     // Build categories list for tabs
@@ -829,7 +844,11 @@ class JLTMA_Demo_Importer {
     // Process demos and format them as variations
     $variations = array();
     $demo_directory = $manifest_data['demo_directory'];
-    $demo_url = str_replace(ABSPATH, site_url('/'), $demo_directory);
+    $demo_url = str_replace(
+        wp_normalize_path(WP_CONTENT_DIR),
+        content_url(),
+        wp_normalize_path($demo_directory)
+    );
 
     foreach ($manifest_data['demos'] as $demo) {
         // Filter by category (case-insensitive comparison)
@@ -849,7 +868,7 @@ class JLTMA_Demo_Importer {
         if (!empty($demo['thumbnail'])) {
             $variation['thumbnail'] = $this->demo_url . '/'. $demo['import_folder'] . '/'. $demo['thumbnail'];
         } else {
-            $variation['thumbnail'] = 'https://placehold.co/600x400?text=' . urlencode($demo['name']);
+            $variation['thumbnail'] = class_exists('\Elementor\Utils') ? \Elementor\Utils::get_placeholder_image_src() : '';
         }
 
         // Add summary counts for the variation
@@ -923,7 +942,7 @@ class JLTMA_Demo_Importer {
    */
   public function ajax_import_full_variation() {
     // Check nonce
-    if ( ! isset( $_POST['_nonce'] ) || ! wp_verify_nonce( $_POST['_nonce'], 'jltma_demo_import' ) ) {
+    if ( ! isset( $_POST['_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_nonce'] ) ), 'jltma_demo_import' ) ) {
         wp_send_json_error( array( 'message' => 'Security check failed' ) );
     }
 
@@ -932,7 +951,7 @@ class JLTMA_Demo_Importer {
         wp_send_json_error( array( 'message' => 'Insufficient permissions' ) );
     }
 
-    $variation_folder = isset($_POST['variation']) ? sanitize_text_field($_POST['variation']) : '';
+    $variation_folder = isset($_POST['variation']) ? sanitize_text_field( wp_unslash( $_POST['variation'] ) ) : '';
 
     if (empty($variation_folder)) {
         wp_send_json_error( array( 'message' => 'Variation folder is required' ) );
@@ -1081,7 +1100,16 @@ class JLTMA_Demo_Importer {
         $widget_to_import = $widget_data['widget'];
 
         // Check if widget already exists
-        $existing_widget = get_page_by_title($widget_to_import['title'], OBJECT, 'jltma_widget');
+        $existing_widget_query = new \WP_Query(array(
+            'post_type'              => 'jltma_widget',
+            'title'                  => $widget_to_import['title'],
+            'post_status'            => 'any',
+            'posts_per_page'         => 1,
+            'no_found_rows'          => true,
+            'update_post_meta_cache' => false,
+            'update_post_term_cache' => false,
+        ));
+        $existing_widget = $existing_widget_query->have_posts() ? $existing_widget_query->posts[0] : null;
         if ($existing_widget) {
             $skipped_count++;
             continue;
@@ -1165,7 +1193,7 @@ class JLTMA_Demo_Importer {
   }
 
   public function ajax_mark_imported_template(){
-    if ( ! isset( $_POST['_nonce'] ) || ! wp_verify_nonce( $_POST['_nonce'], 'jltma_demo_import' ) ) {
+    if ( ! isset( $_POST['_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_nonce'] ) ), 'jltma_demo_import' ) ) {
         wp_send_json_error( array( 'message' => 'Security check failed', 'debug' => 'Nonce verification failed' ) );
     }
 
@@ -1174,9 +1202,9 @@ class JLTMA_Demo_Importer {
         wp_send_json_error( array( 'message' => 'Insufficient permissions', 'debug' => 'User lacks manage_options capability' ) );
     }
 
-    $template_id = isset($_POST['template_id']) ? sanitize_text_field($_POST['template_id']) : '';
-    $theme_name = isset($_POST['theme_name']) ? sanitize_text_field($_POST['theme_name']) : '';
-    $theme_version = isset($_POST['theme_version']) ? sanitize_text_field($_POST['theme_version']) : '';
+    $template_id = isset($_POST['template_id']) ? sanitize_text_field( wp_unslash( $_POST['template_id'] ) ) : '';
+    $theme_name = isset($_POST['theme_name']) ? sanitize_text_field( wp_unslash( $_POST['theme_name'] ) ) : '';
+    $theme_version = isset($_POST['theme_version']) ? sanitize_text_field( wp_unslash( $_POST['theme_version'] ) ) : '';
 
     if (empty($template_id)) {
         wp_send_json_error( array( 'message' => 'Template ID is required' ) );
@@ -1918,4 +1946,4 @@ class JLTMA_Demo_Importer {
 }
 
 // Initialize
-JLTMA_Demo_Importer::get_instance();
+Demo_Importer::get_instance();

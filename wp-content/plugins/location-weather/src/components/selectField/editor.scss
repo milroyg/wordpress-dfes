@@ -1,0 +1,15 @@
+// select field modified css
+.sp-location-weather-tabs-panel {
+  .spl-weather-select-field {
+    &.spl-weather-d-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .spl-weather-header {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

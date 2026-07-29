@@ -16,8 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -31,16 +30,6 @@ use Elementor\Core\Breakpoints\Manager as Breakpoints_manager;
 use Elementor\Plugin;
 
 class Pinterest_Rss_Widget extends Widget_Base {
-
-	/**
-	 * Constructeur de la class Pinterest_Rss_Widget
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		wp_register_script( 'eac-pinterest-rss', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-pinterest-rss' ), array( 'jquery', 'elementor-frontend' ), '1.2.0', true );
-		wp_register_style( 'eac-pinterest-rss', EAC_Plugin::instance()->get_style_url( 'assets/css/pinterest-rss' ), array( 'eac-frontend' ), '1.2.0' );
-	}
 
 	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
@@ -58,8 +47,8 @@ class Pinterest_Rss_Widget extends Widget_Base {
 	 *
 	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -69,8 +58,8 @@ class Pinterest_Rss_Widget extends Widget_Base {
 	 *
 	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -80,8 +69,8 @@ class Pinterest_Rss_Widget extends Widget_Base {
 	 *
 	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -89,10 +78,10 @@ class Pinterest_Rss_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -100,7 +89,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
 		return array( 'eac-pinterest-rss' );
@@ -112,7 +101,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
 		return array( 'eac-pinterest-rss' );
@@ -127,8 +116,8 @@ class Pinterest_Rss_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -152,7 +141,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'pin_galerie_settings',
 			array(
-				'label' => esc_html__( 'Liste des flux Pinterest', 'eac-components' ),
+				'label' => esc_html__( 'List of Pinterest feeds', 'eac-components' ),
 			)
 		);
 
@@ -161,7 +150,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 			$repeater->add_control(
 				'pin_item_title',
 				array(
-					'label' => esc_html__( 'Titre', 'eac-components' ),
+					'label' => esc_html__( 'Title', 'eac-components' ),
 					'type'  => Controls_Manager::TEXT,
 				)
 			);
@@ -169,28 +158,30 @@ class Pinterest_Rss_Widget extends Widget_Base {
 			$repeater->add_control(
 				'pin_item_url',
 				array(
-					'label'       => esc_html__( 'URL', 'eac-components' ),
+					'label'       => esc_html( 'URL' ),
 					'type'        => Controls_Manager::URL,
 					'placeholder' => 'https://pinterest.com',
+					'render_type' => 'none',
 				)
 			);
 
 			$repeater->add_control(
 				'pin_item_user',
 				array(
-					'label'     => esc_html__( 'Utilisateur', 'eac-components' ),
-					'type'      => Controls_Manager::TEXT,
-					'separator' => 'before',
+					'label'       => esc_html__( 'Username', 'eac-components' ),
+					'type'        => Controls_Manager::TEXT,
+					'render_type' => 'none',
+					'separator'   => 'before',
 				)
 			);
 
 			$repeater->add_control(
 				'pin_switch_board',
 				array(
-					'label'        => esc_html__( 'Tableau', 'eac-components' ),
+					'label'        => esc_html__( 'Board', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'separator'    => 'before',
@@ -200,9 +191,10 @@ class Pinterest_Rss_Widget extends Widget_Base {
 			$repeater->add_control(
 				'pin_item_board',
 				array(
-					'label'     => esc_html__( 'Nom du tableau', 'eac-components' ),
-					'type'      => Controls_Manager::TEXT,
-					'condition' => array( 'pin_switch_board' => 'yes' ),
+					'label'       => esc_html__( 'Name of the board', 'eac-components' ),
+					'type'        => Controls_Manager::TEXT,
+					'render_type' => 'none',
+					'condition'   => array( 'pin_switch_board' => 'yes' ),
 				)
 			);
 
@@ -461,14 +453,14 @@ class Pinterest_Rss_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'pin_items_content',
 			array(
-				'label' => esc_html__( 'Contenu', 'eac-components' ),
+				'label' => esc_html__( 'Content', 'eac-components' ),
 			)
 		);
 
 			$this->add_control(
 				'pin_item_nombre',
 				array(
-					'label'   => esc_html__( "Nombre d'articles", 'eac-components' ),
+					'label'   => esc_html__( 'Post count', 'eac-components' ),
 					'type'    => Controls_Manager::NUMBER,
 					'min'     => 5,
 					'max'     => 30,
@@ -480,8 +472,8 @@ class Pinterest_Rss_Widget extends Widget_Base {
 			$this->add_control(
 				'pin_item_length',
 				array(
-					'label'       => esc_html__( 'Nombre de mots', 'eac-components' ),
-					'description' => esc_html__( 'Légende', 'eac-components' ),
+					'label'       => esc_html__( 'Number of words', 'eac-components' ),
+					'description' => esc_html__( 'Legend', 'eac-components' ),
 					'type'        => Controls_Manager::NUMBER,
 					'min'         => 3,
 					'max'         => 100,
@@ -495,8 +487,8 @@ class Pinterest_Rss_Widget extends Widget_Base {
 				array(
 					'label'        => esc_html__( 'Image', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -505,10 +497,10 @@ class Pinterest_Rss_Widget extends Widget_Base {
 			$this->add_control(
 				'pin_item_lightbox',
 				array(
-					'label'        => esc_html__( 'Visionneuse', 'eac-components' ),
+					'label'        => esc_html__( 'Lightbox', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array( 'pin_item_image' => 'yes' ),
@@ -519,10 +511,10 @@ class Pinterest_Rss_Widget extends Widget_Base {
 			$this->add_control(
 				'pin_item_date',
 				array(
-					'label'        => esc_html__( 'Date de Publication/Auteur', 'eac-components' ),
+					'label'        => esc_html__( 'Publication/Author date', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -533,7 +525,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'pin_layout_type_settings',
 			array(
-				'label' => esc_html__( 'Disposition', 'eac-components' ),
+				'label' => esc_html__( 'Layout', 'eac-components' ),
 			)
 		);
 
@@ -560,7 +552,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'pin_columns',
 				array(
-					'label'        => esc_html__( 'Nombre de colonnes', 'eac-components' ),
+					'label'        => esc_html__( 'Columns count', 'eac-components' ),
 					'type'         => Controls_Manager::SELECT,
 					'default'      => '3',
 					'device_args'  => $columns_device_args,
@@ -581,7 +573,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'pin_general_style',
 			array(
-				'label' => esc_html__( 'Global', 'eac-components' ),
+				'label' => esc_html__( 'General', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -591,9 +583,9 @@ class Pinterest_Rss_Widget extends Widget_Base {
 				array(
 					'label'   => esc_html__( 'Style', 'eac-components' ),
 					'type'    => Controls_Manager::SELECT,
-					'default' => 'style-1',
+					'default' => 'style-0',
 					'options' => array(
-						'style-0' => esc_html__( 'Défaut', 'eac-components' ),
+						'style-0' => esc_html__( 'Default', 'eac-components' ),
 						'style-1' => 'Style 1',
 						'style-2' => 'Style 2',
 						'style-3' => 'Style 3',
@@ -608,7 +600,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 			$this->add_control(
 				'pin_wrapper_margin',
 				array(
-					'label'      => esc_html__( 'Marge entre les colonnes', 'eac-components' ),
+					'label'      => esc_html__( 'Columns margin', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( 'em', 'px' ),
 					'range'      => array(
@@ -640,9 +632,18 @@ class Pinterest_Rss_Widget extends Widget_Base {
 			$this->add_control(
 				'pin_wrapper_bg_color',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .eac-pin-galerie' => 'background-color: {{VALUE}};' ),
+				)
+			);
+
+			$this->add_group_control(
+				Group_Control_Typography::get_type(),
+				array(
+					'name'     => 'pin_select_typography',
+					'label'    => esc_html__( 'Typography feeds', 'eac-components' ),
+					'selector' => '{{WRAPPER}} .select__options-items',
 				)
 			);
 
@@ -651,7 +652,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'pin_items_style',
 			array(
-				'label' => esc_html__( 'Articles', 'eac-components' ),
+				'label' => esc_html__( 'Post', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -659,7 +660,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 			$this->add_control(
 				'pin_items_bg_color',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .pin-galerie__item' => 'background-color: {{VALUE}};' ),
 				)
@@ -670,7 +671,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'pin_title_style',
 			array(
-				'label' => esc_html__( 'Titre', 'eac-components' ),
+				'label' => esc_html__( 'Title', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -678,7 +679,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 			$this->add_control(
 				'pin_titre_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .pin-galerie__item-titre' => 'color: {{VALUE}};' ),
 				)
@@ -688,7 +689,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'pin_titre_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .pin-galerie__item-titre',
 				)
 			);
@@ -698,7 +699,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'pin_excerpt_style',
 			array(
-				'label' => esc_html__( 'Légende', 'eac-components' ),
+				'label' => esc_html__( 'Legend', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -706,7 +707,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 			$this->add_control(
 				'pin_excerpt_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .pin-galerie__item-description p' => 'color: {{VALUE}};' ),
 				)
@@ -716,7 +717,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'pin_excerpt_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .pin-galerie__item-description p',
 				)
 			);
@@ -726,7 +727,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'pin_icone_style',
 			array(
-				'label' => esc_html__( 'Pictogrammes', 'eac-components' ),
+				'label' => esc_html__( 'Pictograms', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -734,7 +735,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 			$this->add_control(
 				'pin_icone_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array(
 						'{{WRAPPER}} .pin-galerie__item-date i,
@@ -755,7 +756,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 		if ( ! $settings['pin_pinterest_list'] ) {
 			return;
@@ -782,7 +783,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render_galerie() {
+	protected function render_galerie(): void {
 		$settings  = $this->get_settings_for_display();
 		$id        = $this->get_id();
 		$user      = '/feed.rss';
@@ -791,7 +792,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 		?>
 		<div class='pin-select-item-list'>
 			<div class='pin-options-items-list'>
-				<label id="label_<?php echo esc_attr( $id ); ?>" class='visually-hidden' for="listbox_<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Liste des flux Pinterest', 'eac-components' ); ?></label>
+				<label id="label_<?php echo esc_attr( $id ); ?>" class='visually-hidden' for="listbox_<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'List of Pinterest feeds', 'eac-components' ); ?></label>
 				<select id="listbox_<?php echo esc_attr( $id ); ?>" class='select__options-items' aria-labelledby="label_<?php echo esc_attr( $id ); ?>">
 					<?php foreach ( $settings['pin_pinterest_list'] as $item ) {
 						$has_board = 'yes' === $item['pin_switch_board'] && ! empty( $item['pin_item_board'] ) ? true : false;
@@ -812,8 +813,8 @@ class Pinterest_Rss_Widget extends Widget_Base {
 			$this->add_render_attribute( 'read_button', 'type', 'button' );
 			$this->add_render_attribute( 'read_button', 'aria-expanded', 'false' );
 			$this->add_render_attribute( 'read_button', 'aria-controls', 'pin-galerie' );
-			$this->add_render_attribute( 'read_button', 'aria-label', esc_attr__( 'Afficher le contenu du flux sélectionné', 'eac-components' ) );
-			$label_button = '<span class="label-icon">' . esc_html__( 'Lire le flux', 'eac-components' ) . '</span>';
+			$this->add_render_attribute( 'read_button', 'aria-label', esc_attr__( 'View content of selected feed', 'eac-components' ) );
+			$label_button = '<span class="label-icon">' . esc_html__( 'Read the feed', 'eac-components' ) . '</span>';
 			$button       = '<button ' . $this->get_render_attribute_string( 'read_button' ) . '>' . $label_button . '</button>';
 			?>
 			<div class='buttons-wrapper'><?php echo wp_kses_post( $button ); ?></div>
@@ -847,7 +848,7 @@ class Pinterest_Rss_Widget extends Widget_Base {
 	 * @access protected
 	 */
 
-	protected function get_settings_json() {
+	protected function get_settings_json(): string {
 		$module_settings = $this->get_settings_for_display();
 
 		$settings = array(
@@ -863,5 +864,5 @@ class Pinterest_Rss_Widget extends Widget_Base {
 		return wp_json_encode( $settings );
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

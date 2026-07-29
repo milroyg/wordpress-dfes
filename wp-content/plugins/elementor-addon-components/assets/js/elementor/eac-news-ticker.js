@@ -74,14 +74,14 @@ class widgetNewsTicker extends elementorModules.frontend.handlers.Base {
 
     bindEvents() {
 		const that = this;
-        this.elements.$targetWrapperControlPlay.on('keydown click', this.onControlEventPlay.bind(this));
-        this.elements.$targetWrapperControlPause.on('keydown click', this.onControlEventPause.bind(this));
+        this.elements.$targetWrapperControlPlay.on('keydown click', (evt) => { this.onControlEventPlay(evt); });
+        this.elements.$targetWrapperControlPause.on('keydown click', (evt) => { this.onControlEventPause(evt); });
         this.elements.$targetWrapperControlPlay.on('animationend', () => { // Change l'état de l'animation du bouton 'play' en fin d'animation
             that.elements.$targetWrapperControlPlay.css('animation-play-state', 'paused');
         });
-        this.elements.$targetWrapperControlLeft.on('keydown click', this.onControlEventLeft.bind(this));
-        this.elements.$targetWrapperControlRight.on('keydown click', this.onControlEventRight.bind(this));
-        this.elements.$targetWrapperContent.on('animationiteration', this.onAnimationIteration.bind(this));
+        this.elements.$targetWrapperControlLeft.on('keydown click', (evt) => { this.onControlEventLeft(evt); });
+        this.elements.$targetWrapperControlRight.on('keydown click', (evt) => { this.onControlEventRight(evt); });
+        this.elements.$targetWrapperContent.on('animationiteration', () => { this.onAnimationIteration(); });
     }
 
     /** Toggle de l'animation Play */

@@ -67,8 +67,8 @@ class Eac_Injection_Kenburns {
 	 * Mets le style/script dans le file
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'eac-kenburns-slideshow', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-element-kenburns' ), array( 'jquery', 'elementor-frontend' ), '2.0.2', true );
-		wp_enqueue_style( 'eac-kenburns-slideshow', EAC_Plugin::instance()->get_style_url( 'assets/css/background-kenburns' ), array( 'eac-frontend' ), '2.0.2' );
+		wp_enqueue_script( 'eac-kenburns-slideshow', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-element-kenburns' ), array( 'jquery', 'elementor-frontend' ), EAC_PLUGIN_VERSION, true );
+		wp_enqueue_style( 'eac-kenburns-slideshow', EAC_Plugin::instance()->get_style_url( 'assets/css/background-kenburns' ), array(), EAC_PLUGIN_VERSION );
 	}
 
 	/**
@@ -88,7 +88,7 @@ class Eac_Injection_Kenburns {
 		$element->start_controls_section(
 			'eac_custom_element_kb_slideshow',
 			array(
-				'label' => esc_html__( 'Ken Burns effet', 'eac-components' ),
+				'label' => esc_html__( 'Ken Burns effect', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -96,10 +96,10 @@ class Eac_Injection_Kenburns {
 					$element->add_control(
 						'kb_element_active',
 						array(
-							'label'        => esc_html__( "Activer l'effet Ken Burns", 'eac-components' ),
+							'label'        => esc_html__( 'Ken Burns effect', 'eac-components' ),
 							'type'         => Controls_Manager::SWITCHER,
-							'label_on'     => esc_html__( 'oui', 'eac-components' ),
-							'label_off'    => esc_html__( 'non', 'eac-components' ),
+							'label_on'     => esc_html( 'On' ),
+							'label_off'    => esc_html( 'Off' ),
 							'return_value' => 'yes',
 							'default'      => '',
 						)
@@ -109,12 +109,12 @@ class Eac_Injection_Kenburns {
 						'kb_element_usage',
 						array(
 							'type' => Controls_Manager::RAW_HTML,
-							'raw' => sprintf(
-								/* translators: 1: Description, 2: Link opening tag, 3: Link closing tag. */
-								esc_html__( '%1$s %2$sConsulter la documentation%3$s', 'eac-components' ),
-								esc_html__( 'Au moins deux images pour un fonctionnement optimum.', 'eac-components' ),
+							'raw'  => sprintf(
+								'%1$s %2$s%3$s%4$s',
+								esc_html__( 'At least two images for optimum operation.', 'eac-components' ),
 								'<a href="https://elementor-addon-components.com/animation-dimages/" target="_blank" rel="noopener noreferrer">',
-								'</a>',
+								esc_html__( 'Consult the documentation', 'eac-components' ),
+								'</a>'
 							),
 							'content_classes' => 'elementor-descriptor',
 							'condition'       => array( 'kb_element_active' => 'yes' ),
@@ -126,7 +126,7 @@ class Eac_Injection_Kenburns {
 						array(
 							'type'            => Controls_Manager::RAW_HTML,
 							'content_classes' => 'elementor-panel-alert elementor-panel-alert-warning',
-							'raw'             => esc_html__( "Parfois le composant se fige dans l'éditeur, vous devez le désactiver et le réactiver", 'eac-components' ),
+							'raw'             => esc_html__( 'Sometimes the component freezes in the editor, you have to deactivate it and reactivate it', 'eac-components' ),
 							'condition'       => array( 'kb_element_active' => 'yes' ),
 						)
 					);
@@ -160,15 +160,15 @@ class Eac_Injection_Kenburns {
 							'type'    => Controls_Manager::SELECT,
 							'default' => 'center center',
 							'options' => array(
-								'top left'      => esc_html__( 'Haut gauche', 'eac-components' ),
-								'top center'    => esc_html__( 'Haut centré', 'eac-components' ),
-								'top right'     => esc_html__( 'Haut droit', 'eac-components' ),
-								'center left'   => esc_html__( 'Centre gauche', 'eac-components' ),
-								'center center' => esc_html__( 'Centre centré', 'eac-components' ),
-								'center right'  => esc_html__( 'Centre droit', 'eac-components' ),
-								'bottom left'   => esc_html__( 'Bas gauche', 'eac-components' ),
-								'bottom center' => esc_html__( 'Bas centré', 'eac-components' ),
-								'bottom right'  => esc_html__( 'Bas droit', 'eac-components' ),
+								'top left'      => esc_html__( 'Top left', 'eac-components' ),
+								'top center'    => esc_html__( 'Top center', 'eac-components' ),
+								'top right'     => esc_html__( 'Top right', 'eac-components' ),
+								'center left'   => esc_html__( 'Center left', 'eac-components' ),
+								'center center' => esc_html__( 'Center center', 'eac-components' ),
+								'center right'  => esc_html__( 'Center right', 'eac-components' ),
+								'bottom left'   => esc_html__( 'Bottom left', 'eac-components' ),
+								'bottom center' => esc_html__( 'Bottom center', 'eac-components' ),
+								'bottom right'  => esc_html__( 'Bottom right', 'eac-components' ),
 							),
 						)
 					);
@@ -179,12 +179,12 @@ class Eac_Injection_Kenburns {
 							'label'       => esc_html__( 'Animation', 'eac-components' ),
 							'type'        => Controls_Manager::SELECT,
 							'options'     => array(
-								'left'    => esc_html__( 'Défilement gauche', 'eac-components' ),
-								'right'   => esc_html__( 'Défilement droit', 'eac-components' ),
-								'up'      => esc_html__( 'Défilement haut', 'eac-components' ),
-								'down'    => esc_html__( 'Défilement bas', 'eac-components' ),
-								'in'      => esc_html__( 'Zoom interne', 'eac-components' ),
-								'out'     => esc_html__( 'Zoom externe', 'eac-components' ),
+								'left'    => esc_html__( 'Scroll left', 'eac-components' ),
+								'right'   => esc_html__( 'Scroll right', 'eac-components' ),
+								'up'      => esc_html__( 'Scroll up', 'eac-components' ),
+								'down'    => esc_html__( 'Scroll down', 'eac-components' ),
+								'in'      => esc_html__( 'Zoom in', 'eac-components' ),
+								'out'     => esc_html__( 'Zoom out', 'eac-components' ),
 							),
 							'default'     => 'left',
 							'label_block' => true,
@@ -194,7 +194,7 @@ class Eac_Injection_Kenburns {
 					$element->add_control(
 						'kb_images_list',
 						array(
-							'label'       => esc_html__( 'Images de fond', 'eac-components' ),
+							'label'       => esc_html__( 'Background images', 'eac-components' ),
 							'type'        => Controls_Manager::REPEATER,
 							'fields'      => $repeater->get_controls(),
 							'default'     => array(
@@ -208,7 +208,7 @@ class Eac_Injection_Kenburns {
 								),
 							),
 							'title_field' => '{{{ kb_name }}}',
-							'button_text' => esc_html__( 'Ajouter une image', 'eac-components' ),
+							'button_text' => esc_html__( 'Add image', 'eac-components' ),
 							'condition'   => array( 'kb_element_active' => 'yes' ),
 						)
 					);
@@ -216,7 +216,7 @@ class Eac_Injection_Kenburns {
 					$element->add_control(
 						'kb_slide_duration',
 						array(
-							'label'     => esc_html__( "Durée de l'animation (sec.)", 'eac-components' ),
+							'label'     => esc_html__( 'Animation duration (sec.)', 'eac-components' ),
 							'type'      => Controls_Manager::NUMBER,
 							'min'       => 2,
 							'max'       => 15,

@@ -525,8 +525,8 @@ svg.leaflet-image-layer.leaflet-interactive path {
 }
 
 .leaflet-control-layers-scrollbar {
-	overflow-y: scroll;
-	overflow-x: hidden;
+	overflow-block: scroll;
+	overflow-inline: hidden;
 	margin-inline-end: -12px;
 	padding-inline-end: 5px;
 }

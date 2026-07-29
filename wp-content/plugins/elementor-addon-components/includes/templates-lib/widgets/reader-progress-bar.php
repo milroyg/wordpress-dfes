@@ -14,8 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -25,20 +24,6 @@ use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
 use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 
 class Reader_Progress_Bar_Widget extends Widget_Base {
-
-	/**
-	 * Constructeur de la class
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		EAC_Plugin::instance()->register_script( 'eac-reader-progress', 'includes/templates-lib/assets/js/reader-progress', array( 'jquery', 'elementor-frontend' ), '2.1.1',
-			array(
-				'strategy' => 'defer',
-				'in_footer' => true,
-			)
-		);
-	}
 
 	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
@@ -54,10 +39,10 @@ class Reader_Progress_Bar_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -65,10 +50,10 @@ class Reader_Progress_Bar_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -76,10 +61,10 @@ class Reader_Progress_Bar_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -89,8 +74,8 @@ class Reader_Progress_Bar_Widget extends Widget_Base {
 	 *
 	 * @return widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -98,7 +83,7 @@ class Reader_Progress_Bar_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
 		return array( 'eac-reader-progress' );
@@ -113,8 +98,8 @@ class Reader_Progress_Bar_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -122,10 +107,10 @@ class Reader_Progress_Bar_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -151,7 +136,7 @@ class Reader_Progress_Bar_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'rpb_settings',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -159,7 +144,7 @@ class Reader_Progress_Bar_Widget extends Widget_Base {
 			$this->add_control(
 				'rpb_content_height',
 				array(
-					'label'       => esc_html__( 'Hauteur', 'eac-components' ),
+					'label'       => esc_html__( 'Height', 'eac-components' ),
 					'type'        => Controls_Manager::NUMBER,
 					'min'         => 2,
 					'max'         => 50,
@@ -175,15 +160,15 @@ class Reader_Progress_Bar_Widget extends Widget_Base {
 			$this->add_control(
 				'rpb_content_badge',
 				array(
-					'label'   => esc_html__( 'Ajouter un badge', 'eac-components' ),
+					'label'   => esc_html__( 'Add badge', 'eac-components' ),
 					'type'    => Controls_Manager::CHOOSE,
 					'options' => array(
 						'yes' => array(
-							'title' => esc_html__( 'Oui', 'eac-components' ),
+							'title' => esc_html__( 'Yes', 'eac-components' ),
 							'icon'  => 'eicon-check',
 						),
 						'no'  => array(
-							'title' => esc_html__( 'Non', 'eac-components' ),
+							'title' => esc_html__( 'No', 'eac-components' ),
 							'icon'  => 'eicon-ban',
 						),
 					),
@@ -194,15 +179,15 @@ class Reader_Progress_Bar_Widget extends Widget_Base {
 			$this->add_control(
 				'rpb_content_rtl',
 				array(
-					'label'        => esc_html__( "Direction de l'affichage", 'eac-components' ),
+					'label'        => esc_html__( 'Display direction', 'eac-components' ),
 					'type'         => Controls_Manager::CHOOSE,
 					'options'      => array(
 						'left'  => array(
-							'title' => esc_html__( 'Gauche', 'eac-components' ),
+							'title' => esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'right' => array(
-							'title' => esc_html__( 'Droite', 'eac-components' ),
+							'title' => esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -221,7 +206,7 @@ class Reader_Progress_Bar_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'rpb_style_barre',
 			array(
-				'label' => esc_html__( 'Barre de progression', 'eac-components' ),
+				'label' => esc_html__( 'Progress bar', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -271,15 +256,15 @@ class Reader_Progress_Bar_Widget extends Widget_Base {
 					'type'        => Controls_Manager::CHOOSE,
 					'options'     => array(
 						'flex-start' => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center'     => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'flex-end'   => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -294,7 +279,7 @@ class Reader_Progress_Bar_Widget extends Widget_Base {
 			$this->add_control(
 				'rpb_style_badge_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_TEXT ),
 					'default'   => '#000',
@@ -308,7 +293,7 @@ class Reader_Progress_Bar_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'           => 'rpb_style_badge_typography',
-					'label'          => esc_html__( 'Typographie', 'eac-components' ),
+					'label'          => esc_html__( 'Typography', 'eac-components' ),
 					'global'         => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'fields_options' => array(
 						'font_size'   => array(
@@ -335,11 +320,11 @@ class Reader_Progress_Bar_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 		?>
 		<div class='eac-reader-progress'>
-			<div class='progress' role='progressbar' aria-label="<?php esc_html_e( 'Barre de progression de lecture', 'eac-components' ); ?>" aria-valuemin='0' aria-valuemax='100' aria-valuenow='0'>
+			<div class='progress' role='progressbar' aria-label="<?php esc_html_e( 'Reading progress bar', 'eac-components' ); ?>" aria-valuemin='0' aria-valuemax='100' aria-valuenow='0'>
 				<?php if ( isset( $settings['rpb_content_badge'] ) && 'yes' === $settings['rpb_content_badge'] ) { ?>
 					<span class='progress-badge'></span>
 				<?php } ?>
@@ -348,5 +333,5 @@ class Reader_Progress_Bar_Widget extends Widget_Base {
 		<?php
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

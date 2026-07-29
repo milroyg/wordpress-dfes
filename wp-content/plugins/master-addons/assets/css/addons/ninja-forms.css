@@ -1,0 +1,98 @@
+/**
+ * Master Addons - Ninja Forms
+ *
+ * Styles for the Ninja Forms widget only.
+ */
+.jltma-ninja-form.ma-cf label {
+  display: block;
+  color: #78909c;
+  font-size: 13px;
+  font-weight: 400;
+}
+.jltma-ninja-form.ma-cf .nf-form-content .ninja-forms-field {
+  background-color: #fff;
+  border-color: #e2e7ea;
+  border-radius: 5px;
+  box-shadow: none;
+  font-size: 16px;
+  margin-bottom: 10px;
+  height: 60px;
+}
+.jltma-ninja-form.ma-cf .nf-form-content [type=button] {
+  background: #4b00e7;
+  border: 1px solid #4b00e7;
+  border-radius: 5px;
+  color: #fff;
+}
+.jltma-ninja-form.ma-cf .nf-form-content [type=button]:hover {
+  background: #fff;
+  color: #4b00e7;
+}
+
+.jltma-ninja-form.ma-cf-2 .nf-form-content [type=button],
+.jltma-ninja-form.ma-cf-4 .nf-form-content [type=button] {
+  float: right;
+}
+
+.jltma-ninja-form.ma-cf-3 .nf-form-content .ninja-forms-field,
+.jltma-ninja-form.ma-cf-4 .nf-form-content .ninja-forms-field {
+  background-color: #27262e;
+  color: #fff;
+}
+
+.jltma-ninja-form.ma-cf-5 .field-wrap {
+  position: relative;
+}
+
+.jltma-ninja-form.ma-cf-5 label {
+  margin: 0;
+  top: -10px;
+}
+
+.jltma-ninja-form.ma-cf-6 .field-wrap {
+  position: relative;
+}
+
+.jltma-ninja-form.ma-cf-6 label {
+  top: 20px;
+}
+
+.jltma-ninja-form.ma-cf-6 .submit-container input[type=button],
+.jltma-ninja-form.ma-cf-8 .submit-container input[type=button] {
+  text-align: center;
+  width: 100%;
+}
+
+.jltma-ninja-form.ma-cf-7 .nf-form-content .nf-field-element .ninja-forms-field,
+.jltma-ninja-form.ma-cf-8 .nf-form-content .nf-field-element .ninja-forms-field {
+  border: none;
+  border-radius: 0;
+  border-bottom: 3px solid #e2e7ea;
+}
+
+.jltma-ninja-form.ma-cf-9 .nf-form-content .nf-field-element .ninja-forms-field,
+.jltma-ninja-form.ma-cf-10 .nf-form-content .nf-field-element .ninja-forms-field,
+.jltma-ninja-form.ma-cf-11 .nf-form-content .nf-field-element .ninja-forms-field {
+  border-radius: 2em;
+  padding-left: 25px;
+}
+
+.jltma-ninja-form.ma-cf-10 .nf-form-content .nf-field-element input[type=button] {
+  background-color: -webkit-linear-gradient(0deg, rgb(243, 61, 130) 0%, rgb(213, 180, 63) 100%);
+  border: none;
+  width: 100%;
+}
+.jltma-ninja-form.ma-cf-10 .nf-form-content .nf-field-element input[type=button]:hover {
+  background-color: -webkit-linear-gradient(0deg, rgb(10, 57, 252) 0%, rgb(213, 0, 137) 100%);
+  color: #fff;
+}
+
+.jltma-ninja-form.ma-cf-11 .nf-form-content .nf-field-element input[type=button] {
+  background-color: -webkit-linear-gradient(0deg, rgb(10, 57, 252) 0%, rgb(213, 0, 137) 100%);
+  border: none;
+  width: 100%;
+}
+.jltma-ninja-form.ma-cf-11 .nf-form-content .nf-field-element input[type=button]:hover {
+  background-color: -webkit-linear-gradient(0deg, rgb(243, 61, 130) 0%, rgb(213, 180, 63) 100%);
+  color: #fff;
+}

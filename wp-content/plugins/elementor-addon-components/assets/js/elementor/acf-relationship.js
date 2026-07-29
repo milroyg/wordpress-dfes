@@ -11,7 +11,7 @@ class widgetRelationshipACF extends elementorModules.frontend.handlers.Base {
             selectors: {
                 targetInstance: '.eac-acf-relationship',
                 targetArticles: 'article',
-                targetCards: '.acf-relation_inner-wrapper',
+                targetCards: 'article',
                 targetSkipGrid: '.eac-skip-grid',
                 target: '.acf-relation_container',
             },
@@ -47,11 +47,13 @@ class widgetRelationshipACF extends elementorModules.frontend.handlers.Base {
     }
 
     bindEvents() {
-        if (this.elements.$targetArticles.length > 0) {
+        if (this.elements.$targetArticles.length > 0 && !elementorFrontend.isEditMode()) {
             this.elements.$targetInstance.on('keydown', (evt) => { this.setKeyboardEvents(evt); });
-            jQuery.each(this.elements.$targetArticles, (index, article) => {
-                new IntersectionObserver(this.observeGridInViewport.bind(this), { threshold: 0.5 }).observe(article);
-            });
+            if (this.elements.settings.data_animate) {
+                jQuery.each(this.elements.$targetArticles, (index, article) => {
+                    new IntersectionObserver(this.observeGridInViewport, { threshold: 0.5 }).observe(article);
+                });
+            }
         }
     }
 
@@ -59,9 +61,7 @@ class widgetRelationshipACF extends elementorModules.frontend.handlers.Base {
     observeGridInViewport(entries, observer) {
         if (entries[0].isIntersecting) {
             const article = entries[0].target;
-            if (this.elements.settings.data_animate) {
-                jQuery(article).addClass('animate-first-load');
-            }
+            jQuery(article).addClass('animate-first-load');
             observer.unobserve(article);
             window.setTimeout(() => { jQuery(article).removeClass('animate-first-load'); }, 1000);
         }

@@ -74,7 +74,7 @@ class Eac_Woo_Filters {
 	/** Constructeur */
 	private function __construct() {
 
-		$this->options_shop_name = \EACCustomWidgets\Core\Eac_Config_Elements::get_woo_hooks_option_name();
+		$this->options_shop_name = \EACCustomWidgets\Core\Eac_Load_Config::get_woo_hooks_option_name();
 		$this->options = get_option( $this->options_shop_name );
 
 		if ( $this->options ) {
@@ -204,7 +204,7 @@ class Eac_Woo_Filters {
 	 *  function request_a_quote( $notice, $id ) {
 	 *      $notice = '';
 	 *      $ids = array( 7243, 7235, 3735, 2471 );
-	 *      if ( in_array( $id, $ids ) ) {
+	 *      if ( in_array( $id, $ids, true ) ) {
 	 *          $notice = 'Contact us to request a quote';
 	 *      }
 	 *      return $notice;
@@ -218,7 +218,7 @@ class Eac_Woo_Filters {
 	public function turn_catalog_mode_request_quote() {
 		global $product;
 		$product_id = absint( $product->get_id() );
-		$notice     = esc_html__( 'Contactez-nous pour demander un devis', 'eac-components' );
+		$notice     = esc_html__( 'Contact us to request a quote', 'eac-components' );
 
 		/**
 		 * Affiche une notice dans la page détail du produit
@@ -335,7 +335,7 @@ class Eac_Woo_Filters {
 		?>
 		<div class="product_meta">
 			<?php if ( wc_product_sku_enabled() && $product->get_sku() ) : ?>
-				<span class="sku_wrapper"><?php esc_html_e( 'UGS:', 'eac-components' ); ?> <span class="sku"><?php echo esc_html( $product->get_sku() ); ?></span></span>
+				<span class="sku_wrapper"><?php esc_html_e( 'SKU:', 'eac-components' ); ?> <span class="sku"><?php echo esc_html( $product->get_sku() ); ?></span></span>
 			<?php endif; ?>
 		</div>
 		<?php
@@ -362,7 +362,7 @@ class Eac_Woo_Filters {
 			}
 
 			if ( ! empty( $links ) ) {
-				$cats = count( $links ) > 1 ? esc_html__( 'Catégories: ', 'eac-components' ) : esc_html__( 'Catégorie: ', 'eac-components' );
+				$cats = count( $links ) > 1 ? esc_html__( 'Categories: ', 'eac-components' ) : esc_html__( 'Category: ', 'eac-components' );
 				?>
 				<div class="product_meta">
 					<?php echo '<span class="posted_in">' . $cats . implode( ' | ', $links ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -393,7 +393,7 @@ class Eac_Woo_Filters {
 			}
 
 			if ( ! empty( $links ) ) {
-				$tags = count( $links ) > 1 ? esc_html__( 'Étiquettes: ', 'eac-components' ) : esc_html__( 'Étiquette: ', 'eac-components' );
+				$tags = count( $links ) > 1 ? esc_html__( 'Tags: ', 'eac-components' ) : esc_html__( 'Tag: ', 'eac-components' );
 				?>
 				<div class="product_meta">
 					<?php echo '<span class="tagged_as">' . $tags . implode( ' | ', $links ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -466,18 +466,19 @@ class Eac_Woo_Filters {
 	/**
 	 * change_single_cart_text
 	 *
-	 * @return le label du bouton 'Ajouter au panier' de la page 'Produit'
+	 * @return le label du bouton 'Add to cart' de la page 'Product'
 	 */
 	public function change_single_cart_text( $button_text, $product ) {
 		if ( ! is_a( $product, 'WC_Product' ) ) {
-			return $button_text; }
+			return $button_text;
+		}
 		$product_type = $product->get_type();
 
 		switch ( $product_type ) {
 			case 'simple':
-				return esc_html__( 'Ajouter au panier', 'eac-components' );
+				return esc_html__( 'Add to cart', 'eac-components' );
 			case 'variable':
-				return esc_html__( 'Select the variations, yo!', 'eac-components' );
+				return esc_html__( 'Select the variations', 'eac-components' );
 			default:
 				return $button_text;
 		}
@@ -491,7 +492,9 @@ class Eac_Woo_Filters {
 		if ( $has_cart && ( ! is_null( WC()->cart ) && ! is_cart() && ! is_checkout() ) ) {
 			$count_items = WC()->cart->get_cart_contents_count();
 			ob_start(); ?>
-			<span class='badge-cart__quantity'><?php echo esc_attr( $count_items ); ?></span>
+			<span class='badge-cart__quantity' role='status' aria-live='polite' aria-atomic='true' aria-label="<?php printf( '%1$d %2$s', absint( $count_items ), esc_html__( 'article(s) dans le panier', 'eac-components' ) ); ?>">
+				<span aria-hidden='true'><?php echo absint( $count_items ); ?></span>
+			</span>
 			<?php $fragments['#menu-item-mini-cart span.badge-cart__quantity'] = ob_get_clean();
 		}
 		return $fragments;

@@ -1,516 +1,465 @@
 == Changelog ==
-= 2.1.2 (15-02-2026) =
-* Security: Stored Cross-Site Scripting (XSS) vulnerability in 15 widget settings across 10 widgets
-* Security: Business Hours widget - unescaped `ma_el_bh_table_btn_text` output
-* Security: Creative Links widget - unescaped `creative_link_text` output
-* Security: Call to Action widget - unescaped `ma_el_call_to_action_title` and `ma_el_call_to_action_button_text` output
-* Security: Flipbox widget - unescaped `front_title` output
-* Security: Infobox widget - unescaped `ma_el_infobox_title` output
-* Security: Progress Bar widget - unescaped `ma_el_progress_bar_title` output
-* Security: Blockquote widget - unescaped `jltma_blockquote_text` and `jltma_blockquote_author` output
-* Security: Dual Heading widget - unescaped `ma_el_dual_first_heading`, `ma_el_dual_second_heading`, and `ma_el_dual_heading_description` output
-* Security: Creative Buttons widget - unescaped `creative_button_text` output
-* Security: Changelog widget - unescaped `ma_el_changelog_heading` and `ma_el_changelog_main_title` output
-
-= 2.1.1 (25-01-2026) =
-Fixed: Timeline icon not showing issue fixed.
-
-= 2.1.0 (11-01-2026) =
-
-**WHITE LABEL**
-* Fixed: Fatal error "Class Master_Addons_Helper not found" - corrected namespace path
-* Added: `show_icon` and `show_heading` arguments for flexible display
-* Improved: White label upgrade popup styling with proper button spacing
-* Improved: Logo upload preview with constrained dimensions and proper border styling
-* Updated: White label description text - shorter, professional with highlighted key terms
-* Fixed: Pro element lock icons now hidden when Pro version is active
-
-**PLUGIN FILTERS**
-* Fixed: PHP Warning "Trying to access array offset on value of type bool" in Plugin_Filters.php
-
-**ADVANCED ACCORDION**
-* Fixed: Content Type dropdown showing "[object Object]" - corrected filter return format to simple key-value pairs
-
-**THEME BUILDER**
-* Improved: Template Type dropdown now uses grouped options (Theme, Post, Page, WooCommerce)
-* Added: New Post template types - Category, Tag, Author, Date
-* Added: New Page template type - Single
-* Added: Template activation for new template types with proper WordPress conditional checks
-* Added: Fallback content rendering for all new template types
-
-**SECURITY**
-* Fixed: XSS vulnerability in Flipbox widget
-* Fixed: XSS vulnerability in Gradient Headline widget
-* Fixed: IDOR vulnerability - added proper permission checks
-* Security: All widgets with HTML tag selectors now use whitelist validation to prevent script injection
-
-**WHITE LABEL**
-* Fixed: PHP Warning "Undefined array key jltma_wl_plugin_logo" in dashboard-settings.php
-* Improved: Moved white label options to premium file using filter pattern
-* Added: New filters for white label customization
-
-**EDITOR STYLES**
-* Fixed: Countdown timer not visible in light mode for upgrade banner
-* Added: Dark mode support for countdown timer using .e-theme-dark and prefers-color-scheme
-* Updated: Countdown timer dimensions (44x40px) and spacing adjustments
-
-**GENERAL**
-* Fixed: JavaScript error "initMacyLayout is not defined" - added missing function in assets.php
-* Updated: Replaced 'fa fa-unlock-alt' icons with 'eicon-lock' Elementor icons in multiple widgets
-
-**TIMELINE**
-* Fixed: Cards Hover controls not working (color, background, box shadow, text shadow)
-  - Added `.jltma-timeline` parent class prefix to all Cards style selectors
-  - Changed hover target from `.timeline-item:hover` to `.jltma-blog-timeline-post:hover` matching DOM structure
-  - Added `.jltma-timeline-entry-content` as alternative selector for different skins
-  - Added Text Shadow controls inside Default, Hover, and Focused tabs
-  - Updated Typography selector to include both content wrapper classes
-* Fixed: Double background on hover - removed nested `.jltma-timeline-entry-content` from background selectors
-* Fixed: Icon not showing on frontend - changed `$item` to `$settings` for FA4 migration checks
-* Fixed: Default icon changed to `dashicons dashicons-calendar`
-* Fixed: Numbers/Letters switch case empty - added separate case bodies for all switch statements
-* Fixed: Default pointers now render simple circle div with background color
-* Fixed: Undefined variable $index error - added static counter for post index tracking
-* Fixed: Points controls not working (Default, Hover, Focused tabs)
-  - Added `.jltma-timeline` parent class prefix to all Points selectors
-  - Fixed Focused tab using wrong class `.jltma-timeline__item__icon` to `.jltma-timeline-post-type-icon`
-* Fixed: Meta/date not showing for left, right, overlay alignments
-  - Added `display: block` for `.timeline-item__card-wrapper .timeline-item__meta` in SCSS
-* Fixed: Read More button styling - moved button outside paragraph tag with proper `.jltma-post-btn` class
-* Fixed: Read More button controls organized into Normal/Hover tabs with Typography, Padding, Border Radius
-* Fixed: Excerpt styling controls (Color, Typography, Padding) not working - added wrapper `.timeline-item__excerpt` class
-* Fixed: Read More Text not showing - added proper condition check for `read_more_link` excerpt type
-* Fixed: Undefined array key `ma_el_post_grid_type` warning - added null coalescing with timeline fallbacks
-* Fixed: Pointer icons not rendering for Post and Custom timeline types
-  - Corrected `isset()` logic errors that returned boolean instead of checking values
-  - Fixed item-level custom style condition check
-* Fixed: Empty icon wrapper when no icon selected - added fallback default calendar icon
-* Fixed: Empty point content for non-premium users - added default circle point fallback
-* Fixed: Custom timeline point variations not working (numbers, letters, image, icons)
-  - Used wrong item key `ma_el_custom_timeline_point_content` (text content) instead of global `ma_el_timeline_points_content` (type)
-  - Added proper isset checks for custom style conditions
-* Fixed: Post timeline icons variation not working
-  - Added proper isset check with default fallback to 'icons'
-  - Added safer global icon value retrieval to prevent undefined index errors
-  - Changed all point helper functions to use `get_settings_for_display()` instead of `get_settings()` to properly retrieve default values
-  - Refactored icon rendering to check if icon actually rendered content
-  - Fixed: `wp_kses_post()` was stripping icon/SVG content - changed to `parse_text_editor()` to match custom timeline behavior
-
-**NAVMENU**
-* Fixed: PHP Warning "Undefined array key indicator_main_animation" - added isset checks for animation settings
-
-**ADVANCED IMAGE**
-* Fixed: PHP Warning "Trying to access array offset on value of type bool" - added check for valid attachment before accessing URL
-
-**CREATIVE LINKS**
-* Fixed: Border-radius not working - converted to DIMENSIONS control with proper selectors
-* Fixed: Hover tab controls not working - corrected CSS selectors (removed spaces, fixed class names)
-* Updated: DOM structure refactored for proper vertical centering of icon and text using flexbox
-
-**ADVANCED ACCORDION**
-* Fixed: Toggle icons (active_icon/toggle_icon) not updating on DOM - simplified render logic
-* Fixed: Toggle icon position not rendering instantly - added render_type template
-* Fixed: Toggle icon background color not applying - fixed {{WRAPPER}} selector prefix
-* Fixed: Icon spacing not working - corrected selector class names
-* Added: Expand/Collapse Icon picker controls with conditional visibility (toggle_icon_show)
-* Added: Icon Position control now conditional on toggle_icon_show
-* Updated: Default border 1px solid #eee for accordion items
-* Updated: Custom icon per item (accordion_tab_icon_show) default changed to 'no'
-* Removed: Default box-shadow from accordion tab title
-* Updated: Toggle icon SCSS - improved flexbox layout for proper background visibility
-* Updated: Consolidated Icon Size, Icon Spacing, Icon Padding controls - moved after Icon Position
-* Removed: Duplicate Icon Size/Padding controls from Normal, Hover, Active tabs (now uniform across states)
-* Updated: Icon Colors tabs now only contain color and background controls
-
-**BLOG**
-* Fixed: Post title typography (font-size, weight) not working - selector now includes anchor tag
-
-**INFOBOX**
-* Fixed: Icon Background Color not working with Variation Five, Six, and Eight - updated selectors to target hexagon shape elements
-* Fixed: Variation Six solid background color now properly overrides default SCSS gradient using fields_options
-* Fixed: Icon Alignment not working with Variation Five - now uses flexbox justify-content
-* Fixed: Icon Alignment not working with Variation Six - uses text-align on parent with inline-block icon, content area stays centered
-* Fixed: Icon Alignment not working with Variation Three - overrides absolute positioning with relative and inline-block
-* Fixed: Icon Alignment not working with Variation Four - overrides margin: 0 auto with inline-block display
-* Fixed: Icon Padding not working with all variations - simplified selectors to target .jltma-inner-content
-* Fixed: Icon Padding not working with Variation Eight and Ten - added specific selectors targeting icon elements
-* Fixed: Icon Size not working with Variation Five, Six, and Eight - updated selectors
-* Fixed: Icon Size for Variation Four - container scales proportionally (original: 32px icon → 90px container, ratio 90/32)
-* Fixed: Icon Size for Variation Ten - container scales proportionally maintaining original 90:58 aspect ratio
-* Fixed: Icon Color not working with Variation Five, Six, and Eight - updated selectors
-* Fixed: Icon Hover Color not working with Variation Five, Six, and Eight - updated selectors
-* Fixed: Icon Hover Background not working with Variation Five, Six, and Eight - updated selectors
-* Fixed: Duplicate key conditions for BG Icon controls (two/three presets) - now uses array syntax
-* Updated: Icon Background control converted to Group Control Background supporting classic and gradient types
-* Updated: Icon Hover Background control converted to Group Control Background
-* Fixed: Variation Nine 3D flip animation broken - excluded from generic alignment and padding controls that override absolute positioning
-* Added: Flip Box Height control for Variation Nine - enforces critical 3D flip layout styles (position, perspective, transforms) directly via Elementor controls to work properly in containers
-* Fixed: Variation Nine not filling container width - added width: 100% to infobox and item containers
-* Fixed: Variation Nine icon not centered - updated inner content positioning with text-align: center and left/right: 0
-* Fixed: Variation Ten icon not centered when size changes - now uses translate(-50%, -50%) centering instead of fixed left/top values
-* Fixed: Variation Ten icon size scaling - width now calculates proportionally based on icon size value
-* Updated: Icon Padding control simplified - now applies padding only to appropriate containers for each variation to avoid breaking centered icons
-* Fixed: Variation One, Two, Seven icon background stretching full width - container now scales with icon size + 30px padding using inline-flex
-
-**MEGA MENU**
-* Fixed: Mega Menu content not editable with Elementor - auto-enable 'mastermega_content' post type in Elementor's Post Types settings on plugin init
-
-**RESTRICT CONTENT**
-* Fixed: JavaScript handler not triggering due to widget name mismatch between PHP and JS registration
-* Fixed: Password validation failing due to form field name mismatch (ma_el_restrict_content_pass)
-* Fixed: Error message showing wrong text for password restriction - now uses correct warning message control
-* Fixed: Escaped quotes in error messages (e.g., "don\'t" now shows as "don't")
-* Fixed: Form alignment - password input and submit button now display on same row
-* Fixed: Error message position for age verification - now appears after submit button
-* Added: Beautiful error result message styling with icon, red background, border, and rounded corners
-* Added: Popup Button Style controls section with comprehensive styling options:
-  - Text Color with Normal/Hover states
-  - Background Color with Normal/Hover states
-  - Padding control
-  - Border controls (type, width, color)
-  - Border Radius control
-  - Typography control
-  - Box Shadow control
-
-**NEW FEATURES**
-* Added: Popup Builder - Professional popup creation and management system with advanced triggers and conditions
-* Added: Template Kit System - Pre-built template collection with demo importer functionality
-* Added: Template Library - Cloud-based template storage and management system
-* Added: Theme Builder - Complete theme building solution for headers, footers, and template parts
-* Added: Demo Importer - One-click demo content import with variation support
-* Added: Extension "Element Name" - Name and organize your elements for better workflow
-* Added: MA Navmenu - Name and organize your elements for better workflow
-* Updated: Animated Headlines - Updated Padding, Margin with responsive controls
-* Updated: Animated Headlines - Animation Delay Settings Tab Moved on "Content" Tab
-* Added: Animated Headlines - added "Bar Color", "Height", "Bar Position" on Loading Bar "Style" Tab
-* Updated: Animated Headlines - Bar Position now shows only Bottom and Left options with default values
-* Added: Counter Up - added Number Suffix and Prefix Color, Size and Margin Options
-* Added: Counter Up - Responsive Columns Options Added. Now Columns can be responsive as well.
-* Fixed: Counter Up - Responsive Columns now properly working with CSS selectors
-* Updated: Creative Buttons - added default border radius 8px, Move Button Controls into Content Section
-* Updated: Creative Buttons - Icon Position control now uses icon-based toggle instead of dropdown
-* Fixed: Creative Buttons - Icon positioning now correctly places icon before or after text
-* Added: Creative Buttons - default icon spacing 5px
-* Added: Creative Buttons - Icon Color control for Hover state
-* Updated: Creative Buttons - Hover Border Color now conditional on Border Type selection
-* Added: Creative Buttons - Button Text Alignment control with responsive support
-* Updated: Pricing Table - Left Align Period overlap issue fixed, default period separator alignment issue fixed.
-* Fixed: Pricing Table - Feature list divider now appears only under text, not under icon (Active Zoom & Skew BG Pattern styles)
-* Updated: Pricing Table - Divider controls now properly target text element with yellow default color
-* Removed: Pricing Table - Period Position removed from Style Tab
-* Fixed: Pricing Table - Button background now respects custom color selection while keeping default gradient
-* Updated: Pricing Table - Button hover background now supports both solid and gradient colors
-* Added: Pricing Table - Feature List Margin option with responsive support
-* Fixed: Pricing Table - Icon style options (color, size, padding, margin) now work even when text is empty
-* Fixed: Pricing Table - Tooltip no longer gets cut off on center-aligned tables
-* Fixed: Pricing Table - Icon style options now work correctly for SVG icons (color uses fill, size uses width/height)
-* Fixed: News Ticker - Content type now properly uses all query settings (post type, categories, tags, order)
-* Updated: News Ticker - Refactored to use Swiper.js for better performance and vertical centering
-* Fixed: News Ticker - Thumbnail and title now properly vertically centered
-* Updated: News Ticker - Ribbon design with rounded corners on both label and content area
-* Added: News Ticker - Height control to customize ticker height
-* Added: News Ticker - Thumbnail Width control with responsive support (when Show Thumbnail enabled)
-* Added: News Ticker - Thumbnail Shape control (Square or Rounded options)
-* Fixed: Progress Bar - Now takes full width inside Elementor containers
-* Fixed: Progress Bar - Now properly renders in Elementor editor (added edit mode hook and cleanup)
-* Updated: Progress Bars - Percentage now displays at the end of the active bar (tracks the bar)
-* Updated: Blockquote - Redesigned with decorative quote marks (" ") and author bar symbol
-* Added: Blockquote - Show Author toggle to show/hide author section
-* Added: Blockquote - Show Start Symbol toggle for opening quote mark (")
-* Added: Blockquote - Show End Symbol toggle for closing quote mark (")
-* Added: Blockquote - Show Author Symbol toggle for the red bar before author name
-* Added: Blockquote - Author Text Color and Author Typography controls
-* Updated: Blockquote - Content Alignment now properly aligns both text and author (flexbox)
-* Added: Blockquote - Width and Height controls for author symbol bar with default 5px height
-* Fixed: Creative Links - Border radius now properly applies to link element, pseudo-elements, and spans
-* Updated: Creative Links - Border radius control upgraded to DIMENSIONS type with responsive support
-* Fixed: Creative Links - Hover tab controls now work (fixed invalid CSS selectors and wrong class names)
-* Updated: Creative Links - Refactored DOM structure with flexbox for proper vertical centering of icon and text
-* Updated: Creative Links - Simplified and cleaned up render method for better maintainability
-* Added: Creative Links - Default border 1px solid #E2E8F0
-* Added: Creative Links - Default border radius 8px
-* Fixed: Creative Links - Item Alignment now uses flexbox justify-content for proper positioning
-* Updated: Creative Links - Icon defaults to none, Icon Position only shows when icon is selected
-* Fixed: Creative Links - SVG icon color now properly applies using fill property (normal and hover)
-* Fixed: Creative Links - Border and Border Radius now target correct element (.jltma-creative-link-item)
-* Updated: Creative Links - Renamed Span BG Color to Front/Back BG Color for 3D effect clarity
-* Fixed: Timeline - Read More Text now properly displays when excerpt type is set to "Read More Link"
-* Fixed: Timeline - Undefined array key warnings for post settings (ma_el_post_grid_type, etc.)
-* Fixed: Timeline - Excerpt Color, Typography, and Padding controls now work (added missing wrapper class)
-* Added: Timeline - Read More Button styling with Normal/Hover tabs (Typography, Padding, Border Radius, Text Color, Background, Border)
-* Fixed: Timeline - Read More button now renders outside paragraph for proper independent styling
-* Fixed: Dynamic Table - Header alignment control now works properly (removed conflicting SCSS)
-* Added: Dynamic Table - Default header background color #020817
-* Added: Dynamic Table - Odd and Even Background Color issue fixed
-* Added: Dynamic Table - Border Radius control for rounded table corners
-
-
-
-**ADVANCED IMAGE WIDGET**
-* Added: Ribbon Width control with flexible px/% units
-* Added: Ribbon Position controls (Top, Bottom, Left, Right) with range sliders
-* Added: Border Radius control for Ribbon with individual corner control
-* Fixed: Image Border Radius not working issue
-* Improved: Optimized simple ribbon padding for better width control
-* Improved: Ribbon style and positioning system completely revamped
-
-**EXTENSIONS IMPROVEMENTS**
-* Improved: Glassmorphism Effect Extension - Enhanced background blur effects and styling options
-* Improved: Display Options Extension - Better conditional display controls
-* Improved: Reading Progress Bar Extension - Fixed missing paths and functionality issues
-* Improved: Animation Extension - Fixed loading and execution issues
-
-**MEGA MENU**
-* Added: MA Mega Menu updated - Icon Picker with 3000+ Icons Libary added
-* Improved: Icon picker updated to latest Elementor icon library
-* Improved: Mega Menu Color Picker Updated
-* Improved: Mega Menu Submenu Indicator update with smooth animations
-* Improved: Close icon design and positioning
-* Fixed: Non-pretty permalink support added
-* Update: MA Mega Menu updated - Hover and Click event not working issue fixed
-* Update: MA Mega Menu updated - Icon Picker Default Icon not working issue fixed
-
-**DYNAMIC TABLE**
-* Added: Non-responsive option for better control on mobile devices
-* Improved: Table rendering performance
-
-**BUILDER SYSTEMS**
-* Improved: Popup Builder - Frontend CSS/JS loading optimization
-* Improved: Popup Builder - Settings panel JavaScript functionality
-* Improved: Theme Builder - Conditional logic and display rules
-* Improved: Theme Builder - Table condition columns and redirection rules
-* Fixed: Popup Builder CSS and JS file missing issues
-* Fixed: Theme Builder path resolution for Pro version
-* Fixed: Theme Builder condition issues and select options
-* Fixed: Template cache refresh for Elementor editor
-* Fixed: Template Kit plugin URL resolution
-
-
-**DEVELOPMENT**
-* Updated: Freemius SDK to latest version with security improvements
-* Updated: Asset folder paths and structure reorganization
-* Updated: Module loader with better dependency management
-* Updated: Extension loader optimized for Pro version
-* Improved: Editor template library CSS issues resolved
-* Improved: Preview options and functionality
-* Fixed: Module path resolution throughout the plugin
-* Fixed: Missing asset paths causing 404 errors
-* Fixed: Blur effect naming conventions
-* Added: Added "MA Post Content" for Dynamic Tags
-
-
-**BUG FIXES**
-* Fixed: Mega menu close icon not showing properly
-* Fixed: Off-canvas content widget rendering issues
-* Fixed: Alignment issues in code editor
-* Fixed: Template kit loading and caching
-* Fixed: Redirection errors in admin panel
-
-= 2.0.9.9.4 (10-12-2025) =
-* Fixed: Custom JS module issue - fixed code not showing on frontend. Thanks [@alvarogarciar](https://wordpress.org/support/topic/custom-js-only-visible-to-users-with-edit_posts-capability/) for informing about the issue.
-
-= 2.0.9.9.3 (07-12-2025) =
-* Fixed: Post Types Pagination issue fixed
-
-= 2.0.9.9.2 (06-12-2025) =
-* Fixed: Fatal error "Class Elementor\Plugin not found" in Custom JS module when Elementor is not active.
-
-= 2.0.9.9.1 (06-12-2025) =
-* Fixed: Custom Post Types not showing on Blog Element. Thanks [@hamiddavodi](https://wordpress.org/support/topic/blog-widget-does-not-work-properly/) for informing about the issue.
-
-
-= 2.0.9.9 (29-10-2025) =
-* Fixed: display condition for terms and archive.
-* Fixed: Dynamic tags showing twice for widgets.
-* UX Improvement : Gallery slider ui and ui improvement.
-* Improvement: Dynamic table has option to set non responsive
-
-= 2.0.9.8 (06-10-2025) =
-* Fixed: display condition for logged out user only. Thanks [@hamiddavodi](https://wordpress.org/support/topic/display-element-only-for-logged-out-users/) for informing about the issue.
-* Fixed: Wrapper link is not working in Safari browser Thanks [@adzpz](https://wordpress.org/support/topic/wrapper-link-not-working-on-safari-ipad/) for informing about the issue.
-* UX Improvement : UX Improved for notice.
-
-= 2.0.9.7 (21-09-2025) =
-* Fixed: Mobile nav menu toggle is not working properly in free version.
-* Security Patch: Freemius SDK updated for better security.
-
-= 2.0.9.6 (31-08-2025) =
-* Added: Dynamic Tags added on Image Hover Effects
-* Update: Master Addons Mega menu feature updated
-* Fixed: Animated Gradient Background extension not working issue fixed
-* Fixed: Particles background not working issue fixed, also working on Editor Mode
-* Fixed: Background Slider not working issue fixed, working on both editor and frontend
-* Fixed: Extensions not showing on Advanced/Style tabs, Container supports for Particles, Animated Background etc
-
-= 2.0.9.5 (19-08-2025) =
-* Updated: Minor Bugs fixed
-
-= 2.0.9.4 (18-08-2025) =
-* Updated: Minor Bugs fixed
-
-= 2.0.9.3 (18-08-2025) =
-* Updated: Team Slider Controls updated for Mobile Devices
-* Fixed: Custom CSS for Elementor not working on frontend issue fixed
-* Fixed: Custom JS for Elementor not showing on Editor and appying on frontend issue fixed
-
-= 2.0.9.2 (13-08-2025) =
-* Updated: Template Importer - Labels hover on pointer
-* Updated: Template Importer - Style issues fixed
-* Updated: MA Templates - Added Templates, Popup options
-* Updated: MA Templates - data not saving issue fixed
-* Fixed: Animated headlines- rotate 3 background color animated Issue
-* Added: Gradient Headline- add normal and hover color section for classic & gradient mode
-* Fixed: Infobox- preset 8 icon padding issue
-* Fixed: Dual Heading remove default extra margin
-* Fixed: Gallery slider- Preview image border radius & thumbnail hover effect- hover background color, border color option
-* Fixed: Gallery slider-> rlt arrow position, remove- slides per view, slides per column, slides to scroll, spacing, resistance, Speed controler from Thumbnails section
-* Fixed: Gravity Form- fixed function not defined fatal error
-
-= 2.0.9.1 (06-08-2025) =
-* Fixed: Creative button icon after position issue
-* Fixed: Toggle content change the default icon, fixed icon width & undefined value issue
-* Fixed: Business Hours- Change default icon, fixed preset 3 background image & present 4 text overlapping content Issue
-* Fixed: Filterable gallery- fixed masonry option & removed style section - border bottom option
-* Added: Blockquote- add border radius option
-* Fixed: Advanced Image - fixed open in Lightbox & and ribbon style issue
-
-= 2.0.9.0 (3-08-2025) =
-* Security Patch: Security path applied for xss script on filtrable gallery widget
-* Security Patch: Security path applied for xss script on image carousel widget
-* Security Patch: Security path applied for xss script on image hover widget
-
-= 2.0.8.9 (30-07-2025) =
-* Added: Icons Library - Teeny Icons, Remix Icons, Feather Icons
-* Updated: Icons Library - Options Data settings updated with Icons Library
-* Fixed: Font Awesome, SVG icon color and active color issues fixed for Advanced Tabs
-* Added: Gap and alignment controls for Advanced Tabs
-* Fixed: Margin and line-height issues fixed for Countdown Timer
-* Changed: Updated control labels and moved alignment controls to style tab in Countdown Timer for better clarity
-* Added: Styling controls for Countdown Timer items:
-	- Width, height and box shadow controls
-	- Separate background options Countdown items
-	- Countdown items text controls for labels
-* Fixed: Image Hover effect title issue
-* Fixed: Removed elementor inline texteditor from table of content
-* Fixed: Set default icon and chosen icon issue, preset 5, 8 hover effect & preset 9 content disable issue in Infobox.
-* Fixed: Set default icon,fixed tooltip issue, Set Style section- height option, vertical position option for layout 5 in Pricing table
-* Added: Feature Product content alignment for docs, list
-* Fixed: Set default icon width in creative links
-* Fixed: Contact form 7 variations 5, 6 design issue, submit button background type-classic color & text color issue
-
-= 2.0.8.8 (26-07-2025) =
-* Updated: Counter Up Prefix Placeholder value updated
-* Fixed: Image Hotspots tooltip tag, Image Alignment issue
-* Fixed: Image Comparison default image preview issue
-* Added: Restrict Content popup button alignment, Slider to make gap between Description to age restriction
-* Fixed: Font Awesome Icon Color issue fixed for Domain Checker
-
-= 2.0.8.7 (20-07-2025) =
-* Fixed: Progress bars title alignment, percentages color & typography.
-* Fixed: Team Member fixed default icon issue.
-* Fixed: Blog Post 'Read More' button style option
-* Fixed: Tooltip content alignment
-* Fixed: Advanced Tab fixed vertical tabs height, width & add content alignment- top, center, bottom.
-
-= 2.0.8.6 (14-07-2025) =
-* Fixed: "Master Addons" typo fixed on Category Panel
-* Removed: Call to Action - Line Height, Default Uppercase, Font weight removed so it can grab Theme styles
-* Removed: "Button" Option for HTML Tag removed from Dual Heading
-
-= 2.0.8.5 (13-07-2025) =
-* Fix: Save template was not working issue.
-* Fix: Import template was not working.
-* Update: Elementor Cloud store template option applied.
-* Patch: Security patch added for xss script.
-
-= 2.0.8.4 (10-07-2025) =
-* Fix: blog component getting warning issue.
-* update: UI updated.
-
-= 2.0.8.3 (09-07-2025) =
-* Fix: Master accordion widget title alignment issue.
-* Update: Added tags separator option for blog posts widget.
-* Patch: Added Security patch for Stored XSS vulnerability.
-* Patch: Added Security patch for unauthorize style update issue.
-
-= 2.0.8.2 (30-06-2025) =
-* Update: Added security patch for css scripts.
-* Fix: Tooltip extension missing text issue fixed.
-
-= 2.0.8.1 (18-06-2025) =
-* Updated: Enhanced security validation.
-* Updated: Removed deprecated classes for Elementor.
-
-= 2.0.8 (13-06-2025) =
-* Fixed: Insufficient capability check in Custom JS module causing stored XSS vulnerability (CVE-2025-5284).
-* Updated: Enhanced security validation for Custom JS inputs to prevent Contributor+ level script injection.
-
-= 2.0.7.6 (26-05-2025) =
-* Fixed: Image hover effect has deprecated code.
-* Fixed: Template importer has issue with image loading.
-* Fixed: MA Timeline updated and fixed js error.
-* Fixed: Textdomain loading too early issue.
-* Fixed: Elementor editor not loading issue.
-* Update: Security patch added.
-* Update: Freemius SDK with better security.
-
-= 2.0.7.5 (19-04-2025) =
-* Fixed: WordPress 6.8 critical error issue fixed
-
-
-= 2.0.7.4 (10-03-2025) =
-* Fixed: Mega Menu - Data Saving, Editor Close button position updated
-* Fixed: Security Update & Performance issue fixed
-* Fixed: Plugins iframe popup thickbox style issue updated
-* Fixed: MA Templates save issue fixed
-
-= 2.0.7.3 (02-03-2025) =
-* Update: Freemius SDK with security patch
-* Fixed: Particle extension for section.
-* Update: Swiper Library moved with the Elementor  swiper library.
-* Fixed: Interactive tooltip module follow cursor was not working.
-* Fixed: Removed deprecated classes according to the latest updates of Elementor
-* Fixed: Applied security patch for cross site scripting issue.
-
-= 2.0.7.2 (19-02-2025) =
-* Update: Added compatibility for PHP 8.2+ and WordPress 6.7.2.
-* Patch: Applied security updates to address potential vulnerabilities.
-* Fixed: Fixed accordion element missing value issue.
-
-= 2.0.7.1 (18-01-2024) =
-* Update: Container Support given for Wrapper Link Extension
-* Update: Upgrade Pro badges removed from Premium Version
-
-= 2.0.7.0 (04-01-2024) =
-* Update: Image Carousel not working issue fixed
-
-= 2.0.6.9 (22-12-2024) =
-* Fixed: Fatal Error for Custom CSS and JS issue fixed. Thanks [@kazishiplu](https://wordpress.org/support/topic/getting-fatal-error-for-elementor-custom-css-js/) for informing about the issue
-
-= 2.0.6.8 (21-12-2024) =
-* Fixed: Wrapper link effection only last link inside same container
-* Updated: Swiper Class updated, Team Slider not working issue fixed
-* Updated: Slider Addons - Team Slider, Logo Slider updated
-* Fixed: Tooltip Extension position issue fixed
-* Fixed: Text Domain warning issue fixed
-
-= 2.0.6.7 (27-11-2024) =
-* Updated: Security Bugs fixed
-* Updated: Freemius Library Updated
-* Updated: Master Addon Wrapper link modeule has updated
-* Updated: Swiper slider updated as per elementor Updates
-
-= 2.0.6.6 (02-10-2024) =
-* Fixed: Mega Menu Save issue fixed
-* Fixed: "MA Templates" not saving issue fixed
-* Updated: Modal Popup UI/UX improved
-* Updated: Freemius SDK Updated
-* Removed: Recommended Plugins Menu
-* Added: For faster support, Support Sub Menu Added
-* Updated: waypoints.js has been replaced by the native Intersection Observer API. All script with 'elementorFrontend.waypoint()' method updated
-* Updated: Mega Menu, Demo Importer UI/UX updated
-* Updated: Optimized Performance for Cached Static Contents for better TTFB on Google pagespeed
-* Updated: Flipbox Updated Icon & Image Selection
+= Master Elementor Addons 3.1.6 (23-07-2026) =
+* Fixed: Blog Posts widget date, author, category, and tag links now open the correct archive, including for custom post types (the post type is kept in the link).
+* Fixed: Blog Posts pagination now counts only the posts the widget actually queries, so an extra empty page no longer appears — and the Next/page links now work when the widget is placed on a normal page.
+* Fixed: Blog Posts responsive "Number of Columns" for tablet and mobile now applies correctly.
+* Added: Blog Posts filter tabs and query now support custom taxonomies, so custom post types (e.g. from ACF) can be filtered.
+* Added: Blog Posts now shows custom taxonomy terms in the bottom tag list.
+* Fixed: Background Slider overlay images now load from the correct assets URL, so overlays show up on both the free and Pro builds.
+* Maintenance: Updated the Freemius licensing library to 2.13.4.
+
+= Master Elementor Addons 3.1.5 (18-06-2026) =
+* Security: Made the Recommended Plugins screen safer so only the plugins we list can be installed or activated.
+* Security: Tightened the Mega Menu so it only responds to its own known actions.
+* Security: Added safety checks when importing Template Kits to block unsafe files.
+* Fixed: Some admin screens (Settings, Template Kits, Template Library, Setup Wizard) could show up blank — they now load correctly.
+* Improved: Mega Menu now works smoothly with Elementor's new Atomic Elements, and only loads its styles on the pages that use a Mega Menu — so menus look right everywhere and your pages stay fast.
+* Improved: General compatibility and code-quality tidy-up for the WordPress.org review.
+* Maintenance: Updated the licensing library and removed unused files.
+
+= Master Elementor Addons 3.1.4 (18-06-2026) =
+* Security: moved the Custom CSS editor to the Pro build (no arbitrary CSS insertion in the free plugin).
+* Security: added nonce verification to Mega Menu options save.
+* Security: added capability checks to popup, template-save, white-label, and rollback handlers.
+* Security: whitelisted option-name prefixes in the internal options helper.
+* Compliance: renamed short/reserved identifiers to the unique jltma prefix; migrated popup table/option to prefixed names.
+* Maintenance: removed unused bundled readme/markdown libraries; dropped a legacy Elementor (< 2.2.8) AJAX hook.
+
+= Master Elementor Addons 3.1.3 (14-06-2026) =
+* Added: Timeline widget Title and Content typography and color controls (Cards section), applied to both Post and Custom timeline items.
+* Security: Hardened popup list sorting so it only accepts known sort options.
+* Security: Tightened permissions on the Mega Menu content editor so only menu managers can use it.
+* Improved: Custom CSS and JS in the Widget Builder are now a Pro feature; HTML stays available for everyone.
+* Improved: Template previews now open in a new browser tab instead of loading inside the dashboard.
+* Improved: Used unique name prefixes across the plugin for better compatibility with other plugins.
+* Improved: Updated the Select2 library to the latest stable version.
+* Improved: The setup wizard theme image now loads from within the plugin instead of an external site.
+* Improved: Review links now open the full reviews page.
+* Fixed: Template Live Preview link is now easy to read in Elementor's dark mode.
+
+= Master Elementor Addons 3.1.2 (08-06-2026) =
+* Added: Custom Attributes support for the link/button controls in Creative Button, Creative Links, Dual Heading, Info Box, Business Hours, Flipbox, Advanced Image, Image Hover Effects, Call to Action, Pricing Table and Featured Product (Pro) widgets.
+* Added: Countdown Timer style presets (Card, Flip, Circle, Gradient, Neon, Glassmorphism, Minimal, Outline, Neumorphic) with the Layout and Style Preset options separated; the new presets are gated to Pro.
+* Added: Counter Up responsive column support and a Content Position control for placing the title around the number.
+* Added: Changelog widget Style tab controls (Heading, Title, Content) so the Style tab now appears before Advanced.
+* Added: Pricing Table individual Currency, Fractional and Period color controls.
+* Fixed: Dual Heading link showed "[object Object]" as the href in the editor and ignored Open in new window / Add nofollow / Custom Attributes; Style 1 markup, heading structure and extra-span spacing corrected.
+* Fixed: Tooltip Width, Background, Color, Padding, Border and Typography style controls now apply (scoped to the per-widget Tippy theme); Tooltip Text now updates live in the Elementor editor.
+* Fixed: Gradient Headline hover gradient colors now apply on hover only when set.
+* Fixed: Pricing Table price typography now targets the price amount only, and extra spacing around the price/currency is removed.
+* Fixed: Image Hover Effects border radius now rounds the image, border and hover overlays.
+* Fixed: Progress Bar percentage number typography/DOM controller styling.
+* Fixed: Contact Form 7 label margin now applies to the form labels.
+* Fixed: "Unregistered dependency" PHP notice (jltma-prism) for the Source Code widget when the Pro license is inactive.
+* Fixed: Nonce issue fixed.
+* Added: Widget Builder now lets you add conditions and loops in your widget code, so you can show or hide parts of a widget and repeat items based on your settings.
+* Added: Documentation links inside the Widget Builder — a quick link in the code panel and a help icon on every control.
+* Improved: A roomier Widget Builder code editor — a wider editing area, a draggable panel you can size yourself, and cleaner, thinner scrollbars.
+* Improved: Premium controls are now clearly locked on the free version and can no longer be added by mistake.
+* Fixed: Background, typography and text shadow styling now applies exactly where you choose instead of to the whole widget.
+* Fixed: Importing a widget now opens it correctly, and the Widget Builder menu appears in the right place.
+* Improved: Widgets you build are now shown in a safer, more reliable way.
+
+= Master Elementor Addons 3.1.1 (23-05-2026) =
+* Security: Widget Builder no longer accepts or executes arbitrary PHP. PHP tags are stripped from all widget HTML/CSS/JS on save and during generation, so generated widget files contain only plugin-authored code. Dynamic values use {{placeholders}} that are escaped on output.
+* Security: Removed the Widget Builder preview path that wrote user code to a temporary PHP file and included it. Previews now render statically with escaped mock values — no user PHP or JavaScript is executed.
+* Security: Fixed an authenticated (author+) Stored XSS via the 'jtlma_custom_js' page setting / 'custom_js' element setting of the Custom JS extension (reported in versions up to 3.1.0). The extension is removed from the free plugin entirely (no render path remains); in Master Addons Pro the unfiltered_html capability is now enforced on save (the value is stripped for unprivileged users via the elementor/document/save filter) and at render (output gated by the post author's capability), not only during control registration.
+* Security: Hardened the Custom CSS extension against tag-breakout XSS. The 'custom_css' element setting is now sanitized on save (via the elementor/document/save filter) and again on render before it is added to the stylesheet, stripping HTML/PHP tags (e.g. a "</style><script>" breakout), expression(), @import and javascript:/behavior: — closing the same direct-AJAX save bypass.
+* Security: Added a nonce check to the Content Restriction AJAX handler and a capability check to the popup shortcode and template plugin-status AJAX handlers.
+* Security: Sanitized the Select2 REST nonce flow (fail-closed) and tightened its capability to edit_posts; sanitized the template-data request and template-kit theme-activation nonce.
+* Security: The bundled Markdown library no longer hooks the_content/comment filters globally; the jltma_template shortcode now escapes its returned markup.
+* Maintenance: Updated @popperjs/core from 2.9.3 to 2.11.8. Removed the legacy option-based Widget Builder. Existing custom widgets are migrated automatically (data scrubbed and files regenerated; no widgets are deleted).
+
+= Master Elementor Addons 3.1.0 (19-05-2026) =
+* Compliance: Documented every external service the plugin contacts (Master Addons template API, Jewel Theme API, Google reCAPTCHA, Twitter/X, WhatsApp, Freemius) with terms and privacy links.
+* Compliance: Removed the Template Kit "fix compatibility" routine that rewrote the active_plugins option.
+* Compliance: Replaced deprecated openssl_free_key() and get_page_by_title() with version-safe equivalents.
+* Compliance: Removed eval() and create_function(); the Widget Builder preview now uses an included temporary file.
+* Compliance: Replaced the PHP short tag in the Infobox widget and removed remote CDN dependencies (Font Awesome, ace-builds, placeholder images now load locally / from Elementor).
+* Compliance: Replaced remote file_get_contents() calls with the WordPress HTTP API and moved generated Widget Builder files to the uploads directory.
+* Compliance: Removed the front-end PHP session in the Popup Builder in favour of a cookie.
+* Compliance: Standardised every gettext call on the "master-addons" text domain and added direct-file-access protection to entry-point files.
+* Compliance: Minimised the data sent by the subscribe form to only the administrator-submitted fields.
+* Added: Popup Builder now rejects duplicate display conditions and shows an inline validation message.
+* Improved: Theme Builder condition validation messages are shown as a centered, colour-coded alert.
+* Fixed: "Undefined array key" PHP warnings in the upgrade notice and Pro upgrade dashboard widget.
+* Fixed: Renamed an asset file containing a space and removed hidden system files.
+
+= Master Elementor Addons 3.0.9 (25-04-2026) =
+* Added: Dynamic Table Addons table head show/hide option add.
+* Fixed: Dynamic Table mobile view warning issue fixed.
+
+= Master Elementor Addons 3.0.8 (18-04-2026) =
+* Fixed: Nav Menu hamburger toggle not working on mobile devices.
+* Fixed: Nav Menu offcanvas, popup, and default dropdown modes styling restored after Bootstrap dependency removal.
+* Fixed: Pro plugin showing "Sorry, you are not allowed to access this page." when Master Addons Free is not installed - now shows a proper install-free notice.
+* Fixed: Console errors across the Template Library after SweetAlert removal (delete kit, template import, plugin install/activate).
+* Fixed: Template Kit card thumbnail click now opens the in-app kit details view instead of opening an external preview URL.
+* Added: Redesigned Template Kit upload flow with a single continuous modal — inline confirmation, stepped progress, per-template filename display, no popup-over-popup.
+* Added: Faster Template Kit extraction using native ZipArchive with raised memory and execution time limits.
+* Added: "IMPORTED" badge on Template Kit cards already present in the local library.
+* Added: Shared promise-based confirmation and alert dialog system usable across Template Library, Widget Builder, Popup Builder, and Theme Builder.
+* Added: ARIA attributes and keyboard accessibility (Enter / Space / Esc) to Nav Menu toggle and import modals.
+* Added: Template Kits, Library & Popup Builder help tutorials links added.
+
+= Master Elementor Addons 3.0.7 (05-04-2026) =
+* Fixed: Gallery Slider Thumbnails style issue fixed.
+* Added: Some missing help links add to options settings.
+
+= Master Elementor Addons 3.0.6 (29-03-2026) =
+* Fixed: Elementor Custom Icon Library not showing issue fixed.
+
+= Master Elementor Addons 3.0.5 (14-03-2026) =
+* Fixed: Fatal error in RegistrationMagic plugin resolved.
+
+= Master Elementor Addons 3.0.4 (13-03-2026) =
+* Fixed: Gallery Slider swiper slide issue fixed.
+* Fixed: Gallery Slider lightbox features frontend image infinite loading issue fixed.
+
+= Master Elementor Addons 3.0.3 (10-03-2026) =
+* Fixed: Blog Post Master Elementor Addon frontend showing single column instead of grid layout
+* Fixed: Timeline Master Elementor Addon vertical scroll animation not working on frontend
+* Fixed: Timeline Master Elementor Addon vertical scroll line colors not matching between editor and frontend
+* Fixed: Multiple Master Elementor Addon missing grid CSS on frontend (Counter Up, Business Hours, Tabs, Call to Action, Image Filter Gallery, Table)
+* Fixed: Timeline Master Elementor Addon unclosed wrapper div for post-type timelines
+* Fixed: PHP 8.x deprecation warnings (strpos/str_replace with null values) in Master Elementor Addons
+* Fixed: Version mismatch notice showing incorrectly when both Free and Pro Master Elementor Addons are compatible
+* Fixed: Setup Wizard scroll issue fixed.
+* Added: Fail-safe version guard in Master Elementor Addons Pro plugin with 3-tier version detection
+
+= Master Elementor Addons 3.0.2 (08-03-2026) =
+* Fixed: Fatal error issue fixed.
+
+= Master Elementor Addons 3.0.1 (08-03-2026) =
+* Fixed: Add Master Addons Pro guard.
+
+= Master Elementor Addons 3.0.0 (08-03-2026) =
+* New Feature: Elementor Popup builder released
+* New Feature: Elementor Template Kit library released
+* Fixed: Transforms extension styles now load correctly on the frontend
+* Fixed: Slider controls now display proper default values in the Transforms extension
+* Fixed: Rotate and Skew controls now use correct degree units in the Transforms extension
+* Fixed: Transition duration now defaults to a sensible 400ms for smoother animations
+* Added: Minified CSS in Transforms extension for faster page load performance
+* Improved: Animated Gradient Background in Master Elementor Addons now uses a smoother background-position animation technique
+* Improved: Animated Gradient Background editor preview now matches the live frontend animation
+* Added: Animation easing control in Animated Gradient Background in Master Elementor Addons
+* Improved: Mailchimp in Master Elementor Addons form layout now uses a clean inline input and button design
+* Improved: Mailchimp in Master Elementor Addons input and button now have a consistent 50px height
+* Added: Color-coded alert messages (error, success, warning) in Mailchimp in Master Elementor Addons
+* Added: Icon sizing support for form elements in Mailchimp in Master Elementor Addons
+* Fixed: Domain name now correctly appears in success and error messages in Domain Checker in Master Elementor Addons
+* Fixed: Domain name now displays bold in search results in Domain Checker in Master Elementor Addons
+* Fixed: Stray "1" no longer appears at the end of success messages in Domain Checker in Master Elementor Addons
+* Improved: Domain Checker in Master Elementor Addons form layout now matches the consistent Search widget style
+* Changed: Default search icon updated to the native WordPress icon in Search in Master Elementor Addons
+* Fixed: Icon now renders and centers correctly inside search buttons in Search in Master Elementor Addons
+* Fixed: Search popup button background color now displays properly in Search in Master Elementor Addons
+* Fixed: Tooltip in Master Elementor Addons settings now update in real-time inside the Elementor editor
+* Fixed: Tooltip in Master Elementor Addons initialization errors resolved for a more stable editing experience
+* Fixed: Pie Chart in Master Elementor Addons now appears correctly in the Elementor widget panel
+* Fixed: Pie Chart in Master Elementor Addons arc no longer gets cut off at the edges
+* Fixed: Pie Chart in Master Elementor Addons percentage text is now properly centered
+* Added: Default border style for Info Box in Master Elementor Addons items for a cleaner out-of-the-box look
+* Added: Default hover background color for Info Box in Master Elementor Addons
+* Fixed: Typo in Info Box in Master Elementor Addons hover background color label
+* Improved: Gradient Headline in Master Elementor Addons default gradient position updated to 30% for better visual appearance
+* Fixed: PHP warning related to period position setting in Pricing Table in Master Elementor Addons
+* Fixed: Admin submenu order corrected — Account and Support now appear at the bottom
+* Improved: Admin menu order is now: Settings → Template Library → Theme Builder → Account → Support
+* Added: Update notification badge on the admin menu when a plugin update is available
+* Improved: White label settings now apply consistently across both free and pro versions on the plugins page
+* Added: Pro version now automatically appends "Pro" to your custom plugin name in White Label
+* Removed: Elementor Rollback feature removed.
+* Added: Pro users are now guided to their Freemius account to manage version rollbacks
+* Added: Gzip compression for assets — pages now load faster when your server supports it
+* Improved: JavaScript now loads per-widget so only what is needed loads on each page
+* Improved: Help documentation links for all widgets are now managed from a single central location
+* Fixed: Elementor editor now loads admin assets without any 404 errors
+* Added: Master Elementor Addons promotional button added in the Elementor editor panel
+
+= Master Elementor Addons 2.1.4 (28-02-2026) =
+* Security: Security update.
+
+= Master Elementor Addons 2.1.3 (23-02-2026) =
+* Fixed: Version rollback option is now correctly hidden from the admin panel.
+
+= Master Elementor Addons 2.1.2 (15-02-2026) =
+* Security: Fixed a security vulnerability affecting text output in 15 settings across 10 widgets in Master Elementor Addons.
+* Security: Fixed security issue in the Elementor Business Hours widget.
+* Security: Fixed security issue in the Elementor Creative Links widget.
+* Security: Fixed security issue in the Elementor Call to Action widget.
+* Security: Fixed security issue in the Elementor Flipbox widget.
+* Security: Fixed security issue in the Elementor Info Box widget.
+* Security: Fixed security issue in the Elementor Progress Bar widget.
+* Security: Fixed security issue in the Elementor Blockquote widget.
+* Security: Fixed security issue in the Elementor Dual Heading widget.
+* Security: Fixed security issue in the Elementor Creative Buttons widget.
+* Security: Fixed security issue in the Elementor Changelog widget.
+
+= Master Elementor Addons 2.1.1 (25-01-2026) =
+* Fixed: Elementor Timeline icon not showing on frontend issue fixed.
+
+= Master Elementor Addons 3.0.1 (14-02-2026) =
+* Security: Fixed a security vulnerability affecting text output in 15 settings across 10 widgets in Master Elementor Addons.
+* Security: Fixed security issue in the Elementor Business Hours widget.
+* Security: Fixed security issue in the Elementor Creative Links widget.
+* Security: Fixed security issue in the Elementor Call to Action widget.
+* Security: Fixed security issue in the Elementor Flipbox widget.
+* Security: Fixed security issue in the Elementor Info Box widget.
+* Security: Fixed security issue in the Elementor Progress Bar widget.
+* Security: Fixed security issue in the Elementor Blockquote widget.
+* Security: Fixed security issue in the Elementor Dual Heading widget.
+* Security: Fixed security issue in the Elementor Creative Buttons widget.
+* Security: Fixed security issue in the Elementor Changelog widget.
+
+= Master Elementor Addons 2.1.0 (11-01-2026) =
+* Added: Elementor Popup Builder — professional popup creation with advanced triggers, conditions, and optimized asset loading.
+* Added: Elementor Theme Builder — complete solution for building headers, footers, and custom template parts with grouped template types (Theme, Post, Page, WooCommerce), including new Category, Tag, Author, Date, and Single template types.
+* Added: Elementor Template Library — cloud-based template storage and management.
+* Added: Elementor Template Kit System — pre-built template collection with one-click demo import.
+* Added: Demo Importer in Master Elementor Addons — one-click demo content import with variation support.
+* Added: Element Name Extension in Master Elementor Addons — name and organize your Elementor elements for a better workflow.
+* Added: Elementor Navmenu widget in Master Elementor Addons.
+* Added: MA Post Content support for Dynamic Tags in Master Elementor Addons.
+* Security: Fixed XSS vulnerability in the Elementor Flipbox and Gradient Headline widgets.
+* Security: Fixed unauthorized access vulnerability — proper permission checks added across Master Elementor Addons.
+* Security: All widgets with HTML tag selectors now use whitelist validation to prevent script injection in Master Elementor Addons.
+* Fixed: Fatal error in Elementor White Label settings resolved.
+* Improved: Elementor White Label upgrade popup, logo preview, and description text updated for a cleaner and more professional experience.
+* Improved: Elementor White Label settings now apply consistently to both free and Pro plugin entries on the Plugins page.
+* Fixed: Pro element lock icons are now correctly hidden when the Pro version is active.
+* Fixed: Card hover effects, double hover background, icon display, meta and date alignment, and custom point variations now all work correctly in Elementor Timeline.
+* Fixed: Read More text, excerpt color, typography, and padding controls now work correctly in Elementor Timeline.
+* Added: Read More button styling with Normal and Hover tabs in Elementor Timeline.
+* Fixed: Icon background, alignment, padding, size, color, hover effects, and 3D Flip Box animation now all work correctly in Elementor Info Box.
+* Added: Flip Box height control and gradient background support for Elementor Info Box.
+* Fixed: Content type dropdown, toggle icons, icon position, background color, and icon spacing now all work correctly in Elementor Advanced Accordion.
+* Added: Expand and Collapse icon picker with position control in Elementor Advanced Accordion.
+* Fixed: Elementor Mega Menu content can now be edited directly in the Elementor editor.
+* Added: Icon picker with 3,000+ icons library in Elementor Mega Menu.
+* Improved: Color picker, submenu indicator animations, and close icon updated in Elementor Mega Menu.
+* Fixed: Hover and click events, non-pretty permalink support, and default icon now all work correctly in Elementor Mega Menu.
+* Fixed: Form submission, password validation, error messages, and button alignment now all work correctly in Elementor Restrict Content.
+* Added: Styled error messages and comprehensive popup button style controls in Elementor Restrict Content.
+* Updated: Padding, Margin, and Animation Delay settings now support responsive controls in Elementor Animated Headlines.
+* Added: Bar Color, Height, and Bar Position controls for the Loading Bar style in Elementor Animated Headlines.
+* Added: Number Suffix and Prefix color, size, margin, and responsive column options in Elementor Counter Up.
+* Updated: Default border radius, icon position visual toggle, and responsive text alignment control added in Elementor Creative Buttons.
+* Fixed: Period overlap, feature list divider, button background, SVG icon styles, and tooltip cut-off issues all resolved in Elementor Pricing Table.
+* Added: Feature list margin option with responsive support in Elementor Pricing Table.
+* Fixed: Content type query settings now apply correctly in Elementor News Ticker.
+* Updated: Elementor News Ticker rebuilt for better performance with rounded ribbon design and smoother vertical centering.
+* Added: Height, thumbnail width, and thumbnail shape controls in Elementor News Ticker.
+* Fixed: Elementor Progress Bar now takes full width inside containers and renders correctly in the editor.
+* Updated: Elementor Blockquote redesigned with decorative quote marks, author bar symbol, and new show/hide toggles for all decorative elements.
+* Fixed: Border radius, hover controls, and SVG icon color now work correctly in Elementor Creative Links.
+* Added: Default border and border radius in Elementor Creative Links.
+* Fixed: Header alignment, odd and even row background colors now work correctly in Elementor Dynamic Table.
+* Added: Default header background color, border radius, and non-responsive option in Elementor Dynamic Table.
+* Added: Ribbon width, position, and border radius controls in Elementor Advanced Image.
+* Fixed: Image border radius and ribbon styling completely revamped in Elementor Advanced Image.
+* Fixed: Post title typography now works correctly in the Elementor Blog widget.
+* Improved: Elementor Glassmorphism Effect, Display Options, Reading Progress Bar, and Animation extensions updated with enhanced functionality and bug fixes in Master Elementor Addons.
+* Fixed: JavaScript layout error, Off-Canvas Content widget rendering, and template kit loading issues resolved in Master Elementor Addons.
+* Updated: Freemius SDK updated to the latest version.
+
+= Master Elementor Addons 2.0.9.9.4 (10-12-2025) =
+* Fixed: Elementor Custom JS not showing on the frontend issue fixed. Thanks @alvarogarciar for reporting.
+
+= Master Elementor Addons 2.0.9.9.3 (07-12-2025) =
+* Fixed: Pagination not working correctly for Post Types issue fixed.
+
+= Master Elementor Addons 2.0.9.9.2 (06-12-2025) =
+* Fixed: Fatal error occurring when Elementor is not active with the Custom JS module resolved.
+
+= Master Elementor Addons 2.0.9.9.1 (06-12-2025) =
+* Fixed: Custom Post Types not showing in the Elementor Blog widget. Thanks @hamiddavodi for reporting.
+
+= Master Elementor Addons 2.0.9.9 (29-10-2025) =
+* Fixed: Display condition for terms and archive pages now works correctly in Master Elementor Addons.
+* Fixed: Dynamic tags no longer showing twice for widgets.
+* Improved: Elementor Gallery Slider UI and UX improvements.
+* Improved: Elementor Dynamic Table now has a non-responsive option for better mobile control.
+
+= Master Elementor Addons 2.0.9.8 (06-10-2025) =
+* Fixed: Display condition for logged-out users only now works correctly. Thanks @hamiddavodi for reporting.
+* Fixed: Wrapper link not working in Safari browser resolved. Thanks @adzpz for reporting.
+* Improved: Admin notice UI improvements in Master Elementor Addons.
+
+= Master Elementor Addons 2.0.9.7 (21-09-2025) =
+* Fixed: Mobile nav menu toggle not working correctly in the free version.
+* Security: Freemius SDK updated for improved security.
+
+= Master Elementor Addons 2.0.9.6 (31-08-2025) =
+* Added: Dynamic Tags support added for Elementor Image Hover Effects.
+* Updated: Elementor Mega Menu feature updated.
+* Fixed: Elementor Animated Gradient Background extension not working issue fixed.
+* Fixed: Elementor Particles Background not working issue fixed — now also works correctly inside the editor.
+* Fixed: Elementor Background Slider not working issue fixed — now works on both editor and frontend.
+* Fixed: Extensions not showing on Advanced and Style tabs for Elementor containers fixed.
+
+= Master Elementor Addons 2.0.9.5 (19-08-2025) =
+* Updated: Minor bug fixes.
+
+= Master Elementor Addons 2.0.9.4 (18-08-2025) =
+* Updated: Minor bug fixes.
+
+= Master Elementor Addons 2.0.9.3 (18-08-2025) =
+* Updated: Elementor Team Slider controls updated for better display on mobile devices.
+* Fixed: Elementor Custom CSS not applying on the frontend issue fixed.
+* Fixed: Elementor Custom JS not showing in the editor issue fixed.
+
+= Master Elementor Addons 2.0.9.2 (13-08-2025) =
+* Updated: Template Importer label hover and style improvements in Master Elementor Addons.
+* Updated: MA Templates — added Templates and Popup options, fixed data not saving issue.
+* Fixed: Elementor Animated Headlines rotate animation background color issue fixed.
+* Added: Elementor Gradient Headline — Normal and Hover color sections added for both classic and gradient modes.
+* Fixed: Elementor Info Box preset 8 icon padding issue fixed.
+* Fixed: Elementor Dual Heading extra default margin removed.
+* Fixed: Elementor Gallery Slider preview image border radius and thumbnail hover effects fixed.
+* Fixed: Gravity Form fatal error resolved.
+
+= Master Elementor Addons 2.0.9.1 (06-08-2025) =
+* Fixed: Elementor Creative Button icon "after" position issue fixed.
+* Fixed: Elementor Toggle widget default icon and icon width issue fixed.
+* Fixed: Elementor Business Hours widget default icon updated and preset layout issues resolved.
+* Fixed: Elementor Filterable Gallery masonry layout option fixed.
+* Added: Elementor Blockquote — border radius option added.
+* Fixed: Elementor Advanced Image lightbox and ribbon style issues fixed.
+
+= Master Elementor Addons 2.0.9.0 (03-08-2025) =
+* Security: XSS vulnerability patched in the Elementor Filterable Gallery widget.
+* Security: XSS vulnerability patched in the Elementor Image Carousel widget.
+* Security: XSS vulnerability patched in the Elementor Image Hover widget.
+
+= Master Elementor Addons 2.0.8.9 (30-07-2025) =
+* Added: New Elementor Icons Library with Teeny Icons, Remix Icons, and Feather Icons integrated into Master Elementor Addons.
+* Updated: Icons Library options and data settings to work smoothly with the new icon sets.
+* Fixed: Elementor Advanced Tabs icon colors (Font Awesome and SVG) and active state colors now display correctly.
+* Added: Gap and alignment controls for Elementor Advanced Tabs for better layout control.
+* Fixed: Elementor Countdown Timer margin and line-height issues for cleaner spacing.
+* Improved: Elementor Countdown Timer controls with clearer labels, alignment options moved to the Style tab, and new styling controls for item size, box shadow, backgrounds, and label text.
+* Fixed: Elementor Image Hover effect title display issue.
+* Fixed: Removed unnecessary Elementor inline text editor from the Table of Contents widget for cleaner markup.
+* Fixed: Elementor Info Box default icon, chosen icon, and hover presets now behave correctly across variations.
+* Fixed: Elementor Pricing Table default icon, tooltip behavior, and layout options (height and vertical position) now work properly.
+* Added: Feature Product content alignment options for documentation lists.
+* Fixed: Default icon width now applies correctly in Elementor Creative Links.
+* Fixed: Contact Form 7 (variations 5 and 6) design issues, including submit button background and text color, now resolved in Master Elementor Addons.
+
+= Master Elementor Addons 2.0.8.8 (26-07-2025) =
+* Updated: Elementor Counter Up prefix placeholder value for clearer default text.
+* Fixed: Elementor Image Hotspots tooltip tag and image alignment issues.
+* Fixed: Elementor Image Comparison default image preview now displays correctly.
+* Added: Elementor Restrict Content popup button alignment control and a slider to adjust spacing between description and age restriction fields.
+* Fixed: Elementor Domain Checker Font Awesome icon color issue resolved.
+
+= Master Elementor Addons 2.0.8.7 (20-07-2025) =
+* Fixed: Elementor Progress Bar title alignment, percentage color, and typography controls now work correctly.
+* Fixed: Elementor Team Member widget default icon now displays as expected.
+* Fixed: Elementor Blog “Read More” button style options now apply correctly.
+* Fixed: Elementor Tooltip content alignment issues resolved.
+* Fixed: Elementor Advanced Tabs vertical layout height, width, and content alignment (top, center, bottom) now behave correctly.
+
+= Master Elementor Addons 2.0.8.6 (14-07-2025) =
+* Fixed: “Master Addons” typo corrected in the Elementor Category Panel.
+* Improved: Elementor Call to Action now relies more on theme typography by removing forced line height, uppercase, and font weight.
+* Updated: Removed “Button” HTML tag option from Elementor Dual Heading to avoid output misuse.
+
+= Master Elementor Addons 2.0.8.5 (13-07-2025) =
+* Fixed: Save Template option in Master Elementor Addons was not working and is now fully functional.
+* Fixed: Import Template option in Master Elementor Addons now imports templates correctly.
+* Updated: Elementor Cloud template storage option support added in Master Elementor Addons.
+* Security: XSS security patch applied to strengthen Master Elementor Addons.
+
+= Master Elementor Addons 2.0.8.4 (10-07-2025) =
+* Fixed: Elementor Blog widget warning notice issue resolved.
+* Updated: General UI improvements across Master Elementor Addons.
+
+= Master Elementor Addons 2.0.8.3 (09-07-2025) =
+* Fixed: Elementor Accordion (Master Accordion) widget title alignment issue resolved.
+* Added: Tags separator option for the Elementor Blog Posts widget in Master Elementor Addons.
+* Security: Stored XSS vulnerability patch applied in Master Elementor Addons.
+* Security: Patch added for unauthorized style update issues in Master Elementor Addons.
+
+= Master Elementor Addons 2.0.8.2 (30-06-2025) =
+* Security: Additional security patch applied for CSS-related scripts in Master Elementor Addons.
+* Fixed: Elementor Tooltip extension missing text issue resolved.
+
+= Master Elementor Addons 2.0.8.1 (18-06-2025) =
+* Updated: Enhanced security validation across Master Elementor Addons.
+* Updated: Removed deprecated Elementor classes for better long-term compatibility.
+
+= Master Elementor Addons 2.0.8 (13-06-2025) =
+* Security: Fixed insufficient capability check in the Elementor Custom JS module that could cause a stored XSS vulnerability.
+* Updated: Strengthened security validation for Elementor Custom JS inputs to prevent Contributor+ level script injection.
+
+= Master Elementor Addons 2.0.7.6 (26-05-2025) =
+* Fixed: Elementor Image Hover effect deprecated code updated for compatibility.
+* Fixed: Template Importer image loading issues in Master Elementor Addons resolved.
+* Fixed: MA Timeline JavaScript error fixed for smoother behavior in Elementor.
+* Fixed: Text domain loading order adjusted to prevent early loading issues.
+* Fixed: Elementor editor loading issue caused by Master Elementor Addons now resolved.
+* Security: General security patch applied in Master Elementor Addons.
+* Updated: Freemius SDK upgraded for better security.
+
+= Master Elementor Addons 2.0.7.5 (19-04-2025) =
+* Fixed: WordPress 6.8 critical error related to Master Elementor Addons resolved.
+
+= Master Elementor Addons 2.0.7.4 (10-03-2025) =
+* Fixed: Elementor Mega Menu data saving issues and editor close button position improved.
+* Fixed: Security and performance issues addressed in Master Elementor Addons.
+* Fixed: Plugin iframe popup (thickbox) styling issues updated.
+* Fixed: MA Templates save issues resolved in Master Elementor Addons.
+
+= Master Elementor Addons 2.0.7.3 (02-03-2025) =
+* Updated: Freemius SDK with latest security improvements.
+* Fixed: Elementor Particle extension for sections now works correctly.
+* Updated: Swiper library usage aligned with Elementor’s bundled Swiper library.
+* Fixed: Interactive Tooltip follow-cursor behavior now works as expected.
+* Fixed: Deprecated Elementor classes removed according to latest Elementor updates.
+* Security: Security patch applied for cross-site scripting issues in Master Elementor Addons.
+
+= Master Elementor Addons 2.0.7.2 (19-02-2025) =
+* Updated: Compatibility added for PHP 8.2+ and WordPress 6.7.2 in Master Elementor Addons.
+* Security: Core security updates applied to address potential vulnerabilities.
+* Fixed: Elementor Accordion element missing value issue resolved.
+
+= Master Elementor Addons 2.0.7.1 (18-01-2024) =
+* Updated: Container support added for the Wrapper Link extension in Master Elementor Addons.
+* Updated: Upgrade to Pro badges removed from the Premium version of Master Elementor Addons.
+
+= Master Elementor Addons 2.0.7.0 (04-01-2024) =
+* Fixed: Elementor Image Carousel not working issue resolved in Master Elementor Addons.
+
+= Master Elementor Addons 2.0.6.9 (22-12-2024) =
+* Fixed: Fatal error related to Elementor Custom CSS and JS resolved in Master Elementor Addons (thanks @kazishiplu for reporting).
+
+= Master Elementor Addons 2.0.6.8 (21-12-2024) =
+* Fixed: Wrapper Link extension affecting only the last link inside the same container now works correctly.
+* Updated: Swiper class updated; Elementor Team Slider now works properly.
+* Updated: Slider Addons (Team Slider, Logo Slider) improved in Master Elementor Addons.
+* Fixed: Tooltip extension position issue resolved in Master Elementor Addons.
+* Fixed: Text domain warning issue fixed.
+
+= Master Elementor Addons 2.0.6.7 (27-11-2024) =
+* Security: Multiple security issues fixed in Master Elementor Addons.
+* Updated: Freemius library updated.
+* Updated: Master Elementor Addons Wrapper Link module improved.
+* Updated: Swiper slider updated to match latest Elementor implementation.
+
+= Master Elementor Addons 2.0.6.6 (02-10-2024) =
+* Fixed: Elementor Mega Menu save issues resolved.
+* Fixed: “MA Templates” not saving issue fixed in Master Elementor Addons.
+* Updated: Modal Popup UI/UX improved in Master Elementor Addons.
+* Updated: Freemius SDK updated.
+* Removed: Recommended Plugins menu removed from the admin area.
+* Added: Dedicated Support submenu added for faster help.
+* Updated: waypoints.js replaced with native Intersection Observer API; all scripts using elementorFrontend.waypoint() updated accordingly.
+* Updated: Mega Menu and Demo Importer UI/UX improved in Master Elementor Addons.
+* Updated: Performance optimized for cached static content to improve TTFB and PageSpeed scores.
+* Updated: Elementor Flipbox icon and image selection experience improved in Master Elementor Addons.
 
 = 2.0.6.5 (04-09-2024) =
 * Updated: Security Bugs fixed

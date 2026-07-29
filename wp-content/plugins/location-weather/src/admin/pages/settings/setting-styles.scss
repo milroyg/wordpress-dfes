@@ -1,0 +1,372 @@
+.splw-settings-page-container {
+    display: flex;
+    width: 1300px;
+    min-height: 360px;
+    align-items: flex-start;
+    border-radius: 4px;
+    border: 1px solid #DDDDDD;
+    background: #ffffff;
+    box-shadow: 0 1px 2px 0 rgba(17, 17, 17, 0.20);
+    overflow: hidden;
+    position: relative;
+
+    .splw-setting-tabs {
+        display: block;
+        z-index: 10;
+        width: 225px;
+        height: 100%;
+        ul,
+        ul li {
+            margin: 0;
+        }
+    }
+
+    .splw-setting-tab {
+        cursor: pointer;
+        border-bottom: 1px solid #E0E0E0;
+        padding: 14px 15px;
+        font-size: 12px;
+        color: #444444;
+        border-radius: 0;
+        text-transform: uppercase;
+        font-weight: 600;
+        z-index: 10;
+        position: relative;
+        background: #F0F0F0;
+        border-right: 1px solid #E0E0E0;
+        display: flex;
+        gap: 8px;
+        transition: all 0.3s ease;
+
+        &.active {
+            background: #FFFFFF;
+            color: #F26C0D;
+            border-right: 1px solid #00000000;
+            box-shadow: 3px 0 0 0 #F26C0D inset;
+
+            path {
+                stroke: #F26C0D;
+            }
+        }
+    }
+
+    .splw-setting-tabs-bottom {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        z-index: 9;
+        width: 225px;
+        border-right: 1px solid #E0E0E0;
+    }
+
+    .splw-setting-tab-content {
+        flex: 1;
+        padding: 32px;
+        overflow: hidden;
+    }
+
+    .spl-weather-input-control-component {
+        display: flex;
+
+        .spl-weather-input-control-label-wrapper {
+            margin-top: 11px;
+        }
+
+        .spl-weather-component-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .components-base-control {
+            max-width: 460px;
+            position: relative;
+            flex: 1;
+        }
+
+        .splw-help-txt {
+            line-height: 18px;
+            font-style: italic;
+        }
+
+        .components-input-control__input {
+            padding-left: 38px !important;
+        }
+
+        a {
+            color: #1A74E4;
+            font-weight: 500;
+            text-decoration: underline;
+        }
+
+        .key-icon {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+    }
+
+    hr {
+        margin: 24px 0;
+    }
+
+    .components-input-control__backdrop {
+        border-radius: 6px !important;
+        border: 1px solid #DDDDDD !important;
+    }
+
+    .splw-settings-save-wrapper {
+        display: flex;
+        gap: 8px;
+        margin-top: 36px;
+
+        button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 11px 20px;
+            color: #FFFFFF;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 4px;
+            border: none;
+            background-color: #c5c5c6;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .splw-settings-save-btn {
+            pointer-events: none;
+            width: 170px;
+            height: 40px;
+
+            &.active {
+                background-color: rgb(0, 194, 99);
+                pointer-events: initial;
+            }
+        }
+
+        .splw-settings-reset-btn {
+            background-color: #cd3c3c;
+        }
+    }
+
+    .splw-settings-api-guideline {
+        background: #F3F4F5;
+        padding: 16px 0 16px 305px;
+        margin: 36px -36px -32px -36px;
+        display: flex;
+        gap: 4px;
+
+        a {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .spl-weather-component-title {
+        width: 270px;
+        color: #2F2F2F;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+    }
+
+    .splw-settings-advanced-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 34px;
+
+        hr {
+            margin: 0;
+        }
+
+        .splw-settings-save-wrapper {
+            margin: 0;
+        }
+    }
+
+    .splw-settings-cache-time {
+        width: 110px;
+        gap: 2px;
+        position: relative;
+
+        .mins {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            user-select: none;
+            padding: 0 10px;
+            font-size: 12px;
+            color: #555;
+            border: none;
+            height: 28px;
+            background-color: #f5f5f5;
+            border-radius: 0 5px 5px 0;
+            position: absolute;
+            right: 1px;
+        }
+
+        .components-input-base {
+            height: 30px;
+        }
+
+        .spl-weather-input-control-component .components-input-control__input {
+            padding-left: 18px !important;
+            padding-right: 52px !important;
+        }
+    }
+
+    .splw-settings-option {
+        display: flex;
+        align-items: center;
+    }
+
+    .api-source {
+        .spl-weather-component-title {
+            display: block;
+            padding-right: 20px;
+            z-index: 10;
+        }
+
+        .splw-settings-info {
+            display: inline-flex;
+            transform: translateY(2px);
+            padding-top: 0;
+        }
+    }
+
+    .splw-setting-purge-cache {
+        cursor: pointer;
+        border-radius: 4px;
+        background: #1A74E4;
+        padding: 6px 12px;
+        color: #FFFFFF;
+        border: none;
+    }
+
+    .splw-settings-additional-codes {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .spl-weather-code-editor-component {
+        display: flex;
+
+        .spl-weather-code-editor {
+            width: 100%;
+        }
+    }
+
+    .monaco-editor .margin {
+        background-color: rgb(61, 61, 61);
+    }
+
+}
+
+.splw-cache-delete-popup {
+    background: #fff;
+    padding: 52px 28px;
+    border-radius: 8px;
+    width: 320px;
+    max-width: 90vw;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 99999;
+
+    .components-popover__content {
+        all: unset;
+        display: flex;
+        flex-direction: column;
+        gap: 36px;
+        box-shadow: none;
+    }
+
+    span {
+        display: block;
+        font-size: 17px;
+        color: #333;
+    }
+}
+
+/* Buttons row */
+.splw-cache-delete-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    button {
+        padding: 8px 18px;
+        border-radius: 4px;
+        cursor: pointer;
+        border: none;
+        font-size: 14px;
+    }
+
+    .cancel {
+        background: #e0e0e0;
+    }
+
+    .ok {
+        background: #F26C0D;
+        color: #fff;
+    }
+}
+
+.spl-weather-component-title {
+    display: flex;
+    align-items: center;
+}
+
+.splw-settings-info {
+    display: flex;
+    cursor: help;
+    position: relative;
+    padding: 5px;
+
+    &:hover {
+        .splw-settings-info-text {
+            display: block;
+        }
+    }
+}
+
+.splw-settings-info-text {
+    display: none;
+    position: absolute;
+    background: rgb(22 30 38);
+    color: rgb(127 159 175);
+    width: 290px;
+    padding: 14px 20px;
+    border-radius: 5px;
+    z-index: 10;
+    left: 22px;
+    top: 0;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.spl-weather-select-field {
+    max-width: 460px;
+    flex: 1;
+}
+
+.contribute-text {
+    margin-top: -28px;
+    width: 450px;
+
+    .splw-settings-modal-btn {
+        cursor: pointer;
+        font-weight: 600;
+        text-decoration: underline;
+    }
+}
+.splw-weather-api-notice {
+    display: block;
+    margin-left: 0px;
+    margin-bottom: 30px;
+}

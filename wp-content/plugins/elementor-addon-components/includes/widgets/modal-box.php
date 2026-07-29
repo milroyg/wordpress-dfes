@@ -16,9 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
 use EACCustomWidgets\Core\Utils\Eac_Tools_Util;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -37,21 +36,6 @@ use Elementor\TemplateLibrary\Source_Local;
 class Modal_Box_Widget extends Widget_Base {
 
 	/**
-	 * Constructeur de la class Modal_Box_Widget
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		EAC_Plugin::instance()->register_script( 'eac-modalbox', 'assets/js/elementor/eac-modal-box', array( 'jquery', 'elementor-frontend' ), '1.6.1',
-			array(
-				'strategy' => 'defer',
-				'in_footer' => true,
-			)
-		);
-		wp_register_style( 'eac-modalbox', EAC_Plugin::instance()->get_style_url( 'assets/css/modal-box' ), array( 'eac-frontend' ), '1.6.1' );
-	}
-
-	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
 	 *
 	 * @var $slug
@@ -65,10 +49,10 @@ class Modal_Box_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -76,10 +60,10 @@ class Modal_Box_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -87,10 +71,10 @@ class Modal_Box_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -98,10 +82,10 @@ class Modal_Box_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -109,7 +93,7 @@ class Modal_Box_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
 		return array( 'eac-modalbox' );
@@ -121,7 +105,7 @@ class Modal_Box_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
 		return array( 'eac-modalbox' );
@@ -136,8 +120,8 @@ class Modal_Box_Widget extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return Eac_Config_Elements::get_widget_keywords( $this->slug );
+	public function get_keywords(): array {
+		return Eac_Load_Config::get_widget_keywords( $this->slug );
 	}
 
 	/**
@@ -145,10 +129,10 @@ class Modal_Box_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return URL help center
+	 * @return string URL help center
 	 */
-	public function get_custom_help_url() {
-		return Eac_Config_Elements::get_widget_help_url( $this->slug );
+	public function get_custom_help_url(): string {
+		return Eac_Load_Config::get_widget_help_url( $this->slug );
 	}
 
 	/**
@@ -158,6 +142,15 @@ class Modal_Box_Widget extends Widget_Base {
 	 */
 	public function has_widget_inner_wrapper(): bool {
 		return false;
+	}
+
+	/**
+	 * is_dynamic_content
+	 *
+	 * @return bool
+	 */
+	protected function is_dynamic_content(): bool {
+		return true;
 	}
 
 	/**
@@ -172,7 +165,7 @@ class Modal_Box_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'mb_param_content',
 			array(
-				'label' => esc_html__( 'Contenu', 'eac-components' ),
+				'label' => esc_html__( 'Content', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -180,10 +173,10 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_enable_header',
 				array(
-					'label'        => esc_html__( "Afficher l'entête", 'eac-components' ),
+					'label'        => esc_html__( 'Enable modal header', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -192,11 +185,11 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_texte_header',
 				array(
-					'label'       => esc_html__( 'Titre', 'eac-components' ),
+					'label'       => esc_html__( 'Title', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
-					'placeholder' => esc_html__( "Texte de l'entête", 'eac-components' ),
+					'placeholder' => esc_html__( 'Header text', 'eac-components' ),
 					'label_block' => true,
 					'render_type' => 'none',
 					'condition'   => array( 'mb_enable_header' => 'yes' ),
@@ -206,18 +199,18 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_type_content',
 				array(
-					'label'       => esc_html__( 'Type de contenu', 'eac-components' ),
+					'label'       => esc_html__( 'Content type', 'eac-components' ),
 					'type'        => Controls_Manager::SELECT,
-					'description' => esc_html__( 'Type de contenu à afficher', 'eac-components' ),
+					'description' => esc_html__( 'Content type to display', 'eac-components' ),
 					'default'     => 'texte',
 					'options'     => array(
-						'links'      => esc_html__( 'Lien Vidéo ou Carte', 'eac-components' ),
-						'html'       => esc_html__( 'Lien HTML', 'eac-components' ),
-						'texte'      => esc_html__( 'Texte personnalisé', 'eac-components' ),
-						'formulaire' => esc_html__( 'Code court', 'eac-components' ),
-						'tmpl_cont'  => esc_html__( 'Elementor modèle de conteneur', 'eac-components' ),
-						'tmpl_sec'   => esc_html__( 'Elementor modèle de section', 'eac-components' ),
-						'tmpl_page'  => esc_html__( 'Elementor modèle de page', 'eac-components' ),
+						'links'      => esc_html__( 'Link Video or Map', 'eac-components' ),
+						'html'       => esc_html__( 'HTML link', 'eac-components' ),
+						'texte'      => esc_html__( 'Custom text', 'eac-components' ),
+						'formulaire' => esc_html__( 'Shortcode', 'eac-components' ),
+						'tmpl_cont'  => esc_html__( 'Elementor template container', 'eac-components' ),
+						'tmpl_sec'   => esc_html__( 'Elementor template section', 'eac-components' ),
+						'tmpl_page'  => esc_html__( 'Elementor template page', 'eac-components' ),
 					),
 					'label_block' => true,
 					'separator'   => 'before',
@@ -227,7 +220,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_shortcode_content',
 				array(
-					'label'       => esc_html__( 'Entrer le code court', 'eac-components' ),
+					'label'       => esc_html__( 'Enter shortcode', 'eac-components' ),
 					'type'        => Controls_Manager::TEXTAREA,
 					'ai'          => array( 'active' => false ),
 					'placeholder' => '[contact-form-7 id="XXXX""]',
@@ -239,9 +232,9 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_url_content',
 				array(
-					'label'        => esc_html__( 'URL', 'eac-components' ),
+					'label'        => esc_html( 'URL' ),
 					'type'         => Controls_Manager::URL,
-					'placeholder'  => esc_html__( 'Coller une URL ou taper', 'eac-components' ),
+					'placeholder'  => esc_html__( 'Type or paste your URL', 'eac-components' ),
 					'dynamic'      => array(
 						'active' => true,
 					),
@@ -264,7 +257,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_tmpl_cont_content',
 				array(
-					'label'       => esc_html__( 'Elementor modèle de conteneur', 'eac-components' ),
+					'label'       => esc_html__( 'Elementor template container', 'eac-components' ),
 					'type'        => Controls_Manager::SELECT,
 					'options'     => Eac_Tools_Util::get_elementor_templates( 'container' ),
 					'condition'   => array( 'mb_type_content' => 'tmpl_cont' ),
@@ -275,7 +268,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_tmpl_sec_content',
 				array(
-					'label'       => esc_html__( 'Elementor modèle de section', 'eac-components' ),
+					'label'       => esc_html__( 'Elementor template section', 'eac-components' ),
 					'type'        => Controls_Manager::SELECT,
 					'options'     => Eac_Tools_Util::get_elementor_templates( 'section' ),
 					'condition'   => array( 'mb_type_content' => 'tmpl_sec' ),
@@ -286,7 +279,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_tmpl_page_content',
 				array(
-					'label'       => esc_html__( 'Elementor modèle de page', 'eac-components' ),
+					'label'       => esc_html__( 'Elementor template page', 'eac-components' ),
 					'type'        => Controls_Manager::SELECT,
 					'options'     => Eac_Tools_Util::get_elementor_templates( 'page' ),
 					'condition'   => array( 'mb_type_content' => 'tmpl_page' ),
@@ -302,7 +295,7 @@ class Modal_Box_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'mb_param_trigger',
 			array(
-				'label' => esc_html__( 'Options de déclenchement', 'eac-components' ),
+				'label' => esc_html__( 'Trigger options', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -310,13 +303,13 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_origin_trigger',
 				array(
-					'label'       => esc_html__( 'Déclencheur', 'eac-components' ),
+					'label'       => esc_html__( 'Trigger', 'eac-components' ),
 					'type'        => Controls_Manager::SELECT,
 					'options'     => array(
-						'button'     => esc_html__( 'Bouton', 'eac-components' ),
+						'button'     => esc_html__( 'Button', 'eac-components' ),
 						'image'      => esc_html__( 'Image', 'eac-components' ),
-						'text'       => esc_html__( 'Texte', 'eac-components' ),
-						'pageloaded' => esc_html__( 'Ouverture automatique', 'eac-components' ),
+						'text'       => esc_html__( 'Text', 'eac-components' ),
+						'pageloaded' => esc_html__( 'On page load', 'eac-components' ),
 					),
 					'label_block' => true,
 					'default'     => 'button',
@@ -326,8 +319,8 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_display_text_button',
 				array(
-					'label'       => esc_html__( 'Label du bouton', 'eac-components' ),
-					'default'     => esc_html__( 'Ouvrir la boîte modale', 'eac-components' ),
+					'label'       => esc_html__( 'Button label', 'eac-components' ),
+					'default'     => esc_html__( 'Open modal box', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
@@ -339,10 +332,10 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_icon_activated',
 				array(
-					'label'        => esc_html__( 'Ajouter un pictogramme', 'eac-components' ),
+					'label'        => esc_html__( 'Add pictogram', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array( 'mb_origin_trigger' => 'button' ),
@@ -352,7 +345,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_display_icon_button',
 				array(
-					'label'                  => esc_html__( 'Pictogrammes', 'eac-components' ),
+					'label'                  => esc_html__( 'Pictograms', 'eac-components' ),
 					'type'                   => Controls_Manager::ICONS,
 					'default'                => array(
 						'value'   => 'fas fa-arrow-right',
@@ -373,8 +366,8 @@ class Modal_Box_Widget extends Widget_Base {
 					'type'      => Controls_Manager::SELECT,
 					'default'   => 'before',
 					'options'   => array(
-						'before' => esc_html__( 'Avant', 'eac-components' ),
-						'after'  => esc_html__( 'Après', 'eac-components' ),
+						'before' => esc_html__( 'Before', 'eac-components' ),
+						'after'  => esc_html__( 'After', 'eac-components' ),
 					),
 					'condition' => array(
 						'mb_origin_trigger' => 'button',
@@ -386,7 +379,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_marge_icon_button',
 				array(
-					'label'              => esc_html__( 'Marges', 'eac-components' ),
+					'label'              => esc_html__( 'Margin', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'allowed_dimensions' => array( 'left', 'right' ),
 					'default'            => array(
@@ -429,15 +422,15 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_image_dimension',
 				array(
-					'label'     => esc_html__( 'Dimension', 'eac-components' ),
+					'label'     => esc_html__( 'Size', 'eac-components' ),
 					'type'      => Controls_Manager::SELECT,
 					'default'   => 'medium_large',
 					'options'   => array(
-						'thumbnail'    => esc_html__( 'Miniature', 'eac-components' ),
-						'medium'       => esc_html__( 'Moyenne', 'eac-components' ),
-						'medium_large' => esc_html__( 'Moyenne-large', 'eac-components' ),
+						'thumbnail'    => esc_html__( 'Thumbnail', 'eac-components' ),
+						'medium'       => esc_html__( 'Medium', 'eac-components' ),
+						'medium_large' => esc_html__( 'Medium-large', 'eac-components' ),
 						'large'        => esc_html__( 'Large', 'eac-components' ),
-						'full'         => esc_html__( 'Originale', 'eac-components' ),
+						'full'         => esc_html__( 'Original', 'eac-components' ),
 					),
 					'condition' => array( 'mb_origin_trigger' => 'image' ),
 				)
@@ -446,12 +439,12 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_caption_source',
 				array(
-					'label'     => esc_html__( 'Légende', 'eac-components' ),
+					'label'     => esc_html__( 'Legend', 'eac-components' ),
 					'type'      => Controls_Manager::SELECT,
 					'options'   => array(
-						'none'       => esc_html__( 'Aucune', 'eac-components' ),
-						'attachment' => esc_html__( 'Attachement', 'eac-components' ),
-						'custom'     => esc_html__( 'Légende personnalisée', 'eac-components' ),
+						'none'       => esc_html__( 'None', 'eac-components' ),
+						'attachment' => esc_html__( 'Attachment', 'eac-components' ),
+						'custom'     => esc_html__( 'Custom caption', 'eac-components' ),
 					),
 					'default'   => 'none',
 					'condition' => array( 'mb_origin_trigger' => 'image' ),
@@ -461,12 +454,12 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_caption_texte',
 				array(
-					'label'       => esc_html__( 'Légende personnalisée', 'eac-components' ),
+					'label'       => esc_html__( 'Custom caption', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
 					'default'     => '',
-					'placeholder' => esc_html__( 'Votre légende personnalisée', 'eac-components' ),
+					'placeholder' => esc_html__( 'Your custom caption', 'eac-components' ),
 					'condition'   => array(
 						'mb_origin_trigger' => 'image',
 						'mb_caption_source' => 'custom',
@@ -478,12 +471,12 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_display_texte',
 				array(
-					'label'       => esc_html__( 'Texte', 'eac-components' ),
+					'label'       => esc_html__( 'Text', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
 					'dynamic'     => array( 'active' => true ),
 					'ai'          => array( 'active' => false ),
 					'label_block' => true,
-					'default'     => esc_html__( 'Ouvrir la boîte modale', 'eac-components' ),
+					'default'     => esc_html__( 'Open modal box', 'eac-components' ),
 					'condition'   => array( 'mb_origin_trigger' => 'text' ),
 				)
 			);
@@ -493,19 +486,19 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_align_button',
 				array(
-					'label'     => esc_html__( 'Alignement', 'eac-components' ),
+					'label'     => esc_html__( 'Alignment', 'eac-components' ),
 					'type'      => Controls_Manager::CHOOSE,
 					'options'   => array(
 						'left'   => array(
-							'title' => is_rtl() ? esc_html__( 'Droite', 'eac-components' ) : esc_html__( 'Gauche', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Right', 'eac-components' ) : esc_html__( 'Left', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$start}",
 						),
 						'center' => array(
-							'title' => esc_html__( 'Centre', 'eac-components' ),
+							'title' => esc_html__( 'Center', 'eac-components' ),
 							'icon'  => 'eicon-h-align-center',
 						),
 						'right'  => array(
-							'title' => is_rtl() ? esc_html__( 'Gauche', 'eac-components' ) : esc_html__( 'Droite', 'eac-components' ),
+							'title' => is_rtl() ? esc_html__( 'Left', 'eac-components' ) : esc_html__( 'Right', 'eac-components' ),
 							'icon'  => "eicon-h-align-{$end}",
 						),
 					),
@@ -522,9 +515,9 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_popup_delay',
 				array(
-					'label'       => esc_html__( "Délai d'affichage (Sec)", 'eac-components' ),
+					'label'       => esc_html__( 'Delay in Popup Display (Sec)', 'eac-components' ),
 					'type'        => Controls_Manager::NUMBER,
-					'description' => esc_html__( 'Quand le popup doit-il apparaître ? (En secondes)', 'eac-components' ),
+					'description' => esc_html__( 'When should the popup appear after page load ? (In seconds)', 'eac-components' ),
 					'default'     => 5,
 					'condition'   => array( 'mb_origin_trigger' => 'pageloaded' ),
 				)
@@ -533,11 +526,11 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_popup_activated',
 				array(
-					'label'        => esc_html__( "Actif dans l'éditeur", 'eac-components' ),
+					'label'        => esc_html__( 'Enable in editor', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'description'  => esc_html__( 'Désactiver cette option avant de quitter la page', 'eac-components' ),
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'description'  => esc_html__( 'Deactivate this option before leaving the page', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 					'condition'    => array( 'mb_origin_trigger' => 'pageloaded' ),
@@ -552,7 +545,7 @@ class Modal_Box_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'mb_modal_box_style',
 			array(
-				'label' => esc_html__( 'Boîte modale', 'eac-components' ),
+				'label' => esc_html__( 'Modal box', 'eac-components' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -560,7 +553,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'mb_modal_box_width',
 				array(
-					'label'          => esc_html__( 'Largeur', 'eac-components' ),
+					'label'          => esc_html__( 'Width', 'eac-components' ),
 					'type'           => Controls_Manager::SLIDER,
 					'size_units'     => array( 'px', '%', 'vw' ),
 					'default'        => array(
@@ -603,7 +596,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'mb_modal_box_height',
 				array(
-					'label'       => esc_html__( 'Hauteur (px)', 'eac-components' ),
+					'label'       => esc_html__( 'Height (px)', 'eac-components' ),
 					'type'        => Controls_Manager::SLIDER,
 					'size_units'  => array( 'px' ),
 					'default'     => array(
@@ -635,7 +628,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_modal_box_close_color',
 				array(
-					'label'     => esc_html__( 'Couleur du bouton de fermeture', 'eac-components' ),
+					'label'     => esc_html__( 'Upper close button color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'selectors' => array(
@@ -650,24 +643,24 @@ class Modal_Box_Widget extends Widget_Base {
 				$this->start_controls_tab(
 					'mb_modal_box_style_effet',
 					array(
-						'label' => esc_html__( 'Effets', 'eac-components' ),
+						'label' => esc_html__( 'Effects', 'eac-components' ),
 					)
 				);
 
 					$this->add_control(
 						'mb_modal_box_effect',
 						array(
-							'label'       => esc_html__( "Effet d'entrée", 'eac-components' ),
+							'label'       => esc_html__( 'Entry effect', 'eac-components' ),
 							'type'        => Controls_Manager::SELECT,
 							'default'     => 'zoom-in-out',
 							'options'     => array(
-								'zoom-in-out'         => esc_html__( 'Défaut', 'eac-components' ),
-								'fade'                => esc_html__( 'Fondu', 'eac-components' ),
-								'slide-in-out-top'    => esc_html__( 'Vers le bas', 'eac-components' ),
-								'slide-in-out-bottom' => esc_html__( 'Vers le haut', 'eac-components' ),
-								'slide-in-out-right'  => esc_html__( 'Vers la gauche', 'eac-components' ),
-								'slide-in-out-left'   => esc_html__( 'Vers la droite', 'eac-components' ),
-								'tube'                => esc_html__( 'Tube', 'eac-components' ),
+								'zoom-in-out'         => esc_html__( 'Default', 'eac-components' ),
+								'fade'                => esc_html__( 'Fade', 'eac-components' ),
+								'slide-in-out-top'    => esc_html__( 'To the bottom', 'eac-components' ),
+								'slide-in-out-bottom' => esc_html__( 'To the top', 'eac-components' ),
+								'slide-in-out-right'  => esc_html__( 'To the left', 'eac-components' ),
+								'slide-in-out-left'   => esc_html__( 'To the right', 'eac-components' ),
+								'tube'                => esc_html( 'Tube' ),
 							),
 							'label_block' => true,
 						)
@@ -680,11 +673,11 @@ class Modal_Box_Widget extends Widget_Base {
 							'type'        => Controls_Manager::SELECT,
 							'default'     => 'default',
 							'options'     => array(
-								'default'     => esc_html__( 'Défaut', 'eac-components' ),
-								'topleft'     => esc_html__( 'Haut gauche', 'eac-components' ),
-								'topright'    => esc_html__( 'Haut droite', 'eac-components' ),
-								'bottomleft'  => esc_html__( 'Bas gauche', 'eac-components' ),
-								'bottomright' => esc_html__( 'Bas droite', 'eac-components' ),
+								'default'     => esc_html__( 'Default', 'eac-components' ),
+								'topleft'     => esc_html__( 'Top left', 'eac-components' ),
+								'topright'    => esc_html__( 'Top right', 'eac-components' ),
+								'bottomleft'  => esc_html__( 'Bottom left', 'eac-components' ),
+								'bottomright' => esc_html__( 'Bottom right', 'eac-components' ),
 							),
 							'label_block' => true,
 						)
@@ -693,7 +686,7 @@ class Modal_Box_Widget extends Widget_Base {
 					$this->add_control(
 						'mb_modal_box_duration',
 						array(
-							'label'     => esc_html__( 'Durée (ms)', 'eac-components' ),
+							'label'     => esc_html__( 'Duration (ms)', 'eac-components' ),
 							'type'      => Controls_Manager::NUMBER,
 							'default'   => 600,
 							'min'       => 200,
@@ -707,7 +700,7 @@ class Modal_Box_Widget extends Widget_Base {
 				$this->start_controls_tab(
 					'mb_modal_box_style_background',
 					array(
-						'label'     => esc_html__( 'Arrière-plan', 'eac-components' ),
+						'label'     => esc_html__( 'Background', 'eac-components' ),
 						'condition' => array( 'mb_type_content!' => array( 'links', 'html' ) ),
 					)
 				);
@@ -730,8 +723,8 @@ class Modal_Box_Widget extends Widget_Base {
 					$this->add_control(
 						'mb_modal_box_blend',
 						array(
-							'label'       => esc_html__( 'Mode de fusion', 'eac-components' ),
-							'description' => esc_html__( 'Vous avez sélectionné une couleur et une image', 'eac-components' ),
+							'label'       => esc_html__( 'Blend mode', 'eac-components' ),
+							'description' => esc_html__( 'You have selected a color and an image', 'eac-components' ),
 							'type'        => Controls_Manager::SELECT,
 							'default'     => 'normal',
 							'options'     => array(
@@ -764,7 +757,7 @@ class Modal_Box_Widget extends Widget_Base {
 					$this->add_control(
 						'mb_modal_box_bg_opacity',
 						array(
-							'label'     => esc_html__( 'Opacité', 'eac-components' ),
+							'label'     => esc_html__( 'Opacity', 'eac-components' ),
 							'type'      => Controls_Manager::SLIDER,
 							'default'   => array( 'size' => 0.2 ),
 							'range'     => array(
@@ -792,7 +785,7 @@ class Modal_Box_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'mb_header_style',
 			array(
-				'label'     => esc_html__( 'Entête boîte modale', 'eac-components' ),
+				'label'     => esc_html__( 'Modal box header', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'mb_enable_header' => 'yes',
@@ -805,7 +798,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_header_color',
 				array(
-					'label'     => esc_html__( 'Couleur du titre', 'eac-components' ),
+					'label'     => esc_html__( 'Title color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'default'   => '#000',
@@ -817,7 +810,7 @@ class Modal_Box_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'mb_header_typography',
-					'label'    => esc_html__( 'Typographie du titre', 'eac-components' ),
+					'label'    => esc_html__( 'Title typography', 'eac-components' ),
 					'global'   => array( 'default' => Global_Typography::TYPOGRAPHY_PRIMARY ),
 					'selector' => '{{WRAPPER}} .mb-modalbox__hidden-content-title',
 				)
@@ -826,7 +819,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_header_padding',
 				array(
-					'label'      => esc_html__( 'Marges internes', 'eac-components' ),
+					'label'      => esc_html__( 'Padding', 'eac-components' ),
 					'type'       => Controls_Manager::DIMENSIONS,
 					'size_units' => array( 'px', 'em' ),
 					'default'    => array(
@@ -845,7 +838,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_header_background',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'selectors' => array( '{{WRAPPER}} .mb-modalbox__hidden-content-title' => 'background-color: {{VALUE}};' ),
 				)
@@ -865,7 +858,7 @@ class Modal_Box_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'mb_texte_content_style',
 			array(
-				'label'     => esc_html__( 'Contenu boîte modale', 'eac-components' ),
+				'label'     => esc_html__( 'Modal box content', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array( 'mb_type_content' => 'texte' ),
 			)
@@ -874,7 +867,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_texte_content_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'default'   => '#919CA7',
@@ -889,7 +882,7 @@ class Modal_Box_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'mb_texte_content_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'global'    => array( 'default' => Global_Typography::TYPOGRAPHY_SECONDARY ),
 					'selector' => '	{{WRAPPER}} .mb-modalbox__hidden-content-body div,
 									{{WRAPPER}} .mb-modalbox__hidden-content-body a i',
@@ -901,7 +894,7 @@ class Modal_Box_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'mb_button_style',
 			array(
-				'label'     => esc_html__( 'Bouton déclencheur', 'eac-components' ),
+				'label'     => esc_html__( 'Trigger button', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array( 'mb_origin_trigger' => 'button' ),
 			)
@@ -912,14 +905,14 @@ class Modal_Box_Widget extends Widget_Base {
 				$this->start_controls_tab(
 					'mb_controls_tab_normal',
 					array(
-						'label' => esc_html( 'Normal' ),
+						'label' => esc_html__( 'Normal', 'eac-components' ),
 					)
 				);
 
 					$this->add_control(
 						'mb_button_color',
 						array(
-							'label'     => esc_html__( 'Couleur', 'eac-components' ),
+							'label'     => esc_html__( 'Color', 'eac-components' ),
 							'type'      => Controls_Manager::COLOR,
 							'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 							'selectors' => array(
@@ -932,7 +925,7 @@ class Modal_Box_Widget extends Widget_Base {
 						Group_Control_Typography::get_type(),
 						array(
 							'name'     => 'mb_button_typography',
-							'label'    => esc_html__( 'Typographie', 'eac-components' ),
+							'label'    => esc_html__( 'Typography', 'eac-components' ),
 							'global'   => array( 'default' => Global_Typography::TYPOGRAPHY_TEXT ),
 							'selector' => '{{WRAPPER}} .mb-modalbox__wrapper-btn',
 						)
@@ -941,7 +934,7 @@ class Modal_Box_Widget extends Widget_Base {
 					$this->add_control(
 						'mb_button_background',
 						array(
-							'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+							'label'     => esc_html__( 'Background color', 'eac-components' ),
 							'type'      => Controls_Manager::COLOR,
 							'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 							'selectors' => array( '{{WRAPPER}} .mb-modalbox__wrapper-btn' => 'background-color: {{VALUE}};' ),
@@ -953,14 +946,14 @@ class Modal_Box_Widget extends Widget_Base {
 				$this->start_controls_tab(
 					'mb_controls_tab_hover',
 					array(
-						'label' => esc_html__( 'Survol', 'eac-components' ),
+						'label' => esc_html__( 'Hover', 'eac-components' ),
 					)
 				);
 
 					$this->add_control(
 						'mb_button_color_hover',
 						array(
-							'label'     => esc_html__( 'Couleur', 'eac-components' ),
+							'label'     => esc_html__( 'Color', 'eac-components' ),
 							'type'      => Controls_Manager::COLOR,
 							'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 							'selectors' => array(
@@ -973,7 +966,7 @@ class Modal_Box_Widget extends Widget_Base {
 					$this->add_control(
 						'mb_button_background_hover',
 						array(
-							'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+							'label'     => esc_html__( 'Background color', 'eac-components' ),
 							'type'      => Controls_Manager::COLOR,
 							'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 							'selectors' => array(
@@ -985,7 +978,7 @@ class Modal_Box_Widget extends Widget_Base {
 					$this->add_control(
 						'mb_button_border_color_hover',
 						array(
-							'label'     => esc_html__( 'Couleur de la bordure', 'eac-components' ),
+							'label'     => esc_html__( 'Border color', 'eac-components' ),
 							'type'      => Controls_Manager::COLOR,
 							'condition' => array( 'mb_button_border_border!' => 'none' ),
 							'selectors' => array(
@@ -1010,7 +1003,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_button_radius',
 				array(
-					'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+					'label'              => esc_html__( 'Border radius', 'eac-components' ),
 					'type'               => Controls_Manager::DIMENSIONS,
 					'size_units'         => array( 'px', '%' ),
 					'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -1031,7 +1024,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_responsive_control(
 				'mb_button_padding',
 				array(
-					'label'     => esc_html__( 'Marges internes', 'eac-components' ),
+					'label'     => esc_html__( 'Padding', 'eac-components' ),
 					'type'      => Controls_Manager::DIMENSIONS,
 					'selectors' => array(
 						'{{WRAPPER}} .mb-modalbox__wrapper-btn' => 'padding-block: {{TOP}}{{UNIT}} {{BOTTOM}}{{UNIT}}; padding-inline: {{LEFT}}{{UNIT}} {{RIGHT}}{{UNIT}};',
@@ -1043,7 +1036,7 @@ class Modal_Box_Widget extends Widget_Base {
 				Group_Control_Box_Shadow::get_type(),
 				array(
 					'name'     => 'mb_button_shadow',
-					'label'    => esc_html__( 'Ombre', 'eac-components' ),
+					'label'    => esc_html__( 'Shadow', 'eac-components' ),
 					'selector' => '{{WRAPPER}} .mb-modalbox__wrapper-btn',
 				)
 			);
@@ -1053,7 +1046,7 @@ class Modal_Box_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'mb_image_style',
 			array(
-				'label'     => esc_html__( 'Image déclencheur', 'eac-components' ),
+				'label'     => esc_html__( 'Trigger image', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array( 'mb_origin_trigger' => 'image' ),
 			)
@@ -1071,7 +1064,7 @@ class Modal_Box_Widget extends Widget_Base {
 					$this->add_control(
 						'mb_image_padding',
 						array(
-							'label'      => esc_html__( 'Marges internes', 'eac-components' ),
+							'label'      => esc_html__( 'Padding', 'eac-components' ),
 							'type'       => Controls_Manager::DIMENSIONS,
 							'size_units' => array( 'px', 'em' ),
 							'default'    => array(
@@ -1098,7 +1091,7 @@ class Modal_Box_Widget extends Widget_Base {
 					$this->add_control(
 						'mb_image_radius',
 						array(
-							'label'              => esc_html__( 'Rayon de la bordure', 'eac-components' ),
+							'label'              => esc_html__( 'Border radius', 'eac-components' ),
 							'type'               => Controls_Manager::DIMENSIONS,
 							'size_units'         => array( 'px', '%' ),
 							'allowed_dimensions' => array( 'top', 'right', 'bottom', 'left' ),
@@ -1112,7 +1105,7 @@ class Modal_Box_Widget extends Widget_Base {
 						Group_Control_Box_Shadow::get_type(),
 						array(
 							'name'     => 'mb_image_shadow',
-							'label'    => esc_html__( 'Ombre', 'eac-components' ),
+							'label'    => esc_html__( 'Shadow', 'eac-components' ),
 							'selector' => '{{WRAPPER}} .mb-modalbox__wrapper-img',
 						)
 					);
@@ -1122,14 +1115,14 @@ class Modal_Box_Widget extends Widget_Base {
 				$this->start_controls_tab(
 					'mb_image_tab_style_hover',
 					array(
-						'label' => esc_html__( 'Au Survol', 'eac-components' ),
+						'label' => esc_html__( 'Hover', 'eac-components' ),
 					)
 				);
 
 					$this->add_control(
 						'mb_image_opacity_hover',
 						array(
-							'label'     => esc_html__( 'Opacité', 'eac-components' ),
+							'label'     => esc_html__( 'Opacity', 'eac-components' ),
 							'type'      => Controls_Manager::SLIDER,
 							'default'   => array( 'size' => 0.2 ),
 							'range'     => array(
@@ -1170,7 +1163,7 @@ class Modal_Box_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'mb_texte_style',
 			array(
-				'label'     => esc_html__( 'Texte déclencheur', 'eac-components' ),
+				'label'     => esc_html__( 'Trigger text', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array( 'mb_origin_trigger' => 'text' ),
 			)
@@ -1179,7 +1172,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_texte_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_PRIMARY ),
 					'default'   => '#000',
@@ -1191,7 +1184,7 @@ class Modal_Box_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'mb_texte_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'global'   => array( 'default' => Global_Typography::TYPOGRAPHY_TEXT ),
 					'selector' => '{{WRAPPER}} .mb-modalbox__wrapper-text',
 				)
@@ -1200,7 +1193,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_texte_background',
 				array(
-					'label'     => esc_html__( 'Couleur du fond', 'eac-components' ),
+					'label'     => esc_html__( 'Background color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'global'    => array( 'default' => Global_Colors::COLOR_SECONDARY ),
 					'selectors' => array( '{{WRAPPER}} .mb-modalbox__wrapper-text' => 'background-color: {{VALUE}};' ),
@@ -1210,7 +1203,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_texte_marges',
 				array(
-					'label'     => esc_html__( 'Marges', 'eac-components' ),
+					'label'     => esc_html__( 'Margin', 'eac-components' ),
 					'type'      => Controls_Manager::DIMENSIONS,
 					'selectors' => array( '{{WRAPPER}} .mb-modalbox__wrapper-text' => 'margin-block: {{TOP}}{{UNIT}} {{BOTTOM}}{{UNIT}}; margin-inline: {{LEFT}}{{UNIT}}  {{RIGHT}}{{UNIT}};' ),
 				)
@@ -1221,7 +1214,7 @@ class Modal_Box_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'mb_legende_style',
 			array(
-				'label'     => esc_html__( "Légende de l'image", 'eac-components' ),
+				'label'     => esc_html__( 'Image caption', 'eac-components' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'mb_origin_trigger' => 'image',
@@ -1233,7 +1226,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_legende_margin',
 				array(
-					'label'      => esc_html__( 'Espacement', 'eac-components' ),
+					'label'      => esc_html__( 'Margin top', 'eac-components' ),
 					'type'       => Controls_Manager::SLIDER,
 					'size_units' => array( 'em', 'px' ),
 					'default'    => array(
@@ -1259,7 +1252,7 @@ class Modal_Box_Widget extends Widget_Base {
 			$this->add_control(
 				'mb_legende_color',
 				array(
-					'label'     => esc_html__( 'Couleur', 'eac-components' ),
+					'label'     => esc_html__( 'Color', 'eac-components' ),
 					'type'      => Controls_Manager::COLOR,
 					'separator' => 'none',
 					'selectors' => array( '{{WRAPPER}} .mb-modalbox__wrapper figure figcaption' => 'color: {{VALUE}};' ),
@@ -1271,7 +1264,7 @@ class Modal_Box_Widget extends Widget_Base {
 				Group_Control_Typography::get_type(),
 				array(
 					'name'     => 'mb_legende_typography',
-					'label'    => esc_html__( 'Typographie', 'eac-components' ),
+					'label'    => esc_html__( 'Typography', 'eac-components' ),
 					'global'   => array( 'default' => Global_Typography::TYPOGRAPHY_TEXT ),
 					'selector' => '{{WRAPPER}} .mb-modalbox__wrapper figure figcaption',
 				)
@@ -1287,7 +1280,7 @@ class Modal_Box_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		?>
 		<div class='eac-modal-box'>
 			<?php
@@ -1304,7 +1297,7 @@ class Modal_Box_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render_modal() {
+	protected function render_modal(): void {
 		$settings = $this->get_settings_for_display();
 		/**highlight_string("<?php\n\$settings =\n" . var_export($settings, true) . ";\n?>");*/
 		$trigger     = $settings['mb_origin_trigger'];
@@ -1320,11 +1313,7 @@ class Modal_Box_Widget extends Widget_Base {
 		$slideclass  = '';
 
 		// Quelques tests
-		if ( ( ( 'links' === $content || 'html' === $content ) && ! $link_url ) ||
-		( 'formulaire' === $content && empty( $short_code ) ) ||
-		( 'tmpl_cont' === $content && empty( $tmplcont ) ) ||
-		( 'tmpl_sec' === $content && empty( $tmplsec ) ) ||
-		( 'tmpl_page' === $content && empty( $tmplpage ) ) ) {
+		if ( ( ( 'links' === $content || 'html' === $content ) && ! $link_url ) || ( 'formulaire' === $content && empty( $short_code ) ) || ( 'tmpl_cont' === $content && empty( $tmplcont ) ) || ( 'tmpl_sec' === $content && empty( $tmplsec ) ) || ( 'tmpl_page' === $content && empty( $tmplpage ) ) ) {
 			return;
 		}
 
@@ -1398,7 +1387,7 @@ class Modal_Box_Widget extends Widget_Base {
 		$this->add_render_attribute( 'a_fancybox', 'aria-expanded', 'false' );
 		$this->add_render_attribute( 'a_fancybox', 'aria-controls', 'modalbox-hidden-' . esc_attr( $id ) );
 		$this->add_render_attribute( 'a_fancybox', 'aria-haspopup', 'dialog' );
-		$this->add_render_attribute( 'a_fancybox', 'aria-label', esc_attr__( 'Ouvrir la boîte modale', 'eac-components' ) );
+		$this->add_render_attribute( 'a_fancybox', 'aria-label', esc_attr__( 'Open modal box', 'eac-components' ) );
 
 		if ( 'html' === $content ) {
 			$slideclass = 'modalbox-visible-' . esc_attr( $id );
@@ -1504,14 +1493,14 @@ class Modal_Box_Widget extends Widget_Base {
 								<div><?php echo wp_kses_post( $settings['mb_texte_content'] ); ?></div>
 							<?php } elseif ( 'tmpl_cont' === $content ) {
 								if ( get_the_ID() === (int) $tmplcont ) {
-									esc_html_e( 'ID du modèle ne peut pas être le même que le modèle actuel', 'eac-components' );
+									esc_html_e( 'The Template ID cannot be the same as the currently edited template', 'eac-components' );
 								} else {
 									$tmplcont = apply_filters( 'wpml_object_id', $tmplcont, Source_Local::CPT, true );
 									echo \Elementor\Plugin::$instance->frontend->get_builder_content_for_display( $tmplcont ); // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 								}
 							} elseif ( 'tmpl_sec' === $content ) {
 								if ( get_the_ID() === (int) $tmplsec ) {
-									esc_html_e( 'ID du modèle ne peut pas être le même que le modèle actuel', 'eac-components' );
+									esc_html_e( 'The Template ID cannot be the same as the currently edited template', 'eac-components' );
 								} else {
 									// Filtre wpml
 									$tmplsec = apply_filters( 'wpml_object_id', $tmplsec, Source_Local::CPT, true );
@@ -1519,7 +1508,7 @@ class Modal_Box_Widget extends Widget_Base {
 								}
 							} elseif ( 'tmpl_page' === $content ) {
 								if ( get_the_ID() === (int) $tmplpage ) {
-									esc_html_e( 'ID du modèle ne peut pas être le même que le modèle actuel', 'eac-components' );
+									esc_html_e( 'The Template ID cannot be the same as the currently edited template', 'eac-components' );
 								} else {
 									// Filtre wpml
 									$tmplpage = apply_filters( 'wpml_object_id', $tmplpage, Source_Local::CPT, true );
@@ -1528,7 +1517,7 @@ class Modal_Box_Widget extends Widget_Base {
 							} elseif ( 'formulaire' === $content ) { // Exécute un shortcode
 								echo do_shortcode( shortcode_unautop( $short_code ) );
 							} else {
-								esc_html_e( 'Ouverture automatique ne supporte pas les formats HTML, Vidéo ou Carte', 'eac-components' );
+								esc_html_e( "'On page load' does not support HTML, Video or Map formats", 'eac-components' );
 							}
 							?>
 						</div>
@@ -1553,7 +1542,7 @@ class Modal_Box_Widget extends Widget_Base {
 	 * @return JSON oject
 	 * @access   protected
 	 */
-	protected function get_settings_json() {
+	protected function get_settings_json(): string {
 		$settings = $this->get_settings_for_display();
 
 		$module_settings = array(
@@ -1571,5 +1560,5 @@ class Modal_Box_Widget extends Widget_Base {
 		return wp_json_encode( $module_settings );
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

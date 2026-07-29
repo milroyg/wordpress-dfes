@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Eac_Acf_Tags {
 
-	const TAG_NAMESPACE = __NAMESPACE__ . '\\tags\\';
+	private const TAG_NAMESPACE = __NAMESPACE__ . '\\tags\\';
 
 	/**
 	 * $tags_list
@@ -41,28 +41,29 @@ class Eac_Acf_Tags {
 		'Eac_Acf_Group_Number',
 		'Eac_Acf_Group_Text',
 		'Eac_Acf_Group_Url',
-		'Eac_Post_Acf_Keys',
-		'Eac_Post_Acf_Values',
+		//'Eac_Acf_Repeater',
 	);
 
-	/**
-	 * Constructeur de la class
-	 *
-	 * @access public
-	 */
 	public function __construct() {
 		add_action( 'elementor/dynamic_tags/register', array( $this, 'register_tags' ) );
 	}
 
-	/** Enregistre le groupe et les balises dynamiques des champs ACF */
-	public function register_tags( $dynamic_tags ) {
+	/**
+	 * register_tags
+	 * Enregistre le groupe et les balises dynamiques ACF
+	 *
+	 * @param \Elementor\Core\DynamicTags\Manager $dynamic_tags
+	 *
+	 * @return void
+	 */
+	public function register_tags( \Elementor\Core\DynamicTags\Manager $dynamic_tags ): void {
 		/** Chargement de la Lib de gestion des balises ACF */
-		if ( ! class_exists( \EACCustomWidgets\Includes\Acf\DynamicTags\Eac_Acf_Lib::class, false ) ) {
-			new \EACCustomWidgets\Includes\Acf\DynamicTags\Eac_Acf_Lib();
+		if ( ! class_exists( \EACCustomWidgets\Includes\Acf\Eac_Acf_Lib::class, false ) ) {
+			new \EACCustomWidgets\Includes\Acf\Eac_Acf_Lib();
 		}
 
 		// Enregistre le nouveau groupe avant d'enregistrer les Tags
-		$dynamic_tags->register_group( 'eac-acf-groupe', array( 'title' => esc_html__( 'EAC ACF', 'eac-components' ) ) );
+		$dynamic_tags->register_group( 'eac-acf-groupe', array( 'title' => esc_html( 'EAC ACF' ) ) );
 
 		foreach ( $this->tags_list as $class_name ) {
 			$full_class_name = self::TAG_NAMESPACE . $class_name;

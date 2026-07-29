@@ -17,23 +17,23 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 
 class Site_URL extends Data_Tag {
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-site-url';
 	}
 
-	public function get_title() {
+	public function get_title(): string {
 		return esc_html__( 'Site URL', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-site-groupe';
+	public function get_group(): array {
+		return array( 'eac-site-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::URL_CATEGORY );
 	}
 
-	public function get_value( array $options = array() ) {
-		return home_url();
+	public function get_value( array $options = array() ): string {
+		return esc_url( home_url() );
 	}
 }

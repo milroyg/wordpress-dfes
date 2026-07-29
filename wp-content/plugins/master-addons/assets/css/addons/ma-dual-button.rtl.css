@@ -1,0 +1,69 @@
+.jltma_dual_button_container .jltma_dual_button,
+.jltma_dual_button_container .jltma_button {
+  display: inline-block;
+}
+
+.jltma_dual_button_container .jltma_dual_button {
+  font-size: 0;
+  line-height: 0;
+  position: relative;
+}
+
+.jltma_dual_button_container .jltma_divider_line {
+  width: 2px;
+  height: 100%;
+  background: #9e9e9e;
+  position: absolute;
+  top: 0;
+  right: 50%;
+  -webkit-transform: translateX(50%);
+  transform: translateX(50%);
+  z-index: 5;
+}
+
+.jltma_dual_button_container .jltma_divider {
+  width: 25px;
+  height: 25px;
+  background: #ffffff;
+  font-size: 10px;
+  line-height: 25px;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  overflow: hidden;
+  box-sizing: content-box;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  -webkit-transform: translate(50%, -50%);
+  transform: translate(50%, -50%);
+  z-index: 5;
+  -webkit-transition: all 0s;
+  transition: all 0s;
+}
+
+.jltma_dual_button_container .jltma_view_type_circle {
+  border-radius: 50%;
+}
+
+.jltma_dual_button_container .jltma_button_1 {
+  border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+}
+
+.jltma_dual_button_container .jltma_button_2 {
+  border-bottom-right-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.jltma_button_align_justify .jltma_dual_button_container .jltma_dual_button {
+  width: 100%;
+}
+
+.jltma_button_align_justify .jltma_dual_button_container .jltma_button {
+  width: 50%;
+}
+
+.jltma_dual_button_container .hover_type_animated .jltma_button:hover {
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+}

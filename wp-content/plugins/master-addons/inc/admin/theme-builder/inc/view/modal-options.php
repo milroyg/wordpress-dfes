@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <div class="jltma-modal" id="jltma_hf_modal" tabindex="-1" role="dialog" aria-modal="true">
     <div class="jltma-modal-backdrop"></div>
     <div class="jltma-modal-dialog" role="document">

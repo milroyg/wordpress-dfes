@@ -16,24 +16,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-use EACCustomWidgets\EAC_Plugin;
-use EACCustomWidgets\Core\Eac_Config_Elements;
+use EACCustomWidgets\Core\Eac_Load_Config;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 
 class Share_Post_Widget extends Widget_Base {
-
-	/**
-	 * Constructeur de la class Share_Post_Widget
-	 */
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
-
-		wp_register_script( 'eac-social-share', EAC_Plugin::instance()->get_script_url( 'assets/js/socialshare/floating-social-share' ), array( 'jquery' ), '0.0.9', true );
-		wp_register_script( 'eac-share-post', EAC_Plugin::instance()->get_script_url( 'assets/js/elementor/eac-share-post' ), array( 'jquery', 'elementor-frontend', 'eac-social-share' ), '0.0.9', true );
-		wp_register_style( 'eac-share-post', EAC_Plugin::instance()->get_style_url( 'assets/css/share-post' ), array( 'eac-frontend' ), '0.0.9' );
-	}
 
 	/**
 	 * Le nom de la clé du composant dans le fichier de configuration
@@ -49,10 +37,10 @@ class Share_Post_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget name.
+	 * @return string widget name.
 	 */
-	public function get_name() {
-		return Eac_Config_Elements::get_widget_name( $this->slug );
+	public function get_name(): string {
+		return Eac_Load_Config::get_widget_name( $this->slug );
 	}
 
 	/**
@@ -60,10 +48,10 @@ class Share_Post_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget title.
+	 * @return string widget title.
 	 */
-	public function get_title() {
-		return Eac_Config_Elements::get_widget_title( $this->slug );
+	public function get_title(): string {
+		return Eac_Load_Config::get_widget_title( $this->slug );
 	}
 
 	/**
@@ -71,10 +59,10 @@ class Share_Post_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget icon.
+	 * @return string widget icon.
 	 */
-	public function get_icon() {
-		return Eac_Config_Elements::get_widget_icon( $this->slug );
+	public function get_icon(): string {
+		return Eac_Load_Config::get_widget_icon( $this->slug );
 	}
 
 	/**
@@ -82,10 +70,10 @@ class Share_Post_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return widget category.
+	 * @return array widget category.
 	 */
-	public function get_categories() {
-		return Eac_Config_Elements::get_widget_categories( $this->slug );
+	public function get_categories(): array {
+		return Eac_Load_Config::get_widget_categories( $this->slug );
 	}
 
 	/**
@@ -93,10 +81,10 @@ class Share_Post_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return libraries list.
+	 * @return array libraries list.
 	 */
 	public function get_script_depends(): array {
-		return array( 'eac-social-share', 'eac-share-post' );
+		return array( 'eac-share-post' );
 	}
 
 	/**
@@ -105,7 +93,7 @@ class Share_Post_Widget extends Widget_Base {
 	 *
 	 * @access public
 	 *
-	 * @return CSS list.
+	 * @return array CSS list.
 	 */
 	public function get_style_depends(): array {
 		return array( 'eac-share-post' );
@@ -132,14 +120,14 @@ class Share_Post_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'rs_share_select',
 			array(
-				'label' => esc_html__( 'Réseaux sociaux', 'eac-components' ),
+				'label' => esc_html__( 'Social medias', 'eac-components' ),
 			)
 		);
 			$this->add_control(
 				'rs_share_with',
 				array(
 					'type' => Controls_Manager::RAW_HTML,
-					'raw'  => esc_html__( 'Partager cette article sur les réseaux sociaux.', 'eac-components' ),
+					'raw'  => esc_html__( 'Share this post on social medias', 'eac-components' ),
 				)
 			);
 
@@ -148,8 +136,8 @@ class Share_Post_Widget extends Widget_Base {
 				array(
 					'label'        => 'Facebook',
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -160,8 +148,8 @@ class Share_Post_Widget extends Widget_Base {
 				array(
 					'label'        => 'Twitter',
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -172,8 +160,8 @@ class Share_Post_Widget extends Widget_Base {
 				array(
 					'label'        => 'Google+',
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -184,8 +172,8 @@ class Share_Post_Widget extends Widget_Base {
 				array(
 					'label'        => 'Linkedin',
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
@@ -196,8 +184,8 @@ class Share_Post_Widget extends Widget_Base {
 				array(
 					'label'        => 'Odnoklassniki',
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -208,8 +196,8 @@ class Share_Post_Widget extends Widget_Base {
 				array(
 					'label'        => 'Pinterest',
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -220,8 +208,8 @@ class Share_Post_Widget extends Widget_Base {
 				array(
 					'label'        => 'Reddit',
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -232,8 +220,8 @@ class Share_Post_Widget extends Widget_Base {
 				array(
 					'label'        => 'Telegram',
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -244,8 +232,8 @@ class Share_Post_Widget extends Widget_Base {
 				array(
 					'label'        => 'Tumblr',
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -256,8 +244,8 @@ class Share_Post_Widget extends Widget_Base {
 				array(
 					'label'        => 'Whatsapp',
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -266,10 +254,10 @@ class Share_Post_Widget extends Widget_Base {
 			$this->add_control(
 				'rs_item_mail',
 				array(
-					'label'        => esc_html__( 'Courriel', 'eac-components' ),
+					'label'        => esc_html__( 'E-mail', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => '',
 				)
@@ -280,7 +268,7 @@ class Share_Post_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'rs_share_settings',
 			array(
-				'label' => esc_html__( 'Réglages', 'eac-components' ),
+				'label' => esc_html__( 'Settings', 'eac-components' ),
 			)
 		);
 
@@ -291,8 +279,8 @@ class Share_Post_Widget extends Widget_Base {
 					'type'    => Controls_Manager::SELECT,
 					'default' => 'top-left',
 					'options' => array(
-						'top-left'  => esc_html__( 'Gauche', 'eac-components' ),
-						'top-right' => esc_html__( 'Droite', 'eac-components' ),
+						'top-left'  => esc_html__( 'Left', 'eac-components' ),
+						'top-right' => esc_html__( 'Right', 'eac-components' ),
 					),
 				)
 			);
@@ -300,37 +288,26 @@ class Share_Post_Widget extends Widget_Base {
 			$this->add_control(
 				'rs_share_text',
 				array(
-					'label'       => esc_html__( 'Texte', 'eac-components' ),
-					'description' => esc_html__( 'Texte du partage', 'eac-components' ),
+					'label'       => esc_html__( 'Text', 'eac-components' ),
+					'description' => esc_html__( 'Shared text', 'eac-components' ),
 					'type'        => Controls_Manager::TEXT,
-					'default'     => esc_html__( 'Partager avec:', 'eac-components' ),
-					'placeholder' => esc_html__( 'Partager avec:', 'eac-components' ),
+					'default'     => esc_html__( 'Share with', 'eac-components' ),
+					'placeholder' => esc_html__( 'Share with', 'eac-components' ),
 				)
 			);
 
 			$this->add_control(
 				'rs_item_target',
 				array(
-					'label'        => esc_html__( 'Ouvrir dans une nouvelle fenêtre', 'eac-components' ),
+					'label'        => esc_html__( 'Open on a new window', 'eac-components' ),
 					'type'         => Controls_Manager::SWITCHER,
-					'label_on'     => esc_html__( 'oui', 'eac-components' ),
-					'label_off'    => esc_html__( 'non', 'eac-components' ),
+					'label_on'     => esc_html__( 'Yes', 'eac-components' ),
+					'label_off'    => esc_html__( 'No', 'eac-components' ),
 					'return_value' => 'yes',
 					'default'      => 'yes',
 				)
 			);
-			/**
-			$this->add_responsive_control('rs_item_margin',
-				[
-					'label' => esc_html__('Marge supérieure (%)', 'eac-components'),
-					'type'  => Controls_Manager::SLIDER,
-					'size_units' => ['%', 'px'],
-					'range' => ['%' => ['min' => 0, 'max' => 50, 'step' => 5]],
-					'default' => ['unit' => '%', 'size' => 25],
-					'selectors' => ['{{WRAPPER}} #floatingSocialShare .top-left, {{WRAPPER}} #floatingSocialShare .top-right' => 'top: {{SIZE}}{{UNIT}};'],
-				]
-			);
-			*/
+
 		$this->end_controls_section();
 	}
 
@@ -341,7 +318,7 @@ class Share_Post_Widget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 
 		$this->add_render_attribute( 'rs_items_list', 'class', 'rs-items-list' );
@@ -366,7 +343,7 @@ class Share_Post_Widget extends Widget_Base {
 	 *
 	 * @access    protected
 	 */
-	protected function get_settings_json() {
+	protected function get_settings_json(): string {
 		$module_settings = $this->get_settings_for_display();
 		$networks        = array();
 		if ( 'yes' === $module_settings['rs_item_facebook'] ) {
@@ -413,5 +390,5 @@ class Share_Post_Widget extends Widget_Base {
 		return wp_json_encode( $settings );
 	}
 
-	protected function content_template() {}
+	protected function content_template(): void {}
 }

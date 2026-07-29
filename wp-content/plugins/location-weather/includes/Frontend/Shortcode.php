@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use ShapedPlugin\Weather\Blocks\Includes\Block_Helpers;
 use ShapedPlugin\Weather\Frontend\Scripts;
 use ShapedPlugin\Weather\Frontend\Manage_API;
 
@@ -77,7 +78,7 @@ class Shortcode {
 			</div>',
 				esc_attr( $shortcode_id ),
 				esc_html( get_the_title( $shortcode_id ) ),
-				'Please set your weather <a href="' . admin_url( 'edit.php?post_type=location_weather&page=lw-settings#tab=weather-api-key' ) . '" target="_blank">API key.</a>'
+				'Please set your weather <a href="' . admin_url( 'edit.php?post_type=location_weather&page=splw_admin_dashboard#lw_settings' ) . '" target="_blank">API key.</a>'
 			);
 
 			echo $weather_output; // phpcs:ignore
@@ -190,7 +191,7 @@ class Shortcode {
 
 			// Api call error check.
 			if ( is_array( $weather_api_data ) && isset( $weather_api_data['code'] ) && ( 1006 === $weather_api_data['code'] || 1003 === $weather_api_data['code'] || 2006 === $weather_api_data['code'] ) ) {
-				$weather_error_status = sprintf( '<div id="splw-location-weather-%1$s" class="splw-main-wrapper"><div class="splw-weather-title">%2$s</div><div class="splw-lite-wrapper"><div class="splw-warning">%3$s</div> <div class="splw-weather-attribution"><a href = "https://www.weatherapi.com/docs/key.aspx" target="_blank">' . __( 'Weather from WeatherAPI ', 'location-weather' ) . '</a></div></div></div>', esc_attr( $shortcode_id ), esc_html( get_the_title( $shortcode_id ) ), $weather_api_data['message'] );
+				$weather_error_status = sprintf( '<div id="splw-location-weather-%1$s" class="splw-main-wrapper"><div class="splw-weather-title">%2$s</div><div class="splw-lite-wrapper"><div class="splw-warning">%3$s</div> <div class="splw-weather-attribution"><a href = "https://www.weatherapi.com/docs/key.aspx" target="_blank">' . __( 'Weather from WeatherAPI ', 'location-weather' ) . '</a></div></div></div>', esc_attr( $shortcode_id ), esc_html( get_the_title( $shortcode_id ) ), esc_html( $weather_api_data['message'] ) );
 				echo $weather_error_status; // phpcs:ignore
 				return;
 			}
@@ -198,7 +199,7 @@ class Shortcode {
 		}
 
 		if ( is_array( $data ) && isset( $data['code'] ) && ( 401 === $data['code'] || 404 === $data['code'] ) ) {
-			$weather_output = sprintf( '<div id="splw-location-weather-%1$s" class="splw-main-wrapper"><div class="splw-weather-title">%2$s</div><div class="splw-lite-wrapper"><div class="splw-warning">%3$s</div> <div class="splw-weather-attribution"><a href = "https://openweathermap.org/" target="_blank">' . __( 'Weather from OpenWeatherMap', 'location-weather' ) . '</a></div></div></div>', esc_attr( $shortcode_id ), esc_html( get_the_title( $shortcode_id ) ), $data['message'] );
+			$weather_output = sprintf( '<div id="splw-location-weather-%1$s" class="splw-main-wrapper"><div class="splw-weather-title">%2$s</div><div class="splw-lite-wrapper"><div class="splw-warning">%3$s</div> <div class="splw-weather-attribution"><a href = "https://openweathermap.org/" target="_blank">' . __( 'Weather from OpenWeatherMap', 'location-weather' ) . '</a></div></div></div>', esc_attr( $shortcode_id ), esc_html( get_the_title( $shortcode_id ) ), esc_html( $data['message'] ) );
 
 			echo $weather_output; // phpcs:ignore
 			return;
@@ -262,6 +263,41 @@ class Shortcode {
 		include self::lw_locate_template( 'main-template.php' );
 		$weather_output = ob_get_clean();
 		echo $weather_output;// phpcs:ignore.
+	}
+
+	/**
+	 * Get weather units automatically based on country name.
+	 *
+	 * @param mixed  $query The query parameters.
+	 * @param string $appid The API key.
+	 *
+	 * @return string
+	 */
+	public static function get_weather_units_auto( $query, $appid, $skip_cache = false ) {
+		// Countries that use fahrenheit.
+		$fahrenheit_countries = apply_filters( 'filter_lw_fahrenheit_countries', array( 'US', 'BZ', 'BS', 'CY', 'PR', 'GU', 'MH', 'PW', 'KY', 'FM' ) );
+
+		// Transient Name.
+		$query_data     = is_array( $query ) ? implode( ', ', $query ) : $query;
+		$weather_query  = preg_replace( '/[ ,]+/', '', $query_data );
+		$transient_name = 'lw_auto_unit_' . $weather_query;
+
+		if ( get_transient( $transient_name ) ) {
+			$cached_auto_unit = get_transient( $transient_name );
+			return $cached_auto_unit;
+		}
+
+		$auto_unit    = '';
+		$weather_data = Manage_API::get_weather( $query, '', '', $appid );
+		if ( is_object( $weather_data ) && in_array( $weather_data->city->country, $fahrenheit_countries, true ) ) {
+			$auto_unit = 'imperial';
+		} else {
+			$auto_unit = 'metric';
+		}
+		if ( ! empty( $auto_unit ) && ! $skip_cache ) {
+			set_transient( $transient_name, $auto_unit, apply_filters( 'lw_auto_unit_cache', MONTH_IN_SECONDS ) );
+		}
+		return $auto_unit;
 	}
 
 	/**
@@ -341,6 +377,7 @@ class Shortcode {
 			$sunset_time  = gmdate( $time_format, strtotime( $sunset->format( 'Y-m-d g:i:sa' ) ) + $api_time_zone );
 			$updated_time = gmdate( $time_format, strtotime( $last_update->format( 'Y-m-d g:i:sa' ) ) + $timezone );
 		}
+
 		return array(
 			'city_id'      => $data->city->id,
 			'city'         => $data->city->name,
@@ -379,7 +416,7 @@ class Shortcode {
 	 *
 	 * @return array Forecast data.
 	 */
-	public static function get_forecast_data( $data, $measurement_units, $time_settings ) {
+	public static function get_forecast_data( $data, $measurement_units, $time_settings, $is_block = false ) {
 
 		$last_update = $data->last_update;
 		// Calculate time with timezone offset.
@@ -400,12 +437,13 @@ class Shortcode {
 		$scale = self::temperature_scale( $measurement_units['temperature_scale'], $measurement_units['weather_unit'] );
 
 		// Format min and max temperature values.
-		$min_temp = '<span class="low">' . round( $min_value ) . '</span><span class="low-scale">°</span>';
+		$min_temp = $is_block ? round( $min_value ) : '<span class="low">' . round( $min_value ) . '</span><span class="low-scale">°</span>';
 
-		$max_temp = $max_temp ? '<span class="high">' . round( $max_temp ) . '</span><span class="high-scale">°</span>' . $scale : '';
-		$pressure = self::get_pressure( $measurement_units['pressure_unit'], $data );
-		$wind     = self::get_wind_speed( $measurement_units['weather_unit'], $measurement_units['wind_speed_unit'], $data, false );
-		$gusts    = isset( $data->gusts ) ? self::get_wind_speed( $measurement_units['weather_unit'], $measurement_units['wind_speed_unit'], $data, true ) : null;
+		$max_temp      = $max_temp ? ( $is_block ? round( $max_temp ) : '<span class="high">' . round( $max_temp ) . '</span><span class="high-scale">°</span>' . $scale ) : '';
+		$pressure      = self::get_pressure( $measurement_units['pressure_unit'], $data );
+		$wind          = self::get_wind_speed( $measurement_units['weather_unit'], $measurement_units['wind_speed_unit'], $data, false );
+		$gusts         = isset( $data->gusts ) ? self::get_wind_speed( $measurement_units['weather_unit'], $measurement_units['wind_speed_unit'], $data, true ) : null;
+		$precipitation = self::get_precipitation( $measurement_units['precipitation_unit'] ?? 'mm', $data->precipitation );
 
 		// Return the forecast data as an array.
 		return array(
@@ -413,7 +451,7 @@ class Shortcode {
 			'min'             => $min_temp,
 			'max'             => $max_temp,
 			'humidity'        => $data->humidity . '%',
-			'precipitation'   => $data->precipitation . ' mm',
+			'precipitation'   => $precipitation,
 			'rain'            => $data->rainchance,
 			'snow'            => $data->snow,
 			'icon'            => $data->weather->icon,
@@ -450,40 +488,60 @@ class Shortcode {
 	}
 
 	/**
-	 * Get the weather wind speed unit.
+	 * Get the wind speed formatted based on specified units.
 	 *
-	 * @param string            $weather_units Can be either 'metric' or 'imperial' (default). This affects almost all units returned.
-	 * @param string            $wind_speed_unit Can be either 'mph', 'kmh','kts'  or 'mph' (default). This affects almost all units returned.
-	 * @param object|int|string $data The place to get weather information for. For possible values see below.
-	 * @param string            $gust Can be either 'mph', 'kmh','kts'  or 'mph' (default). This affects almost all units returned.
-	 * @return wind The weather object
+	 * @param string $weather_units   The unit system for weather (imperial or metric).
+	 * @param string $wind_speed_unit The desired unit for wind speed (mph, ms, kmh, or kts).
+	 * @param object $data            The weather data object containing wind information.
+	 * @param bool   $gust            Whether to retrieve gust wind speed.
+	 *
+	 * @return string Formatted wind speed HTML string.
 	 */
 	public static function get_wind_speed( $weather_units, $wind_speed_unit, $data, $gust = false ) {
-		if ( $gust ) {
-			$winds = $data->gusts->value;
-		} else {
-			$winds = $data->wind->speed->value;
-		}
-		if ( 'imperial' === $weather_units ) {
-			switch ( $wind_speed_unit ) {
-				case 'kmh':
-					$wind = round( $winds * 1.61 ) . ' Km/h';
-					break;
-				default:
-					$wind = round( $winds ) . ' mph';
-					break;
-			}
-		} else {
-			switch ( $wind_speed_unit ) {
-				case 'kmh':
-					$wind = round( $winds * 3.6 ) . ' Km/h';
-					break;
-				default:
-					$wind = round( $winds * 2.2 ) . ' mph';
-					break;
-			}
-		}
+		$winds = $gust ? (float) $data->gusts->value : (float) $data->wind->speed->value;
+
+		$conversion_factors = array(
+			'imperial' => array(
+				'mph' => round( $winds ),
+				'ms'  => round( $winds * 0.45 ),
+				'kmh' => round( $winds * 1.61 ),
+				'kts' => round( $winds * 0.87 ),
+			),
+			'metric'   => array(
+				'mph' => round( $winds * 2.2 ),
+				'ms'  => round( $winds ),
+				'kmh' => round( $winds * 3.6 ),
+				'kts' => round( $winds * 1.94 ),
+			),
+		);
+		$unit_labels        = array(
+			'mph' => __( ' mph', 'location-weather' ),
+			'ms'  => __( ' m/s', 'location-weather' ),
+			'kmh' => __( ' Km/h', 'location-weather' ),
+			'kts' => __( ' kn', 'location-weather' ),
+		);
+
+		$conversion_unit = $conversion_factors[ $weather_units ][ $wind_speed_unit ];
+		$wind            = $conversion_unit . $unit_labels[ $wind_speed_unit ];
 		return $wind;
+	}
+
+	/**
+	 * Get the weather precipitation unit.
+	 *
+	 * @param string     $precipitation_unit Can be either 'inch' or 'mm' (default). This affects almost all units returned.
+	 * @param object|int $value possible values of the precipitation.
+	 * @return Precipitation The weather object.
+	 **/
+	public static function get_precipitation( $precipitation_unit, $value ) {
+		switch ( $precipitation_unit ) {
+			case 'inch':
+				$precipitation = round( ( (float) $value * 0.0393701 ), 2 ) . __( ' inch', 'location-weather' );
+				break;
+			default:
+				$precipitation = round( ( (float) $value ), 2 ) . __( ' mm', 'location-weather' );
+		}
+		return $precipitation;
 	}
 
 	/**
@@ -494,11 +552,32 @@ class Shortcode {
 	 * @return Pressure The weather object.
 	 **/
 	public static function get_pressure( $pressure_unit, $data ) {
-		$pressures = $data->pressure->value;
-		if ( 'hpa' === $pressure_unit ) {
-			$pressure = round( $pressures ) . __( ' hPa', 'location-weather' );
-		} else {
-			$pressure = round( $pressures ) . __( ' mb', 'location-weather' );
+		$pressures = (float) $data->pressure->value;
+		switch ( $pressure_unit ) {
+			case 'mb':
+				$pressure = round( $pressures ) . __( ' mb', 'location-weather' );
+				break;
+			case 'hpa':
+				$pressure = round( $pressures ) . __( ' hPa', 'location-weather' );
+				break;
+			case 'kpa':
+				$pressure = round( $pressures * 0.1 ) . __( ' kpa', 'location-weather' );
+				break;
+			case 'inhg':
+				$pressure = round( $pressures * 0.023 ) . __( ' inHg', 'location-weather' );
+				break;
+			case 'psi':
+				$pressure = round( $pressures * 0.014 ) . __( ' psi', 'location-weather' );
+				break;
+			case 'mmhg':
+				$pressure = round( $pressures * 0.75 ) . __( ' mmHg', 'location-weather' );
+				break;
+			case 'ksc':
+				$pressure = round( $pressures * 0.001 ) . __( ' kg/cm²', 'location-weather' );
+				break;
+			default:
+				$pressure = round( $pressures ) . __( ' mb', 'location-weather' );
+				break;
 		}
 		return $pressure;
 	}

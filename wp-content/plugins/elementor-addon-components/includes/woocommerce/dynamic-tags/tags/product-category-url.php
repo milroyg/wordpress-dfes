@@ -19,38 +19,38 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 class Product_Category_Url extends Tag {
 	use \EACCustomWidgets\Includes\Traits\Product_Trait;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-woo-url-cat';
 	}
 
-	public function get_title() {
-		return esc_html__( 'URL des catégories', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Category URLs', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-woo-groupe';
+	public function get_group(): array {
+		return array( 'eac-woo-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::URL_CATEGORY );
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$this->register_product_term_control();
 	}
 
-	public function render() {
+	public function render(): void {
 		$cat_id = $this->get_settings( 'product_category' );
 
 		if ( empty( $cat_id ) ) {
-			return '';
+			return;
 		}
 
 		$link = get_term_link( absint( $cat_id ), 'product_cat' );
-		if ( ! is_wp_error( $link ) ) {
+		if ( ! is_wp_error( $link ) && ! empty( $link ) ) {
 			echo esc_url( $link );
 		} else {
-			echo '';
+			return;
 		}
 	}
 }

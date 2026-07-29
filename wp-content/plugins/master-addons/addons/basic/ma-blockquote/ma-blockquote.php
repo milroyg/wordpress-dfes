@@ -1,0 +1,428 @@
+<?php
+
+namespace MasterAddons\Addons;
+
+// Elementor Classes
+use Elementor\Controls_Manager;
+use Elementor\Group_Control_Typography;
+use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
+use Elementor\Group_Control_Border;
+use Elementor\Group_Control_Background;
+
+use MasterAddons\Inc\Classes\Helper;
+use MasterAddons\Inc\Admin\Config;
+use MasterAddons\Inc\Classes\Base\Master_Widget;
+
+class Blockquote extends Master_Widget
+{
+	use \MasterAddons\Inc\Traits\Widget_Notice;
+	use \MasterAddons\Inc\Traits\Widget_Assets_Trait;
+
+	public function get_name()
+	{
+		return "jltma-blockquote";
+	}
+	public function get_title()
+	{
+		return esc_html__('Blockquote', 'master-addons' );
+	}
+
+	public function get_icon()
+	{
+		return 'jltma-icon ' . Config::get_addon_icon($this->get_name());
+	}
+
+	public function get_keywords()
+	{
+		return ['blockquote', 'quotation', 'author said'];
+	}
+
+
+	//Quote Blockquote
+	protected function jltma_blockquote_content_section()
+	{
+		$this->start_controls_section(
+			'jltma_blockquote_display',
+			[
+				'label' => esc_html__('Blockquote', 'master-addons' ),
+			]
+		);
+
+		$this->add_control(
+			'jltma_blockquote_text',
+			[
+				'label' => esc_html__('Content', 'master-addons' ),
+				'type' => Controls_Manager::TEXTAREA,
+				'label_block' => true,
+				'default' => esc_html__('Architecture should speak of its time and place, but yearn for timelessness', 'master-addons' ),
+			]
+		);
+
+		$this->add_control(
+			'quote_author_show',
+			[
+				'label'        => __('Show Author', 'master-addons' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __('On', 'master-addons' ),
+				'label_off'    => __('Off', 'master-addons' ),
+				'default'      => 'yes'
+			]
+		);
+
+		$this->add_control(
+			'jltma_blockquote_author',
+			[
+				'label'       => esc_html__('Quote Author', 'master-addons' ),
+				'type'        => Controls_Manager::TEXT,
+				'label_block' => true,
+				'default'     => esc_html__('Scott Adams', 'master-addons' ),
+				'condition'   => [
+					'quote_author_show' => 'yes'
+				]
+			]
+		);
+
+		$this->end_controls_section();
+	}
+
+	protected function jltma_quote_text_section()
+	{
+
+		$this->start_controls_section(
+			'text_style_section',
+			[
+				'label'     => __('Content', 'master-addons' ),
+				'tab'       => Controls_Manager::TAB_STYLE
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Background::get_type(),
+			[
+				'name'     => 'quote_background',
+				'label'    => __('Background', 'master-addons' ),
+				'types'    => ['classic', 'gradient'],
+				'selector' => '{{WRAPPER}} .jltma-blockquote',
+				'default'  => '#404ace'
+			]
+		);
+
+		$this->add_responsive_control(
+			'text_align',
+			[
+				'label'       => __('Content Alignment', 'master-addons' ),
+				'type'        => Controls_Manager::CHOOSE,
+				'default'     => 'left',
+				'options'     => [
+					'left' => [
+						'title' => __('Left', 'master-addons'),
+						'icon'  => 'eicon-text-align-left',
+					],
+					'center' => [
+						'title' => __('Center', 'master-addons'),
+						'icon'  => 'eicon-text-align-center',
+					],
+					'right' => [
+						'title' => __('Right', 'master-addons'),
+						'icon'  => 'eicon-text-align-right',
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blockquote' => 'text-align: {{VALUE}};',
+					'{{WRAPPER}} .jltma-blockquote cite' => 'justify-content: {{VALUE}};'
+				]
+			]
+		);
+
+		$this->add_control(
+			'text_color',
+			[
+				'label'     => __('Quote Text Color', 'master-addons' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blockquote p' => 'color: {{VALUE}};'
+				]
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name'     => 'text_typography',
+				'global' => [
+						'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
+				],
+				'selector' => '{{WRAPPER}} .jltma-blockquote p'
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
+			[
+				'name'      => 'block_border',
+				'selector'  => '{{WRAPPER}} .jltma-blockquote',
+				'separator' => 'before'
+			]
+		);
+
+		$this->add_control(
+			'width',
+			[
+				'label' => esc_html__( 'Border Radius', 'master-addons' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 1000,
+						'step' => 5,
+					],
+					'%' => [
+						'min' => 0,
+						'max' => 100,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => '20',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blockquote ' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'jltma_blockquote_padding',
+			[
+				'label'         => esc_html__('Padding', 'master-addons' ),
+				'type'          => Controls_Manager::DIMENSIONS,
+				'size_units'    => ['px', 'em', '%'],
+				'selectors'     => [
+					'{{WRAPPER}} .jltma-blockquote' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};'
+				]
+			]
+		);
+
+		$this->add_control(
+			'jltma_quote_author_styles',
+			[
+				'label' => __('Authors', 'master-addons' ),
+				'type'  => Controls_Manager::HEADING,
+			]
+		);
+
+		$this->add_control(
+			'author_text_color',
+			[
+				'label'     => __('Author Text Color', 'master-addons' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blockquote cite' => 'color: {{VALUE}};'
+				],
+				'condition' => [
+					'quote_author_show' => 'yes'
+				]
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name'     => 'author_typography',
+				'global' => [
+						'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
+				],
+				'selector' => '{{WRAPPER}} .jltma-blockquote cite',
+				'condition' => [
+					'quote_author_show' => 'yes'
+				]
+			]
+		);
+
+		$this->end_controls_section();
+	}
+
+	/*--------------  Quote Symbol Section  ---------------*/
+	protected function jltma_quote_symbol_section()
+	{
+
+		$this->start_controls_section(
+			'quote_symbol_style_section',
+			[
+				'label'     => __('Quote Symbol', 'master-addons' ),
+				'tab'       => Controls_Manager::TAB_STYLE
+			]
+		);
+
+		$this->add_control(
+			'quote_symbol_color',
+			[
+				'label'     => __('Author Symbol Color', 'master-addons' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .jltma-blockquote .jltma-quote-symbol' => 'background: {{VALUE}};'
+				],
+				'condition' => [
+					'quote_symbol_author' => 'yes'
+				]
+			]
+		);
+
+		$this->add_responsive_control(
+			'quote_symbol_width',
+			[
+				'label'      => __('Width', 'master-addons' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => ['px'],
+				'range'      => [
+					'px' => [
+						'min' => 5,
+						'max' => 50,
+					],
+				],
+				'selectors'  => [
+					'{{WRAPPER}} .jltma-blockquote .jltma-quote-symbol' => 'width: {{SIZE}}{{UNIT}};',
+				],
+				'condition' => [
+					'quote_symbol_author' => 'yes'
+				]
+			]
+		);
+
+		$this->add_responsive_control(
+			'quote_symbol_height',
+			[
+				'label'      => __('Height', 'master-addons' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => ['px'],
+				'range'      => [
+					'px' => [
+						'min' => 2,
+						'max' => 20,
+					],
+				],
+				'default'    => [
+					'unit' => 'px',
+					'size' => 5,
+				],
+				'selectors'  => [
+					'{{WRAPPER}} .jltma-blockquote .jltma-quote-symbol' => 'height: {{SIZE}}{{UNIT}};',
+				],
+				'condition' => [
+					'quote_symbol_author' => 'yes'
+				]
+			]
+		);
+
+		$this->add_responsive_control(
+			'quote_symbol_margin',
+			[
+				'label'      => __('Margin', 'master-addons' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => ['px', 'em', '%'],
+				'selectors'  => [
+					'{{WRAPPER}} .jltma-blockquote .jltma-quote-symbol' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+				'condition' => [
+					'quote_symbol_author' => 'yes'
+				]
+			]
+		);
+
+		$this->end_controls_section();
+	}
+	
+	
+	protected function jltma_blockquote_symbols(){
+		
+		$this->start_controls_section(
+			'jltma_blockquote_symbols',
+			[
+				'label' => esc_html__('Quote Symbols', 'master-addons' ),
+			]
+		);
+		
+		$this->add_control(
+			'quote_symbol',
+			[
+				'label'        => __('Show Start Symbol', 'master-addons' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __('On', 'master-addons' ),
+				'label_off'    => __('Off', 'master-addons' ),
+				'default'      => 'yes'
+			]
+		);
+
+		$this->add_control(
+			'quote_symbol_end',
+			[
+				'label'        => __('Show End Symbol', 'master-addons' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __('On', 'master-addons' ),
+				'label_off'    => __('Off', 'master-addons' ),
+				'default'      => 'yes'
+			]
+		);
+
+		$this->add_control(
+			'quote_symbol_author',
+			[
+				'label'        => __('Show Author Symbol', 'master-addons' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __('On', 'master-addons' ),
+				'label_off'    => __('Off', 'master-addons' ),
+				'default'      => 'yes'
+			]
+		);
+		
+		$this->end_controls_section();
+	}
+
+	protected function register_controls()
+	{
+
+		$this->jltma_blockquote_content_section();
+		$this->jltma_blockquote_symbols();
+		$this->jltma_quote_text_section();
+		$this->jltma_quote_symbol_section();
+
+		// Help Docs section (links from config.php)
+		$this->jltma_help_docs();
+
+		$this->upgrade_to_pro_message();
+	}
+
+	protected function render()
+	{
+		$settings = $this->get_settings_for_display();
+
+		$classes = ['wp-block-quote', 'jltma-blockquote'];
+
+		if ($settings['quote_symbol'] === 'yes') {
+			$classes[] = 'jltma-show-start-symbol';
+		}
+		if ($settings['quote_symbol_end'] === 'yes') {
+			$classes[] = 'jltma-show-end-symbol';
+		}
+
+		$show_author = $settings['quote_author_show'] === 'yes';
+		$show_author_symbol = $settings['quote_symbol_author'] === 'yes';
+?>
+
+		<blockquote class="<?php echo esc_attr(implode(' ', $classes)); ?>">
+			<p class="jltma-text">
+				<?php echo wp_kses_post($this->parse_text_editor($settings['jltma_blockquote_text'])); ?>
+			</p>
+			<?php if ($show_author) : ?>
+				<cite>
+					<?php if ($show_author_symbol) : ?>
+						<span class="jltma-quote-symbol"></span>
+					<?php endif; ?>
+					<?php echo esc_html($this->parse_text_editor($settings['jltma_blockquote_author'])); ?>
+				</cite>
+			<?php endif; ?>
+		</blockquote>
+
+<?php }
+}

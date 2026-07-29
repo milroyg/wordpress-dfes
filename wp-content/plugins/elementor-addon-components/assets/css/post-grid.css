@@ -148,16 +148,20 @@
 	word-break: break-word;
 }
 
-/** Formate le container de l'image et l'image */
+/** Formate le conteneur de l'image et l'image */
 .al-post__image-wrapper {
 	display: block;
 	position: relative;
-	margin-block: auto;
-	margin-inline: auto;
+	margin: auto;
+}
+
+.layout-text__right-yes .al-post__image-wrapper,
+.layout-text__left-yes  .al-post__image-wrapper {
+	display: flex;
+	align-items: stretch;
 }
 
 .al-post__image-wrapper > a {
-    display: block;
     position: relative;
 }
 
@@ -165,17 +169,22 @@
 .al-post__ratio-yes .al-post__image-wrapper,
 .layout-text__right-yes .al-post__image-wrapper,
 .layout-text__left-yes .al-post__image-wrapper {
-	margin-block: unset;
-	margin-inline: unset;
+	margin: unset;
 }
 
 .al-post__image-wrapper .al-post__image-loaded {
 	display: block;
 	position: relative;
-	block-size: 100%;
+	block-size: auto;
 	inline-size: 100%;
 	object-fit: cover;
 	object-position: 50% 50%;
+}
+
+/* Le texte est aligné à droite ou à gauche l'image 100% de hauteur */
+.layout-text__right-yes .al-post__inner-wrapper .al-post__image-loaded,
+.layout-text__left-yes .al-post__inner-wrapper .al-post__image-loaded {
+	block-size: 100%;
 }
 
 /* Le texte est aligné à droite ou à gauche */
@@ -216,6 +225,13 @@
 	.layout-text__left-yes .al-post__inner-wrapper {
 		-webkit-flex-direction: column;
 		flex-direction: column;
+		block-size: unset !important;
+	}
+
+	.layout-text__right-yes .al-post__inner-wrapper .al-post__image-loaded,
+	.layout-text__left-yes .al-post__inner-wrapper .al-post__image-loaded {
+		block-size: auto !important;
+		inline-size: 100% !important;
 	}
 
 	/* Cache les filtres standards pour les mobiles */
@@ -240,6 +256,7 @@
 	flex-direction: row;
 	align-items: center;
 	justify-content: flex-start;
+	inline-size: 100%;
 	margin-block-end: 10px;
 }
 
@@ -291,6 +308,7 @@ div[class^='al-post__meta-'] svg {
 }
 
 .al-post__pagination .al-more-button-paged {
+	display: inline-block;
 	margin-inline-start: 5px;
 }
 

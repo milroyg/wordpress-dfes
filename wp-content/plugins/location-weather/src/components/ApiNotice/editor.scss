@@ -1,0 +1,25 @@
+.spl-weather-api-notice {
+	background-color: #eaf6ff;
+	border: 1px solid #9ed0ff;
+	border-radius: 4px;
+	padding: 12px 14px;
+	width: 500px;
+	margin: 0 auto;
+	margin-bottom: 12px;
+
+	p {
+		margin: 0;
+		font-size: 13px;
+		line-height: 20px;
+		color: #3d3000;
+	}
+
+	a {
+		color: #3d3000;
+		text-decoration: underline;
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+}

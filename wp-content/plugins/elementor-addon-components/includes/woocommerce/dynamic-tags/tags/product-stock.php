@@ -19,38 +19,38 @@ use Elementor\Modules\DynamicTags\Module as TagsModule;
 class Product_Stock extends Tag {
 	use \EACCustomWidgets\Includes\Traits\Product_Trait;
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-woo-stock';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Stock du produit', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Product stock', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-woo-groupe';
+	public function get_group(): array {
+		return array( 'eac-woo-groupe' );
 	}
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array( TagsModule::TEXT_CATEGORY );
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 
 		$this->register_product_id_control();
 
 		$this->add_control(
 			'eac_woo_stock_prefix',
 			array(
-				'label'   => esc_html__( 'Format long', 'eac-components' ),
+				'label'   => esc_html__( 'Long format', 'eac-components' ),
 				'type'    => Controls_Manager::CHOOSE,
 				'options' => array(
 					'yes' => array(
-						'title' => esc_html__( 'Afficher', 'eac-components' ),
+						'title' => esc_html__( 'Display', 'eac-components' ),
 						'icon'  => 'eicon-check',
 					),
 					'no'  => array(
-						'title' => esc_html__( 'Cacher', 'eac-components' ),
+						'title' => esc_html__( 'Hide', 'eac-components' ),
 						'icon'  => 'eicon-ban',
 					),
 				),
@@ -59,18 +59,19 @@ class Product_Stock extends Tag {
 		);
 	}
 
-	public function render() {
+	public function render(): void {
 		$product_id      = $this->get_settings( 'product_id' );
 		$settings_prefix = $this->get_settings( 'eac_woo_stock_prefix' );
 		$value           = '';
 
 		if ( empty( $product_id ) ) {
-			return '';
+			return;
 		}
 
 		$product = wc_get_product( $product_id );
 		if ( ! $product ) {
-			return '';    }
+			return;
+		}
 
 		if ( 'yes' === $settings_prefix ) {
 			$value = wc_get_stock_html( $product );

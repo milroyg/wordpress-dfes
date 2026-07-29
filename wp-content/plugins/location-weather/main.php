@@ -13,8 +13,8 @@
  * Plugin URI:        https://locationweather.io/?ref=1
  * Author:            ShapedPlugin LLC
  * Author URI:        https://shapedplugin.com/
- * Version:           2.1.6
- * Requires at least: 5.0
+ * Version:           3.0.7
+ * Requires at least: 5.9.0
  * Requires PHP:      7.4
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'LOCATION_WEATHER_FILE', __FILE__ );
 define( 'LOCATION_WEATHER_URL', plugins_url( '', LOCATION_WEATHER_FILE ) );
 define( 'LOCATION_WEATHER_ASSETS', LOCATION_WEATHER_URL . '/assets' );
-define( 'LOCATION_WEATHER_VERSION', '2.1.6' );
+define( 'LOCATION_WEATHER_VERSION', '3.0.7' );
 
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
 if ( ! ( is_plugin_active( 'location-weather-pro/main.php' ) || is_plugin_active_for_network( 'location-weather-pro/main.php' ) ) ) {
@@ -55,7 +55,7 @@ final class Location_Weather {
 	 *
 	 * @var string
 	 */
-	public $version = '2.1.6';
+	public $version = '3.0.7';
 
 	/**
 	 * The unique slug of this plugin.
@@ -91,6 +91,7 @@ final class Location_Weather {
 		add_action( 'admin_notices', array( $this, 'display_missing_api_key_notice' ) );
 		add_action( 'network_admin_notices', array( $this, 'display_missing_api_key_notice' ) );
 		add_filter( 'sp_open_weather_api_cache_time', array( $this, 'get_location_weather_cache_expire_time' ), 10 );
+		add_action( 'location_weather_weekly_scheduled_events', array( $this, 'init_lw_sdr' ), );
 
 		add_filter( 'plugin_row_meta', array( $this, 'lw_plugin_row_meta' ), 10, 2 );
 
@@ -105,6 +106,20 @@ final class Location_Weather {
 			 * @since 2.0
 			 */
 			add_filter( 'pll_get_post_types', array( $this, 'sp_splw_polylang' ), 10, 2 );
+		}
+	}
+
+	/**
+	 * Initialize the lw_data_storing system.
+	 *
+	 * @return void
+	 */
+	public function init_lw_sdr() {
+		$admin_dashboard = new ShapedPlugin\Weather\Admin\AdminDashboard\Splw_Blocks_Page_Wrapper();
+		$user_consent    = get_option( 'splw_allow_anonymous_data', false );
+		if ( $user_consent ) {
+			$website_type = get_option( 'splw_site_type', '' );
+			$admin_dashboard->splw_send_data_to_lw_sdr( $website_type );
 		}
 	}
 
@@ -188,6 +203,7 @@ final class Location_Weather {
 	 *  Location Weather ajax action.
 	 */
 	public function splw_ajax_location_weather() {
+
 		$nonce = isset( $_POST['splw_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['splw_nonce'] ) ) : '';
 		if ( ! wp_verify_nonce( $nonce, 'splw_nonce' ) ) {
 			wp_send_json_error( array( 'error' => esc_html__( 'Error: Invalid nonce verification.', 'location-weather' ) ), 401 );
@@ -230,6 +246,7 @@ final class Location_Weather {
 		define( 'LOCATION_WEATHER_PATH', __DIR__ );
 		define( 'LOCATION_WEATHER_TEMPLATE_PATH', plugin_dir_path( __FILE__ ) . 'includes/' );
 		define( 'LOCATION_WEATHER_STORE_URL', 'https://shapedplugin.com' );
+		define( 'LOCATION_WEATHER_SDR_KEY', '907eeaa164709de7eccdf90dd60d7734c8468217' );
 	}
 
 	/**
@@ -246,7 +263,7 @@ final class Location_Weather {
 
 		if ( plugin_basename( __FILE__ ) === $file ) {
 			$new_links       = array(
-				sprintf( '<a href="%s">%s</a>', admin_url( 'edit.php?post_type=location_weather&page=lw-settings' ), __( 'Settings', 'location-weather' ) ),
+				sprintf( '<a href="%s">%s</a>', admin_url( 'edit.php?post_type=location_weather&page=splw_admin_dashboard#lw_settings' ), __( 'Settings', 'location-weather' ) ),
 			);
 			$links['go_pro'] = '<a target="_blank" href="https://locationweather.io/pricing/?ref=1" style="color: #35b747; font-weight: 700;">' . __( 'Go Pro!', 'location-weather' ) . '</a>';
 			return array_merge( $new_links, $links );
@@ -265,8 +282,13 @@ final class Location_Weather {
 	 * @return void
 	 */
 	public function redirect_after_activation( $file ) {
+		$is_visited_setup_wizard = get_option( 'splw_setup_wizard_visited', false );
 		if ( plugin_basename( __FILE__ ) === $file && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) && ( ! ( defined( 'WP_CLI' ) && WP_CLI ) ) ) {
-			exit( esc_url( wp_safe_redirect( admin_url( 'edit.php?post_type=location_weather&page=splw_help' ) ) ) );
+			if ( $is_visited_setup_wizard ) {
+				exit( esc_url( wp_safe_redirect( admin_url( 'edit.php?post_type=location_weather&page=splw_admin_dashboard' ) ) ) );
+			} else {
+				exit( esc_url( wp_safe_redirect( admin_url( 'edit.php?post_type=location_weather&page=splw_admin_dashboard#setupwizard' ) ) ) );
+			}
 		}
 	}
 
@@ -288,9 +310,18 @@ final class Location_Weather {
 			new ShapedPlugin\Weather\Admin\Location_Weather_Shortcode_Block();
 		}
 
+		// Page builder integrations.
+		ShapedPlugin\Weather\Admin\PageBuilders\Manager::init();
+
 		// Gutenberg block.
 		if ( version_compare( $GLOBALS['wp_version'], '5.3', '>=' ) ) {
+			// Initialize Shortcode block block.
 			new ShapedPlugin\Weather\Admin\Gutenberg_Block\Gutenberg_Block_Init();
+			// Initialize Location weather Blocks.
+			$weather_blocks = new ShapedPlugin\Weather\Blocks\Blocks();
+			$weather_blocks::instance();
+			// Initialize saved templates.
+			new ShapedPlugin\Weather\Admin\LW_Saved_Templates();
 		}
 	}
 
@@ -311,6 +342,7 @@ final class Location_Weather {
 		wp_register_style( 'splw-fontello', LOCATION_WEATHER_ASSETS . '/css/fontello' . $this->suffix . '.css', array(), LOCATION_WEATHER_VERSION, 'all' );
 		wp_register_style( 'splw-styles', LOCATION_WEATHER_ASSETS . '/css/splw-style' . $this->suffix . '.css', array(), LOCATION_WEATHER_VERSION, 'all' );
 		wp_register_style( 'splw-old-styles', LOCATION_WEATHER_ASSETS . '/css/old-style' . $this->suffix . '.css', array(), LOCATION_WEATHER_VERSION, 'all' );
+		wp_register_style( 'splw-swiper-styles', LOCATION_WEATHER_ASSETS . '/css/swiper' . $this->suffix . '.css', array(), LOCATION_WEATHER_VERSION, 'all' );
 		wp_register_style( 'splw-admin', LOCATION_WEATHER_ASSETS . '/css/admin' . $this->suffix . '.css', array(), LOCATION_WEATHER_VERSION, 'all' );
 
 		/**
@@ -320,7 +352,8 @@ final class Location_Weather {
 		 * @return void
 		 */
 		wp_register_script( 'splw-old-script', LOCATION_WEATHER_ASSETS . '/js/Old-locationWeather' . $this->suffix . '.js', array( 'jquery' ), LOCATION_WEATHER_VERSION, true );
-		wp_register_script( 'splw-scripts', LOCATION_WEATHER_ASSETS . '/js/lw-scripts' . $this->suffix . '.js', array( 'jquery' ), LOCATION_WEATHER_ASSETS, true );
+		wp_register_script( 'splw-swiper-scripts', LOCATION_WEATHER_ASSETS . '/js/swiper' . $this->suffix . '.js', array( 'jquery' ), LOCATION_WEATHER_VERSION, true );
+		wp_register_script( 'splw-scripts', LOCATION_WEATHER_ASSETS . '/js/lw-scripts' . $this->suffix . '.js', array( 'jquery' ), LOCATION_WEATHER_VERSION, true );
 		wp_localize_script(
 			'splw-scripts',
 			'splw_ajax_object',
@@ -384,10 +417,10 @@ final class Location_Weather {
 		$open_api_key    = $plugin_settings['open-api-key'] ?? '';
 		$weather_api_key = $plugin_settings['weather-api-key'] ?? '';
 		// Check if the Location Weather plugin is active and the OpenWeatherMap API key is empty.
-		if ( is_plugin_active( 'location-weather-pro/main.php' ) && empty( $open_api_key ) && empty( $weather_api_key ) ) {
+		if ( is_plugin_active( 'location-weather/main.php' ) && empty( $open_api_key ) && empty( $weather_api_key ) ) {
 			?>
-				<div class="error notice location-api-notice">
-					<p><strong><?php esc_html_e( 'Location Weather', 'location-weather' ); ?>: </strong> Please set your own <a href = "<?php echo esc_url( admin_url( 'edit.php?post_type=location_weather&page=lw-settings' ) ); ?>" > <?php esc_html_e( 'Weather API key', 'location-weather' ); ?></a> <?php esc_html_e( 'to show the weather data smoothly.', 'location-weather' ); ?></p>
+				<div class="notice-warning notice location-api-notice">
+					<p><strong><?php esc_html_e( 'Location Weather', 'location-weather' ); ?>: </strong> Please set your own <a href = "<?php echo esc_url( admin_url( 'edit.php?post_type=location_weather&page=splw_admin_dashboard#lw_settings' ) ); ?>" > <?php esc_html_e( 'Weather API key', 'location-weather' ); ?></a> <?php esc_html_e( 'to show the weather data smoothly.', 'location-weather' ); ?></p>
 				</div>
 			<?php
 		}

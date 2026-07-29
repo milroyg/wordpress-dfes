@@ -107,18 +107,18 @@ class widgetClassElementSticky extends elementorModules.frontend.handlers.Base {
 
         if (settings.fixed && entries[0].intersectionRatio === 0) {
             this.elements.$target[0].classList.add(this.elements.positionClass);
-            this.elements.$target[0].style.top = this.elements.sticky_top;
+            this.elements.$target[0].style.insetBlockStart = this.elements.sticky_top;
             this.elements.$target[0].style.zIndex = settings.zindex;
         } else if (!settings.fixed && entries[0].isIntersecting) {
             this.elements.$target[0].classList.add(this.elements.positionClass);
-            this.elements.$target[0].style.top = this.elements.sticky_top;
-            this.elements.$target[0].style.bottom = settings.down + 'px';
+            this.elements.$target[0].style.insetBlockStart = this.elements.sticky_top;
+            this.elements.$target[0].style.insetBlockEnd = settings.down + 'px';
             this.elements.$target[0].style.zIndex = settings.zindex;
             observer.disconnect();
         } else {
             this.elements.$target[0].classList.remove(this.elements.positionClass);
-            this.elements.$target[0].style.top = '';
-            this.elements.$target[0].style.bottom = '';
+            this.elements.$target[0].style.insetBlockStart = '';
+            this.elements.$target[0].style.insetBlockEnd = '';
             this.elements.$target[0].style.zIndex = 'auto';
         }
     }

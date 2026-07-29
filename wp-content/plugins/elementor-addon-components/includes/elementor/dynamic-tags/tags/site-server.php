@@ -18,31 +18,31 @@ use Elementor\Controls_Manager;
 
 class Site_Server extends Tag {
 
-	public function get_name() {
+	public function get_name(): string {
 		return 'eac-addon-site-server';
 	}
 
-	public function get_title() {
-		return esc_html__( 'Variables serveur', 'eac-components' );
+	public function get_title(): string {
+		return esc_html__( 'Server variables', 'eac-components' );
 	}
 
-	public function get_group() {
-		return 'eac-site-groupe';
+	public function get_group(): array {
+		return array( 'eac-site-groupe' );
 	}
 
 
-	public function get_categories() {
+	public function get_categories(): array {
 		return array(
 			TagsModule::TEXT_CATEGORY,
 			TagsModule::URL_CATEGORY,
 		);
 	}
 
-	public function get_panel_template_setting_key() {
+	public function get_panel_template_setting_key(): string {
 		return 'param_name';
 	}
 
-	protected function register_controls() {
+	protected function register_controls(): void {
 		$variables = array( '' => esc_html__( 'Select...', 'eac-components' ) );
 
 		foreach ( array_keys( $_SERVER ) as $variable ) {
@@ -52,27 +52,25 @@ class Site_Server extends Tag {
 		$this->add_control(
 			'param_name',
 			array(
-				'label'   => esc_html__( 'Clé', 'eac-components' ),
+				'label'   => esc_html__( 'Key', 'eac-components' ),
 				'type'    => Controls_Manager::SELECT,
 				'options' => $variables,
 			)
 		);
 	}
 
-	public function render() {
+	public function render(): void {
 		$param_name = $this->get_settings( 'param_name' );
 
 		if ( ! $param_name ) {
-			echo '';
 			return;
 		}
 
 		if ( ! isset( $_SERVER[ $param_name ] ) ) {
-			echo '';
 			return;
 		}
 
-		$value = $_SERVER[ $param_name ];
+		$value = sanitize_text_field( wp_unslash( $_SERVER[ $param_name ] ) );
 		echo wp_kses_post( $value );
 	}
 }

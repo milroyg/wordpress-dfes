@@ -1,6 +1,6 @@
 <?php
 
-namespace MasterAddons\Inc\Controls;
+namespace MasterAddons\Inc\Controls\Group;
 
 use Elementor\Group_Control_Base;
 use Elementor\Controls_Manager;
@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) {
  * Date: 10/12/19
  */
 
-class MA_Group_Control_Transition extends Group_Control_Base
+class JLTMA_Transition extends Group_Control_Base
 {
 
 	protected static $fields;
