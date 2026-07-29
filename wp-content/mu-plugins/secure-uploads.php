@@ -3,6 +3,8 @@
 defined( 'ABSPATH' ) || exit;
 
 add_filter('wp_handle_upload_prefilter', 'sg_secure_uploaded_files');
+// Keep/override upload_mimes if desired
+add_filter('upload_mimes', 'sg_restrict_media_uploads');
 function sg_secure_uploaded_files($file) {
     // Config
     $max_size = 5 * 1024 * 1024; // 5 MB
@@ -176,18 +178,10 @@ function sg_secure_uploaded_files($file) {
     return $file;
 }
 
-// Keep/override upload_mimes if desired
-add_filter('upload_mimes', 'sg_restrict_media_uploads');
 function sg_restrict_media_uploads($mime_types) {
     return array(
         'jpg|jpeg|jpe' => 'image/jpeg',
         'png'          => 'image/png',
         'pdf'          => 'application/pdf',
     );
-}
-
-// Optional global size limit also (keeps WP backend consistent)
-add_filter( 'upload_size_limit', 'sg_restrict_upload_size' );
-function sg_restrict_upload_size( $size ) {
-    return 5 * 1024 * 1024; // 5 MB
 }
