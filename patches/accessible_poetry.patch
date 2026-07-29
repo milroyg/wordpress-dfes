@@ -12,53 +12,6 @@ index e5de02c5..2920151a 100644
          <div id="acwp-toolbar-module">
              <?php acwp_toolbar_header(); ?>
              
-diff --git a/wp-content/plugins/cool-timeline/includes/shortcodes/class-ctl-loop-helpers.php b/wp-content/plugins/cool-timeline/includes/shortcodes/class-ctl-loop-helpers.php
-index e50986fe..e84a9b60 100644
---- a/wp-content/plugins/cool-timeline/includes/shortcodes/class-ctl-loop-helpers.php
-+++ b/wp-content/plugins/cool-timeline/includes/shortcodes/class-ctl-loop-helpers.php
-@@ -163,7 +163,7 @@ if ( ! class_exists( 'CTL_Loop_Helpers' ) ) {
- 				$layout      = $this->attributes['layout'];
- 				$title_class = 'story-' . $post_id;
- 				$re_more     = ( ( isset( $this->settings['display_readmore'] ) && 'yes' === $this->settings['display_readmore'] ) || 'horizontal' === $layout );
--				$output     .= '<!-- ' . $this->tm_type . ' Title --><div class="ctl-title ' . esc_attr( $title_class ) . '" aria-label="2">';
-+				$output     .= '<!-- ' . $this->tm_type . ' Title --><div class="ctl-title ' . esc_attr( $title_class ) . '" >';
- 				$output     .= $re_more ? $this->get_story_link( $post_id ) : '';
- 				$output     .= esc_html( get_the_title( $post_id ) );
- 				$output     .= $re_more ? '</a>' : '';
-diff --git a/wp-content/plugins/elementor/includes/widgets/divider.php b/wp-content/plugins/elementor/includes/widgets/divider.php
-index 344985f5..38ff3351 100644
---- a/wp-content/plugins/elementor/includes/widgets/divider.php
-+++ b/wp-content/plugins/elementor/includes/widgets/divider.php
-@@ -1116,7 +1116,7 @@ class Widget_Divider extends Widget_Base {
- 
- 		?>
- 		<div <?php $this->print_render_attribute_string( 'wrapper' ); ?>>
--			<span class="elementor-divider-separator">
-+			<div class="elementor-divider-separator">
- 			<?php if ( $has_icon ) : ?>
- 				<div class="elementor-icon elementor-divider__element">
- 					<?php
-@@ -1134,7 +1134,7 @@ class Widget_Divider extends Widget_Base {
- 				echo $settings['text']; // phpcs:ignore WordPress.Security.EscapeOutput ?>
- 				</<?php Utils::print_validated_html_tag( $settings['html_tag'] ); ?>>
- 			<?php endif; ?>
--			</span>
-+			</div>
- 		</div>
- 		<?php
- 	}
-diff --git a/wp-content/themes/xevso-child/functions.php b/wp-content/themes/xevso-child/functions.php
-index aea36f0a..54de1d70 100644
---- a/wp-content/themes/xevso-child/functions.php
-+++ b/wp-content/themes/xevso-child/functions.php
-@@ -232,3 +232,7 @@ add_action('template_redirect', function() {
-         return $buffer;
-     });
- });
-+
-+//HTML validation
-+//Remove <p>,<br> HTML validation in CF7
-+add_filter('wpcf7_autop_or_not', '__return_false');
 diff --git a/wp-content/plugins/accessible-poetry/inc/notifications.php b/wp-content/plugins/accessible-poetry/inc/notifications.php
 index 479f679c..72445233 100644
 --- a/wp-content/plugins/accessible-poetry/inc/notifications.php
@@ -72,38 +25,6 @@ index 479f679c..72445233 100644
                          }, 500);
                      });
                  } else {
-diff --git a/wp-login.php b/wp-login.php
-index a7617ab8..ce74482a 100644
---- a/wp-login.php
-+++ b/wp-login.php
-@@ -538,11 +538,25 @@ $secure = ( 'https' === parse_url( wp_login_url(), PHP_URL_SCHEME ) );
-   ]);
-
- if ( SITECOOKIEPATH !== COOKIEPATH ) {
--	setcookie( TEST_COOKIE, 'WP Cookie check', 0, SITECOOKIEPATH, COOKIE_DOMAIN, $secure, true );
-+	setcookie( TEST_COOKIE, 'WP Cookie check', [
-+    'expires' => 0,
-+    'path' => SITECOOKIEPATH,
-+    'domain' => COOKIE_DOMAIN,
-+    'secure' => $secure,
-+    'httponly' => TRUE,
-+    'samesite' => 'Lax',
-+  ]);
- }
-
- if ( isset( $_GET['wp_lang'] ) ) {
--	setcookie( 'wp_lang', sanitize_text_field( $_GET['wp_lang'] ), 0, COOKIEPATH, COOKIE_DOMAIN, $secure, true );
-+	setcookie( 'wp_lang', sanitize_text_field( $_GET['wp_lang'] ), [
-+    'expires' => 0,
-+    'path' => COOKIEPATH,
-+    'domain' => COOKIE_DOMAIN,
-+    'secure' => $secure,
-+    'httponly' => TRUE,
-+    'samesite' => 'Lax',
-+  ]);
- }
-
- /**
 diff --git a/wp-content/plugins/accessible-poetry/inc/toolbar.php b/wp-content/plugins/accessible-poetry/inc/toolbar.php
 index 2920151a..ad1f6b16 100644
 --- a/wp-content/plugins/accessible-poetry/inc/toolbar.php

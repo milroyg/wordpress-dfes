@@ -1,3 +1,25 @@
+diff --git a/wp-content/plugins/elementor/includes/widgets/divider.php b/wp-content/plugins/elementor/includes/widgets/divider.php
+index 344985f5..38ff3351 100644
+--- a/wp-content/plugins/elementor/includes/widgets/divider.php
++++ b/wp-content/plugins/elementor/includes/widgets/divider.php
+@@ -1116,7 +1116,7 @@ class Widget_Divider extends Widget_Base {
+
+ 		?>
+ 		<div <?php $this->print_render_attribute_string( 'wrapper' ); ?>>
+-			<span class="elementor-divider-separator">
++			<div class="elementor-divider-separator">
+ 			<?php if ( $has_icon ) : ?>
+ 				<div class="elementor-icon elementor-divider__element">
+ 					<?php
+@@ -1134,7 +1134,7 @@ class Widget_Divider extends Widget_Base {
+ 				echo $settings['text']; // phpcs:ignore WordPress.Security.EscapeOutput ?>
+ 				</<?php Utils::print_validated_html_tag( $settings['html_tag'] ); ?>>
+ 			<?php endif; ?>
+-			</span>
++			</div>
+ 		</div>
+ 		<?php
+ 	}
 diff --git a/wp-content/plugins/elementor/assets/css/frontend.min.css b/wp-content/plugins/elementor/assets/css/frontend.min.css
 index 25ed1c7a..03a604b4 100644
 --- a/wp-content/plugins/elementor/assets/css/frontend.min.css
