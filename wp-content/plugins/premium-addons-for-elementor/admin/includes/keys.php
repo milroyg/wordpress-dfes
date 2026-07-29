@@ -7,6 +7,9 @@ use PremiumAddons\Includes\Helper_Functions;
 
 $elements = array(
 	array(
+		'key' => 'premium-ai-abilities',
+	),
+	array(
 		'key'      => 'premium-mobile-menu',
 		'draw_svg' => true,
 	),
@@ -163,7 +166,8 @@ $elements = array(
 		'key' => 'premium-countdown',
 	),
 	array(
-		'key' => 'premium-banner',
+		'key'      => 'premium-banner',
+		'draw_svg' => true,
 	),
 	array(
 		'key'      => 'premium-button',

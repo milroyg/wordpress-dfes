@@ -73,7 +73,7 @@ if ( ! class_exists( 'She_Dashboard_Ajax' ) ) {
 
 			if ( ! check_ajax_referer( 'she-db-nonce', 'nonce', false ) ) {
 
-				$response = $this->she_set_response( false, 'Invalid nonce.', 'The security check failed. Please refresh the page and try again.' );
+				$response = $this->she_set_response( false, 'Permission denied.', 'You do not have permission to perform this action.' );
 
 				wp_send_json( $response );
 				wp_die();
@@ -237,7 +237,7 @@ if ( ! class_exists( 'She_Dashboard_Ajax' ) ) {
 					}
 
 					$update_plugin[] = $plugin;
-				} elseif ( is_plugin_active( $pluginslug ) ) {
+				} else {
 					$plugin['status'] = 'active';
 					$update_plugin[]  = $plugin;
 				}
@@ -290,19 +290,26 @@ if ( ! class_exists( 'She_Dashboard_Ajax' ) ) {
 		 */
 		public function she_activate_theme() {
 
+			if ( ! current_user_can( 'switch_themes' ) ) {
+				return $this->she_set_response( false, 'Permission denied.', 'You do not have permission to switch themes.' );
+			}
+
 			$theme_slug = isset( $_POST['theme_slug'] ) ? sanitize_text_field( wp_unslash( $_POST['theme_slug'] ) ) : '';
 
 			$active_theme = wp_get_theme();
 			$theme_name   = $active_theme->get( 'Name' );
 
-			if ( file_exists( WP_CONTENT_DIR . '/themes/' . $theme_slug ) && 'Nexter' !== $theme_name ) {
+			$theme = wp_get_theme( $theme_slug );
+			if ( $theme->exists() && 'Nexter' !== $theme_name ) {
 
-				switch_theme( $theme_slug );
+				switch_theme( $theme->get_stylesheet() );
 				return array(
 					'name'   => $theme_slug,
 					'status' => 'Activated',
 				);
 			}
+
+			return $this->she_set_response( false, 'Activation failed.', 'Theme not found or already active.' );
 		}
 
 		/**
@@ -369,11 +376,15 @@ if ( ! class_exists( 'She_Dashboard_Ajax' ) ) {
 		 */
 		public function she_rollback_check() {
 
+			if ( ! current_user_can( 'update_plugins' ) ) {
+				return $this->she_set_response( false, 'Permission denied.', 'You do not have permission to update plugins.' );
+			}
+
 			$current_ver = isset( $_POST['version'] ) ? sanitize_text_field( wp_unslash( $_POST['version'] ) ) : '';
 
 			$rv = $this->she_prev_version();
-			if ( empty( $current_ver ) || ! in_array( $current_ver, $rv ) ) {
-				return $this->she_set_response( false, 'Invalid nonce.', 'Try selecting another version.' );
+			if ( empty( $current_ver ) || ! in_array( $current_ver, $rv, true ) ) {
+				return $this->she_set_response( false, 'Invalid version.', 'Try selecting another version.' );
 			}
 
 			$plugin_slug = basename( SHE_HEADER_PLUGIN_BASE, '.php' );
@@ -408,13 +419,11 @@ if ( ! class_exists( 'She_Dashboard_Ajax' ) ) {
 
 			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
-			$logo_url = SHE_HEADER_URL . 'assets/images/theplus-logo-small.png';
-
 			$args = array(
 				'url'    => 'update.php?action=upgrade-plugin&plugin=' . rawurlencode( $this_pluginname ),
 				'plugin' => $this_pluginname,
 				'nonce'  => 'upgrade-plugin_' . $this_pluginname,
-				'title'  => '<img src="' . esc_url( $logo_url ) . '" alt="theplus-logo"><div class="theplus-rb-subtitle">' . esc_html__( 'Rollback to Previous Version', 'she-header' ) . '</div>',
+				'title'  => '<div class="theplus-rb-subtitle">' . esc_html__( 'Rollback to Previous Version', 'she-header' ) . '</div>',
 			);
 
 			$upgrader_plugin = new \Plugin_Upgrader( new \Plugin_Upgrader_Skin( $args ) );
@@ -452,10 +461,8 @@ if ( ! class_exists( 'She_Dashboard_Ajax' ) ) {
 		 */
 		public function she_plugin_install() {
 
-			add_action( 'wp_ajax_she_dashboard_ajax_call', array( $this, 'she_dashboard_ajax_call' ) );
-
 			if ( ! current_user_can( 'install_plugins' ) ) {
-				$response = $this->she_set_response( false, 'Invalid nonce.', 'The security check failed. Please refresh the page and try again.' );
+				$response = $this->she_set_response( false, 'Permission denied.', 'You do not have permission to perform this action.' );
 				return $response;
 			}
 
@@ -472,27 +479,21 @@ if ( ! class_exists( 'She_Dashboard_Ajax' ) ) {
 			include_once ABSPATH . 'wp-admin/includes/class-automatic-upgrader-skin.php';
 			include_once ABSPATH . 'wp-admin/includes/class-plugin-upgrader.php';
 
-			$result   = array();
-			$response = wp_remote_post(
-				'http://api.wordpress.org/plugins/info/1.0/',
+			$result = array();
+
+			require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+
+			$plugin_info = plugins_api(
+				'plugin_information',
 				array(
-					'body' => array(
-						'action'  => 'plugin_information',
-						'request' => serialize(
-							(object) array(
-								'slug'   => $name,
-								'fields' => array(
-									'version' => false,
-								),
-							)
-						),
+					'slug'   => $name,
+					'fields' => array(
+						'version' => false,
 					),
 				)
 			);
 
-			$plugin_info = unserialize( wp_remote_retrieve_body( $response ) );
-
-			if ( ! $plugin_info ) {
+			if ( is_wp_error( $plugin_info ) || ! isset( $plugin_info->download_link ) ) {
 				wp_send_json_error( array( 'content' => __( 'Failed to retrieve plugin information.', 'she-header' ) ) );
 			}
 
@@ -504,6 +505,11 @@ if ( ! class_exists( 'She_Dashboard_Ajax' ) ) {
 			if ( ! isset( $installed_plugins[ $plugin_basename ] ) && empty( $installed_plugins[ $plugin_basename ] ) ) {
 
 				$installed         = $upgrader->install( $plugin_info->download_link );
+
+				if ( is_wp_error( $installed ) || ! $installed ) {
+					return $this->she_set_response( false, 'Install failed.', 'Plugin could not be installed.' );
+				}
+
 				$activation_result = activate_plugin( $plugin_basename );
 
 				$success = null === $activation_result;
@@ -537,81 +543,43 @@ if ( ! class_exists( 'She_Dashboard_Ajax' ) ) {
 		public function she_theme_install() {
 
 			if ( ! current_user_can( 'install_themes' ) ) {
-				$response = $this->she_set_response( false, 'Invalid nonce.', 'The security check failed. Please refresh the page and try again.' );
-				return $response;
+				return $this->she_set_response( false, 'Invalid nonce.', 'The security check failed. Please refresh the page and try again.' );
 			}
 
 			$name = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
-
-			$theme_slug    = $name;
-			$theme_api_url = 'https://api.wordpress.org/themes/info/1.0/';
-
-			// Parameters for the request
-			$args = array(
-				'body' => array(
-					'action'  => 'theme_information',
-					'request' => serialize(
-						(object) array(
-							'slug'   => $name,
-							'fields' => array(
-								'description'     => false,
-								'sections'        => false,
-								'rating'          => true,
-								'ratings'         => false,
-								'downloaded'      => true,
-								'download_link'   => true,
-								'last_updated'    => true,
-								'homepage'        => true,
-								'tags'            => true,
-								'template'        => true,
-								'active_installs' => false,
-								'parent'          => false,
-								'versions'        => false,
-								'screenshot_url'  => true,
-							),
-						)
-					),
-				),
-			);
-
-			// Make the request
-			$response = wp_remote_post( $theme_api_url, $args );
-			// Check for errors
-			if ( is_wp_error( $response ) ) {
-				$error_message = $response->get_error_message();
-
-				$result = $this->she_set_response( false, 'oops', 'oops', '' );
-			} else {
-				$theme_info    = unserialize( $response['body'] );
-				$theme_name    = $theme_info->name;
-				$theme_zip_url = $theme_info->download_link;
-
-				global $wp_filesystem;
-				// Install the theme
-				$theme = wp_remote_get( $theme_zip_url );
-
-				if ( ! function_exists( 'WP_Filesystem' ) ) {
-					require_once wp_normalize_path( ABSPATH . '/wp-admin/includes/file.php' );
-				}
-
-				WP_Filesystem();
-
-				$active_theme = wp_get_theme();
-				$theme_name   = $active_theme->get( 'Name' );
-
-				$wp_filesystem->put_contents( WP_CONTENT_DIR . '/themes/' . $theme_slug . '.zip', $theme['body'] );
-				$zip = new ZipArchive();
-				if ( $zip->open( WP_CONTENT_DIR . '/themes/' . $theme_slug . '.zip' ) === true ) {
-					$zip->extractTo( WP_CONTENT_DIR . '/themes/' );
-					$zip->close();
-				}
-
-				$wp_filesystem->delete( WP_CONTENT_DIR . '/themes/' . $theme_slug . '.zip' );
-
-				$result = $this->she_set_response( true, "Success $name", "Success $name", '' );
+			if ( ! $name ) {
+				return $this->she_set_response( false, 'Theme slug not found.', 'Something went wrong.' );
 			}
 
-			return $result;
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+			require_once ABSPATH . 'wp-admin/includes/class-automatic-upgrader-skin.php';
+			require_once ABSPATH . 'wp-admin/includes/theme-install.php';
+
+			$theme_info = themes_api(
+				'theme_information',
+				array(
+					'slug'   => $name,
+					'fields' => array(
+						'download_link' => true,
+					),
+				)
+			);
+
+			if ( is_wp_error( $theme_info ) || empty( $theme_info->download_link ) ) {
+				return $this->she_set_response( false, 'oops', 'Could not retrieve theme information.', '' );
+			}
+
+			$skin      = new \Automatic_Upgrader_Skin();
+			$upgrader  = new \Theme_Upgrader( $skin );
+			$installed = $upgrader->install( $theme_info->download_link );
+
+			if ( is_wp_error( $installed ) || ! $installed ) {
+				return $this->she_set_response( false, 'Install failed.', 'Theme could not be installed.', '' );
+			}
+
+			/* translators: %s: theme name */
+			return $this->she_set_response( true, sprintf( __( 'Success %s', 'she-header' ), esc_html( $name ) ), '', '' );
 		}
 
 		/**
@@ -622,15 +590,40 @@ if ( ! class_exists( 'She_Dashboard_Ajax' ) ) {
 		public function she_api_call() {
 
 			$method  = isset( $_POST['method'] ) ? sanitize_text_field( wp_unslash( $_POST['method'] ) ) : 'POST';
-			$api_url = isset( $_POST['api_url'] ) ? sanitize_text_field( wp_unslash( $_POST['api_url'] ) ) : '';
+			$api_url = isset( $_POST['api_url'] ) ? esc_url_raw( wp_unslash( $_POST['api_url'] ) ) : '';
 			$body    = isset( $_POST['url_body'] ) ? json_decode( wp_unslash( $_POST['url_body'] ) ) : array();
+
+			// Whitelist allowed external domains to prevent SSRF.
+			$allowed_hosts = array( 'stickyheadereffects.com', 'api.posimyth.com', 'posimyth.com', 'wdesignkit.com' );
+			$parsed_url    = wp_parse_url( $api_url );
+			$parsed_host   = isset( $parsed_url['host'] ) ? strtolower( (string) $parsed_url['host'] ) : '';
+			$parsed_host   = preg_replace( '/^www\./', '', $parsed_host );
+			$parsed_scheme = isset( $parsed_url['scheme'] ) ? strtolower( $parsed_url['scheme'] ) : '';
+			if ( empty( $api_url ) || ! in_array( $parsed_host, $allowed_hosts, true ) ) {
+				return $this->she_set_response( false, 'Invalid URL.', 'Only requests to approved domains are allowed.' );
+			}
+
+			// Force HTTPS and reject any non-standard port to further harden against SSRF.
+			if ( 'https' !== $parsed_scheme || isset( $parsed_url['port'] ) ) {
+				return $this->she_set_response( false, 'Invalid URL.', 'Only standard HTTPS requests are allowed.' );
+			}
+
+			// Only accept a decoded JSON object/array as the request body.
+			if ( ! is_array( $body ) && ! is_object( $body ) ) {
+				$body = array();
+			}
+
+			// Only POST and GET are supported.
+			if ( ! in_array( $method, array( 'POST', 'GET' ), true ) ) {
+				return $this->she_set_response( false, 'Invalid method.', 'Only GET and POST are supported.' );
+			}
 
 			$header_template = isset( $_POST['store'] ) ? sanitize_text_field( wp_unslash( $_POST['store'] ) ) : '';
 
 			if ( 'header_template' === $header_template ) {
 				$she_header_template = get_transient( 'she_header_template' );
 
-				if ( $she_header_template != false ) {
+				if ( false !== $she_header_template ) {
 					return get_option( 'she_header_template' );
 				}
 
@@ -649,6 +642,8 @@ if ( ! class_exists( 'She_Dashboard_Ajax' ) ) {
 				$args['body'] = wp_json_encode( $body );
 			}
 
+			$response = null;
+
 			if ( 'POST' === $method ) {
 				$response = wp_remote_post( $api_url, $args );
 			}
@@ -657,18 +652,23 @@ if ( ! class_exists( 'She_Dashboard_Ajax' ) ) {
 				$response = wp_remote_get( $api_url, $args );
 			}
 
+			if ( is_wp_error( $response ) ) {
+				return $this->she_set_response( false, 'Request failed.', $response->get_error_message() );
+			}
+
 			$status_code = wp_remote_retrieve_response_code( $response );
 			$getdataone  = wp_remote_retrieve_body( $response );
 			$statuscode  = array( 'HTTP_CODE' => $status_code );
 
 			$response = json_decode( $getdataone, true );
+			$final    = $statuscode;
 
 			if ( is_array( $statuscode ) && is_array( $response ) ) {
 				$final = array_merge( $statuscode, $response );
 
-				if ( 200 == $status_code ) {
+				if ( 200 === (int) $status_code ) {
 					if ( 'header_template' === $header_template ) {
-						add_option( 'she_header_template', $final );
+						add_option( 'she_header_template', $final, '', 'no' );
 						set_transient( 'she_header_template', 'header_template', 24 * HOUR_IN_SECONDS );
 						// set_transient('she_header_template', 'header_template', 120);
 					}
@@ -685,7 +685,11 @@ if ( ! class_exists( 'She_Dashboard_Ajax' ) ) {
 		 * @since 2.0
 		 */
 		public function she_create_page() {
-			$post_type = isset( $_POST['post_type'] ) ? sanitize_text_field( $_POST['post_type'] ) : 'elementor_library';
+			$post_type = isset( $_POST['post_type'] ) ? sanitize_text_field( wp_unslash( $_POST['post_type'] ) ) : 'elementor_library';
+
+			if ( ! in_array( $post_type, array( 'elementor_library', 'nxt_builder' ), true ) ) {
+				$post_type = 'elementor_library';
+			}
 
 			$post_args = array(
 				'post_type'   => $post_type,
@@ -757,11 +761,7 @@ if ( ! class_exists( 'She_Dashboard_Ajax' ) ) {
 		 */
 		public function she_user_meta_data() {
 
-			global $wpdb;
-
-			$user_data = array();
-
-			$user_data['email'] = get_option( 'admin_email' );
+			$user_data = array( 'email' => get_option( 'admin_email' ) );
 
 			$response = wp_remote_post(
 				$this->onbording_api,
@@ -772,10 +772,12 @@ if ( ! class_exists( 'She_Dashboard_Ajax' ) ) {
 			);
 
 			if ( is_wp_error( $response ) ) {
-				wp_send_json( array( 'onBoarding' => false ) );
-			} else {
-				$status_one = wp_remote_retrieve_response_code( $response );
+				return $this->she_set_response( false, 'Onboarding request failed.', '' );
 			}
+
+			return $this->she_set_response( true, 'Onboarding data sent.', '', array(
+				'code' => wp_remote_retrieve_response_code( $response ),
+			) );
 		}
 
 		/**

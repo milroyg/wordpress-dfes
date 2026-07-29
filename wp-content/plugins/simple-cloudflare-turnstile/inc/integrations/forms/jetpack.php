@@ -19,7 +19,7 @@ if (get_option("cfturnstile_jetpack")) {
         ob_start();
         cfturnstile_field_show(
             $button_id,
-            "",
+            "turnstileJetpackCallback",
             "jetpack-form",
             "-jetpack-" . $unique_id
         );

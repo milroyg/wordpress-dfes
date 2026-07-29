@@ -5,8 +5,16 @@ $j(document).ready(function () {
     // She header
     sheHeader();
 
+    // Debounce resize: sheHeader() re-runs the full per-header setup and
+    // rebinds every scroll listener, so firing it on every resize pixel is
+    // wasteful (and janky on devices that stream resize events). Run it once
+    // the resize settles instead.
+    var sheResizeTimer;
     $j(window).on('resize', function (e) {
-        sheHeader(e);
+        clearTimeout(sheResizeTimer);
+        sheResizeTimer = setTimeout(function () {
+            sheHeader(e);
+        }, 150);
     });
 });
 
@@ -17,13 +25,18 @@ HEADER EFFECTS
 
 
 function sheHeader(e) {
-   
-    var header = $j('.elementor-element.she-header-yes'),
-        container = $j('.she-header-yes .elementor-container, .elementor-element.she-header-yes.e-con'),
-        header_elementor = $j('.elementor-edit-mode .she-header-yes'),
-        header_logo = $j('.she-header-yes .elementor-widget-theme-site-logo img:not(.elementor-widget-n-menu img), .she-header-yes .elementor-widget-image img:not(.elementor-widget-n-menu img)'),
-        header_logo_div = $j('.she-header-yes .elementor-widget-theme-site-logo a::after, .she-header-yes .elementor-widget-image a::after');
-    data_settings = header.data('settings');
+
+    // Iterate each sticky header independently so that multiple sticky headers
+    // each use their OWN settings/scroll-distance instead of all sharing the
+    // first matched header's settings (the "sticks too early" group bug).
+    $j('.elementor-element.she-header-yes').each(function (sheIndex) {
+
+    var header = $j(this),
+        container = header.find('.elementor-container').add(header.filter('.e-con')),
+        header_elementor = header.closest('.elementor-edit-mode').length ? header : $j(),
+        header_logo = header.find('.elementor-widget-theme-site-logo img:not(.elementor-widget-n-menu img), .elementor-widget-image img:not(.elementor-widget-n-menu img)'),
+        header_logo_div = header.find('.elementor-widget-theme-site-logo a, .elementor-widget-image a'),
+        data_settings = header.data('settings');
 
     if (typeof data_settings != 'undefined') {
         var responsive_settings = data_settings["transparent_on"];
@@ -44,7 +57,7 @@ function sheHeader(e) {
         }
     }
 
-    if ($j.inArray(enabled, responsive_settings) != '-1') {
+    if ($j.inArray(enabled, responsive_settings) !== -1) {
 
         var scroll_distance = data_settings["scroll_distance"];
         var she_offset = data_settings["she_offset_top"];
@@ -174,7 +187,7 @@ function sheHeader(e) {
             var mywindow = $j(window),
                 mypos = mywindow.scrollTop();
 
-            mywindow.scroll(function () {
+            mywindow.off('scroll.sheHide' + sheIndex).on('scroll.sheHide' + sheIndex, function () {
                 var sd_hh_s = scroll_distance_hide_header["size"],
                     sd_hh_u = scroll_distance_hide_header["unit"],
                     sd_hh_tablet =
@@ -245,11 +258,19 @@ function sheHeader(e) {
             });
         }
 
-        // scroll function
-        $j(window).on("load scroll", function (e) {
+        // scroll function — throttled with requestAnimationFrame so the
+        // heavy per-property style writes below run at most once per frame.
+        var she_scroll_ticking = false;
+        $j(window).off("load.sheScroll" + sheIndex + " scroll.sheScroll" + sheIndex).on("load.sheScroll" + sheIndex + " scroll.sheScroll" + sheIndex, function (e) {
+            if (she_scroll_ticking) {
+                return;
+            }
+            she_scroll_ticking = true;
+            requestAnimationFrame(function () {
+                she_scroll_ticking = false;
             var scroll = $j(window).scrollTop();
 
-            if (header_elementor) {
+            if (header_elementor.length) {
                 header_elementor.css("position", "relative");
             }
 
@@ -299,26 +320,33 @@ function sheHeader(e) {
                 }
             }
 
-            if (scroll >= scroll_distance["size"]) {
+            if (scroll >= sd) {
                 header.removeClass('header').addClass("she-header");
                 header.css("background-color", background);
                 header.css("border-bottom", bottom_border);
 
-                header.css("top", she_offset.size + she_offset.unit);
+                // Multi-Sticky (Pro) manages its own top / width / padding via a
+                // placeholder spacer. Skip Free's geometry writes for those
+                // containers so the two don't fight (cosmetic background/border
+                // above still apply). Pure-Free headers have no
+                // data-she-multi-mode attribute and get the full treatment.
+                if (!header.attr("data-she-multi-mode")) {
+                    header.css("top", she_offset.size + she_offset.unit);
 
-                if (width >= 768) {
-                    if (document.body.classList.contains('admin-bar')) {
-                        header.css("top", (32 + she_offset.size) + she_offset.unit);
+                    if (width >= 783 && document.body.classList.contains('admin-bar')) {
+                        if (she_offset.unit === 'px') {
+                            header.css("top", (32 + she_offset.size) + "px");
+                        } else {
+                            header.css("top", "calc(32px + " + she_offset.size + she_offset.unit + ")");
+                        }
                     }
-                }
 
-                header.css("padding-top", she_padding.top + she_padding.unit);
-                header.css("padding-bottom", she_padding.bottom + she_padding.unit);
-                header.css("padding-left", she_padding.left + she_padding.unit);
-                header.css("padding-right", she_padding.right + she_padding.unit);
-                header.css("width", she_width.size + she_width.unit);
-                // header.attr("style", "width: " + she_width.size + she_width.unit + " !important;");
-                // header.css("width", she_width.size + she_width.unit);
+                    header.css("padding-top", she_padding.top + she_padding.unit);
+                    header.css("padding-bottom", she_padding.bottom + she_padding.unit);
+                    header.css("padding-left", she_padding.left + she_padding.unit);
+                    header.css("padding-right", she_padding.right + she_padding.unit);
+                    header.css("width", she_width.size + she_width.unit);
+                }
 
                 header.removeClass('she-header-transparent-yes');
 
@@ -345,12 +373,14 @@ function sheHeader(e) {
                 header.removeClass("she-header").addClass('header');
                 header.css("background-color", "");
                 header.css("border-bottom", "");
-                header.css("top", "");
-                header.css("padding-top", "");
-                header.css("padding-bottom", "");
-                header.css("padding-left", "");
-                header.css("padding-right", "");
-                header.css("width", "");
+                if (!header.attr("data-she-multi-mode")) {
+                    header.css("top", "");
+                    header.css("padding-top", "");
+                    header.css("padding-bottom", "");
+                    header.css("padding-left", "");
+                    header.css("padding-right", "");
+                    header.css("width", "");
+                }
 
                 if (transparent_header == "yes") {
                     header.addClass('she-header-transparent-yes');
@@ -373,7 +403,10 @@ function sheHeader(e) {
             }
 
 
+            }); // end requestAnimationFrame
         });
     }
+
+    }); // end .each — per sticky-header iteration
 
 };

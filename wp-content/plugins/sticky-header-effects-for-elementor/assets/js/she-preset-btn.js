@@ -1,7 +1,7 @@
 (function ($) {
     const { __ } = wp.i18n;
 
-    const ENABLE_TEMPLATES_TEXT = __("Enable Templates", "tpebl");
+    const ENABLE_TEMPLATES_TEXT = __("Enable Templates", "she-header");
 
     jQuery("document").ready(function () {
 
@@ -10,7 +10,7 @@
         var she_global_notification = false;
 
         if (sheOnload === 'true') {
-            const postId = 18061;
+            const postId = she_wdkit_preview_popup.preset_temp_id;
             she_load_wdkit(postId);
         }
 
@@ -129,7 +129,7 @@
                 type: "post",
                 async: true,
                 data: {
-                    action: 'check_plugin_status',
+                    action: 'she_check_plugin_status',
                     security: she_wdkit_preview_popup.nonce,
                 },
                 success: function (res) {

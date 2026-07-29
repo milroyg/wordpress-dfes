@@ -70,10 +70,18 @@ if ( ! class_exists( 'She_Loader' ) ) {
 				include SHE_HEADER_PATH . 'includes/meta/class-she-meta.php';
 				add_action( 'admin_footer', array( $this, 'she_add_notificetions' ) );
 				add_option( 'she_menu_notificetions', '1' );
+
+				add_option( 'she_header_install_time', current_time( 'mysql' ) );
 			}
 
-			include SHE_HEADER_PATH . 'includes/preset/class-she-preset.php';
-			include SHE_HEADER_PATH . 'includes/notices/class-she-notice-main.php';
+			// Preset (editor + admin-ajax hooks) and notices (admin_notices)
+			// only ever do work in admin/editor/ajax contexts — all of which
+			// are is_admin() — so there's no need to load them on plain
+			// frontend page views.
+			if ( is_admin() ) {
+				include SHE_HEADER_PATH . 'includes/preset/class-she-preset.php';
+				include SHE_HEADER_PATH . 'includes/notices/class-she-notice-main.php';
+			}
 
 			add_action( 'elementor/controls/controls_registered', function( $controls_manager ) {
     			include SHE_HEADER_PATH . 'includes/notices/class-she-banner-controller.php';

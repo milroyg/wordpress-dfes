@@ -113,7 +113,7 @@ class PAPRO_Promotion {
 
 		$html = '<div class="premium-promote-box addon-promotion">
             <div class="premium-promote-box-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Layer_1" aria-hidden="true" height="56.85" viewBox="0 0 56 56" width="">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  aria-hidden="true" height="56.85" viewBox="0 0 56 56" width="">
 					<defs>
 						<style>
 						.pa-logo-1 { fill: url(#linear-gradient); }
@@ -166,7 +166,7 @@ class PAPRO_Promotion {
             ' . __( 'Check Demo', 'premium-addons-for-elementor' ) . '
             </a>
             <a class="premium-promote-upgrade elementor-button elementor-button-default" href="' . esc_url( $upgrade_link ) . '" target="_blank">
-            ' . __( 'Get PRO (20% OFF)', 'premium-addons-for-elementor' ) . '
+            ' . __( 'Get PRO (30% OFF)', 'premium-addons-for-elementor' ) . '
             </a>
         </div>';
 

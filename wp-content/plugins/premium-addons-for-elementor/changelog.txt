@@ -1,5 +1,253 @@
 == Changelog ==
 
+= 4.11.89 - 25/7/2026 =
+
+- Tweak: Improved AI abilities to guide AI models to fetch the design guide for more consistent designs.
+
+= 4.11.88 - 23/7/2026 =
+
+- Tweak: Improved the AI abilities to improve the quality of designs built by AI.
+- Tweak: Added new AI abilities to export/import Elementor sections and pages between different sites, list and upload images to media.
+- Tweak: Added new AI abilities to get information about active theme and its style variation to build more consistent designs.
+- Tweak: MCP Configuration and AI Abilities dashboard tabs merged into one for a better UX.
+- Tweak: Show MCP Connection status for a better UX.
+- Fixed: Hover background outline with Grow effect in Button widget.
+- Fixed: Text Shadow not working in Heading widget when gradient background is enabled.
+
+= 4.11.87 - 19/7/2026 =
+
+- Tweak: Added new AI abilities to apply/customize all addons in the plugin (wrapper link, floating effects, tooltips, etc.), creating an Elementor template, duplicating a page/post, changing a post status, removing an Elementor element and more.
+- Tweak: Improved AI Abilities loading to prevent loading abilities files on the dashboard.
+- Tweak: Improved AI Abilities and MCP Configuration dashboard pages.
+- Tweak: Added Skip & Deactivate button in the plugin deactivation form.
+- Tweak: Show play icon by default in Advanced Carousel widget.
+- Fixed: Slider conflict with JetEngine Slider.
+- Fixed: Empty links appearing in post rendering widgets (Blog, AJAX Search, Recent Posts Notifications).
+
+= 4.11.86 - 12/7/2026 =
+
+- Tweak: Added AI abilities to add Elementor Container/Flexbox element, insert an Elementor widget to a page, post or template, get Elementor page structure and more.
+
+= 4.11.85 - 6/7/2026 =
+
+- New: Added AI Abilities integration using the WordPress Abilities API - requires WordPress v6.9 or higher.
+- Fixed: On Side skin not displayed as column on mobile extra breakpoints in Blog widget.
+
+= 4.11.84 - 29/6/2026 =
+
+- Fixed: Improved code security enforcement in widgets have Mask effect.
+- Fixed: Object Fit option not visible unless Minimum Height is set on desktop in Banner widget.
+
+= 4.11.83 - 28/6/2026 =
+
+- Tweak: Added blur/highlight text effect option in Search Form widget.
+- Tweak: Added Navigation Arrows Custom Vertical Position option in Search Form widget.
+- Tweak: Search now applies on the entire page when CSS Selector is not set in Search Form widget.
+- Tweak: Added Vertical Alignment and Tooltip Position options in Pricing Table widget.
+- Tweak: Improved Map ID control placement in Maps widget.
+- Tweak: Global addons code refactored for better performance and security.
+- Fixed: IP Location Display Condition not working.
+- Fixed: Google Maps not working when Get User Location is enabled.
+- Fixed: Custom SVGs containing image and clip-path tags not rendered.
+- Fixed: Animated SVG line height not working in Modal Box widget.
+- Fixed: Feature list icon size decreasing in small spaces in Pricing Table widget.
+- Fixed: Minimal Mask effect overriding focused word styling in Heading widget.
+- Fixed: Glitch effect not working correctly on focused word in Heading widget.
+- Fixed: Improved code security enforcement in Global Tooltips.
+- Deprecated: Filter By Post Rule option in Search Form widget.
+
+= 4.11.82 - 11/6/2026 =
+
+- Tweak: Global addons code refactored for better performance and security.
+
+= 4.11.81 - 10/6/2026 =
+
+- Tweak: Removed unused file.
+
+= 4.11.80 - 10/6/2026 =
+
+- Tweak: Added Meta Position option in Blog widget.
+- Tweak: Code refactored for better performance and security.
+- Fixed: Generated dynamic assets not being cached.
+
+= 4.11.79 - 4/6/2026 =
+
+- Tweak: Added Max Value option in Progress Bar widget to allow values above 100.
+- Tweak: Added Icon option in Banner widget.
+- Tweak: Added Loop Times option in Lottie Animations widget.
+- Tweak: Added File Source for Lottie Animation icon in Progress Bar widget.
+- Tweak: Image Caption option now always available when source is set to Image Gallery in Carousel widget.
+- Fixed: Lottie Animations not working when Loop is disabled and Reverse is enabled.
+
+= 4.11.78 - 25/5/2026 =
+
+- Tweak: Add option to show Image Caption in Carousel widget when source is set to Image Gallery.
+- Tweak: News Ticker improved on RTL sites.
+
+= 4.11.77 - 14/5/2026 =
+
+- Tweak: Code refactored for better performance and security.
+- Fixed: Metro layout not working in Media Grid with Elementor extra breakpoints feature.
+- Fixed: Carousel widget navigation options not working correctly.
+
+= 4.11.76 - 10/5/2026 =
+
+- Tweak: Code refactored for better performance and security.
+- Fixed: PHP warnings and fatal errors in plugin core.
+
+= 4.11.75 - 26/4/2026 =
+
+- Tweak: Added option to autoplay video in active slide in Advanced Carousel widget.
+- Tweak: Added Description option in Heading and Dual Heading widgets.
+- Tweak: Code refactored for better performance and security.
+- Fixed: Load More button not working correctly in TikTok Feed widget.
+
+= 4.11.74 - 16/4/2026 =
+
+- Tweak: Remove deprecated Vimeo API in Video Box widget.
+- Tweak: Core improved for security.
+- Fixed: Badge not showing correctly in Bullet List widget.
+- Fixed: Active menu item border radius not applied with Background Grow animation in Mega Menu widget.
+
+= 4.11.73 - 8/4/2026 =
+
+- Fixed: Pinterest Feed widget not working correctly.
+
+= 4.11.72 - 1/4/2026 =
+
+- Fixed: Premium Templates not working in v4.11.71.
+
+= 4.11.71 - 31/3/2026 =
+
+- Tweak: Added Masonry Layout in Testimonials widget.
+- Tweak: Improved Hover Effects for buttons in all widgets.
+- Fixed: Border Radius not applied correctly on images when Thumbnail Slider enabled in Carousel widget.
+- Fixed: Security issue in widgets that contain SVG Code control.
+- Fixed: Button not working in Banner widget when Effect 5 is selected.
+- Fixed: Scrolling to containers not working in Mobile Menu widget.
+
+= 4.11.70 - 11/3/2026 =
+
+- Tweak: Core improved for better performance and loading speed.
+- Tweak: Added Price Display option in Pricing Table widget.
+- Tweak: Added Fade Color option for Layout #4 in News Ticker widget.
+- Tweak: Compatibility between Media Grid and Elementor Tabs widget.
+- Tweak: Woo Mini Cart widget code refactored.
+- Tweak: Removed duplicated IDs given to SVGs on the same page.
+- Fixed: Style #8 not working correctly in Heading widget.
+- Fixed: Effects not working in Textual Showcase widget.
+- Fixed: Hover Lottie Animation option not showing in Textual Showcase widget.
+- Fixed: Posts built with Elementor shows as plain text in Premium Blog widget.
+- Fixed: Menu Position option not working on responsive in Mobile Menu widget.
+- Fixed: Icon Separator Color option not working in Woo Mini Cart widget.
+- Fixed: Thumbnail Slider not working in Carousel widget when Border is applied on active slide only.
+
+= 4.11.69 - 12/2/2026 =
+
+- Fixed: Dual Heading not working correctly after v4.11.68.
+
+= 4.11.68 - 12/2/2026 =
+
+- Tweak: Multiple core improvements for faster editor and frontend loading speed.
+- Tweak: Improved Premium Templates styling in Elementor Dark Mode.
+- Fixed: Images in Advanced Carousel are not showing after widget is dropped into the preview area.
+
+= 4.11.67 - 3/2/2026 =
+
+- Fixed: Layouts broken after v4.11.66 when Modal Box is used on page.
+
+= 4.11.66 - 2/2/2026 =
+
+- Tweak: Added Thumbnail Slider option in Carousel widget.
+- Tweak: Added Container ID option in Advanced Carousel and Modal Box widgets to get slides from containers on the same page for better usability.
+- Tweak: Added Slides to Scroll option for carousel in Testimonials widget.
+- Tweak: Added Entrance Animation option in Textual Showcase widget.
+- Tweak: Added Toggle Menu Height control in Mega Menu widget.
+- Fixed: Overflow issue on small screens in Video Box widget.
+- Fixed: TikTok Feed widget not working due to video size limits.
+
+= 4.11.65 - 21/1/2026 =
+
+- Tweak: Added Glow Effect option for Play Icon in Video Box widget.
+
+= 4.11.64 - 14/1/2026 =
+
+- Tweak: Added Container ID option in Carousel widget to get slides from containers on the same page for better usability.
+- Tweak: Added Play on Hover option for Lottie Animation icons in Button and Image Button widgets.
+- Fixed: Carousel layout not working for Skins 7 & 11 in Woo Products Listing widget.
+- Fixed: Equal Height addon not applied on window resize.
+- Fixed: Security issue in plugin settings dashboard page.
+
+= 4.11.63 - 5/1/2026 =
+
+- Tweak: Added Marquee effect to Blog and Woo Products Listing widgets.
+- Tweak: Added Overflow Slides option for Carousel in Blog and Woo Products Listing widgets.
+- Tweak: Added Custom Position option for Navigation arrows in Blog and Woo Products Listing widgets.
+- Fixed: PHP Warning in Woo Products Listing widget.
+
+= 4.11.62 - 29/12/2025 =
+
+- New: Added option to play Floating Effects addon animations on Hover.
+- Fixed: Woo Mini Cart is opened on page load.
+
+= 4.11.61 - 23/12/2025 =
+
+- Fixed: AJAX Search widget not working.
+
+= 4.11.60 - 22/12/2025 =
+
+- New: Added Links to add links to Gallery images in Carousel widget.
+- New: Added Equal Height option for Gallery images in Carousel widget.
+- Tweak: Compatibility between Media Grid widget and lazyload images plugins.
+- Fixed: Lightbox loading icon is not centered.
+
+= 4.11.59 - 21/12/2025 =
+
+- New: Added Focused Word option in Title widget.
+- New: Added 6 hover effects in Title widget.
+- Tweak: Controls organized in Title widget for better UX.
+- Fixed: Console error in SVG Draw widget.
+
+= 4.11.58 - 17/12/2025 =
+
+- Tweak: Core improvements for faster dashboard, editor and frontend loading speed.
+
+= 4.11.57 - 16/12/2025 =
+
+- Fixed: Styling broken for widgets depending on Elementor templates when Elements Cache is enabled.
+- Fixed: Image icons are stretched in Bullet List widget.
+
+= 4.11.56 - 14/12/2025 =
+
+- New: Show banner to disable unused widgets for faster editor loading speed.
+- Tweak: Added responsive control to Zoom control in Google Maps widget.
+- Fixed: Console error warning when dynamic asset is enabled.
+
+= 4.11.55 - 10/12/2025 =
+
+- New: Now, you can send feedback or feature requests from widgets settings -> Help & Docs tab.
+
+= 4.11.54 - 10/12/2025 =
+
+- Tweak: Core improved for better performance and loading speed.
+- Tweak: Dynamic Assets Generate optimized for faster loading speed.
+- Tweak: Banner widget code refactored for better performance.
+- Tweak: Added Open on Cart Update option in Woo Mini Cart widget.
+- Tweak: Image Button hover transition improved.
+- Tweak: Security Enhancement.
+- Fixed: PHP warning in Weather Forecast widget.
+- Fixed: Free Shipping conflict with multi shipping zones in Woo Mini Cart widget.
+- Fixed: Conflicts between dynamic assets and caching plugins.
+
+= 4.11.53 - 30/11/2025 =
+
+- Fixed: Admin notice can't be dismissed.
+
+= 4.11.52 - 30/11/2025 =
+
+- Fixed: Products Per Page not working with Main Query in Woo Products Listing widget.
+- Fixed: Fatal error with evergreen option in Countdown widget.
+
 = 4.11.51 - 27/11/2025 =
 
 - Tweak: Core improved for better performance and loading speed.

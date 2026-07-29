@@ -21,7 +21,7 @@ $account_link = Helper_Functions::get_campaign_link( 'https://clients.leap13.com
 				<div class="pa-section-info-wrap">
 					<div class="pa-section-info">
 
-						<b><?php echo __( 'Premium Addons PRO is an extension to the free version. It boosts what you can do with the free version. Get access to 90+ Elementor widgets, 10+ global features and container add-ons, and 580+ ready-built templates to take your designs further.', 'premium-addons-for-elementor' ); ?></b>
+						<b><?php echo __( 'Premium Addons PRO is an extension to the free version. It boosts what you can do with the free version. Get access to 90+ Elementor widgets, 17+ global features and container add-ons, and 580+ ready-built templates to take your designs further.', 'premium-addons-for-elementor' ); ?></b>
 
 						<ol>
 
@@ -29,7 +29,7 @@ $account_link = Helper_Functions::get_campaign_link( 'https://clients.leap13.com
 								<span>
 									<?php echo __( 'Get ', 'premium-addons-for-elementor' ); ?>
 									<a href="<?php echo esc_url( $get_license ); ?>" target="_blank"><?php echo __( 'Premium Addons Pro', 'premium-addons-for-elementor' ); ?></a>
-									<?php echo __( 'now. ', 'premium-addons-for-elementor' ); ?></span><b style="text-decoration: underline; color: #FF6000"><?php echo __( 'SAVE UP TO 20%', 'premium-addons-for-elementor' ); ?></b>.</span>
+									<?php echo __( 'now. ', 'premium-addons-for-elementor' ); ?></span><b style="text-decoration: underline; color: #FF6000"><?php echo __( 'SAVE UP TO 30%', 'premium-addons-for-elementor' ); ?></b>.</span>
 							</li>
 
 							<li>

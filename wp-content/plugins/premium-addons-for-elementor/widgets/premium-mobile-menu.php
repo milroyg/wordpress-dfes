@@ -98,7 +98,7 @@ class Premium_Mobile_Menu extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium mobile menu', 'nav', 'navigation', 'header' );
@@ -159,8 +159,9 @@ class Premium_Mobile_Menu extends Widget_Base {
 			if ( ! empty( $settings['menu_items'] ) ) {
 				foreach ( $settings['menu_items'] as $item ) {
 					if ( 'yes' === $item['draw_svg'] ) {
-						array_push( $scripts, 'pa-tweenmax', 'pa-motionpath' );
-						$draw_js = true;
+						$scripts[] = 'pa-tweenmax';
+						$scripts[] = 'pa-motionpath';
+						$draw_js   = true;
 					}
 
 					if ( 'animation' === $item['icon_type'] ) {
@@ -239,33 +240,49 @@ class Premium_Mobile_Menu extends Widget_Base {
 		$repeater->add_control(
 			'icon_type',
 			array(
-				'label'       => __( 'Icon Type', 'premium-addons-for-elementor' ),
-				'type'        => Controls_Manager::SELECT,
-				'options'     => array(
-					'none'      => __( 'None', 'premium-addons-for-elementor' ),
-					'icon'      => __( 'Icon', 'premium-addons-for-elementor' ),
-					'image'     => __( 'Image', 'premium-addons-for-elementor' ),
-					'animation' => __( 'Lottie Animation', 'premium-addons-for-elementor' ),
-					'svg'       => __( 'SVG Code', 'premium-addons-for-elementor' ),
+				'label'   => __( 'Icon Type', 'premium-addons-for-elementor' ),
+				'type'    => Controls_Manager::CHOOSE,
+				'options' => array(
+					'none'      => array(
+						'title' => __( 'None', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-ban',
+					),
+					'icon'      => array(
+						'title' => __( 'Icon', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-icon',
+					),
+					'image'     => array(
+						'title' => __( 'Image', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-image',
+					),
+					'animation' => array(
+						'title' => __( 'Lottie Animation', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-lottie',
+					),
+					'svg'       => array(
+						'title' => __( 'SVG Code', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-code',
+					),
 				),
-				'default'     => 'icon',
-				'label_block' => true,
+				'default' => 'icon',
 			)
 		);
 
 		$repeater->add_control(
 			'icon',
 			array(
-				'label'       => __( 'Icon', 'premium-addons-for-elementor' ),
-				'type'        => Controls_Manager::ICONS,
-				'default'     => array(
+				'label'                  => __( 'Icon', 'premium-addons-for-elementor' ),
+				'type'                   => Controls_Manager::ICONS,
+				'default'                => array(
 					'value'   => 'fas fa-star',
 					'library' => 'fa-solid',
 				),
-				'condition'   => array(
+				'exclude_inline_options' => 'none',
+				'skin'                   => 'inline',
+				'label_block'            => false,
+				'condition'              => array(
 					'icon_type' => 'icon',
 				),
-				'label_block' => true,
 			)
 		);
 
@@ -292,6 +309,9 @@ class Premium_Mobile_Menu extends Widget_Base {
 				'description' => 'You can use these sites to create SVGs: <a href="https://danmarshall.github.io/google-font-to-svg-path/" target="_blank">Google Fonts</a> and <a href="https://boxy-svg.com/" target="_blank">Boxy SVG</a>',
 				'condition'   => array(
 					'icon_type' => 'svg',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -963,9 +983,9 @@ class Premium_Mobile_Menu extends Widget_Base {
 		$this->add_responsive_control(
 			'menu_hpos',
 			array(
-				'label'        => __( 'Horizontal Position', 'premium-addons-for-elementor' ),
-				'type'         => Controls_Manager::CHOOSE,
-				'options'      => array(
+				'label'                => __( 'Horizontal Position', 'premium-addons-for-elementor' ),
+				'type'                 => Controls_Manager::CHOOSE,
+				'options'              => array(
 					'left'   => array(
 						'title' => __( 'Left', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-text-align-left',
@@ -983,10 +1003,18 @@ class Premium_Mobile_Menu extends Widget_Base {
 						'icon'  => 'eicon-cog',
 					),
 				),
-				'prefix_class' => 'premium-mobile-menu__',
-				'toggle'       => false,
-				'default'      => 'left',
-				'condition'    => array(
+				'selectors_dictionary' => array(
+					'left'   => 'left: 0; right: auto; transform: none;',
+					'center' => 'left: 50%; right: auto; transform: translateX(-50%);',
+					'right'  => 'right: 0; left: auto; transform: none;',
+					'custom' => '',
+				),
+				'selectors'            => array(
+					'{{WRAPPER}} .premium-mobile-menu__wrap' => '{{VALUE}}',
+				),
+				'toggle'               => false,
+				'default'              => 'left',
+				'condition'            => array(
 					'menu_display' => 'fixed',
 				),
 			)
@@ -1021,9 +1049,9 @@ class Premium_Mobile_Menu extends Widget_Base {
 		$this->add_responsive_control(
 			'menu_vpos',
 			array(
-				'label'        => __( 'Vertical Position', 'premium-addons-for-elementor' ),
-				'type'         => Controls_Manager::CHOOSE,
-				'options'      => array(
+				'label'                => __( 'Vertical Position', 'premium-addons-for-elementor' ),
+				'type'                 => Controls_Manager::CHOOSE,
+				'options'              => array(
 					'top'    => array(
 						'title' => __( 'Top', 'premium-addons-for-elementor' ),
 						'icon'  => 'eicon-arrow-up',
@@ -1037,10 +1065,17 @@ class Premium_Mobile_Menu extends Widget_Base {
 						'icon'  => 'eicon-cog',
 					),
 				),
-				'prefix_class' => 'premium-mobile-menu__',
-				'toggle'       => false,
-				'default'      => 'bottom',
-				'condition'    => array(
+				'selectors_dictionary' => array(
+					'top'    => 'top: 0; bottom: auto;',
+					'bottom' => 'bottom: 0; top: auto;',
+					'custom' => 'top: auto; bottom: auto;',
+				),
+				'selectors'            => array(
+					'{{WRAPPER}} .premium-mobile-menu__wrap' => '{{VALUE}}',
+				),
+				'toggle'               => false,
+				'default'              => 'bottom',
+				'condition'            => array(
 					'menu_display' => 'fixed',
 				),
 			)
@@ -1743,7 +1778,7 @@ class Premium_Mobile_Menu extends Widget_Base {
 
 		?>
 
-			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'wrap' ) ); ?>>
+			<div <?php $this->print_render_attribute_string( 'wrap' ); ?>>
 				<div class="premium-mobile-menu__items-wrap">
 
 					<ul class="premium-mobile-menu__list">
@@ -1863,10 +1898,10 @@ class Premium_Mobile_Menu extends Widget_Base {
 							}
 
 							?>
-							<li <?php echo wp_kses_post( $this->get_render_attribute_string( 'menu-item-' . $index ) ); ?> >
-								<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'item_inner' ) ); ?>>
+							<li <?php $this->print_render_attribute_string( 'menu-item-' . $index ); ?> >
+								<div <?php $this->print_render_attribute_string( 'item_inner' ); ?>>
 
-									<a <?php echo wp_kses_post( $this->get_render_attribute_string( $item_link ) ); ?>>
+									<a <?php $this->print_render_attribute_string( $item_link ); ?>>
 
 										<?php if ( 'yes' === $item['show_badge'] && ! empty( $item['badge_title'] ) ) : ?>
 											<div class="premium-mobile-menu__badge">
@@ -1891,15 +1926,15 @@ class Premium_Mobile_Menu extends Widget_Base {
 														echo '</div>';
 													} else {
 														?>
-															<div <?php echo wp_kses_post( $this->get_render_attribute_string( $animation_key ) ); ?>>
-																<?php echo Helper_Functions::get_svg_by_icon( $item['icon'] ); ?>
+															<div <?php $this->print_render_attribute_string( $animation_key ); ?>>
+																<?php echo Helper_Functions::get_svg_by_icon( $item['icon'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_svg_by_icon() returns sanitized inline SVG/icon markup. ?>
 															</div>
 														<?php
 													}
 												} elseif ( 'svg' === $item['icon_type'] ) {
 													?>
-														<div <?php echo wp_kses_post( $this->get_render_attribute_string( $animation_key ) ); ?>>
-														<?php echo $this->print_unescaped_setting( 'custom_svg', 'menu_items', $index ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+														<div <?php $this->print_render_attribute_string( $animation_key ); ?>>
+														<?php echo Helper_Functions::sanitize_svg( $item['custom_svg'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- sanitize_svg passes through wp_kses with a strict SVG allowlist. ?>
 														</div>
 														<?php
 												} elseif ( 'image' === $item['icon_type'] ) {

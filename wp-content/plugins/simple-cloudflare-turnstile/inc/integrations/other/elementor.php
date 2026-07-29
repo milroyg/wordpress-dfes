@@ -27,7 +27,12 @@ if(get_option('cfturnstile_elementor')) {
         }
       } elseif ($scope === 'autodetect' && !$is_builder) {
         $current_id = function_exists('get_queried_object_id') ? get_queried_object_id() : 0;
-        if ( !$current_id || !cfturnstile_elementor_page_has_form($current_id) ) {
+        $has_form = $current_id && cfturnstile_elementor_page_has_form($current_id);
+        // Also check if any Elementor popups with forms might be triggered on this page
+        if ( !$has_form ) {
+          $has_form = cfturnstile_elementor_any_popup_has_form($current_id);
+        }
+        if ( !$has_form ) {
           return; // No form detected
         }
       }
@@ -51,7 +56,8 @@ if(get_option('cfturnstile_elementor')) {
     // Enqueue Turnstile API script (only when not in failsafe UI mode)
     if ( $failsafe_mode === '' && !wp_script_is('cfturnstile', 'enqueued')) {
       $defer = get_option('cfturnstile_defer_scripts', 1) ? array('strategy' => 'defer') : array();
-      wp_enqueue_script("cfturnstile", "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit", array(), null, $defer);
+      cfturnstile_register_api($defer);
+      wp_enqueue_script('cfturnstile');
     }
     
     // Enqueue our custom Elementor integration script
@@ -60,22 +66,46 @@ if(get_option('cfturnstile_elementor')) {
       if ( $failsafe_mode === '' ) {
         $deps[] = 'cfturnstile';
       }
+
+      // Load the interaction-only label helper if needed and make it a dependency
+      if ( get_option('cfturnstile_widget_label_enable', 0) && get_option('cfturnstile_appearance', 'always') === 'interaction-only' ) {
+        if ( !wp_script_is('cfturnstile-label-js', 'enqueued') ) {
+          wp_enqueue_script('cfturnstile-label-js', plugins_url('simple-cloudflare-turnstile/js/interaction-label.js'), array(), '1.0', true);
+        }
+        $deps[] = 'cfturnstile-label-js';
+      }
+
       wp_enqueue_script(
         'cfturnstile-elementor-forms',
         plugins_url('simple-cloudflare-turnstile/js/integrations/elementor-forms.js'),
         $deps,
-        '2.5',
+        '2.8',
         true
       );
-      
+
+      // Resolve widget label text
+      $label_enable = get_option('cfturnstile_widget_label_enable', 0) ? true : false;
+      $label_text = get_option('cfturnstile_widget_label_text');
+      $label_text = is_string($label_text) ? trim($label_text) : '';
+      if ($label_text === '') {
+        $label_text = __('Let us know you are human:', 'simple-cloudflare-turnstile');
+      } else {
+        $label_text = wp_strip_all_tags($label_text);
+      }
+
       // Pass settings to JavaScript
       wp_localize_script('cfturnstile-elementor-forms', 'cfturnstileElementorSettings', array(
         'sitekey' => get_option('cfturnstile_key'),
         'position' => get_option('cfturnstile_elementor_pos', 'before'),
         'align' => get_option('cfturnstile_elementor_align', 'left'),
         'theme' => get_option('cfturnstile_theme'),
+        'size' => get_option('cfturnstile_size', 'normal'),
+        'appearance' => get_option('cfturnstile_appearance', 'always'),
         'mode' => $failsafe_mode ? $failsafe_mode : 'turnstile',
-        'recaptchaSiteKey' => get_option('cfturnstile_recaptcha_site_key')
+        'recaptchaSiteKey' => get_option('cfturnstile_recaptcha_site_key'),
+        'disableSubmit' => get_option('cfturnstile_disable_button') ? true : false,
+        'labelEnable' => $label_enable,
+        'labelText' => $label_text
       ));
     }
   }
@@ -107,6 +137,64 @@ if(get_option('cfturnstile_elementor')) {
         }
         if (!empty($el['elements']) && is_array($el['elements'])){
           if (cfturnstile_elementor_elements_contain_form($el['elements'])) return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Check if any published Elementor popup templates contain a form.
+   * Also checks if the current page references any popup (via action triggers in Elementor data).
+   * @param int $current_page_id
+   * @return bool
+   */
+  function cfturnstile_elementor_any_popup_has_form($current_page_id = 0) {
+    // Check if Elementor Pro popup post type exists
+    if ( !post_type_exists('elementor_library') ) {
+      return false;
+    }
+
+    // First, try to detect popup IDs referenced in the current page's Elementor data
+    $popup_ids = array();
+    if ( $current_page_id ) {
+      $data = get_post_meta($current_page_id, '_elementor_data', true);
+      if ( !empty($data) ) {
+        $data_str = is_string($data) ? $data : wp_json_encode($data);
+        // Elementor stores popup action triggers like "popup_id":"123"
+        if ( preg_match_all('/\"popup_id\"\s*:\s*\"(\d+)\"/', $data_str, $matches) ) {
+          $popup_ids = array_map('absint', $matches[1]);
+        }
+      }
+    }
+
+    // If we found specific popup references, only check those
+    if ( !empty($popup_ids) ) {
+      foreach ( $popup_ids as $popup_id ) {
+        if ( cfturnstile_elementor_page_has_form($popup_id) ) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    // Fallback: query all published popup templates for forms
+    $popups = get_posts(array(
+      'post_type'      => 'elementor_library',
+      'posts_per_page' => 50,
+      'post_status'    => 'publish',
+      'meta_query'     => array(
+        array(
+          'key'   => '_elementor_template_type',
+          'value' => 'popup',
+        ),
+      ),
+      'fields' => 'ids',
+    ));
+    if ( !empty($popups) ) {
+      foreach ( $popups as $popup_id ) {
+        if ( cfturnstile_elementor_page_has_form($popup_id) ) {
+          return true;
         }
       }
     }

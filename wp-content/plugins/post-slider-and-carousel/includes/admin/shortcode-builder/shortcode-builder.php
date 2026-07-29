@@ -10,6 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
+global $wp_version;
+
+$wrap_cls				= '';
 $valid					= true;
 $registered_shortcodes 	= psac_registered_shortcodes();
 $shortcodes_arr 		= psac_registered_shortcodes( false );
@@ -17,6 +20,11 @@ $allowed_reg_shortcodes	= psac_allowed_reg_shortcodes();
 $preview_shortcode 		= ! empty( $_GET['shortcode'] ) ? $_GET['shortcode'] : apply_filters('psacp_default_preview_shortcode', 'psac_post_slider' );
 $preview_url 			= add_query_arg( array( 'page' => 'psacp-shortcode-preview', 'shortcode' => $preview_shortcode), admin_url('admin.php') );
 $shrt_builder_url 		= add_query_arg( array('page' => 'psacp-shrt-builder'), admin_url('admin.php') );
+
+// Version 7 compatibility
+if ( version_compare( $wp_version, '7.0', '>=' ) ) {
+	$wrap_cls = 'psacp-layout-wrap-v7';
+}
 
 // Instantiate the shortcode builder
 if( ! class_exists( 'PSAC_Shortcode_Builder' ) ) {
@@ -27,7 +35,7 @@ $shortcode_val		= "[{$preview_shortcode}]";
 $shortcode_fields 	= array();
 $shortcode_sanitize = str_replace('-', '_', $preview_shortcode);
 ?>
-<div class="wrap psacp-customizer-settings">
+<div class="wrap psacp-customizer-settings <?php echo esc_attr( $wrap_cls ); ?>">
 	<div class="psacp-pro-main-wrap psacp-clearfix" style="text-align:left; margin:0 -15px 20px -15px;">
 		<div class="psacp-cnt-grid-8 psacp-columns">
 			<h2><?php esc_html_e( 'Shortcode Builder (Alternate Option For Layouts)', 'post-slider-and-carousel' ); ?></h2>

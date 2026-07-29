@@ -373,3 +373,15 @@
     background-position: 100% 50%;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .premium-progressbar-active .premium-progressbar-bar,
+  .premium-progressbar-gradient .premium-progressbar-bar {
+    -webkit-animation: none !important;
+    animation: none !important;
+  }
+  .premium-progressbar-hf-circle-progress {
+    -webkit-transition: none !important;
+    transition: none !important;
+  }
+}

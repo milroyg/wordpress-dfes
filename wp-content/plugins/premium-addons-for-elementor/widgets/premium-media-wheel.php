@@ -40,7 +40,7 @@ class Premium_Media_Wheel extends Widget_Base {
 	/**
 	 * Check for Self Hosted Videos
 	 *
-	 * @var is_self_hosted
+	 * @var bool
 	 */
 	private static $check_self_hosted = false;
 
@@ -1198,8 +1198,6 @@ class Premium_Media_Wheel extends Widget_Base {
 				'default'   => 'yes',
 				'condition' => array(
 					'media_wheel_animation!' => 'infinite',
-					// 'media_wheel_scroll'     => 'yes',
-					// 'media_wheel_autoplay'   => 'yes',
 				),
 			)
 		);
@@ -1258,6 +1256,19 @@ class Premium_Media_Wheel extends Widget_Base {
 				'default'   => 'scroll',
 				'condition' => array(
 					'media_wheel_animation' => 'infinite',
+				),
+			)
+		);
+
+		$this->add_control(
+			'autoplay_videos',
+			array(
+				'label'       => __( 'Auto Play Active Videos', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::SWITCHER,
+				'separator'   => 'before',
+				'description' => __( 'Enable to automatically play videos when their carousel item becomes active and visible.', 'premium-addons-for-elementor' ),
+				'condition'   => array(
+					'media_wheel_animation!' => 'infinite',
 				),
 			)
 		);
@@ -2555,12 +2566,13 @@ class Premium_Media_Wheel extends Widget_Base {
 				$wheel_settings['autoPlay'] = false;
 			}
 
-			$wheel_settings['click']    = 'yes' === $settings['nav_on_click'];
-			$wheel_settings['keyboard'] = 'yes' === $settings['nav_by_keyboard'];
-			$wheel_settings['touch']    = 'yes' === $settings['nav_by_touch'];
-			$wheel_settings['buttons']  = $arrows;
-			$wheel_settings['spacing']  = floatval( $settings['media_wheel_spacing']['size'] );
-			$wheel_settings['start']    = '' === $settings['media_whee_start'] ? 'center' : $settings['media_whee_start'];
+			$wheel_settings['click']           = 'yes' === $settings['nav_on_click'];
+			$wheel_settings['keyboard']        = 'yes' === $settings['nav_by_keyboard'];
+			$wheel_settings['touch']           = 'yes' === $settings['nav_by_touch'];
+			$wheel_settings['buttons']         = $arrows;
+			$wheel_settings['spacing']         = floatval( $settings['media_wheel_spacing']['size'] );
+			$wheel_settings['start']           = '' === $settings['media_whee_start'] ? 'center' : $settings['media_whee_start'];
+			$wheel_settings['autoplay_videos'] = 'yes' === $settings['autoplay_videos'];
 
 		}
 
@@ -2604,9 +2616,9 @@ class Premium_Media_Wheel extends Widget_Base {
 		$this->add_render_attribute( 'inner', 'class', 'premium-adv-carousel__inner-container' );
 
 		?>
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'wheel' ) ); ?>>
+		<div <?php $this->print_render_attribute_string( 'wheel' ); ?>>
 
-			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'inner' ) ); ?>>
+			<div <?php $this->print_render_attribute_string( 'inner' ); ?>>
 
 				<div class="premium-adv-carousel__items">
 
@@ -2689,15 +2701,15 @@ class Premium_Media_Wheel extends Widget_Base {
 
 			$media_type = $item['pa_media_type'];
 
+			$alt = '';
+
 			if ( $item['media_wheel_img'] ) {
 
 				$image_id = apply_filters( 'wpml_object_id', $item['media_wheel_img']['id'], 'attachment', true );
 
 				$image_by_id = get_post( $image_id );
 
-				$alt = '';
-
-				if ( $image_by_id && isset( $image_by_id->post_title ) ) {
+				if ( $image_by_id && ! empty( $image_by_id->post_title ) ) {
 					$alt = apply_filters( 'pa_media_alt', get_post( $image_id )->post_title );
 				}
 			}
@@ -2721,7 +2733,7 @@ class Premium_Media_Wheel extends Widget_Base {
 
 			?>
 			<div class="premium-adv-carousel__item-outer-wrapper">
-				<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'wheel_item' . $index ) ); ?>>
+				<div <?php $this->print_render_attribute_string( 'wheel_item' . $index ); ?>>
 					<div class="premium-adv-carousel__media-wrap">
 						<?php
 						if ( 'image' === $media_type ) {
@@ -2733,19 +2745,19 @@ class Premium_Media_Wheel extends Widget_Base {
 							$this->add_render_attribute(
 								'wheel_img' . $index,
 								array(
-									'src'   => esc_url( $image_url ?: $item['media_wheel_img']['url'] ),
+									'src'   => esc_url( $image_url ? $image_url : $item['media_wheel_img']['url'] ),
 									'alt'   => esc_attr( Control_Media::get_image_alt( $item['media_wheel_img'] ) ),
 									'class' => 'premium-adv-carousel__item-img ' . esc_attr( $hover_effect ),
 								)
 							);
 
 							?>
-								<img <?php echo wp_kses_post( $this->get_render_attribute_string( 'wheel_img' . $index ) ); ?>>
+								<img <?php $this->print_render_attribute_string( 'wheel_img' . $index ); ?>>
 							<?php
 						} elseif ( 'id' === $media_type ) {
 							?>
 								<div class="premium-adv-carousel__item--container"
-									data-template-src="<?php echo esc_attr( $item['container_id'] ); ?>">
+									data-template-src="<?php echo esc_attr( $item['container_id'] ); // phpcs:ignore WordPressVIPMinimum.Security.ProperEscapingFunction.hrefSrcEscUrl -- Holds a container ID/CSS selector read by JS, not a URL. ?>">
 								</div>
 							<?php
 						} elseif ( 'video' === $media_type ) {
@@ -2774,12 +2786,12 @@ class Premium_Media_Wheel extends Widget_Base {
 							$aria_label = '';
 
 							if ( ! empty( $item['item_name'] ) ) {
-								$aria_label = esc_attr( $item['item_name'] );
+								$aria_label = $item['item_name'];
 							} elseif ( $media_info && ! empty( $item['media_title'] ) ) {
-								$aria_label = esc_attr( $item['media_title'] );
+								$aria_label = $item['media_title'];
 							}
 
-							echo '<a class="premium-adv-carousel__item-link" aria-label="' . $aria_label . '" href="' . esc_url( $link ) . '" ' . esc_html( $target ) . '></a>';
+							echo '<a class="premium-adv-carousel__item-link" aria-label="' . esc_attr( $aria_label ) . '" href="' . esc_url( $link ) . '" ' . esc_html( $target ) . '></a>';
 						}
 
 						?>
@@ -2833,11 +2845,11 @@ class Premium_Media_Wheel extends Widget_Base {
 	 *
 	 * @param array  $item  repeater item.
 	 * @param number $index item index.
-	 * @param number $hover_effect image hover effect.
+	 * @param string $hover_effect image hover effect.
 	 */
 	private function render_carousel_video( $item, $index, $hover_effect ) {
 
-		$videoType = $item['media_wheel_video_type'];
+		$video_type = $item['media_wheel_video_type'];
 
 		$video_thumb = $item['media_wheel_img']['url'];
 
@@ -2847,7 +2859,10 @@ class Premium_Media_Wheel extends Widget_Base {
 
 		$link = Embed::get_embed_url( $item['media_wheel_video_link'], $params );
 
-		if ( 'hosted' !== $videoType ) {
+		// Embed::get_embed_url() returns the embed URL string (or null) at runtime; normalize to a string.
+		$link = is_array( $link ) ? '' : (string) $link;
+
+		if ( 'hosted' !== $video_type ) {
 
 			$video_props = Embed::get_video_properties( $link );
 			$id          = $video_props['video_id'];
@@ -2862,7 +2877,7 @@ class Premium_Media_Wheel extends Widget_Base {
 		$thumbnail = empty( $thumbnail ) ? $video_thumb : $thumbnail;
 
 		?>
-			<div class="premium-adv-carousel__video-wrap"  data-type="<?php echo esc_html( $item['media_wheel_video_type'] ); ?>" <?php echo wp_kses_post( $this->get_render_attribute_string( 'video_container' ) ); ?>>
+			<div class="premium-adv-carousel__video-wrap"  data-type="<?php echo esc_attr( $item['media_wheel_video_type'] ); ?>" <?php $this->print_render_attribute_string( 'video_container' ); ?>>
 				<?php if ( 'hosted' !== $item['media_wheel_video_type'] ) : ?>
 					<div class="premium-adv-carousel__iframe-wrap" data-src="<?php echo esc_url( $link ); ?>"></div>
 					<?php
@@ -2877,11 +2892,11 @@ class Premium_Media_Wheel extends Widget_Base {
 			</div>
 		<?php
 
-		return ( isset( $link ) && ! empty( $link ) ) ? $link : false;
+		return empty( $link ) ? false : $link;
 	}
 
 	/**
-	 * Get embeded videos parameters
+	 * Get embedded videos parameters
 	 *
 	 * @access private
 	 *
@@ -3037,7 +3052,7 @@ class Premium_Media_Wheel extends Widget_Base {
 
 				?>
 				<div>
-					<a <?php echo wp_kses_post( $this->get_render_attribute_string( $lightbox_key ) ); ?>>
+					<a <?php $this->print_render_attribute_string( $lightbox_key ); ?>>
 						<span class="premium-adv-carousel__video-icon">
 						<?php
 							Icons_Manager::render_icon( $item['media_wheel_videos_icon'], array( 'aria-hidden' => 'true' ) );
@@ -3051,7 +3066,7 @@ class Premium_Media_Wheel extends Widget_Base {
 			if ( 'yes' !== $item['media_wheel_video_icon_switcher'] ) {
 				?>
 				<div>
-					<a <?php echo wp_kses_post( $this->get_render_attribute_string( $lightbox_key ) ); ?>>
+					<a <?php $this->print_render_attribute_string( $lightbox_key ); ?>>
 						<span>
 							<?php
 							Icons_Manager::render_icon( $settings['media_lightbox_icon'], array( 'aria-hidden' => 'true' ) );
@@ -3104,7 +3119,7 @@ class Premium_Media_Wheel extends Widget_Base {
 
 			?>
 
-				<a <?php echo wp_kses_post( $this->get_render_attribute_string( $lightbox_key ) ); ?>>
+				<a <?php $this->print_render_attribute_string( $lightbox_key ); ?>>
 					<span>
 						<?php
 						Icons_Manager::render_icon( $settings['media_lightbox_icon'], array( 'aria-hidden' => 'true' ) );

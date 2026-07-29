@@ -82,7 +82,6 @@ class Premium_Template_Tags {
 
 		add_action( 'pre_get_posts', array( $this, 'fix_query_offset' ), 1 );
 		add_filter( 'found_posts', array( $this, 'fix_found_posts_query' ), 1, 2 );
-
 	}
 
 	/**
@@ -230,9 +229,9 @@ class Premium_Template_Tags {
 
 
 	/**
-	 * Get taxnomies.
+	 * Get taxonomies.
 	 *
-	 * Get post taxnomies for post type
+	 * Get post taxonomies for post type
 	 *
 	 * @since 3.20.3
 	 * @access public
@@ -294,10 +293,31 @@ class Premium_Template_Tags {
 		$excerpt = '';
 
 		if ( 'full' === $source ) {
+			// Ensure posts build with Elementor loads properly, not as a plain text.
+			$post_id           = get_the_ID();
+			$frontend_instance = Plugin::$instance->frontend;
+			// Guard against infinite recursion: a blog post that is itself an Elementor
+			// page containing a Blog widget would trigger get_builder_content() again,
+			// causing an endless call loop and a PHP stack overflow.
+			static $rendering_depth = 0;
 
-			// Print post full content.
-			the_content();
+			if ( $rendering_depth > 0 ) {
+				// Already inside a get_builder_content() call — fall back to standard content.
+				the_content();
+				return '';
+			}
 
+			++$rendering_depth;
+			$content = $frontend_instance->get_builder_content( $post_id, true );
+			--$rendering_depth;
+
+			if ( ! empty( $content ) ) {
+				echo $content;
+			} else {
+				// Normal Post Content [ not built with elementor ].
+				// Print post full content.
+				the_content();
+			}
 		} else {
 			$excerpt = trim( get_the_excerpt() );
 
@@ -312,7 +332,7 @@ class Premium_Template_Tags {
 					array_pop( $words );
 
 					if ( 'dots' === $cta_type ) {
-						array_push( $words, '…' );
+						$words[] = '…';
 					}
 				}
 			}
@@ -405,7 +425,7 @@ class Premium_Template_Tags {
 			$skin = $settings['premium_blog_skin'];
 
 			if ( in_array( $skin, array( 'modern', 'cards' ), true ) ) { ?>
-				<a href="<?php the_permalink(); ?>" target="<?php echo esc_attr( $target ); ?>">
+				<a href="<?php the_permalink(); ?>" target="<?php echo esc_attr( $target ); ?>" aria-label="<?php the_title_attribute(); ?>">
 				<?php
 			}
 
@@ -441,7 +461,7 @@ class Premium_Template_Tags {
 		?>
 		<<?php echo wp_kses_post( $title_tag . ' ' . $this->get_render_attribute_string( $key . '_title' ) ); ?>>
 			<a href="<?php the_permalink(); ?>" target="<?php echo esc_attr( $link_target ); ?>">
-				<?php esc_html( the_title() ); ?>
+				<?php echo esc_html( get_the_title() ); ?>
 			</a>
 		</<?php echo wp_kses_post( $title_tag ); ?>>
 		<?php
@@ -538,7 +558,6 @@ class Premium_Template_Tags {
 		}
 
 		$this->add_render_attribute( 'post-content-inner-' . get_the_ID(), 'class', $options['content_classes'] );
-
 		?>
 		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'post-content-inner-' . get_the_ID() ) ); ?>>
 		<?php
@@ -618,6 +637,11 @@ class Premium_Template_Tags {
 			)
 		);
 
+		$per_item_text = Helper_Functions::get_per_item_badge_text( $post_id, $settings );
+		if ( false !== $per_item_text ) {
+			$this->add_render_attribute( $tax_key, 'data-pa-badge-text', $per_item_text );
+		}
+
 		$this->add_render_attribute(
 			$wrap_key,
 			'class',
@@ -671,14 +695,14 @@ class Premium_Template_Tags {
 						</div>
 						<?php if ( in_array( $skin, array( 'modern', 'cards' ), true ) ) : ?>
 							<div class="premium-blog-effect-container <?php echo esc_attr( 'premium-blog-' . $post_effect . '-effect' ); ?>">
-								<a class="premium-blog-post-link" href="<?php the_permalink(); ?>" target="<?php echo esc_attr( $target ); ?>"><span><?php esc_html( the_title() ); ?></span></a>
+								<a class="premium-blog-post-link" href="<?php the_permalink(); ?>" target="<?php echo esc_attr( $target ); ?>"><span><?php echo esc_html( get_the_title() ); ?></span></a>
 								<?php if ( 'squares' === $settings['premium_blog_hover_color_effect'] ) { ?>
 									<div class="premium-blog-squares-square-container"></div>
 								<?php } ?>
 							</div>
 						<?php else : ?>
 							<div class="premium-blog-thumbnail-overlay">
-								<a class="elementor-icon" href="<?php the_permalink(); ?>" target="<?php echo esc_attr( $target ); ?>"></a>
+								<a class="elementor-icon" href="<?php the_permalink(); ?>" target="<?php echo esc_attr( $target ); ?>" aria-label="<?php the_title_attribute(); ?>"></a>
 							</div>
 
 							<?php do_action( 'pa_blog_after_thumbnail' ); ?>
@@ -714,8 +738,15 @@ class Premium_Template_Tags {
 							</div>
 						<?php } ?>
 						<?php
+							$meta_position = $settings['premium_blog_meta_position'] ?? 'below';
+
+						if ( 'cards' !== $skin && 'above' === $meta_position ) {
+							$this->get_post_meta( $target );
+						}
+
 							$this->render_post_title( $target, $key, 'premium-blog-entry-title' );
-						if ( 'cards' !== $skin ) {
+
+						if ( 'cards' !== $skin && 'above' !== $meta_position ) {
 							$this->get_post_meta( $target );
 						}
 
@@ -843,7 +874,7 @@ class Premium_Template_Tags {
 
 		$settings = self::$settings;
 
-		if ( 'yes' !== $settings['premium_blog_paging'] || ( isset( $settings['premium_blog_layout'] ) && 'marquee' === $settings['premium_blog_layout']) ) {
+		if ( 'yes' !== $settings['premium_blog_paging'] || ( isset( $settings['premium_blog_layout'] ) && 'marquee' === $settings['premium_blog_layout'] ) ) {
 			return;
 		}
 
@@ -1228,7 +1259,7 @@ class Premium_Template_Tags {
 
 						<div class="premium-search__overlay">
 							<a class="elementor-icon" href="<?php the_permalink(); ?>" target="<?php echo esc_attr( $target ); ?>">
-								<span><?php esc_html( the_title() ); ?></span>
+								<span><?php echo esc_html( get_the_title() ); ?></span>
 							</a>
 						</div>
 
@@ -1514,7 +1545,7 @@ class Premium_Template_Tags {
 			return false;
 		}
 
-		$general    = in_array( $settings['active_cat'], array( '*', '' ) );
+		$general    = in_array( $settings['active_cat'], array( '*', '' ), true );
 		$first_page = in_array( $page_num, array( 1, '' ) );
 
 		if ( $general && $first_page ) {
@@ -1565,7 +1596,7 @@ class Premium_Template_Tags {
 				/**
 				 * Add a new grid template to the output if:
 				 * 1- first render.
-				 * 2- we looped through all the templates ids choosen by the user and the queried posts are > the loop templates ids.
+				 * 2- we looped through all the templates ids chosen by the user and the queried posts are > the loop templates ids.
 				 */
 				if ( empty( $items_templates_container ) ) {
 
@@ -1688,15 +1719,17 @@ class Premium_Template_Tags {
 
 					$featured_post = get_post( $post_id, OBJECT );
 
-					global $post;
+					if ( $featured_post ) {
+						global $post;
 
-					$post = $featured_post;
+						$post = $featured_post;
 
-					setup_postdata( $post );
+						setup_postdata( $post );
 
-					$this->render_featured_posts( $featured_post, 'custom' );
+						$this->render_featured_posts( $featured_post, 'custom' );
 
-					wp_reset_postdata();
+						wp_reset_postdata();
+					}
 				}
 			}
 
@@ -1841,6 +1874,11 @@ class Premium_Template_Tags {
 			)
 		);
 
+		$per_item_text = Helper_Functions::get_per_item_badge_text( $post_id, $settings );
+		if ( false !== $per_item_text ) {
+			$this->add_render_attribute( $wrap_key, 'data-pa-badge-text', $per_item_text );
+		}
+
 		?>
 		<div class="premium-smart-listing__featured-posts-wrapper">
 			<<?php echo wp_kses_post( $post_tag . ' ' . $this->get_render_attribute_string( $wrap_key ) ); ?>>
@@ -1923,6 +1961,11 @@ class Premium_Template_Tags {
 				'data-total' => $total,
 			)
 		);
+
+		$per_item_text = Helper_Functions::get_per_item_badge_text( $post_id, $settings );
+		if ( false !== $per_item_text ) {
+			$this->add_render_attribute( $wrap_key, 'data-pa-badge-text', $per_item_text );
+		}
 		?>
 			<<?php echo wp_kses_post( $post_tag . ' ' . $this->get_render_attribute_string( $wrap_key ) ); ?>>
 				<?php

@@ -99,7 +99,7 @@ class Woo_Products extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'posts', 'grid', 'item', 'loop', 'woocommerce', 'listing' );
@@ -135,7 +135,7 @@ class Woo_Products extends Widget_Base {
 				}
 				$scripts[] = 'pa-tweenmax';
 
-			} elseif ('carousel' === $settings['layout_type'] || in_array( $settings['_skin'], array( 'grid-11', 'grid-7' ), true ) ) {
+			} elseif ( 'carousel' === $settings['layout_type'] || in_array( $settings['_skin'], array( 'grid-11', 'grid-7' ), true ) ) {
 				$scripts[] = 'pa-slick';
 			}
 		}

@@ -35,15 +35,24 @@ class Feedback {
 
 	public static function send() {
 
+		check_ajax_referer( 'pa-feedback-nonce', 'nonce' );
+
 		$response = array( 'success' => false );
 
-		$data = $_POST['data'];
+		if ( ! isset( $_POST['data'] ) || ! is_array( $_POST['data'] ) ) {
+			wp_send_json_error( 'Invalid data format' );
+		}
+
+		$data = array_map( 'sanitize_text_field', wp_unslash( $_POST['data'] ) );
+
+		$reason      = '';
+		$suggestions = null;
+		$anonymous   = false;
 
 		if ( isset( $data['feedback'] ) ) {
 			$reason      = $data['feedback'];
 			$suggestions = isset( $data['suggestions'] ) ? $data['suggestions'] : null;
 			$anonymous   = isset( $data['anonymous'] ) ? (bool) $data['anonymous'] : false;
-
 		}
 
 		if ( ! is_string( $reason ) || empty( $reason ) ) {
@@ -194,7 +203,8 @@ class Feedback {
 						</section>
 
 						<section class="buttons-wrap clearfix">
-							<button class="pa-deactivate-btn" data-action="deactivation"><?php echo esc_html( __( 'Deactivate', 'premium-addons-for-elementor' ) ); ?></button>
+							<button class="pa-deactivate-btn pa-submit-btn" data-action="deactivation"><?php echo esc_html( __( 'Submit & Deactivate', 'premium-addons-for-elementor' ) ); ?></button>
+							<button class="pa-deactivate-btn pa-skip-btn" data-action="skip"><?php echo esc_html( __( 'Skip & Deactivate', 'premium-addons-for-elementor' ) ); ?></button>
 						</section>
 					</div>
 

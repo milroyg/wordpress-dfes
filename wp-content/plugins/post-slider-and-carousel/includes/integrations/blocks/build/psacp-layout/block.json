@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "psacp/psacp-layout-selector",
+  "version": "1.0.0",
+  "title": "Post Slider and Carousel - Layouts",
+  "keywords": [
+    "post",
+    "post slider",
+    "post carousel"
+  ],
+  "category": "widgets",
+  "icon": "sticky",
+  "description": "Choose a post slider layout.",
+  "example": {},
+  "attributes": {
+    "layout_id": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ]
+  },
+  "textdomain": "post-slider-and-carousel",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "render": "file:./render.php"
+}

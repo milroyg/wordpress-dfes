@@ -66,10 +66,6 @@ if ( ! class_exists( 'She_Wp_Menu' ) ) {
 		public function she_admin_menu() {
 			$capability = 'manage_options';
 
-			// if ( current_user_can( $capability ) ) {
-			// add_menu_page( __( 'SHE for Elementor', 'she-header' ), __( 'SHE for Elementor', 'she-header' ), 'manage_options', 'she-header', array( $this, 'she_menu_page_template' ), '', 67 );
-			// }
-
 			if ( current_user_can( $capability ) ) {
 				add_action(
 					'admin_menu',
@@ -108,47 +104,48 @@ if ( ! class_exists( 'She_Wp_Menu' ) ) {
 
 			wp_enqueue_style( 'she-admin-style', SHE_HEADER_URL . '/assets/css/admin.css', array(), SHE_HEADER_VERSION, 'all' );
 
-			$get_notification = get_option( 'she_menu_notificetions' );
-
-			$she_notificetions = 'close';
-			if ( $get_notification !== SHE_MENU_NOTIFICETIONS ) {
-				$she_notificetions = 'open';
-			}
-
-			$plugins = array(
-				array(
-					'name'        => 'nexter-extension',
-					'status'      => '',
-					'plugin_slug' => 'nexter-extension/nexter-extension.php',
-				),
-				array(
-					'name'        => 'wdesignkit',
-					'status'      => '',
-					'plugin_slug' => 'wdesignkit/wdesignkit.php',
-				),
-			);
-
-			$all_plugins   = get_plugins();
-			$update_plugin = array();
-			foreach ( $plugins as $plugin ) {
-				$pluginslug = ! empty( $plugin['plugin_slug'] ) ? sanitize_text_field( wp_unslash( $plugin['plugin_slug'] ) ) : '';
-
-				if ( ! is_plugin_active( $pluginslug ) ) {
-					if ( ! isset( $all_plugins[ $pluginslug ] ) ) {
-							$plugin['status'] = 'unavailable';
-					} else {
-						$plugin['status'] = 'inactive';
-					}
-
-					$update_plugin[] = $plugin;
-				} elseif ( is_plugin_active( $pluginslug ) ) {
-					$plugin['status'] = 'active';
-					$update_plugin[]  = $plugin;
-				}
-			}
-
 			if ( 'elementor_page_she-header' === $page ) {
+
+				$get_notification = get_option( 'she_menu_notificetions' );
+
+				$she_notificetions = 'close';
+				if ( $get_notification !== SHE_MENU_NOTIFICETIONS ) {
+					$she_notificetions = 'open';
+				}
+
+				$plugins = array(
+					array(
+						'name'        => 'nexter-extension',
+						'status'      => '',
+						'plugin_slug' => 'nexter-extension/nexter-extension.php',
+					),
+					array(
+						'name'        => 'wdesignkit',
+						'status'      => '',
+						'plugin_slug' => 'wdesignkit/wdesignkit.php',
+					),
+				);
+
+				$all_plugins   = get_plugins();
+				$update_plugin = array();
+				foreach ( $plugins as $plugin ) {
+					$pluginslug = ! empty( $plugin['plugin_slug'] ) ? sanitize_text_field( wp_unslash( $plugin['plugin_slug'] ) ) : '';
+
+					if ( ! is_plugin_active( $pluginslug ) ) {
+						if ( ! isset( $all_plugins[ $pluginslug ] ) ) {
+								$plugin['status'] = 'unavailable';
+						} else {
+							$plugin['status'] = 'inactive';
+						}
+
+						$update_plugin[] = $plugin;
+					} elseif ( is_plugin_active( $pluginslug ) ) {
+						$plugin['status'] = 'active';
+						$update_plugin[]  = $plugin;
+					}
+				}
 				wp_enqueue_style( 'she-editor-css', SHE_HEADER_URL . 'build/index.css', array(), SHE_HEADER_VERSION );
+				wp_style_add_data( 'she-editor-css', 'rtl', 'replace' );
 
 				wp_enqueue_script( 'she-editor-js', SHE_HEADER_URL . 'build/index.js', array( 'wp-i18n', 'wp-element', 'wp-components' ), SHE_HEADER_VERSION, true );
 				wp_set_script_translations( 'she-editor-js', 'she-header' );
@@ -161,7 +158,9 @@ if ( ! class_exists( 'She_Wp_Menu' ) ) {
 						'shed_url'           => SHE_HEADER_URL,
 						'shed_wp_version'    => SHE_HEADER_VERSION,
 						'she_wp_version'     => get_bloginfo( 'version' ),
-						'shed_pro'           => 0,
+						'shed_pro'           => apply_filters( 'she_pro_is_licensed', false ) ? 1 : 0,
+						'shed_pro_installed' => defined( 'SHE_PRO_VERSION' ) ? 1 : 0,
+						'shed_pro_version'   => defined( 'SHE_PRO_VERSION' ) ? SHE_PRO_VERSION : '',
 						'shed_wdkit_url'     => SHE_WDKIT_URL,
 						'onboarding_setup'   => get_option( 'she_onboarding_setup' ),
 						'shed_notificetions' => $she_notificetions,

@@ -10,8 +10,6 @@ use PremiumAddons\Includes\Helper_Functions;
 use PremiumAddons\Admin\Includes\Admin_Helper;
 use PremiumAddons\Admin\Includes\Admin_Bar;
 
-require_once PREMIUM_ADDONS_PATH . 'widgets/dep/urlopen.php';
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -334,7 +332,7 @@ class Assets_Manager {
 
 						if ( in_array( $widget_type, $pa_names, true ) && ! in_array( $widget_type, $pa_elems, true ) ) {
 
-							array_push( $pa_elems, $widget_type );
+							$pa_elems[] = $widget_type;
 
 						}
 					}
@@ -541,11 +539,20 @@ class Assets_Manager {
 	 */
 	public static function get_file_content( $path ) {
 
+		static $file_cache = array();
+
+		if ( isset( $file_cache[ $path ] ) ) {
+			return $file_cache[ $path ];
+		}
+
 		if ( ! file_exists( $path ) ) {
+			$file_cache[ $path ] = '';
 			return '';
 		}
 
 		$file_content = file_get_contents( $path );
+
+		$file_cache[ $path ] = $file_content;
 
 		return $file_content;
 	}
@@ -659,12 +666,18 @@ class Assets_Manager {
 	 */
 	public function get_pro_widgets_names() {
 
+		static $pro_names = null;
+
+		if ( null !== $pro_names ) {
+			return $pro_names;
+		}
+
 		$pro_elements = Admin_Helper::get_pro_elements();
 		$pro_names    = array();
 
 		foreach ( $pro_elements as $element ) {
 			if ( isset( $element['name'] ) ) {
-				array_push( $pro_names, $element['name'] );
+				$pro_names[] = $element['name'];
 			}
 		}
 
@@ -709,6 +722,26 @@ class Assets_Manager {
 			wp_send_json_error( __( 'You are not allowed to do this action', 'premium-addons-for-elementor' ) );
 		}
 
+		self::clear_dynamic_assets( $id );
+	}
+
+	/**
+	 * Clear Dynamic Assets.
+	 *
+	 * Pure dynamic-assets clearer: clears Elementor's file cache, deletes the
+	 * generated asset files (site-wide when $id is empty, otherwise for a single
+	 * post) and purges the LiteSpeed cache. Shared by clear_dynamic_assets_data()
+	 * (AJAX, permission-checked) and the premium-addons/clear-dynamic-assets
+	 * ability (permission-gated via its permission_callback) so the two never
+	 * drift.
+	 *
+	 * @since 4.11.74
+	 * @access public
+	 *
+	 * @param string $id post ID. Empty clears the assets site-wide.
+	 */
+	public static function clear_dynamic_assets( $id = '' ) {
+
 		if ( Helper_Functions::check_elementor_version() ) {
 			Plugin::$instance->files_manager->clear_cache();
 		}
@@ -717,10 +750,10 @@ class Assets_Manager {
 			delete_post_meta( $id, self::ASSETS_KEY );
 		}
 
-		// Purge All LS Cache
+		// Purge All LS Cache.
 		do_action( 'litespeed_purge_all', 'Premium Addons for Elementor' );
 
-		$this->delete_assets_files( $id );
+		self::delete_assets_files( $id );
 	}
 
 	/**
@@ -753,17 +786,20 @@ class Assets_Manager {
 		}
 
 		if ( empty( $id ) ) {
-			foreach ( scandir( $path ) as $file ) {
-				if ( '.' === $file || '..' === $file ) {
+			$dir = new \DirectoryIterator( $path );
+			foreach ( $dir as $file ) {
+				if ( $file->isDot() || ! $file->isFile() ) {
 					continue;
 				}
 
-				unlink( Helper_Functions::get_safe_path( $path . DIRECTORY_SEPARATOR . $file ) );
+				unlink( Helper_Functions::get_safe_path( $file->getPathname() ) );
 			}
 		} else {
 
 			foreach ( glob( PREMIUM_ASSETS_PATH . '/*' . $id . '*' ) as $file ) {
-				unlink( Helper_Functions::get_safe_path( $file ) );
+				if ( is_file( $file ) ) {
+					unlink( Helper_Functions::get_safe_path( $file ) );
+				}
 			}
 		}
 	}
@@ -816,17 +852,17 @@ class Assets_Manager {
 
 		$documents = is_object( Plugin::$instance->documents ) ? Plugin::$instance->documents->get( $post_id ) : array();
 
-		if ( ! in_array( get_post_status( $post_id ), array( 'publish', 'private' ) ) || ( is_object( $documents ) && ! $documents->is_built_with_elementor() ) ) {
+		if ( ! in_array( get_post_status( $post_id ), array( 'publish', 'private' ), true ) || ( is_object( $documents ) && ! $documents->is_built_with_elementor() ) ) {
 			return false;
 		}
 
-		if ( in_array( get_post_meta( $post_id, '_elementor_template_type', true ), array( 'kit' ) ) ) {
+		if ( in_array( get_post_meta( $post_id, '_elementor_template_type', true ), array( 'kit' ), true ) ) {
 			return false;
 		}
 
 		// No new elements added.
 		$existing_elements = get_post_meta( $post_id, self::ASSETS_KEY, true );
-		if ( $list === $existing_elements || serialize( $list ) === serialize( $existing_elements ) ) {
+		if ( $list === $existing_elements ) {
 			return false;
 		}
 

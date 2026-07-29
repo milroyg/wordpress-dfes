@@ -2,8 +2,8 @@
 Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, apache
-Tested up to: 6.9
-Stable tag: 5.7.1
+Tested up to: 7.0
+Stable tag: 5.9.0
 License: GPLv3
 
 Manage 301 redirects, track 404 errors, and improve your site. No knowledge of Apache or Nginx required.
@@ -187,6 +187,42 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 == Changelog ==
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
+
+= 5.9.0 - 11th July 2026 =
+* New and more powerful import/export
+* Export everything, including settings
+* Copy/paste or type redirects directly in a text box
+* Preview imports and exports
+* Duplicate redirect support when importing
+* Improve .htaccess support
+
+= 5.8.1 - 1st July 2026 =
+* Escape CSV export values
+
+= 5.8.0 - 8th June 2026 =
+* Improve WP 7 UI
+* Fix missing time in logs
+* Don't run redirects on CLI usage
+* Allow editing of disabled redirects
+
+= 5.7.5 - 1st March 2026 =
+* Fix delete all regression from 5.7.4
+
+= 5.7.4 - 28th February 2026 =
+* Fix display setting not saving
+* Fix 'view data' on logs
+* Fix missing filters on select all
+
+= 5.7.3 - 21st February 2026 =
+* Fix log target having double domain
+* Fix from/notfrom data not being used when editing
+* Cleaned up behaviour around pagination and checkboxes
+* Improved some styles
+
+= 5.7.2 - 17th February 2026 =
+* Fix select-all bulk action
+* Improve setup page handling of problems
+* Improve 404 page handling of incomplete data
 
 = 5.7.1 - 16th February 2026 =
 * Fix bulk delete on log and 404 page

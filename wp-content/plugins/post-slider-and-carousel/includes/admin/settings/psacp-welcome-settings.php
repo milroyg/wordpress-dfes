@@ -26,7 +26,7 @@ $new_layout_url		= add_query_arg( array('page' => 'psacp-layout'), 'admin.php' )
 			<div class="inside">
 					<div class="psacp-welcome-panel">
 						<div class="psacp-welcome-panel-content psacp-pro-main-wrap" style="background:#f1f1f1; padding:20px;">
-							<h2 class="psacp-custom-size"><?php esc_html_e('Success, The Post Slider and Carousel is now activated!', 'post-slider-and-carousel'); ?> 😊</h2>
+							<h2 class="psacp-custom-size"><?php esc_html_e('Success, The Post Slider and Carousel is now activated!', 'post-slider-and-carousel'); ?> 😊 <span class="psacp-version-tag"><?php esc_html_e( PSAC_VERSION ); ?></span></h2>
 							<p class="psacp-about-description"><?php esc_html_e('Would you like to create one layout to check usage of Post Slider and Carousel plugin?', 'post-slider-and-carousel'); ?></p>
 							<div class="psacp-cnt-grid psacp-clearfix">
 								<div class="psacp-cnt-grid-3 psacp-columns">
@@ -54,7 +54,7 @@ $new_layout_url		= add_query_arg( array('page' => 'psacp-layout'), 'admin.php' )
 					<div id="dashboard-widgets-wrap">
 					<div id="dashboard-widgets" class="metabox-holder columns-1">
 						<div class="postbox-container">
-							<div id="usages-of-psacp" class="meta-box-sortables" style="margin-right:0px;">
+							<div id="usages-of-psacp" class="meta-box-sortables">
 								<div class="postbox">
 									<div class="postbox-header">
 										<h2 class="hndle">

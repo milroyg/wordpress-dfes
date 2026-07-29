@@ -17,6 +17,7 @@ use PremiumAddons\Includes\Controls\Premium_Background;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Text_Shadow;
+use Elementor\Group_Control_Text_Stroke;
 use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
 use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 
@@ -52,9 +53,9 @@ class Premium_Post_Ticker extends Widget_Base {
 	/**
 	 * Options
 	 *
-	 * @var options
+	 * @var array
 	 */
-	private $options = null;
+	private $options = array();
 
 	/**
 	 * Check Premium Addons Pro Version.
@@ -116,7 +117,7 @@ class Premium_Post_Ticker extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium news ticker', 'magazine', 'news', 'posts', 'listing', 'ticker', 'grid', 'blog' );
@@ -190,8 +191,9 @@ class Premium_Post_Ticker extends Widget_Base {
 			$lottie_js = false;
 
 			if ( 'yes' === $settings['draw_svg'] ) {
-				array_push( $scripts, 'pa-tweenmax', 'pa-motionpath' );
-				$draw_js = true;
+				$scripts[] = 'pa-tweenmax';
+				$scripts[] = 'pa-motionpath';
+				$draw_js   = true;
 			}
 
 			if ( 'lottie' === $settings['icon_type'] ) {
@@ -204,8 +206,9 @@ class Premium_Post_Ticker extends Widget_Base {
 				foreach ( $settings['text_content'] as $item ) {
 
 					if ( ! $draw_js && 'yes' === $item['draw_svg'] ) {
-						array_push( $scripts, 'pa-tweenmax', 'pa-motionpath' );
-						$draw_js = true;
+						$scripts[] = 'pa-tweenmax';
+						$scripts[] = 'pa-motionpath';
+						$draw_js   = true;
 					}
 
 					if ( ! $lottie_js && 'lottie' === $item['icon_type'] ) {
@@ -390,13 +393,25 @@ class Premium_Post_Ticker extends Widget_Base {
 			'icon_type',
 			array(
 				'label'       => __( 'Icon Type', 'premium-addons-for-elementor' ),
-				'type'        => Controls_Manager::SELECT,
+				'type'        => Controls_Manager::CHOOSE,
 				'render_type' => 'template',
 				'options'     => array(
-					'icon'   => __( 'Icon', 'premium-addons-for-elementor' ),
-					'lottie' => __( 'Lottie Animation', 'premium-addons-for-elementor' ),
-					'image'  => __( 'Image', 'premium-addons-for-elementor' ),
-					'svg'    => __( 'SVG Code', 'premium-addons-for-elementor' ),
+					'icon'   => array(
+						'title' => __( 'Icon', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-icon',
+					),
+					'lottie' => array(
+						'title' => __( 'Lottie Animation', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-lottie',
+					),
+					'image'  => array(
+						'title' => __( 'Image', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-image',
+					),
+					'svg'    => array(
+						'title' => __( 'SVG Code', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-code',
+					),
 				),
 				'default'     => 'icon',
 				'condition'   => array(
@@ -414,15 +429,16 @@ class Premium_Post_Ticker extends Widget_Base {
 		$this->add_control(
 			'pa_ticker_icon',
 			array(
-				'label'       => __( 'Choose Icon', 'premium-addons-for-elementor' ),
-				'type'        => Controls_Manager::ICONS,
-				'label_block' => false,
-				'skin'        => 'inline',
-				'default'     => array(
+				'label'                  => __( 'Choose Icon', 'premium-addons-for-elementor' ),
+				'type'                   => Controls_Manager::ICONS,
+				'label_block'            => false,
+				'skin'                   => 'inline',
+				'exclude_inline_options' => 'none',
+				'default'                => array(
 					'value'   => 'fas fa-star',
 					'library' => 'fa-solid',
 				),
-				'condition'   => array(
+				'condition'              => array(
 					'ticker_icon_sw' => 'yes',
 					'ticker_title!'  => '',
 					'icon_type'      => 'icon',
@@ -440,6 +456,9 @@ class Premium_Post_Ticker extends Widget_Base {
 					'ticker_icon_sw' => 'yes',
 					'ticker_title!'  => '',
 					'icon_type'      => 'svg',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -471,6 +490,9 @@ class Premium_Post_Ticker extends Widget_Base {
 					'ticker_icon_sw' => 'yes',
 					'ticker_title!'  => '',
 					'icon_type'      => 'lottie',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -700,7 +722,6 @@ class Premium_Post_Ticker extends Widget_Base {
 					),
 					'2' => array(
 						'title' => __( 'After Title', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-order-end',
 						'icon'  => is_rtl() ? 'eicon-order-start' : 'eicon-order-end',
 					),
 				),
@@ -861,6 +882,9 @@ class Premium_Post_Ticker extends Widget_Base {
 				'condition'   => array(
 					'show_date' => 'yes',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -915,9 +939,29 @@ class Premium_Post_Ticker extends Widget_Base {
 		$this->add_control(
 			'infinite',
 			array(
-				'label'   => __( 'Marquee Effect', 'premium-addons-for-elementor' ),
-				'type'    => Controls_Manager::SWITCHER,
-				'default' => 'yes',
+				'label'        => __( 'Marquee Effect', 'premium-addons-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'separator'    => 'before',
+				'render_type'  => 'template',
+				'default'      => 'yes',
+				'prefix_class' => 'pa-infinite-ticker-',
+			)
+		);
+
+		$this->add_control(
+			'fade_color',
+			array(
+				'label'     => __( 'Fade Color', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
+				'separator' => 'after',
+				'condition' => array(
+					'infinite' => 'yes',
+				),
+				'selectors' => array(
+					'{{WRAPPER}}.premium-post-ticker__layout-1 .premium-post-ticker__posts-wrapper::after, {{WRAPPER}}.premium-post-ticker__layout-2 .premium-post-ticker__posts-wrapper::after' => 'background: linear-gradient(to right, {{VALUE}}, {{VALUE}} 0%, transparent 10%, transparent 90%, {{VALUE}}) !important;',
+					'{{WRAPPER}}.premium-post-ticker__layout-3 .premium-post-ticker__content::after' => 'background: linear-gradient(to right, {{VALUE}}, {{VALUE}} 0%, transparent 10%, transparent 90%, {{VALUE}}) !important;',
+					'{{WRAPPER}}.premium-post-ticker__layout-4 .premium-post-ticker__posts-wrapper::after' => 'background: linear-gradient(to bottom, {{VALUE}}, {{VALUE}} 0%, transparent 15%, transparent 85%, {{VALUE}}) !important;',
+				),
 			)
 		);
 
@@ -964,6 +1008,9 @@ class Premium_Post_Ticker extends Widget_Base {
 					'infinite!'         => 'yes',
 					'typing'            => 'yes',
 					'layout!'           => 'layout-4',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -1172,15 +1219,24 @@ class Premium_Post_Ticker extends Widget_Base {
 
 			if ( ! empty( $taxonomy ) ) {
 
+				// Batch-fetch terms for all taxonomies of this post type in one query.
+				$all_terms    = get_terms(
+					array(
+						'taxonomy'   => array_keys( $taxonomy ),
+						'hide_empty' => false,
+					)
+				);
+				$terms_by_tax = array();
+				if ( ! is_wp_error( $all_terms ) ) {
+					foreach ( $all_terms as $t ) {
+						$terms_by_tax[ $t->taxonomy ][] = $t;
+					}
+				}
+
 				// Get all taxonomy values under the taxonomy.
 				foreach ( $taxonomy as $index => $tax ) {
 
-					$terms = get_terms(
-						array(
-							'taxonomy'   => $index,
-							'hide_empty' => false,
-						)
-					);
+					$terms = isset( $terms_by_tax[ $index ] ) ? $terms_by_tax[ $index ] : array();
 
 					$related_tax = array();
 
@@ -1274,7 +1330,7 @@ class Premium_Post_Ticker extends Widget_Base {
 				'label_block' => true,
 				'options'     => array(
 					'post__in'     => __( 'Match Post', 'premium-addons-for-elementor' ),
-					'post__not_in' => __( 'Exclude Post', 'premium-addons-for-elementor' ),
+					'post__not_in' => __( 'Exclude Post', 'premium-addons-for-elementor' ), // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in -- Control option value, not a query argument.
 				),
 				'condition'   => array(
 					'post_type_filter!' => array( 'stock', 'gold', 'related', 'text' ),
@@ -1488,17 +1544,6 @@ class Premium_Post_Ticker extends Widget_Base {
 			)
 		);
 
-		// $this->add_group_control(
-		// Group_Control_Image_Size::get_type(),
-		// array(
-		// 'name'      => 'txt_thumbnail',
-		// 'default'   => 'full',
-		// 'condition' => array(
-		// 'post_type_filter' => 'text',
-		// ),
-		// )
-		// );
-
 		$this->add_responsive_control(
 			'txt_icon_spacing',
 			array(
@@ -1555,13 +1600,25 @@ class Premium_Post_Ticker extends Widget_Base {
 			'icon_type',
 			array(
 				'label'       => __( 'Icon Type', 'premium-addons-for-elementor' ),
-				'type'        => Controls_Manager::SELECT,
+				'type'        => Controls_Manager::CHOOSE,
 				'render_type' => 'template',
 				'options'     => array(
-					'icon'   => __( 'Icon', 'premium-addons-for-elementor' ),
-					'lottie' => __( 'Lottie Animation', 'premium-addons-for-elementor' ),
-					'image'  => __( 'Image', 'premium-addons-for-elementor' ),
-					'svg'    => __( 'SVG Code', 'premium-addons-for-elementor' ),
+					'icon'   => array(
+						'title' => __( 'Icon', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-icon',
+					),
+					'lottie' => array(
+						'title' => __( 'Lottie Animation', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-lottie',
+					),
+					'image'  => array(
+						'title' => __( 'Image', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-image',
+					),
+					'svg'    => array(
+						'title' => __( 'SVG Code', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-code',
+					),
 				),
 				'default'     => 'icon',
 				'condition'   => array(
@@ -1577,15 +1634,16 @@ class Premium_Post_Ticker extends Widget_Base {
 		$text_repeater->add_control(
 			'pa_ticker_icon',
 			array(
-				'label'       => __( 'Choose Icon', 'premium-addons-for-elementor' ),
-				'type'        => Controls_Manager::ICONS,
-				'label_block' => false,
-				'skin'        => 'inline',
-				'default'     => array(
+				'label'                  => __( 'Choose Icon', 'premium-addons-for-elementor' ),
+				'type'                   => Controls_Manager::ICONS,
+				'label_block'            => false,
+				'skin'                   => 'inline',
+				'exclude_inline_options' => 'none',
+				'default'                => array(
 					'value'   => 'fas fa-star',
 					'library' => 'fa-solid',
 				),
-				'condition'   => array(
+				'condition'              => array(
 					'txt_icon_sw' => 'yes',
 					'icon_type'   => 'icon',
 				),
@@ -1601,6 +1659,9 @@ class Premium_Post_Ticker extends Widget_Base {
 				'condition'   => array(
 					'txt_icon_sw' => 'yes',
 					'icon_type'   => 'svg',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -1630,6 +1691,9 @@ class Premium_Post_Ticker extends Widget_Base {
 				'condition'   => array(
 					'txt_icon_sw' => 'yes',
 					'icon_type'   => 'lottie',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -1910,6 +1974,9 @@ class Premium_Post_Ticker extends Widget_Base {
 				'default'     => get_option( 'date_format' ),
 				'condition'   => array(
 					'date_meta' => 'yes',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -2244,6 +2311,9 @@ class Premium_Post_Ticker extends Widget_Base {
 				'condition' => array(
 					'title_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -2431,11 +2501,24 @@ class Premium_Post_Ticker extends Widget_Base {
 			)
 		);
 
+		$this->add_group_control(
+			Group_Control_Text_Stroke::get_type(),
+			array(
+				'name'      => 'element_text_stroke',
+				'separator' => 'after',
+				'selector'  => '{{WRAPPER}} .premium-post-ticker__post-title',
+				'condition' => array(
+					'post_type_filter!' => array( 'gold', 'stock' ),
+				),
+			)
+		);
+
 		$this->add_control(
 			'text_icon_color',
 			array(
 				'label'     => __( 'Icon Color', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
+				'separator' => 'before',
 				'selectors' => array(
 					'{{WRAPPER}} .premium-post-ticker__icon-wrapper.premium-repeater-item i' => 'color: {{VALUE}}',
 					'{{WRAPPER}} .premium-post-ticker__icon-wrapper.premium-repeater-item .premium-drawable-icon *,
@@ -3426,7 +3509,7 @@ class Premium_Post_Ticker extends Widget_Base {
 		}
 
 		?>
-			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'outer-wrapper' ) ); ?>>
+			<div <?php $this->print_render_attribute_string( 'outer-wrapper' ); ?>>
 				<?php if ( 'layout-1' === $layout ) { ?>
 					<?php if ( $current_date ) : ?>
 					<div class="premium-post-ticker__header-wrapper">
@@ -3434,21 +3517,21 @@ class Premium_Post_Ticker extends Widget_Base {
 					</div>
 					<?php endif; ?>
 
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'ticker_content' ) ); ?>>
+					<div <?php $this->print_render_attribute_string( 'ticker_content' ); ?>>
 						<?php
 						if ( $title ) {
 							$this->render_ticker_title( $settings );
 						}
 						?>
 
-						<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'inner-wrapper' ) ); ?>>
+						<div <?php $this->print_render_attribute_string( 'inner-wrapper' ); ?>>
 							<?php
 							if ( in_array( $source, array( 'stock', 'gold' ), true ) ) {
 								$this->render_detailed_stock_element( $req_data, $settings );
 							} elseif ( 'text' === $source ) {
 								$this->render_ticker_text_content( $text_content, $settings );
 							} else {
-								$this->render_ticker_post( $query, $settings, $posts_helper );
+								$this->render_ticker_post( $query, $settings );
 							}
 							?>
 						</div>
@@ -3467,21 +3550,21 @@ class Premium_Post_Ticker extends Widget_Base {
 					</div>
 					<?php endif; ?>
 
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'ticker_content' ) ); ?>>
+					<div <?php $this->print_render_attribute_string( 'ticker_content' ); ?>>
 						<?php
 						if ( $current_date ) {
 							$this->render_ticker_date( $settings );
 						}
 						?>
 
-						<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'inner-wrapper' ) ); ?>>
+						<div <?php $this->print_render_attribute_string( 'inner-wrapper' ); ?>>
 							<?php
 							if ( in_array( $source, array( 'stock', 'gold' ), true ) ) {
 								$this->render_detailed_stock_element( $req_data, $settings );
 							} elseif ( 'text' === $source ) {
 								$this->render_ticker_text_content( $text_content, $settings );
 							} else {
-								$this->render_ticker_post( $query, $settings, $posts_helper );
+								$this->render_ticker_post( $query, $settings );
 							}
 							?>
 						</div>
@@ -3508,15 +3591,15 @@ class Premium_Post_Ticker extends Widget_Base {
 					</div>
 					<?php endif; ?>
 
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'ticker_content' ) ); ?>>
-						<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'inner-wrapper' ) ); ?>>
+					<div <?php $this->print_render_attribute_string( 'ticker_content' ); ?>>
+						<div <?php $this->print_render_attribute_string( 'inner-wrapper' ); ?>>
 							<?php
 							if ( in_array( $source, array( 'stock', 'gold' ), true ) ) {
 								$this->render_detailed_stock_element( $req_data, $settings );
 							} elseif ( 'text' === $source ) {
 								$this->render_ticker_text_content( $text_content, $settings );
 							} else {
-								$this->render_ticker_post( $query, $settings, $posts_helper );
+								$this->render_ticker_post( $query, $settings );
 							}
 							?>
 						</div>
@@ -3546,15 +3629,15 @@ class Premium_Post_Ticker extends Widget_Base {
 					</div>
 					<?php endif; ?>
 
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'ticker_content' ) ); ?>>
-						<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'inner-wrapper' ) ); ?>>
+					<div <?php $this->print_render_attribute_string( 'ticker_content' ); ?>>
+						<div <?php $this->print_render_attribute_string( 'inner-wrapper' ); ?>>
 							<?php
 							if ( in_array( $source, array( 'stock', 'gold' ), true ) ) {
 								$this->render_detailed_stock_element( $req_data, $settings );
 							} elseif ( 'text' === $source ) {
 								$this->render_ticker_text_content( $text_content, $settings );
 							} else {
-								$this->render_ticker_post( $query, $settings, $posts_helper );
+								$this->render_ticker_post( $query, $settings );
 							}
 							?>
 						</div>
@@ -3622,17 +3705,15 @@ class Premium_Post_Ticker extends Widget_Base {
 			}
 		}
 
-		if ( $show_price || $show_change || $show_change_per ) {
-			$change_indicator = $settings['change_indicator'];
-			$decimal_places   = empty( $settings['decimal_places'] ) ? 0 : $settings['decimal_places'];
-		}
+		$change_indicator = $settings['change_indicator'];
+		$decimal_places   = empty( $settings['decimal_places'] ) ? 0 : $settings['decimal_places'];
 
 		foreach ( $stock_symbols as $symbol => $data ) {
 
-			$name = false;
+			$name    = false;
+			$dir_cls = '';
 
 			if ( $show_change || $show_change_per ) {
-				$dir_cls = '';
 
 				if ( 0 < $data['change'] ) {
 					$dir_cls = 'up';
@@ -3660,7 +3741,7 @@ class Premium_Post_Ticker extends Widget_Base {
 
 					$percent_change = str_replace( '%', '', $data['percent_change'] );
 
-					$change_percent = 'sign' === $change_indicator ? $percent_change : abs( $percent_change );
+					$change_percent = 'sign' === $change_indicator ? $percent_change : abs( (float) $percent_change );
 
 					$change_percent = number_format( (float) str_replace( '%', '', $change_percent ), $decimal_places, '.', ',' );
 				}
@@ -3711,7 +3792,7 @@ class Premium_Post_Ticker extends Widget_Base {
 				<div class="premium-post-ticker__post-wrapper premium-post-sticker__stock-element-wrapper">
 
 					<?php if ( 'yes' === $settings['show_symbol_icon'] ) : ?>
-						<img class='premium-post-ticker__symbol-icon' src='<?php echo esc_attr( $data['icon_src'] ); ?>' alt='<?php echo esc_attr( $currency_symbol ); ?>' onerror="<?php echo 'CURRENCY_EXCHANGE_RATE' === $function ? '' : esc_attr( 'this.src="' . $data['icon_alternative'] . '"' ); ?>">
+						<img class='premium-post-ticker__symbol-icon' src='<?php echo esc_url( $data['icon_src'] ); ?>' alt='<?php echo esc_attr( $currency_symbol ); ?>' onerror="<?php echo 'CURRENCY_EXCHANGE_RATE' === $function ? '' : esc_attr( 'this.src="' . $data['icon_alternative'] . '"' ); ?>">
 					<?php endif; ?>
 
 					<?php if ( false !== $name ) : ?>
@@ -3783,7 +3864,7 @@ class Premium_Post_Ticker extends Widget_Base {
 		$this->add_render_attribute( 'title', 'class', $title_classes );
 
 		?>
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'title' ) ); ?>>
+		<div <?php $this->print_render_attribute_string( 'title' ); ?>>
 			<?php
 			if ( $icon_enabled ) {
 				$this->render_ticker_icon( $settings );
@@ -3812,7 +3893,7 @@ class Premium_Post_Ticker extends Widget_Base {
 		$this->add_render_attribute( 'date', 'class', $date_classes );
 
 		?>
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'date' ) ); ?>>
+		<div <?php $this->print_render_attribute_string( 'date' ); ?>>
 			<span class="premium-post-ticker__date"> <?php echo esc_html( date_i18n( $date_format ) ); ?></span>
 		</div>
 		<?php
@@ -3878,12 +3959,6 @@ class Premium_Post_Ticker extends Widget_Base {
 
 							$this->add_render_attribute( 'outer-wrapper' . $index, 'class', 'elementor-invisible' );
 
-							// if ( 'icon' === $icon_type ) {
-
-							// $this->add_render_attribute( 'icon' . $index, 'class', $settings['pa_ticker_icon']['value'] );
-
-							// }
-
 							$this->add_render_attribute(
 								'icon' . $index,
 								array(
@@ -3908,22 +3983,19 @@ class Premium_Post_Ticker extends Widget_Base {
 
 						if ( 'icon' === $icon_type ) {
 
-							echo Helper_Functions::get_svg_by_icon(
-								$settings['pa_ticker_icon'],
-								$this->get_render_attribute_string( 'icon' . $index )
-							);
+							echo Helper_Functions::get_svg_by_icon( $settings['pa_ticker_icon'], $this->get_render_attribute_string( 'icon' . $index ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_svg_by_icon() returns sanitized inline SVG/icon markup.
 
 						}
 					}
 
 					if ( 'svg' === $icon_type ) {
 						?>
-						<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon' . $index ) ); ?>>
+						<div <?php $this->print_render_attribute_string( 'icon' . $index ); ?>>
 						<?php
 						if ( $is_repeater_item ) {
-							$this->print_unescaped_setting( 'custom_svg', 'text_content', $settings['index'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							echo Helper_Functions::sanitize_svg( $settings['custom_svg'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- sanitize_svg passes through wp_kses with a strict SVG allowlist.
 						} else {
-							$this->print_unescaped_setting( 'custom_svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							echo Helper_Functions::sanitize_svg( $this->get_settings_for_display( 'custom_svg' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- sanitize_svg passes through wp_kses with a strict SVG allowlist.
 						}
 						?>
 						</div>
@@ -3949,7 +4021,7 @@ class Premium_Post_Ticker extends Widget_Base {
 						)
 					);
 					?>
-							<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'pa_ticker_lottie' ) ); ?>></div>
+							<div <?php $this->print_render_attribute_string( 'pa_ticker_lottie' ); ?>></div>
 						<?php
 				}
 
@@ -3973,7 +4045,7 @@ class Premium_Post_Ticker extends Widget_Base {
 
 		global $post;
 
-		foreach ( $posts as $post ) {
+		foreach ( $posts as $post ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Standard WP loop; global $post is restored via wp_reset_postdata().
 
 			setup_postdata( $post );
 
@@ -4015,9 +4087,9 @@ class Premium_Post_Ticker extends Widget_Base {
 			}
 
 			?>
-			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'post-wrapper' . $txt_id ) ); ?>>
-				<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'post-title' . $txt_id ) ); ?>>
-					<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'post-link' . $txt_id ) ); ?>>
+			<div <?php $this->print_render_attribute_string( 'post-wrapper' . $txt_id ); ?>>
+				<div <?php $this->print_render_attribute_string( 'post-title' . $txt_id ); ?>>
+					<a <?php $this->print_render_attribute_string( 'post-link' . $txt_id ); ?>>
 						<?php echo wp_kses_post( $item['text'] ); ?>
 					</a>
 				</div>
@@ -4122,7 +4194,7 @@ class Premium_Post_Ticker extends Widget_Base {
 		<<?php echo wp_kses_post( $post_tag . ' ' . $this->get_render_attribute_string( 'post-wrapper' . $post_id ) ); ?>>
 
 			<?php if ( $show_thumbnail ) : ?>
-				<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'thumbnail' . $post_id ) ); ?>>
+				<div <?php $this->print_render_attribute_string( 'thumbnail' . $post_id ); ?>>
 					<a href="<?php the_permalink(); ?>" target="<?php echo esc_attr( $link_target ); ?>">
 						<?php echo wp_kses_post( $thumbnail_html ); ?>
 					</a>
@@ -4131,7 +4203,7 @@ class Premium_Post_Ticker extends Widget_Base {
 
 			<?php if ( $show_author ) : ?>
 				<div>
-					<span <?php echo wp_kses_post( $this->get_render_attribute_string( 'author' . $post_id ) ); ?>>
+					<span <?php $this->print_render_attribute_string( 'author' . $post_id ); ?>>
 						<i class="fa fa-user fa-fw" aria-hidden="true"></i>
 						<?php the_author_posts_link(); ?>
 					</span>
@@ -4140,7 +4212,7 @@ class Premium_Post_Ticker extends Widget_Base {
 
 			<div>
 				<<?php echo wp_kses_post( $title_tag . ' ' . $this->get_render_attribute_string( 'post-title' . $post_id ) ); ?>>
-					<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'post-link' . $post_id ) ); ?>>
+					<a <?php $this->print_render_attribute_string( 'post-link' . $post_id ); ?>>
 						<?php echo wp_kses_post( $title ); ?>
 					</a>
 				</<?php echo wp_kses_post( $title_tag ); ?>>
@@ -4148,7 +4220,7 @@ class Premium_Post_Ticker extends Widget_Base {
 
 			<?php if ( $show_date ) : ?>
 				<div>
-					<span <?php echo wp_kses_post( $this->get_render_attribute_string( 'post-date' . $post_id ) ); ?>>
+					<span <?php $this->print_render_attribute_string( 'post-date' . $post_id ); ?>>
 						<span><?php the_time( $date_format ); ?></span>
 					</span>
 				</div>

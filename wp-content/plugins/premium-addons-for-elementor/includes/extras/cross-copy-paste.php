@@ -16,6 +16,12 @@ if ( ! class_exists( 'Cross_Copy_Paste' ) ) {
 
 	/**
 	 * Define Cross_Copy_Paste class
+	 *
+	 * TODO(cross-domain-copy): consolidate engine — the id-regen + on_import glue
+	 * below is duplicated in includes/helpers/element-transfer.php and
+	 * includes/templates/sources/base.php. Delegate to Element_Transfer once the
+	 * copy/paste abilities are verified, which also fixes the silent drop in
+	 * cross_cp_import_copy_content().
 	 */
 	class Cross_Copy_Paste {
 
@@ -192,7 +198,7 @@ if ( ! class_exists( 'Cross_Copy_Paste' ) ) {
 
 		protected static function on_import_media( $settings ) {
 
-			if ( empty( $settings['url'] ) || false != strpos( $settings['url'], 'placeholder' ) ) {
+			if ( empty( $settings['url'] ) || false !== strpos( $settings['url'], 'placeholder' ) ) {
 				return $settings;
 			}
 

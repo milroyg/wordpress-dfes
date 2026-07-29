@@ -2,7 +2,6 @@
 namespace SheHeader;
 
 use Elementor;
-use Elementor\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -41,7 +40,7 @@ class Plugin {
 	 */
 	public function __clone() {
 		// Cloning instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'she-header' ), '1.0.0' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'she-header' ), '1.0.0' );
 	}
 
 	/**
@@ -52,7 +51,7 @@ class Plugin {
 	 */
 	public function __wakeup() {
 		// Unserializing instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'she-header' ), '1.0.0' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'she-header' ), '1.0.0' );
 	}
 
 	/**
@@ -76,7 +75,7 @@ class Plugin {
 
 	private function _includes() {
 		require SHE_HEADER_PATH . 'includes/modules-manager.php';
-		
+		require SHE_HEADER_PATH . 'includes/abilities/class-she-abilities.php';
 	}
 
 	public function autoload( $class ) {
@@ -98,27 +97,6 @@ class Plugin {
 		}
 	}
 
-	public function enqueue_styles() {
-		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		$direction_suffix = is_rtl() ? '-rtl' : '';		
-	}
-
-	public function enqueue_frontend_scripts() {
-		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-	}
-
-	public function enqueue_editor_scripts() {
-		$suffix = Utils::is_script_debug() ? '' : '.min';	
-	}
-
-	public function register_frontend_scripts() {
-		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
-	}
-
-	public function enqueue_editor_styles() {
-		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-	}
 	
 
 	public function she_header_init() {
@@ -136,7 +114,7 @@ class Plugin {
 			1
 		);
 
-		do_action( 'elementor_controls/init' );
+		do_action( 'she_header/controls/init' );
 	}
 	
 	private function setup_hooks() {
@@ -150,6 +128,9 @@ class Plugin {
 		spl_autoload_register( [ $this, 'autoload' ] );
 
 		$this->_includes();
+
+		// Register WordPress Abilities API integration (WP 6.9+; no-op below that).
+		Abilities::init();
 
 		$this->setup_hooks();
 		

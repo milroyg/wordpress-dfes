@@ -136,7 +136,7 @@ class Premium_Person extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium team members', 'person', 'carousel', 'slider', 'group' );
@@ -553,6 +553,9 @@ class Premium_Person extends Widget_Base {
 				'condition'   => array(
 					'premium_person_social_enable' => 'yes',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -567,6 +570,9 @@ class Premium_Person extends Widget_Base {
 				'condition'   => array(
 					'premium_person_social_enable' => 'yes',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -579,6 +585,9 @@ class Premium_Person extends Widget_Base {
 				'label_block' => true,
 				'condition'   => array(
 					'premium_person_social_enable' => 'yes',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -593,6 +602,9 @@ class Premium_Person extends Widget_Base {
 				'condition'   => array(
 					'premium_person_social_enable' => 'yes',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -605,6 +617,9 @@ class Premium_Person extends Widget_Base {
 				'label_block' => true,
 				'condition'   => array(
 					'premium_person_social_enable' => 'yes',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -620,6 +635,9 @@ class Premium_Person extends Widget_Base {
 				'condition'   => array(
 					'premium_person_social_enable' => 'yes',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -633,6 +651,9 @@ class Premium_Person extends Widget_Base {
 				'condition'   => array(
 					'premium_person_social_enable' => 'yes',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -645,6 +666,9 @@ class Premium_Person extends Widget_Base {
 				'label_block' => true,
 				'condition'   => array(
 					'premium_person_social_enable' => 'yes',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -660,6 +684,9 @@ class Premium_Person extends Widget_Base {
 				'condition'   => array(
 					'premium_person_social_enable' => 'yes',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -672,6 +699,9 @@ class Premium_Person extends Widget_Base {
 				'label_block' => true,
 				'condition'   => array(
 					'premium_person_social_enable' => 'yes',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -686,6 +716,9 @@ class Premium_Person extends Widget_Base {
 				'condition'   => array(
 					'premium_person_social_enable' => 'yes',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -698,6 +731,9 @@ class Premium_Person extends Widget_Base {
 				'label_block' => true,
 				'condition'   => array(
 					'premium_person_social_enable' => 'yes',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -712,6 +748,9 @@ class Premium_Person extends Widget_Base {
 				'condition'   => array(
 					'premium_person_social_enable' => 'yes',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -724,6 +763,9 @@ class Premium_Person extends Widget_Base {
 				'label_block' => true,
 				'condition'   => array(
 					'premium_person_social_enable' => 'yes',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -738,6 +780,9 @@ class Premium_Person extends Widget_Base {
 				'label_block' => true,
 				'condition'   => array(
 					'premium_person_social_enable' => 'yes',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -1079,6 +1124,21 @@ class Premium_Person extends Widget_Base {
 			)
 		);
 
+		$this->add_responsive_control(
+			'slides_to_scroll',
+			array(
+				'label'       => __( 'Slides To Scroll', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::NUMBER,
+				'render_type' => 'template',
+				'selectors'   => array(
+					'{{WRAPPER}}' => '--pa-carousel-slides: {{VALUE}}',
+				),
+				'condition'   => array(
+					'carousel' => 'yes',
+				),
+			)
+		);
+
 		$this->add_control(
 			'carousel_play',
 			array(
@@ -1213,6 +1273,9 @@ class Premium_Person extends Widget_Base {
 				'condition' => array(
 					'premium_person_style' => 'style2',
 					'image_adv_radius'     => 'yes',
+				),
+				'ai'        => array(
+					'active' => false,
 				),
 			)
 		);
@@ -1592,6 +1655,9 @@ class Premium_Person extends Widget_Base {
 				'condition' => array(
 					'social_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -1883,7 +1949,7 @@ class Premium_Person extends Widget_Base {
 
 		if ( $carousel ) {
 
-			$this->add_render_attribute( 'persons_container', 'data-carousel', $carousel );
+			$this->add_render_attribute( 'persons_container', 'data-carousel', 'true' );
 
 			$this->add_render_attribute(
 				'persons_container',
@@ -1901,13 +1967,13 @@ class Premium_Person extends Widget_Base {
 		}
 
 		?>
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'persons_container' ) ); ?>>
+		<div <?php $this->print_render_attribute_string( 'persons_container' ); ?>>
 			<?php if ( 'yes' !== $settings['multiple'] ) : ?>
-			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'person_container' ) ); ?>>
+			<div <?php $this->print_render_attribute_string( 'person_container' ); ?>>
 
 				<div class="premium-person-image-container">
 					<?php if ( 'style3' !== $settings['premium_person_style'] && ! empty( $settings['premium_person_profile']['url'] ) ) { ?>
-						<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_person_profile' ) ); ?>>
+						<a <?php $this->print_render_attribute_string( 'premium_person_profile' ); ?>>
 							<?php echo wp_kses_post( $image_html ); ?>
 						</a>
 						<?php
@@ -1922,7 +1988,7 @@ class Premium_Person extends Widget_Base {
 						</div>
 					<?php endif; ?>
 				</div>
-				<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'info_container' ) ); ?>>
+				<div <?php $this->print_render_attribute_string( 'info_container' ); ?>>
 					<?php $this->render_person_info(); ?>
 				</div>
 			</div>
@@ -1941,7 +2007,7 @@ class Premium_Person extends Widget_Base {
 					if ( ! empty( $person['multiple_image']['url'] ) ) {
 
 						$image_src = $person['multiple_image']['url'];
-						$image_id  = attachment_url_to_postid( $image_src );
+						$image_id  = attachment_url_to_postid( $image_src ); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.attachment_url_to_postid_attachment_url_to_postid -- Core function; plugin is not VIP-hosted.
 
 						$settings['image_data'] = Helper_Functions::get_image_data( $image_id, $person['multiple_image']['url'], $settings['thumbnail_size'] );
 						$person_image_html      = Group_Control_Image_Size::get_attachment_image_html( $settings, 'thumbnail', 'image_data' );
@@ -1952,7 +2018,7 @@ class Premium_Person extends Widget_Base {
 					}
 
 					?>
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'person_container' ) ); ?>>
+					<div <?php $this->print_render_attribute_string( 'person_container' ); ?>>
 						<div class="premium-person-image-container">
 						<?php echo wp_kses_post( $person_image_html ); ?>
 							<?php if ( 'style2' === $settings['premium_person_style'] && 'yes' === $person['multiple_social_enable'] ) : ?>
@@ -1961,7 +2027,7 @@ class Premium_Person extends Widget_Base {
 								</div>
 							<?php endif; ?>
 						</div>
-						<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'info_container' ) ); ?>>
+						<div <?php $this->print_render_attribute_string( 'info_container' ); ?>>
 							<?php $this->render_person_info( $person, $index ); ?>
 						</div>
 					</div>
@@ -1981,7 +2047,7 @@ class Premium_Person extends Widget_Base {
 	 * @since 3.8.4
 	 * @access protected
 	 *
-	 * @param object $person current person.
+	 * @param array|string $person current person array, or '' for the single-person source.
 	 */
 	private function get_social_icons( $person = '' ) {
 
@@ -2012,7 +2078,7 @@ class Premium_Person extends Widget_Base {
 		foreach ( $social_sites as $site => $icon ) {
 
 			if ( ! \Elementor\Plugin::instance()->editor->is_edit_mode() ) {
-				if ( 'number' === $site && ! wp_is_mobile() ) {
+				if ( 'number' === $site && ! wp_is_mobile() ) { // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.wp_is_mobile_wp_is_mobile -- Core wp_is_mobile(); plugin is not VIP-hosted and does not depend on Jetpack.
 					continue;
 				}
 			}
@@ -2042,8 +2108,8 @@ class Premium_Person extends Widget_Base {
 	 * @since 3.12.0
 	 * @access protected
 	 *
-	 * @param object  $person current person.
-	 * @param integer $index person index.
+	 * @param array|string $person current person array, or '' for the single-person source.
+	 * @param int|string   $index  person index, or '' for the single person.
 	 */
 	protected function render_person_info( $person = '', $index = '' ) {
 
@@ -2075,7 +2141,7 @@ class Premium_Person extends Widget_Base {
 					$name_html      = $name_tag_open . $name_content . $name_tag_close;
 					?>
 					<?php if ( ! empty( $settings['premium_person_profile']['url'] ) ) { ?>
-						<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_person_profile' ) ); ?>>
+						<a <?php $this->print_render_attribute_string( 'premium_person_profile' ); ?>>
 							<?php echo $name_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						</a>
 						<?php
@@ -2101,7 +2167,7 @@ class Premium_Person extends Widget_Base {
 
 				if ( ! empty( $settings['premium_person_content'] ) ) :
 					?>
-						<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_person_content' ) ); ?>>
+						<div <?php $this->print_render_attribute_string( 'premium_person_content' ); ?>>
 							<?php echo $this->parse_text_editor( $settings['premium_person_content'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						</div>
 					<?php
@@ -2126,7 +2192,7 @@ class Premium_Person extends Widget_Base {
 								$name_html        = $name_tag_open . $name_span . $name_tag_close;
 							?>
 							<?php if ( ! empty( $settings['premium_person_profile']['url'] ) ) { ?>
-								<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_person_profile' ) ); ?>>
+								<a <?php $this->print_render_attribute_string( 'premium_person_profile' ); ?>>
 									<?php echo $name_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 								</a>
 								<?php
@@ -2176,7 +2242,7 @@ class Premium_Person extends Widget_Base {
 					$name_html_multiple = $name_tag_open . $name_content . $name_tag_close;
 					?>
 					<?php if ( ! empty( $person['multiple_profile']['url'] ) ) { ?>
-						<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_multiple_profile_' . $index ) ); ?>>
+						<a <?php $this->print_render_attribute_string( 'premium_multiple_profile_' . $index ); ?>>
 							<?php echo $name_html_multiple; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						</a>
 						<?php
@@ -2202,7 +2268,7 @@ class Premium_Person extends Widget_Base {
 
 				if ( ! empty( $person['multiple_description'] ) ) :
 					?>
-						<div <?php echo wp_kses_post( $this->get_render_attribute_string( $desc_setting_key ) ); ?>>
+						<div <?php $this->print_render_attribute_string( $desc_setting_key ); ?>>
 							<?php echo $this->parse_text_editor( $person['multiple_description'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						</div>
 					<?php
@@ -2225,7 +2291,7 @@ class Premium_Person extends Widget_Base {
 							$name_html_multiple = $name_tag_open . $name_content . $name_tag_close;
 							?>
 							<?php if ( ! empty( $person['multiple_profile']['url'] ) ) { ?>
-								<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_multiple_profile_' . $index ) ); ?>>
+								<a <?php $this->print_render_attribute_string( 'premium_multiple_profile_' . $index ); ?>>
 									<?php echo $name_html_multiple; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 								</a>
 								<?php

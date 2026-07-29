@@ -3,11 +3,14 @@
  * Plugin Name:			Sticky Header Effects for Elementor
  * Plugin URI:			https://stickyheadereffects.com
  * Description:			Create stunning sticky headers with multiple scroll effects like shrink, fade, slide, and blur—packed with 50+ ready-to-import templates and fully customizable using Elementor.
- * Version:				2.1.7
+ * Version:				2.2.0
  * Author:				POSIMYTH
  * Author URI:			https://posimyth.com/
- * Requires at least:	5.3
- * Tested up to:		6.8
+ * Requires at least:	6.3
+ * Tested up to:		7.0
+ * Requires PHP:		7.4
+ * License:				GPLv3
+ * License URI:			https://opensource.org/licenses/GPL-3.0
  *
  * Text Domain: she-header
  * Domain Path: /languages/
@@ -19,8 +22,8 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-define( 'SHE_HEADER_VERSION', '2.1.7' );
-define( 'SHE_HEADER_PREVIOUS_STABLE_VERSION', '2.1.6' );
+define( 'SHE_HEADER_VERSION', '2.2.0' );
+define( 'SHE_HEADER_PREVIOUS_STABLE_VERSION', '2.1.9' );
 
 define( 'SHE_HEADER__FILE__', __FILE__ );
 define( 'SHE_HEADER_PLUGIN_BASE', plugin_basename( SHE_HEADER__FILE__ ) );
@@ -41,7 +44,6 @@ define( 'SHE_PBNAME', plugin_basename( __FILE__ ) );
  * @return void
  */
 function she_header_load_plugin() {
-	load_plugin_textdomain( 'she-header-for-elementor' );
 
 	if ( ! did_action( 'elementor/loaded' ) ) {
 		add_action( 'admin_notices', 'she_header_fail_load' );
@@ -50,19 +52,57 @@ function she_header_load_plugin() {
 
 	$elementor_version_required = '2.0';
 	if ( ! version_compare( ELEMENTOR_VERSION, $elementor_version_required, '>=' ) ) {
-		add_action( 'admin_notices', 'she_header_fail_load_out_of_date' );
+		add_action(
+			'admin_notices',
+			function () {
+				she_header_admin_notice_elementor_update(
+					__( 'Sticky Header Effects not working because you are using an old version of Elementor.', 'she-header' )
+				);
+			}
+		);
 		return;
 	}
 
 	$elementor_version_recommendation = '3.0';
 	if ( ! version_compare( ELEMENTOR_VERSION, $elementor_version_recommendation, '>=' ) ) {
-		add_action( 'admin_notices', 'she_header_admin_notice_upgrade_recommendation' );
+		add_action(
+			'admin_notices',
+			function () {
+				she_header_admin_notice_elementor_update(
+					__( 'A new version of Elementor is available. For better performance and compatibility of Sticky Header Effects, we recommend updating to the latest version.', 'she-header' )
+				);
+			}
+		);
 	}
 
 	include( SHE_HEADER_PATH . 'plugin.php' );
 	include SHE_HEADER_PATH . 'includes/class-she-loader.php';
 }
 add_action( 'plugins_loaded', 'she_header_load_plugin' );
+
+/**
+ * Load the plugin text domain for translations.
+ *
+ * @since 2.2.0
+ *
+ * @return void
+ */
+function she_header_load_textdomain() {
+	load_plugin_textdomain( 'she-header', false, dirname( SHE_HEADER_PLUGIN_BASE ) . '/languages' );
+}
+add_action( 'init', 'she_header_load_textdomain' );
+
+/**
+ * Render a standard WP admin error notice.
+ *
+ * @since 2.2.0
+ *
+ * @param string $message HTML message content (already built with safe tags).
+ * @return void
+ */
+function she_render_admin_notice( $message ) {
+	echo wp_kses_post( '<div class="error">' . $message . '</div>' );
+}
 
 /**
  * Show in WP Dashboard notice about the plugin is not activated.
@@ -79,7 +119,7 @@ function she_header_fail_load() {
 
 	$plugin = 'elementor/elementor.php';
 
-	if ( _is_elementor_installed() ) {
+	if ( she_header_is_elementor_installed() ) {
 		if ( ! current_user_can( 'activate_plugins' ) ) {
 			return;
 		}
@@ -99,10 +139,23 @@ function she_header_fail_load() {
 		$message .= '<p>' . sprintf( '<a href="%s" class="button-primary">%s</a>', $install_url, __( 'Install Elementor Now', 'she-header' ) ) . '</p>';
 	}
 
-	echo '<div class="error"><p>' . $message . '</p></div>';
+	she_render_admin_notice( $message );
 }
 
-function she_header_fail_load_out_of_date() {
+/**
+ * Render the "Update Elementor" admin notice with the given message.
+ *
+ * Shared by both the hard out-of-date error (Elementor below the required
+ * version) and the soft upgrade recommendation (Elementor below the
+ * recommended version) — both show the same "Update Elementor Now" action and
+ * differ only in their message sentence.
+ *
+ * @since 2.2.0
+ *
+ * @param string $message Already-translated notice sentence.
+ * @return void
+ */
+function she_header_admin_notice_elementor_update( $message ) {
 	if ( ! current_user_can( 'update_plugins' ) ) {
 		return;
 	}
@@ -110,29 +163,15 @@ function she_header_fail_load_out_of_date() {
 	$file_path = 'elementor/elementor.php';
 
 	$upgrade_link = wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=' ) . $file_path, 'upgrade-plugin_' . $file_path );
-	$message = '<p>' . __( 'Sticky Header Effects not working because you are using an old version of Elementor.', 'she-header' ) . '</p>';
-	$message .= '<p>' . sprintf( '<a href="%s" class="button-primary">%s</a>', $upgrade_link, __( 'Update Elementor Now', 'she-header' ) ) . '</p>';
+	$notice = '<p>' . $message . '</p>';
+	$notice .= '<p>' . sprintf( '<a href="%s" class="button-primary">%s</a>', $upgrade_link, __( 'Update Elementor Now', 'she-header' ) ) . '</p>';
 
-	echo '<div class="error">' . $message . '</div>';
+	she_render_admin_notice( $notice );
 }
 
-function she_header_admin_notice_upgrade_recommendation() {
-	if ( ! current_user_can( 'update_plugins' ) ) {
-		return;
-	}
+if ( ! function_exists( 'she_header_is_elementor_installed' ) ) {
 
-	$file_path = 'elementor/elementor.php';
-
-	$upgrade_link = wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=' ) . $file_path, 'upgrade-plugin_' . $file_path );
-	$message = '<p>' . __( 'A new version of Elementor is available. For better performance and compatibility of Sticky Header Effects, we recommend updating to the latest version.', 'she-header' ) . '</p>';
-	$message .= '<p>' . sprintf( '<a href="%s" class="button-primary">%s</a>', $upgrade_link, __( 'Update Elementor Now', 'she-header' ) ) . '</p>';
-
-	echo '<div class="error">' . $message . '</div>';
-}
-
-if ( ! function_exists( '_is_elementor_installed' ) ) {
-
-	function _is_elementor_installed() {
+	function she_header_is_elementor_installed() {
 		$file_path = 'elementor/elementor.php';
 		$installed_plugins = get_plugins();
 

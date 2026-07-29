@@ -51,7 +51,7 @@ function psac_render_general_settings() {
 								<?php if( ! empty( $reg_post_types ) ) { ?>
 									<div class="psacp-other-post-type-wrap">
 										<div class="psacp-pro-features"><i class="dashicons dashicons-lock"></i> <?php esc_html_e('Premium Features', 'post-slider-and-carousel'); ?>  </div>
-										<span class="description"><?php esc_html_e('Bellow are custom post types(CPTs) and custom Taxonomies.', 'post-slider-and-carousel'); ?> <a href="<?php echo esc_url( PSAC_PRO_TAB_URL ); ?>"><?php esc_html_e('Unlock Custom Post Types & Taxonomies!', 'post-slider-and-carousel'); ?></a></span>
+										<span class="description"><?php esc_html_e('Below are custom post types(CPTs) and custom Taxonomies.', 'post-slider-and-carousel'); ?> <a href="<?php echo esc_url( PSAC_PRO_TAB_URL ); ?>"><?php esc_html_e('Unlock Custom Post Types & Taxonomies!', 'post-slider-and-carousel'); ?></a></span>
 										<?php foreach ($reg_post_types as $post_key => $post_label) {
 
 											if( PSAC_POST_TYPE == $post_key ) {

@@ -52,9 +52,9 @@ class Premium_Notifications extends Widget_Base {
 	/**
 	 * Blog Helper
 	 *
-	 * @var blog_helper
+	 * @var Blog_Helper|null
 	 */
-	private $blog_helper = array();
+	private $blog_helper = null;
 
 	/**
 	 * Get Blog Helper Instance.
@@ -63,16 +63,13 @@ class Premium_Notifications extends Widget_Base {
 	 * @access public
 	 */
 	public function get_blog_helper() {
-		return $this->blog_helper = Blog_Helper::getInstance();
+
+		if ( null === $this->blog_helper ) {
+			$this->blog_helper = Blog_Helper::getInstance();
+		}
+
+		return $this->blog_helper;
 	}
-
-
-	/**
-	 * Query Posts
-	 *
-	 * @var query_posts
-	 */
-	private $query_posts = array();
 
 	/**
 	 * Check Icon Draw Option.
@@ -127,7 +124,7 @@ class Premium_Notifications extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium recent posts notification', 'posts', 'alert', 'recent', 'query', 'box', 'cpt', 'custom' );
@@ -139,7 +136,7 @@ class Premium_Notifications extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget Categories.
+	 * @return array Widget Categories.
 	 */
 	public function get_categories() {
 		return array( 'premium-elements' );
@@ -184,7 +181,8 @@ class Premium_Notifications extends Widget_Base {
 			$settings = $this->get_settings();
 
 			if ( 'yes' === $settings['draw_svg'] || 'yes' === $settings['header_draw_svg'] ) {
-				array_push( $scripts, 'pa-tweenmax', 'pa-motionpath' );
+				$scripts[] = 'pa-tweenmax';
+				$scripts[] = 'pa-motionpath';
 			}
 
 			if ( 'animation' === $settings['icon_type'] || 'animation' === $settings['header_icon_type'] ) {
@@ -251,14 +249,29 @@ class Premium_Notifications extends Widget_Base {
 			'icon_type',
 			array(
 				'label'              => __( 'Icon Type', 'premium-addons-for-elementor' ),
-				'type'               => Controls_Manager::SELECT,
+				'type'               => Controls_Manager::CHOOSE,
 				'default'            => 'icon',
 				'options'            => array(
-					'icon'      => __( 'Icon', 'premium-addons-for-elementor' ),
-					'image'     => __( 'Image', 'premium-addons-for-elementor' ),
-					'text'      => __( 'Text', 'premium-addons-for-elementor' ),
-					'animation' => __( 'Lottie Animation', 'premium-addons-for-elementor' ),
-					'svg'       => __( 'SVG Code', 'premium-addons-for-elementor' ),
+					'icon'      => array(
+						'title' => __( 'Icon', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-icon',
+					),
+					'image'     => array(
+						'title' => __( 'Image', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-image',
+					),
+					'text'      => array(
+						'title' => __( 'Text', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-t-letter',
+					),
+					'animation' => array(
+						'title' => __( 'Lottie Animation', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-lottie',
+					),
+					'svg'       => array(
+						'title' => __( 'SVG Code', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-code',
+					),
 				),
 				'frontend_available' => true,
 			)
@@ -267,13 +280,16 @@ class Premium_Notifications extends Widget_Base {
 		$this->add_control(
 			'icon',
 			array(
-				'label'     => __( 'Icon', 'premium-addons-for-elementor' ),
-				'type'      => Controls_Manager::ICONS,
-				'default'   => array(
+				'label'                  => __( 'Icon', 'premium-addons-for-elementor' ),
+				'type'                   => Controls_Manager::ICONS,
+				'default'                => array(
 					'value'   => 'far fa-bell',
 					'library' => 'fa-regular',
 				),
-				'condition' => array(
+				'exclude_inline_options' => 'none',
+				'skin'                   => 'inline',
+				'label_block'            => false,
+				'condition'              => array(
 					'icon_type' => 'icon',
 				),
 			)
@@ -303,6 +319,9 @@ class Premium_Notifications extends Widget_Base {
 				'condition'   => array(
 					'icon_type' => 'animation',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -314,6 +333,9 @@ class Premium_Notifications extends Widget_Base {
 				'description' => 'You can use these sites to create SVGs: <a href="https://danmarshall.github.io/google-font-to-svg-path/" target="_blank">Google Fonts</a> and <a href="https://boxy-svg.com/" target="_blank">Boxy SVG</a>',
 				'condition'   => array(
 					'icon_type' => 'svg',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -834,6 +856,9 @@ class Premium_Notifications extends Widget_Base {
 					'cookies'       => 'yes',
 					'shown_content' => 'template',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -934,13 +959,25 @@ class Premium_Notifications extends Widget_Base {
 			'header_icon_type',
 			array(
 				'label'     => __( 'Icon Type', 'premium-addons-for-elementor' ),
-				'type'      => Controls_Manager::SELECT,
+				'type'      => Controls_Manager::CHOOSE,
 				'default'   => 'icon',
 				'options'   => array(
-					'icon'      => __( 'Icon', 'premium-addons-for-elementor' ),
-					'image'     => __( 'Image', 'premium-addons-for-elementor' ),
-					'animation' => __( 'Lottie Animation', 'premium-addons-for-elementor' ),
-					'svg'       => __( 'SVG Code', 'premium-addons-for-elementor' ),
+					'icon'      => array(
+						'title' => __( 'Icon', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-icon',
+					),
+					'image'     => array(
+						'title' => __( 'Image', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-image',
+					),
+					'animation' => array(
+						'title' => __( 'Lottie Animation', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-lottie',
+					),
+					'svg'       => array(
+						'title' => __( 'SVG Code', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-code',
+					),
 				),
 				'condition' => array(
 					'header_icon_sw' => 'yes',
@@ -951,13 +988,16 @@ class Premium_Notifications extends Widget_Base {
 		$this->add_control(
 			'header_icon',
 			array(
-				'label'     => __( 'Icon', 'premium-addons-for-elementor' ),
-				'type'      => Controls_Manager::ICONS,
-				'default'   => array(
+				'label'                  => __( 'Icon', 'premium-addons-for-elementor' ),
+				'type'                   => Controls_Manager::ICONS,
+				'default'                => array(
 					'value'   => 'far fa-bell',
 					'library' => 'fa-regular',
 				),
-				'condition' => array(
+				'exclude_inline_options' => 'none',
+				'skin'                   => 'inline',
+				'label_block'            => false,
+				'condition'              => array(
 					'header_icon_sw'   => 'yes',
 					'header_icon_type' => 'icon',
 				),
@@ -990,6 +1030,9 @@ class Premium_Notifications extends Widget_Base {
 					'header_icon_sw'   => 'yes',
 					'header_icon_type' => 'animation',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -1002,6 +1045,9 @@ class Premium_Notifications extends Widget_Base {
 				'condition'   => array(
 					'header_icon_sw'   => 'yes',
 					'header_icon_type' => 'svg',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -1259,20 +1305,29 @@ class Premium_Notifications extends Widget_Base {
 
 		foreach ( $post_types as $key => $type ) {
 
-			// Get all the taxanomies associated with the selected post type.
+			// Get all the taxonomies associated with the selected post type.
 			$taxonomy = Blog_Helper::get_taxnomies( $key );
 
 			if ( ! empty( $taxonomy ) ) {
 
+				// Batch-fetch terms for all taxonomies of this post type in one query.
+				$all_terms    = get_terms(
+					array(
+						'taxonomy'   => array_keys( $taxonomy ),
+						'hide_empty' => false,
+					)
+				);
+				$terms_by_tax = array();
+				if ( ! is_wp_error( $all_terms ) ) {
+					foreach ( $all_terms as $t ) {
+						$terms_by_tax[ $t->taxonomy ][] = $t;
+					}
+				}
+
 				// Get all taxonomy values under the taxonomy.
 				foreach ( $taxonomy as $index => $tax ) {
 
-					$terms = get_terms(
-						array(
-							'taxonomy'   => $index,
-							'hide_empty' => false,
-						)
-					);
+					$terms = isset( $terms_by_tax[ $index ] ) ? $terms_by_tax[ $index ] : array();
 
 					$related_tax = array();
 
@@ -1287,15 +1342,15 @@ class Premium_Notifications extends Widget_Base {
 						$this->add_control(
 							$index . '_' . $key . '_filter_rule',
 							array(
-								/* translators: %s Taxnomy Label */
+								/* translators: %s Taxonomy Label */
 								'label'       => sprintf( __( '%s Filter Rule', 'premium-addons-for-elementor' ), $tax->label ),
 								'type'        => Controls_Manager::SELECT,
 								'default'     => 'IN',
 								'label_block' => true,
 								'options'     => array(
-									/* translators: %s: Taxnomy Label */
+									/* translators: %s: Taxonomy Label */
 									'IN'     => sprintf( __( 'Match %s', 'premium-addons-for-elementor' ), $tax->label ),
-									/* translators: %s: Taxnomy Label */
+									/* translators: %s: Taxonomy Label */
 									'NOT IN' => sprintf( __( 'Exclude %s', 'premium-addons-for-elementor' ), $tax->label ),
 								),
 								'condition'   => array(
@@ -1308,7 +1363,7 @@ class Premium_Notifications extends Widget_Base {
 						$this->add_control(
 							'tax_' . $index . '_' . $key . '_filter',
 							array(
-								/* translators: %s Taxnomy Label */
+								/* translators: %s Taxonomy Label */
 								'label'       => sprintf( __( '%s Filter', 'premium-addons-for-elementor' ), $tax->label ),
 								'type'        => Controls_Manager::SELECT2,
 								'default'     => '',
@@ -1365,7 +1420,7 @@ class Premium_Notifications extends Widget_Base {
 				'label_block' => true,
 				'options'     => array(
 					'post__in'     => __( 'Match Post', 'premium-addons-for-elementor' ),
-					'post__not_in' => __( 'Exclude Post', 'premium-addons-for-elementor' ),
+					'post__not_in' => __( 'Exclude Post', 'premium-addons-for-elementor' ), // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in -- Control option value, not a query argument.
 				),
 				'condition'   => $options['source_condition'],
 			)
@@ -2107,6 +2162,9 @@ class Premium_Notifications extends Widget_Base {
 				'condition' => array(
 					'icon_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -2247,6 +2305,9 @@ class Premium_Notifications extends Widget_Base {
 				),
 				'condition' => array(
 					'icon_adv_radius_hover' => 'yes',
+				),
+				'ai'        => array(
+					'active' => false,
 				),
 			)
 		);
@@ -2391,6 +2452,9 @@ class Premium_Notifications extends Widget_Base {
 				'condition' => array(
 					'number_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -2505,6 +2569,9 @@ class Premium_Notifications extends Widget_Base {
 				),
 				'condition' => array(
 					'number_adv_radius_hover' => 'yes',
+				),
+				'ai'        => array(
+					'active' => false,
 				),
 			)
 		);
@@ -2744,7 +2811,6 @@ class Premium_Notifications extends Widget_Base {
 				'size_units' => array( 'px', '%', 'em' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .pa-rec-posts-close-icon' => 'font-size: {{SIZE}}{{UNIT}}; width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
-					// '{{WRAPPER}} .pa-rec-posts-close'      => '',
 				),
 			)
 		);
@@ -3631,7 +3697,9 @@ class Premium_Notifications extends Widget_Base {
 
 		$this->add_render_attribute( 'posts_container', 'class', array( 'premium-blog-wrap', $masked ) );
 
-		$icon_type = $settings['icon_type'];
+		$icon_type               = $settings['icon_type'];
+		$image_html              = '';
+		$image_html_with_no_post = '';
 
 		if ( 'image' === $icon_type ) {
 
@@ -3703,10 +3771,6 @@ class Premium_Notifications extends Widget_Base {
 			if ( 'yes' === $settings['draw_svg'] ) {
 				$this->add_render_attribute( 'wrap', 'class', 'elementor-invisible' );
 
-				// if ( 'icon' === $icon_type ) {
-				// $this->add_render_attribute( 'icon', 'class', $settings['icon']['value'] );
-				// }
-
 				$this->add_render_attribute(
 					'icon',
 					array(
@@ -3746,15 +3810,7 @@ class Premium_Notifications extends Widget_Base {
 
 				$this->add_render_attribute( 'header_icon', 'class', 'premium-drawable-icon' );
 
-				// if ( ( 'yes' === $settings['header_draw_svg'] && 'icon' === $header_icon_type ) || 'svg' === $header_icon_type ) {
-				// $this->add_render_attribute( 'header_icon', 'class', 'premium-not-icon' );
-				// }
-
 				if ( 'yes' === $settings['header_draw_svg'] ) {
-
-					// if ( 'icon' === $header_icon_type ) {
-					// $this->add_render_attribute( 'header_icon', 'class', $settings['header_icon']['value'] );
-					// }
 
 					$this->add_render_attribute(
 						'header_icon',
@@ -3776,16 +3832,16 @@ class Premium_Notifications extends Widget_Base {
 
 		?>
 
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'wrap' ) ); ?>>
+		<div <?php $this->print_render_attribute_string( 'wrap' ); ?>>
 
-			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon_wrap' ) ); ?>>
+			<div <?php $this->print_render_attribute_string( 'icon_wrap' ); ?>>
 				<?php if ( 'image' === $icon_type ) : ?>
 
 					<?php echo wp_kses_post( $image_html ); ?>
 
 				<?php elseif ( 'animation' === $icon_type ) : ?>
 
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'lottie_icon' ) ); ?>></div>
+					<div <?php $this->print_render_attribute_string( 'lottie_icon' ); ?>></div>
 
 				<?php elseif ( 'icon' === $icon_type ) : ?>
 					<?php
@@ -3799,17 +3855,14 @@ class Premium_Notifications extends Widget_Base {
 						);
 					else :
 
-						echo Helper_Functions::get_svg_by_icon(
-							$settings['icon'],
-							$this->get_render_attribute_string( 'icon' )
-						);
+						echo Helper_Functions::get_svg_by_icon( $settings['icon'], $this->get_render_attribute_string( 'icon' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_svg_by_icon() returns sanitized inline SVG/icon markup.
 
 					endif;
 					?>
 
 				<?php elseif ( 'svg' === $icon_type ) : ?>
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon' ) ); ?>>
-						<?php $this->print_unescaped_setting( 'custom_svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<div <?php $this->print_render_attribute_string( 'icon' ); ?>>
+						<?php echo Helper_Functions::sanitize_svg( $this->get_settings_for_display( 'custom_svg' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- sanitize_svg passes through wp_kses with a strict SVG allowlist. ?>
 					</div>
 				<?php else : ?>
 					<p class="premium-not-icon-text premium-notification-icon">
@@ -3836,7 +3889,7 @@ class Premium_Notifications extends Widget_Base {
 				<?php endif; ?>
 
 				<?php if ( $number > 0 ) : ?>
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'number' ) ); ?>>
+					<div <?php $this->print_render_attribute_string( 'number' ); ?>>
 						<span><?php echo wp_kses_post( $number ); ?></span>
 					</div>
 				<?php endif; ?>
@@ -3845,22 +3898,22 @@ class Premium_Notifications extends Widget_Base {
 
 		</div>
 
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'posts_container' ) ); ?>>
+		<div <?php $this->print_render_attribute_string( 'posts_container' ); ?>>
 			<div class="pa-rec-posts-header">
 
-				<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'title_wrap' ) ); ?>>
+				<div <?php $this->print_render_attribute_string( 'title_wrap' ); ?>>
 
 					<?php if ( 'yes' === $settings['header_icon_sw'] ) : ?>
 
-						<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'header_icon_wrap' ) ); ?>>
+						<div <?php $this->print_render_attribute_string( 'header_icon_wrap' ); ?>>
 							<?php if ( 'image' === $header_icon_type ) : ?>
 
 								<?php $img_src = wp_get_attachment_image_src( $settings['header_image']['id'], 'thumbnail' ); ?>
 
-								<img src="<?php echo esc_url( $img_src[0] ); ?>" alt="<?php echo esc_attr( $settings['header_image']['alt'] ); ?>">
+								<img src="<?php echo esc_url( $img_src ? $img_src[0] : $settings['header_image']['url'] ); ?>" alt="<?php echo esc_attr( $settings['header_image']['alt'] ); ?>">
 							<?php elseif ( 'animation' === $header_icon_type ) : ?>
 
-								<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'header_lottie_icon' ) ); ?>></div>
+								<div <?php $this->print_render_attribute_string( 'header_lottie_icon' ); ?>></div>
 
 							<?php elseif ( 'icon' === $header_icon_type ) : ?>
 								<?php
@@ -3873,17 +3926,14 @@ class Premium_Notifications extends Widget_Base {
 										)
 									);
 								else :
-									echo Helper_Functions::get_svg_by_icon(
-										$settings['header_icon'],
-										$this->get_render_attribute_string( 'header_icon' )
-									);
+									echo Helper_Functions::get_svg_by_icon( $settings['header_icon'], $this->get_render_attribute_string( 'header_icon' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_svg_by_icon() returns sanitized inline SVG/icon markup.
 
 								endif;
 								?>
 
 							<?php else : ?>
-								<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'header_icon' ) ); ?>>
-									<?php $this->print_unescaped_setting( 'header_custom_svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+								<div <?php $this->print_render_attribute_string( 'header_icon' ); ?>>
+									<?php echo Helper_Functions::sanitize_svg( $this->get_settings_for_display( 'header_custom_svg' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- sanitize_svg passes through wp_kses with a strict SVG allowlist. ?>
 								</div>
 							<?php endif; ?>
 
@@ -3891,9 +3941,9 @@ class Premium_Notifications extends Widget_Base {
 
 					<?php endif; ?>
 
-					<<?php echo Helper_Functions::validate_html_tag( $settings['header_size'] ); ?> class="pa-rec-title">
+					<<?php echo esc_html( Helper_Functions::validate_html_tag( $settings['header_size'] ) ); ?> class="pa-rec-title">
 						<?php echo wp_kses_post( $settings['header_text'] ); ?>
-					</<?php echo Helper_Functions::validate_html_tag( $settings['header_size'] ); ?>>
+					</<?php echo esc_html( Helper_Functions::validate_html_tag( $settings['header_size'] ) ); ?>>
 
 
 				</div>
@@ -3906,7 +3956,7 @@ class Premium_Notifications extends Widget_Base {
 			<div class="pa-rec-posts-body">
 				<?php
 
-				if ( 'yes' === $settings['cookies'] && 0 == $number && 'template' === $settings['shown_content'] ) {
+				if ( 'yes' === $settings['cookies'] && 0 === $number && 'template' === $settings['shown_content'] ) {
 					$template = empty( $settings['content_temp'] ) ? $settings['live_temp_content'] : $settings['content_temp'];
 					echo Helper_Functions::render_elementor_template( $template ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				} else {
@@ -3934,7 +3984,7 @@ class Premium_Notifications extends Widget_Base {
 	 *
 	 * @access protected
 	 *
-	 * @return integer $number posts number.
+	 * @return array<string, mixed> Posts data with 'number' and 'posts' keys.
 	 */
 	protected function get_posts_number() {
 
@@ -3952,8 +4002,6 @@ class Premium_Notifications extends Widget_Base {
 			$query = $blog_helper->get_query_posts();
 
 			$posts = $query->posts;
-
-			$this->query_posts = $posts;
 
 			$queried_posts_ids = array();
 

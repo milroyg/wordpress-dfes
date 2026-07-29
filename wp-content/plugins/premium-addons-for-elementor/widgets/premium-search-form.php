@@ -73,7 +73,7 @@ class Premium_Search_Form extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium search form', 'ajax' );
@@ -193,11 +193,44 @@ class Premium_Search_Form extends Widget_Base {
 		);
 
 		$this->add_control(
+			'css_selector_notice',
+			array(
+				'raw'             => __( 'By default, the widget searches the elements on the entire page if CSS Selector value is not specified.', 'premium-addons-for-elementor' ),
+				'type'            => Controls_Manager::RAW_HTML,
+				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+				'condition'       => array(
+					'query_type' => 'elements',
+				),
+			)
+		);
+
+		$this->add_control(
 			'selector',
 			array(
 				'label'       => __( 'CSS Selector', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::TEXT,
 				'description' => __( 'Add the CSS selector of the parent container that contains the queried elements.', 'premium-addons-for-elementor' ),
+				'label_block' => true,
+				'condition'   => array(
+					'query_type' => 'elements',
+				),
+				'ai'          => array(
+					'active' => false,
+				),
+			)
+		);
+
+		$this->add_control(
+			'elements_effect',
+			array(
+				'label'       => __( 'Effect', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::SELECT,
+				'options'     => array(
+					'blur'           => __( 'Blur', 'premium-addons-for-elementor' ),
+					'highlight'      => __( 'Highlight Text', 'premium-addons-for-elementor' ),
+					'blur_highlight' => __( 'Blur + Highlight Text', 'premium-addons-for-elementor' ),
+				),
+				'default'     => 'blur',
 				'label_block' => true,
 				'condition'   => array(
 					'query_type' => 'elements',
@@ -213,7 +246,11 @@ class Premium_Search_Form extends Widget_Base {
 				'description' => __( 'Add the CSS selector of the elements to fade out.', 'premium-addons-for-elementor' ),
 				'label_block' => true,
 				'condition'   => array(
-					'query_type' => 'elements',
+					'query_type'      => 'elements',
+					'elements_effect' => array( 'blur', 'blur_highlight' ),
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -223,12 +260,14 @@ class Premium_Search_Form extends Widget_Base {
 			array(
 				'label'     => __( 'Highlighted Text Color', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
+				'default'   => '#FFEB3B',
 				'selectors' => array(
 					'.pa-highlighted-text-{{ID}}' => 'background-color: {{VALUE}};',
 					'{{WRAPPER}}'                 => '--pa-search-hightlight: {{VALUE}}',
 				),
 				'condition' => array(
-					'query_type' => 'elements',
+					'query_type'      => 'elements',
+					'elements_effect' => array( 'highlight', 'blur_highlight' ),
 				),
 			)
 		);
@@ -362,20 +401,29 @@ class Premium_Search_Form extends Widget_Base {
 
 		foreach ( $post_types as $key => $type ) {
 
-			// Get all the taxanomies associated with the selected post type.
+			// Get all the taxonomies associated with the selected post type.
 			$taxonomy = Blog_Helper::get_taxnomies( $key );
 
 			if ( ! empty( $taxonomy ) ) {
 
+				// Batch-fetch terms for all taxonomies of this post type in one query.
+				$all_terms    = get_terms(
+					array(
+						'taxonomy'   => array_keys( $taxonomy ),
+						'hide_empty' => false,
+					)
+				);
+				$terms_by_tax = array();
+				if ( ! is_wp_error( $all_terms ) ) {
+					foreach ( $all_terms as $t ) {
+						$terms_by_tax[ $t->taxonomy ][] = $t;
+					}
+				}
+
 				// Get all taxonomy values under the taxonomy.
 				foreach ( $taxonomy as $index => $tax ) {
 
-					$terms = get_terms(
-						array(
-							'taxonomy'   => $index,
-							'hide_empty' => false,
-						)
-					);
+					$terms = isset( $terms_by_tax[ $index ] ) ? $terms_by_tax[ $index ] : array();
 
 					$related_tax = array();
 
@@ -469,28 +517,9 @@ class Premium_Search_Form extends Widget_Base {
 		);
 
 		$this->add_control(
-			'posts_filter_rule',
-			array(
-				'label'       => __( 'Filter By Post Rule', 'premium-addons-for-elementor' ),
-				'type'        => Controls_Manager::SELECT,
-				'options'     => array(
-					'post__in'     => __( 'Match Post', 'premium-addons-for-elementor' ),
-					'post__not_in' => __( 'Exclude Post', 'premium-addons-for-elementor' ),
-				),
-				'default'     => 'post__not_in',
-				'separator'   => 'before',
-				'label_block' => true,
-				'condition'   => array(
-					'query_type'          => 'post',
-					'custom_search_query' => 'yes',
-				),
-			)
-		);
-
-		$this->add_control(
 			'premium_blog_posts_exclude',
 			array(
-				'label'       => __( 'Posts', 'premium-addons-for-elementor' ),
+				'label'       => __( 'Exclude Posts', 'premium-addons-for-elementor' ),
 				'type'        => Premium_Post_Filter::TYPE,
 				'label_block' => true,
 				'multiple'    => true,
@@ -506,7 +535,7 @@ class Premium_Search_Form extends Widget_Base {
 		$this->add_control(
 			'custom_posts_filter',
 			array(
-				'label'              => __( 'Posts', 'premium-addons-for-elementor' ),
+				'label'              => __( 'Exclude Items', 'premium-addons-for-elementor' ),
 				'type'               => Premium_Post_Filter::TYPE,
 				'render_type'        => 'template',
 				'label_block'        => true,
@@ -551,7 +580,7 @@ class Premium_Search_Form extends Widget_Base {
 			array(
 				'label'       => __( 'Results Number Text', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::TEXT,
-				'default'     => 'Results: {{number}}',
+				'default'     => '{{number}} Results',
 				'description' => __( 'This helps to control number of results string. {{number}} will be repalced with the number of results', 'premium-addons-for-elementor' ),
 				'condition'   => array(
 					'query_type'          => 'post',
@@ -838,7 +867,7 @@ class Premium_Search_Form extends Widget_Base {
 				'type'        => Controls_Manager::SELECT,
 				'options'     => array(
 					'onpage'   => __( 'On Page Search', 'premium-addons-for-elementor' ),
-					'redirect' => __( 'Go to Search Page', 'premium-addons-for-elementor' ),
+					'redirect' => __( 'Go to Search Result', 'premium-addons-for-elementor' ),
 				),
 				'default'     => 'onpage',
 				'label_block' => true,
@@ -859,6 +888,9 @@ class Premium_Search_Form extends Widget_Base {
 					'query_type'    => 'post',
 					'search_button' => 'yes',
 					'button_action' => 'redirect',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -905,7 +937,6 @@ class Premium_Search_Form extends Widget_Base {
 						'search-plus',
 					),
 				),
-				// 'exclude_inline_options' => array( 'svg' ),
 				'condition'   => array(
 					'search_button' => 'yes',
 					'search_icon'   => 'yes',
@@ -1497,89 +1528,6 @@ class Premium_Search_Form extends Widget_Base {
 				'default'   => 'yes',
 				'condition' => array(
 					'carousel' => 'yes',
-				),
-			)
-		);
-
-		$this->add_responsive_control(
-			'arrows_vposition',
-			array(
-				'label'        => __( 'Vertical Position', 'premium-addons-for-elementor' ),
-				'type'         => Controls_Manager::CHOOSE,
-				'options'      => array(
-					'top'    => array(
-						'title' => __( 'Top', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-arrow-up',
-					),
-					'middle' => array(
-						'title' => __( 'Center', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-text-align-justify',
-					),
-					'bottom' => array(
-						'title' => __( 'Bottom', 'premium-addons-for-elementor' ),
-						'icon'  => 'eicon-arrow-down',
-					),
-				),
-				'default'      => 'middle',
-				'toggle'       => false,
-				'prefix_class' => 'premium-search__arrow-',
-				'condition'    => array(
-					'carousel'        => 'yes',
-					'carousel_arrows' => 'yes',
-				),
-			)
-		);
-
-		$this->add_responsive_control(
-			'carousel_prev_arrow_pos',
-			array(
-				'label'      => __( 'Previous Arrow Position', 'premium-addons-for-elementor' ),
-				'type'       => Controls_Manager::SLIDER,
-				'size_units' => array( 'px', 'em', '%' ),
-				'range'      => array(
-					'px' => array(
-						'min' => -100,
-						'max' => 100,
-					),
-					'em' => array(
-						'min' => -10,
-						'max' => 10,
-					),
-				),
-				'condition'  => array(
-					'carousel'        => 'yes',
-					'carousel_arrows' => 'yes',
-				),
-				'selectors'  => array(
-					// '{{WRAPPER}} .premium-blog-wrap a.carousel-arrow.carousel-next' => 'right: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .premium-search__query-wrap a.carousel-arrow.carousel-prev' => 'left: {{SIZE}}{{UNIT}};',
-				),
-			)
-		);
-
-		$this->add_responsive_control(
-			'carousel_next_arrow_pos',
-			array(
-				'label'      => __( 'Next Arrow Position', 'premium-addons-for-elementor' ),
-				'type'       => Controls_Manager::SLIDER,
-				'size_units' => array( 'px', 'em', '%' ),
-				'range'      => array(
-					'px' => array(
-						'min' => -100,
-						'max' => 100,
-					),
-					'em' => array(
-						'min' => -10,
-						'max' => 10,
-					),
-				),
-				'condition'  => array(
-					'carousel'        => 'yes',
-					'carousel_arrows' => 'yes',
-				),
-				'selectors'  => array(
-					'{{WRAPPER}} .premium-search__query-wrap a.carousel-arrow.carousel-next' => 'right: {{SIZE}}{{UNIT}};',
-					// '{{WRAPPER}} .premium-blog-wrap a.carousel-arrow.carousel-prev' => 'left: {{SIZE}}{{UNIT}};',
 				),
 			)
 		);
@@ -2783,6 +2731,9 @@ class Premium_Search_Form extends Widget_Base {
 				'condition' => array(
 					'navigation_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -2863,6 +2814,9 @@ class Premium_Search_Form extends Widget_Base {
 				'condition' => array(
 					'hover_navigation_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -2942,6 +2896,9 @@ class Premium_Search_Form extends Widget_Base {
 				),
 				'condition' => array(
 					'active_navigation_adv_radius' => 'yes',
+				),
+				'ai'        => array(
+					'active' => false,
 				),
 			)
 		);
@@ -3061,6 +3018,122 @@ class Premium_Search_Form extends Widget_Base {
 				'condition' => array(
 					'query_type' => 'post',
 					'carousel'   => 'yes',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'arrows_vposition',
+			array(
+				'label'        => __( 'Vertical Position', 'premium-addons-for-elementor' ),
+				'type'         => Controls_Manager::CHOOSE,
+				'options'      => array(
+					'top'    => array(
+						'title' => __( 'Top', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-arrow-up',
+					),
+					'middle' => array(
+						'title' => __( 'Center', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-justify',
+					),
+					'bottom' => array(
+						'title' => __( 'Bottom', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-arrow-down',
+					),
+					'custom' => array(
+						'title' => __( 'Custom', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-cog',
+					),
+				),
+				'default'      => 'middle',
+				'toggle'       => false,
+				'prefix_class' => 'premium-search__arrow-',
+				'condition'    => array(
+					'carousel'        => 'yes',
+					'carousel_arrows' => 'yes',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'arrow_custom_vpos',
+			array(
+				'label'      => __( 'Vertical Position', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em', '%' ),
+				'range'      => array(
+					'px' => array(
+						'min' => -500,
+						'max' => 500,
+					),
+					'%'  => array(
+						'min' => -100,
+						'max' => 100,
+					),
+					'em' => array(
+						'min' => -10,
+						'max' => 10,
+					),
+				),
+				'condition'  => array(
+					'carousel'         => 'yes',
+					'carousel_arrows'  => 'yes',
+					'arrows_vposition' => 'custom',
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .premium-search__query-wrap a.carousel-arrow' => 'top: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'carousel_prev_arrow_pos',
+			array(
+				'label'      => __( 'Previous Arrow Position', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em', '%' ),
+				'range'      => array(
+					'px' => array(
+						'min' => -100,
+						'max' => 100,
+					),
+					'em' => array(
+						'min' => -10,
+						'max' => 10,
+					),
+				),
+				'condition'  => array(
+					'carousel'        => 'yes',
+					'carousel_arrows' => 'yes',
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .premium-search__query-wrap a.carousel-arrow.carousel-prev' => 'left: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'carousel_next_arrow_pos',
+			array(
+				'label'      => __( 'Next Arrow Position', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em', '%' ),
+				'range'      => array(
+					'px' => array(
+						'min' => -100,
+						'max' => 100,
+					),
+					'em' => array(
+						'min' => -10,
+						'max' => 10,
+					),
+				),
+				'condition'  => array(
+					'carousel'        => 'yes',
+					'carousel_arrows' => 'yes',
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .premium-search__query-wrap a.carousel-arrow.carousel-next' => 'right: {{SIZE}}{{UNIT}};',
 				),
 			)
 		);
@@ -3253,6 +3326,7 @@ class Premium_Search_Form extends Widget_Base {
 		if ( 'elements' === $settings['query_type'] ) {
 			$search_settings['target']         = esc_attr( $settings['selector'] );
 			$search_settings['fadeout_target'] = esc_attr( $settings['fadeout_selector'] );
+			$search_settings['effect']         = $settings['elements_effect'];
 		} else {
 
 			$search_settings['hideOnClick']    = 'yes' === $settings['hide_on_click'];
@@ -3293,7 +3367,7 @@ class Premium_Search_Form extends Widget_Base {
 
 		?>
 
-			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'container' ) ); ?>>
+			<div <?php $this->print_render_attribute_string( 'container' ); ?>>
 
 				<?php if ( 'yes' === $settings['show_label'] ) : ?>
 					<div class="premium-search__label-wrap">
@@ -3309,7 +3383,7 @@ class Premium_Search_Form extends Widget_Base {
 						<div class="premium-search__type-filter">
 							<select class="premium-search__type-select">
 
-								<option value="any"><?php echo __( 'All Posts', 'premium-addons-for-elementor' ); ?></option>
+								<option value="any"><?php echo esc_html__( 'All Posts', 'premium-addons-for-elementor' ); ?></option>
 								<?php
 								foreach ( $post_types as $id => $label ) :
 									$count = wp_count_posts( $id )->publish;
@@ -3319,7 +3393,7 @@ class Premium_Search_Form extends Widget_Base {
 									}
 									?>
 									<?php
-									if ( ! in_array( $id, $settings['post_types_excluded'] ) ) :
+									if ( ! in_array( $id, $settings['post_types_excluded'], true ) ) :
 										if ( 'yes' === $settings['show_posts_number'] ) {
 											$label = $label . ' (' . $count . ')';
 										}
@@ -3332,7 +3406,7 @@ class Premium_Search_Form extends Widget_Base {
 					<?php endif; ?>
 
 					<div class="premium-search__input-wrap">
-						<input <?php echo wp_kses_post( $this->get_render_attribute_string( 'search_input' ) ); ?>>
+						<input <?php $this->print_render_attribute_string( 'search_input' ); ?>>
 
 						<div class="premium-search__spinner"></div>
 

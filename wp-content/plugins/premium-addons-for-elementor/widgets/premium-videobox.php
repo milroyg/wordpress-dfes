@@ -116,7 +116,7 @@ class Premium_Videobox extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium video box', 'youtube', 'vimeo', 'self', 'hosted', 'media', 'list', 'embed', 'dailymotion' );
@@ -255,6 +255,9 @@ class Premium_Videobox extends Widget_Base {
 					'youtube_list'                 => 'yes',
 					'source'                       => 'playlist',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -271,6 +274,9 @@ class Premium_Videobox extends Widget_Base {
 					'premium_video_box_video_type' => 'youtube',
 					'youtube_list'                 => 'yes',
 					'source'                       => 'channel',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -407,6 +413,9 @@ class Premium_Videobox extends Widget_Base {
 							),
 						),
 					),
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -579,6 +588,9 @@ class Premium_Videobox extends Widget_Base {
 				'condition'   => array(
 					'premium_video_box_video_type' => 'self',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -635,10 +647,6 @@ class Premium_Videobox extends Widget_Base {
 			array(
 				'label'     => esc_html__( 'Captions', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::SWITCHER,
-				'condition' => array(
-					'video_type' => array( 'youtube' ),
-					'controls'   => 'yes',
-				),
 				'condition' => array(
 					'premium_video_box_controls'   => 'yes',
 					'premium_video_box_video_type' => 'youtube',
@@ -803,11 +811,17 @@ class Premium_Videobox extends Widget_Base {
 				'label'        => __( 'Position', 'premium-addons-for-elementor' ),
 				'type'         => Controls_Manager::SELECT,
 				'options'      => array(
+					/* translators: %s: horizontal direction (Left/Right). */
 					'top-left'     => sprintf( __( 'Top %s', 'premium-addons-for-elementor' ), ucfirst( $left_direction ) ),
+					/* translators: %s: horizontal direction (Left/Right). */
 					'top-right'    => sprintf( __( 'Top %s', 'premium-addons-for-elementor' ), ucfirst( $right_direction ) ),
+					/* translators: %s: horizontal direction (Left/Right). */
 					'bottom-left'  => sprintf( __( 'Bottom %s', 'premium-addons-for-elementor' ), ucfirst( $left_direction ) ),
+					/* translators: %s: horizontal direction (Left/Right). */
 					'bottom-right' => sprintf( __( 'Bottom %s', 'premium-addons-for-elementor' ), ucfirst( $right_direction ) ),
+					/* translators: %s: horizontal direction (Left/Right). */
 					'center-left'  => sprintf( __( 'Center %s', 'premium-addons-for-elementor' ), ucfirst( $left_direction ) ),
+					/* translators: %s: horizontal direction (Left/Right). */
 					'center-right' => sprintf( __( 'Center %s', 'premium-addons-for-elementor' ), ucfirst( $right_direction ) ),
 				),
 				'default'      => 'bottom-left',
@@ -1488,9 +1502,6 @@ class Premium_Videobox extends Widget_Base {
 				'description' => __( 'Choose an image for the video box', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::MEDIA,
 				'dynamic'     => array( 'active' => true ),
-				// 'default'     => array(
-				// 'url' => Utils::get_placeholder_image_src(),
-				// ),
 				'label_block' => true,
 			)
 		);
@@ -1872,6 +1883,9 @@ class Premium_Videobox extends Widget_Base {
 				'condition' => array(
 					'adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -1995,9 +2009,6 @@ class Premium_Videobox extends Widget_Base {
 			array(
 				'label'     => __( 'Hover Color', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
-				// 'global'    => array(
-				// 'default' => Global_Colors::COLOR_SECONDARY,
-				// ),
 				'selectors' => array(
 					'{{WRAPPER}} .premium-video-box-play-icon-container:hover i'  => 'color: {{VALUE}};',
 					'{{WRAPPER}} .premium-video-box-play-icon-container:hover svg'  => 'fill: {{VALUE}};',
@@ -2781,6 +2792,10 @@ class Premium_Videobox extends Widget_Base {
 
 		$controls = $settings['premium_video_box_controls'];
 
+		$hosted_url = '';
+		$link       = '';
+		$options    = '';
+
 		if ( 'self' === $video_type ) {
 
 			$overlay = $settings['premium_video_box_image_switcher'];
@@ -2859,10 +2874,10 @@ class Premium_Videobox extends Widget_Base {
 				$options .= '&cc_load_policy=' . ( 'yes' === $settings['cc_load_policy'] ? '1' : '0' );
 			} elseif ( 'vimeo' === $video_type ) {
 
-				// Filter any paramters after link to be added later.
+				// Filter any parameters after link to be added later.
 				$query_string = wp_parse_url( $link, PHP_URL_QUERY );
 
-				// If video link contains paramters.
+				// If video link contains parameters.
 				if ( false !== strpos( $link, '?' ) ) {
 					$link = strstr( $link, '?', true );
 				} else {
@@ -3142,32 +3157,32 @@ class Premium_Videobox extends Widget_Base {
 
 
 		<?php if ( ! empty( $settings['background_image']['url'] ) ) : ?>
-			<img <?php echo wp_kses_post( $this->get_render_attribute_string( 'background' ) ); ?>>
+			<img <?php $this->print_render_attribute_string( 'background' ); ?>>
 		<?php endif; ?>
 
 		<?php if ( 'yes' === $settings['mask_video_box_switcher'] ) : ?>
-			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'mask_filter' ) ); ?>>
+			<div <?php $this->print_render_attribute_string( 'mask_filter' ); ?>>
 		<?php endif; ?>
-			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'container' ) ); ?>>
-				<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'mask' ) ); ?> >
+			<div <?php $this->print_render_attribute_string( 'container' ); ?>>
+				<div <?php $this->print_render_attribute_string( 'mask' ); ?> >
 					<?php $this->get_vimeo_header( $params['id'] ); ?>
 
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'video_wrap' ) ); ?>>
-						<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'video_container' ) ); ?>>
+					<div <?php $this->print_render_attribute_string( 'video_wrap' ); ?>>
+						<div <?php $this->print_render_attribute_string( 'video_container' ); ?>>
 							<?php if ( $pretty_container ) : ?>
-								<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'video_lightbox_container' ) ); ?>></a>
+								<a <?php $this->print_render_attribute_string( 'video_lightbox_container' ); ?>></a>
 							<?php endif; ?>
 
 							<?php if ( 'self' === $video_type ) : ?>
 								<video src="<?php echo esc_url( $hosted_url ); ?>" <?php echo wp_kses_post( $video_params ); ?>></video>
 							<?php endif; ?>
 						</div>
-							<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'image_container' ) ); ?>></div>
+							<div <?php $this->print_render_attribute_string( 'image_container' ); ?>></div>
 							<?php if ( 'yes' === $sticky ) { ?>
 								<span class="premium-video-box-sticky-close"><i class="fas fa-times" aria-hidden="true"></i></span>
 							<?php } ?>
 							<?php if ( 'yes' === $settings['sticky_info_bar_switch'] && '' !== $settings['sticky_info_bar_text'] ) { ?>
-									<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'info_bar' ) ); ?>><?php echo wp_kses_post( $settings['sticky_info_bar_text'] ); ?></div>
+									<div <?php $this->print_render_attribute_string( 'info_bar' ); ?>><?php echo wp_kses_post( $settings['sticky_info_bar_text'] ); ?></div>
 							<?php } ?>
 						<?php if ( 'yes' === $settings['premium_video_box_play_icon_switcher'] && 'yes' !== $autoplay && ! empty( $thumbnail ) ) : ?>
 							<div class="premium-video-box-play-icon-container">
@@ -3188,7 +3203,7 @@ class Premium_Videobox extends Widget_Base {
 						<?php if ( 'yes' === $settings['premium_video_box_video_text_switcher'] && ! empty( $settings['premium_video_box_description_text'] ) ) : ?>
 							<div class="premium-video-box-description-container">
 								<p class="premium-video-box-text">
-									<span <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_video_box_description_text' ) ); ?>>
+									<span <?php $this->print_render_attribute_string( 'premium_video_box_description_text' ); ?>>
 										<?php echo wp_kses_post( $settings['premium_video_box_description_text'] ); ?>
 									</span>
 								</p>
@@ -3252,7 +3267,14 @@ class Premium_Videobox extends Widget_Base {
 		$overlay = $settings['premium_video_box_image_switcher'];
 
 		if ( 'yes' === $overlay || 'self' === $type ) {
+
 			$thumbnail_src = $settings['premium_video_box_image']['url'];
+
+			// add default placeholder for self-hosted video if overlay is enabled.
+			if ( 'self' === $type && ! $thumbnail_src ) {
+				$thumbnail_src = Utils::get_placeholder_image_src();
+			}
+
 			return $thumbnail_src;
 		}
 
@@ -3442,7 +3464,7 @@ class Premium_Videobox extends Widget_Base {
 		}
 
 		?>
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'playlist_container' ) ); ?>>
+		<div <?php $this->print_render_attribute_string( 'playlist_container' ); ?>>
 		<?php
 		if ( count( $playlist_videos ) ) {
 
@@ -3614,14 +3636,14 @@ class Premium_Videobox extends Widget_Base {
 					<div class="premium-videobox-column">
 				<?php endif; ?>
 
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'container' . $id ) ); ?>>
-						<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'mask' . $id ) ); ?>>
-							<div  <?php echo wp_kses_post( $this->get_render_attribute_string( 'video_container' . $id ) ); ?>>
+					<div <?php $this->print_render_attribute_string( 'container' . $id ); ?>>
+						<div <?php $this->print_render_attribute_string( 'mask' . $id ); ?>>
+							<div  <?php $this->print_render_attribute_string( 'video_container' . $id ); ?>>
 								<?php if ( 'yes' === $lightbox && $settings['video_lightbox_style'] ) : ?>
-									<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'video_lightbox_container' . $id ) ); ?>></a>
+									<a <?php $this->print_render_attribute_string( 'video_lightbox_container' . $id ); ?>></a>
 								<?php endif; ?>
 							</div>
-							<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'image_container' . $id ) ); ?> ></div>
+							<div <?php $this->print_render_attribute_string( 'image_container' . $id ); ?> ></div>
 							<?php if ( 'yes' === $settings['premium_video_box_play_icon_switcher'] ) : ?>
 								<div class="premium-video-box-play-icon-container">
 									<?php
@@ -3701,7 +3723,7 @@ class Premium_Videobox extends Widget_Base {
 			return false;
 		}
 
-		if ( empty( $api_key ) || ( empty( $settings['playlist_id'] ) && empty( $settings['channel_id'] ) ) ) {
+		if ( empty( $settings['playlist_id'] ) && empty( $settings['channel_id'] ) ) {
 			?>
 			<div class="premium-error-notice">
 				<?php echo esc_html__( 'Please Enter a Valid API Key & Channel/Playlist ID', 'premium-addons-for-elementor' ); ?>
@@ -3725,7 +3747,7 @@ class Premium_Videobox extends Widget_Base {
 
 		if ( false === $response_json ) {
 
-			$api_response = wp_remote_get( $api_url );
+			$api_response = wp_remote_get( $api_url ); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.wp_remote_get_wp_remote_get -- Core HTTP API; plugin is not VIP-hosted and vip_safe_wp_remote_get() is unavailable.
 
 			$response_json = wp_remote_retrieve_body( $api_response );
 			$response_json = json_decode( $response_json );

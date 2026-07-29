@@ -3,8 +3,8 @@ Contributors: kaizencoders, mikeatkaizencoders
 Author URI: https://www.kaizencoders.com
 Tags: url shortener, short links, link branding, affiliate links, cloaking
 Requires at least: 5.0.0
-Tested up to: 6.9
-Stable tag: 2.2.1
+Tested up to: 7.0
+Stable tag: 2.4.3
 Requires PHP: 5.6
 License: GPL-3.0+
 License URI: http://www.gnu.org/licenses
@@ -122,6 +122,7 @@ We have one click import setup for following WordPress Plugin. If you are using 
 > 👉 301 Redirect
 > 👉 Simple 301 Redirects
 > 👉 Redirection
+> 👉 LinkCentral
 > 👉 [Short URL](https://wordpress.org/plugins/shorten-url/)
 
 === Premium Features ===
@@ -231,8 +232,11 @@ We have one click import setup for following WordPress Plugin. If you are using 
 > 👉 **A/B Testing**
 > Learn how new page components influence users' behavior by doing A/B Testing
 
-> 👉 **Amazon Affiliates** [Coming Soon!]
+> 👉 **Amazon Affiliates**
 > Adds your Amazon Affiliate-Tag to all Amazon URLs before redirection.
+
+> 👉 **REST API to create short links in bulk.**
+> Able to create short links in bulk using WordPress REST API from anywhere.
 
 Do you want to buy URL Shortify PRO? [Buy Now](http://kaizencoders.com/url-shortify-pricing/)
 
@@ -345,7 +349,7 @@ Yes, it's possible with [URL Shortify PRO](https://kaizencoders.com/url-shortify
 
 = 6. I am using other URL Shortener plugins and want to migrate to URL Shortify. What to do?
 
-We already have a one-click import process in place for Pretty Links, 301 Redirects, Simple 301 Redirects & URL Shortener By MyThemeShop WordPress plugin. If you want to import from other plugins or services, create a ticket [here](https://wordpress.org/support/plugin/url-shortify/). We will help you to migrate to URL Shortify from other URL Shortener plugins or services.
+We already have a one-click import process in place for Prettylinks, 301 Redirects, Simple 301 Redirects & URL Shortener By MyThemeShop WordPress plugin. If you want to import from other plugins or services, create a ticket [here](https://wordpress.org/support/plugin/url-shortify/). We will help you to migrate to URL Shortify from other URL Shortener plugins or services.
 
 = 7. I want to use a custom domain other than my main site. Is it possible?
 
@@ -454,7 +458,7 @@ Yes, we have added this functionality in URL Shortify PRO where you can mention 
 
 3. Link Analysis
 
-4. Link default settings [Free & PRO]
+4. Link Activity Intensity - Dark Mode [PRO]
 
 5. Reports Settings [PRO]
 
@@ -480,14 +484,77 @@ Yes, we have added this functionality in URL Shortify PRO where you can mention 
 
 16. Favorite Links [PRO]
 
+17. Link default settings [Free & PRO]
+
 == Upgrade Notice ==
 
-= 2.2.1 =
+= 2.4.3 =
 
-* Fix: Fixed the issue of showing incorrect click count in link clicks details page.
-* Fix: Improve UI and fixed datatables.
+* New version of URL Shortify with new features, improvements and bug fixes. Please update to the latest version to get the best experience. Learn more about the new features and improvements in the [changelog](https://aizencoders.com/docs/url-shortify/changelog).
 
 == Changelog ==
+
+= 2.4.3 [2026-07-10] =
+
+* Update: Small code improvements.
+
+= 2.4.2 [2026-07-10] =
+
+* New: Added support to generate short links in bulk using REST API. **PRO**
+
+= 2.4.1 [2026-06-04] =
+
+* Fix: Version mismatch issue in the plugin header.
+
+= 2.4.0 [2026-06-04] =
+
+* New: Auto-create a source-named group when running one-click imports (e.g. "Pretty Links", "Thirsty Affiliates", "Easy 301 Redirect"). Every migrated link is automatically added to this group in addition to any categories carried over from the source plugin, so a full migration is bulk-discoverable in one place.
+* New: Open Graph link preview card on the Links page.
+* New: Automatically adds Amazon Affiliate-Tag to all Amazon URLs before redirection. **PRO**
+* Update: Onclick Migration from Link Central plugin.
+* Update: Performance Improvements.
+* Update: Security Improvements.
+* Translations: Updated .POT file for new translations.
+
+= 2.3.3 [2026-05-29] =
+
+* Fix: Deprecated notice in PHP 8.4+.
+
+= 2.3.2 [2026-05-27] =
+
+* New: Added "Copy Short Link" action in row actions on the Links page for one-click copying.
+* Update: Compatibility update for WordPress 7.0 and PHP 8.2+, restored PHP 5.6 backward compatibility.
+* Update: Improved One-click import from Pretty Links, ThirstyAffiliates Affiliate Link Manager, URL Shortener by MyThemeShop, 301 Redirect, Simple 301 Redirects & Redirection WordPress plugins.
+* Update: Plugin Assets.
+
+= 2.3.1 [2026-05-27] =
+
+* New: Added "Copy Short Link" action in row actions on the Links page for one-click copying.
+* Update: Compatibility update for WordPress 7.0 and PHP 8.2+, restored PHP 5.6 backward compatibility.
+* Update: Improved One-click import from Pretty Links, ThirstyAffiliates Affiliate Link Manager, URL Shortener by MyThemeShop, 301 Redirect, Simple 301 Redirects & Redirection WordPress plugins.
+* Update: Plugin Assets.
+
+= 2.3.0 [2026-04-20] =
+
+* New: Added Link Activity Intensity report in the Groups & Tags stats page. **PRO**
+* New: Added Tags stats page. **PRO**
+* New: Added custom date range filter in the Groups stats page on Dashboard. **PRO**
+* New: Added custom date range filter in the Groups stats page on Dashboard. **PRO**
+* New: Added support to bulk update links status. **PRO**
+* New: Added support to filter links by status (Enable/Disable). **PRO**
+* New: Added Link Status, Groups and Tags in export. **PRO**
+* New: Added support to import tags. **PRO**
+* Fix: Fixed Email Digest UI issue.
+* Update: UI Improvements.
+* Translations: Updated .POT file for new translations.
+
+= 2.2.2 [2026-04-13] =
+
+* New: Added support to enable/disable short links. **PRO**
+* New: Added Link Activity Intensity report in the link stats page. **PRO**
+* New: Added custom date range filter in the link stats page. **PRO**
+* UX: Improved UI for the dark theme.
+* Translations: Updated .POT file for new translations.
 
 = 2.2.1 [2026-04-01] =
 
@@ -496,7 +563,7 @@ Yes, we have added this functionality in URL Shortify PRO where you can mention 
 
 = 2.2 [2026-03-31] =
 
-* New: Added support for the A/B Testing and show result in link stats page. [Learn More](https://docs.kaizencoders.com/url-shortify/ab-testing) **PRO**
+* New: Added support for the A/B Testing and show result in link stats page. [Learn More](https://kaizencoders.com/docs/url-shortify/ab-testing) **PRO**
 * New: Update dashboard with the clicks heatmap to visualize clicks by time of day and day of week. **PRO**
 * New: Added support for the Dark mode theme.
 * Fix: Broken Link Checker not showing broken links in the list. **PRO**
@@ -516,13 +583,13 @@ Yes, we have added this functionality in URL Shortify PRO where you can mention 
 
 = 2.0.0 [2026-03-04] =
 
-* New: Added support to Broken Link Checker. [Learn More](https://docs.kaizencoders.com/url-shortify/broken-link-checker) **PRO**
-* New: Added support to Automatically link keywords in the content to short links. [Learn More](https://docs.kaizencoders.com/url-shortify/how-to-setup-auto-link-keywords) **PRO**
+* New: Added support to Broken Link Checker. [Learn More](https://kaizencoders.com/docs/url-shortify/broken-link-checker) **PRO**
+* New: Added support to Automatically link keywords in the content to short links. [Learn More](https://kaizencoders.com/docs/url-shortify/how-to-setup-auto-link-keywords) **PRO**
 * New: Added support to splash page. **PRO**
-* New: Added Daily, Weekly and Monthly summary of new links and clicks report via email. [Learn More](https://docs.kaizencoders.com/url-shortify/email-digest)
-* New: Added REST API support for Links, Groups, Tags, Domains, UTM Presets, Tracking Pixels. [Learn More](https://docs.kaizencoders.com/url-shortify/api-reference) **PRO**
+* New: Added Daily, Weekly and Monthly summary of new links and clicks report via email. [Learn More](https://kaizencoders.com/docs/url-shortify/email-digest)
+* New: Added REST API support for Links, Groups, Tags, Domains, UTM Presets, Tracking Pixels. [Learn More](https://kaizencoders.com/docs/url-shortify/api-reference) **PRO**
 * Fix: Bulk Delete Tags issue. **PRO**
 * Update: UI Improvements.
 * Translations: Updated .POT file for new translations
 
-[See changelog for all versions](https://docs.kaizencoders.com/url-shortify/changelog) file.
+[See changelog for all versions](https://kaizencoders.com/docs/url-shortify/changelog) file.

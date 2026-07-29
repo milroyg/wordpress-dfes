@@ -72,6 +72,19 @@
 		if ($deactivationPopUp.length < 1)
 			return;
 
+		function deactivate() {
+			$deactivationPopUp.addClass('hidden');
+
+			var $link = $('tr[data-slug="premium-addons-for-elementor"] .deactivate a');
+			var url = $link.length > 0 ? $link.attr('href') : '';
+
+			if (typeof url === 'string' && url !== '') {
+				window.location.href = url;
+			} else {
+				window.location.reload();
+			}
+		}
+
 		$(document).on('click', 'tr[data-slug="premium-addons-for-elementor"] .deactivate a', function (event) {
 			event.preventDefault();
 
@@ -136,8 +149,15 @@
 
 		$document.on('click', '.pa-deactivation-popup button[data-action]', function (event) {
 
-			var $this = $(this),
-				$optionsWrappers = $this.parents('.body').find('.options-wrap'),
+			var $this = $(this);
+
+			// Skip: deactivate directly, no feedback submission.
+			if ($this.data('action') === 'skip') {
+				deactivate();
+				return;
+			}
+
+			var $optionsWrappers = $this.parents('.body').find('.options-wrap'),
 				$toggle = $optionsWrappers.find('input[name][type="checkbox"]:checked, input[name][type="radio"]:checked'),
 				$fields = $optionsWrappers.find('input[name], textarea[name]').not('input[type="checkbox"], input[type="radio"]');
 
@@ -176,7 +196,8 @@
 				method: 'POST',
 				data: {
 					action: 'pa_handle_feedback_action',
-					data: data
+					data: data,
+					nonce: PaNoticeSettings.feedback_nonce
 				},
 				beforeSend: function () {
 					$this.prop('disabled', true);
@@ -186,22 +207,11 @@
 				},
 				complete: function (res) {
 
-					$deactivationPopUp.addClass('hidden');
 					$this.prop('disabled', false);
 
 					console.log(res);
 
-					var $deactivateLink = $('tr[data-slug="premium-addons-for-elementor"] .deactivate a');
-
-					if ($deactivateLink.length > 0) {
-						var deactivateUrl = $deactivateLink.attr('href');
-
-						if (typeof deactivateUrl === 'string' && deactivateUrl !== '') {
-							window.location.href = deactivateUrl;
-						} else {
-							window.location.reload();
-						}
-					}
+					deactivate();
 				}
 			});
 		});

@@ -5,7 +5,7 @@ if (!empty($_SERVER['SCRIPT_FILENAME']) && basename(__FILE__) == basename(esc_ur
 /**
  * @package     PublishPress\Revisions\RevisionaryOptions
  * @author      PublishPress <help@publishpress.com>
- * @copyright   Copyright (c) 2025 PublishPress. All rights reserved.
+ * @copyright   Copyright (c) 2026 PublishPress. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.0.0
  */
@@ -57,7 +57,8 @@ function rvy_default_options_sitewide() {
 		'trigger_post_update_actions' => true,
 		'copy_revision_comments_to_post' => true,
 		'past_revisions_order_by' => true,
-		'list_unsubmitted_revisions' => true,
+		'view_filters_include_unsubmitted_revisions' => true,
+		'show_current_revision_bar' => true,
 		'rev_publication_delete_ed_comments' => true,
 		'deletion_queue' => true,
 		'revision_archive_deletion' => true,
@@ -78,6 +79,11 @@ function rvy_default_options_sitewide() {
 		'revision_edit_disable_rank_math' => true,
 		'enable_postmeta_revision' => true,
 		'submit_permission_enables_creation' => true,
+		'query_loop_revision_editor_allowance' => true,
+		'enable_classic_metaboxes' => true,
+		'front_end_indicator' => true,
+		'admin_menu_pending_count_icon' => true,
+		'approve_capability' => true,
 	);
 
 	if ( $other_options = array_diff_key( rvy_default_options(), $def ) ) {
@@ -134,7 +140,8 @@ function rvy_default_options() {
 		'trigger_post_update_actions' => 0,
 		'copy_revision_comments_to_post' => 0,
 		'past_revisions_order_by' => '',
-		'list_unsubmitted_revisions' => 0,
+		'view_filters_include_unsubmitted_revisions' => 1,
+		'show_current_revision_bar' => 0,
 		'rev_publication_delete_ed_comments' => 0,
 		'deletion_queue' => 0,
 		'revision_archive_deletion' => 0,
@@ -155,6 +162,11 @@ function rvy_default_options() {
 		'revision_edit_disable_rank_math' => 1,
 		'enable_postmeta_revision' => 1,
 		'submit_permission_enables_creation' => 1,
+		'query_loop_revision_editor_allowance' => 0,
+		'enable_classic_metaboxes' => 0,
+		'front_end_indicator' => 1,
+		'admin_menu_pending_count_icon' => 0,
+		'approve_capability' => defined('REVISIONARY_REQUIRE_APPROVE_CAP') && REVISIONARY_REQUIRE_APPROVE_CAP
 	);
 
 	return $def;

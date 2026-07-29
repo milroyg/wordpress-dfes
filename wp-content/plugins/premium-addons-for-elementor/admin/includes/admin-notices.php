@@ -68,7 +68,7 @@ class Admin_Notices {
 
 		self::$notices = array(
 			'pa-review',
-			'bf25-last-not',
+			'abilities-not',
 		);
 
 		if ( Helper_Functions::check_hide_notifications() ) {
@@ -129,7 +129,7 @@ class Admin_Notices {
 
 			$response = get_transient( $cache_key );
 
-			if ( false == $response ) {
+			if ( false === $response ) {
 				$this->show_review_notice();
 			}
 		}
@@ -138,7 +138,7 @@ class Admin_Notices {
 			return;
 		}
 
-		// $this->get_black_friday_notice();
+		$this->get_abilities_notice();
 	}
 
 	/**
@@ -155,7 +155,9 @@ class Admin_Notices {
 			return;
 		}
 
-		if ( 'opt_out' === $_GET['pa_review'] ) {
+		$pa_review = sanitize_text_field( wp_unslash( $_GET['pa_review'] ) );
+
+		if ( 'opt_out' === $pa_review ) {
 			check_admin_referer( 'opt_out' );
 
 			update_option( 'pa_review_notice', '1' );
@@ -269,56 +271,29 @@ class Admin_Notices {
 		<?php
 	}
 
-	public function get_black_friday_notice() {
+	public function get_abilities_notice() {
 
-		$time = time();
+		$option = get_option( 'abilities-not' );
 
-		if ( $time > 1765497600 || '1' === get_option( 'bf25-last-not' ) ) {
+		if ( '1' === $option ) {
 			return;
 		}
 
-		$is_papro_active = Helper_Functions::check_papro_version();
-
-		$license_key = get_option( 'papro_license_key' );
-
-		$link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/black-friday/#bfdeals', 'wp-dash', 'bf25-notification', 'cm25' );
-
-		$promotion_type = 'new';
-
-		if ( $is_papro_active ) {
-
-			$license_data = get_transient( 'pa_license_info' );
-
-			if ( isset( $license_data['status'] ) && 'valid' === $license_data['status'] ) {
-
-				if ( isset( $license_data['id'] ) && '4' === $license_data['id'] ) {
-					return;
-				} else {
-
-					$promotion_type = 'upgrade';
-
-					$link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/upgrade-premium-addons-license/', 'wp-dash', 'bf25-notification', 'cm25' );
-				}
-			}
-		}
-
-		$message = $this->get_promotion_message( $promotion_type );
+		$link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-mcp-and-ai-abilities/', 'abilities-notification', 'wp-dash', 'abilities' );
 
 		?>
 
-		<div class="error pa-notice-wrap pa-new-feature-notice pa-review-notice">
+		<div class="error pa-notice-wrap pa-new-feature-notice">
 			<div class="pa-img-wrap">
 				<img src="<?php echo PREMIUM_ADDONS_URL . 'admin/images/pa-logo-symbol.png'; ?>">
 			</div>
 			<div class="pa-text-wrap">
 				<p>
-					<?php echo wp_kses_post( $message['message'] ); ?>
-					<a class="button pa-cta-btn button-primary" href="<?php echo esc_url( $link ); ?>" target="_blank">
-						<span><?php echo wp_kses_post( $message['cta'] ); ?></span>
-					</a>
+					<strong><?php echo __( 'AI Just Landed to Premium Addons for Elementor', 'premium-addons-for-elementor' ); ?></strong>
+					<?php printf( __( '<a href="%s" target="_blank">Watch Use Cases!</a>', 'premium-addons-for-elementor' ), $link ); ?>
 				</p>
 			</div>
-			<div class="pa-notice-close" data-notice="bf25-last-not">
+			<div class="pa-notice-close" data-notice="abilities-not">
 				<span class="dashicons dashicons-dismiss"></span>
 			</div>
 		</div>
@@ -339,14 +314,14 @@ class Admin_Notices {
 
 		if ( 'upgrade' === $type ) {
 			return array(
-				'message' => __( 'Get a <b>FLAT 35% OFF</b> when you upgrade to <b>Premium Addons Pro Lifetime</b>. Use code <b>BFUL2025</b> at checkout – <b>expires soon!</b>', 'premium-addons-for-elementor' ),
+				'message' => __( 'Get a <b>FLAT 30% OFF</b> when you upgrade to <b>Premium Addons Pro Lifetime</b>. Use code <b>BFUL2025</b> at checkout – <b>expires soon!</b>', 'premium-addons-for-elementor' ),
 				'cta'     => __( 'Upgrade Now', 'premium-addons-for-elementor' ),
 			);
 
 		}
 
 		return array(
-			'message' => __( '<b>Cyber Monday – Save Up To $105 on Premium Addons Pro</b>.', 'premium-addons-for-elementor' ),
+			'message' => __( '<b>Cyber Monday – Save Up To 30% on Premium Addons Pro</b>.', 'premium-addons-for-elementor' ),
 			'cta'     => __( 'Catch The Deal', 'premium-addons-for-elementor' ),
 		);
 	}
@@ -398,8 +373,9 @@ class Admin_Notices {
 			'pa-dashboard',
 			'PaNoticeSettings',
 			array(
-				'ajaxurl' => esc_url( admin_url( 'admin-ajax.php' ) ),
-				'nonce'   => wp_create_nonce( 'pa-notice-nonce' ),
+				'ajaxurl'        => esc_url( admin_url( 'admin-ajax.php' ) ),
+				'nonce'          => wp_create_nonce( 'pa-notice-nonce' ),
+				'feedback_nonce' => wp_create_nonce( 'pa-feedback-nonce' ),
 			)
 		);
 	}
@@ -458,7 +434,7 @@ class Admin_Notices {
 		if ( ! empty( $key ) && in_array( $key, self::$notices, true ) ) {
 
 			// Make sure new features notices will not appear again.
-			if ( false != strpos( $key, 'not' ) ) {
+			if ( false !== strpos( $key, 'not' ) ) {
 				update_option( $key, '1' );
 			} else {
 				set_transient( $key, true, 20 * DAY_IN_SECONDS );
@@ -491,7 +467,7 @@ class Admin_Notices {
 		);
 
 		$response = wp_remote_get(
-			'http://my.leap13.com',
+			'https://my.leap13.com',
 			array(
 				'timeout'   => 15,
 				'sslverify' => false,
@@ -595,8 +571,8 @@ class Admin_Notices {
 				array_unshift(
 					$stories['posts'],
 					array(
-						'title' => 'Switch to Premium Addons Pro Lifetime, Pay the Difference & Save 20% Today!',
-						'link'  => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/upgrade-premium-addons-license/', 'wp-dash', 'val26-dash-widget', 'val26' ),
+						'title' => 'Switch to Premium Addons Pro Lifetime, Pay the Difference & Save 30% Today!',
+						'link'  => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/upgrade-premium-addons-license/', 'wp-dash', 'summer26-dash-widget', 'summer26' ),
 					)
 				);
 
@@ -669,7 +645,7 @@ class Admin_Notices {
 							<div class="pa-story-img-container">
 								<img src="<?php echo esc_url( $banner['image'] ); ?>" alt="<?php echo esc_attr( $banner['description'] ); ?>">
 							</div>
-							<a href="<?php echo esc_url( Helper_Functions::get_campaign_link( $banner['link'], 'wp-dash', 'dash-widget', 'val26' ) ); ?>" target="_blank" title="<?php echo esc_attr( $banner['description'] ); ?>"></a>
+							<a href="<?php echo esc_url( Helper_Functions::get_campaign_link( $banner['link'], 'wp-dash', 'dash-widget', 'summer26' ) ); ?>" target="_blank" title="<?php echo esc_attr( $banner['description'] ); ?>"></a>
 						</div>
 
 					<?php endif; ?>

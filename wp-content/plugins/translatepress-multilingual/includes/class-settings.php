@@ -488,6 +488,11 @@ class TRP_Settings{
     }
 
     public function get_default_trp_machine_translation_settings(){
+        /* class doesn't exist only if a third party (ex. CTX Feed Pro) incorrectly includes our files by hand and instantiates TRP_Settings() instead of using $trp = TRP_Translate_Press::get_trp_instance();  
+         * When this happens, the ai_words_* options are never used anyway, and is never stored in DB either
+         */
+        $threshold = class_exists('TRP_AI_Words_Notification' ) ? TRP_AI_Words_Notification::get_default_threshold() : 200;
+
         return apply_filters( 'trp_get_default_trp_machine_translation_settings', array(
             // default settings for trp_machine_translation_settings
             'machine-translation'               => 'no',
@@ -496,7 +501,10 @@ class TRP_Settings{
             'automatically-translate-slug'      => 'yes',
             'machine_translation_counter_date'  => date ("Y-m-d" ),
             'machine_translation_limit_enabled' => 'no',
-            'machine_translation_limit'         => 1000000
+            'machine_translation_limit'         => 1000000,
+            'ai_words_notification_enabled'     => 'yes',
+            'ai_words_notification_email'       => '',
+            'ai_words_notification_threshold'   => $threshold
             /*
              * These settings are merged into the saved DB option.
              * Be sure to set any checkbox options to 'no' in sanitize_settings.
@@ -511,7 +519,7 @@ class TRP_Settings{
      * @param string $hook          Admin page.
      */
     public function enqueue_scripts_and_styles( $hook ) {
-        if( in_array( $hook, [ 'settings_page_translate-press', 'admin_page_trp_license_key', 'admin_page_trp_addons_page', 'admin_page_trp_advanced_page', 'admin_page_trp_machine_translation', 'admin_page_trp_test_machine_api', 'admin_page_trp_optin_page', 'admin_page_trp_remove_duplicate_rows', 'admin_page_trp_update_database', 'admin_page_trp_language_switcher', 'admin_page_trp-onboarding' ] ) ){
+        if( in_array( $hook, [ 'settings_page_translate-press', 'admin_page_trp_ai_api_key', 'admin_page_trp_addons_page', 'admin_page_trp_advanced_page', 'admin_page_trp_machine_translation', 'admin_page_trp_machine_translation_glossary', 'admin_page_trp_test_machine_api', 'admin_page_trp_optin_page', 'admin_page_trp_remove_duplicate_rows', 'admin_page_trp_update_database', 'admin_page_trp_language_switcher', 'admin_page_trp-onboarding' ] ) ){
             wp_enqueue_style(
                 'trp-settings-style',
                 TRP_PLUGIN_URL . 'assets/css/trp-back-end-style.css',
@@ -520,7 +528,7 @@ class TRP_Settings{
             );
         }
 
-        if( in_array( $hook, array( 'settings_page_translate-press', 'admin_page_trp_advanced_page', 'admin_page_trp_machine_translation' ) ) ) {
+        if( in_array( $hook, array( 'settings_page_translate-press', 'admin_page_trp_advanced_page', 'admin_page_trp_machine_translation', 'admin_page_trp_machine_translation_glossary' ) ) ) {
             // Base script now handles both free and pro functionality via hooks/filters.
             // However, we keep loading trp-back-end-script-pro.js for backwords compatibility when TP Free is newer then the Pro Addon.
             $back_end_script_url = TRP_PLUGIN_URL . 'assets/js/trp-back-end-script.js';
@@ -651,6 +659,10 @@ class TRP_Settings{
      *
      */
     public function add_navigation_tabs(){
+        add_filter( 'trp_add_language_to_home_url_check_for_admin', '__return_false' );
+        $translate_site_url = add_query_arg( 'trp-edit-translation', 'true', home_url() );
+        remove_filter( 'trp_add_language_to_home_url_check_for_admin', '__return_false' );
+
         $tabs = array(
             array(
                 'name'  => __( 'General', 'translatepress-multilingual' ),
@@ -659,7 +671,7 @@ class TRP_Settings{
             ),
             array(
                 'name'  => __( 'Translate Site', 'translatepress-multilingual' ),
-                'url'   => add_query_arg( 'trp-edit-translation', 'true', home_url() ),
+                'url'   => $translate_site_url,
                 'page'  => 'trp_translation_editor'
             ),
 	        array(
@@ -669,11 +681,11 @@ class TRP_Settings{
 	        ),
         );
 
-        if( class_exists( 'TRP_LICENSE_PAGE' ) ) {
+        if( class_exists( 'TRP_AI_API_KEY' ) ) {
             $tabs[] = array(
-                'name'  => __( 'License', 'translatepress-multilingual' ),
-                'url'   => admin_url( 'admin.php?page=trp_license_key' ),
-                'page'  => 'trp_license_key'
+                'name'  => trp_get_tp_ai_api_key_labels( 'tab' ),
+                'url'   => admin_url( 'admin.php?page=trp_ai_api_key' ),
+                'page'  => 'trp_ai_api_key'
             );
         }
 
@@ -683,6 +695,8 @@ class TRP_Settings{
         if ( isset( $_GET['page'] ) ){
             $active_tab = sanitize_text_field( wp_unslash( $_GET['page'] ) );
         }
+
+        $active_tab = apply_filters( 'trp_settings_active_tab', $active_tab );
 
         require TRP_PLUGIN_DIR . 'partials/settings-navigation-tabs.php';
     }
@@ -729,7 +743,7 @@ class TRP_Settings{
                 if ( !empty( $license_details['invalid'] ) ) {
                     $license_detail = $license_details['invalid'][0];
                     if ( isset( $license_detail->error ) && $license_detail->error == 'missing' ) {
-                        $links['license'] = sprintf( '<a href="%1$s" target="_blank" style="color: #e76054; font-weight: bold;">%2$s</a>', esc_url(trp_add_affiliate_id_to_link( admin_url( '/admin.php?page=trp_license_key' ) ) ), esc_html__( 'Activate License', 'translatepress-multilingual' ) );
+                        $links['license'] = sprintf( '<a href="%1$s" target="_blank" style="color: #e76054; font-weight: bold;">%2$s</a>', esc_url(trp_add_affiliate_id_to_link( admin_url( '/admin.php?page=trp_ai_api_key' ) ) ), esc_html__( 'Activate License', 'translatepress-multilingual' ) );
                     }
                 }
             }

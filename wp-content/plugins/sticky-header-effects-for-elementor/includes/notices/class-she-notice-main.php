@@ -81,7 +81,7 @@ if ( ! class_exists( 'She_Notice_Main' ) ) {
 				}
 
 				$update_plugin[] = $plugin;
-			} elseif ( is_plugin_active( $pluginslug ) ) {
+			} else {
 				$plugin['status'] = 'active';
 				$update_plugin[]  = $plugin;
 			}
@@ -96,9 +96,13 @@ if ( ! class_exists( 'She_Notice_Main' ) ) {
 		 */
 		public function she_load() {
 			if ( is_admin() && current_user_can( 'manage_options' ) ) {
-				// include SHE_HEADER_PATH . 'includes/notices/class-she-banner-notice.php';
-				// include SHE_HEADER_PATH . 'includes/notices/class-she-plugin-page.php';
 				include SHE_HEADER_PATH . 'includes/notices/class-she-deactivate-feedback.php';
+				include SHE_HEADER_PATH . 'includes/notices/class-she-pro-launch-notice.php';
+
+				// Join Community notice (30 days after install) — skip once dismissed.
+				if ( ! get_option( 'she_join_community_notice' ) ) {
+					include SHE_HEADER_PATH . 'includes/notices/class-she-join-community-notice.php';
+				}
 
 				$ele_pro_plugin = array(
 					'name'        => 'elementor-pro',
@@ -106,16 +110,9 @@ if ( ! class_exists( 'She_Notice_Main' ) ) {
 					'plugin_slug' => 'elementor-pro/elementor-pro.php',
 				);
 
-				$tpae_plugin = array(
-					'name'        => 'the-plus-addons-for-elementor-page-builder',
-					'status'      => '',
-					'plugin_slug' => 'the-plus-addons-for-elementor-page-builder/theplus_elementor_addon.php',
-				);
-
 				$ele_pro_details = $this->tpae_check_plugins_depends( $ele_pro_plugin );
-				$tpae_details    = $this->tpae_check_plugins_depends( $tpae_plugin );
 			  	
-				if( ! empty( $ele_pro_details[0]['status'] ) && 'unavailable' == $ele_pro_details[0]['status'] ) {
+				if ( ! empty( $ele_pro_details[0]['status'] ) && 'unavailable' === $ele_pro_details[0]['status'] ) {
 					include SHE_HEADER_PATH . 'includes/notices/class-she-nexter-extension-promo.php';
 				}
 			}

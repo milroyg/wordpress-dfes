@@ -389,6 +389,15 @@ class Links extends Base_DB {
 			$password = null;
 		}
 
+		$status = Helper::get_data( $data, 'status', null );
+		if ( null === $status && ! empty( $id ) ) {
+			$existing_link = $this->get_by_id( $id );
+			$status        = Helper::get_data( $existing_link, 'status', 1 );
+		}
+		if ( null === $status ) {
+			$status = 1;
+		}
+
 		$form_data = [
 			'name'              => Helper::get_data( $data, 'name', '', true ),
 			'url'               => Helper::get_data( $data, 'url', '' ),
@@ -399,7 +408,7 @@ class Links extends Base_DB {
 			'params_forwarding' => Helper::get_data( $data, 'params_forwarding', $default_parameter_forwarding ),
 			'sponsored'         => Helper::get_data( $data, 'sponsored', $default_sponsored ),
 			'track_me'          => Helper::get_data( $data, 'track_me', $default_track_me ),
-			'status'            => Helper::get_data( $data, 'status', 1 ),
+			'status'            => $status,
 			'cpt_id'            => Helper::get_data( $data, 'cpt_id', null ),
 			'cpt_type'          => Helper::get_data( $data, 'cpt_type', null ),
 			'expires_at'        => $expires_at,
@@ -638,6 +647,34 @@ class Links extends Base_DB {
 		$where   = "id IN ($ids_str)";
 
 		return $this->update_by_condition( $parameter, $value, $where );
+	}
+
+	/**
+	 * Bulk update link status.
+	 *
+	 * @param array $ids
+	 * @param int   $status
+	 *
+	 * @return bool
+	 */
+	public function bulk_update_status( $ids, $status ) {
+		if ( empty( $ids ) ) {
+			return false;
+		}
+
+		$status  = absint( $status );
+		$ids     = array_map( 'absint', (array) $ids );
+		$ids_str = $this->prepare_for_in_query( $ids );
+		$where   = "id IN ($ids_str)";
+		$updated = $this->update_by_condition( 'status', $status, $where );
+
+		if ( $updated ) {
+			foreach ( $ids as $id ) {
+				do_action( 'kc_us_link_updated', $id );
+			}
+		}
+
+		return $updated;
 	}
 
 	public function get_new_links_count_by_time_range($start_date, $end_date) {

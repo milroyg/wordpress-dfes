@@ -158,7 +158,7 @@ class PSAC_Scripts {
 		/***** Styles *****/
 		// Registring font awesome css
 		if( ! wp_style_is( 'inf-font-awesome', 'registered' ) && psac_get_option('disable_font_awsm_css') == 0 ) {
-			wp_register_style( 'inf-font-awesome', PSAC_URL . 'assets/css/font-awesome.min.css', array(), PSAC_VERSION );
+			wp_register_style( 'inf-font-awesome', PSAC_URL . 'assets/css/font-awesome.min.css', array(), '7.2.0' );
 		}
 
 		// Registring owl slider css

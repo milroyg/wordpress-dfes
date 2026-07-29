@@ -1,6 +1,10 @@
 /**************** Premium Fancy Text *******************/
 /*******************************************************/
-.premium-atext__switch .premium-atext__wrapper:not(.premium-atext__typing) .premium-atext__text,
+.premium-atext__switch .premium-atext__wrapper:not(.premium-atext__typing) .premium-atext__text {
+  opacity: 0;
+  display: inline-block;
+  text-align: center;
+}
 .premium-atext__switch .premium-fancy-item-hidden {
   opacity: 0;
 }
@@ -90,45 +94,9 @@
 .premium-atext__custom .premium-fancy-item-visible {
   position: relative !important;
 }
-.premium-atext__auto-fade .premium-atext__text {
-  display: inline-block;
-  width: 200px;
-  font-weight: 400;
-}
-.premium-atext__auto-fade .premium-fancy-svg-text {
-  position: relative;
-  vertical-align: sub;
-}
-.premium-atext__auto-fade g > text {
-  text-anchor: start;
-  shape-rendering: crispEdges;
-  opacity: 0;
-  font-size: 300px;
-  -webkit-animation-name: pa-auto-fade;
-  animation-name: pa-auto-fade;
-  -moz-animation-name: pa-auto-fade;
-  -webkit-animation-duration: 9s;
-  animation-duration: 9s;
-  -webkit-animation-timing-function: linear;
-  animation-timing-function: linear;
-  -webkit-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
-}
-.premium-atext__auto-fade g > text:nth-child(1) {
-  -webkit-animation-delay: 0s;
-  animation-delay: 0s;
-}
-.premium-atext__auto-fade g > text:nth-child(2) {
-  -webkit-animation-delay: 3s;
-  animation-delay: 3s;
-}
-.premium-atext__auto-fade g > text:nth-child(3) {
-  -webkit-animation-delay: 6s;
-  animation-delay: 6s;
-}
 
 /*
-* Hightlighted Text
+* Highlighted Text
 */
 .premium-atext__highlight .premium-atext__text {
   display: inline-block;
@@ -522,20 +490,6 @@
     stroke-dashoffset: -400;
   }
 }
-@-webkit-keyframes pa-auto-fade {
-  0% {
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  35% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
-}
 @-webkit-keyframes pa-shape-draw {
   0% {
     stroke-dasharray: 0 1500;
@@ -616,20 +570,6 @@
   }
   100% {
     background-size: 200px;
-  }
-}
-@keyframes pa-auto-fade {
-  0% {
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  35% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
   }
 }
 @-webkit-keyframes pa-loading-bar {

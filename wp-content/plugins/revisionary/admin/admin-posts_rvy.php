@@ -11,6 +11,7 @@ class RevisionaryAdminPosts {
         }
 
         add_action('admin_enqueue_scripts', [$this, 'fltAdminPostsListing'], 50);  // 'the_posts' filter is not applied on edit.php for hierarchical types
+		add_action('admin_print_footer_scripts', [$this, 'fltPrintScripts']);
 
         add_filter('display_post_states', [$this, 'flt_display_post_states'], 50, 2);
 		add_filter('page_row_actions', [$this, 'revisions_row_action_link']);
@@ -55,12 +56,41 @@ class RevisionaryAdminPosts {
 
 		add_filter('posts_where', [$this, 'fltFilterRevisions'], 10, 2);
 
-		if (empty($_REQUEST['page']) || (0 !== strpos($_REQUEST['page'], 'cms-tpv'))) {
+		if (empty($_REQUEST['page']) || (0 !== strpos($_REQUEST['page'], 'cms-tpv'))) {		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 			add_filter('posts_results', [$this, 'fltPostsResults'], 10, 1);
-			add_filter('manage_product_posts_custom_column', [$this, 'actProductsCol'], 10, 1);
+			add_action('manage_product_posts_custom_column', [$this, 'actProductsCol'], 10, 1);
 			add_filter('get_edit_post_link', [$this, 'fltGetEditPostLink'], 50, 3);
 		}
     }
+
+	public function fltPrintScripts() {
+		$wp_timezone = wp_timezone();
+        $utc_time = new DateTime("now", new DateTimeZone('UTC'));
+        $server_timezone_offset = 0 - $wp_timezone->getOffset($utc_time);
+	?>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+		jQuery(document).ready( function($) {
+			var clientDate = new Date();
+			var timezoneOffset = clientDate.getTimezoneOffset() * 60;
+		
+			// If server timezone is different from client timezone, log client timezone so Gutenberg date selection "Now" link does not insert a misleading value 
+			if (timezoneOffset != <?php echo intval($server_timezone_offset);?>) {
+				var data = {'rvy_ajax_field': 'report_user_timezone', 'rvy_ajax_value': 1, 'rvy_timezone_offset': timezoneOffset, '_rvynonce': '<?php echo esc_attr(wp_create_nonce('report_user_timezone'));?>'};
+		
+				$.ajax({
+					url: '<?php echo esc_url(rvy_admin_url(''));?>',
+					data: data,
+					dataType: "html",
+					success: function() {},
+					error: function() {}
+				});
+			}
+		});
+		/* ]]> */
+		</script>
+	<?php
+	}
 
 	// Ensure that the thumbnail is displayed without a PHP warning, even for Revisors who can't edit published posts
 	public function actProductsCol($column) {
@@ -135,15 +165,15 @@ class RevisionaryAdminPosts {
 				'admin_print_footer_scripts',
 				function () use ($link) {
 					if ($ipos = strpos($link, '&')) {
-						$link = substr($link, 0, $ipos - 1);
+						$link = substr($link, 0, $ipos);
 					}
 				?>
 					<script type="text/javascript">
 					/* <![CDATA[ */
 					jQuery(document).ready( function($) {
 						if ($('#the-list').length) {
-							$('td.column-name a[href*="<?php echo $link;?>"]').contents().unwrap().closest('div.row-actions').find('span.edit,span.inline,span.trash').hide().closest('tr').find('.check-column input[type="checkbox"]').hide();
-							$('td.column-title a[href*="<?php echo $link;?>"]').contents().unwrap().closest('div.row-actions').find('span.edit,span.inline,span.trash').hide().closest('tr').find('.check-column input[type="checkbox"]').hide();
+							$('td.column-name a[href*="<?php echo esc_url($link);?>"]').contents().unwrap().closest('div.row-actions').find('span.edit,span.inline,span.trash').hide().closest('tr').find('.check-column input[type="checkbox"]').hide();
+							$('td.column-title a[href*="<?php echo esc_url($link);?>"]').contents().unwrap().closest('div.row-actions').find('span.edit,span.inline,span.trash').hide().closest('tr').find('.check-column input[type="checkbox"]').hide();
 						}
 					});
 					/* ]]> */
@@ -285,11 +315,7 @@ class RevisionaryAdminPosts {
 	}
 
 	function revisions_row_action_link($actions = array()) {
-		global $post;
-
-		if (!empty($post) && !rvy_is_supported_post_type($post->post_type)) {
-            return $actions;
-        }
+		global $post, $revisionary;
 
 		if (!empty($this->post_revision_count[$post->ID])) {
 			if ( 'trash' != $post->post_status && wp_check_post_lock( $post->ID ) === false ) {
@@ -307,12 +333,20 @@ class RevisionaryAdminPosts {
 				}
 			}
 
-			if (rvy_get_option('pending_revisions') && current_user_can('copy_post', $post->ID) && !$revision_blocked) {
-				$uri = isset($_SERVER['REQUEST_URI']) ? esc_url_raw($_SERVER['REQUEST_URI']) : '';
-				$referer_arg = '&referer=' . $uri;
+			$uri = isset($_SERVER['REQUEST_URI']) ? esc_url_raw($_SERVER['REQUEST_URI']) : '';
+			$referer_arg = '&referer=' . $uri;
 
-				//phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				$redirect_arg = ( ! empty($_REQUEST['rvy_redirect']) ) ? "&rvy_redirect=" . esc_url_raw($_REQUEST['rvy_redirect']) : '';
+			//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$redirect_arg = ( ! empty($_REQUEST['rvy_redirect']) ) ? "&rvy_redirect=" . esc_url_raw($_REQUEST['rvy_redirect']) : '';
+
+			if (!empty($revisionary->enabled_post_types_copy[$post->post_type]) && current_user_can('duplicate_post', $post->ID)) {
+				$url = rvy_admin_url("admin.php?page=rvy-revisions&amp;post={$post->ID}&amp;action=copy{$referer_arg}$redirect_arg");
+				
+				$url = remove_query_arg(['post_status', 'action', 'cat', 'seo-filter', 'schema-filter', 'paged', 'action2'], $url);
+				$actions['copy_post'] = "<a href='" . esc_url($url) . "'>" . esc_html__('Copy', 'revisionary') . '</a>';
+			}
+
+			if (rvy_is_supported_post_type($post->post_type) && current_user_can('copy_post', $post->ID) && rvy_get_option('pending_revisions') && !$revision_blocked) {
 				$url = rvy_admin_url("admin.php?page=rvy-revisions&amp;post={$post->ID}&amp;action=revise{$referer_arg}$redirect_arg");
 				
 				$url = remove_query_arg(['post_status', 'action', 'cat', 'seo-filter', 'schema-filter', 'paged', 'action2'], $url);

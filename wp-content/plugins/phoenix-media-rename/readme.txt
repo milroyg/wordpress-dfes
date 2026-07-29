@@ -2,8 +2,8 @@
 Contributors: crossi72, ShadowsDweller
 Tags: media, file, image, rename, retitle
 Requires at least: 5.0
-Tested up to: 6.8
-Stable tag: 3.13.1
+Tested up to: 7.0
+Stable tag: 3.13.3
 Requires PHP: 8.0
 License: GPL3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -115,6 +115,12 @@ If you would like more features, such as automatic renaming, or a dashboard for 
 6. screenshot-3.jpg
 
 == Changelog ==
+
+= 3.13.3 =
+* added option to set the width of the "Filename" column in the Media Library list view
+
+= 3.13.2 =
+* fixed setting text for 301 redirection option
 
 = 3.13.1 =
 * fixed warning in Elementor when do_rename is called from WebP Image Converter & Replacer plugin

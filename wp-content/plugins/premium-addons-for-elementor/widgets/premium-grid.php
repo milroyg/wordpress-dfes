@@ -41,7 +41,7 @@ class Premium_Grid extends Widget_Base {
 	/**
 	 * Check for Self Hosted Videos
 	 *
-	 * @var is_self_hosted
+	 * @var bool
 	 */
 	private static $check_self_hosted = false;
 
@@ -157,7 +157,7 @@ class Premium_Grid extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium media grid', 'layout', 'gallery', 'image', 'video', 'portfolio', 'visual', 'masonry', 'youtube', 'vimeo' );
@@ -319,7 +319,7 @@ class Premium_Grid extends Widget_Base {
 				'condition' => array(
 					'premium_gallery_load_more' => 'yes',
 				),
-				'ai'          => array(
+				'ai'        => array(
 					'active' => false,
 				),
 			)
@@ -492,7 +492,7 @@ class Premium_Grid extends Widget_Base {
 					),
 					$condition
 				),
-				'ai'          => array(
+				'ai'        => array(
 					'active' => false,
 				),
 			)
@@ -506,7 +506,7 @@ class Premium_Grid extends Widget_Base {
 				'label'   => __( 'Category', 'premium-addons-for-elementor' ),
 				'type'    => Controls_Manager::TEXT,
 				'dynamic' => array( 'active' => true ),
-				'ai'          => array(
+				'ai'      => array(
 					'active' => false,
 				),
 			)
@@ -2002,7 +2002,7 @@ class Premium_Grid extends Widget_Base {
 				'condition' => array(
 					'filter_adv_radius' => 'yes',
 				),
-				'ai'          => array(
+				'ai'        => array(
 					'active' => false,
 				),
 			)
@@ -2083,7 +2083,7 @@ class Premium_Grid extends Widget_Base {
 				'condition' => array(
 					'filter_hover_adv_radius' => 'yes',
 				),
-				'ai'          => array(
+				'ai'        => array(
 					'active' => false,
 				),
 			)
@@ -2167,7 +2167,7 @@ class Premium_Grid extends Widget_Base {
 				'condition' => array(
 					'filter_active_adv_radius' => 'yes',
 				),
-				'ai'          => array(
+				'ai'        => array(
 					'active' => false,
 				),
 			)
@@ -2566,13 +2566,13 @@ class Premium_Grid extends Widget_Base {
 	 * @since 2.1.0
 	 * @access public
 	 *
-	 * @param string $string category slug.
+	 * @param string $slug category slug.
 	 *
 	 * @return string $cat_filtered slug filtered.
 	 */
-	public function filter_cats( $string ) {
+	public function filter_cats( $slug ) {
 
-		$cat_filtered = trim( $string );
+		$cat_filtered = trim( $slug );
 
 		$cat_filtered = extension_loaded( 'mbstring' ) ? mb_strtolower( $cat_filtered ) : strtolower( $cat_filtered );
 
@@ -2644,7 +2644,7 @@ class Premium_Grid extends Widget_Base {
 						$this->add_render_attribute( $key, 'data-filter', $slug );
 						?>
 						<li>
-							<a href="javascript:;" <?php echo wp_kses_post( $this->get_render_attribute_string( $key ) ); ?>>
+							<a href="javascript:;" <?php $this->print_render_attribute_string( $key ); ?>>
 								<?php echo wp_kses_post( $category['premium_gallery_img_cat'] ); ?>
 							</a>
 						</li>
@@ -2815,14 +2815,14 @@ class Premium_Grid extends Widget_Base {
 
 		?>
 
-	<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'grid' ) ); ?>>
+	<div <?php $this->print_render_attribute_string( 'grid' ); ?>>
 		<?php
 		if ( 'yes' === $filter ) :
 			$this->render_filter_tabs( $is_all_active, $active_cat_index );
 		endif;
 		?>
 
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'gallery_container' ) ); ?>>
+		<div <?php $this->print_render_attribute_string( 'gallery_container' ); ?>>
 
 			<?php if ( 'metro' === $layout ) : ?>
 				<div class="grid-sizer"></div>
@@ -2834,11 +2834,6 @@ class Premium_Grid extends Widget_Base {
 				$key = 'gallery_item_' . $index;
 
 				$image_id = apply_filters( 'wpml_object_id', $image['premium_gallery_img']['id'], 'attachment', true );
-
-				// Check for Image ID, but not for the default Elementor placeholder.
-				// if ( false === strpos( $image['premium_gallery_img']['url'], 'placeholder.png' ) && ! $image['premium_gallery_video'] && ! $image_id && empty( $image['premium_gallery_img']['url'] ) ) {
-				// 	continue;
-				// }
 
 				$image_by_id = get_post( $image_id );
 
@@ -2865,9 +2860,9 @@ class Premium_Grid extends Widget_Base {
 					$this->add_render_attribute( $key, 'class', 'premium-gallery-video-item' );
 				}
 				?>
-				<div <?php echo wp_kses_post( $this->get_render_attribute_string( $key ) ); ?>>
+				<div <?php $this->print_render_attribute_string( $key ); ?>>
 				<div class="pa-gallery-img <?php echo esc_attr( $skin ); ?>" onclick="">
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'image_container' ) ); ?>>
+					<div <?php $this->print_render_attribute_string( 'image_container' ); ?>>
 						<?php
 							$video_data = $this->render_grid_item( $image, $index );
 
@@ -2940,7 +2935,7 @@ class Premium_Grid extends Widget_Base {
 							}
 
 							?>
-							<a <?php echo wp_kses_post( $this->get_render_attribute_string( $link_key ) ); ?>>
+							<a <?php $this->print_render_attribute_string( $link_key ); ?>>
 								<span>
 									<?php echo wp_kses_post( $image['premium_gallery_img_name'] ); ?>
 								</span>
@@ -2990,7 +2985,7 @@ class Premium_Grid extends Widget_Base {
 
 							?>
 
-								<a <?php echo wp_kses_post( $this->get_render_attribute_string( $lightbox_key ) ); ?>></a>
+								<a <?php $this->print_render_attribute_string( $lightbox_key ); ?>></a>
 
 							<?php
 						}
@@ -3041,7 +3036,7 @@ class Premium_Grid extends Widget_Base {
 	/**
 	 * Gets lightbox Title according to the Global Lightbox Settings.
 	 *
-	 * @param object $attachment  image(post) object.
+	 * @param \WP_Post|null $attachment  image(post) object.
 	 *
 	 * @since 4.10.62
 	 *
@@ -3050,7 +3045,7 @@ class Premium_Grid extends Widget_Base {
 	protected function get_lightbox_title( $attachment ) {
 		$title = '';
 
-		if ( ! $attachment || ! is_a( $attachment, 'WP_Post' ) ) {
+		if ( ! is_a( $attachment, 'WP_Post' ) ) {
 			return $title;
 		}
 
@@ -3090,11 +3085,15 @@ class Premium_Grid extends Widget_Base {
 
 		$image_id = apply_filters( 'wpml_object_id', $item['premium_gallery_img']['id'], 'attachment', true );
 
-		$image_src = $image_url = wp_get_attachment_image_url( $image_id, 'full' );
+		$image_src = wp_get_attachment_image_url( $image_id, 'full' );
 
 		$is_video = $item['premium_gallery_video'];
 
 		$key = 'image_' . $index;
+
+		$image_html   = '';
+		$link         = '';
+		$video_params = array();
 
 		if ( ! empty( $item['premium_gallery_img']['url'] ) ) {
 			$settings['image_data'] = Helper_Functions::get_image_data( $image_id, $item['premium_gallery_img']['url'], $settings['thumbnail_size'] );
@@ -3107,7 +3106,7 @@ class Premium_Grid extends Widget_Base {
 
 			if ( 'hosted' !== $type ) {
 				$embed_params = $this->get_embed_params( $item );
-				$link         = Embed::get_embed_url( $item['premium_gallery_video_url'], $embed_params );
+				$link         = (string) Embed::get_embed_url( $item['premium_gallery_video_url'], $embed_params ); // Stub mistypes Embed::get_embed_url() as array|null; it returns the embed URL string.
 
 				if ( 'youtube' === $type && 'yes' === $item['privacy_mode'] ) {
 					$link = str_replace( '.com', '-nocookie.com', $link );
@@ -3256,7 +3255,7 @@ class Premium_Grid extends Widget_Base {
 
 			?>
 			<div>
-				<a <?php echo wp_kses_post( $this->get_render_attribute_string( $lightbox_key ) ); ?>>
+				<a <?php $this->print_render_attribute_string( $lightbox_key ); ?>>
 					<span>
 						<?php
 						Icons_Manager::render_icon( $settings['premium_gallery_videos_icon'], array( 'aria-hidden' => 'true' ) );
@@ -3311,7 +3310,7 @@ class Premium_Grid extends Widget_Base {
 
 				?>
 
-					<a <?php echo wp_kses_post( $this->get_render_attribute_string( $lightbox_key ) ); ?>>
+					<a <?php $this->print_render_attribute_string( $lightbox_key ); ?>>
 						<span>
 							<?php
 							Icons_Manager::render_icon( $settings['premium_gallery_lightbox_icon'], array( 'aria-hidden' => 'true' ) );
@@ -3348,7 +3347,7 @@ class Premium_Grid extends Widget_Base {
 					}
 
 					?>
-					<a <?php echo wp_kses_post( $this->get_render_attribute_string( $link_key ) ); ?>>
+					<a <?php $this->print_render_attribute_string( $link_key ); ?>>
 						<span>
 							<?php
 							Icons_Manager::render_icon( $settings['premium_gallery_links_icon'], array( 'aria-hidden' => 'true' ) );
@@ -3378,7 +3377,8 @@ class Premium_Grid extends Widget_Base {
 		if ( 'yes' === $media_lib ) {
 			$title = Control_Media::get_image_title( $item['premium_gallery_img'] );
 
-			$description = get_post( $item['premium_gallery_img']['id'] )->post_content;
+			$post_obj    = get_post( $item['premium_gallery_img']['id'] );
+			$description = $post_obj ? $post_obj->post_content : '';
 		} else {
 			$title = $item['premium_gallery_img_name'];
 
@@ -3438,7 +3438,7 @@ class Premium_Grid extends Widget_Base {
 	}
 
 	/**
-	 * Get embeded videos parameters
+	 * Get embedded videos parameters
 	 *
 	 * @since 3.7.0
 	 * @access private
@@ -3458,8 +3458,6 @@ class Premium_Grid extends Widget_Base {
 		$video_params['controls'] = $item['premium_gallery_video_controls'] ? '1' : '0';
 
 		$key = 'youtube' === $item['premium_gallery_video_type'] ? 'mute' : 'muted';
-
-		// $video_params['playlist'] = $props['video_id'];
 
 		$video_params[ $key ] = $item['premium_gallery_video_mute'] ? '1' : '0';
 

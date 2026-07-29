@@ -63,7 +63,7 @@ class Premium_Lottie extends Widget_Base {
 		$is_edit = Helper_Functions::is_edit_mode();
 
 		$scripts = array();
-		if ( $is_edit || ( ! $is_edit && 'yes' === $this->get_settings( 'mouse_tilt' ) ) ) {
+		if ( $is_edit || 'true' === $this->get_settings( 'mouse_tilt' ) ) {
 			$scripts[] = 'pa-tilt';
 		}
 
@@ -100,7 +100,7 @@ class Premium_Lottie extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium lottie', 'animation', 'json', 'vector', 'motion' );
@@ -179,6 +179,9 @@ class Premium_Lottie extends Widget_Base {
 				'condition'   => array(
 					'source' => 'url',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -202,6 +205,21 @@ class Premium_Lottie extends Widget_Base {
 				'type'         => Controls_Manager::SWITCHER,
 				'return_value' => 'true',
 				'default'      => 'true',
+			)
+		);
+
+		$this->add_control(
+			'lottie_loop_times',
+			array(
+				'label'       => __( 'Times', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::NUMBER,
+				'description' => __( 'Total number of times the animation plays before it pauses. Leave empty to loop forever.', 'premium-addons-for-elementor' ),
+				'min'         => 1,
+				'step'        => 1,
+				'condition'   => array(
+					'lottie_loop' => 'true',
+					'trigger!'    => 'scroll',
+				),
 			)
 		);
 
@@ -701,6 +719,9 @@ class Premium_Lottie extends Widget_Base {
 				'condition' => array(
 					'lottie_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -745,14 +766,15 @@ class Premium_Lottie extends Widget_Base {
 		$this->add_render_attribute(
 			'lottie',
 			array(
-				'class'               => 'premium-lottie-animation',
-				'data-lottie-url'     => $anim_url,
-				'data-lottie-loop'    => $settings['lottie_loop'],
-				'data-lottie-reverse' => $settings['lottie_reverse'],
-				'data-lottie-hover'   => $settings['lottie_hover'] || 'hover' === $settings['trigger'],
-				'data-lottie-speed'   => $settings['lottie_speed'],
-				'data-lottie-render'  => $settings['lottie_renderer'],
-				'data-lottie-delay'   => $settings['lottie_delay'],
+				'class'                  => 'premium-lottie-animation',
+				'data-lottie-url'        => $anim_url,
+				'data-lottie-loop'       => $settings['lottie_loop'],
+				'data-lottie-loop-times' => $settings['lottie_loop_times'],
+				'data-lottie-reverse'    => $settings['lottie_reverse'],
+				'data-lottie-hover'      => $settings['lottie_hover'] || 'hover' === $settings['trigger'],
+				'data-lottie-speed'      => $settings['lottie_speed'],
+				'data-lottie-render'     => $settings['lottie_renderer'],
+				'data-lottie-delay'      => $settings['lottie_delay'],
 			)
 		);
 
@@ -778,8 +800,8 @@ class Premium_Lottie extends Widget_Base {
 				'lottie',
 				array(
 					'data-lottie-viewport' => 'true',
-					'data-scroll-start'    => $settings['animate_view']['sizes']['start'],
-					'data-scroll-end'      => $settings['animate_view']['sizes']['end'],
+					'data-scroll-start'    => isset( $settings['animate_view']['sizes']['start'] ) ? $settings['animate_view']['sizes']['start'] : '0',
+					'data-scroll-end'      => isset( $settings['animate_view']['sizes']['end'] ) ? $settings['animate_view']['sizes']['end'] : '100',
 				)
 			);
 		} elseif ( 'click' === $settings['trigger'] ) {
@@ -809,9 +831,9 @@ class Premium_Lottie extends Widget_Base {
 
 		?>
 
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'lottie' ) ); ?>>
+		<div <?php $this->print_render_attribute_string( 'lottie' ); ?>>
 			<?php if ( 'yes' === $settings['link_switcher'] ) : ?>
-				<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'link' ) ); ?>></a>
+				<a <?php $this->print_render_attribute_string( 'link' ); ?>></a>
 			<?php endif; ?>
 		</div>
 
@@ -852,6 +874,7 @@ class Premium_Lottie extends Widget_Base {
 			'class': 'premium-lottie-animation',
 			'data-lottie-url': anim_url,
 			'data-lottie-loop': settings.lottie_loop,
+			'data-lottie-loop-times': settings.lottie_loop_times,
 			'data-lottie-reverse': settings.lottie_reverse,
 			'data-lottie-hover': settings.lottie_hover || 'hover' === settings.trigger,
 			'data-lottie-speed': settings.lottie_speed,

@@ -17,6 +17,7 @@ use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Text_Shadow;
+use Elementor\Group_Control_Box_Shadow;
 use PremiumAddons\Includes\Controls\Premium_Background;
 
 // PremiumAddons Classes.
@@ -261,6 +262,18 @@ class Premium_Title extends Widget_Base {
 				),
 				'separator'   => 'before',
 				'label_block' => true,
+			)
+		);
+
+		$this->add_control(
+			'style_notice',
+			array(
+				'raw'             => __( 'Please note that this style removes any styling given to focused word.', 'premium-addons-for-elementor' ),
+				'type'            => Controls_Manager::RAW_HTML,
+				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+				'condition'       => array(
+					'premium_title_style' => 'style9',
+				),
 			)
 		);
 
@@ -526,12 +539,24 @@ class Premium_Title extends Widget_Base {
 			'icon_type',
 			array(
 				'label'     => __( 'Icon Type', 'premium-addons-for-elementor' ),
-				'type'      => Controls_Manager::SELECT,
+				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
-					'icon'      => __( 'Icon', 'premium-addons-for-elementor' ),
-					'image'     => __( 'Image', 'premium-addons-for-elementor' ),
-					'animation' => __( 'Lottie Animation', 'premium-addons-for-elementor' ),
-					'svg'       => __( 'SVG Code', 'premium-addons-for-elementor' ),
+					'icon'      => array(
+						'title' => __( 'Icon', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-icon',
+					),
+					'image'     => array(
+						'title' => __( 'Image', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-image',
+					),
+					'animation' => array(
+						'title' => __( 'Lottie Animation', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-lottie',
+					),
+					'svg'       => array(
+						'title' => __( 'SVG Code', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-code',
+					),
 				),
 				'default'   => 'icon',
 				'condition' => array(
@@ -604,15 +629,17 @@ class Premium_Title extends Widget_Base {
 		$this->add_control(
 			'premium_title_icon_updated',
 			array(
-				'label'            => __( 'Font Awesome Icon', 'premium-addons-for-elementor' ),
-				'type'             => Controls_Manager::ICONS,
-				'fa4compatibility' => 'premium_title_icon',
-				'default'          => array(
+				'label'                  => __( 'Font Awesome Icon', 'premium-addons-for-elementor' ),
+				'type'                   => Controls_Manager::ICONS,
+				'fa4compatibility'       => 'premium_title_icon',
+				'default'                => array(
 					'value'   => 'fas fa-bars',
 					'library' => 'fa-solid',
 				),
-				'label_block'      => true,
-				'condition'        => array_merge(
+				'exclude_inline_options' => 'none',
+				'skin'                   => 'inline',
+				'label_block'            => false,
+				'condition'              => array_merge(
 					$common_conditions,
 					array(
 						'icon_type' => 'icon',
@@ -650,6 +677,9 @@ class Premium_Title extends Widget_Base {
 						'icon_type' => 'svg',
 					)
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -666,6 +696,9 @@ class Premium_Title extends Widget_Base {
 					array(
 						'icon_type' => 'animation',
 					)
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -1085,7 +1118,8 @@ class Premium_Title extends Widget_Base {
 				'render_type'  => 'template',
 				'prefix_class' => 'premium-mask-',
 				'condition'    => array(
-					'premium_title_style!' => 'style9',
+					'premium_title_style!'    => array( 'style8', 'style9' ),
+					'gradient_text_switcher!' => 'yes',
 				),
 			)
 		);
@@ -1100,8 +1134,9 @@ class Premium_Title extends Widget_Base {
 					'{{WRAPPER}}.premium-mask-yes .premium-mask-span::after'   => 'background: {{VALUE}};',
 				),
 				'condition'   => array(
-					'mask_switcher'        => 'yes',
-					'premium_title_style!' => 'style9',
+					'mask_switcher'           => 'yes',
+					'premium_title_style!'    => array( 'style8', 'style9' ),
+					'gradient_text_switcher!' => 'yes',
 				),
 			)
 		);
@@ -1133,8 +1168,9 @@ class Premium_Title extends Widget_Base {
 				'prefix_class' => 'premium-mask-',
 				'render_type'  => 'template',
 				'condition'    => array(
-					'mask_switcher'        => 'yes',
-					'premium_title_style!' => 'style9',
+					'mask_switcher'           => 'yes',
+					'premium_title_style!'    => array( 'style8', 'style9' ),
+					'gradient_text_switcher!' => 'yes',
 				),
 			)
 		);
@@ -1149,8 +1185,9 @@ class Premium_Title extends Widget_Base {
 					'{{WRAPPER}} .premium-mask-span' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 				'condition'  => array(
-					'mask_switcher'        => 'yes',
-					'premium_title_style!' => 'style9',
+					'mask_switcher'           => 'yes',
+					'premium_title_style!'    => array( 'style8', 'style9' ),
+					'gradient_text_switcher!' => 'yes',
 				),
 			)
 		);
@@ -1164,10 +1201,162 @@ class Premium_Title extends Widget_Base {
 				'separator'    => 'before',
 				'render_type'  => 'template',
 				'condition'    => array(
-					'premium_title_style!'    => 'style9',
+					'premium_title_style!'    => array( 'style8', 'style9' ),
 					'mask_switcher!'          => 'yes',
 					'gradient_text_switcher!' => 'yes',
 					'background_style'        => 'color',
+				),
+			)
+		);
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'premium_title_description_section',
+			array(
+				'label' => __( 'Description', 'premium-addons-for-elementor' ),
+			)
+		);
+
+		$this->add_control(
+			'premium_title_desc_switcher',
+			array(
+				'label' => __( 'Description', 'premium-addons-for-elementor' ),
+				'type'  => Controls_Manager::SWITCHER,
+			)
+		);
+
+		$this->add_control(
+			'premium_title_desc_text',
+			array(
+				'label'     => __( 'Description', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::WYSIWYG,
+				'dynamic'   => array( 'active' => true ),
+				'default'   => esc_html__( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.', 'premium-addons-for-elementor' ),
+				'condition' => array(
+					'premium_title_desc_switcher' => 'yes',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'premium_title_desc_display',
+			array(
+				'label'        => __( 'Display', 'premium-addons-for-elementor' ),
+				'type'         => Controls_Manager::CHOOSE,
+				'separator'    => 'before',
+				'options'      => array(
+					'row'    => array(
+						'title' => __( 'Inline', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-ellipsis-h',
+					),
+					'column' => array(
+						'title' => __( 'Block', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-ellipsis-v',
+					),
+				),
+				'default'      => 'column',
+				'prefix_class' => 'premium-title-desc-display-',
+				'toggle'       => false,
+				'selectors'    => array(
+					'{{WRAPPER}} .premium-title-wrapper' => 'flex-direction: {{VALUE}};',
+				),
+				'condition'    => array(
+					'premium_title_desc_switcher' => 'yes',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'premium_title_desc_order',
+			array(
+				'label'     => __( 'Order', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::CHOOSE,
+				'options'   => array(
+					'0' => array(
+						'title' => __( 'Before Heading', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-order-start',
+					),
+					'2' => array(
+						'title' => __( 'After Heading', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-order-end',
+					),
+				),
+				'default'   => '2',
+				'toggle'    => false,
+				'selectors' => array(
+					'{{WRAPPER}} .premium-title-description' => 'order: {{VALUE}};',
+				),
+				'condition' => array(
+					'premium_title_desc_switcher' => 'yes',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'premium_title_desc_v_align',
+			array(
+				'label'       => __( 'Vertical Alignment', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::CHOOSE,
+				'description' => __( 'Effective when the display is set to <b>"inline</b>"', 'premium-addons-for-elementor' ),
+				'options'     => array(
+					'start'   => array(
+						'title' => __( 'Start', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-align-start-v',
+					),
+					'center'  => array(
+						'title' => __( 'Center', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-align-center-v',
+					),
+					'end'     => array(
+						'title' => __( 'End', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-align-end-v',
+					),
+					'stretch' => array(
+						'title' => __( 'Stretch', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-align-stretch-v',
+					),
+				),
+				'default'     => 'center',
+				'toggle'      => false,
+				'selectors'   => array(
+					'{{WRAPPER}} .premium-title-description' => 'align-self: {{VALUE}};',
+				),
+				'condition'   => array(
+					'premium_title_desc_switcher' => 'yes',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'premium_title_desc_align',
+			array(
+				'label'     => __( 'Text Alignment', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::CHOOSE,
+				'toggle'    => false,
+				'options'   => array(
+					'left'    => array(
+						'title' => __( 'Left', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center'  => array(
+						'title' => __( 'Center', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'right'   => array(
+						'title' => __( 'Right', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+					'justify' => array(
+						'title' => __( 'Justify', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-justify',
+					),
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .premium-title-description' => 'text-align: {{VALUE}};',
+				),
+				'condition' => array(
+					'premium_title_desc_switcher' => 'yes',
 				),
 			)
 		);
@@ -1215,7 +1404,7 @@ class Premium_Title extends Widget_Base {
 					'default' => Global_Colors::COLOR_PRIMARY,
 				),
 				'selectors' => array(
-					'{{WRAPPER}} .premium-title-header, {{WRAPPER}}.premium-title-noise-yes .premium-title-text::before, {{WRAPPER}}.premium-title-noise-yes .premium-title-text::after' => 'color: {{VALUE}}',
+					'{{WRAPPER}} .premium-title-header, {{WRAPPER}}.premium-title-noise-yes .premium-title-noise-word:not(.premium-title__focused-word)::before, {{WRAPPER}}.premium-title-noise-yes .premium-title-noise-word:not(.premium-title__focused-word)::after' => 'color: {{VALUE}}',
 					'{{WRAPPER}}.premium-title-stroke-yes .premium-title-text' => '-webkit-text-fill-color: {{VALUE}}',
 					'{{WRAPPER}} .premium-title-style8 .premium-title-text[data-animation="shiny"]' => '--base-color: {{VALUE}}',
 				),
@@ -1262,14 +1451,9 @@ class Premium_Title extends Widget_Base {
 		$this->add_group_control(
 			Group_Control_Border::get_type(),
 			array(
-				'name'           => 'style_one_border',
-				'fields_options' => array(
-					'border' => array(
-						'default' => 'solid',
-					),
-				),
-				'selector'       => '{{WRAPPER}} .premium-title-style1',
-				'condition'      => array(
+				'name'      => 'style_one_border',
+				'selector'  => '{{WRAPPER}} .premium-title-style1',
+				'condition' => array(
 					'premium_title_style' => 'style1',
 				),
 			)
@@ -1438,9 +1622,17 @@ class Premium_Title extends Widget_Base {
 		$this->add_group_control(
 			Group_Control_Text_Shadow::get_type(),
 			array(
-				'label'    => __( 'Shadow', 'premium-addons-for-elementor' ),
-				'name'     => 'premium_title_text_shadow',
-				'selector' => '{{WRAPPER}} .premium-title-header',
+				'label'          => __( 'Shadow', 'premium-addons-for-elementor' ),
+				'name'           => 'premium_title_text_shadow',
+				// 'selector' => '{{WRAPPER}} .premium-title-header',
+				'fields_options' => array(
+					'text_shadow' => array(
+						'selectors' => array(
+							'{{WRAPPER}}:not(.premium-title-gradient-yes) .premium-title-header' => 'text-shadow: {{HORIZONTAL}}px {{VERTICAL}}px {{BLUR}}px {{COLOR}} {{text_shadow_position.VALUE}};',
+							'{{WRAPPER}}.premium-title-gradient-yes .premium-title-header' => 'filter: drop-shadow({{HORIZONTAL}}px {{VERTICAL}}px {{BLUR}}px {{COLOR}})',
+						),
+					),
+				),
 			)
 		);
 
@@ -1515,7 +1707,7 @@ class Premium_Title extends Widget_Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', 'em', '%', 'vw', 'custom' ),
 				'selectors'  => array(
-					'{{WRAPPER}} .premium-title-text, {{WRAPPER}}.premium-title-noise-yes .premium-title-text::before, {{WRAPPER}}.premium-title-noise-yes .premium-title-text::after' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .premium-title-header, {{WRAPPER}}.premium-title-noise-yes .premium-title-noise-word::before, {{WRAPPER}}.premium-title-noise-yes .premium-title-noise-word::after' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 			)
 		);
@@ -1583,7 +1775,11 @@ class Premium_Title extends Widget_Base {
 				'label'     => __( 'Glitch Effect', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::HEADING,
 				'condition' => array(
-					'noise' => 'yes',
+					'noise'                   => 'yes',
+					'premium_title_style!'    => array( 'style8', 'style9' ),
+					'mask_switcher!'          => 'yes',
+					'gradient_text_switcher!' => 'yes',
+					'background_style'        => 'color',
 				),
 			)
 		);
@@ -1594,10 +1790,14 @@ class Premium_Title extends Widget_Base {
 				'label'     => __( 'Color #1', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'condition' => array(
-					'noise' => 'yes',
+					'noise'                   => 'yes',
+					'premium_title_style!'    => array( 'style8', 'style9' ),
+					'mask_switcher!'          => 'yes',
+					'gradient_text_switcher!' => 'yes',
+					'background_style'        => 'color',
 				),
 				'selectors' => array(
-					'{{WRAPPER}}.premium-title-noise-yes .premium-title-text::before' => 'text-shadow: 1px 0 {{VALUE}};',
+					'{{WRAPPER}}.premium-title-noise-yes .premium-title-noise-word::before' => 'text-shadow: 1px 0 {{VALUE}};',
 				),
 			)
 		);
@@ -1608,10 +1808,14 @@ class Premium_Title extends Widget_Base {
 				'label'     => __( 'Color #2', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'condition' => array(
-					'noise' => 'yes',
+					'noise'                   => 'yes',
+					'premium_title_style!'    => array( 'style8', 'style9' ),
+					'mask_switcher!'          => 'yes',
+					'gradient_text_switcher!' => 'yes',
+					'background_style'        => 'color',
 				),
 				'selectors' => array(
-					'{{WRAPPER}}.premium-title-noise-yes .premium-title-text::after' => 'text-shadow: -1px 0 {{VALUE}};',
+					'{{WRAPPER}}.premium-title-noise-yes .premium-title-noise-word::after' => 'text-shadow: -1px 0 {{VALUE}};',
 				),
 			)
 		);
@@ -1674,27 +1878,16 @@ class Premium_Title extends Widget_Base {
 		);
 
 		$this->add_control(
-			'minimal_mask_notice',
-			array(
-				'raw'             => __( 'Please note that focused word styling does not work with minimal mask effect', 'premium-addons-for-elementor' ),
-				'type'            => Controls_Manager::RAW_HTML,
-				'content_classes' => 'elementor-panel-alert elementor-panel-alert-warning',
-				'condition'       => array(
-					'mask_switcher' => 'yes',
-				),
-			)
-		);
-
-		$this->add_control(
 			'focused_word_color',
 			array(
 				'label'     => __( 'Color', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'global'    => array(
-					'default' => Global_Colors::COLOR_SECONDARY,
+					'default' => Global_Colors::COLOR_TEXT,
 				),
 				'selectors' => array(
 					'{{WRAPPER}} .premium-title-text .premium-title__focused-word' => 'color: {{VALUE}}',
+					'{{WRAPPER}}.premium-title-noise-yes .premium-title__focused-word::before, {{WRAPPER}}.premium-title-noise-yes .premium-title__focused-word::after' => 'color: {{VALUE}}',
 					'{{WRAPPER}}.premium-title-stroke-yes .premium-title__focused-word' => '-webkit-text-fill-color: {{VALUE}}',
 				),
 			)
@@ -1999,6 +2192,9 @@ class Premium_Title extends Widget_Base {
 				'condition' => array(
 					'icon_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -2034,6 +2230,110 @@ class Premium_Title extends Widget_Base {
 				'selector'  => '{{WRAPPER}} .premium-title-icon',
 				'condition' => array(
 					'icon_type' => 'icon',
+				),
+			)
+		);
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'premium_title_desc_style_section',
+			array(
+				'label'     => __( 'Description', 'premium-addons-for-elementor' ),
+				'tab'       => Controls_Manager::TAB_STYLE,
+				'condition' => array(
+					'premium_title_desc_switcher' => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'premium_title_desc_color',
+			array(
+				'label'     => __( 'Color', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .premium-title-description, {{WRAPPER}} .premium-title-description *' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'premium_title_desc_typography',
+				'global'   => array(
+					'default' => Global_Typography::TYPOGRAPHY_TEXT,
+				),
+				'selector' => '{{WRAPPER}} .premium-title-description',
+			)
+		);
+
+		$this->add_group_control(
+			Group_Control_Text_Shadow::get_type(),
+			array(
+				'name'     => 'premium_title_desc_text_shadow',
+				'selector' => '{{WRAPPER}} .premium-title-description',
+			)
+		);
+
+		$this->add_group_control(
+			Premium_Background::get_type(),
+			array(
+				'name'     => 'premium_title_desc_background',
+				'types'    => array( 'classic', 'gradient' ),
+				'selector' => '{{WRAPPER}} .premium-title-description',
+			)
+		);
+
+		$this->add_group_control(
+			Group_Control_Box_Shadow::get_type(),
+			array(
+				'name'     => 'premium_title_desc_box_shadow',
+				'selector' => '{{WRAPPER}} .premium-title-description',
+			)
+		);
+
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
+			array(
+				'name'     => 'premium_title_desc_border',
+				'selector' => '{{WRAPPER}} .premium-title-description',
+			)
+		);
+
+		$this->add_responsive_control(
+			'premium_title_desc_border_radius',
+			array(
+				'label'      => __( 'Border Radius', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .premium-title-description' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'premium_title_desc_margin',
+			array(
+				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em', '%' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .premium-title-description' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'premium_title_desc_padding',
+			array(
+				'label'      => __( 'Padding', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em', '%' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .premium-title-description' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 			)
 		);
@@ -2195,7 +2495,7 @@ class Premium_Title extends Widget_Base {
 		$this->end_controls_section();
 
 		$this->start_controls_section(
-			'under	line_style_section',
+			'underline_style_section',
 			array(
 				'label'     => __( 'Underline', 'premium-addons-for-elementor' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
@@ -2298,7 +2598,7 @@ class Premium_Title extends Widget_Base {
 
 		$selected_style = $settings['premium_title_style'];
 
-		$this->add_render_attribute( 'container', 'class', array( 'premium-title-container', $selected_style ) );
+		$this->add_render_attribute( 'container', 'class', 'premium-title-container' );
 
 		$this->add_render_attribute( 'title', 'class', array( 'premium-title-header', 'premium-title-' . $selected_style ) );
 
@@ -2323,12 +2623,6 @@ class Premium_Title extends Widget_Base {
 		} elseif ( 'style9' === $selected_style ) {
 
 			$this->add_render_attribute( 'title', 'data-blur-delay', $settings['premium_title_delay'] );
-
-		}
-
-		if ( 'yes' === $settings['noise'] ) {
-
-			$this->add_render_attribute( 'premium_title_text', 'data-text', str_replace( array( '{{', '}}' ), '', $settings['premium_title_text'] ) );
 
 		}
 
@@ -2429,95 +2723,127 @@ class Premium_Title extends Widget_Base {
 			);
 		}
 
+		$show_desc = 'yes' === $settings['premium_title_desc_switcher'] && ! empty( $settings['premium_title_desc_text'] );
+
+		if ( $show_desc ) {
+			$this->add_render_attribute( 'title_description', 'class', 'premium-title-description' );
+		}
+
 		?>
 
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'container' ) ); ?>>
-			<<?php echo wp_kses_post( $title_tag . ' ' . $this->get_render_attribute_string( 'title' ) ); ?>>
-				<?php if ( 'style7' === $selected_style ) : ?>
-					<?php if ( 'column' !== $icon_position ) : ?>
-						<span class="premium-title-style7-stripe-wrap">
-							<span class="premium-title-style7-stripe"></span>
-						</span>
-					<?php endif; ?>
-					<div class="premium-title-style7-inner">
-				<?php endif; ?>
-
-				<?php if ( 'yes' === $settings['premium_title_icon_switcher'] ) : ?>
-					<?php if ( 'icon' === $icon_type ) : ?>
-						<?php
-						if ( 'yes' !== $settings['draw_svg'] ) :
-							Icons_Manager::render_icon(
-								$settings['premium_title_icon_updated'],
-								array(
-									'class'       => array( 'premium-title-icon', 'premium-svg-nodraw', 'premium-drawable-icon' ),
-									'aria-hidden' => 'true',
-								)
-							);
-						else :
-
-							echo Helper_Functions::get_svg_by_icon(
-								$settings['premium_title_icon_updated'],
-								$this->get_render_attribute_string( 'icon' )
-							);
-
-						endif;
-						?>
-
-					<?php elseif ( 'svg' === $icon_type ) : ?>
-						<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon' ) ); ?>>
-							<?php $this->print_unescaped_setting( 'custom_svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-						</div>
-					<?php elseif ( 'animation' === $icon_type ) : ?>
-						<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'title_lottie' ) ); ?>></div>
-					<?php else : ?>
-						<?php if ( 'yes' === $settings['mask_switcher'] ) : ?>
-							<span class="premium-title-img">
+		<div class="premium-title-wrapper">
+			<div <?php $this->print_render_attribute_string( 'container' ); ?>>
+				<<?php echo wp_kses_post( $title_tag . ' ' . $this->get_render_attribute_string( 'title' ) ); ?>>
+					<?php if ( 'style7' === $selected_style ) : ?>
+						<?php if ( 'column' !== $icon_position ) : ?>
+							<span class="premium-title-style7-stripe-wrap">
+								<span class="premium-title-style7-stripe"></span>
+							</span>
 						<?php endif; ?>
-							<img <?php echo wp_kses_post( $this->get_render_attribute_string( 'title_img' ) ); ?>>
-						<?php if ( 'yes' === $settings['mask_switcher'] ) : ?>
+						<div class="premium-title-style7-inner">
+					<?php endif; ?>
+
+					<?php if ( 'yes' === $settings['premium_title_icon_switcher'] ) : ?>
+						<?php if ( 'icon' === $icon_type ) : ?>
+							<?php
+							if ( 'yes' !== $settings['draw_svg'] ) :
+								Icons_Manager::render_icon(
+									$settings['premium_title_icon_updated'],
+									array(
+										'class'       => array( 'premium-title-icon', 'premium-svg-nodraw', 'premium-drawable-icon' ),
+										'aria-hidden' => 'true',
+									)
+								);
+							else :
+
+								echo Helper_Functions::get_svg_by_icon( $settings['premium_title_icon_updated'], $this->get_render_attribute_string( 'icon' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_svg_by_icon() returns sanitized inline SVG/icon markup.
+
+							endif;
+							?>
+
+						<?php elseif ( 'svg' === $icon_type ) : ?>
+							<div <?php $this->print_render_attribute_string( 'icon' ); ?>>
+								<?php echo Helper_Functions::sanitize_svg( $this->get_settings_for_display( 'custom_svg' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- sanitize_svg passes through wp_kses with a strict SVG allowlist. ?>
+							</div>
+						<?php elseif ( 'animation' === $icon_type ) : ?>
+							<div <?php $this->print_render_attribute_string( 'title_lottie' ); ?>></div>
+						<?php else : ?>
+							<?php if ( 'yes' === $settings['mask_switcher'] ) : ?>
+								<span class="premium-title-img">
+							<?php endif; ?>
+								<img <?php $this->print_render_attribute_string( 'title_img' ); ?>>
+							<?php if ( 'yes' === $settings['mask_switcher'] ) : ?>
+								</span>
+							<?php endif; ?>
+						<?php endif; ?>
+					<?php endif; ?>
+
+					<?php if ( 'style7' === $selected_style ) : ?>
+						<?php if ( 'column' === $icon_position ) : ?>
+							<span class="premium-title-style7-stripe-wrap">
+								<span class="premium-title-style7-stripe"></span>
 							</span>
 						<?php endif; ?>
 					<?php endif; ?>
-				<?php endif; ?>
-
-				<?php if ( 'style7' === $selected_style ) : ?>
-					<?php if ( 'column' === $icon_position ) : ?>
-						<span class="premium-title-style7-stripe-wrap">
-							<span class="premium-title-style7-stripe"></span>
-						</span>
-					<?php endif; ?>
-				<?php endif; ?>
-				<?php
-				if ( 'style9' !== $selected_style ) :
-					$text = str_replace( array( '{{', '}}' ), array( '<span class="premium-title__focused-word">', '</span>' ), $settings['premium_title_text'] );
-					?>
-				<span <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_title_text' ) ); ?>>
-					<?php echo wp_kses_post( $text ); ?>
-				</span>
 					<?php
-				else :
-						$letters_html = '<span class="premium-letters-container"' . $this->get_render_attribute_string( 'premium_title_text' ) . '>';
-						$title_array  = preg_split( '//u', $settings['premium_title_text'], -1, PREG_SPLIT_NO_EMPTY );
-					foreach ( $title_array as $key => $letter ) :
-						$letters_html .= '<span class="premium-title-style9-letter" data-letter-index="' . esc_attr( $key + 1 ) . '" data-letter="' . esc_attr( $letter ) . '">' . $letter . '</span>';
-					endforeach;
-						$the_title = $letters_html . '</span>';
-						echo wp_kses_post( $the_title );
-					?>
-				<?php endif; ?>
+					if ( 'style9' !== $selected_style ) :
+						if ( 'yes' === $settings['noise'] ) :
+							$segments = preg_split( '/(\{\{.+?\}\})/u', $settings['premium_title_text'], -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
+							$text     = '';
+							foreach ( $segments as $segment ) :
+								$is_focused = preg_match( '/^\{\{(.+)\}\}$/u', $segment, $matches );
+								$content    = $is_focused ? $matches[1] : $segment;
 
-				<?php if ( 'style7' === $selected_style ) : ?>
-					</div>
-				<?php endif; ?>
-				<?php if ( ! empty( $link ) ) : ?>
-					<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'link' ) ); ?>></a>
-				<?php endif; ?>
+								// Keep connective whitespace outside the glitch span so each ghost aligns tightly to its word.
+								preg_match( '/^(\s*)(.*?)(\s*)$/su', $content, $pieces );
 
-				<?php if ( 'none' !== $settings['hover_effect'] ) : ?>
-					<?php echo Helper_Functions::get_btn_svgs( $settings['hover_effect'] ); ?>
-				<?php endif; ?>
-			</<?php echo wp_kses_post( $title_tag ); ?>>
+								$text .= esc_html( $pieces[1] );
 
+								if ( '' !== $pieces[2] ) :
+									$word_class = $is_focused ? 'premium-title__focused-word premium-title-noise-word' : 'premium-title-noise-word';
+									$text      .= '<span class="' . $word_class . '" data-text="' . esc_attr( $pieces[2] ) . '">' . esc_html( $pieces[2] ) . '</span>';
+								endif;
+
+								$text .= esc_html( $pieces[3] );
+							endforeach;
+						else :
+							$text = str_replace( array( '{{', '}}' ), array( '<span class="premium-title__focused-word">', '</span>' ), $settings['premium_title_text'] );
+						endif;
+						?>
+					<span <?php $this->print_render_attribute_string( 'premium_title_text' ); ?>>
+						<?php echo wp_kses_post( $text ); ?>
+					</span>
+						<?php
+					else :
+							$letters_html = '<span class="premium-letters-container"' . $this->get_render_attribute_string( 'premium_title_text' ) . '>';
+							$title_array  = preg_split( '//u', $settings['premium_title_text'], -1, PREG_SPLIT_NO_EMPTY );
+						foreach ( $title_array as $key => $letter ) :
+							$letters_html .= '<span class="premium-title-style9-letter" data-letter-index="' . esc_attr( $key + 1 ) . '" data-letter="' . esc_attr( $letter ) . '">' . $letter . '</span>';
+						endforeach;
+							$the_title = $letters_html . '</span>';
+							echo wp_kses_post( $the_title );
+						?>
+					<?php endif; ?>
+
+					<?php if ( 'style7' === $selected_style ) : ?>
+						</div>
+					<?php endif; ?>
+					<?php if ( ! empty( $link ) ) : ?>
+						<a <?php $this->print_render_attribute_string( 'link' ); ?>></a>
+					<?php endif; ?>
+
+					<?php if ( 'none' !== $settings['hover_effect'] ) : ?>
+						<?php echo Helper_Functions::get_btn_svgs( $settings['hover_effect'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_btn_svgs() returns sanitized inline SVG markup. ?>
+					<?php endif; ?>
+				</<?php echo wp_kses_post( $title_tag ); ?>>
+
+			</div>
+
+			<?php if ( $show_desc ) : ?>
+				<div <?php $this->print_render_attribute_string( 'title_description' ); ?>>
+					<?php echo wp_kses_post( $settings['premium_title_desc_text'] ); ?>
+				</div>
+			<?php endif; ?>
 		</div>
 
 		<?php

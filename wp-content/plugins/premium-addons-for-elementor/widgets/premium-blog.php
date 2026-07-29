@@ -139,7 +139,7 @@ class Premium_Blog extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium blog', 'posts', 'grid', 'item', 'loop', 'query', 'portfolio', 'cpt', 'custom' );
@@ -382,20 +382,29 @@ class Premium_Blog extends Widget_Base {
 
 		foreach ( $post_types as $key => $type ) {
 
-			// Get all the taxanomies associated with the selected post type.
+			// Get all the taxonomies associated with the selected post type.
 			$taxonomy = Blog_Helper::get_taxnomies( $key );
 
 			if ( ! empty( $taxonomy ) ) {
 
+				// Batch-fetch terms for all taxonomies of this post type in one query.
+				$all_terms    = get_terms(
+					array(
+						'taxonomy'   => array_keys( $taxonomy ),
+						'hide_empty' => false,
+					)
+				);
+				$terms_by_tax = array();
+				if ( ! is_wp_error( $all_terms ) ) {
+					foreach ( $all_terms as $t ) {
+						$terms_by_tax[ $t->taxonomy ][] = $t;
+					}
+				}
+
 				// Get all taxonomy values under the taxonomy.
 				foreach ( $taxonomy as $index => $tax ) {
 
-					$terms = get_terms(
-						array(
-							'taxonomy'   => $index,
-							'hide_empty' => false,
-						)
-					);
+					$terms = isset( $terms_by_tax[ $index ] ) ? $terms_by_tax[ $index ] : array();
 
 					$related_tax = array();
 
@@ -492,7 +501,7 @@ class Premium_Blog extends Widget_Base {
 				'label_block' => true,
 				'options'     => array(
 					'post__in'     => __( 'Match Post', 'premium-addons-for-elementor' ),
-					'post__not_in' => __( 'Exclude Post', 'premium-addons-for-elementor' ),
+					'post__not_in' => __( 'Exclude Post', 'premium-addons-for-elementor' ), // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in -- Control option value, not a query argument.
 				),
 				'condition'   => array(
 					'post_type_filter!' => 'main',
@@ -608,6 +617,9 @@ class Premium_Blog extends Widget_Base {
 				'condition'   => array(
 					'post_type_filter!'     => 'main',
 					'premium_blog_order_by' => 'meta_value',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -1151,6 +1163,22 @@ class Premium_Blog extends Widget_Base {
 			)
 		);
 
+		$this->add_control(
+			'premium_blog_meta_position',
+			array(
+				'label'     => __( 'Meta Position', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::SELECT,
+				'default'   => 'below',
+				'options'   => array(
+					'below' => __( 'Below Title', 'premium-addons-for-elementor' ),
+					'above' => __( 'Above Title', 'premium-addons-for-elementor' ),
+				),
+				'condition' => array(
+					'premium_blog_skin!' => 'cards',
+				),
+			)
+		);
+
 		$this->end_controls_section();
 
 		$this->start_controls_section(
@@ -1281,6 +1309,9 @@ class Premium_Blog extends Widget_Base {
 					'premium_blog_cat_tabs'  => 'yes',
 					'premium_blog_carousel!' => 'yes',
 					'premium_blog_layout!'   => 'marquee',
+				),
+				'ai'                 => array(
+					'active' => false,
 				),
 			)
 		);
@@ -1774,7 +1805,6 @@ class Premium_Blog extends Widget_Base {
 
 		$docs = array(
 			'https://premiumaddons.com/docs/elementor-blog-widget-tutorial/' => __( 'Getting started »', 'premium-addons-for-elementor' ),
-			// 'https://premiumaddons.com/docs/link-filter-tabs-elementor-blog-widget/' => __( 'How to link filter tabs in Blog widget »', 'premium-addons-for-elementor' ),
 		);
 
 		$doc_index = 1;
@@ -2857,6 +2887,9 @@ class Premium_Blog extends Widget_Base {
 				'condition' => array(
 					'box_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -2996,6 +3029,9 @@ class Premium_Blog extends Widget_Base {
 				'condition' => array(
 					'navigation_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -3082,6 +3118,9 @@ class Premium_Blog extends Widget_Base {
 				'condition' => array(
 					'hover_navigation_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -3167,6 +3206,9 @@ class Premium_Blog extends Widget_Base {
 				),
 				'condition' => array(
 					'active_navigation_adv_radius' => 'yes',
+				),
+				'ai'        => array(
+					'active' => false,
 				),
 			)
 		);
@@ -3405,7 +3447,7 @@ class Premium_Blog extends Widget_Base {
 
 		$settings = $this->get_settings();
 
-		$current_language = apply_filters( 'wpml_current_language', '-' );
+		$current_language = apply_filters( 'wpml_current_language', '-' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		$post_type = $settings['post_type_filter'];
 
@@ -3417,13 +3459,18 @@ class Premium_Blog extends Widget_Base {
 
 		// Fix: Make sure there is a value set for the current tax control.
 		if ( empty( $filter_rule ) ) {
-			return;
+			return array();
 		}
 
 		$filters = $settings[ 'tax_' . $filter . '_' . $post_type . '_filter' ];
 
 		// Get the categories based on filter source.
-		$taxs = get_terms( $filter );
+		$taxs = get_terms(
+			array(
+				'taxonomy'   => $filter,
+				'hide_empty' => false,
+			)
+		);
 
 		$tabs_array = array();
 
@@ -3431,7 +3478,7 @@ class Premium_Blog extends Widget_Base {
 			return array();
 		}
 
-		if ( empty( $filters ) || '' === $filters ) {
+		if ( empty( $filters ) ) {
 
 			$tabs_array = $taxs;
 
@@ -3494,7 +3541,7 @@ class Premium_Blog extends Widget_Base {
 					}
 					?>
 						<li>
-							<a href="javascript:;" <?php echo wp_kses_post( $this->get_render_attribute_string( $key ) ); ?> data-filter="<?php echo esc_attr( $filter->slug ); ?>">
+							<a href="javascript:;" <?php $this->print_render_attribute_string( $key ); ?> data-filter="<?php echo esc_attr( $filter->slug ); ?>">
 								<?php echo wp_kses_post( $filter->name ); ?>
 							</a>
 						</li>
@@ -3522,13 +3569,14 @@ class Premium_Blog extends Widget_Base {
 
 		$blog_helper = Blog_Helper::getInstance();
 
+		$filters = array();
 		if ( 'yes' === $settings['premium_blog_cat_tabs'] && 'yes' !== $settings['premium_blog_carousel'] && 'marquee' !== $settings['premium_blog_layout'] ) {
 
 			$filter_rule = $settings['filter_tabs_type'];
 
 			$filters = $this->get_filter_array( $filter_rule );
 
-			if ( empty( $settings['premium_blog_tab_label'] ) ) {
+			if ( ! empty( $filters ) && empty( $settings['premium_blog_tab_label'] ) ) {
 				$settings['active_cat'] = $filters[0]->slug;
 			}
 		}
@@ -3606,7 +3654,7 @@ class Premium_Blog extends Widget_Base {
 		<?php if ( $carousel && $arrows && 'above' === $settings['arrows_position'] ) { ?>
 			<div class="premium-carousel-arrows-wrapper"></div>
 		<?php } ?>
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'blog' ) ); ?>>
+		<div <?php $this->print_render_attribute_string( 'blog' ); ?>>
 			<?php if ( 'yes' === $settings['premium_blog_grid'] && 'marquee' === $settings['premium_blog_layout'] ) : ?>
 				<div class="premium-marquee-wrapper">
 			<?php endif; ?>

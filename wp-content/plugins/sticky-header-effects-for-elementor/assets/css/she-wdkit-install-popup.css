@@ -1,7 +1,8 @@
 .she-preset-main-raw-main {
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
-    gap: 16px;
+    gap: 10px;
     margin-bottom: 15px
 }
 

@@ -79,7 +79,7 @@ class Premium_SVG_Drawer extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium svg draw', 'icon', 'animate', 'custom', 'library', 'animation' );
@@ -124,7 +124,10 @@ class Premium_SVG_Drawer extends Widget_Base {
 			$settings = $this->get_settings();
 
 			if ( 'yes' === $settings['animate_icon'] ) {
-				array_push( $scripts, 'pa-tweenmax', 'pa-scrolltrigger', 'pa-gsap', 'pa-motionpath' );
+				$scripts[] = 'pa-tweenmax';
+				$scripts[] = 'pa-scrolltrigger';
+				$scripts[] = 'pa-gsap';
+				$scripts[] = 'pa-motionpath';
 			}
 		}
 
@@ -166,14 +169,19 @@ class Premium_SVG_Drawer extends Widget_Base {
 		$this->add_control(
 			'icon_type',
 			array(
-				'label'       => __( 'SVG Type', 'premium-addons-for-elementor' ),
-				'type'        => Controls_Manager::SELECT,
-				'options'     => array(
-					'icon'   => __( 'Font Awesome Icon', 'premium-addons-for-elementor' ),
-					'custom' => __( 'Custom SVG', 'premium-addons-for-elementor' ),
+				'label'   => __( 'SVG Type', 'premium-addons-for-elementor' ),
+				'type'    => Controls_Manager::CHOOSE,
+				'options' => array(
+					'icon'   => array(
+						'title' => __( 'Font Awesome Icon', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-icon',
+					),
+					'custom' => array(
+						'title' => __( 'Custom SVG', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-code',
+					),
 				),
-				'default'     => 'icon',
-				'label_block' => true,
+				'default' => 'icon',
 			)
 		);
 
@@ -204,6 +212,9 @@ class Premium_SVG_Drawer extends Widget_Base {
 				'description' => 'You can use these sites to create SVGs: <a href="https://danmarshall.github.io/google-font-to-svg-path/" target="_blank">Google Fonts</a> and <a href="https://boxy-svg.com/" target="_blank">Boxy SVG</a>',
 				'condition'   => array(
 					'icon_type' => 'custom',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -765,9 +776,6 @@ class Premium_SVG_Drawer extends Widget_Base {
 					'size' => 3,
 					'unit' => 'px',
 				),
-				// 'condition' => array(
-				// 'icon_type' => 'custom',
-				// ),
 				'selectors' => array(
 					'{{WRAPPER}} .premium-svg-draw svg path, {{WRAPPER}} .premium-svg-draw svg circle, {{WRAPPER}} .premium-svg-draw svg square, {{WRAPPER}} .premium-svg-draw svg ellipse, {{WRAPPER}} .premium-svg-draw svg rect, {{WRAPPER}} .premium-svg-draw svg polyline, {{WRAPPER}} .premium-svg-draw svg line' => 'stroke-width: {{SIZE}}',
 				),
@@ -848,6 +856,9 @@ class Premium_SVG_Drawer extends Widget_Base {
 				'condition' => array(
 					'icon_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -912,7 +923,9 @@ class Premium_SVG_Drawer extends Widget_Base {
 
 		$type = $settings['icon_type'];
 
-		if ( ! empty( $settings['link']['url'] ) ) {
+		$has_link = ! empty( $settings['link']['url'] );
+
+		if ( $has_link ) {
 			$this->add_link_attributes( 'link', $settings['link'] );
 		}
 
@@ -920,8 +933,8 @@ class Premium_SVG_Drawer extends Widget_Base {
 
 			<div class="premium-svg-draw elementor-invisible">
 
-				<?php if ( ! empty( $settings['link']['url'] ) ) : ?>
-					<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'link' ) ); ?>>
+				<?php if ( $has_link ) : ?>
+					<a <?php $this->print_render_attribute_string( 'link' ); ?>>
 				<?php endif; ?>
 
 				<?php if ( 'icon' === $type ) : ?>
@@ -940,24 +953,17 @@ class Premium_SVG_Drawer extends Widget_Base {
 						)
 					);
 
-					echo Helper_Functions::get_svg_by_icon(
-						$settings['font_icon'],
-						array(
-							'id'         => 'premium-svg-icon-' . $this->get_id(),
-							'class'      => 'premium-svg-icon',
-							'data-start' => 'manual',
-						)
-					);
+						echo Helper_Functions::get_svg_by_icon( $settings['font_icon'], array( 'class' => 'premium-svg-icon' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_svg_by_icon() returns sanitized inline SVG/icon markup.
 
 					?>
 
 				<?php else : ?>
 
-					<?php $this->print_unescaped_setting( 'custom_svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php echo Helper_Functions::sanitize_svg( $this->get_settings_for_display( 'custom_svg' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- sanitize_svg() returns wp_kses-sanitized SVG markup. ?>
 
 				<?php endif; ?>
 
-				<?php if ( ! empty( $settings['link']['url'] ) ) : ?>
+				<?php if ( $has_link ) : ?>
 					</a>
 				<?php endif; ?>
 

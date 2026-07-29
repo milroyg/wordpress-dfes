@@ -5,6 +5,10 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+if ( class_exists( 'Elementor\\She_Discord_Box_Control' ) ) {
+    return;
+}
+
 /**
  * Custom Control for Discord Invite Box
  */
@@ -17,7 +21,7 @@ class She_Discord_Box_Control extends Base_Data_Control {
     public function content_template() {
     echo '<div class="she-discord-box-control">';
 
-        echo '<a href="https://go.posimyth.com/request-feature-she/?utm_source=wpbackend&utm_medium=admin&utm_campaign=links" target="_blank" class="she-request-box-button">';
+        echo '<a href="https://go.posimyth.com/she-discord/?utm_source=wpbackend&utm_medium=admin&utm_campaign=links" target="_blank" class="she-request-box-button">';
             echo esc_html__('Request Feature', 'she-header');
         echo '</a>';
 

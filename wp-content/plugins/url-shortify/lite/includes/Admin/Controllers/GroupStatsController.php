@@ -52,9 +52,51 @@ class GroupStatsController extends StatsController {
 	public function prepare_data( $include_click_history = true ) {
 		$refresh = (int) Helper::get_request_data( 'refresh', 0 );
 
+		$time_filter = sanitize_key( Helper::get_request_data( 'time_filter', '' ) );
+		if ( empty( $time_filter ) ) {
+			$time_filter = US()->is_pro() ? 'all_time' : 'last_7_days';
+		}
+		if ( 'custom' === $time_filter && ! US()->is_pro() ) {
+			$time_filter = 'last_7_days';
+		}
+
+		$start_date = '';
+		$end_date   = '';
+		if ( 'custom' === $time_filter && US()->is_pro() ) {
+			$start_date = sanitize_text_field( Helper::get_request_data( 'start_date', '' ) );
+			$end_date   = sanitize_text_field( Helper::get_request_data( 'end_date', '' ) );
+		}
+
+		$days = 7;
+		switch ( $time_filter ) {
+			case 'today':
+				$days = 1;
+				break;
+			case 'last_7_days':
+				$days = 7;
+				break;
+			case 'last_30_days':
+				$days = 30;
+				break;
+			case 'last_60_days':
+				$days = 60;
+				break;
+			case 'all_time':
+			case 'custom':
+				$days = 0;
+				break;
+		}
+
+		// Build a filter-aware cache key so different time ranges are cached separately.
+		$cache_suffix = $time_filter;
+		if ( 'custom' === $time_filter && $start_date && $end_date ) {
+			$cache_suffix .= '_' . $start_date . '_' . $end_date;
+		}
+		$cache_key = 'group_stats_v4_' . $this->group_id . '_' . $cache_suffix;
+
 		// If we have the data in cache, get it from it.
 		// We store data in cache for 3 hours
-		$data = Cache::get_transient( 'group_stats_' . $this->group_id );
+		$data = Cache::get_transient( $cache_key );
 
 		if ( ! empty( $data ) && ( 1 !== $refresh ) ) {
 			return $data;
@@ -70,14 +112,82 @@ class GroupStatsController extends StatsController {
 
 		$data['links'] = US()->db->links->get_by_ids( $link_ids );
 
-		// Click History for last 7 days
-		$days = apply_filters( 'kc_us_clicks_info_for_days', 7 );
+		$data['reports']['clicks'] = $this->get_clicks_info( $days, $link_ids, $start_date, $end_date );
 
-		$data['reports']['clicks'] = $this->get_clicks_info( $days, $link_ids );
+		$total_clicks_by_days  = $this->get_clicks_count_by_days( $days, $link_ids, $start_date, $end_date );
 
-		$days = apply_filters( 'kc_us_clicks_count_for_days', 7 );
+		$unique_start_date = $start_date;
+		$unique_end_date   = $end_date;
+		if ( empty( $unique_start_date ) || empty( $unique_end_date ) ) {
+			if ( 0 === (int) $days ) {
+				$unique_start_date = '2000-01-01';
+				$unique_end_date   = date( 'Y-m-d' );
+			} else {
+				$dates             = Helper::get_start_and_end_date_from_last_days( $days );
+				$unique_start_date = $dates['start_date'];
+				$unique_end_date   = $dates['end_date'];
+			}
+		}
 
-		$data['click_data_for_graph'] = $this->get_clicks_count_by_days( $days, $link_ids );
+		$unique_clicks_by_days = US()->db->clicks->get_unique_clicks_count_by_days( $unique_start_date, $unique_end_date, $link_ids );
+
+		$spline_data = [];
+		foreach ( $total_clicks_by_days as $date => $count ) {
+			$spline_data[ $date ] = [
+				'date'          => $date,
+				'total_clicks'  => (int) $count,
+				'unique_clicks' => 0,
+			];
+		}
+
+		foreach ( $unique_clicks_by_days as $date => $count ) {
+			if ( ! isset( $spline_data[ $date ] ) ) {
+				$spline_data[ $date ] = [
+					'date'          => $date,
+					'total_clicks'  => 0,
+					'unique_clicks' => (int) $count,
+				];
+				continue;
+			}
+
+			$spline_data[ $date ]['unique_clicks'] = (int) $count;
+		}
+
+		$spline_data_filled = $this->fill_missing_dates_in_spline_data(
+			array_values( $spline_data ),
+			$days,
+			$start_date,
+			$end_date
+		);
+
+		$data['chart_data'] = [
+			'dates'         => array_column( $spline_data_filled, 'date' ),
+			'total_series'  => array_map( 'intval', array_column( $spline_data_filled, 'total_clicks' ) ),
+			'unique_series' => array_map( 'intval', array_column( $spline_data_filled, 'unique_clicks' ) ),
+		];
+
+		$data['click_data_for_graph'] = array_combine(
+			array_column( $spline_data_filled, 'date' ),
+			array_map( 'intval', array_column( $spline_data_filled, 'total_clicks' ) )
+		) ?: [];
+
+		$heatmap_data = US()->db->clicks->get_heatmap_intensity_data( 365, $link_ids );
+		$heatmap_map   = [];
+		foreach ( $heatmap_data as $row ) {
+			$date = Helper::get_data( $row, 'date' );
+			if ( $date ) {
+				$heatmap_map[ $date ] = (int) Helper::get_data( $row, 'count' );
+			}
+		}
+
+		$heatmap = $this->build_heatmap_chart_data( $heatmap_map );
+
+		$data['chart_data']['heatmap_series']       = $heatmap['heatmap_series'];
+		$data['chart_data']['has_clicks_data']      = ! empty( $heatmap_map );
+		$data['chart_data']['heatmap_week_starts']  = $heatmap['week_starts'];
+		$data['chart_data']['heatmap_day_labels']   = $heatmap['day_labels'];
+		$data['chart_data']['heatmap_month_labels'] = $heatmap['month_labels'];
+		$data['chart_data']['heatmap_color_ranges'] = $heatmap['color_ranges'];
 
 		$data['browser_info'] = $this->get_browser_info_for_graph( $link_ids );
 		$data['device_info']  = $this->get_device_info_for_graph( $link_ids );
@@ -111,7 +221,7 @@ class GroupStatsController extends StatsController {
 		$data['last_updated_on'] = time();
 
 		// Store data in cache for 3 hours
-		Cache::set_transient( 'group_stats_' . $this->group_id, $data, HOUR_IN_SECONDS * 3 );
+		Cache::set_transient( $cache_key, $data, HOUR_IN_SECONDS * 3 );
 
 		return $data;
 	}

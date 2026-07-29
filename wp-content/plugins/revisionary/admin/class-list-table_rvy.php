@@ -145,6 +145,8 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 	}
 
 	function do_query( $q = false ) {
+		global $wpdb, $current_user;
+		
 		if ( false === $q ) $q = $_REQUEST;										//phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		// === first, query published posts that have any Revisionary revisions ===
@@ -169,8 +171,6 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 		
 		// phpcs:ignore Squiz.PHP.CommentedOutCode.Found
 		//$qp['meta_key'] = '_rvy_has_revisions';
-
-		global $wpdb;
 
 		if (!empty($q['post_author'])) {
 			do_action('revisionary_queue_pre_query');
@@ -296,6 +296,10 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 			$qr[$status_col] = [$q['post_status']];
 		} else {
 			$qr[$status_col] = rvy_revision_statuses();
+		}
+
+		if (!rvy_get_option('view_filters_include_unsubmitted_revisions') && empty($_REQUEST['all']) && empty($_REQUEST['post_status']) && (empty($_REQUEST['author']) || ($current_user->ID != $_REQUEST['author']))) {
+			$qr[$status_col] = array_diff($qr[$status_col], ['draft', 'draft-revision']);
 		}
 
 		if (!rvy_get_option('pending_revisions')) {
@@ -475,7 +479,7 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 		}
 
 		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ((empty($_REQUEST['post_author']) || !empty($args['status_count'])) && empty($args['my_published_count'])) {
+		if (empty($args['my_published_count']) && (empty($_REQUEST['post_author']) || ($_REQUEST['post_author'] != $current_user->ID))) {
 			$revision_status_csv =  implode("','", array_map('sanitize_key', rvy_revision_statuses()));
 
 			$own_revision_and = '';
@@ -502,8 +506,8 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 			? "$p.post_status IN ('draft', 'pending') AND " 
 			: '';
 
-			if (!empty($_REQUEST['published_post'])) {
-				$own_revision_and .= $wpdb->prepare(" AND $p.comment_count = %d", intval($_REQUEST['published_post']));
+			if (!empty($_REQUEST['published_post'])) {																		    	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$own_revision_and .= $wpdb->prepare(" AND $p.comment_count = %d", intval($_REQUEST['published_post']));				// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			}
 
 			$own_revision_clause = $wpdb->prepare(
@@ -522,14 +526,14 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 				|| (!empty($_REQUEST['author']) && ($current_user->ID != $_REQUEST['author']))					//phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				)
 			)
-			|| rvy_get_option('list_unsubmitted_revisions')
+			|| rvy_get_option('view_filters_include_unsubmitted_revisions')
 		) {
 			$revision_status_clause = '';
 		
 		} elseif ((!$is_my_activity && !$is_count_query
 		&& (empty($_REQUEST['all'])																				//phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		&& (empty($_REQUEST['post_status']) || ('draft-revision' != sanitize_key($_REQUEST['post_status'])))	//phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		)) || !empty($args['my_published_count'])) {
+		)) || (!empty($args['my_published_count']) && !rvy_get_option('view_filters_include_unsubmitted_revisions'))) {
 			$revision_status_clause = "AND $p.post_mime_type != 'draft-revision' ";
 
 		} elseif (($is_my_activity && !$is_count_query) || (rvy_get_option('manage_unsubmitted_capability') && !current_user_can("manage_unsubmitted_revisions"))) {
@@ -617,6 +621,13 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 		$where_append .= " AND $p.post_mime_type IN ('$revision_status_csv')";
 
 		$where .= " AND $where_append";
+
+		if (!empty($_REQUEST['modified'])) {						// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$where .= $wpdb->prepare(
+				" AND DATE($p.post_modified) = %s",					// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				date('Y-m-d', intval($_REQUEST['modified']))		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date, WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			);
+		}
 
 		// Also support Access Circle restrictions
 		if (defined('PRESSPERMIT_CIRCLES_VERSION')) {
@@ -707,6 +718,22 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 		if ($revision_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_mime_type IN ('$revision_status_csv') AND comment_count = 0")) {
 			foreach($revision_ids as $revision_id) {
 				if ($main_post_id = get_post_meta($revision_id, '_rvy_base_post_id', true)) {
+					if ('revision' == get_post_field('post_type', $main_post_id)) {
+						if ('inherit' == get_post_field('post_status', $main_post_id)) {
+							$_main_post_id = get_post_field('post_parent', $main_post_id);
+						  
+						    if ($_main_post_id != $revision_id) {
+						      $main_post_id = $_main_post_id;  
+						    }
+						}
+				
+						$post_type = get_post_field('post_type', $main_post_id);
+				
+						if (!$post_type || ('revision' == $post_type)) {
+							return;
+						}
+					}
+					
 					if ($main_post_id != $revision_id) {
 						// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 						$wpdb->update($wpdb->posts, ['comment_count' => $main_post_id], ['ID' => $revision_id]);
@@ -728,6 +755,7 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 		$arr = [
 			'cb' => '<input type="checkbox" />', 
 			'title' => pp_revisions_label('queue_col_revision'), 
+			'preview' => '',
 			'post_status' => esc_html__('Status', 'revisionary'), 
 			'post_type' => esc_html__('Post Type', 'revisionary'), 
 			'author' => pp_revisions_label('queue_col_revised_by'), 
@@ -770,6 +798,11 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 					echo esc_html("($post_type)");
 				}
 
+				break;
+
+			case 'preview':
+				$url = rvy_preview_url($post->ID);
+				echo "<a href='" . esc_url($url) . "'><span class='dashicons dashicons-cover-image' title='" . esc_attr__('View preview', 'revisionary') . "'></span></a>";
 				break;
 
 			case 'post_status':
@@ -818,10 +851,11 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 
 					/** This filter is documented in wp-admin/includes/class-wp-posts-list-table.php */
 					$mode = 'list';
-																	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					echo $revisionary->admin->tooltipText(
-						apply_filters( 'rvy_post_schedule_date_column_time', $h_time, $post, 'date', $mode ),
-						$t_time
+
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo $revisionary->admin->tooltipText(														
+						apply_filters( 'rvy_post_schedule_date_column_time', $h_time, $post, 'date', $mode ),	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						$t_time   // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					);
 				}
 
@@ -874,6 +908,44 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 				do_action('revisionary_list_table_custom_col', $column_name, $post);
 
 		} // end switch
+	}
+
+	/**
+	 * Make post datetime friendly
+	 *
+	 * @return html
+	 */
+	public function friendly_date( $time, $time_gmt ) {
+		$timestamp_gmt 	= strtotime($time_gmt);
+		$current_time 	= time();
+		$time_diff		= $current_time - $timestamp_gmt;
+		
+		$timestamp 		= strtotime( $time );
+
+		if ( $time_diff < 60 ) {
+			$result = esc_html__( 'just now', 'revisionary' );
+
+		} elseif ( $time_diff < 3600 ) {
+			$diff = floor( $time_diff / 60 );
+			
+			$caption = ($diff > 1) ? esc_html__('%s minutes ago', 'revisionary') : esc_html__('%s minute ago', 'revisionary');
+
+			$result = sprintf($caption, $diff);
+
+		} elseif ( $time_diff < 86400 ) {
+			$diff = floor( $time_diff / 3600 );
+			
+			$caption = ($diff > 1) ? esc_html__('%s hours ago', 'revisionary') : esc_html__('%s hour ago', 'revisionary');
+
+			$result = sprintf($caption, $diff);
+
+		} else {
+			$result = date_i18n( "Y/m/d g:i a", $timestamp );
+		}
+
+		$saved_time = gmdate( 'Y/m/d H:i:s', $timestamp );
+
+		echo '<abbr title="' . esc_attr( $saved_time ) . '">' . esc_html($result) . '</abbr>';
 	}
 
 	protected function handle_published_row_actions( $post, $column_name ) {
@@ -1162,6 +1234,7 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 		);
 
 		$status_csv = implode("','", array_map('sanitize_key', rvy_filtered_statuses()));
+
 		$count_query .= " AND p.post_status IN ('$status_csv') AND r.post_status != 'trash'";
 
 		// work around some versions of PressPermit inserting non-aliased post_type reference into where clause under some configurations
@@ -1245,7 +1318,7 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 	}
 
 	function bulk_actions( $which = '' ) {
-		global $revisionary;
+		global $revisionary, $wpdb;
 
 		if ( is_null( $this->_actions ) ) {
 			$this->_actions = $this->get_bulk_actions();
@@ -1274,67 +1347,31 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 
 		echo '<label for="bulk-action-selector-' . esc_attr( $which ) . '" class="screen-reader-text">' .
 			/* translators: Hidden accessibility text. */
-			__( 'Select bulk action' ) .
+			esc_html__( 'Select bulk action' ) .
 		'</label>';
-		echo '<select name="action' . $two . '" id="bulk-action-selector-' . esc_attr( $which ) . "\">\n";
-		echo '<option value="-1">' . __( 'Bulk actions' ) . "</option>\n";
+		echo '<select name="action' . esc_attr($two) . '" id="bulk-action-selector-' . esc_attr( $which ) . "\">\n";
+		echo '<option value="-1">' . esc_html__( 'Bulk actions' ) . "</option>\n";
 
 		foreach ( $this->_actions as $key => $value ) {
 			if ( is_array( $value ) ) {
 				echo "\t" . '<optgroup label="' . esc_attr( $key ) . '">' . "\n";
 
 				foreach ( $value as $name => $title ) {
-					$class = ( 'edit' === $name ) ? ' class="hide-if-no-js"' : '';
+					$class = ( 'edit' === $name ) ? 'hide-if-no-js' : '';
 
-					echo "\t\t" . '<option value="' . esc_attr( $name ) . '"' . $class . '>' . $title . "</option>\n";
+					echo "\t\t" . '<option value="' . esc_attr( $name ) . '" class="' . esc_attr($class) . '" >' . esc_html($title) . "</option>\n";
 				}
 				echo "\t" . "</optgroup>\n";
 			} else {
-				$class = ( 'edit' === $key ) ? ' class="hide-if-no-js"' : '';
+				$class = ( 'edit' === $key ) ? 'hide-if-no-js' : '';
 
-				echo "\t" . '<option value="' . esc_attr( $key ) . '"' . $class . '>' . $value . "</option>\n";
+				echo "\t" . '<option value="' . esc_attr( $key ) . '" class="' . esc_attr($class) . '">' . esc_html($value) . "</option>\n";
 			}
 		}
 
 		echo "</select>\n";
 
 		submit_button( __( 'Apply' ), 'action', 'bulk_action', false, array( 'id' => "doaction$two" ) );
-		echo "\n";
-
-		echo '<select name="post_type' . $two . '" id="post_type" style="float:none">';
-		echo '<option value="">' . __( 'All Post Types' ) . "</option>";
-
-		foreach(array_keys($revisionary->enabled_post_types) as $post_type) {
-			if ($type_obj = get_post_type_object($post_type)) {
-				$selected = (!$two && (!empty($_REQUEST['post_type'])) && ($post_type == sanitize_key($_REQUEST['post_type']))) ? ' selected' : '';
-				echo "\t" . '<option value="' . esc_attr($post_type) . '"' . $selected . '>' . $type_obj->labels->singular_name . "</option>";
-			}
-		}
-
-		echo "</select>";
-
-		$revision_statuses = rvy_revision_statuses(['output' => 'object']);
-
-		echo '<select name="post_status' . $two . '" id="post_status" style="float:none">';
-		echo '<option value="">' . __('All Revision Statuses', 'revisionary') . "</option>\n";
-
-		foreach($revision_statuses as $k => $status_obj) {
-			if (!is_object($status_obj)) {
-				$status_obj = get_post_status_object($k);
-			}
-
-			if (!is_object($status_obj)) {
-				continue;
-			}
-
-			$selected = (!$two && (!empty($_REQUEST['post_status'])) && ($status_obj->name == sanitize_key($_REQUEST['post_status']))) ? ' selected' : '';
-			echo "\t" . '<option value="' . esc_attr($status_obj->name) . '"' . $selected . '>' . $status_obj->label . "</option>\n";
-		}
-
-		echo "</select>\n";
-
-		submit_button( __( 'Filter' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
-		
 		echo "\n";
 	}
 
@@ -1396,10 +1433,223 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 
 	
 	protected function extra_tablenav( $which ) {
+		global $revisionary, $wpdb;
+
+		if ('bottom' == $which) {
+			return;
+		}
 ?>
 		<div class="alignleft actions">
+		<?php
+		$revision_statuses = rvy_revision_statuses(['output' => 'object']);
+
+		echo '<select name="post_status' . '" id="post_status" style="float:none">';
+		echo '<option value="">' . esc_html__('All Revision Statuses', 'revisionary') . "</option>\n";
+
+		foreach($revision_statuses as $k => $status_obj) {
+			if (!is_object($status_obj)) {
+				$status_obj = get_post_status_object($k);
+			}
+
+			if (!is_object($status_obj)) {
+				continue;
+			}
+
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$selected = ((!empty($_REQUEST['post_status'])) && ($status_obj->name == sanitize_key($_REQUEST['post_status']))) ? ' selected' : '';
+			echo "\t" . '<option value="' . esc_attr($status_obj->name) . '"' . esc_attr($selected) . '>' . esc_html($status_obj->label) . "</option>\n";
+		}
+
+		echo "</select>\n";
+
+		echo '<select name="post_type' . '" id="post_type" style="float:none">';
+		echo '<option value="">' . esc_html__( 'All Post Types', 'revisionary' ) . "</option>";
+
+		foreach(array_keys($revisionary->enabled_post_types) as $post_type) {
+			if ($type_obj = get_post_type_object($post_type)) {
+				$selected = ((!empty($_REQUEST['post_type'])) && ($post_type == sanitize_key($_REQUEST['post_type']))) ? ' selected' : '';		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				echo "\t" . '<option value="' . esc_attr($post_type) . '"' . esc_attr($selected) . '>' . esc_html($type_obj->labels->singular_name) . "</option>";
+			}
+		}
+
+		echo "</select>";
+
+
+		$current_option = isset( $_REQUEST['author'] ) && ! empty( $_REQUEST['author'] )	//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		? intval( $_REQUEST['author'] )														//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		: '';
+
+		$revision_status_csv = implode("','", array_map('sanitize_key', rvy_revision_statuses()));
+
+		$author_ids = $wpdb->get_col("SELECT DISTINCT post_author FROM $wpdb->posts WHERE post_mime_type IN ('$revision_status_csv')");  // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		
+		$id_csv = implode( "','", $author_ids);
+		$_users = $wpdb->get_results("SELECT ID, display_name FROM $wpdb->users WHERE ID IN ('" . $id_csv . "')");						 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPressVIPMinimum.Variables.RestrictedVariables.user_meta__wpdb__users
+
+		$authors = [];
+
+		foreach ($_users as $row) {
+			$authors[$row->ID] = $row->display_name;
+		}
+
+		asort($authors, SORT_STRING | SORT_FLAG_CASE);
+
+		?>
+		<select name="author" class="postform" style="float:none">
+			<option <?php echo $current_option === '' ? 'selected' : '' ?>
+				value="">
+				<?php esc_html_e( 'All Revision Authors', 'revisionary' ) ?>
+			</option>
+			<?php foreach( $authors as $user_id => $display_name ) :
+				?>
+				<option <?php echo $current_option === $user_id ? 'selected' : '' ?>
+					value="<?php echo esc_attr($user_id) ?>">
+					<?php 
+					if ($user = get_user($user_id)) {
+						echo esc_html($display_name);
+					} 
+					?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+
+		<?php
+		$current_option = isset( $_REQUEST['modified'] ) && ! empty( $_REQUEST['modified'] )	//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		? intval($_REQUEST['modified'])															//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		: '';
+
+		$revision_status_csv = implode("','", array_map('sanitize_key', rvy_revision_statuses()));
+
+		$_dates = $wpdb->get_col("SELECT DISTINCT DATE(post_modified) FROM $wpdb->posts WHERE post_mime_type IN ('$revision_status_csv') ORDER BY ID DESC LIMIT 60");	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		
+		$post_dates = [];
+
+		foreach ($_dates as $date_str) {
+			$post_dates[strtotime($date_str)] = $date_str;
+		}
+
+		arsort($post_dates);
+		?>
+		<select name="modified" class="postform" style="float:none">
+			<option <?php echo $current_option === '' ? 'selected' : '' ?>
+				value="">
+				<?php esc_html_e( 'All Revision Dates', 'revisionary' ) ?>
+			</option>
+			<?php 
+				foreach($post_dates as $date => $date_str) :
+				?>
+				<option <?php echo $current_option === $date ? 'selected' : '' ?>
+					value="<?php echo esc_attr($date) ?>">
+					<?php 
+						echo esc_html($date_str);
+					?>
+				</option>
+			<?php endforeach; 
+			?>
+		</select>
+
+		<?php
+		$current_option = isset( $_REQUEST['published_post'] ) && ! empty( $_REQUEST['published_post'] )		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		? intval( $_REQUEST['published_post'] )																	//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		: '';
+
+		$post_ids = $wpdb->get_col("SELECT comment_count FROM $wpdb->posts WHERE post_mime_type IN ('$revision_status_csv') AND post_status NOT IN ('trash', 'auto-draft', 'inherit') ORDER BY post_modified_gmt DESC LIMIT 60");  // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		
+		$post_id_csv = implode("','", array_map('intval', $post_ids));
+
+		$posts = [];
+
+		$results = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE ID IN ('$post_id_csv') ORDER BY post_title");	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		foreach ($results as $row) {
+			$posts[$row->ID] = $row->post_title;
+		}
+
+		?>
+		<select name="published_post" class="postform" style="float:none">
+			<option <?php echo $current_option === '' ? 'selected' : '' ?>
+				value="">
+				<?php esc_html_e( 'All Posts', 'revisionary' ) ?>
+			</option>
+			<?php foreach( $posts as $post_id => $post_title ) :
+				?>
+				<option <?php echo $current_option === $post_id ? 'selected' : '' ?>
+					value="<?php echo esc_attr($post_id) ?>">
+					<?php 
+						echo esc_html($post_title);
+					?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+
+		<?php
+		$current_option = isset( $_REQUEST['post_author'] ) && ! empty( $_REQUEST['post_author'] )	//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		? intval( $_REQUEST['post_author'] )														//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		: '';
+		
+		$author_ids = $wpdb->get_col("SELECT DISTINCT post_author FROM $wpdb->posts WHERE ID IN ('$post_id_csv') AND post_status NOT IN ('trash', 'auto-draft', 'inherit')");	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		$id_csv = implode( "','", $author_ids);
+		$_users = $wpdb->get_results("SELECT ID, display_name FROM $wpdb->users WHERE ID IN ('" . $id_csv . "')");	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPressVIPMinimum.Variables.RestrictedVariables.user_meta__wpdb__users
+
+		$authors = [];
+
+		foreach ($_users as $row) {
+			$authors[$row->ID] = $row->display_name;
+		}
+
+		asort($authors, SORT_STRING | SORT_FLAG_CASE);
+		?>
+
+		<select name="post_author" class="postform" style="float:none">
+			<option <?php echo $current_option === '' ? 'selected' : '' ?>
+				value="">
+				<?php esc_html_e( 'All Authors', 'revisionary' ) ?>
+			</option>
+			<?php foreach( $authors as $user_id => $display_name ) :
+				?>
+				<option <?php echo $current_option === $user_id ? 'selected' : '' ?>
+					value="<?php echo esc_attr($user_id) ?>">
+					<?php 
+					if ($user = get_user($user_id)) {
+						echo esc_html($display_name);
+					} 
+					?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+
+		<?php
+		submit_button( __( 'Filter' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
+		?>
+
+		<script type="text/javascript">
+        /* <![CDATA[ */
+        jQuery(document).ready( function($) {
+			jQuery(document).on('click', '#post-query-submit', function() {
+				$('#bulk-revisions').attr('method', 'get').submit();
+				return false;
+			});
+        });
+        /* ]]> */
+		</script>
+
+		<?php
+
+		if( count( $_REQUEST ) > 1 ) :		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			?>
+			<a href="<?php echo esc_url_raw(add_query_arg( ['page' => 'revisionary-q'], admin_url( 'admin.php' ) ) ) ?>"
+				class="button">
+				<?php esc_html_e( 'Reset Filters', 'revisionary' ) ?>
+			</a>
+			<?php
+		endif;
+
+		echo "\n";
+
+		?>
 		</div>
-<?php
+		<?php
 		do_action( 'manage_posts_extra_tablenav', $which );
 	}
 
@@ -1547,22 +1797,10 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 	}
 
 	public function column_date( $post ) {
-		$t_time = get_the_modified_time( esc_html__( 'Y/m/d g:i:s a', 'revisionary' ), $post );
-		$time = strtotime($post->post_modified_gmt);
-		$time_diff = time() - $time;
-
-		if ( $time_diff > 0 && $time_diff < DAY_IN_SECONDS ) {
-			$h_time = sprintf( esc_html__( '%s ago' ), human_time_diff( $time ) );
-			$h_time = str_replace( ' ', '&nbsp;', $h_time );
-		} else {
-			$h_time = mysql2date( esc_html__( 'Y/m/d g:i a', 'revisionary' ), $t_time );
-			$h_time = str_replace( ' am', '&nbsp;am', $h_time );
-			$h_time = str_replace( ' pm', '&nbsp;pm', $h_time );
-			$h_time = str_replace( ' ', '<br />', $h_time );
-		}
-		
-														 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo '<abbr title="' . esc_attr($t_time) . '">' . apply_filters( 'post_date_column_time', $h_time, $post, 'date' ) . '</abbr>';
+		$url = add_query_arg('modified', strtotime(date('Y-m-d', strtotime($post->post_modified))), $_SERVER['REQUEST_URI']);	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DateTime.RestrictedFunctions.date_date
+		echo '<a href="' . esc_url($url) . '">';
+		$this->friendly_date($post->post_modified, $post->post_modified_gmt);
+		echo '</a>';
 	}
 	
 	protected function apply_edit_link( $url, $label ) {
@@ -1578,7 +1816,7 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 
 		$request_url = add_query_arg($_REQUEST, rvy_admin_url('admin.php?page=revisionary-q'));				//phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-		$args = ['author' => get_the_author_meta( 'ID' )];
+		$args = ['author' => $post->post_author];
 		$this->apply_edit_link( add_query_arg('author', $args['author'], esc_url($request_url)), get_the_author_meta('display_name', $args['author']) );
 	}
 
@@ -1602,9 +1840,7 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 		$post_type_object = get_post_type_object( $post->post_type );
 
 		$can_read_post = current_user_can('read_post', $post->ID);
-
 		$can_edit_post    = current_user_can( 'edit_post', $post->ID );
-
 		$can_read_post = $can_read_post || $can_edit_post; // @todo
 
 		$actions          = array();
@@ -1629,7 +1865,7 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 			) {
 				//phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$redirect_arg = ( ! empty($_REQUEST['rvy_redirect']) ) ? "&rvy_redirect=" . esc_url_raw($_REQUEST['rvy_redirect']) : '';
-				$url = rvy_admin_url("admin.php?page=rvy-revisions&amp;post={$post->ID}&amp;action=revise$redirect_arg");
+				$url = rvy_admin_url("admin.php?page=rvy-revisions&amp;post={$post->ID}&amp;action=copy$redirect_arg");
 				$actions['copy_revision'] = "<a href='$url'>" . esc_html__('Copy') . '</a>';
 			}
 		}
@@ -1688,10 +1924,29 @@ class Revisionary_List_Table extends WP_Posts_List_Table {
 			);
 		}
 
+		if (current_user_can('approve_revision', $post->ID)) {
+			$revision_id = $post->ID;
+
+			if ( !in_array( $post->post_mime_type, array( 'future-revision', 'inherit' ) ) ) {
+				$actions['publish'] = sprintf(
+					'<a href="%1$s" class="" target="_revision_approve">%2$s</a>',
+					wp_nonce_url( rvy_admin_url("admin.php?page=rvy-revisions&revision=$revision_id&action=approve"), "approve-post_$main_post_id|$revision_id" ),
+					_x( 'Approve', 'revisions', 'revisionary' )
+				);
+			
+			} elseif ( in_array( $post->post_mime_type, array( 'future-revision' ) ) ) {
+				$actions['publish'] = sprintf(
+					'<a href="%1$s" class="" target="_revision_approve">%2$s</a>',
+					wp_nonce_url( rvy_admin_url("admin.php?page=rvy-revisions&revision=$revision_id&action=publish"), "publish-post_$main_post_id|$revision_id" ),
+					_x( 'Publish', 'revisions', 'revisionary' )
+				);
+			}
+		}
+
 		if ($can_edit_post && ('pending-revision' == $post->post_mime_type)) {
 			$actions['decline'] = sprintf(
 				'<a href="%1$s" class="" target="_revision_diff">%2$s</a>',
-				wp_nonce_url(admin_url("post.php?post=$post->ID&action=decline_revision"), 'decline-revision'),
+				wp_nonce_url(admin_url("post.php?post=$post->ID&action=decline_revision"), "decline-revision_{$post->ID}"),
 				_x( 'Decline', 'revisions', 'revisionary' )
 			);
 		}

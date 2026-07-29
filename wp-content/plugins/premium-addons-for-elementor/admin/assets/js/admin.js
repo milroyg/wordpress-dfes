@@ -63,12 +63,207 @@
 
 			self.handleWhiteLabelingAction()
 
+			self.initMcpConfig();
+
+			self.initAiAbilities();
+
+		};
+
+		// AI Abilities tab: accordion and per-category/per-ability persistence.
+		self.initAiAbilities = function () {
+
+			var $section = $('#pa-section-ai-abilities');
+
+			if (!$section.length) {
+				return;
+			}
+
+			var $abilitySwitches = $section.find('.pa-ai-ability-switch input[data-ability]'),
+				$categorySwitches = $section.find('.pa-ai-ability-cat-switch input[data-cat]'),
+				$allSwitches = $abilitySwitches.add($categorySwitches),
+				$status = $section.find('.pa-ai-abilities-status'),
+				saveTimer = null,
+				requestInFlight = false,
+				saveQueued = false,
+				lastSavedDisabled = [];
+
+			function collectDisabled() {
+				return $abilitySwitches.filter(':not(:checked)').map(function () {
+					return $(this).attr('data-ability');
+				}).get();
+			}
+
+			function updateCategory(category) {
+				var sel = '[data-cat="' + category + '"]',
+					$members = $abilitySwitches.filter(sel),
+					$categorySwitch = $categorySwitches.filter(sel),
+					$count = $section.find('.pa-mcp-ability-cat-count' + sel),
+					total = $members.length,
+					enabledCount = $members.filter(':checked').length;
+
+				$categorySwitch.prop('checked', total === enabledCount)
+					.prop('indeterminate', 0 < enabledCount && enabledCount < total);
+
+				$count.find('.pa-count-enabled, .pa-count-enabled-sr').text(enabledCount);
+				$count.removeClass('is-all is-some is-none')
+					.addClass(total === enabledCount ? 'is-all' : (0 === enabledCount ? 'is-none' : 'is-some'));
+			}
+
+			function updateAllCategories() {
+				$categorySwitches.each(function () {
+					updateCategory($(this).attr('data-cat'));
+				});
+			}
+
+			function applyDisabled(disabledIds) {
+				$abilitySwitches.each(function () {
+					$(this).prop('checked', -1 === disabledIds.indexOf($(this).attr('data-ability')));
+				});
+				updateAllCategories();
+			}
+
+			function setSaving(isSaving) {
+				requestInFlight = isSaving;
+				$section.toggleClass('is-saving', isSaving);
+				$allSwitches.prop('disabled', isSaving);
+				if (isSaving) {
+					$status.text(settings.i18n.aiAbilitiesSaving);
+				}
+			}
+
+			function saveFailed(message) {
+				saveQueued = false;
+				applyDisabled(lastSavedDisabled);
+				$status.text(message || settings.i18n.aiAbilitiesSaveFailed).addClass('is-error');
+			}
+
+			function saveAbilities() {
+				var disabledIds;
+
+				if (requestInFlight) {
+					saveQueued = true;
+					return;
+				}
+
+				disabledIds = collectDisabled();
+				setSaving(true);
+				$status.removeClass('is-error');
+
+				var data = {
+					action: 'pa_save_ai_abilities',
+					security: settings.nonce,
+					disabled: JSON.stringify(disabledIds)
+				};
+
+				var $option = $section.find('.pa-ai-option-switch input[data-ai-option="third_party_widgets"]');
+				if ($option.length && !$option.prop('disabled')) {
+					data.third_party = $option.prop('checked') ? '1' : '0';
+				}
+
+				$.ajax({
+					url: settings.ajaxurl,
+					type: 'POST',
+					dataType: 'json',
+					data: data
+				}).done(function (response) {
+					if (!response.success) {
+						saveFailed(response.data && response.data.message);
+						return;
+					}
+
+					lastSavedDisabled = response.data.disabled_abilities || disabledIds;
+					$status.text(response.data.message || '').removeClass('is-error');
+				}).fail(function () {
+					saveFailed(settings.i18n.aiAbilitiesSaveFailed);
+				}).always(function () {
+					setSaving(false);
+
+					if (saveQueued) {
+						saveQueued = false;
+						saveAbilities();
+					}
+				});
+			}
+
+			function queueSave() {
+				if (requestInFlight) {
+					saveQueued = true;
+					return;
+				}
+
+				clearTimeout(saveTimer);
+				saveTimer = setTimeout(saveAbilities, 400);
+			}
+
+			lastSavedDisabled = collectDisabled();
+
+			$categorySwitches.filter('[data-indeterminate="1"]').each(function () {
+				this.indeterminate = true;
+			});
+
+			$section.on('change', '.pa-ai-ability-switch input[data-ability]', function () {
+				updateCategory($(this).attr('data-cat'));
+				queueSave();
+			});
+
+			$section.on('change', '.pa-ai-ability-cat-switch input[data-cat]', function () {
+				var category = $(this).attr('data-cat'),
+					checked = $(this).prop('checked');
+
+				$abilitySwitches.filter('[data-cat="' + category + '"]').prop('checked', checked);
+				updateCategory(category);
+				queueSave();
+			});
+
+			$section.on('change', '.pa-ai-option-switch input[data-ai-option]', function () {
+				queueSave();
+			});
+
+			$section.on('click', '.pa-ai-accordion-toggle', function () {
+
+				var $btn = $(this),
+					$body = $('#' + $btn.attr('aria-controls')),
+					expanded = 'true' === $btn.attr('aria-expanded');
+
+				if (expanded) {
+					$btn.attr('aria-expanded', 'false');
+					$body.attr('hidden', 'hidden');
+					return;
+				}
+
+				// Accordion: collapse every other item first.
+				$section.find('.pa-ai-accordion-toggle').attr('aria-expanded', 'false');
+				$section.find('.pa-ai-accordion-body').attr('hidden', 'hidden');
+
+				$btn.attr('aria-expanded', 'true');
+				$body.removeAttr('hidden');
+			});
+
+			$section.on('click', '.pa-mcp-ability-cat-toggle', function () {
+
+				var $btn = $(this),
+					$body = $('#' + $btn.attr('aria-controls')),
+					expanded = 'true' === $btn.attr('aria-expanded');
+
+				if (expanded) {
+					$btn.attr('aria-expanded', 'false');
+					$body.attr('hidden', 'hidden');
+					return;
+				}
+
+				// Accordion: collapse every other category first.
+				$section.find('.pa-mcp-ability-cat-toggle').attr('aria-expanded', 'false');
+				$section.find('.pa-mcp-ability-cat-body').attr('hidden', 'hidden');
+
+				$btn.attr('aria-expanded', 'true');
+				$body.removeAttr('hidden');
+			});
 		};
 
 		// Handle settings form submission
 		self.handleSettingsSave = function () {
 
-			$("#pa-features .pa-section-info-cta input, #pa-modules .pa-switcher input, #pa-modules .pa-section-info-cta input").on(
+			$("#pa-features .pa-section-info-cta input, #pa-ai-settings .pa-section-info-cta input, #pa-modules .pa-switcher input, #pa-modules .pa-section-info-cta input").on(
 				'change',
 				function () {
 
@@ -78,6 +273,9 @@
 							$("#pa_mc_temp").prop("checked", true);
 							self.saveElementsSettings('elements', 'default', true);
 						}
+					} else if ('premium-ai-abilities' === $(this).attr('id')) {
+						$('.pa-ai-accordion').prop('hidden', !$(this).prop('checked'));
+						self.saveElementsSettings('elements', 'default');
 					} else {
 						self.saveElementsSettings('elements', 'default');
 					}
@@ -415,9 +613,11 @@
 						slug = hash ? hash[1] : $links.first().attr('href').replace('#tab=', ''),
 						$link = $('#pa-tab-link-' + slug);
 
+					// An unknown slug (e.g. a bookmark of a tab that no longer exists) would
+					// otherwise leave every section hidden, i.e. a blank page.
 					if (!$link.length) {
-						return
-
+						slug = $links.first().attr('href').replace('#tab=', '');
+						$link = $('#pa-tab-link-' + slug);
 					}
 					$links.removeClass('pa-section-active');
 					$link.addClass('pa-section-active');
@@ -439,6 +639,130 @@
 				}
 			).trigger('hashchange');
 
+		};
+
+		// Configure MCP Server: copy connection details + switch AI-client panels.
+		self.initMcpConfig = function () {
+
+			var $section = $('#pa-section-ai-abilities');
+
+			if (!$section.length) {
+				return;
+			}
+
+			// Copy text to the clipboard. Uses the async Clipboard API when the page
+			// is a secure context, and falls back to execCommand for admin pages
+			// served over plain http:// (where navigator.clipboard is unavailable).
+			function paMcpCopyToClipboard(text) {
+
+				if (navigator.clipboard && window.isSecureContext) {
+					return navigator.clipboard.writeText(text);
+				}
+
+				return new Promise(function (resolve, reject) {
+
+					var textarea = document.createElement('textarea');
+
+					textarea.value = text;
+					textarea.setAttribute('readonly', '');
+					textarea.style.position = 'fixed';
+					textarea.style.top = '0';
+					textarea.style.left = '0';
+					textarea.style.opacity = '0';
+
+					document.body.appendChild(textarea);
+					textarea.focus();
+					textarea.select();
+
+					var succeeded = false;
+
+					try {
+						succeeded = document.execCommand('copy');
+					} catch (err) {
+						succeeded = false;
+					}
+
+					document.body.removeChild(textarea);
+
+					if (succeeded) {
+						resolve();
+					} else {
+						reject();
+					}
+				});
+			}
+
+			// Copy the requested field or preformatted text to the clipboard.
+			$section.on('click', '.pa-mcp-copy', function (e) {
+
+				e.preventDefault();
+
+				var $btn = $(this),
+					target = document.getElementById($btn.attr('data-pa-mcp-copy'));
+
+				if (!target) {
+					return;
+				}
+
+				var isField = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA',
+					text = isField ? target.value : target.textContent;
+
+				paMcpCopyToClipboard(text).then(function () {
+
+					var label = $btn.text();
+
+					$btn.text($btn.attr('data-pa-mcp-copied') || 'Copied!');
+
+					setTimeout(function () {
+						$btn.text(label);
+					}, 1500);
+				}).catch(function () {
+
+					// Last resort: select the text so the user can copy it manually.
+					if (isField) {
+						target.select();
+					} else {
+						var range = document.createRange();
+
+						range.selectNodeContents(target);
+
+						var selection = window.getSelection();
+
+						selection.removeAllRanges();
+						selection.addRange(range);
+					}
+				});
+			});
+
+			var $clientTabs = $section.find('.pa-mcp-client-tab'),
+				$clientPanels = $section.find('.pa-mcp-client-panel');
+
+			function selectMcpClient($tab) {
+
+				var panelId = $tab.attr('data-pa-mcp-panel');
+
+				$clientTabs.removeClass('is-active');
+				$tab.addClass('is-active');
+				$clientPanels.prop('hidden', true);
+				$section.find('#' + panelId).prop('hidden', false);
+			}
+
+			$section.on('click', '.pa-mcp-client-tab', function () {
+				selectMcpClient($(this));
+			});
+
+			$section.on('input', '#pa-mcp-alias', function () {
+
+				var $alias = $(this),
+					cleanAlias = $alias.val().replace(/[^A-Za-z0-9_-]/g, '');
+
+				if (!cleanAlias) {
+					cleanAlias = 'premium-addons';
+				}
+
+				$alias.val(cleanAlias);
+				$section.find('.pa-mcp-alias').text(cleanAlias);
+			});
 		};
 
 		self.handleRollBack = function () {
@@ -521,7 +845,9 @@
 			}
 
 			if ('elements' === action) {
-				$form = $('form#pa-settings, form#pa-features, form#pa-wz-settings');
+				// #pa-ai-settings must be in here: the save has full-replace semantics, so a
+				// key missing from the POST is written back as disabled.
+				$form = $('form#pa-settings, form#pa-features, form#pa-wz-settings, form#pa-ai-settings');
 				action = 'pa_save_elements_settings';
 			} else {
 				$form = $('form#pa-ver-control, form#pa-integrations');
@@ -547,7 +873,8 @@
 					},
 					complete: function () {
 						if (redirectURL) {
-							$(location).attr('href', redirectURL);
+							window.location.href = redirectURL;
+							window.location.reload();
 						}
 					}
 

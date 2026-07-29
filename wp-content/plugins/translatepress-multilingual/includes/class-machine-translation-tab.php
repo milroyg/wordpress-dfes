@@ -64,11 +64,18 @@ class TRP_Machine_Translation_Tab {
     */
     public function sanitize_settings($mt_settings ){
 
+        $array_possible_subtabs = apply_filters( 'trp_machine_translation_possible_subtabs', array( 'trp_mt_subtab_general', 'trp_mt_subtab_advanced' ) );
+        $requested_subtab       = isset( $_REQUEST['tab'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['tab'] ) ) : '';
+        if ( in_array( $requested_subtab, $array_possible_subtabs, true ) && isset( $_REQUEST['_wp_http_referer'] ) ) {
+            $referer = esc_url_raw( wp_unslash( $_REQUEST['_wp_http_referer'] ) );
+            $_REQUEST['_wp_http_referer'] = add_query_arg( 'tab', $requested_subtab, $referer );
+        }
+
         $free_version = !class_exists( 'TRP_Handle_Included_Addons' );
         $seo_pack_active = class_exists( 'TRP_IN_Seo_Pack');
 
         $settings = array();
-        $machine_translation_keys = array( 'machine-translation', 'translation-engine', 'google-translate-key', 'deepl-api-type', 'deepl-api-key', 'block-crawlers', 'automatically-translate-slug', 'machine_translation_limit', 'machine_translation_log', 'machine_translation_limit_enabled' );
+        $machine_translation_keys = array( 'machine-translation', 'translation-engine', 'google-translate-key', 'deepl-api-type', 'deepl-api-key', 'block-crawlers', 'automatically-translate-slug', 'machine_translation_limit', 'machine_translation_log', 'machine_translation_limit_enabled', 'ai_words_notification_enabled', 'ai_words_notification_email', 'ai_words_notification_threshold' );
         foreach( $machine_translation_keys as $key ){
             if( isset( $mt_settings[$key] ) ){
                 $settings[$key] = $mt_settings[$key];
@@ -98,6 +105,31 @@ class TRP_Machine_Translation_Tab {
             $settings['machine_translation_limit_enabled'] = sanitize_text_field( $settings['machine_translation_limit_enabled'] );
         else
             $settings['machine_translation_limit_enabled'] = 'no';
+
+        // The notification fields are disabled in HTML when engine != mtapi.
+        // Disabled fields are not submitted, so check if the threshold field was actually present in the raw input.
+        // If absent, preserve existing DB values regardless of the selected engine.
+        if( isset( $mt_settings['ai_words_notification_threshold'] ) ){
+            if( !empty( $settings['ai_words_notification_enabled'] ) )
+                $settings['ai_words_notification_enabled'] = sanitize_text_field( $settings['ai_words_notification_enabled'] );
+            else
+                $settings['ai_words_notification_enabled'] = 'no';
+
+            if( !empty( $settings['ai_words_notification_email'] ) )
+                $settings['ai_words_notification_email'] = sanitize_email( $settings['ai_words_notification_email'] );
+            else
+                $settings['ai_words_notification_email'] = '';
+
+            if( !empty( $settings['ai_words_notification_threshold'] ) )
+                $settings['ai_words_notification_threshold'] = absint( $settings['ai_words_notification_threshold'] );
+            else
+                $settings['ai_words_notification_threshold'] = TRP_AI_Words_Notification::get_default_threshold();
+        } else {
+            $mt_settings_option = get_option( 'trp_machine_translation_settings' );
+            $settings['ai_words_notification_enabled']   = isset( $mt_settings_option['ai_words_notification_enabled'] )   ? $mt_settings_option['ai_words_notification_enabled']   : 'yes';
+            $settings['ai_words_notification_email']     = isset( $mt_settings_option['ai_words_notification_email'] )     ? $mt_settings_option['ai_words_notification_email']     : '';
+            $settings['ai_words_notification_threshold'] = isset( $mt_settings_option['ai_words_notification_threshold'] ) ? $mt_settings_option['ai_words_notification_threshold'] : TRP_AI_Words_Notification::get_default_threshold();
+        }
 
         if( $free_version || !$seo_pack_active ){
             $mt_settings_option = get_option( 'trp_machine_translation_settings' );
@@ -215,7 +247,7 @@ class TRP_Machine_Translation_Tab {
             $language_names = $trp_languages->get_language_names( $this->settings['translation-languages'], 'english_name' );
 
             ?>
-            <div class="trp-settings-container" id="trp_unsupported_languages">
+            <div class="trp-settings-container trp-settings-container-trp_mt_subtab_advanced" id="trp_unsupported_languages">
                 <h3 class="trp-settings-primary-heading"><?php esc_html_e( 'Unsupported languages', 'translatepress-multilingual' ); ?></h3>
                 <div class="trp-settings-separator"></div>
 
@@ -239,6 +271,47 @@ class TRP_Machine_Translation_Tab {
         }
     }
 
+    /*
+     * Output subtabs content table for the Automatic Translation page
+     *
+     * Hooked to trp_before_output_machine_translation_settings_options
+     */
+    public function trp_machine_translation_content_table(){
+        $current_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+        $on_mt_page   = ( $current_page === 'trp_machine_translation' );
+        $mt_page_url  = admin_url( 'admin.php?page=trp_machine_translation' );
+
+        $subtabs = apply_filters( 'trp_machine_translation_subtabs', array(
+            'general'  => array( 'id' => 'trp_mt_subtab_general',  'label' => __( 'General',  'translatepress-multilingual' ), 'url' => $on_mt_page ? '' : add_query_arg( 'tab', 'trp_mt_subtab_general',  $mt_page_url ) ),
+            'glossary' => array( 'id' => 'trp_mt_subtab_glossary', 'label' => __( 'Glossary', 'translatepress-multilingual' ), 'url' => admin_url( 'admin.php?page=trp_machine_translation_glossary' ) ),
+            'advanced' => array( 'id' => 'trp_mt_subtab_advanced', 'label' => __( 'Advanced', 'translatepress-multilingual' ), 'url' => $on_mt_page ? '' : add_query_arg( 'tab', 'trp_mt_subtab_advanced', $mt_page_url ) ),
+        ) );
+
+        $html = '<div class="trp_advanced_tab_content_table__wrapper"><div id="trp_advanced_tab_content_table">';
+
+        foreach ( $subtabs as $subtab ) {
+            if ( !empty( $subtab['url'] ) ) {
+                // Real-URL subtab: wrap the anchor around the item span so the entire cell is clickable.
+                $html .= '<a href="' . esc_url( $subtab['url'] ) . '" class="' . esc_attr( $subtab['id'] ) . '">
+                            <span class="trp_advanced_tab_content_table_item">
+                                ' . esc_html( $subtab['label'] ) . '
+                            </span>
+                          </a>';
+            } else {
+                // Hash-anchor subtab: JS toggles containers in place; clicks bubble from the span.
+                $html .= '<span class="trp_advanced_tab_content_table_item">
+                            <a href="#' . esc_attr( $subtab['id'] ) . '" class="' . esc_attr( $subtab['id'] ) . '">
+                                ' . esc_html( $subtab['label'] ) . '
+                            </a>
+                          </span>';
+            }
+        }
+
+        $html .= '</div></div>';
+
+        echo $html;//phpcs:ignore
+    }
+
     public function test_api_key(){
         check_ajax_referer( 'trp_test_api_nonce', 'security' );
         if ( ! current_user_can( apply_filters( 'trp_settings_capability', 'manage_options' ) ) ) {
@@ -248,12 +321,43 @@ class TRP_Machine_Translation_Tab {
         $trp                = TRP_Translate_Press::get_trp_instance();
         $machine_translator = $trp->get_component( 'machine_translator' );
 
-        $response           = $machine_translator->test_request();
+        $captured_request = null;
+        $capture_callback = function( $http_response, $context, $class, $parsed_args, $url ) use ( &$captured_request ) {
+            if ( $captured_request !== null ) {
+                return;
+            }
+            $captured_request = array(
+                'url'     => $url,
+                'method'  => isset( $parsed_args['method'] ) ? $parsed_args['method'] : 'GET',
+                'headers' => isset( $parsed_args['headers'] ) ? $parsed_args['headers'] : array(),
+                'body'    => isset( $parsed_args['body'] ) ? $parsed_args['body'] : null,
+            );
+        };
+        add_action( 'http_api_debug', $capture_callback, 10, 5 );
+
+        $response = $machine_translator->test_request();
+
+        remove_action( 'http_api_debug', $capture_callback, 10 );
+
+        $captured_request = $this->obfuscate_request_secrets( $captured_request );
 
         if ( is_wp_error( $response ) ) {
+            ob_start();
+            print_r( $response );
+            $full_response = ob_get_clean();
+
             wp_send_json_error([
-                'message' => esc_html__('API key validation failed.', 'translatepress-multilingual'),
-                'error'   => $response->get_error_message()
+                'message'      => esc_html__('API key validation failed.', 'translatepress-multilingual'),
+                'referrer'     => $machine_translator->get_referer(),
+                'request'      => $captured_request,
+                'response'     => array(
+                    'response' => array(
+                        'code'    => 'wp_error',
+                        'message' => $response->get_error_message(),
+                    ),
+                    'body'     => $response->get_error_data(),
+                ),
+                'raw_response' => $full_response,
             ]);
         }
 
@@ -263,9 +367,79 @@ class TRP_Machine_Translation_Tab {
 
         wp_send_json_success([
             'message'      => esc_html__('API key verification was successful.', 'translatepress-multilingual'),
+            'referrer'     => $machine_translator->get_referer(),
+            'request'      => $captured_request,
             'response'     => $response,
             'raw_response' => $full_response
         ]);
+    }
+
+    /**
+     * Mask a secret string keeping the first 2 and last 3 chars, replacing the rest with asterisks.
+     */
+    private function mask_secret( $value ){
+        $value = (string) $value;
+        $len   = strlen( $value );
+
+        if ( $len === 0 ) {
+            return '';
+        }
+        if ( $len <= 10 ) {
+            return str_repeat( '*', $len );
+        }
+
+        return substr( $value, 0, 5 ) . str_repeat( '*', $len - 10 ) . substr( $value, -5 );
+    }
+
+    /**
+     * Obfuscate API keys / license keys in the captured outbound request so they are safe to display
+     * in the Test API Credentials popup.
+     */
+    private function obfuscate_request_secrets( $request ){
+        if ( empty( $request ) || ! is_array( $request ) ) {
+            return $request;
+        }
+
+        $secret_param_names = array( 'key', 'api_key', 'auth_key' );
+
+        if ( ! empty( $request['headers'] ) && is_array( $request['headers'] ) ) {
+            foreach ( $request['headers'] as $name => $value ) {
+                if ( strcasecmp( $name, 'Authorization' ) !== 0 || ! is_string( $value ) ) {
+                    continue;
+                }
+
+                if ( preg_match( '/^(\S+\s+)(.+)$/', $value, $m ) ) {
+                    $request['headers'][ $name ] = $m[1] . $this->mask_secret( $m[2] );
+                } else {
+                    $request['headers'][ $name ] = $this->mask_secret( $value );
+                }
+            }
+        }
+
+        if ( ! empty( $request['body'] ) && is_string( $request['body'] ) ) {
+            $body    = $request['body'];
+            $decoded = json_decode( $body, true );
+
+            if ( is_array( $decoded ) && JSON_ERROR_NONE === json_last_error() ) {
+                foreach ( $secret_param_names as $secret_key ) {
+                    if ( isset( $decoded[ $secret_key ] ) ) {
+                        $decoded[ $secret_key ] = $this->mask_secret( $decoded[ $secret_key ] );
+                    }
+                }
+                $request['body'] = wp_json_encode( $decoded );
+            } else {
+                $pattern = '/(^|&)(' . implode( '|', array_map( 'preg_quote', $secret_param_names ) ) . ')=([^&]*)/i';
+                $request['body'] = preg_replace_callback(
+                    $pattern,
+                    function( $m ) {
+                        return $m[1] . $m[2] . '=' . rawurlencode( $this->mask_secret( rawurldecode( $m[3] ) ) );
+                    },
+                    $body
+                );
+            }
+        }
+
+        return $request;
     }
 
 }

@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Ultimate Addons for Elementor (UAE) package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ultimate Addons for Elementor (UAE) 2.8.4\n"
+"Project-Id-Version: Ultimate Addons for Elementor (UAE) 2.9.2\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/header-footer-elementor\n"
-"POT-Creation-Date: 2026-02-16 07:30:00+00:00\n"
+"POT-Creation-Date: 2026-07-20 06:30:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,47 +25,47 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: admin/bsf-analytics/class-bsf-analytics.php:242
+#: admin/bsf-analytics/class-bsf-analytics.php:273
 #. translators: %s product name
 msgid ""
-"Help us improve %1$s and our other products!<br><br>With your permission, "
-"we'd like to collect <strong>non-sensitive information</strong> from your "
-"website — like your PHP version and which features you use — so we can fix "
-"bugs faster, make smarter decisions, and build features that actually "
-"matter to you. <em>No personal info. Ever.</em>"
+"<strong>Help shape the future of %1$s.</strong><br><br>Share how you use "
+"the plugin so we can build features that matter, fix issues faster, and "
+"make smarter decisions."
 msgstr ""
 
-#: admin/bsf-analytics/class-bsf-analytics.php:248
+#: admin/bsf-analytics/class-bsf-analytics.php:279
 msgid "This will be applicable for all sites from the network."
 msgstr ""
 
-#: admin/bsf-analytics/class-bsf-analytics.php:272
+#: admin/bsf-analytics/class-bsf-analytics.php:303
 #. translators: %s usage doc link
-msgid " Know More."
+msgid "Learn more."
 msgstr ""
 
-#: admin/bsf-analytics/class-bsf-analytics.php:282
-msgid "Yes! Allow it"
+#: admin/bsf-analytics/class-bsf-analytics.php:313
+msgid "Happy to help!"
 msgstr ""
 
-#: admin/bsf-analytics/class-bsf-analytics.php:293
-msgid "No Thanks"
+#: admin/bsf-analytics/class-bsf-analytics.php:324
+msgid "Skip"
 msgstr ""
 
-#: admin/bsf-analytics/class-bsf-analytics.php:461
+#: admin/bsf-analytics/class-bsf-analytics.php:502
 msgid "Usage Tracking"
 msgstr ""
 
-#: admin/bsf-analytics/class-bsf-analytics.php:506
+#: admin/bsf-analytics/class-bsf-analytics.php:547
 #. translators: %s Product title
-msgid "Allow %s products to track non-sensitive usage tracking data."
+msgid ""
+"Help improve %s by sharing non-sensitive usage data — like PHP version and "
+"features used."
 msgstr ""
 
-#: admin/bsf-analytics/class-bsf-analytics.php:509
+#: admin/bsf-analytics/class-bsf-analytics.php:550
 msgid " This will be applicable for all sites from the network."
 msgstr ""
 
-#: admin/bsf-analytics/class-bsf-analytics.php:514
+#: admin/bsf-analytics/class-bsf-analytics.php:555
 msgid "Learn More."
 msgstr ""
 
@@ -81,7 +81,7 @@ msgstr ""
 msgid "If you have a moment, please share why you are deactivating the plugin."
 msgstr ""
 
-#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:112
+#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:105
 #: inc/widgets-manager/extensions/class-scroll-to-top-settings.php:403
 #: inc/widgets-manager/extensions/class-scroll-to-top-settings.php:428
 #: inc/widgets-manager/widgets/breadcrumbs-widget/breadcrumbs-widget.php:238
@@ -99,65 +99,65 @@ msgstr ""
 msgid "Icon"
 msgstr ""
 
-#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:139
-#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:314
+#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:132
+#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:308
 msgid "Please tell us more details."
 msgstr ""
 
-#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:148
+#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:141
 #. translators: %1$s: link html start, %2$s: link html end
 msgid "Need help from our experts? %1$sClick here to contact us.%2$s"
 msgstr ""
 
-#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:159
+#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:152
 msgid "Submit & Deactivate"
 msgstr ""
 
-#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:160
+#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:153
 msgid "Skip & Deactivate"
 msgstr ""
 
-#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:229
+#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:223
 msgid "Sorry, you are not allowed to do this operation."
 msgstr ""
 
-#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:242
+#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:236
 msgid "Nonce validation failed"
 msgstr ""
 
-#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:289
+#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:283
 msgid "This is a temporary deactivation for testing."
 msgstr ""
 
-#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:290
+#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:284
 msgid "How can we assist you?"
 msgstr ""
 
-#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:295
+#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:289
 msgid "The plugin isn't working properly."
 msgstr ""
 
-#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:296
+#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:290
 msgid "Please tell us more about what went wrong?"
 msgstr ""
 
-#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:301
+#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:295
 msgid "I found a better alternative plugin."
 msgstr ""
 
-#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:302
+#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:296
 msgid "Could you please specify which plugin?"
 msgstr ""
 
-#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:307
+#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:301
 msgid "It's missing a specific feature."
 msgstr ""
 
-#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:308
+#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:302
 msgid "Please tell us more about the feature."
 msgstr ""
 
-#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:313
+#: admin/bsf-analytics/modules/deactivation-survey/classes/class-deactivation-survey-feedback.php:307
 msgid "Other"
 msgstr ""
 
@@ -188,512 +188,1917 @@ msgstr ""
 #: admin/class-hfe-addons-actions.php:240
 #: admin/class-hfe-addons-actions.php:273
 #: admin/class-hfe-addons-actions.php:306
-#: admin/class-hfe-addons-actions.php:353
-#: admin/class-hfe-addons-actions.php:377
-#: admin/class-hfe-addons-actions.php:404
-#: admin/class-hfe-addons-actions.php:533
-#: admin/class-hfe-addons-actions.php:561
-#: admin/class-hfe-addons-actions.php:586
+#: admin/class-hfe-addons-actions.php:354
+#: admin/class-hfe-addons-actions.php:387
+#: admin/class-hfe-addons-actions.php:424
+#: admin/class-hfe-addons-actions.php:553
+#: admin/class-hfe-addons-actions.php:592
+#: admin/class-hfe-addons-actions.php:629
+#: admin/class-hfe-addons-actions.php:654
 msgid "You do not have permission to perform this action."
 msgstr ""
 
-#: admin/class-hfe-addons-actions.php:479
-msgid "Plugin activation is disabled for you on this site."
-msgstr ""
-
-#: admin/class-hfe-addons-actions.php:488
-msgid "Plugin Activated."
+#: admin/class-hfe-addons-actions.php:365
+#: admin/class-hfe-addons-actions.php:398
+msgid "Invalid widget identifier."
 msgstr ""
 
 #: admin/class-hfe-addons-actions.php:499
-msgid "Theme activation is disabled for you on this site."
+msgid "Plugin activation is disabled for you on this site."
 msgstr ""
 
 #: admin/class-hfe-addons-actions.php:508
+msgid "Plugin Activated."
+msgstr ""
+
+#: admin/class-hfe-addons-actions.php:519
+msgid "Theme activation is disabled for you on this site."
+msgstr ""
+
+#: admin/class-hfe-addons-actions.php:528
 msgid "Theme Activated."
 msgstr ""
 
-#: admin/class-hfe-addons-actions.php:515
+#: admin/class-hfe-addons-actions.php:535
 msgid "Could not activate plugin. Please activate from the Plugins page."
 msgstr ""
 
-#: admin/class-hfe-addons-actions.php:517
+#: admin/class-hfe-addons-actions.php:537
 msgid "Could not activate theme. Please activate from the Themes page."
 msgstr ""
 
-#: admin/class-hfe-addons-actions.php:542
-#: admin/class-hfe-addons-actions.php:570
+#: admin/class-hfe-addons-actions.php:562
+msgid "Invalid compatibility option value."
+msgstr ""
+
+#: admin/class-hfe-addons-actions.php:573
+#: admin/class-hfe-addons-actions.php:607
 msgid "Settings saved successfully!"
 msgstr ""
 
-#: admin/class-hfe-addons-actions.php:545
-#: admin/class-hfe-addons-actions.php:573
+#: admin/class-hfe-addons-actions.php:576
+#: admin/class-hfe-addons-actions.php:610
 msgid "Unable to save settings."
 msgstr ""
 
-#: admin/class-hfe-addons-actions.php:592
+#: admin/class-hfe-addons-actions.php:601
+msgid "Invalid analytics option value."
+msgstr ""
+
+#: admin/class-hfe-addons-actions.php:623
 msgid "Security check failed."
 msgstr ""
 
-#: admin/class-hfe-addons-actions.php:598
+#: admin/class-hfe-addons-actions.php:635
 msgid "Upgrade notice dismissed."
 msgstr ""
 
-#: admin/class-hfe-admin.php:107
+#: admin/class-hfe-addons-actions.php:698
+msgid "Onboarding analytics saved."
+msgstr ""
+
+#: admin/class-hfe-admin.php:108
 msgid "Header Footer Builder"
 msgstr ""
 
-#: admin/class-hfe-admin.php:346
+#: admin/class-hfe-admin.php:361
 msgid "Important Notice:"
 msgstr ""
 
-#: admin/class-hfe-admin.php:350
+#: admin/class-hfe-admin.php:365
 msgid "Can't edit your header or footer?"
 msgstr ""
 
-#: admin/class-hfe-admin.php:351
+#: admin/class-hfe-admin.php:366
 msgid ""
 "Try clearing your cache or resetting permalinks (Settings > Permalinks > "
 "Save Changes)."
 msgstr ""
 
-#: admin/class-hfe-admin.php:352
+#: admin/class-hfe-admin.php:367
 msgid "Learn More"
 msgstr ""
 
-#: admin/class-hfe-admin.php:356
+#: admin/class-hfe-admin.php:371
 msgid "Flush Permalink"
 msgstr ""
 
-#: admin/class-hfe-admin.php:429 admin/class-hfe-admin.php:717
+#: admin/class-hfe-admin.php:444 admin/class-hfe-admin.php:732
 msgid "Display Rules"
 msgstr ""
 
-#: admin/class-hfe-admin.php:430
+#: admin/class-hfe-admin.php:445
 #: inc/widgets-manager/widgets/basic-posts/basic-posts.php:164
 #: inc/widgets-manager/widgets/post-info/post-info.php:170
 #: inc/widgets-manager/widgets/woo-product-grid/woo-product-grid.php:375
 msgid "Date"
 msgstr ""
 
-#: admin/class-hfe-admin.php:520 admin/class-hfe-admin.php:521
-#: admin/class-hfe-admin.php:522 admin/class-hfe-admin.php:523
+#: admin/class-hfe-admin.php:535 admin/class-hfe-admin.php:536
+#: admin/class-hfe-admin.php:537 admin/class-hfe-admin.php:538
 msgid "Elementor Header & Footer Builder"
 msgstr ""
 
-#: admin/class-hfe-admin.php:524 admin/class-hfe-admin.php:525
+#: admin/class-hfe-admin.php:539 admin/class-hfe-admin.php:540
 msgid "Add New"
 msgstr ""
 
-#: admin/class-hfe-admin.php:526
+#: admin/class-hfe-admin.php:541
 msgid "New Template"
 msgstr ""
 
-#: admin/class-hfe-admin.php:527
+#: admin/class-hfe-admin.php:542
 msgid "Edit Template"
 msgstr ""
 
-#: admin/class-hfe-admin.php:528
+#: admin/class-hfe-admin.php:543
 msgid "View Template"
 msgstr ""
 
-#: admin/class-hfe-admin.php:529 inc/class-hfe-settings-page.php:496
+#: admin/class-hfe-admin.php:544 inc/class-hfe-settings-page.php:513
 msgid "View All"
 msgstr ""
 
-#: admin/class-hfe-admin.php:530
+#: admin/class-hfe-admin.php:545
 msgid "Search Templates"
 msgstr ""
 
-#: admin/class-hfe-admin.php:531
+#: admin/class-hfe-admin.php:546
 msgid "Parent Templates:"
 msgstr ""
 
-#: admin/class-hfe-admin.php:532
+#: admin/class-hfe-admin.php:547
 msgid "No Templates found."
 msgstr ""
 
-#: admin/class-hfe-admin.php:533
+#: admin/class-hfe-admin.php:548
 msgid "No Templates found in Trash."
 msgstr ""
 
-#: admin/class-hfe-admin.php:581 admin/class-hfe-admin.php:582
+#: admin/class-hfe-admin.php:596 admin/class-hfe-admin.php:597
 msgid "Create New"
 msgstr ""
 
-#: admin/class-hfe-admin.php:591
+#: admin/class-hfe-admin.php:606
 msgid "Header/Footer Builder"
 msgstr ""
 
-#: admin/class-hfe-admin.php:592
+#: admin/class-hfe-admin.php:607
 msgid "Header & Footer"
 msgstr ""
 
-#: admin/class-hfe-admin.php:621
+#: admin/class-hfe-admin.php:636
 msgid "Elementor Header & Footer Builder Options"
 msgstr ""
 
-#: admin/class-hfe-admin.php:650
+#: admin/class-hfe-admin.php:665
 msgid "Type of Template"
 msgstr ""
 
-#: admin/class-hfe-admin.php:654
+#: admin/class-hfe-admin.php:669
 msgid "Select Option"
 msgstr ""
 
-#: admin/class-hfe-admin.php:655
+#: admin/class-hfe-admin.php:670
+#: inc/abilities/handlers/templates/class-hfe-template-get-handler.php:148
+#: inc/abilities/handlers/templates/class-hfe-template-list-handler.php:190
 msgid "Header"
 msgstr ""
 
-#: admin/class-hfe-admin.php:656
+#: admin/class-hfe-admin.php:671
+#: inc/abilities/handlers/templates/class-hfe-template-get-handler.php:150
+#: inc/abilities/handlers/templates/class-hfe-template-list-handler.php:192
 msgid "Before Footer"
 msgstr ""
 
-#: admin/class-hfe-admin.php:657
+#: admin/class-hfe-admin.php:672
+#: inc/abilities/handlers/templates/class-hfe-template-get-handler.php:149
+#: inc/abilities/handlers/templates/class-hfe-template-list-handler.php:191
 msgid "Footer"
 msgstr ""
 
-#: admin/class-hfe-admin.php:658
+#: admin/class-hfe-admin.php:673
+#: inc/abilities/handlers/templates/class-hfe-template-get-handler.php:151
+#: inc/abilities/handlers/templates/class-hfe-template-list-handler.php:193
 msgid "Custom Block"
 msgstr ""
 
-#: admin/class-hfe-admin.php:666 admin/class-hfe-admin.php:916
+#: admin/class-hfe-admin.php:681 admin/class-hfe-admin.php:931
 msgid "Shortcode"
 msgstr ""
 
-#: admin/class-hfe-admin.php:667
+#: admin/class-hfe-admin.php:682
 msgid ""
 "Copy this shortcode and paste it into your post, page, or text widget "
 "content."
 msgstr ""
 
-#: admin/class-hfe-admin.php:679
+#: admin/class-hfe-admin.php:694
 msgid "Enable Layout for Elementor Canvas Template?"
 msgstr ""
 
-#: admin/class-hfe-admin.php:681
+#: admin/class-hfe-admin.php:696
 msgid ""
 "Enabling this option will display this layout on pages using Elementor "
 "Canvas Template."
 msgstr ""
 
-#: admin/class-hfe-admin.php:708
+#: admin/class-hfe-admin.php:723
 #: inc/widgets-manager/extensions/class-reading-progress-bar-settings.php:125
 msgid "Display On"
 msgstr ""
 
-#: admin/class-hfe-admin.php:710
+#: admin/class-hfe-admin.php:725
 msgid "Add locations for where this template should appear."
 msgstr ""
 
-#: admin/class-hfe-admin.php:721
+#: admin/class-hfe-admin.php:736
 msgid "Add Display Rule"
 msgstr ""
 
-#: admin/class-hfe-admin.php:730
+#: admin/class-hfe-admin.php:745
 msgid "Do Not Display On"
 msgstr ""
 
-#: admin/class-hfe-admin.php:732
+#: admin/class-hfe-admin.php:747
 msgid "Add locations for where this template should not appear."
 msgstr ""
 
-#: admin/class-hfe-admin.php:739
+#: admin/class-hfe-admin.php:754
 msgid "Exclude On"
 msgstr ""
 
-#: admin/class-hfe-admin.php:742
+#: admin/class-hfe-admin.php:757
 #: inc/lib/target-rule/class-astra-target-rules-fields.php:851
 msgid "Add Exclusion Rule"
 msgstr ""
 
-#: admin/class-hfe-admin.php:752
+#: admin/class-hfe-admin.php:767
 msgid "User Roles"
 msgstr ""
 
-#: admin/class-hfe-admin.php:753
+#: admin/class-hfe-admin.php:768
 msgid "Display custom template based on user role."
 msgstr ""
 
-#: admin/class-hfe-admin.php:760
+#: admin/class-hfe-admin.php:775
 #: inc/widgets-manager/widgets/counter/counter.php:151
 msgid "Users"
 msgstr ""
 
-#: admin/class-hfe-admin.php:763
+#: admin/class-hfe-admin.php:778
 msgid "Add User Rule"
 msgstr ""
 
-#: admin/class-hfe-admin.php:844
+#: admin/class-hfe-admin.php:859
 #. Translators: Post title, Template Location
 msgid "Template %1$s is already assigned to the location %2$s"
 msgstr ""
 
-#: inc/class-header-footer-elementor.php:554
+#: inc/abilities/class-hfe-abilities-loader.php:119
+msgid "UAE Plugin Information"
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:120
+msgid "Read-only info: version, health, hooks."
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:123
+msgid "UAE Template Management"
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:124
+msgid "CRUD for header/footer/block templates."
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:127
+msgid "UAE Widget Management"
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:128
+msgid "Enable/disable Elementor widgets."
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:131
+msgid "UAE Extension Management"
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:132
+msgid "Toggle Scroll to Top / Progress Bar."
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:135
+msgid "UAE Display Rules"
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:136
+msgid "Where and to whom templates appear."
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:139
+msgid "UAE Active Templates"
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:140
+msgid "Which templates render on a given page."
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:143
+msgid "UAE Theme Compatibility"
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:144
+msgid "Theme detection and fallback config."
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:147
+msgid "UAE Plugin Settings"
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:148
+msgid "Plugin-level configuration."
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:151
+msgid "UAE Template Embedding"
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:152
+msgid "Shortcode strings and rendered HTML."
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:155
+msgid "UAE Page Builder"
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:156
+msgid "Build and manage page content with HFE and Elementor widgets."
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:159
+msgid "UAE Design System"
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:160
+msgid "Read the site's global colors, fonts, and spacing."
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:163
+msgid "UAE Maintenance"
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:164
+msgid "Cache clearing and maintenance tasks."
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:167
+msgid "UAE Pro Features"
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:168
+msgid "Information about UAE Pro premium widgets and upgrade path."
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:444
+msgid "UAE MCP Server"
+msgstr ""
+
+#: inc/abilities/class-hfe-abilities-loader.php:445
+msgid ""
+"AI tools for Header Footer Elementor — manage headers, footers, templates, "
+"pages, and widgets."
+msgstr ""
+
+#: inc/abilities/class-hfe-element-helpers.php:43
+msgid "Template has invalid Elementor data."
+msgstr ""
+
+#: inc/abilities/class-hfe-element-helpers.php:101
+msgid "Failed to encode Elementor data."
+msgstr ""
+
+#: inc/abilities/class-hfe-element-helpers.php:487
+msgid ""
+"Invalid position. Use \"append\", \"prepend\", or an object with \"after\", "
+"\"before\", or \"inside\" key."
+msgstr ""
+
+#: inc/abilities/class-hfe-element-helpers.php:505
+#: inc/abilities/class-hfe-element-helpers.php:530
+msgid "Element not found in template."
+msgstr ""
+
+#: inc/abilities/class-hfe-element-helpers.php:949
+#: inc/abilities/handlers/builder/class-hfe-insert-widget-handler.php:130
+#. translators: %s: Required plugin name
+#. translators: %s: Plugin name
+msgid "This widget requires %s."
+msgstr ""
+
+#: inc/abilities/class-hfe-element-helpers.php:957
+#. translators: %s: Widget type slug
+msgid ""
+"Widget type \"%s\" is not recognized. Use "
+"template-builder/list-widget-types to see available types."
+msgstr ""
+
+#: inc/abilities/class-hfe-element-helpers.php:1044
+#. translators: %s: element ID
+msgid "Section \"%s\" not found in template."
+msgstr ""
+
+#: inc/abilities/class-hfe-element-helpers.php:1285
+#. translators: %s: element ID
+msgid "Sibling element \"%s\" not found in template."
+msgstr ""
+
+#: inc/abilities/class-hfe-element-helpers.php:1349
+#. translators: %s: element ID
+msgid "Parent element \"%s\" not found in template."
+msgstr ""
+
+#: inc/abilities/class-hfe-element-helpers.php:1457
+#: inc/abilities/handlers/builder/class-hfe-css-handler.php:97
+#: inc/abilities/handlers/builder/class-hfe-schema-handler.php:172
+#: inc/abilities/handlers/design-system/class-hfe-design-tokens-handler.php:99
+#: inc/abilities/handlers/maintenance/class-hfe-maintenance-clear-cache-handler.php:90
+msgid "Elementor is not active."
+msgstr ""
+
+#: inc/abilities/class-hfe-element-helpers.php:1472
+#. translators: %s: widget type slug
+msgid "Widget type \"%s\" not found in Elementor."
+msgstr ""
+
+#: inc/abilities/handlers/active/class-hfe-active-get-handler.php:57
+msgid "Get All Active Templates"
+msgstr ""
+
+#: inc/abilities/handlers/active/class-hfe-active-get-handler.php:58
+msgid "Returns all active templates (header, footer, before-footer) in one call."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-add-column-handler.php:48
+msgid "Add Column to Section"
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-add-column-handler.php:49
+msgid ""
+"Adds a column to an existing section or container in any Elementor post. "
+"Automatically redistributes column sizes to fit."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-add-column-handler.php:60
+#: inc/abilities/handlers/builder/class-hfe-add-section-handler.php:59
+#: inc/abilities/handlers/builder/class-hfe-build-handler.php:60
+#: inc/abilities/handlers/builder/class-hfe-insert-widget-handler.php:59
+#: inc/abilities/handlers/builder/class-hfe-move-element-handler.php:60
+#: inc/abilities/handlers/builder/class-hfe-remove-element-handler.php:59
+#: inc/abilities/handlers/builder/class-hfe-structure-handler.php:59
+#: inc/abilities/handlers/builder/class-hfe-update-widget-handler.php:60
+msgid "Any Elementor-enabled post ID (page, post, or HFE template)."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-add-column-handler.php:64
+msgid "Section or container element ID to add column to."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-add-column-handler.php:69
+msgid "If true, automatically redistributes all column sizes evenly."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-add-column-handler.php:121
+msgid "section_id is required."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-add-column-handler.php:148
+#. translators: 1: Section ID, 2: Post title, 3: Column ID
+msgid ""
+"Added column to section %1$s in \"%2$s\". Use builder/insert-widget with "
+"position {\"inside\": \"%3$s\"} to add widgets."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-add-section-handler.php:47
+msgid "Add Section/Container"
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-add-section-handler.php:48
+msgid ""
+"Adds a structural layout element to any Elementor post. On legacy sites: "
+"creates a section with columns. On container sites: creates a flex "
+"container with child containers. Supports inner sections and multi-column "
+"layouts."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-add-section-handler.php:65
+msgid ""
+"Array of column size percentages. Must sum to 100. E.g., [50, 50] for two "
+"equal columns, [33, 34, 33] for three columns, [25, 75] for sidebar layout."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-add-section-handler.php:70
+msgid ""
+"If true, creates an inner section (must be placed inside a column). On "
+"container sites, creates a nested container."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-add-section-handler.php:73
+msgid ""
+"Where to insert: \"append\" (default), \"prepend\", { \"after\": "
+"\"element_id\" }, { \"before\": \"element_id\" }, { \"inside\": "
+"\"element_id\" } (for inner sections inside a column/container)."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-add-section-handler.php:135
+#. translators: %d: total of column sizes
+msgid "Column sizes must sum to 100. Got %d."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-add-section-handler.php:184
+msgid "inner section"
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-add-section-handler.php:185
+msgid "container"
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-add-section-handler.php:185
+msgid "section"
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-add-section-handler.php:194
+#. translators: 1: Element type, 2: Number of columns, 3: Post title
+msgid ""
+"Added %1$s with %2$d column(s) to \"%3$s\". Use column_ids to insert "
+"widgets into specific columns."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-build-handler.php:48
+msgid "Build Complete Layout"
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-build-handler.php:49
+msgid ""
+"Builds a complete layout with sections, columns, and widgets in one call. "
+"Replaces all content on the post. The structure parameter is a JSON string "
+"describing rows and widgets."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-build-handler.php:125
+msgid "structure is not valid JSON. It must be a minified JSON array string."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-build-handler.php:134
+msgid ""
+"structure must be a JSON array of section objects. Example: "
+"[{\"columns\":[20,60,20],\"children\":[{\"type\":\"widget\",\"widget_type\""
+":\"site-logo\",\"settings\":{}}]}]"
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-build-handler.php:144
+msgid ""
+"Each item in structure must be a section object with \"children\". Example: "
+"{\"columns\":[20,60,20],\"children\":[{\"type\":\"widget\",\"widget_type\":\""
+"site-logo\",\"settings\":{}}]}"
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-build-handler.php:177
+#. translators: 1: Number of elements, 2: Post title
+msgid "Built \"%2$s\" with %1$d elements."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-css-handler.php:47
+msgid "Regenerate CSS"
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-css-handler.php:48
+msgid ""
+"Forces Elementor to regenerate CSS files for a post so frontend changes "
+"appear immediately. Call after builder/build or any structural change."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-css-handler.php:59
+msgid ""
+"Any Elementor-enabled post ID. Pass 0 to regenerate all Elementor CSS "
+"globally."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-css-handler.php:109
+msgid "You are not allowed to regenerate all Elementor CSS globally."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-css-handler.php:119
+msgid "Regenerated all Elementor CSS files globally."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-css-handler.php:136
+#. translators: %s: Post title
+msgid "Regenerated CSS for \"%s\"."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-insert-widget-handler.php:47
+msgid "Insert Widget"
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-insert-widget-handler.php:48
+msgid ""
+"Inserts a single widget into an existing Elementor post. KEY WIDGET SLUGS — "
+"Header: site-logo, navigation-menu, hfe-search-button, hfe-cart. Footer: "
+"copyright, retina (logo), social-icons. Pages: heading, text-editor, image, "
+"button, hfe-infocard, hfe-counter. Use list-widget-types to discover all "
+"available slugs."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-insert-widget-handler.php:63
+msgid ""
+"Widget type slug (e.g. \"navigation-menu\", \"site-logo\", \"heading\"). "
+"Use builder/list-widget-types to see available types."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-insert-widget-handler.php:67
+msgid ""
+"JSON string of widget settings. Use builder/get-schema to discover the "
+"keys. Example: {\"heading_title\":\"My Heading\",\"align\":\"center\"}. "
+"Pass empty string or \"{}\" for defaults."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-insert-widget-handler.php:71
+msgid ""
+"Where to insert: \"append\" (default), \"prepend\", a number for index "
+"position (0=first, 1=second, etc.), or { \"after\": \"element_id\" }, { "
+"\"before\": \"element_id\" }, { \"inside\": \"container_id\" }."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-insert-widget-handler.php:117
+msgid "Widget type is required."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-insert-widget-handler.php:138
+#. translators: %s: Widget type slug
+msgid ""
+"Widget type \"%s\" is not recognized. Use builder/list-widget-types to see "
+"available types."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-insert-widget-handler.php:185
+#. translators: 1: Widget type, 2: Post title
+msgid "Inserted %1$s widget into \"%2$s\"."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-move-element-handler.php:48
+msgid "Move Element"
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-move-element-handler.php:49
+msgid ""
+"Repositions an element within any Elementor post. Removes from current "
+"location and inserts at new position."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-move-element-handler.php:64
+msgid "Element ID to move."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-move-element-handler.php:67
+msgid ""
+"New position: { \"after\": \"element_id\" } or { \"before\": \"element_id\" "
+"}."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-move-element-handler.php:112
+#: inc/abilities/handlers/builder/class-hfe-remove-element-handler.php:107
+#: inc/abilities/handlers/builder/class-hfe-update-widget-handler.php:125
+msgid "Element ID is required."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-move-element-handler.php:120
+msgid "Position is required."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-move-element-handler.php:147
+#. translators: 1: Element ID, 2: Post title
+msgid "Moved element %1$s in \"%2$s\"."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-remove-element-handler.php:47
+msgid "Remove Element"
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-remove-element-handler.php:48
+msgid "Removes a widget or container from any Elementor post by element ID."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-remove-element-handler.php:63
+msgid "Element ID to remove."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-remove-element-handler.php:134
+#. translators: 1: Element ID, 2: Post title
+msgid "Removed element %1$s from \"%2$s\"."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-schema-handler.php:48
+msgid "Get Element Schema"
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-schema-handler.php:49
+msgid ""
+"Returns a settings schema for widgets, sections, containers, or columns. "
+"Use before building layouts to discover available settings."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-schema-handler.php:61
+msgid "Type of element to get schema for."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-schema-handler.php:65
+msgid ""
+"Widget type slug (required when type=widget). E.g., \"heading\", "
+"\"navigation-menu\"."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-schema-handler.php:71
+msgid ""
+"Which settings tab to include. Defaults to \"all\" which returns content + "
+"style settings."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-schema-handler.php:120
+msgid "Type must be one of: widget, section, container, column."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-schema-handler.php:139
+msgid "widget_type is required when type=widget."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-schema-handler.php:148
+#. translators: %s: widget type slug
+msgid "Widget type \"%s\" is not in the allowed list."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-schema-handler.php:186
+#. translators: %s: element type
+msgid "Element type \"%s\" not found in Elementor."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-structure-handler.php:47
+msgid "Get Post Structure"
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-structure-handler.php:48
+msgid ""
+"Returns the full Elementor element tree of any Elementor-enabled post -- "
+"containers, widgets, IDs, types, and setting keys."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-structure-handler.php:63
+msgid ""
+"If true, return complete settings. Default false returns only setting keys "
+"for brevity."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-undo-handler.php:47
+msgid "Undo Last Builder Change"
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-undo-handler.php:48
+msgid ""
+"Reverts the most recent AI builder change on a post by restoring the "
+"snapshot taken automatically just before that change. Keeps a single level "
+"of undo; for older versions use Elementor revision history."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-undo-handler.php:59
+msgid "The post, page, or HFE template ID to undo the last change on."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-undo-handler.php:106
+msgid ""
+"No recent change is available to undo for this post. Try Elementor revision "
+"history."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-undo-handler.php:122
+#. translators: %s: post title
+msgid "Reverted the last change on \"%s\"."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-update-widget-handler.php:48
+msgid "Update Widget Settings"
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-update-widget-handler.php:49
+msgid ""
+"Updates settings for an existing widget element in any Elementor post. "
+"Performs a partial merge -- only provided settings are changed."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-update-widget-handler.php:64
+msgid "Element ID to update (from get-structure)."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-update-widget-handler.php:68
+msgid ""
+"JSON string of the settings to update. You MUST call builder/get-schema "
+"first to discover the exact setting keys for the widget type. Then pass a "
+"JSON object string with only the keys you want to change. Example for "
+"hfe-infocard: {\"infocard_title\":\"New "
+"Title\",\"infocard_description\":\"New "
+"text\",\"infocard_button_text\":\"Click Me\"}. Example for heading: "
+"{\"heading_title\":\"New Heading\"}. Example for text-editor: "
+"{\"editor\":\"<p>New content</p>\"}."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-update-widget-handler.php:145
+#: inc/abilities/handlers/builder/class-hfe-update-widget-handler.php:172
+msgid "Element not found in post."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-update-widget-handler.php:158
+#. translators: 1: widget type, 2: comma-separated setting keys
+msgid ""
+"No settings provided. This is a \"%1$s\" widget. Available setting keys: "
+"%2$s. Retry with the correct keys in the settings object."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-update-widget-handler.php:187
+#. translators: 1: Element ID, 2: Post title
+msgid "Updated element %1$s in \"%2$s\"."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-widget-types-handler.php:47
+msgid "List Available Widget Types"
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-widget-types-handler.php:48
+msgid ""
+"Lists all widget types that can be inserted. RECOMMENDED — Header: "
+"site-logo, navigation-menu, hfe-search-button, hfe-cart, hfe-menu. Footer: "
+"copyright, retina (logo), social-icons, hfe-menu. Pages: heading, "
+"text-editor, image, button, hfe-infocard, hfe-counter, spacer, divider."
+msgstr ""
+
+#: inc/abilities/handlers/builder/class-hfe-widget-types-handler.php:60
+msgid "Filter by source plugin."
+msgstr ""
+
+#: inc/abilities/handlers/design-system/class-hfe-design-tokens-handler.php:47
+msgid "Get Design Tokens"
+msgstr ""
+
+#: inc/abilities/handlers/design-system/class-hfe-design-tokens-handler.php:48
+msgid ""
+"Returns the site's global colors, fonts, and spacing from the active "
+"Elementor kit. ALWAYS call this before build-template or build-page to "
+"match the site's existing design."
+msgstr ""
+
+#: inc/abilities/handlers/design-system/class-hfe-design-tokens-handler.php:109
+msgid "No active Elementor kit found."
+msgstr ""
+
+#: inc/abilities/handlers/display-rules/class-hfe-display-rules-locations-handler.php:49
+msgid "Get Available Locations"
+msgstr ""
+
+#: inc/abilities/handlers/display-rules/class-hfe-display-rules-locations-handler.php:50
+msgid "Lists all available targeting locations for display rules."
+msgstr ""
+
+#: inc/abilities/handlers/display-rules/class-hfe-display-rules-update-handler.php:63
+msgid "Update Display Rules"
+msgstr ""
+
+#: inc/abilities/handlers/display-rules/class-hfe-display-rules-update-handler.php:64
+msgid ""
+"Set include/exclude locations and user role targeting for a template. "
+"Merges the old update and set-user-roles abilities."
+msgstr ""
+
+#: inc/abilities/handlers/display-rules/class-hfe-display-rules-update-handler.php:75
+#: inc/abilities/handlers/templates/class-hfe-template-update-handler.php:66
+msgid "Template post ID."
+msgstr ""
+
+#: inc/abilities/handlers/display-rules/class-hfe-display-rules-update-handler.php:79
+msgid ""
+"Include rules: { \"rule\": [\"basic-global\", ...], \"specific\": "
+"[\"post-123\", ...] }"
+msgstr ""
+
+#: inc/abilities/handlers/display-rules/class-hfe-display-rules-update-handler.php:83
+msgid "Exclude rules. Same structure as include_locations."
+msgstr ""
+
+#: inc/abilities/handlers/display-rules/class-hfe-display-rules-update-handler.php:88
+msgid ""
+"Role slugs: logged-in, logged-out, administrator, editor, author, "
+"contributor, subscriber."
+msgstr ""
+
+#: inc/abilities/handlers/display-rules/class-hfe-display-rules-update-handler.php:153
+#. translators: %s: comma-separated invalid role slugs
+msgid "Invalid role(s): %s"
+msgstr ""
+
+#: inc/abilities/handlers/extensions/class-hfe-extension-list-handler.php:46
+msgid "List Extensions"
+msgstr ""
+
+#: inc/abilities/handlers/extensions/class-hfe-extension-list-handler.php:47
+msgid ""
+"Lists available extensions (Scroll to Top, Reading Progress Bar) and their "
+"status."
+msgstr ""
+
+#: inc/abilities/handlers/extensions/class-hfe-extension-toggle-handler.php:46
+msgid "Toggle Extension"
+msgstr ""
+
+#: inc/abilities/handlers/extensions/class-hfe-extension-toggle-handler.php:47
+msgid "Enable or disable a specific extension."
+msgstr ""
+
+#: inc/abilities/handlers/extensions/class-hfe-extension-toggle-handler.php:59
+msgid "Extension slug."
+msgstr ""
+
+#: inc/abilities/handlers/extensions/class-hfe-extension-toggle-handler.php:63
+msgid "True to enable, false to disable."
+msgstr ""
+
+#: inc/abilities/handlers/extensions/class-hfe-extension-toggle-handler.php:111
+#. translators: %s: extension slug
+msgid "Extension \"%s\" not found."
+msgstr ""
+
+#: inc/abilities/handlers/info/class-hfe-info-get-handler.php:50
+msgid "Get Plugin Info"
+msgstr ""
+
+#: inc/abilities/handlers/info/class-hfe-info-get-handler.php:51
+msgid ""
+"Returns unified plugin info: version, health, templates, widgets, theme "
+"compatibility, extensions, and optionally hooks."
+msgstr ""
+
+#: inc/abilities/handlers/info/class-hfe-info-get-handler.php:62
+msgid "When true, includes the hooks list in the response."
+msgstr ""
+
+#: inc/abilities/handlers/info/class-hfe-info-get-handler.php:279
+msgid "Enable/disable header rendering."
+msgstr ""
+
+#: inc/abilities/handlers/info/class-hfe-info-get-handler.php:284
+msgid "Enable/disable footer rendering."
+msgstr ""
+
+#: inc/abilities/handlers/info/class-hfe-info-get-handler.php:289
+msgid "Enable/disable before-footer rendering."
+msgstr ""
+
+#: inc/abilities/handlers/info/class-hfe-info-get-handler.php:294
+msgid "Filter header template post ID."
+msgstr ""
+
+#: inc/abilities/handlers/info/class-hfe-info-get-handler.php:299
+msgid "Filter footer template post ID."
+msgstr ""
+
+#: inc/abilities/handlers/info/class-hfe-info-get-handler.php:304
+msgid "Filter before-footer template ID."
+msgstr ""
+
+#: inc/abilities/handlers/info/class-hfe-info-get-handler.php:309
+msgid "Conditionally skip header output."
+msgstr ""
+
+#: inc/abilities/handlers/info/class-hfe-info-get-handler.php:314
+msgid "Conditionally skip footer output."
+msgstr ""
+
+#: inc/abilities/handlers/info/class-hfe-info-get-handler.php:319
+msgid "Conditionally skip before-footer output."
+msgstr ""
+
+#: inc/abilities/handlers/info/class-hfe-info-get-handler.php:324
+msgid "Filter template ID before render."
+msgstr ""
+
+#: inc/abilities/handlers/info/class-hfe-info-get-handler.php:329
+msgid "Control preview notice visibility."
+msgstr ""
+
+#: inc/abilities/handlers/info/class-hfe-info-get-handler.php:335
+msgid "Fires inside header wrapper."
+msgstr ""
+
+#: inc/abilities/handlers/info/class-hfe-info-get-handler.php:339
+msgid "Fires before footer section."
+msgstr ""
+
+#: inc/abilities/handlers/info/class-hfe-info-get-handler.php:343
+msgid "Fires inside footer wrapper."
+msgstr ""
+
+#: inc/abilities/handlers/info/class-hfe-info-get-handler.php:347
+msgid "Render admin page body."
+msgstr ""
+
+#: inc/abilities/handlers/maintenance/class-hfe-maintenance-clear-cache-handler.php:46
+msgid "Clear Elementor Cache"
+msgstr ""
+
+#: inc/abilities/handlers/maintenance/class-hfe-maintenance-clear-cache-handler.php:47
+msgid "Clears the Elementor CSS cache globally to regenerate all stylesheets."
+msgstr ""
+
+#: inc/abilities/handlers/maintenance/class-hfe-maintenance-clear-cache-handler.php:99
+msgid "Elementor CSS cache cleared successfully."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-create-handler.php:53
+msgid "Create Page"
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-create-handler.php:54
+msgid "Creates a new Elementor-ready page or post with optional page template."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-create-handler.php:65
+msgid "The page or post title."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-create-handler.php:71
+msgid "Post type to create."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-create-handler.php:77
+msgid "Initial post status."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-create-handler.php:83
+#: inc/abilities/handlers/pages/class-hfe-page-update-meta-handler.php:74
+msgid ""
+"Elementor page template: elementor_header_footer, elementor_canvas, or "
+"default."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-create-handler.php:140
+#: inc/abilities/trait-hfe-abilities-helpers.php:91
+#. translators: %s: post type slug
+msgid "Post type \"%s\" is not supported by Elementor."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-delete-handler.php:46
+msgid "Delete Page"
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-delete-handler.php:47
+msgid "Moves an Elementor page or post to the trash. Does not permanently delete."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-delete-handler.php:58
+msgid "The page or post ID to trash."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-delete-handler.php:98
+#: inc/abilities/handlers/pages/class-hfe-page-restore-handler.php:99
+#: inc/abilities/trait-hfe-abilities-helpers.php:64
+msgid "Post not found."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-delete-handler.php:106
+#: inc/abilities/handlers/pages/class-hfe-page-restore-handler.php:107
+msgid "Use templates/delete for HFE templates."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-delete-handler.php:122
+msgid "You are not allowed to delete this post."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-delete-handler.php:132
+msgid "Failed to move post to trash."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-delete-handler.php:142
+#. translators: %s: post title
+msgid "\"%s\" moved to trash."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-list-handler.php:46
+msgid "List Pages"
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-list-handler.php:47
+msgid ""
+"Lists Elementor-edited pages and posts with optional filtering by type, "
+"status, and search."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-list-handler.php:59
+msgid "Filter by post type. Use \"any\" for all supported types."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-list-handler.php:65
+#: inc/abilities/handlers/templates/class-hfe-template-list-handler.php:71
+msgid "Filter by post status."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-list-handler.php:70
+msgid "Number of results per page. Maximum 100."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-list-handler.php:74
+msgid "Search by title."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-restore-handler.php:46
+msgid "Restore Page"
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-restore-handler.php:47
+msgid "Restores a trashed page or post back to its previous status."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-restore-handler.php:58
+msgid "The trashed page or post ID to restore."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-restore-handler.php:115
+msgid "Post is not in the trash."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-restore-handler.php:124
+msgid "You are not allowed to restore this post."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-restore-handler.php:134
+msgid "Failed to restore post from trash."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-restore-handler.php:147
+#. translators: %s: post title
+msgid "\"%s\" restored from trash."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-update-meta-handler.php:53
+msgid "Update Page Meta"
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-update-meta-handler.php:54
+msgid ""
+"Updates title, page template, or featured image for an Elementor page or "
+"post."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-update-meta-handler.php:65
+msgid "The page or post ID to update."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-update-meta-handler.php:69
+msgid "New page/post title."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-update-meta-handler.php:78
+msgid "Attachment ID for featured image. Pass 0 to remove."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-update-meta-handler.php:149
+msgid "Invalid page template value."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-update-meta-handler.php:175
+msgid "Invalid attachment ID for featured image."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-update-meta-handler.php:189
+msgid "No fields provided to update."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-update-status-handler.php:46
+msgid "Update Page Status"
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-update-status-handler.php:47
+msgid "Publishes or unpublishes (drafts) an Elementor page or post."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-update-status-handler.php:58
+msgid "The page or post ID."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-update-status-handler.php:63
+msgid "The new status: publish or draft."
+msgstr ""
+
+#: inc/abilities/handlers/pages/class-hfe-page-update-status-handler.php:112
+msgid "Post is in the trash. Use pages/restore first."
+msgstr ""
+
+#: inc/abilities/handlers/pro/class-hfe-pro-features-handler.php:60
+#: inc/abilities/handlers/pro/class-hfe-pro-features-handler.php:86
+msgid "UAE Pro Features & Upgrade Info"
+msgstr ""
+
+#: inc/abilities/handlers/pro/class-hfe-pro-features-handler.php:61
+msgid ""
+"Get UAE Pro features, premium widgets, and upgrade pricing. Use when user "
+"asks about mega menus, AJAX load more, carousels, modal popups, video "
+"gallery, hotspot, timeline, login form, or any Pro-only features."
+msgstr ""
+
+#: inc/abilities/handlers/pro/class-hfe-pro-features-handler.php:71
+msgid ""
+"What the user is trying to do or which feature they are asking about. This "
+"helps tailor the recommendation."
+msgstr ""
+
+#: inc/abilities/handlers/pro/class-hfe-pro-features-handler.php:120
+msgid ""
+"UAE Pro is already active on this site. All premium widgets and features "
+"are available."
+msgstr ""
+
+#: inc/abilities/handlers/pro/class-hfe-pro-features-handler.php:124
+#. translators: 1: widget count, 2: pricing URL
+msgid ""
+"UAE Pro adds %1$d+ premium widgets and upgrades 6 free widgets with "
+"advanced features. Upgrade at: %2$s"
+msgstr ""
+
+#: inc/abilities/handlers/settings/class-hfe-settings-get-handler.php:46
+msgid "Get Plugin Settings"
+msgstr ""
+
+#: inc/abilities/handlers/settings/class-hfe-settings-get-handler.php:47
+msgid "Get all plugin-level settings."
+msgstr ""
+
+#: inc/abilities/handlers/settings/class-hfe-settings-update-handler.php:56
+msgid "Update Plugin Setting"
+msgstr ""
+
+#: inc/abilities/handlers/settings/class-hfe-settings-update-handler.php:57
+msgid ""
+"Update a specific plugin setting. Only safe, non-sensitive settings are "
+"allowed."
+msgstr ""
+
+#: inc/abilities/handlers/settings/class-hfe-settings-update-handler.php:69
+msgid "Setting key to update."
+msgstr ""
+
+#: inc/abilities/handlers/settings/class-hfe-settings-update-handler.php:73
+msgid "New value for the setting."
+msgstr ""
+
+#: inc/abilities/handlers/settings/class-hfe-settings-update-handler.php:114
+msgid "Both setting_key and value are required."
+msgstr ""
+
+#: inc/abilities/handlers/settings/class-hfe-settings-update-handler.php:125
+#. translators: %s: setting key
+msgid "Setting \"%s\" is not in the allowed list."
+msgstr ""
+
+#: inc/abilities/handlers/settings/class-hfe-settings-update-handler.php:138
+#. translators: 1: setting key, 2: allowed values
+msgid "Invalid value for \"%1$s\". Allowed: %2$s"
+msgstr ""
+
+#: inc/abilities/handlers/shortcode/class-hfe-shortcode-render-handler.php:48
+msgid "Render Template Shortcode"
+msgstr ""
+
+#: inc/abilities/handlers/shortcode/class-hfe-shortcode-render-handler.php:49
+msgid "Render an HFE template shortcode and return its HTML output."
+msgstr ""
+
+#: inc/abilities/handlers/shortcode/class-hfe-shortcode-render-handler.php:60
+msgid "Template post ID to render."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-create-handler.php:53
+msgid "Create Template"
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-create-handler.php:54
+msgid ""
+"Creates a new HFE template. Returns the new template ID and Elementor edit "
+"URL."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-create-handler.php:67
+msgid "Template title."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-create-handler.php:72
+msgid "Template type."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-create-handler.php:78
+msgid "Post status."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-create-handler.php:120
+#: inc/abilities/handlers/templates/class-hfe-template-update-handler.php:151
+msgid "Invalid template type."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-create-handler.php:124
+msgid "Invalid post status."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-create-handler.php:138
+msgid "Failed to create template."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-delete-handler.php:46
+msgid "Delete Template"
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-delete-handler.php:47
+msgid "Moves an HFE template to trash. Does not permanently delete."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-delete-handler.php:58
+msgid "The template post ID to trash."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-delete-handler.php:104
+msgid "Failed to trash the template."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-delete-handler.php:112
+msgid "Template moved to trash."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-duplicate-handler.php:46
+msgid "Duplicate Template"
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-duplicate-handler.php:47
+msgid ""
+"Creates a copy of an existing template with all settings and Elementor "
+"content."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-duplicate-handler.php:58
+msgid "Source template post ID."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-duplicate-handler.php:62
+msgid "Title for duplicate. Default: \"Copy of {original}\"."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-duplicate-handler.php:111
+#: inc/class-hfe-post-duplicator.php:270
+#. translators: %s: Original template title.
+#. translators: %s: Original post title
+msgid "Copy of %s"
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-duplicate-handler.php:125
+msgid "Failed to create duplicate template."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-get-handler.php:53
+msgid "Get Template Details"
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-get-handler.php:54
+msgid ""
+"Returns full details for a specific template including type, display rules, "
+"and shortcode."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-get-handler.php:65
+msgid "The template post ID."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-list-handler.php:53
+msgid "List Templates"
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-list-handler.php:54
+msgid ""
+"Lists all HFE templates with their type, status, display conditions, and "
+"edit URLs."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-list-handler.php:65
+msgid "Filter by template type."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-restore-handler.php:46
+msgid "Restore Template from Trash"
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-restore-handler.php:47
+msgid ""
+"Restores a trashed HFE template back to its previous status (typically "
+"draft)."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-restore-handler.php:58
+msgid "The trashed template post ID to restore."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-restore-handler.php:99
+#: inc/abilities/trait-hfe-abilities-helpers.php:39
+msgid "Template not found or is not an HFE template."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-restore-handler.php:107
+msgid "Template is not in trash."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-restore-handler.php:117
+msgid "Failed to restore template from trash."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-restore-handler.php:129
+msgid "Template restored from trash."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-update-handler.php:54
+msgid "Update Template"
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-update-handler.php:55
+msgid "Updates a template's type and/or status. Provide type, status, or both."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-update-handler.php:71
+msgid "New template type."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-update-handler.php:76
+msgid "New post status."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-update-handler.php:126
+msgid "Provide at least one of type or status to update."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-update-handler.php:138
+msgid "Cannot change status of a trashed template. Use templates/restore first."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-update-handler.php:159
+msgid "Failed to update template type."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-update-handler.php:170
+msgid "Status must be publish or draft."
+msgstr ""
+
+#: inc/abilities/handlers/templates/class-hfe-template-update-handler.php:185
+msgid "Failed to update template status."
+msgstr ""
+
+#: inc/abilities/handlers/theme/class-hfe-theme-info-handler.php:69
+msgid "Get Theme Info"
+msgstr ""
+
+#: inc/abilities/handlers/theme/class-hfe-theme-info-handler.php:70
+msgid ""
+"Returns current theme compatibility info and the full list of natively "
+"supported themes."
+msgstr ""
+
+#: inc/abilities/handlers/theme/class-hfe-theme-method-handler.php:46
+msgid "Set Theme Compatibility Method"
+msgstr ""
+
+#: inc/abilities/handlers/theme/class-hfe-theme-method-handler.php:47
+msgid "Configure fallback method for unsupported themes."
+msgstr ""
+
+#: inc/abilities/handlers/theme/class-hfe-theme-method-handler.php:59
+msgid "Compatibility method: default or css-override."
+msgstr ""
+
+#: inc/abilities/handlers/theme/class-hfe-theme-method-handler.php:100
+msgid "Invalid compatibility method."
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-activate-handler.php:46
+msgid "Activate Widget"
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-activate-handler.php:47
+msgid "Enable a specific widget by slug."
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-activate-handler.php:58
+msgid "Widget slug to activate (e.g., site-logo, navigation-menu)."
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-activate-handler.php:99
+#: inc/abilities/handlers/widgets/class-hfe-widget-deactivate-handler.php:99
+#: inc/abilities/handlers/widgets/class-hfe-widget-usage-handler.php:128
+#. translators: %s: widget slug
+msgid "Widget \"%s\" not found."
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-activate-handler.php:111
+msgid "Widget activated."
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-bulk-toggle-handler.php:47
+msgid "Bulk Toggle All Widgets"
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-bulk-toggle-handler.php:48
+msgid ""
+"Activate or deactivate all widgets at once. When activating, Pro widgets "
+"are skipped. When deactivating, all widgets are disabled which may break "
+"the frontend."
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-bulk-toggle-handler.php:60
+msgid "Whether to activate or deactivate all widgets."
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-deactivate-handler.php:46
+msgid "Deactivate Widget"
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-deactivate-handler.php:47
+msgid "Disable a specific widget by slug."
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-deactivate-handler.php:58
+msgid "Widget slug to deactivate."
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-deactivate-handler.php:111
+msgid "Widget deactivated."
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-deactivate-unused-handler.php:47
+msgid "Deactivate Unused Widgets"
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-deactivate-unused-handler.php:48
+msgid ""
+"Disable widgets not used in any published Elementor content (pages, posts, "
+"or templates)."
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-list-handler.php:46
+msgid "List Widgets"
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-list-handler.php:47
+msgid ""
+"Lists all available widgets with their enabled/disabled status, slug, "
+"title, and category."
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-usage-handler.php:46
+msgid "Get Widget Usage Map"
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-usage-handler.php:47
+msgid ""
+"Returns site-wide usage counts for HFE widgets across all Elementor content "
+"(pages, posts, and templates)."
+msgstr ""
+
+#: inc/abilities/handlers/widgets/class-hfe-widget-usage-handler.php:57
+msgid "Optional. Filter to a single widget slug."
+msgstr ""
+
+#: inc/abilities/registry/class-hfe-ability-registry.php:73
+msgid ""
+"Invalid ability handler: it must implement get_name(), "
+"get_registration_args(), and execute()."
+msgstr ""
+
+#: inc/abilities/registry/class-hfe-ability-registry.php:89
+#. translators: 1: ability name, 2: source attempting to register, 3: existing
+#. source
+msgid ""
+"Ability \"%1$s\" already registered by \"%3$s\"; ignoring duplicate "
+"registration from \"%2$s\"."
+msgstr ""
+
+#: inc/abilities/registry/class-hfe-ability-registry.php:178
+#. translators: 1: ability name, 2: settings URL
+msgid ""
+"Ability \"%1$s\" requires \"Allow Modifications\" to be enabled. Turn it on "
+"at: %2$s"
+msgstr ""
+
+#: inc/abilities/registry/class-hfe-ability-registry.php:185
+#. translators: 1: ability name, 2: settings URL
+msgid "Ability \"%1$s\" is currently disabled. Enable it in AI Tools settings: %2$s"
+msgstr ""
+
+#: inc/abilities/registry/class-hfe-ability-registry.php:209
+#: inc/angie/class-hfe-angie.php:250
+#. translators: %s: ability name
+#. translators: %s: ability ID
+msgid "Ability \"%s\" not found."
+msgstr ""
+
+#: inc/abilities/trait-hfe-abilities-helpers.php:105
+msgid "You are not allowed to edit this post."
+msgstr ""
+
+#: inc/abilities/trait-hfe-abilities-helpers.php:180
+msgid "Modifications disabled in AI Tools settings."
+msgstr ""
+
+#: inc/angie/class-hfe-angie.php:266
+#. translators: %s: settings URL
+msgid ""
+"BLOCKED: Modifications are disabled by the site administrator. Do NOT "
+"attempt to enable this yourself. Tell the user: \"Allow Modifications\" "
+"must be turned on in UAE Settings → AI Tools at %s"
+msgstr ""
+
+#: inc/angie/class-hfe-angie.php:272
+#. translators: 1: ability ID, 2: settings URL
+msgid ""
+"BLOCKED: The ability \"%1$s\" has been disabled by the site administrator. "
+"Do NOT retry. Tell the user to enable it in UAE Settings → AI Tools at %2$s"
+msgstr ""
+
+#: inc/angie/class-hfe-angie.php:415
+msgid "Invalid or missing nonce."
+msgstr ""
+
+#: inc/class-header-footer-elementor.php:367
 #. translators: %s: html tags
 msgid ""
 "The %1$sUltimate Addons for Elementor%2$s plugin requires %1$sElementor%2$s "
 "plugin installed & activated."
 msgstr ""
 
-#: inc/class-header-footer-elementor.php:561
+#: inc/class-header-footer-elementor.php:374
 msgid "Activate Elementor"
 msgstr ""
 
-#: inc/class-header-footer-elementor.php:566
-#: inc/class-header-footer-elementor.php:602
+#: inc/class-header-footer-elementor.php:379
+#: inc/class-header-footer-elementor.php:415
 msgid "Install Elementor"
 msgstr ""
 
-#: inc/class-header-footer-elementor.php:590
+#: inc/class-header-footer-elementor.php:403
 #. translators: %s: html tags
 msgid ""
 "The %1$sUltimate Addons for Elementor%2$s plugin has stopped working "
 "because you are using an older version of %1$sElementor%2$s plugin."
 msgstr ""
 
-#: inc/class-header-footer-elementor.php:597
+#: inc/class-header-footer-elementor.php:410
 msgid "Update Elementor"
 msgstr ""
 
-#: inc/class-header-footer-elementor.php:854
+#: inc/class-header-footer-elementor.php:689
 msgid "Theme Support"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:157 inc/class-hfe-learn-api.php:272
-#: inc/class-hfe-learn-api.php:340 inc/class-hfe-learn-api.php:379
+#: inc/class-hfe-learn-api.php:159 inc/class-hfe-learn-api.php:276
+#: inc/class-hfe-learn-api.php:346 inc/class-hfe-learn-api.php:387
+#: inc/lib/astra-notices/class-bsf-admin-notices.php:159
 msgid "Permission denied."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:161
+#: inc/class-hfe-learn-api.php:163
 msgid "UAE Learn Footer"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:162
+#: inc/class-hfe-learn-api.php:164
 msgid "UAE Learn Header"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:307
+#: inc/class-hfe-learn-api.php:311
 msgid "UAE Learn Page"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:313
+#: inc/class-hfe-learn-api.php:317
 msgid "Page creation failed."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:348
+#: inc/class-hfe-learn-api.php:354
 msgid "Invalid extension."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:355
+#: inc/class-hfe-learn-api.php:361
 msgid "No active Elementor Kit found."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:528
+#: inc/class-hfe-learn-api.php:536
 msgid "Create Your Header"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:529
+#: inc/class-hfe-learn-api.php:537
 msgid "Build a stunning header that showcases your brand on every page."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:533
+#: inc/class-hfe-learn-api.php:541
 msgid "Set Up Header Under 5 Mins!"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:534
+#: inc/class-hfe-learn-api.php:542
 msgid ""
 "Create a branded header that appears on every page and keeps your "
 "navigation consistent."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:541
+#: inc/class-hfe-learn-api.php:549
 msgid "Add header in Elementor"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:546
+#: inc/class-hfe-learn-api.php:554
 msgid "Set Up Header"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:556 inc/class-hfe-learn-api.php:631
+#: inc/class-hfe-learn-api.php:564 inc/class-hfe-learn-api.php:639
 msgid "Control Where Your Template Appears"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:557 inc/class-hfe-learn-api.php:632
+#: inc/class-hfe-learn-api.php:565 inc/class-hfe-learn-api.php:640
 msgid ""
 "Use Display Conditions to choose exactly where this template shows — entire "
 "site, specific pages, posts, or archives."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:564
+#: inc/class-hfe-learn-api.php:572
 msgid "Add Display conditions to your header"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:569 inc/class-hfe-learn-api.php:644
+#: inc/class-hfe-learn-api.php:577 inc/class-hfe-learn-api.php:652
 msgid "Add Display Conditions"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:580
+#: inc/class-hfe-learn-api.php:588
 msgid "Add Your Favorite UAE Widgets and Make it Live"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:581
+#: inc/class-hfe-learn-api.php:589
 msgid "Include logo, menu, CTA, and contact access for a complete header."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:588
+#: inc/class-hfe-learn-api.php:596
 msgid "Add UAE widgets to your header"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:593
+#: inc/class-hfe-learn-api.php:601
 msgid "Add Header Widgets"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:603
+#: inc/class-hfe-learn-api.php:611
 msgid "Create Your Footer"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:604
+#: inc/class-hfe-learn-api.php:612
 msgid "Design a professional footer that builds trust and improves site navigation."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:609
+#: inc/class-hfe-learn-api.php:617
 msgid "Set Up Footer in less than 5 mins!"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:610
+#: inc/class-hfe-learn-api.php:618
 msgid ""
 "Add a global footer for consistent links, policies, and brand presence on "
 "every page."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:617
+#: inc/class-hfe-learn-api.php:625
 msgid "Set Up Footer Template"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:622
+#: inc/class-hfe-learn-api.php:630
 msgid "Set Up Footer"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:639
+#: inc/class-hfe-learn-api.php:647
 msgid "Add display conditons to your footer"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:655
+#: inc/class-hfe-learn-api.php:663
 msgid "Add Your Footer Widgets and Make it live."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:656
+#: inc/class-hfe-learn-api.php:664
 msgid ""
 "Insert essential elements like Social Icons, Contact Info, Copyright Text, "
 "and Navigation Links for complete site credibility."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:663
+#: inc/class-hfe-learn-api.php:671
 msgid "Footer Widgets in Elementor"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:668
+#: inc/class-hfe-learn-api.php:676
 msgid "Add Footer Widgets"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:678
+#: inc/class-hfe-learn-api.php:686
 msgid "Add More Powerful Widgets"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:679
+#: inc/class-hfe-learn-api.php:687
 msgid ""
 "Supercharge your pages with UAE's most popular content widgets for better "
 "engagement."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:684
+#: inc/class-hfe-learn-api.php:692
 msgid "Create Eye-Catching Info Cards"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:685
+#: inc/class-hfe-learn-api.php:693
 msgid ""
 "Display key features, services, or benefits with beautiful Info Card "
 "widgets that convert visitors into customers."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:692
+#: inc/class-hfe-learn-api.php:700
 msgid "Info Card Widget in Elementor"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:697
+#: inc/class-hfe-learn-api.php:705
 msgid "Add Info Card"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:707
+#: inc/class-hfe-learn-api.php:715
 msgid "Showcase Dynamic Content with Posts"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:708
+#: inc/class-hfe-learn-api.php:716
 msgid ""
 "Automatically display your latest blog posts, news, or updates with the "
 "Basic Posts widget for fresh, engaging content."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:715
+#: inc/class-hfe-learn-api.php:723
 msgid "Basic Posts Widget in Elementor"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:720
+#: inc/class-hfe-learn-api.php:728
 msgid "Add Posts Widget"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:731
+#: inc/class-hfe-learn-api.php:739
 msgid "Power Extensions"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:732
+#: inc/class-hfe-learn-api.php:740
 msgid ""
 "Enable time-saving features that streamline your workflow and enhance user "
 "experience."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:737
+#: inc/class-hfe-learn-api.php:745
 msgid "Duplicate Pages in One Click"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:738
+#: inc/class-hfe-learn-api.php:746
 msgid ""
 "Save hours by cloning any page or post instantly with Post Duplicator - "
 "perfect for creating template variations."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:745
+#: inc/class-hfe-learn-api.php:753
 msgid "Post Duplicator Extension"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:750
+#: inc/class-hfe-learn-api.php:758
 msgid "Enable UAE Duplicator"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:760
+#: inc/class-hfe-learn-api.php:768
 msgid "Add Scroll to Top Button"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:761 inc/class-hfe-learn-api.php:782
+#: inc/class-hfe-learn-api.php:769 inc/class-hfe-learn-api.php:790
 msgid ""
 "Improve navigation on long pages with a floating button that helps visitors "
 "jump back to the top effortlessly."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:768
+#: inc/class-hfe-learn-api.php:776
 msgid "Scroll To Top Setting"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:773
+#: inc/class-hfe-learn-api.php:781
 msgid "Enable Scroll Button"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:781
+#: inc/class-hfe-learn-api.php:789
 msgid "Add Reading Progress Bar"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:789
+#: inc/class-hfe-learn-api.php:797
 #: inc/widgets-manager/base/widgets-config.php:188
 #: inc/widgets-manager/extensions/class-reading-progress-bar-settings.php:38
 #: inc/widgets-manager/extensions/class-reading-progress-bar-settings.php:88
@@ -701,37 +2106,37 @@ msgstr ""
 msgid "Reading Progress Bar"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:794
+#: inc/class-hfe-learn-api.php:802
 #: inc/widgets-manager/extensions/class-reading-progress-bar-settings.php:96
 msgid "Enable Reading Progress Bar"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:809
+#: inc/class-hfe-learn-api.php:817
 msgid "Pro Features"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:810
+#: inc/class-hfe-learn-api.php:818
 msgid "Unlock advanced widgets and features with UAE Pro"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:814
+#: inc/class-hfe-learn-api.php:822
 msgid "Explore Pro Features"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:815
+#: inc/class-hfe-learn-api.php:823
 msgid "See what's available in the Pro version"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:817 inc/class-hfe-settings-page.php:767
-#: inc/class-hfe-settings-page.php:768
+#: inc/class-hfe-learn-api.php:825 inc/class-hfe-settings-page.php:782
+#: inc/class-hfe-settings-page.php:783
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:919
+#: inc/class-hfe-learn-api.php:964
 msgid "Progress saved successfully."
 msgstr ""
 
-#: inc/class-hfe-learn-api.php:938
+#: inc/class-hfe-learn-api.php:983
 msgid "Sorry, you cannot access this resource."
 msgstr ""
 
@@ -741,34 +2146,34 @@ msgid "%s Duplicator"
 msgstr ""
 
 #: inc/class-hfe-post-duplicator.php:209
+msgid "You must be logged in to duplicate posts."
+msgstr ""
+
+#: inc/class-hfe-post-duplicator.php:214
 msgid "No post to duplicate has been supplied!"
 msgstr ""
 
-#: inc/class-hfe-post-duplicator.php:217
+#: inc/class-hfe-post-duplicator.php:222
 msgid "Security check failed!"
 msgstr ""
 
-#: inc/class-hfe-post-duplicator.php:223
+#: inc/class-hfe-post-duplicator.php:228
 msgid "Post creation failed, could not find original post."
 msgstr ""
 
-#: inc/class-hfe-post-duplicator.php:228
+#: inc/class-hfe-post-duplicator.php:233
 msgid "Post type not supported for duplication."
 msgstr ""
 
-#: inc/class-hfe-post-duplicator.php:233
+#: inc/class-hfe-post-duplicator.php:238
 msgid "You do not have permission to duplicate this post."
 msgstr ""
 
-#: inc/class-hfe-post-duplicator.php:264
-msgid "Copy of %s"
-msgstr ""
-
-#: inc/class-hfe-post-duplicator.php:430
+#: inc/class-hfe-post-duplicator.php:445
 msgid "Post"
 msgstr ""
 
-#: inc/class-hfe-post-duplicator.php:439
+#: inc/class-hfe-post-duplicator.php:454
 #. translators: %1$s: Post type label, %2$s: Original post title
 msgid "%1$s duplicated successfully. You are now editing the duplicate of \"%2$s\"."
 msgstr ""
@@ -836,182 +2241,178 @@ msgstr ""
 msgid "Ultimate Addons for Elementor Lite <p>Rollback to Previous Version</p>"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:96
+#: inc/class-hfe-settings-page.php:91
 msgid "Go Pro"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:116
+#: inc/class-hfe-settings-page.php:111
 msgid "Rate our plugin"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:138
+#: inc/class-hfe-settings-page.php:133
 #. translators: %1$s is bold plugin name, %2$s is the review link
 msgid ""
 "Enjoyed %1$s? Please leave us a %2$s rating. We really appreciate your "
 "support!"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:166 inc/class-hfe-settings-page.php:1103
-#: inc/class-hfe-settings-page.php:1381
+#: inc/class-hfe-settings-page.php:161
 msgid "Ultimate Addons for Elementor"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:167
+#: inc/class-hfe-settings-page.php:162
 msgid ""
 "How likely are you to recommend Ultimate Addons for Elementor to your "
 "friends or colleagues?"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:169
+#: inc/class-hfe-settings-page.php:164
 msgid "Thanks a lot for your feedback! 😍"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:170
+#: inc/class-hfe-settings-page.php:165
 msgid ""
 "Thanks for using Ultimate Addons! Got feedback or suggestions to make it "
 "even better? We’d love to hear from you."
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:173
+#: inc/class-hfe-settings-page.php:168
 msgid "Thank you for your feedback"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:174
+#: inc/class-hfe-settings-page.php:169
 msgid "We value your input. How can we improve your experience?"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:218
+#: inc/class-hfe-settings-page.php:213
 msgid "You do not have permission to access this page."
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:219 inc/class-hfe-settings-page.php:254
+#: inc/class-hfe-settings-page.php:214 inc/class-hfe-settings-page.php:249
 msgid "Rollback to Previous Version"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:235
-msgid ""
-"Error occurred, The version selected is invalid. Try selecting different "
-"version."
+#: inc/class-hfe-settings-page.php:230
+msgid "The selected version is invalid. Please try a different version."
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:474 inc/class-hfe-settings-page.php:1312
+#: inc/class-hfe-settings-page.php:491
 msgid "Activate"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:475 inc/class-hfe-settings-page.php:1304
+#: inc/class-hfe-settings-page.php:492
 msgid "Activated"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:476 inc/class-hfe-settings-page.php:1301
+#: inc/class-hfe-settings-page.php:493
 #: inc/widgets-manager/widgets/navigation-menu/navigation-menu.php:1064
 #: inc/widgets-manager/widgets/navigation-menu/navigation-menu.php:1247
 msgid "Active"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:477
+#: inc/class-hfe-settings-page.php:494
 msgid "Deactivate"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:478 inc/class-hfe-settings-page.php:1309
+#: inc/class-hfe-settings-page.php:495
 msgid "Inactive"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:479 inc/class-hfe-settings-page.php:1325
+#: inc/class-hfe-settings-page.php:496
 msgid "Install"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:480
+#: inc/class-hfe-settings-page.php:497
 msgid "Theme Installed"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:481
+#: inc/class-hfe-settings-page.php:498
 msgid "Plugin Installed"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:482
+#: inc/class-hfe-settings-page.php:499
 msgid "Download"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:483
+#: inc/class-hfe-settings-page.php:500
 msgid "Already Exists."
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:484 inc/class-hfe-settings-page.php:1330
+#: inc/class-hfe-settings-page.php:501
 msgid "Visit Website"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:485
+#: inc/class-hfe-settings-page.php:502
 msgid "Could not install. Please download from WordPress.org and install manually."
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:486
+#: inc/class-hfe-settings-page.php:503
 msgid "Your details are submitted successfully."
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:487
+#: inc/class-hfe-settings-page.php:504
 msgid "Encountered an error while performing your request."
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:560
+#: inc/class-hfe-settings-page.php:577
 msgid "Add Theme Support"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:576
+#: inc/class-hfe-settings-page.php:591
 msgid ""
-"The Ultimate Addons for Elementor plugin need compatibility with your "
-"current theme to work smoothly.</br></br>Following are two methods that "
-"enable theme support for the plugin.</br></br>Method 1 is selected by "
-"default and that works fine almost will all themes. In case, you face any "
-"issue with the header or footer template, try choosing Method 2."
+"The Ultimate Addons for Elementor plugin needs compatibility with your "
+"current theme to work smoothly.<br/><br/>Following are two methods that "
+"enable theme support for the plugin.<br/><br/>Method 1 is selected by "
+"default and works fine with almost all themes. If you face any issue with "
+"the header or footer template, try choosing Method 2."
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:595
-msgid " Method 1 (Recommended)"
+#: inc/class-hfe-settings-page.php:610
+msgid "Method 1 (Recommended)"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:596
+#: inc/class-hfe-settings-page.php:611
 msgid ""
 "This method replaces your theme's header (header.php) & footer (footer.php) "
 "template with plugin's custom templates."
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:599
+#: inc/class-hfe-settings-page.php:614
 msgid "Method 2"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:603
+#: inc/class-hfe-settings-page.php:618
 msgid ""
 "This method hides your theme's header & footer template with CSS and "
 "displays custom templates from the plugin."
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:614
+#: inc/class-hfe-settings-page.php:629
 #. translators: %s: URL to the plugin support page
 msgid ""
-"Sometimes above methods might not work well with your theme, in this case, "
-"contact your theme author and request them to add support for the <a "
-"href=\"%s\">plugin.</a>"
+"If the above methods do not work with your theme, contact your theme author "
+"and request them to add support for the <a href=\"%s\">plugin</a>."
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:646 inc/class-hfe-settings-page.php:658
+#: inc/class-hfe-settings-page.php:661 inc/class-hfe-settings-page.php:673
 msgid "UAE Lite"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:647
+#: inc/class-hfe-settings-page.php:662
 #: inc/widgets-manager/class-widgets-loader.php:165
 msgid "UAE"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:659
+#: inc/class-hfe-settings-page.php:674
 msgid "Dashboard"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:669 inc/class-hfe-settings-page.php:670
+#: inc/class-hfe-settings-page.php:684 inc/class-hfe-settings-page.php:685
 msgid "Widgets"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:680 inc/class-hfe-settings-page.php:681
-#: inc/class-hfe-settings-page.php:1452
+#: inc/class-hfe-settings-page.php:695 inc/class-hfe-settings-page.php:696
+#: inc/class-hfe-settings-page.php:853
 #: inc/widgets-manager/base/widgets-config.php:362
 #: inc/widgets-manager/base/widgets-config.php:418
 #: inc/widgets-manager/base/widgets-config.php:501
@@ -1024,219 +2425,43 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:691 inc/class-hfe-settings-page.php:692
-#: inc/class-hfe-settings-page.php:703
+#: inc/class-hfe-settings-page.php:706 inc/class-hfe-settings-page.php:707
+#: inc/class-hfe-settings-page.php:718
 msgid "Onboarding"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:704
-msgid "Onboardingsuccess"
+#: inc/class-hfe-settings-page.php:719
+msgid "Onboarding Success"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:756 inc/class-hfe-settings-page.php:757
+#: inc/class-hfe-settings-page.php:771 inc/class-hfe-settings-page.php:772
 msgid "Get Help"
 msgstr ""
 
-#: inc/class-hfe-settings-page.php:824
-msgid "Elementor Header & Footer Builder "
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:882
-msgid "All Templates"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:889
-msgid "About Us"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:935
-#. translators: 1: Elementor, 2: Link to plugin review
-msgid ""
-"Help us spread the word about the plugin by leaving %2$s %1$s %3$s ratings "
-"on %2$s WordPress.org %3$s. Thank you from the Brainstorm Force team!"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:978
-msgid "Create Impressive Header and Footer Designs"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:979
-msgid ""
-"Elementor Header & Footer Builder plugin lets you build impactful "
-"navigation for your website very easily. Before we begin, we would like to "
-"know more about you. This will help us to serve you better."
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:993
-#. translators: %1$s and %3$s are opening anchor tags, and %2$s and %4$s is
-#. closing anchor tags.
-msgid "By submitting, you agree to our %1$sTerms%2$s and %3$sPrivacy Policy%4$s."
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1011
-msgid "Skip"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1029
-msgid "Beginner"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1030
-msgid "Intermediate"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1031
-msgid "Expert"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1033 inc/class-hfe-settings-page.php:1042
-msgid "Field is required"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1034
-msgid "I'm a WordPress:"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1039
-msgid "Myself/My company"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1040
-msgid "My client"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1043
-msgid "I'm building website for:"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1066
-msgid "First name is required"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1067
-msgid "Your First Name"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1071
-msgid "Email address is required"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1072
-msgid "Your Work Email"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1076
-msgid "I agree to receive your newsletters and accept the data privacy statement."
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1081
-msgid "Submit"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1138
-#. translators: %s: theme name
-msgid ""
-"Powering over 1+ Million websites, %s is loved for the fast performance and "
-"ease of use it offers. It is suitable for all kinds of websites like blogs, "
-"portfolios, business, and WooCommerce stores."
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1159
-msgid "Welcome to Elementor Header & Footer Builder!"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1161
-msgid ""
-"With this awesome plugin, experience the easiest way to create a customized "
-"header and footer for your website with Elementor. That too 100% FREE!"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1163
-msgid ""
-"Design beautiful layouts with simple drag & drop and display them at "
-"desired location with powerful target controls. The plugin comes with "
-"inbuilt Elementor widgets that offer essential features to build header and "
-"footer. It's a lightweight plugin that works seamlessly with all themes and "
-"backed up by 24/7 support."
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1165
-msgid ""
-"Trusted by more than 1+ Million users, Elementor Header & Footer Builder is "
-"a modern way to build advanced navigation for your website."
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1168
-#. translators: %s: theme name
-msgid ""
-"This plugin is brought to you by the same team behind the popular WordPress "
-"theme %s and a series of Ultimate Addons plugins."
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1174
-msgid "Team photo"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1176
-msgid "Brainstorm Force Team"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1221
-#. translators: %s - addon status label.
-msgid "%1$s %3$s %2$s"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1238
-#. translators: %s - addon status label.
-msgid "Status: %s"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1257
-msgid "WordPress.org"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1322
-msgid "Not Installed"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1369
-#: inc/widgets-manager/base/widgets-config.php:1182
-msgid "Starter Templates"
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1370
-msgid ""
-"A popular templates plugin that provides an extensive library of "
-"professional and fully customizable 600+ ready website and templates. More "
-"than 1+ Million websites have built with this plugin."
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1382
-msgid ""
-"It’s a collection of 40+ unique, creative, and optimized Elementor widgets "
-"with 100+ readymade templates. Trusted by more than 600+ K web "
-"professionals. It’s a #1 toolkit for Elementor Page Builder."
-msgstr ""
-
-#: inc/class-hfe-settings-page.php:1451
+#: inc/class-hfe-settings-page.php:852
 msgid "Go to UAE Settings page"
 msgstr ""
 
-#: inc/lib/astra-notices/class-astra-notices.php:146
-msgid "WordPress Nonce not validated."
-msgstr ""
-
-#: inc/lib/astra-notices/class-astra-notices.php:153
+#: inc/lib/astra-notices/class-bsf-admin-notices.php:176
+#: inc/lib/astra-notices/class-bsf-admin-notices.php:183
 msgid "Invalid notice ID."
 msgstr ""
 
-#: inc/lib/nps-survey/classes/nps-survey-script.php:277
+#: inc/lib/nps-survey/classes/nps-survey-script.php:313
 msgid "Sorry, you are not allowed to do that."
 msgstr ""
 
-#: inc/lib/nps-survey/classes/nps-survey-script.php:331
-#: inc/lib/nps-survey/classes/nps-survey-script.php:449
+#: inc/lib/nps-survey/classes/nps-survey-script.php:366
+#: inc/lib/nps-survey/classes/nps-survey-script.php:486
 msgid "Nonce verification failed."
+msgstr ""
+
+#: inc/lib/nps-survey/classes/nps-survey-script.php:431
+msgid "Remote request failed."
+msgstr ""
+
+#: inc/lib/nps-survey/classes/nps-survey-script.php:466
+msgid "Request failed."
 msgstr ""
 
 #: inc/lib/target-rule/class-astra-target-rules-fields.php:127
@@ -1375,7 +2600,7 @@ msgstr ""
 #: inc/lib/target-rule/class-astra-target-rules-fields.php:779
 #: inc/lib/target-rule/class-astra-target-rules-fields.php:1084
 #: inc/lib/target-rule/class-astra-target-rules-fields.php:1114
-#: inc/lib/target-rule/class-astra-target-rules-fields.php:1576
+#: inc/lib/target-rule/class-astra-target-rules-fields.php:1577
 msgid "Select"
 msgstr ""
 
@@ -1391,35 +2616,48 @@ msgstr ""
 msgid "All %s Archive"
 msgstr ""
 
-#: inc/lib/target-rule/class-astra-target-rules-fields.php:1517
+#: inc/lib/target-rule/class-astra-target-rules-fields.php:1518
 #. translators: %s post title.
 msgid "The same display setting is already exist in %s post/s."
 msgstr ""
 
-#: inc/settings/hfe-settings-api.php:121
+#: inc/settings/hfe-settings-api.php:148
 msgid "Sorry, you are not authorized to perform this action."
 msgstr ""
 
-#: inc/settings/hfe-settings-api.php:136 inc/settings/hfe-settings-api.php:163
-#: inc/settings/hfe-settings-api.php:190 inc/settings/hfe-settings-api.php:217
-#: inc/settings/hfe-settings-api.php:249
+#: inc/settings/hfe-settings-api.php:163 inc/settings/hfe-settings-api.php:190
+#: inc/settings/hfe-settings-api.php:217 inc/settings/hfe-settings-api.php:244
+#: inc/settings/hfe-settings-api.php:276 inc/settings/hfe-settings-api.php:346
+#: inc/settings/hfe-settings-api.php:401 inc/settings/hfe-settings-api.php:428
 msgid "Invalid nonce"
 msgstr ""
 
-#: inc/settings/hfe-settings-api.php:170
+#: inc/settings/hfe-settings-api.php:197
 msgid "Plugins list not found"
 msgstr ""
 
-#: inc/settings/hfe-settings-api.php:197
+#: inc/settings/hfe-settings-api.php:224
 msgid "Recommended plugins list not found"
 msgstr ""
 
-#: inc/settings/hfe-settings-api.php:224
+#: inc/settings/hfe-settings-api.php:251
 msgid "Widgets list not found"
 msgstr ""
 
-#: inc/settings/hfe-settings-api.php:281
+#: inc/settings/hfe-settings-api.php:287
+msgid "Invalid domain provided."
+msgstr ""
+
+#: inc/settings/hfe-settings-api.php:312
 msgid "Error calling endpoint"
+msgstr ""
+
+#: inc/settings/hfe-settings-api.php:320
+msgid "Failed to send email. Please try again later."
+msgstr ""
+
+#: inc/settings/hfe-settings-api.php:438
+msgid "Invalid parameters."
 msgstr ""
 
 #: inc/widgets-manager/base/widgets-config.php:54
@@ -1481,7 +2719,7 @@ msgstr ""
 #: inc/widgets-manager/base/widgets-config.php:148
 #: inc/widgets-manager/extensions/class-scroll-to-top-settings.php:49
 #: inc/widgets-manager/extensions/class-scroll-to-top-settings.php:117
-#: inc/widgets-manager/extensions/class-scroll-to-top.php:310
+#: inc/widgets-manager/extensions/class-scroll-to-top.php:315
 msgid "Scroll to Top"
 msgstr ""
 
@@ -2161,6 +3399,10 @@ msgid ""
 "conditions, and webhooks for a seamless experience."
 msgstr ""
 
+#: inc/widgets-manager/base/widgets-config.php:1182
+msgid "Starter Templates"
+msgstr ""
+
 #: inc/widgets-manager/base/widgets-config.php:1183
 msgid ""
 "Quickly launch websites with 300+ professionally designed Elementor "
@@ -2198,7 +3440,7 @@ msgstr ""
 #: inc/widgets-manager/extensions/class-reading-progress-bar-settings.php:98
 #: inc/widgets-manager/extensions/class-reading-progress-bar.php:168
 #: inc/widgets-manager/extensions/class-scroll-to-top-settings.php:127
-#: inc/widgets-manager/extensions/class-scroll-to-top.php:321
+#: inc/widgets-manager/extensions/class-scroll-to-top.php:326
 #: inc/widgets-manager/widgets/basic-posts/basic-posts.php:191
 #: inc/widgets-manager/widgets/basic-posts/basic-posts.php:272
 #: inc/widgets-manager/widgets/basic-posts/basic-posts.php:315
@@ -2229,7 +3471,7 @@ msgstr ""
 #: inc/widgets-manager/extensions/class-reading-progress-bar-settings.php:99
 #: inc/widgets-manager/extensions/class-reading-progress-bar.php:169
 #: inc/widgets-manager/extensions/class-scroll-to-top-settings.php:128
-#: inc/widgets-manager/extensions/class-scroll-to-top.php:322
+#: inc/widgets-manager/extensions/class-scroll-to-top.php:327
 #: inc/widgets-manager/widgets/basic-posts/basic-posts.php:192
 #: inc/widgets-manager/widgets/basic-posts/basic-posts.php:273
 #: inc/widgets-manager/widgets/basic-posts/basic-posts.php:316
@@ -2540,8 +3782,8 @@ msgstr ""
 msgid "Border Radius"
 msgstr ""
 
-#: inc/widgets-manager/extensions/class-scroll-to-top.php:318
-msgid "Disable Scroll to Top For This Page"
+#: inc/widgets-manager/extensions/class-scroll-to-top.php:323
+msgid "Disable Scroll to Top for This Page"
 msgstr ""
 
 #: inc/widgets-manager/widgets/basic-posts/basic-posts.php:110
@@ -4213,6 +5455,10 @@ msgstr ""
 
 #: inc/widgets-manager/widgets/woo-product-grid/woo-product-grid.php:1171
 msgid "No products found."
+msgstr ""
+
+#: themes/default/hfe-header.php:32
+msgid "Skip to main content"
 msgstr ""
 
 #. Plugin Name of the plugin/theme

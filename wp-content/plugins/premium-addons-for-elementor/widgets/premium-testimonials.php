@@ -99,10 +99,11 @@ class Premium_Testimonials extends Widget_Base {
 
 		if ( $is_edit ) {
 
-			$scripts = array( 'pa-glass', 'pa-slick' );
+			$scripts = array( 'isotope-js', 'pa-glass', 'pa-slick' );
 
 		} else {
-			$settings = $this->get_settings();
+			$settings     = $this->get_settings();
+			$load_masonry = 'masonry' === $settings['premium_testimonial_layout'] && 'yes' !== $settings['carousel'] && 'skin4' !== $settings['skin'];
 
 			if ( 'yes' === $settings['carousel'] || 'skin4' === $settings['skin'] ) {
 				$scripts[] = 'pa-slick';
@@ -110,6 +111,10 @@ class Premium_Testimonials extends Widget_Base {
 				if ( 'none' !== $settings['arrows_lq_effect'] ) {
 					$scripts[] = 'pa-glass';
 				}
+			}
+
+			if ( $load_masonry ) {
+				$scripts[] = 'isotope-js';
 			}
 		}
 
@@ -746,6 +751,34 @@ class Premium_Testimonials extends Widget_Base {
 			)
 		);
 
+		$this->add_control(
+			'premium_testimonial_layout',
+			array(
+				'label'              => esc_html__( 'Layout', 'premium-addons-for-elementor' ),
+				'type'               => Controls_Manager::CHOOSE,
+				'render_type'        => 'template',
+				'separator'          => 'before',
+				'options'            => array(
+					'grid'    => array(
+						'title' => esc_html__( 'Grid', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-gallery-grid',
+					),
+					'masonry' => array(
+						'title' => esc_html__( 'Masonry', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-gallery-masonry',
+					),
+				),
+				'label_block'        => true,
+				'frontend_available' => true,
+				'default'            => 'grid',
+				'condition'          => array(
+					'multiple'  => 'yes',
+					'skin!'     => 'skin4',
+					'carousel!' => 'yes',
+				),
+			)
+		);
+
 		$this->add_responsive_control(
 			'testimonials_per_row',
 			array(
@@ -810,10 +843,33 @@ class Premium_Testimonials extends Widget_Base {
 			array(
 				'label'        => __( 'Equal Height', 'premium-addons-for-elementor' ),
 				'type'         => Controls_Manager::SWITCHER,
+				'render_type'  => 'template',
 				'description'  => __( 'This option searches for the testimonial with the largest height and applies that height to the other testimonials', 'premium-addons-for-elementor' ),
 				'prefix_class' => 'premium-testimonial__equal-',
-				'condition'    => array(
-					'multiple' => 'yes',
+				'conditions'   => array(
+					'relation' => 'and',
+					'terms'    => array(
+						array(
+							'name'     => 'multiple',
+							'operator' => '===',
+							'value'    => 'yes',
+						),
+						array(
+							'relation' => 'or',
+							'terms'    => array(
+								array(
+									'name'     => 'premium_testimonial_layout',
+									'operator' => '!==',
+									'value'    => 'masonry',
+								),
+								array(
+									'name'     => 'carousel',
+									'operator' => '===',
+									'value'    => 'yes',
+								),
+							),
+						),
+					),
 				),
 			)
 		);
@@ -1265,11 +1321,6 @@ class Premium_Testimonials extends Widget_Base {
 				'label'      => __( 'Top Icon Position', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', 'em', '%' ),
-				// 'default'    => array(
-				// 'top'  => 0,
-				// 'left' => 12,
-				// 'unit' => 'px',
-				// ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-testimonial-upper-quote' => 'top: {{TOP}}{{UNIT}}; left:{{LEFT}}{{UNIT}};',
 				),
@@ -1285,11 +1336,6 @@ class Premium_Testimonials extends Widget_Base {
 				'label'      => __( 'Bottom Icon Position', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', 'em', '%' ),
-				// 'default'    => array(
-				// 'bottom' => 3,
-				// 'right'  => 12,
-				// 'unit'   => 'px',
-				// ),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-testimonial-lower-quote' => 'right: {{RIGHT}}{{UNIT}}; bottom: {{BOTTOM}}{{UNIT}};',
 				),
@@ -1306,10 +1352,6 @@ class Premium_Testimonials extends Widget_Base {
 			array(
 				'label'      => __( 'Carousel Arrows', 'premium-addons-for-elementor' ),
 				'tab'        => Controls_Manager::TAB_STYLE,
-				// 'condition' => array(
-				// 'carousel' => 'yes',
-				// 'skin!'    => 'skin4',
-				// ),
 				'conditions' => array(
 					'terms' => array(
 						array(
@@ -1681,6 +1723,9 @@ class Premium_Testimonials extends Widget_Base {
 				'condition' => array(
 					'container_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -1762,9 +1807,10 @@ class Premium_Testimonials extends Widget_Base {
 			$this->add_inline_editing_attributes( 'heading' );
 			$this->add_inline_editing_attributes( 'premium_testimonial_content', 'advanced' );
 
-			if ( 'yes' === $show_image ) {
+			$image_src = '';
+			$alt       = '';
 
-				$image_src = '';
+			if ( 'yes' === $show_image ) {
 
 				if ( ! empty( $settings['premium_testimonial_person_image']['url'] ) ) {
 					$image_src = $settings['premium_testimonial_person_image']['url'];
@@ -1783,15 +1829,18 @@ class Premium_Testimonials extends Widget_Base {
 			$testimonials = $settings['multiple_testimonials'];
 
 			$this->add_render_attribute( 'testimonials_container', 'class', 'multiple-testimonials' );
-			// $this->add_render_attribute( 'testimonials_container', 'data-testimonials-equal', $settings['multiple_equal_height'] );
 
+		}
+
+		if ( 'yes' === $settings['multiple'] && 'masonry' === $settings['premium_testimonial_layout'] && 'yes' !== $settings['carousel'] ) {
+			$this->add_render_attribute( 'testimonials_container', 'class', 'premium-testimonial-masonry' );
 		}
 
 		$carousel = 'yes' === $settings['carousel'] ? true : false;
 
 		if ( $carousel ) {
 
-			$this->add_render_attribute( 'testimonials_container', 'data-carousel', $carousel );
+			$this->add_render_attribute( 'testimonials_container', 'data-carousel', 'true' );
 
 			$this->add_render_attribute(
 				'testimonials_container',
@@ -1811,15 +1860,15 @@ class Premium_Testimonials extends Widget_Base {
 
 			foreach ( $testimonials as $index => $testimonial ) {
 
-				$testionial_image_html = $this->get_author_image( $testimonial );
-				$images_markup        .= '<div class="premium-testimonial__carousel-img premium-testimonial-img-wrapper" data-index="' . $index . '">' . $testionial_image_html . '</div>';
+				$testimonial_image_html = $this->get_author_image( $testimonial );
+				$images_markup         .= '<div class="premium-testimonial__carousel-img premium-testimonial-img-wrapper" data-index="' . $index . '">' . $testimonial_image_html . '</div>';
 			}
 
 			echo '<div class="premium-testimonial__carousel">' . wp_kses_post( $images_markup ) . '</div>';
 		}
 		?>
 
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'testimonials_container' ) ); ?>>
+		<div <?php $this->print_render_attribute_string( 'testimonials_container' ); ?>>
 
 			<?php if ( 'yes' !== $settings['multiple'] ) : ?>
 
@@ -1835,21 +1884,21 @@ class Premium_Testimonials extends Widget_Base {
 
 						<?php if ( ! empty( $settings['heading'] ) ) : ?>
 							<div class="premium-testimonial-heading">
-								<p <?php echo wp_kses_post( $this->get_render_attribute_string( 'heading' ) ); ?>>
+								<p <?php $this->print_render_attribute_string( 'heading' ); ?>>
 									<?php echo wp_kses_post( $settings['heading'] ); ?>
 								</p>
 							</div>
 						<?php endif; ?>
 
 						<div class="premium-testimonial-text-wrapper">
-							<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_testimonial_content' ) ); ?>>
+							<div <?php $this->print_render_attribute_string( 'premium_testimonial_content' ); ?>>
 								<?php echo $this->parse_text_editor( $settings['premium_testimonial_content'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 							</div>
 						</div>
 
 						<?php if ( ! empty( $settings['rating'] ) ) : ?>
 							<div class="premium-testimonial__rating-wrapper">
-								<?php echo Helper_Functions::render_rating_stars( $settings['rating'], $settings['fill'], $settings['empty'], $settings['star_size'] ); ?>
+								<?php Helper_Functions::render_rating_stars( $settings['rating'], $settings['fill'], $settings['empty'], $settings['star_size'] ); ?>
 							</div>
 						<?php endif; ?>
 
@@ -1859,7 +1908,7 @@ class Premium_Testimonials extends Widget_Base {
 
 
 							<?php if ( ! empty( $image_src ) ) : ?>
-								<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'img_wrap' ) ); ?>>
+								<div <?php $this->print_render_attribute_string( 'img_wrap' ); ?>>
 									<img src="<?php echo esc_url( $image_src ); ?>" alt="<?php echo esc_attr( $alt ); ?>" class="premium-testimonial-person-image">
 								</div>
 							<?php endif; ?>
@@ -1867,7 +1916,7 @@ class Premium_Testimonials extends Widget_Base {
 
 							<div class="premium-testimonial-author-info">
 								<<?php echo wp_kses_post( $person_title_tag ); ?> class="premium-testimonial-person-name">
-									<span <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_testimonial_person_name' ) ); ?>>
+									<span <?php $this->print_render_attribute_string( 'premium_testimonial_person_name' ); ?>>
 										<?php echo wp_kses_post( $settings['premium_testimonial_person_name'] ); ?>
 									</span>
 								</<?php echo wp_kses_post( $person_title_tag ); ?>>
@@ -1875,13 +1924,13 @@ class Premium_Testimonials extends Widget_Base {
 								<?php if ( ! empty( $settings['premium_testimonial_company_name'] ) ) : ?>
 									<<?php echo wp_kses_post( $job_tag ); ?> class="premium-testimonial-job">
 									<?php if ( 'yes' === $settings['premium_testimonial_company_link_switcher'] ) : ?>
-										<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'link' ) ); ?>>
-											<span <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_testimonial_company_name' ) ); ?>>
+										<a <?php $this->print_render_attribute_string( 'link' ); ?>>
+											<span <?php $this->print_render_attribute_string( 'premium_testimonial_company_name' ); ?>>
 												<?php echo wp_kses_post( $settings['premium_testimonial_company_name'] ); ?>
 											</span>
 										</a>
 									<?php else : ?>
-										<span class="premium-testimonial-company-link" <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_testimonial_company_name' ) ); ?>>
+										<span class="premium-testimonial-company-link" <?php $this->print_render_attribute_string( 'premium_testimonial_company_name' ); ?>>
 											<?php echo wp_kses_post( $settings['premium_testimonial_company_name'] ); ?>
 										</span>
 									<?php endif; ?>
@@ -1914,7 +1963,7 @@ class Premium_Testimonials extends Widget_Base {
 				foreach ( $testimonials as $index => $testimonial ) :
 
 					if ( 'yes' === $show_image ) {
-						$testionial_image_html = $this->get_author_image( $testimonial );
+						$testimonial_image_html = $this->get_author_image( $testimonial );
 					}
 
 					if ( 'yes' === $testimonial['link_switcher'] ) {
@@ -1937,21 +1986,21 @@ class Premium_Testimonials extends Widget_Base {
 
 							<?php if ( ! empty( $testimonial['heading'] ) ) : ?>
 								<div class="premium-testimonial-heading">
-									<p <?php echo wp_kses_post( $this->get_render_attribute_string( 'heading' ) ); ?>>
+									<p <?php $this->print_render_attribute_string( 'heading' ); ?>>
 										<?php echo wp_kses_post( $testimonial['heading'] ); ?>
 									</p>
 								</div>
 							<?php endif; ?>
 
 							<div class="premium-testimonial-text-wrapper">
-								<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_testimonial_content' ) ); ?>>
+								<div <?php $this->print_render_attribute_string( 'premium_testimonial_content' ); ?>>
 									<?php echo $this->parse_text_editor( $testimonial['content'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 								</div>
 							</div>
 
 							<?php if ( ! empty( $testimonial['rating'] ) ) : ?>
 								<div class="premium-testimonial__rating-wrapper">
-									<?php echo Helper_Functions::render_rating_stars( $testimonial['rating'], $settings['fill'], $settings['empty'], $settings['star_size'] ); ?>
+									<?php Helper_Functions::render_rating_stars( $testimonial['rating'], $settings['fill'], $settings['empty'], $settings['star_size'] ); ?>
 								</div>
 							<?php endif; ?>
 
@@ -1960,16 +2009,16 @@ class Premium_Testimonials extends Widget_Base {
 							<?php endif; ?>
 
 								<?php if ( 'skin4' !== $settings['skin'] ) : ?>
-									<?php if ( ! empty( $testionial_image_html ) ) : ?>
-										<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'img_wrap' ) ); ?>>
-											<?php echo wp_kses_post( $testionial_image_html ); ?>
+									<?php if ( ! empty( $testimonial_image_html ) ) : ?>
+										<div <?php $this->print_render_attribute_string( 'img_wrap' ); ?>>
+											<?php echo wp_kses_post( $testimonial_image_html ); ?>
 										</div>
 									<?php endif; ?>
 								<?php endif; ?>
 
 								<div class="premium-testimonial-author-info">
 									<<?php echo wp_kses_post( $person_title_tag ); ?> class="premium-testimonial-person-name">
-										<span <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_testimonial_person_name' ) ); ?>>
+										<span <?php $this->print_render_attribute_string( 'premium_testimonial_person_name' ); ?>>
 											<?php echo wp_kses_post( $testimonial['person_name'] ); ?>
 										</span>
 									</<?php echo wp_kses_post( $person_title_tag ); ?>>
@@ -1977,13 +2026,13 @@ class Premium_Testimonials extends Widget_Base {
 									<?php if ( ! empty( $testimonial['company_name'] ) ) : ?>
 										<<?php echo wp_kses_post( $job_tag ); ?> class="premium-testimonial-job">
 										<?php if ( 'yes' === $testimonial['link_switcher'] ) : ?>
-											<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'link_' . $index ) ); ?>>
-												<span <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_testimonial_company_name' ) ); ?>>
+											<a <?php $this->print_render_attribute_string( 'link_' . $index ); ?>>
+												<span <?php $this->print_render_attribute_string( 'premium_testimonial_company_name' ); ?>>
 													<?php echo wp_kses_post( $testimonial['company_name'] ); ?>
 												</span>
 											</a>
 										<?php else : ?>
-											<span class="premium-testimonial-company-link" <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_testimonial_company_name' ) ); ?>>
+											<span class="premium-testimonial-company-link" <?php $this->print_render_attribute_string( 'premium_testimonial_company_name' ); ?>>
 												<?php echo wp_kses_post( $testimonial['company_name'] ); ?>
 											</span>
 										<?php endif; ?>
@@ -2002,13 +2051,21 @@ class Premium_Testimonials extends Widget_Base {
 								<?php $this->render_quote_icon(); ?>
 							</div>
 						<?php endif; ?>
-
 					</div>
 
 				<?php endforeach; ?>
-			<?php endif; ?>
+				<?php
+					endif;
 
+			if ( Plugin::instance()->editor->is_edit_mode() ) {
 
+				if ( 'yes' === $settings['multiple'] ) {
+					if ( 'masonry' === $settings['premium_testimonial_layout'] && 'yes' !== $settings['carousel'] ) {
+						$this->render_editor_script();
+					}
+				}
+			}
+			?>
 		</div>
 		<?php
 	}
@@ -2025,11 +2082,11 @@ class Premium_Testimonials extends Widget_Base {
 
 		if ( 'rounded' === $settings['icon_style'] ) {
 
-			$svg_html = '<svg id="Layer_1" class="premium-testimonial-quote" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="48" height="37" viewBox="0 0 48 37"><path d="m37,37c6.07,0,11-4.93,11-11s-4.93-11-11-11c-.32,0-.63.02-.94.05.54-4.81,2.18-9.43,4.79-13.52.19-.31.2-.7.03-1.01-.18-.32-.51-.52-.88-.52h-2c-.27,0-.54.11-.73.31-5.14,5.41-11.27,14.26-11.27,25.69,0,6.07,4.93,10.99,11,11h0Zm-26,0c6.07,0,11-4.93,11-11s-4.93-11-11-11c-.32,0-.63.02-.94.05.54-4.81,2.18-9.43,4.79-13.52.19-.31.2-.7.03-1.01-.18-.32-.51-.52-.87-.52h-2c-.27,0-.54.11-.73.31C6.13,5.72,0,14.57,0,26c0,6.07,4.93,10.99,11,11h0Zm0,0"/></svg>';
+			$svg_html = '<svg  class="premium-testimonial-quote" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="48" height="37" viewBox="0 0 48 37"><path d="m37,37c6.07,0,11-4.93,11-11s-4.93-11-11-11c-.32,0-.63.02-.94.05.54-4.81,2.18-9.43,4.79-13.52.19-.31.2-.7.03-1.01-.18-.32-.51-.52-.88-.52h-2c-.27,0-.54.11-.73.31-5.14,5.41-11.27,14.26-11.27,25.69,0,6.07,4.93,10.99,11,11h0Zm-26,0c6.07,0,11-4.93,11-11s-4.93-11-11-11c-.32,0-.63.02-.94.05.54-4.81,2.18-9.43,4.79-13.52.19-.31.2-.7.03-1.01-.18-.32-.51-.52-.87-.52h-2c-.27,0-.54.11-.73.31C6.13,5.72,0,14.57,0,26c0,6.07,4.93,10.99,11,11h0Zm0,0"/></svg>';
 
 		} else {
 
-			$svg_html = '<svg id="Layer_1" class="premium-testimonial-quote" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="48" height="37.5" viewBox="0 0 48 37.5"><path d="m21,16.5v21H0v-21.3C0,1.8,13.5,0,13.5,0l1.8,4.2s-6,.9-7.2,5.7c-1.2,3.6,1.2,6.6,1.2,6.6h11.7Zm27,0v21h-21v-21.3C27,1.8,40.5,0,40.5,0l1.8,4.2s-6,.9-7.2,5.7c-1.2,3.6,1.2,6.6,1.2,6.6h11.7Z"/></svg>';
+			$svg_html = '<svg  class="premium-testimonial-quote" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="48" height="37.5" viewBox="0 0 48 37.5"><path d="m21,16.5v21H0v-21.3C0,1.8,13.5,0,13.5,0l1.8,4.2s-6,.9-7.2,5.7c-1.2,3.6,1.2,6.6,1.2,6.6h11.7Zm27,0v21h-21v-21.3C27,1.8,40.5,0,40.5,0l1.8,4.2s-6,.9-7.2,5.7c-1.2,3.6,1.2,6.6,1.2,6.6h11.7Z"/></svg>';
 		}
 
 		echo $svg_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -2043,17 +2100,78 @@ class Premium_Testimonials extends Widget_Base {
 	 */
 	protected function get_author_image( $testimonial ) {
 
-		$testionial_image_html = '';
+		$testimonial_image_html = '';
 		if ( ! empty( $testimonial['person_image']['url'] ) ) {
 
 			$image_src = $testimonial['person_image']['url'];
-			$image_id  = attachment_url_to_postid( $image_src );
+			$image_id  = attachment_url_to_postid( $image_src ); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.attachment_url_to_postid_attachment_url_to_postid -- Core fn; wpcom_vip_attachment_url_to_postid() only exists on WP VIP.
 
 			$settings['image_data'] = Helper_Functions::get_image_data( $image_id, $testimonial['person_image']['url'], 'thumbnail' );
-			$testionial_image_html  = Group_Control_Image_Size::get_attachment_image_html( $settings, 'thumbnail', 'image_data' );
+			$testimonial_image_html = Group_Control_Image_Size::get_attachment_image_html( $settings, 'thumbnail', 'image_data' );
 
 		}
 
-		return $testionial_image_html;
+		return $testimonial_image_html;
+	}
+
+	/**
+	 * Render Editor Masonry Script.
+	 *
+	 * @since 4.10.13
+	 * @access protected
+	 */
+	protected function render_editor_script() {
+
+		?>
+		<script type="text/javascript">
+			jQuery( document ).ready( function( $ ) {
+
+				$( '.premium-testimonial-box' ).each( function() {
+
+					var $node_id 	= '<?php echo esc_attr( $this->get_id() ); ?>',
+						scope 		= $( '[data-id="' + $node_id + '"]' ),
+						selector 	= $(this);
+
+					if ( selector.closest( scope ).length < 1 ) {
+						return;
+					}
+
+					var masonryArgs = {
+						itemSelector	: '.premium-testimonial-container',
+						percentPosition : true,
+						layoutMode		: 'masonry',
+					};
+
+					var $isotopeObj = {};
+
+					selector.imagesLoaded( function() {
+
+						$isotopeObj = selector.isotope( masonryArgs );
+
+						$isotopeObj.imagesLoaded().progress(function() {
+							$isotopeObj.isotope("layout");
+						});
+
+						selector.find('.premium-testimonial-container').resize( function() {
+							$isotopeObj.isotope( 'layout' );
+						});
+					});
+
+					if ( window.elementor ) {
+						//No need to limit the change to the spacing control only, as changing the container size for example will affect the masonry layout.
+						var debounceDelay;
+						elementor.channels.editor.on('change', function(e) {
+							
+							clearTimeout(debounceDelay);
+
+							debounceDelay = setTimeout(function() {
+								$isotopeObj.isotope('layout');
+							}, 300);
+						});
+					}
+				});
+			});
+		</script>
+		<?php
 	}
 }

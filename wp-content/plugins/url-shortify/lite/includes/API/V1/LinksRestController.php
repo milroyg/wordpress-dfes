@@ -330,6 +330,7 @@ class LinksRestController extends \WP_REST_Controller {
 		);
 	}
 
+
 	/**
 	 * Update a link with optional group_ids and tag_ids.
 	 *

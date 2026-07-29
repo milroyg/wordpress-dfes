@@ -11,6 +11,7 @@ use Elementor\Widget_Base;
 use Elementor\Utils;
 use Elementor\Control_Media;
 use Elementor\Controls_Manager;
+use Elementor\Icons_Manager;
 use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
 use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 use Elementor\Group_Control_Border;
@@ -21,6 +22,7 @@ use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Text_Shadow;
 
 // PremiumAddons Classes.
+use PremiumAddons\Admin\Includes\Admin_Helper;
 use PremiumAddons\Includes\Helper_Functions;
 use PremiumAddons\Includes\Controls\Premium_Background;
 use PremiumAddons\Includes\Controls\Premium_Post_Filter;
@@ -33,6 +35,31 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class Premium_Banner
  */
 class Premium_Banner extends Widget_Base {
+
+	/**
+	 * Check if the icon draw is enabled.
+	 *
+	 * @since 4.11.78
+	 * @access private
+	 *
+	 * @var bool
+	 */
+	private $is_draw_enabled = null;
+
+	/**
+	 * Check Icon Draw Option.
+	 *
+	 * @since 4.11.78
+	 * @access public
+	 */
+	public function check_icon_draw() {
+
+		if ( null === $this->is_draw_enabled ) {
+			$this->is_draw_enabled = Admin_Helper::check_svg_draw( 'premium-banner' );
+		}
+
+		return $this->is_draw_enabled;
+	}
 
 	/**
 	 * Retrieve Widget Name.
@@ -72,7 +99,7 @@ class Premium_Banner extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium banner', 'image', 'box', 'info', 'cta' );
@@ -126,8 +153,26 @@ class Premium_Banner extends Widget_Base {
 		$is_edit = Helper_Functions::is_edit_mode();
 
 		$scripts = array();
-		if ( $is_edit || ( ! $is_edit && 'yes' === $this->get_settings( 'mouse_tilt' ) ) ) {
+		if ( $is_edit || 'yes' === $this->get_settings( 'mouse_tilt' ) ) {
 			$scripts[] = 'pa-tilt';
+		}
+
+		if ( $is_edit ) {
+			$scripts[] = 'lottie-js';
+
+			if ( $this->check_icon_draw() ) {
+				$scripts[] = 'pa-tweenmax';
+				$scripts[] = 'pa-motionpath';
+			}
+		} else {
+			if ( 'animation' === $this->get_settings( 'premium_banner_icon_type' ) ) {
+				$scripts[] = 'lottie-js';
+			}
+
+			if ( 'yes' === $this->get_settings( 'draw_svg' ) ) {
+				$scripts[] = 'pa-tweenmax';
+				$scripts[] = 'pa-motionpath';
+			}
 		}
 
 		$scripts[] = 'premium-addons';
@@ -158,6 +203,8 @@ class Premium_Banner extends Widget_Base {
 
 		$this->register_content_controls();
 
+		$this->register_icon_controls();
+
 		$this->register_button_controls();
 
 		$this->register_display_options_controls();
@@ -167,7 +214,6 @@ class Premium_Banner extends Widget_Base {
 		$this->register_docs_controls();
 
 		$this->register_style_controls();
-
 	}
 
 	private function register_image_controls() {
@@ -185,10 +231,10 @@ class Premium_Banner extends Widget_Base {
 		$this->add_control(
 			'premium_banner_image',
 			array(
-				'label'         => __( 'Upload Image', 'premium-addons-for-elementor' ),
-				'type'          => Controls_Manager::MEDIA,
-				'dynamic'       => array( 'active' => true ),
-				'default'       => array(
+				'label'   => __( 'Upload Image', 'premium-addons-for-elementor' ),
+				'type'    => Controls_Manager::MEDIA,
+				'dynamic' => array( 'active' => true ),
+				'default' => array(
 					'url' => Utils::get_placeholder_image_src(),
 				),
 			)
@@ -247,8 +293,8 @@ class Premium_Banner extends Widget_Base {
 		$this->add_control(
 			'premium_banner_link_url_switch',
 			array(
-				'label' => __( 'Link', 'premium-addons-for-elementor' ),
-				'type'  => Controls_Manager::SWITCHER,
+				'label'     => __( 'Link', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::SWITCHER,
 				'separator' => 'before',
 			)
 		);
@@ -294,7 +340,6 @@ class Premium_Banner extends Widget_Base {
 		);
 
 		$this->end_controls_section();
-
 	}
 
 	private function register_content_controls() {
@@ -350,7 +395,238 @@ class Premium_Banner extends Widget_Base {
 		);
 
 		$this->end_controls_section();
+	}
 
+	private function register_icon_controls() {
+
+		$draw_icon = $this->check_icon_draw();
+
+		$loop_reverse_conds = array(
+			'relation' => 'or',
+			'terms'    => array(
+				array(
+					'name'  => 'premium_banner_icon_type',
+					'value' => 'animation',
+				),
+				array(
+					'relation' => 'and',
+					'terms'    => array(
+						array(
+							'name'  => 'premium_banner_icon_type',
+							'value' => 'icon',
+						),
+						array(
+							'name'  => 'draw_svg',
+							'value' => 'yes',
+						),
+					),
+				),
+			),
+		);
+
+		$this->start_controls_section(
+			'premium_banner_icon_section',
+			array(
+				'label' => __( 'Icon', 'premium-addons-for-elementor' ),
+			)
+		);
+
+		$this->add_control(
+			'premium_banner_icon_type',
+			array(
+				'label'   => __( 'Icon Type', 'premium-addons-for-elementor' ),
+				'type'    => Controls_Manager::SELECT,
+				'options' => array(
+					'none'      => __( 'None', 'premium-addons-for-elementor' ),
+					'icon'      => __( 'Font Awesome Icon', 'premium-addons-for-elementor' ),
+					'image'     => __( 'Image', 'premium-addons-for-elementor' ),
+					'animation' => __( 'Lottie Animation', 'premium-addons-for-elementor' ),
+				),
+				'default' => 'none',
+			)
+		);
+
+		$this->add_control(
+			'premium_banner_selected_icon',
+			array(
+				'label'       => __( 'Select an Icon', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::ICONS,
+				'default'     => array(
+					'value'   => 'fas fa-star',
+					'library' => 'fa-solid',
+				),
+				'condition'   => array(
+					'premium_banner_icon_type' => 'icon',
+				),
+				'label_block' => true,
+			)
+		);
+
+		$this->add_control(
+			'premium_banner_icon_image',
+			array(
+				'label'     => __( 'Upload Image', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::MEDIA,
+				'dynamic'   => array( 'active' => true ),
+				'default'   => array(
+					'url' => Utils::get_placeholder_image_src(),
+				),
+				'condition' => array(
+					'premium_banner_icon_type' => 'image',
+				),
+			)
+		);
+
+		$this->add_control(
+			'premium_banner_lottie_source',
+			array(
+				'label'     => __( 'Source', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::SELECT,
+				'options'   => array(
+					'url'  => __( 'External URL', 'premium-addons-for-elementor' ),
+					'file' => __( 'Media File', 'premium-addons-for-elementor' ),
+				),
+				'default'   => 'url',
+				'condition' => array(
+					'premium_banner_icon_type' => 'animation',
+				),
+			)
+		);
+
+		$this->add_control(
+			'premium_banner_lottie_url',
+			array(
+				'label'       => __( 'Animation JSON URL', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => array( 'active' => true ),
+				'description' => 'Get JSON code URL from <a href="https://lottiefiles.com/" target="_blank">here</a>',
+				'label_block' => true,
+				'condition'   => array(
+					'premium_banner_icon_type'     => 'animation',
+					'premium_banner_lottie_source' => 'url',
+				),
+				'ai'          => array(
+					'active' => false,
+				),
+			)
+		);
+
+		$this->add_control(
+			'premium_banner_lottie_file',
+			array(
+				'label'      => __( 'Upload JSON File', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::MEDIA,
+				'media_type' => 'application/json',
+				'condition'  => array(
+					'premium_banner_icon_type'     => 'animation',
+					'premium_banner_lottie_source' => 'file',
+				),
+			)
+		);
+
+		$this->add_control(
+			'draw_svg',
+			array(
+				'label'       => __( 'Draw Icon', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::SWITCHER,
+				'description' => __( 'Enable this option to make the icon drawable. See ', 'premium-addons-for-elementor' ) . '<a href="https://www.youtube.com/watch?v=ZLr0bRe0RAY" target="_blank">tutorial</a>',
+				'classes'     => $draw_icon ? '' : 'editor-pa-control-disabled',
+				'condition'   => array(
+					'premium_banner_icon_type' => 'icon',
+					'premium_banner_selected_icon[library]!' => 'svg',
+				),
+			)
+		);
+
+		if ( $draw_icon ) {
+
+			$this->add_control(
+				'stroke_width',
+				array(
+					'label'     => __( 'Path Thickness', 'premium-addons-for-elementor' ),
+					'type'      => Controls_Manager::SLIDER,
+					'range'     => array(
+						'px' => array(
+							'min'  => 0,
+							'max'  => 50,
+							'step' => 0.1,
+						),
+					),
+					'default'   => array(
+						'size' => 5,
+						'unit' => 'px',
+					),
+					'condition' => array(
+						'premium_banner_icon_type' => 'icon',
+					),
+					'selectors' => array(
+						'{{WRAPPER}} .premium-banner-ib-icon svg *' => 'stroke-width: {{SIZE}}',
+					),
+				)
+			);
+
+			$this->add_control(
+				'frames',
+				array(
+					'label'       => __( 'Speed', 'premium-addons-for-elementor' ),
+					'type'        => Controls_Manager::NUMBER,
+					'description' => __( 'Larger value means longer animation duration.', 'premium-addons-for-elementor' ),
+					'default'     => 5,
+					'min'         => 1,
+					'max'         => 100,
+					'condition'   => array(
+						'premium_banner_icon_type' => 'icon',
+						'draw_svg'                 => 'yes',
+					),
+				)
+			);
+
+			$this->add_control(
+				'svg_yoyo',
+				array(
+					'label'     => __( 'Yoyo Effect', 'premium-addons-for-elementor' ),
+					'type'      => Controls_Manager::SWITCHER,
+					'condition' => array(
+						'premium_banner_icon_type'   => 'icon',
+						'draw_svg'                   => 'yes',
+						'premium_banner_lottie_loop' => 'true',
+					),
+				)
+			);
+		} else {
+
+			Helper_Functions::get_draw_svg_notice(
+				$this,
+				'premium-banner',
+				array(
+					'premium_banner_icon_type' => 'icon',
+					'premium_banner_selected_icon[library]!' => 'svg',
+				)
+			);
+		}
+
+		$this->add_control(
+			'premium_banner_lottie_loop',
+			array(
+				'label'        => __( 'Loop', 'premium-addons-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'true',
+				'default'      => 'true',
+				'conditions'   => $loop_reverse_conds,
+			)
+		);
+
+		$this->add_control(
+			'premium_banner_lottie_reverse',
+			array(
+				'label'        => __( 'Reverse', 'premium-addons-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'true',
+				'conditions'   => $loop_reverse_conds,
+			)
+		);
+
+		$this->end_controls_section();
 	}
 
 	private function register_button_controls() {
@@ -439,7 +715,6 @@ class Premium_Banner extends Widget_Base {
 		Helper_Functions::add_btn_hover_controls( $this, array( 'premium_banner_link_switcher' => 'yes' ) );
 
 		$this->end_controls_section();
-
 	}
 
 	private function register_display_options_controls() {
@@ -481,7 +756,7 @@ class Premium_Banner extends Widget_Base {
 				'default'   => 'left',
 				'toggle'    => false,
 				'selectors' => array(
-					'{{WRAPPER}} .premium-banner-ib-title, {{WRAPPER}} .premium-banner-ib-content, {{WRAPPER}} .premium-banner-read-more'   => 'text-align: {{VALUE}} ;',
+					'{{WRAPPER}} .premium-banner-ib-title, {{WRAPPER}} .premium-banner-ib-content, {{WRAPPER}} .premium-banner-read-more, {{WRAPPER}} .premium-banner-ib-icon'   => 'text-align: {{VALUE}} ;',
 				),
 			)
 		);
@@ -499,7 +774,7 @@ class Premium_Banner extends Widget_Base {
 					),
 				),
 				'selectors'  => array(
-					'{{WRAPPER}} .premium-banner-ib img' => 'height: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .premium-banner-ib > img' => 'height: {{SIZE}}{{UNIT}};',
 				),
 			)
 		);
@@ -516,11 +791,11 @@ class Premium_Banner extends Widget_Base {
 				),
 				'default'   => 'fill',
 				'selectors' => array(
-					'{{WRAPPER}} .premium-banner-ib img' => 'object-fit: {{VALUE}}',
+					'{{WRAPPER}} .premium-banner-ib > img' => 'object-fit: {{VALUE}}',
 				),
-				'condition' => array(
-					'premium_banner_custom_height[size]!' => '',
-				),
+				// 'condition' => array(
+				// 'premium_banner_custom_height[size]!' => '',
+				// ),
 			)
 		);
 
@@ -535,7 +810,6 @@ class Premium_Banner extends Widget_Base {
 		);
 
 		$this->end_controls_section();
-
 	}
 
 	private function register_responsive_controls() {
@@ -558,7 +832,6 @@ class Premium_Banner extends Widget_Base {
 		);
 
 		$this->end_controls_section();
-
 	}
 
 	private function register_docs_controls() {
@@ -586,8 +859,6 @@ class Premium_Banner extends Widget_Base {
 		$this->end_controls_section();
 
 		Helper_Functions::register_papro_promotion_controls( $this, 'banner' );
-
-
 	}
 
 	private function register_style_controls() {
@@ -616,7 +887,7 @@ class Premium_Banner extends Widget_Base {
 					),
 				),
 				'selectors' => array(
-					'{{WRAPPER}} .premium-banner-ib img' => 'opacity: {{SIZE}};',
+					'{{WRAPPER}} .premium-banner-ib > img' => 'opacity: {{SIZE}};',
 				),
 			)
 		);
@@ -648,7 +919,7 @@ class Premium_Banner extends Widget_Base {
 					),
 				),
 				'selectors' => array(
-					'{{WRAPPER}}:hover .premium-banner-ib img' => 'opacity: {{SIZE}};',
+					'{{WRAPPER}}:hover .premium-banner-ib > img' => 'opacity: {{SIZE}};',
 				),
 			)
 		);
@@ -724,7 +995,7 @@ class Premium_Banner extends Widget_Base {
 			Group_Control_Css_Filter::get_type(),
 			array(
 				'name'     => 'css_filters',
-				'selector' => '{{WRAPPER}} .premium-banner-ib img',
+				'selector' => '{{WRAPPER}} .premium-banner-ib > img',
 			)
 		);
 
@@ -733,7 +1004,7 @@ class Premium_Banner extends Widget_Base {
 			array(
 				'name'     => 'hover_css_filters',
 				'label'    => __( 'Hover CSS Filters', 'premium-addons-for-elementor' ),
-				'selector' => '{{WRAPPER}}:hover .premium-banner-ib img',
+				'selector' => '{{WRAPPER}}:hover .premium-banner-ib > img',
 			)
 		);
 
@@ -781,6 +1052,9 @@ class Premium_Banner extends Widget_Base {
 				'condition' => array(
 					'image_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -804,6 +1078,88 @@ class Premium_Banner extends Widget_Base {
 				'separator' => 'before',
 				'selectors' => array(
 					'{{WRAPPER}} .premium-banner-ib' => 'mix-blend-mode: {{VALUE}}',
+				),
+			)
+		);
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'premium_banner_icon_style_section',
+			array(
+				'label'     => __( 'Icon', 'premium-addons-for-elementor' ),
+				'tab'       => Controls_Manager::TAB_STYLE,
+				'condition' => array(
+					'premium_banner_icon_type!' => 'none',
+				),
+			)
+		);
+
+		$this->add_control(
+			'premium_banner_icon_color',
+			array(
+				'label'     => __( 'Color', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
+				'condition' => array(
+					'premium_banner_icon_type' => 'icon',
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .premium-banner-ib-icon i'     => 'color: {{VALUE}};',
+					'{{WRAPPER}} .premium-banner-ib-icon svg'   => 'fill: {{VALUE}};',
+					'{{WRAPPER}} .premium-banner-ib-icon svg *' => 'fill: {{VALUE}};',
+				),
+			)
+		);
+
+		if ( $this->check_icon_draw() ) {
+
+			$this->add_control(
+				'stroke_color',
+				array(
+					'label'     => __( 'Stroke Color', 'premium-addons-for-elementor' ),
+					'type'      => Controls_Manager::COLOR,
+					'global'    => array(
+						'default' => Global_Colors::COLOR_ACCENT,
+					),
+					'condition' => array(
+						'premium_banner_icon_type' => 'icon',
+					),
+					'selectors' => array(
+						'{{WRAPPER}} .premium-banner-ib-icon .premium-drawable-icon *' => 'stroke: {{VALUE}};',
+					),
+				)
+			);
+		}
+
+		$this->add_responsive_control(
+			'premium_banner_icon_size',
+			array(
+				'label'      => __( 'Size', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em', 'rem' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 300,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .premium-banner-ib-icon i'                        => 'font-size: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .premium-banner-ib-icon svg'                      => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .premium-banner-ib-icon img'                      => 'width: {{SIZE}}{{UNIT}} !important; height: auto !important;',
+					'{{WRAPPER}} .premium-banner-ib-icon .premium-lottie-animation' => 'width: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'premium_banner_icon_margin',
+			array(
+				'label'      => __( 'Margin', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em', '%' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .premium-banner-ib-icon' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 			)
 		);
@@ -988,7 +1344,7 @@ class Premium_Banner extends Widget_Base {
 				'label'     => __( 'Background Color', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
-					'{{WRAPPER}} .premium-banner-link, {{WRAPPER}} .premium-button-style2-shutinhor:before , {{WRAPPER}} .premium-button-style2-shutinver:before , {{WRAPPER}} .premium-button-style5-radialin:before , {{WRAPPER}} .premium-button-style5-rectin:before' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} .premium-banner-link, {{WRAPPER}} .premium-button-style1:before, {{WRAPPER}} .premium-button-style2-shutinhor:before, {{WRAPPER}} .premium-button-style2-shutouthor:before, {{WRAPPER}} .premium-button-style2-shutoutver:before, {{WRAPPER}} .premium-button-style2-shutinver:before, {{WRAPPER}} .premium-button-style2-dshutinver:before, {{WRAPPER}} .premium-button-style2-dshutinhor:before, {{WRAPPER}} .premium-button-style2-sshutinver:before, {{WRAPPER}} .premium-button-style2-sshutinhor:before, {{WRAPPER}} .premium-button-style2-scshutouthor:before, {{WRAPPER}} .premium-button-style2-scshutoutver:before, {{WRAPPER}} .premium-button-style5-radialin:before, {{WRAPPER}} .premium-button-style5-rectin:before, {{WRAPPER}} .premium-button-style5-radialout:before, {{WRAPPER}} .premium-button-style5-rectout:before, {{WRAPPER}} .premium-button-style6:before' => 'background-color: {{VALUE}};',
 				),
 			)
 		);
@@ -1037,6 +1393,9 @@ class Premium_Banner extends Widget_Base {
 				'condition' => array(
 					'button_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -1067,6 +1426,14 @@ class Premium_Banner extends Widget_Base {
 				'label'      => __( 'Padding', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', 'em', '%' ),
+				'default'    => array(
+					'top'      => 0,
+					'right'    => 0,
+					'bottom'   => 0,
+					'left'     => 0,
+					'unit'     => 'px',
+					'isLinked' => true,
+				),
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-banner-link, {{WRAPPER}} .premium-button-line6::after' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
@@ -1155,7 +1522,7 @@ class Premium_Banner extends Widget_Base {
 				'label'     => __( 'Background Color', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
-					'{{WRAPPER}} .premium-button-none:hover, {{WRAPPER}} .premium-button-style8:hover, {{WRAPPER}} .premium-button-style1:before, {{WRAPPER}} .premium-button-style2-shutouthor:before, {{WRAPPER}} .premium-button-style2-shutoutver:before, {{WRAPPER}} .premium-button-style2-shutinhor, {{WRAPPER}} .premium-button-style2-shutinver, {{WRAPPER}} .premium-button-style2-dshutinhor:before, {{WRAPPER}} .premium-button-style2-dshutinver:before, {{WRAPPER}} .premium-button-style2-scshutouthor:before, {{WRAPPER}} .premium-button-style2-scshutoutver:before, {{WRAPPER}} .premium-button-style5-radialin, {{WRAPPER}} .premium-button-style5-radialout:before, {{WRAPPER}} .premium-button-style5-rectin, {{WRAPPER}} .premium-button-style5-rectout:before, {{WRAPPER}} .premium-button-style6-bg, {{WRAPPER}} .premium-button-style6:before' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} .premium-button-none:hover, {{WRAPPER}} .premium-button-style8:hover, {{WRAPPER}} .premium-button-style1:before, {{WRAPPER}} .premium-button-style2-shutouthor:before, {{WRAPPER}} .premium-button-style2-shutoutver:before, {{WRAPPER}} .premium-button-style2-shutinhor:hover:before, {{WRAPPER}} .premium-button-style2-shutinver:hover:before, {{WRAPPER}} .premium-button-style2-dshutinhor:before, {{WRAPPER}} .premium-button-style2-dshutinver:before, {{WRAPPER}} .premium-button-style2-sshutinhor:hover:before, {{WRAPPER}} .premium-button-style2-sshutinver:hover:before, {{WRAPPER}} .premium-button-style2-scshutouthor:before, {{WRAPPER}} .premium-button-style2-scshutoutver:before, {{WRAPPER}} .premium-button-style5-radialin, {{WRAPPER}} .premium-button-style5-radialout:before, {{WRAPPER}} .premium-button-style5-rectin, {{WRAPPER}} .premium-button-style5-rectout:before, {{WRAPPER}} .premium-button-style6:hover:before' => 'background-color: {{VALUE}};',
 				),
 				'condition' => array(
 					'premium_button_hover_effect!' => 'style7',
@@ -1357,8 +1724,7 @@ class Premium_Banner extends Widget_Base {
 			)
 		);
 
-
-		if( 'yes' === $settings['premium_banner_link_url_switch'] ) {
+		if ( 'yes' === $settings['premium_banner_link_url_switch'] ) {
 
 			if ( 'yes' === $settings['premium_banner_image_link_switcher'] ) {
 				$this->add_link_attributes( 'link', $settings['premium_banner_image_custom_link'] );
@@ -1369,13 +1735,11 @@ class Premium_Banner extends Widget_Base {
 			$this->add_render_attribute( 'link', 'class', 'premium-banner-ib-link' );
 		}
 
-		$animation_class = 'premium-banner-' . $settings['premium_banner_image_animation'];
-		$img_hover     = ' ' . $settings['premium_banner_hover_effect'];
-		$active          = 'yes' === $settings['premium_banner_active'] ? ' active' : '';
-		$effect_type_class = ' premium-banner__effect-type' . ( in_array( $settings['premium_banner_image_animation'], array('animation2', 'animation5', 'animation6'), true ) ? '1' : '2' );
-		$full_class      = $animation_class . $img_hover . $active . $effect_type_class;
-
-
+		$animation_class   = 'premium-banner-' . $settings['premium_banner_image_animation'];
+		$img_hover         = ' ' . $settings['premium_banner_hover_effect'];
+		$active            = 'yes' === $settings['premium_banner_active'] ? ' active' : '';
+		$effect_type_class = ' premium-banner__effect-type' . ( in_array( $settings['premium_banner_image_animation'], array( 'animation2', 'animation5', 'animation6' ), true ) ? '1' : '2' );
+		$full_class        = $animation_class . $img_hover . $active . $effect_type_class;
 
 		if ( 'yes' === $settings['premium_banner_link_switcher'] ) {
 
@@ -1426,16 +1790,16 @@ class Premium_Banner extends Widget_Base {
 		);
 
 		?>
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'banner_inner' ) ); ?>>
+		<div <?php $this->print_render_attribute_string( 'banner_inner' ); ?>>
 			<?php if ( 'animation7' === $settings['premium_banner_image_animation'] || 'animation8' === $settings['premium_banner_image_animation'] ) : ?>
-				<div class="premium-banner-border">
-					<div class="premium-banner-br premium-banner-bleft premium-banner-brlr"></div>
-					<div class="premium-banner-br premium-banner-bright premium-banner-brlr"></div>
-					<div class="premium-banner-br premium-banner-btop premium-banner-brtb"></div>
-					<div class="premium-banner-br premium-banner-bottom premium-banner-brtb"></div>
-				</div>
+
+				<div class="premium-banner-br premium-banner-bleft premium-banner-brlr"></div>
+				<div class="premium-banner-br premium-banner-bright premium-banner-brlr"></div>
+				<div class="premium-banner-br premium-banner-btop premium-banner-brtb"></div>
+				<div class="premium-banner-br premium-banner-bottom premium-banner-brtb"></div>
+
 			<?php endif; ?>
-			<?php if ( ! empty( $settings['premium_banner_image']['url'] ) ) : ?>
+			<?php if ( $image_html ) : ?>
 				<?php echo wp_kses_post( $image_html ); ?>
 			<?php endif; ?>
 			<?php if ( 'animation11' === $settings['premium_banner_image_animation'] ) : ?>
@@ -1446,22 +1810,30 @@ class Premium_Banner extends Widget_Base {
 					<div class="premium-banner-desc-centered">
 				<?php endif; ?>
 
+				<?php
+				if ( 'none' !== $settings['premium_banner_icon_type'] ) {
+					$this->render_banner_icon();
+				}
+				?>
+
 				<?php if ( ! empty( $settings['premium_banner_title'] ) ) : ?>
-					<<?php echo wp_kses_post( Helper_Functions::validate_html_tag( $settings['premium_banner_title_tag'] ) . ' ' . $this->get_render_attribute_string( 'premium_banner_title' ) ); ?>>
+					<?php $title_tag = Helper_Functions::validate_html_tag( $settings['premium_banner_title_tag'] ); ?>
+					<<?php echo wp_kses_post( $title_tag . ' ' . $this->get_render_attribute_string( 'premium_banner_title' ) ); ?>>
 						<?php echo wp_kses_post( $settings['premium_banner_title'] ); ?>
-					</<?php echo wp_kses_post( Helper_Functions::validate_html_tag( $settings['premium_banner_title_tag'] ) ); ?>>
+					</<?php echo wp_kses_post( $title_tag ); ?>>
 				<?php endif; ?>
 
-				<?php if ( ! empty( $settings['premium_banner_description'] ) ) :
+				<?php
+				if ( ! empty( $settings['premium_banner_description'] ) ) :
 					?>
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_banner_description' ) ); ?>>
+					<div <?php $this->print_render_attribute_string( 'premium_banner_description' ); ?>>
 						<?php echo $this->parse_text_editor( $settings['premium_banner_description'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 					</div>
 				<?php endif; ?>
 
 				<?php if ( 'yes' === $settings['premium_banner_link_switcher'] && ! empty( $settings['premium_banner_more_text'] ) ) : ?>
 					<div class="premium-banner-read-more">
-						<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'button' ) ); ?>>
+						<a <?php $this->print_render_attribute_string( 'button' ); ?>>
 							<div class="premium-button-text-icon-wrapper">
 								<span><?php echo esc_html( $settings['premium_banner_more_text'] ); ?></span>
 							</div>
@@ -1471,7 +1843,7 @@ class Premium_Banner extends Widget_Base {
 							<?php endif; ?>
 
 							<?php if ( 'style8' === $settings['premium_button_hover_effect'] ) : ?>
-								<?php echo Helper_Functions::get_btn_svgs( $settings['underline_style'] ); ?>
+								<?php echo Helper_Functions::get_btn_svgs( $settings['underline_style'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_btn_svgs() returns sanitized inline SVG markup. ?>
 							<?php endif; ?>
 
 						</a>
@@ -1485,7 +1857,7 @@ class Premium_Banner extends Widget_Base {
 			<?php
 			if ( 'yes' === $settings['premium_banner_link_url_switch'] && ( ! empty( $settings['premium_banner_image_custom_link']['url'] ) || ! empty( $settings['premium_banner_image_existing_page_link'] ) ) ) :
 				?>
-				<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'link' ) ); ?>></a>
+				<a <?php $this->print_render_attribute_string( 'link' ); ?>></a>
 			<?php endif; ?>
 		</div>
 
@@ -1495,172 +1867,102 @@ class Premium_Banner extends Widget_Base {
 	/**
 	 * Render Banner widget output in the editor.
 	 *
-	 * Written as a Backbone JavaScript template and used to generate the live preview.
+	 * Intentionally left empty so the editor renders the widget server-side via
+	 * render(). This is required for the drawable Font Awesome icon (inline SVG)
+	 * to animate in the editor preview, since the draw engine cannot animate the
+	 * `<i>` glyph a Backbone template would output.
 	 *
 	 * @since 1.0.0
 	 * @access protected
 	 */
-	protected function content_template() {
+	protected function content_template() {}
+
+	/**
+	 * Render Banner icon HTML.
+	 *
+	 * Outputs the Font Awesome icon, image, or Lottie animation based on the
+	 * selected icon type. Wrapped in `.premium-banner-ib-icon` so it shares the
+	 * banner content's alignment and per-effect hover animation.
+	 *
+	 * @access private
+	 */
+	private function render_banner_icon() {
+
+		$settings  = $this->get_settings_for_display();
+		$icon_type = $settings['premium_banner_icon_type'];
+
+		$lottie_url = 'file' === $settings['premium_banner_lottie_source'] ? $settings['premium_banner_lottie_file']['url'] : $settings['premium_banner_lottie_url'];
+
+		$is_draw = 'icon' === $icon_type && 'yes' === $settings['draw_svg'];
+
+		$icon_wrap_class = 'premium-banner-ib-icon';
+
+		if ( $is_draw ) {
+			$icon_wrap_class .= ' elementor-invisible';
+		}
+
 		?>
-		<#
+		<div class="<?php echo esc_attr( $icon_wrap_class ); ?>">
+			<span class="premium-banner-ib-icon-inner">
+			<?php if ( 'icon' === $icon_type && ! empty( $settings['premium_banner_selected_icon']['value'] ) ) : ?>
+				<?php
+				if ( $is_draw ) :
 
-			var active = 'yes' === settings.premium_banner_active ? 'active' : '';
+					$this->add_render_attribute(
+						'banner_drawable_icon',
+						array(
+							'class'            => array( 'premium-svg-drawer', 'premium-drawable-icon' ),
+							'data-svg-reverse' => $settings['premium_banner_lottie_reverse'],
+							'data-svg-loop'    => $settings['premium_banner_lottie_loop'],
+							'data-svg-frames'  => ! empty( $settings['frames'] ) ? $settings['frames'] : 5,
+							'data-svg-yoyo'    => ! empty( $settings['svg_yoyo'] ) ? $settings['svg_yoyo'] : '',
+						)
+					);
 
-			view.addRenderAttribute( 'banner_inner', 'class', [
-				'premium-banner-ib',
-				'premium-banner-min-height',
-				'premium-banner-' + settings.premium_banner_image_animation,
-				settings.premium_banner_hover_effect,
-				'premium-banner__effect-type' + ( [ 'animation2', 'animation5', 'animation6' ].includes( settings.premium_banner_image_animation ) ? '1' : '2' ),
-				active
-			] );
+					echo Helper_Functions::get_svg_by_icon( $settings['premium_banner_selected_icon'], $this->get_render_attribute_string( 'banner_drawable_icon' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_svg_by_icon() returns sanitized inline SVG/icon markup.
 
-			var titleTag = elementor.helpers.validateHTMLTag( settings.premium_banner_title_tag ),
-				title    = settings.premium_banner_title;
+				else :
 
-			view.addRenderAttribute( 'premium_banner_title', 'class', [
-				'premium-banner-ib-title',
-				'premium_banner_title'
-			] );
+					Icons_Manager::render_icon(
+						$settings['premium_banner_selected_icon'],
+						array(
+							'class'       => array( 'premium-svg-nodraw', 'premium-drawable-icon' ),
+							'aria-hidden' => 'true',
+						)
+					);
 
-			view.addInlineEditingAttributes( 'premium_banner_title' );
+				endif;
+				?>
+			<?php elseif ( 'image' === $icon_type && ! empty( $settings['premium_banner_icon_image']['url'] ) ) : ?>
+				<?php
+					$alt = esc_attr( Control_Media::get_image_alt( $settings['premium_banner_icon_image'] ) );
 
-			view.addInlineEditingAttributes( 'premium_banner_description', 'advanced' );
-			view.addRenderAttribute( 'premium_banner_description', 'class', [
-				'premium-banner-ib-content',
-				'premium_banner_content',
-			] );
-
-			var linkSwitcher = settings.premium_banner_link_switcher,
-				readMore     = settings.premium_banner_more_text,
-				bannerUrl    = 'url' === settings.premium_banner_link_selection ? settings.premium_banner_link.url : settings.premium_banner_existing_link;
-
-			var bannerLink = 'yes' === settings.premium_banner_image_link_switcher ? settings.premium_banner_image_custom_link.url : settings.premium_banner_image_existing_page_link;
-
-			var imageHtml = '';
-			if ( settings.premium_banner_image.url ) {
-				var image = {
-					id: settings.premium_banner_image.id,
-					url: settings.premium_banner_image.url,
-					size: settings.thumbnail_size,
-					dimension: settings.thumbnail_custom_dimension,
-					model: view.getEditModel()
-				};
-
-				var image_url = elementor.imagesManager.getImageUrl( image );
-
-			}
-
-		#>
-
-			<div {{{ view.getRenderAttributeString( 'banner_inner' ) }}}>
-				<# if (settings.premium_banner_image_animation ==='animation7' || settings.premium_banner_image_animation ==='animation8'){ #>
-					<div class="premium-banner-border">
-						<div class="premium-banner-br premium-banner-bleft premium-banner-brlr"></div>
-						<div class="premium-banner-br premium-banner-bright premium-banner-brlr"></div>
-						<div class="premium-banner-br premium-banner-btop premium-banner-brtb"></div>
-						<div class="premium-banner-br premium-banner-bottom premium-banner-brtb"></div>
-					</div>
-				<# } #>
-				<# if( '' !== settings.premium_banner_image.url ) { #>
-					<img src="{{ image_url }}"/>
-				<# } #>
-				<# if( 'animation11' === settings.premium_banner_image_animation ) { #>
-					<div class="premium-banner-gradient"></div>
-				<# } #>
-				<div class="premium-banner-ib-desc">
-				<# if( 'animation7' === settings.premium_banner_image_animation ) { #>
-					<div class="premium-banner-desc-centered">
-				<# } #>
-						<# if( '' !== title ) { #>
-							<{{{titleTag}}} {{{ view.getRenderAttributeString('premium_banner_title') }}}>{{{ title }}}</{{{titleTag}}}>
-						<# } #>
-						<# if( '' !== settings.premium_banner_description ) { #>
-							<div {{{ view.getRenderAttributeString( 'premium_banner_description' ) }}}>{{{ settings.premium_banner_description }}}</div>
-						<# } #>
-					<# if( 'yes' === linkSwitcher && '' !== readMore ) {
-
-						var btnClass = '';
-
-						if ( 'none' === settings.premium_button_hover_effect ) {
-							btnClass = 'premium-button-none';
-						} else if ( 'style1' === settings.premium_button_hover_effect ) {
-							btnClass = 'premium-button-style1-' + settings.premium_button_style1_dir;
-						} else if ( 'style2' === settings.premium_button_hover_effect ) {
-							btnClass = 'premium-button-style2-' + settings.premium_button_style2_dir;
-						} else if ( 'style5' === settings.premium_button_hover_effect ) {
-							btnClass = 'premium-button-style5-' + settings.premium_button_style5_dir;
-						} else if ( 'style6' === settings.premium_button_hover_effect ) {
-							btnClass = 'premium-button-style6';
-						} else if ( 'style7' === settings.premium_button_hover_effect ) {
-							btnClass = 'premium-button-style7-' + settings.premium_button_style7_dir;
-						} else if ( 'style8' === settings.premium_button_hover_effect ) {
-							btnClass = 'premium-button-' + settings.underline_style;
-
-							var btnSVG = '';
-							switch ( settings.underline_style ) {
-								case 'line1':
-									btnSVG = '<div class="premium-btn-line-wrap"><svg class="premium-btn-svg" aria-hidden="true" width="100%" height="9" viewBox="0 0 101 9"><path d="M.426 1.973C4.144 1.567 17.77-.514 21.443 1.48 24.296 3.026 24.844 4.627 27.5 7c3.075 2.748 6.642-4.141 10.066-4.688 7.517-1.2 13.237 5.425 17.59 2.745C58.5 3 60.464-1.786 66 2c1.996 1.365 3.174 3.737 5.286 4.41 5.423 1.727 25.34-7.981 29.14-1.294" pathLength="1"></path></svg></div>';
-									break;
-
-								case 'line3':
-									btnSVG = '<div class="premium-btn-line-wrap"><svg class="premium-btn-svg" aria-hidden="true" width="100%" height="18" viewBox="0 0 59 18"><path d="M.945.149C12.3 16.142 43.573 22.572 58.785 10.842" pathLength="1"></path></svg></div>';
-									break;
-
-								case 'line4':
-									btnSVG = '<svg class="premium-btn-svg" aria-hidden="true" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path></svg>';
-									break;
-
-								default:
-									break;
-							}
-
-						}
-
-						btnClass = 'premium-button-' + settings.premium_button_hover_effect + ' ' + btnClass;
-
-						view.addRenderAttribute( 'button', {
-							'class': [
-								'premium-banner-link',
-								btnClass,
-							],
-							'href': bannerUrl,
-							'data-text': readMore,
-						});
-
-					#>
-						<div class="premium-banner-read-more">
-							<a {{{ view.getRenderAttributeString('button') }}}>
-								<div class="premium-button-text-icon-wrapper">
-									<span>{{{ readMore }}}</span>
-								</div>
-
-								<# if ( 'style6' === settings.premium_button_hover_effect && 'yes' === settings.mouse_detect ) { #>
-									<span class="premium-button-style6-bg"></span>
-								<# } #>
-
-								<# if( 'style8' === settings.premium_button_hover_effect ) { #>
-									{{{ btnSVG }}}
-								<# } #>
-
-							</a>
-						</div>
-					<# } #>
-					<# if( 'animation7' === settings.premium_banner_image_animation ) { #>
-					</div>
-					<# } #>
-				</div>
-				<# if( 'yes' === settings.premium_banner_link_url_switch  && ( '' !== settings.premium_banner_image_custom_link.url || '' !== settings.premium_banner_image_existing_page_link ) ) {
-
-						view.addRenderAttribute( 'banner_link', {
-							'class':  'premium-banner-ib-link',
-							'href': bannerLink,
-						});
-
-				#>
-					<a {{{ view.getRenderAttributeString('banner_link') }}}></a>
-				<# } #>
-			</div>
+					$this->add_render_attribute(
+						'banner_icon_img',
+						array(
+							'class' => 'premium-banner-ib-icon-img',
+							'src'   => $settings['premium_banner_icon_image']['url'],
+							'alt'   => $alt,
+						)
+					);
+				?>
+				<img <?php $this->print_render_attribute_string( 'banner_icon_img' ); ?> />
+			<?php elseif ( 'animation' === $icon_type && ! empty( $lottie_url ) ) : ?>
+				<?php
+					$this->add_render_attribute(
+						'banner_lottie',
+						array(
+							'class'               => 'premium-lottie-animation',
+							'data-lottie-url'     => $lottie_url,
+							'data-lottie-loop'    => $settings['premium_banner_lottie_loop'],
+							'data-lottie-reverse' => $settings['premium_banner_lottie_reverse'],
+						)
+					);
+				?>
+				<div <?php $this->print_render_attribute_string( 'banner_lottie' ); ?>></div>
+			<?php endif; ?>
+			</span>
+		</div>
 		<?php
 	}
 }

@@ -137,7 +137,7 @@ class Premium_Tcloud extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium tags cloud', 'tag', 'cat', 'product', 'woo', 'query', 'cpt' );
@@ -332,6 +332,9 @@ class Premium_Tcloud extends Widget_Base {
 				'condition'          => array(
 					'words_order!'  => $options['order_condition'],
 					'colors_select' => 'custom',
+				),
+				'ai'                 => array(
+					'active' => false,
 				),
 			)
 		);
@@ -943,15 +946,12 @@ class Premium_Tcloud extends Widget_Base {
 
 			$child_terms_count = 'yes' === $settings['show_parents_only'] ? $this->get_child_terms_count( $tax, $term_id ) : 0;
 
-			array_push(
-				$words_array,
-				array(
-					$name,
-					$term->count + $child_terms_count,
-					get_term_link( $term_id, $tax ),
-					$full_name,
-					$term->count + $child_terms_count,
-				)
+			$words_array[] = array(
+				$name,
+				$term->count + $child_terms_count,
+				get_term_link( $term_id, $tax ),
+				$full_name,
+				$term->count + $child_terms_count,
 			);
 
 		}
@@ -998,13 +998,13 @@ class Premium_Tcloud extends Widget_Base {
 
 		?>
 
-			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'container' ) ); ?>>
+			<div <?php $this->print_render_attribute_string( 'container' ); ?>>
 
 				<div class="premium-tcloud-canvas-container">
 
 					<?php if ( in_array( $settings['words_order'], array( 'shape', 'sphere' ), true ) ) : ?>
 						<span class="font-loader"></span>
-						<canvas <?php echo wp_kses_post( $this->get_render_attribute_string( 'canvas' ) ); ?>>
+						<canvas <?php $this->print_render_attribute_string( 'canvas' ); ?>>
 						</canvas>
 					<?php endif; ?>
 
@@ -1021,7 +1021,7 @@ class Premium_Tcloud extends Widget_Base {
 
 								<div class="premium-tcloud-term-wrap">
 
-									<span <?php echo wp_kses_post( $this->get_render_attribute_string( 'term' ) ); ?>>
+									<span <?php $this->print_render_attribute_string( 'term' ); ?>>
 										<a class="premium-tcloud-term-link" data-weight="<?php echo esc_attr( $word[1] ); ?>" href="<?php echo esc_url( $word[2] ); ?>" title="<?php echo esc_attr( $word[3] ); ?>" target="<?php echo esc_attr( $target ); ?>"><?php echo wp_kses_post( $word[0] ); ?><?php if ( in_array( $settings['words_order'], array( 'default', 'ribbon' ), true ) && 'yes' === $settings['show_posts_number'] ) : ?>
 											<span class="premium-tcloud-number">(<?php echo wp_kses_post( $word[4] ); ?>)</span><?php endif; ?></a>
 									</span>
@@ -1048,7 +1048,7 @@ class Premium_Tcloud extends Widget_Base {
 	 *
 	 * @access private
 	 *
-	 * @return object $taxs taxonomies.
+	 * @return array $taxs taxonomies.
 	 */
 	private function get_taxs( $term ) {
 

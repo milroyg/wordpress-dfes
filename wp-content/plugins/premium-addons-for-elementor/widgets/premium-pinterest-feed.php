@@ -255,7 +255,7 @@ class Premium_Pinterest_Feed extends Widget_Base {
 				'label'   => __( 'Access Token', 'premium-addons-for-elementor' ),
 				'type'    => Controls_Manager::TEXTAREA,
 				'dynamic' => array( 'active' => true ),
-				'ai'          => array(
+				'ai'      => array(
 					'active' => false,
 				),
 			)
@@ -267,7 +267,7 @@ class Premium_Pinterest_Feed extends Widget_Base {
 				'label'   => __( 'Refresh Access Token', 'premium-addons-for-elementor' ),
 				'type'    => Controls_Manager::TEXTAREA,
 				'dynamic' => array( 'active' => true ),
-				'ai'          => array(
+				'ai'      => array(
 					'active' => false,
 				),
 			)
@@ -395,6 +395,9 @@ class Premium_Pinterest_Feed extends Widget_Base {
 					'show_feed' => 'yes',
 					'endpoint'  => 'pins/',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -446,6 +449,9 @@ class Premium_Pinterest_Feed extends Widget_Base {
 					'match_id'      => '',
 					'select_boards' => 'id',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -494,6 +500,9 @@ class Premium_Pinterest_Feed extends Widget_Base {
 					'match_id'  => '',
 					'show_feed' => 'yes',
 					'endpoint'  => 'pins/',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -759,6 +768,9 @@ class Premium_Pinterest_Feed extends Widget_Base {
 				'default'     => 'F j',
 				'condition'   => array(
 					'create_time' => 'yes',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -1607,8 +1619,7 @@ class Premium_Pinterest_Feed extends Widget_Base {
 					),
 				),
 				'selectors'  => array(
-					'{{WRAPPER}} .premium-pinterest-share-item' => 'margin-top: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .premium-pinterest-share-item' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .premium-pinterest-share-item' => 'margin-top: {{SIZE}}{{UNIT}}; margin-bottom: {{SIZE}}{{UNIT}};',
 				),
 			)
 		);
@@ -2001,21 +2012,6 @@ class Premium_Pinterest_Feed extends Widget_Base {
 				),
 			)
 		);
-
-		// $this->add_responsive_control(
-		// 'pin_desc_padding',
-		// array(
-		// 'label'      => __( 'Padding', 'premium-addons-for-elementor' ),
-		// 'type'       => Controls_Manager::DIMENSIONS,
-		// 'size_units' => array( 'px', 'em' ),
-		// 'selectors'  => array(
-		// '{{WRAPPER}} .premium-pinterest-feed__pin-desc' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-		// ),
-		// 'condition'  => array(
-		// 'pin_desc' => 'yes',
-		// ),
-		// )
-		// );
 
 		$this->add_responsive_control(
 			'pin_desc_margin',
@@ -2601,6 +2597,12 @@ class Premium_Pinterest_Feed extends Widget_Base {
 		$show_feed    = 'yes' === $settings['show_feed'];
 		$show_profile = 'yes' === $settings['profile_header'];
 
+		$board_query    = false;
+		$onclick        = '';
+		$boards_feed    = array();
+		$pinterest_feed = array();
+		$load_more_btn  = false;
+
 		if ( $show_feed ) {
 
 			$board_query = 'boards/' === $settings['endpoint'];
@@ -2677,7 +2679,7 @@ class Premium_Pinterest_Feed extends Widget_Base {
 		$this->add_render_attribute( 'outer_container', 'class', 'premium-pinterest-feed__outer-wrapper' );
 
 		?>
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'outer_container' ) ); ?>>
+		<div <?php $this->print_render_attribute_string( 'outer_container' ); ?>>
 			<?php
 			if ( $show_profile ) {
 				?>
@@ -2759,14 +2761,14 @@ class Premium_Pinterest_Feed extends Widget_Base {
 					);
 
 					?>
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'board_wrap' . $feed['id'] ) ); ?>>
+					<div <?php $this->print_render_attribute_string( 'board_wrap' . $feed['id'] ); ?>>
 
 						<?php if ( $onclick_redirect ) : ?>
 							<a class="premium-pinterest-feed__board-link" target="_blank" href="https://www.pinterest.com/<?php echo esc_attr( $feed['owner']['username'] ); ?>/_saved/"></a>
 						<?php endif; ?>
 
 						<div class="premium-pinterest-feed__cover_wrap">
-							<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'board_cover' . $feed['id'] ) ); ?>>
+							<div <?php $this->print_render_attribute_string( 'board_cover' . $feed['id'] ); ?>>
 								<?php
 								if ( 'layout-cover' === $board_layout ) {
 									?>
@@ -2833,7 +2835,7 @@ class Premium_Pinterest_Feed extends Widget_Base {
 							)
 						);
 						?>
-							<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'board_content_container' . $feed['id'] ) ); ?>>
+							<div <?php $this->print_render_attribute_string( 'board_content_container' . $feed['id'] ); ?>>
 						<?php
 						$this->render_pins( $pinterest_feed, $settings, false );
 						?>
@@ -2850,11 +2852,11 @@ class Premium_Pinterest_Feed extends Widget_Base {
 	/**
 	 * Renders Pins.
 	 *
-	 * @param array  $pinterest_feed  pins feed.
-	 * @param array  $settings  widget_settings.
-	 * @param string $default  false when rendering board pins.
+	 * @param array $pinterest_feed  pins feed.
+	 * @param array $settings  widget_settings.
+	 * @param bool  $is_main_feed  True for the main pins feed, false when rendering board pins.
 	 */
-	private function render_pins( $pinterest_feed, $settings, $default = true ) {
+	private function render_pins( $pinterest_feed, $settings, $is_main_feed = true ) {
 
 		$pin_layout    = $settings['pin_layout'];
 		$board_query   = 'boards/' === $settings['endpoint'];
@@ -2871,7 +2873,7 @@ class Premium_Pinterest_Feed extends Widget_Base {
 
 		$load_more_count = $load_more_btn && empty( $settings['no_per_load'] ) ? 3 : $settings['no_per_load'];
 
-		if ( $default && empty( $settings['match_id'] ) ) {
+		if ( $is_main_feed && empty( $settings['match_id'] ) ) {
 
 			if ( 'reverse' === $settings['sort'] ) {
 				$pinterest_feed = array_reverse( $pinterest_feed );
@@ -2883,27 +2885,26 @@ class Premium_Pinterest_Feed extends Widget_Base {
 		}
 
 		?>
-			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'pins_container' ) ); ?>>
+			<div <?php $this->print_render_attribute_string( 'pins_container' ); ?>>
 				<?php
 				foreach ( $pinterest_feed as $index => $feed ) {
 
-					if ( $default && ! $board_query && count( $exclude_arr ) && in_array( $feed['id'], $exclude_arr, true ) ) {
+					if ( $is_main_feed && ! $board_query && count( $exclude_arr ) && in_array( $feed['id'], $exclude_arr, true ) ) {
 						continue;
 					}
 
-					// if ( $default && 1 < count( $settings['board_id'] ) && ! in_array( $feed['board_id'], $settings['board_id'], true ) ) {
-					if ( $default && $settings['board_id'] && ! in_array( $feed['board_id'], $settings['board_id'], true ) ) {
+					if ( $is_main_feed && $settings['board_id'] && ! in_array( $feed['board_id'], $settings['board_id'], true ) ) {
 						continue;
 					}
 
 					$this->add_render_attribute( 'pin_outer_container' . $index, 'class', 'premium-pinterest-feed__pin-outer-wrapper' );
 
-					if ( $default && $load_more_btn && $index >= $settings['pa_pinterest_cols'] ) {
+					if ( $is_main_feed && $load_more_btn && $index >= $settings['pa_pinterest_cols'] ) {
 						$this->add_render_attribute( 'pin_outer_container' . $index, 'class', 'premium-display-none' );
 					}
 
 					?>
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'pin_outer_container' . $index ) ); ?>>
+					<div <?php $this->print_render_attribute_string( 'pin_outer_container' . $index ); ?>>
 						<div class="premium-pinterest-feed__pin-wrapper">
 						<?php if ( 'layout-1' === $pin_layout ) { ?>
 							<div class="premium-pinterest-feed__pin-meta-wrapper">
@@ -2945,7 +2946,7 @@ class Premium_Pinterest_Feed extends Widget_Base {
 							}
 							?>
 							<div class="premium-pinterest-feed__pin-media">
-							<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'pin_link' . $feed['id'] ) ); ?> ></a>
+							<a <?php $this->print_render_attribute_string( 'pin_link' . $feed['id'] ); ?> ></a>
 								<?php $this->render_pin_image( $feed['media'], $settings['img_sizes'], $feed['alt_text'], $feed['title'], $settings['image_hover_effect'] ); ?>
 							</div>
 
@@ -3002,7 +3003,7 @@ class Premium_Pinterest_Feed extends Widget_Base {
 								$this->add_render_attribute( 'pin_link' . $feed['id'], 'target', '_blank' );
 							}
 							?>
-							<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'pin_link' . $feed['id'] ) ); ?> ></a>
+							<a <?php $this->print_render_attribute_string( 'pin_link' . $feed['id'] ); ?> ></a>
 
 							<div class="premium-pinterest-feed__pin-media">
 								<?php $this->render_pin_image( $feed['media'], $settings['img_sizes'], $feed['alt_text'], $feed['title'], $settings['image_hover_effect'] ); ?>
@@ -3054,7 +3055,7 @@ class Premium_Pinterest_Feed extends Widget_Base {
 							}
 							?>
 							<div class="premium-pinterest-feed__pin-media">
-								<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'pin_link' . $feed['id'] ) ); ?> ></a>
+								<a <?php $this->print_render_attribute_string( 'pin_link' . $feed['id'] ); ?> ></a>
 								<?php $this->render_pin_image( $feed['media'], $settings['img_sizes'], $feed['alt_text'], $feed['title'], $settings['image_hover_effect'] ); ?>
 							</div>
 						<?php } else { ?>
@@ -3109,7 +3110,7 @@ class Premium_Pinterest_Feed extends Widget_Base {
 								$this->add_render_attribute( 'pin_link' . $feed['id'], 'target', '_blank' );
 							}
 							?>
-							<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'pin_link' . $feed['id'] ) ); ?> ></a>
+							<a <?php $this->print_render_attribute_string( 'pin_link' . $feed['id'] ); ?> ></a>
 
 						<?php } ?>
 						</div>
@@ -3192,6 +3193,7 @@ class Premium_Pinterest_Feed extends Widget_Base {
 	private function render_pin_image( $media, $size, $alt, $title, $hover, $return_url = false ) {
 
 		$type = $media['media_type'];
+		$url  = '';
 
 		switch ( $type ) {
 
@@ -3238,8 +3240,8 @@ class Premium_Pinterest_Feed extends Widget_Base {
 	 * @access private
 	 * @since
 	 *
-	 * @param array $pin_settings  pin settings.
-	 * @param array $counter   counters
+	 * @param array $settings  widget settings.
+	 * @param array $data   pin counter data.
 	 */
 	private function get_pin_counters( $settings, $data ) {
 		?>
@@ -3307,11 +3309,12 @@ class Premium_Pinterest_Feed extends Widget_Base {
 	 * @param array  $settings  widget settings.
 	 * @param string $type  feed type.
 	 *
-	 * @return string
+	 * @return void
 	 */
 	private function render_feed_desc( $feed, $settings, $type = 'pin' ) {
 
-		$len = $settings[ $type . '_desc_len' ];
+		$desc = isset( $feed['description'] ) ? $feed['description'] : '';
+		$len  = $settings[ $type . '_desc_len' ];
 
 		if ( ! empty( $len ) ) {
 
@@ -3327,10 +3330,10 @@ class Premium_Pinterest_Feed extends Widget_Base {
 	 * @access private
 	 * @since
 	 *
-	 * @param array  $feed  feed array.
-	 * @param string $len  description length.
-	 * @param array  $settings  widget settings.
-	 * @param string $type  feed type.
+	 * @param array   $feed  feed array.
+	 * @param integer $len  description length.
+	 * @param array   $settings  widget settings.
+	 * @param string  $type  feed type.
 	 *
 	 * @return string
 	 */
@@ -3371,7 +3374,7 @@ class Premium_Pinterest_Feed extends Widget_Base {
 	 *
 	 * @since 4.10.2
 	 *
-	 * @param boolean $is_follow is follow button.
+	 * @param string $from icon location ('pin', 'board', or 'follow').
 	 */
 	private function render_pinterest_icon( $from ) {
 
@@ -3380,7 +3383,7 @@ class Premium_Pinterest_Feed extends Widget_Base {
 		?>
 
 			<span class="premium-pinterest-feed__pinterest-icon <?php echo esc_attr( $follow_class ); ?>">
-				<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="45.1" height="45.17" viewBox="0 0 45.1 45.17"><defs><style>.premium-pinterest-icon-1{fill:#e60023;}</style></defs><path id="Pinterest" class="premium-pinterest-icon-1" d="m22.57,0C10.1,0,0,10.1,0,22.57c0,9.57,5.94,17.74,14.34,21.03-.2-1.78-.37-4.53.07-6.48.41-1.76,2.64-11.22,2.64-11.22,0,0-.67-1.36-.67-3.34,0-3.14,1.82-5.48,4.09-5.48,1.93,0,2.86,1.45,2.86,3.18,0,1.93-1.23,4.83-1.88,7.52-.54,2.25,1.13,4.09,3.34,4.09,4.01,0,7.1-4.24,7.1-10.33,0-5.41-3.88-9.18-9.44-9.18-6.43,0-10.2,4.81-10.2,9.79,0,1.93.74,4.01,1.67,5.15.19.22.2.43.15.65-.17.71-.56,2.25-.63,2.56-.09.41-.33.5-.76.3-2.82-1.32-4.59-5.42-4.59-8.75,0-7.11,5.16-13.65,14.92-13.65,7.82,0,13.91,5.57,13.91,13.04s-4.9,14.04-11.7,14.04c-2.28,0-4.44-1.19-5.16-2.6,0,0-1.13,4.31-1.41,5.37-.5,1.97-1.88,4.42-2.8,5.93,2.12.65,4.35,1,6.69,1,12.46,0,22.57-10.1,22.57-22.57.04-12.5-10.07-22.61-22.53-22.61Z"/></svg>
+				<svg  xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="45.1" height="45.17" viewBox="0 0 45.1 45.17"><defs><style>.premium-pinterest-icon-1{fill:#e60023;}</style></defs><path id="Pinterest" class="premium-pinterest-icon-1" d="m22.57,0C10.1,0,0,10.1,0,22.57c0,9.57,5.94,17.74,14.34,21.03-.2-1.78-.37-4.53.07-6.48.41-1.76,2.64-11.22,2.64-11.22,0,0-.67-1.36-.67-3.34,0-3.14,1.82-5.48,4.09-5.48,1.93,0,2.86,1.45,2.86,3.18,0,1.93-1.23,4.83-1.88,7.52-.54,2.25,1.13,4.09,3.34,4.09,4.01,0,7.1-4.24,7.1-10.33,0-5.41-3.88-9.18-9.44-9.18-6.43,0-10.2,4.81-10.2,9.79,0,1.93.74,4.01,1.67,5.15.19.22.2.43.15.65-.17.71-.56,2.25-.63,2.56-.09.41-.33.5-.76.3-2.82-1.32-4.59-5.42-4.59-8.75,0-7.11,5.16-13.65,14.92-13.65,7.82,0,13.91,5.57,13.91,13.04s-4.9,14.04-11.7,14.04c-2.28,0-4.44-1.19-5.16-2.6,0,0-1.13,4.31-1.41,5.37-.5,1.97-1.88,4.42-2.8,5.93,2.12.65,4.35,1,6.69,1,12.46,0,22.57-10.1,22.57-22.57.04-12.5-10.07-22.61-22.53-22.61Z"/></svg>
 			</span>
 
 		<?php

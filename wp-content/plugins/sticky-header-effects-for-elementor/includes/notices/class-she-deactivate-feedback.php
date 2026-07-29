@@ -200,7 +200,7 @@ if ( ! class_exists( 'She_Deactivate_Feedback' ) ) {
 
 				<form id="she-feedback-dialog-form" method="post">
 					<input type="hidden" name="nonce" value="<?php echo esc_attr( $security ); ?>" />
-					<input type="hidden" name="she_admin_url" value="<?php echo admin_url( 'admin-ajax.php' ); ?>" />
+					<input type="hidden" name="she_admin_url" value="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" />
 					
 					<div class="she-feedback-dialog-radio-content">
 						<div class="she-feedback-dialog-content">
@@ -213,13 +213,21 @@ if ( ! class_exists( 'She_Deactivate_Feedback' ) ) {
 							<input type="radio" name="she_issue_type" id="<?php echo esc_attr( $id ); ?>" value="<?php echo esc_attr( $reason['label'] ); ?>" hidden />
 
 							<label for="<?php echo esc_attr( $id ); ?>" class="she-feedback-option">
-								<span class="she-feedback-icon"><?php echo $reason['svg']; ?></span>
+								<span class="she-feedback-icon"><?php echo wp_kses( $reason['svg'], array(
+								'svg'      => array( 'xmlns' => true, 'fill' => true, 'viewbox' => true, 'width' => true, 'height' => true, 'class' => true, 'aria-hidden' => true ),
+								'g'        => array( 'fill' => true, 'stroke' => true, 'stroke-width' => true, 'stroke-linecap' => true, 'stroke-linejoin' => true, 'clip-path' => true, 'transform' => true ),
+								'path'     => array( 'd' => true, 'fill' => true, 'fill-rule' => true, 'clip-rule' => true, 'stroke' => true, 'stroke-width' => true, 'stroke-linecap' => true, 'stroke-linejoin' => true ),
+								'circle'   => array( 'cx' => true, 'cy' => true, 'r' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true ),
+								'rect'     => array( 'x' => true, 'y' => true, 'width' => true, 'height' => true, 'rx' => true, 'ry' => true, 'fill' => true ),
+								'defs'     => array(),
+								'clippath' => array( 'id' => true ),
+							) ); ?></span>
 								<span class="she-feedback-label"><?php echo esc_html( $reason['label'] ); ?></span>
 							</label>
 						<?php } ?>
 
 							<div id="she-other-reason-textarea-wrapper" style="display:none;">
-								<textarea name="she_issue_text" placeholder="Please share the reason"></textarea>
+								<textarea name="she_issue_text" placeholder="<?php echo esc_attr__( 'Please share the reason', 'she-header' ); ?>"></textarea>
 							</div>
 						</div>
 
@@ -269,6 +277,17 @@ if ( ! class_exists( 'She_Deactivate_Feedback' ) ) {
 				wp_die();
 			}
 
+			if ( ! current_user_can( 'activate_plugins' ) ) {
+				$response = array(
+					'success'     => 0,
+					'message'     => esc_html__( 'Unauthorized', 'she-header' ),
+					'description' => esc_html__( 'You do not have permission to perform this action.', 'she-header' ),
+				);
+
+				wp_send_json( $response );
+				wp_die();
+			}
+
 			$issue_type = ! empty( $_POST['issue_type'] ) ? sanitize_text_field( wp_unslash( $_POST['issue_type'] ) ) : '';
 			$issue_text = ! empty( $_POST['issue_text'] ) ? sanitize_text_field( wp_unslash( $_POST['issue_text'] ) ) : '';
 
@@ -277,7 +296,7 @@ if ( ! class_exists( 'She_Deactivate_Feedback' ) ) {
 				'issue_text' => $issue_text,
 			);
 
-			if ( ! empty( $_POST['collect_email'] ) && $_POST['collect_email'] == '1' ) {
+			if ( ! empty( $_POST['collect_email'] ) && '1' === sanitize_text_field( wp_unslash( $_POST['collect_email'] ) ) ) {
 				$current_user = wp_get_current_user();
 				$user_email   = $current_user->user_email;
 				$api_params['email'] = $user_email;
@@ -287,11 +306,14 @@ if ( ! class_exists( 'She_Deactivate_Feedback' ) ) {
 				$this->deactive_url,
 				array(
 					'timeout'   => 60,
-					'sslverify' => false,
+					'sslverify' => true,
 					'body'      => $api_params,
 				)
 			);
 
+			if ( is_wp_error( $data ) ) {
+				wp_send_json( array( 'success' => 0, 'message' => esc_html__( 'Could not reach the feedback server.', 'she-header' ) ) );
+			}
 
 			$response = array(
 				'success'     => 1,

@@ -1,5 +1,8 @@
 /**************** Premium Carousel ****************/
-/**************************************************/
+/*************************************************  */
+.premium-carousel-wrapper {
+  /* Custom Navigation Dot */
+}
 .premium-carousel-wrapper a.carousel-arrow,
 .premium-carousel-wrapper a.ver-carousel-arrow {
   display: -webkit-flex;
@@ -53,6 +56,16 @@
 .premium-carousel-wrapper .premium-carousel-content-hidden {
   visibility: hidden;
 }
+.premium-carousel-wrapper .premium-carousel-nav-dot,
+.premium-carousel-wrapper .premium-carousel-nav-arrow-prev,
+.premium-carousel-wrapper .premium-carousel-nav-arrow-next {
+  display: none;
+}
+.premium-carousel-wrapper ul.slick-dots svg {
+  width: 20px;
+  height: 20px;
+  outline: none !important;
+}
 
 .ver-carousel-arrow.carousel-next i {
   margin-bottom: -3px;
@@ -79,20 +92,6 @@
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-}
-
-/*
-* Custom Navigation Dot
-*/
-.premium-carousel-wrapper .premium-carousel-nav-dot,
-.premium-carousel-wrapper .premium-carousel-nav-arrow-prev,
-.premium-carousel-wrapper .premium-carousel-nav-arrow-next {
-  display: none;
-}
-.premium-carousel-wrapper ul.slick-dots svg {
-  width: 20px;
-  height: 20px;
-  outline: none !important;
 }
 
 /* Ripple Out */
@@ -130,7 +129,7 @@
   position: relative;
   z-index: 1;
 }
-.premium-carousel-ripple-yes ul.slick-dots li:hover:before {
+.premium-carousel-ripple-yes ul.slick-dots li:hover::before {
   content: "";
   position: absolute;
   -webkit-transform: scale(1);
@@ -143,13 +142,11 @@
   border-radius: 50%;
   pointer-events: none;
   background-color: rgba(0, 0, 0, 0.15);
-}
-.premium-carousel-ripple-yes ul.slick-dots li.slick-active:hover:before {
-  background-color: rgba(0, 0, 0, 0.3);
-}
-.premium-carousel-ripple-yes ul.slick-dots li:hover:before {
   -webkit-animation: hvr-ripple-out 1.3s infinite;
   animation: hvr-ripple-out 1.3s infinite;
+}
+.premium-carousel-ripple-yes ul.slick-dots li.slick-active:hover::before {
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .premium-carousel-wrapper.premium-carousel-scale .premium-carousel-inner .slick-slide {
@@ -234,10 +231,39 @@
   height: 100%;
 }
 
+.pa-carousel-gallery.premium-carousel__eq-height-yes.pa-thumb-info-default .premium-carousel-template,
+.pa-carousel-gallery.premium-carousel__eq-height-yes.pa-thumb-info-default .premium-carousel-template > a {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.pa-carousel-gallery.premium-carousel__eq-height-yes.pa-thumb-info-default .premium-carousel-template > a {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.pa-carousel-gallery.premium-carousel__eq-height-yes.pa-thumb-info-default img {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
+}
+.pa-carousel-gallery.premium-carousel__eq-height-yes.pa-thumb-info-default .premium-carousel-thumb-info {
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+
 .pa-carousel-gallery .premium-carousel-template.slick-slide {
   text-align: center;
 }
 .pa-carousel-gallery .premium-carousel-template.slick-slide img {
+  display: block;
   -webkit-transition: -webkit-filter 0.5s ease-in-out;
   transition: -webkit-filter 0.5s ease-in-out;
   transition: filter 0.5s ease-in-out;
@@ -258,6 +284,11 @@
 .premium-carousel-thumbnail {
   margin-left: 3px;
   margin-right: 3px;
+  overflow: hidden;
+  -webkit-transition: box-shadow 0.2s ease-in-out, border-radius 0.2s ease-in-out, border 0.2s ease-in-out, opacity 0.2s ease-in-out, -webkit-filter 0.2s ease-in-out;
+  transition: box-shadow 0.2s ease-in-out, border-radius 0.2s ease-in-out, border 0.2s ease-in-out, opacity 0.2s ease-in-out, -webkit-filter 0.2s ease-in-out;
+  transition: filter 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-radius 0.2s ease-in-out, border 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  transition: filter 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-radius 0.2s ease-in-out, border 0.2s ease-in-out, opacity 0.2s ease-in-out, -webkit-filter 0.2s ease-in-out;
 }
 
 .pa-thumb-nav-pos-col .premium-carousel-wrapper,
@@ -314,13 +345,6 @@
   height: 120px;
 }
 
-.premium-carousel-thumbnail {
-  -webkit-transition: box-shadow 0.2s ease-in-out, border-radius 0.2s ease-in-out, border 0.2s ease-in-out, opacity 0.2s ease-in-out, -webkit-filter 0.2s ease-in-out;
-  transition: box-shadow 0.2s ease-in-out, border-radius 0.2s ease-in-out, border 0.2s ease-in-out, opacity 0.2s ease-in-out, -webkit-filter 0.2s ease-in-out;
-  transition: filter 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-radius 0.2s ease-in-out, border 0.2s ease-in-out, opacity 0.2s ease-in-out;
-  transition: filter 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-radius 0.2s ease-in-out, border 0.2s ease-in-out, opacity 0.2s ease-in-out, -webkit-filter 0.2s ease-in-out;
-}
-
 .premium-carousel-thumbnail-container {
   background-repeat: no-repeat;
   background-size: cover;
@@ -339,8 +363,12 @@
   z-index: 999;
 }
 
-.pa-thumb-info-overlay .premium-carousel-thumbnail {
+.pa-thumb-info-overlay .premium-carousel-thumbnail,
+.pa-thumb-info-overlay .premium-carousel-template {
   position: relative;
+}
+.pa-thumb-info-overlay .premium-carousel-template .premium-carousel-thumb-info {
+  pointer-events: none;
 }
 .pa-thumb-info-overlay .premium-carousel-thumb-info {
   position: absolute;
@@ -351,7 +379,8 @@
   transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
 }
 .pa-thumb-info-overlay.pa-thumb-info-on-hover-yes .premium-carousel-thumbnail:hover .premium-carousel-thumb-info,
-.pa-thumb-info-overlay.pa-thumb-info-on-hover-yes .premium-carousel-thumbnail.slick-current .premium-carousel-thumb-info {
+.pa-thumb-info-overlay.pa-thumb-info-on-hover-yes .premium-carousel-thumbnail.slick-current .premium-carousel-thumb-info,
+.pa-thumb-info-overlay.pa-thumb-info-on-hover-yes .premium-carousel-template:hover .premium-carousel-thumb-info {
   opacity: 1;
   visibility: visible;
 }
@@ -381,4 +410,4 @@
   text-align: center;
 }
 
-/*Responsive Layout*/
+/* Responsive Layout */

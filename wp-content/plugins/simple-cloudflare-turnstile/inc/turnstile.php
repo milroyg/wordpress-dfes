@@ -42,8 +42,11 @@ function cfturnstile_field_show($button_id = '', $callback = '', $form_name = ''
 			} else {
 				$label_text = wp_strip_all_tags($label_text);
 			}
+			$label_interaction = ( get_option('cfturnstile_appearance', 'always') === 'interaction-only' );
+			$label_class = 'cfturnstile-widget-label' . ( $label_interaction ? ' cfturnstile-widget-label-interaction' : '' );
+			$label_style = 'font-size: 14px; margin: 0 0 6px 0; width: 100%;' . ( $label_interaction ? ' display: none;' : '' );
 			?>
-			<p class="cfturnstile-widget-label" style="font-size: 14px; margin: 0 0 6px 0;"><small><?php echo esc_html($label_text); ?></small></p>
+			<p class="<?php echo esc_attr($label_class); ?>" style="<?php echo esc_attr($label_style); ?>"><small><?php echo esc_html($label_text); ?></small></p>
 			<?php
 		}
 		$key = sanitize_text_field(get_option('cfturnstile_key'));
@@ -51,19 +54,22 @@ function cfturnstile_field_show($button_id = '', $callback = '', $form_name = ''
 		$language = sanitize_text_field(get_option('cfturnstile_language'));
 		$appearance = sanitize_text_field(get_option('cfturnstile_appearance', 'always'));
 		$cfturnstile_size = sanitize_text_field(get_option('cfturnstile_size'), 'normal');
+		$refresh_timeout = sanitize_text_field(get_option('cfturnstile_refresh_timeout', 'auto'));
 			if(!$language) { $language = 'auto'; }
+			if(!$refresh_timeout) { $refresh_timeout = 'auto'; }
 		?>
 		<div id="cf-turnstile<?php echo esc_attr($unique_id); ?>"
-		class="cf-turnstile<?php if($class) { echo " " . esc_attr($class); } ?>" <?php if (get_option('cfturnstile_disable_button')) { ?>data-callback="<?php echo esc_attr($callback); ?>"<?php } ?>
+		class="cf-turnstile<?php if($class) { echo " " . esc_attr($class); } ?>"
 		data-sitekey="<?php echo esc_attr($key); ?>"
 		data-theme="<?php echo esc_attr($theme); ?>"
 		data-language="<?php echo esc_attr($language); ?>"
 		data-size="<?php echo esc_attr($cfturnstile_size); ?>"
 		data-retry="auto" data-retry-interval="1000"
 		data-refresh-expired="auto"
+		data-refresh-timeout="<?php echo esc_attr($refresh_timeout); ?>"
 		data-action="<?php echo esc_attr($form_name); ?>"
+		data-callback="<?php echo esc_attr($callback); ?>"
 		<?php if(get_option('cfturnstile_failure_message_enable')) { ?>
-		data-callback="cfturnstileCallback"
 		data-error-callback="cfturnstileErrorCallback"
 		<?php } ?>
 		data-appearance="<?php echo esc_attr($appearance); ?>"></div>
@@ -98,8 +104,9 @@ function cfturnstile_always_br($unique_id) {
 		<br class="cf-turnstile-br cf-turnstile-br<?php echo esc_attr($unique_id); ?>">
 		<?php
 	} else {
+		// Interaction Only / Execute: only show the spacer when the widget is actually visible.
 		?>
-		<style>#cf-turnstile<?php echo esc_html($unique_id); ?> iframe { margin-bottom: 15px; }</style>
+		<br class="cf-turnstile-br cf-turnstile-br<?php echo esc_attr($unique_id); ?> cfturnstile-widget-spacer-interaction" style="display: none;">
 		<?php
 	}
 }
@@ -155,19 +162,56 @@ function cfturnstile_failed_text($unique_id) {
 
 /**
  * Render Turnstile (Explicitly)
+ *
+ * Adds the widget id to the queue set up by cfturnstile_api_bootstrap(). Whether the API has
+ * loaded yet does not matter - the queue is a plain global array, drained on Cloudflare's
+ * onload callback and again whenever a widget is added.
  */
 add_action("cfturnstile_after_field", "cfturnstile_force_render", 10, 1);
 function cfturnstile_force_render($unique_id = '') {
-	if(function_exists('cfturnstile_is_block_based_checkout') && cfturnstile_is_block_based_checkout()) {
+	$unique_id = sanitize_text_field($unique_id);
+	// On a block based checkout the checkout widget is rendered by woocommerce.js, which also
+	// wires it to the wc/store/checkout data store. Skip only that one widget - anything else
+	// on the same page (a comment form, a shortcode) still needs rendering here, because the
+	// API is loaded in explicit mode and nothing else would ever render it.
+	if ( '-woo-checkout' === $unique_id && function_exists('cfturnstile_is_block_based_checkout') && cfturnstile_is_block_based_checkout() ) {
 		return;
 	}
-	$unique_id = sanitize_text_field($unique_id);
-	$key = sanitize_text_field(get_option('cfturnstile_key'));
 	if($unique_id) {
-	?>
-	<script>document.addEventListener("DOMContentLoaded", function() { setTimeout(function(){ var e=document.getElementById("cf-turnstile<?php echo esc_html($unique_id); ?>"); e&&!e.innerHTML.trim()&&(turnstile.remove("#cf-turnstile<?php echo esc_html($unique_id); ?>"), turnstile.render("#cf-turnstile<?php echo esc_html($unique_id); ?>", {sitekey:"<?php echo esc_html($key); ?>"})); }, 100); });</script>
-	<?php
+		$escaped_id = esc_js($unique_id);
+		$script = '(window.cfturnstileQueue=window.cfturnstileQueue||[]).push("' . $escaped_id . '");if(window.cfturnstileRender)window.cfturnstileRender();';
+
+		// With no footer left to print into, an enqueue silently goes nowhere and the widget
+		// would never render. Emit the script with the markup instead.
+		if ( cfturnstile_footer_scripts_unavailable() ) {
+			// $script is static apart from an esc_js() escaped element id.
+			echo '<script data-cfasync="false">' . $script . '</script>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			return;
+		}
+
+		if ( ! wp_script_is('cfturnstile-render', 'registered') ) {
+			wp_register_script('cfturnstile-render', '', array(), false, array('in_footer' => true));
+		}
+		wp_enqueue_script('cfturnstile-render');
+		wp_add_inline_script('cfturnstile-render', $script);
 	}
+}
+
+/**
+ * Whether an enqueued footer script can still reach the browser for this request.
+ *
+ * @return bool True when the footer has gone (or never existed) and scripts must be inlined.
+ */
+function cfturnstile_footer_scripts_unavailable() {
+	if ( wp_doing_ajax() ) {
+		return true;
+	}
+	if ( defined('REST_REQUEST') && REST_REQUEST ) {
+		return true;
+	}
+	// wp_print_footer_scripts covers the front end, wp-login.php and embeds; admin screens print
+	// their footer scripts on admin_print_footer_scripts instead.
+	return did_action('wp_print_footer_scripts') || did_action('admin_print_footer_scripts');
 }
 
 /**
@@ -176,7 +220,7 @@ function cfturnstile_force_render($unique_id = '') {
  * @param string $postdata
  * @return bool
  */
-function cfturnstile_check($postdata = "") {
+function cfturnstile_check($postdata = "", $form_action = "") {
 
 	$results = array();
 
@@ -245,67 +289,50 @@ function cfturnstile_check($postdata = "") {
 			$results['success'] = false;
 		}
 
-		foreach ($response as $key => $val) {
-			if ($key == 'error-codes') {
-				foreach ($val as $key => $error_val) {
+		foreach ( $response as $key => $val ) {
+			if ( 'error-codes' === $key ) {
+				foreach ( $val as $key => $error_val ) {
 					$results['error_code'] = $error_val;
-					if($error_val == 'invalid-input-secret') {
-						update_option('cfturnstile_tested', 'no'); // Disable if invalid secret
+					if ( 'invalid-input-secret' === $error_val ) {
+						// Rate-limit: only process once per 5 minutes to avoid repeated DB writes on high-traffic sites.
+						if ( false === get_transient( 'cfturnstile_invalid_secret_throttle' ) ) {
+							set_transient( 'cfturnstile_invalid_secret_throttle', 1, 5 * MINUTE_IN_SECONDS );
+							$already_flagged = ( 'no' === get_option( 'cfturnstile_soft_tested' ) );
+							update_option( 'cfturnstile_invalid_secret_notice', '1' );
+							update_option( 'cfturnstile_soft_tested', 'no' );
+							if ( ! $already_flagged ) {
+								$admin_email  = get_option( 'admin_email' );
+								$site_name    = get_bloginfo( 'name' );
+								$settings_url = admin_url( 'options-general.php?page=cfturnstile' );
+								$subject      = sprintf(
+									/* translators: %s: Site name. */
+									__( '[%s] Cloudflare Turnstile: Invalid Secret Key Detected', 'simple-cloudflare-turnstile' ),
+									$site_name
+								);
+								$message = sprintf(
+									/* translators: 1: Site name, 2: Settings page URL. */
+									__( "Cloudflare has reported that the Turnstile secret key on %1\$s is invalid (error: invalid-input-secret).\n\nTurnstile is still active on your forms, but verifications may be failing until the key is corrected.\n\nPlease check your API keys on the settings page:\n%2\$s", 'simple-cloudflare-turnstile' ),
+									$site_name,
+									$settings_url
+								);
+								wp_mail( $admin_email, $subject, $message );
+							}
+						}
 					}
 				}
 			}
 		}
 
-		do_action('cfturnstile_after_check', $response, $results);
+		do_action('cfturnstile_after_check', $response, $results, $form_action);
 
 		return $results;
 
 	} else {
 
-		return false;
+		return array( 'success' => false );
 
 	}
 	
-}
-
-/* 
- * Add Turnstile check to a "cfturnstile_log" option
- */
-add_action('cfturnstile_after_check', 'cfturnstile_log', 10, 2);
-function cfturnstile_log($response, $results) {
-	if(get_option('cfturnstile_log_enable')) {
-		// Get log
-		$cfturnstile_log = get_option('cfturnstile_log');
-		if(!$cfturnstile_log) {
-			$cfturnstile_log = array();
-		}
-		// If $results['error_code'] is not set, set it to empty
-		if(!isset($results['error_code'])) {
-			$results['error_code'] = '';
-		}
-		// Get Values
-		$error_code = $results['error_code'];
-		// Success Yes or No
-		if($response->success) {
-			$success = true;
-		} else {
-			$success = false;
-		}
-		// Add to log
-		$cfturnstile_log[] = array(
-			'date' => date('Y-m-d H:i:s'),
-			'success' => $success,
-			'error' => $error_code,
-			'ip' => cfturnstile_get_ip(),
-			'page' => $_SERVER['REQUEST_URI'],
-		);
-		// Max 50
-		if(count($cfturnstile_log) > 50) {
-			array_shift($cfturnstile_log);
-		}
-		// Update log
-		update_option('cfturnstile_log', $cfturnstile_log);
-	}
 }
 
 /**
@@ -327,7 +354,7 @@ add_shortcode('simple-turnstile', 'cfturnstile_shortcode');
 add_action('cfturnstile_display_widget', 'cfturnstile_shortcode', 10, 0);
 function cfturnstile_shortcode() {
 	ob_start();
-	echo cfturnstile_field_show('', '');
+	echo cfturnstile_field_show('', '', '', '-' . wp_rand());
 	$thecontent = ob_get_contents();
 	ob_end_clean();
 	wp_reset_postdata();

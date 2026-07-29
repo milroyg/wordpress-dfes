@@ -50,6 +50,47 @@ class Clicks extends Base_DB {
 	}
 
 	/**
+	 * Build a created_at SQL filter for either a day range or an explicit date range.
+	 *
+	 * @param int    $days
+	 * @param string $start_date
+	 * @param string $end_date
+	 * @param string $column
+	 *
+	 * @return string
+	 */
+	private function get_created_at_filter( $days = 0, $start_date = '', $end_date = '', $column = 'created_at' ) {
+		global $wpdb;
+
+		if ( ! empty( $start_date ) && ! empty( $end_date ) ) {
+			$start = \DateTimeImmutable::createFromFormat( 'Y-m-d', $start_date );
+			$end   = \DateTimeImmutable::createFromFormat( 'Y-m-d', $end_date );
+
+			if ( ! $start || ! $end ) {
+				return '';
+			}
+
+			if ( $start > $end ) {
+				$swap  = $start;
+				$start = $end;
+				$end   = $swap;
+			}
+
+			return $wpdb->prepare(
+				"{$column} >= %s AND {$column} <= %s",
+				$start->format( 'Y-m-d 00:00:00' ),
+				$end->format( 'Y-m-d 23:59:59' )
+			);
+		}
+
+		if ( absint( $days ) > 0 ) {
+			return $wpdb->prepare( "{$column} >= DATE_SUB(NOW(), INTERVAL %d DAY)", absint( $days ) );
+		}
+
+		return '';
+	}
+
+	/**
 	 * Get columns and formats
 	 *
 	 * @since 1.0.0
@@ -291,13 +332,13 @@ class Clicks extends Base_DB {
 	 *
 	 * @return int
 	 */
-	public function count_clicks_for_dashboard( $days = 365, $search = '', $link_ids = [] ) {
+	public function count_clicks_for_dashboard( $days = 365, $search = '', $link_ids = [], $start_date = '', $end_date = '' ) {
 		global $wpdb;
 
 		$clicks_table = "{$wpdb->prefix}kc_us_clicks";
 		$links_table  = "{$wpdb->prefix}kc_us_links";
 
-		$filter = $this->build_dashboard_where_clause( $days, $search, $link_ids );
+		$filter = $this->build_dashboard_where_clause( $days, $search, $link_ids, $start_date, $end_date );
 
 		$query = "SELECT COUNT(*) FROM {$clicks_table} as clicks INNER JOIN {$links_table} as links ON clicks.link_id = links.id {$filter['where']}";
 
@@ -323,13 +364,13 @@ class Clicks extends Base_DB {
 	 *
 	 * @return array
 	 */
-	public function get_clicks_for_dashboard( $days = 365, $length = 10, $offset = 0, $search = '', $order_by = 'created_at', $order_dir = 'DESC', $link_ids = [] ) {
+	public function get_clicks_for_dashboard( $days = 365, $length = 10, $offset = 0, $search = '', $order_by = 'created_at', $order_dir = 'DESC', $link_ids = [], $start_date = '', $end_date = '' ) {
 		global $wpdb;
 
 		$clicks_table = "{$wpdb->prefix}kc_us_clicks";
 		$links_table  = "{$wpdb->prefix}kc_us_links";
 
-		$filter = $this->build_dashboard_where_clause( $days, $search, $link_ids );
+		$filter = $this->build_dashboard_where_clause( $days, $search, $link_ids, $start_date, $end_date );
 
 		$order_by    = in_array( $order_by, [ 'ip', 'uri', 'name', 'host', 'referer', 'created_at' ], true ) ? $order_by : 'created_at';
 		$order_dir   = 'ASC' === strtoupper( $order_dir ) ? 'ASC' : 'DESC';
@@ -352,15 +393,15 @@ class Clicks extends Base_DB {
 	 *
 	 * @return array{where:string,args:array}
 	 */
-	private function build_dashboard_where_clause( $days, $search, $link_ids = [] ) {
+	private function build_dashboard_where_clause( $days, $search, $link_ids = [], $start_date = '', $end_date = '' ) {
 		global $wpdb;
 
 		$where = [];
 		$args  = [];
 
-		if ( $days > 0 ) {
-			$where[] = 'clicks.created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)';
-			$args[]  = absint( $days );
+		$date_filter = $this->get_created_at_filter( $days, $start_date, $end_date, 'clicks.created_at' );
+		if ( ! empty( $date_filter ) ) {
+			$where[] = $date_filter;
 		}
 
 		if ( ! empty( $search ) ) {
@@ -386,7 +427,7 @@ class Clicks extends Base_DB {
 			}
 		}
 
-		$where_sql = 'WHERE ' . implode( ' AND ', $where );
+		$where_sql = ! empty( $where ) ? 'WHERE ' . implode( ' AND ', $where ) : '';
 
 		return [
 			'where' => $where_sql,
@@ -455,6 +496,63 @@ class Clicks extends Base_DB {
 		for ( $i = 0; $stop_date <= $end_date; $i ++ ) {
 			$final_data[ $stop_date ] = Helper::get_data( $data, $stop_date, 0 );
 
+			$stop_date = date( 'Y-m-d', strtotime( $stop_date . ' +1 day' ) );
+		}
+
+		return $final_data;
+	}
+
+	/**
+	 * Get unique clicks data by day.
+	 *
+	 * @since 1.9.1
+	 *
+	 * @param string $start_date
+	 * @param string $end_date
+	 * @param array  $link_ids
+	 *
+	 * @return array
+	 */
+	public function get_unique_clicks_count_by_days( $start_date = '', $end_date = '', $link_ids = [] ) {
+		global $wpdb;
+
+		$clicks_table = "{$wpdb->prefix}kc_us_clicks";
+
+		$query = "SELECT DATE(created_at) as date, IF(COUNT(CASE WHEN is_first_click = 1 THEN 1 ELSE NULL END) IS NULL, 0, COUNT(CASE WHEN is_first_click = 1 THEN 1 ELSE NULL END)) as count FROM $clicks_table";
+
+		$where = [];
+		if ( ! empty( $link_ids ) ) {
+			$link_ids_str = $this->prepare_for_in_query( $link_ids );
+			$where[] = "link_id IN ($link_ids_str)";
+		}
+
+		$where[] = $wpdb->prepare( 'DATE(created_at) >= %s AND DATE(created_at) <= %s ', $start_date, $end_date );
+
+		if ( ! empty( $where ) ) {
+			$where = implode( ' AND ', $where );
+			$query .= " WHERE $where";
+		}
+
+		$query .= 'GROUP BY DATE(created_at) ORDER BY DATE(created_at) DESC';
+
+		$results = $wpdb->get_results( $query, ARRAY_A );
+
+		$data = [];
+		if ( Helper::is_forechable( $results ) ) {
+			foreach ( $results as $result ) {
+				$data[ $result['date'] ] = $result['count'];
+			}
+
+			end( $data );
+			$last_date = key( $data );
+			$stop_date = date( 'Y-m-d', strtotime( $last_date . ' -1 day' ) );
+		} else {
+			$stop_date = date( 'Y-m-d', strtotime( 'today -1 day' ) );
+		}
+
+		$final_data = [];
+		for ( $i = 0; $stop_date <= $end_date; $i ++ ) {
+			$final_data[ $stop_date ] = Helper::get_data( $data, $stop_date, 0 );
 			$stop_date = date( 'Y-m-d', strtotime( $stop_date . ' +1 day' ) );
 		}
 
@@ -734,6 +832,50 @@ class Clicks extends Base_DB {
 	}
 
 	/**
+	 * Get total clicks and unique clicks by tag ids.
+	 *
+	 * @param $tag_ids
+	 *
+	 * @return array
+	 *
+	 * @since 1.13.1
+	 */
+	public function get_total_clicks_and_unique_clicks_by_tag_ids( $tag_ids ) {
+		global $wpdb;
+
+		if ( empty( $tag_ids ) ) {
+			return [];
+		}
+
+		if ( ! is_array( $tag_ids ) ) {
+			$tag_ids = [ $tag_ids ];
+		}
+
+		$tag_ids_str = $this->prepare_for_in_query( $tag_ids );
+
+		$clicks_table     = $wpdb->prefix . 'kc_us_clicks';
+		$link_tags_table  = $wpdb->prefix . 'kc_us_links_tags';
+
+		$query = "SELECT lt.tag_id, COUNT(c.link_id) AS total_clicks, COUNT(DISTINCT CASE WHEN c.is_first_click = 1 THEN c.id ELSE NULL END) AS unique_clicks
+				FROM {$clicks_table} c
+				JOIN {$link_tags_table} lt ON c.link_id = lt.link_id
+				WHERE lt.tag_id IN ({$tag_ids_str})
+				GROUP BY lt.tag_id";
+
+		$results = $wpdb->get_results( $query, ARRAY_A );
+
+		$clicks_data = [];
+		if ( ! empty( $results ) ) {
+			foreach ( $results as $result ) {
+				$clicks_data[ $result['tag_id'] ]['total_clicks']  = $result['total_clicks'];
+				$clicks_data[ $result['tag_id'] ]['unique_clicks'] = $result['unique_clicks'];
+			}
+		}
+
+		return $clicks_data;
+	}
+
+	/**
 	 * Get total clicks by time range.
 	 *
 	 * @param $start_time
@@ -807,20 +949,46 @@ class Clicks extends Base_DB {
 	}
 
 	/**
-	 * Get data for Spline Chart
+	 * Get data for Spline Chart.
+	 *
+	 * @param int   $days     Number of days to include. Defaults to 365.
+	 * @param array $link_ids Optional link ids to filter by.
+	 *
+	 * @return array
 	 */
-	public function get_spline_chart_data() {
+	public function get_spline_chart_data( $days = 365, $link_ids = [] ) {
 		global $wpdb;
-		$result = $wpdb->get_results( "
-			SELECT 
-				DATE(created_at) as date, 
-				COUNT(id) as total_clicks, 
-				COUNT(DISTINCT ip) as unique_clicks 
-			FROM {$this->table_name} 
-			WHERE created_at >= DATE_SUB(NOW(), INTERVAL 1 YEAR)
-			GROUP BY DATE(created_at)
-			ORDER BY date ASC
-		", ARRAY_A );
+
+		$where = [];
+
+		if ( ! empty( $link_ids ) ) {
+			if ( ! is_array( $link_ids ) ) {
+				$link_ids = [ $link_ids ];
+			}
+
+			$link_ids_str = $this->prepare_for_in_query( $link_ids );
+			$where[]      = "link_id IN ($link_ids_str)";
+		}
+
+		if ( $days > 0 ) {
+			$where[] = $wpdb->prepare( 'created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)', absint( $days ) );
+		}
+
+		$query = "
+			SELECT
+				DATE(created_at) as date,
+				COUNT(id) as total_clicks,
+				COUNT(DISTINCT ip) as unique_clicks
+			FROM {$this->table_name}
+		";
+
+		if ( ! empty( $where ) ) {
+			$query .= ' WHERE ' . implode( ' AND ', $where );
+		}
+
+		$query .= ' GROUP BY DATE(created_at) ORDER BY date ASC';
+
+		$result = $wpdb->get_results( $query, ARRAY_A );
 
 		return ! empty( $result ) ? $result : [];
 	}
@@ -828,15 +996,33 @@ class Clicks extends Base_DB {
 	/**
 	 * Get data for Heatmap (Last 1 year)
 	 */
-	public function get_heatmap_intensity_data() {
+	public function get_heatmap_intensity_data( $days = 365, $link_ids = [] ) {
 		global $wpdb;
-		$result = $wpdb->get_results( "
-			SELECT DATE(created_at) as date, COUNT(id) as count 
-			FROM {$this->table_name} 
-			WHERE created_at >= DATE_SUB(NOW(), INTERVAL 1 YEAR)
-			GROUP BY DATE(created_at)
-			ORDER BY date ASC
-		", ARRAY_A );
+
+		$where = [];
+
+		if ( ! empty( $link_ids ) ) {
+			if ( ! is_array( $link_ids ) ) {
+				$link_ids = [ $link_ids ];
+			}
+
+			$link_ids_str = $this->prepare_for_in_query( $link_ids );
+			$where[]      = "link_id IN ($link_ids_str)";
+		}
+
+		if ( $days > 0 ) {
+			$where[] = $wpdb->prepare( 'created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)', absint( $days ) );
+		}
+
+		$query = "SELECT DATE(created_at) as date, COUNT(id) as count FROM {$this->table_name}";
+
+		if ( ! empty( $where ) ) {
+			$query .= ' WHERE ' . implode( ' AND ', $where );
+		}
+
+		$query .= ' GROUP BY DATE(created_at) ORDER BY date ASC';
+
+		$result = $wpdb->get_results( $query, ARRAY_A );
 		return ! empty( $result ) ? $result : [];
 	}	
 }

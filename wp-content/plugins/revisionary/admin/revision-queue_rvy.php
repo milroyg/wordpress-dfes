@@ -23,25 +23,27 @@ if (rvy_get_option('revision_queue_capability') && !is_content_administrator_rvy
 
 set_current_screen( 'revisionary-q' );
 
-if (!empty($_REQUEST['post_type2'])) {
-	$_REQUEST['post_type'] = $_REQUEST['post_type2'];
+if (!empty($_REQUEST['post_type2'])) {										// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$_REQUEST['post_type'] = sanitize_key($_REQUEST['post_type2']);			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 }
 
-if (!empty($_REQUEST['post_status2'])) {
-	$_REQUEST['post_status'] = $_REQUEST['post_status2'];
+if (!empty($_REQUEST['post_status2'])) {									// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$_REQUEST['post_status'] = sanitize_key($_REQUEST['post_status2']);		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 }
 
-if (!empty($_REQUEST['post_type'])) {
+$_post_type = !empty($_REQUEST['post_type']) ? sanitize_key($_REQUEST['post_type']) : '';	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+if ($_post_type) {
 	add_action('admin_print_footer_scripts', 
-		function() {
+		function() use ($_post_type) {
 			?>
 			<script type="text/javascript">
 				/* <![CDATA[ */
 				jQuery(document).ready( function($) {
-					$('a.next-page').prop('href', $('a.next-page').attr('href') + '&post_type=<?php echo sanitize_key($_REQUEST['post_type']);?>');
-					$('a.last-page').prop('href', $('a.last-page').attr('href') + '&post_type=<?php echo sanitize_key($_REQUEST['post_type']);?>');
-					$('a.prev-page').prop('href', $('a.prev-page').attr('href') + '&post_type=<?php echo sanitize_key($_REQUEST['post_type']);?>');
-					$('a.first-page').prop('href', $('a.first-page').attr('href') + '&post_type=<?php echo sanitize_key($_REQUEST['post_type']);?>');
+					$('a.next-page').prop('href', $('a.next-page').attr('href') + '&post_type=<?php echo sanitize_key($_post_type);   // phpcs:ignore WordPress.Security.NonceVerification.Recommended?>');
+					$('a.last-page').prop('href', $('a.last-page').attr('href') + '&post_type=<?php echo sanitize_key($_post_type);   // phpcs:ignore WordPress.Security.NonceVerification.Recommended?>');
+					$('a.prev-page').prop('href', $('a.prev-page').attr('href') + '&post_type=<?php echo sanitize_key($_post_type);   // phpcs:ignore WordPress.Security.NonceVerification.Recommended?>');
+					$('a.first-page').prop('href', $('a.first-page').attr('href') + '&post_type=<?php echo sanitize_key($_post_type); // phpcs:ignore WordPress.Security.NonceVerification.Recommended?>');
 				});
 				/* ]]> */
 			</script>
@@ -121,38 +123,44 @@ if (!empty($_REQUEST['published_post'])) {												//phpcs:ignore WordPress.S
 
 $filters = [];
 
-if (!empty($_REQUEST['author'])) {																	 //phpcs:ignore WordPress.Security.NonceVerification.Recommended
-	if ($_user = new WP_User((int) $_REQUEST['author'])) {											 //phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$filters['author'] = (!empty($_REQUEST['post_status']) || !empty($_REQUEST['post_status']))  //phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		? sprintf(_x('%s: ', 'Author Name', 'revisionary'), $_user->display_name)
-		: $_user->display_name;
-	}
-}
-
 if (!empty($_REQUEST['post_status'])) {																//phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	if ($status_obj = get_post_status_object(sanitize_key($_REQUEST['post_status']))) {				//phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$filters['post_status'] = (!empty($status_obj->labels->plural)) ? $status_obj->labels->plural : $status_obj->label;
 	}
 }
 
-if (!empty($_REQUEST['post_type']) && empty($published_title)) {									//phpcs:ignore WordPress.Security.NonceVerification.Recommended
-	$filters['post_type'] = (!empty($_REQUEST['post_status'])) 										//phpcs:ignore WordPress.Security.NonceVerification.Recommended
-	? sprintf(_x('of %s', 'Posts / Pages / etc.', 'revisionary'), $type_obj->labels->name) 
-	: $type_obj->labels->name;
+if (!empty($_REQUEST['post_type']) && !empty($published_title)) {									//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$filters['post_type'] = sprintf(_x('of %s "%s"', 'Revisions of Post "Post Title"', 'revisionary'), $type_obj->labels->singular_name, $published_title);
+
+} elseif (!empty($_REQUEST['post_type'])) {															//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$filters['post_type'] = sprintf(_x('of %s', 'Posts / Pages / etc.', 'revisionary'), $type_obj->labels->name);
+
+} elseif (!empty($published_title)) {
+	$filters['post_type'] = sprintf(_x('of "%s"', 'Revisions of "Post Title"', 'revisionary'), $published_title);
 }
 
-if (!empty($_REQUEST['post_author']) && empty($published_title)) {									//phpcs:ignore WordPress.Security.NonceVerification.Recommended
-	if ($_user = new WP_User((int) $_REQUEST['post_author'])) {										//phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$filters['post_author'] = $filters 															//phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		? sprintf(esc_html__('%sPost Author: %s', 'revisionary'), ' - ', $_user->display_name) 
-		: sprintf(esc_html__('%sPost Author: %s', 'revisionary'), '', $_user->display_name);
+if (!empty($_REQUEST['author'])) {																	 //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	if ($_user = new WP_User((int) $_REQUEST['author'])) {											 //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$filters['author'] = sprintf(_x('by %s ', 'Author Name', 'revisionary'), $_user->display_name);
 	}
 }
 
-$filter_csv = ($filters) ? ' (' . implode(" ", $filters) . ')' : '';
+if (!empty($_REQUEST['modified'])) {																//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$filters['modified'] = (!empty($_REQUEST['modified'])) 											//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	? sprintf(_x('on %s', 'revision date', 'revisionary'), date('Y-m-d', intval($_REQUEST['modified']))) 	//phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.DateTime.RestrictedFunctions.date_date
+	: '';
+}
 
-if (!empty($published_title)) {
-	printf( esc_html(_x('New Revisions for "%s"%s', 'PublishedPostName (other filter captions)', 'revisionary')), esc_html($published_title), esc_html($filter_csv) );
+if (!empty($_REQUEST['post_author'])) {									//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	if ($_user = new WP_User((int) $_REQUEST['post_author'])) {										//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$filters['post_author'] = sprintf(esc_html__(' (Post Author: %s)', 'revisionary'), $_user->display_name);
+	}
+}
+
+$filter_csv = ($filters) ? ' ' . implode(" ", $filters) : '';
+
+if (!empty($filters['post_status'])) {
+	echo esc_html($filter_csv);
 } else
 	printf( esc_html__('New Revisions %s', 'revisionary' ), esc_html($filter_csv));
 ?></h1>

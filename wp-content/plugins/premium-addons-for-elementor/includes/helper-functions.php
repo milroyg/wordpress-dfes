@@ -547,34 +547,42 @@ class Helper_Functions {
 
 		$vimeo_data = get_transient( 'premium_vimeo_' . $video_id );
 
-		if ( $vimeo_data === false ) {
+		if ( false === $vimeo_data ) {
 
-			$vimeo_data = wp_remote_get( 'http://www.vimeo.com/api/v2/video/' . intval( $video_id ) . '.php' );
+			$response = wp_remote_get(
+				'https://vimeo.com/api/oembed.json?url=' . rawurlencode( 'https://vimeo.com/' . intval( $video_id ) ) . '&width=1280',
+				array(
+					'timeout'   => 5,
+					'sslverify' => true,
+				)
+			);
 
-			if ( is_wp_error( $vimeo_data ) ) {
+			if ( is_wp_error( $response ) ) {
 				return false;
 			}
 
-			if ( isset( $vimeo_data['response']['code'] ) ) {
+			$status_code = wp_remote_retrieve_response_code( $response );
 
-				if ( 200 === $vimeo_data['response']['code'] ) {
+			if ( 200 === $status_code ) {
 
-					$response  = maybe_unserialize( $vimeo_data['body'] );
-					$thumbnail = isset( $response[0]['thumbnail_large'] ) ? $response[0]['thumbnail_large'] : false;
+				$body = json_decode( wp_remote_retrieve_body( $response ), true );
 
-					$data = array(
-						'src'      => $thumbnail,
-						'url'      => $response[0]['user_url'],
-						'portrait' => $response[0]['user_portrait_huge'],
-						'title'    => $response[0]['title'],
-						'user'     => $response[0]['user_name'],
-					);
-
-					set_transient( 'premium_vimeo_' . $video_id, $data, WEEK_IN_SECONDS );
-
-					return $data;
-
+				if ( ! is_array( $body ) ) {
+					return false;
 				}
+
+				$vimeo_data = array(
+					'src'      => isset( $body['thumbnail_url'] ) ? $body['thumbnail_url'] : false,
+					'url'      => isset( $body['author_url'] ) ? $body['author_url'] : false,
+					'portrait' => false,
+					'title'    => isset( $body['title'] ) ? $body['title'] : false,
+					'user'     => isset( $body['author_name'] ) ? $body['author_name'] : false,
+				);
+
+				set_transient( 'premium_vimeo_' . $video_id, $vimeo_data, WEEK_IN_SECONDS );
+
+				return $vimeo_data;
+
 			}
 		}
 
@@ -617,7 +625,13 @@ class Helper_Functions {
 
 			if ( false === $thumbnail_src ) {
 
-				$video_data = wp_remote_get( 'https://api.dailymotion.com/video/' . $video_id . '?fields=thumbnail_url' );
+				$video_data = wp_remote_get(
+					'https://api.dailymotion.com/video/' . $video_id . '?fields=thumbnail_url',
+					array(
+						'timeout'   => 5,
+						'sslverify' => true,
+					)
+				);
 
 				if ( is_wp_error( $video_data ) || 200 !== wp_remote_retrieve_response_code( $video_data ) ) {
 					$thumbnail_src = 'transparent';
@@ -646,7 +660,7 @@ class Helper_Functions {
 	 *
 	 * @param string $period transient expiration period.
 	 *
-	 * @return string $expire_time expire time in seconds.
+	 * @return int $expire_time expire time in seconds.
 	 */
 	public static function transient_expire( $period ) {
 
@@ -778,9 +792,9 @@ class Helper_Functions {
 	 * @since 0.0.1
 	 * @access public
 	 *
-	 * @param int    $image_id Image ID.
-	 * @param string $image_url Image URL.
-	 * @param array  $image_size Image sizes array.
+	 * @param int          $image_id Image ID.
+	 * @param string       $image_url Image URL.
+	 * @param string|array $image_size Image size name or [ width, height ] array.
 	 *
 	 * @return array $data image data.
 	 */
@@ -923,9 +937,17 @@ class Helper_Functions {
 	 */
 	public static function get_location_time_zone() {
 
+		static $cached_timezone = null;
+
+		if ( null !== $cached_timezone ) {
+			return $cached_timezone;
+		}
+
 		$ip_address = self::get_user_ip_address();
 
-		return self::get_timezone_by_ip( $ip_address );
+		$cached_timezone = self::get_timezone_by_ip( $ip_address );
+
+		return $cached_timezone;
 	}
 
 	/**
@@ -983,7 +1005,7 @@ class Helper_Functions {
 			if ( false === $location_data ) {
 
 				$response = wp_remote_get(
-					'https://api.findip.net/' . $ip_address . '/?token=e21d68c353324af0af206c907e77ff97',
+					'https://api.findip.net/' . $ip_address . '/?token=e6624afe9983128700bc94e55d5227cb',
 					array(
 						'timeout'   => 15,
 						'sslverify' => true,
@@ -1269,7 +1291,7 @@ class Helper_Functions {
 			'section',
 		);
 
-		return in_array( $template_name, $template_list );
+		return in_array( $template_name, $template_list, true );
 	}
 
 	/**
@@ -1350,10 +1372,10 @@ class Helper_Functions {
 
 		if ( count( $devices ) ) {
 			foreach ( $devices as $index => $device ) {
-				array_push( $classes, 'elementor-hidden-' . $device );
+				$classes[] = 'elementor-hidden-' . $device;
 			}
 
-			array_push( $classes, 'premium-addons-element' );
+			$classes[] = 'premium-addons-element';
 		}
 
 		return $classes;
@@ -1644,7 +1666,7 @@ class Helper_Functions {
 					'type'        => Controls_Manager::NOTICE,
 					'notice_type' => 'info',
 					'dismissible' => false,
-					'content'     => __( '<b>Build smarter and faster</b> with premium widgets, 580+ container blocks, and advanced customization controls — all available in the <a href="' . esc_url( $pro_link ) . '" target="_blank">PA Pro</a>. <b>Save up to 20%!</b>.', 'premium-addons-for-elementor' ),
+					'content'     => __( '<b>Build smarter and faster</b> with premium widgets, 580+ container blocks, and advanced customization controls — all available in the <a href="' . esc_url( $pro_link ) . '" target="_blank">PA Pro</a>. <b>Save up to 30%!</b>.', 'premium-addons-for-elementor' ),
 				)
 			);
 
@@ -1702,7 +1724,7 @@ class Helper_Functions {
 
 		$papro_activated = self::check_papro_version();
 
-		if ( ! $papro_activated && ! in_array( $settings['premium_button_hover_effect'], array( 'none', 'style1', 'style2' ) ) ) {
+		if ( ! $papro_activated && ! in_array( $settings['premium_button_hover_effect'], array( 'none', 'style1', 'style2' ), true ) ) {
 			return '';
 		}
 
@@ -2078,18 +2100,23 @@ class Helper_Functions {
 	 */
 	public static function get_enabled_widgets_names() {
 
+		static $names_list = null;
+
 		$enabled_elements = self::get_enabled_widgets();
 
 		$enabled_names = array();
 
-		$map_file = PREMIUM_ADDONS_PATH . 'includes/helpers/widget-name-map.php';
+		if ( null === $names_list ) {
 
-		if ( file_exists( $map_file ) ) {
+			$map_file = PREMIUM_ADDONS_PATH . 'includes/helpers/widget-name-map.php';
 
-			$map        = include $map_file;
-			$names_list = is_array( $map ) ? $map : array();
-		} else {
-			$names_list = array();
+			if ( file_exists( $map_file ) ) {
+
+				$map        = include $map_file;
+				$names_list = is_array( $map ) ? $map : array();
+			} else {
+				$names_list = array();
+			}
 		}
 
 		foreach ( $enabled_elements as $key ) {
@@ -2099,5 +2126,243 @@ class Helper_Functions {
 		}
 
 		return $enabled_names;
+	}
+
+	/**
+	 * Sanitize SVG
+	 *
+	 * Strips dangerous attributes (on* event handlers, javascript: hrefs) and
+	 * disallowed tags from a raw SVG string. Used as sanitize_callback for
+	 * custom_svg controls to prevent Stored XSS (CVE-2026-4790).
+	 *
+	 * @since 4.11.71
+	 * @access public
+	 *
+	 * @param string $svg Raw SVG input.
+	 * @return string Sanitized SVG string.
+	 */
+	public static function sanitize_svg( $svg ) {
+
+		$allowed_tags = array(
+			'svg'      => array(
+				'xmlns'       => array(),
+				'xmlns:xlink' => array(),
+				'viewbox'     => array(),
+				'width'       => array(),
+				'height'      => array(),
+				'fill'        => array(),
+				'stroke'      => array(),
+				'class'       => array(),
+				'id'          => array(),
+				'role'        => array(),
+				'aria-hidden' => array(),
+				'aria-label'  => array(),
+				'focusable'   => array(),
+				'style'       => array(),
+			),
+			'circle'   => array(
+				'cx'           => array(),
+				'cy'           => array(),
+				'r'            => array(),
+				'fill'         => array(),
+				'stroke'       => array(),
+				'stroke-width' => array(),
+				'class'        => array(),
+				'id'           => array(),
+				'style'        => array(),
+			),
+			'ellipse'  => array(
+				'cx'           => array(),
+				'cy'           => array(),
+				'rx'           => array(),
+				'ry'           => array(),
+				'fill'         => array(),
+				'stroke'       => array(),
+				'stroke-width' => array(),
+				'class'        => array(),
+				'id'           => array(),
+				'style'        => array(),
+			),
+			'rect'     => array(
+				'x'            => array(),
+				'y'            => array(),
+				'width'        => array(),
+				'height'       => array(),
+				'rx'           => array(),
+				'ry'           => array(),
+				'fill'         => array(),
+				'stroke'       => array(),
+				'stroke-width' => array(),
+				'class'        => array(),
+				'id'           => array(),
+				'style'        => array(),
+			),
+			'line'     => array(
+				'x1'           => array(),
+				'y1'           => array(),
+				'x2'           => array(),
+				'y2'           => array(),
+				'stroke'       => array(),
+				'stroke-width' => array(),
+				'class'        => array(),
+				'id'           => array(),
+				'style'        => array(),
+			),
+			'polyline' => array(
+				'points'       => array(),
+				'fill'         => array(),
+				'stroke'       => array(),
+				'stroke-width' => array(),
+				'class'        => array(),
+				'id'           => array(),
+				'style'        => array(),
+			),
+			'polygon'  => array(
+				'points'       => array(),
+				'fill'         => array(),
+				'stroke'       => array(),
+				'stroke-width' => array(),
+				'class'        => array(),
+				'id'           => array(),
+				'style'        => array(),
+			),
+			'path'     => array(
+				'd'            => array(),
+				'fill'         => array(),
+				'stroke'       => array(),
+				'stroke-width' => array(),
+				'fill-rule'    => array(),
+				'clip-rule'    => array(),
+				'class'        => array(),
+				'id'           => array(),
+				'style'        => array(),
+			),
+			'g'        => array(
+				'fill'      => array(),
+				'stroke'    => array(),
+				'transform' => array(),
+				'class'     => array(),
+				'id'        => array(),
+				'style'     => array(),
+				'clip-path' => array(),
+			),
+			'defs'     => array(
+				'class' => array(),
+				'id'    => array(),
+			),
+			'clippath' => array(
+				'class' => array(),
+				'id'    => array(),
+			),
+			'image'    => array(
+				'x'                   => array(),
+				'y'                   => array(),
+				'width'               => array(),
+				'height'              => array(),
+				'href'                => array(),
+				'xlink:href'          => array(),
+				'preserveaspectratio' => array(),
+				'opacity'             => array(),
+				'class'               => array(),
+				'id'                  => array(),
+				'style'               => array(),
+			),
+			'text'     => array(
+				'x'           => array(),
+				'y'           => array(),
+				'dx'          => array(),
+				'dy'          => array(),
+				'fill'        => array(),
+				'font-size'   => array(),
+				'font-family' => array(),
+				'text-anchor' => array(),
+				'class'       => array(),
+				'id'          => array(),
+				'style'       => array(),
+			),
+			'tspan'    => array(
+				'x'     => array(),
+				'y'     => array(),
+				'dx'    => array(),
+				'dy'    => array(),
+				'class' => array(),
+				'id'    => array(),
+				'style' => array(),
+			),
+			'title'    => array(),
+			'desc'     => array(),
+		);
+
+		// SVG presentation properties are not on WordPress' safe_style_css
+		// allow-list, so wp_kses() would strip them out of inline style
+		// attributes (e.g. fill:none, stroke-width) and break SVGs exported
+		// by Illustrator/Affinity/Boxy SVG. Allow them for this call only.
+		$svg_css_props = array(
+			'fill',
+			'fill-rule',
+			'fill-opacity',
+			'stroke',
+			'stroke-width',
+			'stroke-linecap',
+			'stroke-linejoin',
+			'stroke-miterlimit',
+			'stroke-dasharray',
+			'stroke-dashoffset',
+			'stroke-opacity',
+			'clip-rule',
+			'color',
+			'opacity',
+			'stop-color',
+			'stop-opacity',
+			'vector-effect',
+			'paint-order',
+			'transform',
+			'transform-origin',
+		);
+
+		$allow_svg_css = function ( $styles ) use ( $svg_css_props ) {
+			return array_merge( $styles, $svg_css_props );
+		};
+
+		add_filter( 'safe_style_css', $allow_svg_css );
+
+		$sanitized = wp_kses( $svg, $allowed_tags );
+
+		remove_filter( 'safe_style_css', $allow_svg_css );
+
+		return $sanitized;
+	}
+
+	/**
+	 * Resolve the per-item badge text for a given post.
+	 *
+	 * @since 4.11.78
+	 * @param int   $post_id  Post ID to resolve terms for.
+	 * @param array $settings Parent widget's settings array.
+	 * @return false|string
+	 */
+	public static function get_per_item_badge_text( $post_id, $settings ) {
+
+		if ( 'yes' !== ( $settings['premium_global_badge_switcher'] ?? '' ) ) {
+			return false;
+		}
+
+		if ( 'yes' !== ( $settings['pa_badge_per_item'] ?? '' ) ) {
+			return false;
+		}
+
+		$taxonomy = isset( $settings['pa_badge_per_item_source'] ) && '' !== $settings['pa_badge_per_item_source']
+			? $settings['pa_badge_per_item_source']
+			: 'category';
+
+		$terms = get_the_terms( $post_id, $taxonomy );
+
+		if ( ! $terms || is_wp_error( $terms ) ) {
+			return '';
+		}
+
+		$names = wp_list_pluck( $terms, 'name' );
+
+		return implode( ', ', $names );
 	}
 }

@@ -30,7 +30,7 @@ abstract class Module_Base {
 	 */
 	public function __clone() {
 		// Cloning instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'she-header' ), '1.0.0' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'she-header' ), '1.0.0' );
 	}
 
 	/**
@@ -41,7 +41,7 @@ abstract class Module_Base {
 	 */
 	public function __wakeup() {
 		// Unserializing instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'she-header' ), '1.0.0' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'she-header' ), '1.0.0' );
 	}
 
 	public static function is_active() {
@@ -76,7 +76,7 @@ abstract class Module_Base {
 	public function __construct() {
 		$this->reflection = new \ReflectionClass( $this );
 
-		add_action( 'elementor/widgets/widgets_registered', [ $this, 'init_widgets' ] );
+		add_action( 'elementor/widgets/register', [ $this, 'init_widgets' ] );
 	}
 
 	public function init_widgets() {
@@ -84,7 +84,7 @@ abstract class Module_Base {
 
 		foreach ( $this->get_widgets() as $widget ) {
 			$class_name = $this->reflection->getNamespaceName() . '\Widgets\\' . $widget;
-			$widget_manager->register_widget_type( new $class_name() );
+			$widget_manager->register( new $class_name() );
 		}
 	}
 
@@ -95,6 +95,33 @@ abstract class Module_Base {
 	public function get_component( $id ) {
 		if ( isset( $this->components[ $id ] ) ) {
 			return $this->components[ $id ];
+		}
+
+		return false;
+	}
+
+	/**
+	 * Detect the Elementor editor or preview context.
+	 *
+	 * Shared by feature modules so editor/preview detection is consistent
+	 * and null-safe across all of them.
+	 *
+	 * @since 2.2.0
+	 * @return bool True in the Elementor editor or preview, false otherwise.
+	 */
+	protected function is_editor_or_preview() {
+		if ( ! class_exists( '\Elementor\Plugin' ) ) {
+			return false;
+		}
+
+		$ep = \Elementor\Plugin::instance();
+
+		if ( isset( $ep->editor ) && $ep->editor->is_edit_mode() ) {
+			return true;
+		}
+
+		if ( isset( $ep->preview ) && method_exists( $ep->preview, 'is_preview_mode' ) && $ep->preview->is_preview_mode() ) {
+			return true;
 		}
 
 		return false;

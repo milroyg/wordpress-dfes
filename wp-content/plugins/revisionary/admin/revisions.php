@@ -70,8 +70,8 @@ if ( empty($revision_id) && ! $left && ! $right ) {
 
 $revision_status_captions = array( 
 	'inherit' => esc_html__( 'Past', 'revisionary' ), 
-	'pending-revision' => __awp('Pending', 'revisionary'), 
-	'future-revision' => __awp( 'Scheduled', 'revisionary' ) 
+	'pending-revision' => esc_html__('Pending'), 
+	'future-revision' => esc_html__( 'Scheduled' ) 
 );
 
 if( 'edit' == $_action )
@@ -118,7 +118,7 @@ default :
 		// actual status of compared objects overrides any revision_Status arg passed in
 		$revision_status = $revision->post_mime_type;
 
-		if (!current_user_can( 'approve_revision', $revision->ID ) /*&& !rvy_is_post_author($revision)*/ ) {
+		if (!current_user_can( 'approve_revision', $revision->ID )) {
 			wp_die();
 		}
 	}

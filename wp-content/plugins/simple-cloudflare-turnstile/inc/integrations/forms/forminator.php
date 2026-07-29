@@ -27,7 +27,7 @@ if(get_option('cfturnstile_forminator')) {
             if ( $failsafe_mode === '' ) {
                 // if cfturnstile script doesnt exist, enqueue it
                 if(!wp_script_is('cfturnstile', 'enqueued')) {
-                    wp_register_script("cfturnstile", "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit", array(), '', 'true');
+                    cfturnstile_register_api(true);
                     wp_print_scripts('cfturnstile');
                 }
             }
@@ -43,13 +43,17 @@ if(get_option('cfturnstile_forminator')) {
             ?>
             <?php if ( $failsafe_mode === '' ) { ?>
             <script>
+            // Explicit rendering ignores data-*-callback, which would leave the submit button disabled.
+            function cfturnstileForminatorOpts(target) {
+                return (typeof window.cfturnstileOpts === 'function') ? window.cfturnstileOpts(target) : {};
+            }
             // On ajax.complete run turnstile.render if element is empty
             jQuery(document).ajaxComplete(function() {
                 setTimeout(function() {
                     if (document.getElementById('cf-turnstile-fmntr-<?php echo esc_html($form_id); ?>')) {
                         if(!document.getElementById('cf-turnstile-fmntr-<?php echo esc_html($form_id); ?>').innerHTML.trim()) {
                                 turnstile.remove('#cf-turnstile-fmntr-<?php echo esc_html($form_id); ?>');
-                                turnstile.render('#cf-turnstile-fmntr-<?php echo esc_html($form_id); ?>');
+                                turnstile.render('#cf-turnstile-fmntr-<?php echo esc_html($form_id); ?>', cfturnstileForminatorOpts('#cf-turnstile-fmntr-<?php echo esc_html($form_id); ?>'));
                         }
                     }
                 }, 1000);
@@ -67,7 +71,7 @@ if(get_option('cfturnstile_forminator')) {
                     if(document.getElementById('cf-turnstile-fmntr-<?php echo esc_html($form_id); ?>')) {
                         setTimeout(function() {
                             turnstile.remove('#cf-turnstile-fmntr-<?php echo esc_html($form_id); ?>');
-                            turnstile.render('#cf-turnstile-fmntr-<?php echo esc_html($form_id); ?>');
+                            turnstile.render('#cf-turnstile-fmntr-<?php echo esc_html($form_id); ?>', cfturnstileForminatorOpts('#cf-turnstile-fmntr-<?php echo esc_html($form_id); ?>'));
                         }, 1000);
                     }
                 });
@@ -94,20 +98,16 @@ if(get_option('cfturnstile_forminator')) {
 	// Forminator Forms Check
 	add_action('forminator_custom_form_submit_errors', 'cfturnstile_forminator_check', 10, 3);
 	function cfturnstile_forminator_check($submit_errors, $form_id, $field_data_array){
+        // Forminator runs its error check several times for a single submission (once from
+        // prepare_fields_info(), again after file upload handling, again for subscription
+        // payment intents). Remember the passes made in this request so the repeats never
+        // re-verify a token that has already been spent.
+        static $verified_tokens = array();
+
         if(!cfturnstile_form_disable($form_id, 'cfturnstile_forminator_disable')) {
 
-            // Forminator may call this hook multiple times for the same logical submission,
-            // so we use a transient to cache successful validations for a short time.
-            $form_uid  = isset($_POST['form_uid']) ? sanitize_text_field(wp_unslash($_POST['form_uid'])) : '';
-            $cache_key = '';
-            if ($form_uid !== '') {
-                $cache_key = 'cfturnstile_forminator_' . md5($form_id . '|' . $form_uid);
-                $cached    = get_transient($cache_key);
-                if (is_array($cached) && isset($cached['success']) && $cached['success'] === true) {
-                    return $submit_errors;
-                }
-            }
-
+            // Normalize Forminator's field data (provided in several shapes) so we can
+            // read the Turnstile token from the submission.
             $posted_data = array();
             if (is_array($field_data_array)) {
                 foreach ($field_data_array as $key => $val) {
@@ -146,6 +146,26 @@ if(get_option('cfturnstile_forminator')) {
                 $token = sanitize_text_field($_POST['cf-turnstile-response']);
             }
 
+            // The pass is cached against the single-use token itself, never a client-supplied
+            // form_uid, so it can only ever be re-served for the token actually verified.
+            $memo_key     = $form_id . '|' . $token;
+            $verified_key = 'cfturnstile_forminator_' . $form_id;
+            $verified_ttl = 10;
+
+            // Repeat calls within this request cost the token nothing.
+            if ($token !== '' && isset($verified_tokens[$memo_key])) {
+                return $submit_errors;
+            }
+
+            // Cross-request fallback, for the flows that re-submit the same token in a follow-up
+            // request. Consumed on read, so a solved challenge survives exactly one extra request
+            // rather than being replayable for the whole lifetime of the transient.
+            if ($token !== '' && cfturnstile_get_verified($verified_key, $token)) {
+                cfturnstile_clear_verified($verified_key, $token);
+                $verified_tokens[$memo_key] = true;
+                return $submit_errors;
+            }
+
             $_post_backup = array();
             $sync_keys = array(
                 'cf-turnstile-response',
@@ -177,8 +197,9 @@ if(get_option('cfturnstile_forminator')) {
             $success = (is_array($check) && isset($check['success'])) ? $check['success'] : false;
             if($success != true) {
                 $submit_errors[]['submit'] = cfturnstile_failed_message();
-            } elseif ($cache_key !== '') {
-                set_transient($cache_key, array('success' => true), 5 * MINUTE_IN_SECONDS);
+            } elseif ($token !== '') {
+                $verified_tokens[$memo_key] = true;
+                cfturnstile_set_verified($verified_key, $token, $verified_ttl);
             }
         }
         return $submit_errors;

@@ -70,7 +70,7 @@ if ( ! class_exists( 'Tp_She_Preset' ) ) {
 				add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'she_elementor_editor_style' ) );
 			}
 
-			add_action( 'wp_ajax_check_plugin_status', array( $this, 'she_check_plugin_status' ) );
+			add_action( 'wp_ajax_she_check_plugin_status', array( $this, 'she_check_plugin_status' ) );
 			add_action( 'wp_ajax_she_install_wdkit', array( $this, 'she_install_wdkit' ) );
 
 			add_action( 'wp_ajax_she_insert_entry', array( $this, 'she_design_scratch' ) );
@@ -87,10 +87,14 @@ if ( ! class_exists( 'Tp_She_Preset' ) ) {
 
 			check_ajax_referer( 'she_wdkit_preview_popup', 'security' );
 
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json( $this->she_response( 'Permission denied.', '', false ) );
+			}
+
 			$option_key = 'she_design_from_scratch';
 
 			if ( get_option( $option_key ) ) {
-				$response = $this->she_response( 'Already saved.', '', false );
+				wp_send_json( $this->she_response( 'Already saved.', '', false ) );
 			}
 
 			$updated = add_option( $option_key, true );
@@ -119,8 +123,7 @@ if ( ! class_exists( 'Tp_She_Preset' ) ) {
 				array(
 					'nonce'    => wp_create_nonce( 'she_wdkit_preview_popup' ),
 					'ajax_url' => admin_url( 'admin-ajax.php' ),
-					'tpae_pro' => defined( 'SHE_HEADER_VERSION' ) ? 1 : 0,
-					'tpag_pro' => defined( 'TPGBP_VERSION' ) ? 1 : 0,
+					'preset_temp_id' => 18061,
 				)
 			);
 		}
@@ -172,27 +175,21 @@ if ( ! class_exists( 'Tp_She_Preset' ) ) {
 			include_once ABSPATH . 'wp-admin/includes/class-automatic-upgrader-skin.php';
 			include_once ABSPATH . 'wp-admin/includes/class-plugin-upgrader.php';
 
-			$result   = array();
-			$response = wp_remote_post(
-				'http://api.wordpress.org/plugins/info/1.0/',
+			$result = array();
+
+			require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+
+			$plugin_info = plugins_api(
+				'plugin_information',
 				array(
-					'body' => array(
-						'action'  => 'plugin_information',
-						'request' => serialize(
-							(object) array(
-								'slug'   => 'wdesignkit',
-								'fields' => array(
-									'version' => false,
-								),
-							)
-						),
+					'slug'   => 'wdesignkit',
+					'fields' => array(
+						'version' => false,
 					),
 				)
 			);
 
-			$plugin_info = unserialize( wp_remote_retrieve_body( $response ) );
-
-			if ( ! $plugin_info ) {
+			if ( is_wp_error( $plugin_info ) || ! isset( $plugin_info->download_link ) ) {
 				wp_send_json_error( array( 'content' => __( 'Failed to retrieve plugin information.', 'she-header' ) ) );
 			}
 
@@ -204,6 +201,11 @@ if ( ! class_exists( 'Tp_She_Preset' ) ) {
 			if ( ! isset( $installed_plugins[ $plugin_basename ] ) && empty( $installed_plugins[ $plugin_basename ] ) ) {
 
 				$installed         = $upgrader->install( $plugin_info->download_link );
+				
+				if ( is_wp_error( $installed ) || ! $installed ) {
+					wp_send_json( $this->she_response( 'Failed Install WDesignKit', 'Could not install WDesignKit.', false, '' ) );
+				}
+
 				$activation_result = activate_plugin( $plugin_basename );
 
 				$success = null === $activation_result;
@@ -235,6 +237,12 @@ if ( ! class_exists( 'Tp_She_Preset' ) ) {
 		 */
 		public function she_check_plugin_status() {
 
+			check_ajax_referer( 'she_wdkit_preview_popup', 'security' );
+
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json_error();
+			}
+
 			$installed_plugins = get_plugins();
 
 			$plugin_page_url = add_query_arg( array( 'page' => 'wdesign-kit' ), admin_url( 'admin.php' ) );
@@ -259,16 +267,20 @@ if ( ! class_exists( 'Tp_She_Preset' ) ) {
 		 */
 		public function she_preview_html_popup() {
 
-			 $check_circle_svg = '<svg width="15" height="15" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+			$check_circle_svg = '<svg width="15" height="15" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="M5 0C2.24311 0 0 2.24311 0 5C0 7.75689 2.24311 10 5 10C7.75689 10 10 7.75689 10 5C10 2.24311 7.75689 0 5 0ZM7.79449 3.68421L4.599 6.85464C4.41103 7.04261 4.11028 7.05514 3.90977 6.86717L2.21804 5.32581C2.01754 5.13784 2.00501 4.82456 2.18045 4.62406C2.36842 4.42356 2.6817 4.41103 2.88221 4.599L4.22306 5.82707L7.0802 2.96992C7.2807 2.76942 7.59398 2.76942 7.79449 2.96992C7.99499 3.17043 7.99499 3.48371 7.79449 3.68421Z"
 									fill="#020202" />
 								</svg>';
+			$allowed_svg = array(
+				'svg'  => array( 'width' => true, 'height' => true, 'viewbox' => true, 'fill' => true, 'xmlns' => true, 'class' => true, 'aria-hidden' => true ),
+				'path' => array( 'd' => true, 'fill' => true, 'fill-rule' => true, 'clip-rule' => true, 'stroke' => true, 'stroke-width' => true, 'stroke-linecap' => true, 'stroke-linejoin' => true ),
+			);
 			?>
 			<div id="she-wdkit-wrap" class="tp-main-container-preset" style="display: none">
 
 			   <div class="she-popup-header">
 					<div class="she-popup-logo">
-						<img src="<?php echo SHE_HEADER_URL . 'assets/images/banner/wdkit-treadmark.svg'; ?>" alt="Sticky Header" class="she-popup-logo-img" />
+						<img src="<?php echo esc_url( SHE_HEADER_URL . 'assets/images/banner/wdkit-treadmark.svg' ); ?>" alt="Sticky Header" class="she-popup-logo-img" />
 			        </div>
 					<div class="she-popup-close">
 						<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none"><path fill="#808080" fill-opacity=".8" d="M12.293.293a1 1 0 1 1 1.414 1.414L8.414 7l5.293 5.293.068.076a1 1 0 0 1-1.406 1.406l-.076-.068L7 8.414l-5.293 5.293a1 1 0 1 1-1.414-1.414L5.586 7 .293 1.707A1 1 0 1 1 1.707.293L7 5.586 12.293.293Z"/></svg>
@@ -287,13 +299,13 @@ if ( ! class_exists( 'Tp_She_Preset' ) ) {
 					<div class="she-wkit-cb-data">
 						<div class="wkit-she-preset-checkbox">
 							<span class="she-preset-checkbox-content">
-								<?php echo $check_circle_svg; ?>
+								<?php echo wp_kses( $check_circle_svg, $allowed_svg ); ?>
 								<p class="she-preset-label">
 								<?php echo esc_html__( 'Design Quickly without starting from Scratch', 'she-header' ); ?>
 							</p>
 						</span>
 						<span class="she-preset-checkbox-content">
-							    <?php echo $check_circle_svg; ?>
+							    <?php echo wp_kses( $check_circle_svg, $allowed_svg ); ?>
 								<p class="she-preset-label">
 									<?php echo esc_html__( 'Fully Customizable for Any Style', 'she-header' ); ?>
 								</p>
@@ -301,13 +313,13 @@ if ( ! class_exists( 'Tp_She_Preset' ) ) {
 						</div>
 						<div class="wkit-she-preset-checkbox">
 							<span class="she-preset-checkbox-content">
-								    <?php echo $check_circle_svg; ?>
+								    <?php echo wp_kses( $check_circle_svg, $allowed_svg ); ?>
 									<p class="she-preset-label">
 									<?php echo esc_html__( 'Time-Saving and Efficient Workflow', 'she-header' ); ?>
 								</p>
 							</span>
 							<span class="she-preset-checkbox-content">
-								<?php echo $check_circle_svg; ?>
+								<?php echo wp_kses( $check_circle_svg, $allowed_svg ); ?>
         						<p class="she-preset-label">
 									<?php echo esc_html__( 'Explore Versatile Layout Options', 'she-header' ); ?>
 								</p>
@@ -321,15 +333,15 @@ if ( ! class_exists( 'Tp_She_Preset' ) ) {
 						<div class="she-support-icon-main">
 							<div class="she-support-icon">
 								<div class="she-icon-list">
-									<img src="<?php echo SHE_HEADER_URL . 'assets/images/products/tpae-icon.svg'; ?>" alt="Elementor" class="she-support-icon-img" />
+									<img src="<?php echo esc_url( SHE_HEADER_URL . 'assets/images/products/tpae-icon.svg' ); ?>" alt="Elementor" class="she-support-icon-img" />
 									<p><?php echo esc_html__( 'Navigation Menu Widget', 'she-header' ); ?></p>
 								</div>
 								<div class="she-icon-list">
-									<img class="she-elementor" src="<?php echo SHE_HEADER_URL . 'assets/images/products/elementor-icon.svg'; ?>" alt="Elementor" class="she-support-icon-img" />
+									<img class="she-elementor" src="<?php echo esc_url( SHE_HEADER_URL . 'assets/images/products/elementor-icon.svg' ); ?>" alt="Elementor" class="she-support-icon-img" />
 									<p><?php echo esc_html__( 'WordPress Menu', 'she-header' ); ?></p>
 								</div>
 								<div class="she-icon-list">
-									<img class="she-elementor" src="<?php echo SHE_HEADER_URL . 'assets/images/products/elementor-icon.svg'; ?>" alt="Elementor" class="she-support-icon-img" />
+									<img class="she-elementor" src="<?php echo esc_url( SHE_HEADER_URL . 'assets/images/products/elementor-icon.svg' ); ?>" alt="Elementor" class="she-support-icon-img" />
 									<p><?php echo esc_html__( 'Nav Menu', 'she-header' ); ?></p>
 								</div>
 							</div>

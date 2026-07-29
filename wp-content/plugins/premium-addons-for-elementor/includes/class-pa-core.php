@@ -57,7 +57,32 @@ if ( ! class_exists( 'PA_Core' ) ) {
 
 			Addons_Integration::get_instance();
 
+			$this->load_abilities();
+
 			include_once PREMIUM_ADDONS_PATH . 'includes/promotion-pointer.php';
+		}
+
+		/**
+		 * Load AI Abilities
+		 *
+		 * Stands up the bundled MCP server. Gated by the premium-ai-abilities
+		 * switcher; the Abilities API capability check (in core since 6.9) lives
+		 * in Abilities\Bootstrap, so it is not repeated here.
+		 *
+		 * @since 4.11.74
+		 * @access public
+		 *
+		 * @return void
+		 */
+		public function load_abilities() {
+
+			$enabled_elements = \PremiumAddons\Admin\Includes\Admin_Helper::get_enabled_elements();
+
+			if ( empty( $enabled_elements['premium-ai-abilities'] ) ) {
+				return;
+			}
+
+			Abilities\Bootstrap::get_instance();
 		}
 
 		/**
@@ -108,6 +133,14 @@ if ( ! class_exists( 'PA_Core' ) ) {
 			}
 		}
 
+		/**
+		 * Plugin Uninstall Hook.
+		 *
+		 * @since 3.1.7
+		 * @access public
+		 *
+		 * @return void
+		 */
 		public static function uninstall() {
 
 			delete_option( 'pa_complete_wizard' );
@@ -134,6 +167,10 @@ if ( ! class_exists( 'PA_Core' ) ) {
 					'httpversion' => '1.1',
 				)
 			);
+
+			if ( is_wp_error( $response ) ) {
+				return;
+			}
 		}
 
 		/**

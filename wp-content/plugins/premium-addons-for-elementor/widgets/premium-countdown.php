@@ -116,10 +116,10 @@ class Premium_Countdown extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
-		return array( 'pa', 'premium', 'premium countdown', 'counter', 'time', 'event' );
+		return array( 'pa', 'premium', 'premium countdown', 'counter', 'time', 'event', 'timer' );
 	}
 
 	/**
@@ -630,6 +630,9 @@ class Premium_Countdown extends Widget_Base {
 						),
 					),
 				),
+				'ai'         => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -733,6 +736,9 @@ class Premium_Countdown extends Widget_Base {
 				'label_block' => true,
 				'condition'   => array(
 					'expiration_type' => 'url',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -1016,20 +1022,6 @@ class Premium_Countdown extends Widget_Base {
 			)
 		);
 
-		// $this->add_control(
-		// 'premium_countdown_timer_digit_bg_color',
-		// array(
-		// 'label'     => __( 'Background Color', 'premium-addons-for-elementor' ),
-		// 'type'      => Controls_Manager::COLOR,
-		// 'global'    => array(
-		// 'default' => Global_Colors::COLOR_PRIMARY,
-		// ),
-		// 'selectors' => array(
-		// '{{WRAPPER}} .countdown-amount, {{WRAPPER}} .inn' => 'background-color: {{VALUE}};',
-		// ),
-		// )
-		// );
-
 		$this->add_group_control(
 			Premium_Background::get_type(),
 			array(
@@ -1161,6 +1153,9 @@ class Premium_Countdown extends Widget_Base {
 				'condition' => array(
 					'style!'           => 'circle',
 					'digit_adv_radius' => 'yes',
+				),
+				'ai'        => array(
+					'active' => false,
 				),
 			)
 		);
@@ -1520,6 +1515,9 @@ class Premium_Countdown extends Widget_Base {
 				'condition' => array(
 					'boxes_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -1685,7 +1683,7 @@ class Premium_Countdown extends Widget_Base {
 
 		add_option( $counter_key, array() );
 
-		$local_data = get_option( $counter_key, 'Null' );
+		$local_data = get_option( $counter_key, array() );
 
 		$local_due_date = isset( $local_data[ $evergreen_user ]['due_date'] ) ? $local_data[ $evergreen_user ]['due_date'] : 'Null';
 
@@ -1720,9 +1718,12 @@ class Premium_Countdown extends Widget_Base {
 
 		$end_time = new DateTime( 'GMT' );
 
-		$end_time->setTime( $end_time->format( 'H' ) + 2, $end_time->format( 'i' ), $end_time->format( 's' ) + $eve_interval );
+		$end_time->setTime( $end_time->format( 'H' ) + 2, (int) $end_time->format( 'i' ), $end_time->format( 's' ) + $eve_interval );
 
-		$local_data = get_option( $counter_key, 'Null' );
+		$local_data = get_option( $counter_key, array() );
+		if ( ! is_array( $local_data ) ) {
+			$local_data = array();
+		}
 
 		$local_data[ $evergreen_user ]['due_date'] = $end_time;
 		$local_data[ $evergreen_user ]['interval'] = $eve_interval;
@@ -1866,8 +1867,6 @@ class Premium_Countdown extends Widget_Base {
 			$labels1 = $ys . ',' . $ms . ',' . $ws . ',' . $ds . ',' . $hs . ',' . $mis . ',' . $ss;
 
 			$countdown_settings = array(
-				// 'single'     => esc_html( $label ),
-				// 'plural'     => esc_html( $labels1 ),
 				'until'      => $target_date,
 				'serverSync' => $sent_time,
 				'format'     => $format,
@@ -1923,8 +1922,8 @@ class Premium_Countdown extends Widget_Base {
 		);
 
 		?>
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'container' ) ); ?>>
-			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'inner_counter' ) ); ?>></div>
+		<div <?php $this->print_render_attribute_string( 'container' ); ?>>
+			<div <?php $this->print_render_attribute_string( 'inner_counter' ); ?>></div>
 
 			<?php if ( 'text' === $event ) : ?>
 

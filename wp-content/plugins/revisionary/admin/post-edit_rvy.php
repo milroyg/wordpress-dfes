@@ -39,7 +39,7 @@ class RvyPostEdit {
                     }
 
                     ?>
-                    rvyDeleteURL[<?php echo $revision->ID;?>] = '<?php echo esc_url(wp_nonce_url(admin_url("admin.php?page=rvy-revisions&amp;action=delete&amp;revision={$revision->ID}"), 'delete-revision_' . $revision->ID ));?>'; 
+                    rvyDeleteURL[<?php echo esc_attr($revision->ID);?>] = '<?php echo esc_url(wp_nonce_url(admin_url("admin.php?page=rvy-revisions&amp;action=delete&amp;revision={$revision->ID}"), 'delete-revision_' . $revision->ID ));?>'; 
                     <?php
                 }
             ?>
@@ -81,10 +81,16 @@ class RvyPostEdit {
         $do_pending_revisions = rvy_get_option('pending_revisions');
         $do_scheduled_revisions = rvy_get_option('scheduled_revisions');
 
+        $wp_timezone = wp_timezone();
+        $utc_time = new DateTime("now", new DateTimeZone('UTC'));
+
+        $args = [];
+        $args['timezoneOffset'] = 0 - $wp_timezone->getOffset($utc_time);
+
         if (('revision' == $post->post_type) || rvy_in_revision_workflow($post)) {
             wp_enqueue_script('rvy_object_edit', RVY_URLPATH . "/admin/rvy_revision-classic-edit{$suffix}.js", ['jquery', 'jquery-form'], PUBLISHPRESS_REVISIONS_VERSION, true);
 
-            $args = \PublishPress\Revisions\PostEditorWorkflowUI::revisionLinkParams(compact('post', 'do_pending_revisions', 'do_scheduled_revisions'));
+            $args = array_merge($args, \PublishPress\Revisions\PostEditorWorkflowUI::revisionLinkParams(compact('post', 'do_pending_revisions', 'do_scheduled_revisions')));
 
             $args['deleteCaption'] = (defined('RVY_DISCARD_CAPTION')) ? esc_html__( 'Discard Revision', 'revisionary' ) : esc_html__('Delete Revision', 'revisionary');
 
@@ -92,11 +98,9 @@ class RvyPostEdit {
 
             $args['isStatusesPro'] = rvy_status_revisions_active($post->post_type);
 
-            $wp_timezone = wp_timezone();
-            $utc_time = new DateTime("now", new DateTimeZone('UTC'));
-            $args['timezoneOffset'] = 0 - $wp_timezone->getOffset($utc_time);
-
             $args['disableSubmitUntilSave'] = !defined('ET_BUILDER_PLUGIN_VERSION') && (false === stripos(get_template(), 'divi')) && !defined('REVISIONARY_EDITOR_NO_BUTTON_DISABLE');
+
+            $args['revisionCaption'] = esc_html__('Revision', 'revisionary');
 
             wp_localize_script( 'rvy_object_edit', 'rvyObjEdit', $args );
 
@@ -118,11 +122,11 @@ class RvyPostEdit {
                 if (('future' != $post->post_status) && (!empty($status_obj->public) || !empty($status_obj->private) || rvy_get_option('pending_revision_unpublished'))) {
                     wp_enqueue_script('rvy_object_edit', RVY_URLPATH . "/admin/rvy_post-classic-edit{$suffix}.js", ['jquery', 'jquery-form'], PUBLISHPRESS_REVISIONS_VERSION, true);
 
-                    $args = \PublishPress\Revisions\PostEditorWorkflowUI::postLinkParams(compact('post', 'do_pending_revisions', 'do_scheduled_revisions'));
+                    $args = array_merge($args, \PublishPress\Revisions\PostEditorWorkflowUI::postLinkParams(compact('post', 'do_pending_revisions', 'do_scheduled_revisions')));
 
-                    $wp_timezone = wp_timezone();
-                    $utc_time = new DateTime("now", new DateTimeZone('UTC'));
-                    $args['timezoneOffset'] = 0 - $wp_timezone->getOffset($utc_time);
+                    $args['createRevisionNonce'] = wp_create_nonce('create_revision');
+
+                    $args['createScheduledRevisionNonce'] = wp_create_nonce('create_scheduled_revision');
 
                     $args['newRevisionDirectLink'] = (rvy_get_option('create_revision_direct_link')) 
                     ? rvy_admin_url("admin.php?page=rvy-revisions&post={$post->ID}&action=revise")
@@ -135,10 +139,11 @@ class RvyPostEdit {
             }
         }
 
-        $args = array(
+        $_args = array(
             'nowCaption' => esc_html__( 'Current Time', 'revisionary' ),
+            'timezoneOffset' => $args['timezoneOffset']
         );
-        wp_localize_script( 'rvy_post', 'rvyPostEdit', $args );
+        wp_localize_script( 'rvy_post', 'rvyPostEdit', $_args );
 	}
 
     public function fltPreviewLabel($preview_caption) {
@@ -173,14 +178,14 @@ class RvyPostEdit {
         global $revisionary;
 
         if (
-        !empty($_REQUEST['rvy_new'])
+        !empty($_REQUEST['rvy_new'])                                                        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         || (rvy_in_revision_workflow($post) && empty($revisionary->enabled_post_types[$post->post_type]))
         || (!rvy_in_revision_workflow($post) && empty($revisionary->enabled_post_types_archive[$post->post_type]))
         ) {
             return;
         }
         ?>
-        <div id="preview-action" class="rvy-misc-actions" style="float: right; padding: 5px 10px 10px 5px">
+        <div id="preview-action" class="rvy-misc-actions" style="float: left; padding: 5px 10px 10px 10px">
 
         <?php
         $compare_link = rvy_admin_url("revision.php?revision=$post->ID");
@@ -204,7 +209,7 @@ class RvyPostEdit {
             return;
         }
 
-        if (!empty($_REQUEST['rvy_new']) || !rvy_in_revision_workflow($post->ID)) {
+        if (!empty($_REQUEST['rvy_new']) || !rvy_in_revision_workflow($post->ID)) {         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             return;
         }
 
@@ -217,7 +222,7 @@ class RvyPostEdit {
         ?>
         <?php
         $preview_link = rvy_preview_url($post->ID);
-        $preview_button = esc_html__('View Saved Revision');
+        $preview_button = esc_html__('View Saved Revision', 'revisionary');
 
         if (current_user_can('approve_revision', $post->ID)) {
             $preview_title = esc_html__('View / moderate saved revision', 'revisionary');

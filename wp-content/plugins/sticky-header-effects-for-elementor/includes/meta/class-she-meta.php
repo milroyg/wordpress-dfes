@@ -73,10 +73,10 @@ if ( ! class_exists( 'She_meta' ) ) {
 					// 'official-site'    => '<a href="' . esc_url( 'https://stickyheadereffects.com/?utm_source=wpbackend&utm_medium=pluginpage&utm_campaign=pluginpage' ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Visit Plugin site', 'she-header' ) . '</a>',
 					'docs'             => '<a href="' . esc_url( 'https://stickyheadereffects.com/docs?utm_source=wpbackend&utm_medium=pluginpage&utm_campaign=pluginpage' ) . '" target="_blank" rel="noopener noreferrer" style="color:green;">' . esc_html__( 'Docs', 'she-header' ) . '</a>',
 					'video-tutorials'  => '<a href="' . esc_url( 'https://www.youtube.com/c/POSIMYTHInnovations/?sub_confirmation=1' ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Video Tutorials', 'she-header' ) . '</a>',
-					'join-community'   => '<a href="' . esc_url( 'https://www.facebook.com/groups/theplus4elementor' ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Join Community', 'she-header' ) . '</a>',
+					'join-community'   => '<a href="' . esc_url( 'https://go.posimyth.com/she-discord/?utm_source=wpbackend&utm_medium=pluginspage&utm_campaign=links' ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Join Community', 'she-header' ) . '</a>',
 					'whats-new'        => '<a href="' . esc_url( 'https://wordpress.org/plugins/sticky-header-effects-for-elementor/#developers' ) . '" target="_blank" rel="noopener noreferrer" style="color: orange;">' . esc_html__( 'What\'s New?', 'she-header' ) . '</a>',
 					'req-feature'      => '<a href="' . esc_url( 'https://wordpress.org/support/plugin/sticky-header-effects-for-elementor/' ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Request Feature', 'she-header' ) . '</a>',
-					'rate-plugin-star' => '<a href="' . esc_url( 'https://wordpress.org/support/plugin/sticky-header-effects-for-elementor/reviews/?filter=5' ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Share Review', 'she-header' ) . '</a>',
+					'rate-plugin-star' => '<a href="' . esc_url( 'https://wordpress.org/support/plugin/sticky-header-effects-for-elementor/reviews/' ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Share Review', 'she-header' ) . '</a>',
 				);
 
 				$plugin_meta = array_merge( $plugin_meta, $new_links );

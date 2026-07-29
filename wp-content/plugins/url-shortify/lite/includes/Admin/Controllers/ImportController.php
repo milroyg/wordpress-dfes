@@ -2,11 +2,37 @@
 
 namespace KaizenCoders\URL_Shortify\Admin\Controllers;
 
+use KaizenCoders\URL_Shortify\Admin\Controllers\Importers\Eps301RedirectImporter;
+use KaizenCoders\URL_Shortify\Admin\Controllers\Importers\LinkCentralImporter;
+use KaizenCoders\URL_Shortify\Admin\Controllers\Importers\MtsShortLinksImporter;
+use KaizenCoders\URL_Shortify\Admin\Controllers\Importers\PrettyLinksImporter;
+use KaizenCoders\URL_Shortify\Admin\Controllers\Importers\RedirectionImporter;
+use KaizenCoders\URL_Shortify\Admin\Controllers\Importers\ShortenUrlImporter;
+use KaizenCoders\URL_Shortify\Admin\Controllers\Importers\Simple301RedirectImporter;
+use KaizenCoders\URL_Shortify\Admin\Controllers\Importers\ThirstyAffiliatesImporter;
 use KaizenCoders\URL_Shortify\Common\Utils;
 use KaizenCoders\URL_Shortify\Helper;
 use KaizenCoders\URL_Shortify\Option;
 
 class ImportController extends BaseController {
+
+	/**
+	 * Map of import-source action keys to their concrete importer classes.
+	 *
+	 * Adding a new one-click import source means adding an entry here and
+	 * creating a class that extends Importers\BaseImporter.
+	 *
+	 * @var array<string,string>
+	 */
+	private $importers = [
+		'pretty_links'         => PrettyLinksImporter::class,
+		'mts_links'            => MtsShortLinksImporter::class,
+		'eps_301_redirects'    => Eps301RedirectImporter::class,
+		'simple_301_redirects' => Simple301RedirectImporter::class,
+		'thirsty_affiliates'   => ThirstyAffiliatesImporter::class,
+		'shorten_url'          => ShortenUrlImporter::class,
+		'redirection'          => RedirectionImporter::class,
+	];
 
 	/**
 	 * ImportController constructor.
@@ -18,49 +44,31 @@ class ImportController extends BaseController {
 	}
 
 	/**
-	 * Import Links
+	 * Dispatch a one-click or CSV import.
 	 *
 	 * @since 1.4.8
-	 * @return bool
 	 *
+	 * @param string $action Import source key.
+	 *
+	 * @return bool
 	 */
 	public function import_links( $action = '' ) {
 		if ( empty( $action ) ) {
 			return false;
 		}
 
-		// Please convert following code to switch case
-		switch ( $action ) {
-			case 'pretty_links':
-				$do_import = $this->import_pretty_links();
-				break;
-			case 'mts_links':
-				$do_import = $this->import_mts_short_links();
-				break;
-			case 'eps_301_redirects':
-				$do_import = $this->import_eps_301_redirect();
-				break;
-			case 'simple_301_redirects':
-				$do_import = $this->import_from_simple_301_redirect();
-				break;
-			case 'thirsty_affiliates':
-				$do_import = $this->import_thirsty_affiliate_links();
-				break;
-			case 'shorten_url':
-				$do_import = $this->import_from_shorten_url();
-				break;
-			case 'redirection':
-				$do_import = $this->import_from_redirection();
-				break;
-			case 'csv':
-				$do_import = $this->import_csv();
-				break;
-			default:
-				$do_import = false;
-				break;
+		if ( 'csv' === $action ) {
+			return $this->import_csv();
 		}
 
-		return $do_import;
+		if ( ! isset( $this->importers[ $action ] ) ) {
+			return false;
+		}
+
+		$importer_class = $this->importers[ $action ];
+		$importer       = new $importer_class( $this );
+
+		return $importer->run();
 	}
 
 	/**
@@ -145,6 +153,102 @@ class ImportController extends BaseController {
 				US()->db->links_groups->bulk_insert( $data_to_insert );
 			}
 		}
+	}
+
+	/**
+	 * Import Tags
+	 *
+	 * Create missing tags before mapping them to links.
+	 *
+	 * @since 1.14.0
+	 *
+	 * @param array $tags
+	 */
+	public function import_tags( $tags = [] ) {
+		if ( ! Helper::is_forechable( $tags ) ) {
+			return;
+		}
+
+		$existing_tags   = US()->db->tags->get_id_name_map();
+		$current_user_id = \get_current_user_id();
+		$tags_to_import  = [];
+		$key             = 0;
+
+		foreach ( $tags as $tag_name => $links ) {
+			if ( ! in_array( $tag_name, $existing_tags, true ) ) {
+				$tags_to_import[ $key ]['name']          = $tag_name;
+				$tags_to_import[ $key ]['created_by_id'] = $current_user_id;
+				$key ++;
+			}
+		}
+
+		if ( Helper::is_forechable( $tags_to_import ) ) {
+			US()->db->tags->bulk_insert( $tags_to_import );
+		}
+	}
+
+	/**
+	 * Add links to tag
+	 *
+	 * @since 1.14.0
+	 *
+	 * @param array $tags
+	 */
+	public function add_links_to_tag( $tags = [] ) {
+		if ( ! Helper::is_forechable( $tags ) ) {
+			return;
+		}
+
+		$created_by_id     = \get_current_user_id();
+		$tags_name_id_map  = US()->db->tags->get_columns_map( 'name', 'id' );
+		$links_slug_id_map = US()->db->links->get_columns_map( 'slug', 'id' );
+		$data_to_insert    = [];
+		$key               = 0;
+
+		foreach ( $tags as $tag => $links ) {
+			$tag_id = Helper::get_data( $tags_name_id_map, $tag, 0 );
+
+			if ( 0 != $tag_id && Helper::is_forechable( $links ) ) {
+				foreach ( $links as $slug ) {
+					$link_id = Helper::get_data( $links_slug_id_map, $slug, 0 );
+
+					if ( 0 != $link_id ) {
+						$data_to_insert[ $key ]['link_id']       = $link_id;
+						$data_to_insert[ $key ]['tag_id']        = $tag_id;
+						$data_to_insert[ $key ]['created_by_id'] = $created_by_id;
+						$key ++;
+					}
+				}
+			}
+		}
+
+		if ( Helper::is_forechable( $data_to_insert ) ) {
+			US()->db->links_tags->bulk_insert( $data_to_insert );
+		}
+	}
+
+	/**
+	 * Parse a CSV field into terms.
+	 *
+	 * Supports pipe-separated or comma-separated values.
+	 *
+	 * @since 1.14.0
+	 *
+	 * @param string $value
+	 *
+	 * @return array
+	 */
+	private function parse_csv_terms( $value = '' ) {
+		$value = trim( (string) $value );
+
+		if ( '' === $value ) {
+			return [];
+		}
+
+		$delimiter = false !== strpos( $value, '|' ) ? '|' : ',';
+		$terms     = array_map( 'trim', explode( $delimiter, $value ) );
+
+		return array_values( array_filter( $terms, 'strlen' ) );
 	}
 
 	/**
@@ -241,17 +345,16 @@ class ImportController extends BaseController {
 			$key = 0;
 
 			$groups_to_import = [];
+			$tags_to_import   = [];
 
 			foreach ( $links as $link ) {
 
 				$slug = Helper::get_data( $link, 'Slug', '', true );
 
-				$groups_str = Helper::get_data($link, 'Groups', '', true);
-
-				$groups = [];
-				if ( ! empty( $groups_str ) ) {
-					$groups = explode( '|', $groups_str );
-					$groups = array_map( 'trim', $groups );
+				$groups = $this->parse_csv_terms( Helper::get_data( $link, 'Groups', '', true ) );
+				$tags   = [];
+				if ( US()->is_pro() ) {
+					$tags = $this->parse_csv_terms( Helper::get_data( $link, 'Tags', '', true ) );
 				}
 
 				if ( empty( $slug ) ) {
@@ -263,6 +366,12 @@ class ImportController extends BaseController {
 				if ( ! empty( $groups ) ) {
 					foreach ( $groups as $group ) {
 						$groups_to_import[ $group ][] = $slug;
+					}
+				}
+
+				if ( US()->is_pro() && ! empty( $tags ) ) {
+					foreach ( $tags as $tag ) {
+						$tags_to_import[ $tag ][] = $slug;
 					}
 				}
 
@@ -305,6 +414,12 @@ class ImportController extends BaseController {
 				$this->import_groups( $groups_to_import );
 
 				$this->add_links_to_group( $groups_to_import );
+			}
+
+			if ( US()->is_pro() && ! empty( $tags_to_import ) ) {
+				$this->import_tags( $tags_to_import );
+
+				$this->add_links_to_tag( $tags_to_import );
 			}
 		}
 
@@ -1016,4 +1131,23 @@ class ImportController extends BaseController {
 
 		return true;
 	}
+
+	/**
+	 * Import one batch of links from the Link Central plugin.
+	 *
+	 * Thin dispatcher to LinkCentralImporter — kept here for backwards
+	 * compatibility with the AJAX handler that calls this method directly.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @return array
+	 */
+	public function import_link_central() {
+		$offset = absint( Helper::get_request_data( 'offset', 0 ) );
+
+		$importer = new LinkCentralImporter( $this );
+
+		return $importer->run_batch( $offset );
+	}
+
 }

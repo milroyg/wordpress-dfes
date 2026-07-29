@@ -49,26 +49,13 @@ class Module extends Module_Base {
 				'label'              => __( 'Enable', 'she-header' ),
 				'type'               => Controls_Manager::SWITCHER,
 				'label_on'           => __( 'On', 'she-header' ),
-				'label_off'          => __( 'Off', 'bew-header' ),
+				'label_off'          => __( 'Off', 'she-header' ),
 				'return_value'       => 'yes',
 				'default'            => '',
 				'frontend_available' => true,
 				'prefix_class'       => 'she-header-',
 			)
 		);
-
-		// $element->add_control(
-		// 'donate_notice',
-		// [
-		// 'type' => Controls_Manager::ALERT,
-		// 'alert_type' => 'alert',
-		// 'heading' => esc_html__( 'Donations', 'she-header' ),
-		// 'content' => esc_html__( 'If you have enjoyed using the plugin please consider ' , 'she-header' ) . ' <br><a href="https://www.paypal.me/StickyHeaderEffects">' . esc_html__( 'DONATING HERE', 'she-header' ) . '</a>' . ' <br><br>' . esc_html__( 'Instead of realeasing a paid Pro verion I will be adding a few Pro features to this free version. However, I will only be providing minimal support from now on.', 'she-header' ) ,
-		// 'condition' => [
-		// 'transparent!' => '',
-		// ],
-		// ]
-		// );
 
 		$element->add_control(
 			'smart-preset-button',
@@ -77,8 +64,10 @@ class Module extends Module_Base {
 				'raw'         => sprintf(
 					'<div class="she-preset-main-raw-main">
 						<a class="she-preset-editor-raw" id="she-preset-editor-raw" data-temp_id="18061">%s</a>
+						<span class="she-preset-hint" style="display:block;margin-top:6px;font-size:11px;line-height:1.5;color:var(--e-a-color-txt-muted,#7c6b74);">%s</span>
 					</div>',
-					esc_html__( 'Import Presets', 'she-header' )
+					esc_html__( 'Ready Made Header Presets', 'she-header' ),
+					esc_html__( '50+ ready-made header presets, delivered through the free WDesignKit companion plugin.', 'she-header' )
 				),
 				'label_block' => true,
 				'condition'   => array(
@@ -86,32 +75,6 @@ class Module extends Module_Base {
 				),
 			)
 		);
-
-		// $element->add_control(
-		// 'upgrade_notice',
-		// array(
-		// 'type'        => Controls_Manager::NOTICE,
-		// 'notice_type' => 'info',
-		// 'dismissible' => true,
-		// 'heading'     => esc_html__( 'New FREE Pro Features', 'she-header' ),
-		// 'content'     => esc_html__( 'Disable Fully Transparent Background, Background Type, Custom Menu Toggle Button, Bottom Shadow, Blur Background settings', 'she-header' ),
-		// 'condition'   => array(
-		// 'transparent!' => '',
-		// ),
-		// )
-		// );
-
-		// $element->add_control(
-		// 'sticky_header_notice',
-		// array(
-		// 'raw'             => __( 'IMPORTANT: This plugin does NOT control the sticky position of the header. Please use the above Motion Effects tab sticky options to make the header sticky', 'she-header' ),
-		// 'type'            => Controls_Manager::RAW_HTML,
-		// 'content_classes' => 'elementor-panel-alert elementor-panel-alert-warning',
-		// 'condition'       => array(
-		// 'transparent!' => '',
-		// ),
-		// )
-		// );
 
 		$element->add_control(
 			'transparent_on',
@@ -286,7 +249,7 @@ class Module extends Module_Base {
 				'type'               => Controls_Manager::SWITCHER,
 				'separator'          => 'before',
 				'label_on'           => __( 'On', 'she-header' ),
-				'label_off'          => __( 'Off', 'bew-header' ),
+				'label_off'          => __( 'Off', 'she-header' ),
 				'return_value'       => 'yes',
 				'default'            => '',
 				'frontend_available' => true,
@@ -295,8 +258,7 @@ class Module extends Module_Base {
 					'transparent!' => '',
 				),
 				'selectors'          => array(
-					'.she-header-transparent-yes' => 'background-color: rgba(0,0,0,0) !important;',
-					'.she-header-transparent-yes' => 'position:absolute;',
+					'.she-header-transparent-yes' => 'background-color: transparent !important; position: absolute;',
 				),
 				'description'        => __( 'Sets the header position to "absolute" so negative margins are not needed', 'she-header' ),
 			)
@@ -326,7 +288,7 @@ class Module extends Module_Base {
 				'type'               => Controls_Manager::SWITCHER,
 				'separator'          => 'before',
 				'label_on'           => __( 'On', 'she-header' ),
-				'label_off'          => __( 'Off', 'bew-header' ),
+				'label_off'          => __( 'Off', 'she-header' ),
 				'return_value'       => 'yes',
 				'default'            => '',
 				'frontend_available' => true,
@@ -1361,7 +1323,6 @@ class Module extends Module_Base {
 				),
 				'description'        => __( 'Add a modern blur effect to a semi-transparent header background color after scrolling', 'she-header' ),
 				'selectors'          => array(
-					'{{WRAPPER}}.she-header' => 'backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);',
 					'{{WRAPPER}}.she-header' => 'backdrop-filter: blur({{blur_bg_blur_amount.SIZE}}{{blur_bg_blur_amount.UNIT}}) saturate({{blur_bg_saturate_amount.SIZE}}) !important; -webkit-backdrop-filter: blur({{blur_bg_blur_amount.SIZE}}{{blur_bg_blur_amount.UNIT}}) saturate({{blur_bg_saturate_amount.SIZE}}) !important;',
 				),
 			)
@@ -1400,7 +1361,6 @@ class Module extends Module_Base {
 					'transparent!' => '',
 					'blur_bg'      => 'yes',
 				),
-				'description'        => __( '', 'she-header' ),
 				'frontend_available' => true,
 			)
 		);
@@ -1424,7 +1384,6 @@ class Module extends Module_Base {
 					'transparent!' => '',
 					'blur_bg'      => 'yes',
 				),
-				'description'        => __( '', 'she-header' ),
 				'frontend_available' => true,
 			)
 		);
@@ -1484,17 +1443,29 @@ class Module extends Module_Base {
 				),
 			)
 		);
+		$element->end_controls_section();
+	}
+
+	/**
+	 * Append the community / Request Feature box at the very end of the Sticky
+	 * Header Effects panel — i.e. BELOW the Pro upsell (when Free) or below the
+	 * real Pro controls (when Pro is active). Hooked on before_section_end at a
+	 * later priority than the Pro modules so it always renders last.
+	 *
+	 * @param object $element Elementor section/container controls stack.
+	 * @return void
+	 */
+	public function she_add_discord_box( $element ) {
 		$element->add_control(
 			'discord_box_notice',
 			array(
 				'type'      => 'she_discord_box',
+				'separator' => 'before',
 				'condition' => array(
 					'transparent!' => '',
 				),
 			)
 		);
-
-		$element->end_controls_section();
 	}
 
 	/**
@@ -1508,20 +1479,24 @@ class Module extends Module_Base {
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
 
-		// add She on sections
-		if ( is_plugin_active( 'elementor/elementor.php' ) ) {
-			add_action( 'elementor/element/section/section_effects/after_section_end', array( $this, 'register_controls' ) );
-		}
-
 		add_action( 'elementor/frontend/after_enqueue_styles', array( $this, 'enqueue_styles' ) );
-		if ( Elementor\Plugin::instance()->editor->is_edit_mode() ) {
-		} else {
+		if ( ! Elementor\Plugin::instance()->editor->is_edit_mode() ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		}
 
-		// add She on containers
 		if ( is_plugin_active( 'elementor/elementor.php' ) ) {
+			// Register controls on both Section and Container element types.
+			add_action( 'elementor/element/section/section_effects/after_section_end', array( $this, 'register_controls' ) );
 			add_action( 'elementor/element/container/section_effects/after_section_end', array( $this, 'register_controls' ) );
+
+			// Append the community / Request Feature box LAST in the panel — after
+			// the Pro upsell or the real Pro controls (which hook at priority 10).
+			add_action( 'elementor/element/section/section_sticky_header_effect/before_section_end', array( $this, 'she_add_discord_box' ), 20 );
+			add_action( 'elementor/element/container/section_sticky_header_effect/before_section_end', array( $this, 'she_add_discord_box' ), 20 );
+
+			// Inject Demo/Docs resource links into the main free toggles.
+			add_action( 'elementor/element/section/section_sticky_header_effect/before_section_end', array( $this, 'she_inject_compare_links' ), 15 );
+			add_action( 'elementor/element/container/section_sticky_header_effect/before_section_end', array( $this, 'she_inject_compare_links' ), 15 );
 		}
 	}
 
@@ -1531,7 +1506,6 @@ class Module extends Module_Base {
 	 * @since 2.0.0
 	 */
 	public function enqueue_styles() {
-		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		wp_enqueue_style(
 			'she-header-style',
@@ -1547,7 +1521,6 @@ class Module extends Module_Base {
 	 * @since 2.0.0
 	 */
 	public function enqueue_scripts() {
-		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		wp_enqueue_script(
 			'she-header',
@@ -1558,5 +1531,130 @@ class Module extends Module_Base {
 			SHE_HEADER_VERSION,
 			false
 		);
+	}
+
+	/**
+	 * Add Demo/Docs resource links beneath the main free feature toggles.
+	 *
+	 * "Live Demo" uses the Elementor theme text color (adapts to light/dark);
+	 * "Read Docs" uses the brand accent. Links render via each control's
+	 * description (Elementor outputs descriptions as raw HTML).
+	 *
+	 * Adds per-feature Demo/Docs resource links to the free controls.
+	 *
+	 * @param Controls_Stack $element Section/container.
+	 * @return void
+	 */
+	public function she_inject_compare_links( Controls_Stack $element ) {
+		$demo_label = __( 'Live Demo', 'she-header' );
+		$docs_label = __( 'Read Docs', 'she-header' );
+
+		// UTM appended to the live-site (stickyheadereffects.com) resource links.
+		$utm = array(
+			'utm_source'   => 'wpbackend',
+			'utm_medium'   => 'elementoreditor',
+			'utm_campaign' => 'stickyheaderfree',
+		);
+
+		$toggles = array(
+			'transparent_header_show',
+			'background_show',
+			'mobile_menu_toggle_animation',
+			'bottom_border',
+			'bottom_shadow',
+			'shrink_header',
+			'shrink_header_logo',
+			'change_logo_color',
+			'blur_bg',
+			'hide_header',
+		);
+
+		// Real published documentation URLs, keyed by control id. Features
+		// without a dedicated doc yet are omitted below and show no Read Docs
+		// link (rather than a broken/guessed URL).
+		$docs_urls = array(
+			'transparent_header_show' => 'https://stickyheadereffects.com/docs/create-a-transparent-sticky-header-in-elementor/',
+			'background_show'         => 'https://stickyheadereffects.com/docs/change-elementor-sticky-header-background-color-on-scroll/',
+			'shrink_header'           => 'https://stickyheadereffects.com/docs/how-to-shrink-elementor-sticky-header-on-scroll/',
+			'shrink_header_logo'      => 'https://stickyheadereffects.com/docs/shrink-logo-in-elementor-sticky-header-on-scroll/',
+			'change_logo_color'       => 'https://stickyheadereffects.com/docs/change-logo-color-in-elementor-sticky-header-on-scroll/',
+			'blur_bg'                 => 'https://stickyheadereffects.com/docs/blur-elementor-sticky-header-background-on-scroll/',
+			'hide_header'             => 'https://stickyheadereffects.com/docs/hide-elementor-sticky-header-on-scroll-down/',
+		);
+
+		// Real demo URLs, keyed by control id. Features without a published
+		// demo yet are omitted below (no Live Demo link rather than a broken one).
+		$demo_urls = array(
+			'transparent_header_show' => 'https://stickyheadereffects.com/demos/visionary-ai/',
+			'background_show'         => 'https://stickyheadereffects.com/demos/inkspire/',
+			'bottom_border'           => 'https://stickyheadereffects.com/demos/luminora/',
+			'bottom_shadow'           => 'https://stickyheadereffects.com/demos/bottom-shadow-effect-with-sticky-header/',
+			'shrink_header'           => 'https://stickyheadereffects.com/demos/header-8/',
+			'shrink_header_logo'      => 'https://stickyheadereffects.com/demos/aurafurnish/',
+			'change_logo_color'       => 'https://stickyheadereffects.com/demos/cashiq/',
+			'blur_bg'                 => 'https://stickyheadereffects.com/demos/zenflow/',
+			'hide_header'             => 'https://stickyheadereffects.com/demos/ecoflux/',
+		);
+
+		$controls = $element->get_controls();
+
+		foreach ( $toggles as $id ) {
+			if ( ! isset( $controls[ $id ] ) ) {
+				continue;
+			}
+
+			// Build Live Demo + Read Docs links only where a real resource exists.
+			$parts = array();
+			if ( isset( $demo_urls[ $id ] ) ) {
+				$parts[] = '<a class="she-free-demo" href="' . esc_url( add_query_arg( $utm, $demo_urls[ $id ] ) ) . '" target="_blank" rel="noopener noreferrer">' . esc_html( $demo_label ) . '</a>';
+			}
+			if ( isset( $docs_urls[ $id ] ) ) {
+				$parts[] = '<a class="she-free-docs" href="' . esc_url( add_query_arg( $utm, $docs_urls[ $id ] ) ) . '" target="_blank" rel="noopener noreferrer">' . esc_html( $docs_label ) . '</a>';
+			}
+
+			// Nothing to link for this control — skip it.
+			if ( empty( $parts ) ) {
+				continue;
+			}
+
+			$links = '<span class="she-free-links">'
+				. implode( '<span class="she-free-sep">|</span>', $parts )
+				. '</span>';
+
+			$existing         = isset( $controls[ $id ]['description'] ) ? $controls[ $id ]['description'] : '';
+			$existing_classes = isset( $controls[ $id ]['classes'] ) ? $controls[ $id ]['classes'] : '';
+
+			$element->update_control(
+				$id,
+				array(
+					'description' => $existing . $links,
+					'classes'     => trim( $existing_classes . ' she-free-link-ctrl' ),
+				)
+			);
+		}
+
+		// Output the link CSS once.
+		$element->add_control(
+			'she_free_links_css',
+			array(
+				'type'        => Controls_Manager::RAW_HTML,
+				'raw'         => $this->she_compare_links_css(),
+				'label_block' => true,
+			)
+		);
+	}
+
+	/**
+	 * Scoped CSS for the free Demo/Docs resource links.
+	 *
+	 * @return string
+	 */
+	private function she_compare_links_css() {
+		return '<style>
+		.she-free-link-ctrl .she-free-links{display:flex;align-items:center;gap:7px;margin-top:7px;font-size:11px;}
+		.she-free-link-ctrl .she-free-links a{font-weight:600;color:var(--e-a-color-txt,#1d2327);text-decoration:none !important;border-block-end:0 !important;transition:color .15s ease;}
+		.she-free-link-ctrl .she-free-links a:hover{color:#E6017E;text-decoration:none !important;border-block-end:0 !important;}
+		.she-free-link-ctrl .she-free-sep{opacity:.4;}
+		</style>';
 	}
 }

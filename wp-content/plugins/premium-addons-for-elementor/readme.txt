@@ -2,14 +2,14 @@
 Contributors: Leap13, Rimoun
 Tags: elementor, elementor addons, elementor widgets, elementor mega menu, elementor templates
 Donate Link: https://premiumaddons.com/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme
-Requires at least: 5.0
-Tested Up To: 6.9.1
+Requires at least: 6.6
+Tested Up To: 7.0
 Requires PHP: 7.4
-Stable Tag: 4.11.69
+Stable Tag: 4.11.89
 License: GPL v3.0
 License URI: https://opensource.org/licenses/GPL-3.0
 
-Elementor Carousel, Mega Menu, Posts List/Slider, Media Gallery, WooCommerce Widgets, Display Conditions, Premade Templates & more.
+Elementor Carousel, Mega Menu, Posts List/Slider, WooCommerce Widgets, Display Conditions, AI Abilities, Premade Templates & more.
 
 == Description ==
 
@@ -44,6 +44,9 @@ It has Elementor elements like **Carousel, Blog Posts List/Slider, Mega Menu Bui
 
 ### Performance and Speed Improvements
 Premium Addons for Elementor is now much faster than ever. Only the required JS files will be loaded on your page to boost your page loading speed and site performance. All the editor loading issues have been fixed to make your site faster and minimize the time it takes for Elementor editor to load.
+
+### New: AI Abilities (Premium Addons for Elementor MCP)
+Connect AI assistants like Claude and ChatGPT to your website using Premium Addons AI Abilities. Built on the WordPress Abilities API and the Model Context Protocol (MCP), It allows AI agents to build new Elementor pages and templates, duplicate the existing ones, use all the available elements from Premium Addons and other 3rd party Elementor plugins, read global settings, manage the plugin's widgets and settings, and more. New abilities are added regularly with every release, expanding what AI agents can do on your website over time. Requires WordPress 6.9 or higher. [Watch Use Cases!](https://premiumaddons.com/elementor-mcp-and-ai-abilities/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=ai).
 
 ### New: Liquid Glass Addon
 Select between 6 attractive liquid glass and glassmorphism effects to be applied on any Elementor widget or container. It has also been added to be applied on specific parts inside our elements. [Check it out now!](https://premiumaddons.com/elementor-liquid-glass-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=glass).
@@ -112,7 +115,7 @@ Premium Addons for Elementor is fully modular. You can enable/disable specific e
 * [**Google Maps Widget**](https://premiumaddons.com/google-maps-widget-for-elementor-page-builder/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=google-maps) *(FREE)*: Advanced Google Maps Widget comes with features like adding multiple markers, custom skins, and much more options.
 * [**Team Members Widget**](https://premiumaddons.com/persons-widget-for-elementor-page-builder/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=team-members) *(FREE)*: Very good widget to list team members, co-workers, etc. Team Members Widget comes with many customization options.
 * [**Tabs Widget**](https://premiumaddons.com/elementor-tabs-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=tabs) *(PRO)*: Create both Vertical and Horizontal tabs with tons of styling features.
-* [**Content Switcher**](https://premiumaddons.com/content-switcher-widget-for-elementor-page-builder/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=content-switcher) *(PRO)*: Present multiple content in a smart way.
+* [**Content Toggle**](https://premiumaddons.com/elementor-content-toggle-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=content-switcher) *(PRO)*: Present multiple content in a smart way.
 * [**Animated Text Widget**](https://premiumaddons.com/elementor-animated-text-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=animated-text) *(FREE)*: The animated Fancy Text Widget comes with very useful options to help you create attractive marketing messages.
 * [**Heading Widget**](https://premiumaddons.com/heading-widget-for-elementor-page-builder/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=heading) *(FREE)*: Heading Widget has many customization options and ready-made heading styles.
 * [**Dual Heading Widget**](https://premiumaddons.com/dual-header-widget-for-elementor-page-builder/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=dual-heading) *(FREE)*: Create a headline with 2 different unique styles.
@@ -255,6 +258,148 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 14. Premium Progress Bar Widget
 
 == Changelog ==
+
+= 4.11.89 - 25/7/2026 =
+
+- Tweak: Improved AI abilities to guide AI models to fetch the design guide for more consistent designs.
+
+= 4.11.88 - 23/7/2026 =
+
+- Tweak: Improved the AI abilities to improve the quality of designs built by AI.
+- Tweak: Added new AI abilities to export/import Elementor sections and pages between different sites, list and upload images to media.
+- Tweak: Added new AI abilities to get information about active theme and its style variation to build more consistent designs.
+- Tweak: MCP Configuration and AI Abilities dashboard tabs merged into one for a better UX.
+- Tweak: Show MCP Connection status for a better UX.
+- Fixed: Hover background outline with Grow effect in Button widget.
+- Fixed: Text Shadow not working in Heading widget when gradient background is enabled.
+
+= 4.11.87 - 19/7/2026 =
+
+- Tweak: Added new AI abilities to apply/customize all addons in the plugin (wrapper link, floating effects, tooltips, etc.), creating an Elementor template, duplicating a page/post, changing a post status, removing an Elementor element and more.
+- Tweak: Improved AI Abilities loading to prevent loading abilities files on the dashboard.
+- Tweak: Improved AI Abilities and MCP Configuration dashboard pages.
+- Tweak: Added Skip & Deactivate button in the plugin deactivation form.
+- Tweak: Show play icon by default in Advanced Carousel widget.
+- Fixed: Slider conflict with JetEngine Slider.
+- Fixed: Empty links appearing in post rendering widgets (Blog, AJAX Search, Recent Posts Notifications).
+
+= 4.11.86 - 6/7/2026 =
+
+- Tweak: Added AI abilities to add Elementor Container/Flexbox element, insert an Elementor widget to a page, post or template, get Elementor page structure and more.
+
+= 4.11.85 - 6/7/2026 =
+
+- New: Introducing AI Abilities integration to allow AI assistants to connect your site and perform actions - requires WordPress v6.9 or higher.
+- Fixed: On Side skin not displayed as column on mobile extra breakpoints in Blog widget.
+
+= 4.11.84 - 29/6/2026 =
+
+- Fixed: Improved code security enforcement in widgets have Mask effect.
+- Fixed: Object Fit option not visible unless Minimum Height is set on desktop in Banner widget.
+
+= 4.11.83 - 28/6/2026 =
+
+- Tweak: Added blur/highlight text effect option in Search Form widget.
+- Tweak: Added Navigation Arrows Custom Vertical Position option in Search Form widget.
+- Tweak: Search now applies on the entire page when CSS Selector is not set in Search Form widget.
+- Tweak: Added Vertical Alignment and Tooltip Position options in Pricing Table widget.
+- Tweak: Improved Map ID control placement in Maps widget.
+- Tweak: Global addons code refactored for better performance and security.
+- Fixed: IP Location Display Condition not working.
+- Fixed: Google Maps not working when Get User Location is enabled.
+- Fixed: Custom SVGs containing image and clip-path tags not rendered.
+- Fixed: Animated SVG line height not working in Modal Box widget.
+- Fixed: Feature list icon size decreasing in small spaces in Pricing Table widget.
+- Fixed: Minimal Mask effect overriding focused word styling in Heading widget.
+- Fixed: Glitch effect not working correctly on focused word in Heading widget.
+- Fixed: Improved code security enforcement in Global Tooltips.
+- Deprecated: Filter By Post Rule option in Search Form widget.
+
+= 4.11.82 - 11/6/2026 =
+
+- Tweak: Global addons code refactored for better performance and security.
+
+= 4.11.81 - 10/6/2026 =
+
+- Tweak: Removed unused file.
+
+= 4.11.80 - 10/6/2026 =
+
+- Tweak: Added Meta Position option in Blog widget.
+- Tweak: Code refactored for better performance and security.
+- Fixed: Generated dynamic assets not being cached.
+
+= 4.11.79 - 4/6/2026 =
+
+- Tweak: Added Max Value option in Progress Bar widget to allow values above 100.
+- Tweak: Added Icon option in Banner widget.
+- Tweak: Added Loop Times option in Lottie Animations widget.
+- Tweak: Added File Source for Lottie Animation icon in Progress Bar widget.
+- Tweak: Image Caption option now always available when source is set to Image Gallery in Carousel widget.
+- Fixed: Lottie Animations not working when Loop is disabled and Reverse is enabled.
+
+= 4.11.78 - 25/5/2026 =
+
+- Tweak: Add option to show Image Caption in Carousel widget when source is set to Image Gallery.
+- Tweak: News Ticker improved on RTL sites.
+
+= 4.11.77 - 14/5/2026 =
+
+- Tweak: Code refactored for better performance and security.
+- Fixed: Metro layout not working in Media Grid with Elementor extra breakpoints feature.
+- Fixed: Carousel widget navigation options not working correctly.
+
+= 4.11.76 - 10/5/2026 =
+
+- Tweak: Code refactored for better performance and security.
+- Fixed: PHP warnings and fatal errors in plugin core.
+
+= 4.11.75 - 26/4/2026 =
+
+- Tweak: Added option to autoplay video in active slide in Advanced Carousel widget.
+- Tweak: Added Description option in Heading and Dual Heading widgets.
+- Tweak: Code refactored for better performance and security.
+- Fixed: Load More button not working correctly in TikTok Feed widget.
+
+= 4.11.74 - 16/4/2026 =
+
+- Tweak: Remove deprecated Vimeo API in Video Box widget.
+- Tweak: Core improved for security.
+- Fixed: Badge not showing correctly in Bullet List widget.
+- Fixed: Active menu item border radius not applied with Background Grow animation in Mega Menu widget.
+
+= 4.11.73 - 8/4/2026 =
+
+- Fixed: Pinterest Feed widget not working correctly.
+
+= 4.11.72 - 1/4/2026 =
+
+- Fixed: Premium Templates not working in v4.11.71.
+
+= 4.11.71 - 31/3/2026 =
+
+- Tweak: Added Masonry Layout in Testimonials widget.
+- Tweak: Improved Hover Effects for buttons in all widgets.
+- Fixed: Border Radius not applied correctly on images when Thumbnail Slider enabled in Carousel widget.
+- Fixed: Security issue in widgets that contain SVG Code control.
+- Fixed: Button not working in Banner widget when Effect 5 is selected.
+- Fixed: Scrolling to containers not working in Mobile Menu widget.
+
+= 4.11.70 - 11/3/2026 =
+
+- Tweak: Core improved for better performance and loading speed.
+- Tweak: Added Price Display option in Pricing Table widget.
+- Tweak: Added Fade Color option for Layout #4 in News Ticker widget.
+- Tweak: Compatibility between Media Grid and Elementor Tabs widget.
+- Tweak: Woo Mini Cart widget code refactored.
+- Tweak: Removed duplicated IDs given to SVGs on the same page.
+- Fixed: Style #8 not working correctly in Heading widget.
+- Fixed: Effects not working in Textual Showcase widget.
+- Fixed: Hover Lottie Animation option not showing in Textual Showcase widget.
+- Fixed: Posts built with Elementor shows as plain text in Premium Blog widget.
+- Fixed: Menu Position option not working on responsive in Mobile Menu widget.
+- Fixed: Icon Separator Color option not working in Woo Mini Cart widget.
+- Fixed: Thumbnail Slider not working in Carousel widget when Border is applied on active slide only.
 
 = 4.11.69 - 12/2/2026 =
 
@@ -865,57 +1010,5 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 - Fixed: Vertical Scroll widget causing scroll issues on touch devices.
 - Fixed: Media Grid lightbox always show the first image since v4.10.55.
 - Fixed: TikTok Feed widget throws PHP warning.
-
-= 4.10.56 - 09/10/2024 =
-
-- Tweak: Dashboard settings tab loading speed improved.
-- Tweak: Improve layout rendering in Mini Cart widget for better loading speed.
-- Fixed: Compatibility issues with WPML translation plugin.
-
-= 4.10.55 - 01/10/2024 =
-
-- Fixed: Issues with Slide-in WooCommerce cart and Mini Cart layout after v4.10.54.
-
-= 4.10.54 - 30/09/2024 =
-
-- Tweak: Plugin performance and loading speed improved.
-- Fixed: WooCommerce mini-cart template broken after v4.10.53.
-
-= 4.10.53 - 26/09/2024 =
-
-- New: Added WooCommerce Mini Cart widget - [here](https://premiumaddons.com/elementor-woocommerce-mini-cart-widget/).
-- Tweak: Compatibility with Elementor Elements Caching feature.
-- Tweak: Added "Load Animation on Page Load/Scroll" for Animated Text widget.
-- Fixed: Carousel arrows not showing in Mobile Menu widget.
-- Fixed: Layout break when Load More Products button clicked in Woo Products Listing widget.
-
-= 4.10.52 - 24/09/2024 =
-
-- Tweak: Added Highlighted Text Color control in AJAX Search widget.
-- Tweak: Remove any unwanted generated files after plugin deactivation.
-- Fixed: Links not working in Mobile Menu widget.
-- Fixed: Skin #4 not working on RTL sites in Testimonials widget.
-- Fixed: Social icons not showing in Team Members widget.
-
-= 4.10.51 - 12/09/2024 =
-
-- Tweak: Added Play Inline option in Video Box widget.
-- Tweak: Added Cluster Icon size control in Google Maps widget.
-- Fixed: Conflict in Dynamic Assets Generate feature.
-- Fixed: Items links not working in Advanced Carousel widget.
-
-= 4.10.50 - 04/09/2024 =
-
-- Tweak: Added control to apply Excerpt Length option on posts with defined excerpt.
-- Fixed: PHP warning for Display condition in Display Conditions feature.
-- Fixed: Conflict between Stretch Section option and Carousel widget.
-- Fixed: Layout broken in some cases with Dynamic Assets feature.
-- Fixed: PHP warning in Global Tooltip addon.
-
-= 4.10.49 - 27/08/2024 =
-
-- Tweak: Added option to control typography, border and background for quantity field in Woo CTA widget.
-- Tweak: Added option to automatically redirect to cart page after product is added to cart in Woo CTA widget.
-- Tweak: Handle errors when inserting a template including a disabled element.
 
 [See changelog for all versions.](https://gitlab.com/Leap13/Elementor/premium-addons/-/raw/master/changelog.txt)

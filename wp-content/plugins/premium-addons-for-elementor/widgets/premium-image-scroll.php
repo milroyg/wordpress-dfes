@@ -79,7 +79,7 @@ class Premium_Image_Scroll extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium image scroll', 'link', 'cta', 'animation' );
@@ -99,7 +99,7 @@ class Premium_Image_Scroll extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget Categories.
+	 * @return array Widget categories.
 	 */
 	public function get_categories() {
 		return array( 'premium-elements' );
@@ -793,6 +793,9 @@ class Premium_Image_Scroll extends Widget_Base {
 				'condition' => array(
 					'container_adv_radius' => 'yes',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -856,6 +859,9 @@ class Premium_Image_Scroll extends Widget_Base {
 				),
 				'condition' => array(
 					'container_hover_adv_radius' => 'yes',
+				),
+				'ai'        => array(
+					'active' => false,
 				),
 			)
 		);
@@ -960,21 +966,21 @@ class Premium_Image_Scroll extends Widget_Base {
 		}
 
 		?>
-			<div class="premium-image-scroll-section" <?php echo wp_kses_post( $this->get_render_attribute_string( 'shadow' ) ); ?>>
-				<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'container' ) ); ?>>
+			<div class="premium-image-scroll-section" <?php $this->print_render_attribute_string( 'shadow' ); ?>>
+				<div <?php $this->print_render_attribute_string( 'container' ); ?>>
 					<?php if ( 'yes' === $settings['icon_switcher'] ) : ?>
 						<div class="premium-image-scroll-content">
 							<?php $this->render_icon_svg( $settings['direction_type'] ); ?>
 						</div>
 					<?php endif; ?>
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'direction_type' ) ); ?>>
+					<div <?php $this->print_render_attribute_string( 'direction_type' ); ?>>
 						<?php if ( 'yes' === $settings['overlay'] ) : ?>
 							<div class="premium-image-scroll-overlay">
 							<?php
 						endif;
 						if ( 'yes' === $settings['link_switcher'] ) :
 							?>
-								<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'link' ) ); ?>></a>
+								<a <?php $this->print_render_attribute_string( 'link' ); ?>></a>
 							<?php
 						endif;
 						if ( 'yes' === $settings['overlay'] ) :

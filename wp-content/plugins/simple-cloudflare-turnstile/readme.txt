@@ -1,10 +1,10 @@
-=== Simple CAPTCHA Alternative with Cloudflare Turnstile ===
+=== Simple CAPTCHA with Cloudflare Turnstile ===
 Contributors: ElliotVS, RelyWP
 Tags: cloudflare,turnstile,captcha,protect,spam
 Donate link: https://www.elliotsowersby.com/donate/
 Requires at least: 4.7
-Tested up to: 6.9
-Stable Tag: 1.37.0
+Tested up to: 7.0
+Stable Tag: 1.42.1
 License: GPLv3 or later.
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -31,6 +31,7 @@ You can currently enable Turnstile on the following forms:
 
 * Checkout
 * Pay For Order
+* Account Details Form
 * Login Form
 * Registration Form
 * Password Reset Form
@@ -45,6 +46,7 @@ You can currently enable Turnstile on the following forms:
 * Forminator Forms
 * Jetpack Forms
 * Kadence Forms
+* SureForms
 
 **Other Integrations**
 
@@ -62,6 +64,7 @@ You can currently enable Turnstile on the following forms:
 * WP User Manager Forms
 * wpDiscuz Comments Form
 * CheckoutWC & Flux Checkout
+* Sunshine Photo Cart
 
 This plugin is also compatible with WordPress Multisite, and most two-factor authentication (2FA) plugins.
 
@@ -94,7 +97,7 @@ For more detailed instructions, please see our <a href="https://elliotsowersby.c
 
 Cloudflare Turnstile delivers frustration-free, CAPTCHA-free web experiences to website visitors.
 
-Turnstile stops abuse and confirms visitors are real without the data privacy concerns or awful UX that CAPTCHA thrusts on users.
+Turnstile is an anti-spam filter that stops abuse and confirms visitors are real without the data privacy concerns or awful UX that CAPTCHA thrusts on users.
 
 Learn more here: <a href="https://www.cloudflare.com/en-gb/products/turnstile/" target="_blank">https://www.cloudflare.com/en-gb/products/turnstile/</a>
 
@@ -106,7 +109,7 @@ Cloudflare Turnstile is also a completely free service.
 
 ## Plugin Languages ##
 
-Currently available in <a href="https://translate.wordpress.org/projects/wp-plugins/simple-cloudflare-turnstile/" target="_blank">12 languages</a>. Thank you to all the <a href="https://translate.wordpress.org/projects/wp-plugins/simple-cloudflare-turnstile/contributors/" target="_blank">contributers</a>! If you would like to help contribute translations, please <a href="https://translate.wordpress.org/projects/wp-plugins/simple-cloudflare-turnstile/" target="_blank">click here</a>.
+Currently available in <a href="https://translate.wordpress.org/projects/wp-plugins/simple-cloudflare-turnstile/" target="_blank">14 languages</a>. Thank you to all the <a href="https://translate.wordpress.org/projects/wp-plugins/simple-cloudflare-turnstile/contributors/" target="_blank">contributers</a>! If you would like to help contribute translations, please <a href="https://translate.wordpress.org/projects/wp-plugins/simple-cloudflare-turnstile/" target="_blank">click here</a>.
 
 ## Other Information ##
 
@@ -115,8 +118,6 @@ Currently available in <a href="https://translate.wordpress.org/projects/wp-plug
 * <a href="https://github.com/elliotvs/simple-cloudflare-turnstile" target="_blank">View on GitHub</a>
 
 ## Support The Plugin ##
-
-Special thanks to all <a href="https://github.com/sponsors/ElliotSowersby/">sponsors</a> that help support the development of this plugin.
 
 If you would like to support the continued development and support of this plugin, you can <a href="https://www.elliotsowersby.com/donate/">make a donation</a></a>.
 
@@ -162,7 +163,7 @@ More integrations may be added in the future, based on user feedback. So if you 
 
 = I need help, can I get support? =
 
-Please bare in mind, the <a href="https://simpleturnstile.com/">Simple CAPTCHA Alternative with Cloudflare Turnstile</a> plugin is 100% free, developed as a way to give back to the WordPress community.
+Please bare in mind, the <a href="https://simpleturnstile.com/">Simple CAPTCHA with Cloudflare Turnstile</a> plugin is 100% free, developed as a way to give back to the WordPress community.
 
 You can post a support thread on the WordPress.org forums to get help from the community, and we will also keep an eye on this quite frequently, providing support and answers where possible. However, we can not guarantee an answer every single support ticket.
 
@@ -208,6 +209,106 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ===
 
+= Version 1.42.1 - 27th July 2026 =
+- Fix: Fixed an issue since 1.42.0 where the submit button could stay disabled after the Turnstile challenge was completed, when the "Disable Submit Button" option is enabled. On the login form this could lock you out of your site.
+- Fix: Fixed the submit button staying disabled after the widget was re-rendered, such as after an AJAX comment or on the Blocksy account modal.
+- Fix: Fixed the submit button staying disabled on Jetpack forms when the "Disable Submit Button" option is enabled.
+- Fix: Fixed WooCommerce checkout failing with a "please verify that you are human" error when using the GlobalPayments GPAPI gateway with 3D Secure enabled.
+- Fix: Fixed the Turnstile API script loading render-blocking, even with the "Defer Scripts" option enabled.
+- Tweak: Changing the API keys programmatically, such as with WP-CLI or a provisioning script, no longer switches Turnstile off on every form until the manual test is run.
+- Tweak: Tightened the Forminator integration further, so a solved Turnstile challenge can no longer be re-used for up to 30 seconds.
+
+= Version 1.42.0 - 26th July 2026 =
+- New: Added support for CIDR ranges (IPv4 and IPv6) in the IP whitelist, e.g. 203.0.113.0/24 or 2001:db8::/32, so visitors can be whitelisted by subnet.
+- Fix: Fixed IP whitelist matching for IPv6 addresses written in a different format, and for IPv4-mapped IPv6 addresses such as ::ffff:203.0.113.5. A /0 range is now ignored.
+- Fix: Fixed an issue since 1.41 where the login widget could be reset while a two-factor prompt was open (e.g. Wordfence 2FA), causing the login to fail.
+- Fix: Turnstile now always loads in explicit render mode, fixing the widget not appearing on slow connections, with a "delay JavaScript" optimization, or in AJAX-loaded forms such as comment forms and popups.
+- Fix: Fixed several WooCommerce issues, including the checkout script erroring when a "delay JavaScript" optimization runs it before jQuery, widgets not rendering on the block checkout, and the "Click here to login" toggle.
+- Fix: Fixed the Turnstile widget not appearing in the Blocksy theme's header account modal, and the integration now also loads when a Blocksy child theme is active.
+- Fix: Fixed a conflict with FluentAuth's email two-factor and magic login, where the second step could fail with a Turnstile error.
+- Fix: Fixed a conflict with Simple Membership where a member logging in was not also logged into their WordPress user account, breaking is_user_logged_in() checks, .htaccess protection and user synchronization.
+- Security: Fixed a vulnerability in the Forminator integration where a solved Turnstile challenge could potentially be reused to bypass verification, as the validation was cached against a form value instead of the single-use token. (Reported by Meher Sudhakar Abbireddi via WPScan.)
+
+= Version 1.41.1 - 22nd June 2026 =
+- Tweak: Added a view button to show the secret key in the settings page, which is hidden by default.
+- Tweak: Made a few small changes to the settings page.
+- Tweak: On the Ultimate Member login form, added a check to prevent further login validation if Turnstile failed.
+- Fix: Fixed an issue with the Ultimate Member login form since the last update.
+
+= Version 1.41.0 - 18th June 2026 =
+- New: Added a new "Analytics" option which when enabled will start tracking some basic analytics data for Turnstile form submissions. This includes the number of successful and failed submissions, and the reasons for any failures.
+- Improvement: Added some new tabs to the settings page, with a "Settings" tab for all the main settings, a new "Analytics" tab for the new analytics feature and the debug logging, and an "Import" tab for the import/export feature.
+- Tweak: Updated the verified transient check to work better with certain 2FA plugins.
+- Tweak: Updated the Contact Form 7 integration to now show the correct error message when the Turnstile check fails.
+- Tweak: The "Widget Label Text" is now hidden when "Interaction Only" is selected, and only displayed when the widget actually requires an interaction.
+- Tweak: Added spacing below the widget when it shows in "Interaction Only" mode, which is hidden when the widget is not displayed.
+- Tweak: The Turnstile widget now re-renders shortly after clicking the login button on the wp-login.php page, to ensure a fresh token is ready in case of a failed login.
+- Fix: Fixed an issue with Turnstile not rendering on the block checkout "pay for order" page in some cases.
+- Fix: Fixed the "Show Widget Label Text" option not displaying on Elementor forms.
+- Fix: Fixed the "Logged In Users" whitelist option not bypassing Turnstile on Contact Form 7 submissions.
+- Fix: Fixed the "Appearance Mode" setting not being applied to Elementor forms and the WooCommerce block checkout, causing the widget to always display even when "Interaction Only" was selected.
+- Other: Renamed the plugin from "Simple CAPTCHA Alternative with Cloudflare Turnstile" to "Simple CAPTCHA with Cloudflare Turnstile".
+
+= Version 1.40.0 - 29th May 2026 =
+- New: Added an option to enable Turnstile on the WooCommerce Account Details form.
+- Tweak: Added a warning message to the "Logged In Users" whitelist option.
+- Tweak: Added an additional check to prevent the Turnstile widget from rendering twice on WooCommerce checkout in rare cases.
+- Tweak: Prevent any kind of form submission (shortkeys etc) for the default login form when Turnstile is not completed, if the "Disable Submit Button" option is enabled.
+- Tweak: Prevent any kind of form submission (shortkeys etc) for Elementor forms when Turnstile is not completed <a href="https://github.com/ElliotSowersby/simple-cloudflare-turnstile/pull/84">#84</a>.
+- Tweak: Force-render inline script now loads via wp_add_inline_script in the footer, fixing rendering issues in some cases when "Defer Scripts" is disabled.
+- Fix: Fixed widget size setting (Flexible/Compact) not being applied to Elementor forms.
+- Fix: Fixed a mobile performance issue in some cases. Replaced the fixed 200ms setTimeout fallback which could cause scroll-locking and double-rendering.
+- Fix: Performance plugin compatibility hooks now register correctly regardless of which performance plugin is active.
+- Fix: Improved WooCommerce checkout login form Turnstile rendering, which was not working for some themes.
+- Fix: Fixed a JS error on WooCommerce classic checkout when the Blocks checkout store isn't registered.
+- Fix: Fixed duplicate Turnstile widget on Paid Memberships Pro login page.
+- Fix: Fixed a JS error with wpDiscuz integration when Perfmatters plugin was active.
+
+= Version 1.39.1 - 1st May 2026 =
+- Fix: Fixed a potential issue with the Turnstile check on login forms failing in certain cases when it runs multiple checks in the same request.
+
+= Version 1.39.0 - 20th April 2026 =
+- New: Added integration for the "SureForms" plugin.
+- New: Added integration for the "Sunshine Photo Cart" plugin (<a href="https://github.com/ElliotSowersby/simple-cloudflare-turnstile/pull/70">#70</a>).
+- Tweak: Adjusted the "Widget Label Text" alignment in some cases so it always shows above the widget.
+
+= Version 1.38.4 - 17th April 2026 =
+- Fix: Fixed Turnstile verification failures on WooCommerce checkout caused by payment gateway plugins (e.g. PayPal Commerce, Amazon Pay, Mollie) consuming the single-use token during pre-checkout AJAX validation requests.
+- Fix: Fixed a fatal error occurring on pages where WooCommerce has been selectively disabled (e.g. via Plugin Organizer).
+
+= Version 1.38.3 - 17th April 2026 =
+- Tweak: Made some tweaks to the WooCommerce checkout duplicate submission check, with a longer expiration for the transient, and improved the auto re-render for Turnstile on payment error in certain cases.
+- Tweak: Small tweak to the Contact Form 7 integration code with a basic static duplication check.
+
+= Version 1.38.2 - 16th April 2026 =
+- Tweak: Added the transient based duplicate submission check to WooCommerce checkout, to prevent potential duplicate submission check failing issues since the last update.
+- Tweak: Added improved support for Gravity Forms multi-page forms, to prevent the duplicate submission check from failing on page 2 and beyond.
+
+= Version 1.38.1 - 13th April 2026 =
+- Tweak: Replaced all PHP session usage with WordPress transients for the duplicate submission checks, to prevent full-page caching from being broken by the PHPSESSID cookie and Cache-Control headers.
+- Tweak: An invalid-input-secret error from Cloudflare no longer disables Turnstile on all forms. Instead, the admin is notified and a soft re-test prompt is displayed on the settings page.
+- Security: Fixed a broken authentication vulnerability on WooCommerce checkout potentially allowing one successful Turnstile submission to be reused for multiple checks. (Reported by David Marín via Patchstack.)
+
+= Version 1.38.0 - 6th April 2026 =
+- New: Added a "Refresh Timeout" option to the advanced settings.
+- Performance: The Cloudflare health check (used by failover mode) is now cached for 2 minutes, preventing repeated HTTP requests on every form render.
+- Tweak: Added missing WooCommerce 'cart_checkout_blocks' and 'product_block_editor' feature compatibility declarations.
+- Fix: Fixed a text domain typo in the WooCommerce Store API integration.
+- Fix: Improved the WP Discuz integration to properly validate and block submissions when the Turnstile check fails, and now honors the whitelist.
+- Fix: Fixed an issue with Turnstile not loading on Elementor popup forms in some cases.
+- Fix: The disable submit option should now work correctly on Elementor forms.
+- Fix: The disable submit option should now work correctly on Contact Form 7 forms.
+- Fix: Fix for WooCommerce block checkout sometimes rendering the Turnstile widget twice.
+- Fix: Fixed a "Invalid type for container" JavaScript error with the wpDiscuz integration.
+- Fix: Fixed the right alignment styling for bbpress.
+- Fix: Fixed an issue where Turnstile widgets would repeatedly render when a browser tab is left open for extended periods.
+- Fix: Fixed an issue where CF7 forms would show "One or more fields have an error" when SCT is active but the form doesn't use the SCT turnstile shortcode.
+- Fix: Fixed an issue with scripts not being enqueued properly in some cases.
+- Dev: Fixed the missing prefix for the add_data_attribute function.
+- Dev: Changed all include() calls to include_once() to prevent fatal errors if the plugin file is loaded more than once.
+- Dev: Fixed cfturnstile_check() returning false instead of array( 'success' => false ) when API keys are not set.
+- Security: Made a few small precautionary security enhancements (missing ABSPATH check, and sanitized REQUEST_URI).
+
 = Version 1.37.0 - 12th January 2026 =
 - Improvement: Improved the Elementor integration to work better in more cases, and with Elementor popups.
 - Improvement: Added an alignment option for the Elementor integration.
@@ -217,7 +318,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 - Fix: Fixed a new issue some websites were experiencing with WooCommerce block checkout not working with Turnstile.
 - Fix: Fixed an error "attempt to read property success on null" showing in some cases.
 - Fix: Fixed the widget label not showing in some cases, on the comments form.
-- Fix: Fixed WooCommerce checkout in some cases not re-rendering Turnstile after payment errors. It should now rerender correctly in all cases to prevent Turnstile errors.
+- Fix: Fixed WooCommerce checkout in some cases not re-rendering Turnstile after payment errors. It should now re-render correctly in all cases to prevent Turnstile errors.
 - Fix: Fixed an issue with Forminator forms when using file upload fields.
 
 = Version 1.36.1 - 31st December 2025 =

@@ -21,8 +21,6 @@ if ( ! class_exists( 'Premium_Templates_Manager' ) ) {
 	 */
 	class Premium_Templates_Manager {
 
-		private static $instance = null;
-
 		private $sources = array();
 
 		/**
@@ -56,7 +54,7 @@ if ( ! class_exists( 'Premium_Templates_Manager' ) ) {
 		 * @since 3.6.0
 		 * @access public
 		 *
-		 * @return [type] [description]
+		 * @return array
 		 */
 		public function localize_tabs( $data ) {
 
@@ -127,16 +125,6 @@ if ( ! class_exists( 'Premium_Templates_Manager' ) ) {
 		public function add_source( $key, $class ) {
 			$this->sources[ $key ] = new $class();
 		}
-
-		/**
-		 * Returns needed source instance
-		 *
-		 * @return object
-		 */
-		public function get_source( $slug = null ) {
-			return isset( $this->sources[ $slug ] ) ? $this->sources[ $slug ] : false;
-		}
-
 
 		/**
 		 * Get template
@@ -258,9 +246,11 @@ if ( ! class_exists( 'Premium_Templates_Manager' ) ) {
 			}
 
 			$source       = $this->sources['premium-api'];
-			$insert_media = isset( $_REQUEST['withMedia'] ) ? $_REQUEST['withMedia'] : true;
+			$insert_media = isset( $_REQUEST['withMedia'] )
+				? filter_var( wp_unslash( $_REQUEST['withMedia'] ), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE ) ?? true
+				: true;
 
-			if ( ! $source || ! $template_id ) {
+			if ( ! $source ) {
 				wp_send_json_error();
 			}
 
@@ -284,7 +274,7 @@ if ( ! class_exists( 'Premium_Templates_Manager' ) ) {
 				);
 			}
 
-			wp_send_json_success( $template );
+			wp_send_json_success();
 		}
 
 		/**
@@ -376,21 +366,6 @@ if ( ! class_exists( 'Premium_Templates_Manager' ) ) {
 			$template = $source->get_item( $data['template_id'], $data['tab'], $insert_media );
 
 			return $template;
-		}
-
-		/**
-		 * Returns the instance.
-		 *
-		 * @since  3.6.0
-		 * @return object
-		 */
-		public static function get_instance() {
-
-			// If the single instance hasn't been set, set it now.
-			if ( null == self::$instance ) {
-				self::$instance = new self();
-			}
-			return self::$instance;
 		}
 	}
 

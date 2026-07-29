@@ -161,6 +161,12 @@ a.psacp-pro-inline-button{border: 1px solid #ca2001; display:block !important; t
 .psacp-welcome-panel-content .psacp-about-description{font-size: 16px; margin: 0; color: #646970;}
 .psacp-welcome-panel a{text-decoration:none;}
 .psacp-welcome-panel .dashicons{color:#646970; margin-right:5px;}
+.psacp-version-tag{display: inline-block; background-color: #dcdcde; border: 1px solid #000; border-radius: 0px; font-size: 14px; padding: 2px 8px; vertical-align: middle; font-weight: normal;}
+
+/* WordPress 7.0 fix */
+.psacp-major-publishing-actions{align-items: start !important; flex-direction: column;}
+.psacp-layout-wrap-v7 .psacp-select2-inp .select2-selection--multiple, .psacp-layout-wrap-v7 .psacp-select2-inp.select2-container--focus .select2-selection--multiple{border: 1px solid #949494; border-radius: 0;}
+.psacp-layout-wrap-v7 .psacp-select2-inp .select2-selection--multiple .select2-search--inline .select2-search__field{line-height: 2.65;}
 
 .psacp-column,
 .psacp-columns{padding-left:0.9375em; padding-right:0.9375em; width:100%; float:left; position: relative;}

@@ -2,9 +2,9 @@
 Contributors: @brainstormforce
 Tags: elementor, elementor addons, elementor widgets, elementor template, header footer builder
 Requires at least: 5.0  
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4  
-Stable tag: 2.8.4
+Stable tag: 2.9.2
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -310,6 +310,37 @@ You can report the issue through our [Bug Bounty Program](https://brainstormforc
 ---
 
 == Changelog ==
+= 2.9.2 =
+- Fix: Security - A security vulnerability in UAE has been identified and patched. We recommend updating to 2.9.2 immediately. Props to Asaf Mozes from WPScan for responsibly disclosing this to our team.
+
+= 2.9.1 =
+- New: UAE now includes translations for 15 additional languages - Indonesian, Brazilian Portuguese, Russian, Italian, Turkish, Japanese, Simplified Chinese, Polish, Arabic, Swedish, Vietnamese, Hebrew, Thai, Greek, and Czech - alongside refreshed Dutch, French, Spanish, and German, enhancing multilingual accessibility.
+- Improvement: Compatibility with latest Elementor and Elementor Pro 4.2 version.
+
+= 2.9.0 =
+- New: AI Tools - Connect AI assistants like Claude to your site and build or manage your headers, footers, and templates using plain-English commands, powered by the new MCP (Model Context Protocol) integration. (https://ultimateelementor.com/docs/uae-ai-tools-connect-ai-to-your-elementor-site/)
+- Fix: Accessibility - Skip to main content link is now retained when HFE replaces the theme header, restoring keyboard navigation on themes that are not natively supported.
+
+= 2.8.8 =
+- Improvement: Compatibility with latest Elementor and Elementor Pro 4.1 version.
+- Improvement: Updated translations for German, Spanish, French, and Dutch locales.
+- Fix: WPML - Widget link fields not recognized as translatable links in the Advanced Translation Editor.
+- Fix: WPML - Site Logo default link now points to the correct language-specific homepage URL.
+- Fix: Search Button - Removed incorrect ARIA tablist role from the search form for better screen reader compatibility.
+- Fix: Atomic widget styles now load correctly in header, footer, and before-footer templates on the frontend.
+
+= 2.8.7 =
+- Improvement: WordPress 7.0 compatibility.
+- Improvement: Updated Internal libraries to improve stability and compatibility.
+
+= 2.8.6 =
+- Improvement: Compatibility with latest Elementor and Elementor Pro 4.0 version.
+- Improvement: Updated Internal libraries to improve stability and compatibility.
+- Fix: UAE icon in Elementor editor redirected to incorrect URL on staging and subdirectory WordPress installations.
+
+= 2.8.5 =
+- Improvement: Strengthened plugin security and updated required package dependencies.
+
 = 2.8.4 =
 - New: Introduced a Learn tab with step-by-step guides to help users master website customization and configuration.
 

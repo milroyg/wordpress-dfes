@@ -1,30 +1,31 @@
 === Sticky Header Effects for Elementor ===
 Contributors: posimyththemes, devangvachheta, sagarpatel124, rwattner, dgovea
-Tags: Elementor, Elementor Page Builder, Add-ons, Header, Sticky Header
+Tags: Elementor, Sticky Header, Fixed Header, Transparent Header, Elementor Header
 Requires at least: 6.3
-Tested up to: 6.8
-Requires PHP: 7.0
-Stable tag: 2.1.7
+Tested up to: 7.0
+Requires PHP: 7.4
+Stable tag: 2.2.0
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
-Create advanced Sticky Headers in Elementor Free or Pro with scroll effects, blur, shrink, hide on scroll & full responsive controls. 
+Create advanced Elementor sticky headers with scroll effects: blur, shrink, hide on scroll, plus full responsive controls in Elementor Free or Pro.
 
 == Description ==
 
-## Sticky Header Effects for Elementor – Build Smart, Responsive Sticky Headers
+## Sticky Header Effects for Elementor: Build Smart, Responsive Sticky Headers
 
-Sticky headers are essential for improving navigation, branding visibility, and user experience on any modern website. With the **Sticky Header Effects for Elementor** plugin, you can now build sleek, customizable sticky headers that respond to user scroll behavior — all with **Elementor Free or Pro**.
+Sticky headers (also called fixed or floating headers) are essential for improving navigation, branding visibility, and user experience on any modern website. With the **Sticky Header Effects for Elementor** plugin, you can now build sleek, customizable sticky headers that respond to user scroll behavior, all with **Elementor Free or Pro**.
 
-From transparent overlays to animated shrinking effects, dynamic background changes, and blur visuals — this plugin gives you 10+ scroll-based effects that help your header adapt beautifully to your page design.
+From transparent overlays to animated shrinking effects, dynamic background changes, and blur visuals. This plugin gives you 10+ scroll-based effects that help your header adapt beautifully to your page design.
 
 This plugin is perfect for developers, designers, bloggers, and agencies who want more control over header behavior without writing a single line of code.
 
-**This Plugin has been Acquired by POSIMYTH Innovations - [Read Announcement Blog](https://stickyheadereffects.com/massive-updates-2-0/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterextension)**  
+[🌐 Visit Website](https://stickyheadereffects.com/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)| [🖼️ Sticky Header Templates Demos](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects) | [📹 Video Tutorials](https://www.youtube.com/c/POSIMYTHInnovations/?sub_confirmation=1) | [📑 Documentations](https://stickyheadereffects.com/docs?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects) | [👥 Join Community](https://go.posimyth.com/she-discord/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects) | [🤝 Free Support](https://wordpress.org/support/plugin/sticky-header-effects-for-elementor/) | [🚀 Get Pro](https://stickyheadereffects.com/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffectsPro#pricing)
 
-[🌐 Visit Website](https://stickyheadereffects.com/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)| [🖼️ Sticky Header Templates Demos](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects) | [📹 Video Tutorials](https://www.youtube.com/c/POSIMYTHInnovations/?sub_confirmation=1) | [📑 Documentations](https://stickyheadereffects.com/docs?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects) | [👥 Join Community](https://www.facebook.com/groups/theplus4elementor/) | [🤝 Free Support](https://wordpress.org/support/plugin/sticky-header-effects-for-elementor/) 
+### 🚀 New: Sticky Header Effects for Elementor Pro
+Need more control? The **Sticky Header Effects for Elementor Pro** add-on adds 11 advanced scroll effects on top of this free plugin (see the full list below). [Learn more about Pro](https://stickyheadereffects.com/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffectsPro). *(This is a separate plugin)*
 
-### 🔥 Comes with [50+ Ready to Import Templates for Elementor Headers with Sticky Header](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
+### 🔥 Comes With [50+ Ready To Import Templates For Elementor Headers With Sticky Header](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
 
 
 ## 👑 10+ Powerful Elementor Sticky Header Effects
@@ -32,56 +33,106 @@ This plugin is perfect for developers, designers, bloggers, and agencies who wan
 ### 1. Header Scroll Distance Effect 
 **Set Scroll Trigger Threshold**  
 Define how far the user scrolls before sticky effects activate. Perfect for precise control over header behavior.  
-👉 [View Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Header+Scroll+Distance&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
+👉 [Live Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Header+Scroll+Distance&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
 
 ### 2. Transparent Header Background Effect  
 **Overlay with Elegance**  
 Allow your header to overlay your hero or banner sections with full transparency. Ideal for modern homepage designs.  
-👉 [View Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Transparent+Header+Background&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
+👉 [Live Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Transparent+Header+Background&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
 
 ### 3. Dynamic Background Color Change
 **Auto Background Switching**  
 Change your header’s background color on scroll to match different sections or maintain contrast.  
-👉 [View Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Background+Color+Change&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
+👉 [Live Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Background+Color+Change&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
 
 ### 4. Bottom Border Styling Effect
 **Subtle Section Separation**  
 Add customizable borders below your sticky header for better definition and clean design.  
-👉 [View Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Bottom+Border+Styling&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
+👉 [Live Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Bottom+Border+Styling&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
 
 ### 5. Header Shrinking Effect 
 **Reduce Header Height Dynamically**  
 Shrink the entire header after scrolling to save space and focus attention on the page content.  
-👉 [View Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Header+Shrinking&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
+👉 [Live Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Header+Shrinking&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
 
 ### 6. Logo Shrinking Effect  
 **Responsive Logo Transition**  
 Shrink the logo proportionally during scroll, maintaining visual balance and brand presence.  
-👉 [View Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Logo+Shrinking&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
+👉 [Live Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Logo+Shrinking&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
 
 ### 7. Logo Color Change Effect
 **Switch Logo Color for Better Contrast**  
 Automatically switch to a contrasting logo color on scroll based on background or user behavior.  
-👉 [View Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Logo+Color+Change&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
+👉 [Live Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Logo+Color+Change&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
 
 ### 8. Blur Background Effect
 **Add Modern Blur Transition**  
 Enhance the visual flow by applying a subtle blur effect to the background of your sticky header.  
-👉 [View Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Blur+Background&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
+👉 [Live Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Blur+Background&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
 
 ### 9. Hide Header on Scroll Down Effect
 **Hide & Reappear on Scroll**  
-Auto-hide the header when scrolling down and show it again on scroll up — great for content-heavy pages.  
-👉 [View Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Hide+Header+on+Scroll+Down&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
+Auto-hide the header when scrolling down and show it again on scroll up. Great for content-heavy pages.  
+👉 [Live Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Hide+Header+on+Scroll+Down&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
 
 ### 10. Above Header Section Effect
-**Sync Above Sections Seamlessly**  
+**Sync Above Sections Cleanly**  
 Align your sticky effects with sections above the main header for unified motion and cleaner transitions.  
-👉 [View Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Above+Header+Section&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
+👉 [Live Demo](https://stickyheadereffects.com/sticky-header-for-elementor-templates/?checkbox-sticky_header_effects=Above+Header+Section&utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
 
-### 🔍 Check our other Products
+## 👑 Sticky Header Effects PRO: 11 Advanced Scroll Effects
 
-**[🥇 The Plus Addons for Elementor](https://theplusaddons.com/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)** – Nexter Extension works seamlessly with The Plus Addons for Elementor. Get 120+ unique Elementor widgets, Elementor templates, and more. Includes Free Elementor Theme Builder.
+Want more control? **[Sticky Header Effects for Elementor Pro](https://stickyheadereffects.com/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffectsPro#pricing)** is a separate add-on that builds on top of this free plugin. It adds 11 advanced, scroll-based header features:
+
+### 1. Display Conditions (PRO)
+Show or hide the sticky header on specific pages, posts, taxonomies, roles, login state, URLs and more.  
+👉 [Live Demo](https://stickyheadereffects.com/docs/show-or-hide-elementor-sticky-header-with-display-conditions/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffectsPro)
+
+### 2. Sticky Until (Boundary Control) (PRO)
+Release the sticky at a container, page end, custom element, or scroll distance.  
+👉 [Live Demo](https://stickyheadereffects.com/demos/visionary-ai/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffectsPro)
+
+### 3. Reveal / Entrance Animations (PRO)
+9 entrance effects (slide, fade, zoom, flip) when the header becomes sticky, with duration, easing and delay.  
+👉 [Live Demo](https://stickyheadereffects.com/demos/cashiq/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffectsPro)
+
+### 4. Header Replace on Scroll (PRO)
+Show a completely different header look when sticky, built from a normal and a sticky version in one header (no second template).  
+👉 [Live Demo](https://stickyheadereffects.com/demos/claude-ortiz/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffectsPro)
+
+### 5. Logo Image Swap (PRO)
+Swap to a different logo image (with retina @2x) when the header becomes sticky.  
+👉 [Live Demo](https://stickyheadereffects.com/demos/luminora/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffectsPro)
+
+### 6. Sticky Menu Styling (PRO)
+Restyle nav menu colors, typography and spacing only while sticky (Elementor, Mega Menu, WordPress Menu & TPAE Nav Menu).  
+👉 [Live Demo](https://stickyheadereffects.com/demos/aurafurnish/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffectsPro)
+
+### 7. Extended Backdrop Filters (PRO)
+Add grayscale, brightness, contrast and hue-rotate on top of the free blur backdrop.  
+👉 [Live Demo](https://stickyheadereffects.com/demos/zenflow/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffectsPro)
+
+### 8. Background Image on Sticky (PRO)
+Show a background image only while the header is sticky, with full position, size, repeat and attachment controls.  
+👉 [Live Demo](https://stickyheadereffects.com/demos/ecoflux/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffectsPro)
+
+### 9. Header Opacity Transition (PRO)
+Smoothly fade the header opacity between its normal and sticky states.  
+👉 [Live Demo](https://stickyheadereffects.com/demos/flexify/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffectsPro)
+
+### 10. Logo Styling on Sticky (PRO)
+Add padding, border, radius and box-shadow to the logo only while sticky, with a smooth transition.  
+👉 [Live Demo](https://stickyheadereffects.com/demos/zenflow/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffectsPro)
+
+### 11. Multi-Sticky Coordination (PRO)
+Coordinate up to five sticky sections on one page in Stack or Sequential modes, with priority ordering.  
+👉 [Live Demo](https://stickyheadereffects.com/demos/inkspire/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffectsPro)
+
+👉 **[Get Sticky Header Effects Pro](https://stickyheadereffects.com/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffectsPro#pricing)**, backed by a 60-day money-back guarantee.
+
+### 🔍 Check Our Other Products
+
+**[🥇 The Plus Addons for Elementor](https://theplusaddons.com/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)** – Get 120+ unique Elementor widgets, Elementor templates, and more.
 
 **[🥇 Nexter Blocks](https://nexterwp.com/nexter-blocks/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)** – Nexter Theme works in sync with core Gutenberg. Add 90+ powerful, highly customizable blocks.
 
@@ -92,6 +143,8 @@ Align your sticky effects with sections above the main header for unified motion
 **[🥇 UiChemy - Figma to Elementor Converter](https://uichemy.com/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)** – Convert your Figma Templates into live Elementor websites using our [Free Figma Plugin](https://www.figma.com/community/plugin/1265873702834050352/).
 
 **[🥇 WDesignKit](https://wdesignkit.com/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)** – 1000+ Templates, Elementor & Gutenberg Widget Builder, Cloud Storage, Widget to Block Converter & More.
+
+**[🥇 SproutOS](https://wordpress.org/plugins/sproutos/)** – A modern WordPress plugin that helps site owners, agencies and developers work faster with AI-powered tools, automation and workflow controls.
 
 == Installation ==
 
@@ -107,7 +160,7 @@ Align your sticky effects with sections above the main header for unified motion
 
 The header cannot shrink smaller than the objects inside of it!
 
-The "shrink" effect is restricted by the size of the content in the header section. Such as logos, images, menus, widgets, and also all of the padding and margins of those elements. This also inclused the padding and margins of the sections and columns themselves.
+The "shrink" effect is restricted by the size of the content in the header section. Such as logos, images, menus, widgets, and also all of the padding and margins of those elements. This also includes the padding and margins of the sections and columns themselves.
 
 To get the best "shrink" effect use these settings:
 * Set the top and bottom padding to 0px on your sticky header section, column, and elements inside of it.
@@ -117,19 +170,28 @@ To get the best "shrink" effect use these settings:
 Basically what happens is that the content of the header is "too tall" to shrink down anymore.
 
 ** Do I need Elementor Pro to use this plugin?**  
-No, this plugin works perfectly with Elementor Free, If you are using Free Navigation Widget from The Plus Addons for Elementor. You’ll only need Elementor Pro if you're using Pro Navigation widgets.
+No. This plugin works perfectly with Elementor Free. For navigation menus, you can use the free Nav Menu widget from The Plus Addons for Elementor. You’ll only need Elementor Pro if you're using Pro Navigation widgets.
+
+** Does it work with the Elementor Theme Builder?**
+Yes. You'll find the Sticky Header Effects panel under the **Advanced Tab** of every Elementor section and container. If you have Elementor Pro, it works on header templates built with the Elementor Pro Theme Builder. On Elementor Free you don't need Elementor Pro to build a custom header either: Nexter Extension includes a Free Theme Builder for headers, and the same Sticky Header Effects apply to those headers too.
 
 ** Is this a standalone plugin?**  
 No, it requires Elementor Free or Pro. It extends Elementor’s functionality with new header scroll effects. 
+
+** Is there a Pro version of this plugin?**
+Yes. **Sticky Header Effects for Elementor Pro** is a separate add-on plugin that requires this free plugin to be installed and active. It adds Display Conditions, Sticky Until (boundary control), Reveal animations, Header Replace on scroll, Logo Swap, Sticky Menu Styling, extended Backdrop Filter, Background Image on sticky, Opacity transitions, Logo Styling, and Multi-Sticky coordination. All of the free effects continue to work exactly the same with or without Pro installed.
+
+** What's the difference between Sticky Header Effects Pro and Elementor Pro?**
+They're unrelated products. **Elementor Pro** is Elementor's own premium plugin (widgets, theme builder, etc.). **Sticky Header Effects for Elementor Pro** is our add-on that extends this specific plugin's sticky header effects, and works with either Elementor Free or Elementor Pro.
 
 ** Where can I find the Sticky Header Effects settings?**  
 Inside Elementor Editor → Select any container → Go to **Advanced Tab** → Scroll to **Sticky Header Effects** section.
 
 ** Will this plugin work with any WordPress theme?**  
-Yes, it works seamlessly with most Elementor-optimized themes, including Hello, Nexter, Astra, and more.
+Yes, it works well with most Elementor-optimized themes, including Hello, Nexter, Astra, and more.
 
 ** Will this slow down my website?**  
-Not at all. It’s highly optimized for performance and coded lightweight to ensure fast page loads. It's lightest sticky header menu option with Google Page Speed optimized for top notch score. 
+Not at all. It’s highly optimized for performance and coded lightweight to ensure fast page loads.
 
 ** How can I report security bugs?** 
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team helps validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/9151acea-1465-4a3d-a9a5-23535fa6e00b)
@@ -138,7 +200,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 1. Introducing Sticky Header for Elementor – Overview of all key features and updates
 2. Find Sticky Header settings inside Elementor’s Advanced Tab
-3. Works seamlessly with Elementor Free & Pro – No limitations
+3. Fully compatible with Elementor Free & Pro – No limitations
 4. Includes 50+ Ready-to-use Elementor Header Templates
 5. Powerful Scroll Effects – Shrink, Blur, Hide, Color Swap & More
 6. Fine-Tuned Styling Controls – Customize behavior for each device
@@ -146,6 +208,28 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 8. Smarter Scroll Behaviors – Transparent, Distance Control, Sticky Logic
 
 == Changelog ==
+
+= 2.2.0 =
+- Added: WordPress Abilities API support for AI-assisted sticky-header demo creation (WordPress 6.9+)
+- Added: Pro feature discovery with Live Demo and Read Docs links in the editor
+- Added: "Join Community" admin notice
+- Improvement: Dashboard UI enhancements
+- Improvement: Dashboard input validation and permission handling improved
+- Improvement: Preset and WDesignKit popup input and permission handling improved
+- Improvement: Admin notice output rendering improved for better compatibility
+- Improvement: Plugin/theme scan now runs only on the plugin's own dashboard screen for faster admin pages
+- Improvement: Sticky scroll performance improved with animation-frame throttling
+- Improvement: Plugin code quality, PHP 8 compatibility, and translation coverage
+- Fix: Sticky Scroll Distance now honors the vh unit and responsive overrides
+- Fix: Sticky header no longer hides behind the admin bar at smaller screen widths
+- Fix: Removed a broken image reference on the rollback screen
+- Fix: Minor Bug Fixes & Performance Improvements
+
+= 2.1.9 =
+- Maintenance: Wordpress 7.0 compatibility update
+
+= 2.1.8 =
+- Maintenance: Wordpress 6.9 compatibility update
 
 = 2.1.7 =
 - Improvement: UI Related Minor Bug Fixes
@@ -382,6 +466,9 @@ Tweaked: Logo color change optimized so "full color" option no longer overwrites
 - Initial stable release
 
 == Upgrade Notice ==
+= 2.2.0 =
+Adds AI-assisted demo creation (WordPress Abilities API), editor Pro feature discovery, performance improvements, and fixes for scroll-distance units and the admin-bar offset. All existing sticky effects continue to work.
+
 = 1.7.3 =
 - Maintenance: Wordpress 6.7 compatibility update
 

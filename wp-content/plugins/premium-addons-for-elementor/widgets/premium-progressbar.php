@@ -138,7 +138,8 @@ class Premium_Progressbar extends Widget_Base {
 			$settings = $this->get_settings();
 
 			if ( 'yes' === $settings['draw_svg'] ) {
-				array_push( $scripts, 'pa-tweenmax', 'pa-motionpath' );
+				$scripts[] = 'pa-tweenmax';
+				$scripts[] = 'pa-motionpath';
 			}
 
 			if ( 'animation' === $settings['icon_type'] ) {
@@ -157,7 +158,7 @@ class Premium_Progressbar extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium progress bar', 'circle', 'chart', 'line', 'graph', 'percent' );
@@ -362,12 +363,24 @@ class Premium_Progressbar extends Widget_Base {
 			'icon_type',
 			array(
 				'label'     => __( 'Icon Type', 'premium-addons-for-elementor' ),
-				'type'      => Controls_Manager::SELECT,
+				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
-					'icon'      => __( 'Icon', 'premium-addons-for-elementor' ),
-					'image'     => __( 'Custom Image', 'premium-addons-for-elementor' ),
-					'animation' => __( 'Lottie Animation', 'premium-addons-for-elementor' ),
-					'svg'       => __( 'SVG Code', 'premium-addons-for-elementor' ),
+					'icon'      => array(
+						'title' => __( 'Icon', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-icon',
+					),
+					'image'     => array(
+						'title' => __( 'Custom Image', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-image',
+					),
+					'animation' => array(
+						'title' => __( 'Lottie Animation', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-lottie',
+					),
+					'svg'       => array(
+						'title' => __( 'SVG Code', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-code',
+					),
 				),
 				'default'   => 'icon',
 				'separator' => 'before',
@@ -378,9 +391,11 @@ class Premium_Progressbar extends Widget_Base {
 		$this->add_control(
 			'icon_select',
 			array(
-				'label'     => __( 'Select an Icon', 'premium-addons-for-elementor' ),
-				'type'      => Controls_Manager::ICONS,
-				'condition' => array_merge(
+				'label'       => __( 'Select an Icon', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::ICONS,
+				'skin'        => 'inline',
+				'label_block' => false,
+				'condition'   => array_merge(
 					$common_conditions,
 					array(
 						'icon_type' => 'icon',
@@ -418,6 +433,28 @@ class Premium_Progressbar extends Widget_Base {
 						'icon_type' => 'svg',
 					)
 				),
+				'ai'          => array(
+					'active' => false,
+				),
+			)
+		);
+
+		$this->add_control(
+			'lottie_source',
+			array(
+				'label'     => __( 'File Source', 'premium-addons-for-elementor' ),
+				'type'      => Controls_Manager::SELECT,
+				'options'   => array(
+					'url'  => __( 'External URL', 'premium-addons-for-elementor' ),
+					'file' => __( 'Media File', 'premium-addons-for-elementor' ),
+				),
+				'default'   => 'url',
+				'condition' => array_merge(
+					$common_conditions,
+					array(
+						'icon_type' => 'animation',
+					)
+				),
 			)
 		);
 
@@ -432,7 +469,27 @@ class Premium_Progressbar extends Widget_Base {
 				'condition'   => array_merge(
 					$common_conditions,
 					array(
-						'icon_type' => 'animation',
+						'icon_type'     => 'animation',
+						'lottie_source' => 'url',
+					)
+				),
+				'ai'          => array(
+					'active' => false,
+				),
+			)
+		);
+
+		$this->add_control(
+			'lottie_file',
+			array(
+				'label'      => __( 'Upload JSON File', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::MEDIA,
+				'media_type' => 'application/json',
+				'condition'  => array_merge(
+					$common_conditions,
+					array(
+						'icon_type'     => 'animation',
+						'lottie_source' => 'file',
 					)
 				),
 			)
@@ -760,7 +817,7 @@ class Premium_Progressbar extends Widget_Base {
 		$this->add_control(
 			'show_percentage_value',
 			array(
-				'label'     => __( 'Show Percentage Value', 'premium-addons-for-elementor' ),
+				'label'     => __( 'Show Progress Value', 'premium-addons-for-elementor' ),
 				'type'      => Controls_Manager::SWITCHER,
 				'default'   => 'yes',
 				'separator' => 'before',
@@ -791,6 +848,9 @@ class Premium_Progressbar extends Widget_Base {
 				'dynamic' => array( 'active' => true ),
 				'type'    => Controls_Manager::TEXT,
 				'default' => 50,
+				'ai'      => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -808,7 +868,7 @@ class Premium_Progressbar extends Widget_Base {
 				'fields'    => $repeater->get_controls(),
 				'condition' => array(
 					'premium_progressbar_select_label' => 'more_labels',
-					'layout_type!'                     => 'circle',
+					'layout_type'                      => array( 'line', 'dots' ),
 				),
 			)
 		);
@@ -822,7 +882,7 @@ class Premium_Progressbar extends Widget_Base {
 				'description' => __( 'Enable percentage for labels', 'premium-addons-for-elementor' ),
 				'condition'   => array(
 					'premium_progressbar_select_label' => 'more_labels',
-					'layout_type!'                     => 'circle',
+					'layout_type'                      => array( 'line', 'dots' ),
 				),
 			)
 		);
@@ -840,7 +900,7 @@ class Premium_Progressbar extends Widget_Base {
 				),
 				'condition' => array(
 					'premium_progressbar_select_label' => 'more_labels',
-					'layout_type!'                     => 'circle',
+					'layout_type'                      => array( 'line', 'dots' ),
 				),
 			)
 		);
@@ -867,7 +927,7 @@ class Premium_Progressbar extends Widget_Base {
 				'default'   => 'center',
 				'condition' => array(
 					'premium_progressbar_select_label' => 'more_labels',
-					'layout_type!'                     => 'circle',
+					'layout_type'                      => array( 'line', 'dots' ),
 				),
 			)
 		);
@@ -879,6 +939,61 @@ class Premium_Progressbar extends Widget_Base {
 				'type'    => Controls_Manager::TEXT,
 				'dynamic' => array( 'active' => true ),
 				'default' => 50,
+				'ai'      => array(
+					'active' => false,
+				),
+			)
+		);
+
+		$this->add_control(
+			'premium_progressbar_max_value',
+			array(
+				'label'       => __( 'Max Value', 'premium-addons-for-elementor' ),
+				'type'        => Controls_Manager::NUMBER,
+				'dynamic'     => array( 'active' => true ),
+				'min'         => 1,
+				'description' => __( 'Leave empty to treat Value as a percentage. Set a maximum to fill the bar as Value ÷ Max Value.', 'premium-addons-for-elementor' ),
+				'ai'          => array( 'active' => false ),
+			)
+		);
+
+		$this->add_control(
+			'premium_progressbar_display_format',
+			array(
+				'label'      => __( 'Display Format', 'premium-addons-for-elementor' ),
+				'type'       => Controls_Manager::SELECT,
+				'default'    => 'value',
+				'options'    => array(
+					'percentage' => __( 'Percentage', 'premium-addons-for-elementor' ),
+					'value'      => __( 'Value', 'premium-addons-for-elementor' ),
+					'value_max'  => __( 'Value / Max', 'premium-addons-for-elementor' ),
+				),
+				'conditions' => array(
+					'terms' => array(
+						array(
+							'name'     => 'premium_progressbar_max_value',
+							'operator' => '!==',
+							'value'    => '',
+						),
+						array(
+							'relation' => 'or',
+							'terms'    => array(
+								array(
+									'name'  => 'premium_progressbar_select_label',
+									'value' => 'more_labels',
+								),
+								array(
+									'name'  => 'layout_type',
+									'value' => 'half-circle',
+								),
+								array(
+									'name'  => 'layout_type',
+									'value' => 'circle',
+								),
+							),
+						),
+					),
+				),
 			)
 		);
 
@@ -934,6 +1049,9 @@ class Premium_Progressbar extends Widget_Base {
 				'condition'   => array(
 					'layout_type'                        => 'line',
 					'premium_progressbar_progress_style' => 'gradient',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -1384,6 +1502,7 @@ class Premium_Progressbar extends Widget_Base {
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'premium_progressbar_select_label' => 'more_labels',
+					'layout_type'                      => array( 'line', 'dots' ),
 				),
 			)
 		);
@@ -1456,6 +1575,7 @@ class Premium_Progressbar extends Widget_Base {
 				'condition' => array(
 					'premium_progressbar_select_label' => 'more_labels',
 					'premium_progressbar_select_label_icon' => 'arrow',
+					'layout_type'                      => array( 'line', 'dots' ),
 				),
 			)
 		);
@@ -1502,6 +1622,7 @@ class Premium_Progressbar extends Widget_Base {
 				'condition' => array(
 					'premium_progressbar_select_label' => 'more_labels',
 					'premium_progressbar_select_label_icon' => 'line_pin',
+					'layout_type'                      => array( 'line', 'dots' ),
 				),
 			)
 		);
@@ -1696,7 +1817,16 @@ class Premium_Progressbar extends Widget_Base {
 		$this->add_inline_editing_attributes( 'premium_progressbar_right_label' );
 		$this->add_render_attribute( 'premium_progressbar_right_label', 'class', 'premium-progressbar-right-label' );
 
-		$length = isset( $settings['premium_progressbar_progress_percentage']['size'] ) ? $settings['premium_progressbar_progress_percentage']['size'] : $settings['premium_progressbar_progress_percentage'];
+		$raw_value = isset( $settings['premium_progressbar_progress_percentage']['size'] ) ? $settings['premium_progressbar_progress_percentage']['size'] : $settings['premium_progressbar_progress_percentage'];
+
+		$max_raw        = $settings['premium_progressbar_max_value'];
+		$display_format = $settings['premium_progressbar_display_format'];
+
+		if ( $max_raw ) {
+			$length = min( 100, ( $raw_value / $max_raw ) * 100 );
+		} else {
+			$length = $raw_value;
+		}
 
 		$style = $settings['premium_progressbar_progress_style'];
 		$type  = $settings['layout_type'];
@@ -1706,6 +1836,8 @@ class Premium_Progressbar extends Widget_Base {
 			'speed'           => ! empty( $settings['premium_progressbar_speed'] ) ? $settings['premium_progressbar_speed'] : 1000,
 			'type'            => $type,
 			'mScroll'         => $settings['magic_scroll'],
+			'maxVal'          => $max_raw,
+			'displayFormat'   => $display_format,
 		);
 
 		if ( 'dots' === $type ) {
@@ -1727,6 +1859,22 @@ class Premium_Progressbar extends Widget_Base {
 		}
 
 		$this->add_render_attribute( 'progressbar', 'data-settings', wp_json_encode( $progressbar_settings ) );
+
+		// Accessibility: expose progressbar semantics on the container for every layout.
+		$progressbar_aria_label = ( 'more_labels' !== $settings['premium_progressbar_select_label'] && '' !== trim( $settings['premium_progressbar_left_label'] ) )
+			? wp_strip_all_tags( $settings['premium_progressbar_left_label'] )
+			: __( 'Progress', 'premium-addons-for-elementor' );
+
+		$this->add_render_attribute(
+			'progressbar',
+			array(
+				'role'          => 'progressbar',
+				'aria-valuemin' => '0',
+				'aria-valuemax' => $max_raw ? $max_raw : '100',
+				'aria-valuenow' => $max_raw ? $raw_value : $length,
+				'aria-label'    => $progressbar_aria_label,
+			)
+		);
 
 		if ( 'circle' !== $type && 'half-circle' !== $type ) {
 			$this->add_render_attribute( 'wrap', 'class', 'premium-progressbar-bar-wrap' );
@@ -1756,13 +1904,13 @@ class Premium_Progressbar extends Widget_Base {
 
 		?>
 
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'progressbar' ) ); ?>>
+		<div <?php $this->print_render_attribute_string( 'progressbar' ); ?>>
 
 			<?php if ( 'left_right_labels' === $settings['premium_progressbar_select_label'] ) : ?>
-				<p <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_progressbar_left_label' ) ); ?>>
+				<p <?php $this->print_render_attribute_string( 'premium_progressbar_left_label' ); ?>>
 					<?php echo wp_kses_post( $settings['premium_progressbar_left_label'] ); ?>
 				</p>
-				<p <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_progressbar_right_label' ) ); ?>>
+				<p <?php $this->print_render_attribute_string( 'premium_progressbar_right_label' ); ?>>
 					<?php echo wp_kses_post( 'yes' !== $settings['magic_scroll'] ? $settings['premium_progressbar_right_label'] : '0%' ); ?>
 				</p>
 			<?php endif; ?>
@@ -1773,53 +1921,64 @@ class Premium_Progressbar extends Widget_Base {
 				$direction = is_rtl() ? 'right' : 'left';
 
 				foreach ( $settings['premium_progressbar_multiple_label'] as $item ) {
-					if ( 'center' === $this->get_settings( 'premium_progressbar_more_labels_align' ) ) {
-						if ( 'yes' === $settings['premium_progress_bar_space_percentage_switcher'] ) {
-							if ( 'arrow' === $settings['premium_progressbar_select_label_icon'] ) {
-								echo '<div class="premium-progressbar-multiple-label" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%;"><p class = "premium-progressbar-center-label" style="transform:translateX(-45%);">' . esc_attr( $item['text'] ) . ' <span class="premium-progressbar-percentage">' . esc_attr( $item['number'] ) . '%</span></p><p class="premium-progressbar-arrow" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%; transform:translateX(50%);"></p></div>';
-							} elseif ( 'line_pin' === $settings['premium_progressbar_select_label_icon'] ) {
-								echo '<div class="premium-progressbar-multiple-label" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%;"><p class = "premium-progressbar-center-label" style="transform:translateX(-45%);">' . esc_attr( $item['text'] ) . ' <span class="premium-progressbar-percentage">' . esc_attr( $item['number'] ) . '%</span></p><p class="premium-progressbar-pin" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%; transform:translateX(50%);"></p></div>';
-							} else {
-								echo '<div class="premium-progressbar-multiple-label" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%;"><p class = "premium-progressbar-center-label" style="transform:translateX(-45%);">' . esc_attr( $item['text'] ) . ' <span class="premium-progressbar-percentage">' . esc_attr( $item['number'] ) . '%</span></p></div>';
-							}
-						} elseif ( 'arrow' === $settings['premium_progressbar_select_label_icon'] ) {
-								echo '<div class="premium-progressbar-multiple-label" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%;"><p class = "premium-progressbar-center-label" style="transform:translateX(-45%);">' . esc_attr( $item['text'] ) . '</p><p class="premium-progressbar-arrow" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%; transform:translateX(50%);"></p></div>';
-						} elseif ( 'line_pin' === $settings['premium_progressbar_select_label_icon'] ) {
-							echo '<div class="premium-progressbar-multiple-label" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%;"><p class = "premium-progressbar-center-label" style="transform:translateX(-45%)">' . esc_attr( $item['text'] ) . '</p><p class="premium-progressbar-pin" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%; transform:translateX(50%);"></p></div>';
-						} else {
-							echo '<div class="premium-progressbar-multiple-label" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%;"><p class = "premium-progressbar-center-label" style="transform:translateX(-45%);">' . esc_attr( $item['text'] ) . '</p></div>';
+
+					$item_number = $item['number'];
+
+					if ( $max_raw ) {
+						$label_pos = min( 100, ( $item_number / $max_raw ) * 100 );
+						switch ( $display_format ) {
+							case 'percentage':
+								$label_value = round( $label_pos ) . '%';
+								break;
+							case 'value_max':
+								$label_value = $item_number . '/' . $max_raw;
+								break;
+							default:
+								$label_value = $item_number;
+								break;
 						}
-					} elseif ( 'left' === $this->get_settings( 'premium_progressbar_more_labels_align' ) ) {
-						if ( 'yes' === $settings['premium_progress_bar_space_percentage_switcher'] ) {
-							if ( 'arrow' === $settings['premium_progressbar_select_label_icon'] ) {
-								echo '<div class="premium-progressbar-multiple-label" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%;"><p class = "premium-progressbar-center-label" style="transform:translateX(-10%);">' . esc_attr( $item['text'] ) . ' <span class="premium-progressbar-percentage">' . esc_attr( $item['number'] ) . '%</span></p><p class="premium-progressbar-arrow" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%; transform:translateX(50%);"></p></div>';
-							} elseif ( 'line_pin' === $settings['premium_progressbar_select_label_icon'] ) {
-								echo '<div class="premium-progressbar-multiple-label" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%;"><p class = "premium-progressbar-center-label" style="transform:translateX(-2%);">' . esc_attr( $item['text'] ) . ' <span class="premium-progressbar-percentage">' . esc_attr( $item['number'] ) . '%</span></p><p class="premium-progressbar-pin" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%; transform:translateX(50%);"></p></div>';
-							} else {
-								echo '<div class="premium-progressbar-multiple-label" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%;"><p class = "premium-progressbar-center-label" style="transform:translateX(-2%);">' . esc_attr( $item['text'] ) . ' <span class="premium-progressbar-percentage">' . esc_attr( $item['number'] ) . '%</span></p></div>';
-							}
-						} elseif ( 'arrow' === $settings['premium_progressbar_select_label_icon'] ) {
-								echo '<div class="premium-progressbar-multiple-label" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%;"><p class = "premium-progressbar-center-label" style="transform:translateX(-10%);">' . esc_attr( $item['text'] ) . '</p><p class="premium-progressbar-arrow" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%; transform:translateX(50%);"></p></div>';
-						} elseif ( 'line_pin' === $settings['premium_progressbar_select_label_icon'] ) {
-							echo '<div class="premium-progressbar-multiple-label" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%;"><p class = "premium-progressbar-center-label" style="transform:translateX(-2%);">' . esc_attr( $item['text'] ) . '</p><p class="premium-progressbar-pin" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%; transform:translateX(50%);"></p></div>';
-						} else {
-							echo '<div class="premium-progressbar-multiple-label" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%;"><p class = "premium-progressbar-center-label" style="transform:translateX(-2%);">' . esc_attr( $item['text'] ) . '</p></div>';
-						}
-					} elseif ( 'yes' === $settings['premium_progress_bar_space_percentage_switcher'] ) {
-						if ( 'arrow' === $settings['premium_progressbar_select_label_icon'] ) {
-							echo '<div class="premium-progressbar-multiple-label" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%;"><p class = "premium-progressbar-center-label" style="transform:translateX(-82%);">' . esc_attr( $item['text'] ) . ' <span class="premium-progressbar-percentage">' . esc_attr( $item['number'] ) . '%</span></p><p class="premium-progressbar-arrow" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%; transform:translateX(50%);"></p></div>';
-						} elseif ( 'line_pin' === $settings['premium_progressbar_select_label_icon'] ) {
-							echo '<div class="premium-progressbar-multiple-label" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%;"><p class = "premium-progressbar-center-label" style="transform:translateX(-95%);">' . esc_attr( $item['text'] ) . ' <span class="premium-progressbar-percentage">' . esc_attr( $item['number'] ) . '%</span></p><p class="premium-progressbar-pin" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%; transform:translateX(50%);"></p></div>';
-						} else {
-							echo '<div class="premium-progressbar-multiple-label" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%;"><p class = "premium-progressbar-center-label" style="transform:translateX(-96%);">' . esc_attr( $item['text'] ) . ' <span class="premium-progressbar-percentage">' . esc_attr( $item['number'] ) . '%</span></p></div>';
-						}
-					} elseif ( 'arrow' === $settings['premium_progressbar_select_label_icon'] ) {
-							echo '<div class="premium-progressbar-multiple-label" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%;"><p class = "premium-progressbar-center-label" style="transform:translateX(-71%);">' . esc_attr( $item['text'] ) . '</p><p class="premium-progressbar-arrow" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%; transform:translateX(50%);"></p></div>';
-					} elseif ( 'line_pin' === $settings['premium_progressbar_select_label_icon'] ) {
-						echo '<div class="premium-progressbar-multiple-label" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%;"><p class = "premium-progressbar-center-label" style="transform:translateX(-97%);">' . esc_attr( $item['text'] ) . '</p><p class="premium-progressbar-pin" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%; transform:translateX(50%);"></p></div>';
 					} else {
-						echo '<div class="premium-progressbar-multiple-label" style="' . esc_attr( $direction . ':' . $item['number'] ) . '%;"><p class = "premium-progressbar-center-label" style="transform:translateX(-96%);">' . esc_attr( $item['text'] ) . '</p></div>';
+						$label_pos   = $item_number;
+						$label_value = $item_number . '%';
 					}
+
+					$align    = $this->get_settings( 'premium_progressbar_more_labels_align' );
+					$icon     = $settings['premium_progressbar_select_label_icon'];
+					$has_perc = 'yes' === $settings['premium_progress_bar_space_percentage_switcher'];
+
+					// translateX offset applied to the center label, tuned per alignment + indicator.
+					if ( 'center' === $align ) {
+						$translate = '-45%';
+					} elseif ( 'left' === $align ) {
+						$translate = 'arrow' === $icon ? '-10%' : '-2%';
+					} elseif ( 'arrow' === $icon ) {
+						$translate = $has_perc ? '-82%' : '-71%';
+					} elseif ( 'line_pin' === $icon ) {
+						$translate = $has_perc ? '-95%' : '-97%';
+					} else {
+						$translate = '-96%';
+					}
+
+					$position = $direction . ':' . $label_pos . '%;';
+					?>
+					<div class="premium-progressbar-multiple-label" style="<?php echo esc_attr( $position ); ?>">
+						<p class="premium-progressbar-center-label" style="transform:translateX(<?php echo esc_attr( $translate ); ?>);">
+							<?php
+							echo esc_html( $item['text'] );
+							if ( $has_perc ) :
+								?>
+								<span class="premium-progressbar-percentage"><?php echo esc_html( $label_value ); ?></span>
+								<?php
+							endif;
+							?>
+						</p>
+						<?php if ( 'arrow' === $icon ) : ?>
+							<p class="premium-progressbar-arrow" style="<?php echo esc_attr( $position ); ?> transform:translateX(50%);"></p>
+						<?php elseif ( 'line_pin' === $icon ) : ?>
+							<p class="premium-progressbar-pin" style="<?php echo esc_attr( $position ); ?> transform:translateX(50%);"></p>
+						<?php endif; ?>
+					</div>
+					<?php
 				}
 				?>
 				</div>
@@ -1829,9 +1988,9 @@ class Premium_Progressbar extends Widget_Base {
 				<div class="clearfix"></div>
 			<?php endif; ?>
 
-			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'wrap' ) ); ?>>
+			<div <?php $this->print_render_attribute_string( 'wrap' ); ?>>
 				<?php if ( 'line' === $type ) : ?>
-					<div class="premium-progressbar-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+					<div class="premium-progressbar-bar"></div>
 				<?php elseif ( 'circle' === $type ) : ?>
 
 					<div class="premium-progressbar-circle-base"></div>
@@ -1889,17 +2048,14 @@ class Premium_Progressbar extends Widget_Base {
 
 			$this->add_render_attribute( 'icon', 'class', 'premium-drawable-icon' );
 
+			// Accessibility: the center icon/SVG is decorative — the value is exposed on the container.
+			$this->add_render_attribute( 'icon', 'aria-hidden', 'true' );
+
 			if ( ( 'yes' === $settings['draw_svg'] && 'icon' === $icon_type ) || 'svg' === $icon_type ) {
 				$this->add_render_attribute( 'icon', 'class', 'premium-progressbar-circle-icon' );
 			}
 
 			if ( 'yes' === $settings['draw_svg'] ) {
-
-				// if ( 'icon' === $icon_type ) {
-
-				// $this->add_render_attribute( 'icon', 'class', $settings['icon_select']['value'] );
-
-				// }
 
 				$this->add_render_attribute(
 					'icon',
@@ -1920,6 +2076,9 @@ class Premium_Progressbar extends Widget_Base {
 				$this->add_render_attribute( 'icon', 'class', 'premium-svg-nodraw' );
 			}
 		} elseif ( 'animation' === $icon_type ) {
+
+			$lottie_url = 'file' === $settings['lottie_source'] ? $settings['lottie_file']['url'] : $settings['lottie_url'];
+
 			$this->add_render_attribute(
 				'progress_lottie',
 				array(
@@ -1927,9 +2086,10 @@ class Premium_Progressbar extends Widget_Base {
 						'premium-progressbar-circle-icon',
 						'premium-lottie-animation',
 					),
-					'data-lottie-url'     => $settings['lottie_url'],
+					'data-lottie-url'     => $lottie_url,
 					'data-lottie-loop'    => $settings['lottie_loop'],
 					'data-lottie-reverse' => $settings['lottie_reverse'],
+					'aria-hidden'         => 'true',
 				)
 			);
 		}
@@ -1949,32 +2109,27 @@ class Premium_Progressbar extends Widget_Base {
 							)
 						);
 					else :
-						echo Helper_Functions::get_svg_by_icon(
-							$settings['icon_select'],
-							$this->get_render_attribute_string( 'icon' )
-						);
+						echo Helper_Functions::get_svg_by_icon( $settings['icon_select'], $this->get_render_attribute_string( 'icon' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_svg_by_icon() returns sanitized inline SVG/icon markup.
 					endif;
 
 				elseif ( 'svg' === $icon_type ) :
 					?>
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon' ) ); ?>>
-						<?php $this->print_unescaped_setting( 'custom_svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<div <?php $this->print_render_attribute_string( 'icon' ); ?>>
+						<?php echo Helper_Functions::sanitize_svg( $this->get_settings_for_display( 'custom_svg' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- sanitize_svg() passes through wp_kses with a strict SVG allowlist. ?>
 					</div>
 					<?php
 				elseif ( 'image' === $icon_type ) :
 					?>
-					<img class="premium-progressbar-circle-icon" src="<?php echo esc_attr( $settings['image_upload']['url'] ); ?>">
+					<img class="premium-progressbar-circle-icon" src="<?php echo esc_url( $settings['image_upload']['url'] ); ?>" alt="" aria-hidden="true">
 				<?php else : ?>
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'progress_lottie' ) ); ?>></div>
+					<div <?php $this->print_render_attribute_string( 'progress_lottie' ); ?>></div>
 				<?php endif; ?>
 
-				<p <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_progressbar_left_label' ) ); ?>>
+				<p <?php $this->print_render_attribute_string( 'premium_progressbar_left_label' ); ?>>
 					<?php echo wp_kses_post( $settings['premium_progressbar_left_label'] ); ?>
 				</p>
 				<?php if ( 'yes' === $settings['show_percentage_value'] ) : ?>
-					<?php if ( 'yes' === $settings['show_percentage_value'] ) : ?>
-						<p <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_progressbar_right_label' ) ); ?>>0%</p>
-					<?php endif; ?>
+					<p <?php $this->print_render_attribute_string( 'premium_progressbar_right_label' ); ?>>0%</p>
 				<?php endif; ?>
 			</div>
 

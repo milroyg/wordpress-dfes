@@ -156,7 +156,7 @@ class Premium_Image_Separator extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium image separator', 'divider', 'section', 'shape' );
@@ -205,12 +205,24 @@ class Premium_Image_Separator extends Widget_Base {
 			'separator_type',
 			array(
 				'label'   => __( 'Separator Type', 'premium-addons-for-elementor' ),
-				'type'    => Controls_Manager::SELECT,
+				'type'    => Controls_Manager::CHOOSE,
 				'options' => array(
-					'icon'      => __( 'Icon', 'premium-addons-for-elementor' ),
-					'image'     => __( 'Image', 'premium-addons-for-elementor' ),
-					'animation' => __( 'Lottie Animation', 'premium-addons-for-elementor' ),
-					'svg'       => __( 'SVG Code', 'premium-addons-for-elementor' ),
+					'icon'      => array(
+						'title' => __( 'Icon', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-icon',
+					),
+					'image'     => array(
+						'title' => __( 'Image', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-image',
+					),
+					'animation' => array(
+						'title' => __( 'Lottie Animation', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-lottie',
+					),
+					'svg'       => array(
+						'title' => __( 'SVG Code', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-code',
+					),
 				),
 				'default' => 'image',
 			)
@@ -219,13 +231,16 @@ class Premium_Image_Separator extends Widget_Base {
 		$this->add_control(
 			'separator_icon',
 			array(
-				'label'     => __( 'Select an Icon', 'premium-addons-for-elementor' ),
-				'type'      => Controls_Manager::ICONS,
-				'default'   => array(
+				'label'                  => __( 'Select an Icon', 'premium-addons-for-elementor' ),
+				'type'                   => Controls_Manager::ICONS,
+				'default'                => array(
 					'value'   => 'fas fa-star',
 					'library' => 'fa-solid',
 				),
-				'condition' => array(
+				'exclude_inline_options' => 'none',
+				'skin'                   => 'inline',
+				'label_block'            => false,
+				'condition'              => array(
 					'separator_type' => 'icon',
 				),
 			)
@@ -239,6 +254,9 @@ class Premium_Image_Separator extends Widget_Base {
 				'description' => 'You can use these sites to create SVGs: <a href="https://danmarshall.github.io/google-font-to-svg-path/" target="_blank">Google Fonts</a> and <a href="https://boxy-svg.com/" target="_blank">Boxy SVG</a>',
 				'condition'   => array(
 					'separator_type' => 'svg',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -269,6 +287,9 @@ class Premium_Image_Separator extends Widget_Base {
 				'label_block' => true,
 				'condition'   => array(
 					'separator_type' => 'animation',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -934,6 +955,9 @@ class Premium_Image_Separator extends Widget_Base {
 					'separator_adv_radius' => 'yes',
 					'separator_type!'      => 'animation',
 				),
+				'ai'        => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -1051,7 +1075,7 @@ class Premium_Image_Separator extends Widget_Base {
 
 		?>
 
-	<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'container' ) ); ?>>
+	<div <?php $this->print_render_attribute_string( 'container' ); ?>>
 		<?php if ( 'image' === $type ) : ?>
 			<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $alt ); ?>">
 			<?php
@@ -1066,30 +1090,27 @@ class Premium_Image_Separator extends Widget_Base {
 				);
 			else :
 
-				echo Helper_Functions::get_svg_by_icon(
-					$settings['separator_icon'],
-					$this->get_render_attribute_string( 'icon' )
-				);
+				echo Helper_Functions::get_svg_by_icon( $settings['separator_icon'], $this->get_render_attribute_string( 'icon' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_svg_by_icon() returns sanitized inline SVG/icon markup.
 
 			endif;
 			?>
 		<?php elseif ( 'svg' === $type ) : ?>
-			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon' ) ); ?>>
-				<?php $this->print_unescaped_setting( 'custom_svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<div <?php $this->print_render_attribute_string( 'icon' ); ?>>
+				<?php echo Helper_Functions::sanitize_svg( $this->get_settings_for_display( 'custom_svg' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- sanitize_svg() returns wp_kses-sanitized SVG markup. ?>
 			</div>
 		<?php else : ?>
-			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'separator_lottie' ) ); ?>></div>
+			<div <?php $this->print_render_attribute_string( 'separator_lottie' ); ?>></div>
 		<?php endif; ?>
 
 		<?php if ( 'yes' === $settings['premium_image_separator_link_switcher'] ) : ?>
-			<a <?php echo wp_kses_post( $this->get_render_attribute_string( 'link' ) ); ?>></a>
+			<a <?php $this->print_render_attribute_string( 'link' ); ?>></a>
 		<?php endif; ?>
 	</div>
 		<?php
 	}
 
 	/**
-	 * Render Image Separtor widget output in the editor.
+	 * Render Image Separator widget output in the editor.
 	 *
 	 * Written as a Backbone JavaScript template and used to generate the live preview.
 	 *

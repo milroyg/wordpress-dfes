@@ -245,6 +245,9 @@ class Premium_Tiktok_Feed extends Widget_Base {
 				'label'   => __( 'Access Token', 'premium-addons-for-elementor' ),
 				'type'    => Controls_Manager::TEXTAREA,
 				'dynamic' => array( 'active' => true ),
+				'ai'      => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -332,6 +335,9 @@ class Premium_Tiktok_Feed extends Widget_Base {
 				'condition'   => array(
 					'show_feed' => 'yes',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -347,6 +353,9 @@ class Premium_Tiktok_Feed extends Widget_Base {
 				'condition'   => array(
 					'match_id'  => '',
 					'show_feed' => 'yes',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -604,12 +613,14 @@ class Premium_Tiktok_Feed extends Widget_Base {
 			array(
 				'label'       => __( 'Date Format', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::TEXT,
-				'default'     => 'yes',
 				'label_block' => true,
-				'description' => __( 'Know more abour date format from ', 'premium-addons-for-elementor' ) . '<a href="https://wordpress.org/documentation/article/customize-date-and-time-format/" target="_blank">here</a>',
+				'description' => __( 'Know more about date format from ', 'premium-addons-for-elementor' ) . '<a href="https://wordpress.org/documentation/article/customize-date-and-time-format/" target="_blank">here</a>',
 				'default'     => 'F j, Y',
 				'condition'   => array(
 					'create_time' => 'yes',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -809,7 +820,6 @@ class Premium_Tiktok_Feed extends Widget_Base {
 				'label_on'  => __( 'Show', 'premium-addons-for-elementor' ),
 				'label_off' => __( 'Hide', 'premium-addons-for-elementor' ),
 				'default'   => 'yes',
-				'separator' => 'before',
 				'condition' => array(
 					'autoplay_all!' => 'yes',
 				),
@@ -1964,7 +1974,6 @@ class Premium_Tiktok_Feed extends Widget_Base {
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-tiktok-feed__video-counts' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
-				// 'conditions' => $counters_cond,
 				'conditions' => array(
 					'terms' => array(
 						array(
@@ -1998,7 +2007,7 @@ class Premium_Tiktok_Feed extends Widget_Base {
 				'label'      => __( 'Icon Spacing', 'premium-addons-for-elementor' ),
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => array( 'px', '%', 'em' ),
-				'separtor'   => 'before',
+				'separator'  => 'before',
 				'selectors'  => array(
 					'{{WRAPPER}} .premium-tiktok-feed__video-counts > span > i, {{WRAPPER}} .premium-tiktok-feed__video-counts > span > svg ' => 'margin: 0 {{SIZE}}{{UNIT}};',
 				),
@@ -2447,8 +2456,7 @@ class Premium_Tiktok_Feed extends Widget_Base {
 					),
 				),
 				'selectors'  => array(
-					'{{WRAPPER}} .premium-tiktok-share-item' => 'margin-top: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .premium-tiktok-share-item' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .premium-tiktok-share-item' => 'margin-top: {{SIZE}}{{UNIT}}; margin-bottom: {{SIZE}}{{UNIT}};',
 				),
 			)
 		);
@@ -2517,7 +2525,7 @@ class Premium_Tiktok_Feed extends Widget_Base {
 
 		if ( ! $this->papro_activated || version_compare( PREMIUM_PRO_ADDONS_VERSION, '2.9.4', '<' ) ) {
 
-			if ( 'layout-1' !== $settings['vid_layout'] || 'yes' === $settings['load_more_btn'] || 'yes' === $settings['profile_header'] || 'yes' === $settings['autoplay_hover'] || 'yes' === $settings['autoplay_first'] || ! empty( $settings['match_id'] || ! empty( $settings['exclude_id'] ) ) ) {
+			if ( 'layout-1' !== $settings['vid_layout'] || 'yes' === $settings['load_more_btn'] || 'yes' === $settings['profile_header'] || 'yes' === $settings['autoplay_hover'] || 'yes' === $settings['autoplay_first'] || ! empty( $settings['match_id'] ) || ! empty( $settings['exclude_id'] ) ) {
 
 				?>
 				<div class="premium-error-notice">
@@ -2623,7 +2631,7 @@ class Premium_Tiktok_Feed extends Widget_Base {
 		$this->add_render_attribute( 'outer_container', 'class', 'premium-tiktok-feed__outer-wrapper' );
 
 		?>
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'outer_container' ) ); ?>>
+		<div <?php $this->print_render_attribute_string( 'outer_container' ); ?>>
 			<?php
 			if ( $show_profile ) {
 				?>
@@ -2708,7 +2716,7 @@ class Premium_Tiktok_Feed extends Widget_Base {
 		}
 
 		?>
-			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'videos_container' ) ); ?>>
+			<div <?php $this->print_render_attribute_string( 'videos_container' ); ?>>
 				<?php
 				foreach ( $tiktok_feed as $index => $feed ) {
 
@@ -2717,16 +2725,14 @@ class Premium_Tiktok_Feed extends Widget_Base {
 					$video_html = '<video src="' . $video_url . '#t=0.001" playsinline';
 
 					$play_icon = 'yes' === $settings['vid_play_icon'] ? 'premium-tiktok-feed__play-icon ' : '';
-					if ( 'yes' === $settings['autoplay_all'] || ( 0 == $index && 'yes' === $settings['autoplay_first'] ) ) {
-
-						// $video_html .= ' preload="auto"';
+					if ( 'yes' === $settings['autoplay_all'] || ( 0 === $index && 'yes' === $settings['autoplay_first'] ) ) {
 
 						$video_html .= ' autoplay';
 
 						$video_html .= ' class="video-playing"';
 
 						if ( ! empty( $play_icon ) ) {
-							if ( 'yes' !== $settings['autoplay_hover'] || ( 0 == $index && 'yes' === $settings['autoplay_first'] ) ) {
+							if ( 'yes' !== $settings['autoplay_hover'] || ( 0 === $index && 'yes' === $settings['autoplay_first'] ) ) {
 								$play_icon .= 'premium-addons__v-hidden';
 							}
 						}
@@ -2734,10 +2740,6 @@ class Premium_Tiktok_Feed extends Widget_Base {
 
 					if ( 'yes' === $settings['mute_videos'] ) {
 						$video_html .= ' muted';
-					}
-
-					if ( 'yes' === $settings['autoplay_hover'] ) {
-						// $video_html .= ' preload="auto"';
 					}
 
 					if ( 'yes' === $settings['loop_videos'] ) {
@@ -2756,8 +2758,8 @@ class Premium_Tiktok_Feed extends Widget_Base {
 						$this->add_render_attribute( 'vid_outer_container' . $index, 'class', 'premium-display-none' );
 					}
 					?>
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'vid_outer_container' . $index ) ); ?>>
-						<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'video_wrap' ) ); ?>>
+					<div <?php $this->print_render_attribute_string( 'vid_outer_container' . $index ); ?>>
+						<div <?php $this->print_render_attribute_string( 'video_wrap' ); ?>>
 						<?php if ( 'layout-1' === $vid_layout ) { ?>
 
 							<div class="premium-tiktok-feed__vid-meta-wrapper">
@@ -2781,12 +2783,11 @@ class Premium_Tiktok_Feed extends Widget_Base {
 										<i class="fas fa-play" aria-hidden="true"></i>
 									</span>
 								<?php endif; ?>
-								<?php // echo $feed['embed_html']; ?>
 
-								<?php echo $video_html; ?>
+								<?php echo wp_kses_post( $video_html ); ?>
 
 								<?php if ( 'default' === $settings['onclick'] ) : ?>
-									<a class="premium-tiktok-feed__video-link" href="<?php echo esc_attr( $feed['share_url'] ); ?>" target="_blank"></a>
+									<a class="premium-tiktok-feed__video-link" href="<?php echo esc_url( $feed['share_url'] ); ?>" target="_blank"></a>
 								<?php endif; ?>
 							</div>
 
@@ -2826,10 +2827,10 @@ class Premium_Tiktok_Feed extends Widget_Base {
 									</span>
 								<?php endif; ?>
 
-								<?php echo $video_html; ?>
+								<?php echo wp_kses_post( $video_html ); ?>
 
 								<?php if ( 'default' === $settings['onclick'] ) : ?>
-									<a class="premium-tiktok-feed__video-link" href="<?php echo esc_attr( $feed['share_url'] ); ?>" target="_blank"></a>
+									<a class="premium-tiktok-feed__video-link" href="<?php echo esc_url( $feed['share_url'] ); ?>" target="_blank"></a>
 								<?php endif; ?>
 							</div>
 						<?php } else { ?>
@@ -2862,10 +2863,10 @@ class Premium_Tiktok_Feed extends Widget_Base {
 									</span>
 								<?php endif; ?>
 
-								<?php echo $video_html; ?>
+								<?php echo wp_kses_post( $video_html ); ?>
 
 								<?php if ( 'default' === $settings['onclick'] ) : ?>
-									<a class="premium-tiktok-feed__video-link" href="<?php echo esc_attr( $feed['share_url'] ); ?>" target="_blank"></a>
+									<a class="premium-tiktok-feed__video-link" href="<?php echo esc_url( $feed['share_url'] ); ?>" target="_blank"></a>
 								<?php endif; ?>
 							</div>
 						<?php } ?>
@@ -2898,6 +2899,7 @@ class Premium_Tiktok_Feed extends Widget_Base {
 		$show_avatar   = 'yes' === $settings['avatar_url'];
 		$show_username = 'yes' === $settings['username'];
 
+		$follow_url = '';
 		if ( $show_follow_btn ) {
 			$follow_url = $profile_data['profile_deep_link'];
 		}
@@ -2960,7 +2962,7 @@ class Premium_Tiktok_Feed extends Widget_Base {
 	 * @access private
 	 * @since 4.10.3
 	 *
-	 * @param boolean $from is follow button.
+	 * @param string $from icon location.
 	 */
 	private function render_tiktok_icon( $from = 'video' ) {
 
@@ -3052,7 +3054,7 @@ class Premium_Tiktok_Feed extends Widget_Base {
 			<?php endif; ?>
 
 			<?php if ( 'layout-2' !== $layout ) : ?>
-				<a class="premium-tiktok-feed__video-link" href="<?php echo esc_attr( $feed['share_url'] ); ?>" target="_blank"></a>
+				<a class="premium-tiktok-feed__video-link" href="<?php echo esc_url( $feed['share_url'] ); ?>" target="_blank"></a>
 			<?php endif; ?>
 
 		</div>
@@ -3122,10 +3124,10 @@ class Premium_Tiktok_Feed extends Widget_Base {
 	 * @access private
 	 * @since 4.10.3
 	 *
-	 * @param string $desc  feed description.
-	 * @param string $len  description length.
-	 * @param string $url  feed URL.
-	 * @param array  $settings  widget settings.
+	 * @param string  $desc  feed description.
+	 * @param integer $len  description length.
+	 * @param string  $url  feed URL.
+	 * @param array   $settings  widget settings.
 	 *
 	 * @return string
 	 */
@@ -3169,19 +3171,19 @@ class Premium_Tiktok_Feed extends Widget_Base {
 					<i class="fa fa-share custom-fa" aria-hidden="true"></i>
 					<span class="premium-tiktok-sharer">Share</span>
 					<div class="premium-tiktok-share-menu">
-						<a data-pa-link="<?php echo $link; ?>" href="javascript:;" class="premium-tiktok-share-item premium-copy-link">
+						<a data-pa-link="<?php echo esc_url( $link ); ?>" href="javascript:;" class="premium-tiktok-share-item premium-copy-link">
 							<i class="fas fa-link if-link" aria-hidden="true"></i>
 							<span class="premium-tiktok-share-text pre-infs-fb">Copy to Clipboard</span>
 						</a>
-						<a data-pa-link="https://www.facebook.com/sharer/sharer.php?u=<?php echo $link; ?>" href="javascript:;" class="premium-tiktok-share-item">
+						<a data-pa-link="https://www.facebook.com/sharer/sharer.php?u=<?php echo esc_url( $link ); ?>" href="javascript:;" class="premium-tiktok-share-item">
 							<i class="fab fa-facebook-f if-fb" aria-hidden="true"></i>
 							<span class="premium-tiktok-share-text pre-infs-fb">Share on Facebook</span>
 						</a>
-						<a data-pa-link="https://twitter.com/intent/tweet?text=tweet&url=<?php echo $link; ?>" href="javascript:;" class="premium-tiktok-share-item">
+						<a data-pa-link="https://twitter.com/intent/tweet?text=tweet&url=<?php echo esc_url( $link ); ?>" href="javascript:;" class="premium-tiktok-share-item">
 							<i class="fab fa-twitter if-tw" aria-hidden="true"></i>
 							<span class="premium-tiktok-share-text pre-infs-tw">Share on Twitter</span>
 						</a>
-						<a data-pin-do="buttonPin" data-pa-link="https://www.pinterest.com/pin/create/button/?url=<?php echo $link; ?>" href="javascript:;" class="premium-tiktok-share-item">
+						<a data-pin-do="buttonPin" data-pa-link="https://www.pinterest.com/pin/create/button/?url=<?php echo esc_url( $link ); ?>" href="javascript:;" class="premium-tiktok-share-item">
 							<i class="fab fa-pinterest-p if-pi" aria-hidden="true"></i>
 							<span class="premium-tiktok-share-text pre-infs-pi">Share on Pinterest</span>
 						</a>

@@ -19,14 +19,6 @@ if ( ! class_exists( 'Premium_Templates_Assets' ) ) {
 	 */
 	class Premium_Templates_Assets {
 
-		/*
-		 * Instance of the class
-		 *
-		 * @since 3.6.0
-		 * @access private
-		 */
-		private static $instance = null;
-
 		/**
 		 * Premium_Templates_Assets constructor.
 		 *
@@ -63,7 +55,7 @@ if ( ! class_exists( 'Premium_Templates_Assets' ) ) {
 				'all'
 			);
 
-			if ('dark' === $theme) {
+			if ( 'dark' === $theme ) {
 				wp_add_inline_style(
 					'premium-editor-style',
 					'#premium-template-modal-header-logo,
@@ -94,7 +86,6 @@ if ( ! class_exists( 'Premium_Templates_Assets' ) ) {
 					background: linear-gradient(to bottom, rgba(31, 33, 36, 0) 0%, rgba(31, 33, 36, 1) 100%);'
 				);
 			}
-
 		}
 
 		/**
@@ -115,7 +106,7 @@ if ( ! class_exists( 'Premium_Templates_Assets' ) ) {
 					'underscore',
 					'backbone-marionette',
 				),
-				time(),
+				PREMIUM_ADDONS_VERSION,
 				true
 			);
 
@@ -127,7 +118,7 @@ if ( ! class_exists( 'Premium_Templates_Assets' ) ) {
 				apply_filters(
 					'premium-templates-core/assets/editor/localize',
 					array(
-						'nonce'   => wp_create_nonce( 'pa-templates-nonce' ),
+						'nonce'               => wp_create_nonce( 'pa-templates-nonce' ),
 						'Elementor_Version'   => ELEMENTOR_VERSION,
 						'PremiumTemplatesBtn' => $button,
 						'modalRegions'        => $this->get_modal_region(),
@@ -180,27 +171,6 @@ if ( ! class_exists( 'Premium_Templates_Assets' ) ) {
 				},
 				$scripts
 			);
-		}
-
-		/**
-		 * Get Instance
-		 *
-		 * Creates and returns an instance of the class.
-		 *
-		 * @since 3.6.0
-		 * @access public
-		 *
-		 * @return object
-		 */
-		public static function get_instance() {
-
-			if ( self::$instance == null ) {
-
-				self::$instance = new self();
-
-			}
-
-			return self::$instance;
 		}
 	}
 

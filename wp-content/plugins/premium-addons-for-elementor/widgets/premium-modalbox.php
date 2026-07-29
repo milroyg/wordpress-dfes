@@ -144,7 +144,8 @@ class Premium_Modalbox extends Widget_Base {
 			$scripts[] = 'pa-modal';
 
 			if ( 'yes' === $settings['draw_svg'] ) {
-				array_push( $scripts, 'pa-tweenmax', 'pa-motionpath' );
+				$scripts[] = 'pa-tweenmax';
+				$scripts[] = 'pa-motionpath';
 			}
 
 			if ( 'animation' === $settings['premium_modal_box_icon_selection'] || 'animation' === $settings['premium_modal_box_display_on'] ) {
@@ -167,7 +168,7 @@ class Premium_Modalbox extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium modal box', 'popup', 'lightbox', 'advanced', 'embed' );
@@ -336,10 +337,16 @@ class Premium_Modalbox extends Widget_Base {
 			'icon_type',
 			array(
 				'label'     => __( 'Icon Type', 'premium-addons-for-elementor' ),
-				'type'      => Controls_Manager::SELECT,
+				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
-					'icon' => __( 'Font Awesome Icon', 'premium-addons-for-elementor' ),
-					'svg'  => __( 'SVG Code', 'premium-addons-for-elementor' ),
+					'icon' => array(
+						'title' => __( 'Font Awesome Icon', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-icon',
+					),
+					'svg'  => array(
+						'title' => __( 'SVG Code', 'premium-addons-for-elementor' ),
+						'icon'  => 'divider-type-code',
+					),
 				),
 				'default'   => 'icon',
 				'condition' => array(
@@ -352,15 +359,17 @@ class Premium_Modalbox extends Widget_Base {
 		$this->add_control(
 			'premium_modal_box_button_icon_selection_updated',
 			array(
-				'label'            => __( 'Icon', 'premium-addons-for-elementor' ),
-				'type'             => Controls_Manager::ICONS,
-				'fa4compatibility' => 'premium_modal_box_button_icon_selection',
-				'default'          => array(
+				'label'                  => __( 'Icon', 'premium-addons-for-elementor' ),
+				'type'                   => Controls_Manager::ICONS,
+				'fa4compatibility'       => 'premium_modal_box_button_icon_selection',
+				'default'                => array(
 					'value'   => 'fas fa-star',
 					'library' => 'fa-solid',
 				),
-				'label_block'      => true,
-				'condition'        => array(
+				'exclude_inline_options' => 'none',
+				'skin'                   => 'inline',
+				'label_block'            => false,
+				'condition'              => array(
 					'premium_modal_box_display_on'    => 'button',
 					'premium_modal_box_icon_switcher' => 'yes',
 					'icon_type'                       => 'icon',
@@ -378,6 +387,9 @@ class Premium_Modalbox extends Widget_Base {
 					'premium_modal_box_display_on'    => 'button',
 					'premium_modal_box_icon_switcher' => 'yes',
 					'icon_type'                       => 'svg',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -611,7 +623,7 @@ class Premium_Modalbox extends Widget_Base {
 				'type'      => Controls_Manager::SLIDER,
 				'selectors' => array(
 					'{{WRAPPER}} .premium-modal-trigger-btn i' => 'font-size: {{SIZE}}px',
-					'{{WRAPPER}} .premium-modal-trigger-btn svg' => 'width: {{SIZE}}px !important; height: {{SIZE}}px !important',
+					'{{WRAPPER}} .premium-modal-trigger-btn svg:not(.premium-btn-svg)' => 'width: {{SIZE}}px !important; height: {{SIZE}}px !important',
 				),
 				'condition' => array(
 					'premium_modal_box_display_on'    => 'button',
@@ -647,7 +659,7 @@ class Premium_Modalbox extends Widget_Base {
 					'icon_type'                       => 'svg',
 				),
 				'selectors'  => array(
-					'{{WRAPPER}} .premium-modal-trigger-btn svg' => 'width: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .premium-modal-trigger-btn svg:not(.premium-btn-svg)' => 'width: {{SIZE}}{{UNIT}};',
 				),
 			)
 		);
@@ -674,7 +686,7 @@ class Premium_Modalbox extends Widget_Base {
 					'icon_type'                       => 'svg',
 				),
 				'selectors'  => array(
-					'{{WRAPPER}} .premium-modal-trigger-btn svg' => 'height: {{SIZE}}{{UNIT}}',
+					'{{WRAPPER}} .premium-modal-trigger-btn svg:not(.premium-btn-svg)' => 'height: {{SIZE}}{{UNIT}}',
 				),
 			)
 		);
@@ -694,7 +706,8 @@ class Premium_Modalbox extends Widget_Base {
 						'size' => 15,
 					),
 					'selectors' => array(
-						'{{WRAPPER}} .premium-modal-trigger-btn i, {{WRAPPER}} .premium-modal-trigger-btn svg' => 'margin-right: {{SIZE}}px',
+						'{{WRAPPER}} .premium-modal-trigger-btn i, {{WRAPPER}} .premium-modal-trigger-btn svg:not(.premium-btn-svg)' => 'margin-right: {{SIZE}}px',
+						'{{WRAPPER}} .premium-modal-trigger-btn' => '--pa-btn-line6-translate-x: {{SIZE}}px',
 					),
 					'separator' => 'after',
 				)
@@ -709,7 +722,8 @@ class Premium_Modalbox extends Widget_Base {
 						'size' => 15,
 					),
 					'selectors' => array(
-						'{{WRAPPER}} .premium-modal-trigger-btn i, {{WRAPPER}} .premium-modal-trigger-btn svg' => 'margin-left: {{SIZE}}px',
+						'{{WRAPPER}} .premium-modal-trigger-btn i, {{WRAPPER}} .premium-modal-trigger-btn svg:not(.premium-btn-svg)' => 'margin-left: {{SIZE}}px;',
+						'{{WRAPPER}} .premium-modal-trigger-btn' => '--pa-btn-line6-translate-x: -{{SIZE}}px;',
 					),
 					'separator' => 'after',
 					'condition' => array(
@@ -736,7 +750,8 @@ class Premium_Modalbox extends Widget_Base {
 						'size' => 15,
 					),
 					'selectors' => array(
-						'{{WRAPPER}} .premium-modal-trigger-btn i, {{WRAPPER}} .premium-modal-trigger-btn svg' => 'margin-left: {{SIZE}}px',
+						'{{WRAPPER}} .premium-modal-trigger-btn i, {{WRAPPER}} .premium-modal-trigger-btn svg:not(.premium-btn-svg)' => 'margin-left: {{SIZE}}px',
+						'{{WRAPPER}} .premium-modal-trigger-btn' => '--pa-btn-line6-translate-x: -{{SIZE}}px',
 					),
 					'separator' => 'after',
 				)
@@ -751,7 +766,8 @@ class Premium_Modalbox extends Widget_Base {
 						'size' => 15,
 					),
 					'selectors' => array(
-						'{{WRAPPER}} .premium-modal-trigger-btn i, {{WRAPPER}} .premium-modal-trigger-btn svg' => 'margin-right: {{SIZE}}px',
+						'{{WRAPPER}} .premium-modal-trigger-btn i, {{WRAPPER}} .premium-modal-trigger-btn svg:not(.premium-btn-svg)' => 'margin-right: {{SIZE}}px',
+						'{{WRAPPER}} .premium-modal-trigger-btn'  => '--pa-btn-line6-translate-x: {{SIZE}}px',
 					),
 					'separator' => 'after',
 					'condition' => array(
@@ -824,6 +840,9 @@ class Premium_Modalbox extends Widget_Base {
 				'label_block' => true,
 				'condition'   => array(
 					'premium_modal_box_display_on' => 'animation',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -1065,6 +1084,9 @@ class Premium_Modalbox extends Widget_Base {
 					'premium_modal_box_icon_selection'  => 'animation',
 					'premium_modal_box_header_switcher' => 'yes',
 				),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -1153,6 +1175,9 @@ class Premium_Modalbox extends Widget_Base {
 				'label_block' => true,
 				'condition'   => array(
 					'premium_modal_box_content_type' => 'template',
+				),
+				'ai'          => array(
+					'active' => false,
 				),
 			)
 		);
@@ -2399,25 +2424,25 @@ class Premium_Modalbox extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param boolean $new new icon.
+	 * @param boolean $is_new new icon.
 	 * @param boolean $migrate icon migrated.
 	 */
-	protected function render_header_icon( $new, $migrate ) {
+	protected function render_header_icon( $is_new, $migrate ) {
 
 		$settings = $this->get_settings_for_display();
 
 		$header_icon = $settings['premium_modal_box_icon_selection'];
 
 		if ( 'fonticon' === $header_icon ) {
-			if ( $new || $migrate ) :
+			if ( $is_new || $migrate ) :
 				Icons_Manager::render_icon( $settings['premium_modal_box_font_icon_updated'], array( 'aria-hidden' => 'true' ) );
 			else : ?>
-				<i <?php echo wp_kses_post( $this->get_render_attribute_string( 'title_icon' ) ); ?>></i>
+				<i <?php $this->print_render_attribute_string( 'title_icon' ); ?>></i>
 				<?php
 			endif;
 		} elseif ( 'image' === $header_icon ) {
 			?>
-			<img <?php echo wp_kses_post( $this->get_render_attribute_string( 'title_icon' ) ); ?>>
+			<img <?php $this->print_render_attribute_string( 'title_icon' ); ?>>
 			<?php
 		} elseif ( 'animation' === $header_icon ) {
 			$this->add_render_attribute(
@@ -2433,7 +2458,7 @@ class Premium_Modalbox extends Widget_Base {
 				)
 			);
 			?>
-				<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'header_lottie' ) ); ?>></div>
+				<div <?php $this->print_render_attribute_string( 'header_lottie' ); ?>></div>
 			<?php
 		}
 	}
@@ -2647,26 +2672,23 @@ class Premium_Modalbox extends Widget_Base {
 
 		?>
 
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'modal' ) ); ?>>
+		<div <?php $this->print_render_attribute_string( 'modal' ); ?>>
 			<div class="premium-modal-trigger-container">
 				<?php
 				if ( 'button' === $trigger ) :
 					?>
-					<button <?php echo wp_kses_post( $this->get_render_attribute_string( 'trigger' ) ); ?>>
+					<button <?php $this->print_render_attribute_string( 'trigger' ); ?>>
 
 						<?php
 						if ( 'yes' === $settings['premium_modal_box_icon_switcher'] && 'before' === $settings['premium_modal_box_icon_position'] ) :
 							if ( 'icon' === $icon_type ) :
 
-								echo Helper_Functions::get_svg_by_icon(
-									$settings['premium_modal_box_button_icon_selection_updated'],
-									$this->get_render_attribute_string( 'icon' )
-								);
+								echo Helper_Functions::get_svg_by_icon( $settings['premium_modal_box_button_icon_selection_updated'], $this->get_render_attribute_string( 'icon' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_svg_by_icon() returns sanitized inline SVG/icon markup.
 
 							else :
 								?>
-								<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon' ) ); ?>>
-									<?php $this->print_unescaped_setting( 'custom_svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+								<div <?php $this->print_render_attribute_string( 'icon' ); ?>>
+									<?php echo Helper_Functions::sanitize_svg( $this->get_settings_for_display( 'custom_svg' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- sanitize_svg passes through wp_kses with a strict SVG allowlist. ?>
 								</div>
 								<?php
 							endif;
@@ -2681,15 +2703,12 @@ class Premium_Modalbox extends Widget_Base {
 						if ( 'yes' === $settings['premium_modal_box_icon_switcher'] && 'after' === $settings['premium_modal_box_icon_position'] ) :
 							if ( 'icon' === $icon_type ) :
 
-								echo Helper_Functions::get_svg_by_icon(
-									$settings['premium_modal_box_button_icon_selection_updated'],
-									$this->get_render_attribute_string( 'icon' )
-								);
+								echo Helper_Functions::get_svg_by_icon( $settings['premium_modal_box_button_icon_selection_updated'], $this->get_render_attribute_string( 'icon' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_svg_by_icon() returns sanitized inline SVG/icon markup.
 
 							else :
 								?>
-								<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon' ) ); ?>>
-									<?php $this->print_unescaped_setting( 'custom_svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+								<div <?php $this->print_render_attribute_string( 'icon' ); ?>>
+									<?php echo Helper_Functions::sanitize_svg( $this->get_settings_for_display( 'custom_svg' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- sanitize_svg passes through wp_kses with a strict SVG allowlist. ?>
 								</div>
 								<?php
 							endif;
@@ -2706,15 +2725,15 @@ class Premium_Modalbox extends Widget_Base {
 
 					</button>
 				<?php elseif ( 'image' === $trigger ) : ?>
-					<img <?php echo wp_kses_post( $this->get_render_attribute_string( 'trigger' ) ); ?>>
+					<img <?php $this->print_render_attribute_string( 'trigger' ); ?>>
 				<?php elseif ( 'text' === $trigger ) : ?>
-					<span <?php echo wp_kses_post( $this->get_render_attribute_string( 'trigger' ) ); ?>>
-						<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'premium_modal_box_selector_text' ) ); ?>>
+					<span <?php $this->print_render_attribute_string( 'trigger' ); ?>>
+						<div <?php $this->print_render_attribute_string( 'premium_modal_box_selector_text' ); ?>>
 							<?php echo wp_kses_post( $settings['premium_modal_box_selector_text'] ); ?>
 						</div>
 					</span>
 				<?php elseif ( 'animation' === $trigger ) : ?>
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'trigger' ) ); ?>></div>
+					<div <?php $this->print_render_attribute_string( 'trigger' ); ?>></div>
 				<?php endif; ?>
 			</div>
 
@@ -2722,7 +2741,7 @@ class Premium_Modalbox extends Widget_Base {
 			role="dialog"
 			style="display: none"
 			>
-				<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'dialog' ) ); ?>>
+				<div <?php $this->print_render_attribute_string( 'dialog' ); ?>>
 					<?php if ( 'yes' === $settings['premium_modal_box_header_switcher'] ) : ?>
 						<div class="premium-modal-box-modal-header">
 							<?php if ( ! empty( $settings['premium_modal_box_title'] ) ) : ?>
@@ -2749,12 +2768,12 @@ class Premium_Modalbox extends Widget_Base {
 						<?php elseif ( 'template' === $settings['premium_modal_box_content_type'] && ! empty( $template ) ) : ?>
 
 							<?php
-								echo Helper_Functions::render_elementor_template( $template );
+								echo Helper_Functions::render_elementor_template( $template ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- render_elementor_template() returns Elementor-rendered template HTML.
 							?>
 
 						<?php elseif ( 'id' === $settings['premium_modal_box_content_type'] && ! empty( $settings['container_id'] ) ) : ?>
 							<div class="premium-modalbox-template"
-								data-template-src="<?php echo esc_attr( $settings['container_id'] ); ?>">
+								data-template-src="<?php echo esc_attr( $settings['container_id'] ); // phpcs:ignore WordPressVIPMinimum.Security.ProperEscapingFunction.hrefSrcEscUrl -- Holds a container ID/CSS selector read by JS, not a URL. ?>">
 							</div>
 
 						<?php endif; ?>

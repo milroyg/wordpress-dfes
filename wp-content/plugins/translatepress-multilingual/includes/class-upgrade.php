@@ -120,6 +120,16 @@ class TRP_Upgrade {
                 $this->migrate_to_language_switcher_v2();
             }
 
+            if ( version_compare( $stored_database_version, '3.1.5', '<=' ) ) {
+                add_option( 'trp_failed_translations_cleanup_315', 'no' );
+                $trp = TRP_Translate_Press::get_trp_instance();
+                $trp->get_component( 'batch_processor' )->schedule();
+            }
+
+            if ( version_compare( $stored_database_version, '3.2.0', '<=' ) ) {
+                $this->cleanup_language_switcher_menu_item_classes();
+            }
+
             /**
              * Write an upgrading function above this comment to be executed only once: while updating plugin to a higher version.
              * Use example condition: version_compare( $stored_database_version, '2.9.9', '<=')
@@ -144,6 +154,33 @@ class TRP_Upgrade {
                 $mt_settings_option['automatically-translate-slug'] = 'yes';
             }
             update_option( 'trp_machine_translation_settings', $mt_settings_option );
+        }
+    }
+
+    private function cleanup_language_switcher_menu_item_classes() {
+        $menu_items = get_posts( array(
+            'post_type'      => 'nav_menu_item',
+            'post_status'    => 'any',
+            'posts_per_page' => -1,
+            'fields'         => 'ids',
+            'meta_key'       => '_menu_item_object',
+            'meta_value'     => 'language_switcher',
+        ) );
+
+        foreach ( $menu_items as $menu_item_id ) {
+            $classes = get_post_meta( $menu_item_id, '_menu_item_classes', true );
+
+            if ( ! is_array( $classes ) || ! in_array( 'current-language-menu-item', $classes, true ) ) {
+                continue;
+            }
+
+            update_post_meta(
+                $menu_item_id,
+                '_menu_item_classes',
+                array_values( array_filter( $classes, function( $class ) {
+                    return $class !== 'current-language-menu-item';
+                } ) )
+            );
         }
     }
 

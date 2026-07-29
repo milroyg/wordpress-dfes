@@ -2,14 +2,14 @@
 /**
  * Plugin Name: Post Slider and Carousel
  * Plugin URI: https://infornweb.com/post-slider-and-carousel-pro/
- * Version: 3.5.4
+ * Author URI: https://infornweb.com
  * Description: Posts Slider or Post Carousel add WordPress posts in slider & carousel layouts on your WordPress website. Also added Latest/Recent vertical post scrolling widget.
  * Text Domain: post-slider-and-carousel
  * Domain Path: /languages/
  * Author: InfornWeb
- * Requires at least: 4.7
+ * Version: 3.5.7
+ * Requires at least: 6.1
  * Requires PHP: 5.4
- * Author URI: https://infornweb.com
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -78,7 +78,7 @@ if ( ! class_exists( 'Post_Slider_and_Carousel_Lite' ) )  :
 		 */
 		private function setup_constants() {
 
-			$this->define( 'PSAC_VERSION', '3.5.4' ); // Version of plugin
+			$this->define( 'PSAC_VERSION', '3.5.7' ); // Version of plugin
 			$this->define( 'PSAC_FILE', __FILE__ );
 			$this->define( 'PSAC_DIR', dirname( __FILE__ ) );
 			$this->define( 'PSAC_URL', plugin_dir_url( __FILE__ ) );
@@ -182,6 +182,9 @@ if ( ! class_exists( 'Post_Slider_and_Carousel_Lite' ) )  :
 
 			// Widget Class
 			require_once( PSAC_DIR . '/includes/widgets/class-psacp-widgets.php' );
+
+			// Blocks
+			require_once( PSAC_DIR . '/includes/integrations/blocks/psacp-blocks.php' );
 
 			// For Admin Side Only
 			if ( is_admin() ) {

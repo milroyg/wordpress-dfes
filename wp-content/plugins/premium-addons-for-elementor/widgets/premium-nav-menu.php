@@ -150,7 +150,7 @@ class Premium_Nav_Menu extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @return string Widget keywords.
+	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'pa', 'premium', 'premium mega menu', 'menu', 'nav', 'navigation', 'mega menu', 'header' );
@@ -218,7 +218,7 @@ class Premium_Nav_Menu extends Widget_Base {
 
 		$this->get_menu_content_controls();
 
-		$this->add_random_badges_section( $this );
+		$this->add_random_badges_section();
 
 		$this->add_helpful_docs_section();
 
@@ -674,6 +674,9 @@ class Premium_Nav_Menu extends Widget_Base {
 					array(
 						'icon_type' => 'svg',
 					),
+				'ai'          => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -1574,6 +1577,9 @@ class Premium_Nav_Menu extends Widget_Base {
 					'pa_nav_menu_layout' => 'hor',
 					'pa_sticky_switcher' => 'yes',
 				),
+				'ai'                 => array(
+					'active' => false,
+				),
 			)
 		);
 
@@ -1973,7 +1979,6 @@ class Premium_Nav_Menu extends Widget_Base {
 				'selectors'   => array(
 					'{{WRAPPER}} .premium-nav-widget-container ' => '--pa-menu-width: {{SIZE}}{{UNIT}};',
 					'{{WRAPPER}}.premium-ham-dropdown .premium-main-mobile-menu, {{WRAPPER}}.premium-nav-dropdown .premium-main-mobile-menu' => 'width: {{SIZE}}{{UNIT}};',
-					// '{{WRAPPER}}.premium-ham-slide .premium-mobile-menu-outer-container, {{WRAPPER}}.premium-nav-slide .premium-mobile-menu-outer-container' => 'width: {{SIZE}}{{UNIT}}; transform:translateX(' . $transform_sign . '{{SIZE}}{{UNIT}} );',
 				),
 				'condition'   => array(
 					'pa_toggle_full!' => 'yes',
@@ -3818,7 +3823,8 @@ class Premium_Nav_Menu extends Widget_Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', 'em', '%' ),
 				'selectors'  => array(
-					'{{WRAPPER}} .premium-main-nav-menu > .premium-active-item' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
+					'{{WRAPPER}} .premium-main-nav-menu > .premium-active-item'                => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
+					'{{WRAPPER}} .premium-main-nav-menu > .premium-active-item > .premium-menu-link' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
 				),
 			)
 		);
@@ -4897,7 +4903,7 @@ class Premium_Nav_Menu extends Widget_Base {
 		 * Hamburger Menu Button.
 		 */
 		?>
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'wrapper' ) ); ?>>
+		<div <?php $this->print_render_attribute_string( 'wrapper' ); ?>>
 			<div class="premium-ver-inner-container">
 				<?php if ( $render_mobile_menu ) { ?>
 					<div class="premium-hamburger-toggle premium-mobile-menu-icon" role="button" aria-label="Toggle Menu">
@@ -5074,7 +5080,7 @@ class Premium_Nav_Menu extends Widget_Base {
 	 * @access private.
 	 *
 	 * @param string     $menu_html desktop menu html.
-	 * @param stirng|int $menu_id menu id.
+	 * @param string|int $menu_id menu id.
 	 *
 	 * @return string
 	 */
@@ -5172,13 +5178,11 @@ class Premium_Nav_Menu extends Widget_Base {
 			$this->add_render_attribute(
 				'menu-item-' . $index,
 				array(
-					// 'id'    => 'premium-nav-menu-item-' . $item['_id'],
 					'class' => array(
 						'menu-item',
 						'premium-nav-menu-item',
 						'elementor-repeater',
 						'elementor-repeater-item-' . $item['_id'],
-						// $is_active_item ? 'premium-active-item' : ''
 					),
 				)
 			);
@@ -5366,10 +5370,10 @@ class Premium_Nav_Menu extends Widget_Base {
 			}
 		} elseif ( 'image' === $icon_type ) {
 
-			$html .= '<img class="' . esc_attr( $class ) . '" src="' . esc_attr( $item['item_image']['url'] ) . '" alt="' . esc_attr( Control_Media::get_image_alt( $item['item_image'] ) ) . '">';
+			$html .= '<img class="' . esc_attr( $class ) . '" src="' . esc_url( $item['item_image']['url'] ) . '" alt="' . esc_attr( Control_Media::get_image_alt( $item['item_image'] ) ) . '">';
 		} else {
 
-			$html .= '<div class="premium-lottie-animation ' . esc_attr( $class ) . '" data-lottie-url="' . esc_attr( $item['lottie_url'] ) . '" data-lottie-loop="true"></div>';
+			$html .= '<div class="premium-lottie-animation ' . esc_attr( $class ) . '" data-lottie-url="' . esc_url( $item['lottie_url'] ) . '" data-lottie-loop="true"></div>';
 		}
 
 		return $html;

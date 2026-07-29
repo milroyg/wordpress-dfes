@@ -11,6 +11,29 @@ function turnstileCommentCallback() {
         el.style.opacity = '1';
     });
 }
+/* WP Login: disable submit via keys until Turnstile is complete */
+document.addEventListener('DOMContentLoaded', function() {
+    var loginForm = document.getElementById('loginform');
+    if (!loginForm) { return; }
+    if (!loginForm.querySelector('.cf-turnstile')) { return; }
+    function isTurnstileComplete() {
+        var response = loginForm.querySelector('input[name="cf-turnstile-response"]');
+        return response && response.value.length > 0;
+    }
+    // Block submit event: catches Enter key, button click via form, and requestSubmit()
+    loginForm.addEventListener('submit', function(e) {
+        if (!isTurnstileComplete()) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+        }
+    }, true);
+    // Block programmatic form.submit() calls
+    loginForm.submit = function() {
+        if (isTurnstileComplete()) {
+            HTMLFormElement.prototype.submit.call(loginForm);
+        }
+    };
+});
 /* Woo */
 function turnstileWooLoginCallback() {
     document.querySelectorAll('.woocommerce-form-login__submit').forEach(function(el) {
@@ -26,6 +49,12 @@ function turnstileWooRegisterCallback() {
 }
 function turnstileWooResetCallback() {
     document.querySelectorAll('.woocommerce-ResetPassword .button').forEach(function(el) {
+        el.style.pointerEvents = 'auto';
+        el.style.opacity = '1';
+    });
+}
+function turnstileWooAccountCallback() {
+    document.querySelectorAll('.woocommerce-EditAccountForm button[name=save_account_details], .woocommerce-EditAccountForm input[name=save_account_details]').forEach(function(el) {
         el.style.pointerEvents = 'auto';
         el.style.opacity = '1';
     });
@@ -52,7 +81,7 @@ function turnstilePMPLoginCallback() {
 }
 /* Elementor */
 function turnstileElementorCallback() {
-    document.querySelectorAll('.elementor-field-type-submit .elementor-button').forEach(function(el) {
+    document.querySelectorAll('.elementor-form button[type="submit"]').forEach(function(el) {
         el.style.pointerEvents = 'auto';
         el.style.opacity = '1';
     });
@@ -151,6 +180,27 @@ function turnstileMEPRCallback() {
 /* BBPress */
 function turnstileBBPressCreateCallback() {
     document.querySelectorAll('#bbp_topic_submit').forEach(function(el) {
+        el.style.pointerEvents = 'auto';
+        el.style.opacity = '1';
+    });
+}
+/* SureForms */
+function turnstilesureformsCallback() {
+    document.querySelectorAll('.srfm-submit-container .srfm-submit-button').forEach(function(el) {
+        el.style.pointerEvents = 'auto';
+        el.style.opacity = '1';
+    });
+}
+/* Jetpack */
+function turnstileJetpackCallback() {
+    document.querySelectorAll('.wp-block-jetpack-contact-form button').forEach(function(el) {
+        el.style.pointerEvents = 'auto';
+        el.style.opacity = '1';
+    });
+}
+/* Sunshine Photo Cart */
+function turnstileSunshineCheckoutCallback() {
+    document.querySelectorAll('#sunshine--checkout--submit').forEach(function(el) {
         el.style.pointerEvents = 'auto';
         el.style.opacity = '1';
     });

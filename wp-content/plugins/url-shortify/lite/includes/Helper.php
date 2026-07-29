@@ -24,12 +24,12 @@ class Helper {
      *
      * @return bool
      */
-    public static function is_user_admin( \WP_User $user = null ) {
+    public static function is_user_admin( $user = null ) {
         if ( is_null( $user ) ) {
             $user = wp_get_current_user();
         }
 
-        if ( ! $user instanceof WP_User ) {
+        if ( ! $user instanceof \WP_User ) {
             _doing_it_wrong( __METHOD__, 'To check if the user is admin is required a WP_User object.', '1.0.0' );
         }
 
@@ -908,6 +908,25 @@ class Helper {
     }
 
     /**
+     * Get Tag action url
+     *
+     * @param  string  $action
+     *
+     * @param  null    $tag_id
+     *
+     * @return string
+     *
+     * @since 1.13.1
+     */
+    public static function get_tag_action_url( $tag_id = null, $action = 'edit' ) {
+        if ( empty( $tag_id ) || empty( $action ) ) {
+            return '#';
+        }
+
+        return self::get_action_url( $tag_id, 'tags', $action );
+    }
+
+    /**
      * Get max upload file size.
      *
      * @return int
@@ -1020,6 +1039,8 @@ class Helper {
             $page = 'us_links';
         } elseif ( 'groups' === $type ) {
             $page = 'us_groups';
+        } elseif ( 'tags' === $type ) {
+            $page = 'us_tags';
         } elseif ( 'domains' === $type ) {
             $page = 'us_domains';
         } elseif ( 'utm_presets' === $type ) {
@@ -1235,7 +1256,7 @@ class Helper {
 
         if ( strpos( $range, '/' ) !== false ) {
             // $range is in IP/NETMASK format
-            [ $range, $netmask ] = explode( '/', $range, 2 );
+            list( $range, $netmask ) = explode( '/', $range, 2 );
             if ( strpos( $netmask, '.' ) !== false ) {
                 // $netmask is a 255.255.0.0 format
                 $netmask     = str_replace( '*', '0', $netmask );
@@ -1249,7 +1270,7 @@ class Helper {
                 while ( count( $x ) < 4 ) {
                     $x[] = '0';
                 }
-                [ $a, $b, $c, $d ] = $x;
+                list( $a, $b, $c, $d ) = $x;
                 $range     = sprintf( "%u.%u.%u.%u", empty( $a ) ? '0' : $a, empty( $b ) ? '0' : $b,
                         empty( $c ) ? '0' : $c, empty( $d ) ? '0' : $d );
                 $range_dec = ip2long( $range );
@@ -1274,7 +1295,7 @@ class Helper {
             }
 
             if ( strpos( $range, '-' ) !== false ) { // A-B format
-                [ $lower, $upper ] = explode( '-', $range, 2 );
+                list( $lower, $upper ) = explode( '-', $range, 2 );
                 $lower_dec = (float) sprintf( "%u", ip2long( $lower ) );
                 $upper_dec = (float) sprintf( "%u", ip2long( $upper ) );
                 $ip_dec    = (float) sprintf( "%u", ip2long( $ip ) );
@@ -1328,111 +1349,48 @@ class Helper {
     }
 
     /**
-     * Check Pretty Links Exists
+     * Check whether one-click import is available for a given source plugin.
      *
-     * @return bool|int
+     * Different source plugins require different checks — most are detected by
+     * looking up their database table, but some (e.g. plugins that store data
+     * in options) are detected by their active-plugin file. New source types
+     * can be added by extending the $sources map and the type switch below.
      *
-     * @since 1.3.4
-     */
-    public static function is_pretty_links_table_exists() {
-        global $wpdb;
-
-        $links_table = "{$wpdb->prefix}prli_links";
-
-        return US()->is_table_exists( $links_table );
-    }
-
-    /**
-     * Check MTS Short Links Exists
-     *
-     * @return bool|int
-     *
-     * @since 1.3.4
-     */
-    public static function is_mts_short_links_table_exists() {
-        global $wpdb;
-
-        $links_table = "{$wpdb->prefix}short_links";
-
-        return US()->is_table_exists( $links_table );
-    }
-
-    /**
-     * Check Easy 301 Redirect Plugin Installed
-     *
-     * @return bool|int
-     *
-     * @since 1.3.4
-     */
-    public static function is_301_redirect_table_exists() {
-        global $wpdb;
-
-        $links_table = "{$wpdb->prefix}redirects";
-
-        return US()->is_table_exists( $links_table );
-    }
-
-    /**
-     * Check Simple 301 Redirect plugin installed
+     * @param string $source Source key. One of: pretty_links, mts_links,
+     *                       eps_301_redirects, simple_301_redirects, shorten_url,
+     *                       thirsty_affiliates, redirection.
      *
      * @return bool
      *
-     * @since 1.4.8
+     * @since 2.3.1
      */
-    public static function is_simple_301_redirect_plugin_installed() {
-        $plugins = Tracker::get_active_plugins();
+    public static function is_import_source_available( $source ) {
+        global $wpdb;
 
-        if ( in_array( 'simple-301-redirects/wp-simple-301-redirects.php', $plugins ) ) {
-            return true;
+        $sources = [
+            'pretty_links'         => [ 'type' => 'table',  'value' => 'prli_links' ],
+            'mts_links'            => [ 'type' => 'table',  'value' => 'short_links' ],
+            'eps_301_redirects'    => [ 'type' => 'table',  'value' => 'redirects' ],
+            'simple_301_redirects' => [ 'type' => 'plugin', 'value' => 'simple-301-redirects/wp-simple-301-redirects.php' ],
+            'shorten_url'          => [ 'type' => 'table',  'value' => 'pluginSL_shorturl' ],
+            'thirsty_affiliates'   => [ 'type' => 'plugin', 'value' => 'thirstyaffiliates/thirstyaffiliates.php' ],
+            'redirection'          => [ 'type' => 'table',  'value' => 'redirection_items' ],
+        ];
+
+        if ( ! isset( $sources[ $source ] ) ) {
+            return false;
+        }
+
+        $check = $sources[ $source ];
+
+        switch ( $check['type'] ) {
+            case 'table':
+                return (bool) US()->is_table_exists( $wpdb->prefix . $check['value'] );
+            case 'plugin':
+                return in_array( $check['value'], Tracker::get_active_plugins(), true );
         }
 
         return false;
-    }
-
-    /**
-     * Check Simple 301 Redirect plugin installed
-     *
-     * @return bool
-     *
-     * @since 1.4.8
-     */
-    public static function is_thirstry_affiliates_installed() {
-        $plugins = Tracker::get_active_plugins();
-
-        if ( in_array( 'thirstyaffiliates/thirstyaffiliates.php', $plugins ) ) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Check Shorten URL Plugin Installed.
-     *
-     * @return bool|int
-     *
-     * @since 1.3.4
-     */
-    public static function is_shorten_url_table_exists() {
-        global $wpdb;
-
-        $links_table = "{$wpdb->prefix}pluginSL_shorturl";
-
-        return US()->is_table_exists( $links_table );
-    }
-
-    /**
-     * Check Redirection Plugin Installed.
-     *
-     * @return bool|int
-     * @since 1.8.6
-     */
-    public static function is_redirection_installed() {
-        global $wpdb;
-
-        $links_table = "{$wpdb->prefix}redirection_items";
-
-        return US()->is_table_exists( $links_table );
     }
 
     /**
@@ -2652,6 +2610,16 @@ class Helper {
             ];
         }
 
+        if ( US()->is_pro() ) {
+            $options['status'] = [
+                    'label'  => __( 'Status', 'url-shortify' ),
+                    'values' => [
+                            'status_1' => __( 'Enabled', 'url-shortify' ),
+                            'status_0' => __( 'Disabled', 'url-shortify' ),
+                    ],
+            ];
+        }
+
         $options = apply_filters( 'kc_us_links_filter_by_dropdown_options', $options );
 
         $dropdown = '';
@@ -3071,7 +3039,7 @@ class Helper {
                 if ( ! is_wp_error( $api ) ) {
                     $data = [
                             'title'      => $api->name,
-                            'logo'       => $api->icons['2x'] ?? ( $api->icons['1x'] ?? ( $api->icons['default'] ?? '' ) ),
+                            'logo'       => isset( $api->icons['2x'] ) ? $api->icons['2x'] : ( isset( $api->icons['1x'] ) ? $api->icons['1x'] : ( isset( $api->icons['default'] ) ? $api->icons['default'] : '' ) ),
                             'desc'       => $api->short_description,
                             'plugin_url' => "https://wordpress.org/plugins/{$slug}/",
                             'slug'       => $slug,
@@ -3148,4 +3116,148 @@ class Helper {
 
         return ! empty( $tags_output ) ? '<div style="display: flex; flex-wrap: wrap; gap: 2;">' . implode( '', $tags_output ) . '</div>' : '-';
     }
+    
+	/**
+	 * Reject outbound URLs that could be used for SSRF — local/private/loopback
+	 * targets, non-http(s) schemes, and hostnames that resolve into reserved
+	 * IP ranges. Used by kc_us_get_og_metadata() before issuing wp_remote_get().
+	 *
+	 * @param string $url
+	 *
+	 * @return bool
+	 * @since 2.3.1
+	 */
+	public static function is_url_safe_for_outbound_fetch( $url ) {
+		$parts = wp_parse_url( $url );
+
+		if ( empty( $parts['host'] ) || empty( $parts['scheme'] ) ) {
+			return false;
+		}
+
+		if ( ! in_array( strtolower( $parts['scheme'] ), [ 'http', 'https' ], true ) ) {
+			return false;
+		}
+
+		$host = strtolower( $parts['host'] );
+
+		// Obvious local hostnames.
+		if ( in_array( $host, [ 'localhost', 'localhost.localdomain', 'broadcasthost', 'ip6-localhost', 'ip6-loopback' ], true ) ) {
+			return false;
+		}
+
+		// Resolve and check every IP the host points at — covers the case of
+		// a public hostname that A-records into RFC1918 / link-local space.
+		$ips = [];
+		if ( filter_var( $host, FILTER_VALIDATE_IP ) ) {
+			$ips[] = $host;
+		} else {
+			$records = @dns_get_record( $host, DNS_A + DNS_AAAA );
+			if ( is_array( $records ) ) {
+				foreach ( $records as $record ) {
+					if ( ! empty( $record['ip'] ) ) {
+						$ips[] = $record['ip'];
+					}
+					if ( ! empty( $record['ipv6'] ) ) {
+						$ips[] = $record['ipv6'];
+					}
+				}
+			}
+		}
+
+		if ( empty( $ips ) ) {
+			// Couldn't resolve — fail closed.
+			return false;
+		}
+
+		foreach ( $ips as $ip ) {
+			if ( ! filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Fetch and parse Open Graph metadata from a given URL.
+	 *
+	 * @param string $url The destination URL to fetch data from.
+	 *
+	 * @return array
+	 * @since 2.4.0
+	 */
+	public static function kc_us_get_og_metadata( $url ) {
+		$data = [
+			'og_title'       => '',
+			'og_description' => '',
+			'og_image'       => '',
+			'og_site_name'   => '',
+		];
+
+		if ( empty( $url ) || ! self::is_url_safe_for_outbound_fetch( $url ) ) {
+			return $data;
+		}
+
+		$response = wp_remote_get( $url, [
+			'timeout'             => 10,
+			'redirection'         => 0,
+			'limit_response_size' => 262144,
+			'user-agent'          => 'URL-Shortify/' . KC_US_PLUGIN_VERSION . ' (WordPress link preview)',
+		] );
+
+		if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) >= 400 ) {
+			return $data;
+		}
+
+		$html = wp_remote_retrieve_body( $response );
+		if ( empty( $html ) ) {
+			return $data;
+		}
+
+		$doc = new \DOMDocument();
+		$libxml_previous_state = libxml_use_internal_errors( true );
+		
+		if ( function_exists( 'mb_convert_encoding' ) ) {
+			$html = mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' );
+		}
+		
+		$doc->loadHTML( $html );
+		libxml_clear_errors();
+		libxml_use_internal_errors( $libxml_previous_state );
+
+		$xpath = new \DOMXPath( $doc );
+
+		$og_title = $xpath->query( "//meta[@property='og:title']/@content" );
+		if ( $og_title && $og_title->length > 0 ) {
+			$data['og_title'] = sanitize_text_field( $og_title->item( 0 )->nodeValue );
+		} else {
+			$title = $xpath->query( "//title" );
+			if ( $title && $title->length > 0 ) {
+				$data['og_title'] = sanitize_text_field( $title->item( 0 )->nodeValue );
+			}
+		}
+
+		$og_desc = $xpath->query( "//meta[@property='og:description']/@content" );
+		if ( $og_desc && $og_desc->length > 0 ) {
+			$data['og_description'] = sanitize_textarea_field( $og_desc->item( 0 )->nodeValue );
+		} else {
+			$meta_desc = $xpath->query( "//meta[@name='description']/@content" );
+			if ( $meta_desc && $meta_desc->length > 0 ) {
+				$data['og_description'] = sanitize_textarea_field( $meta_desc->item( 0 )->nodeValue );
+			}
+		}
+
+		$og_image = $xpath->query( "//meta[@property='og:image']/@content" );
+		if ( $og_image && $og_image->length > 0 ) {
+			$data['og_image'] = esc_url_raw( $og_image->item( 0 )->nodeValue );
+		}
+
+		$og_site = $xpath->query( "//meta[@property='og:site_name']/@content" );
+		if ( $og_site && $og_site->length > 0 ) {
+			$data['og_site_name'] = sanitize_text_field( $og_site->item( 0 )->nodeValue );
+		}
+
+		return $data;
+	}
+    
 }

@@ -127,9 +127,9 @@ abstract class Skin_Style {
 
 		$settings = self::$settings;
 
-		$is_rtl = is_rtl();
-		$dots   = 'yes' === $settings['dots'] ? true : false;
-		$arrows = 'yes' === $settings['arrows'] ? true : false;
+		$is_rtl            = is_rtl();
+		$dots              = 'yes' === $settings['dots'] ? true : false;
+		$arrows            = 'yes' === $settings['arrows'] ? true : false;
 		$arrows_custom_pos = 'default' !== $settings['arrows_position'];
 
 		$slick_options = array(
@@ -207,7 +207,7 @@ abstract class Skin_Style {
 		$marquee_settings = array(
 			'direction' => $settings['marquee_direction'],
 			'speed'     => $settings['marquee_speed'] ? absint( $settings['marquee_speed'] ) : 50,
-			'draggable'      => 'yes' === $settings['marquee_draggable'],
+			'draggable' => 'yes' === $settings['marquee_draggable'],
 		);
 
 		$this->add_render_attribute(
@@ -386,6 +386,8 @@ abstract class Skin_Style {
 
 				$query_args = apply_filters( 'premium_woo_products_query_args', $query_args, $settings );
 
+				self::$query_args = $query_args;
+
 				self::$query = new \WP_Query( $query_args );
 
 			} else {
@@ -399,6 +401,8 @@ abstract class Skin_Style {
 				);
 
 				$query_args = apply_filters( 'premium_woo_products_query_args', $query_args, $settings );
+
+				self::$query_args = $query_args;
 
 				self::$query = new \WP_Query( $query_args );
 			}
@@ -462,6 +466,8 @@ abstract class Skin_Style {
 			}
 
 			$query_args = apply_filters( 'premium_woo_products_query_args', $query_args, $settings );
+
+			self::$query_args = $query_args;
 
 			self::$query = new \WP_Query( $query_args );
 
@@ -529,6 +535,8 @@ abstract class Skin_Style {
 
 				$query_args = apply_filters( 'premium_woo_products_query_args', $query_args, $settings );
 
+				self::$query_args = $query_args;
+
 				self::$query = new \WP_Query( $query_args );
 
 			} else {
@@ -542,6 +550,8 @@ abstract class Skin_Style {
 				);
 
 				$query_args = apply_filters( 'premium_woo_products_query_args', $query_args, $settings );
+
+				self::$query_args = $query_args;
 
 				self::$query = new \WP_Query( $query_args );
 			}
@@ -830,9 +840,11 @@ abstract class Skin_Style {
 			return;
 		}
 
-		$posts_per_page = self::$query_args['posts_per_page'];
+		$query_args = self::$query_args ? self::$query_args : array();
 
-		$orderby = self::$query_args['orderby'];
+		$posts_per_page = isset( $query_args['posts_per_page'] ) ? $query_args['posts_per_page'] : $settings['products_numbers'];
+
+		$orderby = isset( $query_args['orderby'] ) ? $query_args['orderby'] : $settings['orderby'];
 
 		if ( 'main' === $settings['query_type'] ) {
 
@@ -840,13 +852,13 @@ abstract class Skin_Style {
 				'pa_woo_main_query_args',
 				array(
 					'post_type'   => 'product',
-					'product_cat' => self::$query_args['product_cat'],
+					'product_cat' => isset( $query_args['product_cat'] ) ? $query_args['product_cat'] : '',
 				),
-				self::$query_args
+				$query_args
 			);
 
 		} else {
-			$args = self::$query_args;
+			$args = $query_args;
 
 		}
 
@@ -959,7 +971,7 @@ abstract class Skin_Style {
 
 		echo '<div ' . wp_kses_post( $this->get_render_attribute_string( 'inner' ) ) . '>';
 
-		if( 'carousel' === $settings['layout_type'] && 'above' === $settings['arrows_position'] ) {
+		if ( 'carousel' === $settings['layout_type'] && 'above' === $settings['arrows_position'] ) {
 			echo '<div class="premium-carousel-arrows-wrapper"></div>';
 		}
 	}
@@ -973,7 +985,7 @@ abstract class Skin_Style {
 
 		$settings = self::$settings;
 
-		if( 'carousel' === $settings['layout_type'] && 'below' === $settings['arrows_position'] ) {
+		if ( 'carousel' === $settings['layout_type'] && 'below' === $settings['arrows_position'] ) {
 			echo '<div class="premium-carousel-arrows-wrapper"></div>';
 		}
 

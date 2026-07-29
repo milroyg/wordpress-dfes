@@ -432,17 +432,17 @@ msgstr ""
 
 #: src/Components/Dashboard/ExtendWebsiteWidget.jsx:107
 #: src/Components/Onboarding/ExtendOnboardingWidget.jsx:114
-msgid "Theme Installation failed, Please try again later."
+msgid "Theme installation failed. Please try again later."
 msgstr ""
 
 #: src/Components/Dashboard/ExtendWebsiteWidget.jsx:111
 #: src/Components/Onboarding/ExtendOnboardingWidget.jsx:115
-msgid "Plugin Installation failed, Please try again later."
+msgid "Plugin installation failed. Please try again later."
 msgstr ""
 
 #: src/Components/Dashboard/ExtendWebsiteWidget.jsx:144
 #: src/Components/Onboarding/ExtendOnboardingWidget.jsx:143
-msgid "Activating.."
+msgid "Activating..."
 msgstr ""
 
 #: src/Components/Dashboard/ExtendWebsiteWidget.jsx:157
@@ -485,7 +485,7 @@ msgstr ""
 
 #: src/Components/Dashboard/ExtendWebsiteWidget.jsx:71
 #: src/Components/Onboarding/ExtendOnboardingWidget.jsx:93
-msgid "Installing.."
+msgid "Installing..."
 msgstr ""
 
 #: src/Components/Dashboard/ExtendWebsiteWidget.jsx:82
@@ -494,7 +494,7 @@ msgid "Installed"
 msgstr ""
 
 #: src/Components/Dashboard/MyAccount.jsx:17
-#: src/Components/Settings/Settings.jsx:30
+#: src/Components/Settings/Settings.jsx:31
 msgid "My Account"
 msgstr ""
 
@@ -535,7 +535,7 @@ msgid "VIP Priority Support"
 msgstr ""
 
 #: src/Components/Dashboard/QuickAccess.js:56
-#: src/Components/Dashboard/WidgetItem.jsx:153
+#: src/Components/Dashboard/WidgetItem.jsx:152
 msgid "PRO"
 msgstr ""
 
@@ -612,6 +612,7 @@ msgstr ""
 
 #: src/Components/Dashboard/UltimateFeatures.js:87
 #: src/Components/Settings/Branding.jsx:42
+#: src/Components/Settings/Settings.jsx:92
 #: src/Components/Widgets/UltimateWidgetFeatures.jsx:89
 msgid "White Label"
 msgstr ""
@@ -642,17 +643,17 @@ msgid "Create Header/Footer"
 msgstr ""
 
 #: src/Components/Dashboard/WelcomeContainer.js:88
-#: src/Components/Onboarding/Create.jsx:323
+#: src/Components/Onboarding/Create.jsx:337
 msgid "Create New Page"
 msgstr ""
 
-#: src/Components/Dashboard/WidgetItem.jsx:177
+#: src/Components/Dashboard/WidgetItem.jsx:176
 #: src/Components/NavMenu.js:219
 #: src/Components/UpgradeNotice.jsx:81
 msgid "Get Full Control"
 msgstr ""
 
-#: src/Components/Dashboard/WidgetItem.jsx:301
+#: src/Components/Dashboard/WidgetItem.jsx:287
 msgid "View Demo"
 msgstr ""
 
@@ -701,10 +702,12 @@ msgid "Header & Footer"
 msgstr ""
 
 #: src/Components/NavMenu.js:163
+#: src/Components/Settings/AITools.jsx:111
 msgid "Widgets"
 msgstr ""
 
 #: src/Components/NavMenu.js:183
+#: src/Components/Settings/AITools.jsx:415
 msgid "Settings"
 msgstr ""
 
@@ -745,7 +748,7 @@ msgid "What's New?"
 msgstr ""
 
 #: src/Components/Onboarding/Build.jsx:141
-msgid "You're all set!🚀"
+msgid "You're all set! 🚀"
 msgstr ""
 
 #: src/Components/Onboarding/Build.jsx:144
@@ -807,144 +810,145 @@ msgid ""
 msgstr ""
 
 #: src/Components/Onboarding/Build.jsx:318
-#: src/Components/Onboarding/Create.jsx:345
+#: src/Components/Onboarding/Create.jsx:359
 msgid "We have a special Reward just for you! 🎁"
 msgstr ""
 
 #: src/Components/Onboarding/Build.jsx:332
-#: src/Components/Onboarding/Create.jsx:371
+#: src/Components/Onboarding/Create.jsx:385
 msgid ""
 "Enter your details to get special offer that we have for you and stay "
 "updated on UAE’s latest news and updates."
 msgstr ""
 
 #: src/Components/Onboarding/Build.jsx:340
-#: src/Components/Onboarding/Create.jsx:387
-#: src/Components/Onboarding/ExtendOnboarding.jsx:441
+#: src/Components/Onboarding/Create.jsx:401
+#: src/Components/Onboarding/ExtendOnboarding.jsx:458
 msgid "First Name"
 msgstr ""
 
 #: src/Components/Onboarding/Build.jsx:367
-#: src/Components/Onboarding/Create.jsx:427
-#: src/Components/Onboarding/ExtendOnboarding.jsx:466
+#: src/Components/Onboarding/Create.jsx:441
+#: src/Components/Onboarding/ExtendOnboarding.jsx:483
 msgid "Last Name"
 msgstr ""
 
 #: src/Components/Onboarding/Build.jsx:390
-#: src/Components/Onboarding/Create.jsx:456
+#: src/Components/Onboarding/Create.jsx:470
 msgid "Your Email Address"
 msgstr ""
 
 #: src/Components/Onboarding/Build.jsx:43
-#: src/Components/Onboarding/Create.jsx:43
-#: src/Components/Onboarding/ExtendOnboarding.jsx:257
+#: src/Components/Onboarding/Create.jsx:57
+#: src/Components/Onboarding/ExtendOnboarding.jsx:272
 msgid "This field is required"
 msgstr ""
 
 #: src/Components/Onboarding/Build.jsx:434
-#: src/Components/Onboarding/Create.jsx:515
+#: src/Components/Onboarding/Create.jsx:529
 msgid "Submit"
 msgstr ""
 
 #: src/Components/Onboarding/Build.jsx:50
-#: src/Components/Onboarding/Create.jsx:52
+#: src/Components/Onboarding/Create.jsx:66
 msgid "Entered email address is invalid!"
 msgstr ""
 
 #: src/Components/Onboarding/Build.jsx:87
-#: src/Components/Onboarding/Create.jsx:93
-#: src/Components/Onboarding/ExtendOnboarding.jsx:100
+#: src/Components/Onboarding/Create.jsx:107
+#: src/Components/Onboarding/ExtendOnboarding.jsx:101
 #: src/Components/Settings/ThemeSupport.jsx:63
 #: src/Components/Settings/UsageTracking.jsx:32
 msgid "Settings saved successfully!"
 msgstr ""
 
 #: src/Components/Onboarding/Build.jsx:92
-#: src/Components/Onboarding/Create.jsx:105
-#: src/Components/Onboarding/ExtendOnboarding.jsx:106
+#: src/Components/Onboarding/Create.jsx:119
+#: src/Components/Onboarding/ExtendOnboarding.jsx:107
 #: src/Components/Settings/ThemeSupport.jsx:68
 #: src/Components/Settings/UsageTracking.jsx:37
 msgid "Failed to save settings!"
 msgstr ""
 
-#: src/Components/Onboarding/Create.jsx:165
+#: src/Components/Onboarding/Create.jsx:179
 msgid "You’re All Set to Start Creating! 🚀"
 msgstr ""
 
-#: src/Components/Onboarding/Create.jsx:174
+#: src/Components/Onboarding/Create.jsx:188
 msgid ""
 "Ultimate Addons is ready to supercharge your Elementor workflow! Build "
 "faster, cleaner, and more creatively — with complete control over your site."
 msgstr ""
 
-#: src/Components/Onboarding/Create.jsx:180
+#: src/Components/Onboarding/Create.jsx:194
 msgid "What You Can Do Next:"
 msgstr ""
 
-#: src/Components/Onboarding/Create.jsx:202
+#: src/Components/Onboarding/Create.jsx:216
 msgid "Build a custom header"
 msgstr ""
 
-#: src/Components/Onboarding/Create.jsx:218
+#: src/Components/Onboarding/Create.jsx:232
 msgid "Design your site footer"
 msgstr ""
 
-#: src/Components/Onboarding/Create.jsx:234
+#: src/Components/Onboarding/Create.jsx:248
 msgid "Create a new page"
 msgstr ""
 
-#: src/Components/Onboarding/Create.jsx:277
+#: src/Components/Onboarding/Create.jsx:291
 msgid "Create New Header"
 msgstr ""
 
-#: src/Components/Onboarding/Create.jsx:298
+#: src/Components/Onboarding/Create.jsx:312
 msgid "Create New Footer"
 msgstr ""
 
-#: src/Components/Onboarding/ExtendOnboarding.jsx:253
+#: src/Components/Onboarding/ExtendOnboarding.jsx:268
 msgid "Please enter a valid email address"
 msgstr ""
 
-#: src/Components/Onboarding/ExtendOnboarding.jsx:349
+#: src/Components/Onboarding/ExtendOnboarding.jsx:366
 msgid "Recommended Essentials"
 msgstr ""
 
-#: src/Components/Onboarding/ExtendOnboarding.jsx:360
+#: src/Components/Onboarding/ExtendOnboarding.jsx:377
 msgid ""
 "These free plugins add essential features to your website and help speed up "
 "your workflow. Select the plugins you want to install."
 msgstr ""
 
-#: src/Components/Onboarding/ExtendOnboarding.jsx:433
+#: src/Components/Onboarding/ExtendOnboarding.jsx:450
 msgid "Get Important Notifications and Updates"
 msgstr ""
 
-#: src/Components/Onboarding/ExtendOnboarding.jsx:492
+#: src/Components/Onboarding/ExtendOnboarding.jsx:509
 msgid "Email Address"
 msgstr ""
 
-#: src/Components/Onboarding/ExtendOnboarding.jsx:526
+#: src/Components/Onboarding/ExtendOnboarding.jsx:543
 msgid ""
-"Notify me about critical updates and new features and help us improve by "
+"Stay in the loop and help shape Ultimate Addons for Elementor! Get feature "
+"updates, and help us build a better Ultimate Addons for Elementor by "
 "sharing how you use the plugin. "
 msgstr ""
 
-#: src/Components/Onboarding/ExtendOnboarding.jsx:535
+#: src/Components/Onboarding/ExtendOnboarding.jsx:552
 msgid " Privacy Policy"
 msgstr ""
 
-#: src/Components/Onboarding/ExtendOnboarding.jsx:551
+#: src/Components/Onboarding/ExtendOnboarding.jsx:568
 #: src/Components/Onboarding/Features.jsx:389
 msgid "Back"
 msgstr ""
 
-#: src/Components/Onboarding/ExtendOnboarding.jsx:560
-#: src/Components/Onboarding/Features.jsx:398
+#: src/Components/Onboarding/ExtendOnboarding.jsx:580
+#: src/Components/Onboarding/Features.jsx:401
 msgid "Skip"
 msgstr ""
 
-#: src/Components/Onboarding/ExtendOnboarding.jsx:573
-#: src/Components/Onboarding/Features.jsx:426
+#: src/Components/Onboarding/ExtendOnboarding.jsx:593
+#: src/Components/Onboarding/Features.jsx:432
 msgid "Next"
 msgstr ""
 
@@ -993,15 +997,15 @@ msgid ""
 "promotions, or show messages without needing a separate popup plugin."
 msgstr ""
 
-#: src/Components/Onboarding/Features.jsx:412
+#: src/Components/Onboarding/Features.jsx:415
 msgid "Upgrade"
 msgstr ""
 
-#: src/Components/Onboarding/Features.jsx:441
+#: src/Components/Onboarding/Features.jsx:447
 msgid "You've picked Pro features upgrade to start using them."
 msgstr ""
 
-#: src/Components/Onboarding/WelcomeNew.jsx:121
+#: src/Components/Onboarding/WelcomeNew.jsx:124
 msgid "Let's Get Started"
 msgstr ""
 
@@ -1025,8 +1029,527 @@ msgstr ""
 msgid "Reliable support from experts when you need it"
 msgstr ""
 
-#: src/Components/Onboarding/index.js:89
+#: src/Components/Onboarding/index.js:151
 msgid "Exit Guided Setup"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:107
+msgid "Plugin Info"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:108
+msgid "Active Templates"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:109
+msgid "Templates & Builder"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:110
+msgid "Pages"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:112
+msgid "Extensions"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:113
+msgid "Display Rules"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:114
+msgid "Theme"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:116
+msgid "Shortcode"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:117
+msgid "Design System"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:118
+msgid "Maintenance"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:119
+msgid "Pro Features"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:120
+msgid "Pro Plugin Info"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:121
+msgid "Post Skins"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:122
+msgid "Integrations & Branding"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:126
+msgid "Plugin version, health, and compatibility info"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:127
+msgid "See which header/footer is active on any page"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:128
+msgid "Create, edit, and manage templates and page layouts"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:129
+msgid "Create and manage WordPress pages"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:130
+msgid "Activate, deactivate, and list available widgets"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:131
+msgid "Toggle Scroll to Top and Reading Progress Bar"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:132
+msgid "Control where templates appear on your site"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:133
+msgid "Theme detection and compatibility settings"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:134
+msgid "Read and update plugin configuration"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:135
+msgid "Render template shortcodes"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:136
+msgid "Get site colors, fonts, and spacing"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:137
+msgid "Clear caches and run maintenance tasks"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:138
+msgid "UAE Pro upgrade information and pricing"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:196
+msgid "Settings saved."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:209
+msgid "Failed to save settings."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:330
+msgid "Copied to clipboard"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:336
+msgid "Endpoint copied to clipboard"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:342
+msgid "Prompt copied! Paste it into your AI client."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:370
+msgid "Requires WordPress 6.8+"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:371
+msgid "AI Tools requires WordPress 6.8 or later, which includes the Abilities API."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:392
+#: src/Components/Settings/Settings.jsx:112
+msgid "AI Tools"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:395
+msgid "Abilities enabled"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:396
+msgid "Abilities disabled"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:398
+msgid "%1$d / %2$d abilities"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:408
+msgid "Reset to defaults"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:416
+msgid ""
+"Control how UAE registers AI tools with WordPress and exposes them to "
+"clients."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:423
+msgid "Enable Abilities"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:424
+msgid ""
+"Register UAE AI tools with WordPress so they can be used by MCP clients "
+"(such as Claude, Cursor, and VS Code) and Elementor's Angie assistant. "
+"Disabled by default — enable this option to expose AI tools."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:431
+msgid "Enable Edit Abilities"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:434
+msgid ""
+"When enabled, AI clients can create, edit, and delete templates, pages, and "
+"widget settings. When disabled, AI clients have read-only access to your "
+"data."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:442
+msgid "Enable MCP Server"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:444
+msgid ""
+"Creates a dedicated UAE MCP endpoint that AI clients like Claude, Cursor, "
+"and VS Code can connect to. When disabled, the endpoint is removed and "
+"external AI clients cannot discover or call any UAE abilities."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:452
+msgid "Angie Integration"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:455
+msgid ""
+"Enable UAE abilities within Elementor's Angie AI assistant so it can use "
+"them in-browser without an external MCP client."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:456
+msgid "Install and activate the Angie plugin to use in-browser AI."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:469
+msgid "Overview"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:472
+msgid "Abilities"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:479
+msgid "Server & Connect"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:487
+msgid "Connection status"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:487
+msgid "How AI clients reach your site right now"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:495
+msgid "AI Tools are active"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:496
+msgid "AI Tools are off"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:502
+#. 1: MCP server state, 2: access mode, 3: enabled count, 4: total
+msgid "%1$s · %2$s · %3$d of %4$d abilities exposed"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:503
+msgid "MCP server on"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:503
+msgid "MCP server off"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:508
+msgid "Enable “Enable Abilities” above to connect AI clients."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:518
+msgid "External MCP server"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:519
+msgid "Ready"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:519
+msgid "Server off"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:525
+msgid "Copy endpoint"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:530
+msgid "Connect a client"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:534
+msgid "Turn on Enable MCP Server above to expose the endpoint."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:541
+msgid "Angie (in-editor)"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:543
+msgid "Enabled"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:543
+msgid "Disabled"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:543
+msgid "Not installed"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:549
+msgid "UAE tools are available in Elementor’s in-browser AI."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:550
+msgid "Turn on Angie Integration above to use it in the editor."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:551
+msgid "Install the Angie plugin to use in-browser AI."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:558
+msgid "Abilities exposed"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:565
+msgid "Manage abilities"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:572
+msgid "Access mode"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:573
+msgid "Read & write"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:573
+msgid "Read-only"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:577
+msgid ""
+"AI can create, edit and delete. Toggle “Enable Edit Abilities” above for "
+"read-only."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:578
+msgid ""
+"AI can only read your data. Toggle “Enable Edit Abilities” above to allow "
+"changes."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:587
+msgid "Create application password"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:591
+msgid "Server & connect"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:603
+msgid "Ability toggles"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:604
+msgid "Choose exactly which actions AI tools are allowed to perform"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:605
+msgid "%1$d of %2$d enabled"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:615
+msgid "Search abilities"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:616
+msgid "Search abilities - e.g. template, widget, page …"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:621
+msgid "All"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:630
+msgid "Collapse all"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:631
+msgid "Expand all"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:659
+msgid "%d abilities"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:667
+msgid "on"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:675
+msgid "Toggle all %s abilities"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:695
+msgid "Toggle %s"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:715
+msgid "Connect your AI client"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:717
+msgid "UAE's MCP endpoint is live. Wire it into your AI tool below."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:718
+msgid ""
+"Once the WP MCP Adapter plugin is active, this is how you connect your AI "
+"client."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:720
+msgid "Endpoint live"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:721
+msgid "Setup required"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:726
+msgid "Create an Application Password"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:729
+msgid "Open Application Passwords"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:734
+msgid "Add to your AI client:"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:736
+#: src/Components/Settings/UsageTracking.jsx:78
+#: src/Components/Templates/ExploreTemplates.jsx:227
+msgid "Learn More"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:740
+msgid "Claude Code"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:741
+msgid "Claude Desktop"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:742
+msgid "Cursor"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:743
+msgid "VS Code"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:744
+msgid "ChatGPT"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:744
+msgid ""
+"go to Settings → Connectors → Add Connector, paste the endpoint URL, and "
+"use your WordPress username + Application Password."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:748
+msgid "Replace"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:748
+msgid "in the JSON with the password from Step 1."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:754
+msgid "UAE Only"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:755
+msgid "Global"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:761
+msgid "Copy setup prompt for AI client"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:762
+msgid "Copy setup prompt"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:767
+msgid "Copy JSON config"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:799
+msgid "MCP Adapter plugin not detected"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:802
+msgid "To connect AI clients to your site, the"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:804
+msgid "WP MCP Adapter"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:806
+msgid ""
+"plugin is required. Download the latest release from GitHub, upload it via "
+"Plugins > Add New > Upload Plugin, and activate."
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:809
+msgid "Download from GitHub"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:865
+msgid "Read"
+msgstr ""
+
+#: src/Components/Settings/AITools.jsx:865
+msgid "Write"
 msgstr ""
 
 #: src/Components/Settings/Branding.jsx:107
@@ -1119,30 +1642,37 @@ msgstr ""
 msgid "Brainstorm Force"
 msgstr ""
 
-#: src/Components/Settings/Settings.jsx:49
-msgid "Editor"
+#: src/Components/Settings/Settings.jsx:113
+msgid "NEW"
 msgstr ""
 
 #: src/Components/Settings/Settings.jsx:50
+msgid "Editor"
+msgstr ""
+
+#: src/Components/Settings/Settings.jsx:51
 #: src/Components/Settings/ThemeSupport.jsx:80
 msgid "Theme Support"
 msgstr ""
 
-#: src/Components/Settings/Settings.jsx:65
+#: src/Components/Settings/Settings.jsx:66
 msgid "Custom SVG"
 msgstr ""
 
-#: src/Components/Settings/Settings.jsx:69
+#: src/Components/Settings/Settings.jsx:70
 msgid "Utilities"
 msgstr ""
 
-#: src/Components/Settings/Settings.jsx:70
+#: src/Components/Settings/Settings.jsx:71
 #: src/Components/Settings/VersionControl.jsx:45
 msgid "Version Control"
 msgstr ""
 
-#: src/Components/Settings/Settings.jsx:91
-msgid "Branding"
+#: src/Components/Settings/ThemeSupport.jsx:10
+msgid ""
+"This option will automatically replace your theme's header and footer files "
+"with custom templates from the plugin. It works with most themes and is "
+"selected by default."
 msgstr ""
 
 #: src/Components/Settings/ThemeSupport.jsx:140
@@ -1161,9 +1691,8 @@ msgstr ""
 
 #: src/Components/Settings/ThemeSupport.jsx:16
 msgid ""
-"This option will automatically replace your theme's header and footer files "
-"with custom templates from the plugin. It works with most themes and is "
-"selected by default."
+"This option hides your theme's header and footer using CSS and displays "
+"custom templates from the plugin. Use this if Option 1 causes layout issues."
 msgstr ""
 
 #: src/Components/Settings/ThemeSupport.jsx:9
@@ -1182,14 +1711,9 @@ msgstr ""
 
 #: src/Components/Settings/UsageTracking.jsx:68
 msgid ""
-"Collect non-sensitive information from your website, such as the PHP "
-"version and features used, to help us fix bugs faster, make smarter "
-"decisions, and build features that actually matter to you. "
-msgstr ""
-
-#: src/Components/Settings/UsageTracking.jsx:78
-#: src/Components/Templates/ExploreTemplates.jsx:227
-msgid "Learn More"
+"Help shape the future of Ultimate Addons for Elementor. Share how you use "
+"the plugin so we can build features that matter, fix issues faster, and "
+"make smarter decisions. "
 msgstr ""
 
 #: src/Components/Settings/VersionControl.jsx:119
@@ -1237,7 +1761,7 @@ msgstr ""
 #: src/Components/Templates/ExploreTemplates.jsx:183
 msgid ""
 "Stop building your site from scratch. Use our professional templates for "
-"your stunning website.It is easy to customize and completely responsive. "
+"your stunning website. It is easy to customize and completely responsive. "
 "Explore hundreds of designs and bring your vision to life in no time."
 msgstr ""
 
@@ -1294,7 +1818,7 @@ msgid "Deactivating..."
 msgstr ""
 
 #: src/Components/Widgets/Features/FeatureWidgets.jsx:253
-msgid "Deactivate All "
+msgid "Deactivate All"
 msgstr ""
 
 #: src/Components/Widgets/UltimateWidgetFeatures.jsx:149
