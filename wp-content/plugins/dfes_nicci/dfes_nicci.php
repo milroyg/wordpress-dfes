@@ -19,6 +19,31 @@ function dfes_nicci_enqueue_scripts() {
 
     // Add the initialization logic from chat.html
     $inline_script = "
+ 
+    jQuery(document).ready(function() { 
+      const targetSrc = 'https://niccicms.raj.nic.in/nicci/images/mili.png';
+      const replacementSrc = '/wp-content/plugins/dfes_nicci/chatbot.png';
+      
+      const imgobserver = new MutationObserver((mutationsList) => {
+          mutationsList.forEach((mutation) => {
+              if (mutation.addedNodes.length) {
+                  jQuery(mutation.addedNodes).each(function() {
+                      // Find all newly added images
+                      const imgs = jQuery(this).is('img') ? jQuery(this) : jQuery(this).find('img');
+                      
+                      imgs.each(function() {
+                          // Check for exact URL match
+                          if (jQuery(this).attr('src') === targetSrc) {
+                              jQuery(this).attr('src', replacementSrc);
+                          }
+                      });
+                  });
+              }
+          });
+      });
+      imgobserver.observe(document.body, { childList: true, subtree: true });
+    });
+    
     async function fetchAndFixScript(scriptUrl) {
       try {
         // 1. Fetch the third-party script as plain text
