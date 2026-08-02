@@ -14,9 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Enqueue scripts.
  */
 function dfes_nicci_enqueue_scripts() {
-    // Enqueue the external Nicci script. 
-    // We assume WordPress's built-in jQuery is sufficient.
-    wp_enqueue_script( 'nicci-js', 'https://niccicms.raj.nic.in/nicci/js/nicci.js', array( 'jquery' ), '1.0', true );
+    // Ensure jQuery is enqueued.
+    wp_enqueue_script( 'jquery' );
 
     // Add the initialization logic from chat.html
     $inline_script = "
@@ -62,17 +61,21 @@ function dfes_nicci_enqueue_scripts() {
                 fetchAndFixScript('https://niccicms.raj.nic.in/nicci/nicci/js/voint_v1.js');
                 var chatbotcode = c.d;
                 // The original code replaces a specific jQuery URL to prevent it from loading/conflicting
-                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/js/jquery.min.js', 'https://niccicms.raj.nic.in/nicci/nicci/js/jquery.min.js1');
-                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/js/livesupport.js', 'https://niccicms.raj.nic.in/nicci/nicci/js/livesupport.js1');
-                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/js/restrict_v1.js', 'https://niccicms.raj.nic.in/nicci/nicci/js/restrict_v1.js1');
-                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/js/cb1t_v1.js', 'https://niccicms.raj.nic.in/nicci/nicci/js/cb1t_v1.js1');
-                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/js/voint_v1.js', 'https://niccicms.raj.nic.in/nicci/nicci/js/voint_v1.js1');
+                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/js/cb1t_v1.js', '/cb1t_v1.js1');
+                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/js/voint_v1.js', '/voint_v1.js1');
+                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/js/jquery.min.js', '/jquery.min.js1');
+                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/js/livesupport.js', '/livesupport.js1');
+                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/js/restrict_v1.js', '/restrict_v1.js1');
+                chatbotcode = chatbotcode.replace('\' + _rootPath + \'images/mili.png', '/wp-content/plugins/dfes_nicci/chatbot.png');
+                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/images/mili.png', '/wp-content/plugins/dfes_nicci/chatbot.png');
+                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/images/mili1.png', '/wp-content/plugins/dfes_nicci/chatbot.png');
+                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/images/nicci.gif', '/wp-content/plugins/dfes_nicci/chatbot.png');
                 chatbotcode = chatbotcode.replaceAll('$(', 'jQuery(');
                 jQuery('#ContentNicci').append(chatbotcode);
             }
         });
     });";
-    wp_add_inline_script( 'nicci-js', $inline_script );
+    wp_add_inline_script( 'jquery', $inline_script );
 }
 add_action( 'wp_enqueue_scripts', 'dfes_nicci_enqueue_scripts' );
 
