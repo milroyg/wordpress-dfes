@@ -6,6 +6,7 @@
 namespace PremiumAddons\Admin\Includes;
 
 use PremiumAddons\Includes\Abilities\Bootstrap;
+use PremiumAddons\Includes\Abilities\OAuth;
 use PremiumAddons\Includes\Helper_Functions;
 use PremiumAddons\Includes\Assets_Manager;
 use Elementor\Modules\Usage\Module;
@@ -111,6 +112,8 @@ class Admin_Helper {
 		add_action( 'wp_ajax_pa_disable_elementor_mc_template', array( $this, 'pa_disable_elementor_mc_template' ) );
 		add_action( 'wp_ajax_pa_save_additional_settings', array( $this, 'pa_save_additional_settings' ) );
 		add_action( 'wp_ajax_pa_save_ai_abilities', array( $this, 'pa_save_ai_abilities' ) );
+		add_action( 'wp_ajax_pa_enable_oauth_connect', array( $this, 'pa_enable_oauth_connect' ) );
+		add_action( 'wp_ajax_pa_disable_oauth_connect', array( $this, 'pa_disable_oauth_connect' ) );
 		add_action( 'wp_ajax_pa_get_unused_widgets', array( $this, 'pa_get_unused_widgets' ) );
 		add_action( 'wp_ajax_pa_get_menu_item_settings', array( $this, 'pa_get_menu_item_settings' ) );
 		add_action( 'wp_ajax_pa_save_menu_item_settings', array( $this, 'pa_save_menu_item_settings' ) );
@@ -275,7 +278,7 @@ class Admin_Helper {
 			'pa-admin',
 			PREMIUM_ADDONS_URL . 'admin/assets/css/admin.css',
 			array(),
-			time(),
+			PREMIUM_ADDONS_VERSION,
 			'all'
 		);
 
@@ -293,7 +296,7 @@ class Admin_Helper {
 				'pa-admin',
 				PREMIUM_ADDONS_URL . 'admin/assets/js/admin.js',
 				array( 'jquery' ),
-				time(),
+				PREMIUM_ADDONS_VERSION,
 				true
 			);
 
@@ -331,6 +334,8 @@ class Admin_Helper {
 						'failMsg'               => __( 'Your submission failed because of an error', 'premium-addons-for-elementor' ),
 						'aiAbilitiesSaving'     => __( 'Saving AI ability settings…', 'premium-addons-for-elementor' ),
 						'aiAbilitiesSaveFailed' => __( 'AI ability settings could not be saved.', 'premium-addons-for-elementor' ),
+						'oauthEnabling'         => __( 'Enabling OAuth…', 'premium-addons-for-elementor' ),
+						'oauthRequestFailed'    => __( 'The request failed. Please try again.', 'premium-addons-for-elementor' ),
 					),
 				),
 				'premiumRollBackConfirm' => array(
@@ -569,9 +574,6 @@ class Admin_Helper {
 		// Create the Settings link that points to the plugin's settings page.
 		$settings_link = sprintf( '<a href="%1$s">%2$s</a>', admin_url( 'admin.php?page=' . self::$page_slug . '#tab=elements' ), __( 'Settings', 'premium-addons-for-elementor' ) );
 
-		// Create the Rollback link with nonce for security (currently not used in the final array).
-		$rollback_link = sprintf( '<a href="%1$s">%2$s%3$s</a>', wp_nonce_url( admin_url( 'admin-post.php?action=premium_addons_rollback' ), 'premium_addons_rollback' ), __( 'Rollback to v', 'premium-addons-for-elementor' ), PREMIUM_ADDONS_STABLE_VERSION );
-
 		// Initialize the new links array with the Settings link.
 		$new_links = array( $settings_link );
 
@@ -715,7 +717,7 @@ class Admin_Helper {
 				'ai-abilities' => array(
 					'id'       => 'ai-abilities',
 					'slug'     => $slug . '#tab=ai-abilities',
-					'title'    => __( 'AI Abilities & MCP Config', 'premium-addons-for-elementor' ),
+					'title'    => __( 'MCP Config & AI Abilities', 'premium-addons-for-elementor' ),
 					'href'     => '#tab=ai-abilities',
 					'template' => PREMIUM_ADDONS_PATH . 'admin/includes/templates/ai-abilities',
 				),
@@ -830,6 +832,19 @@ class Admin_Helper {
 	 * @since 3.20.8
 	 */
 	public function render_setting_tabs() {
+
+		// Reaching this page means manage_options. Treat the visit as consent to
+		// accept new MCP client registrations for a short window; see
+		// OAuth\Bootstrap::open_registration_window().
+		if ( ! empty( self::get_enabled_elements()['premium-ai-abilities'] ) ) {
+			// The request path trusts an autoloaded flag rather than querying for
+			// the OAuth tables. Confirm them here, where two extra queries do not
+			// matter, so a site whose tables were dropped stops reporting OAuth as
+			// installed from the next page load on.
+			OAuth\Store::verify_tables();
+
+			OAuth\Bootstrap::open_registration_window();
+		}
 
 		// add the PRO popup template.
 		include_once PREMIUM_ADDONS_PATH . 'admin/includes/templates/pro-popup.php';
@@ -1267,6 +1282,104 @@ class Admin_Helper {
 	}
 
 	/**
+	 * Enable the OAuth connect method: install the tables, set the flag, and
+	 * verify anonymous REST is actually reachable.
+	 *
+	 * @since 4.11.90
+	 * @return void
+	 */
+	public function pa_enable_oauth_connect() {
+
+		check_ajax_referer( 'pa-settings-tab', 'security' );
+
+		if ( ! self::check_user_can( 'manage_options' ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'You are not allowed to do this action.', 'premium-addons-for-elementor' ),
+				)
+			);
+		}
+
+		$reason = OAuth\Bootstrap::unavailable_reason();
+
+		if ( '' !== $reason ) {
+			wp_send_json_error( array( 'message' => $reason ) );
+		}
+
+		// This filter short-circuits authentication before any route's
+		// permission_callback runs, so it would 401 the anonymous OAuth
+		// endpoints mid-handshake.
+		$auth_probe = apply_filters( 'rest_authentication_errors', null );
+
+		if ( is_wp_error( $auth_probe ) ) {
+			wp_send_json_error(
+				array(
+					'message' => sprintf(
+						/* translators: %s: error message from the REST authentication filter. */
+						__( 'A plugin on this site blocks unauthenticated REST API requests, which OAuth needs: %s', 'premium-addons-for-elementor' ),
+						$auth_probe->get_error_message()
+					),
+				)
+			);
+		}
+
+		if ( ! OAuth\Store::maybe_install() ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'OAuth tables could not be created. Confirm that your database user can create tables, then try again.', 'premium-addons-for-elementor' ),
+				)
+			);
+		}
+		update_option( OAuth\Bootstrap::OPTION_ENABLED, true );
+
+		if ( ! wp_next_scheduled( OAuth\Bootstrap::CRON_HOOK ) ) {
+			wp_schedule_event( time(), 'daily', OAuth\Bootstrap::CRON_HOOK );
+		}
+
+		// A cached pre-opt-in 404 of the discovery documents would break the
+		// handshake with nothing surfaced anywhere.
+		OAuth\Bootstrap::flush_page_caches();
+
+		wp_send_json_success(
+			array(
+				'message' => __( 'OAuth connection enabled. Connect your AI client with the configuration below.', 'premium-addons-for-elementor' ),
+			)
+		);
+	}
+
+	/**
+	 * Disable the OAuth connect method — the kill switch. Deletes every issued
+	 * token; tables and client registrations survive so re-enabling does not
+	 * force clients to re-register.
+	 *
+	 * @since 4.11.90
+	 * @return void
+	 */
+	public function pa_disable_oauth_connect() {
+
+		check_ajax_referer( 'pa-settings-tab', 'security' );
+
+		if ( ! self::check_user_can( 'manage_options' ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'You are not allowed to do this action.', 'premium-addons-for-elementor' ),
+				)
+			);
+		}
+
+		delete_option( OAuth\Bootstrap::OPTION_ENABLED );
+		OAuth\Store::revoke_all_tokens();
+		wp_clear_scheduled_hook( OAuth\Bootstrap::CRON_HOOK );
+		OAuth\Bootstrap::flush_page_caches();
+
+		wp_send_json_success(
+			array(
+				'message' => __( 'OAuth disabled. Every connected client has been disconnected.', 'premium-addons-for-elementor' ),
+			)
+		);
+	}
+
+	/**
 	 * Save Integrations Control Settings
 	 *
 	 * Stores integration and version control settings
@@ -1461,34 +1574,6 @@ class Admin_Helper {
 		}
 
 		return $element;
-	}
-
-	/**
-	 * Get Global Elements Switchers.
-	 * Construct an associative array of addon_switcher => 'yes' pairs
-	 * Example :
-	 *      + array( 'premium_gradient_switcher' => yes').
-	 *
-	 * @since 4.6.1
-	 * @access public
-	 *
-	 * @return array
-	 */
-	public static function get_global_elements_switchers() {
-
-		$elements = self::get_elements_list()['cat-4'];
-
-		$global_elems = array();
-
-		if ( count( $elements['elements'] ) ) {
-			foreach ( $elements['elements'] as $elem ) {
-				if ( isset( $elem['is_pro'] ) && isset( $elem['is_global'] ) ) {
-					$global_elems[ str_replace( '-', '_', $elem['key'] ) . '_switcher' ] = 'yes';
-				}
-			}
-		}
-
-		return $global_elems;
 	}
 
 	/**

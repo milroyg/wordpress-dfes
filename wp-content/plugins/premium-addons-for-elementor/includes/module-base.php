@@ -5,8 +5,6 @@
 
 namespace PremiumAddons\Includes;
 
-use PremiumAddons\Admin\Includes\Admin_Helper;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }

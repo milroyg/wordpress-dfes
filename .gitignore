@@ -25,39 +25,4 @@ node_modules/
 
 # Ignore vendor if you don't want dependencies
 /.idea/*
-wp-content/updraft/.htaccess
-wp-content/updraft/index.html
-wp-content/updraft/log.1e230cb836dd.txt
-wp-content/updraft/log.1947e335e98f.txt
-wp-content/updraft/log.79448d0b6ccc.txt
-wp-content/updraft/web.config
-wp-content/uploads/custom-css-js/*
-wp-content/uploads/download-manager-files/.htaccess
-wp-content/uploads/download-manager-files/ACFrOgDHRWEgtlLqBaL5GrQqDJ3m6BnvP5_9uMts6JFc3L2yAsXLMQP9ZzxaO6vPWOc45Mx0veWBCqbl6PPCUWdlpHd49ZtNZMJE042J45Tci9mdMyRzAvd1A4mVcAWMHtgmefy-CN9AZMZbOfGD.pdf
-wp-content/uploads/download-manager-files/index.php
-wp-content/uploads/download-manager-files/State-Assistant-Public-Information-Officers-_1.pdf
-wp-content/uploads/firebox/.htaccess
-wp-content/uploads/firebox/data.json
-wp-content/uploads/firebox/index.html
-wp-content/uploads/firebox/templates/.htaccess
-wp-content/uploads/firebox/templates/index.html
-wp-content/uploads/firebox/templates/templates.json
-wp-content/uploads/simply-static/temp-files/*
-.gitignore
-wp-content/uploads/supsystic-tables/cache/tables/.htaccess
-wp-content/uploads/supsystic-tables/cache/tables/1
-wp-content/uploads/wpcode/index.html
-wp-content/uploads/wpcode/cache/docs.json
-wp-content/uploads/wpcode/cache/index.html
-wp-content/uploads/wpcode/cache/library/index.html
-wp-content/uploads/wpcode/cache/library/snippets.json
-wp-content/uploads/Dummy_log.csv
-wp-content/uploads/Dummy_log_log.csv
-wp-content/uploads/wpdm-custom-tags/.htaccess
-wp-content/uploads/wpdm-custom-tags/index.php
-wp-content/plugins/redirection/redirection.js
-wp-content/uploads/elementor/css/*
-# Ignore cache or Elementor generated CS/
-.htaccess
-wp-content/uploads/
-wp-content/cache/
+wp-content/uploads/*

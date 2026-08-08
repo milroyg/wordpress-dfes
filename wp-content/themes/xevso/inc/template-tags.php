@@ -15,9 +15,7 @@ if ( ! function_exists( 'xevso_posted_on' ) ) :
 			esc_attr( get_the_modified_date( DATE_W3C ) ),
 			esc_html( get_the_modified_date() )
 		);
-		$posted_on = sprintf(
-			'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">'. $time_string .'</a>'
-		);
+		$posted_on = '<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">'. $time_string .'</a>';
 		echo '<span class="posted-on">'. $posted_on .'</span>';
 	}
 endif;
