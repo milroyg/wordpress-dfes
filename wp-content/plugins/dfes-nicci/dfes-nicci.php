@@ -22,7 +22,7 @@ function dfes_nicci_enqueue_scripts() {
  
     jQuery(document).ready(function() { 
       const targetSrc = 'https://niccicms.raj.nic.in/nicci/images/mili.png';
-      const replacementSrc = '/wp-content/plugins/dfes_nicci/chatbot.png';
+      const replacementSrc = '/wp-content/plugins/dfes-nicci/chatbot.png';
       
       const imgobserver = new MutationObserver((mutationsList) => {
           mutationsList.forEach((mutation) => {
@@ -94,10 +94,10 @@ function dfes_nicci_enqueue_scripts() {
                 chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/js/jquery.min.js', '/jquery.min.js1');
                 chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/js/livesupport.js', '/livesupport.js1');
                 chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/js/restrict_v1.js', '/restrict_v1.js1');
-                chatbotcode = chatbotcode.replace('\' + _rootPath + \'images/mili.png', '/wp-content/plugins/dfes_nicci/chatbot.png');
-                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/images/mili.png', '/wp-content/plugins/dfes_nicci/chatbot.png');
-                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/images/mili1.png', '/wp-content/plugins/dfes_nicci/chatbot.png');
-                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/images/nicci.gif', '/wp-content/plugins/dfes_nicci/chatbot.png');
+                chatbotcode = chatbotcode.replace('\' + _rootPath + \'images/mili.png', '/wp-content/plugins/dfes-nicci/chatbot.png');
+                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/images/mili.png', '/wp-content/plugins/dfes-nicci/chatbot.png');
+                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/images/mili1.png', '/wp-content/plugins/dfes-nicci/chatbot.png');
+                chatbotcode = chatbotcode.replace('https://niccicms.raj.nic.in/nicci/nicci/images/nicci.gif', '/wp-content/plugins/dfes-nicci/chatbot.png');
                 chatbotcode = chatbotcode.replaceAll('$(', 'jQuery(');
                 jQuery('#ContentNicci').append(chatbotcode);
             }
