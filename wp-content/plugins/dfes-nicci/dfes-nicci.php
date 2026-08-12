@@ -53,7 +53,10 @@ function dfes_nicci_enqueue_scripts() {
         let scriptText = await response.text();
     
         // 2. String parse & Regex replacement (Fix your errors here)
-        scriptText = scriptText.replace(/\\$/g, 'jQuery');
+        scriptText = scriptText.replace(/\\$\\(/g, 'jQuery(');
+        scriptText = scriptText.replace(/\\$\\[/g, 'jQuery[');
+        scriptText = scriptText.replace(/\\$\\./g, 'jQuery.');
+        scriptText = scriptText.replace(/function IsAlphaNumeric\(.*0x6088ab.{2}/, '');
     
         // 3. Create a Blob URL and append as a script tag
         const blob = new Blob([scriptText], { type: 'application/javascript' });
@@ -99,7 +102,9 @@ function dfes_nicci_enqueue_scripts() {
                 jQuery('#ContentNicci').append(chatbotcode);
             }
         });
-    });";
+    });
+    
+    function IsAlphaNumeric(_0x43c295,_0x3bd91a,_0x2d27a7){return true;}";
     wp_add_inline_script( 'jquery', $inline_script );
 }
 add_action( 'wp_enqueue_scripts', 'dfes_nicci_enqueue_scripts' );
