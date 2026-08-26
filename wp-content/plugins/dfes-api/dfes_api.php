@@ -58,10 +58,8 @@ function dfes_api_create_tables() {
   global $wpdb;
 
   $charset_collate = $wpdb->get_charset_collate();
-  $prefix = $wpdb->prefix;
-
   // 🚒 Incidents Table
-  $incidents_table = $prefix . 'dfes_incidents';
+  $incidents_table = $wpdb->prefix . 'dfes_incidents';
   $sql1 = "CREATE TABLE $incidents_table (
         id BIGINT(20) NOT NULL AUTO_INCREMENT,
         dsr_id VARCHAR(50) NOT NULL,
@@ -84,7 +82,7 @@ function dfes_api_create_tables() {
     ) $charset_collate;";
 
   // 👥 Contacts Table
-  $contacts_table = $prefix . 'dfes_contacts';
+  $contacts_table = $wpdb->prefix . 'dfes_contacts';
   $sql2 = "CREATE TABLE $contacts_table (
         id BIGINT(20)  NOT NULL AUTO_INCREMENT,
         name VARCHAR(100) NOT NULL,
@@ -95,7 +93,7 @@ function dfes_api_create_tables() {
         KEY status (status)
     ) $charset_collate;";
 
-  $stations_table = $prefix . 'dfes_contact_stations';
+  $stations_table = $wpdb->prefix . 'dfes_contact_stations';
   $sql3 = "CREATE TABLE $stations_table (
     id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
     contact_id BIGINT(20) UNSIGNED NOT NULL,
@@ -387,9 +385,7 @@ function dfes_send_sms($mobile, $message, $station = '', $dsr_id = '') {
   $all = get_option('dfes_settings', ['active' => '', 'gateways' => []]);
 
   if (empty($all['active']) || empty($all['gateways'][$all['active']])) {
-    if ($log_on) {
-      dfes_log_notification_event('sms', $mobile, $station, $dsr_id, $message, 'error', 'No active SMS gateway configured.');
-    }
+    dfes_log_notification_event('sms', $mobile, $station, $dsr_id, $message, 'error', 'No active SMS gateway configured.');
     return FALSE;
   }
 
@@ -525,7 +521,8 @@ add_action('dfes_notifications_log_cleanup', 'dfes_cleanup_old_logs');
 
 function dfes_cleanup_old_logs() {
   global $wpdb;
-  $wpdb->query("DELETE FROM {$wpdb->prefix}dfes_notifications_log WHERE created_at < DATE_SUB(UTC_TIMESTAMP(), INTERVAL 1 DAY)");// Delete records older than 1 day
+  $wpdb->query("DELETE FROM {$wpdb->prefix}dfes_incidents WHERE date < UNIX_TIMESTAMP() - 86400");
+  $wpdb->query("DELETE FROM {$wpdb->prefix}dfes_notifications_log WHERE created_at < DATE_SUB(UTC_TIMESTAMP(), INTERVAL 1 DAY)");
 }
 
 // =============================
