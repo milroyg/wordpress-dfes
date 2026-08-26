@@ -154,6 +154,15 @@ function dfes_api_add_query_vars($vars) {
 // 5️⃣ TEMPLATE REDIRECT HANDLER
 // =============================
 function dfes_api_template_redirect_handler() {
+  if (get_query_var('dfes_update')) {
+    $request = new WP_REST_Request('GET');
+    foreach ($_REQUEST as $key => $value) {
+      $request->set_param($key, $value);
+    }
+    $response = dfes_api_handle_request($request);
+    wp_send_json($response->get_data(), $response->get_status());
+  }
+
   if (get_query_var('dfes_live_calls')) {
     $response = new WP_REST_Response(dfes_api_fetch_live_calls(), 200);
     wp_send_json($response->get_data(), $response->get_status());
@@ -193,10 +202,9 @@ function dfes_api_template_redirect_handler() {
 // =============================
 function dfes_api_handle_request(WP_REST_Request $request) {
   global $wpdb;
-  $table_name = $wpdb->prefix . 'dfes_incidents';
-  $params = $request->get_params();
 
   // Sanitize
+  $params = $request->get_params();
   $dsr_id = sanitize_text_field($params['dsr_id'] ?? '');
   $date = sanitize_text_field($params['date'] ?? '');
   $outtime = sanitize_text_field($params['outtime'] ?? '');
@@ -213,22 +221,14 @@ function dfes_api_handle_request(WP_REST_Request $request) {
 
   // Time validation
   date_default_timezone_set('Asia/Kolkata');
-  $current_timestamp = time();
-  $input_timestamp = intval($date);
-  $one_hour_before = $current_timestamp - 3600;
-
-  if ($input_timestamp < $one_hour_before) {
+  if ((intval($date) < (time() - 3600)) or(intval($date) > time())) {
     return new WP_REST_Response([
       'status' => 'error',
       'message' => 'OUTDATED TIME - Data not stored.',
     ], 400);
   }
-  if ($input_timestamp > $current_timestamp) {
-    return new WP_REST_Response([
-      'status' => 'error',
-      'message' => 'FUTURE TIME - Data not stored.',
-    ], 400);
-  }
+
+  $table_name = $wpdb->prefix . 'dfes_incidents';
 
   // Insert or update
   $existing = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE dsr_id = %s", $dsr_id));
