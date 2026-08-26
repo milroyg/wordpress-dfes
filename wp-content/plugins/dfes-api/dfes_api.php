@@ -154,50 +154,20 @@ function dfes_api_add_query_vars($vars) {
 // 5️⃣ TEMPLATE REDIRECT HANDLER
 // =============================
 function dfes_api_template_redirect_handler() {
-  if (get_query_var('dfes_update')) {
-    $request = new WP_REST_Request('GET');
-    foreach ($_REQUEST as $key => $value) {
-      $request->set_param($key, $value);
-    }
-    $response = dfes_api_handle_request($request);
-    wp_send_json($response->get_data(), $response->get_status());
-  }
-
   if (get_query_var('dfes_live_calls')) {
-    $data = dfes_api_fetch_live_calls(new WP_REST_Request('GET'));
-    $response = new WP_REST_Response($data, 200);
+    $response = new WP_REST_Response(dfes_api_fetch_live_calls(), 200);
     wp_send_json($response->get_data(), $response->get_status());
   }
 
   if (get_query_var('dfes_live_calls_geojson')) {
-    $raw = json_decode(file_get_contents('wp-content/uploads/revenue_villages.json'), TRUE);
-    $villages = [];
-    foreach ($raw as $item) {
-      $villages[$item['taluka']][$item['village']] = $item['wkt'];
-    }
-
     $features = [];
-    $data = dfes_api_fetch_live_calls(new WP_REST_Request('GET'));
+    $data = dfes_api_fetch_live_calls();
     foreach ($data as $item) {
-      if (isset($villages[$item['taluka']]) and isset($villages[$item['taluka']][$item['village']])) {
-        [
-          $long,
-          $lat,
-        ] = explode(' ', $villages[$item['taluka']][$item['village']]);
-        $lat = str_replace(')', '', $lat);
-        $lon = str_replace('POINT(', '', $long);
-        $lat = floatval($lat) + mt_rand(-100, 100) / 10000;
-        $lon = floatval($lon) + mt_rand(-100, 100) / 10000;
-      }
-      else {
-        $lat = $lon = NULL;
-      }
-
       $features[] = [
         'type' => "Feature",
         'geometry' => [
           'type' => "Point",
-          'coordinates' => [$lon, $lat],
+          'coordinates' => [$item['lon'], $item['lat']],
         ],
         'properties' => $item,
       ];
@@ -463,43 +433,33 @@ function dfes_log_notification_event($channel, $recipient, $station, $dsr_id, $m
 // =============================
 // 8️⃣ API HANDLER - LAST 24 HOURS
 // =============================
-function dfes_api_fetch_live_calls(WP_REST_Request $request) {
+function dfes_api_fetch_live_calls() {
   global $wpdb;
-  $table_name = $wpdb->prefix . 'dfes_incidents';
+  $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}dfes_incidents"), ARRAY_A);
 
-  date_default_timezone_set('Asia/Kolkata');
-  $now = time();
-  $past_24_hours = $now - (24 * 60 * 60);
-
-  $results = $wpdb->get_results(
-    $wpdb->prepare("SELECT * FROM $table_name WHERE date >= %d ORDER BY date DESC", $past_24_hours),
-    ARRAY_A
-  );
-
-  if (empty($results)) {
-    return new WP_REST_Response([], 200);
+  $raw = json_decode(file_get_contents('wp-content/uploads/revenue_villages.json'), TRUE);
+  $villages = [];
+  foreach ($raw as $item) {
+    $villages[$item['taluka']][$item['village']] = $item['wkt'];
   }
 
-  // Transform keys
-  $retitled = array_map(function($row) {
-    return [
-      'dsr_id' => $row['dsr_id'],
-      'date' => !empty($row['date']) ? date('d-m-Y', $row['date']) : NULL,
-      'outtime' => $row['outtime'],
-      'intime' => $row['intime'],
-      'station' => $row['station'],
-      'type' => $row['call_type'],
-      'description' => $row['activity_live'],
-      'near' => $row['near'],
-      'at' => $row['at'],
-      'vehicle' => $row['vehicle'],
-      'taluka' => $row['taluka'],
-      'village' => $row['village'],
-      'activity_sms' => $row['activity_sms'],
-    ];
-  }, $results);
-
-  return $retitled;
+  foreach ($results as &$item) {
+    $item['date'] = date('d-m-Y', $item['date']);
+    if (isset($villages[$item['taluka']]) and isset($villages[$item['taluka']][$item['village']])) {
+      [
+        $item['long'],
+        $item['lat'],
+      ] = explode(' ', $villages[$item['taluka']][$item['village']]);
+      $item['lat'] = str_replace(')', '', $item['lat']);
+      $item['lon'] = str_replace('POINT(', '', $item['long']);
+      $item['lat'] = floatval($item['lat']) + mt_rand(-100, 100) / 10000;
+      $item['lon'] = floatval($item['lon']) + mt_rand(-100, 100) / 10000;
+    }
+    else {
+      $item['lat'] = $item['lon'] = NULL;
+    }
+  }
+  return $results;
 }
 
 // =============================
