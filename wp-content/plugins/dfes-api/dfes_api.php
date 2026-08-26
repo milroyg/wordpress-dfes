@@ -254,7 +254,7 @@ function dfes_api_handle_request(WP_REST_Request $request) {
     );
 
     // ✅ Schedule async notifications on insert (non-blocking)
-    $payload = [
+    wp_schedule_single_event(time(), 'dfes_send_notifications_event', [[
       'station' => $station,
       'outtime' => $outtime,
       'activity_live' => $activity_live,
@@ -262,11 +262,7 @@ function dfes_api_handle_request(WP_REST_Request $request) {
       'at' => $at,
       'village' => $village,
       'dsr_id' => $dsr_id,
-    ];
-    wp_schedule_single_event(time(), 'dfes_send_notifications_event', [
-      $payload,
-      time(),
-    ]);
+    ]], TRUE);
 
     return new WP_REST_Response([
       'status' => 'success',
@@ -278,7 +274,7 @@ function dfes_api_handle_request(WP_REST_Request $request) {
 // =============================
 // 7️⃣ ASYNC NOTIFICATIONS + HELPERS
 // =============================
-function dfes_send_notifications_async($payload) {
+function dfes_send_notifications_async($payload = []) {
   $station = sanitize_text_field($payload['station'] ?? '');
   $outtime = sanitize_text_field($payload['outtime'] ?? '');
   $activity_live = sanitize_text_field($payload['activity_live'] ?? '');
