@@ -46,6 +46,142 @@ class Widget_Builder_Init {
         add_action('elementor/widgets/register', [$this, 'register_custom_widgets']);
     }
 
+    /** Handle prefix for the per-instance scripts carrying widget custom JS. */
+    const INLINE_JS_HANDLE = 'jltma-widget-builder-inline';
+
+    /**
+     * Normalise an includes payload to the canonical shape, dropping entries
+     * that could not be enqueued anyway.
+     *
+     * Every consumer used to re-implement its own subset of these checks, so a
+     * library with a relative src was skipped by the Elementor widget but still
+     * enqueued by the shortcode. One shape, validated once.
+     *
+     * @param mixed $includes Raw includes payload.
+     * @return array {
+     *     @type array $css_libraries List of ['handle' => string, 'src' => string, 'dependencies' => string[]].
+     *     @type array $js_libraries  Same shape.
+     * }
+     */
+    public static function normalize_includes($includes) {
+        $normalized = ['css_libraries' => [], 'js_libraries' => []];
+
+        if (!is_array($includes)) {
+            return $normalized;
+        }
+
+        foreach (array_keys($normalized) as $group) {
+            if (empty($includes[$group]) || !is_array($includes[$group])) {
+                continue;
+            }
+
+            foreach ($includes[$group] as $lib) {
+                if (!is_array($lib) || empty($lib['handle']) || empty($lib['src'])) {
+                    continue;
+                }
+
+                // Only absolute URLs: these become wp_enqueue_* sources.
+                if (!filter_var($lib['src'], FILTER_VALIDATE_URL)) {
+                    continue;
+                }
+
+                $deps = (!empty($lib['dependencies']) && is_array($lib['dependencies']))
+                    ? array_values(array_map('sanitize_text_field', $lib['dependencies']))
+                    : [];
+
+                $normalized[$group][] = [
+                    'handle'       => sanitize_text_field($lib['handle']),
+                    'src'          => esc_url_raw($lib['src']),
+                    'dependencies' => $deps,
+                ];
+            }
+        }
+
+        return $normalized;
+    }
+
+    /**
+     * The external CSS/JS libraries a widget may load, after the premium gate.
+     *
+     * Declaring external libraries is a premium capability. The free build
+     * resolves to an empty set; the Pro build returns the stored libraries by
+     * filtering `master_addons/widget_builder/render_includes` — see
+     * MasterAddons\Pro\Classes\Pro_Modules. The stored value is passed as the
+     * second argument, already normalised.
+     *
+     * @param int $widget_id Widget post ID.
+     * @return array Normalised includes.
+     */
+    public static function get_widget_includes($widget_id) {
+        $stored = self::normalize_includes(get_post_meta($widget_id, '_jltma_widget_includes', true));
+
+        $includes = apply_filters(
+            'master_addons/widget_builder/render_includes',
+            self::normalize_includes(null),
+            $stored,
+            $widget_id
+        );
+
+        return self::normalize_includes($includes);
+    }
+
+    /**
+     * Are we rendering for the Elementor editor (canvas, preview iframe, or an
+     * editor ajax round-trip) rather than for a visitor?
+     *
+     * @return bool
+     */
+    public static function is_editor_context() {
+        if (!class_exists('\Elementor\Plugin')) {
+            return is_admin();
+        }
+
+        $elementor = \Elementor\Plugin::$instance;
+
+        if (is_admin() || (isset($elementor->editor) && $elementor->editor->is_edit_mode())) {
+            return true;
+        }
+
+        return isset($elementor->preview) && $elementor->preview->is_preview_mode();
+    }
+
+    /**
+     * Queue a widget's rendered custom JS for the footer.
+     *
+     * Widget markup is emitted from inside the `the_content` filter chain, and
+     * core's convert_chars() rewrites every bare `&` in that output to `&#038;`
+     * without skipping <script> blocks — so an inline <script> holding `a && b`
+     * reaches the browser as `a &#038;&#038; b` and dies with a SyntaxError.
+     * (Elementor drops wpautop around builder content, but not convert_chars.)
+     *
+     * Routing the JS through the script queue prints it after wp_footer, well
+     * clear of the content filters, and keeps execution after the markup exists.
+     *
+     * Every rendered instance gets its own handle, so it gets its own <script>
+     * tag. That isolation is the point: sharing one handle concatenates every
+     * widget on the page into a single block, where one widget throwing — a
+     * premium-only library that is not loaded, say — aborts the block and takes
+     * every later widget's JS down with it.
+     *
+     * @param string $js        Rendered JS body (no <script> wrapper).
+     * @param int    $widget_id Widget post ID, used to label the handle.
+     */
+    public static function enqueue_inline_js($js, $widget_id = 0) {
+        if (!is_string($js) || '' === trim($js)) {
+            return;
+        }
+
+        static $instance = 0;
+        $instance++;
+
+        $handle = self::INLINE_JS_HANDLE . '-' . absint($widget_id) . '-' . $instance;
+        $ver    = defined('JLTMA_VER') ? JLTMA_VER : false;
+
+        wp_register_script($handle, false, [], $ver, true);
+        wp_enqueue_script($handle);
+        wp_add_inline_script($handle, $js);
+    }
+
     /**
      * Register custom widgets from CPT with Elementor
      */

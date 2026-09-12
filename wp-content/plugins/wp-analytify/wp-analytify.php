@@ -3,7 +3,7 @@
  * Plugin Name: Analytify Dashboard
  * Plugin URI: https://analytify.io/?ref=27&utm_source=wp-org&utm_medium=plugin-header&utm_campaign=pro-upgrade&utm_content=plugin-uri
  * Description: Analytify brings a brand new and modern feeling of Google Analytics superbly integrated within the WordPress.
- * Version: 9.1.0
+ * Version: 9.1.2
  * Author: Analytify
  * Author URI: https://analytify.io/?ref=27&utm_source=wp-org&utm_medium=plugin-header&utm_campaign=pro-upgrade&utm_content=author-uri
  * License: GPLv3
@@ -845,7 +845,7 @@ if ( ! class_exists( 'WP_Analytify' ) ) {
 				);
 			}
 
-			$debug_mode = apply_filters( 'analytify_debug_mode', true );
+			$debug_mode = apply_filters( 'analytify_debug_mode', false );
 
 			if ( $debug_mode ) {
 				$configuration['debug_mode'] = true;

@@ -140,7 +140,7 @@ $import_status = Helper::get_request_data( 'import_status', '' );
                                 </label>
                             </div>
                             <div class="flex w-1/5">
-                                <a href="<?php echo esc_url_raw( $current_url ) . '&action=' . $item['action']; ?>"
+                                <a href="<?php echo esc_url( \KaizenCoders\URL_Shortify\Common\Utils::get_current_page_url( array( 'action' => $item['action'] ) ) ); ?>"
                                    class="px-4 py-2 mx-2 my-2 text-sm font-medium leading-5 align-middle transition duration-150 ease-in-out border border-indigo-600 rounded-md cursor-pointer hover:shadow-md focus:outline-none focus:shadow-outline-indigo">
 									<?php _e( 'Import', 'url-shortify' ); ?>
                                 </a>
@@ -156,6 +156,10 @@ $import_status = Helper::get_request_data( 'import_status', '' );
 
 		} elseif ( 'migration' === $tab ) {
 			include_once KC_US_ADMIN_TEMPLATES_DIR . '/migration.php';
+
+		} elseif ( 'export_import' === $tab ) {
+			// Rendered by PRO. The tab is only registered when PRO is active.
+			do_action( 'kc_us_render_export_import_page' );
 
 		} elseif ( 'import' === $tab && 'csv' === $action && ( '' === $submitted ) ) { ?>
 

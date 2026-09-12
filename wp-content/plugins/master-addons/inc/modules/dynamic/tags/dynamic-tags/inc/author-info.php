@@ -5,6 +5,7 @@ namespace MasterAddons\Modules\DynamicTags\Tags;
 use Elementor\Controls_Manager;
 use Elementor\Core\DynamicTags\Tag;
 use Elementor\Modules\DynamicTags\Module as TagsModule;
+use MasterAddons\Inc\Classes\Helper;
 
 if (!defined('ABSPATH')) {
 	exit; // Exit if accessed directly
@@ -40,6 +41,8 @@ class Author_Info extends Tag
 		if (empty($key)) {
 			return;
 		}
+
+		Helper::jltma_set_global_authordata();
 
 		$value = get_the_author_meta($key);
 

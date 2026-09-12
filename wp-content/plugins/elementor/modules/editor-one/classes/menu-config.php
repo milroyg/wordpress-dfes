@@ -40,16 +40,21 @@ class Menu_Config {
 		return apply_filters( 'elementor/editor-one/menu/excluded_level3_slugs', $default_slugs );
 	}
 
+	public static function get_excluded_flyout_menu_level3_slugs(): array {
+		$default_slugs = [
+			'e-form-submissions',
+		];
+
+		return apply_filters( 'elementor/editor-one/menu/excluded_flyout_menu_level3_slugs', $default_slugs );
+	}
+
+
 	public static function get_legacy_slug_mapping(): array {
 		$default_mapping = [
 			self::LEGACY_TEMPLATES_SLUG => self::TEMPLATES_GROUP_ID,
 		];
 
 		return apply_filters( 'elementor/editor-one/menu/legacy_slug_mapping', $default_mapping );
-	}
-
-	public static function is_elementor_home_menu_available(): bool {
-		return class_exists( '\ElementorOne\Loader' );
 	}
 
 	public static function get_legacy_pro_mapping(): array {
@@ -88,7 +93,7 @@ class Menu_Config {
 	public static function get_attribute_mapping(): array {
 		$default_mapping = [
 			'e-form-submissions' => [
-				'position' => 50,
+				'position' => 70,
 				'icon' => 'send',
 			],
 		];

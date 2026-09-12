@@ -100,7 +100,7 @@ class Cache_Manager
      */
     private function setup_cache_directory()
     {
-        $upload_dir = wp_upload_dir();
+        $upload_dir = wp_upload_dir(null, false);
 
         if (!empty($upload_dir['error']) || empty($upload_dir['basedir'])) {
             return;
@@ -108,12 +108,44 @@ class Cache_Manager
 
         $this->cache_path = $upload_dir['basedir'] . '/' . self::CACHE_DIR;
         $this->cache_url  = $upload_dir['baseurl'] . '/' . self::CACHE_DIR;
+    }
 
-        // Create directory if it doesn't exist
-        if (!file_exists($this->cache_path)) {
-            wp_mkdir_p($this->cache_path);
+    /**
+     * Create the cache directory, the first time something is written to it.
+     *
+     * This used to run from the constructor, so every page load recreated
+     * uploads/master_addons/assets_cache -- and with it uploads/master_addons
+     * itself, moments after the cleanup routine had removed the tree. A site
+     * that never generates a bundle now keeps an empty uploads folder.
+     *
+     * @return bool Whether the directory is there and writable.
+     */
+    private function prepare_cache_directory()
+    {
+        if (empty($this->cache_path)) {
+            return false;
+        }
 
-            // Add index.php for security
+        if (file_exists($this->cache_path)) {
+            return is_writable($this->cache_path);
+        }
+
+        // A client site gets no folders from this plugin. Where the directory
+        // is not already there, the bundle goes to post meta instead -- the
+        // fallback the writer already had for an unwritable uploads folder.
+        // A site that wants the files on disk can create the folder itself, or
+        // turn this back on with:
+        //
+        //     add_filter('jltma_create_assets_cache_dir', '__return_true');
+        if (!apply_filters('jltma_create_assets_cache_dir', false)) {
+            return false;
+        }
+
+        if (!wp_mkdir_p($this->cache_path)) {
+            return false;
+        }
+
+        // Add index.php for security
             file_put_contents(
                 $this->cache_path . '/index.php',
                 '<?php // Silence is golden'
@@ -164,8 +196,9 @@ class Cache_Manager
     </FilesMatch>
 </IfModule>
 HTACCESS;
-            file_put_contents($this->cache_path . '/.htaccess', $htaccess);
-        }
+        file_put_contents($this->cache_path . '/.htaccess', $htaccess);
+
+        return true;
     }
 
     /**
@@ -247,6 +280,15 @@ HTACCESS;
         // Write files with gzip compression
         $css_result = ['written' => false, 'gzip_written' => false, 'gzip_size' => 0];
         $js_result = ['written' => false, 'gzip_written' => false, 'gzip_size' => 0];
+
+        // No directory, no bundle. The database fallback below exists for a
+        // write that fails once, and what it stores is only ever served from a
+        // file URL -- so with no folder at all there is nothing to gain by
+        // filling post meta on every page view. The widgets keep loading their
+        // own stylesheets, exactly as they do before a bundle is built.
+        if (!$this->prepare_cache_directory()) {
+            return false;
+        }
 
         if (!empty($css_content)) {
             $css_result = $this->write_with_gzip(

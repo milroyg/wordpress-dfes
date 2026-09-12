@@ -150,6 +150,217 @@ class Links extends Base_DB {
 	}
 
 	/**
+	 * Is a slug already taken?
+	 *
+	 * Asks the database directly instead of pulling every slug into memory, so
+	 * the answer reflects rows written by other requests a moment ago.
+	 *
+	 * @param  string  $slug
+	 * @param  int     $exclude_id  Ignore this link id, when re-checking a row we just wrote.
+	 *
+	 * @return bool
+	 *
+	 * @since 2.5.1
+	 */
+	public function slug_exists( $slug, $exclude_id = 0 ) {
+		return $this->get_conflicting_slug_id( $slug, $exclude_id ) > 0;
+	}
+
+	/**
+	 * Map link ids to "Name (/slug)" for pickers.
+	 *
+	 * Separate from get_id_label_map(): a chart legend wants the shortest label
+	 * that is still unambiguous, but someone choosing a link from a list is
+	 * often looking for the slug itself, so it is always shown here.
+	 *
+	 * @param array $ids
+	 *
+	 * @return array<int, string>
+	 *
+	 * @since 2.6.0
+	 */
+	public function get_id_picker_label_map( $ids = [] ) {
+		global $wpdb;
+
+		if ( empty( $ids ) ) {
+			return [];
+		}
+
+		$ids_str = $this->prepare_for_in_query( $ids );
+
+		if ( '' === $ids_str ) {
+			return [];
+		}
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- ids are absint'd by prepare_for_in_query().
+		$rows = $wpdb->get_results( "SELECT id, name, slug FROM {$this->table_name} WHERE id IN ({$ids_str})", ARRAY_A );
+
+		if ( ! Helper::is_forechable( $rows ) ) {
+			return [];
+		}
+
+		$map = [];
+
+		foreach ( $rows as $row ) {
+			$slug = trim( (string) Helper::get_data( $row, 'slug', '' ) );
+			$name = trim( (string) Helper::get_data( $row, 'name', '' ) );
+			$name = ( '' !== $name ) ? stripslashes( $name ) : $slug;
+
+			$map[ (int) $row['id'] ] = ( '' !== $slug )
+				? sprintf( '%s  (/%s)', $name, $slug )
+				: $name;
+		}
+
+		return $map;
+	}
+
+	/**
+	 * Ids of the most recently created links.
+	 *
+	 * Used to populate report pickers. Deliberately not driven by click counts:
+	 * a link created this morning has none yet, and that is exactly the link
+	 * someone wants to put on a chart.
+	 *
+	 * @param int $limit
+	 *
+	 * @return array<int, int>
+	 *
+	 * @since 2.6.0
+	 */
+	public function get_recent_ids( $limit = 500 ) {
+		global $wpdb;
+
+		$limit = absint( $limit );
+
+		if ( empty( $limit ) ) {
+			return [];
+		}
+
+		$ids = $wpdb->get_col(
+			$wpdb->prepare( "SELECT id FROM {$this->table_name} ORDER BY id DESC LIMIT %d", $limit )
+		);
+
+		return array_map( 'absint', (array) $ids );
+	}
+
+	/**
+	 * Map link ids to a readable label for charts and pickers.
+	 *
+	 * Falls back to the slug when a link has no name, so a series is never
+	 * labelled with an empty string. Where two of the requested links share a
+	 * name, both get their slug appended - an unqualified duplicate label in a
+	 * chart legend is indistinguishable from its twin.
+	 *
+	 * Deliberately not named get_id_name_map(): that is inherited from Base_DB
+	 * with a WHERE-clause signature and existing callers rely on it.
+	 *
+	 * @param array $ids Link ids. Required - this is never used unbounded.
+	 *
+	 * @return array<int, string>
+	 *
+	 * @since 2.6.0
+	 */
+	public function get_id_label_map( $ids = [] ) {
+		global $wpdb;
+
+		if ( empty( $ids ) ) {
+			return [];
+		}
+
+		$ids_str = $this->prepare_for_in_query( $ids );
+
+		if ( '' === $ids_str ) {
+			return [];
+		}
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- ids are absint'd by prepare_for_in_query().
+		$rows = $wpdb->get_results( "SELECT id, name, slug FROM {$this->table_name} WHERE id IN ({$ids_str})", ARRAY_A );
+
+		if ( ! Helper::is_forechable( $rows ) ) {
+			return [];
+		}
+
+		$map    = [];
+		$slugs  = [];
+		$counts = [];
+
+		foreach ( $rows as $row ) {
+			$id   = (int) $row['id'];
+			$slug = (string) Helper::get_data( $row, 'slug', '' );
+			$name = trim( (string) Helper::get_data( $row, 'name', '' ) );
+			$name = ( '' !== $name ) ? stripslashes( $name ) : $slug;
+
+			$map[ $id ]   = $name;
+			$slugs[ $id ] = $slug;
+
+			$counts[ $name ] = isset( $counts[ $name ] ) ? $counts[ $name ] + 1 : 1;
+		}
+
+		foreach ( $map as $id => $name ) {
+			if ( $counts[ $name ] > 1 && '' !== $slugs[ $id ] ) {
+				$map[ $id ] = sprintf( '%s (%s)', $name, $slugs[ $id ] );
+			}
+		}
+
+		return $map;
+	}
+
+	/**
+	 * Id of another link holding this slug, or 0.
+	 *
+	 * With $only_older set, only rows created before $link_id count. That makes
+	 * collision resolution deterministic when two requests race: the row that
+	 * got there first keeps the slug and the later one moves, so both sides
+	 * agree on the outcome and neither loops.
+	 *
+	 * @param  string  $slug
+	 * @param  int     $exclude_id
+	 * @param  bool    $only_older
+	 *
+	 * @return int
+	 *
+	 * @since 2.5.1
+	 */
+	public function get_conflicting_slug_id( $slug, $exclude_id = 0, $only_older = false ) {
+		global $wpdb;
+
+		$slug = (string) $slug;
+
+		if ( '' === $slug ) {
+			return 0;
+		}
+
+		$case_sensitive = false;
+
+		if ( US()->is_pro() ) {
+			$settings       = US()->get_settings();
+			$case_sensitive = (bool) Helper::get_data( $settings, 'general_settings_case_sensitive_slug', 0 );
+		}
+
+		// BINARY only when the site wants `Abc` and `abc` to be different links.
+		$column = $case_sensitive ? 'BINARY slug' : 'slug';
+
+		$exclude_id = absint( $exclude_id );
+
+		if ( $exclude_id > 0 ) {
+			$comparison = $only_older ? '<' : '<>';
+
+			$sql = $wpdb->prepare(
+				"SELECT id FROM {$this->table_name} WHERE {$column} = %s AND id {$comparison} %d ORDER BY id ASC LIMIT 1",
+				$slug,
+				$exclude_id
+			);
+		} else {
+			$sql = $wpdb->prepare(
+				"SELECT id FROM {$this->table_name} WHERE {$column} = %s ORDER BY id ASC LIMIT 1",
+				$slug
+			);
+		}
+
+		return (int) $wpdb->get_var( $sql );
+	}
+
+	/**
 	 * Get link by slug
 	 *
 	 * @since 1.0.0
@@ -540,7 +751,18 @@ class Links extends Base_DB {
 	 * @return bool|int
 	 *
 	 */
-	public function create_link( $link_data = [], $slug = '' ) {
+	public function create_link( $link_data = [], $slug = '', $user_chosen_slug = null ) {
+		/*
+		 * Whether a human picked this slug. Several callers generate the slug
+		 * themselves and pass it in, which looks identical to a user-chosen one
+		 * from here — they pass false so their generated slug still gets the
+		 * collision check below. A slug a person actually typed is never moved
+		 * silently; those paths report "Short URL already exists" instead.
+		 */
+		if ( null === $user_chosen_slug ) {
+			$user_chosen_slug = ! empty( $slug );
+		}
+
 		if ( empty( $slug ) ) {
 			$slug = Utils::get_valid_slug();
 		}
@@ -551,7 +773,62 @@ class Links extends Base_DB {
 
 		$link_data = $this->prepare_form_data( $link_data );
 
-		return $this->save( $link_data );
+		$link_id = $this->save( $link_data );
+
+		if ( ! $user_chosen_slug ) {
+			$this->resolve_slug_collision( $link_id, $link_data['slug'] );
+		}
+
+		return $link_id;
+	}
+
+	/**
+	 * Move a generated slug out of the way if another link already had it.
+	 *
+	 * Checking for a free slug and then inserting are two separate statements, so
+	 * two requests arriving together can both pass the check and both write the
+	 * same slug — there is no unique constraint on the column to stop them. That
+	 * is rare enough to go unnoticed for months and then bite once, and when it
+	 * does the newer link is dead: lookups use LIMIT 1 and return the older row,
+	 * so the new short URL silently serves the old destination.
+	 *
+	 * Only the newer row moves, so two racing requests reach the same conclusion
+	 * and the already-published older link keeps working.
+	 *
+	 * @param  int     $link_id
+	 * @param  string  $slug
+	 *
+	 * @return string The slug the link ended up with.
+	 *
+	 * @since 2.5.1
+	 */
+	protected function resolve_slug_collision( $link_id, $slug ) {
+		$link_id = absint( $link_id );
+
+		if ( empty( $link_id ) ) {
+			return $slug;
+		}
+
+		$prefix = trim( (string) Helper::get_link_prefix(), '/' );
+
+		// Keep the prefix the original slug was built with.
+		$has_prefix = ( '' !== $prefix && 0 === strpos( $slug, $prefix . '/' ) );
+
+		for ( $attempt = 0; $attempt < 5; $attempt ++ ) {
+			if ( ! $this->get_conflicting_slug_id( $slug, $link_id, true ) ) {
+				return $slug;
+			}
+
+			$slug = Utils::get_valid_slug();
+
+			if ( $has_prefix ) {
+				$slug = Helper::get_slug_with_prefix( $slug );
+			}
+
+			$this->update( $link_id, [ 'slug' => $slug ] );
+		}
+
+		return $slug;
 	}
 
 	/**

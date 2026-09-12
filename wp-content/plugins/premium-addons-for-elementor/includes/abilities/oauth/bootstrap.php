@@ -3,8 +3,8 @@
  * OAuth Bootstrap.
  *
  * Owns the availability gates and wires the OAuth surface — discovery,
- * registration, authorize, token and the 401 challenge — only when the user
- * has opted in. Nothing exists (no tables, no routes, no handlers) until then.
+ * registration, authorize, token, the root fallback endpoints and the 401
+ * challenge — only when the user has opted in. Nothing exists (no tables, no routes, no handlers) until then.
  *
  * @package PremiumAddons
  */
@@ -131,6 +131,11 @@ class Bootstrap {
 		add_action( 'parse_request', array( Metadata::class, 'maybe_serve' ), 0 );
 		add_action( 'parse_request', array( Authorize::class, 'maybe_serve' ), 0 );
 
+		// Root /register, /authorize and /token for clients whose discovery was
+		// blocked at the host's edge. template_redirect, not parse_request: the
+		// catcher must know the request would otherwise 404.
+		add_action( 'template_redirect', array( Fallback::class, 'maybe_serve' ), 0 );
+
 		add_action( 'rest_api_init', array( Clients::class, 'register_routes' ) );
 		add_action( 'rest_api_init', array( Token::class, 'register_routes' ) );
 
@@ -235,7 +240,7 @@ class Bootstrap {
 	public static function unavailable_reason() {
 
 		if ( empty( Admin_Helper::get_enabled_elements()['premium-ai-abilities'] ) || ! function_exists( 'wp_register_ability' ) ) {
-			return __( 'OAuth requires the AI Abilities feature, which needs WordPress 6.9 or later.', 'premium-addons-for-elementor' );
+			return __( 'OAuth requires the AI Abilities feature, which needs WordPress 7.0 or later.', 'premium-addons-for-elementor' );
 		}
 
 		if ( ! MCP_Settings::oauth_transport_allowed() ) {
@@ -247,6 +252,27 @@ class Bootstrap {
 		}
 
 		return '';
+	}
+
+	/**
+	 * The lock-plugin error an anonymous visitor would get from the REST
+	 * authentication filter chain, or null when anonymous REST is reachable.
+	 *
+	 * Probed with no user set — the plugins that block anonymous REST exempt
+	 * logged-in users. Not a gate: this runs on the opt-in click only.
+	 *
+	 * @since 4.11.100
+	 * @return \WP_Error|null
+	 */
+	public static function rest_lock_error() {
+
+		$restore = get_current_user_id();
+
+		wp_set_current_user( 0 );
+		$probe = apply_filters( 'rest_authentication_errors', null );
+		wp_set_current_user( $restore );
+
+		return is_wp_error( $probe ) ? $probe : null;
 	}
 
 	/**

@@ -1,23 +1,38 @@
 (function () {
 	var $ = jQuery;
 
+	function getParentDocument() {
+		try {
+			return parent.document;
+		} catch (err) {
+			return null;
+		}
+	}
+
 	$(window).on("elementor:init", function () {
-		if (typeof parent.document === "undefined") {
+		var parentDocument = getParentDocument();
+
+		if (!parentDocument) {
 			return false;
 		}
 
-		parent.document.addEventListener("mousedown", function (e) {
-			var widgets = parent.document.querySelectorAll(
+		parentDocument.addEventListener("mousedown", function (e) {
+			var widgets = parentDocument.querySelectorAll(
 				".elementor-element--promotion",
 			);
 
 			if (widgets.length > 0) {
 				for (var i = 0; i < widgets.length; i++) {
 					if (widgets[i].contains(e.target)) {
-						var dialog = parent.document.querySelector(
+						var dialog = parentDocument.querySelector(
 							"#elementor-element--promotion__dialog",
 						);
 						var icon = widgets[i].querySelector(".icon > i");
+
+						// Elementor 4.0 replaced this dialog with a React card built from `v4Promotions`.
+						if (!dialog || !icon) {
+							break;
+						}
 
 						if (icon.classList.toString().indexOf("pa-pro") >= 0) {
 							var proElement = icon.classList[0].replace("pa-pro-", "");
@@ -325,7 +340,7 @@
 					self.isUpdated = false;
 
 					if (0 !== options.length) {
-						self.$el.removeClass("elementor-hidden-control");
+						self.toggleControlVisibility();
 
 						$(".premium-live-temp-title").addClass("control-hidden");
 
@@ -414,6 +429,26 @@
 
 	elementor.on("navigator:init", onNavigatorInit);
 
+	var shapeSvgsRequest = null;
+
+	// Shared by every shapes picker in the session, so the library is fetched once.
+	function getShapeSvgs() {
+		if (!shapeSvgsRequest) {
+			shapeSvgsRequest = $.ajax({
+				type: "POST",
+				url: PremiumSettings.ajaxurl,
+				data: {
+					action: "pa_get_shape_svgs",
+					nonce: PremiumSettings.nonce,
+				},
+			}).fail(function () {
+				shapeSvgsRequest = null;
+			});
+		}
+
+		return shapeSvgsRequest;
+	}
+
 	var e = elementor.modules.controls.BaseData,
 		imageChoose = e.extend(
 			{
@@ -455,6 +490,30 @@
 					t &&
 						(this.ui.inputs.filter('[value="' + t + '"]').prop("checked", !0),
 						this.ui.inputs.filter('[value="' + t + '"]').addClass("checked"));
+
+					if (this.model.get("lazy_shapes")) {
+						this.renderThumbs();
+					}
+				},
+
+				renderThumbs: function () {
+					var view = this;
+
+					getShapeSvgs().done(function (response) {
+						var shapes = response.data.shapes;
+
+						view.$el.find(".pa-shape-thumb").each(function () {
+							var key = $(this)
+									.closest(".image-choose-label-block")
+									.find('[type="radio"]')
+									.val(),
+								shape = shapes[key];
+
+							if (shape) {
+								$(this).html(shape.imagesmall);
+							}
+						});
+					});
 				},
 				onReady: function () {
 					if ("premium_gdivider_defaults" === this.model.attributes.name) {

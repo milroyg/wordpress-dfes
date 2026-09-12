@@ -1,3 +1,458 @@
-/*! For license information please see frontend-handlers.js.LICENSE.txt */
-!function(){"use strict";var e={"./packages/packages/core/frontend-handlers/src/handlers-registry.ts":function(e,t,n){n.r(t),n.d(t,{elementSelectorHandlers:function(){return s},elementTypeHandlers:function(){return r},register:function(){return register},registerBySelector:function(){return registerBySelector},unregister:function(){return unregister},unregisterBySelector:function(){return unregisterBySelector}});const r=new Map,s=new Map,register=({elementType:e,id:t,callback:n})=>{r.has(e)||r.set(e,new Map),r.get(e)?.has(t)||r.get(e)?.set(t,n)},unregister=({elementType:e,id:t})=>{r.has(e)&&(t?(r.get(e)?.delete(t),0===r.get(e)?.size&&r.delete(e)):r.delete(e))},registerBySelector=({id:e,selector:t,callback:n})=>{s.has(t)||s.set(t,new Map),s.get(t)?.has(e)||s.get(t)?.set(e,n)},unregisterBySelector=({selector:e,id:t})=>{s.has(e)&&(t?(s.get(e)?.delete(t),0===s.get(e)?.size&&s.delete(e)):s.delete(e))}},"./packages/packages/core/frontend-handlers/src/init.ts":function(e,t,n){n.r(t),n.d(t,{init:function(){return init}});var r=n("./packages/packages/core/frontend-handlers/src/lifecycle-events.ts");function init(){window.addEventListener("elementor/element/render",e=>{const t=e,{id:n,type:s,element:o}=t.detail;(0,r.onElementDestroy)({elementType:s,elementId:n}),(0,r.onElementRender)({element:o,elementType:s,elementId:n})}),window.addEventListener("elementor/element/destroy",e=>{const t=e,{id:n,type:s,element:o}=t.detail;(0,r.onElementDestroy)({elementType:s,elementId:n,element:o})}),document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll("[data-e-type]").forEach(e=>{const t=e,{eType:n,id:r}=t.dataset;n&&r&&window.dispatchEvent(new CustomEvent("elementor/element/render",{detail:{id:r,type:n,element:e}}))})})}},"./packages/packages/core/frontend-handlers/src/lifecycle-events.ts":function(e,t,n){n.r(t),n.d(t,{onElementDestroy:function(){return onElementDestroy},onElementRender:function(){return onElementRender},onElementSelectorRender:function(){return onElementSelectorRender}});var r=n("./packages/packages/core/frontend-handlers/src/handlers-registry.ts");const s=new Map,o=new Map,l="elementor/element/rendered",a="elementor/element/destroyed",onElementRender=({element:e,elementType:t,elementId:n})=>{const o=new AbortController,i=[],dispatchRenderedEvent=()=>{onElementSelectorRender({element:e,elementId:n,controller:o}),e.dispatchEvent(new CustomEvent(l,{bubbles:!0,detail:{element:e,elementType:t,elementId:n}}))};e.isConnected?dispatchRenderedEvent():requestAnimationFrame(()=>{dispatchRenderedEvent()}),r.elementTypeHandlers.has(t)&&(Array.from(r.elementTypeHandlers.get(t)?.values()??[]).forEach(t=>{const n=e.getAttribute("data-e-settings"),r=t({element:e,signal:o.signal,settings:n?JSON.parse(n):{},listenToChildren:t=>({render:n=>{const listener=e=>{const{elementType:r}=e.detail;t.includes(r)&&n()};e.addEventListener(l,listener,{signal:o.signal}),e.addEventListener(a,listener,{signal:o.signal})}})});"function"==typeof r&&i.push(r)}),s.has(t)||s.set(t,new Map),s.get(t)?.set(n,()=>{o.abort(),i.forEach(e=>e())}))},onElementSelectorRender=({element:e,elementId:t,controller:n})=>{Array.from(r.elementSelectorHandlers.entries()??[]).forEach(([r,s])=>{if(!e.matches(r))return;const l=[];Array.from(s.values()??[]).forEach(t=>{const r=e.getAttribute("data-e-settings"),s=t({element:e,signal:n.signal,settings:r?JSON.parse(r):{}});"function"==typeof s&&l.push(s)}),l.length&&(o.get(t)||o.set(t,new Map),o.get(t)?.set(r,()=>{n.abort(),l.forEach(e=>e())}))})},onElementDestroy=({elementType:e,elementId:t,element:n})=>{const r=s.get(e)?.get(t),l=o.get(t);var i;n&&(i={element:n,elementType:e,elementId:t}).element.dispatchEvent(new CustomEvent(a,{bubbles:!0,detail:i})),r&&r(),l?.size&&Array.from(l.values()).forEach(e=>{e()}),s.get(e)?.delete(t),o.delete(t),0===s.get(e)?.size&&s.delete(e),0===o.size&&o.delete(t)}}},t={};function __webpack_require__(n){var r=t[n];if(void 0!==r)return r.exports;var s=t[n]={exports:{}};return e[n](s,s.exports,__webpack_require__),s.exports}__webpack_require__.d=function(e,t){for(var n in t)__webpack_require__.o(t,n)&&!__webpack_require__.o(e,n)&&Object.defineProperty(e,n,{enumerable:!0,get:t[n]})},__webpack_require__.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},__webpack_require__.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})};var n={};!function(){__webpack_require__.r(n),__webpack_require__.d(n,{init:function(){return t.init},register:function(){return e.register},registerBySelector:function(){return e.registerBySelector},unregister:function(){return e.unregister},unregisterBySelector:function(){return e.unregisterBySelector}});var e=__webpack_require__("./packages/packages/core/frontend-handlers/src/handlers-registry.ts"),t=__webpack_require__("./packages/packages/core/frontend-handlers/src/init.ts")}(),(window.elementorV2=window.elementorV2||{}).frontendHandlers=n}(),window.elementorV2.frontendHandlers?.init?.();
+/******/ (function() { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./packages/packages/core/frontend-handlers/src/handlers-registry.ts":
+/*!***************************************************************************!*\
+  !*** ./packages/packages/core/frontend-handlers/src/handlers-registry.ts ***!
+  \***************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   elementSelectorHandlers: function() { return /* binding */ elementSelectorHandlers; },
+/* harmony export */   elementTypeHandlers: function() { return /* binding */ elementTypeHandlers; },
+/* harmony export */   register: function() { return /* binding */ register; },
+/* harmony export */   registerBySelector: function() { return /* binding */ registerBySelector; },
+/* harmony export */   unregister: function() { return /* binding */ unregister; },
+/* harmony export */   unregisterBySelector: function() { return /* binding */ unregisterBySelector; }
+/* harmony export */ });
+const elementTypeHandlers = new Map();
+const elementSelectorHandlers = new Map();
+const register = ({
+  elementType,
+  id,
+  callback
+}) => {
+  if (!elementTypeHandlers.has(elementType)) {
+    elementTypeHandlers.set(elementType, new Map());
+  }
+  if (!elementTypeHandlers.get(elementType)?.has(id)) {
+    elementTypeHandlers.get(elementType)?.set(id, callback);
+  }
+};
+Object.defineProperty(window, 'registerElementorElement', {
+  value: register,
+  enumerable: true
+});
+const unregister = ({
+  elementType,
+  id
+}) => {
+  if (!elementTypeHandlers.has(elementType)) {
+    return;
+  }
+  if (id) {
+    elementTypeHandlers.get(elementType)?.delete(id);
+    if (elementTypeHandlers.get(elementType)?.size === 0) {
+      elementTypeHandlers.delete(elementType);
+    }
+  } else {
+    elementTypeHandlers.delete(elementType);
+  }
+};
+const registerBySelector = ({
+  id,
+  selector,
+  callback
+}) => {
+  if (!elementSelectorHandlers.has(selector)) {
+    elementSelectorHandlers.set(selector, new Map());
+  }
+  if (!elementSelectorHandlers.get(selector)?.has(id)) {
+    elementSelectorHandlers.get(selector)?.set(id, callback);
+  }
+};
+const unregisterBySelector = ({
+  selector,
+  id
+}) => {
+  if (!elementSelectorHandlers.has(selector)) {
+    return;
+  }
+  if (id) {
+    elementSelectorHandlers.get(selector)?.delete(id);
+    if (elementSelectorHandlers.get(selector)?.size === 0) {
+      elementSelectorHandlers.delete(selector);
+    }
+  } else {
+    elementSelectorHandlers.delete(selector);
+  }
+};
+
+/***/ }),
+
+/***/ "./packages/packages/core/frontend-handlers/src/init.ts":
+/*!**************************************************************!*\
+  !*** ./packages/packages/core/frontend-handlers/src/init.ts ***!
+  \**************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   init: function() { return /* binding */ init; }
+/* harmony export */ });
+/* harmony import */ var _lifecycle_events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lifecycle-events */ "./packages/packages/core/frontend-handlers/src/lifecycle-events.ts");
+
+const ATOMIC_SELECTOR = '[data-e-type]';
+let domMutationObserverStarted = false;
+const pendingMutationNodes = new Set();
+let pendingMutationsRafId = 0;
+function init() {
+  window.addEventListener('elementor/element/render', _event => {
+    const event = _event;
+    const {
+      id,
+      type,
+      element
+    } = event.detail;
+    (0,_lifecycle_events__WEBPACK_IMPORTED_MODULE_0__.onElementRender)({
+      element,
+      elementType: type,
+      elementId: id
+    });
+  });
+  window.addEventListener('elementor/element/destroy', _event => {
+    const event = _event;
+    const {
+      id,
+      type,
+      element
+    } = event.detail;
+    (0,_lifecycle_events__WEBPACK_IMPORTED_MODULE_0__.onElementDestroy)({
+      elementType: type,
+      elementId: id,
+      element
+    });
+  });
+  const bootDomHandlers = () => {
+    scanDocumentForAtomicElements();
+    startObservingDomForNewAtomicElements();
+  };
+  document.addEventListener('DOMContentLoaded', bootDomHandlers);
+  if ('loading' !== document.readyState) {
+    bootDomHandlers();
+  }
+}
+function triggerAtomicRender(atom) {
+  const eType = atom.dataset.eType;
+  const id = atom.dataset.id;
+  if (!eType || !id) {
+    return;
+  }
+  (0,_lifecycle_events__WEBPACK_IMPORTED_MODULE_0__.onElementRender)({
+    element: atom,
+    elementType: eType,
+    elementId: id
+  });
+}
+function collectAtomicElementsInSubtree(root) {
+  const found = [];
+  if (root.matches(ATOMIC_SELECTOR)) {
+    found.push(root);
+  }
+  root.querySelectorAll(ATOMIC_SELECTOR).forEach(el => {
+    found.push(el);
+  });
+  return found;
+}
+function scanDocumentForAtomicElements() {
+  document.querySelectorAll(ATOMIC_SELECTOR).forEach(el => {
+    const atom = el;
+    const {
+      eType,
+      id
+    } = atom.dataset;
+    if (!eType || !id) {
+      return;
+    }
+    triggerAtomicRender(atom);
+  });
+}
+function startObservingDomForNewAtomicElements() {
+  if (domMutationObserverStarted || 'undefined' === typeof MutationObserver) {
+    return;
+  }
+  domMutationObserverStarted = true;
+  const observer = new MutationObserver(mutations => {
+    for (const mutation of mutations) {
+      mutation.addedNodes.forEach(node => {
+        pendingMutationNodes.add(node);
+      });
+    }
+    queueProcessPendingMutationNodes();
+  });
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true
+  });
+}
+function queueProcessPendingMutationNodes() {
+  if (pendingMutationsRafId || !pendingMutationNodes.size) {
+    return;
+  }
+  pendingMutationsRafId = requestAnimationFrame(() => {
+    pendingMutationsRafId = 0;
+    const roots = Array.from(pendingMutationNodes);
+    pendingMutationNodes.clear();
+    const atoms = new Set();
+    for (const node of roots) {
+      if (Node.ELEMENT_NODE !== node.nodeType) {
+        continue;
+      }
+      collectAtomicElementsInSubtree(node).forEach(atom => {
+        atoms.add(atom);
+      });
+    }
+    atoms.forEach(atom => triggerAtomicRender(atom));
+  });
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/frontend-handlers/src/lifecycle-events.ts":
+/*!**************************************************************************!*\
+  !*** ./packages/packages/core/frontend-handlers/src/lifecycle-events.ts ***!
+  \**************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   onElementDestroy: function() { return /* binding */ onElementDestroy; },
+/* harmony export */   onElementRender: function() { return /* binding */ onElementRender; },
+/* harmony export */   onElementSelectorRender: function() { return /* binding */ onElementSelectorRender; }
+/* harmony export */ });
+/* harmony import */ var _handlers_registry__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./handlers-registry */ "./packages/packages/core/frontend-handlers/src/handlers-registry.ts");
+
+const unmountCallbacks = new WeakMap();
+const ELEMENT_RENDERED_EVENT_NAME = 'elementor/element/rendered';
+const ELEMENT_DESTROYED_EVENT_NAME = 'elementor/element/destroyed';
+const dispatchDestroyedEvent = params => {
+  params.element.dispatchEvent(new CustomEvent(ELEMENT_DESTROYED_EVENT_NAME, {
+    bubbles: true,
+    detail: params
+  }));
+};
+const onElementRender = ({
+  element,
+  elementType,
+  elementId
+}) => {
+  cleanupOnUnmount(element);
+  const controller = new AbortController();
+  const manualUnmount = [];
+  const dispatchRenderedEvent = () => {
+    onElementSelectorRender({
+      element,
+      controller
+    });
+    element.dispatchEvent(new CustomEvent(ELEMENT_RENDERED_EVENT_NAME, {
+      bubbles: true,
+      detail: {
+        element,
+        elementType,
+        elementId
+      }
+    }));
+  };
+
+  // When the rendered event is dispatched, the element is not yet connected to the DOM (marionette view case)
+  if (!element.isConnected) {
+    requestAnimationFrame(() => {
+      dispatchRenderedEvent();
+    });
+  } else {
+    dispatchRenderedEvent();
+  }
+  if (!_handlers_registry__WEBPACK_IMPORTED_MODULE_0__.elementTypeHandlers.has(elementType)) {
+    return;
+  }
+  setUnmountEntry({
+    element,
+    controller,
+    manualUnmount
+  });
+  Array.from(_handlers_registry__WEBPACK_IMPORTED_MODULE_0__.elementTypeHandlers.get(elementType)?.values() ?? []).forEach(handler => {
+    const settings = element.getAttribute('data-e-settings');
+    const listenToChildren = elementTypes => ({
+      render: callback => {
+        const listener = event => {
+          const {
+            elementType: childType
+          } = event.detail;
+          if (!elementTypes.includes(childType)) {
+            return;
+          }
+          callback(event);
+        };
+        element.addEventListener(ELEMENT_RENDERED_EVENT_NAME, listener, {
+          signal: controller.signal
+        });
+        element.addEventListener(ELEMENT_DESTROYED_EVENT_NAME, listener, {
+          signal: controller.signal
+        });
+      }
+    });
+    const unmount = handler({
+      element,
+      signal: controller.signal,
+      settings: settings ? JSON.parse(settings) : {},
+      listenToChildren
+    });
+    if (typeof unmount === 'function') {
+      manualUnmount.push(unmount);
+    }
+  });
+};
+const onElementSelectorRender = ({
+  element,
+  controller
+}) => {
+  let requiresCleanup = false;
+  const manualUnmount = [];
+  Array.from(_handlers_registry__WEBPACK_IMPORTED_MODULE_0__.elementSelectorHandlers.entries() ?? []).forEach(([selector, handlers]) => {
+    if (!element.matches(selector)) {
+      return;
+    }
+    requiresCleanup = true;
+    Array.from(handlers.values() ?? []).forEach(handler => {
+      const settings = element.getAttribute('data-e-settings');
+      const unmount = handler({
+        element,
+        signal: controller.signal,
+        settings: settings ? JSON.parse(settings) : {}
+      });
+      if (typeof unmount === 'function') {
+        manualUnmount.push(unmount);
+      }
+    });
+  });
+  if (requiresCleanup) {
+    setUnmountEntry({
+      element,
+      controller,
+      manualUnmount
+    });
+  }
+};
+const onElementDestroy = ({
+  elementType,
+  elementId,
+  element
+}) => {
+  if (!element) {
+    return;
+  }
+  cleanupOnUnmount(element);
+  dispatchDestroyedEvent({
+    element,
+    elementType,
+    elementId
+  });
+};
+const setUnmountEntry = ({
+  element,
+  controller,
+  manualUnmount
+}) => {
+  const existingEntry = unmountCallbacks.get(element);
+  if (existingEntry) {
+    existingEntry.manualUnmount.push(...manualUnmount);
+  } else {
+    unmountCallbacks.set(element, {
+      controller,
+      manualUnmount
+    });
+  }
+};
+const cleanupOnUnmount = element => {
+  const entry = unmountCallbacks.get(element);
+  if (entry) {
+    entry.controller.abort();
+    entry.manualUnmount.forEach(callback => callback());
+    unmountCallbacks.delete(element);
+  }
+};
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	!function() {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	!function() {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = function(exports) {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+!function() {
+/*!***************************************************************!*\
+  !*** ./packages/packages/core/frontend-handlers/src/index.ts ***!
+  \***************************************************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   init: function() { return /* reexport safe */ _init__WEBPACK_IMPORTED_MODULE_1__.init; },
+/* harmony export */   register: function() { return /* reexport safe */ _handlers_registry__WEBPACK_IMPORTED_MODULE_0__.register; },
+/* harmony export */   registerBySelector: function() { return /* reexport safe */ _handlers_registry__WEBPACK_IMPORTED_MODULE_0__.registerBySelector; },
+/* harmony export */   unregister: function() { return /* reexport safe */ _handlers_registry__WEBPACK_IMPORTED_MODULE_0__.unregister; },
+/* harmony export */   unregisterBySelector: function() { return /* reexport safe */ _handlers_registry__WEBPACK_IMPORTED_MODULE_0__.unregisterBySelector; }
+/* harmony export */ });
+/* harmony import */ var _handlers_registry__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./handlers-registry */ "./packages/packages/core/frontend-handlers/src/handlers-registry.ts");
+/* harmony import */ var _init__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./init */ "./packages/packages/core/frontend-handlers/src/init.ts");
+
+
+}();
+(window.elementorV2 = window.elementorV2 || {}).frontendHandlers = __webpack_exports__;
+/******/ })()
+;
+window.elementorV2.frontendHandlers?.init?.();
 //# sourceMappingURL=frontend-handlers.js.map

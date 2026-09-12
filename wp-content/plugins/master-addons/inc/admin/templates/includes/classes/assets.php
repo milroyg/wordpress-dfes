@@ -62,7 +62,13 @@ if (!class_exists(__NAMESPACE__ . '\\Assets')) {
 
 		public function editor_scripts()
 		{
-			wp_enqueue_script('master-addons-editor-js', JLTMA_ASSETS . 'js/admin/editor.js', array('jquery', 'underscore'), JLTMA_VER, true);
+			// Macy.js lays out the template grid. It is registered as a vendor
+			// script but was never enqueued for the editor, so initMacyLayout()
+			// hit its `typeof Macy === 'undefined'` guard and returned silently,
+			// leaving the cards to whatever CSS happened to be on the container.
+			wp_enqueue_script('jltma-macy', JLTMA_ASSETS . 'vendor/macy/macy.js', array(), JLTMA_VER, true);
+
+			wp_enqueue_script('master-addons-editor-js', JLTMA_ASSETS . 'js/admin/editor.js', array('jquery', 'underscore', 'jltma-macy'), JLTMA_VER, true);
 
 			$button = Templates\master_addons_templates()->config->get('master_addons_templates');
 
@@ -80,6 +86,10 @@ if (!class_exists(__NAMESPACE__ . '\\Assets')) {
 						'modalRegions'          => $this->get_modal_region(),
 						'license'               => array(
 							'status'       => Templates\master_addons_templates()->config->get('status'),
+							// The status alone said "valid" on an install with no licence
+							// at all, and the key alone was empty on a site licensed
+							// through Freemius. This answers for both.
+							'hasKey'       => \MasterAddons\Inc\Classes\Helper::jltma_can_use_pro_templates(),
 							'activateLink' => Templates\master_addons_templates()->config->get('license_page'),
 							'proMessage'   => Templates\master_addons_templates()->config->get('pro_message')
 						),
@@ -183,19 +193,6 @@ if (!class_exists(__NAMESPACE__ . '\\Assets')) {
 								success: function(response) {
 									if (response.success) {
 
-										// Update cache count if cache status element exists
-										var $cacheStatus = $('#ma-el-template-cache-status');
-										if ($cacheStatus.length && response.data.total_templates) {
-											var newCount = response.data.total_templates;
-											$cacheStatus.find('.cache-count').text(newCount);
-											$cacheStatus.attr('title', 'Cache Status: ' + newCount + ' templates cached');
-											if (newCount > 0) {
-												$cacheStatus.show();
-											} else {
-												$cacheStatus.hide();
-											}
-										}
-
 										// Reset button state
 										$button.removeClass('updating');
 										$icon.removeClass('eicon-loading eicon-animation-spin').addClass('eicon-sync');
@@ -245,7 +242,18 @@ if (!class_exists(__NAMESPACE__ . '\\Assets')) {
 						}
 						if ($container.length === 0) return;
 
-						// Destroy existing instance
+						// A scrolled-in page appends cards to the same container, so
+						// keep the instance and just re-measure. Destroying it first
+						// strips the absolute positioning off every card already laid
+						// out, and the replacement's waitForImages then leaves the whole
+						// grid in one tall unpositioned column until the newly appended
+						// images finish loading.
+						if (macyInstance && macyInstance.container === $container[0]) {
+							macyInstance.recalculate(true);
+							return;
+						}
+
+						// A different container (tab switch) needs a new instance.
 						if (macyInstance) {
 							macyInstance.remove();
 							macyInstance = null;
@@ -269,6 +277,23 @@ if (!class_exists(__NAMESPACE__ . '\\Assets')) {
 								400: 1
 							}
 						});
+
+						// Cards are as tall as their screenshot, so the layout is
+						// wrong until each image has a height. 'load' does not
+						// bubble, so this listens in the capture phase, and the
+						// recalculations are debounced into one per burst rather
+						// than one per image.
+						if (!$container[0].dataset.jltmaImgRelayout) {
+							$container[0].dataset.jltmaImgRelayout = '1';
+							var relayoutTimer = null;
+							$container[0].addEventListener('load', function(ev) {
+								if (!ev.target || ev.target.tagName !== 'IMG') return;
+								clearTimeout(relayoutTimer);
+								relayoutTimer = setTimeout(function() {
+									if (macyInstance) macyInstance.recalculate(true);
+								}, 120);
+							}, true);
+						}
 
 						// Multiple recalculations like Royal Elementor Addons pattern
 						setTimeout(function() {
@@ -849,18 +874,45 @@ if (!class_exists(__NAMESPACE__ . '\\Assets')) {
 							});
 							if (!scrollEl) scrollEl = $modalElement[0];
 
-							$(scrollEl).off('scroll.template-lazy').on('scroll.template-lazy', function() {
-								var el = this;
-								var scrollTop = el.scrollTop;
-								var scrollHeight = el.scrollHeight;
-								var clientHeight = el.clientHeight;
+							// Nothing is fetched unless the user scrolls for it. No timers,
+							// no filling ahead, no button: every extra page is one request
+							// the server only handles because someone scrolled for it.
+							var LOAD_MARGIN = 200;
 
-								// Load more when user scrolled 50px+ and is near the bottom
-								if (scrollTop > 50 && scrollTop + clientHeight >= scrollHeight - 300) {
-									// Use the editor.js loadMoreTemplates method via the global reference
-									if (window.MasterAddonsEditor && typeof window.MasterAddonsEditor.loadMoreTemplates === 'function') {
-										window.MasterAddonsEditor.loadMoreTemplates();
-									}
+							function requestMore() {
+								if (window.MasterAddonsEditor && typeof window.MasterAddonsEditor.loadMoreTemplates === 'function') {
+									// A no-op while a request is in flight, or once the
+									// server has said this is the last page.
+									window.MasterAddonsEditor.loadMoreTemplates();
+								}
+							}
+
+							function atEnd(el) {
+								// A list too short to overflow is already at its end.
+								if (el.scrollHeight <= el.clientHeight) {
+									return true;
+								}
+								return el.scrollTop + el.clientHeight >= el.scrollHeight - LOAD_MARGIN;
+							}
+
+							$(scrollEl).off('scroll.template-lazy').on('scroll.template-lazy', function() {
+								if (atEnd(this)) {
+									requestMore();
+								}
+							});
+
+							// A page of templates often does not fill the modal, and an
+							// element that cannot scroll never fires a scroll event — which
+							// would strand every page after the first. The wheel fires either
+							// way, so the gesture itself is what asks for more, whether or
+							// not the list happens to be long enough to move.
+							$(scrollEl).off('wheel.template-lazy').on('wheel.template-lazy', function(event) {
+								var delta = event.originalEvent ? event.originalEvent.deltaY : 0;
+
+								// Only scrolling down, and only once there is nothing further
+								// down to reveal.
+								if (delta > 0 && atEnd(this)) {
+									requestMore();
 								}
 							});
 
@@ -879,6 +931,12 @@ if (!class_exists(__NAMESPACE__ . '\\Assets')) {
 									var $modal = $('#ma-el-modal-template');
 									if ($modal.length > 0 && $modal.find('.elementor-template-library-template').length > 0) {
 										setTimeout(setupScrollPagination, 300);
+										// Lay the cards out. Macy is initialised once on
+										// document ready, when this grid is still empty and
+										// its own `no children` guard makes it a no-op — so
+										// it has to run again once the cards exist, and after
+										// each scrolled-in page appends more.
+										setTimeout(initMacyLayout, 320);
 										break;
 									}
 								}

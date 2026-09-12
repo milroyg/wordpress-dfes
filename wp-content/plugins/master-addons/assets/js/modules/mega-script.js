@@ -95,6 +95,7 @@ jQuery(document).ready(function(e) {
 				menu_badge_text: e("#jltma-menu-badge-text-field").val(),
 				menu_width_type: e("#jltma-megamenu-width-type").val(),
 				menu_width_size: e("#jltma-megamenu-width").val(),
+				menu_horizontal_position: e("#jltma-megamenu-horizontal-position").val(),
 				menu_mobile_submenu_content_type: e("#jltma-mobile-submenu-type").val(),
 				menu_badge_color: e("#jltma-menu-badge-color-field").val(),
 				menu_badge_background: e("#jltma-menu-badge-background-field").val()
@@ -109,6 +110,17 @@ jQuery(document).ready(function(e) {
 					t.removeClass("loading"), e("#jltma-menu-item-settings-modal").modal("hide");
 				}
 			});
+		},
+		/**
+		* The width box and the Horizontal Position row belong to Custom Width
+		* only -- a Default or Full Width panel is sized by its own row, so
+		* there is nothing left to place. Called both when the setting changes
+		* and when a menu item's saved settings are loaded into the modal.
+		*/
+		Toggle_Custom_Width_Fields: function(e, widthType) {
+			var isCustom = widthType == "custom_width";
+			e("#jltma-megamenu-width").toggleClass("hidden", !isCustom);
+			e(".jltma-megamenu-horizontal-position-row").toggleClass("hidden", !isCustom);
 		},
 		Menu_Trigger: function() {
 			var t = e("#jltma-menu-modal-menu-id").val(), baseUrl = masteraddons_megamenu.resturl + "mastermega-content/jltma_content_editor/megamenu/menuitem/" + t, n = baseUrl + (baseUrl.indexOf("?") !== -1 ? "&" : "?") + "_wpnonce=" + jltma_megamenu_nonce;
@@ -130,6 +142,7 @@ jQuery(document).ready(function(e) {
 			menu_badge_text: e("#jltma-menu-badge-text-field").val(),
 			menu_width_type: e("#jltma-megamenu-width-type").val(),
 			menu_width_size: e("#jltma-megamenu-width").val(),
+			menu_horizontal_position: e("#jltma-megamenu-horizontal-position").val(),
 			menu_mobile_submenu_content_type: e("#jltma-mobile-submenu-type").val(),
 			menu_badge_color: e("#jltma-menu-badge-color-field").val(),
 			menu_badge_background: e("#jltma-menu-badge-background-field").val()
@@ -189,7 +202,7 @@ jQuery(document).ready(function(e) {
 					"justify-content": "center"
 				});
 				else e(".jltma-icon-delete-btn").css("display", "none");
-			})(), e("#mega-menu-transition-effect").val(n.menu_transition), e("#mega-menu-hide-item-label").prop("checked", !1), void 0 !== typeof n.menu_label_enable && 1 == n.menu_label_enable ? e("#mega-menu-hide-item-label").prop("checked", !0) : e("#mega-menu-hide-item-label").prop("checked", !1), e("#jltma-menu-badge-text-field").val(n.menu_badge_text), e("#jltma-megamenu-width-type").val(n.menu_width_type || "default"), e("#jltma-megamenu-width").val(n.menu_width_size || "1000px"), e("#jltma-mobile-submenu-type").val(n.menu_mobile_submenu_content_type || "builder_content"), e("#jltma-menu-disable-description").prop("checked", !1), void 0 !== typeof n.menu_disable_description && 1 == n.menu_disable_description ? e("#jltma-menu-disable-description").prop("checked", !0) : e("#jltma-menu-disable-description").prop("checked", !1), e("#jltma-menu-badge-color-field").val(n.menu_badge_color || "#6814cd").trigger("change"), e("#jltma-menu-badge-background-field").val(n.menu_badge_background || "#6814cd").trigger("change"), void 0 !== typeof n.menu_enable && 1 == n.menu_enable ? e("#jltma-menu-item-enable").prop("checked", !0) : e("#jltma-menu-item-enable").prop("checked", !1), e("#jltma-menu-item-enable").trigger("change"), n.menu_width_type == "custom_width" ? e("#jltma-megamenu-width").removeClass("hidden") : e("#jltma-megamenu-width").addClass("hidden"), setTimeout(function() {
+			})(), e("#mega-menu-transition-effect").val(n.menu_transition), e("#mega-menu-hide-item-label").prop("checked", !1), void 0 !== typeof n.menu_label_enable && 1 == n.menu_label_enable ? e("#mega-menu-hide-item-label").prop("checked", !0) : e("#mega-menu-hide-item-label").prop("checked", !1), e("#jltma-menu-badge-text-field").val(n.menu_badge_text), e("#jltma-megamenu-width-type").val(n.menu_width_type || "full_width"), e("#jltma-megamenu-width").val(n.menu_width_size || "1000px"), e("#jltma-megamenu-horizontal-position").val(n.menu_horizontal_position || "left"), e("#jltma-mobile-submenu-type").val(n.menu_mobile_submenu_content_type || "builder_content"), e("#jltma-menu-disable-description").prop("checked", !1), void 0 !== typeof n.menu_disable_description && 1 == n.menu_disable_description ? e("#jltma-menu-disable-description").prop("checked", !0) : e("#jltma-menu-disable-description").prop("checked", !1), e("#jltma-menu-badge-color-field").val(n.menu_badge_color || "#6814cd").trigger("change"), e("#jltma-menu-badge-background-field").val(n.menu_badge_background || "#6814cd").trigger("change"), void 0 !== typeof n.menu_enable && 1 == n.menu_enable ? e("#jltma-menu-item-enable").prop("checked", !0) : e("#jltma-menu-item-enable").prop("checked", !1), e("#jltma-menu-item-enable").trigger("change"), JLTMA_Mega_Menu.Toggle_Custom_Width_Fields(e, n.menu_width_type), setTimeout(function() {
 				i.removeClass("jltma-menu-modal-loading");
 				i.addClass("show");
 			}, 500);
@@ -200,8 +213,7 @@ jQuery(document).ready(function(e) {
 	});
 	e("#jltma-mega-menu-settings").on("change", "#jltma-menu-metabox-input-is-enabled", () => JLTMA_Mega_Menu.Enable_Mega_Menu(e));
 	e("#jltma-megamenu-width-type").on("change", function() {
-		if (this.value == "custom_width") e(this).siblings("#jltma-megamenu-width").removeClass("hidden");
-		else e(this).siblings("#jltma-megamenu-width").addClass("hidden");
+		JLTMA_Mega_Menu.Toggle_Custom_Width_Fields(e, this.value);
 	});
 	e.ajax({
 		url: ajaxurl,

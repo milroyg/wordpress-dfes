@@ -10,7 +10,9 @@ class Popup_Conditions {
     private $conditions = [];
     
     public function __construct() {
-        $this->init_conditions();
+        // Condition labels are only needed by get_all_conditions(); building
+        // them here would translate the whole list on every request that just
+        // wants check_conditions().
     }
     
     private function init_conditions() {
@@ -376,6 +378,10 @@ class Popup_Conditions {
     }
     
     public function get_all_conditions() {
+        if (empty($this->conditions)) {
+            $this->init_conditions();
+        }
+
         return $this->conditions;
     }
 }

@@ -11,8 +11,118 @@
     }
 }());
 
+/**
+ * Series for the spline chart.
+ *
+ * Comparison mode replaces the two aggregate series with one per link, so
+ * the chart answers "which of these is working" instead of "how did the
+ * whole group do". Without a compare payload the original two are returned
+ * unchanged, which is what every non-PRO and non-compare screen gets.
+ *
+ * @param {Object} chartData
+ * @return {Array}
+ */
+function usChartSeries(chartData) {
+    if (chartData && chartData.compare && Array.isArray(chartData.compare.series) && chartData.compare.series.length) {
+        return chartData.compare.series.map(function (s) {
+            return { name: s.name, data: s.data };
+        });
+    }
+
+    return [
+        { name: 'Total Clicks', data: (chartData && chartData.total_series) || [] },
+        { name: 'Unique Clicks', data: (chartData && chartData.unique_series) || [] }
+    ];
+}
+
+/**
+ * Enough distinct colours for the series cap. Beyond two the gradient fill
+ * used by the aggregate chart turns into mud, so comparison mode draws
+ * plain lines instead - see usChartIsCompare().
+ */
+var US_COMPARE_COLORS = ['#6366f1', '#34d399', '#f59e0b', '#ef4444', '#0ea5e9', '#a855f7', '#14b8a6', '#f472b6'];
+
+function usChartIsCompare(chartData) {
+    return !!(chartData && chartData.compare && Array.isArray(chartData.compare.series) && chartData.compare.series.length);
+}
+
 (function ($) {
     'use strict';
+
+    /**
+     * Show a WordPress-style admin notice instead of a browser alert.
+     *
+     * A blocking alert() cannot be styled, cannot be read alongside the control
+     * it refers to, and stops everything on the page until dismissed. This
+     * renders the standard .notice markup so plugin messages look and behave
+     * like the rest of wp-admin.
+     *
+     * @param {string} message  Text to show.
+     * @param {string} [type]   error | success | warning | info. Defaults to error.
+     * @param {jQuery} [$after] Place the notice after this element, for messages
+     *                          that belong next to a specific control. Without it
+     *                          the notice goes to the top of the page.
+     *
+     * @since 2.5.2
+     */
+    window.kcUsNotice = function (message, type, $after) {
+        if (!message) {
+            return;
+        }
+
+        type = type || 'error';
+
+        // Only one plugin notice at a time, so repeated failures do not stack up.
+        $('.kc-us-js-notice').remove();
+
+        var $notice = $('<div/>', {
+            'class': 'notice notice-' + type + ' is-dismissible kc-us-js-notice',
+            'role': (type === 'error' || type === 'warning') ? 'alert' : 'status'
+        }).append($('<p/>').text(message));
+
+        var $dismiss = $('<button/>', {
+            type: 'button',
+            'class': 'notice-dismiss'
+        }).append($('<span/>', { 'class': 'screen-reader-text', text: 'Dismiss this notice.' }));
+
+        $dismiss.on('click', function () {
+            $notice.remove();
+        });
+
+        $notice.append($dismiss);
+
+        if ($after && $after.length) {
+            $notice.css('margin', '12px 0').insertAfter($after);
+        } else {
+            var $target = $('.wrap').first();
+
+            if ($target.length) {
+                var $heading = $target.children('h1, h2').first();
+                if ($heading.length) {
+                    $notice.insertAfter($heading);
+                } else {
+                    $target.prepend($notice);
+                }
+            } else {
+                $('#wpbody-content').prepend($notice);
+            }
+        }
+
+        // Success messages are transient; errors stay until dismissed.
+        if (type === 'success') {
+            window.setTimeout(function () {
+                $notice.fadeOut(200, function () {
+                    $(this).remove();
+                });
+            }, 4000);
+        }
+
+        if ($notice.get(0) && $notice.get(0).scrollIntoView) {
+            $notice.get(0).scrollIntoView({ block: 'nearest' });
+        }
+
+        return $notice;
+    };
 
     $(document).ready(function () {
         // Link bulk action.
@@ -187,10 +297,11 @@
                 }
 
                 if (window.usSplineChart instanceof ApexCharts && chartData && Array.isArray(chartData.dates)) {
-                    window.usSplineChart.updateSeries([
-                        { name: 'Total Clicks', data: chartData.total_series || [] },
-                        { name: 'Unique Clicks', data: chartData.unique_series || [] }
-                    ], true);
+                    window.usSplineChart.updateSeries(usChartSeries(chartData), true);
+                    window.usSplineChart.updateOptions({
+                        colors: usChartIsCompare(chartData) ? US_COMPARE_COLORS : ['#6366f1', '#34d399'],
+                        fill: usChartIsCompare(chartData) ? { type: 'solid', opacity: 0 } : { type: 'gradient' }
+                    }, false, false);
                     window.usSplineChart.updateOptions({
                         xaxis: {
                             categories: chartData.dates || []
@@ -329,7 +440,7 @@
                     var endDate = $customEnd.length ? ($customEnd.val() || '').trim() : '';
 
                     if (!startDate || !endDate) {
-                        alert('Please enter both a start date and an end date.');
+                        window.kcUsNotice('Enter both a start date and an end date.', 'error', $customApply.closest('div'));
                         return;
                     }
 
@@ -784,7 +895,7 @@
         var rowCount = $(this).closest('tbody').find('tr').length;
 
         if (rowCount <= 1) {
-            alert('Sorry...you can\'t delete this row.');
+            window.kcUsNotice('At least one row is required, so this one cannot be removed.', 'warning', $(this).closest('table'));
             return;
         }
 
@@ -817,14 +928,21 @@
 
     /* Calculate the total weight of a link rotation */
     $('.link-rotation-weight').change(function () {
-        let totalWeights = 0;
+        var totalWeights = 0;
+
         $('.link-rotation-weight').each(function () {
-             let weight = $(this).val();
-             totalWeights = parseInt(totalWeights) + parseInt(weight);
-            if (totalWeights > 100) {
-                alert('Total Weights of all links should be equal or less than 100%');
-            }
+            totalWeights += parseInt($(this).val(), 10) || 0;
         });
+
+        // Checked once, after totalling. The old version tested inside the loop,
+        // so a single edit could raise the same alert several times over.
+        if (totalWeights > 100) {
+            window.kcUsNotice(
+                'The weights add up to ' + totalWeights + '%. They need to total 100% or less.',
+                'warning',
+                $(this).closest('table')
+            );
+        }
     });
 
     /* ========  themeSwitcher start ========= */
@@ -1022,7 +1140,7 @@ jQuery(document).on('click', '.us-star-toggle', function() {
             $this.html(isStarred ? '<span class="dashicons dashicons-star-filled"></span>' : '<span class="dashicons dashicons-star-empty"></span>');
             $this.attr('title', isStarred ? 'Remove from Favorites' : 'Add to Favorites');
         } else {
-            alert(response.data.message);
+            window.kcUsNotice((response && response.data && response.data.message) ? response.data.message : 'That favourite could not be updated.');
         }
     });
 });
@@ -1105,10 +1223,10 @@ jQuery(document).on('click', '.us-link-status-toggle', function (e) {
         if (response && response.success && response.data) {
             usUpdateLinkStatusToggle($button, response.data.status);
         } else {
-            alert((response && response.data && response.data.message) ? response.data.message : 'Unable to update link status.');
+            window.kcUsNotice((response && response.data && response.data.message) ? response.data.message : 'That link status could not be updated.');
         }
     }).fail(function () {
-        alert('Unable to update link status. Please try again.');
+        window.kcUsNotice('That link status could not be updated. Please try again.');
     }).always(function () {
         $button.data('busy', false).removeClass('opacity-60 cursor-wait');
     });
@@ -1153,11 +1271,9 @@ window.usHeatmapChart = window.usHeatmapChart || null;
         if ( window.usSplineChart instanceof ApexCharts ) {
             window.usSplineChart.destroy();
         }
+        var splineIsCompare = usChartIsCompare(us_chart_data);
         var splineOptions = {
-            series: [
-                { name: 'Total Clicks', data: us_chart_data.total_series },
-                { name: 'Unique Clicks', data: us_chart_data.unique_series }
-            ],
+            series: usChartSeries(us_chart_data),
             chart: {
                 height: 260,
                 type: 'area',
@@ -1184,7 +1300,7 @@ window.usHeatmapChart = window.usHeatmapChart || null;
             },
             stroke: { curve: 'smooth', width: 3 },
             dataLabels: { enabled: false },
-            fill: {
+            fill: splineIsCompare ? { type: 'solid', opacity: 0 } : {
                 type: 'gradient',
                 gradient: {
                     shade: isDarkMode ? 'dark' : 'light',
@@ -1211,7 +1327,7 @@ window.usHeatmapChart = window.usHeatmapChart || null;
                 labels: { style: { colors: '#94a3b8' } },
                 tickAmount: 4
             },
-            colors: ['#6366f1', '#34d399'],
+            colors: splineIsCompare ? US_COMPARE_COLORS : ['#6366f1', '#34d399'],
             grid: {
                 borderColor: isDarkMode ? 'rgba(71,85,105,0.65)' : 'rgba(148,163,184,0.25)',
                 strokeDashArray: 4

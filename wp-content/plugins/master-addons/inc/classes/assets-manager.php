@@ -445,6 +445,16 @@ class Assets_Manager
                 'deps' => [],
             ],
 
+            'widgets-library-app' => [
+                'files' => [
+                    'js'  => 'js/admin/widgets-library-app.js',
+                    'css'  => 'css/admin/widgets-library-app.css',
+                ],
+                'path' => '',  // Root assets folder
+                'wp_deps' => ['wp-element', 'wp-i18n'],
+                'deps' => [],
+            ],
+
             // =========================================================
             // Wizard Builder
             // =========================================================

@@ -55,6 +55,7 @@ if( !class_exists(__NAMESPACE__ . '\Theme_Builder') ){
 
 	    public static function render_elementor_content_css($content_id){
 	        if ( class_exists( '\Elementor\Core\Files\CSS\Post' ) ) {
+	            self::ensure_elementor_frontend_registered();
 	            $css_file = new \Elementor\Core\Files\CSS\Post( $content_id );
 	            $css_file->enqueue();
 	        }
@@ -62,7 +63,36 @@ if( !class_exists(__NAMESPACE__ . '\Theme_Builder') ){
 
 		public static function render_elementor_content($content_id){
 			$elementor_instance = \Elementor\Plugin::instance();
+			self::ensure_elementor_frontend_registered();
 			return $elementor_instance->frontend->get_builder_content_for_display( $content_id , true);
+		}
+
+		/**
+		 * Register Elementor's base frontend styles so the elementor-post-{id}
+		 * handle enqueued for a theme-builder template has its elementor-frontend
+		 * dependency satisfied.
+		 *
+		 * A theme-builder header/footer can render on a page (or in the editor)
+		 * whose main query is not Elementor content, in which case Elementor never
+		 * ran register_styles() and elementor-frontend is unregistered -- enqueuing
+		 * the post CSS against it triggers a WP 6.9.1+ doing_it_wrong notice.
+		 * Guarded by wp_style_is() so it is a no-op once Elementor has registered.
+		 *
+		 * @return void
+		 */
+		public static function ensure_elementor_frontend_registered(){
+			if ( ! class_exists( '\Elementor\Plugin' ) ) {
+				return;
+			}
+
+			$frontend = \Elementor\Plugin::instance()->frontend;
+
+			if ( ! wp_style_is( 'elementor-frontend', 'registered' ) ) {
+				$frontend->register_styles();
+			}
+			if ( ! wp_style_is( 'elementor-frontend', 'enqueued' ) ) {
+				wp_enqueue_style( 'elementor-frontend' );
+			}
 		}
 
 	    public static function get_instance() {

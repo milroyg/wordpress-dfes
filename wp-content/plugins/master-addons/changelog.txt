@@ -1,4 +1,57 @@
 == Changelog ==
+= Master Elementor Addons v3.2.3 (10-09-2026) =
+* Security: Security update.
+
+= Master Elementor Addons v3.2.2 (10-09-2026) =
+* Improved: Nav Menu Improved style.
+* Fixed: Unnecessary style loading issue fixed.
+* Fixed: Filterable Gallery widget issue fixed.
+
+= Master Elementor Addons v3.2.1 (02-09-2026) =
+* Improved: Template, kit, widget and popup libraries now load one page at a time, sized to the window, and keep the next page ready so scrolling does not wait on the network.
+* Improved: Libraries paint the previous visit's first page straight away instead of showing a loading screen.
+* Improved: Templates and kits are no longer copied into the site's uploads folder. Everything is served from the remote library, and copies left by earlier versions are removed on activation.
+* Fixed: Template screenshots keep their own proportions instead of being cropped to a fixed frame, and are served full size.
+* Fixed: Pro templates are marked Pro in the Template Library, and importing or inserting one without a licence now offers the upgrade instead of failing part way through. The preview stays available either way.
+* Fixed: The All Keywords filter lists its keywords and opens without running off the edge of the modal.
+* Fixed: MA Comments lost its submit button and its name, email and website fields, showed a logged-out visitor the last signed-in user's name, and rendered the like and dislike counts without their icons.
+* Fixed: Author archive templates render the author name and profile picture instead of leaving them empty.
+* Fixed: The Template Library opens on Pages, and its page no longer has a horizontal scrollbar.
+* Fixed: Template Kits no longer reports "No Templates Found" for a library it has just fetched.
+* Fixed: Refreshing the template cache from the editor no longer throws, and the misleading cache count beside it is gone.
+* Fixed: The plugin no longer leaves folders under uploads/master_addons. The cache directory was recreated on every page load, so deleting the tree brought it straight back empty; anything left by an earlier version is removed on activation.
+* Fixed: Pages imported from a kit are named after the kit again -- "Fundora - Home" rather than "New - Home".
+* Fixed: Importing the same template twice now numbers the second copy instead of leaving two entries with the same title.
+* Fixed: A site with an active licence is no longer told to upgrade. Pro templates showed the Pro badge and the upgrade prompt even after activation, because the check asked only for a licence key and a site licensed through Freemius has none.
+* Fixed: Filtering the Template Library by category returns that category's templates instead of the first page of everything.
+* Changed: Theme Builder lists Archive, Category, Tag, Author and Date under their own Archive heading.
+
+= Master Elementor Addons v3.2.0 (26-08-2026) =
+* Security: Security update.
+* Added: The Widgets Library is available, with the catalog stored on disk so the screen loads without waiting on the network.
+* Fixed: Refresh in the Widgets Library now genuinely re-reads the catalog from the server instead of returning the same cached list.
+* Fixed: Edit Widget after importing now opens the Widget Builder instead of an empty editor screen.
+* Fixed: Removed the empty gap under shorter thumbnails in the Templates and Widgets libraries.
+* Fixed: The loading spinner logo no longer fails to load on the Widgets Library.
+* Fixed: Elementor editor infinite loading issue fixed.
+
+= Master Elementor Addons v3.1.9 (13-08-2026) =
+* Security: Security update.
+* Changed: Custom CSS Pro to Free.
+
+= Master Elementor Addons v3.1.8 (08-08-2026) =
+* Added: Widget Builder custom CSS and JavaScript are now free for everyone.
+* Fixed: Widget Builder custom JavaScript no longer breaks on the frontend, so effects and animations run as expected.
+* Fixed: One widget's JavaScript error no longer stops other widgets on the same page from working.
+* Fixed: Widget Builder widgets now show correctly in the Elementor editor again.
+* Fixed: Pro controls in an imported widget are now locked on the free version instead of being editable.
+* Changed: External CSS/JS libraries (Includes) are now a Pro feature.
+* Changed: number, choose, divider, font, media, select, switcher & wysiwyg are now free.
+
+= Master Elementor Addons v3.1.7 (06-08-2026) =
+* Fixed: Imported widget builder json file infinite loading in elementor editor issue fixed.
+* Fixed: Widget Builder CSS & JS unlock Pro & Includes lock to pro badge.
+
 = Master Elementor Addons 3.1.6 (23-07-2026) =
 * Fixed: Blog Posts widget date, author, category, and tag links now open the correct archive, including for custom post types (the post type is kept in the link).
 * Fixed: Blog Posts pagination now counts only the posts the widget actually queries, so an extra empty page no longer appears — and the Next/page links now work when the widget is placed on a normal page.

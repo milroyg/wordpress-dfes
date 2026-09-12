@@ -713,18 +713,29 @@ class Importer
             } else {
                 if (class_exists('MasterAddons\Inc\Classes\Template_Kit_Cache')) {
                     $cache_manager = \MasterAddons\Inc\Classes\Template_Kit_Cache::get_instance();
-                    if (method_exists($cache_manager, 'get_kit_manifest')) {
+
+                    // get_kit_manifest() reads a manifest.json under uploads,
+                    // which is no longer written, so this asked for the name
+                    // and got nothing -- leaving every imported page prefixed
+                    // "New". get_kit_title() falls back to the kit listing the
+                    // API already returns.
+                    $kit_title = method_exists($cache_manager, 'get_kit_title')
+                        ? $cache_manager->get_kit_title($parent_template)
+                        : '';
+
+                    if (empty($kit_title) && method_exists($cache_manager, 'get_kit_manifest')) {
                         $manifest = $cache_manager->get_kit_manifest($parent_template);
                         if ($manifest) {
                             $kit_title = $manifest['title'] ?? $manifest['kit_name'] ?? '';
-                            if (!empty($kit_title)) {
-                                if (strpos($kit_title, '-') !== false) {
-                                    $parts = explode('-', $kit_title);
-                                    $page_prefix = trim($parts[0]);
-                                } else {
-                                    $page_prefix = $kit_title;
-                                }
-                            }
+                        }
+                    }
+
+                    if (!empty($kit_title)) {
+                        if (strpos($kit_title, '-') !== false) {
+                            $parts = explode('-', $kit_title);
+                            $page_prefix = trim($parts[0]);
+                        } else {
+                            $page_prefix = $kit_title;
                         }
                     }
                 }
@@ -1703,6 +1714,17 @@ class Importer
      */
     public function preimport_kit_images()
     {
+
+        // These exist purely to warm a local mirror of the remote library.
+        // Client sites keep no such mirror, so there is nothing to pre-download
+        // — the import path fetches what it needs at the time.
+        if (!apply_filters('jltma_local_template_cache', false)) {
+            wp_send_json_success([
+                'message' => 'Local caching is disabled; nothing to pre-download.',
+                'skipped' => true,
+            ]);
+            return;
+        }
         if (!wp_verify_nonce( isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : '', 'jltma_template_kits_nonce_action') || !current_user_can('manage_options')) {
             wp_send_json_error(['message' => 'Permission denied']);
             return;
@@ -1802,6 +1824,17 @@ class Importer
      */
     public function predownload_kit()
     {
+
+        // These exist purely to warm a local mirror of the remote library.
+        // Client sites keep no such mirror, so there is nothing to pre-download
+        // — the import path fetches what it needs at the time.
+        if (!apply_filters('jltma_local_template_cache', false)) {
+            wp_send_json_success([
+                'message' => 'Local caching is disabled; nothing to pre-download.',
+                'skipped' => true,
+            ]);
+            return;
+        }
         if (!wp_verify_nonce( isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : '', 'jltma_template_kits_nonce_action') || !current_user_can('manage_options')) {
             wp_send_json_error(['message' => 'Permission denied']);
             return;
@@ -1848,6 +1881,17 @@ class Importer
      */
     public function download_all_kits()
     {
+
+        // These exist purely to warm a local mirror of the remote library.
+        // Client sites keep no such mirror, so there is nothing to pre-download
+        // — the import path fetches what it needs at the time.
+        if (!apply_filters('jltma_local_template_cache', false)) {
+            wp_send_json_success([
+                'message' => 'Local caching is disabled; nothing to pre-download.',
+                'skipped' => true,
+            ]);
+            return;
+        }
         if (!wp_verify_nonce( isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : '', 'jltma_template_kits_nonce_action') || !current_user_can('manage_options')) {
             wp_send_json_error(['message' => 'Permission denied']);
             return;
@@ -2114,6 +2158,352 @@ class Importer
     }
 
     /**
+     * Extensions a template kit is allowed to carry: the manifest and template
+     * payloads, and the screenshots they reference. SVG is deliberately absent —
+     * it can carry script, and core refuses it on upload for the same reason.
+     */
+    const KIT_ALLOWED_EXTENSIONS = ['json', 'txt', 'md', 'png', 'jpg', 'jpeg', 'gif', 'webp', 'avif', 'ico', 'svg'];
+
+    /**
+     * SVG elements a kit screenshot legitimately needs. Anything outside this
+     * list is removed rather than trusted — script and foreignObject are the
+     * obvious ones, but embed, iframe, object and the animation elements that
+     * can retarget an href are just as usable.
+     */
+    const SVG_ALLOWED_ELEMENTS = [
+        'svg', 'g', 'defs', 'symbol', 'use', 'title', 'desc', 'style',
+        'path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon',
+        'text', 'tspan', 'textpath',
+        'lineargradient', 'radialgradient', 'stop',
+        'clippath', 'mask', 'pattern', 'image',
+        'filter', 'fegaussianblur', 'feoffset', 'feblend', 'femerge',
+        'femergenode', 'fecolormatrix', 'fecomposite', 'feflood', 'fedropshadow',
+        'marker', 'switch',
+    ];
+
+    /**
+     * Whether a single ZIP entry may be written into the kit directory.
+     *
+     * Rejects anything that escapes the target directory, any dotfile (an
+     * .htaccess or .user.ini would change how the server treats the whole
+     * folder), and any extension outside the allow list. Extensionless files
+     * are permitted because template payloads are stored that way and no
+     * handler will execute them.
+     *
+     * @param string $entry Path as recorded inside the archive.
+     * @return bool
+     */
+    private static function is_allowed_kit_entry($entry)
+    {
+        if (!is_string($entry) || '' === $entry || false !== strpos($entry, "\0")) {
+            return false;
+        }
+
+        $path = str_replace('\\', '/', $entry);
+
+        // Directory entries are recreated implicitly by extractTo().
+        if ('/' === substr($path, -1)) {
+            return false;
+        }
+
+        // Absolute paths and traversal.
+        if ('/' === $path[0] || preg_match('#^[a-zA-Z]:#', $path)) {
+            return false;
+        }
+        foreach (explode('/', $path) as $segment) {
+            if ('..' === $segment) {
+                return false;
+            }
+        }
+
+        $basename = basename($path);
+        if ('' === $basename || '.' === $basename[0]) {
+            return false;
+        }
+
+        $extension = strtolower((string) pathinfo($basename, PATHINFO_EXTENSION));
+        if ('' === $extension) {
+            return true;
+        }
+
+        return in_array($extension, self::KIT_ALLOWED_EXTENSIONS, true);
+    }
+
+    /**
+     * Rewrite every SVG under $dir with a sanitized version.
+     *
+     * An SVG is XML, and XML that a browser will execute — core refuses SVG
+     * uploads for exactly that reason. Kits are allowed to carry them because
+     * screenshots legitimately are vector art, so each one is parsed and
+     * rebuilt from an allow list instead of being taken on trust. A file that
+     * cannot be parsed, or that declares a DOCTYPE or ENTITY, is deleted
+     * rather than guessed at.
+     *
+     * @param string $dir Absolute path to the extracted kit.
+     * @return void
+     */
+    private static function sanitize_kit_svgs($dir)
+    {
+        if (!is_dir($dir)) {
+            return;
+        }
+
+        $items = @scandir($dir);
+        if (false === $items) {
+            return;
+        }
+
+        foreach ($items as $item) {
+            if ('.' === $item || '..' === $item) {
+                continue;
+            }
+
+            $path = $dir . '/' . $item;
+
+            if (is_link($path)) {
+                @unlink($path);
+                continue;
+            }
+
+            if (is_dir($path)) {
+                self::sanitize_kit_svgs($path);
+                continue;
+            }
+
+            if ('svg' === strtolower((string) pathinfo($item, PATHINFO_EXTENSION))) {
+                self::sanitize_svg_file($path);
+            }
+        }
+    }
+
+    /**
+     * Sanitize one SVG in place, or delete it if it cannot be made safe.
+     *
+     * @param string $path
+     * @return void
+     */
+    private static function sanitize_svg_file($path)
+    {
+        $svg = @file_get_contents($path);
+
+        if (false === $svg || '' === trim($svg)) {
+            @unlink($path);
+            return;
+        }
+
+        // A DOCTYPE or ENTITY declaration is the entry point for XXE and for
+        // entity expansion. A screenshot has no use for either.
+        if (preg_match('/<!\s*(DOCTYPE|ENTITY)/i', $svg)) {
+            @unlink($path);
+            return;
+        }
+
+        $previous = libxml_use_internal_errors(true);
+        $document = new \DOMDocument();
+        // LIBXML_NONET blocks external fetches. Entities are deliberately NOT
+        // substituted — the declaration check above already rejected them.
+        $loaded = $document->loadXML($svg, LIBXML_NONET | LIBXML_NOERROR | LIBXML_NOWARNING);
+        libxml_clear_errors();
+        libxml_use_internal_errors($previous);
+
+        if (!$loaded || !$document->documentElement || 'svg' !== strtolower($document->documentElement->nodeName)) {
+            @unlink($path);
+            return;
+        }
+
+        self::strip_svg_node($document->documentElement);
+
+        $clean = $document->saveXML();
+
+        if (false === $clean) {
+            @unlink($path);
+            return;
+        }
+
+        @file_put_contents($path, $clean);
+    }
+
+    /**
+     * Remove disallowed elements and attributes from a node and its children.
+     *
+     * @param \DOMNode $node
+     * @return void
+     */
+    private static function strip_svg_node($node)
+    {
+        // Walk a copy: removing children while iterating a live DOMNodeList
+        // skips nodes.
+        foreach (iterator_to_array($node->childNodes) as $child) {
+            if (XML_ELEMENT_NODE === $child->nodeType) {
+                if (!in_array(strtolower($child->nodeName), self::SVG_ALLOWED_ELEMENTS, true)) {
+                    $node->removeChild($child);
+                    continue;
+                }
+                self::strip_svg_node($child);
+            } elseif (XML_PI_NODE === $child->nodeType) {
+                // Processing instructions can carry a stylesheet reference.
+                $node->removeChild($child);
+            }
+        }
+
+        if (!$node->attributes) {
+            return;
+        }
+
+        foreach (iterator_to_array($node->attributes) as $attribute) {
+            $name  = strtolower($attribute->nodeName);
+            $value = (string) $attribute->nodeValue;
+            // Strip whitespace and control characters before testing the
+            // scheme — "java\nscript:" is still javascript: to a browser.
+            $probe = strtolower(preg_replace('/[\s\x00-\x1F]+/', '', $value));
+
+            // Event handlers.
+            if (0 === strpos($name, 'on')) {
+                $node->removeAttributeNode($attribute);
+                continue;
+            }
+
+            // Script-bearing or remote URI schemes anywhere in the value.
+            if (false !== strpos($probe, 'javascript:') || false !== strpos($probe, 'vbscript:')) {
+                $node->removeAttributeNode($attribute);
+                continue;
+            }
+
+            // References may point within the document or at an inline image,
+            // never off-site.
+            if ('href' === $name || 'xlink:href' === $name) {
+                if (0 !== strpos($probe, '#') && 0 !== strpos($probe, 'data:image/')) {
+                    $node->removeAttributeNode($attribute);
+                }
+            }
+        }
+    }
+
+    /**
+     * Delete anything under $dir that is_allowed_kit_entry() would have
+     * rejected. Only used behind unzip_file(), which cannot filter entries.
+     *
+     * @param string $dir Absolute path to the extracted kit.
+     * @return void
+     */
+    private static function purge_disallowed_kit_files($dir)
+    {
+        if (!is_dir($dir)) {
+            return;
+        }
+
+        $items = @scandir($dir);
+        if (false === $items) {
+            return;
+        }
+
+        foreach ($items as $item) {
+            if ('.' === $item || '..' === $item) {
+                continue;
+            }
+
+            $path = $dir . '/' . $item;
+
+            // Never descend through a link the archive may have created.
+            if (is_link($path)) {
+                @unlink($path);
+                continue;
+            }
+
+            if (is_dir($path)) {
+                if ('.' === $item[0]) {
+                    self::delete_kit_path($path);
+                    continue;
+                }
+                self::purge_disallowed_kit_files($path);
+                continue;
+            }
+
+            if (!self::is_allowed_kit_entry($item)) {
+                @unlink($path);
+            }
+        }
+    }
+
+    /**
+     * Recursively remove a path left behind by an untrusted archive.
+     *
+     * @param string $path
+     * @return void
+     */
+    private static function delete_kit_path($path)
+    {
+        if (is_link($path) || is_file($path)) {
+            @unlink($path);
+            return;
+        }
+        if (!is_dir($path)) {
+            return;
+        }
+        $items = @scandir($path);
+        if (false !== $items) {
+            foreach ($items as $item) {
+                if ('.' === $item || '..' === $item) {
+                    continue;
+                }
+                self::delete_kit_path($path . '/' . $item);
+            }
+        }
+        @rmdir($path);
+    }
+
+    /**
+     * Drop deny rules into the purchased-kits root so nothing under it can be
+     * executed, whatever ends up there.
+     *
+     * Belt to the entry filter's braces: the filter decides what is written,
+     * this decides what the server will run if something ever slips past.
+     * Apache and LiteSpeed honour .htaccess and IIS honours web.config; nginx
+     * reads neither, so it needs an equivalent location block in the vhost.
+     *
+     * @param string $kits_root Absolute path to .../master_addons/purchased_kits.
+     * @return void
+     */
+    private static function harden_kits_directory($kits_root)
+    {
+        global $wp_filesystem;
+
+        if (!$wp_filesystem || !$wp_filesystem->is_dir($kits_root)) {
+            return;
+        }
+
+        $htaccess = $kits_root . '/.htaccess';
+        if (!$wp_filesystem->exists($htaccess)) {
+            $rules = "# Generated by Master Addons. Template kit payloads are static data.\n"
+                . "<FilesMatch \"(?i)\\.(php|php[0-9]|phtml|phps|phar|inc|cgi|pl|py|sh|asp|aspx|jsp|htaccess|user\\.ini)$\">\n"
+                . "\t<IfModule mod_authz_core.c>\n"
+                . "\t\tRequire all denied\n"
+                . "\t</IfModule>\n"
+                . "\t<IfModule !mod_authz_core.c>\n"
+                . "\t\tOrder allow,deny\n"
+                . "\t\tDeny from all\n"
+                . "\t</IfModule>\n"
+                . "</FilesMatch>\n"
+                . "<IfModule mod_php.c>\n\tphp_flag engine off\n</IfModule>\n"
+                . "<IfModule mod_php7.c>\n\tphp_flag engine off\n</IfModule>\n"
+                . "<IfModule mod_php8.c>\n\tphp_flag engine off\n</IfModule>\n";
+            $wp_filesystem->put_contents($htaccess, $rules, FS_CHMOD_FILE);
+        }
+
+        $web_config = $kits_root . '/web.config';
+        if (!$wp_filesystem->exists($web_config)) {
+            $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                . "<configuration>\n\t<system.webServer>\n\t\t<handlers accessPolicy=\"Read\" />\n"
+                . "\t\t<security>\n\t\t\t<requestFiltering>\n\t\t\t\t<fileExtensions allowUnlisted=\"true\">\n";
+            foreach (['.php', '.phtml', '.phar', '.asp', '.aspx', '.cgi', '.pl', '.py', '.sh'] as $ext) {
+                $xml .= "\t\t\t\t\t<add fileExtension=\"" . $ext . "\" allowed=\"false\" />\n";
+            }
+            $xml .= "\t\t\t\t</fileExtensions>\n\t\t\t</requestFiltering>\n\t\t</security>\n\t</system.webServer>\n</configuration>\n";
+            $wp_filesystem->put_contents($web_config, $xml, FS_CHMOD_FILE);
+        }
+    }
+
+    /**
      * Handle Template Kit Upload
      */
     public function upload_template_kit()
@@ -2121,7 +2511,12 @@ class Importer
         $wpnonce_upload = isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : '';
         $valid_nonce = wp_verify_nonce($wpnonce_upload, 'jltma_template_kits_nonce_action') ||
                        wp_verify_nonce($wpnonce_upload, 'jltma_template_library_nonce');
-        if (!$valid_nonce || !current_user_can('upload_files')) {
+        // Kit upload installs arbitrary files into uploads/, so it is gated the
+        // same way as every sibling handler in this class and as the Template
+        // Kits screen that is its only caller. 'upload_files' let any Author or
+        // Editor reach it, and the nonces it accepts are localized on screens
+        // those roles can already open.
+        if (!$valid_nonce || !current_user_can('manage_options')) {
             wp_send_json_error(['message' => 'Permission denied']);
             return;
         }
@@ -2186,16 +2581,33 @@ class Importer
             $wp_filesystem->mkdir($kits_dir, 0755, true);
         }
 
+        // Written before anything is extracted, so the deny rules are already
+        // in place for the files this request is about to create.
+        self::harden_kits_directory($upload_dir['basedir'] . '/master_addons/purchased_kits');
+
         // Native PHP's ZipArchive is significantly faster than WP's
         // unzip_file() because it avoids the pclzip pure-PHP fallback,
         // streams file entries directly to disk, and doesn't double-buffer
         // each file in memory. Falls back to unzip_file() when the ext
         // isn't available (extremely rare on modern PHP).
+        //
+        // Entries are filtered BEFORE extraction, not cleaned up after: the
+        // kit directory is web-reachable, so a PHP file must never touch disk
+        // there, not even briefly.
         $unzip_ok = false;
         if (class_exists('ZipArchive')) {
             $zip = new \ZipArchive();
             if ($zip->open($uploaded_file['tmp_name']) === true) {
-                $unzip_ok = $zip->extractTo($kits_dir);
+                $allowed = [];
+                for ($i = 0; $i < $zip->numFiles; $i++) {
+                    $entry = $zip->getNameIndex($i);
+                    if ($entry !== false && self::is_allowed_kit_entry($entry)) {
+                        $allowed[] = $entry;
+                    }
+                }
+                // extractTo() recreates the parent directories of each named
+                // entry, so directory entries do not need listing themselves.
+                $unzip_ok = !empty($allowed) && $zip->extractTo($kits_dir, $allowed);
                 $zip->close();
             }
         }
@@ -2206,7 +2618,16 @@ class Importer
                 wp_send_json_error(['message' => 'Failed to extract ZIP file: ' . $unzip_result->get_error_message()]);
                 return;
             }
+            // unzip_file() has no per-entry filter, so the same rule is applied
+            // to what it wrote.
+            self::purge_disallowed_kit_files($kits_dir);
         }
+
+        // Both paths end here. SVGs are allowed through the entry filter on
+        // extension alone, which says nothing about what is inside them, so
+        // every one is rewritten from an allow list before anything can be
+        // served from this directory.
+        self::sanitize_kit_svgs($kits_dir);
 
         $manifest_path = $kits_dir . '/manifest.json';
         $manifest = null;

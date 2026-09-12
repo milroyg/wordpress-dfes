@@ -22,6 +22,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Admin_Helper {
 
 	/**
+	 * Posts processed per usage-scan request.
+	 *
+	 * @since 4.11.95
+	 */
+	const SCAN_BATCH_SIZE = 20;
+
+	/**
 	 * Admin settings tabs
 	 *
 	 * @var tabs
@@ -112,14 +119,15 @@ class Admin_Helper {
 		add_action( 'wp_ajax_pa_disable_elementor_mc_template', array( $this, 'pa_disable_elementor_mc_template' ) );
 		add_action( 'wp_ajax_pa_save_additional_settings', array( $this, 'pa_save_additional_settings' ) );
 		add_action( 'wp_ajax_pa_save_ai_abilities', array( $this, 'pa_save_ai_abilities' ) );
+		add_action( 'wp_ajax_pa_mcp_news_seen', array( $this, 'pa_mcp_news_seen' ) );
 		add_action( 'wp_ajax_pa_enable_oauth_connect', array( $this, 'pa_enable_oauth_connect' ) );
 		add_action( 'wp_ajax_pa_disable_oauth_connect', array( $this, 'pa_disable_oauth_connect' ) );
-		add_action( 'wp_ajax_pa_get_unused_widgets', array( $this, 'pa_get_unused_widgets' ) );
+		add_action( 'wp_ajax_pa_extend_oauth_window', array( $this, 'pa_extend_oauth_window' ) );
+		add_action( 'wp_ajax_pa_scan_widgets_usage', array( $this, 'pa_scan_widgets_usage' ) );
+		add_action( 'wp_ajax_pa_disable_unused_widgets', array( $this, 'pa_disable_unused_widgets' ) );
 		add_action( 'wp_ajax_pa_get_menu_item_settings', array( $this, 'pa_get_menu_item_settings' ) );
 		add_action( 'wp_ajax_pa_save_menu_item_settings', array( $this, 'pa_save_menu_item_settings' ) );
 		add_action( 'wp_ajax_pa_save_mega_item_content', array( $this, 'pa_save_mega_item_content' ) );
-		add_action( 'wp_ajax_pa_check_unused_widgets', array( $this, 'pa_check_unused_widgets' ) );
-		add_action( 'wp_ajax_pa_hide_unused_widgets_dialog', array( $this, 'pa_hide_unused_widgets_dialog' ) );
 
 		// Used to empty dynamic assets dir on plugin update to make sure new assets are generated.
 		add_action( 'upgrader_process_complete', array( $this, 'pa_handle_upgrade' ), 10, 2 );
@@ -274,13 +282,21 @@ class Admin_Helper {
 			'all'
 		);
 
-		wp_enqueue_style(
-			'pa-admin',
-			PREMIUM_ADDONS_URL . 'admin/assets/css/admin.css',
-			array(),
-			PREMIUM_ADDONS_VERSION,
-			'all'
-		);
+		// admin.css only styles the PA pages, the nav-menu mega menu modal and the
+		// deactivation popup on plugins.php. Everywhere else it is dead weight.
+		$is_pa_admin_screen = false !== strpos( $hook, 'premium-addons' )
+			|| 'nav-menus.php' === $hook
+			|| 'plugins.php' === $hook;
+
+		if ( $is_pa_admin_screen ) {
+			wp_enqueue_style(
+				'pa-admin',
+				PREMIUM_ADDONS_URL . 'admin/assets/css/admin.css',
+				array(),
+				PREMIUM_ADDONS_VERSION,
+				'all'
+			);
+		}
 
 		if ( false !== strpos( $hook, 'premium-addons' ) ) {
 
@@ -336,6 +352,16 @@ class Admin_Helper {
 						'aiAbilitiesSaveFailed' => __( 'AI ability settings could not be saved.', 'premium-addons-for-elementor' ),
 						'oauthEnabling'         => __( 'Enabling OAuth…', 'premium-addons-for-elementor' ),
 						'oauthRequestFailed'    => __( 'The request failed. Please try again.', 'premium-addons-for-elementor' ),
+						'unusedButton'          => __( 'Scan & Disable Unused Widgets', 'premium-addons-for-elementor' ),
+						'unusedScanning'        => __( 'Scanning your site…', 'premium-addons-for-elementor' ),
+						'unusedFailed'          => __( 'Scan Failed', 'premium-addons-for-elementor' ),
+						'unusedFailedText'      => __( 'The scan could not be completed. Please try again.', 'premium-addons-for-elementor' ),
+						/* translators: %d: number of widgets that were disabled */
+						'unusedDisabledTitle'   => __( '%d Widgets Disabled!', 'premium-addons-for-elementor' ),
+						'unusedDisabledText'    => __( 'Your Elementor editor should load faster now.', 'premium-addons-for-elementor' ),
+						'unusedNothingTitle'    => __( 'Nothing to Disable', 'premium-addons-for-elementor' ),
+						'unusedAlreadyOffText'  => __( 'Every unused widget was already switched off.', 'premium-addons-for-elementor' ),
+						'unusedAllInUseText'    => __( 'All of your Premium Addons widgets are in use.', 'premium-addons-for-elementor' ),
 					),
 				),
 				'premiumRollBackConfirm' => array(
@@ -580,7 +606,7 @@ class Admin_Helper {
 		// If PRO version is not active, add a promotional link to upgrade.
 		if ( ! $is_papro_active ) {
 
-			// Get the campaign link for the Black Friday deal.
+			// Get the campaign link for the deal.
 			$link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/pro/#get-pa-pro', 'plugins-page', 'wp-dash', 'get-pro' );
 
 			// Create a styled promotional link encouraging users to save money by upgrading.
@@ -767,13 +793,22 @@ class Admin_Helper {
 			100
 		);
 
-		foreach ( self::$tabs as $tab ) {
+		foreach ( self::$tabs as $key => $tab ) {
+
+			$menu_title = $tab['title'];
+
+			// Unread MCP news dot. Computed from the cached feed only — the menu
+			// renders on every admin page, so it must never trigger a remote fetch.
+			// Inline-styled because admin.css loads only on PA screens.
+			if ( 'ai-abilities' === $key && MCP_News::has_unread() ) {
+				$menu_title .= '<span class="pa-mcp-news-dot" style="display:inline-block;width:8px;height:8px;margin-inline-start:6px;vertical-align:middle;border-radius:50%;background:#d63638;"></span>';
+			}
 
 			call_user_func(
 				'add_submenu_page',
 				self::$page_slug,
 				$tab['title'],
-				$tab['title'],
+				$menu_title,
 				'manage_options',
 				$tab['slug'],
 				'__return_null'
@@ -1282,6 +1317,31 @@ class Admin_Helper {
 	}
 
 	/**
+	 * Mark the MCP news feed as seen. Fired when the AI Abilities tab is opened,
+	 * so the submenu dot clears on the next admin page load.
+	 *
+	 * @since 4.11.102
+	 * @return void
+	 */
+	public function pa_mcp_news_seen() {
+
+		check_ajax_referer( 'pa-settings-tab', 'security' );
+
+		if ( ! self::check_user_can( 'manage_options' ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'You are not allowed to do this action.', 'premium-addons-for-elementor' ),
+				),
+				403
+			);
+		}
+
+		MCP_News::mark_seen();
+
+		wp_send_json_success();
+	}
+
+	/**
 	 * Enable the OAuth connect method: install the tables, set the flag, and
 	 * verify anonymous REST is actually reachable.
 	 *
@@ -1306,17 +1366,15 @@ class Admin_Helper {
 			wp_send_json_error( array( 'message' => $reason ) );
 		}
 
-		// This filter short-circuits authentication before any route's
-		// permission_callback runs, so it would 401 the anonymous OAuth
-		// endpoints mid-handshake.
-		$auth_probe = apply_filters( 'rest_authentication_errors', null );
+		// Check if a plugin blocks unauthenticated REST requests. If so, surface the error.
+		$auth_probe = OAuth\Bootstrap::rest_lock_error();
 
-		if ( is_wp_error( $auth_probe ) ) {
+		if ( null !== $auth_probe ) {
 			wp_send_json_error(
 				array(
 					'message' => sprintf(
 						/* translators: %s: error message from the REST authentication filter. */
-						__( 'A plugin on this site blocks unauthenticated REST API requests, which OAuth needs: %s', 'premium-addons-for-elementor' ),
+						__( 'A password-protection or firewall plugin on this site blocks unauthenticated REST API requests, which OAuth needs: %s', 'premium-addons-for-elementor' ),
 						$auth_probe->get_error_message()
 					),
 				)
@@ -1332,6 +1390,15 @@ class Admin_Helper {
 		}
 		update_option( OAuth\Bootstrap::OPTION_ENABLED, true );
 
+		// Open the client-registration window now. The dashboard render that
+		// normally opens it ran before the opt-in flag existed, and
+		// Bootstrap::is_registered() was already memoized as false on init in
+		// this request, so open_registration_window() would return early —
+		// the option is written directly instead. Without this the first
+		// connect attempt after enabling fails at registration until the
+		// dashboard is reloaded.
+		update_option( OAuth\Bootstrap::DCR_WINDOW, time() + OAuth\Bootstrap::DCR_WINDOW_TTL, true );
+
 		if ( ! wp_next_scheduled( OAuth\Bootstrap::CRON_HOOK ) ) {
 			wp_schedule_event( time(), 'daily', OAuth\Bootstrap::CRON_HOOK );
 		}
@@ -1345,6 +1412,32 @@ class Admin_Helper {
 				'message' => __( 'OAuth connection enabled. Connect your AI client with the configuration below.', 'premium-addons-for-elementor' ),
 			)
 		);
+	}
+
+	/**
+	 * Re-open the client-registration window. Fired when an administrator
+	 * copies a connection detail from the OAuth branch, so the 30 minutes count
+	 * from the moment the endpoint was grabbed rather than from the page load
+	 * that may have happened long before. No-op while OAuth is off.
+	 *
+	 * @since 4.11.101
+	 * @return void
+	 */
+	public function pa_extend_oauth_window() {
+
+		check_ajax_referer( 'pa-settings-tab', 'security' );
+
+		if ( ! self::check_user_can( 'manage_options' ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'You are not allowed to do this action.', 'premium-addons-for-elementor' ),
+				)
+			);
+		}
+
+		OAuth\Bootstrap::open_registration_window();
+
+		wp_send_json_success();
 	}
 
 	/**
@@ -1874,78 +1967,6 @@ class Admin_Helper {
 	}
 
 	/**
-	 * Disable unused widgets.
-	 *
-	 * @access public
-	 * @since 4.5.8
-	 */
-	public function pa_get_unused_widgets() {
-
-		check_ajax_referer( 'pa-disable-unused', 'security' );
-
-		if ( ! self::check_user_can( 'install_plugins' ) ) {
-			wp_send_json_error();
-		}
-
-		$pa_elements = self::get_pa_elements_names();
-
-		$used_widgets = self::get_used_widgets();
-
-		$unused_widgets = array_diff( $pa_elements, array_keys( $used_widgets ) );
-
-		wp_send_json_success( $unused_widgets );
-	}
-
-	public function pa_check_unused_widgets() {
-
-		check_ajax_referer( 'pa-disable-unused', 'security' );
-
-		$did_check = get_option( 'pa_unused_widget_dialog' );
-
-		if ( ! $did_check ) {
-
-			update_option( 'pa_unused_widget_dialog', true );
-
-			// Get days between now and install time.
-			$install_time = get_option( 'pa_install_time' );
-
-			// If install time is not set, set it now and exit.
-			if ( ! $install_time ) {
-				$current_time = gmdate( 'j F, Y', time() );
-				update_option( 'pa_install_time', $current_time );
-				wp_send_json_error( 'Installation time set.' );
-			}
-
-			// Convert to days.
-			$days_diff = ( time() - strtotime( $install_time ) ) / DAY_IN_SECONDS;
-
-			// If 7 days have passed since installation, proceed.
-			if ( $days_diff >= 7 ) {
-				wp_send_json_success();
-			} else {
-				wp_send_json_error( 'Not enough days since installation.' );
-			}
-		}
-
-		wp_send_json_error( 'Already checked, or canceled' );
-	}
-
-	/**
-	 * Hide Unused Widgets Dialog.
-	 *
-	 * @access public
-	 * @since 4.5.8
-	 */
-	public function pa_hide_unused_widgets_dialog() {
-
-		check_ajax_referer( 'pa-disable-unused', 'security' );
-
-		update_option( 'pa_unused_widget_dialog', true );
-
-		wp_send_json_success( 'Option updated.' );
-	}
-
-	/**
 	 * Disables Elementor Custom Mini Cart Template.
 	 *
 	 * @access public
@@ -2026,6 +2047,9 @@ class Admin_Helper {
 	/**
 	 * Get used widgets.
 	 *
+	 * An empty result means "never scanned" as often as it means "nothing is used";
+	 * has_usage_data() separates the two.
+	 *
 	 * @access public
 	 * @since 4.5.8
 	 *
@@ -2038,8 +2062,6 @@ class Admin_Helper {
 		if ( class_exists( 'Elementor\Modules\Usage\Module' ) ) {
 
 			$module = Module::instance();
-
-			$module->recalc_usage();
 
 			$elements = $module->get_formatted_usage( 'raw' );
 
@@ -2065,6 +2087,184 @@ class Admin_Helper {
 		}
 
 		return $used_widgets;
+	}
+
+	/**
+	 * Whether a usage scan has ever run — which get_used_widgets() cannot report.
+	 *
+	 * @access public
+	 * @since 4.11.95
+	 *
+	 * @return bool
+	 */
+	public static function has_usage_data() {
+
+		if ( ! class_exists( 'Elementor\Modules\Usage\Module' ) ) {
+			return false;
+		}
+
+		return ! empty( get_option( Module::OPTION_NAME, array() ) );
+	}
+
+	/**
+	 * Recalculate one batch of the site's Elementor usage data.
+	 *
+	 * Deliberately not Elementor's recalc_usage(): that ends in wp_cache_flush(), which
+	 * empties a shared Redis/Memcached store for the whole site. It flushes to bound
+	 * memory across an unbounded loop; batching bounds it per request instead.
+	 *
+	 * @access public
+	 * @since 4.11.95
+	 *
+	 * @param int $offset Posts already processed.
+	 * @param int $limit  Posts to process in this batch.
+	 *
+	 * @return array|false Progress counters, or false when Elementor is unavailable.
+	 */
+	public static function scan_widgets_usage( $offset = 0, $limit = self::SCAN_BATCH_SIZE ) {
+
+		if ( ! class_exists( 'Elementor\Modules\Usage\Module' ) ) {
+			return false;
+		}
+
+		$module = Module::instance();
+
+		// Fallback for a future Elementor without after_document_save(): unbatched, and
+		// it flushes the cache — kept only so the feature does not break outright.
+		if ( ! method_exists( $module, 'after_document_save' ) ) {
+
+			$processed = $module->recalc_usage();
+
+			return array(
+				'processed' => $processed,
+				'total'     => $processed,
+				'done'      => true,
+			);
+		}
+
+		if ( 0 === $offset ) {
+			delete_option( Module::OPTION_NAME );
+		}
+
+		$query = new \WP_Query(
+			array(
+				'fields'         => 'ids',
+				'meta_key'       => '_elementor_data', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- matches the post set Elementor's own recalc walks.
+				'post_type'      => get_post_types( array( 'public' => true ) ),
+				'post_status'    => array( 'publish', 'private' ),
+				'posts_per_page' => $limit,
+				'offset'         => $offset,
+			)
+		);
+
+		foreach ( $query->posts as $post_id ) {
+
+			$document = Plugin::$instance->documents->get( $post_id );
+
+			if ( $document ) {
+				$module->after_document_save( $document );
+			}
+		}
+
+		$processed = $offset + count( $query->posts );
+
+		return array(
+			'processed' => $processed,
+			'total'     => $query->found_posts,
+			'done'      => $processed >= $query->found_posts,
+		);
+	}
+
+	/**
+	 * Get the settings keys of every unused Premium Addons widget.
+	 *
+	 * Usage is reported by widget name and settings are keyed by settings key; the two
+	 * differ across the premium-addon-* family, so the diff happens in name space.
+	 *
+	 * @access public
+	 * @since 4.11.95
+	 *
+	 * @return array
+	 */
+	public static function get_unused_element_keys() {
+
+		$unused_names = array_diff(
+			self::get_pa_elements_names(),
+			array_keys( self::get_used_widgets() )
+		);
+
+		$keys = array();
+
+		foreach ( self::get_elements_list()['cat-1']['elements'] as $element ) {
+
+			if ( isset( $element['name'], $element['key'] ) && in_array( $element['name'], $unused_names, true ) ) {
+				$keys[] = $element['key'];
+			}
+		}
+
+		return $keys;
+	}
+
+	/**
+	 * Scan one batch of the site's Elementor usage data.
+	 *
+	 * @access public
+	 * @since 4.11.95
+	 */
+	public function pa_scan_widgets_usage() {
+
+		check_ajax_referer( 'pa-disable-unused', 'security' );
+
+		if ( ! self::check_user_can( 'install_plugins' ) ) {
+			wp_send_json_error( __( 'You are not allowed to do this action', 'premium-addons-for-elementor' ) );
+		}
+
+		$offset = isset( $_POST['offset'] ) ? absint( wp_unslash( $_POST['offset'] ) ) : 0;
+
+		$progress = self::scan_widgets_usage( $offset );
+
+		if ( ! $progress ) {
+			wp_send_json_error( __( 'Elementor usage data is not available on this site.', 'premium-addons-for-elementor' ) );
+		}
+
+		wp_send_json_success( $progress );
+	}
+
+	/**
+	 * Disable every Premium Addons widget the last scan found unused.
+	 *
+	 * @access public
+	 * @since 4.11.95
+	 */
+	public function pa_disable_unused_widgets() {
+
+		check_ajax_referer( 'pa-disable-unused', 'security' );
+
+		if ( ! self::check_user_can( 'install_plugins' ) ) {
+			wp_send_json_error( __( 'You are not allowed to do this action', 'premium-addons-for-elementor' ) );
+		}
+
+		$unused   = self::get_unused_element_keys();
+		$disabled = array();
+
+		if ( ! empty( $unused ) ) {
+
+			$result = self::update_elements_settings( array_fill_keys( $unused, false ) );
+
+			// Report only the widgets this call switched off, not the ones already off.
+			foreach ( $result['updated'] as $change ) {
+				if ( $change['previous_value'] ) {
+					$disabled[] = $change['key'];
+				}
+			}
+		}
+
+		wp_send_json_success(
+			array(
+				'unused'   => $unused,
+				'disabled' => $disabled,
+			)
+		);
 	}
 
 	/**

@@ -31,6 +31,9 @@ class Dynamic_Widget extends Master_Widget {
     /** @var array Tracks used control keys for deterministic uniqueness (parity with generator). */
     private $jltma_used_keys = [];
 
+    /** @var Widget_Template_Engine|null Built lazily on first render. */
+    private $jltma_template_engine = null;
+
     /** @var \MasterAddons\Inc\Admin\WidgetBuilder\Control_Manager */
     private $control_manager;
 
@@ -76,6 +79,8 @@ class Dynamic_Widget extends Master_Widget {
 
     private function jltma_load_data() {
         $data = get_post_meta($this->jltma_post_id, '_jltma_widget_data', true);
+        
+        // Fallback to default values if no data is found or if the data is not an array.
         if (empty($data) || !is_array($data)) {
             $data = [
                 'title'     => get_the_title($this->jltma_post_id),
@@ -90,10 +95,8 @@ class Dynamic_Widget extends Master_Widget {
         $sections = get_post_meta($this->jltma_post_id, '_jltma_widget_sections', true);
         $data['sections'] = (!empty($sections) && is_array($sections)) ? $sections : [];
 
-        $includes = get_post_meta($this->jltma_post_id, '_jltma_widget_includes', true);
-        $data['includes'] = (!empty($includes) && is_array($includes))
-            ? $includes
-            : ['css_libraries' => [], 'js_libraries' => []];
+        // Premium-gated and normalised; free builds resolve to an empty set.
+        $data['includes'] = Widget_Builder_Init::get_widget_includes($this->jltma_post_id);
 
         $this->jltma_data = $data;
     }
@@ -123,42 +126,47 @@ class Dynamic_Widget extends Master_Widget {
     }
 
     public function get_style_depends() {
-        $handles = [];
-        foreach (($this->jltma_data['includes']['css_libraries'] ?? []) as $lib) {
-            if (!empty($lib['handle'])) {
-                $handles[] = sanitize_text_field($lib['handle']);
-            }
-        }
-        return $handles;
+        return wp_list_pluck($this->jltma_data['includes']['css_libraries'], 'handle');
     }
 
     public function get_script_depends() {
-        $handles = [];
-        foreach (($this->jltma_data['includes']['js_libraries'] ?? []) as $lib) {
-            if (!empty($lib['handle'])) {
-                $handles[] = sanitize_text_field($lib['handle']);
-            }
-        }
-        return $handles;
+        return wp_list_pluck($this->jltma_data['includes']['js_libraries'], 'handle');
     }
 
     /**
-     * Register external CSS/JS libraries declared via the widget's includes.
-     * Only URL sources are registered; the widget's own CSS/JS is emitted inline
-     * in render() (no files written).
+     * Opt out of Elementor's static element cache.
+     *
+     * A cached element is stored as finished HTML and its render() is never run
+     * again, which would silently drop the custom JS this widget queues for the
+     * footer. Reporting the widget as dynamic makes Elementor cache it as a
+     * re-rendered [elementor-element] placeholder instead, so render() runs on
+     * every request — the same treatment core gives Counter, Tabs and the other
+     * stateful widgets.
+     *
+     * Frontend only. Document::print_elements() turns the placeholder path on
+     * for the editor and preview too, but nothing expands the shortcode there,
+     * so the widget would render as an empty canvas while editing.
+     *
+     * @return bool
+     */
+    protected function is_dynamic_content(): bool {
+        return !Widget_Builder_Init::is_editor_context();
+    }
+
+    /**
+     * Register the external CSS/JS libraries declared via the widget's includes.
+     *
+     * The list is already premium-gated, normalised and URL-validated by
+     * Widget_Builder_Init::get_widget_includes(), so free builds register
+     * nothing here. The widget's own CSS/JS is emitted by render(), not from a
+     * file.
      */
     private function jltma_register_external_libraries() {
-        foreach (($this->jltma_data['includes']['css_libraries'] ?? []) as $lib) {
-            if (!empty($lib['handle']) && !empty($lib['src']) && filter_var($lib['src'], FILTER_VALIDATE_URL)) {
-                $deps = (!empty($lib['dependencies']) && is_array($lib['dependencies'])) ? array_map('sanitize_text_field', $lib['dependencies']) : [];
-                wp_register_style(sanitize_text_field($lib['handle']), esc_url_raw($lib['src']), $deps, '1.0.0');
-            }
+        foreach ($this->jltma_data['includes']['css_libraries'] as $lib) {
+            wp_register_style($lib['handle'], $lib['src'], $lib['dependencies'], '1.0.0');
         }
-        foreach (($this->jltma_data['includes']['js_libraries'] ?? []) as $lib) {
-            if (!empty($lib['handle']) && !empty($lib['src']) && filter_var($lib['src'], FILTER_VALIDATE_URL)) {
-                $deps = (!empty($lib['dependencies']) && is_array($lib['dependencies'])) ? array_map('sanitize_text_field', $lib['dependencies']) : [];
-                wp_register_script(sanitize_text_field($lib['handle']), esc_url_raw($lib['src']), $deps, '1.0.0', true);
-            }
+        foreach ($this->jltma_data['includes']['js_libraries'] as $lib) {
+            wp_register_script($lib['handle'], $lib['src'], $lib['dependencies'], '1.0.0', true);
         }
     }
 
@@ -234,6 +242,16 @@ class Dynamic_Widget extends Master_Widget {
     private function jltma_register_control($field_id, $field, $tab) {
         $type       = !empty($field['type']) ? strtoupper($field['type']) : 'TEXT';
         $tab_prefix = $this->jltma_tab_prefix($tab);
+        $locked     = $this->control_manager->is_locked_type($type);
+
+        // Locked TABS: the container itself holds no value, but its children do,
+        // and they consume control keys from the same counter. Walk them in the
+        // same order so every later control keeps the key its value is stored
+        // under — just hidden instead of editable.
+        if ($locked && 'TABS' === $type) {
+            $this->jltma_register_locked_tabs($field_id, $field, $tab, $tab_prefix);
+            return;
+        }
 
         // TABS: structural container keyed by its own name (matches generator).
         if ('TABS' === $type) {
@@ -248,6 +266,13 @@ class Dynamic_Widget extends Master_Widget {
 
         // POPOVER_TOGGLE: a normal toggle control followed by a popover of child fields.
         if ('POPOVER_TOGGLE' === $type) {
+            // Locked: no popover to open, so the children are registered hidden
+            // (keys are derived from the toggle's key, not the shared counter).
+            if ($locked) {
+                $this->jltma_apply_control($this->control_manager->build_locked_control_config($control_key, $field, $type));
+                $this->jltma_register_locked_popover_fields($control_key, $field);
+                return;
+            }
             $this->jltma_apply_control($this->control_manager->build_control_config($control_key, $field, $type));
             if (!empty($field['popover_fields']) && is_array($field['popover_fields'])) {
                 $this->jltma_register_popover_fields($control_key, $field, $tab, $tab_prefix);
@@ -381,6 +406,50 @@ class Dynamic_Widget extends Master_Widget {
         $this->jltma_apply_control($this->control_manager->build_control_config($key, $child, strtoupper($child['type'])));
     }
 
+    /**
+     * Register a locked TABS control: one notice, then every child as a hidden
+     * control, walked in the same order jltma_register_tabs() would use so the
+     * shared key counter advances identically.
+     */
+    private function jltma_register_locked_tabs($field_id, $field, $tab, $tab_prefix) {
+        $notice_key = $tab_prefix . 'jltma_pro_locked_' . $this->jltma_sanitize_key((string) $field_id) . '_' . $this->jltma_post_id;
+        $descriptor = $this->control_manager->build_locked_control_config($notice_key, $field, 'TABS');
+
+        if (!empty($descriptor['notice'])) {
+            $this->add_control($descriptor['notice']['key'], $descriptor['notice']['args']);
+        }
+
+        foreach ($this->jltma_extract_tabs($field) as $tab_def) {
+            foreach (($tab_def['controls'] ?? []) as $child) {
+                if (empty($child['type']) || empty($child['name'])) {
+                    continue;
+                }
+                $label = !empty($child['label']) ? $child['label'] : $child['name'];
+                $key   = $this->jltma_make_control_key($label, $tab_prefix);
+                $this->jltma_apply_control(
+                    $this->control_manager->build_locked_control_config($key, $child, strtoupper($child['type']), false)
+                );
+            }
+        }
+    }
+
+    /** Register a locked popover's child fields as hidden value carriers. */
+    private function jltma_register_locked_popover_fields($control_key, $field) {
+        if (empty($field['popover_fields']) || !is_array($field['popover_fields'])) {
+            return;
+        }
+
+        foreach ($field['popover_fields'] as $pf) {
+            if (empty($pf['name']) || empty($pf['type'])) {
+                continue;
+            }
+            $pf_key = $control_key . '_' . $this->jltma_sanitize_key($pf['name']);
+            $this->jltma_apply_control(
+                $this->control_manager->build_locked_control_config($pf_key, $pf, strtoupper($pf['type']), false)
+            );
+        }
+    }
+
     /** Register popover child fields (start_popover / children / end_popover). */
     private function jltma_register_popover_fields($control_key, $field, $tab, $tab_prefix) {
         $this->start_popover();
@@ -406,6 +475,18 @@ class Dynamic_Widget extends Master_Widget {
      */
     private function jltma_apply_control($descriptor) {
         if (empty($descriptor) || empty($descriptor['key']) || !isset($descriptor['args'])) {
+            return;
+        }
+
+        // Locked premium control: the "(Pro)" lock badge, then a hidden control
+        // that keeps the stored value flowing to render().
+        if (!empty($descriptor['method']) && 'locked' === $descriptor['method']) {
+            if (!empty($descriptor['notice'])) {
+                $notice = $descriptor['notice'];
+                $method = !empty($notice['responsive']) ? 'add_responsive_control' : 'add_control';
+                $this->{$method}($notice['key'], $notice['args']);
+            }
+            $this->add_control($descriptor['key'], $descriptor['args']);
             return;
         }
 
@@ -485,26 +566,36 @@ class Dynamic_Widget extends Master_Widget {
         $css  = isset($this->jltma_data['css_code']) ? (string) $this->jltma_data['css_code'] : '';
         $js   = isset($this->jltma_data['js_code']) ? (string) $this->jltma_data['js_code'] : '';
 
-        // Emitting custom CSS/JS is a premium-only capability. The free build
-        // outputs the HTML body only; the Pro build returns the <style>/<script>
-        // markup via these filters — see MasterAddons\Pro\Classes\Pro_Modules.
-        // Values are pre-rendered here (placeholder substitution, escaped per
-        // output) but the wrapping markup is emitted only by Pro, so no inline
-        // CSS/JS ships in the free plugin.
+        // Inline CSS. The stored body is PHP-/tag-stripped on save; placeholder
+        // substitution is escaped per output by the template renderer, so only
+        // the <style> wrapper is added here.
         $css_rendered = ('' !== trim($css)) ? $this->jltma_render_template($css, $context) : '';
-        $css_output   = apply_filters('master_addons/widget_builder/render_css', '', $css_rendered, $context);
-        if ('' !== $css_output) {
-            echo $css_output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- premium-rendered markup; value substitution escaped per-output
+        if ('' !== trim($css_rendered)) {
+            echo '<style>' . $css_rendered . '</style>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- plugin-sanitized CSS body; value substitution escaped per-output
         }
 
         // HTML body.
         echo $this->jltma_render_template($html, $context); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- value substitution escaped per-output; HTML body is plugin-sanitized data
 
-        // Inline JS.
+        // Custom JS. Raw JS is only ever persisted for users with unfiltered_html
+        // — see REST_Controller::save_widget_data().
+        //
+        // On the frontend it is queued for the footer rather than echoed here: an
+        // inline <script> in this position sits inside the_content, where core's
+        // convert_chars() rewrites every `&` to `&#038;` (it does not skip script
+        // blocks), which breaks any `&&` on parse.
+        //
+        // The editor canvas needs the opposite: it swaps a widget's markup on
+        // every edit without reloading the document, so a footer script would run
+        // once and never again — leaving anything the script reveals invisible.
+        // Editor output is not run through the_content, so inline is safe there.
         $js_rendered = ('' !== trim($js)) ? $this->jltma_render_template($js, $context) : '';
-        $js_output   = apply_filters('master_addons/widget_builder/render_js', '', $js_rendered, $context);
-        if ('' !== $js_output) {
-            echo $js_output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- premium-rendered markup; value substitution escaped per-output
+        if ('' !== trim($js_rendered)) {
+            if (Widget_Builder_Init::is_editor_context()) {
+                echo '<script>' . $js_rendered . '</script>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- plugin-sanitized JS body; value substitution escaped per-output
+            } else {
+                Widget_Builder_Init::enqueue_inline_js($js_rendered, $this->jltma_post_id);
+            }
         }
     }
 
@@ -707,314 +798,56 @@ class Dynamic_Widget extends Master_Widget {
     }
 
     /* ------------------------------------------------------------------ *
-     * Twig-syntax template engine (safe subset; no eval, no compiled PHP).
-     * Supports:  {{ var }}  {{ var.prop }}  {{ var|raw }}  {{ var|upper }}
-     *            {% if expr %} {% elseif expr %} {% else %} {% endif %}
-     *            {% for item in list %} ... {% endfor %}
-     * Conditions:  ==  !=  >  <  >=  <=   and  or  not   plus bare truthiness.
-     * All output is escaped per control type unless the |raw filter is used.
+     * Template rendering — delegated to Widget_Template_Engine so the editor
+     * preview and the front end run the same Twig-subset engine.
      * ------------------------------------------------------------------ */
 
     /** Render a template string against the variable context. */
     private function jltma_render_template($template, $context) {
-        $template = (string) $template;
-        if ('' === $template) {
-            return '';
-        }
-        $tokens = $this->jltma_tokenize_template($template);
-        $pos    = 0;
-        $ast    = $this->jltma_parse_template($tokens, $pos, []);
-        return $this->jltma_eval_nodes($ast, $context);
-    }
-
-    /** Split a template into text / {{ output }} / {% tag %} tokens. */
-    private function jltma_tokenize_template($template) {
-        $parts  = preg_split('/(\{%.*?%\}|\{\{.*?\}\})/s', $template, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-        $tokens = [];
-        foreach ($parts as $part) {
-            if (preg_match('/^\{%\s*(.*?)\s*%\}$/s', $part, $m)) {
-                $inner   = trim($m[1]);
-                $space   = strpos($inner, ' ');
-                $keyword = (false === $space) ? $inner : substr($inner, 0, $space);
-                $expr    = (false === $space) ? '' : trim(substr($inner, $space + 1));
-                $tokens[] = ['type' => 'tag', 'kw' => $keyword, 'expr' => $expr];
-            } elseif (preg_match('/^\{\{\s*(.*?)\s*\}\}$/s', $part, $m)) {
-                $tokens[] = ['type' => 'out', 'expr' => trim($m[1])];
-            } else {
-                $tokens[] = ['type' => 'text', 'value' => $part];
-            }
-        }
-        return $tokens;
-    }
-
-    /** Recursive-descent parse into an AST. Stops (without consuming) on a $stops keyword. */
-    private function jltma_parse_template($tokens, &$pos, $stops) {
-        $nodes = [];
-        $count = count($tokens);
-        while ($pos < $count) {
-            $tok = $tokens[$pos];
-            if ('text' === $tok['type']) {
-                $nodes[] = ['text', $tok['value']];
-                $pos++;
-                continue;
-            }
-            if ('out' === $tok['type']) {
-                $nodes[] = ['out', $tok['expr']];
-                $pos++;
-                continue;
-            }
-            // tag
-            $kw = $tok['kw'];
-            if (in_array($kw, $stops, true)) {
-                return $nodes; // leave $pos on the stop tag for the caller
-            }
-            if ('if' === $kw) {
-                $pos++;
-                $branches = [];
-                $cond     = $tok['expr'];
-                while (true) {
-                    $body       = $this->jltma_parse_template($tokens, $pos, ['elseif', 'else', 'endif']);
-                    $branches[] = [$cond, $body];
-                    if ($pos >= $count) {
-                        break;
-                    }
-                    $next = $tokens[$pos];
-                    if ('endif' === $next['kw']) {
-                        $pos++;
-                        break;
-                    }
-                    if ('elseif' === $next['kw']) {
-                        $cond = $next['expr'];
-                        $pos++;
-                        continue;
-                    }
-                    if ('else' === $next['kw']) {
-                        $cond = '__else__';
-                        $pos++;
-                        continue;
-                    }
-                    break;
-                }
-                $nodes[] = ['if', $branches];
-                continue;
-            }
-            if ('for' === $kw) {
-                $pos++;
-                $body = $this->jltma_parse_template($tokens, $pos, ['endfor']);
-                if ($pos < $count && 'endfor' === $tokens[$pos]['kw']) {
-                    $pos++;
-                }
-                $nodes[] = ['for', $tok['expr'], $body];
-                continue;
-            }
-            // stray close/else with no opener -> skip
-            $pos++;
-        }
-        return $nodes;
-    }
-
-    /** Evaluate an AST node list to a string. */
-    private function jltma_eval_nodes($nodes, $context) {
-        $out = '';
-        foreach ($nodes as $node) {
-            switch ($node[0]) {
-                case 'text':
-                    $out .= $node[1];
-                    break;
-                case 'out':
-                    $out .= $this->jltma_render_output($node[1], $context);
-                    break;
-                case 'if':
-                    foreach ($node[1] as $branch) {
-                        if ('__else__' === $branch[0] || $this->jltma_eval_condition($branch[0], $context)) {
-                            $out .= $this->jltma_eval_nodes($branch[1], $context);
-                            break;
-                        }
-                    }
-                    break;
-                case 'for':
-                    if (preg_match('/^(\w+)\s+in\s+(.+)$/s', trim($node[1]), $m)) {
-                        $list = $this->jltma_resolve_value(trim($m[2]), $context);
-                        if (is_array($list)) {
-                            foreach ($list as $row) {
-                                $scope        = $context;
-                                $scope[$m[1]] = $row;
-                                $out         .= $this->jltma_eval_nodes($node[2], $scope);
-                            }
-                        }
-                    }
-                    break;
-            }
-        }
-        return $out;
-    }
-
-    /** Resolve an expression to its raw value: literal, number, bool, or dotted var path. */
-    private function jltma_resolve_value($expr, $context) {
-        $expr = trim($expr);
-        if ('' === $expr) {
-            return null;
-        }
-        $first = $expr[0];
-        $last  = substr($expr, -1);
-        if (('"' === $first && '"' === $last) || ("'" === $first && "'" === $last)) {
-            return substr($expr, 1, -1);
-        }
-        if (is_numeric($expr)) {
-            return $expr + 0;
-        }
-        if ('true' === $expr) {
-            return true;
-        }
-        if ('false' === $expr) {
-            return false;
-        }
-        if ('null' === $expr) {
-            return null;
-        }
-        $value = $context;
-        foreach (explode('.', $expr) as $part) {
-            if (is_array($value) && array_key_exists($part, $value)) {
-                $value = $value[$part];
-            } else {
-                return null;
-            }
-        }
-        return $value;
-    }
-
-    /** Evaluate a boolean condition (or / and / not / comparison / truthiness). */
-    private function jltma_eval_condition($expr, $context) {
-        $expr = trim($expr);
-        if ('__else__' === $expr || 'true' === $expr) {
-            return true;
-        }
-        if ('' === $expr || 'false' === $expr) {
-            return false;
-        }
-        // or (lowest precedence)
-        $parts = preg_split('/\s+or\s+/', $expr);
-        if (count($parts) > 1) {
-            foreach ($parts as $part) {
-                if ($this->jltma_eval_condition($part, $context)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        // and
-        $parts = preg_split('/\s+and\s+/', $expr);
-        if (count($parts) > 1) {
-            foreach ($parts as $part) {
-                if (!$this->jltma_eval_condition($part, $context)) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        // not
-        if (preg_match('/^not\s+(.+)$/s', $expr, $m)) {
-            return !$this->jltma_eval_condition($m[1], $context);
-        }
-        // comparison (longest operators tried first via alternation order)
-        if (preg_match('/^(.+?)\s*(==|!=|>=|<=|>|<)\s*(.+)$/s', $expr, $m)) {
-            return $this->jltma_compare(
-                $this->jltma_resolve_value($m[1], $context),
-                $this->jltma_resolve_value($m[3], $context),
-                $m[2]
+        if (null === $this->jltma_template_engine) {
+            $this->jltma_template_engine = new Widget_Template_Engine(
+                $this->jltma_collect_control_types()
             );
         }
-        // bare truthiness
-        return $this->jltma_truthy($this->jltma_resolve_value($expr, $context));
+
+        return $this->jltma_template_engine->render($template, $context);
     }
 
-    /** Compare two resolved values; numeric when both numeric, else string. */
-    private function jltma_compare($a, $b, $op) {
-        if (is_numeric($a) && is_numeric($b)) {
-            $a += 0;
-            $b += 0;
-        } else {
-            $a = (string) $a;
-            $b = (string) $b;
-        }
-        switch ($op) {
-            case '==':
-                return $a == $b; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison -- template equality is intentionally loose
-            case '!=':
-                return $a != $b; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison -- template inequality is intentionally loose
-            case '>':
-                return $a > $b;
-            case '<':
-                return $a < $b;
-            case '>=':
-                return $a >= $b;
-            case '<=':
-                return $a <= $b;
-        }
-        return false;
-    }
+    /** Map every control name to its type, for the engine's output escaping. */
+    private function jltma_collect_control_types() {
+        $types = [];
 
-    /** Twig/Handlebars truthiness: '', '0', 0, null, false, [] are falsy. */
-    private function jltma_truthy($value) {
-        if (null === $value || false === $value) {
-            return false;
+        if (empty($this->jltma_data['sections']) || !is_array($this->jltma_data['sections'])) {
+            return $types;
         }
-        if (is_array($value)) {
-            return !empty($value);
-        }
-        $string = (string) $value;
-        return '' !== $string && '0' !== $string;
-    }
 
-    /** Render a {{ output }} expression: resolve, apply filters, escape per type. */
-    private function jltma_render_output($expr, $context) {
-        $segments = array_map('trim', explode('|', trim($expr)));
-        $base     = array_shift($segments);
-        $value    = $this->jltma_resolve_value($base, $context);
+        foreach ($this->jltma_data['sections'] as $section) {
+            if (!is_array($section)) {
+                continue;
+            }
 
-        if (is_array($value)) {
-            $value = isset($value['url']) ? $value['url'] : '';
-        }
-        $value = (string) $value;
+            $controls = !empty($section['controls'])
+                ? $section['controls']
+                : (!empty($section['fields']) ? $section['fields'] : []);
 
-        $raw = false;
-        foreach ($segments as $filter) {
-            switch ($filter) {
-                case 'raw':
-                    $raw = true;
-                    break;
-                case 'e':
-                case 'escape':
-                    $raw = false;
-                    break;
-                case 'upper':
-                    $value = strtoupper($value);
-                    break;
-                case 'lower':
-                    $value = strtolower($value);
-                    break;
-                case 'trim':
-                    $value = trim($value);
-                    break;
+            foreach ((array) $controls as $control) {
+                if (empty($control['name'])) {
+                    continue;
+                }
+
+                $types[$control['name']] = $control['type'] ?? 'text';
+
+                if (!empty($control['popover_fields']) && is_array($control['popover_fields'])) {
+                    foreach ($control['popover_fields'] as $pf) {
+                        if (!empty($pf['name'])) {
+                            $types[$pf['name']] = $pf['type'] ?? 'text';
+                        }
+                    }
+                }
             }
         }
-        if ($raw) {
-            return $value;
-        }
-        $type = strtolower($this->jltma_control_type($base));
-        return $this->jltma_escape_value($value, $type);
-    }
 
-    private function jltma_escape_value($value, $type) {
-        switch ($type) {
-            case 'wysiwyg':
-            case 'code':
-                return wp_kses_post($value);
-            case 'url':
-                return esc_url($value);
-            default:
-                return esc_html($value);
-        }
+        return $types;
     }
 }
 }

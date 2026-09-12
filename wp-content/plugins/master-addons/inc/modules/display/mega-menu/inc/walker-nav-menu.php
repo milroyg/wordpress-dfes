@@ -29,8 +29,9 @@ class Megamenu_Nav_Walker extends \Walker_Nav_Menu
             "menu_disable_description" => 0,
             "menu_label_enable"        => 0,
             "menu_icon_color"          => '',
-            "menu_width_type"          => 'default',
+            "menu_width_type"          => 'full_width',
             "menu_width_size"          => '1000px',
+            "menu_horizontal_position" => 'left',
             "menu_transition"          => '',
             "menu_badge_text"                  => '',
             "menu_badge_color"                 => '',
@@ -180,6 +181,10 @@ class Megamenu_Nav_Walker extends \Walker_Nav_Menu
 
         $submenu_indicator = '';
 
+        // Initialised up front: the blocks below append to it, and only the
+        // top level used to define it -- deeper levels hit an undefined key.
+        $atts['class'] = '';
+
         // New
         if ($depth === 0) {
             $atts['class'] = 'jltma-menu-nav-link nav-link';
@@ -208,11 +213,18 @@ class Megamenu_Nav_Walker extends \Walker_Nav_Menu
                     $indicator_icon = '<i class="' . esc_attr($menu_icon_class) . '"></i>';
                 }
             }
-            $submenu_indicator = '<span class="jltma-submenu-indicator">' . $indicator_icon . '</span>';
+            // Only wrap an actual icon. The arrow for plain parent items is rendered
+            // by the nav menu widget (jltma-nav-menu__arrow); emitting an empty
+            // span here just leaves dead markup in the DOM.
+            if ('' !== $indicator_icon) {
+                $submenu_indicator = '<span class="jltma-submenu-indicator">' . $indicator_icon . '</span>';
+            }
         }
         if ($depth > 0) {
+            // Prepend, don't overwrite: a second-level parent (third-level menu)
+            // has already picked up jltma-menu-dropdown-toggle above.
             $manual_class = array_values($classes)[0] . ' ' . 'dropdown-item';
-            $atts['class'] = $manual_class;
+            $atts['class'] = trim($manual_class . ' ' . $atts['class']);
         }
         if (in_array('current-menu-item', $item->classes)) {
             $atts['class'] .= ' active';
@@ -283,20 +295,36 @@ class Megamenu_Nav_Walker extends \Walker_Nav_Menu
 
                 if ($item_meta['menu_enable'] == 1 && class_exists('Elementor\Plugin')) {
                     $width = 'max-content';
+                    // Where the panel sits against the item it hangs off. Only
+                    // a Custom Width panel is narrower than its own row, so only
+                    // it can be moved -- Default and Full Width fill the space
+                    // they are given and stay where the layout puts them.
+                    $horizontal_position = '';
                     if( $item_meta['menu_width_type'] == 'custom_width' ){
                         if( $item_meta['menu_width_size'] != '' ){
                             $width = $item_meta['menu_width_size'];
                         }
+                        $horizontal_position = in_array($item_meta['menu_horizontal_position'], ['center', 'right'], true)
+                            ? ' jltma-megamenu-hpos-' . $item_meta['menu_horizontal_position']
+                            : '';
                     }
+                    // Full Width spans the viewport, not the menu item the
+                    // panel hangs off -- and the panel is positioned against
+                    // that item, so a width of 100% would only ever be as wide
+                    // as the item itself. The class hands both the width and
+                    // the pull back to the edge of the screen to
+                    // ma-navmenu.scss / ma-navmenu.js, which know the layout.
+                    $full_width_class = '';
                     if( $item_meta['menu_width_type'] == 'full_width' ){
-                        $width = '100%';
+                        $width = '';
+                        $full_width_class = ' jltma-megamenu-full-width';
                     }
 
                     $builder_post_title = 'mastermega-content-megamenu-menuitem' . $item->ID;
                     $builder_post    = Helper::get_page_by_title( $builder_post_title, 'mastermega_content' );
 
                     // Get Elementor page settings for background
-                    $megamenu_style = 'width:'.$width.';';
+                    $megamenu_style = ($width !== '') ? 'width:'.$width.';' : '';
                     if ($builder_post != null) {
                         $page_settings = get_post_meta($builder_post->ID, '_elementor_page_settings', true);
                         if (!empty($page_settings) && is_array($page_settings)) {
@@ -348,9 +376,17 @@ class Megamenu_Nav_Walker extends \Walker_Nav_Menu
                         }
                     }
 
-                    $output .= '<ul class="dropdown-menu jltma-megamenu ' . esc_attr($menu_transition) . '" style="' . esc_attr($megamenu_style) . '">';
+                    $output .= '<ul class="dropdown-menu jltma-megamenu ' . esc_attr($menu_transition) . esc_attr($horizontal_position) . esc_attr($full_width_class) . '" style="' . esc_attr($megamenu_style) . '">';
                     if ($builder_post != null) {
                         $elementor = \Elementor\Plugin::instance();
+                        // get_builder_content_for_display() enqueues elementor-post-{id},
+                        // which declares elementor-frontend as a dependency. On a page (or
+                        // the editor) whose main query is not Elementor content, Elementor
+                        // never ran register_styles(), so that handle does not exist and the
+                        // enqueue references an unregistered dependency -- WP 6.9.1+ emits a
+                        // doing_it_wrong notice. Register the base frontend styles first.
+                        self::ensure_elementor_frontend_registered();
+
                         // Pass $with_css = true so the mega menu content's Elementor CSS is
                         // printed inline with the markup. The walker runs in <body> after
                         // wp_head has fired, so the external post-{id}.css enqueue is too late;
@@ -404,8 +440,36 @@ class Megamenu_Nav_Walker extends \Walker_Nav_Menu
         self::$styles_queued = true;
 
         add_action('wp_footer', function () {
+            self::ensure_elementor_frontend_registered();
             do_action('elementor/frontend/after_enqueue_post_styles');
         }, 5);
+    }
+
+    /**
+     * Register (and enqueue) Elementor's base frontend styles so the
+     * elementor-post-{id} handles rendered by the mega menu have their
+     * elementor-frontend dependency satisfied.
+     *
+     * Guarded by wp_style_is() so it is a no-op on real Elementor pages where
+     * Elementor already registered its styles on wp_enqueue_scripts. register_styles()
+     * only defines handles (no output), so it is safe to call late.
+     *
+     * @return void
+     */
+    private static function ensure_elementor_frontend_registered()
+    {
+        if (!class_exists('\\Elementor\\Plugin')) {
+            return;
+        }
+
+        $frontend = \Elementor\Plugin::instance()->frontend;
+
+        if (!wp_style_is('elementor-frontend', 'registered')) {
+            $frontend->register_styles();
+        }
+        if (!wp_style_is('elementor-frontend', 'enqueued')) {
+            wp_enqueue_style('elementor-frontend');
+        }
     }
 
     public static function get_instance()

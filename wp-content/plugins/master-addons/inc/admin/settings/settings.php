@@ -249,9 +249,10 @@ class Settings
 
                 // Reorder: Move "Template Kits" right after "Template Library"
                 var items = submenu.querySelectorAll("li a");
-                var libraryItem = null, kitsItem = null, wizardItem = null, recommendedItem = null;
+                var libraryItem = null, kitsItem = null, wizardItem = null, recommendedItem = null, widgetsLibItem = null;
                 items.forEach(function(a) {
                     var href = a.getAttribute("href") || "";
+                    if (href.indexOf("jltma-widgets-library") !== -1) widgetsLibItem = a.parentElement;
                     if (href.indexOf("jltma-template-library") !== -1) libraryItem = a.parentElement;
                     if (href.indexOf("jltma-template-kits") !== -1) kitsItem = a.parentElement;
                     if (href.indexOf("master-addons-setup-wizard") !== -1) wizardItem = a.parentElement;
@@ -260,6 +261,10 @@ class Settings
                 // Place Template Kits right after Template Library
                 if (libraryItem && kitsItem && libraryItem.nextElementSibling !== kitsItem) {
                     submenu.insertBefore(kitsItem, libraryItem.nextElementSibling);
+                }
+                // Place Widgets Library immediately before Template Library
+                if (libraryItem && widgetsLibItem && libraryItem.previousElementSibling !== widgetsLibItem) {
+                    submenu.insertBefore(widgetsLibItem, libraryItem);
                 }
                 // Move "Setup Wizard" just before "Recommended"
                 if (wizardItem && recommendedItem) {

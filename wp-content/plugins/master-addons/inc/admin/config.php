@@ -1994,7 +1994,7 @@ class Config
                         'custom-css' => [
                             'title'    => 'Custom CSS',
                             'icon'     => 'eicon-code',
-                            'class'    => 'MasterAddons\Pro\Modules\Utilities\CustomCss',
+                            'class'    => 'MasterAddons\Modules\Utilities\CustomCss',
                             'demo_url' => 'https://master-addons.com/extension/custom-css/',
                             'docs_url' => 'https://master-addons.com/docs/extensions/custom-css-extension/',
                             'tuts_url' => 'https://www.youtube.com/watch?v=ajXVVGJZuuM',
@@ -2004,7 +2004,7 @@ class Config
                                 "No global stylesheet conflicts",
                                 "Supports all valid CSS properties"
                             ],
-                            'is_pro'   => true,
+                            'is_pro'   => false,
                             'ribbons' => [ 'popular' ]
                         ],
                         'custom-js' => [

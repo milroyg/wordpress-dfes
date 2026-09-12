@@ -897,6 +897,34 @@ class Premium_Pinterest_Feed extends Widget_Base {
 		);
 
 		$this->add_control(
+			'pin_tilt_effect',
+			array(
+				'label'        => __( 'Tilt Effect', 'premium-addons-for-elementor' ),
+				'type'         => Controls_Manager::CHOOSE,
+				'toggle'       => false,
+				'prefix_class' => 'premium-pinterest-feed__tilt-',
+				'options'      => array(
+					'disabled' => array(
+						'title' => __( 'Disabled', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-ban',
+					),
+					'yes'      => array(
+						'title' => __( 'Enabled', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-check',
+					),
+					'hover'    => array(
+						'title' => __( 'On Hover', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-copy',
+					),
+				),
+				'default'      => 'disabled',
+				'condition'    => array(
+					'pin_layout!' => 'layout-4',
+				),
+			)
+		);
+
+		$this->add_control(
 			'loading_animation',
 			array(
 				'label'        => __( 'Loading Animation', 'premium-addons-for-elementor' ),
@@ -2637,10 +2665,10 @@ class Premium_Pinterest_Feed extends Widget_Base {
 				if ( $carousel ) {
 
 					$carousel_settings = array(
-						'slidesToScroll'     => $settings['slides_to_scroll'],
-						'slidesToShow'       => empty( $settings['pa_pinterest_cols'] ) ? 4 : $settings['pa_pinterest_cols'],
-						'slidesToShowTab'    => isset( $settings['pa_pinterest_cols_tablet'] ) ? $settings['pa_pinterest_cols_tablet'] : 1,
-						'slidesToShowMobile' => isset( $settings['pa_pinterest_cols_mobile'] ) ? $settings['pa_pinterest_cols_mobile'] : 1,
+						'slidesToScroll'     => intval( $settings['slides_to_scroll'] ),
+						'slidesToShow'       => empty( $settings['pa_pinterest_cols'] ) ? 4 : intval( $settings['pa_pinterest_cols'] ),
+						'slidesToShowTab'    => isset( $settings['pa_pinterest_cols_tablet'] ) ? intval( $settings['pa_pinterest_cols_tablet'] ) : 1,
+						'slidesToShowMobile' => isset( $settings['pa_pinterest_cols_mobile'] ) ? intval( $settings['pa_pinterest_cols_mobile'] ) : 1,
 						'fade'               => 'yes' === $settings['fade'],
 						'autoPlay'           => 'yes' === $settings['auto_play'],
 						'autoplaySpeed'      => $settings['autoplay_speed'],

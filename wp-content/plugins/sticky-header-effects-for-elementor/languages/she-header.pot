@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Sticky Header Effects for Elementor 2.2.0\n"
+"Project-Id-Version: Sticky Header Effects for Elementor 2.2.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/sticky-header-effects-for-elementor\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-07-13T12:06:21+00:00\n"
+"POT-Creation-Date: 2026-09-09T05:40:31+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: she-header\n"
@@ -288,22 +288,22 @@ msgstr ""
 msgid "No element has the sticky effect enabled (transparent = yes)."
 msgstr ""
 
-#: includes/dashboard/class-she-dashboard-ajax.php:205
-#: includes/dashboard/class-she-dashboard-ajax.php:206
+#: includes/dashboard/class-she-dashboard-ajax.php:200
+#: includes/dashboard/class-she-dashboard-ajax.php:201
 msgid "success"
 msgstr ""
 
-#: includes/dashboard/class-she-dashboard-ajax.php:426
+#: includes/dashboard/class-she-dashboard-ajax.php:421
 msgid "Rollback to Previous Version"
 msgstr ""
 
-#: includes/dashboard/class-she-dashboard-ajax.php:497
+#: includes/dashboard/class-she-dashboard-ajax.php:492
 #: includes/preset/class-she-preset.php:193
 msgid "Failed to retrieve plugin information."
 msgstr ""
 
 #. translators: %s: theme name
-#: includes/dashboard/class-she-dashboard-ajax.php:582
+#: includes/dashboard/class-she-dashboard-ajax.php:577
 #, php-format
 msgid "Success %s"
 msgstr ""
@@ -322,6 +322,7 @@ msgid "Join Community"
 msgstr ""
 
 #: includes/meta/class-she-meta.php:77
+#: build/index.js:1
 msgid "What's New?"
 msgstr ""
 
@@ -335,11 +336,12 @@ msgstr ""
 msgid "Share Review"
 msgstr ""
 
-#: includes/meta/class-she-meta.php:105
+#: includes/meta/class-she-meta.php:99
+#: build/index.js:1
 msgid "Settings"
 msgstr ""
 
-#: includes/meta/class-she-meta.php:109
+#: includes/meta/class-she-meta.php:103
 #: build/index.js:1
 msgid "Need Help?"
 msgstr ""
@@ -354,96 +356,6 @@ msgstr ""
 
 #: includes/notices/class-she-banner-controller.php:38
 msgid "- Join Discord Now"
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:156
-msgid "Just Debugging"
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:160
-msgid "Plugin Issues"
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:164
-msgid "Slow Performance"
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:168
-msgid "Switched to Alternative"
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:172
-msgid "No Longer Needed"
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:176
-msgid "Compatibility Issues"
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:180
-msgid "Missing Feature"
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:184
-msgid "Other Reason"
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:194
-msgid "Deactivation Reason"
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:230
-msgid "Please share the reason"
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:236
-msgid "If you require any help, please "
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:237
-msgid "Create A Ticket"
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:238
-msgid ", we reply within 24 working hours. Looking for instant solutions? - "
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:239
-msgid "Read our Documentation"
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:239
-msgid "or"
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:239
-msgid "Ask AI"
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:246
-msgid "I agree to be contacted via email for support with this plugin."
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:272
-#: includes/notices/class-she-deactivate-feedback.php:273
-msgid "Security checked!"
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:283
-msgid "Unauthorized"
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:284
-msgid "You do not have permission to perform this action."
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:315
-msgid "Could not reach the feedback server."
-msgstr ""
-
-#: includes/notices/class-she-deactivate-feedback.php:320
-#: includes/notices/class-she-deactivate-feedback.php:321
-msgid "success!."
 msgstr ""
 
 #: includes/notices/class-she-join-community-notice.php:110
@@ -513,6 +425,114 @@ msgstr ""
 msgid "Notice dismissed."
 msgstr ""
 
+#. translators: %s: product name
+#: includes/posimyth-sdk/class-posimyth-consent-notice.php:262
+#, php-format
+msgid "Help make %s faster and more stable. Share basic, non-sensitive info so we can catch conflicts and ship fixes quicker. No personal data, ever."
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-consent-notice.php:266
+#: build/index.js:1
+msgid "See what's shared"
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-consent-notice.php:269
+msgid "Allow"
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-consent-notice.php:270
+#: modules/pro-upsell/module.php:301
+msgid "Dismiss"
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-deactivation-survey.php:183
+msgid "I no longer need the plugin"
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-deactivation-survey.php:184
+msgid "I found a better plugin"
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-deactivation-survey.php:185
+msgid "It's not working"
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-deactivation-survey.php:186
+msgid "It's a temporary deactivation"
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-deactivation-survey.php:187
+msgid "Plugin conflict"
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-deactivation-survey.php:188
+msgid "It slowed down my site"
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-deactivation-survey.php:189
+msgid "Other"
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-deactivation-survey.php:370
+msgid "Quick Feedback"
+msgstr ""
+
+#. translators: %s: product name
+#: includes/posimyth-sdk/class-posimyth-deactivation-survey.php:375
+#, php-format
+msgid "Help us improve %s. Why are you deactivating?"
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-deactivation-survey.php:409
+msgid "Please share more details…"
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-deactivation-survey.php:439
+msgid "I agree to be contacted via email for support with this plugin."
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-deactivation-survey.php:445
+msgid "Skip & Deactivate"
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-deactivation-survey.php:446
+msgid "Submit & Deactivate"
+msgstr ""
+
+#. translators: %s: product name
+#: includes/posimyth-sdk/class-posimyth-deactivation-survey.php:451
+#, php-format
+msgid "Submitting shares non-sensitive info so we can improve %s. No personal data."
+msgstr ""
+
+#. translators: %s: product name
+#: includes/posimyth-sdk/class-posimyth-deactivation-survey.php:453
+#, php-format
+msgid "Submitting shares non-sensitive info so we can improve %s, plus your admin email so we can reply."
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-deactivation-survey.php:602
+msgid "Submitting…"
+msgstr ""
+
+#. translators: %s: product name
+#: includes/posimyth-sdk/class-posimyth-tracker-base.php:183
+#, php-format
+msgid "%s can send non-sensitive information about this website to POSIMYTH Innovation (api.posimyth.com) to help diagnose conflicts and prioritise fixes. This is off by default, and while it is off nothing is collected or sent automatically."
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-tracker-base.php:187
+msgid "When enabled, the information sent is: the site URL, the plugin version, PHP / MySQL / WordPress versions, server software, timezone, locale, memory limit, maximum upload size, permalink structure, whether HTTPS / multisite / debug mode are on, the environment type, the number of registered users, the active theme and its version, the detected page builder, the list of active plugin folders and their count, which of the plugin's features are enabled and how often they are used, Pro/Free and licence status, and the install date. It is sent when the plugin is activated, when it is deactivated, and once a week in the background."
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-tracker-base.php:189
+msgid "There is one case where information is sent even while the setting is off: the feedback form shown when the plugin is deactivated. If an administrator fills it in and presses Submit, that submission is sent - the reason chosen, any comment typed, and the same non-sensitive setup information listed above - because pressing Submit is the consent for it. Choosing Skip, pressing Esc or clicking outside the form sends nothing at all."
+msgstr ""
+
+#: includes/posimyth-sdk/class-posimyth-tracker-base.php:191
+msgid "No post or page content, visitor data, user names or email addresses are included. The one exception is that same feedback form: if an administrator ticks \"I agree to be contacted via email\" there, the site administration email address is sent with the feedback so POSIMYTH can reply. That box is off by default."
+msgstr ""
+
 #: includes/preset/class-she-preset.php:167
 msgid "Permission Denied"
 msgstr ""
@@ -572,6 +592,38 @@ msgstr ""
 
 #: includes/preset/class-she-preset.php:358
 msgid "Design from Scratch"
+msgstr ""
+
+#: includes/user-experience/class-she-deactivate-survey.php:109
+msgid "Just Debugging"
+msgstr ""
+
+#: includes/user-experience/class-she-deactivate-survey.php:113
+msgid "Plugin Issues"
+msgstr ""
+
+#: includes/user-experience/class-she-deactivate-survey.php:117
+msgid "Slow Performance"
+msgstr ""
+
+#: includes/user-experience/class-she-deactivate-survey.php:121
+msgid "Switched to Alternative"
+msgstr ""
+
+#: includes/user-experience/class-she-deactivate-survey.php:125
+msgid "No Longer Needed"
+msgstr ""
+
+#: includes/user-experience/class-she-deactivate-survey.php:129
+msgid "Compatibility Issues"
+msgstr ""
+
+#: includes/user-experience/class-she-deactivate-survey.php:133
+msgid "Missing Feature"
+msgstr ""
+
+#: includes/user-experience/class-she-deactivate-survey.php:137
+msgid "Other Reason"
 msgstr ""
 
 #: modules/pro-upsell/module.php:195
@@ -690,6 +742,7 @@ msgid "Sticky Header Effects for Elementor Pro is live — 11 new effects"
 msgstr ""
 
 #: modules/pro-upsell/module.php:268
+#: build/index.js:1
 msgid "Get Pro"
 msgstr ""
 
@@ -715,10 +768,6 @@ msgstr ""
 
 #: modules/pro-upsell/module.php:277
 msgid "…and 8 more, plus 50+ ready templates."
-msgstr ""
-
-#: modules/pro-upsell/module.php:301
-msgid "Dismiss"
 msgstr ""
 
 #: modules/pro-upsell/module.php:400
@@ -1170,35 +1219,36 @@ msgstr ""
 msgid "Choose the scroll distance to start hiding the header"
 msgstr ""
 
-#: sticky-header-effects-for-elementor.php:59
+#: sticky-header-effects-for-elementor.php:423
 msgid "Sticky Header Effects not working because you are using an old version of Elementor."
 msgstr ""
 
-#: sticky-header-effects-for-elementor.php:72
+#: sticky-header-effects-for-elementor.php:436
 msgid "A new version of Elementor is available. For better performance and compatibility of Sticky Header Effects, we recommend updating to the latest version."
 msgstr ""
 
-#: sticky-header-effects-for-elementor.php:129
+#: sticky-header-effects-for-elementor.php:493
 msgid "Sticky Header Effects not working because you need to activate the Elementor plugin."
 msgstr ""
 
-#: sticky-header-effects-for-elementor.php:130
+#: sticky-header-effects-for-elementor.php:494
 msgid "Activate Elementor Now"
 msgstr ""
 
-#: sticky-header-effects-for-elementor.php:138
+#: sticky-header-effects-for-elementor.php:502
 msgid "Sticky Header Effects is not working because you need to install the Elementor plugin"
 msgstr ""
 
-#: sticky-header-effects-for-elementor.php:139
+#: sticky-header-effects-for-elementor.php:503
 msgid "Install Elementor Now"
 msgstr ""
 
-#: sticky-header-effects-for-elementor.php:167
+#: sticky-header-effects-for-elementor.php:531
 msgid "Update Elementor Now"
 msgstr ""
 
 #: assets/js/she-preset-btn.js:4
+#: build/index.js:1
 msgid "Enable Templates"
 msgstr ""
 
@@ -1299,6 +1349,10 @@ msgid "Open Nexter"
 msgstr ""
 
 #: build/index.js:1
+msgid "Subscribe Now"
+msgstr ""
+
+#: build/index.js:1
 msgid "Dashboard"
 msgstr ""
 
@@ -1308,6 +1362,14 @@ msgstr ""
 
 #: build/index.js:1
 msgid "Watch How it Works"
+msgstr ""
+
+#: build/index.js:1
+msgid "Installing.."
+msgstr ""
+
+#: build/index.js:1
+msgid "Learn More"
 msgstr ""
 
 #: build/index.js:1
@@ -1328,6 +1390,10 @@ msgstr ""
 
 #: build/index.js:1
 msgid "Please enter valid email"
+msgstr ""
+
+#: build/index.js:1
+msgid "Submitted !"
 msgstr ""
 
 #: build/index.js:1
@@ -1367,6 +1433,10 @@ msgid "We're Active on"
 msgstr ""
 
 #: build/index.js:1
+msgid "Active Now"
+msgstr ""
+
+#: build/index.js:1
 msgid "Install & Activate"
 msgstr ""
 
@@ -1387,11 +1457,27 @@ msgid "Visit Official Website"
 msgstr ""
 
 #: build/index.js:1
-msgid "Learn More"
+msgid "Nexter WP Theme"
 msgstr ""
 
 #: build/index.js:1
-msgid "Nexter WP Theme"
+msgid "Installed"
+msgstr ""
+
+#: build/index.js:1
+msgid "Failed"
+msgstr ""
+
+#: build/index.js:1
+msgid "Enable Theme Builder"
+msgstr ""
+
+#: build/index.js:1
+msgid "Installing. . . "
+msgstr ""
+
+#: build/index.js:1
+msgid "Installed Successfully"
 msgstr ""
 
 #: build/index.js:1
@@ -1483,7 +1569,15 @@ msgid "View all Nexter Extension Features"
 msgstr ""
 
 #: build/index.js:1
+msgid "Select Version"
+msgstr ""
+
+#: build/index.js:1
 msgid "Roll Back Plugin"
+msgstr ""
+
+#: build/index.js:1
+msgid "Are you sure you want to reinstall the previous version?"
 msgstr ""
 
 #: build/index.js:1
@@ -1508,6 +1602,18 @@ msgstr ""
 
 #: build/index.js:1
 msgid "Header Templates"
+msgstr ""
+
+#: build/index.js:1
+msgid "Installing WDesignKit"
+msgstr ""
+
+#: build/index.js:1
+msgid "Installed WDesignKit"
+msgstr ""
+
+#: build/index.js:1
+msgid "Installation Failed"
 msgstr ""
 
 #: build/index.js:1
@@ -1755,6 +1861,10 @@ msgid "Request Widget"
 msgstr ""
 
 #: build/index.js:1
+msgid "Install Nexter Extension Plugin"
+msgstr ""
+
+#: build/index.js:1
 msgid "Build a Strong, Secure and High-Performance Website"
 msgstr ""
 
@@ -1779,6 +1889,18 @@ msgid "Security Hardener"
 msgstr ""
 
 #: build/index.js:1
+msgid "Installing Nexter"
+msgstr ""
+
+#: build/index.js:1
+msgid "Installing Success"
+msgstr ""
+
+#: build/index.js:1
+msgid "Installing Failed"
+msgstr ""
+
+#: build/index.js:1
 msgid "Extensions"
 msgstr ""
 
@@ -1792,6 +1914,10 @@ msgstr ""
 
 #: build/index.js:1
 msgid "Pro"
+msgstr ""
+
+#: build/index.js:1
+msgid "Search"
 msgstr ""
 
 #: build/index.js:1
@@ -1835,6 +1961,10 @@ msgid "Oops, No Header Widgets Found!"
 msgstr ""
 
 #: build/index.js:1
+msgid "Enable Free Navigation Menu"
+msgstr ""
+
+#: build/index.js:1
 msgid "Why Do I Need The Plus Addons for Elementor?"
 msgstr ""
 
@@ -1844,6 +1974,10 @@ msgstr ""
 
 #: build/index.js:1
 msgid "Get a Free Elementor Navigation Menu Widget with The Plus Addons for Elementor."
+msgstr ""
+
+#: build/index.js:1
+msgid "Installing The Plus Addons"
 msgstr ""
 
 #: build/index.js:1
@@ -1939,6 +2073,26 @@ msgid "Check our troubleshooting guide"
 msgstr ""
 
 #: build/index.js:1
+msgid "Share Non-Sensitive Details"
+msgstr ""
+
+#: build/index.js:1
+msgid "Could not save that. Please try again."
+msgstr ""
+
+#: build/index.js:1
+msgid "Could not reach the server. Please try again."
+msgstr ""
+
+#: build/index.js:1
+msgid "Help make Sticky Header Effects for Elementor faster and more stable. Share basic, non-sensitive info so we can catch conflicts and ship fixes quicker. No personal data, ever."
+msgstr ""
+
+#: build/index.js:1
+msgid "This is a network-wide setting, so only a network administrator can change it."
+msgstr ""
+
+#: build/index.js:1
 msgid "Elementor Theme Builder "
 msgstr ""
 
@@ -1963,6 +2117,14 @@ msgid "System Info"
 msgstr ""
 
 #: build/index.js:1
+msgid "Subscribe"
+msgstr ""
+
+#: build/index.js:1
+msgid "Create Header"
+msgstr ""
+
+#: build/index.js:1
 msgid "Select Mode"
 msgstr ""
 
@@ -1975,7 +2137,11 @@ msgid "Install Free Theme Builder"
 msgstr ""
 
 #: build/index.js:1
-msgid "Create Header"
+msgid "Loading..."
+msgstr ""
+
+#: build/index.js:1
+msgid "Skip Setup"
 msgstr ""
 
 #: build/index.js:1
@@ -1987,11 +2153,19 @@ msgid "We’ve detected your Elementor setup. Choose the right mode to proceed w
 msgstr ""
 
 #: build/index.js:1
+msgid "Detected"
+msgstr ""
+
+#: build/index.js:1
 msgid "Elementor Free"
 msgstr ""
 
 #: build/index.js:1
 msgid "Elementor Pro"
+msgstr ""
+
+#: build/index.js:1
+msgid "Next"
 msgstr ""
 
 #: build/index.js:1
@@ -2007,7 +2181,15 @@ msgid "NO SPAM GUARANTEE"
 msgstr ""
 
 #: build/index.js:1
-msgid "Agree to contribute to make Sticky Header better by sharing non-sensitive details."
+msgid "Enter email"
+msgstr ""
+
+#: build/index.js:1
+msgid "Help make the plugin faster and more stable. Share basic, non-sensitive info so we can catch conflicts and ship fixes quicker. No personal data, ever."
+msgstr ""
+
+#: build/index.js:1
+msgid "Back"
 msgstr ""
 
 #: build/index.js:1
@@ -2035,6 +2217,14 @@ msgid "Not at all. The Nexter Extension is designed to integrate seamlessly with
 msgstr ""
 
 #: build/index.js:1
+msgid "Get Free Theme Builder for Elementor"
+msgstr ""
+
+#: build/index.js:1
+msgid "With Nexter Extension"
+msgstr ""
+
+#: build/index.js:1
 msgid "Free Elementor Header & Footer Builder"
 msgstr ""
 
@@ -2048,6 +2238,14 @@ msgstr ""
 
 #: build/index.js:1
 msgid "100% Customisable with Widgets"
+msgstr ""
+
+#: build/index.js:1
+msgid "Skip"
+msgstr ""
+
+#: build/index.js:1
+msgid "Installing Nexter Extension"
 msgstr ""
 
 #: build/index.js:1
@@ -2067,5 +2265,69 @@ msgid "create your Sticky Header effortlessly."
 msgstr ""
 
 #: build/index.js:1
-msgid "Skip"
+msgid "Powered by POSIMYTH Innovations"
+msgstr ""
+
+#: build/index.js:1
+msgid "Quick Support"
+msgstr ""
+
+#: build/index.js:1
+msgid "PRO VERSION"
+msgstr ""
+
+#: build/index.js:1
+msgid "FREE VERSION"
+msgstr ""
+
+#: build/index.js:1
+msgid "Get Premium Support"
+msgstr ""
+
+#: build/index.js:1
+msgid "Get Free Support"
+msgstr ""
+
+#: build/index.js:1
+msgid "Join Facebook Community"
+msgstr ""
+
+#: build/index.js:1
+msgid "Suggest New Features"
+msgstr ""
+
+#: build/index.js:1
+msgid "Report Bug"
+msgstr ""
+
+#: build/index.js:1
+msgid "Youtube"
+msgstr ""
+
+#: build/index.js:1
+msgid "Twitter"
+msgstr ""
+
+#: build/index.js:1
+msgid "Discord"
+msgstr ""
+
+#: build/index.js:1
+msgid "Instagram"
+msgstr ""
+
+#: build/index.js:1
+msgid "Blog"
+msgstr ""
+
+#: build/index.js:1
+msgid "Affiliate"
+msgstr ""
+
+#: build/index.js:1
+msgid "WordPress Version: "
+msgstr ""
+
+#: build/index.js:1
+msgid "Plugin Version: "
 msgstr ""

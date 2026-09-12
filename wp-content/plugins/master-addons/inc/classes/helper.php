@@ -1269,6 +1269,13 @@ class Helper {
 
 	public static function jltma_el_blog_get_post_settings( $settings ) {
 
+		// "Current Query" hands the archive being viewed straight to the widget, so a
+		// category, tag, date or author archive lists that archive's posts instead of
+		// the widget's own selection.
+		if ( 'current' === ( $settings['ma_el_blog_query_source'] ?? 'latest' ) ) {
+			return self::jltma_el_blog_get_current_query_settings( $settings );
+		}
+
 		$post_args = array();
 
 		$authors = $settings['ma_el_blog_users'] ?? [];
@@ -1299,6 +1306,52 @@ class Helper {
 		$post_args['ignore_sticky_posts'] = $settings['ma_el_post_grid_ignore_sticky'] ?? $settings['ma_el_timeline_ignore_sticky'] ?? 1;
 
 		return $post_args;
+	}
+
+	/**
+	 * Query arguments taken from the archive the visitor is looking at.
+	 *
+	 * The widget keeps control of how many posts a page shows; everything that decides
+	 * WHICH posts (taxonomy term, date, author, search) comes from the main query.
+	 *
+	 * @param array $settings Widget settings.
+	 * @return array
+	 */
+	public static function jltma_el_blog_get_current_query_settings( $settings ) {
+
+		global $wp_query;
+
+		$query_args = ( $wp_query instanceof \WP_Query ) ? $wp_query->query_vars : array();
+
+		// Pagination is re-applied by jltma_el_blog_get_post_data() from the widget's
+		// own per-page value, and these would fight it or skew the count.
+		unset(
+			$query_args['paged'],
+			$query_args['offset'],
+			$query_args['nopaging'],
+			$query_args['fields'],
+			$query_args['no_found_rows']
+		);
+
+		// get_posts() falls back to 'post' when post_type is empty. That is right for a
+		// date or author archive, but wrong for a taxonomy attached to a custom post
+		// type — the term archive would then return nothing.
+		if ( empty( $query_args['post_type'] ) ) {
+			$queried = get_queried_object();
+
+			if ( $queried instanceof \WP_Term ) {
+				$taxonomy = get_taxonomy( $queried->taxonomy );
+
+				if ( $taxonomy && ! empty( $taxonomy->object_type ) ) {
+					$query_args['post_type'] = $taxonomy->object_type;
+				}
+			}
+		}
+
+		$query_args['posts_per_page']      = $settings['ma_el_blog_posts_per_page'] ?? 10;
+		$query_args['ignore_sticky_posts'] = $settings['ma_el_post_grid_ignore_sticky'] ?? 1;
+
+		return $query_args;
 	}
 
 	public static function jltma_el_blog_get_post_data( $args, $paged, $new_offset ) {
@@ -1708,10 +1761,151 @@ class Helper {
 	}
 
 
+	/**
+	 * Whether this site may import pro templates.
+	 *
+	 * Two things can say yes and they do not agree on how. Freemius knows
+	 * whether a licence is active; the template config knows whether a key was
+	 * entered by hand. Asking only for the key locked out a site licensed
+	 * through Freemius, and asking only for the status let through an install
+	 * whose status read "valid" with no licence behind it at all.
+	 *
+	 * @return bool
+	 */
+	public static function jltma_can_use_pro_templates() {
+		if ( function_exists( 'ma_el_fs' ) ) {
+			$fs = ma_el_fs();
+
+			foreach ( array( 'has_active_valid_license', 'is_paying', 'can_use_premium_code__premium_only' ) as $check ) {
+				if ( method_exists( $fs, $check ) && $fs->$check() ) {
+					return true;
+				}
+			}
+		}
+
+		if ( function_exists( '\MasterAddons\Inc\Admin\Templates\master_addons_templates' ) ) {
+			$config = \MasterAddons\Inc\Admin\Templates\master_addons_templates()->config;
+			$key    = $config->get( 'key' );
+
+			if ( ! empty( $key ) && 'valid' === $config->get( 'status' ) ) {
+				return true;
+			}
+		}
+
+		return (bool) apply_filters( 'jltma_can_use_pro_templates', false );
+	}
+
+
+	/**
+	 * The licence key the template library should be asked with.
+	 *
+	 * The remote library unlocks a pro template for a request that carries a
+	 * licence; a request without one comes back with no content at all. A site
+	 * licensed through Freemius holds its key there, so read it from the
+	 * licence rather than from the template config, which never stored one.
+	 *
+	 * @return string Empty when the site has no licence to send.
+	 */
+	public static function jltma_template_license_key() {
+		if ( ! self::jltma_can_use_pro_templates() ) {
+			return '';
+		}
+
+		if ( function_exists( 'ma_el_fs' ) ) {
+			$fs = ma_el_fs();
+
+			if ( method_exists( $fs, '_get_license' ) ) {
+				$license = $fs->_get_license();
+
+				if ( is_object( $license ) && ! empty( $license->secret_key ) ) {
+					return (string) $license->secret_key;
+				}
+			}
+		}
+
+		if ( function_exists( '\MasterAddons\Inc\Admin\Templates\master_addons_templates' ) ) {
+			$key = \MasterAddons\Inc\Admin\Templates\master_addons_templates()->config->get( 'key' );
+
+			if ( ! empty( $key ) ) {
+				return (string) $key;
+			}
+		}
+
+		return '';
+	}
+
+
+	/**
+	 * A title no post of this type is using yet.
+	 *
+	 * Importing the same template twice left two posts with identical titles --
+	 * WordPress only made the slugs unique, so the list table showed the same
+	 * name twice with nothing to tell them apart. The second copy is numbered
+	 * the way WordPress numbers a duplicate slug.
+	 *
+	 * @param string $title
+	 * @param string $post_type
+	 * @return string
+	 */
+	public static function jltma_unique_post_title( $title, $post_type = 'page' ) {
+		$title = trim( (string) $title );
+
+		if ( '' === $title ) {
+			return $title;
+		}
+
+		$candidate = $title;
+		$suffix    = 1;
+
+		// A hundred copies of one template is already absurd; the guard is only
+		// there so a broken query cannot spin.
+		while ( $suffix < 100 ) {
+			$existing = get_posts( array(
+				'post_type'              => $post_type,
+				'post_status'            => 'any',
+				'title'                  => $candidate,
+				'posts_per_page'         => 1,
+				'fields'                 => 'ids',
+				'no_found_rows'          => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+			) );
+
+			if ( empty( $existing ) ) {
+				return $candidate;
+			}
+
+			$suffix++;
+			$candidate = $title . ' ' . $suffix;
+		}
+
+		return $candidate;
+	}
+
+
 	public static function jltma_set_global_authordata() {
 		global $authordata;
-		if ( ! isset( $authordata->ID ) ) {
-			$post       = get_post();
+
+		if ( isset( $authordata->ID ) ) {
+			return;
+		}
+
+		// On an author archive the author is the thing being queried, and a
+		// theme-builder template renders outside the loop -- so nothing has set
+		// $authordata and get_the_author_meta() comes back empty, which left
+		// the name blank and the avatar on the anonymous gravatar.
+		if ( is_author() ) {
+			$queried = get_queried_object();
+
+			if ( $queried instanceof \WP_User ) {
+				$authordata = $queried; // WPCS: override ok.
+				return;
+			}
+		}
+
+		$post = get_post();
+
+		if ( $post ) {
 			$authordata = get_userdata( $post->post_author ); // WPCS: override ok.
 		}
 	}

@@ -1,6 +1,14 @@
 __( 'class', 'elementor' );
 __( 'classes', 'elementor' );
 __( 'Convert to global class', 'elementor' );
+__( 'Sync class to Global Fonts', 'elementor' );
+__(
+							'Only typography settings supported in Global Fonts will be applied, including: font family, responsive font sizes, weight, text transform, decoration, line height, letter spacing, and word spacing. Changes made in the class will automatically apply to Global Fonts.',
+							'elementor'
+						);
+__( "Don't show again", 'elementor' );
+__( 'Cancel', 'elementor' );
+__( 'Sync to Global Fonts', 'elementor' );
 __( 'Sorry, nothing matched.', 'elementor' );
 __( 'Try something else.', 'elementor' );
 __( 'Sorry, nothing matched', 'elementor' );
@@ -38,7 +46,6 @@ __(
 			  );
 __( 'Delete this class?', 'elementor' );
 __( 'Deleting', 'elementor' );
-__( 'Class Manager', 'elementor' );
 __( 'Save changes', 'elementor' );
 __( 'You have unsaved changes', 'elementor' );
 __( 'You have unsaved changes in the Class Manager.', 'elementor' );
@@ -46,6 +53,15 @@ __( 'To avoid losing your updates, save your changes before leaving.', 'elemento
 __( 'Discard', 'elementor' );
 __( 'Save & Continue', 'elementor' );
 __( 'Something went wrong', 'elementor' );
+__( 'Un-sync typography class', 'elementor' );
+__( "You're about to stop syncing a typography class to Global Fonts.", 'elementor' );
+__(
+						"Note that if it's being used anywhere, the affected elements will inherit the default typography.",
+						'elementor'
+					);
+__( 'Cancel', 'elementor' );
+__( 'Got it', 'elementor' );
+__( "Don't show again", 'elementor' );
 __( 'Class Manager', 'elementor' );
 __(
 					"The Class Manager lets you see all the classes you've created, plus adjust their priority, rename them, and delete unused classes to keep your CSS structured.",
@@ -56,15 +72,10 @@ __(
 					'elementor'
 				);
 __( 'Class Manager', 'elementor' );
-__( 'You have unsaved changes', 'elementor' );
-__(
-								"To open the Class Manager, save your page first. You can't continue without saving.",
-								'elementor'
-							);
-__( 'Stay here', 'elementor' );
-__( 'Save & Continue', 'elementor' );
 __( 'More actions', 'elementor' );
 __( 'Rename', 'elementor' );
+__( 'Stop syncing to Global Fonts', 'elementor' );
+__( 'Sync to Global Fonts', 'elementor' );
 __( 'Delete', 'elementor' );
 __( 'Show {{number}} {{locations}}', 'elementor' );
 __( 'location', 'elementor' );

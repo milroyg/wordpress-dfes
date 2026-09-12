@@ -27,6 +27,7 @@ class JLTMA_Template_Library {
         add_action('wp_ajax_jltma_get_categories', array($this, 'get_categories'));
         add_action('wp_ajax_jltma_get_kit_categories', array($this, 'get_kit_categories'));
         add_action('wp_ajax_jltma_import_template', array($this, 'import_template'));
+        add_action('wp_ajax_jltma_can_import_template', array($this, 'can_import_template'));
         add_action('wp_ajax_jltma_preview_template', array($this, 'preview_template'));
         add_action('wp_ajax_jltma_open_template', array($this, 'jltma_template_kit_open_kit'));
         add_action('wp_ajax_jltma_get_plugins_status', array($this, 'jltma_get_plugins_status'));
@@ -70,7 +71,9 @@ class JLTMA_Template_Library {
             'restNonce'  => wp_create_nonce('wp_rest'),
             'pluginUrl'  => JLTMA_URL,
             'assetsUrl'  => JLTMA_ASSETS,
-            'isProActive' => \MasterAddons\Inc\Classes\Helper::jltma_premium(),
+            // Whether pro templates may be imported, which is a licence question --
+            // jltma_premium() answers true for a pro build with no licence too.
+            'isProActive' => \MasterAddons\Inc\Classes\Helper::jltma_can_use_pro_templates(),
             'strings'    => array(
                 'searchPlaceholder' => __('Search templates...', 'master-addons'),
                 'importTemplate'    => __('Import', 'master-addons'),
@@ -288,6 +291,14 @@ class JLTMA_Template_Library {
      * @return bool
      */
     private function fs_put_contents($file, $contents) {
+        // Client sites keep no local mirror of the remote library — this is the
+        // same switch the cache classes use. Without it kit-categories.json was
+        // still being written into uploads/master_addons/templates_kits/, which
+        // is one of the trees the cleanup routine is meant to leave empty.
+        if (!apply_filters('jltma_local_template_cache', false)) {
+            return false;
+        }
+
         global $wp_filesystem;
         if (empty($wp_filesystem)) {
             require_once ABSPATH . 'wp-admin/includes/file.php';
@@ -440,7 +451,14 @@ class JLTMA_Template_Library {
             ]);
         } else {
             $error_message = is_wp_error($result) ? $result->get_error_message() : 'Failed to import template';
-            wp_send_json_error(['message' => $error_message]);
+            $error_code    = is_wp_error($result) ? $result->get_error_code() : 'import_failed';
+
+            // The code travels with the message so the UI can offer an upgrade
+            // rather than an error card when a licence is what is missing.
+            wp_send_json_error([
+                'message' => $error_message,
+                'code'    => $error_code,
+            ]);
         }
     }
 
@@ -603,6 +621,12 @@ class JLTMA_Template_Library {
         return $categories;
     }
 
+    /**
+     * AJAX: Get cached templates count
+     *
+     * Called only when the templates modal is opened, so the editor page load
+     * itself never touches the cache directory.
+     */
     /**
      * AJAX: Refresh templates cache
      */
@@ -769,6 +793,42 @@ class JLTMA_Template_Library {
     }
 
     /**
+     * Whether this site may import a pro template.
+     *
+     * Asked before the import animation starts, so a site without a licence is
+     * offered the upgrade instead of being walked through five steps that end
+     * in an error. The library itself is still the authority -- it refuses the
+     * content regardless -- this only saves the user the journey.
+     */
+    public function can_import_template() {
+        $wpnonce = isset($_POST['_wpnonce']) ? sanitize_text_field(wp_unslash($_POST['_wpnonce'])) : '';
+
+        if (!wp_verify_nonce($wpnonce, 'jltma_template_library_nonce') && !wp_verify_nonce($wpnonce, 'master_addons_nonce')) {
+            wp_send_json_error(['message' => 'Permission denied']);
+        }
+
+        if (!current_user_can('edit_posts')) {
+            wp_send_json_error(['message' => 'Permission denied']);
+        }
+
+        $is_pro = !empty($_POST['is_pro']) && 'false' !== $_POST['is_pro'];
+
+        if (!$is_pro) {
+            wp_send_json_success(['can_import' => true]);
+        }
+
+        // Freemius and the template config each know part of the answer, and a
+        // site licensed through Freemius carries no key in the config -- asking
+        // only for the key turned away sites that had just activated.
+        $can_import = \MasterAddons\Inc\Classes\Helper::jltma_can_use_pro_templates();
+
+        wp_send_json_success([
+            'can_import' => (bool) $can_import,
+            'message'    => esc_html__('This is a Pro template. Activate your Master Addons Pro licence to import it.', 'master-addons'),
+        ]);
+    }
+
+    /**
      * Import real template using existing manager
      */
     private function import_real_template($template_id, $tab = 'master_section', $page_name = null) {
@@ -790,6 +850,18 @@ class JLTMA_Template_Library {
 
         // Get the template data
         $template_data = $source->get_item($template_id);
+
+        // A pro template on a site without a valid licence comes back with no
+        // content and the licence flags set. That is not a missing template,
+        // and saying so sent the user looking for a fault that is not there.
+        if (is_array($template_data) && empty($template_data['content'])
+            && (!empty($template_data['license_required']) || !empty($template_data['is_pro']))) {
+            return new WP_Error(
+                'license_required',
+                esc_html__('This is a Pro template. Activate your Master Addons Pro licence to import it.', 'master-addons')
+            );
+        }
+
         if (!$template_data || empty($template_data['content'])) {
             return new WP_Error('template_not_found', 'Template content not found');
         }
@@ -799,6 +871,11 @@ class JLTMA_Template_Library {
         if (strlen($post_title) > 255) {
             $post_title = substr($post_title, 0, 255);
         }
+
+        // Importing the same template again used to leave two entries with the
+        // same name -- WordPress only made the slugs unique, so the list showed
+        // the title twice with nothing to tell the copies apart.
+        $post_title = \MasterAddons\Inc\Classes\Helper::jltma_unique_post_title($post_title, 'elementor_library');
 
         // Ensure Elementor data is a JSON string (Elementor expects JSON, not PHP serialized)
         $elementor_data = $template_data['content'];
@@ -834,7 +911,7 @@ class JLTMA_Template_Library {
         // Now create a page that uses this template (if page_name is provided)
         if ($page_name) {
             $page_id = wp_insert_post([
-                'post_title' => $page_name,
+                'post_title' => \MasterAddons\Inc\Classes\Helper::jltma_unique_post_title($page_name, 'page'),
                 'post_type' => 'page',
                 'post_status' => 'publish',
                 'post_author' => get_current_user_id(),

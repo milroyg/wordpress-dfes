@@ -4,7 +4,7 @@ Donate link: https://paypal.me/Analytify
 Tags: google analytics, google analytics dashboard, google analytics 4, WordPress Analytics, analytics
 Requires at least: 4.0
 Tested up to: 7.0
-Stable tag: 9.1.0
+Stable tag: 9.1.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -316,6 +316,20 @@ We listen to each of our users and are active (Monday to Friday) at the <a href=
 
 
 == Changelog ==
+
+= 9.1.2 – 2026-08-17 =
+* Enhancement: All CSS/JS assets are now properly minified for faster page loads.
+
+= 9.1.1 – 2026-08-04 =
+* New Feature: Install and activate the Google Analytics Dashboard Widget add-on directly from the Add-ons page.
+* Enhancement: Search Console Keywords csv export report now shows Click-Through Rate (CTR) and Average Position.
+* Enhancement: More reliable Top Pages links and higher default row limit in reports.
+* Bug Fix: Fixed dashboard/CSV/Excel export occasionally skipping chart data.
+* Bug Fix: Fixed incorrect status messages while installing/activating an add-on.
+* Bug Fix: Fixed translated text not loading on the Add-ons page.
+* Security: Hardened CSV export against a formula-injection bypass in exported links.
+* Security: Restored proper permission checks when activating add-ons.
+* Security: Improved filtering of unsafe links in dashboard exports.
 
 = 9.1.0 – 2026-07-15 =
 * New Feature: Introduced new export dashboard reports to Excel, PDF, or CSV.
@@ -1215,7 +1229,7 @@ We listen to each of our users and are active (Monday to Friday) at the <a href=
 
 == Upgrade Notice ==
 
-= 9.1.0 =
+= 9.1.2 =
 * Important Release, Update carefully. Report us back if you face any issues. Thanks for using Analytify.
 
 == Notes ==

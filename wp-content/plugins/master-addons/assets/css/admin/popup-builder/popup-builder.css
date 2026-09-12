@@ -406,9 +406,8 @@
   display: flex;
 }
 #jltma_popup_builder_modal .jltma-modal-content {
-  width: 60vw;
+  width: min(900px, 90vw);
   min-width: 320px;
-  max-width: 900px;
   max-height: 90vh;
   border-radius: 5px !important;
 }
@@ -920,11 +919,15 @@ body.folded #jltma_popup_templates_modal {
   display: flex;
 }
 #jltma_popup_templates_modal .jltma-modal-content {
-  width: 90%;
+  width: min(1600px, 95vw);
   min-width: 320px;
-  max-width: 1400px;
   border-radius: 10px !important;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+}
+#jltma_popup_templates_modal .jltma-modal-dialog {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 #jltma_popup_templates_modal .jltma-pop-contents-head {
   background: #fff;
@@ -1056,7 +1059,7 @@ body.folded #jltma_popup_templates_modal {
 }
 #jltma_popup_templates_modal .jltma-pop-contents-body {
   overflow-y: auto;
-  max-height: calc(90vh - 120px);
+  max-height: calc(92vh - 80px);
 }
 #jltma_popup_templates_modal .jltma-templates-container {
   padding: 24px;
@@ -1065,7 +1068,7 @@ body.folded #jltma_popup_templates_modal {
 }
 #jltma_popup_templates_modal .jltma-templates-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 20px;
 }
 #jltma_popup_templates_modal .jltma-templates-loading,
@@ -1261,6 +1264,7 @@ body.folded #jltma_popup_templates_modal {
 #jltma_popup_templates_modal .jltma-template-actions {
   padding: 12px 16px 14px;
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   align-items: center;
   border-top: 1px solid #f0f0f1;
@@ -1271,7 +1275,9 @@ body.folded #jltma_popup_templates_modal {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 10px 16px;
+  padding: 10px 12px;
+  min-width: 0;
+  white-space: nowrap;
   border-radius: 8px;
   font-size: 13px;
   font-weight: 600;

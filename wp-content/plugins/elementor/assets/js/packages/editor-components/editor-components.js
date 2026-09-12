@@ -1,66 +1,5753 @@
-/*! For license information please see editor-components.js.LICENSE.txt */
-!function(){"use strict";var e={"./packages/packages/core/editor-components/src/api.ts":function(e,t,n){n.r(t),n.d(t,{apiClient:function(){return a},getParams:function(){return getParams}});var o=n("@elementor/editor-v1-adapters"),r=n("@elementor/http-client");const s="elementor/v1/components",getParams=e=>({action:"get_document_config",unique_id:`document-config-${e}`,data:{id:e}}),a={get:()=>(0,r.httpService)().get(`${s}`).then(e=>e.data.data),create:e=>(0,r.httpService)().post(`${s}`,e).then(e=>e.data.data),updateStatuses:(e,t)=>(0,r.httpService)().put(`${s}/status`,{ids:e,status:t}),getComponentConfig:e=>o.ajax.load(getParams(e)),invalidateComponentConfigCache:e=>o.ajax.invalidateCache(getParams(e)),getComponentLockStatus:async e=>await(0,r.httpService)().get(`${s}/lock-status`,{params:{componentId:e}}).then(e=>{const{is_current_user_allow_to_edit:t,locked_by:n}=e.data.data;return{isAllowedToSwitchDocument:t,lockedBy:n||""}}),lockComponent:async e=>await(0,r.httpService)().post(`${s}/lock`,{componentId:e}).then(e=>e.data),unlockComponent:async e=>await(0,r.httpService)().post(`${s}/unlock`,{componentId:e}).then(e=>e.data),getOverridableProps:async e=>await(0,r.httpService)().get(`${s}/overridable-props`,{params:{componentId:e.toString()}}).then(e=>e.data.data),updateArchivedComponents:async(e,t)=>await(0,r.httpService)().post(`${s}/archive`,{componentIds:e,status:t}).then(e=>e.data.data),updateComponentTitle:(e,t)=>(0,r.httpService)().post(`${s}/update-titles`,{components:e,status:t}).then(e=>e.data.data),validate:async e=>await(0,r.httpService)().post(`${s}/create-validate`,e).then(e=>e.data)}},"./packages/packages/core/editor-components/src/component-instance-transformer.ts":function(e,t,n){n.r(t),n.d(t,{componentInstanceTransformer:function(){return i}});var o=n("@elementor/editor-canvas"),r=n("@elementor/store"),s=n("./packages/packages/core/editor-components/src/store/store.ts"),a=n("./packages/packages/core/editor-components/src/utils/component-document-data.ts");const i=(0,o.createTransformer)(async({component_id:e,overrides:t})=>{const n=(0,s.selectUnpublishedComponents)((0,r.__getState)()).find(({uid:t})=>t===e),o=t?.reduce((e,t)=>({...e,...t}),{});if(n)return{elements:structuredClone(n.elements),overrides:o};if("number"!=typeof e)throw new Error(`Component ID "${e}" not valid.`);const i=await(0,a.getComponentDocumentData)(e);return{elements:i?.elements??[],overrides:o}})},"./packages/packages/core/editor-components/src/component-overridable-transformer.ts":function(e,t,n){n.r(t),n.d(t,{componentOverridableTransformer:function(){return r}});var o=n("@elementor/editor-canvas");const r=(0,o.createTransformer)((e,t)=>{const{overrides:n}=t.renderContext??{},r=n?.[e.override_key];if(r){return function isOriginValueOverride(e){return"override"===e.$$type}(e.origin_value)?function transformOverride(e,t,n){const r=o.settingsTransformersRegistry.get("override");if(!r)return null;const s=r(e.origin_value.value,t);if(!s)return null;const[a]=Object.keys(s);return{[a]:n}}(e,t,r):r}return e.origin_value})},"./packages/packages/core/editor-components/src/component-override-transformer.ts":function(e,t,n){n.r(t),n.d(t,{componentOverrideTransformer:function(){return r}});var o=n("@elementor/editor-canvas");const r=(0,o.createTransformer)(e=>{const{override_key:t,override_value:n}=e;return{[t]:n}})},"./packages/packages/core/editor-components/src/components/component-panel-header/component-badge.tsx":function(e,t,n){n.r(t),n.d(t,{ComponentsBadge:function(){return i}});var o=n("react"),r=n("@elementor/icons"),s=n("@elementor/ui"),a=n("@wordpress/i18n");const i=o.forwardRef(({overridablePropsCount:e,onClick:t},n)=>{const i=function usePrevious(e){const t=(0,o.useRef)(e);return(0,o.useEffect)(()=>{t.current=e},[e]),t.current}(e),p=0===i&&1===e;return o.createElement(c,{ref:n,color:"primary",key:e,invisible:0===e,animate:p,anchorOrigin:{vertical:"top",horizontal:"right"},badgeContent:o.createElement(s.Box,{sx:{animation:p?"none":`${l} 300ms ease-out`}},e)},o.createElement(s.Tooltip,{title:(0,a.__)("Component properties","elementor")},o.createElement(s.ToggleButton,{value:"exposed properties",size:"tiny",onClick:t,"aria-label":(0,a.__)("Component properties","elementor")},o.createElement(r.ComponentPropListIcon,{fontSize:"tiny"}))))}),c=(0,s.styled)(s.Badge,{shouldForwardProp:e=>"animate"!==e})(({theme:e,animate:t})=>({"& .MuiBadge-badge":{minWidth:e.spacing(2),height:e.spacing(2),minHeight:e.spacing(2),maxWidth:e.spacing(2),fontSize:e.typography.caption.fontSize,animation:t?`${p} 300ms ease-out`:"none"}}));const p=s.keyframes`
-	0% { transform: scale(0) translate(50%, 50%); opacity: 0; }
-	70% { transform: scale(1.1) translate(50%, -50%); opacity: 1; }
-	100% { transform: scale(1) translate(50%, -50%); opacity: 1; }
-`,l=s.keyframes`
-	from { transform: translateY(100%); opacity: 0; }
-	to { transform: translateY(0); opacity: 1; }
-`},"./packages/packages/core/editor-components/src/components/component-panel-header/component-panel-header.tsx":function(e,t,n){n.r(t),n.d(t,{ComponentPanelHeader:function(){return ComponentPanelHeader}});var o=n("react"),r=n("@elementor/editor-current-user"),s=n("@elementor/editor-documents"),a=n("@elementor/editor-panels"),i=n("@elementor/editor-ui"),c=n("@elementor/icons"),p=n("@elementor/store"),l=n("@elementor/ui"),m=n("@wordpress/i18n"),d=n("./packages/packages/core/editor-components/src/hooks/use-navigate-back.ts"),u=n("./packages/packages/core/editor-components/src/store/store.ts"),g=n("./packages/packages/core/editor-components/src/utils/tracking.ts"),v=n("./packages/packages/core/editor-components/src/components/component-properties-panel/component-properties-panel.tsx"),f=n("./packages/packages/core/editor-components/src/components/components-tab/component-introduction.tsx"),y=n("./packages/packages/core/editor-components/src/components/component-panel-header/component-badge.tsx"),h=n("./packages/packages/core/editor-components/src/components/component-panel-header/use-overridable-props.ts");const ComponentPanelHeader=()=>{const{id:e,uid:t}=(0,u.useCurrentComponent)()??{id:null,uid:null},n=(0,h.useOverridableProps)(e),k=(0,d.useNavigateBack)(),b=function getComponentName(){const e=(0,p.__getState)()[u.SLICE_NAME].path,{instanceTitle:t}=e.at(-1)??{};if(t)return t;const n=(0,s.getV1DocumentsManager)().getCurrent();return n?.container?.settings?.get("post_title")??""}(),[C,E]=(0,r.useSuppressedMessage)("components-properties-introduction"),[_,P]=o.useState(!C),{open:w}=(0,v.usePanelActions)(),x=n?Object.keys(n.props).length:0,I=o.useRef(null);if(!e)return null;return o.createElement(l.Box,null,o.createElement(a.PanelHeader,{sx:{justifyContent:"start",px:2}},o.createElement(l.Tooltip,{title:(0,m.__)("Back","elementor")},o.createElement(l.IconButton,{size:"tiny",onClick:k,"aria-label":(0,m.__)("Back","elementor")},o.createElement(c.ArrowLeftIcon,{fontSize:"tiny"}))),o.createElement(c.ComponentsFilledIcon,{fontSize:"tiny",stroke:"currentColor"}),o.createElement(i.EllipsisWithTooltip,{title:b,as:l.Typography,variant:"caption",sx:{fontWeight:500,flexGrow:1}}),o.createElement(y.ComponentsBadge,{overridablePropsCount:x,ref:I,onClick:()=>{w(),(0,g.trackComponentEvent)({action:"propertiesPanelOpened",source:"user",component_uid:t,properties_count:x})}})),o.createElement(l.Divider,null),o.createElement(f.ComponentIntroduction,{anchorRef:I,shouldShowIntroduction:_,onClose:()=>{E(),P(!1)}}))}},"./packages/packages/core/editor-components/src/components/component-panel-header/use-overridable-props.ts":function(e,t,n){n.r(t),n.d(t,{useOverridableProps:function(){return useOverridableProps}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/store/store.ts");function useOverridableProps(e){return(0,o.__useSelector)(t=>{if(e)return(0,r.selectOverridableProps)(t,e)})}},"./packages/packages/core/editor-components/src/components/component-properties-panel/component-properties-panel-content.tsx":function(e,t,n){n.r(t),n.d(t,{ComponentPropertiesPanelContent:function(){return ComponentPropertiesPanelContent}});var o=n("react"),r=n("@elementor/editor-documents"),s=n("@elementor/editor-panels"),a=n("@elementor/icons"),i=n("@elementor/ui"),c=n("@elementor/utils"),p=n("@wordpress/i18n"),l=n("./packages/packages/core/editor-components/src/store/actions/add-overridable-group.ts"),m=n("./packages/packages/core/editor-components/src/store/actions/delete-overridable-group.ts"),d=n("./packages/packages/core/editor-components/src/store/actions/delete-overridable-prop.ts"),u=n("./packages/packages/core/editor-components/src/store/actions/reorder-group-props.ts"),g=n("./packages/packages/core/editor-components/src/store/actions/reorder-overridable-groups.ts"),v=n("./packages/packages/core/editor-components/src/store/actions/update-overridable-prop-params.ts"),f=n("./packages/packages/core/editor-components/src/store/store.ts"),y=n("./packages/packages/core/editor-components/src/components/component-panel-header/use-overridable-props.ts"),h=n("./packages/packages/core/editor-components/src/components/component-properties-panel/properties-empty-state.tsx"),k=n("./packages/packages/core/editor-components/src/components/component-properties-panel/properties-group.tsx"),b=n("./packages/packages/core/editor-components/src/components/component-properties-panel/sortable.tsx"),C=n("./packages/packages/core/editor-components/src/components/component-properties-panel/use-current-editable-item.ts"),E=n("./packages/packages/core/editor-components/src/components/component-properties-panel/utils/generate-unique-label.ts");function ComponentPropertiesPanelContent({onClose:e}){const t=(0,f.useCurrentComponentId)(),n=(0,y.useOverridableProps)(t),[_,P]=(0,o.useState)(!1),w=(0,o.useRef)(null),x=(0,C.useCurrentEditableItem)(),I=(0,o.useMemo)(()=>n?n.groups.order.map(e=>n.groups.items[e]??null).filter(Boolean):[],[n]),O=(0,o.useMemo)(()=>I.map(e=>({value:e.id,label:e.label})),[I]);if(!t||!n)return null;const S=!(I.length>0)&&!_,T=n.groups.order,handlePropertyDelete=e=>{(0,d.deleteOverridableProp)({componentId:t,propKey:e,source:"user"}),(0,r.setDocumentModifiedStatus)(!0)},handlePropertyUpdate=(e,n)=>{(0,v.updateOverridablePropParams)({componentId:t,overrideKey:e,label:n.label,groupId:n.group}),(0,r.setDocumentModifiedStatus)(!0)},handleGroupDelete=e=>{(0,m.deleteOverridableGroup)({componentId:t,groupId:e}),(0,r.setDocumentModifiedStatus)(!0)};return o.createElement(o.Fragment,null,o.createElement(s.PanelHeader,{sx:{justifyContent:"start",pl:1.5,pr:1,py:1}},o.createElement(i.Stack,{direction:"row",alignItems:"center",gap:.5,flexGrow:1},o.createElement(a.ComponentPropListIcon,{fontSize:"tiny"}),o.createElement(s.PanelHeaderTitle,{variant:"subtitle2"},(0,p.__)("Component properties","elementor"))),!S&&o.createElement(i.Tooltip,{title:(0,p.__)("Add new group","elementor")},o.createElement(i.IconButton,{size:"tiny","aria-label":(0,p.__)("Add new group","elementor"),onClick:()=>{if(_)return;const e=(0,c.generateUniqueId)("group"),n=(0,E.generateUniqueLabel)(I);(0,l.addOverridableGroup)({componentId:t,groupId:e,label:n,source:"user"}),(0,r.setDocumentModifiedStatus)(!0),P(!1),x.setEditingGroupId(e)}},o.createElement(a.FolderPlusIcon,{fontSize:"tiny"}))),o.createElement(i.Tooltip,{title:(0,p.__)("Close panel","elementor")},o.createElement(i.IconButton,{ref:w,size:"tiny","aria-label":(0,p.__)("Close panel","elementor"),onClick:e},o.createElement(a.XIcon,{fontSize:"tiny"})))),o.createElement(i.Divider,null),o.createElement(s.PanelBody,null,S?o.createElement(h.PropertiesEmptyState,{introductionRef:w}):o.createElement(i.List,{sx:{p:2,display:"flex",flexDirection:"column",gap:2}},o.createElement(b.SortableProvider,{value:T,onChange:e=>{(0,g.reorderOverridableGroups)({componentId:t,newOrder:e}),(0,r.setDocumentModifiedStatus)(!0)}},I.map(e=>o.createElement(b.SortableItem,{key:e.id,id:e.id},({triggerProps:s,triggerStyle:a,isDragPlaceholder:i})=>o.createElement(k.PropertiesGroup,{group:e,props:n.props,allGroups:O,allGroupsRecord:n.groups.items,sortableTriggerProps:{...s,style:a},isDragPlaceholder:i,setIsAddingGroup:P,onPropsReorder:n=>{return o=e.id,s=n,(0,u.reorderGroupProps)({componentId:t,groupId:o,newPropsOrder:s}),void(0,r.setDocumentModifiedStatus)(!0);var o,s},onPropertyDelete:handlePropertyDelete,onPropertyUpdate:handlePropertyUpdate,editableLabelProps:x,onGroupDelete:handleGroupDelete})))))))}},"./packages/packages/core/editor-components/src/components/component-properties-panel/component-properties-panel.tsx":function(e,t,n){n.r(t),n.d(t,{panel:function(){return m},usePanelActions:function(){return d}});var o=n("react"),r=n("@elementor/editor-editing-panel"),s=n("@elementor/editor-elements"),a=n("@elementor/editor-panels"),i=n("@elementor/editor-ui"),c=n("@elementor/ui"),p=n("@wordpress/i18n"),l=n("./packages/packages/core/editor-components/src/components/component-properties-panel/component-properties-panel-content.tsx");const{panel:m,usePanelActions:d}=(0,a.__createPanel)({id:"component-properties-panel",component:function ComponentPropertiesPanel(){const{element:e,elementType:t}=(0,s.useSelectedElement)(),{close:n}=d(),{open:p}=(0,r.usePanelActions)();if(!e||!t)return null;return o.createElement(i.ThemeProvider,null,o.createElement(c.ErrorBoundary,{fallback:o.createElement(ErrorBoundaryFallback,null)},o.createElement(r.ElementProvider,{element:e,elementType:t},o.createElement(a.Panel,null,o.createElement(l.ComponentPropertiesPanelContent,{onClose:()=>{n(),p()}})))))}});const ErrorBoundaryFallback=()=>o.createElement(c.Box,{role:"alert",sx:{minHeight:"100%",p:2}},o.createElement(c.Alert,{severity:"error",sx:{mb:2,maxWidth:400,textAlign:"center"}},o.createElement("strong",null,(0,p.__)("Something went wrong","elementor"))))},"./packages/packages/core/editor-components/src/components/component-properties-panel/properties-empty-state.tsx":function(e,t,n){n.r(t),n.d(t,{PropertiesEmptyState:function(){return PropertiesEmptyState}});var o=n("react"),r=n("@elementor/icons"),s=n("@elementor/ui"),a=n("@wordpress/i18n"),i=n("./packages/packages/core/editor-components/src/components/components-tab/component-introduction.tsx");function PropertiesEmptyState({introductionRef:e}){const[t,n]=(0,o.useState)(!1);return o.createElement(o.Fragment,null,o.createElement(s.Stack,{alignItems:"center",justifyContent:"flex-start",height:"100%",color:"text.secondary",sx:{px:2.5,pt:10,pb:5.5},gap:1},o.createElement(r.ComponentPropListIcon,{fontSize:"large"}),o.createElement(s.Typography,{align:"center",variant:"subtitle2"},(0,a.__)("Add your first property","elementor")),o.createElement(s.Typography,{align:"center",variant:"caption"},(0,a.__)("Make instances flexible while keeping design synced.","elementor")),o.createElement(s.Typography,{align:"center",variant:"caption"},(0,a.__)("Select any element, then click + next to a setting to expose it.","elementor")),o.createElement(s.Link,{variant:"caption",color:"secondary",sx:{textDecorationLine:"underline"},onClick:()=>n(!0)},(0,a.__)("Learn more","elementor"))),o.createElement(i.ComponentIntroduction,{anchorRef:e,shouldShowIntroduction:t,onClose:()=>n(!1)}))}},"./packages/packages/core/editor-components/src/components/component-properties-panel/properties-group.tsx":function(e,t,n){n.r(t),n.d(t,{PropertiesGroup:function(){return PropertiesGroup}});var o=n("react"),r=n("@elementor/editor-ui"),s=n("@elementor/icons"),a=n("@elementor/ui"),i=n("@wordpress/i18n"),c=n("./packages/packages/core/editor-components/src/components/component-properties-panel/property-item.tsx"),p=n("./packages/packages/core/editor-components/src/components/component-properties-panel/sortable.tsx");function _extends(){return _extends=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var o in n)({}).hasOwnProperty.call(n,o)&&(e[o]=n[o])}return e},_extends.apply(null,arguments)}function PropertiesGroup({group:e,props:t,allGroups:n,sortableTriggerProps:l,isDragPlaceholder:m,onPropsReorder:d,onPropertyDelete:u,onPropertyUpdate:g,onGroupDelete:v,editableLabelProps:f}){const y=e.props.map(e=>t[e]).filter(e=>Boolean(e)),h=(0,a.usePopupState)({variant:"popover",disableAutoFocus:!0}),{editableRef:k,isEditing:b,error:C,getEditableProps:E,setEditingGroupId:_,editingGroupId:P}=f,w=e.props.length>0,x=b&&P===e.id;return o.createElement(a.Box,{sx:{opacity:m?.5:1}},o.createElement(a.Stack,{gap:1},o.createElement(a.Box,{className:"group-header",sx:{position:"relative","&:hover .group-sortable-trigger":{visibility:"visible"},"& .group-sortable-trigger":{visibility:"hidden"},"&:hover .group-menu":{visibility:"visible"},"& .group-menu":{visibility:"hidden"}}},o.createElement(p.SortableTrigger,_extends({triggerClassName:"group-sortable-trigger"},l)),o.createElement(a.Stack,{direction:"row",alignItems:"center",justifyContent:"space-between",gap:2},x?o.createElement(a.Box,{sx:{height:28,display:"flex",alignItems:"center",border:2,borderColor:"text.secondary",borderRadius:1,pl:.5,flexGrow:1,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",width:"100%"}},o.createElement(r.EditableField,_extends({ref:k,as:a.Typography,variant:"caption",error:C??void 0,sx:{color:"text.primary",fontWeight:400,lineHeight:1.66}},E()))):o.createElement(r.EllipsisWithTooltip,{title:e.label,as:a.Typography,variant:"caption",sx:{color:"text.primary",fontWeight:400,lineHeight:1.66}}),o.createElement(a.IconButton,_extends({className:"group-menu",size:"tiny",sx:{p:.25,visibility:x?"visible":void 0},"aria-label":(0,i.__)("Group actions","elementor")},(0,a.bindTrigger)(h)),o.createElement(s.DotsVerticalIcon,{fontSize:"tiny"})))),o.createElement(a.List,{sx:{p:0,display:"flex",flexDirection:"column",gap:1}},o.createElement(p.SortableProvider,{value:e.props,onChange:d},y.map(e=>o.createElement(p.SortableItem,{key:e.overrideKey,id:e.overrideKey},({triggerProps:r,triggerStyle:s,isDragPlaceholder:a})=>o.createElement(c.PropertyItem,{prop:e,sortableTriggerProps:{...r,style:s},isDragPlaceholder:a,groups:n,existingLabels:Object.values(t).map(e=>e.label),onDelete:u,onUpdate:t=>g(e.overrideKey,t)})))))),o.createElement(a.Menu,_extends({},(0,a.bindMenu)(h),{anchorOrigin:{vertical:"bottom",horizontal:"right"},transformOrigin:{vertical:"top",horizontal:"right"}}),o.createElement(r.MenuListItem,{sx:{minWidth:"160px"},onClick:()=>{h.close(),_(e.id)}},o.createElement(a.Typography,{variant:"caption",sx:{color:"text.primary"}},(0,i.__)("Rename","elementor"))),o.createElement(a.Tooltip,{title:w?(0,i.__)("To delete the group, first remove all the properties","elementor"):"",placement:"right"},o.createElement("span",null,o.createElement(r.MenuListItem,{onClick:()=>{h.close(),v(e.id)},disabled:w},o.createElement(a.Typography,{variant:"caption",sx:{color:w?"text.disabled":"error.light"}},(0,i.__)("Delete","elementor")))))))}},"./packages/packages/core/editor-components/src/components/component-properties-panel/property-item.tsx":function(e,t,n){n.r(t),n.d(t,{PropertyItem:function(){return PropertyItem}});var o=n("react"),r=n("@elementor/editor-elements"),s=n("@elementor/icons"),a=n("@elementor/ui"),i=n("./packages/packages/core/editor-components/src/components/overridable-props/overridable-prop-form.tsx"),c=n("./packages/packages/core/editor-components/src/components/component-properties-panel/sortable.tsx");function _extends(){return _extends=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var o in n)({}).hasOwnProperty.call(n,o)&&(e[o]=n[o])}return e},_extends.apply(null,arguments)}function PropertyItem({prop:e,sortableTriggerProps:t,isDragPlaceholder:n,groups:p,existingLabels:l,onDelete:m,onUpdate:d}){const u=(0,a.usePopupState)({variant:"popover"}),g=function getElementIcon(e){const t="widget"===e.elType?e.widgetType:e.elType,n=(0,r.getWidgetsCache)();if(!n)return"eicon-apps";const o=n[t];return o?.icon||"eicon-apps"}(e),v=(0,a.bindPopover)(u);return o.createElement(o.Fragment,null,o.createElement(a.Box,_extends({},(0,a.bindTrigger)(u),{sx:{position:"relative",pl:.5,pr:1,py:.25,minHeight:28,borderRadius:1,border:"1px solid",borderColor:"divider",display:"flex",alignItems:"center",gap:.5,opacity:n?.5:1,cursor:"pointer","&:hover":{backgroundColor:"action.hover"},"&:hover .sortable-trigger":{visibility:"visible"},"& .sortable-trigger":{visibility:"hidden"},"&:hover .delete-button":{visibility:"visible"},"& .delete-button":{visibility:"hidden"}}}),o.createElement(c.SortableTrigger,t),o.createElement(a.Box,{sx:{display:"flex",alignItems:"center",color:"text.primary",fontSize:12,padding:.25}},o.createElement("i",{className:g})),o.createElement(a.Typography,{variant:"caption",sx:{color:"text.primary",flexGrow:1,fontSize:10}},e.label),o.createElement(a.IconButton,{size:"tiny",onClick:t=>{t.stopPropagation(),m(e.overrideKey)},"aria-label":"Delete property",sx:{p:.25}},o.createElement(s.XIcon,{fontSize:"tiny"}))),o.createElement(a.Popover,_extends({},v,{anchorOrigin:{vertical:"bottom",horizontal:"left"},transformOrigin:{vertical:"top",horizontal:"left"},PaperProps:{sx:{width:u.anchorEl?.getBoundingClientRect().width}}}),o.createElement(i.OverridablePropForm,{onSubmit:e=>{d(e),u.close()},currentValue:e,groups:p,existingLabels:l,sx:{width:"100%"}})))}},"./packages/packages/core/editor-components/src/components/component-properties-panel/sortable.tsx":function(e,t,n){n.r(t),n.d(t,{SortableItem:function(){return SortableItem},SortableProvider:function(){return SortableProvider},SortableTrigger:function(){return SortableTrigger}});var o=n("react"),r=n("@elementor/icons"),s=n("@elementor/ui");function _extends(){return _extends=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var o in n)({}).hasOwnProperty.call(n,o)&&(e[o]=n[o])}return e},_extends.apply(null,arguments)}const SortableProvider=e=>o.createElement(s.UnstableSortableProvider,_extends({restrictAxis:!0,variant:"static",dragPlaceholderStyle:{opacity:"1"}},e)),SortableTrigger=({triggerClassName:e,...t})=>o.createElement(a,_extends({},t,{role:"button",className:`sortable-trigger ${e??""}`.trim(),"aria-label":"sort"}),o.createElement(r.GripVerticalIcon,{fontSize:"tiny"})),SortableItem=({children:e,id:t})=>o.createElement(s.UnstableSortableItem,{id:t,render:({itemProps:t,isDragged:n,triggerProps:r,itemStyle:a,triggerStyle:c,dropIndicationStyle:p,showDropIndication:l,isDragOverlay:m,isDragPlaceholder:d})=>o.createElement(s.Box,_extends({},t,{style:a,component:"div",role:"listitem",sx:{backgroundColor:m?"background.paper":void 0}}),e({isDragged:n,isDragPlaceholder:d,triggerProps:r,triggerStyle:c}),l&&o.createElement(i,{style:p}))}),a=(0,s.styled)("div")(({theme:e})=>({position:"absolute",left:"-2px",top:"50%",transform:`translate( -${e.spacing(1.5)}, -50% )`,color:e.palette.action.active,cursor:"grab"})),i=(0,s.styled)(s.Box)`
-	width: 100%;
-	height: 1px;
-	background-color: ${({theme:e})=>e.palette.text.primary};
-`},"./packages/packages/core/editor-components/src/components/component-properties-panel/use-current-editable-item.ts":function(e,t,n){n.r(t),n.d(t,{useCurrentEditableItem:function(){return useCurrentEditableItem}});var o=n("react"),r=n("@elementor/editor-documents"),s=n("@elementor/editor-ui"),a=n("@wordpress/i18n"),i=n("./packages/packages/core/editor-components/src/store/actions/rename-overridable-group.ts"),c=n("./packages/packages/core/editor-components/src/store/store.ts"),p=n("./packages/packages/core/editor-components/src/components/component-panel-header/use-overridable-props.ts"),l=n("./packages/packages/core/editor-components/src/components/component-properties-panel/utils/validate-group-label.ts");function useCurrentEditableItem(){const[e,t]=(0,o.useState)(null),n=(0,c.useCurrentComponentId)(),m=(0,p.useOverridableProps)(n),d=m?.groups?.items??{},u=e?d[e]:null,{ref:g,openEditMode:v,isEditing:f,error:y,getProps:h}=(0,s.useEditable)({value:u?.label??"",onSubmit:t=>{if(!e||!n)throw new Error((0,a.__)("Group ID or component ID is missing","elementor"));(0,i.renameOverridableGroup)({componentId:n,groupId:e,label:t}),(0,r.setDocumentModifiedStatus)(!0)},validation:t=>{const n=Object.fromEntries(Object.entries(d).filter(([t])=>t!==e));return(0,l.validateGroupLabel)(t,n)||null}});return{editableRef:g,isEditing:f,error:y,getEditableProps:h,setEditingGroupId:e=>{t(e),v()},editingGroupId:e}}},"./packages/packages/core/editor-components/src/components/component-properties-panel/utils/generate-unique-label.ts":function(e,t,n){n.r(t),n.d(t,{generateUniqueLabel:function(){return generateUniqueLabel}});const o="New group";function generateUniqueLabel(e){const t=new Set(e.map(e=>e.label));if(!t.has(o))return o;let n=1,r=`${o}-${n}`;for(;t.has(r);)n++,r=`${o}-${n}`;return r}},"./packages/packages/core/editor-components/src/components/component-properties-panel/utils/validate-group-label.ts":function(e,t,n){n.r(t),n.d(t,{ERROR_MESSAGES:function(){return r},validateGroupLabel:function(){return validateGroupLabel}});var o=n("@wordpress/i18n");const r={EMPTY_NAME:(0,o.__)("Group name is required","elementor"),DUPLICATE_NAME:(0,o.__)("Group name already exists","elementor")};function validateGroupLabel(e,t){const n=e.trim();if(!n)return r.EMPTY_NAME;return Object.values(t).some(e=>e.label===n)?r.DUPLICATE_NAME:""}},"./packages/packages/core/editor-components/src/components/components-tab/component-introduction.tsx":function(e,t,n){n.r(t),n.d(t,{ComponentIntroduction:function(){return ComponentIntroduction}});var o=n("react"),r=n("@elementor/editor-controls"),s=n("@elementor/editor-ui"),a=n("@elementor/ui"),i=n("@wordpress/i18n");const ComponentIntroduction=({anchorRef:e,shouldShowIntroduction:t,onClose:n})=>e.current&&t?o.createElement(a.Popover,{anchorEl:e.current,open:t,anchorOrigin:{vertical:"top",horizontal:"right"},transformOrigin:{vertical:"top",horizontal:-30},onClose:n},o.createElement(a.Box,{sx:{width:"296px"}},o.createElement(s.PopoverHeader,{title:(0,i.__)("Add your first property","elementor"),onClose:n}),o.createElement(a.Image,{sx:{width:"296px",height:"160px"},src:"https://assets.elementor.com/packages/v1/images/components-properties-intro.png",alt:""}),o.createElement(r.PopoverContent,null,o.createElement(a.Stack,{sx:{p:2}},o.createElement(a.Typography,{variant:"body2"},(0,i.__)("Properties make instances flexible.","elementor")),o.createElement(a.Typography,{variant:"body2"},(0,i.__)("Select any Element, then in the General tab, click next to any setting you want users to customize - like text, images, or links.","elementor")),o.createElement(a.Typography,{variant:"body2",sx:{mt:2}},(0,i.__)("Your properties will appear in the Properties panel, where you can organize and manage them anytime.","elementor")),o.createElement(a.Link,{href:"http://go.elementor.com/components-guide",target:"_blank",sx:{mt:2},color:"info.main",variant:"body2"},(0,i.__)("Learn more","elementor")),o.createElement(a.Stack,{direction:"row",alignItems:"center",justifyContent:"flex-end",sx:{pt:1}},o.createElement(a.Button,{size:"medium",variant:"contained",onClick:n},(0,i.__)("Got it","elementor"))))))):null},"./packages/packages/core/editor-components/src/components/components-tab/component-search.tsx":function(e,t,n){n.r(t),n.d(t,{ComponentSearch:function(){return ComponentSearch}});var o=n("react"),r=n("@elementor/icons"),s=n("@elementor/ui"),a=n("@wordpress/i18n"),i=n("./packages/packages/core/editor-components/src/components/components-tab/search-provider.tsx");const ComponentSearch=()=>{const{inputValue:e,handleChange:t}=(0,i.useSearch)();return o.createElement(s.Stack,{direction:"row",gap:.5,sx:{width:"100%",px:2,py:1.5}},o.createElement(s.Box,{sx:{flexGrow:1}},o.createElement(s.TextField,{role:"search",fullWidth:!0,size:"tiny",value:e,placeholder:(0,a.__)("Search","elementor"),onChange:e=>t(e.target.value),InputProps:{startAdornment:o.createElement(s.InputAdornment,{position:"start"},o.createElement(r.SearchIcon,{fontSize:"tiny"}))}})))}},"./packages/packages/core/editor-components/src/components/components-tab/components-item.tsx":function(e,t,n){n.r(t),n.d(t,{ComponentItem:function(){return ComponentItem}});var o=n("react"),r=n("@elementor/editor-canvas"),s=n("@elementor/editor-elements"),a=n("@elementor/editor-ui"),i=n("@elementor/icons"),c=n("@elementor/ui"),p=n("@wordpress/i18n"),l=n("./packages/packages/core/editor-components/src/hooks/use-components-permissions.ts"),m=n("./packages/packages/core/editor-components/src/store/actions/archive-component.ts"),d=n("./packages/packages/core/editor-components/src/store/actions/load-components-assets.ts"),u=n("./packages/packages/core/editor-components/src/utils/component-name-validation.ts"),g=n("./packages/packages/core/editor-components/src/utils/get-container-for-new-element.ts"),v=n("./packages/packages/core/editor-components/src/components/create-component-form/utils/replace-element-with-component.ts"),f=n("./packages/packages/core/editor-components/src/components/components-tab/delete-confirmation-dialog.tsx");function _extends(){return _extends=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var o in n)({}).hasOwnProperty.call(n,o)&&(e[o]=n[o])}return e},_extends.apply(null,arguments)}const ComponentItem=({component:e,renameComponent:t})=>{const n=(0,o.useRef)(null),[s,u]=(0,o.useState)(!1),{canRename:g,canDelete:h}=(0,l.useComponentsPermissions)(),k=g||h,{ref:b,isEditing:C,openEditMode:E,error:_,getProps:P}=(0,a.useEditable)({value:e.name,onSubmit:t,validation:validateComponentTitle}),w=(0,v.createComponentModel)(e),x=(0,c.usePopupState)({variant:"popover",disableAutoFocus:!0});return o.createElement(c.Stack,null,o.createElement(a.WarningInfotip,{open:Boolean(_),text:_??"",placement:"bottom",width:n.current?.getBoundingClientRect().width,offset:[0,-15]},o.createElement(c.ListItemButton,{draggable:!0,onDragStart:e=>(0,r.startDragElementFromPanel)(w,e),onDragEnd:()=>{(0,d.loadComponentsAssets)([w]),(0,r.endDragElementFromPanel)()},shape:"rounded",ref:n,sx:{border:"solid 1px",borderColor:"divider",py:.5,px:1,display:"flex",width:"100%",alignItems:"center",gap:1}},o.createElement(c.Box,{display:"flex",alignItems:"center",gap:1,minWidth:0,flexGrow:1,onClick:()=>{addComponentToPage(w)}},o.createElement(c.ListItemIcon,{size:"tiny"},o.createElement(i.ComponentsIcon,{fontSize:"tiny"})),o.createElement(y,{isActive:C,isError:!!_},o.createElement(c.Box,{display:"flex",flex:1,minWidth:0,flexGrow:1},C?o.createElement(a.EditableField,_extends({ref:b,as:c.Typography,variant:"caption"},P())):o.createElement(a.EllipsisWithTooltip,{title:e.name,as:c.Typography,variant:"caption",color:"text.primary"})))),k&&o.createElement(c.IconButton,_extends({size:"tiny"},(0,c.bindTrigger)(x),{"aria-label":"More actions"}),o.createElement(i.DotsVerticalIcon,{fontSize:"tiny"})))),k&&o.createElement(c.Menu,_extends({},(0,c.bindMenu)(x),{anchorOrigin:{vertical:"bottom",horizontal:"right"},transformOrigin:{vertical:"top",horizontal:"right"}}),g&&o.createElement(a.MenuListItem,{sx:{minWidth:"160px"},primaryTypographyProps:{variant:"caption",color:"text.primary"},onClick:()=>{x.close(),E()}},(0,p.__)("Rename","elementor")),h&&o.createElement(a.MenuListItem,{sx:{minWidth:"160px"},primaryTypographyProps:{variant:"caption",color:"error.light"},onClick:()=>{u(!0),x.close()}},(0,p.__)("Delete","elementor"))),o.createElement(f.DeleteConfirmationDialog,{open:s,onClose:()=>{u(!1)},onConfirm:()=>{if(!e.id)throw new Error("Component ID is required");u(!1),(0,m.archiveComponent)(e.id,e.name)}}))},addComponentToPage=e=>{const{container:t,options:n}=(0,g.getContainerForNewElement)();if(!t)throw new Error("Can't find container to drop new component instance at");(0,d.loadComponentsAssets)([e]),(0,s.dropElement)({containerId:t.id,model:e,options:{...n,useHistory:!1,scrollIntoView:!0}})},validateComponentTitle=e=>{const t=(0,u.validateComponentName)(e);return t.errorMessage?t.errorMessage:null},y=(0,c.styled)(c.Box,{shouldForwardProp:e=>"isActive"!==e&&"isError"!==e})(({theme:e,isActive:t,isError:n})=>({display:"flex",width:"100%",flexGrow:1,borderRadius:e.spacing(.5),border:getIndicatorBorder({isActive:t,isError:n,theme:e}),padding:`0 ${e.spacing(1)}`,marginLeft:t?e.spacing(1):0,minWidth:0})),getIndicatorBorder=({isActive:e,isError:t,theme:n})=>t?`2px solid ${n.palette.error.main}`:e?`2px solid ${n.palette.secondary.main}`:"none"},"./packages/packages/core/editor-components/src/components/components-tab/components-list.tsx":function(e,t,n){n.r(t),n.d(t,{ComponentsList:function(){return ComponentsList}});var o=n("react"),r=n("@elementor/icons"),s=n("@elementor/ui"),a=n("@wordpress/i18n"),i=n("./packages/packages/core/editor-components/src/hooks/use-components.ts"),c=n("./packages/packages/core/editor-components/src/hooks/use-components-permissions.ts"),p=n("./packages/packages/core/editor-components/src/store/actions/rename-component.ts"),l=n("./packages/packages/core/editor-components/src/components/components-tab/components-item.tsx"),m=n("./packages/packages/core/editor-components/src/components/components-tab/loading-components.tsx"),d=n("./packages/packages/core/editor-components/src/components/components-tab/search-provider.tsx");const u={fontSize:"0.875rem !important",fontWeight:"500 !important"};function ComponentsList(){const{components:e,isLoading:t,searchValue:n}=useFilteredComponents();if(t)return o.createElement(m.LoadingComponents,null);return!e||0===e.length?n.length>0?o.createElement(EmptySearchResult,null):o.createElement(EmptyState,null):o.createElement(s.List,{sx:{display:"flex",flexDirection:"column",gap:1,px:2}},e.map(e=>o.createElement(l.ComponentItem,{key:e.uid,component:e,renameComponent:t=>{(0,p.renameComponent)(e.uid,t)}})))}const EmptyState=()=>{const{canCreate:e}=(0,c.useComponentsPermissions)();return o.createElement(s.Stack,{alignItems:"center",justifyContent:"start",height:"100%",sx:{px:2,py:4},gap:2,overflow:"hidden"},o.createElement(s.Stack,{alignItems:"center",gap:1},o.createElement(r.ComponentsIcon,{fontSize:"large",sx:{color:"text.secondary"}}),o.createElement(s.Typography,{align:"center",variant:"subtitle2",color:"text.secondary",sx:u},(0,a.__)("No components yet","elementor")),o.createElement(s.Typography,{align:"center",variant:"caption",color:"secondary",sx:{maxWidth:200}},(0,a.__)("Components are reusable blocks that sync across your site.","elementor"),o.createElement("br",null),e?(0,a.__)("Create once, use everywhere.","elementor"):(0,a.__)("With your current role, you cannot create components. Contact an administrator to create one.","elementor")),o.createElement(s.Link,{href:"http://go.elementor.com/components-guide-article",target:"_blank",rel:"noopener noreferrer",variant:"caption",color:"info.main"},(0,a.__)("Learn more about components","elementor"))),e&&o.createElement(o.Fragment,null,o.createElement(s.Divider,{sx:{width:"100%"}}),o.createElement(s.Stack,{alignItems:"center",gap:1,width:"100%"},o.createElement(s.Typography,{align:"center",variant:"subtitle2",color:"text.secondary",sx:u},(0,a.__)("Create your first one:","elementor")),o.createElement(s.Typography,{align:"center",variant:"caption",color:"secondary",sx:{maxWidth:228}},(0,a.__)('Right-click any div-block or flexbox on your canvas or structure and select "Create component"',"elementor")))))},EmptySearchResult=()=>{const{searchValue:e,clearSearch:t}=(0,d.useSearch)();return o.createElement(s.Stack,{color:"text.secondary",pt:5,alignItems:"center",gap:1,overflow:"hidden",justifySelf:"center"},o.createElement(r.ComponentsIcon,null),o.createElement(s.Box,{sx:{width:"100%"}},o.createElement(s.Typography,{align:"center",variant:"subtitle2",color:"inherit",sx:u},(0,a.__)("Sorry, nothing matched","elementor")),e&&o.createElement(s.Typography,{variant:"subtitle2",color:"inherit",sx:{...u,display:"flex",width:"100%",justifyContent:"center"}},o.createElement("span",null,"“"),o.createElement("span",{style:{maxWidth:"80%",overflow:"hidden",textOverflow:"ellipsis"}},e),o.createElement("span",null,"”."))),o.createElement(s.Typography,{align:"center",variant:"caption",color:"inherit"},(0,a.__)("Try something else.","elementor")),o.createElement(s.Typography,{align:"center",variant:"caption",color:"inherit"},o.createElement(s.Link,{color:"secondary",variant:"caption",component:"button",onClick:t},(0,a.__)("Clear & try again","elementor"))))},useFilteredComponents=()=>{const{components:e,isLoading:t}=(0,i.useComponents)(),{searchValue:n}=(0,d.useSearch)();return{components:e.filter(e=>e.name.toLowerCase().includes(n.toLowerCase())),isLoading:t,searchValue:n}}},"./packages/packages/core/editor-components/src/components/components-tab/components-pro-notification.tsx":function(e,t,n){n.r(t),n.d(t,{ComponentsProNotification:function(){return ComponentsProNotification}});var o=n("react"),r=n("@elementor/editor-ui"),s=n("@elementor/ui"),a=n("@wordpress/i18n");function ComponentsProNotification(){return o.createElement(s.Box,{sx:{px:2}},o.createElement(r.InfoAlert,null,o.createElement(s.Typography,{variant:"caption",component:"span"},o.createElement(s.Typography,{variant:"caption",component:"span",fontWeight:"bold"},(0,a.__)("Try Components for free:","elementor"))," ",(0,a.__)("Soon Components will be part of the Pro subscription, but what you create now will remain on your site.","elementor"))))}},"./packages/packages/core/editor-components/src/components/components-tab/components.tsx":function(e,t,n){n.r(t),n.d(t,{Components:function(){return Components}});var o=n("react"),r=n("@elementor/editor-ui"),s=n("./packages/packages/core/editor-components/src/hooks/use-components.ts"),a=n("./packages/packages/core/editor-components/src/utils/is-pro-user.ts"),i=n("./packages/packages/core/editor-components/src/components/components-tab/component-search.tsx"),c=n("./packages/packages/core/editor-components/src/components/components-tab/components-list.tsx"),p=n("./packages/packages/core/editor-components/src/components/components-tab/components-pro-notification.tsx"),l=n("./packages/packages/core/editor-components/src/components/components-tab/search-provider.tsx");const ComponentsContent=()=>{const{components:e,isLoading:t}=(0,s.useComponents)(),n=!t&&e.length>0;return o.createElement(o.Fragment,null,n&&o.createElement(i.ComponentSearch,null),n&&!(0,a.isProUser)()&&o.createElement(p.ComponentsProNotification,null),o.createElement(c.ComponentsList,null))},Components=()=>o.createElement(r.ThemeProvider,null,o.createElement(l.SearchProvider,{localStorageKey:"elementor-components-search"},o.createElement(ComponentsContent,null)))},"./packages/packages/core/editor-components/src/components/components-tab/delete-confirmation-dialog.tsx":function(e,t,n){n.r(t),n.d(t,{DeleteConfirmationDialog:function(){return DeleteConfirmationDialog}});var o=n("react"),r=n("@elementor/editor-ui"),s=n("@wordpress/i18n");function DeleteConfirmationDialog({open:e,onClose:t,onConfirm:n}){return o.createElement(r.ConfirmationDialog,{open:e,onClose:t},o.createElement(r.ConfirmationDialog.Title,null,(0,s.__)("Delete this component?","elementor")),o.createElement(r.ConfirmationDialog.Content,null,o.createElement(r.ConfirmationDialog.ContentText,null,(0,s.__)("Existing instances on your pages will remain functional. You will no longer find this component in your list.","elementor"))),o.createElement(r.ConfirmationDialog.Actions,{onClose:t,onConfirm:n}))}},"./packages/packages/core/editor-components/src/components/components-tab/loading-components.tsx":function(e,t,n){n.r(t),n.d(t,{LoadingComponents:function(){return LoadingComponents}});var o=n("react"),r=n("@elementor/ui");const s=Array.from({length:6},(e,t)=>t),LoadingComponents=()=>o.createElement(r.Stack,{"aria-label":"Loading components",gap:1,sx:{pointerEvents:"none",position:"relative",maxHeight:"300px",overflow:"hidden","&:after":{position:"absolute",top:0,content:'""',left:0,width:"100%",height:"300px",background:"linear-gradient(to top, white, transparent)",pointerEvents:"none"}}},s.map(e=>o.createElement(r.ListItemButton,{key:e,sx:{border:"solid 1px",borderColor:"divider",py:.5,px:1},shape:"rounded"},o.createElement(r.Box,{display:"flex",gap:1,width:"100%"},o.createElement(r.Skeleton,{variant:"text",width:"24px",height:"36px"}),o.createElement(r.Skeleton,{variant:"text",width:"100%",height:"36px"})))))},"./packages/packages/core/editor-components/src/components/components-tab/search-provider.tsx":function(e,t,n){n.r(t),n.d(t,{SearchProvider:function(){return SearchProvider},useSearch:function(){return useSearch}});var o=n("react"),r=n("@elementor/utils");const s=(0,o.createContext)(void 0),SearchProvider=({children:e,localStorageKey:t})=>{const{debouncedValue:n,handleChange:a,inputValue:i}=(0,r.useSearchState)({localStorageKey:t});return o.createElement(s.Provider,{value:{handleChange:a,clearSearch:()=>{a("")},searchValue:n,inputValue:i}},e)},useSearch=()=>{const e=(0,o.useContext)(s);if(!e)throw new Error("useSearch must be used within a SearchProvider");return e}},"./packages/packages/core/editor-components/src/components/consts.ts":function(e,t,n){n.r(t),n.d(t,{COMPONENT_DOCUMENT_TYPE:function(){return o},OVERRIDABLE_PROP_REPLACEMENT_ID:function(){return r}});const o="elementor_component",r="overridable-prop"},"./packages/packages/core/editor-components/src/components/control-label.tsx":function(e,t,n){n.r(t),n.d(t,{ControlLabel:function(){return ControlLabel}});var o=n("react"),r=n("@elementor/editor-controls"),s=n("@elementor/ui");const ControlLabel=({children:e,...t})=>o.createElement(s.Stack,{direction:"row",alignItems:"center",justifyItems:"start",gap:.25},o.createElement(r.ControlFormLabel,t,e),o.createElement(r.ControlAdornments,null))},"./packages/packages/core/editor-components/src/components/create-component-form/create-component-form.tsx":function(e,t,n){n.r(t),n.d(t,{CreateComponentForm:function(){return CreateComponentForm}});var o=n("react"),r=n("@elementor/editor-elements"),s=n("@elementor/editor-notifications"),a=n("@elementor/editor-ui"),i=n("@elementor/icons"),c=n("@elementor/store"),p=n("@elementor/ui"),l=n("@wordpress/i18n"),m=n("./packages/packages/core/editor-components/src/hooks/use-components.ts"),d=n("./packages/packages/core/editor-components/src/prevent-non-atomic-nesting.ts"),u=n("./packages/packages/core/editor-components/src/store/actions/create-unpublished-component.ts"),g=n("./packages/packages/core/editor-components/src/store/store.ts"),v=n("./packages/packages/core/editor-components/src/utils/switch-to-component.ts"),f=n("./packages/packages/core/editor-components/src/utils/tracking.ts"),y=n("./packages/packages/core/editor-components/src/components/create-component-form/hooks/use-form.ts"),h=n("./packages/packages/core/editor-components/src/components/create-component-form/utils/component-form-schema.ts"),k=n("./packages/packages/core/editor-components/src/components/create-component-form/utils/get-component-event-data.ts");const b=100;function CreateComponentForm(){const[e,t]=(0,o.useState)(null),[n,i]=(0,o.useState)(),{components:y}=(0,m.useComponents)(),h=(0,o.useRef)(null);(0,o.useEffect)(()=>{const e="elementor/editor/open-save-as-component-form",openPopup=e=>{const{shouldOpen:n,notification:o}=function shouldOpenForm(e,t){const n=(0,d.findNonAtomicElementsInElement)(e);if(n.length>0)return{shouldOpen:!1,notification:{type:"default",message:(0,l.__)("Components require atomic elements only. Remove widgets to create this component.","elementor"),id:"non-atomic-element-save-blocked"}};if(t>=b)return{shouldOpen:!1,notification:{type:"default",message:(0,l.__)("You've reached the limit of %s components. Please remove an existing one to create a new component.","elementor").replace("%s",b.toString()),id:"maximum-number-of-components-exceeded"}};return{shouldOpen:!0,notification:null}}(e.detail.element,y?.length??0);n?(t({element:e.detail.element,elementLabel:(0,r.getElementLabel)(e.detail.element.id)}),i(e.detail.anchorPosition),h.current=(0,k.getComponentEventData)(e.detail.element,e.detail.options),(0,f.trackComponentEvent)({action:"createClicked",source:"user",...h.current})):(0,s.notify)(o)};return window.addEventListener(e,openPopup),()=>{window.removeEventListener(e,openPopup)}},[y?.length]);const resetAndClosePopup=()=>{t(null),i(void 0)},cancelSave=()=>{resetAndClosePopup(),(0,f.trackComponentEvent)({action:"createCancelled",source:"user",...h.current})};return o.createElement(a.ThemeProvider,null,o.createElement(p.Popover,{open:null!==e,onClose:cancelSave,anchorReference:"anchorPosition",anchorPosition:n},null!==e&&o.createElement(Form,{initialValues:{componentName:e.elementLabel},handleSave:async t=>{try{if(!e)throw new Error("Can't save element as component: element not found");const{uid:n,instanceId:o}=await(0,u.createUnpublishedComponent)({name:t.componentName,element:e.element,eventData:h.current,source:"user"}),r=(0,g.selectComponentByUid)((0,c.__getState)(),n)?.id;if(!r)throw new Error("Failed to find published component");(0,v.switchToComponent)(r,o),(0,s.notify)({type:"success",message:(0,l.__)("Component created successfully.","elementor"),id:`component-saved-successfully-${n}`}),resetAndClosePopup()}catch{const e=(0,l.__)("Failed to create component. Please try again.","elementor");(0,s.notify)({type:"error",message:e,id:"component-save-failed"}),resetAndClosePopup()}},closePopup:cancelSave})))}const C="tiny",Form=({initialValues:e,handleSave:t,closePopup:n})=>{const{values:r,errors:s,isValid:c,handleChange:d,validateForm:u}=(0,y.useForm)(e),{components:g}=(0,m.useComponents)(),v=(0,o.useMemo)(()=>g?.map(e=>e.name)??[],[g]),f=(0,o.useMemo)(()=>(0,h.createBaseComponentSchema)(v),[v]),k=(0,o.useMemo)(()=>(0,h.createSubmitComponentSchema)(v),[v]),b={heading:(0,l.__)("Create component","elementor"),name:(0,l.__)("Name","elementor"),cancel:(0,l.__)("Cancel","elementor"),create:(0,l.__)("Create","elementor")},E="component-name";return o.createElement(a.Form,{onSubmit:()=>{const{success:e,parsedValues:n}=u(k);e&&t(n)}},o.createElement(p.Stack,{alignItems:"start",width:"268px"},o.createElement(p.Stack,{direction:"row",alignItems:"center",py:1,px:1.5,sx:{columnGap:.5,borderBottom:"1px solid",borderColor:"divider",width:"100%"}},o.createElement(i.ComponentsIcon,{fontSize:C}),o.createElement(p.Typography,{variant:"caption",sx:{color:"text.primary",fontWeight:"500",lineHeight:1}},b.heading)),o.createElement(p.Grid,{container:!0,gap:.75,alignItems:"start",p:1.5},o.createElement(p.Grid,{item:!0,xs:12},o.createElement(p.FormLabel,{htmlFor:E,size:"tiny"},b.name)),o.createElement(p.Grid,{item:!0,xs:12},o.createElement(p.TextField,{id:E,size:C,fullWidth:!0,value:r.componentName,onChange:e=>d(e,"componentName",f),inputProps:{style:{color:"text.primary",fontWeight:"600"}},error:Boolean(s.componentName),helperText:s.componentName}))),o.createElement(p.Stack,{direction:"row",justifyContent:"flex-end",alignSelf:"end",py:1,px:1.5},o.createElement(p.Button,{onClick:n,color:"secondary",variant:"text",size:"small"},b.cancel),o.createElement(p.Button,{type:"submit",disabled:!c,variant:"contained",color:"primary",size:"small"},b.create))))}},"./packages/packages/core/editor-components/src/components/create-component-form/hooks/use-form.ts":function(e,t,n){n.r(t),n.d(t,{useForm:function(){return useForm}});var o=n("react");const useForm=e=>{const[t,n]=(0,o.useState)(e),[r,s]=(0,o.useState)({}),a=(0,o.useMemo)(()=>!Object.values(r).some(e=>e),[r]);return{values:t,errors:r,isValid:a,handleChange:(e,o,r)=>{const a={...t,[o]:e.target.value};n(a);const{success:i,errors:c}=validateForm(a,r);s(i?{}:c)},validateForm:e=>{const{success:n,errors:o,parsedValues:r}=validateForm(t,e);return n?(s({}),{success:n,parsedValues:r}):(s(o),{success:n})}}},validateForm=(e,t)=>{const n=t.safeParse(e);if(n.success)return{success:!0,parsedValues:n.data};const o={};return Object.entries(n.error.formErrors.fieldErrors).forEach(([e,t])=>{o[e]=t[0]}),{success:!1,errors:o}}},"./packages/packages/core/editor-components/src/components/create-component-form/utils/component-form-schema.ts":function(e,t,n){n.r(t),n.d(t,{MIN_NAME_LENGTH:function(){return s},createBaseComponentSchema:function(){return createBaseComponentSchema},createSubmitComponentSchema:function(){return createSubmitComponentSchema}});var o=n("@elementor/schema"),r=n("@wordpress/i18n");const s=2,a=o.z.string().trim().max(50,(0,r.__)("Component name is too long. Please keep it under 50 characters.","elementor")),createBaseComponentSchema=e=>o.z.object({componentName:a.refine(t=>!e.includes(t),{message:(0,r.__)("Component name already exists","elementor")})}),createSubmitComponentSchema=e=>{const t=createBaseComponentSchema(e);return t.extend({componentName:t.shape.componentName.refine(e=>e.length>0,{message:(0,r.__)("Component name is required.","elementor")}).refine(e=>e.length>=s,{message:(0,r.__)("Component name is too short. Please enter at least 2 characters.","elementor")})})}},"./packages/packages/core/editor-components/src/components/create-component-form/utils/get-component-event-data.ts":function(e,t,n){n.r(t),n.d(t,{getComponentEventData:function(){return getComponentEventData}});const getComponentEventData=(e,t)=>{const{elementsCount:n,componentsCount:o}=countNestedElements(e);return{nested_elements_count:n,nested_components_count:o,top_element_type:e.elType,location:t?.location,secondary_location:t?.secondaryLocation,trigger:t?.trigger}};function countNestedElements(e){if(!e.elements||0===e.elements.length)return{elementsCount:0,componentsCount:0};let t=e.elements.length,n=0;for(const o of e.elements){"e-component"===o.widgetType&&n++;const{elementsCount:e,componentsCount:r}=countNestedElements(o);t+=e,n+=r}return{elementsCount:t,componentsCount:n}}},"./packages/packages/core/editor-components/src/components/create-component-form/utils/replace-element-with-component.ts":function(e,t,n){n.r(t),n.d(t,{createComponentModel:function(){return createComponentModel},replaceElementWithComponent:function(){return replaceElementWithComponent}});var o=n("@elementor/editor-elements");const replaceElementWithComponent=async(e,t)=>await(0,o.replaceElement)({currentElement:e,newElement:createComponentModel(t),withHistory:!1}),createComponentModel=e=>({elType:"widget",widgetType:"e-component",settings:{component_instance:{$$type:"component-instance",value:{component_id:{$$type:"number",value:e.id??e.uid}}}},editor_settings:{component_uid:e.uid}})},"./packages/packages/core/editor-components/src/components/edit-component/component-modal.tsx":function(e,t,n){n.r(t),n.d(t,{ComponentModal:function(){return ComponentModal}});var o=n("react"),r=n("react-dom"),s=n("@wordpress/i18n"),a=n("./packages/packages/core/editor-components/src/hooks/use-canvas-document.ts"),i=n("./packages/packages/core/editor-components/src/hooks/use-element-rect.ts");function ComponentModal({topLevelElementDom:e,onClose:t}){const n=(0,a.useCanvasDocument)();return(0,o.useEffect)(()=>{const handleEsc=e=>{"Escape"===e.key&&t()};return n?.body.addEventListener("keydown",handleEsc),()=>{n?.body.removeEventListener("keydown",handleEsc)}},[n,t]),n?.body?(0,r.createPortal)(o.createElement(o.Fragment,null,o.createElement(BlockEditPage,null),o.createElement(Backdrop,{canvas:n,element:e,onClose:t})),n.body):null}function Backdrop({canvas:e,element:t,onClose:n}){const r=(0,i.useElementRect)(t),a=t?function getRectPath(e,t){const{x:n,y:o,width:r,height:s}=e,{innerWidth:a,innerHeight:i}=t;return`path(evenodd, 'M 0 0 \n\t\tL ${a} 0\n\t\tL ${a} ${i}\n\t\tL 0 ${i}\n\t\tZ\n\t\tM ${n} ${o}\n\t\tL ${n+r} ${o}\n\t\tL ${n+r} ${o+s}\n\t\tL ${n} ${o+s}\n\t\tL ${n} ${o}\n    \tZ'\n\t)`.replace(/\s{2,}/g," ")}(r,e.defaultView):void 0,c={position:"fixed",top:0,left:0,width:"100vw",height:"100vh",backgroundColor:"rgba(0, 0, 0, 0.5)",zIndex:999,pointerEvents:"painted",cursor:"pointer",clipPath:a};return o.createElement("div",{style:c,onClick:n,onKeyDown:e=>{"Enter"!==e.key&&" "!==e.key||(e.preventDefault(),n())},role:"button",tabIndex:0,"aria-label":(0,s.__)("Exit component editing mode","elementor")})}function BlockEditPage(){return o.createElement("style",{"data-e-style-id":"e-block-v3-document-handles-styles"},"\n\t.elementor-editor-active {\n\t\t& .elementor-section-wrap.ui-sortable {\n\t\t\tdisplay: contents;\n\t\t}\n\n\t\t& *[data-editable-elementor-document]:not(.elementor-edit-mode):hover {\n\t\t\t& .elementor-document-handle:not(.elementor-document-save-back-handle) {\n\t\t\t\tdisplay: none;\n\n\t\t\t\t&::before,\n\t\t\t\t& .elementor-document-handle__inner {\n\t\t\t\t\tdisplay: none;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\t")}},"./packages/packages/core/editor-components/src/components/edit-component/edit-component.tsx":function(e,t,n){n.r(t),n.d(t,{EditComponent:function(){return EditComponent}});var o=n("react"),r=n("@elementor/editor-documents"),s=n("@elementor/editor-v1-adapters"),a=n("@elementor/store"),i=n("@elementor/utils"),c=n("./packages/packages/core/editor-components/src/api.ts"),p=n("./packages/packages/core/editor-components/src/hooks/use-navigate-back.ts"),l=n("./packages/packages/core/editor-components/src/store/actions/update-current-component.ts"),m=n("./packages/packages/core/editor-components/src/store/store.ts"),d=n("./packages/packages/core/editor-components/src/components/consts.ts"),u=n("./packages/packages/core/editor-components/src/components/edit-component/component-modal.tsx");function EditComponent(){const e=(0,m.useCurrentComponentId)();!function useHandleDocumentSwitches(){const e=(0,r.getV1DocumentsManager)(),t=(0,m.useCurrentComponentId)(),n=(0,a.__useSelector)(m.selectPath);(0,o.useEffect)(()=>(0,s.__privateListenTo)((0,s.commandEndEvent)("editor/documents/open"),()=>{const o=e.getCurrent();if(o.id===t)return;t&&c.apiClient.unlockComponent(t);o.config.type===d.COMPONENT_DOCUMENT_TYPE?(0,l.updateCurrentComponent)({path:getUpdatedComponentPath(n,o),currentComponentId:o.id}):(0,l.updateCurrentComponent)({path:[],currentComponentId:null})}),[n,e,t])}();const t=(0,p.useNavigateBack)(),n=(0,i.throttle)(t,100),g=function useComponentDOMElement(e){const{componentContainerDomElement:t,topLevelElementDom:n}=function getComponentDOMElements(e){if(!e)return{componentContainerDomElement:null,topLevelElementDom:null};const t=(0,r.getV1DocumentsManager)().get(e),n=t?.container,o=n?.view?.el?.children?.[0]??null,s=o?.children[0]??null;return{componentContainerDomElement:o,topLevelElementDom:s}}(e),[s,a]=(0,o.useState)(n);return(0,o.useEffect)(()=>{a(n)},[n]),(0,o.useEffect)(()=>{if(!t)return;const e=new MutationObserver(()=>{const e=t.children[0];a(e)});return e.observe(t,{childList:!0}),()=>{e.disconnect()}},[t]),s}(e??void 0);return e?o.createElement(u.ComponentModal,{topLevelElementDom:g,onClose:n}):null}function getUpdatedComponentPath(e,t){const n=e.findIndex(({componentId:e})=>e===t.id);if(n>=0)return e.slice(0,n+1);const o=t?.container.view?.el?.dataset.id,s=function getInstanceTitle(e,t){if(!e)return;const n=(0,r.getV1DocumentsManager)(),o=t.at(-1)?.componentId??n.getInitialId(),s=n.get(o),a=s?.container,i=a?.children?.findRecursive?.(t=>t.id===e),c=i?.model?.get?.("editor_settings");return c?.title}(o,e);return[...e,{instanceId:o,instanceTitle:s,componentId:t.id}]}},"./packages/packages/core/editor-components/src/components/errors.ts":function(e,t,n){n.r(t),n.d(t,{OverrideControlInnerElementNotFoundError:function(){return r}});var o=n("@elementor/utils");const r=(0,o.createError)({code:"override_control_inner_element_not_found",message:"Component inner element not found for override control. The element may have been deleted without updating the overridable props, or the component has not finished rendering yet."})},"./packages/packages/core/editor-components/src/components/in-edit-mode.tsx":function(e,t,n){n.r(t),n.d(t,{openEditModeDialog:function(){return openEditModeDialog}});var o=n("react"),r=n("@elementor/editor-ui"),s=n("@elementor/icons"),a=n("@elementor/ui"),i=n("@wordpress/i18n");const openEditModeDialog=e=>{(0,r.openDialog)({component:o.createElement(EditModeDialog,{lockedBy:e})})},EditModeDialog=({lockedBy:e})=>{const t=(0,i.__)("%s is currently editing this document","elementor").replace("%s",e);return o.createElement(o.Fragment,null,o.createElement(a.DialogHeader,{logo:!1},o.createElement(a.Box,{display:"flex",alignItems:"center",gap:1},o.createElement(a.Icon,{color:"secondary"},o.createElement(s.InfoCircleFilledIcon,{fontSize:"medium"})),o.createElement(a.Typography,{variant:"subtitle1"},t))),o.createElement(a.DialogContent,null,o.createElement(a.Stack,{spacing:2,direction:"column"},o.createElement(a.Typography,{variant:"body2"},(0,i.__)("You can wait for them to finish or reach out to coordinate your changes together.","elementor")),o.createElement(a.DialogActions,null,o.createElement(a.Button,{color:"secondary",variant:"contained",onClick:r.closeDialog},(0,i.__)("Close","elementor"))))))}},"./packages/packages/core/editor-components/src/components/instance-editing-panel/empty-state.tsx":function(e,t,n){n.r(t),n.d(t,{EmptyState:function(){return EmptyState}});var o=n("react"),r=n("@elementor/icons"),s=n("@elementor/ui"),a=n("@wordpress/i18n"),i=n("./packages/packages/core/editor-components/src/hooks/use-components-permissions.ts");const EmptyState=({onEditComponent:e})=>{const{canEdit:t}=(0,i.useComponentsPermissions)(),n=t?(0,a.__)("Edit the component to add properties, manage them or update the design across all instances.","elementor"):(0,a.__)("With your current role, you cannot edit this component. Contact an administrator to add properties.","elementor");return o.createElement(s.Stack,{alignItems:"center",justifyContent:"start",height:"100%",color:"text.secondary",sx:{p:2.5,pt:8,pb:5.5,mt:1},gap:1.5},o.createElement(r.ComponentPropListIcon,{fontSize:"large"}),o.createElement(s.Typography,{align:"center",variant:"subtitle2"},(0,a.__)("No properties yet","elementor")),o.createElement(s.Typography,{align:"center",variant:"caption",maxWidth:"170px"},n),t&&o.createElement(s.Button,{variant:"outlined",color:"secondary",size:"small",sx:{mt:1},onClick:e},o.createElement(r.PencilIcon,{fontSize:"small"}),(0,a.__)("Edit component","elementor")))}},"./packages/packages/core/editor-components/src/components/instance-editing-panel/instance-editing-panel.tsx":function(e,t,n){n.r(t),n.d(t,{InstanceEditingPanel:function(){return InstanceEditingPanel}});var o=n("react"),r=n("@elementor/editor-controls"),s=n("@elementor/editor-editing-panel"),a=n("@elementor/editor-elements"),i=n("@elementor/editor-panels"),c=n("@elementor/editor-ui"),p=n("@elementor/icons"),l=n("@elementor/ui"),m=n("@wordpress/i18n"),d=n("./packages/packages/core/editor-components/src/hooks/use-component-instance-settings.ts"),u=n("./packages/packages/core/editor-components/src/hooks/use-components-permissions.ts"),g=n("./packages/packages/core/editor-components/src/store/store.ts"),v=n("./packages/packages/core/editor-components/src/utils/switch-to-component.ts"),f=n("./packages/packages/core/editor-components/src/components/instance-editing-panel/empty-state.tsx"),y=n("./packages/packages/core/editor-components/src/components/instance-editing-panel/override-props-group.tsx");function InstanceEditingPanel(){const{canEdit:e}=(0,u.useComponentsPermissions)(),t=(0,d.useComponentInstanceSettings)(),n=t?.component_id?.value,h=t?.overrides?.value,k=(0,g.useComponent)(n??null),b=(0,g.useOverridableProps)(n??null),C=(0,a.useSelectedElement)()?.element?.id??null;if(!n||!b||!k)return null;const E=(0,m.__)("Edit %s","elementor").replace("%s",k.name),handleEditComponent=()=>(0,v.switchToComponent)(n,C),_=b.groups.order.map(e=>b.groups.items[e]??null).filter(e=>null!==e&&e.props.length>0),P=0===_.length||0===Object.keys(b.props).length;return o.createElement(o.Fragment,null,o.createElement(i.PanelHeader,{sx:{justifyContent:"start",px:2}},o.createElement(l.Stack,{direction:"row",alignItems:"center",flexGrow:1,gap:1,maxWidth:"100%"},o.createElement(p.ComponentsIcon,{fontSize:"small",sx:{color:"text.tertiary"}}),o.createElement(c.EllipsisWithTooltip,{title:k.name,as:i.PanelHeaderTitle,sx:{flexGrow:1}}),e&&o.createElement(l.Tooltip,{title:E},o.createElement(l.IconButton,{size:"tiny",onClick:handleEditComponent,"aria-label":E},o.createElement(p.PencilIcon,{fontSize:"tiny"}))))),o.createElement(i.PanelBody,null,o.createElement(r.ControlAdornmentsProvider,{items:(0,s.getFieldIndicators)("settings")},P?o.createElement(f.EmptyState,{onEditComponent:handleEditComponent}):o.createElement(l.Stack,{direction:"column",alignItems:"stretch"},_.map(e=>o.createElement(o.Fragment,{key:e.id+C},o.createElement(y.OverridePropsGroup,{group:e,props:b.props,overrides:h}),o.createElement(l.Divider,null)))))))}},"./packages/packages/core/editor-components/src/components/instance-editing-panel/override-prop-control.tsx":function(e,t,n){n.r(t),n.d(t,{OverridePropControl:function(){return OverridePropControl}});var o=n("react"),r=n("@elementor/editor-controls"),s=n("@elementor/editor-editing-panel"),a=n("@elementor/editor-elements"),i=n("@elementor/ui"),c=n("./packages/packages/core/editor-components/src/hooks/use-controls-by-widget-type.ts"),p=n("./packages/packages/core/editor-components/src/prop-types/component-instance-override-prop-type.ts"),l=n("./packages/packages/core/editor-components/src/prop-types/component-instance-overrides-prop-type.ts"),m=n("./packages/packages/core/editor-components/src/prop-types/component-instance-prop-type.ts"),d=n("./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts"),u=n("./packages/packages/core/editor-components/src/provider/overridable-prop-context.tsx"),g=n("./packages/packages/core/editor-components/src/store/actions/update-overridable-prop.ts"),v=n("./packages/packages/core/editor-components/src/store/store.ts"),f=n("./packages/packages/core/editor-components/src/utils/get-prop-type-for-component-override.ts"),y=n("./packages/packages/core/editor-components/src/utils/resolve-override-prop-value.ts"),h=n("./packages/packages/core/editor-components/src/components/control-label.tsx"),k=n("./packages/packages/core/editor-components/src/components/errors.ts"),b=n("./packages/packages/core/editor-components/src/components/instance-editing-panel/use-resolved-origin-value.tsx");function OverridePropControl({overridableProp:e,overrides:t}){return o.createElement(s.SettingsField,{bind:"component_instance",propDisplayName:e.label},o.createElement(OverrideControl,{overridableProp:e,overrides:t}))}function OverrideControl({overridableProp:e,overrides:t}){const n=(0,s.useElement)(),C=(0,v.useCurrentComponentId)(),{value:E,setValue:_}=(0,r.useBoundProp)(m.componentInstancePropTypeUtil),P=(0,c.useControlsByWidgetType)(e?.originPropFields?.widgetType??e.widgetType),w=(0,s.getControlReplacements)(),x=function getMatchingOverride(e,t){const n=e?.find(e=>{const n=d.componentOverridablePropTypeUtil.extract(e);let o=null;return o=n?n.origin_value?.value?.override_key:e.value.override_key,o===t})??null;return n}(t,e.overrideKey),I=(0,b.useResolvedOriginValue)(x,e),O=(0,f.getPropTypeForComponentOverride)(e);if(!O)return null;const S=E.component_id?.value;if(!S)throw new Error("Component ID is required");const T=(x?(0,y.resolveOverridePropValue)(x):null)??I??e.originValue,D={[e.overrideKey]:T},{control:N,controlProps:A,layout:M}=function getControlParams(e,t,n){const o=e[t.propKey],{value:r}=o,a=function getControlLayout(e){return e.value.meta?.layout||s.controlsRegistry.getLayout(e.value.type)}(o),i=function populateChildControlProps(e){if(e.childControlType){const t=s.controlsRegistry.get(e.childControlType),n=s.controlsRegistry.getPropTypeUtil(e.childControlType);e={...e,childControlConfig:{component:t,props:e.childControlProps||{},propTypeUtil:n}}}return e}(r.props);"custom"===a&&(i.label=n??r.label);return{control:o,controlProps:i,layout:a}}(P,e?.originPropFields??e,e.label),{elementId:U,widgetType:L,elType:R,propKey:B}=e.originPropFields??e;if(!(0,a.getContainer)(U))throw new k.OverrideControlInnerElementNotFoundError({context:{componentId:S,elementId:U}});const V="widget"===R?L:R,G=(0,a.getElementType)(V);if(!G)return null;const F=(0,s.createTopLevelObjectType)({schema:{[e.overrideKey]:O}});return o.createElement(u.OverridablePropProvider,{value:d.componentOverridablePropTypeUtil.extract(x)??void 0,componentInstanceElement:n},o.createElement(s.ElementProvider,{element:{id:U,type:V},elementType:G},o.createElement(s.SettingsField,{bind:B,propDisplayName:e.label},o.createElement(r.PropProvider,{propType:F,value:D,setValue:n=>{const o=function getTempNewValueForDynamicProp(e,t,n){const o=null===n;if(o&&(0,s.isDynamicPropValue)(t))return e.default??null;return n}(O,T,n[e.overrideKey]),r=function createOverrideValue({matchingOverride:e,overrideKey:t,overrideValue:n,componentId:o}){const r=d.componentOverridablePropTypeUtil.extract(e),s=d.componentOverridablePropTypeUtil.extract(n)??r;if(s){const e=p.componentInstanceOverridePropTypeUtil.create({override_key:t,override_value:(0,y.resolveOverridePropValue)(n),schema_source:{type:"component",id:o}});return d.componentOverridablePropTypeUtil.create({override_key:s.override_key,origin_value:e})}return p.componentInstanceOverridePropTypeUtil.create({override_key:t,override_value:n,schema_source:{type:"component",id:o}})}({matchingOverride:x,overrideKey:e.overrideKey,overrideValue:o,componentId:S});let a=t?.map(e=>e===x?r:e)??[];x||(a=[...a,r]),_({...E,overrides:l.componentInstanceOverridesPropTypeUtil.create(a)});const i=d.componentOverridablePropTypeUtil.extract(r);if(i&&C){if(e.originPropFields)return void(0,g.updateOverridableProp)(C,i,e.originPropFields);const{elType:t,widgetType:n,propKey:o,elementId:r}=e;(0,g.updateOverridableProp)(C,i,{elType:t,widgetType:n,propKey:o,elementId:r})}},isDisabled:()=>!1},o.createElement(r.PropKeyProvider,{bind:e.overrideKey},o.createElement(r.ControlReplacementsProvider,{replacements:w},o.createElement(i.Stack,{direction:"column",gap:1,mb:1.5},"custom"!==M&&o.createElement(h.ControlLabel,null,e.label),o.createElement(OriginalControl,{control:N,controlProps:A}))))))))}function OriginalControl({control:e,controlProps:t}){const{value:n}=e;return o.createElement(s.BaseControl,{type:n.type,props:t})}},"./packages/packages/core/editor-components/src/components/instance-editing-panel/override-props-group.tsx":function(e,t,n){n.r(t),n.d(t,{OverridePropsGroup:function(){return OverridePropsGroup}});var o=n("react"),r=n("@elementor/editor-editing-panel"),s=n("@elementor/editor-ui"),a=n("@elementor/ui"),i=n("./packages/packages/core/editor-components/src/components/instance-editing-panel/override-prop-control.tsx");function OverridePropsGroup({group:e,props:t,overrides:n}){const[c,p]=(0,r.useStateByElement)(e.id,!0),l=(0,o.useId)(),m=`label-${l}`,d=`content-${l}`,u=e.label;return o.createElement(a.Box,{"aria-label":`${u} section`},o.createElement(a.ListItemButton,{id:m,"aria-controls":d,"aria-label":`${u} section`,onClick:()=>{p(!c)},p:0,sx:{"&:hover":{backgroundColor:"transparent"}}},o.createElement(a.Stack,{direction:"row",alignItems:"center",justifyItems:"start",flexGrow:1,gap:.5},o.createElement(a.ListItemText,{secondary:u,secondaryTypographyProps:{color:"text.primary",variant:"caption",fontWeight:"bold"},sx:{flexGrow:0,flexShrink:1,marginInlineEnd:1}})),o.createElement(s.CollapseIcon,{open:c,color:"secondary",fontSize:"tiny"})),o.createElement(a.Collapse,{id:d,"aria-labelledby":m,in:c,timeout:"auto"},o.createElement(a.Stack,{direction:"column",gap:1,p:2},e.props.map(e=>o.createElement(i.OverridePropControl,{key:e,overridableProp:t[e],overrides:n})))))}},"./packages/packages/core/editor-components/src/components/instance-editing-panel/use-resolved-origin-value.tsx":function(e,t,n){n.r(t),n.d(t,{useResolvedOriginValue:function(){return useResolvedOriginValue}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/prop-types/component-instance-override-prop-type.ts"),s=n("./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts"),a=n("./packages/packages/core/editor-components/src/store/store.ts");function useResolvedOriginValue(e,t){return function resolveOriginValue(e,t,n){const{originValue:o,originPropFields:r}=n;if(hasValue(o))return o;if(t){const n=getOriginFromOverride(e,t);if(hasValue(n))return n}const{elementId:s,propKey:a}=r??{};if(s&&a)return findOriginValueByElementId(e,s,a);return null}((0,o.__useSelector)(a.selectData),e,t)}function getOriginFromOverride(e,t){const n=s.componentOverridablePropTypeUtil.extract(t),o=n?r.componentInstanceOverridePropTypeUtil.extract(n.origin_value):r.componentInstanceOverridePropTypeUtil.extract(t);if(!o)return null;const{schema_source:a,override_key:i,override_value:c}=o,p=a?.id;if(!p||!i)return null;const l=function getOverridableProp(e,t,n){const o=e.find(({id:e})=>e===t);return o?.overridableProps?.props?.[n]}(e,p,i);if(hasValue(l?.originValue))return l.originValue;if(l?.originPropFields?.elementId){const t=l.originPropFields.propKey??l.propKey,n=findOriginValueByElementId(e,l.originPropFields.elementId,t);if(hasValue(n))return n}const m=s.componentOverridablePropTypeUtil.extract(c);return m?getOriginFromOverride(e,s.componentOverridablePropTypeUtil.create(m)):null}function findOriginValueByElementId(e,t,n,o=new Set){for(const r of e){if(o.has(r.id))continue;o.add(r.id);const s=Object.values(r.overridableProps?.props??{}).find(({elementId:e,propKey:o})=>e===t&&o===n);if(s){if(hasValue(s.originValue))return s.originValue;if(s.originPropFields?.elementId){const t=s.originPropFields.propKey??n;return findOriginValueByElementId(e,s.originPropFields.elementId,t,o)}}}return null}function hasValue(e){return null!=e}},"./packages/packages/core/editor-components/src/components/overridable-props/indicator.tsx":function(e,t,n){n.r(t),n.d(t,{Indicator:function(){return l}});var o=n("react"),r=n("@elementor/icons"),s=n("@elementor/ui"),a=n("@wordpress/i18n");function _extends(){return _extends=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var o in n)({}).hasOwnProperty.call(n,o)&&(e[o]=n[o])}return e},_extends.apply(null,arguments)}const i="tiny",c=(0,s.styled)(s.Box)`
-	pointer-events: none;
-	opacity: 0;
-	transition: opacity 0.2s ease-in-out;
+/******/ (function() { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
 
-	& > svg {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate( -50%, -50% );
-		width: 10px;
-		height: 10px;
-		fill: ${({theme:e})=>e.palette.primary.contrastText};
-		stroke: ${({theme:e})=>e.palette.primary.contrastText};
-		stroke-width: 2px;
-	}
-`,p=(0,s.styled)(s.Box)`
-	position: relative;
+/***/ "./packages/packages/core/editor-components/src/api.ts":
+/*!*************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/api.ts ***!
+  \*************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   apiClient: function() { return /* binding */ apiClient; },
+/* harmony export */   getParams: function() { return /* binding */ getParams; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-v1-adapters */ "@elementor/editor-v1-adapters");
+/* harmony import */ var _elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_http_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/http-client */ "@elementor/http-client");
+/* harmony import */ var _elementor_http_client__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_http_client__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const BASE_URL = 'elementor/v1/components';
+const getParams = id => ({
+  action: 'get_document_config',
+  unique_id: `document-config-${id}`,
+  data: {
+    id
+  }
+});
+const apiClient = {
+  get: () => (0,_elementor_http_client__WEBPACK_IMPORTED_MODULE_1__.httpService)().get(`${BASE_URL}`).then(res => res.data.data),
+  create: payload => (0,_elementor_http_client__WEBPACK_IMPORTED_MODULE_1__.httpService)().post(`${BASE_URL}`, payload).then(res => res.data.data),
+  updateStatuses: (ids, status) => (0,_elementor_http_client__WEBPACK_IMPORTED_MODULE_1__.httpService)().put(`${BASE_URL}/status`, {
+    ids,
+    status
+  }),
+  getComponentConfig: id => _elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_0__.ajax.load(getParams(id)),
+  invalidateComponentConfigCache: id => _elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_0__.ajax.invalidateCache(getParams(id)),
+  getComponentLockStatus: async componentId => await (0,_elementor_http_client__WEBPACK_IMPORTED_MODULE_1__.httpService)().get(`${BASE_URL}/lock-status`, {
+    params: {
+      componentId
+    }
+  }).then(res => {
+    const {
+      is_current_user_allow_to_edit: isAllowedToSwitchDocument,
+      locked_by: lockedBy
+    } = res.data.data;
+    return {
+      isAllowedToSwitchDocument,
+      lockedBy: lockedBy || ''
+    };
+  }),
+  lockComponent: async componentId => await (0,_elementor_http_client__WEBPACK_IMPORTED_MODULE_1__.httpService)().post(`${BASE_URL}/lock`, {
+    componentId
+  }).then(res => res.data),
+  unlockComponent: async componentId => await (0,_elementor_http_client__WEBPACK_IMPORTED_MODULE_1__.httpService)().post(`${BASE_URL}/unlock`, {
+    componentId
+  }).then(res => res.data),
+  getOverridableProps: async componentIds => await (0,_elementor_http_client__WEBPACK_IMPORTED_MODULE_1__.httpService)().get(`${BASE_URL}/overridable-props`, {
+    params: {
+      'componentIds[]': componentIds
+    }
+  }).then(res => res.data),
+  updateArchivedComponents: async (componentIds, status) => await (0,_elementor_http_client__WEBPACK_IMPORTED_MODULE_1__.httpService)().post(`${BASE_URL}/archive`, {
+    componentIds,
+    status
+  }).then(res => res.data.data),
+  updateComponentTitle: (updatedComponentNames, status) => (0,_elementor_http_client__WEBPACK_IMPORTED_MODULE_1__.httpService)().post(`${BASE_URL}/update-titles`, {
+    components: updatedComponentNames,
+    status
+  }).then(res => res.data.data),
+  validate: async payload => await (0,_elementor_http_client__WEBPACK_IMPORTED_MODULE_1__.httpService)().post(`${BASE_URL}/create-validate`, payload).then(res => res.data)
+};
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/component-instance-transformer.ts":
+/*!****************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/component-instance-transformer.ts ***!
+  \****************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   componentInstanceTransformer: function() { return /* binding */ componentInstanceTransformer; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-canvas */ "@elementor/editor-canvas");
+/* harmony import */ var _elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/store */ "@elementor/store");
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_store__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/store */ "./packages/packages/core/editor-components/src/store/store.ts");
+/* harmony import */ var _utils_component_document_data__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils/component-document-data */ "./packages/packages/core/editor-components/src/utils/component-document-data.ts");
+
+
+
+
+const componentInstanceTransformer = (0,_elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0__.createTransformer)(async ({
+  component_id: id,
+  overrides: overridesValue
+}) => {
+  const unpublishedComponents = (0,_store_store__WEBPACK_IMPORTED_MODULE_2__.selectUnpublishedComponents)((0,_elementor_store__WEBPACK_IMPORTED_MODULE_1__.__getState)());
+  const unpublishedComponent = unpublishedComponents.find(({
+    uid
+  }) => uid === id);
+  const overrides = overridesValue?.reduce((acc, override) => ({
+    ...acc,
+    ...override
+  }), {});
+  if (unpublishedComponent) {
+    return {
+      elements: structuredClone(unpublishedComponent.elements),
+      overrides
+    };
+  }
+  if (typeof id !== 'number') {
+    throw new Error(`Component ID "${id}" not valid.`);
+  }
+  const data = await (0,_utils_component_document_data__WEBPACK_IMPORTED_MODULE_3__.getComponentDocumentData)(id);
+  return {
+    elements: data?.elements ?? [],
+    overrides
+  };
+});
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/component-overridable-transformer.ts":
+/*!*******************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/component-overridable-transformer.ts ***!
+  \*******************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   componentOverridableTransformer: function() { return /* binding */ componentOverridableTransformer; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-canvas */ "@elementor/editor-canvas");
+/* harmony import */ var _elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0__);
+
+const componentOverridableTransformer = (0,_elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0__.createTransformer)((value, options) => {
+  const {
+    overrides
+  } = options.renderContext ?? {};
+  const overrideValue = overrides?.[value.override_key];
+  if (overrideValue) {
+    const isOverride = isOriginValueOverride(value.origin_value);
+    if (isOverride) {
+      return transformOverride(value, options, overrideValue);
+    }
+    return overrideValue;
+  }
+  return value.origin_value;
+});
+function transformOverride(value, options, overrideValue) {
+  const transformer = _elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0__.settingsTransformersRegistry.get('override');
+  if (!transformer) {
+    return null;
+  }
+  const transformedValue = transformer(value.origin_value.value, options);
+  if (!transformedValue) {
+    return null;
+  }
+  const [key] = Object.keys(transformedValue);
+  return {
+    [key]: overrideValue
+  };
+}
+function isOriginValueOverride(originValue) {
+  return originValue.$$type === 'override';
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/component-override-transformer.ts":
+/*!****************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/component-override-transformer.ts ***!
+  \****************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   componentOverrideTransformer: function() { return /* binding */ componentOverrideTransformer; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-canvas */ "@elementor/editor-canvas");
+/* harmony import */ var _elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0__);
+
+const componentOverrideTransformer = (0,_elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0__.createTransformer)(override => {
+  const {
+    override_key: key,
+    override_value: overrideValue
+  } = override;
+  return {
+    [key]: overrideValue
+  };
+});
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/components-tab/component-search.tsx":
+/*!*****************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/components-tab/component-search.tsx ***!
+  \*****************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ComponentSearch: function() { return /* binding */ ComponentSearch; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/icons */ "@elementor/icons");
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_icons__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _search_provider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./search-provider */ "./packages/packages/core/editor-components/src/components/components-tab/search-provider.tsx");
+
+
+
+
+
+const ComponentSearch = () => {
+  const {
+    inputValue,
+    handleChange
+  } = (0,_search_provider__WEBPACK_IMPORTED_MODULE_4__.useSearch)();
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Stack, {
+    direction: "row",
+    gap: 0.5,
+    sx: {
+      width: '100%',
+      px: 2,
+      py: 1.5
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Box, {
+    sx: {
+      flexGrow: 1
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.TextField, {
+    role: 'search',
+    fullWidth: true,
+    size: 'tiny',
+    value: inputValue,
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Search', 'elementor'),
+    onChange: e => handleChange(e.target.value),
+    InputProps: {
+      startAdornment: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.InputAdornment, {
+        position: "start"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_icons__WEBPACK_IMPORTED_MODULE_1__.SearchIcon, {
+        fontSize: 'tiny'
+      }))
+    }
+  })));
+};
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/components-tab/components-item.tsx":
+/*!****************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/components-tab/components-item.tsx ***!
+  \****************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ComponentItem: function() { return /* binding */ ComponentItem; },
+/* harmony export */   ComponentName: function() { return /* binding */ ComponentName; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-ui */ "@elementor/editor-ui");
+/* harmony import */ var _elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/icons */ "@elementor/icons");
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_icons__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__);
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+
+
+
+
+
+const ComponentItem = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(({
+  component,
+  disabled = true,
+  draggable,
+  onDragStart,
+  onDragEnd,
+  onClick,
+  isEditing = false,
+  error = null,
+  nameSlot,
+  endSlot,
+  ...props
+}, ref) => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.ListItemButton, _extends({
+    disabled: disabled,
+    draggable: draggable,
+    onDragStart: onDragStart,
+    onDragEnd: onDragEnd,
+    shape: "rounded",
+    ref: ref,
+    sx: {
+      border: 'solid 1px',
+      borderColor: 'divider',
+      py: 0.5,
+      px: 1,
+      display: 'flex',
+      width: '100%',
+      alignItems: 'center',
+      gap: 1
+    }
+  }, props), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.Box, {
+    display: "flex",
+    alignItems: "center",
+    gap: 1,
+    minWidth: 0,
+    flexGrow: 1,
+    onClick: onClick
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.ListItemIcon, {
+    size: "tiny"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_icons__WEBPACK_IMPORTED_MODULE_2__.ComponentsIcon, {
+    fontSize: "tiny"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Indicator, {
+    isActive: isEditing,
+    isError: !!error
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.Box, {
+    display: "flex",
+    flex: 1,
+    minWidth: 0,
+    flexGrow: 1
+  }, nameSlot ?? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ComponentName, {
+    name: component.name
+  })))), endSlot);
+});
+const Indicator = (0,_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.styled)(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.Box, {
+  shouldForwardProp: prop => prop !== 'isActive' && prop !== 'isError'
+})(({
+  theme,
+  isActive,
+  isError
+}) => ({
+  display: 'flex',
+  width: '100%',
+  flexGrow: 1,
+  borderRadius: theme.spacing(0.5),
+  border: getIndicatorBorder({
+    isActive,
+    isError,
+    theme
+  }),
+  padding: `0 ${theme.spacing(1)}`,
+  marginLeft: isActive ? theme.spacing(1) : 0,
+  minWidth: 0
+}));
+const getIndicatorBorder = ({
+  isActive,
+  isError,
+  theme
+}) => {
+  if (isError) {
+    return `2px solid ${theme.palette.error.main}`;
+  }
+  if (isActive) {
+    return `2px solid ${theme.palette.secondary.main}`;
+  }
+  return 'none';
+};
+function ComponentName({
+  name,
+  editable
+}) {
+  if (editable?.isEditing) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__.EditableField, _extends({
+      ref: editable.ref,
+      as: _elementor_ui__WEBPACK_IMPORTED_MODULE_3__.Typography,
+      variant: "caption"
+    }, editable.getProps()));
+  }
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__.EllipsisWithTooltip, {
+    title: name,
+    as: _elementor_ui__WEBPACK_IMPORTED_MODULE_3__.Typography,
+    variant: "caption",
+    color: "text.primary"
+  });
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/components-tab/components-list.tsx":
+/*!****************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/components-tab/components-list.tsx ***!
+  \****************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ComponentsList: function() { return /* binding */ ComponentsList; },
+/* harmony export */   EmptySearchResult: function() { return /* binding */ EmptySearchResult; },
+/* harmony export */   useFilteredComponents: function() { return /* binding */ useFilteredComponents; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/icons */ "@elementor/icons");
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_icons__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _hooks_use_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../hooks/use-components */ "./packages/packages/core/editor-components/src/hooks/use-components.ts");
+/* harmony import */ var _hooks_use_components_permissions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../hooks/use-components-permissions */ "./packages/packages/core/editor-components/src/hooks/use-components-permissions.ts");
+/* harmony import */ var _utils_is_pro_components_supported__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utils/is-pro-components-supported */ "./packages/packages/core/editor-components/src/utils/is-pro-components-supported.ts");
+/* harmony import */ var _components_item__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components-item */ "./packages/packages/core/editor-components/src/components/components-tab/components-item.tsx");
+/* harmony import */ var _loading_components__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./loading-components */ "./packages/packages/core/editor-components/src/components/components-tab/loading-components.tsx");
+/* harmony import */ var _search_provider__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./search-provider */ "./packages/packages/core/editor-components/src/components/components-tab/search-provider.tsx");
+
+
+
+
+
+
+
+
+
+
+const LEARN_MORE_URL = 'http://go.elementor.com/components-guide-article';
+const UPGRADE_URL = 'https://go.elementor.com/go-pro-components/';
+const UPDATE_PLUGINS_URL = '/wp-admin/plugins.php';
+
+// Override legacy panel CSS reset that sets h1-h6 to font-size:100% and font-weight:normal.
+// See: assets/dev/scss/editor/panel/_reset.scss (applied via :where() selector in panel.scss).
+const SUBTITLE_OVERRIDE_SX = {
+  fontSize: '0.875rem !important',
+  fontWeight: '500 !important'
+};
+function ComponentsList() {
+  const {
+    components,
+    isLoading,
+    searchValue
+  } = useFilteredComponents();
+  if (isLoading) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_loading_components__WEBPACK_IMPORTED_MODULE_8__.LoadingComponents, null);
+  }
+  const isEmpty = !components?.length;
+  if (isEmpty) {
+    if (searchValue.length) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(EmptySearchResult, null);
+    }
+    if ((0,_utils_is_pro_components_supported__WEBPACK_IMPORTED_MODULE_6__.isProOutdatedForComponents)()) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ProOutdatedEmptyState, null);
+    }
+    return (0,_utils_is_pro_components_supported__WEBPACK_IMPORTED_MODULE_6__.isProComponentsSupported)() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(EmptyState, null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ProUpgradeEmptyState, null);
+  }
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.List, {
+    sx: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 1,
+      px: 2
+    }
+  }, components.map(component => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_item__WEBPACK_IMPORTED_MODULE_7__.ComponentItem, {
+    key: component.uid,
+    component: component
+  })));
+}
+const ProUpgradeEmptyState = () => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Stack, {
+    alignItems: "center",
+    justifyContent: "start",
+    height: "100%",
+    sx: {
+      px: 2,
+      py: 4
+    },
+    gap: 2,
+    overflow: "hidden"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Stack, {
+    alignItems: "center",
+    gap: 1
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_icons__WEBPACK_IMPORTED_MODULE_1__.ComponentsIcon, {
+    fontSize: "large",
+    sx: {
+      color: 'text.secondary'
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+    align: "center",
+    variant: "subtitle2",
+    color: "text.secondary",
+    sx: SUBTITLE_OVERRIDE_SX
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Create Reusable Components', 'elementor')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+    align: "center",
+    variant: "caption",
+    color: "secondary",
+    sx: {
+      maxWidth: 200
+    }
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Create design elements that sync across your entire site.', 'elementor'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Button, {
+    variant: "contained",
+    color: "promotion",
+    size: "small",
+    startIcon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_icons__WEBPACK_IMPORTED_MODULE_1__.CrownFilledIcon, null),
+    href: UPGRADE_URL,
+    target: "_blank",
+    rel: "noopener noreferrer"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Upgrade now', 'elementor')));
+};
+const ProOutdatedEmptyState = () => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Stack, {
+    alignItems: "center",
+    justifyContent: "start",
+    height: "100%",
+    sx: {
+      px: 2,
+      py: 4,
+      maxWidth: 268,
+      m: 'auto'
+    },
+    gap: 2,
+    overflow: "hidden"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Stack, {
+    alignItems: "center",
+    gap: 1
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_icons__WEBPACK_IMPORTED_MODULE_1__.ComponentsIcon, {
+    fontSize: "large",
+    sx: {
+      color: 'text.secondary'
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+    align: "center",
+    variant: "subtitle2",
+    color: "text.secondary",
+    sx: SUBTITLE_OVERRIDE_SX
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Create Reusable Components', 'elementor')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+    align: "center",
+    variant: "caption",
+    color: "secondary"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Create design elements that sync across your entire site.', 'elementor')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+    align: "center",
+    variant: "caption",
+    color: "secondary",
+    sx: {
+      mt: 1
+    }
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('To create components, update Elementor Pro to the latest version.', 'elementor'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Button, {
+    variant: "text",
+    color: "info",
+    size: "small",
+    href: UPDATE_PLUGINS_URL,
+    target: "_blank",
+    rel: "noopener noreferrer"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Update Elementor Pro', 'elementor')));
+};
+const EmptyState = () => {
+  const {
+    canCreate
+  } = (0,_hooks_use_components_permissions__WEBPACK_IMPORTED_MODULE_5__.useComponentsPermissions)();
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Stack, {
+    alignItems: "center",
+    justifyContent: "start",
+    height: "100%",
+    sx: {
+      px: 2,
+      py: 4
+    },
+    gap: 2,
+    overflow: "hidden"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Stack, {
+    alignItems: "center",
+    gap: 1
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_icons__WEBPACK_IMPORTED_MODULE_1__.ComponentsIcon, {
+    fontSize: "large",
+    sx: {
+      color: 'text.secondary'
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+    align: "center",
+    variant: "subtitle2",
+    color: "text.secondary",
+    sx: SUBTITLE_OVERRIDE_SX
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('No components yet', 'elementor')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+    align: "center",
+    variant: "caption",
+    color: "secondary",
+    sx: {
+      maxWidth: 200
+    }
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Components are reusable blocks that sync across your site.', 'elementor'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), canCreate ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Create once, use everywhere.', 'elementor') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('With your current role, you cannot create components. Contact an administrator to create one.', 'elementor')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Link, {
+    href: LEARN_MORE_URL,
+    target: "_blank",
+    rel: "noopener noreferrer",
+    variant: "caption",
+    color: "info.main"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Learn more about components', 'elementor'))), canCreate && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Divider, {
+    sx: {
+      width: '100%'
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Stack, {
+    alignItems: "center",
+    gap: 1,
+    width: "100%"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+    align: "center",
+    variant: "subtitle2",
+    color: "text.secondary",
+    sx: SUBTITLE_OVERRIDE_SX
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Create your first one:', 'elementor')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+    align: "center",
+    variant: "caption",
+    color: "secondary",
+    sx: {
+      maxWidth: 228
+    }
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Right-click any div-block or flexbox on your canvas or structure and select "Create component"', 'elementor')))));
+};
+const EmptySearchResult = () => {
+  const {
+    searchValue,
+    clearSearch
+  } = (0,_search_provider__WEBPACK_IMPORTED_MODULE_9__.useSearch)();
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Stack, {
+    color: 'text.secondary',
+    pt: 5,
+    alignItems: "center",
+    gap: 1,
+    overflow: 'hidden',
+    justifySelf: 'center'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_icons__WEBPACK_IMPORTED_MODULE_1__.ComponentsIcon, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Box, {
+    sx: {
+      width: '100%'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+    align: "center",
+    variant: "subtitle2",
+    color: "inherit",
+    sx: SUBTITLE_OVERRIDE_SX
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Sorry, nothing matched', 'elementor')), searchValue && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+    variant: "subtitle2",
+    color: "inherit",
+    sx: {
+      ...SUBTITLE_OVERRIDE_SX,
+      display: 'flex',
+      width: '100%',
+      justifyContent: 'center'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "\u201C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    style: {
+      maxWidth: '80%',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis'
+    }
+  }, searchValue), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "\u201D."))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+    align: "center",
+    variant: "caption",
+    color: "inherit"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Try something else.', 'elementor')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+    align: "center",
+    variant: "caption",
+    color: "inherit"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Link, {
+    color: "secondary",
+    variant: "caption",
+    component: "button",
+    onClick: clearSearch
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Clear & try again', 'elementor'))));
+};
+const useFilteredComponents = () => {
+  const {
+    components,
+    isLoading
+  } = (0,_hooks_use_components__WEBPACK_IMPORTED_MODULE_4__.useComponents)();
+  const {
+    searchValue
+  } = (0,_search_provider__WEBPACK_IMPORTED_MODULE_9__.useSearch)();
+  return {
+    components: components.filter(component => component.name.toLowerCase().includes(searchValue.toLowerCase())),
+    isLoading,
+    searchValue
+  };
+};
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/components-tab/components-pro-notification.tsx":
+/*!****************************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/components-tab/components-pro-notification.tsx ***!
+  \****************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ComponentsProNotification: function() { return /* binding */ ComponentsProNotification; },
+/* harmony export */   UPGRADE_URL: function() { return /* binding */ UPGRADE_URL; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_upgrade_alert__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components-upgrade-alert */ "./packages/packages/core/editor-components/src/components/components-upgrade-alert.tsx");
+
+
+
+const UPGRADE_URL = 'https://go.elementor.com/go-pro-components-exist-footer/';
+function ComponentsProNotification() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_upgrade_alert__WEBPACK_IMPORTED_MODULE_2__.ComponentsUpgradeAlert, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Create new components', 'elementor'),
+    description: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Creating new components requires an active Pro subscription.', 'elementor'),
+    upgradeUrl: UPGRADE_URL
+  });
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/components-tab/components-update-notification.tsx":
+/*!*******************************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/components-tab/components-update-notification.tsx ***!
+  \*******************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ComponentsUpdateNotification: function() { return /* binding */ ComponentsUpdateNotification; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_update_alert__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components-update-alert */ "./packages/packages/core/editor-components/src/components/components-update-alert.tsx");
+
+
+
+function ComponentsUpdateNotification() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_update_alert__WEBPACK_IMPORTED_MODULE_2__.ComponentsUpdateAlert, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Create new Components', 'elementor'),
+    description: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('To create new components, update Elementor Pro to the latest version.', 'elementor')
+  });
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/components-tab/components.tsx":
+/*!***********************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/components-tab/components.tsx ***!
+  \***********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Components: function() { return /* binding */ Components; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-ui */ "@elementor/editor-ui");
+/* harmony import */ var _elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _hooks_use_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../hooks/use-components */ "./packages/packages/core/editor-components/src/hooks/use-components.ts");
+/* harmony import */ var _utils_is_pro_components_supported__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/is-pro-components-supported */ "./packages/packages/core/editor-components/src/utils/is-pro-components-supported.ts");
+/* harmony import */ var _component_search__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./component-search */ "./packages/packages/core/editor-components/src/components/components-tab/component-search.tsx");
+/* harmony import */ var _components_list__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components-list */ "./packages/packages/core/editor-components/src/components/components-tab/components-list.tsx");
+/* harmony import */ var _components_pro_notification__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components-pro-notification */ "./packages/packages/core/editor-components/src/components/components-tab/components-pro-notification.tsx");
+/* harmony import */ var _components_update_notification__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components-update-notification */ "./packages/packages/core/editor-components/src/components/components-tab/components-update-notification.tsx");
+/* harmony import */ var _search_provider__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./search-provider */ "./packages/packages/core/editor-components/src/components/components-tab/search-provider.tsx");
+
+
+
+
+
+
+
+
+
+
+
+const FULL_HEIGHT_STYLE_ID = 'components-full-height-panel';
+const FULL_HEIGHT_CSS = `
+#elementor-panel-page-elements {
 	display: flex;
-	align-items: center;
-	justify-content: center;
-	cursor: pointer;
-	width: 16px;
-	height: 16px;
-	margin-inline: ${({theme:e})=>e.spacing(.5)};
+	flex-direction: column;
+	height: 100%;
+}
 
-	&:before {
-		content: '';
-		display: block;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate( -50%, -50% ) rotate( 45deg );
-		width: 5px;
-		height: 5px;
-		border-radius: 1px;
-		background-color: ${({theme:e})=>e.palette.primary.main};
-		transition: all 0.1s ease-in-out;
-	}
+#elementor-panel-elements {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-height: 0;
+}
 
-	&:hover,
-	&.enlarged {
-		&:before {
-			width: 12px;
-			height: 12px;
-			border-radius: 2px;
-		}
+#elementor-panel-elements-wrapper {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-height: 0;
+}
+`;
+const useFullHeightPanel = () => {
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect)(() => {
+    let style = document.getElementById(FULL_HEIGHT_STYLE_ID);
+    if (!style) {
+      style = document.createElement('style');
+      style.id = FULL_HEIGHT_STYLE_ID;
+      style.textContent = FULL_HEIGHT_CSS;
+      document.head.appendChild(style);
+    }
+    return () => {
+      document.getElementById(FULL_HEIGHT_STYLE_ID)?.remove();
+    };
+  }, []);
+};
+const ComponentsContent = () => {
+  const {
+    components,
+    isLoading
+  } = (0,_hooks_use_components__WEBPACK_IMPORTED_MODULE_3__.useComponents)();
+  const hasComponents = !isLoading && components.length > 0;
+  const showProNotification = !(0,_utils_is_pro_components_supported__WEBPACK_IMPORTED_MODULE_4__.isProComponentsSupported)() && hasComponents;
+  const isOutdated = (0,_utils_is_pro_components_supported__WEBPACK_IMPORTED_MODULE_4__.isProOutdatedForComponents)();
+  useFullHeightPanel();
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Stack, {
+    justifyContent: "space-between",
+    sx: {
+      flex: 1,
+      minHeight: 0
+    }
+  }, hasComponents && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_component_search__WEBPACK_IMPORTED_MODULE_5__.ComponentSearch, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_list__WEBPACK_IMPORTED_MODULE_6__.ComponentsList, null), showProNotification && (isOutdated ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_update_notification__WEBPACK_IMPORTED_MODULE_8__.ComponentsUpdateNotification, null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pro_notification__WEBPACK_IMPORTED_MODULE_7__.ComponentsProNotification, null)));
+};
+const Components = () => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__.ThemeProvider, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_search_provider__WEBPACK_IMPORTED_MODULE_9__.SearchProvider, {
+    localStorageKey: "elementor-components-search"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ComponentsContent, null)));
+};
 
-		.icon {
-			opacity: 1;
-		}
-	}
-`,l=(0,o.forwardRef)(({isOpen:e,isOverridable:t,...n},s)=>o.createElement(p,_extends({ref:s},n,{className:e||t?"enlarged":""}),o.createElement(c,{className:"icon","aria-label":t?(0,a.__)("Overridable property","elementor"):(0,a.__)("Make prop overridable","elementor")},t?o.createElement(r.CheckIcon,{fontSize:i}):o.createElement(r.PlusIcon,{fontSize:i}))))},"./packages/packages/core/editor-components/src/components/overridable-props/overridable-prop-control.tsx":function(e,t,n){n.r(t),n.d(t,{OverridablePropControl:function(){return OverridablePropControl}});var o=n("react"),r=n("@elementor/editor-controls"),s=n("@elementor/editor-editing-panel"),a=n("./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts"),i=n("./packages/packages/core/editor-components/src/provider/overridable-prop-context.tsx"),c=n("./packages/packages/core/editor-components/src/store/actions/update-overridable-prop.ts"),p=n("./packages/packages/core/editor-components/src/store/store.ts"),l=n("./packages/packages/core/editor-components/src/utils/get-prop-type-for-component-override.ts"),m=n("./packages/packages/core/editor-components/src/components/consts.ts");function _extends(){return _extends=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var o in n)({}).hasOwnProperty.call(n,o)&&(e[o]=n[o])}return e},_extends.apply(null,arguments)}function OverridablePropControl({OriginalControl:e,...t}){const{elementType:n}=(0,s.useElement)(),{value:d,bind:u,setValue:g,placeholder:v,...f}=(0,r.useBoundProp)(a.componentOverridablePropTypeUtil),y=(0,p.useCurrentComponentId)(),h=(0,p.useOverridableProps)(y),k=(0,s.getControlReplacements)().filter(e=>!e.id||e.id!==m.OVERRIDABLE_PROP_REPLACEMENT_ID);if(!y)return null;if(!d?.override_key)throw new Error("Override key is required");const b="e-component"===n.key,C=h?.props?.[d.override_key],E=n.propsSchema[u],_=(C?(0,l.getPropTypeForComponentOverride)(C):void 0)??E;if(!_)return null;const P=(0,s.createTopLevelObjectType)({schema:{[u]:_}}),w=b?(d.origin_value?.value).override_value:d.origin_value,x=v?{[u]:v}:void 0;return o.createElement(i.OverridablePropProvider,{value:d},o.createElement(r.PropProvider,_extends({},f,{propType:P,setValue:e=>{const t={...d,origin_value:e[u]};g(t),b||(0,c.updateOverridableProp)(y,t,C?.originPropFields)},value:{[u]:w},placeholder:x}),o.createElement(r.PropKeyProvider,{bind:u},o.createElement(r.ControlReplacementsProvider,{replacements:k},o.createElement(ControlWithReplacements,{OriginalControl:e,props:t})))))}function ControlWithReplacements({OriginalControl:e,props:t}){const{ControlToRender:n,isReplaced:s}=(0,r.useControlReplacement)(e);if(s){const r=n;return o.createElement(r,_extends({},t,{OriginalControl:e}))}return o.createElement(e,t)}},"./packages/packages/core/editor-components/src/components/overridable-props/overridable-prop-form.tsx":function(e,t,n){n.r(t),n.d(t,{OverridablePropForm:function(){return OverridablePropForm}});var o=n("react"),r=n("@elementor/editor-ui"),s=n("@elementor/ui"),a=n("@wordpress/i18n"),i=n("./packages/packages/core/editor-components/src/components/overridable-props/utils/validate-prop-label.ts");function _extends(){return _extends=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var o in n)({}).hasOwnProperty.call(n,o)&&(e[o]=n[o])}return e},_extends.apply(null,arguments)}const c="tiny",p={value:null,label:(0,a.__)("Default","elementor")};function OverridablePropForm({onSubmit:e,groups:t,currentValue:n,existingLabels:l=[],sx:m}){const d=t?.length?t:[p],[u,g]=(0,o.useState)(n?.label??null),[v,f]=(0,o.useState)(n?.groupId??d[0]?.value??null),[y,h]=(0,o.useState)(null),k=(0,a.__)("Name","elementor"),b=(0,a.__)("Group Name","elementor"),C=void 0===n,E=C?(0,a.__)("Create new property","elementor"):(0,a.__)("Update property","elementor"),_=C?(0,a.__)("Create","elementor"):(0,a.__)("Update","elementor");return o.createElement(r.Form,{onSubmit:()=>{const t=(0,i.validatePropLabel)(u??"",l,n?.label);t.isValid?e({label:u??"",group:v}):h(t.errorMessage)}},o.createElement(s.Stack,{alignItems:"start",sx:{width:"268px",...m}},o.createElement(s.Stack,{direction:"row",alignItems:"center",py:1,px:1.5,sx:{columnGap:.5,borderBottom:"1px solid",borderColor:"divider",width:"100%",mb:1.5}},o.createElement(s.Typography,{variant:"caption",sx:{color:"text.primary",fontWeight:"500",lineHeight:1}},E)),o.createElement(s.Grid,{container:!0,gap:.75,alignItems:"start",px:1.5,mb:1.5},o.createElement(s.Grid,{item:!0,xs:12},o.createElement(s.FormLabel,{size:"tiny"},k)),o.createElement(s.Grid,{item:!0,xs:12},o.createElement(s.TextField,{name:k,size:c,fullWidth:!0,placeholder:(0,a.__)("Enter value","elementor"),value:u??"",onChange:e=>{const t=e.target.value;g(t);const o=(0,i.validatePropLabel)(t,l,n?.label);h(o.errorMessage)},error:Boolean(y),helperText:y}))),o.createElement(s.Grid,{container:!0,gap:.75,alignItems:"start",px:1.5,mb:1.5},o.createElement(s.Grid,{item:!0,xs:12},o.createElement(s.FormLabel,{size:"tiny"},b)),o.createElement(s.Grid,{item:!0,xs:12},o.createElement(s.Select,{name:b,size:c,fullWidth:!0,value:v??null,onChange:e=>f(e.target.value),displayEmpty:!0,renderValue:e=>e?d.find(({value:t})=>t===e)?.label??e:d[0].label},d.map(({label:e,...t})=>o.createElement(r.MenuListItem,_extends({key:t.value},t,{value:t.value??""}),e))))),o.createElement(s.Stack,{direction:"row",justifyContent:"flex-end",alignSelf:"end",mt:1.5,py:1,px:1.5},o.createElement(s.Button,{type:"submit",disabled:!u||Boolean(y),variant:"contained",color:"primary",size:"small"},_))))}},"./packages/packages/core/editor-components/src/components/overridable-props/overridable-prop-indicator.tsx":function(e,t,n){n.r(t),n.d(t,{Content:function(){return Content},OverridablePropIndicator:function(){return OverridablePropIndicator}});var o=n("react"),r=n("@elementor/editor-controls"),s=n("@elementor/editor-editing-panel"),a=n("@elementor/editor-elements"),i=n("@elementor/ui"),c=n("@wordpress/i18n"),p=n("./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts"),l=n("./packages/packages/core/editor-components/src/provider/overridable-prop-context.tsx"),m=n("./packages/packages/core/editor-components/src/store/actions/set-overridable-prop.ts"),d=n("./packages/packages/core/editor-components/src/store/store.ts"),u=n("./packages/packages/core/editor-components/src/utils/resolve-override-prop-value.ts"),g=n("./packages/packages/core/editor-components/src/components/overridable-props/indicator.tsx"),v=n("./packages/packages/core/editor-components/src/components/overridable-props/overridable-prop-form.tsx"),f=n("./packages/packages/core/editor-components/src/components/overridable-props/utils/get-overridable-prop.ts");function _extends(){return _extends=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var o in n)({}).hasOwnProperty.call(n,o)&&(e[o]=n[o])}return e},_extends.apply(null,arguments)}function OverridablePropIndicator(){const{propType:e}=(0,r.useBoundProp)(),t=(0,d.useCurrentComponentId)(),n=(0,d.useOverridableProps)(t);return function isPropAllowed(e){return!1!==e.meta.overridable}(e)&&t&&n?o.createElement(Content,{componentId:t,overridableProps:n}):null}function Content({componentId:e,overridableProps:t}){const{element:{id:n},elementType:d}=(0,s.useElement)(),{value:y,bind:h,propType:k}=(0,r.useBoundProp)(),b=(0,l.useOverridablePropValue)(),C=(0,l.useComponentInstanceElement)(),{value:E,setValue:_}=(0,r.useBoundProp)(p.componentOverridablePropTypeUtil),P=E??b,w=(0,i.usePopupState)({variant:"popover"}),x=(0,i.bindTrigger)(w),I=(0,i.bindPopover)(w),{elType:O}=(0,a.getWidgetsCache)()?.[d.key]??{elType:"widget"},S=P?(0,f.getOverridableProp)({componentId:e,overrideKey:P.override_key}):void 0;return o.createElement(o.Fragment,null,o.createElement(i.Tooltip,{placement:"top",title:(0,c.__)("Override Property","elementor")},o.createElement(g.Indicator,_extends({},x,{isOpen:!!I.open,isOverridable:!!P}))),o.createElement(i.Popover,_extends({disableScrollLock:!0,anchorOrigin:{vertical:"bottom",horizontal:"right"},transformOrigin:{vertical:"top",horizontal:"right"},PaperProps:{sx:{my:2.5}}},I),o.createElement(v.OverridablePropForm,{onSubmit:({label:o,group:r})=>{const s=k.default??{},a=(0,u.resolveOverridePropValue)(P?.origin_value)??y??s,i=P?t?.props?.[P.override_key]:void 0,c=(0,m.setOverridableProp)({componentId:e,overrideKey:P?.override_key??null,elementId:C?.element.id??n,label:o,groupId:r,propKey:h,elType:O??"widget",widgetType:C?.elementType.key??d.key,originValue:a,originPropFields:i?.originPropFields,source:"user"});!P&&c&&_({override_key:c.overrideKey,origin_value:a}),w.close()},groups:t?.groups.order.map(e=>({value:e,label:t.groups.items[e].label})),existingLabels:Object.values(t?.props??{}).map(e=>e.label),currentValue:S})))}},"./packages/packages/core/editor-components/src/components/overridable-props/utils/get-overridable-prop.ts":function(e,t,n){n.r(t),n.d(t,{getOverridableProp:function(){return getOverridableProp}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/store/store.ts");function getOverridableProp({componentId:e,overrideKey:t}){const n=(0,r.selectOverridableProps)((0,o.__getState)(),e);if(n)return n.props[t]}},"./packages/packages/core/editor-components/src/components/overridable-props/utils/validate-prop-label.ts":function(e,t,n){n.r(t),n.d(t,{ERROR_MESSAGES:function(){return r},validatePropLabel:function(){return validatePropLabel}});var o=n("@wordpress/i18n");const r={EMPTY_NAME:(0,o.__)("Property name is required","elementor"),DUPLICATE_NAME:(0,o.__)("Property name already exists","elementor")};function validatePropLabel(e,t,n){const o=e.trim();if(!o)return{isValid:!1,errorMessage:r.EMPTY_NAME};const s=o.toLowerCase(),a=n?.trim().toLowerCase();return t.some(e=>{const t=e.trim().toLowerCase();return(!a||t!==a)&&t===s})?{isValid:!1,errorMessage:r.DUPLICATE_NAME}:{isValid:!0,errorMessage:null}}},"./packages/packages/core/editor-components/src/create-component-type.ts":function(e,t,n){n.r(t),n.d(t,{COMPONENT_WIDGET_TYPE:function(){return m},createComponentType:function(){return createComponentType}});var o=n("@elementor/editor-canvas"),r=n("@elementor/editor-documents"),s=n("@elementor/store"),a=n("@wordpress/i18n"),i=n("./packages/packages/core/editor-components/src/api.ts"),c=n("./packages/packages/core/editor-components/src/store/store.ts"),p=n("./packages/packages/core/editor-components/src/utils/switch-to-component.ts"),l=n("./packages/packages/core/editor-components/src/utils/tracking.ts");const m="e-component",updateGroups=(e,t)=>{const n=new Map(Object.entries(t.disable??{})),o=new Map(Object.entries(t.add??{}));return e.map(e=>{const t=n.get(e.name)??[],r=o.get(e.name),s=e.actions.map(e=>t.includes(e.name)?{...e,isEnabled:()=>!1}:e);return r&&s.splice(r.index,0,r.action),{...e,actions:s}})};function createComponentType(e){const t=window.elementor.modules.elements.types.Widget,n=function createComponentView(e){const t=window;return class extends((0,o.createTemplatedElementView)(e)){eventsManagerConfig=t.elementorCommon.eventsManager.config;#e;isComponentCurrentlyEdited(){const e=(0,r.getCurrentDocument)();return e?.id===this.getComponentId()}getRenderContext(){const e=this.getNamespaceKey(),t=this._parent?.getRenderContext?.(),n=t?.[e];if(!this.#e)return t;const o=this.#e.overrides??{},r=n?.overrides??{};return{...t,[e]:{overrides:{...r,...o}}}}getResolverRenderContext(){const e=this.getNamespaceKey(),t=this.getRenderContext();return t?.[e]}afterSettingsResolve(e){const n=e.component_instance;return n&&(this.#e={overrides:n.overrides??{}},this.collection=t.elementor.createBackboneElementsCollection(n.elements),this.collection.models.forEach(setInactiveRecursively),e.component_instance="<template data-children-placeholder></template>"),e}getDomElement(){return this.children.findByIndex(0)?.getDomElement()??this.$el}attachBuffer(e,t){const n=e.$el.find("[data-children-placeholder]").get(0);n?n.replaceWith(t):super.attachBuffer(e,t)}getComponentId(){const e=this.options?.model?.get("settings")?.get("component_instance")?.value;return e.component_id.value}getContextMenuGroups(){const e=super.getContextMenuGroups().filter(e=>"save"!==e.name);if(!this.getComponentId())return e;return updateGroups(e,this._getContextMenuConfig())}_getContextMenuConfig(){return{add:isUserAdministrator()?{general:{index:1,action:{name:"edit component",icon:"eicon-edit",title:()=>(0,a.__)("Edit Component","elementor"),isEnabled:()=>!0,callback:(e,t)=>this.editComponent(t)}}}:{},disable:{clipboard:["pasteStyle","resetStyle"]}}}async switchDocument(){const{isAllowedToSwitchDocument:t,lockedBy:n}=await i.apiClient.getComponentLockStatus(this.getComponentId());t?(0,p.switchToComponent)(this.getComponentId(),this.model.get("id"),this.el):e.showLockedByModal?.(n||"")}editComponent({trigger:e,location:t,secondaryLocation:n}){if(this.isComponentCurrentlyEdited())return;this.switchDocument();const o=this.model.get("editor_settings");(0,l.trackComponentEvent)({action:"edited",source:"user",component_uid:o?.component_uid,component_name:o?.title,location:t,secondary_location:n,trigger:e})}handleDblClick(e){e.stopPropagation();if(!isUserAdministrator())return;const{triggers:t,locations:n,secondaryLocations:o}=this.eventsManagerConfig;this.editComponent({trigger:t.doubleClick,location:n.canvas,secondaryLocation:o.canvasElement})}events(){return{...super.events(),dblclick:this.handleDblClick}}attributes(){return{...super.attributes(),"data-elementor-id":this.getComponentId()}}}}({...e});return class extends t{getType(){return e.type}getView(){return n}getModel(){return function createComponentModel(){const e=window,t=e.elementor.modules.elements.types.Widget,n=new t,o=n.getModel();return o.extend({initialize(e,t){o.prototype.initialize.call(this,e,t);const n=this.get("settings")?.get("component_instance");if(n?.value){const e=n.value.component_id?.value;e&&"number"==typeof e&&this.set("componentId",e)}this.set("isGlobal",!0)},getTitle(){const e=this.get("editor_settings"),t=e?.title;if(t)return t;const n=e?.component_uid;if(n){const e=(0,c.selectComponentByUid)((0,s.__getState)(),n);if(e?.name)return e.name}return window.elementor.getElementData(this).title},getComponentId(){return this.get("componentId")||null},getComponentName(){return this.getTitle()},getComponentUid(){const e=this.get("editor_settings");return e?.component_uid||null}})}()}}}function setInactiveRecursively(e){const t=e.get("editSettings");t&&t.set("inactive",!0);const n=e.get("elements");n&&n.forEach(e=>{setInactiveRecursively(e)})}function isUserAdministrator(){const e=window;return e.elementor.config?.user?.is_administrator??!1}},"./packages/packages/core/editor-components/src/hooks/use-canvas-document.ts":function(e,t,n){n.r(t),n.d(t,{useCanvasDocument:function(){return useCanvasDocument}});var o=n("@elementor/editor-v1-adapters");function useCanvasDocument(){return(0,o.__privateUseListenTo)((0,o.commandEndEvent)("editor/documents/attach-preview"),()=>(0,o.getCanvasIframeDocument)())}},"./packages/packages/core/editor-components/src/hooks/use-component-instance-settings.ts":function(e,t,n){n.r(t),n.d(t,{useComponentInstanceSettings:function(){return useComponentInstanceSettings}});var o=n("@elementor/editor-editing-panel"),r=n("@elementor/editor-elements"),s=n("./packages/packages/core/editor-components/src/prop-types/component-instance-prop-type.ts");function useComponentInstanceSettings(){const{element:e}=(0,o.useElement)(),t=(0,r.useElementSetting)(e.id,"component_instance");return s.componentInstancePropTypeUtil.extract(t)}},"./packages/packages/core/editor-components/src/hooks/use-components-permissions.ts":function(e,t,n){n.r(t),n.d(t,{useComponentsPermissions:function(){return useComponentsPermissions}});var o=n("@elementor/editor-current-user");const useComponentsPermissions=()=>{const{isAdmin:e}=(0,o.useCurrentUserCapabilities)();return{canCreate:e,canEdit:e,canDelete:e,canRename:e}}},"./packages/packages/core/editor-components/src/hooks/use-components.ts":function(e,t,n){n.r(t),n.d(t,{useComponents:function(){return useComponents}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/store/store.ts");const useComponents=()=>({components:(0,o.__useSelector)(r.selectComponents),isLoading:(0,o.__useSelector)(r.selectLoadIsPending)})},"./packages/packages/core/editor-components/src/hooks/use-controls-by-widget-type.ts":function(e,t,n){n.r(t),n.d(t,{useControlsByWidgetType:function(){return useControlsByWidgetType}});var o=n("@elementor/editor-elements");function useControlsByWidgetType(e){const t=(0,o.getElementType)(e);if(!t)return{};return function getControlsByBind(e){return e.reduce((e,t)=>({...e,[t.value.bind]:t}),{})}(iterateControls(t.controls))}function iterateControls(e){return e.map(e=>"control"===e.type&&"bind"in e.value?e:"section"===e.type?iterateControls(e.value.items):null).filter(Boolean).flat()}},"./packages/packages/core/editor-components/src/hooks/use-element-rect.ts":function(e,t,n){n.r(t),n.d(t,{useElementRect:function(){return useElementRect}});var o=n("react"),r=n("@elementor/utils");function useElementRect(e){const[t,n]=(0,o.useState)(new DOMRect(0,0,0,0)),s=(0,r.throttle)(()=>{n(e?.getBoundingClientRect()??new DOMRect(0,0,0,0))},20,!0);return function useScrollListener({element:e,onChange:t}){(0,o.useEffect)(()=>{if(!e)return;const n=e.ownerDocument?.defaultView;return n?.addEventListener("scroll",t,{passive:!0}),()=>{n?.removeEventListener("scroll",t)}},[e,t])}({element:e,onChange:s}),function useResizeListener({element:e,onChange:t}){(0,o.useEffect)(()=>{if(!e)return;const n=new ResizeObserver(t);n.observe(e);const o=e.ownerDocument?.defaultView;return o?.addEventListener("resize",t,{passive:!0}),()=>{n.disconnect(),o?.removeEventListener("resize",t)}},[e,t])}({element:e,onChange:s}),function useMutationsListener({element:e,onChange:t}){(0,o.useEffect)(()=>{if(!e)return;const n=new MutationObserver(t);return n.observe(e,{childList:!0,subtree:!0}),()=>{n.disconnect()}},[e,t])}({element:e,onChange:s}),(0,o.useEffect)(()=>()=>{s.cancel()},[s]),t}},"./packages/packages/core/editor-components/src/hooks/use-navigate-back.ts":function(e,t,n){n.r(t),n.d(t,{useNavigateBack:function(){return useNavigateBack}});var o=n("react"),r=n("@elementor/editor-documents"),s=n("@elementor/store"),a=n("./packages/packages/core/editor-components/src/store/store.ts"),i=n("./packages/packages/core/editor-components/src/utils/switch-to-component.ts");function useNavigateBack(){const e=(0,s.__useSelector)(a.selectPath),t=(0,r.getV1DocumentsManager)();return(0,o.useCallback)(()=>{const{componentId:n,instanceId:o}=e.at(-2)??{};n&&o?(0,i.switchToComponent)(n,o):(0,i.switchToComponent)(t.getInitialId())},[e,t])}},"./packages/packages/core/editor-components/src/init.ts":function(e,t,n){n.r(t),n.d(t,{init:function(){return init}});var o=n("@elementor/editor"),r=n("@elementor/editor-canvas"),s=n("@elementor/editor-documents"),a=n("@elementor/editor-editing-panel"),i=n("@elementor/editor-elements-panel"),c=n("@elementor/editor-panels"),p=n("@elementor/editor-styles-repository"),l=n("@elementor/editor-v1-adapters"),m=n("@elementor/store"),d=n("@wordpress/i18n"),u=n("./packages/packages/core/editor-components/src/component-instance-transformer.ts"),g=n("./packages/packages/core/editor-components/src/component-overridable-transformer.ts"),v=n("./packages/packages/core/editor-components/src/component-override-transformer.ts"),f=n("./packages/packages/core/editor-components/src/components/component-panel-header/component-panel-header.tsx"),y=n("./packages/packages/core/editor-components/src/components/component-properties-panel/component-properties-panel.tsx"),h=n("./packages/packages/core/editor-components/src/components/components-tab/components.tsx"),k=n("./packages/packages/core/editor-components/src/components/consts.ts"),b=n("./packages/packages/core/editor-components/src/components/create-component-form/create-component-form.tsx"),C=n("./packages/packages/core/editor-components/src/components/edit-component/edit-component.tsx"),E=n("./packages/packages/core/editor-components/src/components/in-edit-mode.tsx"),_=n("./packages/packages/core/editor-components/src/components/instance-editing-panel/instance-editing-panel.tsx"),P=n("./packages/packages/core/editor-components/src/components/overridable-props/overridable-prop-control.tsx"),w=n("./packages/packages/core/editor-components/src/components/overridable-props/overridable-prop-indicator.tsx"),x=n("./packages/packages/core/editor-components/src/create-component-type.ts"),I=n("./packages/packages/core/editor-components/src/mcp/index.ts"),O=n("./packages/packages/core/editor-components/src/populate-store.ts"),S=n("./packages/packages/core/editor-components/src/prevent-circular-nesting.ts"),T=n("./packages/packages/core/editor-components/src/prevent-non-atomic-nesting.ts"),D=n("./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts"),N=n("./packages/packages/core/editor-components/src/store/actions/load-components-assets.ts"),A=n("./packages/packages/core/editor-components/src/store/actions/remove-component-styles.ts"),M=n("./packages/packages/core/editor-components/src/store/components-styles-provider.ts"),U=n("./packages/packages/core/editor-components/src/store/store.ts"),L=n("./packages/packages/core/editor-components/src/sync/before-save.ts"),R=n("./packages/packages/core/editor-components/src/sync/cleanup-overridable-props-on-delete.ts"),B=n("./packages/packages/core/editor-components/src/sync/handle-component-edit-mode-container.ts"),V=n("./packages/packages/core/editor-components/src/sync/load-component-data-after-instance-added.ts"),G=n("./packages/packages/core/editor-components/src/sync/revert-overridables-on-copy-or-duplicate.ts"),F=n("./packages/packages/core/editor-components/src/utils/tracking.ts");function init(){p.stylesRepository.register(M.componentsStylesProvider),(0,m.__registerSlice)(U.slice),(0,c.__registerPanel)(y.panel),(0,r.registerElementType)(x.COMPONENT_WIDGET_TYPE,e=>(0,x.createComponentType)({...e,showLockedByModal:E.openEditModeDialog})),(0,l.registerDataHook)("dependency","editor/documents/close",e=>((0,s.getV1CurrentDocument)().config.type===k.COMPONENT_DOCUMENT_TYPE&&(e.mode="autosave"),!0)),(0,l.registerDataHook)("after","preview/drop",F.onElementDrop),window.elementorCommon.__beforeSave=L.beforeSave,(0,i.injectTab)({id:"components",label:(0,d.__)("Components","elementor"),component:h.Components,position:1}),(0,o.injectIntoTop)({id:"create-component-popup",component:b.CreateComponentForm}),(0,o.injectIntoLogic)({id:"components-populate-store",component:O.PopulateStore}),(0,o.injectIntoTop)({id:"edit-component",component:C.EditComponent}),(0,a.injectIntoPanelHeaderTop)({id:"component-panel-header",component:f.ComponentPanelHeader}),(0,l.registerDataHook)("after","editor/documents/attach-preview",async()=>{const{id:e,config:t}=(0,s.getV1CurrentDocument)();e&&(0,A.removeComponentStyles)(e),await(0,N.loadComponentsAssets)(t?.elements??[])}),(0,a.registerFieldIndicator)({fieldType:a.FIELD_TYPE.SETTINGS,id:"component-overridable-prop",priority:1,indicator:w.OverridablePropIndicator}),(0,a.registerControlReplacement)({id:k.OVERRIDABLE_PROP_REPLACEMENT_ID,component:P.OverridablePropControl,condition:({value:e})=>D.componentOverridablePropTypeUtil.isValid(e)}),(0,a.registerEditingPanelReplacement)({id:"component-instance-edit-panel",condition:(e,t)=>"e-component"===t.key,component:_.InstanceEditingPanel}),r.settingsTransformersRegistry.register("component-instance",u.componentInstanceTransformer),r.settingsTransformersRegistry.register("overridable",g.componentOverridableTransformer),r.settingsTransformersRegistry.register("override",v.componentOverrideTransformer),(0,R.initCleanupOverridablePropsOnDelete)(),(0,I.initMcp)(),(0,S.initCircularNestingPrevention)(),(0,T.initNonAtomicNestingPrevention)(),(0,V.initLoadComponentDataAfterInstanceAdded)(),(0,B.initHandleComponentEditModeContainer)(),(0,G.initRevertOverridablesOnCopyOrDuplicate)()}},"./packages/packages/core/editor-components/src/mcp/index.ts":function(e,t,n){n.r(t),n.d(t,{initMcp:function(){return initMcp}});var o=n("@elementor/editor-mcp"),r=n("./packages/packages/core/editor-components/src/mcp/save-as-component-tool.ts");function initMcp(){const{setMCPDescription:e}=(0,o.getMCPByDomain)("components");e("Elementor Editor Components MCP - Tools for creating and managing reusable components. \n        Components are reusable blocks of content that can be used multiple times across the pages, its a widget which contains a set of elements and styles."),(0,r.initSaveAsComponentTool)()}},"./packages/packages/core/editor-components/src/mcp/save-as-component-tool.ts":function(e,t,n){n.r(t),n.d(t,{ERROR_MESSAGES:function(){return u},handleSaveAsComponent:function(){return handleSaveAsComponent},initSaveAsComponentTool:function(){return initSaveAsComponentTool}});var o=n("@elementor/editor-canvas"),r=n("@elementor/editor-elements"),s=n("@elementor/editor-mcp"),a=n("@elementor/http-client"),i=n("@elementor/schema"),c=n("@elementor/utils"),p=n("./packages/packages/core/editor-components/src/api.ts"),l=n("./packages/packages/core/editor-components/src/store/actions/create-unpublished-component.ts");const m={element_id:i.z.string().describe('The unique identifier of the element to save as a component. Use the "list-elements" tool to find available element IDs in the current document.'),component_name:i.z.string().describe("The name for the new component. Should be descriptive and unique among existing components."),overridable_props:i.z.object({props:i.z.record(i.z.object({elementId:i.z.string().describe("The id of the child element that you want to override its settings"),propKey:i.z.string().describe('The property key of the child element that you want to override its settings (e.g., "text", "url", "tag"). To get the available propKeys for an element, use the "get-element-type-config" tool.'),label:i.z.string().describe('A unique, user-friendly display name for this property (e.g., "Hero Headline", "CTA Button Text"). Must be unique within the same component.')}))}).optional().describe('Overridable properties configuration. Specify which CHILD element properties can be customized. Only elementId and propKey are required; To get the available propKeys for a child element you must use the "get-element-type-config" tool.')},d={message:i.z.string().optional().describe("Additional information about the operation result"),component_uid:i.z.string().optional().describe("The unique identifier of the newly created component (only present on success)")},u={ELEMENT_NOT_FOUND:"Element not found. Use 'list-elements' to get valid element IDs.",ELEMENT_NOT_ONE_OF_TYPES:e=>`Element is not one of the following types: ${e.join(", ")}`,ELEMENT_IS_LOCKED:"Cannot save a locked element as a component."},handleSaveAsComponent=async e=>{const{element_id:t,component_name:n,overridable_props:o}=e,s=function getValidElementTypes(){const e=(0,r.getWidgetsCache)();if(!e)return[];return Object.entries(e).reduce((e,[t,n])=>n.atomic_props_schema&&n.show_in_panel&&"widget"!==n.elType?(e.push(t),e):e,[])}(),i=(0,r.getContainer)(t);if(!i)throw new Error(u.ELEMENT_NOT_FOUND);const m=i.model.get("elType");if(!s.includes(m))throw new Error(u.ELEMENT_NOT_ONE_OF_TYPES(s));const d=i.model.toJSON({remove:["default"]});if(d?.isLocked)throw new Error(u.ELEMENT_IS_LOCKED);const g=o?function enrichOverridableProps(e,t){const n={},o=(0,c.generateUniqueId)("group");return Object.entries(e.props).forEach(([,e])=>{const{elementId:s,propKey:a,label:i}=e,p=findElementById(t,s);if(!p)throw new Error(`Element with ID "${s}" not found in component`);const l=p.elType,m=p.widgetType||p.elType,d=(0,r.getElementType)(m);if(!d)throw new Error(`Element type "${m}" is not atomic or does not have a settings schema. Cannot expose property "${a}" for element "${s}".`);if(!d.propsSchema[a]){const e=Object.keys(d.propsSchema).join(", ");throw new Error(`Property "${a}" does not exist in element "${s}" (type: ${m}). Available properties: ${e}`)}const u=(0,c.generateUniqueId)("prop"),g=p.settings?.[a]?p.settings[a]:d.propsSchema[a].default??null;n[u]={overrideKey:u,label:i,elementId:s,propKey:a,elType:l,widgetType:m,originValue:g,groupId:o}}),{props:n,groups:{items:{[o]:{id:o,label:"Default",props:Object.keys(n)}},order:[o]}}}(o,d):void 0;g&&function updateElementDataWithOverridableProps(e,t){Object.values(t.props).forEach(t=>{const n=findElementById(e,t.elementId);n&&n.settings&&(n.settings[t.propKey]={$$type:"overridable",value:{override_key:t.overrideKey,origin_value:t.originValue}})})}(d,g);const v=(0,c.generateUniqueId)("component");try{await p.apiClient.validate({items:[{uid:v,title:n,elements:[d],settings:{overridable_props:g}}]})}catch(e){if(e instanceof a.AxiosError)throw new Error(e.response?.data.messge);throw new Error("Unknown error")}return await(0,l.createUnpublishedComponent)({name:n,element:d,eventData:null,uid:v,overridableProps:g,source:"mcp_tool"}),{status:"ok",message:`Component "${n}" created successfully.`,component_uid:v}};function findElementById(e,t){if(e.id===t)return e;if(e.elements)for(const n of e.elements){const e=findElementById(n,t);if(e)return e}return null}const generatePrompt=()=>{const e=(0,s.toolPrompts)("save-as-component");return e.description(`\nSave an existing element as a reusable component in the Elementor editor.\n\n# When to use this tool\nUse this tool when the user wants to:\n- Create a reusable component from an existing element structure\n- Make specific child element properties customizable in component instances\n- Build a library of reusable design patterns\n\n# When NOT to use this tool\n- Element is already a component (widgetType: 'e-component')\n- Element is locked\n- Element is not an atomic element (atomic_props_schema is not defined)\n- Element elType is a 'widget'\n\n# **CRITICAL - REQUIRED RESOURCES (Must read before using this tool)**\n1. [${o.DOCUMENT_STRUCTURE_URI}]\n   **MANDATORY** - Required to understand the document structure and identify child elements for overridable properties.\n   Use this resource to find element IDs and understand the element hierarchy.\n\n2. [${o.WIDGET_SCHEMA_URI}]\n   **MANDATORY** - Required to understand which properties are available for each widget type.\n   Use this to identify available propKeys in the atomic_props_schema for child elements.\n\n# Instructions - MUST FOLLOW IN ORDER\n## Step 1: Identify the Target Element\n1. Read the [${o.DOCUMENT_STRUCTURE_URI}] resource to understand the document structure\n2. Locate the element you want to save as a component by its element_id\n3. Verify the element type is a valid element type\n4. Ensure the element is not locked and is not already a component\n\n## Step 2: Define Overridable Properties\nDo this step to make child element properties customizable.\nSkip that step ONLY if the user explicitly requests to not make any properties customizable.\n\n1. **Identify Child Elements**\n   - Use the [${o.DOCUMENT_STRUCTURE_URI}] resource to find all child elements\n   - Note the elementId and widgetType/elType of each child element you want to customize\n\n2. **Find Available Properties**\n   - Use the [${o.WIDGET_SCHEMA_URI}] resource to find the child element's widget type schema\n   - Review the atomic_props_schema to find available propKeys (ONLY use top-level props)\n   - Common propKeys include: "text", "url", "tag", "size", etc.\n   - Use only the top level properties, do not use nested properties.\n\n3. **Build the overridable_props Object**\n   - For each property you want to make overridable, add an entry:\n     \`{ "elementId": "<child-element-id>", "propKey": "<property-key>", "label": "<user-friendly-name>" }\`\n   - The label must be unique within the component and should be meaningful to the user (e.g., "Hero Headline", "CTA Button Text")\n   - Group all entries under the "props" object\n\n## Step 3: Execute the Tool\nCall the tool with:\n- element_id: The ID of the parent element to save as component\n- component_name: A descriptive name for the component\n- overridable_props: (Optional) The properties configuration from Step 2\n\n# CONSTRAINTS\n- NEVER try to override properties of the parent element itself - ONLY child elements\n- NEVER use invalid propKeys - always verify against the widget's atomic_props_schema in [${o.WIDGET_SCHEMA_URI}]\n- Property keys must exist in the child element's atomic_props_schema\n- Element IDs must exist within the target element's children\n- When tool execution fails, read the error message and adjust accordingly\n- The element being saved must not be inside another component\n`),e.parameter("element_id",`**MANDATORY** The unique identifier of the element to save as a component.\nUse the [${o.DOCUMENT_STRUCTURE_URI}] resource to find available element IDs.`),e.parameter("component_name",'**MANDATORY** A descriptive name for the new component.\nShould be unique and clearly describe the component\'s purpose (e.g., "Hero Section", "Feature Card").'),e.parameter("overridable_props",`**OPTIONAL** Configuration for which child element properties can be customized in component instances.\n\nStructure:\n\`\`\`json\n{\n  "props": {\n    "<unique-key>": {\n      "elementId": "<child-element-id>",\n      "propKey": "<property-key>",\n      "label": "<user-friendly-name>"\n    }\n  }\n}\n\`\`\`\n\nTo populate this correctly:\n1. Use [${o.DOCUMENT_STRUCTURE_URI}] to find child element IDs and their widgetType\n2. Use [${o.WIDGET_SCHEMA_URI}] to find the atomic_props_schema for each child element's widgetType\n3. Only include properties you want to be customizable in component instances\n4. Provide a unique, user-friendly label for each property (e.g., "Hero Headline", "CTA Button Text")`),e.example('\nBasic component without overridable properties:\n```json\n{\n  "element_id": "abc123",\n  "component_name": "Hero Section"\n}\n```\n\nComponent with overridable properties:\n```json\n{\n  "element_id": "abc123",\n  "component_name": "Feature Card",\n  "overridable_props": {\n    "props": {\n      "heading-text": {\n        "elementId": "heading-123",\n        "propKey": "text",\n        "label": "Card Title"\n      },\n      "button-text": {\n        "elementId": "button-456",\n        "propKey": "text",\n        "label": "Button Text"\n      },\n      "button-link": {\n        "elementId": "button-456",\n        "propKey": "url",\n        "label": "Button Link"\n      }\n    }\n  }\n}\n```\n'),e.instruction("After successful creation, the component will be available in the components library and can be inserted into any page or template."),e.instruction("When overridable properties are defined, component instances will show customization controls for those specific properties in the editing panel."),e.prompt()},initSaveAsComponentTool=()=>(0,s.getMCPByDomain)("components").addTool({name:"save-as-component",schema:m,outputSchema:d,description:generatePrompt(),handler:handleSaveAsComponent})},"./packages/packages/core/editor-components/src/populate-store.ts":function(e,t,n){n.r(t),n.d(t,{PopulateStore:function(){return PopulateStore}});var o=n("react"),r=n("@elementor/store"),s=n("./packages/packages/core/editor-components/src/store/thunks.ts");function PopulateStore(){return(0,o.useEffect)(()=>{(0,r.__dispatch)((0,s.loadComponents)())},[]),null}},"./packages/packages/core/editor-components/src/prevent-circular-nesting.ts":function(e,t,n){n.r(t),n.d(t,{extractComponentIdsFromElements:function(){return extractComponentIdsFromElements},initCircularNestingPrevention:function(){return initCircularNestingPrevention},wouldCreateCircularNesting:function(){return wouldCreateCircularNesting}});var o=n("@elementor/editor-elements"),r=n("@elementor/editor-notifications"),s=n("@elementor/editor-v1-adapters"),a=n("@elementor/store"),i=n("@wordpress/i18n"),c=n("./packages/packages/core/editor-components/src/store/store.ts");const p="e-component",l={type:"default",message:(0,i.__)("Can't add this component - components that contain each other can't be nested.","elementor"),id:"circular-component-nesting-blocked"};function initCircularNestingPrevention(){(0,s.blockCommand)({command:"document/elements/create",condition:blockCircularCreate}),(0,s.blockCommand)({command:"document/elements/move",condition:blockCircularMove}),(0,s.blockCommand)({command:"document/elements/paste",condition:blockCircularPaste})}function wouldCreateCircularNesting(e){if(void 0===e)return!1;const t=(0,a.__getState)(),n=(0,c.selectCurrentComponentId)(t),o=(0,c.selectPath)(t);return null!==n&&(e===n||o.some(t=>t.componentId===e))}function extractComponentIdFromElement(e){return e.widgetType!==p?null:e.settings?.component_instance?.value?.component_id?.value??null}function extractComponentIdsFromElements(e){const t=[];for(const n of e){const e=extractComponentIdFromElement(n);null!==e&&t.push(e),n.elements?.length&&t.push(...extractComponentIdsFromElements(n.elements))}return t}function blockCircularCreate(e){const t=function extractComponentIdFromModel(e){return e&&e.widgetType===p?e.settings?.component_instance?.value?.component_id?.value??null:null}(e.model);if(null===t)return!1;const n=wouldCreateCircularNesting(t);return n&&(0,r.notify)(l),n}function blockCircularMove(e){const{containers:t=[e.container]}=e,n=t.some(e=>{if(!e)return!1;return(0,o.getAllDescendants)(e).some(e=>{const t=function extractComponentIdFromContainer(e){const t=e.model?.get?.("widgetType");if(t!==p)return null;const n=e.model?.get?.("settings"),o=n?.get?.("component_instance");return o?.value?.component_id?.value??null}(e);return null!==t&&wouldCreateCircularNesting(t)})});return n&&(0,r.notify)(l),n}function blockCircularPaste(e){const{storageType:t}=e;if("localstorage"!==t)return!1;const n=window?.elementorCommon?.storage?.get();if(!n?.clipboard?.elements)return!1;const o=extractComponentIdsFromElements(n.clipboard.elements).some(wouldCreateCircularNesting);return o&&(0,r.notify)(l),o}},"./packages/packages/core/editor-components/src/prevent-non-atomic-nesting.ts":function(e,t,n){n.r(t),n.d(t,{findNonAtomicElements:function(){return findNonAtomicElements},findNonAtomicElementsInElement:function(){return findNonAtomicElementsInElement},hasNonAtomicElementsInTree:function(){return hasNonAtomicElementsInTree},initNonAtomicNestingPrevention:function(){return initNonAtomicNestingPrevention},isElementAtomic:function(){return isElementAtomic}});var o=n("@elementor/editor-canvas"),r=n("@elementor/editor-elements"),s=n("@elementor/editor-notifications"),a=n("@elementor/editor-v1-adapters"),i=n("@wordpress/i18n"),c=n("./packages/packages/core/editor-components/src/utils/is-editing-component.ts");const p={type:"default",message:(0,i.__)("This widget isn't compatible with components. Use atomic elements instead.","elementor"),id:"non-atomic-element-blocked"};function initNonAtomicNestingPrevention(){(0,a.blockCommand)({command:"document/elements/create",condition:blockNonAtomicCreate}),(0,a.blockCommand)({command:"document/elements/move",condition:blockNonAtomicMove}),(0,a.blockCommand)({command:"document/elements/paste",condition:blockNonAtomicPaste})}function isElementAtomic(e){return null!==(0,r.getElementType)(e)}function blockNonAtomicCreate(e){if(!(0,c.isEditingComponent)())return!1;const{model:t}=e,n=t?.widgetType||t?.elType;return!!n&&(!isElementAtomic(n)&&((0,s.notify)(p),!0))}function blockNonAtomicMove(e){if(!(0,c.isEditingComponent)())return!1;const{containers:t=[e.container]}=e,n=t.some(e=>{if(!e)return!1;return(0,r.getAllDescendants)(e).some(e=>!(0,o.isAtomicWidget)(e))});return n&&(0,s.notify)(p),n}function blockNonAtomicPaste(e){if(!(0,c.isEditingComponent)())return!1;const{storageType:t}=e;if("localstorage"!==t)return!1;const n=window?.elementorCommon?.storage?.get();if(!n?.clipboard?.elements)return!1;const o=hasNonAtomicElementsInTree(n.clipboard.elements);return o&&(0,s.notify)(p),o}function hasNonAtomicElementsInTree(e){for(const t of e){const e=t.widgetType||t.elType;if(e&&!isElementAtomic(e))return!0;if(t.elements?.length&&hasNonAtomicElementsInTree(t.elements))return!0}return!1}function findNonAtomicElements(e){const t=[];for(const n of e){const e=n.widgetType||n.elType;e&&!isElementAtomic(e)&&t.push(e),n.elements?.length&&t.push(...findNonAtomicElements(n.elements))}return[...new Set(t)]}function findNonAtomicElementsInElement(e){const t=[],n=e.widgetType||e.elType;if(n&&!isElementAtomic(n)&&t.push(n),e.elements?.length)for(const n of e.elements)t.push(...findNonAtomicElementsInElement(n));return[...new Set(t)]}},"./packages/packages/core/editor-components/src/prop-types/component-instance-override-prop-type.ts":function(e,t,n){n.r(t),n.d(t,{componentInstanceOverridePropTypeUtil:function(){return s}});var o=n("@elementor/editor-props"),r=n("@elementor/schema");const s=(0,o.createPropUtils)("override",r.z.object({override_key:r.z.string(),override_value:r.z.unknown(),schema_source:r.z.object({type:r.z.literal("component"),id:r.z.number()})}))},"./packages/packages/core/editor-components/src/prop-types/component-instance-overrides-prop-type.ts":function(e,t,n){n.r(t),n.d(t,{componentInstanceOverridesPropTypeUtil:function(){return i}});var o=n("@elementor/editor-props"),r=n("@elementor/schema"),s=n("./packages/packages/core/editor-components/src/prop-types/component-instance-override-prop-type.ts"),a=n("./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts");const i=(0,o.createPropUtils)("overrides",r.z.array(r.z.union([s.componentInstanceOverridePropTypeUtil.schema,a.componentOverridablePropTypeUtil.schema])).optional().default([]))},"./packages/packages/core/editor-components/src/prop-types/component-instance-prop-type.ts":function(e,t,n){n.r(t),n.d(t,{componentInstancePropTypeUtil:function(){return a}});var o=n("@elementor/editor-props"),r=n("@elementor/schema"),s=n("./packages/packages/core/editor-components/src/prop-types/component-instance-overrides-prop-type.ts");const a=(0,o.createPropUtils)("component-instance",r.z.object({component_id:o.numberPropTypeUtil.schema,overrides:r.z.optional(s.componentInstanceOverridesPropTypeUtil.schema)}))},"./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts":function(e,t,n){n.r(t),n.d(t,{componentOverridablePropTypeUtil:function(){return s}});var o=n("@elementor/editor-props"),r=n("@elementor/schema");const s=(0,o.createPropUtils)("overridable",r.z.object({override_key:r.z.string(),origin_value:r.z.object({$$type:r.z.string(),value:r.z.unknown()}).nullable()}))},"./packages/packages/core/editor-components/src/provider/overridable-prop-context.tsx":function(e,t,n){n.r(t),n.d(t,{OverridablePropProvider:function(){return OverridablePropProvider},useComponentInstanceElement:function(){return useComponentInstanceElement},useOverridablePropValue:function(){return useOverridablePropValue}});var o=n("react");const r=(0,o.createContext)(null);function OverridablePropProvider({children:e,...t}){return o.createElement(r.Provider,{value:t},e)}const useOverridablePropValue=()=>(0,o.useContext)(r)?.value,useComponentInstanceElement=()=>(0,o.useContext)(r)?.componentInstanceElement},"./packages/packages/core/editor-components/src/store/actions/add-overridable-group.ts":function(e,t,n){n.r(t),n.d(t,{addOverridableGroup:function(){return addOverridableGroup}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/utils/tracking.ts"),s=n("./packages/packages/core/editor-components/src/store/store.ts");function addOverridableGroup({componentId:e,groupId:t,label:n,source:a}){const i=(0,s.selectCurrentComponent)((0,o.__getState)()),c=(0,s.selectOverridableProps)((0,o.__getState)(),e);if(!c)return;const p={id:t,label:n,props:[]};return(0,o.__dispatch)(s.slice.actions.setOverridableProps({componentId:e,overridableProps:{...c,groups:{...c.groups,items:{...c.groups.items,[t]:p},order:[t,...c.groups.order]}}})),(0,r.trackComponentEvent)({action:"propertiesGroupCreated",source:a,component_uid:i?.uid,group_name:n}),p}},"./packages/packages/core/editor-components/src/store/actions/archive-component.ts":function(e,t,n){n.r(t),n.d(t,{archiveComponent:function(){return archiveComponent}});var o=n("@elementor/editor-documents"),r=n("@elementor/editor-notifications"),s=n("@elementor/store"),a=n("@wordpress/i18n"),i=n("./packages/packages/core/editor-components/src/store/store.ts");const archiveComponent=(e,t)=>{(0,s.__dispatch)(i.slice.actions.archive(e)),(0,o.setDocumentModifiedStatus)(!0),(0,r.notify)(((e,t)=>({type:"success",message:(0,a.__)("Successfully deleted component %s","elementor").replace("%s",t),id:`success-archived-components-notification-${e}`}))(e,t))}},"./packages/packages/core/editor-components/src/store/actions/create-unpublished-component.ts":function(e,t,n){n.r(t),n.d(t,{createUnpublishedComponent:function(){return createUnpublishedComponent}});var o=n("@elementor/editor-elements"),r=n("@elementor/editor-v1-adapters"),s=n("@elementor/store"),a=n("@elementor/utils"),i=n("@wordpress/i18n"),c=n("./packages/packages/core/editor-components/src/components/create-component-form/utils/replace-element-with-component.ts"),p=n("./packages/packages/core/editor-components/src/utils/revert-overridable-settings.ts"),l=n("./packages/packages/core/editor-components/src/utils/tracking.ts"),m=n("./packages/packages/core/editor-components/src/store/store.ts");async function createUnpublishedComponent({name:e,element:t,eventData:n,uid:d,overridableProps:u,source:g}){const v=d??(0,a.generateUniqueId)("component"),f={uid:v,name:e},y=(0,p.revertAllOverridablesInElementData)(t),h=(0,o.getContainer)(t.id),k=h?.model?.toJSON?.(),b={model:k??t,parentId:h?.parent?.id??"",index:h?.view?._index??0};(0,s.__dispatch)(m.slice.actions.addUnpublished({...f,elements:[y],overridableProps:u})),(0,s.__dispatch)(m.slice.actions.addCreatedThisSession(v));const C=await(0,c.replaceElementWithComponent)(t,f);(0,l.trackComponentEvent)({action:"created",source:g,component_uid:v,component_name:e,...n});try{await(0,r.__privateRunCommand)("document/save/auto")}catch(e){throw function restoreOriginalElement(e,t){(0,o.deleteElement)({elementId:t,options:{useHistory:!1}});const n=structuredClone(e.model);(0,o.createElements)({title:(0,i.__)("Restore Element","elementor"),elements:[{containerId:e.parentId,model:n,options:{at:e.index}}]})}(b,C.id),(0,s.__dispatch)(m.slice.actions.removeUnpublished(v)),(0,s.__dispatch)(m.slice.actions.removeCreatedThisSession(v)),e}return{uid:v,instanceId:C.id}}},"./packages/packages/core/editor-components/src/store/actions/delete-overridable-group.ts":function(e,t,n){n.r(t),n.d(t,{deleteOverridableGroup:function(){return deleteOverridableGroup}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/store/store.ts"),s=n("./packages/packages/core/editor-components/src/store/utils/groups-transformers.ts");function deleteOverridableGroup({componentId:e,groupId:t}){const n=(0,r.selectOverridableProps)((0,o.__getState)(),e);if(!n)return!1;const a=n.groups.items[t];if(!a||a.props.length>0)return!1;const i=(0,s.deleteGroup)(n.groups,t);return(0,o.__dispatch)(r.slice.actions.setOverridableProps({componentId:e,overridableProps:{...n,groups:i}})),!0}},"./packages/packages/core/editor-components/src/store/actions/delete-overridable-prop.ts":function(e,t,n){n.r(t),n.d(t,{deleteOverridableProp:function(){return deleteOverridableProp}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/utils/revert-overridable-settings.ts"),s=n("./packages/packages/core/editor-components/src/utils/tracking.ts"),a=n("./packages/packages/core/editor-components/src/store/store.ts"),i=n("./packages/packages/core/editor-components/src/store/utils/groups-transformers.ts");function deleteOverridableProp({componentId:e,propKey:t,source:n}){const c=(0,a.selectOverridableProps)((0,o.__getState)(),e);if(!c)return;const p=c.props[t];if(!p)return;(0,r.revertElementOverridableSetting)(p.elementId,p.propKey,p.originValue,t);const{[t]:l,...m}=c.props,d=(0,i.removePropFromAllGroups)(c.groups,t);(0,o.__dispatch)(a.slice.actions.setOverridableProps({componentId:e,overridableProps:{...c,props:m,groups:d}}));const u=(0,a.selectCurrentComponent)((0,o.__getState)());(0,s.trackComponentEvent)({action:"propertyRemoved",source:n,component_uid:u?.uid,property_id:l.overrideKey,property_path:l.propKey,property_name:l.label,element_type:l.widgetType??l.elType})}},"./packages/packages/core/editor-components/src/store/actions/load-components-assets.ts":function(e,t,n){n.r(t),n.d(t,{loadComponentsAssets:function(){return loadComponentsAssets}});var o=n("@elementor/editor-documents"),r=n("./packages/packages/core/editor-components/src/utils/get-component-documents.ts"),s=n("./packages/packages/core/editor-components/src/store/actions/load-components-overridable-props.ts"),a=n("./packages/packages/core/editor-components/src/store/actions/load-components-styles.ts");async function loadComponentsAssets(e){const t=await(0,r.getComponentDocuments)(e);!function updateDocumentState(e){const t=[...e.values()].some(o.isDocumentDirty);t&&(0,o.setDocumentModifiedStatus)(!0)}(t),(0,a.loadComponentsStyles)(t),await(0,s.loadComponentsOverridableProps)([...t.keys()])}},"./packages/packages/core/editor-components/src/store/actions/load-components-overridable-props.ts":function(e,t,n){n.r(t),n.d(t,{loadComponentsOverridableProps:function(){return loadComponentsOverridableProps}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/api.ts"),s=n("./packages/packages/core/editor-components/src/store/store.ts");function loadComponentsOverridableProps(e){if(e.length)return Promise.all(e.map(loadComponentOverrides))}async function loadComponentOverrides(e){if((0,s.selectIsOverridablePropsLoaded)((0,o.__getState)(),e))return;const t=await r.apiClient.getOverridableProps(e);t&&(0,o.__dispatch)(s.slice.actions.setOverridableProps({componentId:e,overridableProps:t}))}},"./packages/packages/core/editor-components/src/store/actions/load-components-styles.ts":function(e,t,n){n.r(t),n.d(t,{loadComponentsStyles:function(){return loadComponentsStyles}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/store/store.ts");function loadComponentsStyles(e){if(!e.size)return;const t=(0,r.selectStyles)((0,o.__getState)()),n=new Map([...e.entries()].filter(([e])=>!t[e]));n.size&&function addStyles(e){const t=Object.fromEntries([...e.entries()].map(([e,t])=>[e,extractStylesFromDocument(t)]));(0,o.__dispatch)(r.slice.actions.addStyles(t))}(n)}function extractStylesFromDocument(e){return e.elements?.length?e.elements.flatMap(extractStylesFromElement):[]}function extractStylesFromElement(e){return[...Object.values(e.styles??{}),...(e.elements??[]).flatMap(extractStylesFromElement)]}},"./packages/packages/core/editor-components/src/store/actions/remove-component-styles.ts":function(e,t,n){n.r(t),n.d(t,{removeComponentStyles:function(){return removeComponentStyles}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/api.ts"),s=n("./packages/packages/core/editor-components/src/store/store.ts");function removeComponentStyles(e){r.apiClient.invalidateComponentConfigCache(e),(0,o.__dispatch)(s.slice.actions.removeStyles({id:e}))}},"./packages/packages/core/editor-components/src/store/actions/rename-component.ts":function(e,t,n){n.r(t),n.d(t,{renameComponent:function(){return renameComponent}});var o=n("@elementor/editor-documents"),r=n("@elementor/editor-elements"),s=n("@elementor/store"),a=n("./packages/packages/core/editor-components/src/create-component-type.ts"),i=n("./packages/packages/core/editor-components/src/store/store.ts");const c="title_external_change",renameComponent=(e,t)=>{(0,s.__dispatch)(i.slice.actions.rename({componentUid:e,name:t})),(0,o.setDocumentModifiedStatus)(!0),function refreshComponentInstanceTitles(e){const t=function getDocumentContainer(){const e=(0,o.getV1DocumentsManager)();return e?.getCurrent()?.container}();if(!t)return;const n=function findComponentInstancesByUid(e,t){const n=(0,r.getAllDescendants)(e);return n.filter(e=>{const n=e.model.get("widgetType"),o=e.model.get("editor_settings");return n===a.COMPONENT_WIDGET_TYPE&&o?.component_uid===t})}(t,e);n.forEach(e=>{e.model.trigger?.(c)})}(e)}},"./packages/packages/core/editor-components/src/store/actions/rename-overridable-group.ts":function(e,t,n){n.r(t),n.d(t,{renameOverridableGroup:function(){return renameOverridableGroup}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/store/store.ts"),s=n("./packages/packages/core/editor-components/src/store/utils/groups-transformers.ts");function renameOverridableGroup({componentId:e,groupId:t,label:n}){const a=(0,r.selectOverridableProps)((0,o.__getState)(),e);if(!a)return!1;if(!a.groups.items[t])return!1;const i=(0,s.renameGroup)(a.groups,t,n);return(0,o.__dispatch)(r.slice.actions.setOverridableProps({componentId:e,overridableProps:{...a,groups:i}})),!0}},"./packages/packages/core/editor-components/src/store/actions/reorder-group-props.ts":function(e,t,n){n.r(t),n.d(t,{reorderGroupProps:function(){return reorderGroupProps}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/store/store.ts");function reorderGroupProps({componentId:e,groupId:t,newPropsOrder:n}){const s=(0,r.selectOverridableProps)((0,o.__getState)(),e);if(!s)return;const a=s.groups.items[t];a&&(0,o.__dispatch)(r.slice.actions.setOverridableProps({componentId:e,overridableProps:{...s,groups:{...s.groups,items:{...s.groups.items,[t]:{...a,props:n}}}}}))}},"./packages/packages/core/editor-components/src/store/actions/reorder-overridable-groups.ts":function(e,t,n){n.r(t),n.d(t,{reorderOverridableGroups:function(){return reorderOverridableGroups}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/store/store.ts");function reorderOverridableGroups({componentId:e,newOrder:t}){const n=(0,r.selectOverridableProps)((0,o.__getState)(),e);n&&(0,o.__dispatch)(r.slice.actions.setOverridableProps({componentId:e,overridableProps:{...n,groups:{...n.groups,order:t}}}))}},"./packages/packages/core/editor-components/src/store/actions/set-overridable-prop.ts":function(e,t,n){n.r(t),n.d(t,{setOverridableProp:function(){return setOverridableProp}});var o=n("@elementor/store"),r=n("@elementor/utils"),s=n("./packages/packages/core/editor-components/src/utils/tracking.ts"),a=n("./packages/packages/core/editor-components/src/store/store.ts"),i=n("./packages/packages/core/editor-components/src/store/utils/groups-transformers.ts");function setOverridableProp({componentId:e,overrideKey:t,elementId:n,label:c,groupId:p,propKey:l,elType:m,widgetType:d,originValue:u,originPropFields:g,source:v}){const f=(0,a.selectOverridableProps)((0,o.__getState)(),e);if(!f)return;const y=t?f.props[t]:null,h=Object.values(f.props).filter(e=>e.elementId===n&&e.propKey===l&&e!==y),{groups:k,groupId:b}=(0,i.resolveOrCreateGroup)(f.groups,p||y?.groupId||void 0),C={overrideKey:y?.overrideKey||(0,r.generateUniqueId)("prop"),label:c,elementId:n,propKey:l,widgetType:d,elType:m,originValue:u,groupId:b,originPropFields:g},E=(0,i.removePropsFromState)({...f,groups:k},h),_={...E.props,[C.overrideKey]:C};let P=(0,i.addPropToGroup)(E.groups,b,C.overrideKey);P=(0,i.ensureGroupInOrder)(P,b);y&&y.groupId!==b&&(P=(0,i.removePropFromGroup)(P,y.groupId,C.overrideKey)),(0,o.__dispatch)(a.slice.actions.setOverridableProps({componentId:e,overridableProps:{props:_,groups:P}}));if(!y){const e=(0,a.selectCurrentComponent)((0,o.__getState)());(0,s.trackComponentEvent)({action:"propertyExposed",source:v,component_uid:e?.uid,property_id:C.overrideKey,property_path:l,property_name:c,element_type:d??m})}return C}},"./packages/packages/core/editor-components/src/store/actions/update-current-component.ts":function(e,t,n){n.r(t),n.d(t,{archiveComponent:function(){return archiveComponent},updateCurrentComponent:function(){return updateCurrentComponent}});var o=n("@elementor/editor-documents"),r=n("@elementor/store"),s=n("./packages/packages/core/editor-components/src/store/store.ts");function updateCurrentComponent({path:e,currentComponentId:t}){const n=(0,r.__getStore)()?.dispatch;n&&(n(s.slice.actions.setPath(e)),n(s.slice.actions.setCurrentComponentId(t)))}const archiveComponent=e=>{const t=(0,r.__getStore)(),n=t?.dispatch;n&&(n(s.slice.actions.archive(e)),(0,o.setDocumentModifiedStatus)(!0))}},"./packages/packages/core/editor-components/src/store/actions/update-overridable-prop-params.ts":function(e,t,n){n.r(t),n.d(t,{updateOverridablePropParams:function(){return updateOverridablePropParams}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/store/store.ts"),s=n("./packages/packages/core/editor-components/src/store/utils/groups-transformers.ts");function updateOverridablePropParams({componentId:e,overrideKey:t,label:n,groupId:a}){const i=(0,r.selectOverridableProps)((0,o.__getState)(),e);if(!i)return;const c=i.props[t];if(!c)return;const p=c.groupId,l=a??p,m={...c,label:n,groupId:l},d=(0,s.movePropBetweenGroups)(i.groups,t,p,l);return(0,o.__dispatch)(r.slice.actions.setOverridableProps({componentId:e,overridableProps:{...i,props:{...i.props,[t]:m},groups:d}})),m}},"./packages/packages/core/editor-components/src/store/actions/update-overridable-prop.ts":function(e,t,n){n.r(t),n.d(t,{updateOverridableProp:function(){return updateOverridableProp}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/utils/resolve-override-prop-value.ts"),s=n("./packages/packages/core/editor-components/src/store/store.ts");function updateOverridableProp(e,t,n){const a=(0,s.selectOverridableProps)((0,o.__getState)(),e);if(!a)return;const i=a.props[t.override_key];if(!i)return;const c=(0,r.resolveOverridePropValue)(t.origin_value),p=n?{originValue:c,originPropFields:n}:{originValue:c},l={...a,props:{...a.props,[i.overrideKey]:{...i,...p}}};(0,o.__dispatch)(s.slice.actions.setOverridableProps({componentId:e,overridableProps:l}))}},"./packages/packages/core/editor-components/src/store/components-styles-provider.ts":function(e,t,n){n.r(t),n.d(t,{componentsStylesProvider:function(){return a}});var o=n("@elementor/editor-styles-repository"),r=n("@elementor/store"),s=n("./packages/packages/core/editor-components/src/store/store.ts");const a=(0,o.createStylesProvider)({key:"components-styles",priority:100,subscribe:e=>(0,r.__subscribeWithSelector)(e=>e[s.SLICE_NAME],()=>{e()}),actions:{all:()=>(0,s.selectFlatStyles)((0,r.__getState)()),get:e=>(0,s.selectFlatStyles)((0,r.__getState)()).find(t=>t.id===e)??null}})},"./packages/packages/core/editor-components/src/store/store.ts":function(e,t,n){n.r(t),n.d(t,{SLICE_NAME:function(){return a},initialState:function(){return s},selectArchivedThisSession:function(){return selectArchivedThisSession},selectComponent:function(){return selectComponent},selectComponentByUid:function(){return selectComponentByUid},selectComponents:function(){return c},selectCreatedThisSession:function(){return u},selectCurrentComponent:function(){return k},selectCurrentComponentId:function(){return h},selectData:function(){return selectData},selectFlatStyles:function(){return d},selectIsOverridablePropsLoaded:function(){return f},selectLoadIsError:function(){return m},selectLoadIsPending:function(){return l},selectOverridableProps:function(){return v},selectPath:function(){return y},selectStyles:function(){return selectStyles},selectUnpublishedComponents:function(){return p},selectUpdatedComponentNames:function(){return b},slice:function(){return i},useComponent:function(){return useComponent},useCurrentComponent:function(){return useCurrentComponent},useCurrentComponentId:function(){return useCurrentComponentId},useOverridableProps:function(){return useOverridableProps}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/store/thunks.ts");const s={data:[],unpublishedData:[],loadStatus:"idle",styles:{},createdThisSession:[],archivedThisSession:[],path:[],currentComponentId:null,updatedComponentNames:{}},a="components",i=(0,o.__createSlice)({name:a,initialState:s,reducers:{add:(e,{payload:t})=>{Array.isArray(t)?e.data=[...t,...e.data]:e.data.unshift(t)},load:(e,{payload:t})=>{e.data=t},addUnpublished:(e,{payload:t})=>{e.unpublishedData.unshift(t)},removeUnpublished:(e,{payload:t})=>{const n=Array.isArray(t)?t:[t];e.unpublishedData=e.unpublishedData.filter(e=>!n.includes(e.uid))},resetUnpublished:e=>{e.unpublishedData=[]},removeStyles(e,{payload:t}){const{[t.id]:n,...o}=e.styles;e.styles=o},addStyles:(e,{payload:t})=>{e.styles={...e.styles,...t}},addCreatedThisSession:(e,{payload:t})=>{e.createdThisSession.push(t)},removeCreatedThisSession:(e,{payload:t})=>{e.createdThisSession=e.createdThisSession.filter(e=>e!==t)},archive:(e,{payload:t})=>{const n=e.data.find(e=>e.id===t);n&&(n.isArchived=!0,e.archivedThisSession.push(t))},setCurrentComponentId:(e,{payload:t})=>{e.currentComponentId=t},setPath:(e,{payload:t})=>{e.path=t},setOverridableProps:(e,{payload:t})=>{const n=e.data.find(e=>e.id===t.componentId);n&&(n.overridableProps=t.overridableProps)},rename:(e,{payload:t})=>{const n=e.data.find(e=>e.uid===t.componentUid);n&&(n.id&&(e.updatedComponentNames[n.id]=t.name),n.name=t.name)},cleanUpdatedComponentNames:e=>{e.updatedComponentNames={}}},extraReducers:e=>{e.addCase(r.loadComponents.fulfilled,(e,{payload:t})=>{e.data=t,e.loadStatus="idle"}),e.addCase(r.loadComponents.pending,e=>{e.loadStatus="pending"}),e.addCase(r.loadComponents.rejected,e=>{e.loadStatus="error"})}}),selectData=e=>e[a].data,selectArchivedThisSession=e=>e[a].archivedThisSession,selectLoadStatus=e=>e[a].loadStatus,selectUnpublishedData=e=>e[a].unpublishedData,getCurrentComponentId=e=>e[a].currentComponentId,selectComponent=(e,t)=>e[a].data.find(e=>e.id===t),useComponent=e=>(0,o.__useSelector)(t=>e?selectComponent(t,e):null),selectComponentByUid=(e,t)=>e[a].data.find(e=>e.uid===t)??e[a].unpublishedData.find(e=>e.uid===t),c=(0,o.__createSelector)(selectData,selectUnpublishedData,(e,t)=>[...t.map(e=>({uid:e.uid,name:e.name,overridableProps:e.overridableProps})),...e.filter(e=>!e.isArchived)]),p=(0,o.__createSelector)(selectUnpublishedData,e=>e),l=(0,o.__createSelector)(selectLoadStatus,e=>"pending"===e),m=(0,o.__createSelector)(selectLoadStatus,e=>"error"===e),selectStyles=e=>e[a].styles??{},d=(0,o.__createSelector)(e=>e[a].styles??{},e=>Object.values(e).flat()),u=(0,o.__createSelector)(e=>e[a].createdThisSession,e=>e),g={props:{},groups:{items:{},order:[]}},v=(0,o.__createSelector)(selectComponent,e=>{if(e)return e.overridableProps??g}),useOverridableProps=e=>(0,o.__useSelector)(t=>e?v(t,e):null),f=(0,o.__createSelector)(selectComponent,e=>!!e?.overridableProps),y=(0,o.__createSelector)(e=>e[a].path,e=>e),h=(0,o.__createSelector)(getCurrentComponentId,e=>e),k=(0,o.__createSelector)(selectData,getCurrentComponentId,(e,t)=>e.find(e=>e.id===t)),useCurrentComponentId=()=>(0,o.__useSelector)(h),useCurrentComponent=()=>(0,o.__useSelector)(k),b=(0,o.__createSelector)(e=>e[a].updatedComponentNames,e=>Object.entries(e).map(([e,t])=>({componentId:Number(e),title:t})))},"./packages/packages/core/editor-components/src/store/thunks.ts":function(e,t,n){n.r(t),n.d(t,{loadComponents:function(){return s}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/api.ts");const s=(0,o.__createAsyncThunk)("components/load",async()=>await r.apiClient.get())},"./packages/packages/core/editor-components/src/store/utils/groups-transformers.ts":function(e,t,n){n.r(t),n.d(t,{addPropToGroup:function(){return addPropToGroup},createGroup:function(){return createGroup},deleteGroup:function(){return deleteGroup},ensureGroupInOrder:function(){return ensureGroupInOrder},movePropBetweenGroups:function(){return movePropBetweenGroups},removePropFromAllGroups:function(){return removePropFromAllGroups},removePropFromGroup:function(){return removePropFromGroup},removePropsFromState:function(){return removePropsFromState},renameGroup:function(){return renameGroup},resolveOrCreateGroup:function(){return resolveOrCreateGroup}});var o=n("@elementor/utils"),r=n("@wordpress/i18n");function removePropFromAllGroups(e,t){return{...e,items:Object.fromEntries(Object.entries(e.items).map(([e,n])=>[e,{...n,props:n.props.filter(e=>e!==t)}]))}}function addPropToGroup(e,t,n){const o=e.items[t];return o?o.props.includes(n)?e:{...e,items:{...e.items,[t]:{...o,props:[...o.props,n]}}}:e}function movePropBetweenGroups(e,t,n,o){if(n===o)return e;return addPropToGroup(removePropFromGroup(e,n,t),o,t)}function removePropFromGroup(e,t,n){const o=e.items[t];return o?{...e,items:{...e.items,[t]:{...o,props:o.props.filter(e=>e!==n)}}}:e}function resolveOrCreateGroup(e,t){return t&&e.items[t]?{groups:e,groupId:t}:!t&&e.order.length>0?{groups:e,groupId:e.order[0]}:createGroup(e,t)}function createGroup(e,t,n){const s=t||(0,o.generateUniqueId)("group"),a=n||(0,r.__)("Default","elementor");return{groups:{...e,items:{...e.items,[s]:{id:s,label:a,props:[]}},order:[...e.order,s]},groupId:s}}function removePropsFromState(e,t){const n=t.map(e=>e.overrideKey);return{props:Object.fromEntries(Object.entries(e.props).filter(([,e])=>!t.includes(e))),groups:{items:Object.fromEntries(Object.entries(e.groups.items).map(([e,t])=>[e,{...t,props:t.props.filter(e=>!n.includes(e))}])),order:e.groups.order.filter(e=>!n.includes(e))}}}function ensureGroupInOrder(e,t){return e.order.includes(t)?e:{...e,order:[...e.order,t]}}function deleteGroup(e,t){const{[t]:n,...o}=e.items;return{items:o,order:e.order.filter(e=>e!==t)}}function renameGroup(e,t,n){const o=e.items[t];return o?{...e,items:{...e.items,[t]:{...o,label:n}}}:e}},"./packages/packages/core/editor-components/src/sync/before-save.ts":function(e,t,n){n.r(t),n.d(t,{beforeSave:function(){return beforeSave}});var o=n("./packages/packages/core/editor-components/src/sync/create-components-before-save.ts"),r=n("./packages/packages/core/editor-components/src/sync/publish-draft-components-in-page-before-save.ts"),s=n("./packages/packages/core/editor-components/src/sync/set-component-overridable-props-settings-before-save.ts"),a=n("./packages/packages/core/editor-components/src/sync/update-archived-component-before-save.ts"),i=n("./packages/packages/core/editor-components/src/sync/update-component-title-before-save.ts");const beforeSave=({container:e,status:t})=>{const n=e?.model.get("elements").toJSON?.()??[];return Promise.all([syncComponents({elements:n,status:t}),(0,s.setComponentOverridablePropsSettingsBeforeSave)({container:e})])},syncComponents=async({elements:e,status:t})=>{await updateExistingComponentsBeforeSave({elements:e,status:t}),await(0,o.createComponentsBeforeSave)({elements:e,status:t})},updateExistingComponentsBeforeSave=async({elements:e,status:t})=>{await(0,i.updateComponentTitleBeforeSave)(t),await(0,a.updateArchivedComponentBeforeSave)(t),await(0,r.publishDraftComponentsInPageBeforeSave)({elements:e,status:t})}},"./packages/packages/core/editor-components/src/sync/cleanup-overridable-props-on-delete.ts":function(e,t,n){n.r(t),n.d(t,{initCleanupOverridablePropsOnDelete:function(){return initCleanupOverridablePropsOnDelete}});var o=n("@elementor/editor-elements"),r=n("@elementor/editor-v1-adapters"),s=n("@elementor/store"),a=n("./packages/packages/core/editor-components/src/store/store.ts"),i=n("./packages/packages/core/editor-components/src/store/utils/groups-transformers.ts");function initCleanupOverridablePropsOnDelete(){(0,r.registerDataHook)("dependency","document/elements/delete",e=>{const t=(0,s.__getState)();if(!t)return!0;const n=(0,a.selectCurrentComponentId)(t);if(!n)return!0;const r=(0,a.selectOverridableProps)(t,n);if(!r||0===Object.keys(r.props).length)return!0;const c=e.containers??(e.container?[e.container]:[]);if(0===c.length)return!0;const p=function collectDeletedElementIds(e){const t=e.filter(Boolean).flatMap(e=>[e,...(0,o.getAllDescendants)(e)]).map(e=>e.model?.get?.("id")??e.id).filter(e=>Boolean(e));return t}(c);if(0===p.length)return!0;const l=Object.entries(r.props).filter(([,e])=>p.includes(e.elementId)).map(([e])=>e);if(0===l.length)return!0;const m=Object.fromEntries(Object.entries(r.props).filter(([e])=>!l.includes(e)));let d=r.groups;for(const e of l)d=(0,i.removePropFromAllGroups)(d,e);return(0,s.__dispatch)(a.slice.actions.setOverridableProps({componentId:n,overridableProps:{...r,props:m,groups:d}})),!0})}},"./packages/packages/core/editor-components/src/sync/create-components-before-save.ts":function(e,t,n){n.r(t),n.d(t,{createComponentsBeforeSave:function(){return createComponentsBeforeSave}});var o=n("@elementor/editor-elements"),r=n("@elementor/store"),s=n("./packages/packages/core/editor-components/src/api.ts"),a=n("./packages/packages/core/editor-components/src/store/store.ts");async function createComponentsBeforeSave({elements:e,status:t}){const n=(0,a.selectUnpublishedComponents)((0,r.__getState)());if(n.length)try{const o=await async function createComponents(e,t){const n=await s.apiClient.create({status:t,items:e.map(e=>({uid:e.uid,title:e.name,elements:e.elements,settings:e.overridableProps?{overridable_props:e.overridableProps}:void 0}))}),o=new Map;return Object.entries(n).forEach(([e,t])=>{o.set(e,t)}),o}(n,t);updateComponentInstances(e,o),(0,r.__dispatch)(a.slice.actions.add(n.map(e=>({id:o.get(e.uid),name:e.name,uid:e.uid,overridableProps:e.overridableProps?e.overridableProps:void 0})))),(0,r.__dispatch)(a.slice.actions.resetUnpublished())}catch(e){const t=n.map(e=>e.uid);throw(0,r.__dispatch)(a.slice.actions.removeUnpublished(t)),new Error(`Failed to publish components: ${e}`)}}function updateComponentInstances(e,t){e.forEach(e=>{const{shouldUpdate:n,newComponentId:r}=function shouldUpdateElement(e,t){if("e-component"===e.widgetType){const n=e.settings?.component_instance?.value?.component_id.value;if(n&&t.has(n.toString()))return{shouldUpdate:!0,newComponentId:t.get(n.toString())}}return{shouldUpdate:!1,newComponentId:null}}(e,t);n&&function updateElementComponentId(e,t){(0,o.updateElementSettings)({id:e,props:{component_instance:{$$type:"component-instance",value:{component_id:{$$type:"number",value:t}}}},withHistory:!1})}(e.id,r),e.elements&&updateComponentInstances(e.elements,t)})}},"./packages/packages/core/editor-components/src/sync/handle-component-edit-mode-container.ts":function(e,t,n){n.r(t),n.d(t,{initHandleComponentEditModeContainer:function(){return initHandleComponentEditModeContainer}});var o=n("@elementor/editor-elements"),r=n("@elementor/editor-v1-adapters"),s=n("./packages/packages/core/editor-components/src/components/consts.ts"),a=n("./packages/packages/core/editor-components/src/utils/is-editing-component.ts");const i="e-flexbox";function initHandleComponentEditModeContainer(){!function initRedirectDropIntoComponent(){(0,r.registerDataHook)("dependency","preview/drop",e=>{if(!(0,a.isEditingComponent)())return!0;const t=e.containers??(e.container?[e.container]:[]);for(const n of t){if(!isComponent(n))continue;const{shouldRedirect:t,container:o}=getComponentContainer(n);if(t)if(e.containers){const t=e.containers.indexOf(n);e.containers[t]=o}else e.container=o}return!0})}(),function initHandleTopLevelElementDelete(){(0,r.registerDataHook)("after","document/elements/delete",e=>{if(!(0,a.isEditingComponent)())return;const t=e.containers??(e.container?[e.container]:[]);for(const e of t){if(!e.parent||!isComponent(e.parent))continue;const t=e.parent;0===t.children?.length&&createEmptyTopLevelContainer(e.parent)}})}()}function createEmptyTopLevelContainer(e){const t=(0,o.createElement)({containerId:e.id,model:{elType:i}});(0,o.selectElement)(t.id)}function getComponentContainer(e){const t=e.children?.[0];return t?{shouldRedirect:!0,container:t}:{shouldRedirect:!1,container:e}}function isComponent(e){return!("document"!==e.id)&&e.document?.config.type===s.COMPONENT_DOCUMENT_TYPE}},"./packages/packages/core/editor-components/src/sync/load-component-data-after-instance-added.ts":function(e,t,n){n.r(t),n.d(t,{initLoadComponentDataAfterInstanceAdded:function(){return initLoadComponentDataAfterInstanceAdded}});var o=n("@elementor/editor-v1-adapters"),r=n("./packages/packages/core/editor-components/src/store/actions/load-components-assets.ts");function initLoadComponentDataAfterInstanceAdded(){(0,o.registerDataHook)("after","document/elements/paste",(e,t)=>{load(t)}),(0,o.registerDataHook)("after","document/elements/import",(e,t)=>{load(t)})}function load(e){const t=Array.isArray(e)?e:[e];(0,r.loadComponentsAssets)(t.map(e=>e.model.toJSON()))}},"./packages/packages/core/editor-components/src/sync/publish-draft-components-in-page-before-save.ts":function(e,t,n){n.r(t),n.d(t,{publishDraftComponentsInPageBeforeSave:function(){return publishDraftComponentsInPageBeforeSave}});var o=n("@elementor/editor-documents"),r=n("./packages/packages/core/editor-components/src/api.ts"),s=n("./packages/packages/core/editor-components/src/utils/get-component-documents.ts");async function publishDraftComponentsInPageBeforeSave({status:e,elements:t}){if("publish"!==e)return;const n=[...(await(0,s.getComponentDocuments)(t)).values()].filter(o.isDocumentDirty).map(e=>e.id);0!==n.length&&(await r.apiClient.updateStatuses(n,"publish"),n.forEach(e=>(0,o.invalidateDocumentData)(e)))}},"./packages/packages/core/editor-components/src/sync/revert-overridables-on-copy-or-duplicate.ts":function(e,t,n){n.r(t),n.d(t,{initRevertOverridablesOnCopyOrDuplicate:function(){return initRevertOverridablesOnCopyOrDuplicate}});var o=n("@elementor/editor-v1-adapters"),r=n("./packages/packages/core/editor-components/src/utils/is-editing-component.ts"),s=n("./packages/packages/core/editor-components/src/utils/revert-overridable-settings.ts");function initRevertOverridablesOnCopyOrDuplicate(){(0,o.registerDataHook)("after","document/elements/duplicate",(e,t)=>{(0,r.isEditingComponent)()&&function revertOverridablesForDuplicatedElements(e){(Array.isArray(e)?e:[e]).forEach(e=>{(0,s.revertAllOverridablesInContainer)(e)})}(t)}),(0,o.registerDataHook)("after","document/elements/copy",e=>{(0,r.isEditingComponent)()&&function revertOverridablesInStorage(e){const t=window.elementorCommon?.storage;if(!t)return;const n=t.get(e);if(!n?.elements?.length)return;const o=n.elements.map(s.revertAllOverridablesInElementData);t.set(e,{...n,elements:o})}(e.storageKey??"clipboard")})}},"./packages/packages/core/editor-components/src/sync/set-component-overridable-props-settings-before-save.ts":function(e,t,n){n.r(t),n.d(t,{setComponentOverridablePropsSettingsBeforeSave:function(){return setComponentOverridablePropsSettingsBeforeSave}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/components/consts.ts"),s=n("./packages/packages/core/editor-components/src/store/store.ts");const setComponentOverridablePropsSettingsBeforeSave=({container:e})=>{const t=e.document;if(!t||t.config.type!==r.COMPONENT_DOCUMENT_TYPE)return;const n=(0,s.selectOverridableProps)((0,o.__getState)(),t.id);n&&e.settings.set("overridable_props",n)}},"./packages/packages/core/editor-components/src/sync/update-archived-component-before-save.ts":function(e,t,n){n.r(t),n.d(t,{updateArchivedComponentBeforeSave:function(){return updateArchivedComponentBeforeSave}});var o=n("@elementor/editor-notifications"),r=n("@elementor/store"),s=n("./packages/packages/core/editor-components/src/api.ts"),a=n("./packages/packages/core/editor-components/src/store/store.ts");const updateArchivedComponentBeforeSave=async e=>{try{const t=(0,a.selectArchivedThisSession)((0,r.__getState)());if(!t.length)return;const n=(await s.apiClient.updateArchivedComponents(t,e)).failedIds.join(", ");n&&(0,o.notify)({type:"error",message:`Failed to archive components: ${n}`,id:"failed-archived-components-notification"})}catch(e){throw new Error(`Failed to update archived components: ${e}`)}}},"./packages/packages/core/editor-components/src/sync/update-component-title-before-save.ts":function(e,t,n){n.r(t),n.d(t,{updateComponentTitleBeforeSave:function(){return updateComponentTitleBeforeSave}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/api.ts"),s=n("./packages/packages/core/editor-components/src/store/store.ts");const updateComponentTitleBeforeSave=async e=>{const t=(0,s.selectUpdatedComponentNames)((0,o.__getState)());if(!t.length)return;0===(await r.apiClient.updateComponentTitle(t,e)).failedIds.length&&(0,o.__dispatch)(s.slice.actions.cleanUpdatedComponentNames())}},"./packages/packages/core/editor-components/src/utils/component-document-data.ts":function(e,t,n){n.r(t),n.d(t,{getComponentDocumentData:function(){return getComponentDocumentData}});var o=n("@elementor/editor-documents");const getComponentDocumentData=async e=>{const t=(0,o.getV1DocumentsManager)();try{return await t.request(e)}catch{return null}}},"./packages/packages/core/editor-components/src/utils/component-name-validation.ts":function(e,t,n){n.r(t),n.d(t,{validateComponentName:function(){return validateComponentName}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/components/create-component-form/utils/component-form-schema.ts"),s=n("./packages/packages/core/editor-components/src/store/store.ts");function validateComponentName(e){const t=(0,s.selectComponents)((0,o.__getState)())?.map(({name:e})=>e)??[],n=(0,r.createSubmitComponentSchema)(t).safeParse({componentName:e.toLowerCase()});if(n.success)return{isValid:!0,errorMessage:null};const a=n.error.format();return{isValid:!1,errorMessage:a.componentName?._errors[0]??a._errors[0]}}},"./packages/packages/core/editor-components/src/utils/expand-navigator.ts":function(e,t,n){n.r(t),n.d(t,{expandNavigator:function(){return expandNavigator}});var o=n("@elementor/editor-v1-adapters");async function expandNavigator(){await(0,o.__privateRunCommand)("navigator/expand-all")}},"./packages/packages/core/editor-components/src/utils/get-component-documents.ts":function(e,t,n){n.r(t),n.d(t,{getComponentDocuments:function(){return getComponentDocuments}});var o=n("./packages/packages/core/editor-components/src/utils/component-document-data.ts"),r=n("./packages/packages/core/editor-components/src/utils/is-component-instance.ts");async function getComponentDocuments(e,t=new Map){return async function getDocumentsMap(e,t){const n=await Promise.all(e.map(async e=>{const n=await t.get(e);return n?[e,n]:null}));return new Map(n.filter(e=>null!==e))}(await getComponentIds(e,t),t)}async function getComponentIds(e,t){const n=await Promise.all(e.map(async({widgetType:e,elType:n,elements:s,settings:a})=>{const i=[];if((0,r.isComponentInstance)({widgetType:e,elType:n})){const e=a?.component_instance?.value?.component_id.value;if(!e)return i;i.push(e),t.has(e)||t.set(e,(0,o.getComponentDocumentData)(e));const n=await t.get(e);s=n?.elements}if(s?.length){const e=await getComponentIds(s,t);i.push(...e)}return i}));return[...new Set(n.flat())]}},"./packages/packages/core/editor-components/src/utils/get-container-for-new-element.ts":function(e,t,n){n.r(t),n.d(t,{getContainerForNewElement:function(){return getContainerForNewElement}});var o=n("@elementor/editor-elements");const getContainerForNewElement=()=>{const e=(0,o.getCurrentDocumentContainer)(),t=function getSelectedElementContainer(){const e=(0,o.getSelectedElements)();if(1!==e.length)return;return(0,o.getContainer)(e[0].id)}();let n,r;if(t)switch(t.model.get("elType")){case"widget":{n=t?.parent;const e=t.view?._index??-1;e>-1&&(r={at:e+1});break}case"section":n=t?.children?.[0];break;default:n=t}return{container:n??e,options:r}}},"./packages/packages/core/editor-components/src/utils/get-prop-type-for-component-override.ts":function(e,t,n){n.r(t),n.d(t,{getPropTypeForComponentOverride:function(){return getPropTypeForComponentOverride}});var o=n("@elementor/editor-elements");const getPropTypeForComponentOverride=e=>{if(e.originPropFields)return getPropType(e.originPropFields);const{widgetType:t,propKey:n}=e;return getPropType({widgetType:t,propKey:n})};function getPropType({widgetType:e,propKey:t}){const n=(0,o.getWidgetsCache)()?.[e]?.atomic_props_schema;return n?.[t]}},"./packages/packages/core/editor-components/src/utils/is-component-instance.ts":function(e,t,n){n.r(t),n.d(t,{isComponentInstance:function(){return isComponentInstance}});var o=n("./packages/packages/core/editor-components/src/create-component-type.ts");function isComponentInstance(e){return[e.widgetType,e.elType].includes(o.COMPONENT_WIDGET_TYPE)}},"./packages/packages/core/editor-components/src/utils/is-editing-component.ts":function(e,t,n){n.r(t),n.d(t,{isEditingComponent:function(){return isEditingComponent}});var o=n("@elementor/store"),r=n("./packages/packages/core/editor-components/src/store/store.ts");function isEditingComponent(){const e=(0,o.__getStore)()?.getState();return!!e&&null!==(0,r.selectCurrentComponentId)(e)}},"./packages/packages/core/editor-components/src/utils/is-pro-user.ts":function(e,t,n){function isProUser(){const e=window;if(!(e.elementor?.helpers?.hasPro?.()??!1))return!1;return e.elementorPro?.config?.isActive??!1}n.r(t),n.d(t,{isProUser:function(){return isProUser}})},"./packages/packages/core/editor-components/src/utils/resolve-override-prop-value.ts":function(e,t,n){n.r(t),n.d(t,{resolveOverridePropValue:function(){return resolveOverridePropValue}});var o=n("./packages/packages/core/editor-components/src/prop-types/component-instance-override-prop-type.ts"),r=n("./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts");const resolveOverridePropValue=e=>{if(r.componentOverridablePropTypeUtil.isValid(e))return function getOverridableValue(e){const t=r.componentOverridablePropTypeUtil.extract(e);if(!t)return null;const n=o.componentInstanceOverridePropTypeUtil.isValid(t.origin_value);if(n)return getOverrideValue(t.origin_value);return t.origin_value}(e);return o.componentInstanceOverridePropTypeUtil.isValid(e)?getOverrideValue(e):e};function getOverrideValue(e){const t=o.componentInstanceOverridePropTypeUtil.extract(e);return t?t.override_value:null}},"./packages/packages/core/editor-components/src/utils/revert-overridable-settings.ts":function(e,t,n){n.r(t),n.d(t,{revertAllOverridablesInContainer:function(){return revertAllOverridablesInContainer},revertAllOverridablesInElementData:function(){return revertAllOverridablesInElementData},revertElementOverridableSetting:function(){return revertElementOverridableSetting}});var o=n("@elementor/editor-elements"),r=n("./packages/packages/core/editor-components/src/create-component-type.ts"),s=n("./packages/packages/core/editor-components/src/prop-types/component-instance-override-prop-type.ts"),a=n("./packages/packages/core/editor-components/src/prop-types/component-instance-overrides-prop-type.ts"),i=n("./packages/packages/core/editor-components/src/prop-types/component-instance-prop-type.ts"),c=n("./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts"),p=n("./packages/packages/core/editor-components/src/utils/is-component-instance.ts");function revertElementOverridableSetting(e,t,n,r){const s=(0,o.getContainer)(e);s&&((0,p.isComponentInstance)(s.model.toJSON())?function revertComponentInstanceOverridableSetting(e,t){const n=(0,o.getElementSetting)(e,"component_instance"),r=i.componentInstancePropTypeUtil.extract(n),s=a.componentInstanceOverridesPropTypeUtil.extract(r?.overrides);if(!s?.length)return;const c=revertComponentInstanceOverrides(s,t),p=i.componentInstancePropTypeUtil.create({...r,overrides:a.componentInstanceOverridesPropTypeUtil.create(c)});(0,o.updateElementSettings)({id:e,props:{component_instance:p},withHistory:!1})}(e,r):(0,o.updateElementSettings)({id:e,props:{[t]:n??null},withHistory:!1}))}function revertComponentInstanceOverrides(e,t){return e.map(e=>c.componentOverridablePropTypeUtil.isValid(e)?s.componentInstanceOverridePropTypeUtil.isValid(e.value.origin_value)?t&&e.value.override_key!==t?e:e.value.origin_value:null:e).filter(e=>null!==e)}function revertOverridablePropsFromSettings(e){let t=!1;const n={};for(const[o,r]of Object.entries(e))c.componentOverridablePropTypeUtil.isValid(r)?(n[o]=r.value.origin_value,t=!0):n[o]=r;return{hasChanges:t,settings:n}}function revertAllOverridablesInElementData(e){const t={...e};if((0,p.isComponentInstance)({widgetType:e.widgetType,elType:e.elType}))t.settings=function revertComponentInstanceSettings(e){if(!e?.component_instance)return e;const t=i.componentInstancePropTypeUtil.extract(e.component_instance),n=a.componentInstanceOverridesPropTypeUtil.extract(t?.overrides);if(!n?.length)return e;const o=revertComponentInstanceOverrides(n);return{...e,component_instance:i.componentInstancePropTypeUtil.create({...t,overrides:a.componentInstanceOverridesPropTypeUtil.create(o)})}}(e.settings);else if(t.settings){const{settings:e}=revertOverridablePropsFromSettings(t.settings);t.settings=e}return t.elements&&(t.elements=t.elements.map(revertAllOverridablesInElementData)),t}function revertAllOverridablesInContainer(e){(0,o.getAllDescendants)(e).forEach(e=>{e.model.get("widgetType")===r.COMPONENT_WIDGET_TYPE?function revertComponentInstanceOverridesInElement(e){const t=e.settings?.toJSON()??{},n=i.componentInstancePropTypeUtil.extract(t.component_instance),r=a.componentInstanceOverridesPropTypeUtil.extract(n?.overrides);if(!r?.length)return;const s=revertComponentInstanceOverrides(r),c=i.componentInstancePropTypeUtil.create({...n,overrides:a.componentInstanceOverridesPropTypeUtil.create(s)});(0,o.updateElementSettings)({id:e.id,props:{component_instance:c},withHistory:!1})}(e):function revertElementSettings(e){const t=e.settings?.toJSON()??{},{hasChanges:n,settings:r}=revertOverridablePropsFromSettings(t);if(!n)return;(0,o.updateElementSettings)({id:e.id,props:r,withHistory:!1})}(e)})}},"./packages/packages/core/editor-components/src/utils/switch-to-component.ts":function(e,t,n){n.r(t),n.d(t,{buildUniqueSelector:function(){return buildUniqueSelector},switchToComponent:function(){return switchToComponent}});var o=n("@elementor/editor-documents"),r=n("@elementor/editor-elements"),s=n("./packages/packages/core/editor-components/src/utils/expand-navigator.ts");async function switchToComponent(e,t,n){const a=function getSelector(e,t){if(e)return buildUniqueSelector(e);if(t)return`[data-id="${t}"]`;return}(n,t);(0,o.invalidateDocumentData)(e),await(0,o.switchToDocument)(e,{selector:a,mode:"autosave",setAsInitial:!1,shouldScroll:!1});const i=(0,r.getCurrentDocumentContainer)(),c=i?.children?.[0];c&&((0,r.selectElement)(c.id),(0,s.expandNavigator)())}function buildUniqueSelector(e){const t=[];let n=e.closest("[data-id]");for(;n;){const e=n.dataset.id;n.hasAttribute("data-elementor-id")&&t.unshift(`[data-id="${e}"]`),n=n.parentElement?.closest("[data-id]")??null}if(0===t.length){const t=e.closest("[data-id]");if(t?.dataset?.id)return`[data-id="${t.dataset.id}"]`}return t.join(" ")}},"./packages/packages/core/editor-components/src/utils/tracking.ts":function(e,t,n){n.r(t),n.d(t,{onElementDrop:function(){return onElementDrop},trackComponentEvent:function(){return trackComponentEvent}});var o=n("@elementor/events"),r=n("@elementor/store"),s=n("./packages/packages/core/editor-components/src/store/store.ts");const trackComponentEvent=({action:e,source:t,...n})=>{const{dispatchEvent:r,config:s}=(0,o.getMixpanel)();if(!s?.names?.components?.[e])return;const a=s.names.components[e];r?.(a,{...n,source:t,"Feature name":"Components"})},onElementDrop=(e,t)=>{if("e-component"!==t?.model?.get("widgetType"))return;const n=t.model.get("editor_settings"),o=n?.title,a=n?.component_uid,i=t.id,c=(0,s.selectCreatedThisSession)((0,r.__getState)()),p=a&&c.includes(a),l=window.elementorCommon.eventsManager.config,{locations:m,secondaryLocations:d}=l;trackComponentEvent({action:"instanceAdded",source:"user",instance_id:i,component_uid:a,component_name:o,is_same_session_reuse:p,location:m.widgetPanel,secondary_location:d.componentsTab})}},"@elementor/editor":function(e){e.exports=window.elementorV2.editor},"@elementor/editor-canvas":function(e){e.exports=window.elementorV2.editorCanvas},"@elementor/editor-controls":function(e){e.exports=window.elementorV2.editorControls},"@elementor/editor-current-user":function(e){e.exports=window.elementorV2.editorCurrentUser},"@elementor/editor-documents":function(e){e.exports=window.elementorV2.editorDocuments},"@elementor/editor-editing-panel":function(e){e.exports=window.elementorV2.editorEditingPanel},"@elementor/editor-elements":function(e){e.exports=window.elementorV2.editorElements},"@elementor/editor-elements-panel":function(e){e.exports=window.elementorV2.editorElementsPanel},"@elementor/editor-mcp":function(e){e.exports=window.elementorV2.editorMcp},"@elementor/editor-notifications":function(e){e.exports=window.elementorV2.editorNotifications},"@elementor/editor-panels":function(e){e.exports=window.elementorV2.editorPanels},"@elementor/editor-props":function(e){e.exports=window.elementorV2.editorProps},"@elementor/editor-styles-repository":function(e){e.exports=window.elementorV2.editorStylesRepository},"@elementor/editor-ui":function(e){e.exports=window.elementorV2.editorUi},"@elementor/editor-v1-adapters":function(e){e.exports=window.elementorV2.editorV1Adapters},"@elementor/events":function(e){e.exports=window.elementorV2.events},"@elementor/http-client":function(e){e.exports=window.elementorV2.httpClient},"@elementor/icons":function(e){e.exports=window.elementorV2.icons},"@elementor/schema":function(e){e.exports=window.elementorV2.schema},"@elementor/store":function(e){e.exports=window.elementorV2.store},"@elementor/ui":function(e){e.exports=window.elementorV2.ui},"@elementor/utils":function(e){e.exports=window.elementorV2.utils},"@wordpress/i18n":function(e){e.exports=window.wp.i18n},react:function(e){e.exports=window.React},"react-dom":function(e){e.exports=window.ReactDOM}},t={};function __webpack_require__(n){var o=t[n];if(void 0!==o)return o.exports;var r=t[n]={exports:{}};return e[n](r,r.exports,__webpack_require__),r.exports}__webpack_require__.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return __webpack_require__.d(t,{a:t}),t},__webpack_require__.d=function(e,t){for(var n in t)__webpack_require__.o(t,n)&&!__webpack_require__.o(e,n)&&Object.defineProperty(e,n,{enumerable:!0,get:t[n]})},__webpack_require__.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},__webpack_require__.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})};var n={};!function(){__webpack_require__.r(n),__webpack_require__.d(n,{init:function(){return e.init}});var e=__webpack_require__("./packages/packages/core/editor-components/src/init.ts")}(),(window.elementorV2=window.elementorV2||{}).editorComponents=n}(),window.elementorV2.editorComponents?.init?.();
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/components-tab/loading-components.tsx":
+/*!*******************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/components-tab/loading-components.tsx ***!
+  \*******************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   LoadingComponents: function() { return /* binding */ LoadingComponents; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_ui__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const ROWS = Array.from({
+  length: 3
+}, (_, index) => index);
+const STAGGER_DELAY_MS = 80;
+const LoadingComponents = () => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_1__.Stack, {
+    "aria-label": "Loading components",
+    gap: 1.5,
+    sx: {
+      pointerEvents: 'none',
+      position: 'relative',
+      maxHeight: '300px',
+      overflow: 'hidden',
+      px: 1,
+      '&:after': {
+        position: 'absolute',
+        bottom: 0,
+        content: '""',
+        left: 0,
+        width: '100%',
+        height: '40%',
+        pointerEvents: 'none',
+        zIndex: 1
+      }
+    }
+  }, ROWS.map(row => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_1__.Box, {
+    key: row,
+    display: "flex",
+    alignItems: "center",
+    gap: 1.5,
+    sx: {
+      py: 0.75,
+      px: 1.5,
+      opacity: 0,
+      animation: `e-loading-fade-in 0.4s ease-out ${row * STAGGER_DELAY_MS}ms forwards`,
+      '@keyframes e-loading-fade-in': {
+        from: {
+          opacity: 0,
+          transform: 'translateY(4px)'
+        },
+        to: {
+          opacity: 1,
+          transform: 'translateY(0)'
+        }
+      }
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_1__.Skeleton, {
+    animation: "wave",
+    variant: "rounded",
+    width: 24,
+    height: 24
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_1__.Skeleton, {
+    animation: "wave",
+    variant: "rounded",
+    width: "60%",
+    height: 14
+  }))));
+};
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/components-tab/search-provider.tsx":
+/*!****************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/components-tab/search-provider.tsx ***!
+  \****************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   SearchProvider: function() { return /* binding */ SearchProvider; },
+/* harmony export */   useSearch: function() { return /* binding */ useSearch; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/utils */ "@elementor/utils");
+/* harmony import */ var _elementor_utils__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_utils__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+const SearchContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)(undefined);
+const SearchProvider = ({
+  children,
+  localStorageKey
+}) => {
+  const {
+    debouncedValue,
+    handleChange,
+    inputValue
+  } = (0,_elementor_utils__WEBPACK_IMPORTED_MODULE_1__.useSearchState)({
+    localStorageKey
+  });
+  const clearSearch = () => {
+    handleChange('');
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(SearchContext.Provider, {
+    value: {
+      handleChange,
+      clearSearch,
+      searchValue: debouncedValue,
+      inputValue
+    }
+  }, children);
+};
+const useSearch = () => {
+  const context = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(SearchContext);
+  if (!context) {
+    throw new Error('useSearch must be used within a SearchProvider');
+  }
+  return context;
+};
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/components-update-alert.tsx":
+/*!*********************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/components-update-alert.tsx ***!
+  \*********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ComponentsUpdateAlert: function() { return /* binding */ ComponentsUpdateAlert; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/icons */ "@elementor/icons");
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_icons__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+const UPDATE_PLUGINS_URL = '/wp-admin/plugins.php';
+function ComponentsUpdateAlert({
+  title,
+  description
+}) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Box, {
+    sx: {
+      mt: 'auto',
+      position: 'sticky',
+      bottom: 0
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Alert, {
+    variant: "standard",
+    color: "info",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_icons__WEBPACK_IMPORTED_MODULE_1__.InfoCircleFilledIcon, {
+      fontSize: "tiny"
+    }),
+    role: "status",
+    size: "small",
+    action: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.AlertAction, {
+      variant: "contained",
+      color: "info",
+      href: UPDATE_PLUGINS_URL,
+      target: "_blank",
+      rel: "noopener noreferrer"
+    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Upgrade Now', 'elementor')),
+    sx: {
+      m: 2,
+      mt: 1
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.AlertTitle, null, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+    variant: "caption"
+  }, description)));
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/components-upgrade-alert.tsx":
+/*!**********************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/components-upgrade-alert.tsx ***!
+  \**********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ComponentsUpgradeAlert: function() { return /* binding */ ComponentsUpgradeAlert; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/icons */ "@elementor/icons");
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_icons__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+function ComponentsUpgradeAlert({
+  title,
+  description,
+  upgradeUrl
+}) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Box, {
+    sx: {
+      mt: 'auto',
+      position: 'sticky',
+      bottom: 0
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Alert, {
+    variant: "standard",
+    color: "promotion",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_icons__WEBPACK_IMPORTED_MODULE_1__.CrownFilledIcon, {
+      fontSize: "tiny"
+    }),
+    role: "status",
+    size: "small",
+    action: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.AlertAction, {
+      variant: "contained",
+      color: "promotion",
+      href: upgradeUrl,
+      target: "_blank",
+      rel: "noopener noreferrer"
+    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Upgrade now', 'elementor')),
+    sx: {
+      m: 2,
+      mt: 1
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.AlertTitle, null, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+    variant: "caption"
+  }, description)));
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/control-label.tsx":
+/*!***********************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/control-label.tsx ***!
+  \***********************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ControlLabel: function() { return /* binding */ ControlLabel; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_controls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-controls */ "@elementor/editor-controls");
+/* harmony import */ var _elementor_editor_controls__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_controls__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+const ControlLabel = ({
+  children,
+  ...props
+}) => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Stack, {
+    direction: "row",
+    alignItems: "center",
+    justifyItems: "start",
+    gap: 0.25
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_controls__WEBPACK_IMPORTED_MODULE_1__.ControlFormLabel, props, children), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_controls__WEBPACK_IMPORTED_MODULE_1__.ControlAdornments, null));
+};
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/detach-instance-confirmation-dialog.tsx":
+/*!*********************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/detach-instance-confirmation-dialog.tsx ***!
+  \*********************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   DetachInstanceConfirmationDialog: function() { return /* binding */ DetachInstanceConfirmationDialog; },
+/* harmony export */   openDetachConfirmDialog: function() { return /* binding */ openDetachConfirmDialog; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-ui */ "@elementor/editor-ui");
+/* harmony import */ var _elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/icons */ "@elementor/icons");
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_icons__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+function DetachInstanceConfirmationDialog({
+  open,
+  onClose,
+  onConfirm
+}) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__.ConfirmationDialog, {
+    open: open,
+    onClose: onClose
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__.ConfirmationDialog.Title, {
+    icon: _elementor_icons__WEBPACK_IMPORTED_MODULE_2__.AlertTriangleFilledIcon,
+    iconColor: "secondary"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Detach from Component?', 'elementor')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__.ConfirmationDialog.Content, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__.ConfirmationDialog.ContentText, null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Detaching this instance will break its link to the Component. Changes to the Component will no longer apply. Continue?', 'elementor'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__.ConfirmationDialog.Actions, {
+    onClose: onClose,
+    onConfirm: onConfirm,
+    confirmLabel: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Detach', 'elementor'),
+    color: "primary"
+  }));
+}
+
+// Used imperatively from the context menu (Marionette view).
+function openDetachConfirmDialog(onConfirm) {
+  const handleConfirm = () => {
+    (0,_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__.closeDialog)();
+    onConfirm();
+  };
+  (0,_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__.openDialog)({
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(DetachInstanceConfirmationDialog, {
+      open: true,
+      onClose: _elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__.closeDialog,
+      onConfirm: handleConfirm
+    })
+  });
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/errors.ts":
+/*!***************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/errors.ts ***!
+  \***************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   OverrideControlInnerElementNotFoundError: function() { return /* binding */ OverrideControlInnerElementNotFoundError; },
+/* harmony export */   OverrideControlPropTypeNotFoundError: function() { return /* binding */ OverrideControlPropTypeNotFoundError; }
+/* harmony export */ });
+/* harmony import */ var _elementor_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/utils */ "@elementor/utils");
+/* harmony import */ var _elementor_utils__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_utils__WEBPACK_IMPORTED_MODULE_0__);
+
+const OverrideControlInnerElementNotFoundError = (0,_elementor_utils__WEBPACK_IMPORTED_MODULE_0__.createError)({
+  code: 'override_control_inner_element_not_found',
+  message: `Component inner element not found for override control. The element may have been deleted without updating the overridable props, or the component has not finished rendering yet.`
+});
+const OverrideControlPropTypeNotFoundError = (0,_elementor_utils__WEBPACK_IMPORTED_MODULE_0__.createError)({
+  code: 'override_control_prop_type_not_found',
+  message: 'Prop type not found for override control.'
+});
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/in-edit-mode.tsx":
+/*!**********************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/in-edit-mode.tsx ***!
+  \**********************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   openEditModeDialog: function() { return /* binding */ openEditModeDialog; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-ui */ "@elementor/editor-ui");
+/* harmony import */ var _elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/icons */ "@elementor/icons");
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_icons__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+const openEditModeDialog = lockedBy => {
+  (0,_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__.openDialog)({
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(EditModeDialog, {
+      lockedBy: lockedBy
+    })
+  });
+};
+const EditModeDialog = ({
+  lockedBy
+}) => {
+  /* translators: %s is the name of the user who is currently editing the document */
+  const content = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('%s is currently editing this document', 'elementor').replace('%s', lockedBy);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.DialogHeader, {
+    logo: false
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.Box, {
+    display: "flex",
+    alignItems: "center",
+    gap: 1
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.Icon, {
+    color: "secondary"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_icons__WEBPACK_IMPORTED_MODULE_2__.InfoCircleFilledIcon, {
+    fontSize: "medium"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.Typography, {
+    variant: "subtitle1"
+  }, content))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.DialogContent, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.Stack, {
+    spacing: 2,
+    direction: "column"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.Typography, {
+    variant: "body2"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('You can wait for them to finish or reach out to coordinate your changes together.', 'elementor')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.DialogActions, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.Button, {
+    color: "secondary",
+    variant: "contained",
+    onClick: _elementor_editor_ui__WEBPACK_IMPORTED_MODULE_1__.closeDialog
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Close', 'elementor'))))));
+};
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/instance-editing-panel/detach-action.tsx":
+/*!**********************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/instance-editing-panel/detach-action.tsx ***!
+  \**********************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   DetachAction: function() { return /* binding */ DetachAction; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-notifications */ "@elementor/editor-notifications");
+/* harmony import */ var _elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/icons */ "@elementor/icons");
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_icons__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _utils_detach_component_instance__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/detach-component-instance */ "./packages/packages/core/editor-components/src/utils/detach-component-instance/index.ts");
+/* harmony import */ var _detach_instance_confirmation_dialog__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../detach-instance-confirmation-dialog */ "./packages/packages/core/editor-components/src/components/detach-instance-confirmation-dialog.tsx");
+/* harmony import */ var _instance_panel_header__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./instance-panel-header */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/instance-panel-header.tsx");
+
+
+
+
+
+
+
+
+const DetachAction = ({
+  componentInstanceId,
+  componentId
+}) => {
+  const [isDetachDialogOpen, setIsDetachDialogOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const handleDetachConfirm = async () => {
+    setIsDetachDialogOpen(false);
+    try {
+      await (0,_utils_detach_component_instance__WEBPACK_IMPORTED_MODULE_4__.detachComponentInstance)({
+        instanceId: componentInstanceId,
+        componentId,
+        trackingInfo: getDetachTrackingInfo()
+      });
+    } catch {
+      (0,_elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_1__.notify)({
+        type: 'error',
+        message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Failed to detach component instance.', 'elementor'),
+        id: 'detach-component-instance-failed'
+      });
+    }
+  };
+  const handleDetachCancel = () => {
+    setIsDetachDialogOpen(false);
+  };
+  const handleDetachClick = () => {
+    setIsDetachDialogOpen(true);
+  };
+  const detachLabel = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Detach from Component', 'elementor');
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_instance_panel_header__WEBPACK_IMPORTED_MODULE_6__.EditComponentAction, {
+    label: detachLabel,
+    icon: _elementor_icons__WEBPACK_IMPORTED_MODULE_2__.DetachIcon,
+    onClick: handleDetachClick
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_detach_instance_confirmation_dialog__WEBPACK_IMPORTED_MODULE_5__.DetachInstanceConfirmationDialog, {
+    open: isDetachDialogOpen,
+    onClose: handleDetachCancel,
+    onConfirm: handleDetachConfirm
+  }));
+};
+function getDetachTrackingInfo() {
+  const extendedWindow = window;
+  const config = extendedWindow?.elementorCommon?.eventsManager?.config;
+  if (!config) {
+    return {
+      location: '',
+      trigger: ''
+    };
+  }
+  return {
+    location: config.locations.components.instanceEditingPanel,
+    trigger: config.triggers.click
+  };
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/instance-editing-panel/empty-state.tsx":
+/*!********************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/instance-editing-panel/empty-state.tsx ***!
+  \********************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   EmptyState: function() { return /* binding */ EmptyState; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/icons */ "@elementor/icons");
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_icons__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _hooks_use_components_permissions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../hooks/use-components-permissions */ "./packages/packages/core/editor-components/src/hooks/use-components-permissions.ts");
+
+
+
+
+
+const EmptyState = ({
+  onEditComponent
+}) => {
+  const {
+    canEdit
+  } = (0,_hooks_use_components_permissions__WEBPACK_IMPORTED_MODULE_4__.useComponentsPermissions)();
+  const message = canEdit ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Edit the component to add properties, manage them or update the design across all instances.', 'elementor') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('With your current role, you cannot edit this component. Contact an administrator to add properties.', 'elementor');
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Stack, {
+    alignItems: "center",
+    justifyContent: "start",
+    height: "100%",
+    color: "text.secondary",
+    sx: {
+      p: 2.5,
+      pt: 8,
+      pb: 5.5,
+      mt: 1
+    },
+    gap: 1.5
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_icons__WEBPACK_IMPORTED_MODULE_1__.ComponentPropListIcon, {
+    fontSize: "large"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+    align: "center",
+    variant: "subtitle2"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('No properties yet', 'elementor')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+    align: "center",
+    variant: "caption",
+    maxWidth: "170px"
+  }, message), canEdit && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Button, {
+    variant: "outlined",
+    color: "secondary",
+    size: "small",
+    sx: {
+      mt: 1
+    },
+    disabled: !onEditComponent,
+    onClick: onEditComponent
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_icons__WEBPACK_IMPORTED_MODULE_1__.PencilIcon, {
+    fontSize: "small"
+  }), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Edit component', 'elementor')));
+};
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/instance-editing-panel/instance-editing-panel.tsx":
+/*!*******************************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/instance-editing-panel/instance-editing-panel.tsx ***!
+  \*******************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   InstanceEditingPanel: function() { return /* binding */ InstanceEditingPanel; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/icons */ "@elementor/icons");
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_icons__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _hooks_use_components_permissions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../hooks/use-components-permissions */ "./packages/packages/core/editor-components/src/hooks/use-components-permissions.ts");
+/* harmony import */ var _provider_component_instance_context__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../provider/component-instance-context */ "./packages/packages/core/editor-components/src/provider/component-instance-context.tsx");
+/* harmony import */ var _utils_is_pro_components_supported__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utils/is-pro-components-supported */ "./packages/packages/core/editor-components/src/utils/is-pro-components-supported.ts");
+/* harmony import */ var _components_update_alert__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components-update-alert */ "./packages/packages/core/editor-components/src/components/components-update-alert.tsx");
+/* harmony import */ var _components_upgrade_alert__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components-upgrade-alert */ "./packages/packages/core/editor-components/src/components/components-upgrade-alert.tsx");
+/* harmony import */ var _detach_action__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./detach-action */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/detach-action.tsx");
+/* harmony import */ var _empty_state__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./empty-state */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/empty-state.tsx");
+/* harmony import */ var _instance_panel_body__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./instance-panel-body */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/instance-panel-body.tsx");
+/* harmony import */ var _instance_panel_header__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./instance-panel-header */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/instance-panel-header.tsx");
+/* harmony import */ var _use_instance_panel_data__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./use-instance-panel-data */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/use-instance-panel-data.ts");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const EDIT_UPGRADE_URL = 'https://go.elementor.com/go-pro-components-Instance-edit-footer/';
+function InstanceEditingPanel() {
+  const {
+    canEdit
+  } = (0,_hooks_use_components_permissions__WEBPACK_IMPORTED_MODULE_4__.useComponentsPermissions)();
+  const data = (0,_use_instance_panel_data__WEBPACK_IMPORTED_MODULE_13__.useInstancePanelData)();
+  if (!data) {
+    return null;
+  }
+  const {
+    componentId,
+    component,
+    overrides,
+    overridableProps,
+    groups,
+    isEmpty,
+    componentInstanceId
+  } = data;
+
+  /* translators: %s: component name. */
+  const panelTitle = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Edit %s', 'elementor').replace('%s', component.name);
+  const actions = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Stack, {
+    direction: "row",
+    gap: 0.5
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_detach_action__WEBPACK_IMPORTED_MODULE_9__.DetachAction, {
+    componentInstanceId: componentInstanceId,
+    componentId: componentId
+  }), canEdit && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_instance_panel_header__WEBPACK_IMPORTED_MODULE_12__.EditComponentAction, {
+    disabled: true,
+    label: panelTitle,
+    icon: _elementor_icons__WEBPACK_IMPORTED_MODULE_1__.PencilIcon
+  }));
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_2__.Box, {
+    "data-testid": "instance-editing-panel",
+    sx: {
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_provider_component_instance_context__WEBPACK_IMPORTED_MODULE_5__.ComponentInstanceProvider, {
+    componentId: componentId,
+    overrides: overrides,
+    overridableProps: overridableProps
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_instance_panel_header__WEBPACK_IMPORTED_MODULE_12__.InstancePanelHeader, {
+    componentName: component.name,
+    actions: actions
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_instance_panel_body__WEBPACK_IMPORTED_MODULE_11__.InstancePanelBody, {
+    groups: groups,
+    isEmpty: isEmpty,
+    emptyState: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_empty_state__WEBPACK_IMPORTED_MODULE_10__.EmptyState, null),
+    componentInstanceId: componentInstanceId
+  })), !(0,_utils_is_pro_components_supported__WEBPACK_IMPORTED_MODULE_6__.isProComponentsSupported)() && ((0,_utils_is_pro_components_supported__WEBPACK_IMPORTED_MODULE_6__.isProOutdatedForComponents)() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_update_alert__WEBPACK_IMPORTED_MODULE_7__.ComponentsUpdateAlert, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Edit Component', 'elementor'),
+    description: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('To edit components, update Elementor Pro to the latest version.', 'elementor')
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_upgrade_alert__WEBPACK_IMPORTED_MODULE_8__.ComponentsUpgradeAlert, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Edit components', 'elementor'),
+    description: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Editing components requires an active Pro subscription.', 'elementor'),
+    upgradeUrl: EDIT_UPGRADE_URL
+  })));
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/instance-editing-panel/instance-panel-body.tsx":
+/*!****************************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/instance-editing-panel/instance-panel-body.tsx ***!
+  \****************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   InstancePanelBody: function() { return /* binding */ InstancePanelBody; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_controls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-controls */ "@elementor/editor-controls");
+/* harmony import */ var _elementor_editor_controls__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_controls__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/editor-editing-panel */ "@elementor/editor-editing-panel");
+/* harmony import */ var _elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _elementor_editor_panels__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @elementor/editor-panels */ "@elementor/editor-panels");
+/* harmony import */ var _elementor_editor_panels__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_panels__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_elementor_ui__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _override_props_group__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./override-props-group */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/override-props-group.tsx");
+
+
+
+
+
+
+function InstancePanelBody({
+  groups,
+  isEmpty,
+  emptyState,
+  componentInstanceId
+}) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_panels__WEBPACK_IMPORTED_MODULE_3__.PanelBody, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_controls__WEBPACK_IMPORTED_MODULE_1__.ControlAdornmentsProvider, {
+    items: (0,_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_2__.getFieldIndicators)('settings')
+  }, isEmpty ? emptyState : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_4__.Stack, {
+    direction: "column",
+    alignItems: "stretch"
+  }, groups.map(group => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: group.id + componentInstanceId
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_override_props_group__WEBPACK_IMPORTED_MODULE_5__.OverridePropsGroup, {
+    group: group
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_4__.Divider, null))))));
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/instance-editing-panel/instance-panel-header.tsx":
+/*!******************************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/instance-editing-panel/instance-panel-header.tsx ***!
+  \******************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   EditComponentAction: function() { return /* binding */ EditComponentAction; },
+/* harmony export */   InstancePanelHeader: function() { return /* binding */ InstancePanelHeader; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_panels__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-panels */ "@elementor/editor-panels");
+/* harmony import */ var _elementor_editor_panels__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_panels__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_editor_ui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/editor-ui */ "@elementor/editor-ui");
+/* harmony import */ var _elementor_editor_ui__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @elementor/icons */ "@elementor/icons");
+/* harmony import */ var _elementor_icons__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_elementor_icons__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_elementor_ui__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+function InstancePanelHeader({
+  componentName,
+  actions
+}) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_panels__WEBPACK_IMPORTED_MODULE_1__.PanelHeader, {
+    sx: {
+      justifyContent: 'start',
+      px: 2
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_4__.Stack, {
+    direction: "row",
+    alignItems: "center",
+    flexGrow: 1,
+    gap: 1,
+    maxWidth: "100%"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_icons__WEBPACK_IMPORTED_MODULE_3__.ComponentsIcon, {
+    fontSize: "small",
+    sx: {
+      color: 'text.tertiary'
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_2__.EllipsisWithTooltip, {
+    title: componentName,
+    as: _elementor_editor_panels__WEBPACK_IMPORTED_MODULE_1__.PanelHeaderTitle,
+    sx: {
+      flexGrow: 1
+    }
+  }), actions));
+}
+function EditComponentAction({
+  label,
+  onClick,
+  disabled = false,
+  icon: Icon
+}) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_4__.Tooltip, {
+    title: label
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_4__.IconButton, {
+    size: "tiny",
+    onClick: onClick,
+    "aria-label": label,
+    disabled: disabled
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Icon, {
+    fontSize: "tiny"
+  })));
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/instance-editing-panel/override-prop-control.tsx":
+/*!******************************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/instance-editing-panel/override-prop-control.tsx ***!
+  \******************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   OverridePropControl: function() { return /* binding */ OverridePropControl; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_controls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-controls */ "@elementor/editor-controls");
+/* harmony import */ var _elementor_editor_controls__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_controls__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/editor-editing-panel */ "@elementor/editor-editing-panel");
+/* harmony import */ var _elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _hooks_use_controls_by_widget_type__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../hooks/use-controls-by-widget-type */ "./packages/packages/core/editor-components/src/hooks/use-controls-by-widget-type.ts");
+/* harmony import */ var _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../prop-types/component-instance-override-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-override-prop-type.ts");
+/* harmony import */ var _prop_types_component_instance_overrides_prop_type__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../prop-types/component-instance-overrides-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-overrides-prop-type.ts");
+/* harmony import */ var _prop_types_component_instance_prop_type__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../prop-types/component-instance-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-prop-type.ts");
+/* harmony import */ var _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../prop-types/component-overridable-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts");
+/* harmony import */ var _provider_component_instance_context__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../provider/component-instance-context */ "./packages/packages/core/editor-components/src/provider/component-instance-context.tsx");
+/* harmony import */ var _provider_overridable_prop_context__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../provider/overridable-prop-context */ "./packages/packages/core/editor-components/src/provider/overridable-prop-context.tsx");
+/* harmony import */ var _store_actions_update_overridable_prop__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../store/actions/update-overridable-prop */ "./packages/packages/core/editor-components/src/store/actions/update-overridable-prop.ts");
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../store/store */ "./packages/packages/core/editor-components/src/store/store.ts");
+/* harmony import */ var _utils_get_prop_type_for_component_override__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../utils/get-prop-type-for-component-override */ "./packages/packages/core/editor-components/src/utils/get-prop-type-for-component-override.ts");
+/* harmony import */ var _utils_overridable_props_utils__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../utils/overridable-props-utils */ "./packages/packages/core/editor-components/src/utils/overridable-props-utils.ts");
+/* harmony import */ var _utils_resolve_override_prop_value__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../utils/resolve-override-prop-value */ "./packages/packages/core/editor-components/src/utils/resolve-override-prop-value.ts");
+/* harmony import */ var _control_label__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../control-label */ "./packages/packages/core/editor-components/src/components/control-label.tsx");
+/* harmony import */ var _errors__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../errors */ "./packages/packages/core/editor-components/src/components/errors.ts");
+/* harmony import */ var _utils_correct_exposed_empty_override__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./utils/correct-exposed-empty-override */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/utils/correct-exposed-empty-override.ts");
+/* harmony import */ var _utils_resolve_element_settings__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./utils/resolve-element-settings */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/utils/resolve-element-settings.ts");
+/* harmony import */ var _utils_use_override_dependencies__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./utils/use-override-dependencies */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/utils/use-override-dependencies.ts");
+/* harmony import */ var _utils_use_resolved_inner_element__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./utils/use-resolved-inner-element */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/utils/use-resolved-inner-element.ts");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function OverridePropControl({
+  overrideKey
+}) {
+  const overridableProps = (0,_provider_component_instance_context__WEBPACK_IMPORTED_MODULE_9__.useComponentOverridableProps)();
+  const overridableProp = overridableProps.props[overrideKey];
+  if (!overridableProp) {
+    return null;
+  }
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_2__.SettingsField, {
+    bind: "component_instance",
+    propDisplayName: overridableProp.label
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(OverrideControl, {
+    overridableProp: overridableProp
+  }));
+}
+function OverrideControl({
+  overridableProp
+}) {
+  const componentInstanceElement = (0,_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_2__.useElement)();
+  const {
+    value: instanceValue,
+    setValue: setInstanceValue
+  } = (0,_elementor_editor_controls__WEBPACK_IMPORTED_MODULE_1__.useBoundProp)(_prop_types_component_instance_prop_type__WEBPACK_IMPORTED_MODULE_7__.componentInstancePropTypeUtil);
+  const wrappingComponentId = (0,_store_store__WEBPACK_IMPORTED_MODULE_12__.useCurrentComponentId)();
+  const componentId = (0,_provider_component_instance_context__WEBPACK_IMPORTED_MODULE_9__.useComponentId)();
+  const overridableProps = (0,_provider_component_instance_context__WEBPACK_IMPORTED_MODULE_9__.useComponentOverridableProps)();
+  const overrides = (0,_provider_component_instance_context__WEBPACK_IMPORTED_MODULE_9__.useComponentInstanceOverrides)();
+  const controls = (0,_hooks_use_controls_by_widget_type__WEBPACK_IMPORTED_MODULE_4__.useControlsByWidgetType)(overridableProp.originPropFields?.widgetType ?? overridableProp.widgetType);
+  const controlReplacements = (0,_elementor_editor_controls__WEBPACK_IMPORTED_MODULE_1__.getControlReplacements)();
+  const matchingOverride = (0,_utils_overridable_props_utils__WEBPACK_IMPORTED_MODULE_14__.getMatchingOverride)(overrides, overridableProp.overrideKey);
+  const {
+    propKey
+  } = overridableProp.originPropFields ?? overridableProp;
+  const propType = (0,_utils_get_prop_type_for_component_override__WEBPACK_IMPORTED_MODULE_13__.getPropTypeForComponentOverride)(overridableProp);
+  if (!propType) {
+    throw new _errors__WEBPACK_IMPORTED_MODULE_17__.OverrideControlPropTypeNotFoundError({
+      context: {
+        overridableProp
+      }
+    });
+  }
+  const {
+    elementId,
+    elementType,
+    resolvedElementSettings,
+    resolvedOriginValues
+  } = (0,_utils_use_resolved_inner_element__WEBPACK_IMPORTED_MODULE_21__.useResolvedInnerElement)(overridableProp);
+  const {
+    overrideValue,
+    isDisabled,
+    isHidden
+  } = (0,_utils_use_override_dependencies__WEBPACK_IMPORTED_MODULE_20__.useOverrideControlDependencies)({
+    existingOverride: matchingOverride,
+    resolvedElementSettings,
+    elementType,
+    elementId,
+    propKey
+  });
+  if (isHidden) {
+    return null;
+  }
+  const {
+    propValue,
+    baseValue: resolvedBaseValue
+  } = resolveOverrideValues(overrideValue, resolvedOriginValues, propKey);
+  const value = {
+    [overridableProp.overrideKey]: propValue
+  };
+  const baseValue = {
+    [overridableProp.overrideKey]: resolvedBaseValue
+  };
+  const {
+    control,
+    controlProps,
+    layout
+  } = getControlParams(controls, overridableProp.originPropFields ?? overridableProp, overridableProp.label);
+  const propTypeSchema = (0,_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_2__.createTopLevelObjectType)({
+    schema: {
+      [overridableProp.overrideKey]: propType
+    }
+  });
+  const setValue = (newValue, options, meta) => {
+    let newPropValue = getTempNewValueForDynamicProp(propType, propValue, newValue[overridableProp.overrideKey]);
+    newPropValue = (0,_utils_correct_exposed_empty_override__WEBPACK_IMPORTED_MODULE_18__.correctExposedEmptyOverride)(newPropValue, matchingOverride);
+    const newOverrideValue = createOverrideValue({
+      matchingOverride,
+      overrideKey: overridableProp.overrideKey,
+      overrideValue: newPropValue,
+      componentId
+    });
+    let newOverrides = (overrides ?? []).filter(override => isValidOverride(overridableProps, override)).map(override => override === matchingOverride ? newOverrideValue : override);
+    if (!matchingOverride) {
+      newOverrides = [...newOverrides, newOverrideValue];
+    }
+    setInstanceValue({
+      ...instanceValue,
+      overrides: _prop_types_component_instance_overrides_prop_type__WEBPACK_IMPORTED_MODULE_6__.componentInstanceOverridesPropTypeUtil.create(newOverrides)
+    }, options, meta);
+    const overridableValue = _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_8__.componentOverridablePropTypeUtil.extract(newOverrideValue);
+    if (overridableValue && wrappingComponentId) {
+      if (overridableProp.originPropFields) {
+        (0,_store_actions_update_overridable_prop__WEBPACK_IMPORTED_MODULE_11__.updateOverridableProp)(wrappingComponentId, overridableValue, overridableProp.originPropFields);
+        return;
+      }
+      const originPropFields = {
+        elType: overridableProp.elType,
+        widgetType: overridableProp.widgetType,
+        propKey: overridableProp.propKey,
+        elementId: overridableProp.elementId
+      };
+      (0,_store_actions_update_overridable_prop__WEBPACK_IMPORTED_MODULE_11__.updateOverridableProp)(wrappingComponentId, overridableValue, originPropFields);
+    }
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_provider_overridable_prop_context__WEBPACK_IMPORTED_MODULE_10__.OverridablePropProvider, {
+    value: _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_8__.componentOverridablePropTypeUtil.extract(matchingOverride) ?? undefined,
+    componentInstanceElement: componentInstanceElement
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_2__.ElementProvider, {
+    element: {
+      id: elementId,
+      type: elementType.key
+    },
+    elementType: elementType,
+    settings: resolvedElementSettings
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_controls__WEBPACK_IMPORTED_MODULE_1__.PropProvider, {
+    propType: propTypeSchema,
+    value: value,
+    setValue: setValue,
+    baseValue: baseValue,
+    isDisabled: isDisabled
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_controls__WEBPACK_IMPORTED_MODULE_1__.PropKeyProvider, {
+    bind: overridableProp.overrideKey
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_controls__WEBPACK_IMPORTED_MODULE_1__.ControlReplacementsProvider, {
+    replacements: controlReplacements
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.Box, {
+    mb: 1.5
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_2__.ControlTypeContainer, {
+    layout: layout
+  }, layout !== 'custom' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_control_label__WEBPACK_IMPORTED_MODULE_16__.ControlLabel, null, overridableProp.label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(OriginalControl, {
+    control: control,
+    controlProps: controlProps
+  }))))))));
+}
+function resolveOverrideValues(overrideValue, resolvedOriginValues, propKey) {
+  const unwrappedSettings = (0,_utils_resolve_element_settings__WEBPACK_IMPORTED_MODULE_19__.unwrapOverridableSettings)(resolvedOriginValues);
+  const inheritedValue = unwrappedSettings[propKey] ?? null;
+  const isInheritedDynamic = (0,_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_2__.isDynamicPropValue)(inheritedValue);
+  const shouldUseInheritedAsValue = isInheritedDynamic && !overrideValue;
+  const propValue = shouldUseInheritedAsValue ? inheritedValue : overrideValue;
+  const baseValue = overrideValue || isInheritedDynamic ? null : inheritedValue;
+  return {
+    propValue,
+    baseValue
+  };
+}
+
+// Temp solution: when removing an override on a dynamic value, fall back to propType.default
+// instead of null, since we don't have placeholder support for dynamics yet.
+function getTempNewValueForDynamicProp(propType, propValue, newPropValue) {
+  const isRemovingOverride = newPropValue === null;
+  if (isRemovingOverride && (0,_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_2__.isDynamicPropValue)(propValue)) {
+    return propType.default ?? null;
+  }
+  return newPropValue;
+}
+function createOverrideValue({
+  matchingOverride,
+  overrideKey,
+  overrideValue,
+  componentId
+}) {
+  const overridableValue = _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_8__.componentOverridablePropTypeUtil.extract(matchingOverride);
+  const newOverridableValue = _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_8__.componentOverridablePropTypeUtil.extract(overrideValue);
+  const anyOverridable = newOverridableValue ?? overridableValue;
+  if (anyOverridable) {
+    const innerOverride = _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_5__.componentInstanceOverridePropTypeUtil.create({
+      override_key: overrideKey,
+      override_value: (0,_utils_resolve_override_prop_value__WEBPACK_IMPORTED_MODULE_15__.resolveOverridePropValue)(overrideValue),
+      schema_source: {
+        type: 'component',
+        id: componentId
+      }
+    });
+    return _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_8__.componentOverridablePropTypeUtil.create({
+      override_key: anyOverridable.override_key,
+      origin_value: innerOverride
+    });
+  }
+  return _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_5__.componentInstanceOverridePropTypeUtil.create({
+    override_key: overrideKey,
+    override_value: overrideValue,
+    schema_source: {
+      type: 'component',
+      id: componentId
+    }
+  });
+}
+function getControlParams(controls, originPropFields, label) {
+  const control = controls[originPropFields.propKey];
+  const {
+    value
+  } = control;
+  const layout = getControlLayout(control);
+  const controlProps = populateChildControlProps(value.props);
+  if (layout === 'custom') {
+    controlProps.label = label ?? value.label;
+  }
+  return {
+    control,
+    controlProps,
+    layout
+  };
+}
+function OriginalControl({
+  control,
+  controlProps
+}) {
+  const {
+    value
+  } = control;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_2__.BaseControl, {
+    type: value.type,
+    props: controlProps
+  });
+}
+function getControlLayout(control) {
+  return control.value.meta?.layout || _elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_2__.controlsRegistry.getLayout(control.value.type);
+}
+function populateChildControlProps(props) {
+  if (props.childControlType) {
+    const childComponent = _elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_2__.controlsRegistry.get(props.childControlType);
+    const childPropType = _elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_2__.controlsRegistry.getPropTypeUtil(props.childControlType);
+    props = {
+      ...props,
+      childControlConfig: {
+        component: childComponent,
+        props: props.childControlProps || {},
+        propTypeUtil: childPropType
+      }
+    };
+  }
+  return props;
+}
+function isValidOverride(overridableProps, override) {
+  const overridableKey = _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_8__.componentOverridablePropTypeUtil.isValid(override) ? override.value.origin_value?.value.override_key : override.value.override_key;
+  return !!overridableProps.props[overridableKey];
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/instance-editing-panel/override-props-group.tsx":
+/*!*****************************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/instance-editing-panel/override-props-group.tsx ***!
+  \*****************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   OverridePropsGroup: function() { return /* binding */ OverridePropsGroup; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-editing-panel */ "@elementor/editor-editing-panel");
+/* harmony import */ var _elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_editor_ui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/editor-ui */ "@elementor/editor-ui");
+/* harmony import */ var _elementor_editor_ui__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
+/* harmony import */ var _elementor_ui__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _override_prop_control__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./override-prop-control */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/override-prop-control.tsx");
+
+
+
+
+
+
+function OverridePropsGroup({
+  group
+}) {
+  const [isOpen, setIsOpen] = (0,_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_1__.useStateByElement)(group.id, true);
+  const handleClick = () => {
+    setIsOpen(!isOpen);
+  };
+  const id = (0,react__WEBPACK_IMPORTED_MODULE_0__.useId)();
+  const labelId = `label-${id}`;
+  const contentId = `content-${id}`;
+  const title = group.label;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.Box, {
+    "aria-label": `${title} section`
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.ListItemButton, {
+    id: labelId,
+    "aria-controls": contentId,
+    "aria-label": `${title} section`,
+    onClick: handleClick,
+    p: 0,
+    sx: {
+      '&:hover': {
+        backgroundColor: 'transparent'
+      }
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.Stack, {
+    direction: "row",
+    alignItems: "center",
+    justifyItems: "start",
+    flexGrow: 1,
+    gap: 0.5
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.ListItemText, {
+    secondary: title,
+    secondaryTypographyProps: {
+      color: 'text.primary',
+      variant: 'caption',
+      fontWeight: 'bold'
+    },
+    sx: {
+      flexGrow: 0,
+      flexShrink: 1,
+      marginInlineEnd: 1
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_editor_ui__WEBPACK_IMPORTED_MODULE_2__.CollapseIcon, {
+    open: isOpen,
+    color: "secondary",
+    fontSize: "tiny"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.Collapse, {
+    id: contentId,
+    "aria-labelledby": labelId,
+    in: isOpen,
+    timeout: "auto"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_elementor_ui__WEBPACK_IMPORTED_MODULE_3__.Stack, {
+    direction: "column",
+    gap: 1,
+    p: 2
+  }, group.props.map(overrideKey => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_override_prop_control__WEBPACK_IMPORTED_MODULE_4__.OverridePropControl, {
+    key: overrideKey,
+    overrideKey: overrideKey
+  })))));
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/instance-editing-panel/use-instance-panel-data.ts":
+/*!*******************************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/instance-editing-panel/use-instance-panel-data.ts ***!
+  \*******************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useInstancePanelData: function() { return /* binding */ useInstancePanelData; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-editing-panel */ "@elementor/editor-editing-panel");
+/* harmony import */ var _elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _hooks_use_sanitize_overridable_props__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../hooks/use-sanitize-overridable-props */ "./packages/packages/core/editor-components/src/hooks/use-sanitize-overridable-props.ts");
+/* harmony import */ var _prop_types_component_instance_prop_type__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../prop-types/component-instance-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-prop-type.ts");
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../store/store */ "./packages/packages/core/editor-components/src/store/store.ts");
+
+
+
+
+function useInstancePanelData() {
+  const {
+    element,
+    settings
+  } = useComponentInstanceSettings();
+  const componentId = settings?.component_id?.value;
+  const overrides = settings?.overrides?.value;
+  const component = (0,_store_store__WEBPACK_IMPORTED_MODULE_3__.useComponent)(componentId ?? null);
+  const componentInstanceId = element?.id;
+  const overridableProps = (0,_hooks_use_sanitize_overridable_props__WEBPACK_IMPORTED_MODULE_1__.useSanitizeOverridableProps)(componentId ?? null, componentInstanceId);
+  if (!componentId || !overridableProps || !component || !componentInstanceId) {
+    return null;
+  }
+  const isNonEmptyGroup = group => group !== null && group.props.length > 0;
+  const groups = overridableProps.groups.order.map(groupId => overridableProps.groups.items[groupId] ?? null).filter(isNonEmptyGroup);
+  const isEmpty = groups.length === 0 || Object.keys(overridableProps.props).length === 0;
+  return {
+    componentId,
+    component,
+    overrides,
+    overridableProps,
+    groups,
+    isEmpty,
+    componentInstanceId
+  };
+}
+function useComponentInstanceSettings() {
+  const {
+    element,
+    settings
+  } = (0,_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_0__.useElement)();
+  return {
+    element,
+    settings: _prop_types_component_instance_prop_type__WEBPACK_IMPORTED_MODULE_2__.componentInstancePropTypeUtil.extract(settings.component_instance)
+  };
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/instance-editing-panel/utils/correct-exposed-empty-override.ts":
+/*!********************************************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/instance-editing-panel/utils/correct-exposed-empty-override.ts ***!
+  \********************************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   correctExposedEmptyOverride: function() { return /* binding */ correctExposedEmptyOverride; }
+/* harmony export */ });
+/* harmony import */ var _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../prop-types/component-overridable-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts");
+
+// The control receives the resolved value, so when exposing a prop that was never overridden,
+// origin_value will be the resolved value instead of null.
+// So here, we correct this by resetting origin_value to null.
+function correctExposedEmptyOverride(newPropValue, matchingOverride) {
+  const newOverridableValue = _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_0__.componentOverridablePropTypeUtil.extract(newPropValue);
+  const isExposingEmptyOverride = newOverridableValue && matchingOverride === null;
+  if (!isExposingEmptyOverride) {
+    return newPropValue;
+  }
+  return _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_0__.componentOverridablePropTypeUtil.create({
+    override_key: newOverridableValue.override_key,
+    origin_value: null
+  });
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/instance-editing-panel/utils/resolve-element-settings.ts":
+/*!**************************************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/instance-editing-panel/utils/resolve-element-settings.ts ***!
+  \**************************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   applyOverridesToSettings: function() { return /* binding */ applyOverridesToSettings; },
+/* harmony export */   unwrapOverridableSettings: function() { return /* binding */ unwrapOverridableSettings; }
+/* harmony export */ });
+/* harmony import */ var _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../prop-types/component-overridable-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts");
+
+function applyOverridesToSettings(elementSettings, overrides) {
+  const result = {};
+  for (const [propKey, propValue] of Object.entries(elementSettings)) {
+    const overridable = _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_0__.componentOverridablePropTypeUtil.extract(propValue);
+    if (!overridable) {
+      result[propKey] = propValue;
+      continue;
+    }
+    const override = overrides[overridable.override_key];
+    if (!override) {
+      result[propKey] = propValue;
+      continue;
+    }
+    if (override.outermostKey && override.outermostKey !== overridable.override_key) {
+      const originValue = overridable.origin_value;
+      result[propKey] = _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_0__.componentOverridablePropTypeUtil.create({
+        override_key: override.outermostKey,
+        origin_value: override.value ?? originValue
+      });
+    } else {
+      result[propKey] = override.value ?? propValue;
+    }
+  }
+  return result;
+}
+function unwrapOverridableSettings(elementSettings) {
+  const result = {};
+  for (const [propKey, propValue] of Object.entries(elementSettings)) {
+    const overridable = _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_0__.componentOverridablePropTypeUtil.extract(propValue);
+    if (!overridable) {
+      result[propKey] = propValue;
+      continue;
+    }
+    result[propKey] = overridable.origin_value;
+  }
+  return result;
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/instance-editing-panel/utils/use-override-dependencies.ts":
+/*!***************************************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/instance-editing-panel/utils/use-override-dependencies.ts ***!
+  \***************************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useOverrideControlDependencies: function() { return /* binding */ useOverrideControlDependencies; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-editing-panel */ "@elementor/editor-editing-panel");
+/* harmony import */ var _elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _utils_resolve_override_prop_value__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../utils/resolve-override-prop-value */ "./packages/packages/core/editor-components/src/utils/resolve-override-prop-value.ts");
+
+
+
+function useOverrideControlDependencies({
+  existingOverride,
+  resolvedElementSettings,
+  elementId,
+  elementType,
+  propKey
+}) {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => {
+    const {
+      isDisabled,
+      isHidden
+    } = (0,_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_1__.extractDependencyEffect)(propKey, elementType.propsSchema, resolvedElementSettings);
+    const existingOverrideValue = existingOverride ? (0,_utils_resolve_override_prop_value__WEBPACK_IMPORTED_MODULE_2__.resolveOverridePropValue)(existingOverride) : null;
+    const settingsForDepsNewValuesCalculation = {
+      ...resolvedElementSettings,
+      [propKey]: existingOverrideValue
+    };
+    const resolvedSettingsWithDefaults = (0,_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_1__.getElementSettingsWithDefaults)(elementType.propsSchema, settingsForDepsNewValuesCalculation);
+    const dependents = (0,_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_1__.extractOrderedDependencies)(elementType.dependenciesPerTargetMapping ?? {});
+    const settingsWithDepsNewValues = (0,_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_1__.getUpdatedValues)({
+      [propKey]: existingOverrideValue
+    }, dependents, elementType.propsSchema, resolvedSettingsWithDefaults, elementId);
+    const overrideValue = settingsWithDepsNewValues[propKey];
+    return {
+      overrideValue,
+      isDisabled,
+      isHidden
+    };
+  }, [existingOverride, resolvedElementSettings, propKey, elementType.propsSchema, elementType.dependenciesPerTargetMapping, elementId]);
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/instance-editing-panel/utils/use-resolved-inner-element.ts":
+/*!****************************************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/instance-editing-panel/utils/use-resolved-inner-element.ts ***!
+  \****************************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useResolvedInnerElement: function() { return /* binding */ useResolvedInnerElement; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-editing-panel */ "@elementor/editor-editing-panel");
+/* harmony import */ var _elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_editor_elements__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/editor-elements */ "@elementor/editor-elements");
+/* harmony import */ var _elementor_editor_elements__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../prop-types/component-instance-override-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-override-prop-type.ts");
+/* harmony import */ var _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../prop-types/component-overridable-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts");
+/* harmony import */ var _provider_component_instance_context__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../provider/component-instance-context */ "./packages/packages/core/editor-components/src/provider/component-instance-context.tsx");
+/* harmony import */ var _utils_resolve_overrides_chain__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../utils/resolve-overrides-chain */ "./packages/packages/core/editor-components/src/utils/resolve-overrides-chain.ts");
+/* harmony import */ var _errors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../errors */ "./packages/packages/core/editor-components/src/components/errors.ts");
+/* harmony import */ var _resolve_element_settings__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./resolve-element-settings */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/utils/resolve-element-settings.ts");
+
+
+
+
+
+
+
+
+
+function useResolvedInnerElement(overridableProp) {
+  const componentInstanceElement = (0,_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_1__.useElement)();
+  const componentId = (0,_provider_component_instance_context__WEBPACK_IMPORTED_MODULE_5__.useComponentId)();
+  const overrides = (0,_provider_component_instance_context__WEBPACK_IMPORTED_MODULE_5__.useComponentInstanceOverrides)();
+  const {
+    elementId: originElementId,
+    widgetType,
+    elType
+  } = overridableProp.originPropFields ?? overridableProp;
+  const type = elType === 'widget' ? widgetType : elType;
+  const elementType = (0,_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_2__.getElementType)(type);
+  if (!elementType) {
+    throw new Error(`Element type not found for ${type}`);
+  }
+  const {
+    elementId,
+    overridesMapping
+  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => {
+    const overridesChainResult = (0,_utils_resolve_overrides_chain__WEBPACK_IMPORTED_MODULE_6__.resolveOverridesChain)({
+      outerOverridableProp: overridableProp,
+      outerInstanceId: componentInstanceElement.element.id
+    });
+    if (overridesChainResult.isChainBroken) {
+      throw new _errors__WEBPACK_IMPORTED_MODULE_7__.OverrideControlInnerElementNotFoundError({
+        context: {
+          componentId,
+          elementId: originElementId
+        }
+      });
+    }
+    return {
+      elementId: overridesChainResult.innerElement.id,
+      overridesMapping: overridesChainResult.overridesMapping
+    };
+  }, [overridableProp, componentInstanceElement.element.id, componentId, originElementId]);
+
+  // Not reactive to inner element store changes — intentional.
+  // Inner element settings can only change in component edit mode, which unmounts this component.
+  const settingsWithInnerOverrides = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => {
+    const settings = (0,_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_2__.getElementSettings)(elementId, Object.keys(elementType?.propsSchema ?? {}));
+    return (0,_resolve_element_settings__WEBPACK_IMPORTED_MODULE_8__.applyOverridesToSettings)(settings, overridesMapping);
+  }, [elementId, elementType?.propsSchema, overridesMapping]);
+  const resolvedElementSettings = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => {
+    const withAllOverrides = (0,_resolve_element_settings__WEBPACK_IMPORTED_MODULE_8__.applyOverridesToSettings)(settingsWithInnerOverrides, formatOverridesToApply(overrides));
+    return (0,_resolve_element_settings__WEBPACK_IMPORTED_MODULE_8__.unwrapOverridableSettings)(withAllOverrides);
+  }, [settingsWithInnerOverrides, overrides]);
+  return {
+    elementId,
+    elementType,
+    resolvedOriginValues: settingsWithInnerOverrides,
+    resolvedElementSettings
+  };
+}
+function formatOverridesToApply(overrides) {
+  if (!overrides) {
+    return {};
+  }
+  const result = {};
+  for (const item of overrides) {
+    const overridable = _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_4__.componentOverridablePropTypeUtil.extract(item);
+    let override = item;
+    if (overridable) {
+      override = overridable.origin_value;
+    }
+    const extractedOverride = _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_3__.componentInstanceOverridePropTypeUtil.extract(override);
+    if (!extractedOverride) {
+      continue;
+    }
+    result[extractedOverride.override_key] = {
+      value: extractedOverride.override_value
+    };
+  }
+  return result;
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/components/load-template-components.tsx":
+/*!**********************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/components/load-template-components.tsx ***!
+  \**********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   LoadTemplateComponents: function() { return /* binding */ LoadTemplateComponents; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-templates */ "@elementor/editor-templates");
+/* harmony import */ var _elementor_editor_templates__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_templates__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _store_actions_load_components_assets__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/actions/load-components-assets */ "./packages/packages/core/editor-components/src/store/actions/load-components-assets.ts");
+
+
+
+
+const LoadTemplateComponents = () => {
+  if ((0,_elementor_editor_templates__WEBPACK_IMPORTED_MODULE_1__.isHandlingTemplateStyles)()) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(LoadTemplateComponentsInternal, null);
+  }
+  return null;
+};
+function LoadTemplateComponentsInternal() {
+  const templates = (0,_elementor_editor_templates__WEBPACK_IMPORTED_MODULE_1__.useLoadedTemplates)();
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    (0,_store_actions_load_components_assets__WEBPACK_IMPORTED_MODULE_2__.loadComponentsAssets)(templates.flatMap(elements => elements ?? []));
+  }, [templates]);
+  return null;
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/consts.ts":
+/*!****************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/consts.ts ***!
+  \****************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   COMPONENT_WIDGET_TYPE: function() { return /* binding */ COMPONENT_WIDGET_TYPE; }
+/* harmony export */ });
+const COMPONENT_WIDGET_TYPE = 'e-component';
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/create-component-type.ts":
+/*!*******************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/create-component-type.ts ***!
+  \*******************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   COMPONENT_WIDGET_TYPE: function() { return /* binding */ COMPONENT_WIDGET_TYPE; },
+/* harmony export */   createComponentType: function() { return /* binding */ createComponentType; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-canvas */ "@elementor/editor-canvas");
+/* harmony import */ var _elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_documents__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-documents */ "@elementor/editor-documents");
+/* harmony import */ var _elementor_editor_documents__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_documents__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/editor-notifications */ "@elementor/editor-notifications");
+/* harmony import */ var _elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @elementor/store */ "@elementor/store");
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_elementor_store__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _elementor_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @elementor/utils */ "@elementor/utils");
+/* harmony import */ var _elementor_utils__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_elementor_utils__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./api */ "./packages/packages/core/editor-components/src/api.ts");
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./store/store */ "./packages/packages/core/editor-components/src/store/store.ts");
+/* harmony import */ var _utils_detach_component_instance__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utils/detach-component-instance */ "./packages/packages/core/editor-components/src/utils/detach-component-instance/index.ts");
+/* harmony import */ var _utils_format_component_elements_id__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utils/format-component-elements-id */ "./packages/packages/core/editor-components/src/utils/format-component-elements-id.ts");
+/* harmony import */ var _utils_is_pro_components_supported__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./utils/is-pro-components-supported */ "./packages/packages/core/editor-components/src/utils/is-pro-components-supported.ts");
+/* harmony import */ var _utils_switch_to_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./utils/switch-to-component */ "./packages/packages/core/editor-components/src/utils/switch-to-component.ts");
+/* harmony import */ var _utils_tracking__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./utils/tracking */ "./packages/packages/core/editor-components/src/utils/tracking.ts");
+
+
+
+
+
+
+
+
+
+
+
+
+
+const COMPONENT_WIDGET_TYPE = 'e-component';
+const EDIT_COMPONENT_DB_CLICK_UPGRADE_URL = 'https://go.elementor.com/go-pro-components-Instance-edit-canvas-double-click/';
+const EDIT_COMPONENT_CONTEXT_MENU_UPGRADE_URL = 'https://go.elementor.com/go-pro-components-Instance-edit-context-menu/';
+const UPDATE_PLUGINS_URL = '/wp-admin/plugins.php';
+const COMPONENT_EDIT_UPGRADE_NOTIFICATION_ID = 'component-edit-upgrade';
+const COMPONENT_EDIT_UPDATE_NOTIFICATION_ID = 'component-edit-update';
+const COMPONENT_EDIT_UPGRADE_AUTO_HIDE_DURATION = 2000;
+function notifyComponentEditUpgrade() {
+  (0,_elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_2__.notify)({
+    type: 'promotion',
+    id: COMPONENT_EDIT_UPGRADE_NOTIFICATION_ID,
+    message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Editing components requires an active Pro subscription.', 'elementor'),
+    autoHideDuration: COMPONENT_EDIT_UPGRADE_AUTO_HIDE_DURATION,
+    additionalActionProps: [{
+      size: 'small',
+      variant: 'contained',
+      color: 'promotion',
+      href: EDIT_COMPONENT_DB_CLICK_UPGRADE_URL,
+      target: '_blank',
+      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Upgrade Now', 'elementor')
+    }]
+  });
+}
+function notifyComponentEditUpdate() {
+  (0,_elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_2__.notify)({
+    type: 'info',
+    id: COMPONENT_EDIT_UPDATE_NOTIFICATION_ID,
+    message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('To edit components, update Elementor Pro to the latest version.', 'elementor'),
+    additionalActionProps: [{
+      size: 'small',
+      variant: 'contained',
+      color: 'info',
+      href: UPDATE_PLUGINS_URL,
+      target: '_blank',
+      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Update Now', 'elementor')
+    }]
+  });
+}
+const updateGroups = (groups, config) => {
+  const disableMap = new Map(Object.entries(config.disable ?? {}));
+  const addMap = new Map(Object.entries(config.add ?? {}));
+  return groups.map(group => {
+    const disabledActions = disableMap.get(group.name) ?? [];
+    const addConfig = addMap.get(group.name);
+
+    // Update disabled actions
+    const updatedActions = group.actions.map(action => disabledActions.includes(action.name) ? {
+      ...action,
+      isEnabled: () => false
+    } : action);
+
+    // Insert additional actions if needed
+    if (addConfig) {
+      updatedActions.splice(addConfig.index, 0, ...addConfig.actions);
+    }
+    return {
+      ...group,
+      actions: updatedActions
+    };
+  });
+};
+function createComponentType(options) {
+  const legacyWindow = window;
+  const WidgetType = legacyWindow.elementor.modules.elements.types.Widget;
+  const view = createComponentView({
+    ...options
+  });
+  return class extends WidgetType {
+    getType() {
+      return options.type;
+    }
+    getView() {
+      return view;
+    }
+    getModel() {
+      return createComponentModel();
+    }
+  };
+}
+function createComponentView(options) {
+  const legacyWindow = window;
+  return class extends (0,_elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0__.createTemplatedElementView)(options) {
+    eventsManagerConfig = legacyWindow.elementorCommon.eventsManager.config;
+    #componentRenderContext;
+    isComponentCurrentlyEdited() {
+      const currentDocument = (0,_elementor_editor_documents__WEBPACK_IMPORTED_MODULE_1__.getCurrentDocument)();
+      return currentDocument?.id === this.getComponentId();
+    }
+    getRenderContext() {
+      const namespaceKey = this.getNamespaceKey();
+      const parentContext = this._parent?.getRenderContext?.();
+      const parentComponentContext = parentContext?.[namespaceKey];
+      if (!this.#componentRenderContext) {
+        return parentContext;
+      }
+      const ownOverrides = this.#componentRenderContext.overrides ?? {};
+      const parentOverrides = parentComponentContext?.overrides ?? {};
+      return {
+        ...parentContext,
+        [namespaceKey]: {
+          overrides: {
+            ...parentOverrides,
+            ...ownOverrides
+          }
+        }
+      };
+    }
+    getResolverRenderContext() {
+      const namespaceKey = this.getNamespaceKey();
+      const context = this.getRenderContext();
+      const ownContext = context?.[namespaceKey];
+      if (!ownContext) {
+        return this._parent?.getResolverRenderContext?.();
+      }
+      const parentResolverContext = this._parent?.getResolverRenderContext?.();
+      return {
+        ...parentResolverContext,
+        ...ownContext
+      };
+    }
+    afterSettingsResolve(settings) {
+      const componentInstance = settings.component_instance;
+      if (componentInstance) {
+        this.#componentRenderContext = {
+          overrides: componentInstance.overrides ?? {}
+        };
+        const instanceId = this.model.get('id');
+        const elements = componentInstance.elements ?? [];
+        const formattedElements = (0,_utils_format_component_elements_id__WEBPACK_IMPORTED_MODULE_9__.formatComponentElementsId)(elements, [instanceId]);
+        this.collection = legacyWindow.elementor.createBackboneElementsCollection(formattedElements);
+        this.collection.models.forEach(setInactiveRecursively);
+        settings.component_instance = '<template data-children-placeholder></template>';
+      }
+      return settings;
+    }
+    getDomElement() {
+      // Component does not have a DOM element, so we return the first child's DOM element.
+      return this.children.findByIndex(0)?.getDomElement() ?? this.$el;
+    }
+    attachBuffer(collectionView, buffer) {
+      const childrenPlaceholder = collectionView.$el.find('[data-children-placeholder]').get(0);
+      if (!childrenPlaceholder) {
+        super.attachBuffer(collectionView, buffer);
+        return;
+      }
+      childrenPlaceholder.replaceWith(buffer);
+    }
+    getComponentId() {
+      const componentInstance = this.options?.model?.get('settings')?.get('component_instance')?.value;
+      return componentInstance.component_id.value;
+    }
+    getContextMenuGroups() {
+      const filteredGroups = super.getContextMenuGroups().filter(group => group.name !== 'save');
+      const componentId = this.getComponentId();
+      if (!componentId) {
+        return filteredGroups;
+      }
+      const newGroups = updateGroups(filteredGroups, this._getContextMenuConfig());
+      return newGroups;
+    }
+    _getContextMenuConfig() {
+      const isAdministrator = isUserAdministrator();
+      const hasPro = (0,_elementor_utils__WEBPACK_IMPORTED_MODULE_4__.hasProInstalled)();
+      const isOutdated = (0,_utils_is_pro_components_supported__WEBPACK_IMPORTED_MODULE_10__.isProOutdatedForComponents)();
+      const showPromoBadge = !hasPro && !isOutdated;
+      const badgeClass = 'elementor-context-menu-list__item__shortcut__promotion-badge';
+      const proBadge = `<a href="${EDIT_COMPONENT_CONTEXT_MENU_UPGRADE_URL}" target="_blank" onclick="event.stopPropagation()" class="${badgeClass}"><i class="eicon-upgrade-crown"></i></a>`;
+      const editComponentAction = {
+        name: 'edit component',
+        icon: 'eicon-edit',
+        title: () => (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Edit Component', 'elementor'),
+        ...(showPromoBadge && {
+          shortcut: proBadge,
+          hasShortcutAction: true
+        }),
+        isEnabled: () => (0,_utils_is_pro_components_supported__WEBPACK_IMPORTED_MODULE_10__.isProComponentsSupported)() || isOutdated,
+        callback: (_, eventData) => this.editComponent(eventData)
+      };
+      const detachInstanceAction = {
+        name: 'detach instance',
+        icon: 'eicon-chain-broken',
+        title: () => (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Detach from Component', 'elementor'),
+        isEnabled: () => true,
+        callback: (_, eventData) => this.detachInstance(eventData)
+      };
+      const actions = isAdministrator ? [editComponentAction, detachInstanceAction] : [detachInstanceAction];
+      const addedGroup = {
+        general: {
+          index: 1,
+          actions
+        }
+      };
+      const disabledGroup = {
+        clipboard: ['pasteStyle', 'resetStyle']
+      };
+      return {
+        add: addedGroup,
+        disable: disabledGroup
+      };
+    }
+    async switchDocument() {
+      //todo: handle unpublished
+      const {
+        isAllowedToSwitchDocument,
+        lockedBy
+      } = await _api__WEBPACK_IMPORTED_MODULE_6__.apiClient.getComponentLockStatus(this.getComponentId());
+      if (!isAllowedToSwitchDocument) {
+        options.showLockedByModal?.(lockedBy || '');
+      } else {
+        (0,_utils_switch_to_component__WEBPACK_IMPORTED_MODULE_11__.switchToComponent)(this.getComponentId(), this.model.get('id'), this.el);
+      }
+    }
+    editComponent({
+      trigger,
+      location,
+      secondaryLocation
+    }) {
+      if ((0,_utils_is_pro_components_supported__WEBPACK_IMPORTED_MODULE_10__.isProOutdatedForComponents)()) {
+        notifyComponentEditUpdate();
+        return;
+      }
+      if (!(0,_utils_is_pro_components_supported__WEBPACK_IMPORTED_MODULE_10__.isProComponentsSupported)() || this.isComponentCurrentlyEdited()) {
+        return;
+      }
+      this.switchDocument();
+      const editorSettings = this.model.get('editor_settings');
+      (0,_utils_tracking__WEBPACK_IMPORTED_MODULE_12__.trackComponentEvent)({
+        action: 'edited',
+        executedBy: 'user',
+        component_uid: editorSettings?.component_uid,
+        component_name: editorSettings?.title,
+        location,
+        secondary_location: secondaryLocation,
+        trigger
+      });
+    }
+    detachInstance({
+      trigger,
+      location,
+      secondaryLocation
+    }) {
+      const componentId = this.getComponentId();
+      const instanceId = this.model.get('id');
+      if (!componentId || !instanceId) {
+        return;
+      }
+      const handleConfirm = async () => {
+        try {
+          await (0,_utils_detach_component_instance__WEBPACK_IMPORTED_MODULE_8__.detachComponentInstance)({
+            instanceId,
+            componentId,
+            trackingInfo: {
+              location,
+              secondaryLocation,
+              trigger
+            }
+          });
+        } catch {
+          (0,_elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_2__.notify)({
+            type: 'error',
+            message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Failed to detach component instance.', 'elementor'),
+            id: 'detach-component-instance-failed'
+          });
+        }
+      };
+      options.showDetachConfirmDialog?.(handleConfirm);
+    }
+    handleDblClick(e) {
+      e.stopPropagation();
+      if (!isUserAdministrator()) {
+        return;
+      }
+      if ((0,_utils_is_pro_components_supported__WEBPACK_IMPORTED_MODULE_10__.isProOutdatedForComponents)()) {
+        notifyComponentEditUpdate();
+        return;
+      }
+      if (!(0,_elementor_utils__WEBPACK_IMPORTED_MODULE_4__.hasProInstalled)()) {
+        notifyComponentEditUpgrade();
+        return;
+      }
+      const {
+        triggers,
+        locations,
+        secondaryLocations
+      } = this.eventsManagerConfig;
+      this.editComponent({
+        trigger: triggers.doubleClick,
+        location: locations.canvas,
+        secondaryLocation: secondaryLocations.canvasElement
+      });
+    }
+    events() {
+      return {
+        ...super.events(),
+        dblclick: this.handleDblClick
+      };
+    }
+    attributes() {
+      return {
+        ...super.attributes(),
+        'data-elementor-id': this.getComponentId()
+      };
+    }
+  };
+}
+function setInactiveRecursively(model) {
+  const editSettings = model.get('editSettings');
+  if (editSettings) {
+    editSettings.set('inactive', true);
+  }
+  const elements = model.get('elements');
+  if (elements) {
+    elements.forEach(childModel => {
+      setInactiveRecursively(childModel);
+    });
+  }
+}
+function isUserAdministrator() {
+  const legacyWindow = window;
+  return legacyWindow.elementor.config?.user?.is_administrator ?? false;
+}
+function createComponentModel() {
+  const legacyWindow = window;
+  const WidgetType = legacyWindow.elementor.modules.elements.types.Widget;
+  const widgetTypeInstance = new WidgetType();
+  const BaseWidgetModel = widgetTypeInstance.getModel();
+  return BaseWidgetModel.extend({
+    initialize(attributes, options) {
+      BaseWidgetModel.prototype.initialize.call(this, attributes, options);
+      const componentInstance = this.get('settings')?.get('component_instance');
+      if (componentInstance?.value) {
+        const componentId = componentInstance.value.component_id?.value;
+        if (componentId && typeof componentId === 'number') {
+          this.set('componentId', componentId);
+        }
+      }
+      this.set('isGlobal', true);
+    },
+    getTitle() {
+      const editorSettings = this.get('editor_settings');
+      const instanceTitle = editorSettings?.title;
+      if (instanceTitle) {
+        return instanceTitle;
+      }
+      const componentUid = editorSettings?.component_uid;
+      if (componentUid) {
+        const component = (0,_store_store__WEBPACK_IMPORTED_MODULE_7__.selectComponentByUid)((0,_elementor_store__WEBPACK_IMPORTED_MODULE_3__.__getState)(), componentUid);
+        if (component?.name) {
+          return component.name;
+        }
+      }
+      return window.elementor.getElementData(this).title;
+    },
+    getComponentId() {
+      return this.get('componentId') || null;
+    },
+    getComponentName() {
+      return this.getTitle();
+    },
+    getComponentUid() {
+      const editorSettings = this.get('editor_settings');
+      return editorSettings?.component_uid || null;
+    }
+  });
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/hooks/use-components-permissions.ts":
+/*!******************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/hooks/use-components-permissions.ts ***!
+  \******************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useComponentsPermissions: function() { return /* binding */ useComponentsPermissions; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_current_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-current-user */ "@elementor/editor-current-user");
+/* harmony import */ var _elementor_editor_current_user__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_current_user__WEBPACK_IMPORTED_MODULE_0__);
+
+const useComponentsPermissions = () => {
+  const {
+    isAdmin
+  } = (0,_elementor_editor_current_user__WEBPACK_IMPORTED_MODULE_0__.useCurrentUserCapabilities)();
+  return {
+    canCreate: isAdmin,
+    canEdit: isAdmin,
+    canDelete: isAdmin,
+    canRename: isAdmin
+  };
+};
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/hooks/use-components.ts":
+/*!******************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/hooks/use-components.ts ***!
+  \******************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useComponents: function() { return /* binding */ useComponents; }
+/* harmony export */ });
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/store */ "@elementor/store");
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_store__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store/store */ "./packages/packages/core/editor-components/src/store/store.ts");
+
+
+const useComponents = () => {
+  const components = (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__useSelector)(_store_store__WEBPACK_IMPORTED_MODULE_1__.selectComponents);
+  const isLoading = (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__useSelector)(_store_store__WEBPACK_IMPORTED_MODULE_1__.selectLoadIsPending);
+  return {
+    components,
+    isLoading
+  };
+};
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/hooks/use-controls-by-widget-type.ts":
+/*!*******************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/hooks/use-controls-by-widget-type.ts ***!
+  \*******************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useControlsByWidgetType: function() { return /* binding */ useControlsByWidgetType; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-elements */ "@elementor/editor-elements");
+/* harmony import */ var _elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__);
+
+function useControlsByWidgetType(type) {
+  const elementType = (0,_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__.getElementType)(type);
+  if (!elementType) {
+    return {};
+  }
+  const controls = iterateControls(elementType.controls);
+  return getControlsByBind(controls);
+}
+function iterateControls(controls) {
+  return controls.map(control => {
+    if (control.type === 'control' && 'bind' in control.value) {
+      return control;
+    }
+    if (control.type === 'section') {
+      return iterateControls(control.value.items);
+    }
+    return null;
+  }).filter(Boolean).flat();
+}
+function getControlsByBind(controls) {
+  return controls.reduce((controlsByBind, control) => ({
+    ...controlsByBind,
+    [control.value.bind]: control
+  }), {});
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/hooks/use-sanitize-overridable-props.ts":
+/*!**********************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/hooks/use-sanitize-overridable-props.ts ***!
+  \**********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useSanitizeOverridableProps: function() { return /* binding */ useSanitizeOverridableProps; }
+/* harmony export */ });
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store/store */ "./packages/packages/core/editor-components/src/store/store.ts");
+/* harmony import */ var _utils_filter_valid_overridable_props__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/filter-valid-overridable-props */ "./packages/packages/core/editor-components/src/utils/filter-valid-overridable-props.ts");
+
+
+function useSanitizeOverridableProps(componentId, instanceElementId) {
+  const overridableProps = (0,_store_store__WEBPACK_IMPORTED_MODULE_0__.useOverridableProps)(componentId);
+  const isSanitized = (0,_store_store__WEBPACK_IMPORTED_MODULE_0__.useIsSanitizedComponent)(componentId, 'overridableProps');
+  if (!overridableProps || !componentId) {
+    return undefined;
+  }
+  if (isSanitized) {
+    return overridableProps;
+  }
+  return (0,_utils_filter_valid_overridable_props__WEBPACK_IMPORTED_MODULE_1__.filterValidOverridableProps)(overridableProps, instanceElementId);
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/init.ts":
+/*!**************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/init.ts ***!
+  \**************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   init: function() { return /* binding */ init; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor */ "@elementor/editor");
+/* harmony import */ var _elementor_editor__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-canvas */ "@elementor/editor-canvas");
+/* harmony import */ var _elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_editor_documents__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/editor-documents */ "@elementor/editor-documents");
+/* harmony import */ var _elementor_editor_documents__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_documents__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @elementor/editor-editing-panel */ "@elementor/editor-editing-panel");
+/* harmony import */ var _elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _elementor_editor_elements_panel__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @elementor/editor-elements-panel */ "@elementor/editor-elements-panel");
+/* harmony import */ var _elementor_editor_elements_panel__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_elements_panel__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _elementor_editor_embedded_documents_manager__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @elementor/editor-embedded-documents-manager */ "@elementor/editor-embedded-documents-manager");
+/* harmony import */ var _elementor_editor_embedded_documents_manager__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_embedded_documents_manager__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @elementor/editor-v1-adapters */ "@elementor/editor-v1-adapters");
+/* harmony import */ var _elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @elementor/store */ "@elementor/store");
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_elementor_store__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _component_instance_transformer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./component-instance-transformer */ "./packages/packages/core/editor-components/src/component-instance-transformer.ts");
+/* harmony import */ var _component_overridable_transformer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./component-overridable-transformer */ "./packages/packages/core/editor-components/src/component-overridable-transformer.ts");
+/* harmony import */ var _component_override_transformer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./component-override-transformer */ "./packages/packages/core/editor-components/src/component-override-transformer.ts");
+/* harmony import */ var _components_components_tab_components__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/components-tab/components */ "./packages/packages/core/editor-components/src/components/components-tab/components.tsx");
+/* harmony import */ var _components_detach_instance_confirmation_dialog__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/detach-instance-confirmation-dialog */ "./packages/packages/core/editor-components/src/components/detach-instance-confirmation-dialog.tsx");
+/* harmony import */ var _components_in_edit_mode__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/in-edit-mode */ "./packages/packages/core/editor-components/src/components/in-edit-mode.tsx");
+/* harmony import */ var _components_instance_editing_panel_instance_editing_panel__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/instance-editing-panel/instance-editing-panel */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/instance-editing-panel.tsx");
+/* harmony import */ var _components_load_template_components__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/load-template-components */ "./packages/packages/core/editor-components/src/components/load-template-components.tsx");
+/* harmony import */ var _create_component_type__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./create-component-type */ "./packages/packages/core/editor-components/src/create-component-type.ts");
+/* harmony import */ var _populate_store__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./populate-store */ "./packages/packages/core/editor-components/src/populate-store.ts");
+/* harmony import */ var _prevent_circular_nesting__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./prevent-circular-nesting */ "./packages/packages/core/editor-components/src/prevent-circular-nesting.ts");
+/* harmony import */ var _store_actions_load_components_assets__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./store/actions/load-components-assets */ "./packages/packages/core/editor-components/src/store/actions/load-components-assets.ts");
+/* harmony import */ var _store_actions_remove_component_styles__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./store/actions/remove-component-styles */ "./packages/packages/core/editor-components/src/store/actions/remove-component-styles.ts");
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./store/store */ "./packages/packages/core/editor-components/src/store/store.ts");
+/* harmony import */ var _sync_before_save__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./sync/before-save */ "./packages/packages/core/editor-components/src/sync/before-save.ts");
+/* harmony import */ var _sync_load_component_data_after_instance_added__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./sync/load-component-data-after-instance-added */ "./packages/packages/core/editor-components/src/sync/load-component-data-after-instance-added.ts");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function init() {
+  (0,_elementor_store__WEBPACK_IMPORTED_MODULE_7__.__registerSlice)(_store_store__WEBPACK_IMPORTED_MODULE_22__.slice);
+  (0,_elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_1__.registerElementType)(_create_component_type__WEBPACK_IMPORTED_MODULE_17__.COMPONENT_WIDGET_TYPE, options => (0,_create_component_type__WEBPACK_IMPORTED_MODULE_17__.createComponentType)({
+    ...options,
+    showLockedByModal: _components_in_edit_mode__WEBPACK_IMPORTED_MODULE_14__.openEditModeDialog,
+    showDetachConfirmDialog: _components_detach_instance_confirmation_dialog__WEBPACK_IMPORTED_MODULE_13__.openDetachConfirmDialog
+  }));
+  window.elementorCommon.__beforeSave = _sync_before_save__WEBPACK_IMPORTED_MODULE_23__.beforeSave;
+  (0,_elementor_editor_elements_panel__WEBPACK_IMPORTED_MODULE_4__.injectTab)({
+    id: 'components',
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_8__.__)('Components', 'elementor'),
+    component: _components_components_tab_components__WEBPACK_IMPORTED_MODULE_12__.Components,
+    position: 1
+  });
+  (0,_elementor_editor__WEBPACK_IMPORTED_MODULE_0__.injectIntoLogic)({
+    id: 'components-populate-store',
+    component: _populate_store__WEBPACK_IMPORTED_MODULE_18__.PopulateStore
+  });
+  (0,_elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_6__.registerDataHook)('after', 'editor/documents/attach-preview', () => {
+    const {
+      id,
+      config
+    } = (0,_elementor_editor_documents__WEBPACK_IMPORTED_MODULE_2__.getV1CurrentDocument)() ?? {};
+    if (!id) {
+      return;
+    }
+    (0,_store_actions_remove_component_styles__WEBPACK_IMPORTED_MODULE_21__.removeComponentStyles)(id);
+    void (0,_store_actions_load_components_assets__WEBPACK_IMPORTED_MODULE_20__.loadComponentsAssets)(config?.elements ?? []);
+  });
+  _elementor_editor_embedded_documents_manager__WEBPACK_IMPORTED_MODULE_5__.embeddedDocumentsManager.onDocumentLoad((_documentId, data) => {
+    void (0,_store_actions_load_components_assets__WEBPACK_IMPORTED_MODULE_20__.loadComponentsAssets)(data.elements ?? []);
+  });
+  (0,_elementor_editor__WEBPACK_IMPORTED_MODULE_0__.injectIntoLogic)({
+    id: 'templates',
+    component: _components_load_template_components__WEBPACK_IMPORTED_MODULE_16__.LoadTemplateComponents
+  });
+  (0,_elementor_editor_editing_panel__WEBPACK_IMPORTED_MODULE_3__.registerEditingPanelReplacement)({
+    id: 'component-instance-edit-panel',
+    condition: (_, elementType) => elementType.key === 'e-component',
+    component: _components_instance_editing_panel_instance_editing_panel__WEBPACK_IMPORTED_MODULE_15__.InstanceEditingPanel
+  });
+  _elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_1__.settingsTransformersRegistry.register('component-instance', _component_instance_transformer__WEBPACK_IMPORTED_MODULE_9__.componentInstanceTransformer);
+  _elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_1__.settingsTransformersRegistry.register('overridable', _component_overridable_transformer__WEBPACK_IMPORTED_MODULE_10__.componentOverridableTransformer);
+  _elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_1__.settingsTransformersRegistry.register('override', _component_override_transformer__WEBPACK_IMPORTED_MODULE_11__.componentOverrideTransformer);
+  (0,_prevent_circular_nesting__WEBPACK_IMPORTED_MODULE_19__.initCircularNestingPrevention)();
+  (0,_sync_load_component_data_after_instance_added__WEBPACK_IMPORTED_MODULE_24__.initLoadComponentDataAfterInstanceAdded)();
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/populate-store.ts":
+/*!************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/populate-store.ts ***!
+  \************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   PopulateStore: function() { return /* binding */ PopulateStore; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/store */ "@elementor/store");
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_store__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _store_thunks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/thunks */ "./packages/packages/core/editor-components/src/store/thunks.ts");
+
+
+
+function PopulateStore() {
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    (0,_elementor_store__WEBPACK_IMPORTED_MODULE_1__.__dispatch)((0,_store_thunks__WEBPACK_IMPORTED_MODULE_2__.loadComponents)());
+  }, []);
+  return null;
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/prevent-circular-nesting.ts":
+/*!**********************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/prevent-circular-nesting.ts ***!
+  \**********************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   extractComponentIdsFromElements: function() { return /* binding */ extractComponentIdsFromElements; },
+/* harmony export */   initCircularNestingPrevention: function() { return /* binding */ initCircularNestingPrevention; },
+/* harmony export */   wouldCreateCircularNesting: function() { return /* binding */ wouldCreateCircularNesting; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-elements */ "@elementor/editor-elements");
+/* harmony import */ var _elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-notifications */ "@elementor/editor-notifications");
+/* harmony import */ var _elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/editor-v1-adapters */ "@elementor/editor-v1-adapters");
+/* harmony import */ var _elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @elementor/store */ "@elementor/store");
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_elementor_store__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store/store */ "./packages/packages/core/editor-components/src/store/store.ts");
+
+
+
+
+
+
+const COMPONENT_TYPE = 'e-component';
+const COMPONENT_CIRCULAR_NESTING_ALERT = {
+  type: 'default',
+  message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)("Can't add this component - components that contain each other can't be nested.", 'elementor'),
+  id: 'circular-component-nesting-blocked'
+};
+function initCircularNestingPrevention() {
+  (0,_elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_2__.blockCommand)({
+    command: 'document/elements/create',
+    condition: blockCircularCreate
+  });
+  (0,_elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_2__.blockCommand)({
+    command: 'document/elements/move',
+    condition: blockCircularMove
+  });
+  (0,_elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_2__.blockCommand)({
+    command: 'document/elements/paste',
+    condition: blockCircularPaste
+  });
+}
+
+// Note that this function only checks for direct circular nesting, not indirect nesting
+function wouldCreateCircularNesting(componentIdToAdd) {
+  if (componentIdToAdd === undefined) {
+    return false;
+  }
+  const state = (0,_elementor_store__WEBPACK_IMPORTED_MODULE_3__.__getState)();
+  const currentComponentId = (0,_store_store__WEBPACK_IMPORTED_MODULE_5__.selectCurrentComponentId)(state);
+  const path = (0,_store_store__WEBPACK_IMPORTED_MODULE_5__.selectPath)(state);
+  if (currentComponentId === null) {
+    return false;
+  }
+  if (componentIdToAdd === currentComponentId) {
+    return true;
+  }
+  return path.some(item => item.componentId === componentIdToAdd);
+}
+function extractComponentIdFromModel(model) {
+  if (!model) {
+    return null;
+  }
+  const isComponent = model.widgetType === COMPONENT_TYPE;
+  if (!isComponent) {
+    return null;
+  }
+  return model.settings?.component_instance?.value?.component_id?.value ?? null;
+}
+function extractComponentIdFromElement(element) {
+  if (element.widgetType !== COMPONENT_TYPE) {
+    return null;
+  }
+  return element.settings?.component_instance?.value?.component_id?.value ?? null;
+}
+function extractComponentIdsFromElements(elements) {
+  const ids = [];
+  for (const element of elements) {
+    const componentId = extractComponentIdFromElement(element);
+    if (componentId !== null) {
+      ids.push(componentId);
+    }
+    if (element.elements?.length) {
+      ids.push(...extractComponentIdsFromElements(element.elements));
+    }
+  }
+  return ids;
+}
+function extractComponentIdFromContainer(container) {
+  const widgetType = container.model?.get?.('widgetType');
+  if (widgetType !== COMPONENT_TYPE) {
+    return null;
+  }
+  const settings = container.model?.get?.('settings');
+  const componentInstance = settings?.get?.('component_instance');
+  return componentInstance?.value?.component_id?.value ?? null;
+}
+function blockCircularCreate(args) {
+  const componentId = extractComponentIdFromModel(args.model);
+  if (componentId === null) {
+    return false;
+  }
+  const isBlocked = wouldCreateCircularNesting(componentId);
+  if (isBlocked) {
+    (0,_elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_1__.notify)(COMPONENT_CIRCULAR_NESTING_ALERT);
+  }
+  return isBlocked;
+}
+function blockCircularMove(args) {
+  const {
+    containers = [args.container]
+  } = args;
+  const hasCircularComponent = containers.some(container => {
+    if (!container) {
+      return false;
+    }
+    const allElements = (0,_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__.getAllDescendants)(container);
+    return allElements.some(element => {
+      const componentId = extractComponentIdFromContainer(element);
+      if (componentId === null) {
+        return false;
+      }
+      return wouldCreateCircularNesting(componentId);
+    });
+  });
+  if (hasCircularComponent) {
+    (0,_elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_1__.notify)(COMPONENT_CIRCULAR_NESTING_ALERT);
+  }
+  return hasCircularComponent;
+}
+function blockCircularPaste(args) {
+  const {
+    storageType
+  } = args;
+  if (storageType !== 'localstorage') {
+    return false;
+  }
+  const data = window?.elementorCommon?.storage?.get();
+  if (!data?.clipboard?.elements) {
+    return false;
+  }
+  const allComponentIds = extractComponentIdsFromElements(data.clipboard.elements);
+  const hasCircularComponent = allComponentIds.some(wouldCreateCircularNesting);
+  if (hasCircularComponent) {
+    (0,_elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_1__.notify)(COMPONENT_CIRCULAR_NESTING_ALERT);
+  }
+  return hasCircularComponent;
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/prop-types/component-instance-override-prop-type.ts":
+/*!**********************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/prop-types/component-instance-override-prop-type.ts ***!
+  \**********************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   componentInstanceOverridePropTypeUtil: function() { return /* binding */ componentInstanceOverridePropTypeUtil; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_props__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-props */ "@elementor/editor-props");
+/* harmony import */ var _elementor_editor_props__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_props__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_schema__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/schema */ "@elementor/schema");
+/* harmony import */ var _elementor_schema__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_schema__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const componentInstanceOverridePropTypeUtil = (0,_elementor_editor_props__WEBPACK_IMPORTED_MODULE_0__.createPropUtils)('override', _elementor_schema__WEBPACK_IMPORTED_MODULE_1__.z.object({
+  override_key: _elementor_schema__WEBPACK_IMPORTED_MODULE_1__.z.string(),
+  override_value: _elementor_schema__WEBPACK_IMPORTED_MODULE_1__.z.unknown(),
+  schema_source: _elementor_schema__WEBPACK_IMPORTED_MODULE_1__.z.object({
+    type: _elementor_schema__WEBPACK_IMPORTED_MODULE_1__.z.literal('component'),
+    id: _elementor_schema__WEBPACK_IMPORTED_MODULE_1__.z.number()
+  })
+}));
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/prop-types/component-instance-overrides-prop-type.ts":
+/*!***********************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/prop-types/component-instance-overrides-prop-type.ts ***!
+  \***********************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   componentInstanceOverridesPropTypeUtil: function() { return /* binding */ componentInstanceOverridesPropTypeUtil; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_props__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-props */ "@elementor/editor-props");
+/* harmony import */ var _elementor_editor_props__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_props__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_schema__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/schema */ "@elementor/schema");
+/* harmony import */ var _elementor_schema__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_schema__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./component-instance-override-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-override-prop-type.ts");
+/* harmony import */ var _component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./component-overridable-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts");
+
+
+
+
+const componentInstanceOverridesPropTypeUtil = (0,_elementor_editor_props__WEBPACK_IMPORTED_MODULE_0__.createPropUtils)('overrides', _elementor_schema__WEBPACK_IMPORTED_MODULE_1__.z.array(_elementor_schema__WEBPACK_IMPORTED_MODULE_1__.z.union([_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_2__.componentInstanceOverridePropTypeUtil.schema, _component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_3__.componentOverridablePropTypeUtil.schema])).optional().default([]));
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/prop-types/component-instance-prop-type.ts":
+/*!*************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/prop-types/component-instance-prop-type.ts ***!
+  \*************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   componentInstancePropTypeUtil: function() { return /* binding */ componentInstancePropTypeUtil; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_props__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-props */ "@elementor/editor-props");
+/* harmony import */ var _elementor_editor_props__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_props__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_schema__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/schema */ "@elementor/schema");
+/* harmony import */ var _elementor_schema__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_schema__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _component_instance_overrides_prop_type__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./component-instance-overrides-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-overrides-prop-type.ts");
+
+
+
+const componentInstancePropTypeUtil = (0,_elementor_editor_props__WEBPACK_IMPORTED_MODULE_0__.createPropUtils)('component-instance', _elementor_schema__WEBPACK_IMPORTED_MODULE_1__.z.object({
+  component_id: _elementor_editor_props__WEBPACK_IMPORTED_MODULE_0__.numberPropTypeUtil.schema,
+  overrides: _elementor_schema__WEBPACK_IMPORTED_MODULE_1__.z.optional(_component_instance_overrides_prop_type__WEBPACK_IMPORTED_MODULE_2__.componentInstanceOverridesPropTypeUtil.schema)
+}));
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts":
+/*!****************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts ***!
+  \****************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   componentOverridablePropTypeUtil: function() { return /* binding */ componentOverridablePropTypeUtil; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_props__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-props */ "@elementor/editor-props");
+/* harmony import */ var _elementor_editor_props__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_props__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_schema__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/schema */ "@elementor/schema");
+/* harmony import */ var _elementor_schema__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_schema__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const componentOverridablePropTypeUtil = (0,_elementor_editor_props__WEBPACK_IMPORTED_MODULE_0__.createPropUtils)('overridable', _elementor_schema__WEBPACK_IMPORTED_MODULE_1__.z.object({
+  override_key: _elementor_schema__WEBPACK_IMPORTED_MODULE_1__.z.string(),
+  origin_value: _elementor_schema__WEBPACK_IMPORTED_MODULE_1__.z.object({
+    $$type: _elementor_schema__WEBPACK_IMPORTED_MODULE_1__.z.string(),
+    value: _elementor_schema__WEBPACK_IMPORTED_MODULE_1__.z.unknown()
+  }).nullable()
+}));
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/provider/component-instance-context.tsx":
+/*!**********************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/provider/component-instance-context.tsx ***!
+  \**********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ComponentInstanceProvider: function() { return /* binding */ ComponentInstanceProvider; },
+/* harmony export */   useComponentId: function() { return /* binding */ useComponentId; },
+/* harmony export */   useComponentInstanceOverrides: function() { return /* binding */ useComponentInstanceOverrides; },
+/* harmony export */   useComponentOverridableProps: function() { return /* binding */ useComponentOverridableProps; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+const ComponentInstanceContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)(null);
+function ComponentInstanceProvider({
+  children,
+  ...props
+}) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ComponentInstanceContext.Provider, {
+    value: props
+  }, children);
+}
+function useComponentInstanceContext() {
+  const context = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(ComponentInstanceContext);
+  if (!context) {
+    throw new Error('useComponentInstanceContext must be used within a ComponentInstanceProvider');
+  }
+  return context;
+}
+const useComponentId = () => useComponentInstanceContext().componentId;
+const useComponentInstanceOverrides = () => useComponentInstanceContext().overrides;
+const useComponentOverridableProps = () => useComponentInstanceContext().overridableProps;
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/provider/overridable-prop-context.tsx":
+/*!********************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/provider/overridable-prop-context.tsx ***!
+  \********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   OverridablePropProvider: function() { return /* binding */ OverridablePropProvider; },
+/* harmony export */   useComponentInstanceElement: function() { return /* binding */ useComponentInstanceElement; },
+/* harmony export */   useOverridablePropValue: function() { return /* binding */ useOverridablePropValue; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+const OverridablePropContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)(null);
+function OverridablePropProvider({
+  children,
+  ...props
+}) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(OverridablePropContext.Provider, {
+    value: props
+  }, children);
+}
+const useOverridablePropValue = () => (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(OverridablePropContext)?.value;
+const useComponentInstanceElement = () => (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(OverridablePropContext)?.componentInstanceElement;
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/store/actions/load-components-assets.ts":
+/*!**********************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/store/actions/load-components-assets.ts ***!
+  \**********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   loadComponentsAssets: function() { return /* binding */ loadComponentsAssets; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-documents */ "@elementor/editor-documents");
+/* harmony import */ var _elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_embedded_documents_manager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-embedded-documents-manager */ "@elementor/editor-embedded-documents-manager");
+/* harmony import */ var _elementor_editor_embedded_documents_manager__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_embedded_documents_manager__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _utils_get_component_documents__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/get-component-documents */ "./packages/packages/core/editor-components/src/utils/get-component-documents.ts");
+/* harmony import */ var _load_components_overridable_props__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./load-components-overridable-props */ "./packages/packages/core/editor-components/src/store/actions/load-components-overridable-props.ts");
+
+
+
+
+async function loadComponentsAssets(elements) {
+  if (!elements.length) {
+    return;
+  }
+  const documents = await (0,_utils_get_component_documents__WEBPACK_IMPORTED_MODULE_2__.getComponentDocuments)({
+    elements,
+    isRecursive: false
+  });
+  updateDocumentState(documents);
+  documents.forEach((document, id) => {
+    _elementor_editor_embedded_documents_manager__WEBPACK_IMPORTED_MODULE_1__.embeddedDocumentsManager.setDocument(id, document);
+  });
+  await (0,_load_components_overridable_props__WEBPACK_IMPORTED_MODULE_3__.loadComponentsOverridableProps)([...documents.keys()]);
+}
+function updateDocumentState(documents) {
+  const isDrafted = [...documents.values()].some(_elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0__.isDocumentDirty);
+  if (isDrafted) {
+    (0,_elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0__.setDocumentModifiedStatus)(true);
+  }
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/store/actions/load-components-overridable-props.ts":
+/*!*********************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/store/actions/load-components-overridable-props.ts ***!
+  \*********************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   loadComponentsOverridableProps: function() { return /* binding */ loadComponentsOverridableProps; }
+/* harmony export */ });
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/store */ "@elementor/store");
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_store__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../api */ "./packages/packages/core/editor-components/src/api.ts");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store */ "./packages/packages/core/editor-components/src/store/store.ts");
+
+
+
+async function loadComponentsOverridableProps(componentIds) {
+  const unloadedIds = componentIds.filter(id => !(0,_store__WEBPACK_IMPORTED_MODULE_2__.selectIsOverridablePropsLoaded)((0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__getState)(), id));
+  if (!unloadedIds.length) {
+    return;
+  }
+  const {
+    data
+  } = await _api__WEBPACK_IMPORTED_MODULE_1__.apiClient.getOverridableProps(unloadedIds);
+  (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__dispatch)(_store__WEBPACK_IMPORTED_MODULE_2__.slice.actions.loadOverridableProps(data));
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/store/actions/remove-component-styles.ts":
+/*!***********************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/store/actions/remove-component-styles.ts ***!
+  \***********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   removeComponentStyles: function() { return /* binding */ removeComponentStyles; }
+/* harmony export */ });
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../api */ "./packages/packages/core/editor-components/src/api.ts");
+
+function removeComponentStyles(id) {
+  _api__WEBPACK_IMPORTED_MODULE_0__.apiClient.invalidateComponentConfigCache(id);
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/store/actions/update-overridable-prop.ts":
+/*!***********************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/store/actions/update-overridable-prop.ts ***!
+  \***********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   updateOverridableProp: function() { return /* binding */ updateOverridableProp; }
+/* harmony export */ });
+/* harmony import */ var _utils_resolve_override_prop_value__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/resolve-override-prop-value */ "./packages/packages/core/editor-components/src/utils/resolve-override-prop-value.ts");
+/* harmony import */ var _dispatchers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dispatchers */ "./packages/packages/core/editor-components/src/store/dispatchers.ts");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../selectors */ "./packages/packages/core/editor-components/src/store/selectors.ts");
+
+
+
+function updateOverridableProp(componentId, propValue, originPropFields) {
+  const overridableProps = _selectors__WEBPACK_IMPORTED_MODULE_2__.componentsSelectors.getOverridableProps(componentId);
+  if (!overridableProps) {
+    return;
+  }
+  const existingOverridableProp = overridableProps.props[propValue.override_key];
+  if (!existingOverridableProp) {
+    return;
+  }
+  const originValue = (0,_utils_resolve_override_prop_value__WEBPACK_IMPORTED_MODULE_0__.resolveOverridePropValue)(propValue.origin_value);
+  const newOverridableProp = originPropFields ? {
+    originValue,
+    originPropFields
+  } : {
+    originValue
+  };
+  const newOverridableProps = {
+    ...overridableProps,
+    props: {
+      ...overridableProps.props,
+      [existingOverridableProp.overrideKey]: {
+        ...existingOverridableProp,
+        ...newOverridableProp
+      }
+    }
+  };
+  _dispatchers__WEBPACK_IMPORTED_MODULE_1__.componentsActions.setOverridableProps(componentId, newOverridableProps);
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/store/dispatchers.ts":
+/*!***************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/store/dispatchers.ts ***!
+  \***************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   componentsActions: function() { return /* binding */ componentsActions; }
+/* harmony export */ });
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/store */ "@elementor/store");
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_store__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store */ "./packages/packages/core/editor-components/src/store/store.ts");
+
+
+function safeDispatch() {
+  return (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__getStore)()?.dispatch;
+}
+const componentsActions = {
+  add(components) {
+    (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__dispatch)(_store__WEBPACK_IMPORTED_MODULE_1__.slice.actions.add(components));
+  },
+  load(components) {
+    (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__dispatch)(_store__WEBPACK_IMPORTED_MODULE_1__.slice.actions.load(components));
+  },
+  addUnpublished(component) {
+    (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__dispatch)(_store__WEBPACK_IMPORTED_MODULE_1__.slice.actions.addUnpublished(component));
+  },
+  removeUnpublished(uids) {
+    (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__dispatch)(_store__WEBPACK_IMPORTED_MODULE_1__.slice.actions.removeUnpublished(uids));
+  },
+  resetUnpublished() {
+    (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__dispatch)(_store__WEBPACK_IMPORTED_MODULE_1__.slice.actions.resetUnpublished());
+  },
+  addCreatedThisSession(uid) {
+    (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__dispatch)(_store__WEBPACK_IMPORTED_MODULE_1__.slice.actions.addCreatedThisSession(uid));
+  },
+  removeCreatedThisSession(uid) {
+    (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__dispatch)(_store__WEBPACK_IMPORTED_MODULE_1__.slice.actions.removeCreatedThisSession(uid));
+  },
+  archive(componentId) {
+    (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__dispatch)(_store__WEBPACK_IMPORTED_MODULE_1__.slice.actions.archive(componentId));
+  },
+  setCurrentComponentId(id) {
+    safeDispatch()?.(_store__WEBPACK_IMPORTED_MODULE_1__.slice.actions.setCurrentComponentId(id));
+  },
+  setPath(path) {
+    safeDispatch()?.(_store__WEBPACK_IMPORTED_MODULE_1__.slice.actions.setPath(path));
+  },
+  setOverridableProps(componentId, overridableProps) {
+    (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__dispatch)(_store__WEBPACK_IMPORTED_MODULE_1__.slice.actions.setOverridableProps({
+      componentId,
+      overridableProps
+    }));
+  },
+  rename(componentUid, name) {
+    (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__dispatch)(_store__WEBPACK_IMPORTED_MODULE_1__.slice.actions.rename({
+      componentUid,
+      name
+    }));
+  },
+  cleanUpdatedComponentNames() {
+    (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__dispatch)(_store__WEBPACK_IMPORTED_MODULE_1__.slice.actions.cleanUpdatedComponentNames());
+  },
+  updateComponentSanitizedAttribute(componentId, attribute) {
+    (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__dispatch)(_store__WEBPACK_IMPORTED_MODULE_1__.slice.actions.updateComponentSanitizedAttribute({
+      componentId,
+      attribute
+    }));
+  },
+  resetSanitizedComponents() {
+    (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__dispatch)(_store__WEBPACK_IMPORTED_MODULE_1__.slice.actions.resetSanitizedComponents());
+  }
+};
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/store/extensible-slice.ts":
+/*!********************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/store/extensible-slice.ts ***!
+  \********************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   __resetExtraReducers: function() { return /* binding */ __resetExtraReducers; },
+/* harmony export */   createComponentsAction: function() { return /* binding */ createComponentsAction; },
+/* harmony export */   registerComponentsReducer: function() { return /* binding */ registerComponentsReducer; },
+/* harmony export */   slice: function() { return /* binding */ slice; }
+/* harmony export */ });
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/store */ "@elementor/store");
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_store__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store-types */ "./packages/packages/core/editor-components/src/store/store-types.ts");
+/* harmony import */ var _thunks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./thunks */ "./packages/packages/core/editor-components/src/store/thunks.ts");
+
+
+
+const extraReducersMap = new Map();
+function registerComponentsReducer(name, reducer) {
+  extraReducersMap.set(`${_store_types__WEBPACK_IMPORTED_MODULE_1__.SLICE_NAME}/${name}`, reducer);
+}
+function createComponentsAction(name) {
+  const action = (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__createAction)(`${_store_types__WEBPACK_IMPORTED_MODULE_1__.SLICE_NAME}/${name}`);
+  return {
+    action,
+    register(reducer) {
+      registerComponentsReducer(name, reducer);
+    },
+    dispatch(payload) {
+      (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__dispatch)(action(payload));
+    }
+  };
+}
+function __resetExtraReducers() {
+  extraReducersMap.clear();
+}
+const baseSlice = (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__createSlice)({
+  name: _store_types__WEBPACK_IMPORTED_MODULE_1__.SLICE_NAME,
+  initialState: _store_types__WEBPACK_IMPORTED_MODULE_1__.initialState,
+  reducers: {
+    add: (state, {
+      payload
+    }) => {
+      if (Array.isArray(payload)) {
+        state.data = [...payload, ...state.data];
+      } else {
+        state.data.unshift(payload);
+      }
+    },
+    load: (state, {
+      payload
+    }) => {
+      state.data = payload;
+    },
+    addUnpublished: (state, {
+      payload
+    }) => {
+      state.unpublishedData.unshift(payload);
+    },
+    removeUnpublished: (state, {
+      payload
+    }) => {
+      const uidsToRemove = Array.isArray(payload) ? payload : [payload];
+      state.unpublishedData = state.unpublishedData.filter(component => !uidsToRemove.includes(component.uid));
+    },
+    resetUnpublished: state => {
+      state.unpublishedData = [];
+    },
+    addCreatedThisSession: (state, {
+      payload
+    }) => {
+      state.createdThisSession.push(payload);
+    },
+    removeCreatedThisSession: (state, {
+      payload
+    }) => {
+      state.createdThisSession = state.createdThisSession.filter(uid => uid !== payload);
+    },
+    archive: (state, {
+      payload
+    }) => {
+      const component = state.data.find(comp => comp.id === payload);
+      if (component) {
+        component.isArchived = true;
+        state.archivedThisSession.push(payload);
+      }
+    },
+    setCurrentComponentId: (state, {
+      payload
+    }) => {
+      state.currentComponentId = payload;
+    },
+    setPath: (state, {
+      payload
+    }) => {
+      state.path = payload;
+    },
+    setOverridableProps: (state, {
+      payload
+    }) => {
+      const component = state.data.find(comp => comp.id === payload.componentId);
+      if (!component) {
+        return;
+      }
+      component.overridableProps = payload.overridableProps;
+    },
+    loadOverridableProps: (state, {
+      payload
+    }) => {
+      const componentIds = Object.keys(payload);
+      componentIds.forEach(id => {
+        const componentId = Number(id);
+        const overridableProps = payload[componentId];
+        const component = state.data.find(comp => comp.id === componentId);
+        if (!component || !overridableProps) {
+          return;
+        }
+        component.overridableProps = overridableProps;
+      });
+    },
+    rename: (state, {
+      payload
+    }) => {
+      const component = state.data.find(comp => comp.uid === payload.componentUid);
+      if (!component) {
+        return;
+      }
+      if (component.id) {
+        state.updatedComponentNames[component.id] = payload.name;
+      }
+      component.name = payload.name;
+    },
+    cleanUpdatedComponentNames: state => {
+      state.updatedComponentNames = {};
+    },
+    updateComponentSanitizedAttribute: (state, {
+      payload: {
+        componentId,
+        attribute
+      }
+    }) => {
+      if (!state.sanitized[componentId]) {
+        state.sanitized[componentId] = {};
+      }
+      state.sanitized[componentId][attribute] = true;
+    },
+    resetSanitizedComponents: state => {
+      state.sanitized = {};
+    }
+  },
+  extraReducers: builder => {
+    builder.addCase(_thunks__WEBPACK_IMPORTED_MODULE_2__.loadComponents.fulfilled, (state, {
+      payload
+    }) => {
+      state.data = payload;
+      state.loadStatus = 'idle';
+    });
+    builder.addCase(_thunks__WEBPACK_IMPORTED_MODULE_2__.loadComponents.pending, state => {
+      state.loadStatus = 'pending';
+    });
+    builder.addCase(_thunks__WEBPACK_IMPORTED_MODULE_2__.loadComponents.rejected, state => {
+      state.loadStatus = 'error';
+    });
+  }
+});
+const slice = {
+  ...baseSlice,
+  reducer(state, action) {
+    const nextState = baseSlice.reducer(state, action);
+    const extraReducer = extraReducersMap.get(action.type);
+    if (!extraReducer || !nextState) {
+      return nextState;
+    }
+    const clonedState = structuredClone(nextState);
+    extraReducer(clonedState, action);
+    return clonedState;
+  }
+};
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/store/selectors.ts":
+/*!*************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/store/selectors.ts ***!
+  \*************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   componentsSelectors: function() { return /* binding */ componentsSelectors; }
+/* harmony export */ });
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/store */ "@elementor/store");
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_store__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store */ "./packages/packages/core/editor-components/src/store/store.ts");
+
+
+function safeGetState() {
+  return (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__getStore)()?.getState();
+}
+const componentsSelectors = {
+  getOverridableProps(componentId) {
+    return (0,_store__WEBPACK_IMPORTED_MODULE_1__.selectOverridableProps)((0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__getState)(), componentId);
+  },
+  getCurrentComponent() {
+    return (0,_store__WEBPACK_IMPORTED_MODULE_1__.selectCurrentComponent)((0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__getState)());
+  },
+  getCurrentComponentId() {
+    const state = safeGetState();
+    if (!state) {
+      return null;
+    }
+    return (0,_store__WEBPACK_IMPORTED_MODULE_1__.selectCurrentComponentId)(state);
+  },
+  getUnpublishedComponents() {
+    return (0,_store__WEBPACK_IMPORTED_MODULE_1__.selectUnpublishedComponents)((0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__getState)());
+  },
+  getUpdatedComponentNames() {
+    return (0,_store__WEBPACK_IMPORTED_MODULE_1__.selectUpdatedComponentNames)((0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__getState)());
+  },
+  getArchivedThisSession() {
+    return (0,_store__WEBPACK_IMPORTED_MODULE_1__.selectArchivedThisSession)((0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__getState)());
+  },
+  getCreatedThisSession() {
+    return (0,_store__WEBPACK_IMPORTED_MODULE_1__.selectCreatedThisSession)((0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__getState)());
+  },
+  getComponents() {
+    return (0,_store__WEBPACK_IMPORTED_MODULE_1__.selectComponents)((0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__getState)());
+  },
+  getComponentByUid(componentUid) {
+    return (0,_store__WEBPACK_IMPORTED_MODULE_1__.selectComponentByUid)((0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__getState)(), componentUid);
+  }
+};
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/store/store-types.ts":
+/*!***************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/store/store-types.ts ***!
+  \***************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   SLICE_NAME: function() { return /* binding */ SLICE_NAME; },
+/* harmony export */   initialState: function() { return /* binding */ initialState; }
+/* harmony export */ });
+const initialState = {
+  data: [],
+  unpublishedData: [],
+  loadStatus: 'idle',
+  createdThisSession: [],
+  archivedThisSession: [],
+  path: [],
+  currentComponentId: null,
+  updatedComponentNames: {},
+  sanitized: {}
+};
+const SLICE_NAME = 'components';
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/store/store.ts":
+/*!*********************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/store/store.ts ***!
+  \*********************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   SLICE_NAME: function() { return /* reexport safe */ _store_types__WEBPACK_IMPORTED_MODULE_1__.SLICE_NAME; },
+/* harmony export */   __resetExtraReducers: function() { return /* reexport safe */ _extensible_slice__WEBPACK_IMPORTED_MODULE_2__.__resetExtraReducers; },
+/* harmony export */   createComponentsAction: function() { return /* reexport safe */ _extensible_slice__WEBPACK_IMPORTED_MODULE_2__.createComponentsAction; },
+/* harmony export */   initialState: function() { return /* reexport safe */ _store_types__WEBPACK_IMPORTED_MODULE_1__.initialState; },
+/* harmony export */   registerComponentsReducer: function() { return /* reexport safe */ _extensible_slice__WEBPACK_IMPORTED_MODULE_2__.registerComponentsReducer; },
+/* harmony export */   selectArchivedThisSession: function() { return /* binding */ selectArchivedThisSession; },
+/* harmony export */   selectComponent: function() { return /* binding */ selectComponent; },
+/* harmony export */   selectComponentByUid: function() { return /* binding */ selectComponentByUid; },
+/* harmony export */   selectComponents: function() { return /* binding */ selectComponents; },
+/* harmony export */   selectCreatedThisSession: function() { return /* binding */ selectCreatedThisSession; },
+/* harmony export */   selectCurrentComponent: function() { return /* binding */ selectCurrentComponent; },
+/* harmony export */   selectCurrentComponentId: function() { return /* binding */ selectCurrentComponentId; },
+/* harmony export */   selectData: function() { return /* binding */ selectData; },
+/* harmony export */   selectIsOverridablePropsLoaded: function() { return /* binding */ selectIsOverridablePropsLoaded; },
+/* harmony export */   selectLoadIsError: function() { return /* binding */ selectLoadIsError; },
+/* harmony export */   selectLoadIsPending: function() { return /* binding */ selectLoadIsPending; },
+/* harmony export */   selectOverridableProps: function() { return /* binding */ selectOverridableProps; },
+/* harmony export */   selectPath: function() { return /* binding */ selectPath; },
+/* harmony export */   selectUnpublishedComponents: function() { return /* binding */ selectUnpublishedComponents; },
+/* harmony export */   selectUpdatedComponentNames: function() { return /* binding */ selectUpdatedComponentNames; },
+/* harmony export */   slice: function() { return /* reexport safe */ _extensible_slice__WEBPACK_IMPORTED_MODULE_2__.slice; },
+/* harmony export */   useComponent: function() { return /* binding */ useComponent; },
+/* harmony export */   useCurrentComponent: function() { return /* binding */ useCurrentComponent; },
+/* harmony export */   useCurrentComponentId: function() { return /* binding */ useCurrentComponentId; },
+/* harmony export */   useIsSanitizedComponent: function() { return /* binding */ useIsSanitizedComponent; },
+/* harmony export */   useOverridableProps: function() { return /* binding */ useOverridableProps; }
+/* harmony export */ });
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/store */ "@elementor/store");
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_store__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store-types */ "./packages/packages/core/editor-components/src/store/store-types.ts");
+/* harmony import */ var _extensible_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./extensible-slice */ "./packages/packages/core/editor-components/src/store/extensible-slice.ts");
+
+
+
+
+const selectData = state => state[_store_types__WEBPACK_IMPORTED_MODULE_1__.SLICE_NAME].data;
+const selectArchivedThisSession = state => state[_store_types__WEBPACK_IMPORTED_MODULE_1__.SLICE_NAME].archivedThisSession;
+const selectLoadStatus = state => state[_store_types__WEBPACK_IMPORTED_MODULE_1__.SLICE_NAME].loadStatus;
+const selectUnpublishedData = state => state[_store_types__WEBPACK_IMPORTED_MODULE_1__.SLICE_NAME].unpublishedData;
+const getCreatedThisSession = state => state[_store_types__WEBPACK_IMPORTED_MODULE_1__.SLICE_NAME].createdThisSession;
+const getPath = state => state[_store_types__WEBPACK_IMPORTED_MODULE_1__.SLICE_NAME].path;
+const getCurrentComponentId = state => state[_store_types__WEBPACK_IMPORTED_MODULE_1__.SLICE_NAME].currentComponentId;
+const selectComponent = (state, componentId) => state[_store_types__WEBPACK_IMPORTED_MODULE_1__.SLICE_NAME].data.find(component => component.id === componentId);
+const useComponent = componentId => {
+  return (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__useSelector)(state => componentId ? selectComponent(state, componentId) : null);
+};
+const selectComponentByUid = (state, componentUid) => state[_store_types__WEBPACK_IMPORTED_MODULE_1__.SLICE_NAME].data.find(component => component.uid === componentUid) ?? state[_store_types__WEBPACK_IMPORTED_MODULE_1__.SLICE_NAME].unpublishedData.find(component => component.uid === componentUid);
+const selectComponents = (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__createSelector)(selectData, selectUnpublishedData, (data, unpublishedData) => [...unpublishedData.map(item => ({
+  uid: item.uid,
+  name: item.name,
+  overridableProps: item.overridableProps
+})), ...data.filter(component => !component.isArchived)]);
+const selectUnpublishedComponents = (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__createSelector)(selectUnpublishedData, unpublishedData => unpublishedData);
+const selectLoadIsPending = (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__createSelector)(selectLoadStatus, status => status === 'pending');
+const selectLoadIsError = (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__createSelector)(selectLoadStatus, status => status === 'error');
+const selectCreatedThisSession = (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__createSelector)(getCreatedThisSession, createdThisSession => createdThisSession);
+const DEFAULT_OVERRIDABLE_PROPS = {
+  props: {},
+  groups: {
+    items: {},
+    order: []
+  }
+};
+const selectOverridableProps = (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__createSelector)(selectComponent, component => {
+  if (!component) {
+    return undefined;
+  }
+  return component.overridableProps ?? DEFAULT_OVERRIDABLE_PROPS;
+});
+const useOverridableProps = componentId => {
+  return (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__useSelector)(state => componentId ? selectOverridableProps(state, componentId) : null);
+};
+const selectIsOverridablePropsLoaded = (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__createSelector)(selectComponent, component => {
+  return !!component?.overridableProps;
+});
+const selectPath = (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__createSelector)(getPath, path => path);
+const selectCurrentComponentId = (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__createSelector)(getCurrentComponentId, currentComponentId => currentComponentId);
+const selectCurrentComponent = (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__createSelector)(selectData, getCurrentComponentId, (data, currentComponentId) => data.find(component => component.id === currentComponentId));
+const useCurrentComponentId = () => {
+  return (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__useSelector)(selectCurrentComponentId);
+};
+const useCurrentComponent = () => {
+  return (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__useSelector)(selectCurrentComponent);
+};
+const selectUpdatedComponentNames = (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__createSelector)(state => state[_store_types__WEBPACK_IMPORTED_MODULE_1__.SLICE_NAME].updatedComponentNames, updatedComponentNames => Object.entries(updatedComponentNames).map(([componentId, title]) => ({
+  componentId: Number(componentId),
+  title
+})));
+const useSanitizedComponents = () => {
+  return (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__useSelector)(state => state[_store_types__WEBPACK_IMPORTED_MODULE_1__.SLICE_NAME].sanitized);
+};
+const useIsSanitizedComponent = (componentId, key) => {
+  const sanitizedComponents = useSanitizedComponents();
+  if (!componentId) {
+    return false;
+  }
+  return !!sanitizedComponents[componentId]?.[key];
+};
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/store/thunks.ts":
+/*!**********************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/store/thunks.ts ***!
+  \**********************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   loadComponents: function() { return /* binding */ loadComponents; }
+/* harmony export */ });
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/store */ "@elementor/store");
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_store__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../api */ "./packages/packages/core/editor-components/src/api.ts");
+
+
+const loadComponents = (0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__createAsyncThunk)('components/load', async () => {
+  const response = await _api__WEBPACK_IMPORTED_MODULE_1__.apiClient.get();
+  return response;
+});
+
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/sync/before-save.ts":
+/*!**************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/sync/before-save.ts ***!
+  \**************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   beforeSave: function() { return /* binding */ beforeSave; }
+/* harmony export */ });
+/* harmony import */ var _publish_draft_components_in_page_before_save__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./publish-draft-components-in-page-before-save */ "./packages/packages/core/editor-components/src/sync/publish-draft-components-in-page-before-save.ts");
+
+const beforeSave = ({
+  container,
+  status
+}) => {
+  const elements = container?.model.get('elements').toJSON?.() ?? [];
+  return (0,_publish_draft_components_in_page_before_save__WEBPACK_IMPORTED_MODULE_0__.publishDraftComponentsInPageBeforeSave)({
+    elements,
+    status
+  });
+};
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/sync/load-component-data-after-instance-added.ts":
+/*!*******************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/sync/load-component-data-after-instance-added.ts ***!
+  \*******************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   initLoadComponentDataAfterInstanceAdded: function() { return /* binding */ initLoadComponentDataAfterInstanceAdded; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-v1-adapters */ "@elementor/editor-v1-adapters");
+/* harmony import */ var _elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store_actions_load_components_assets__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store/actions/load-components-assets */ "./packages/packages/core/editor-components/src/store/actions/load-components-assets.ts");
+
+
+function initLoadComponentDataAfterInstanceAdded() {
+  (0,_elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_0__.registerDataHook)('after', 'document/elements/paste', (_args, result) => {
+    load(result);
+  });
+  (0,_elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_0__.registerDataHook)('after', 'document/elements/import', (_args, result) => {
+    load(result);
+  });
+}
+function load(result) {
+  if (!result) {
+    return;
+  }
+  const containers = Array.isArray(result) ? result : [result];
+  const elements = containers.map(container => container.model?.toJSON()).filter(element => !!element);
+  (0,_store_actions_load_components_assets__WEBPACK_IMPORTED_MODULE_1__.loadComponentsAssets)(elements);
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/sync/publish-draft-components-in-page-before-save.ts":
+/*!***********************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/sync/publish-draft-components-in-page-before-save.ts ***!
+  \***********************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   publishDraftComponentsInPageBeforeSave: function() { return /* binding */ publishDraftComponentsInPageBeforeSave; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-documents */ "@elementor/editor-documents");
+/* harmony import */ var _elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-notifications */ "@elementor/editor-notifications");
+/* harmony import */ var _elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_http_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/http-client */ "@elementor/http-client");
+/* harmony import */ var _elementor_http_client__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_http_client__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../api */ "./packages/packages/core/editor-components/src/api.ts");
+/* harmony import */ var _utils_get_component_documents__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/get-component-documents */ "./packages/packages/core/editor-components/src/utils/get-component-documents.ts");
+
+
+
+
+
+
+const INSUFFICIENT_PERMISSIONS_ERROR_CODE = 'insufficient_permissions';
+const PUBLISH_UPGRADE_URL = 'https://go.elementor.com/go-pro-components-Instance-draft-failure/';
+const PUBLISH_UPGRADE_NOTIFICATION_ID = 'component-publish-upgrade';
+async function publishDraftComponentsInPageBeforeSave({
+  status,
+  elements
+}) {
+  if (status !== 'publish') {
+    return;
+  }
+  const documents = await (0,_utils_get_component_documents__WEBPACK_IMPORTED_MODULE_5__.getComponentDocuments)({
+    elements
+  });
+  const draftIds = [...documents.values()].filter(_elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0__.isDocumentDirty).map(document => document.id);
+  if (draftIds.length === 0) {
+    return;
+  }
+  try {
+    await _api__WEBPACK_IMPORTED_MODULE_4__.apiClient.updateStatuses(draftIds, 'publish');
+  } catch (error) {
+    if (isInsufficientPermissionsError(error)) {
+      notifyPublishUpgrade();
+      return;
+    }
+    throw error;
+  }
+  draftIds.forEach(id => (0,_elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0__.invalidateDocumentData)(id));
+}
+function isInsufficientPermissionsError(error) {
+  return error instanceof _elementor_http_client__WEBPACK_IMPORTED_MODULE_2__.AxiosError && error.response?.data?.code === INSUFFICIENT_PERMISSIONS_ERROR_CODE;
+}
+function notifyPublishUpgrade() {
+  (0,_elementor_editor_notifications__WEBPACK_IMPORTED_MODULE_1__.notify)({
+    type: 'promotion',
+    id: PUBLISH_UPGRADE_NOTIFICATION_ID,
+    message: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('You have unpublished component on this page. You need a pro version to publish it.', 'elementor'),
+    additionalActionProps: [{
+      size: 'small',
+      variant: 'contained',
+      color: 'promotion',
+      href: PUBLISH_UPGRADE_URL,
+      target: '_blank',
+      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Upgrade Now', 'elementor')
+    }]
+  });
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/component-document-data.ts":
+/*!***************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/component-document-data.ts ***!
+  \***************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getComponentDocumentData: function() { return /* binding */ getComponentDocumentData; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-documents */ "@elementor/editor-documents");
+/* harmony import */ var _elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0__);
+
+const getComponentDocumentData = async id => {
+  const documentManager = (0,_elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0__.getV1DocumentsManager)();
+  try {
+    return await documentManager.request(id);
+  } catch {
+    return null;
+  }
+};
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/detach-component-instance/detach-component-instance.ts":
+/*!*******************************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/detach-component-instance/detach-component-instance.ts ***!
+  \*******************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   detachComponentInstance: function() { return /* binding */ detachComponentInstance; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-canvas */ "@elementor/editor-canvas");
+/* harmony import */ var _elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_elements__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-elements */ "@elementor/editor-elements");
+/* harmony import */ var _elementor_editor_elements__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/editor-v1-adapters */ "@elementor/editor-v1-adapters");
+/* harmony import */ var _elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @elementor/store */ "@elementor/store");
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_elementor_store__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _prop_types_component_instance_overrides_prop_type__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../prop-types/component-instance-overrides-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-overrides-prop-type.ts");
+/* harmony import */ var _prop_types_component_instance_prop_type__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../prop-types/component-instance-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-prop-type.ts");
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../store/store */ "./packages/packages/core/editor-components/src/store/store.ts");
+/* harmony import */ var _component_document_data__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../component-document-data */ "./packages/packages/core/editor-components/src/utils/component-document-data.ts");
+/* harmony import */ var _tracking__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../tracking */ "./packages/packages/core/editor-components/src/utils/tracking.ts");
+/* harmony import */ var _resolve_detached_instance__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./resolve-detached-instance */ "./packages/packages/core/editor-components/src/utils/detach-component-instance/resolve-detached-instance.ts");
+
+
+
+
+
+
+
+
+
+
+
+const DETACH_EVENT = 'elementor/components/detach-instance';
+const DETACH_UNDO_EVENT = 'elementor/components/undo-detach-instance';
+const DETACH_REDO_EVENT = 'elementor/components/redo-detach-instance';
+async function detachComponentInstance({
+  instanceId,
+  componentId,
+  trackingInfo
+}) {
+  const instanceContainer = (0,_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_1__.getContainer)(instanceId);
+  if (!instanceContainer) {
+    throw new Error(`Instance container with ID "${instanceId}" not found.`);
+  }
+  const componentData = await (0,_component_document_data__WEBPACK_IMPORTED_MODULE_8__.getComponentDocumentData)(componentId);
+  if (!componentData) {
+    throw new Error(`Component with ID "${componentId}" not found.`);
+  }
+  const rootElement = componentData.elements?.[0];
+  if (!rootElement) {
+    throw new Error(`Component with ID "${componentId}" has no root element.`);
+  }
+  const undoableDetach = (0,_elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_2__.undoable)({
+    do: () => {
+      const overrides = extractInstanceOverrides(instanceContainer);
+      const detachedInstanceElementData = (0,_resolve_detached_instance__WEBPACK_IMPORTED_MODULE_10__.resolveDetachedInstance)(rootElement, overrides);
+      const originalInstanceModel = instanceContainer.model.toJSON();
+      const actionId = new Date().getTime();
+
+      // We should fire the event *before* replacing the element, so it will happen before delete event is fired.
+      // As we do overridable props cleanup for both events.
+      window.dispatchEvent(new CustomEvent(DETACH_EVENT, {
+        detail: {
+          detachedInstanceId: instanceId,
+          detachActionId: actionId
+        }
+      }));
+      const detachedElement = (0,_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_1__.replaceElement)({
+        currentElementId: instanceId,
+        newElement: detachedInstanceElementData,
+        withHistory: false
+      });
+      (0,_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_1__.selectElement)(detachedElement.id);
+      const componentUid = (0,_store_store__WEBPACK_IMPORTED_MODULE_7__.selectComponent)((0,_elementor_store__WEBPACK_IMPORTED_MODULE_3__.__getState)(), componentId)?.uid;
+      (0,_tracking__WEBPACK_IMPORTED_MODULE_9__.trackComponentEvent)({
+        action: 'detached',
+        executedBy: 'user',
+        component_uid: componentUid,
+        instance_id: instanceId,
+        location: trackingInfo.location,
+        secondary_location: trackingInfo.secondaryLocation,
+        trigger: trackingInfo.trigger
+      });
+      return {
+        detachedElement,
+        detachedInstanceElementData,
+        originalInstanceModel,
+        actionId
+      };
+    },
+    undo: (_, {
+      detachedElement,
+      originalInstanceModel,
+      actionId
+    }) => {
+      const restoredInstance = (0,_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_1__.replaceElement)({
+        currentElementId: detachedElement.id,
+        newElement: originalInstanceModel,
+        withHistory: false
+      });
+      window.dispatchEvent(new CustomEvent(DETACH_UNDO_EVENT, {
+        detail: {
+          restoredInstanceId: restoredInstance.id,
+          detachActionId: actionId
+        }
+      }));
+
+      // Wait for the instance to be restored
+      (0,_elementor_editor_canvas__WEBPACK_IMPORTED_MODULE_0__.doAfterRender)([restoredInstance.id], () => {
+        (0,_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_1__.selectElement)(restoredInstance.id);
+      });
+      return restoredInstance;
+    },
+    redo: (_, doReturn, restoredInstance) => {
+      const {
+        detachedInstanceElementData,
+        actionId
+      } = doReturn;
+      const detachedElement = (0,_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_1__.replaceElement)({
+        currentElementId: restoredInstance.id,
+        newElement: detachedInstanceElementData,
+        withHistory: false
+      });
+      window.dispatchEvent(new CustomEvent(DETACH_REDO_EVENT, {
+        detail: {
+          detachedInstanceId: detachedElement.id,
+          detachActionId: actionId
+        }
+      }));
+      (0,_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_1__.selectElement)(detachedElement.id);
+      return {
+        ...doReturn,
+        detachedElement
+      };
+    }
+  }, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Detach from Component', 'elementor'),
+    subtitle: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Instance detached', 'elementor')
+  });
+  return undoableDetach();
+}
+function extractInstanceOverrides(instanceContainer) {
+  const settings = instanceContainer.model.toJSON().settings;
+  const componentInstance = _prop_types_component_instance_prop_type__WEBPACK_IMPORTED_MODULE_6__.componentInstancePropTypeUtil.extract(settings?.component_instance);
+  const overrides = _prop_types_component_instance_overrides_prop_type__WEBPACK_IMPORTED_MODULE_5__.componentInstanceOverridesPropTypeUtil.extract(componentInstance?.overrides);
+  return overrides ?? [];
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/detach-component-instance/index.ts":
+/*!***********************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/detach-component-instance/index.ts ***!
+  \***********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   detachComponentInstance: function() { return /* reexport safe */ _detach_component_instance__WEBPACK_IMPORTED_MODULE_0__.detachComponentInstance; }
+/* harmony export */ });
+/* harmony import */ var _detach_component_instance__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./detach-component-instance */ "./packages/packages/core/editor-components/src/utils/detach-component-instance/detach-component-instance.ts");
+
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/detach-component-instance/regenerate-local-style-ids.ts":
+/*!********************************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/detach-component-instance/regenerate-local-style-ids.ts ***!
+  \********************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   regenerateLocalStyleIds: function() { return /* binding */ regenerateLocalStyleIds; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-elements */ "@elementor/editor-elements");
+/* harmony import */ var _elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_props__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-props */ "@elementor/editor-props");
+/* harmony import */ var _elementor_editor_props__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_props__WEBPACK_IMPORTED_MODULE_1__);
+
+
+// Ts version for atomic-widgets/assets/js/editor/utils/regenerate-local-style-ids.js
+function regenerateLocalStyleIds(element) {
+  const originalStyles = element.styles;
+  if (!originalStyles || Object.keys(originalStyles).length === 0) {
+    return {
+      styles: undefined,
+      settings: undefined
+    };
+  }
+  const newStyles = {};
+  const styleIdMapping = {};
+  for (const [originalStyleId, style] of Object.entries(originalStyles)) {
+    const newStyleId = generateLocalStyleId(element.id);
+    newStyles[newStyleId] = {
+      ...style,
+      id: newStyleId
+    };
+    styleIdMapping[originalStyleId] = newStyleId;
+  }
+  const settings = element.settings;
+  if (!settings || Object.keys(settings).length === 0) {
+    return {
+      styles: newStyles,
+      settings: undefined
+    };
+  }
+  const updatedSettings = {
+    ...settings
+  };
+  for (const [propKey, propValue] of Object.entries(updatedSettings)) {
+    if (isClassesProp(propValue) && propValue.value.length > 0) {
+      const updatedClasses = propValue.value.map(classId => styleIdMapping[classId] ?? classId);
+      updatedSettings[propKey] = _elementor_editor_props__WEBPACK_IMPORTED_MODULE_1__.classesPropTypeUtil.create(updatedClasses);
+    }
+  }
+  return {
+    styles: newStyles,
+    settings: updatedSettings
+  };
+}
+function isClassesProp(prop) {
+  return _elementor_editor_props__WEBPACK_IMPORTED_MODULE_1__.classesPropTypeUtil.isValid(prop);
+}
+function generateLocalStyleId(elementId) {
+  return `e-${elementId}-${(0,_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__.generateElementId)()}`;
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/detach-component-instance/resolve-detached-instance.ts":
+/*!*******************************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/detach-component-instance/resolve-detached-instance.ts ***!
+  \*******************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getOverridableOverride: function() { return /* binding */ getOverridableOverride; },
+/* harmony export */   resolveDetachedInstance: function() { return /* binding */ resolveDetachedInstance; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-elements */ "@elementor/editor-elements");
+/* harmony import */ var _elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../prop-types/component-instance-override-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-override-prop-type.ts");
+/* harmony import */ var _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../prop-types/component-overridable-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts");
+/* harmony import */ var _regenerate_local_style_ids__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./regenerate-local-style-ids */ "./packages/packages/core/editor-components/src/utils/detach-component-instance/regenerate-local-style-ids.ts");
+/* harmony import */ var _resolve_overridable_settings__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./resolve-overridable-settings */ "./packages/packages/core/editor-components/src/utils/detach-component-instance/resolve-overridable-settings.ts");
+
+
+
+
+
+
+/**
+ * Creates detached element from component instance
+ * by applying overrides, reverting overridables, and regenerating IDs.
+ * This is used when detaching a component instance from its origin component.
+ *
+ * The function goes through all nested elements recursively and:
+ * - Regenerates element IDs and local style IDs
+ * - Resolves overridable settings - applies all instance overrides to element settings,
+ * or replaces overridable with origin_value when no matching override exists.
+ *
+ * @param element   - The component's root element
+ * @param overrides - Array of overrides from the component instance
+ * @return A new element data with all overrides applied and new IDs
+ */
+function resolveDetachedInstance(element, overrides) {
+  const overrideMap = createOverrideMap(overrides);
+  return resolveElementRecursive(structuredClone(element), overrideMap);
+}
+function resolveElementRecursive(element, overrideMap) {
+  element.id = (0,_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__.generateElementId)();
+  if (element.styles) {
+    const {
+      styles,
+      settings
+    } = (0,_regenerate_local_style_ids__WEBPACK_IMPORTED_MODULE_3__.regenerateLocalStyleIds)(element);
+    element.styles = styles;
+    if (settings) {
+      element.settings = {
+        ...element.settings,
+        ...settings
+      };
+    }
+  }
+  if (element.settings) {
+    element.settings = (0,_resolve_overridable_settings__WEBPACK_IMPORTED_MODULE_4__.resolveOverridableSettings)(element, overrideMap);
+  }
+  if (element.elements?.length) {
+    element.elements = element.elements.map(child => resolveElementRecursive(child, overrideMap));
+  }
+  return element;
+}
+function createOverrideMap(overrides) {
+  const map = new Map();
+  overrides.forEach(item => {
+    let override = null;
+    if (_prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_1__.componentInstanceOverridePropTypeUtil.isValid(item)) {
+      override = item;
+    } else if (_prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_2__.componentOverridablePropTypeUtil.isValid(item)) {
+      override = getOverridableOverride(item);
+    }
+    if (override) {
+      const overrideKey = override.value.override_key;
+      map.set(overrideKey, override);
+    }
+  });
+  return map;
+}
+function getOverridableOverride(propValue) {
+  if (!_prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_2__.componentOverridablePropTypeUtil.isValid(propValue)) {
+    return null;
+  }
+  const originValue = _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_2__.componentOverridablePropTypeUtil.extract(propValue)?.origin_value;
+  if (!_prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_1__.componentInstanceOverridePropTypeUtil.isValid(originValue)) {
+    return null;
+  }
+  return originValue;
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/detach-component-instance/resolve-overridable-settings.ts":
+/*!**********************************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/detach-component-instance/resolve-overridable-settings.ts ***!
+  \**********************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   resolveOverridableSettings: function() { return /* binding */ resolveOverridableSettings; }
+/* harmony export */ });
+/* harmony import */ var _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../prop-types/component-instance-override-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-override-prop-type.ts");
+/* harmony import */ var _prop_types_component_instance_prop_type__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../prop-types/component-instance-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-prop-type.ts");
+/* harmony import */ var _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../prop-types/component-overridable-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts");
+/* harmony import */ var _is_component_instance__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../is-component-instance */ "./packages/packages/core/editor-components/src/utils/is-component-instance.ts");
+
+
+
+
+function resolveOverridableSettings(element, overrideMap) {
+  if ((0,_is_component_instance__WEBPACK_IMPORTED_MODULE_3__.isComponentInstance)({
+    widgetType: element.widgetType,
+    elType: element.elType
+  })) {
+    return resolveOverridableSettingsForComponentInstance(element, overrideMap);
+  }
+  return resolveOverridableSettingsForElement(element, overrideMap);
+}
+function resolveOverridableSettingsForElement(element, overrideMap) {
+  const updatedSettings = element.settings ? {
+    ...element.settings
+  } : {};
+  for (const [settingKey, settingValue] of Object.entries(element.settings ?? {})) {
+    updatedSettings[settingKey] = resolvePropValue(settingValue, overrideMap);
+  }
+  return updatedSettings;
+}
+function resolveOverridableSettingsForComponentInstance(element, overrideMap) {
+  const componentInstance = element.settings?.component_instance;
+  if (!_prop_types_component_instance_prop_type__WEBPACK_IMPORTED_MODULE_1__.componentInstancePropTypeUtil.isValid(componentInstance)) {
+    return element.settings ?? {};
+  }
+  const instanceOverrides = componentInstance.value.overrides?.value;
+  if (!instanceOverrides?.length) {
+    return element.settings ?? {};
+  }
+  const updatedOverrides = instanceOverrides.map(item => resolvePropValue(item, overrideMap, {
+    isOverridableOverride: true
+  }));
+  return {
+    ...element.settings,
+    component_instance: {
+      ...componentInstance,
+      value: {
+        ...componentInstance.value,
+        overrides: {
+          ...componentInstance.value.overrides,
+          value: updatedOverrides
+        }
+      }
+    }
+  };
+}
+function resolvePropValue(propValue, overrideMap, options) {
+  const {
+    isOverridableOverride = false
+  } = options ?? {};
+
+  // if it's not an overridable, return the prop value as is
+  if (!_prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_2__.componentOverridablePropTypeUtil.isValid(propValue)) {
+    return propValue;
+  }
+  const overridableKey = propValue.value.override_key;
+  const matchingOverride = overrideMap.get(overridableKey);
+  const originValue = _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_2__.componentOverridablePropTypeUtil.extract(propValue)?.origin_value;
+
+  // if no matching override, return the overridable's origin value
+  if (!matchingOverride) {
+    return originValue;
+  }
+  if (isOverridableOverride) {
+    return resolveOverridableOverride(matchingOverride, originValue);
+  }
+
+  // for regular props, when there's a non null matching override, return the matching override value,
+  // otherwise return the origin value
+  const matchingOverrideValue = _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_0__.componentInstanceOverridePropTypeUtil.extract(matchingOverride)?.override_value;
+  return matchingOverrideValue ?? originValue;
+}
+function resolveOverridableOverride(matchingOverride, originValue) {
+  if (!originValue || !_prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_0__.componentInstanceOverridePropTypeUtil.isValid(originValue)) {
+    return null;
+  }
+
+  // for overridable overrides, we should create a new override with the matching override value
+  // but keep the origin value's override key and schema source, so they'll match the inner component.
+  return _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_0__.componentInstanceOverridePropTypeUtil.create({
+    override_value: matchingOverride.value.override_value,
+    override_key: originValue.value.override_key,
+    schema_source: originValue.value.schema_source
+  });
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/filter-valid-overridable-props.ts":
+/*!**********************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/filter-valid-overridable-props.ts ***!
+  \**********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   filterValidOverridableProps: function() { return /* binding */ filterValidOverridableProps; },
+/* harmony export */   isExposedPropValid: function() { return /* binding */ isExposedPropValid; }
+/* harmony export */ });
+/* harmony import */ var _resolve_overrides_chain__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./resolve-overrides-chain */ "./packages/packages/core/editor-components/src/utils/resolve-overrides-chain.ts");
+
+function filterValidOverridableProps(overridableProps,
+// instanceElementId is used to find the component inner elements,
+// and should be passed when editing component instance (not in component edit mode)
+instanceElementId) {
+  const validProps = {};
+  for (const [key, prop] of Object.entries(overridableProps.props)) {
+    if (isExposedPropValid(prop, instanceElementId)) {
+      validProps[key] = prop;
+    }
+  }
+  const validPropKeys = new Set(Object.keys(validProps));
+  const filteredGroups = {
+    items: Object.fromEntries(Object.entries(overridableProps.groups.items).map(([groupId, group]) => [groupId, {
+      ...group,
+      props: group.props.filter(propKey => validPropKeys.has(propKey))
+    }])),
+    order: overridableProps.groups.order
+  };
+  return {
+    props: validProps,
+    groups: filteredGroups
+  };
+}
+function isExposedPropValid(prop, instanceElementId) {
+  const {
+    isChainBroken
+  } = (0,_resolve_overrides_chain__WEBPACK_IMPORTED_MODULE_0__.resolveOverridesChain)({
+    outerOverridableProp: prop,
+    outerInstanceId: instanceElementId
+  });
+  return !isChainBroken;
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/format-component-elements-id.ts":
+/*!********************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/format-component-elements-id.ts ***!
+  \********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   formatComponentElementsId: function() { return /* binding */ formatComponentElementsId; }
+/* harmony export */ });
+/* harmony import */ var _elementor_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/utils */ "@elementor/utils");
+/* harmony import */ var _elementor_utils__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_utils__WEBPACK_IMPORTED_MODULE_0__);
+
+const ELEMENT_ID_LENGTH = 7;
+// The purpose of this function is to solve the issue of component inner elements having the same ID
+// when there are multiple instances of the same component on a page.
+// We change the ID of the inner elements to a hash of the nesting path of the element and the element's originalID.
+function formatComponentElementsId(elements, path) {
+  return elements.map(element => {
+    const nestingPath = [...path, element.id];
+    const id = (0,_elementor_utils__WEBPACK_IMPORTED_MODULE_0__.hashString)(nestingPath.join('_'), ELEMENT_ID_LENGTH);
+    return {
+      ...element,
+      id,
+      originId: element.id,
+      elements: element.elements ? formatComponentElementsId(element.elements, nestingPath) : undefined
+    };
+  });
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/get-component-documents.ts":
+/*!***************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/get-component-documents.ts ***!
+  \***************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getComponentDocuments: function() { return /* binding */ getComponentDocuments; }
+/* harmony export */ });
+/* harmony import */ var _component_document_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./component-document-data */ "./packages/packages/core/editor-components/src/utils/component-document-data.ts");
+/* harmony import */ var _is_component_instance__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./is-component-instance */ "./packages/packages/core/editor-components/src/utils/is-component-instance.ts");
+
+
+async function getComponentDocuments({
+  elements,
+  cache = new Map(),
+  isRecursive = true
+}) {
+  const componentIds = await getComponentIds(elements, cache, isRecursive);
+  return getDocumentsMap(componentIds, cache);
+}
+async function getComponentIds(elements, cache, isRecursive) {
+  const results = await Promise.all(elements.filter(Boolean).map(async ({
+    widgetType,
+    elType,
+    elements: childElements,
+    settings
+  }) => {
+    const ids = [];
+    if ((0,_is_component_instance__WEBPACK_IMPORTED_MODULE_1__.isComponentInstance)({
+      widgetType,
+      elType
+    })) {
+      const componentId = settings?.component_instance?.value?.component_id.value;
+      if (!componentId) {
+        return ids;
+      }
+      ids.push(componentId);
+      if (!cache.has(componentId)) {
+        cache.set(componentId, (0,_component_document_data__WEBPACK_IMPORTED_MODULE_0__.getComponentDocumentData)(componentId));
+      }
+      if (isRecursive) {
+        const doc = await cache.get(componentId);
+        childElements = doc?.elements;
+      }
+    }
+    if (childElements?.length) {
+      const childIds = await getComponentIds(childElements, cache, isRecursive);
+      ids.push(...childIds);
+    }
+    return ids;
+  }));
+  return [...new Set(results.flat())];
+}
+async function getDocumentsMap(ids, cache) {
+  const documents = await Promise.all(ids.map(async id => {
+    const document = await cache.get(id);
+    if (!document) {
+      return null;
+    }
+    return [id, document];
+  }));
+  return new Map(documents.filter(document => document !== null));
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/get-container-by-origin-id.ts":
+/*!******************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/get-container-by-origin-id.ts ***!
+  \******************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getContainerByOriginId: function() { return /* binding */ getContainerByOriginId; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-elements */ "@elementor/editor-elements");
+/* harmony import */ var _elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__);
+
+/**
+ * Resolves a container by its origin ID, with optional scoping to a component instance.
+ *
+ * When component instances are rendered, their inner elements get prefixed IDs
+ * (e.g., `{instanceId}_{originalId}`), but store data uses original IDs.
+ * This function bridges between the two by searching for elements with a matching `originId`.
+ *
+ * @param originElementId   - The original (unprefixed) element ID from store data
+ * @param instanceElementId - Optional instance widget ID to scope the search
+ *
+ * @return The container with prefixed runtime ID, or null if not found
+ *
+ * @example
+ * // Component editing mode (no prefixing)
+ * getContainerByOriginId('element-1') // returns container with id='element-1'
+ *
+ * @example
+ * // Instance editing mode (with hash prefixing)
+ * getContainerByOriginId('element-1', 'instance-abc')
+ * // returns container with id='{hash}_element-1' and originId='element-1'
+ */
+function getContainerByOriginId(originElementId, instanceElementId) {
+  if (!instanceElementId) {
+    return (0,_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__.getContainer)(originElementId);
+  }
+  const instanceContainer = (0,_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__.getContainer)(instanceElementId);
+  if (!instanceContainer) {
+    return null;
+  }
+  const legacyWindow = window;
+  return legacyWindow.elementor?.getContainerByKeyValue?.({
+    key: 'originId',
+    value: originElementId,
+    parent: instanceContainer.view
+  }) ?? null;
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/get-overridable-prop.ts":
+/*!************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/get-overridable-prop.ts ***!
+  \************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getOverridableProp: function() { return /* binding */ getOverridableProp; }
+/* harmony export */ });
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/store */ "@elementor/store");
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_store__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store/store */ "./packages/packages/core/editor-components/src/store/store.ts");
+
+
+function getOverridableProp({
+  componentId,
+  overrideKey
+}) {
+  const overridableProps = (0,_store_store__WEBPACK_IMPORTED_MODULE_1__.selectOverridableProps)((0,_elementor_store__WEBPACK_IMPORTED_MODULE_0__.__getState)(), componentId);
+  if (!overridableProps) {
+    return undefined;
+  }
+  return overridableProps.props[overrideKey];
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/get-prop-type-for-component-override.ts":
+/*!****************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/get-prop-type-for-component-override.ts ***!
+  \****************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getPropTypeForComponentOverride: function() { return /* binding */ getPropTypeForComponentOverride; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-elements */ "@elementor/editor-elements");
+/* harmony import */ var _elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__);
+
+const getPropTypeForComponentOverride = overridableProp => {
+  if (overridableProp.originPropFields) {
+    return getPropType(overridableProp.originPropFields);
+  }
+  const {
+    widgetType,
+    propKey
+  } = overridableProp;
+  return getPropType({
+    widgetType,
+    propKey
+  });
+};
+function getPropType({
+  widgetType,
+  propKey
+}) {
+  const widgetPropsSchema = (0,_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_0__.getWidgetsCache)()?.[widgetType]?.atomic_props_schema;
+  return widgetPropsSchema?.[propKey];
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/is-component-instance.ts":
+/*!*************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/is-component-instance.ts ***!
+  \*************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   isComponentInstance: function() { return /* binding */ isComponentInstance; }
+/* harmony export */ });
+/* harmony import */ var _consts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../consts */ "./packages/packages/core/editor-components/src/consts.ts");
+
+function isComponentInstance(elementModel) {
+  return [elementModel.widgetType, elementModel.elType].includes(_consts__WEBPACK_IMPORTED_MODULE_0__.COMPONENT_WIDGET_TYPE);
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/is-pro-components-supported.ts":
+/*!*******************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/is-pro-components-supported.ts ***!
+  \*******************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   isProComponentsSupported: function() { return /* binding */ isProComponentsSupported; },
+/* harmony export */   isProOutdatedForComponents: function() { return /* binding */ isProOutdatedForComponents; }
+/* harmony export */ });
+/* harmony import */ var _elementor_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/utils */ "@elementor/utils");
+/* harmony import */ var _elementor_utils__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_utils__WEBPACK_IMPORTED_MODULE_0__);
+
+const MIN_PRO_VERSION_FOR_COMPONENTS = '4.0';
+function isProComponentsSupported() {
+  return (0,_elementor_utils__WEBPACK_IMPORTED_MODULE_0__.hasProInstalled)() && (0,_elementor_utils__WEBPACK_IMPORTED_MODULE_0__.isProAtLeast)(MIN_PRO_VERSION_FOR_COMPONENTS);
+}
+function isProOutdatedForComponents() {
+  return (0,_elementor_utils__WEBPACK_IMPORTED_MODULE_0__.hasProInstalled)() && !(0,_elementor_utils__WEBPACK_IMPORTED_MODULE_0__.isProAtLeast)(MIN_PRO_VERSION_FOR_COMPONENTS);
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/overridable-props-utils.ts":
+/*!***************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/overridable-props-utils.ts ***!
+  \***************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getMatchingOverride: function() { return /* binding */ getMatchingOverride; }
+/* harmony export */ });
+/* harmony import */ var _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../prop-types/component-instance-override-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-override-prop-type.ts");
+/* harmony import */ var _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../prop-types/component-overridable-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts");
+
+
+function getMatchingOverride(overrides, overrideKey) {
+  return overrides?.find(override => {
+    const overridableValue = _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_1__.componentOverridablePropTypeUtil.extract(override);
+    if (overridableValue) {
+      const overrideValue = _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_0__.componentInstanceOverridePropTypeUtil.extract(overridableValue.origin_value);
+      return overrideValue?.override_key === overrideKey;
+    }
+    return override.value.override_key === overrideKey;
+  }) ?? null;
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/resolve-override-prop-value.ts":
+/*!*******************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/resolve-override-prop-value.ts ***!
+  \*******************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   resolveOverridePropValue: function() { return /* binding */ resolveOverridePropValue; }
+/* harmony export */ });
+/* harmony import */ var _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../prop-types/component-instance-override-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-override-prop-type.ts");
+/* harmony import */ var _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../prop-types/component-overridable-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts");
+
+
+const resolveOverridePropValue = originalPropValue => {
+  const isOverridable = _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_1__.componentOverridablePropTypeUtil.isValid(originalPropValue);
+  if (isOverridable) {
+    return getOverridableValue(originalPropValue);
+  }
+  const isOverride = _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_0__.componentInstanceOverridePropTypeUtil.isValid(originalPropValue);
+  if (isOverride) {
+    return getOverrideValue(originalPropValue);
+  }
+  return originalPropValue;
+};
+function getOverridableValue(overridableProp) {
+  const overridableValue = _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_1__.componentOverridablePropTypeUtil.extract(overridableProp);
+  if (!overridableValue) {
+    return null;
+  }
+  const isOverride = _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_0__.componentInstanceOverridePropTypeUtil.isValid(overridableValue.origin_value);
+  if (isOverride) {
+    return getOverrideValue(overridableValue.origin_value);
+  }
+  return overridableValue.origin_value;
+}
+function getOverrideValue(overrideProp) {
+  const overrideValue = _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_0__.componentInstanceOverridePropTypeUtil.extract(overrideProp);
+  if (!overrideValue) {
+    return null;
+  }
+  return overrideValue.override_value;
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/resolve-overrides-chain.ts":
+/*!***************************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/resolve-overrides-chain.ts ***!
+  \***************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   buildOverridesMap: function() { return /* binding */ buildOverridesMap; },
+/* harmony export */   resolveOverridesChain: function() { return /* binding */ resolveOverridesChain; }
+/* harmony export */ });
+/* harmony import */ var _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../prop-types/component-instance-override-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-override-prop-type.ts");
+/* harmony import */ var _prop_types_component_instance_overrides_prop_type__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../prop-types/component-instance-overrides-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-overrides-prop-type.ts");
+/* harmony import */ var _prop_types_component_instance_prop_type__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../prop-types/component-instance-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-prop-type.ts");
+/* harmony import */ var _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../prop-types/component-overridable-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts");
+/* harmony import */ var _get_container_by_origin_id__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./get-container-by-origin-id */ "./packages/packages/core/editor-components/src/utils/get-container-by-origin-id.ts");
+/* harmony import */ var _get_overridable_prop__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./get-overridable-prop */ "./packages/packages/core/editor-components/src/utils/get-overridable-prop.ts");
+
+
+
+
+
+
+// Recursively walks down a chain of nested component instances to find the innermost element
+// and collect the overrides mapping for it.
+// Returns the resolved inner element with its overrides mapping,
+// or { isChainBroken: true } if any level in the chain is no longer overridable.
+function resolveOverridesChain({
+  outerOverridableProp,
+  outerInstanceId,
+  overridesMapping = {}
+}) {
+  // Stop condition: no originPropFields means we've reached the most inner component instance
+  if (!outerOverridableProp.originPropFields) {
+    const innerElement = (0,_get_container_by_origin_id__WEBPACK_IMPORTED_MODULE_4__.getContainerByOriginId)(outerOverridableProp.elementId, outerInstanceId);
+    if (!innerElement) {
+      throw new Error(`Inner element not found inside instance. elementId: ${outerOverridableProp.elementId}, instanceId: ${outerInstanceId}`);
+    }
+    return {
+      isChainBroken: false,
+      innerElement,
+      overridesMapping
+    };
+  }
+
+  // Step 1: Find the intermediate component instance and read its settings.
+  const currentInstance = (0,_get_container_by_origin_id__WEBPACK_IMPORTED_MODULE_4__.getContainerByOriginId)(outerOverridableProp.elementId, outerInstanceId);
+  if (!currentInstance) {
+    // One of the instances in the chain was deleted.
+    return {
+      isChainBroken: true
+    };
+  }
+  const {
+    componentId,
+    overrides
+  } = extractComponentInstanceSettings(currentInstance);
+  if (!componentId) {
+    throw new Error(`Component ID not found for current instance. currentInstanceId: ${currentInstance.id}. outerInstanceId: ${outerInstanceId}`);
+  }
+
+  // Collect overrides from this level, translating keys for exposed-further props.
+  const mergedOverrides = buildOverridesMap(overridesMapping, overrides ?? []);
+
+  // Find the overridable-override that matches the outer overridable prop's key,
+  // to get the next level's overridable prop.
+  const override = findOverrideByOuterKey(overrides, outerOverridableProp.overrideKey);
+  const overrideKey = _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_0__.componentInstanceOverridePropTypeUtil.extract(override)?.override_key;
+  if (!override || !overrideKey) {
+    // No matching override found for the current level - it means it's no longer overridable.
+    return {
+      isChainBroken: true
+    };
+  }
+  const overridableProp = (0,_get_overridable_prop__WEBPACK_IMPORTED_MODULE_5__.getOverridableProp)({
+    componentId,
+    overrideKey
+  });
+  if (!overridableProp) {
+    throw new Error(`Overridable prop not found. componentId: ${componentId}, overrideKey: ${overrideKey}`);
+  }
+
+  // Step 4: Recurse into the next nesting level.
+  return resolveOverridesChain({
+    outerOverridableProp: overridableProp,
+    outerInstanceId: currentInstance.id,
+    overridesMapping: mergedOverrides
+  });
+}
+
+/**
+ * Builds overrides map from instances chain:
+ * At each level, we collect overrides from the current instance and merge them with the overrides from the outer levels.
+ *
+ * For exposed-further overrides (overridable wrapping an override), we have outer key (overridable's) and inner key (override's).
+ * If a higher level already set a value for the outer key, that value is carried forward to the inner key
+ * — same logic as the componentOverridableTransformer in the render pipeline.
+ *
+ * For simple overrides, that are not exposed further, we just use the override's key and value.
+ *
+ * @param existing       - Previously accumulated overrides from outer levels.
+ * @param levelOverrides - The overrides array from the current level instance.
+ */
+function buildOverridesMap(existing, levelOverrides) {
+  const result = {
+    ...existing
+  };
+  for (const item of levelOverrides) {
+    const overridableValue = _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_3__.componentOverridablePropTypeUtil.extract(item);
+    if (overridableValue) {
+      // Exposed-further: overridable wraps an inner override with a different key.
+      const override = _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_0__.componentInstanceOverridePropTypeUtil.extract(overridableValue.origin_value);
+      if (!override) {
+        continue;
+      }
+      const outerKey = overridableValue.override_key;
+      const innerKey = override.override_key;
+      const innerValue = override.override_value;
+
+      // If an upper level already set a value for the outer key, carry it forward to the inner key.
+      const higherLevelOverride = existing[outerKey];
+      if (higherLevelOverride) {
+        const outerValue = higherLevelOverride.value;
+        result[innerKey] = {
+          value: outerValue ?? innerValue,
+          outermostKey: higherLevelOverride.outermostKey ?? outerKey
+        };
+        continue;
+      }
+      result[innerKey] = {
+        value: innerValue,
+        outermostKey: outerKey
+      };
+    } else {
+      // Simple override: not exposed further, we just store the override's key and value.
+      const override = _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_0__.componentInstanceOverridePropTypeUtil.extract(item);
+      if (!override) {
+        continue;
+      }
+      const key = override.override_key;
+      const value = override.override_value;
+      result[key] = {
+        value
+      };
+    }
+  }
+  return result;
+}
+function extractComponentInstanceSettings(element) {
+  const instanceSetting = element.settings?.get('component_instance');
+  const instanceValue = _prop_types_component_instance_prop_type__WEBPACK_IMPORTED_MODULE_2__.componentInstancePropTypeUtil.extract(instanceSetting);
+  const componentId = instanceValue?.component_id?.value;
+  const overrides = _prop_types_component_instance_overrides_prop_type__WEBPACK_IMPORTED_MODULE_1__.componentInstanceOverridesPropTypeUtil.extract(instanceValue?.overrides);
+  return {
+    componentId,
+    overrides
+  };
+}
+
+// Finds the inner override prop whose wrapping overridable matches the given outer key.
+function findOverrideByOuterKey(overrides, outerKey) {
+  if (!overrides) {
+    return null;
+  }
+  const overridableOverride = overrides.find(item => {
+    const overridableValue = _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_3__.componentOverridablePropTypeUtil.extract(item);
+    if (!overridableValue) {
+      return false;
+    }
+    return overridableValue.override_key === outerKey;
+  });
+  const override = _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_3__.componentOverridablePropTypeUtil.extract(overridableOverride)?.origin_value;
+  if (!override || !_prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_0__.componentInstanceOverridePropTypeUtil.isValid(override)) {
+    return null;
+  }
+  return override;
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/switch-to-component.ts":
+/*!***********************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/switch-to-component.ts ***!
+  \***********************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   buildUniqueSelector: function() { return /* binding */ buildUniqueSelector; },
+/* harmony export */   expandNavigator: function() { return /* binding */ expandNavigator; },
+/* harmony export */   switchToComponent: function() { return /* binding */ switchToComponent; }
+/* harmony export */ });
+/* harmony import */ var _elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/editor-documents */ "@elementor/editor-documents");
+/* harmony import */ var _elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_editor_elements__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/editor-elements */ "@elementor/editor-elements");
+/* harmony import */ var _elementor_editor_elements__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @elementor/editor-v1-adapters */ "@elementor/editor-v1-adapters");
+/* harmony import */ var _elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+async function switchToComponent(componentId, componentInstanceId, element) {
+  const selector = getSelector(element, componentInstanceId);
+  (0,_elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0__.invalidateDocumentData)(componentId);
+  await (0,_elementor_editor_documents__WEBPACK_IMPORTED_MODULE_0__.switchToDocument)(componentId, {
+    selector,
+    mode: 'autosave',
+    setAsInitial: false,
+    shouldScroll: false
+  });
+  const currentDocumentContainer = (0,_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_1__.getCurrentDocumentContainer)();
+  const topLevelElement = currentDocumentContainer?.children?.[0];
+  if (topLevelElement) {
+    (0,_elementor_editor_elements__WEBPACK_IMPORTED_MODULE_1__.selectElement)(topLevelElement.id);
+    expandNavigator();
+  }
+}
+async function expandNavigator() {
+  await (0,_elementor_editor_v1_adapters__WEBPACK_IMPORTED_MODULE_2__.__privateRunCommand)('navigator/expand-all');
+}
+function getSelector(element, componentInstanceId) {
+  if (element) {
+    return buildUniqueSelector(element);
+  }
+  if (componentInstanceId) {
+    return `[data-id="${componentInstanceId}"]`;
+  }
+  return undefined;
+}
+function buildUniqueSelector(element) {
+  const selectors = [];
+  let current = element.closest('[data-id]');
+  while (current) {
+    const dataId = current.dataset.id;
+    const isComponentInstance = current.hasAttribute('data-elementor-id');
+    if (isComponentInstance) {
+      selectors.unshift(`[data-id="${dataId}"]`);
+    }
+    current = current.parentElement?.closest('[data-id]') ?? null;
+  }
+  if (selectors.length === 0) {
+    const closestElement = element.closest('[data-id]');
+    if (closestElement?.dataset?.id) {
+      return `[data-id="${closestElement.dataset.id}"]`;
+    }
+  }
+  return selectors.join(' ');
+}
+
+/***/ }),
+
+/***/ "./packages/packages/core/editor-components/src/utils/tracking.ts":
+/*!************************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/utils/tracking.ts ***!
+  \************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   onElementDrop: function() { return /* binding */ onElementDrop; },
+/* harmony export */   trackComponentEvent: function() { return /* binding */ trackComponentEvent; }
+/* harmony export */ });
+/* harmony import */ var _elementor_events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @elementor/events */ "@elementor/events");
+/* harmony import */ var _elementor_events__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_elementor_events__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @elementor/store */ "@elementor/store");
+/* harmony import */ var _elementor_store__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_elementor_store__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/store */ "./packages/packages/core/editor-components/src/store/store.ts");
+
+
+
+
+// TODO: Remove this type in version 4.4.0
+/** @deprecated since 4.2.1 - use `ExecutedBy` instead */
+
+const FEATURE_NAME = 'Components';
+const trackComponentEvent = ({
+  action,
+  source,
+  executedBy,
+  ...data
+}) => {
+  if (source === 'system' || executedBy === 'system') {
+    return;
+  }
+  const {
+    dispatchEvent,
+    config
+  } = (0,_elementor_events__WEBPACK_IMPORTED_MODULE_0__.getMixpanel)();
+  if (!config?.names?.components?.[action]) {
+    return;
+  }
+  const name = config.names.components[action];
+  dispatchEvent?.(name, {
+    ...data,
+    executed_by: executedBy ?? source,
+    'Feature name': FEATURE_NAME
+  });
+};
+
+// TODO: Remove this function in version 4.4.0 - moved to pro
+const onElementDrop = (_args, element) => {
+  if (!(element?.model?.get('widgetType') === 'e-component')) {
+    return;
+  }
+  const editorSettings = element.model.get('editor_settings');
+  const componentName = editorSettings?.title;
+  const componentUID = editorSettings?.component_uid;
+  const instanceId = element.id;
+  const createdThisSession = (0,_store_store__WEBPACK_IMPORTED_MODULE_2__.selectCreatedThisSession)((0,_elementor_store__WEBPACK_IMPORTED_MODULE_1__.__getState)());
+  const isSameSessionReuse = componentUID && createdThisSession.includes(componentUID);
+  const eventsManagerConfig = window.elementorCommon.eventsManager.config;
+  const {
+    locations,
+    secondaryLocations
+  } = eventsManagerConfig;
+  trackComponentEvent({
+    action: 'instanceAdded',
+    executedBy: 'user',
+    instance_id: instanceId,
+    component_uid: componentUID,
+    component_name: componentName,
+    is_same_session_reuse: isSameSessionReuse,
+    location: locations.widgetPanel,
+    secondary_location: secondaryLocations.componentsTab
+  });
+};
+
+/***/ }),
+
+/***/ "@elementor/editor":
+/*!*****************************************!*\
+  !*** external ["elementorV2","editor"] ***!
+  \*****************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["editor"];
+
+/***/ }),
+
+/***/ "@elementor/editor-canvas":
+/*!***********************************************!*\
+  !*** external ["elementorV2","editorCanvas"] ***!
+  \***********************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["editorCanvas"];
+
+/***/ }),
+
+/***/ "@elementor/editor-controls":
+/*!*************************************************!*\
+  !*** external ["elementorV2","editorControls"] ***!
+  \*************************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["editorControls"];
+
+/***/ }),
+
+/***/ "@elementor/editor-current-user":
+/*!****************************************************!*\
+  !*** external ["elementorV2","editorCurrentUser"] ***!
+  \****************************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["editorCurrentUser"];
+
+/***/ }),
+
+/***/ "@elementor/editor-documents":
+/*!**************************************************!*\
+  !*** external ["elementorV2","editorDocuments"] ***!
+  \**************************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["editorDocuments"];
+
+/***/ }),
+
+/***/ "@elementor/editor-editing-panel":
+/*!*****************************************************!*\
+  !*** external ["elementorV2","editorEditingPanel"] ***!
+  \*****************************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["editorEditingPanel"];
+
+/***/ }),
+
+/***/ "@elementor/editor-elements":
+/*!*************************************************!*\
+  !*** external ["elementorV2","editorElements"] ***!
+  \*************************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["editorElements"];
+
+/***/ }),
+
+/***/ "@elementor/editor-elements-panel":
+/*!******************************************************!*\
+  !*** external ["elementorV2","editorElementsPanel"] ***!
+  \******************************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["editorElementsPanel"];
+
+/***/ }),
+
+/***/ "@elementor/editor-embedded-documents-manager":
+/*!*****************************************************************!*\
+  !*** external ["elementorV2","editorEmbeddedDocumentsManager"] ***!
+  \*****************************************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["editorEmbeddedDocumentsManager"];
+
+/***/ }),
+
+/***/ "@elementor/editor-notifications":
+/*!******************************************************!*\
+  !*** external ["elementorV2","editorNotifications"] ***!
+  \******************************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["editorNotifications"];
+
+/***/ }),
+
+/***/ "@elementor/editor-panels":
+/*!***********************************************!*\
+  !*** external ["elementorV2","editorPanels"] ***!
+  \***********************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["editorPanels"];
+
+/***/ }),
+
+/***/ "@elementor/editor-props":
+/*!**********************************************!*\
+  !*** external ["elementorV2","editorProps"] ***!
+  \**********************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["editorProps"];
+
+/***/ }),
+
+/***/ "@elementor/editor-templates":
+/*!**************************************************!*\
+  !*** external ["elementorV2","editorTemplates"] ***!
+  \**************************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["editorTemplates"];
+
+/***/ }),
+
+/***/ "@elementor/editor-ui":
+/*!*******************************************!*\
+  !*** external ["elementorV2","editorUi"] ***!
+  \*******************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["editorUi"];
+
+/***/ }),
+
+/***/ "@elementor/editor-v1-adapters":
+/*!***************************************************!*\
+  !*** external ["elementorV2","editorV1Adapters"] ***!
+  \***************************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["editorV1Adapters"];
+
+/***/ }),
+
+/***/ "@elementor/events":
+/*!*****************************************!*\
+  !*** external ["elementorV2","events"] ***!
+  \*****************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["events"];
+
+/***/ }),
+
+/***/ "@elementor/http-client":
+/*!*********************************************!*\
+  !*** external ["elementorV2","httpClient"] ***!
+  \*********************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["httpClient"];
+
+/***/ }),
+
+/***/ "@elementor/icons":
+/*!****************************************!*\
+  !*** external ["elementorV2","icons"] ***!
+  \****************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["icons"];
+
+/***/ }),
+
+/***/ "@elementor/schema":
+/*!*****************************************!*\
+  !*** external ["elementorV2","schema"] ***!
+  \*****************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["schema"];
+
+/***/ }),
+
+/***/ "@elementor/store":
+/*!****************************************!*\
+  !*** external ["elementorV2","store"] ***!
+  \****************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["store"];
+
+/***/ }),
+
+/***/ "@elementor/ui":
+/*!*************************************!*\
+  !*** external ["elementorV2","ui"] ***!
+  \*************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["ui"];
+
+/***/ }),
+
+/***/ "@elementor/utils":
+/*!****************************************!*\
+  !*** external ["elementorV2","utils"] ***!
+  \****************************************/
+/***/ (function(module) {
+
+module.exports = window["elementorV2"]["utils"];
+
+/***/ }),
+
+/***/ "@wordpress/i18n":
+/*!******************************!*\
+  !*** external ["wp","i18n"] ***!
+  \******************************/
+/***/ (function(module) {
+
+module.exports = window["wp"]["i18n"];
+
+/***/ }),
+
+/***/ "react":
+/*!**************************!*\
+  !*** external ["React"] ***!
+  \**************************/
+/***/ (function(module) {
+
+module.exports = window["React"];
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	!function() {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = function(module) {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				function() { return module['default']; } :
+/******/ 				function() { return module; };
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	!function() {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	!function() {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = function(exports) {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+!function() {
+/*!***************************************************************!*\
+  !*** ./packages/packages/core/editor-components/src/index.ts ***!
+  \***************************************************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   COMPONENT_WIDGET_TYPE: function() { return /* reexport safe */ _create_component_type__WEBPACK_IMPORTED_MODULE_12__.COMPONENT_WIDGET_TYPE; },
+/* harmony export */   ComponentInstanceProvider: function() { return /* reexport safe */ _provider_component_instance_context__WEBPACK_IMPORTED_MODULE_20__.ComponentInstanceProvider; },
+/* harmony export */   ComponentItem: function() { return /* reexport safe */ _components_components_tab_components_item__WEBPACK_IMPORTED_MODULE_3__.ComponentItem; },
+/* harmony export */   ComponentName: function() { return /* reexport safe */ _components_components_tab_components_item__WEBPACK_IMPORTED_MODULE_3__.ComponentName; },
+/* harmony export */   ComponentSearch: function() { return /* reexport safe */ _components_components_tab_component_search__WEBPACK_IMPORTED_MODULE_2__.ComponentSearch; },
+/* harmony export */   ComponentsList: function() { return /* reexport safe */ _components_components_tab_components_list__WEBPACK_IMPORTED_MODULE_4__.ComponentsList; },
+/* harmony export */   DetachAction: function() { return /* reexport safe */ _components_instance_editing_panel_detach_action__WEBPACK_IMPORTED_MODULE_11__.DetachAction; },
+/* harmony export */   EditComponentAction: function() { return /* reexport safe */ _components_instance_editing_panel_instance_panel_header__WEBPACK_IMPORTED_MODULE_9__.EditComponentAction; },
+/* harmony export */   EmptySearchResult: function() { return /* reexport safe */ _components_components_tab_components_list__WEBPACK_IMPORTED_MODULE_4__.EmptySearchResult; },
+/* harmony export */   InstanceEmptyState: function() { return /* reexport safe */ _components_instance_editing_panel_empty_state__WEBPACK_IMPORTED_MODULE_7__.EmptyState; },
+/* harmony export */   InstancePanelBody: function() { return /* reexport safe */ _components_instance_editing_panel_instance_panel_body__WEBPACK_IMPORTED_MODULE_8__.InstancePanelBody; },
+/* harmony export */   InstancePanelHeader: function() { return /* reexport safe */ _components_instance_editing_panel_instance_panel_header__WEBPACK_IMPORTED_MODULE_9__.InstancePanelHeader; },
+/* harmony export */   LoadingComponents: function() { return /* reexport safe */ _components_components_tab_loading_components__WEBPACK_IMPORTED_MODULE_5__.LoadingComponents; },
+/* harmony export */   OverridablePropProvider: function() { return /* reexport safe */ _provider_overridable_prop_context__WEBPACK_IMPORTED_MODULE_21__.OverridablePropProvider; },
+/* harmony export */   SLICE_NAME: function() { return /* reexport safe */ _store_store__WEBPACK_IMPORTED_MODULE_26__.SLICE_NAME; },
+/* harmony export */   SearchProvider: function() { return /* reexport safe */ _components_components_tab_search_provider__WEBPACK_IMPORTED_MODULE_6__.SearchProvider; },
+/* harmony export */   apiClient: function() { return /* reexport safe */ _api__WEBPACK_IMPORTED_MODULE_1__.apiClient; },
+/* harmony export */   componentInstanceOverridePropTypeUtil: function() { return /* reexport safe */ _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_16__.componentInstanceOverridePropTypeUtil; },
+/* harmony export */   componentInstanceOverridesPropTypeUtil: function() { return /* reexport safe */ _prop_types_component_instance_overrides_prop_type__WEBPACK_IMPORTED_MODULE_17__.componentInstanceOverridesPropTypeUtil; },
+/* harmony export */   componentInstancePropTypeUtil: function() { return /* reexport safe */ _prop_types_component_instance_prop_type__WEBPACK_IMPORTED_MODULE_18__.componentInstancePropTypeUtil; },
+/* harmony export */   componentOverridablePropTypeUtil: function() { return /* reexport safe */ _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_19__.componentOverridablePropTypeUtil; },
+/* harmony export */   componentsActions: function() { return /* reexport safe */ _store_dispatchers__WEBPACK_IMPORTED_MODULE_24__.componentsActions; },
+/* harmony export */   componentsSelectors: function() { return /* reexport safe */ _store_selectors__WEBPACK_IMPORTED_MODULE_25__.componentsSelectors; },
+/* harmony export */   createComponentsAction: function() { return /* reexport safe */ _store_store__WEBPACK_IMPORTED_MODULE_26__.createComponentsAction; },
+/* harmony export */   filterValidOverridableProps: function() { return /* reexport safe */ _utils_filter_valid_overridable_props__WEBPACK_IMPORTED_MODULE_28__.filterValidOverridableProps; },
+/* harmony export */   getComponentDocumentData: function() { return /* reexport safe */ _utils_component_document_data__WEBPACK_IMPORTED_MODULE_36__.getComponentDocumentData; },
+/* harmony export */   getContainerByOriginId: function() { return /* reexport safe */ _utils_get_container_by_origin_id__WEBPACK_IMPORTED_MODULE_29__.getContainerByOriginId; },
+/* harmony export */   getOverridableProp: function() { return /* reexport safe */ _utils_get_overridable_prop__WEBPACK_IMPORTED_MODULE_30__.getOverridableProp; },
+/* harmony export */   getPropTypeForComponentOverride: function() { return /* reexport safe */ _utils_get_prop_type_for_component_override__WEBPACK_IMPORTED_MODULE_31__.getPropTypeForComponentOverride; },
+/* harmony export */   init: function() { return /* reexport safe */ _init__WEBPACK_IMPORTED_MODULE_0__.init; },
+/* harmony export */   isComponentInstance: function() { return /* reexport safe */ _utils_is_component_instance__WEBPACK_IMPORTED_MODULE_32__.isComponentInstance; },
+/* harmony export */   loadComponentsAssets: function() { return /* reexport safe */ _store_actions_load_components_assets__WEBPACK_IMPORTED_MODULE_22__.loadComponentsAssets; },
+/* harmony export */   onElementDrop: function() { return /* reexport safe */ _utils_tracking__WEBPACK_IMPORTED_MODULE_35__.onElementDrop; },
+/* harmony export */   publishDraftComponentsInPageBeforeSave: function() { return /* reexport safe */ _sync_publish_draft_components_in_page_before_save__WEBPACK_IMPORTED_MODULE_27__.publishDraftComponentsInPageBeforeSave; },
+/* harmony export */   registerComponentsReducer: function() { return /* reexport safe */ _store_store__WEBPACK_IMPORTED_MODULE_26__.registerComponentsReducer; },
+/* harmony export */   resolveOverridePropValue: function() { return /* reexport safe */ _utils_resolve_override_prop_value__WEBPACK_IMPORTED_MODULE_33__.resolveOverridePropValue; },
+/* harmony export */   selectComponentByUid: function() { return /* reexport safe */ _store_store__WEBPACK_IMPORTED_MODULE_26__.selectComponentByUid; },
+/* harmony export */   selectCreatedThisSession: function() { return /* reexport safe */ _store_store__WEBPACK_IMPORTED_MODULE_26__.selectCreatedThisSession; },
+/* harmony export */   selectOverridableProps: function() { return /* reexport safe */ _store_store__WEBPACK_IMPORTED_MODULE_26__.selectOverridableProps; },
+/* harmony export */   selectPath: function() { return /* reexport safe */ _store_store__WEBPACK_IMPORTED_MODULE_26__.selectPath; },
+/* harmony export */   slice: function() { return /* reexport safe */ _store_store__WEBPACK_IMPORTED_MODULE_26__.slice; },
+/* harmony export */   switchToComponent: function() { return /* reexport safe */ _utils_switch_to_component__WEBPACK_IMPORTED_MODULE_34__.switchToComponent; },
+/* harmony export */   trackComponentEvent: function() { return /* reexport safe */ _utils_tracking__WEBPACK_IMPORTED_MODULE_35__.trackComponentEvent; },
+/* harmony export */   updateOverridableProp: function() { return /* reexport safe */ _store_actions_update_overridable_prop__WEBPACK_IMPORTED_MODULE_23__.updateOverridableProp; },
+/* harmony export */   useComponentInstanceElement: function() { return /* reexport safe */ _provider_overridable_prop_context__WEBPACK_IMPORTED_MODULE_21__.useComponentInstanceElement; },
+/* harmony export */   useComponents: function() { return /* reexport safe */ _hooks_use_components__WEBPACK_IMPORTED_MODULE_13__.useComponents; },
+/* harmony export */   useComponentsPermissions: function() { return /* reexport safe */ _hooks_use_components_permissions__WEBPACK_IMPORTED_MODULE_14__.useComponentsPermissions; },
+/* harmony export */   useCurrentComponent: function() { return /* reexport safe */ _store_store__WEBPACK_IMPORTED_MODULE_26__.useCurrentComponent; },
+/* harmony export */   useCurrentComponentId: function() { return /* reexport safe */ _store_store__WEBPACK_IMPORTED_MODULE_26__.useCurrentComponentId; },
+/* harmony export */   useFilteredComponents: function() { return /* reexport safe */ _components_components_tab_components_list__WEBPACK_IMPORTED_MODULE_4__.useFilteredComponents; },
+/* harmony export */   useInstancePanelData: function() { return /* reexport safe */ _components_instance_editing_panel_use_instance_panel_data__WEBPACK_IMPORTED_MODULE_10__.useInstancePanelData; },
+/* harmony export */   useIsSanitizedComponent: function() { return /* reexport safe */ _store_store__WEBPACK_IMPORTED_MODULE_26__.useIsSanitizedComponent; },
+/* harmony export */   useOverridablePropValue: function() { return /* reexport safe */ _provider_overridable_prop_context__WEBPACK_IMPORTED_MODULE_21__.useOverridablePropValue; },
+/* harmony export */   useOverridableProps: function() { return /* reexport safe */ _store_store__WEBPACK_IMPORTED_MODULE_26__.useOverridableProps; },
+/* harmony export */   useSanitizeOverridableProps: function() { return /* reexport safe */ _hooks_use_sanitize_overridable_props__WEBPACK_IMPORTED_MODULE_15__.useSanitizeOverridableProps; }
+/* harmony export */ });
+/* harmony import */ var _init__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./init */ "./packages/packages/core/editor-components/src/init.ts");
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api */ "./packages/packages/core/editor-components/src/api.ts");
+/* harmony import */ var _components_components_tab_component_search__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/components-tab/component-search */ "./packages/packages/core/editor-components/src/components/components-tab/component-search.tsx");
+/* harmony import */ var _components_components_tab_components_item__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/components-tab/components-item */ "./packages/packages/core/editor-components/src/components/components-tab/components-item.tsx");
+/* harmony import */ var _components_components_tab_components_list__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/components-tab/components-list */ "./packages/packages/core/editor-components/src/components/components-tab/components-list.tsx");
+/* harmony import */ var _components_components_tab_loading_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/components-tab/loading-components */ "./packages/packages/core/editor-components/src/components/components-tab/loading-components.tsx");
+/* harmony import */ var _components_components_tab_search_provider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/components-tab/search-provider */ "./packages/packages/core/editor-components/src/components/components-tab/search-provider.tsx");
+/* harmony import */ var _components_instance_editing_panel_empty_state__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/instance-editing-panel/empty-state */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/empty-state.tsx");
+/* harmony import */ var _components_instance_editing_panel_instance_panel_body__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/instance-editing-panel/instance-panel-body */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/instance-panel-body.tsx");
+/* harmony import */ var _components_instance_editing_panel_instance_panel_header__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/instance-editing-panel/instance-panel-header */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/instance-panel-header.tsx");
+/* harmony import */ var _components_instance_editing_panel_use_instance_panel_data__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/instance-editing-panel/use-instance-panel-data */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/use-instance-panel-data.ts");
+/* harmony import */ var _components_instance_editing_panel_detach_action__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/instance-editing-panel/detach-action */ "./packages/packages/core/editor-components/src/components/instance-editing-panel/detach-action.tsx");
+/* harmony import */ var _create_component_type__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./create-component-type */ "./packages/packages/core/editor-components/src/create-component-type.ts");
+/* harmony import */ var _hooks_use_components__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./hooks/use-components */ "./packages/packages/core/editor-components/src/hooks/use-components.ts");
+/* harmony import */ var _hooks_use_components_permissions__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./hooks/use-components-permissions */ "./packages/packages/core/editor-components/src/hooks/use-components-permissions.ts");
+/* harmony import */ var _hooks_use_sanitize_overridable_props__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./hooks/use-sanitize-overridable-props */ "./packages/packages/core/editor-components/src/hooks/use-sanitize-overridable-props.ts");
+/* harmony import */ var _prop_types_component_instance_override_prop_type__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./prop-types/component-instance-override-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-override-prop-type.ts");
+/* harmony import */ var _prop_types_component_instance_overrides_prop_type__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./prop-types/component-instance-overrides-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-overrides-prop-type.ts");
+/* harmony import */ var _prop_types_component_instance_prop_type__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./prop-types/component-instance-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-instance-prop-type.ts");
+/* harmony import */ var _prop_types_component_overridable_prop_type__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./prop-types/component-overridable-prop-type */ "./packages/packages/core/editor-components/src/prop-types/component-overridable-prop-type.ts");
+/* harmony import */ var _provider_component_instance_context__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./provider/component-instance-context */ "./packages/packages/core/editor-components/src/provider/component-instance-context.tsx");
+/* harmony import */ var _provider_overridable_prop_context__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./provider/overridable-prop-context */ "./packages/packages/core/editor-components/src/provider/overridable-prop-context.tsx");
+/* harmony import */ var _store_actions_load_components_assets__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./store/actions/load-components-assets */ "./packages/packages/core/editor-components/src/store/actions/load-components-assets.ts");
+/* harmony import */ var _store_actions_update_overridable_prop__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./store/actions/update-overridable-prop */ "./packages/packages/core/editor-components/src/store/actions/update-overridable-prop.ts");
+/* harmony import */ var _store_dispatchers__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./store/dispatchers */ "./packages/packages/core/editor-components/src/store/dispatchers.ts");
+/* harmony import */ var _store_selectors__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./store/selectors */ "./packages/packages/core/editor-components/src/store/selectors.ts");
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./store/store */ "./packages/packages/core/editor-components/src/store/store.ts");
+/* harmony import */ var _sync_publish_draft_components_in_page_before_save__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./sync/publish-draft-components-in-page-before-save */ "./packages/packages/core/editor-components/src/sync/publish-draft-components-in-page-before-save.ts");
+/* harmony import */ var _utils_filter_valid_overridable_props__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./utils/filter-valid-overridable-props */ "./packages/packages/core/editor-components/src/utils/filter-valid-overridable-props.ts");
+/* harmony import */ var _utils_get_container_by_origin_id__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./utils/get-container-by-origin-id */ "./packages/packages/core/editor-components/src/utils/get-container-by-origin-id.ts");
+/* harmony import */ var _utils_get_overridable_prop__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./utils/get-overridable-prop */ "./packages/packages/core/editor-components/src/utils/get-overridable-prop.ts");
+/* harmony import */ var _utils_get_prop_type_for_component_override__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./utils/get-prop-type-for-component-override */ "./packages/packages/core/editor-components/src/utils/get-prop-type-for-component-override.ts");
+/* harmony import */ var _utils_is_component_instance__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./utils/is-component-instance */ "./packages/packages/core/editor-components/src/utils/is-component-instance.ts");
+/* harmony import */ var _utils_resolve_override_prop_value__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./utils/resolve-override-prop-value */ "./packages/packages/core/editor-components/src/utils/resolve-override-prop-value.ts");
+/* harmony import */ var _utils_switch_to_component__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./utils/switch-to-component */ "./packages/packages/core/editor-components/src/utils/switch-to-component.ts");
+/* harmony import */ var _utils_tracking__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./utils/tracking */ "./packages/packages/core/editor-components/src/utils/tracking.ts");
+/* harmony import */ var _utils_component_document_data__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./utils/component-document-data */ "./packages/packages/core/editor-components/src/utils/component-document-data.ts");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}();
+(window.elementorV2 = window.elementorV2 || {}).editorComponents = __webpack_exports__;
+/******/ })()
+;
+window.elementorV2.editorComponents?.init?.();
 //# sourceMappingURL=editor-components.js.map

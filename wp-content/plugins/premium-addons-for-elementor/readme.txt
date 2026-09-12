@@ -1,11 +1,11 @@
-=== Premium Addons for Elementor - Powerful Elementor Templates & Widgets ===
+=== Premium Addons for Elementor - Elementor Templates, Widgets & MCP Tools ===
 Contributors: Leap13, Rimoun
-Tags: elementor, elementor addons, elementor widgets, elementor mega menu, elementor templates
+Tags: elementor addons, elements widgets, elementor templates, elementor AI, mcp
 Donate Link: https://premiumaddons.com/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme
 Requires at least: 6.6
-Tested Up To: 7.0
+Tested Up To: 7.1
 Requires PHP: 7.4
-Stable Tag: 4.11.93
+Stable Tag: 4.11.103
 License: GPL v3.0
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -23,7 +23,11 @@ It has Elementor elements like **Carousel, Blog Posts List/Slider, Mega Menu Bui
 [Docs](https://premiumaddons.com/docs/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=docs) | [Video Tutorials](https://www.youtube.com/channel/UCXcJ9BeO2sKKHor7Q9VglTQ) | [Facebook Group](https://facebook.com/groups/premiumAddons) | [Upgrade to Pro](https://premiumaddons.com/pro/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=upgrade-pro)
 
 ### New: AI Abilities (Premium Addons for Elementor MCP)
-Connect AI assistants like Claude and ChatGPT to your website using Premium Addons AI Abilities. Built on the WordPress Abilities API and the Model Context Protocol (MCP), It allows AI agents to build new Elementor pages and templates, duplicate the existing ones, use all the available elements from Premium Addons and other 3rd party Elementor plugins, read global settings, manage the plugin's widgets and settings, and more. New abilities are added regularly with every release, expanding what AI agents can do on your website over time. Requires WordPress 6.9 or higher. [Watch Use Cases!](https://premiumaddons.com/elementor-mcp-and-ai-abilities/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=ai).
+Connect Claude, ChatGPT, Cursor, or any MCP client to your site in one click with OAuth or use an application password. No API key, no code.
+
+Built on the WordPress Abilities API and the Model Context Protocol (MCP), Premium Addons gives AI agents 35+ tools that work on your real Elementor site: build pages and templates, duplicate existing ones, insert widgets from Premium Addons and other third-party Elementor plugins, read your global colors and fonts, copy sections between sites, and manage plugin settings. New abilities ship with almost every release. [Watch Use Cases!](https://premiumaddons.com/elementor-mcp-and-ai-abilities/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=ai).
+
+Step by step setup guides: [Connect ChatGPT to Your WordPress/Elementor Website](https://premiumaddons.com/docs/connect-chatgpt-to-wordpress-elementor-website/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=connect-chatgpt) | [Connect Claude to Build WordPress/Elementor Pages](https://premiumaddons.com/docs/connect-claude-to-build-wordpress-elementor-pages/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=connect-claude).
 
 ## KEY FEATURES
 
@@ -52,13 +56,13 @@ Premium Addons for Elementor is now much faster than ever. Only the required JS 
 ### New: Liquid Glass Addon
 Select between 6 attractive liquid glass and glassmorphism effects to be applied on any Elementor widget or container. It has also been added to be applied on specific parts inside our elements. [Check it out now!](https://premiumaddons.com/elementor-liquid-glass-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=glass).
 
-### New: WooCommerce Mini-Cart and Categories Listing Widgets
+### WooCommerce Mini-Cart and Categories Listing Widgets
 This powerful widget allows your customers to view the products in their shopping cart, change the quantity, remove items and check the total amount without leaving the page. We have also released Woo Categories widget to showcase your Woo categories in four neat skins. Check from [here](https://premiumaddons.com/elementor-woocommerce-mini-cart-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=woo-mini-cart) and [here](https://premiumaddons.com/elementor-woocommerce-categories-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=woo-categories).
 
-### New: Mobile Nav Menu Widget
+### Mobile Nav Menu Widget
 Create a neat mobile menu on your website with just few click with this powerful widget. You can set the click action of each menu item to a link or to open an off-canvas content. [Check it out now!](https://premiumaddons.com/elementor-mobile-menu-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=mobile-menu).
 
-### New: AJAX Search Form Widget
+### AJAX Search Form Widget
 The ultimate solution to add a search form widget on Elementor websites. Customize the search results, add pagination or carousel and select between three different neat skins. [Check it out now!](https://premiumaddons.com/elementor-ajax-search-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=ajax-search).
 
 ### Animated Shape Divider Addon
@@ -259,6 +263,81 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 14. Premium Progress Bar Widget
 
 == Changelog ==
+
+= 4.11.103 - 8/9/2026 =
+
+- New: Added Custom Words source in Premium Tags Cloud widget to show your own words with links and weights instead of taxonomy terms - [here](https://premiumaddons.com/elementor-tags-cloud-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=tcloud).
+- Tweak: Updated claude.ai connection steps in Premium Addons MCP settings to match the new Customize > Connectors location.
+
+= 4.11.102 - 3/9/2026 =
+
+- New: Added compatibility with Angie plugin, Angie can now use Premium Addons widgets and pre-made templates while building your pages - [here](https://premiumaddons.com/docs/angie-premium-addons-elementor/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme&utm_content=angie).
+- Tweak: Added Refresh option in Premium Templates library to reload templates when they are outdated or fail to load.
+- Tweak: Improved dynamic assets compatibility with WPML and Polylang translated pages.
+- Tweak: AI agents now ask for approval before inserting a Premium Addons pre-made template.
+- Fixed: Pagination and Load More showing wrong posts on archive pages when the Main Query source is used in Premium Blog widget.
+- Fixed: Image options not working in Premium Banner widget when an image optimization plugin converts the image tag into a picture tag.
+
+= 4.11.101 - 27/8/2026 =
+
+- Tweak: Added Above option to the Icon Position control in Premium Button and Premium Image Button widgets.
+- Fixed: OAuth connection window not opening on the first load of Premium Addons MCP settings page.
+- Fixed: OAuth connection not working on hosting servers that serve .well-known files statically from disk.
+- Fixed: Overlay image not showing in Premium Video Box widget.
+
+= 4.11.100 - 25/8/2026 =
+
+- New: AI agents can now browse and insert Premium Addons pre-made templates into your pages through AI Abilities.
+- Tweak: AI agents now suggest matching pre-made templates while building pages for higher quality designs.
+- Tweak: Updated ChatGPT connection instructions in Premium Addons MCP settings.
+- Tweak: Added a message in Premium Addons MCP settings when the OAuth connection is blocked by a REST API authentication restriction.
+- Fixed: Text Indent option not applied on list items in Premium Pricing Table widget.
+
+= 4.11.99 - 20/8/2026 =
+
+- New: Added ChatGPT to the AI clients supported by the OAuth connection method in AI Abilities.
+- Tweak: Added Disable Page Scroll option in Premium Modal Box widget.
+- Tweak: Added X Anchor Point and Y Anchor Point options to control the rotation origin in Premium Dual Heading widget.
+- Tweak: Added step by step configuration instructions for each AI client in Premium Addons MCP settings.
+- Fixed: Contact Form 7 widget not showing the selected form on WordPress 7.1.
+- Fixed: Gradient angle option not working in Shape Divider addon.
+- Fixed: Edit Mega Content button not working on Chrome in Premium Mega Menu widget.
+- Fixed: SVG icon hover color not working in Premium Image Button widget.
+- Fixed: Use This Password button reloading the AI Abilities page with all setup steps collapsed.
+- Fixed: Claude Desktop configuration code not working on Windows in Premium Addons MCP settings.
+
+= 4.11.98 - 13/8/2026 =
+
+- Tweak: Added Label option to show a text label above, below or over the image in Image Scroll widget.
+- Tweak: Added Tilt Effect option in Image Gallery, Pinterest Feed, Team Members and Testimonials widgets.
+- Tweak: AI Abilities can now be used by any MCP client or MCP plugin, not only the Premium Addons MCP.
+
+= 4.11.97 - 11/8/2026 =
+
+- Tweak: Improved design guidelines used by AI agents when building Elementor pages through AI Abilities.
+- Tweak: Code refactored for better performance and loading speed.
+- Fixed: Review notice showing right after installing the plugin on a fresh site.
+
+= 4.11.96 - 7/8/2026 =
+
+- Tweak: Improved assets loading by preventing Premium Addons main CSS file from loading on pages that don't include Premium Addons widgets.
+- Fixed: Page freezing caused by an infinite loop in Premium Pinterest Feed widget carousel.
+
+= 4.11.95 - 5/8/2026 =
+
+- Tweak: Added TikTok social icon in Team Members widget.
+- Tweak: Updated Twitter icon to X in Team Members widget.
+- Tweak: Added responsive Margin option for Description in Team Members widget.
+- Tweak: Code refactored for better performance and loading speed.
+- Fixed: HTML tags in post title rendered as plain text in Blog widget.
+- Fixed: Empty links with no anchor text in post rendering widgets (Blog, AJAX Search, Smart Post Listing).
+- Fixed: Background Image option conflict with ShortPixel Adaptive Images plugin's Generate noscript Tag option in Video Box widget.
+- Fixed: Loader not showing in Mega Menu live content editor.
+
+= 4.11.94 - 3/8/2026 =
+
+- Tweak: Code refactored for better performance and loading speed.
+- Fixed: False security warning reported by security plugins on the AI Abilities dashboard tab.
 
 = 4.11.93 - 31/7/2026 =
 
@@ -922,120 +1001,5 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 - Tweak: Added the ability to activate filters in Blog widget from other pages.
 - Fixed: SVG Draw widget causes scroll to top on iOS devices.
-
-= 4.10.75 - 31/12/2024 =
-
-- Fixed: PHP warning in Shape Divider container addon.
-
-= 4.10.74 - 30/12/2024 =
-
-- Fixed: Wrapper Link global addon not working in some cases.
-- Fixed: Issues in AJAX Search widget.
-
-= 4.10.73 - 26/12/2024 =
-
-- Tweak: Loading speed improved when Dynamic Assets feature is enabled.
-- Fixed: Compatibility issues with WP-Optimize plugin.
-- Fixed: Go to Search option not working in AJAX Search widget.
-- Fixed: Carousel option not working in Team Members widget.
-
-= 4.10.72 - 24/12/2024 =
-
-- Tweak: Improved loading speed of widgets contain Draw Icon option.
-- Fixed: Cross Domain Copy/Paste All Content not working.
-
-= 4.10.71 - 22/12/2024 =
-
-- Fixed: Elementor Transform effects not working for some widgets.
-- Fixed: Controls for global controls not being added in correct tabs.
-
-= 4.10.70 - 19/12/2024 =
-
-- Tweak: Improved compatibility with Optimize Markup Elementor feature.
-- Tweak: SVG Draw Icon option improved for better loading speed.
-- Fixed: Premium Templates button not showing when adding a new container.
-- Fixed: PHP warnings in Animated Text widget.
-- Fixed: Security issue in Mobile Menu widget.
-
-= 4.10.69 - 15/12/2024 =
-
-- Tweak: SVG Draw Icon option improved in some widgets.
-
-= 4.10.68 - 12/12/2024 =
-
-- Tweak: Added Usage Type option in plugin's dashboard settings page.
-- Tweak: Added VW size unit for some controls.
-- Fixed: Lightbox icon is showing even when option is disabled in Advanced Carousel widget.
-- Fixed: Issues in Dynamic Assets.
-
-= 4.10.67 - 11/12/2024 =
-
-- Tweak: Premium Templates loading speed improved.
-
-= 4.10.66 - 03/12/2024 =
-
-- Tweak: Added options to control Author Image size, border and border radius in Blog widget.
-- Tweak: Added Wave Effect in Dual Heading widget.
-- Tweak: Added On Page Exit Intent trigger in Modal Box widget.
-
-= 4.10.65 - 25/11/2024 =
-
-- Tweak: Added Full Width Custom CSS Selector option in Mega Menu widget.
-- Fixed: Alignment issue in animation #7 in Banner widget.
-
-= 4.10.64 - 24/11/2024 =
-
-- Tweak: Improved Reveal effect in Animated Text widget.
-- Fixed: Wrapper Link feature not working with anchor links.
-- Fixed: PHP Warning due to white labeling options.
-- Fixed: Huge spacing after animation end in vertical direction in Advanced Carousel widget.
-
-= 4.10.63 - 13/11/2024 =
-
-- Tweak: Added List Padding control in Bullet List widget.
-- Tweak: Added option to load boards dynamically in Pinterest Feed widget.
-- Fixed: Premium Templates not being inserted in correct position.
-- Fixed: Console JS error showing on the editor page.
-- Fixed: Alignment option not working correctly on responsive devices in Bullet List widget.
-
-= 4.10.62 - 30/10/2024 =
-
-- Tweak: Load JS code for Wrapper Link only when its used on page.
-- Fixed: Icon Size not working on SVG code icon in News Ticker widget.
-- Fixed: Admin notices appear again after they are dismissed.
-
-= 4.10.61 - 27/10/2024 =
-
-- Tweak: Premium Templates loading speed improved.
-- Tweak: Added Item Name option in Advanced Carousel widget.
-- Fixed: ACF fields are not showing in Display Conditions.
-- Fixed: Typing effect not working in Animated Text widget when used multiple times on page.
-- Fixed: Media Grid widget shows the first image only in the lightbox.
-
-= 4.10.60 - 22/10/2024 =
-
-- Fixed: PHP warning in Recent Posts Notification widget.
-
-= 4.10.59 - 17/10/2024 =
-
-- Fixed: PHP warning Undefined variable $search.
-
-= 4.10.58 - 17/10/2024 =
-
-- Tweak: Added Text Content Position in News Ticker widget.
-- Fixed: Conflict between Global Tooltips addon and Premium Image Hotspots widget.
-- Fixed: Blog widget not working correctly after 4.10.57.
-
-= 4.10.57 - 15/10/2024 =
-
-- Deprecated: Enable Full Section Scroll on Touch Devices control in Vertical Scroll widget.
-- Tweak: Global addons code refactored to minimize memory usage.
-- Tweak: Animated Shape Divider addon code refactored to improve editor loading speed.
-- Tweak: Premium Templates code refactored to improve site's frontend loading speed.
-- Fixed: Security issue in Display Conditions addon and Mega Menu widget.
-- Fixed: View and Empty Cart translation issue in Woo Mini Cart widget.
-- Fixed: Vertical Scroll widget causing scroll issues on touch devices.
-- Fixed: Media Grid lightbox always show the first image since v4.10.55.
-- Fixed: TikTok Feed widget throws PHP warning.
 
 [See changelog for all versions.](https://gitlab.com/Leap13/Elementor/premium-addons/-/raw/master/changelog.txt)

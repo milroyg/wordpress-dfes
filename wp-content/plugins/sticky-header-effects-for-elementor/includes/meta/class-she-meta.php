@@ -82,12 +82,6 @@ if ( ! class_exists( 'She_meta' ) ) {
 				$plugin_meta = array_merge( $plugin_meta, $new_links );
 			}
 
-			foreach ( $plugin_meta as $key => $meta ) {
-				if ( stripos( $meta, 'View details' ) !== false ) {
-					unset( $plugin_meta[ $key ] );
-				}
-			}
-
 			return $plugin_meta;
 		}
 

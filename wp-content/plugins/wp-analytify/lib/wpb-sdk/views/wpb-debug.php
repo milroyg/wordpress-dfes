@@ -39,14 +39,15 @@ function wpb_debug_enqueue_styles( $hook_suffix ) {
 		return;
 	}
 
-	$css_path = dirname( __DIR__ ) . '/assets/css/debug.css';
+	$suffix   = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+	$css_path = dirname( __DIR__ ) . "/assets/css/debug{$suffix}.css";
 	if ( ! is_readable( $css_path ) ) {
 		return;
 	}
 
 	wp_enqueue_style(
 		'wpb-sdk-debug-style',
-		plugins_url( 'assets/css/debug.css', dirname( __DIR__ ) . '/start.php' ),
+		plugins_url( "assets/css/debug{$suffix}.css", dirname( __DIR__ ) . '/start.php' ),
 		array(),
 		defined( 'WP_WPBRIGADE_SDK_VERSION' ) ? WP_WPBRIGADE_SDK_VERSION : '1.0.0'
 	);

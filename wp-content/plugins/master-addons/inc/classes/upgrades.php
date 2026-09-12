@@ -21,6 +21,7 @@ class Upgrades
 		'2.0.8.9'   => 'upgrades/upgrade-2.0.8.9.php',
 		'3.0.0'     => 'upgrades/upgrade-3.0.0.php',
 		'3.1.4'     => 'upgrades/upgrade-3.1.4.php',
+		'3.2.2'     => 'upgrades/upgrade-3.2.2.php',
 	];
 
 	/**

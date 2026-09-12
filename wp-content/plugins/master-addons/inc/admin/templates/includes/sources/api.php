@@ -76,6 +76,122 @@ class Api extends Base
 		return $templates;
 	}
 
+	/**
+	 * Fetch a single page of templates from the remote library.
+	 *
+	 * The library popup shows one screenful at a time and pages as the user
+	 * scrolls, so it asks for one page rather than the whole type. Nothing is
+	 * cached locally: the remote response is small (under 2 KB) and is served
+	 * from the edge, which is cheaper than keeping a copy of it on every
+	 * client site.
+	 *
+	 * @return array|false ['templates' => array, 'pagination' => array] or false.
+	 */
+	public function get_items_page($tab, $page = 1, $per_page = 0, $category = '', $search = '')
+	{
+		if (!$tab) {
+			return false;
+		}
+
+		$api_url = Templates\master_addons_templates()->api->api_url('templates');
+
+		if (!$api_url) {
+			return false;
+		}
+
+		$query = array('page' => max(1, (int) $page));
+		if ($per_page > 0) {
+			$query['per_page'] = (int) $per_page;
+		}
+
+		// Narrowing is done by the API. Filtering used to mean fetching the
+		// whole type and cutting it down here, which pulled hundreds of
+		// kilobytes just to show a handful of cards.
+		if ('' !== $category && 'all' !== $category) {
+			$query['category'] = $category;
+		}
+		if ('' !== $search) {
+			$query['search'] = $search;
+		}
+
+		$response = wp_remote_get(
+			add_query_arg($query, $api_url . $tab),
+			array(
+				'timeout'   => 20,
+				'sslverify' => false,
+			)
+		);
+
+		if (is_wp_error($response)) {
+			return false;
+		}
+
+		$body = json_decode(wp_remote_retrieve_body($response), true);
+
+		if (!is_array($body) || empty($body['success']) || !isset($body['templates'])) {
+			return false;
+		}
+
+		$templates = $this->expand_paged_items($body);
+
+		return array(
+			'templates'  => $templates,
+			'pagination' => array(
+				'current_page' => isset($body['page']) ? (int) $body['page'] : (int) $page,
+				'total_pages'  => isset($body['pages']) ? (int) $body['pages'] : 1,
+				'total_items'  => isset($body['total']) ? (int) $body['total'] : count($templates),
+				'per_page'     => isset($body['per_page']) ? (int) $body['per_page'] : count($templates),
+				'has_more'     => isset($body['page'], $body['pages']) ? ((int) $body['page'] < (int) $body['pages']) : false,
+			),
+		);
+	}
+
+	/**
+	 * Paged responses send the uploads URL once and relative thumbnail paths
+	 * per row, to stay inside the size budget. The views want absolute URLs
+	 * and the same keys the unpaged response uses, so restore both here.
+	 */
+	private function expand_paged_items(array $body)
+	{
+		$base = isset($body['thumb_base']) ? $body['thumb_base'] : '';
+		$out  = array();
+
+		foreach ($body['templates'] as $template) {
+			$thumbnail = isset($template['thumbnail']) ? $template['thumbnail'] : '';
+
+			if ('' !== $thumbnail && '' !== $base && !preg_match('#^https?://#i', $thumbnail)) {
+				$thumbnail = $base . ltrim($thumbnail, '/');
+			}
+
+			$template['thumbnail'] = $thumbnail;
+
+			// The template views read 'preview' for the thumbnail image and
+			// treat an empty 'url' as "no preview link", so both are filled in
+			// from what the paged response carries.
+			if (!isset($template['preview'])) {
+				$template['preview'] = $thumbnail;
+			}
+			if (!isset($template['url'])) {
+				$template['url'] = '';
+			}
+			if (!isset($template['dependencies'])) {
+				$template['dependencies'] = array();
+			}
+			if (!isset($template['source'])) {
+				$template['source'] = $this->get_slug();
+			}
+			// The detail pane reads this straight off the model; leaving it unset
+			// gave the view `undefined` where it expected a string.
+			if (!isset($template['notice'])) {
+				$template['notice'] = '';
+			}
+
+			$out[] = $template;
+		}
+
+		return $out;
+	}
+
 	public function prepare_items_tab($tab = '')
 	{
 
@@ -342,13 +458,19 @@ class Api extends Base
 		if (class_exists('MasterAddons\Inc\Classes\Template_Library_Cache')) {
 			$cache_manager = \MasterAddons\Inc\Classes\Template_Library_Cache::get_instance();
 			$cached_template = $cache_manager->get_cached_template($id, $tab);
-			
-			if ($cached_template !== false) {
+
+			// An entry with no content is a licence refusal an older build
+			// wrote before it knew not to. Serving it back would keep the
+			// template locked on a site that has since been licensed, so
+			// refetch instead.
+			$is_empty_refusal = is_array($cached_template) && empty($cached_template['content']);
+
+			if ($cached_template !== false && !$is_empty_refusal) {
 				return $cached_template;
 			}
 		}
 
-		$license_key = Templates\master_addons_templates()->config->get('key');
+		$license_key = \MasterAddons\Inc\Classes\Helper::jltma_template_license_key();
 
 		$api_url = Templates\master_addons_templates()->api->api_url('template');
 
@@ -359,13 +481,21 @@ class Api extends Base
 			));
 		}
 
-		$request =  add_query_arg(
-			array(
-				'license' => $license_key,
-				'url'     => urlencode(home_url('/')),
-			),
-			$api_url . $id
+		$query = array(
+			'license' => $license_key,
+			'url'     => urlencode(home_url('/')),
 		);
+
+		// A licensed site must say so, or the library answers with no content
+		// and the import ends at "Activate your licence" on a site that has
+		// one. The licence key alone is not enough to say it: a site licensed
+		// through Freemius may hold no key this side can read, so send the
+		// same flag the kit importer sends.
+		if (\MasterAddons\Inc\Classes\Helper::jltma_can_use_pro_templates()) {
+			$query['pro_enabled'] = 'true';
+		}
+
+		$request =  add_query_arg($query, $api_url . $id);
 
 		$response = wp_remote_get($request, array(
 			'timeout'   => 60,
@@ -405,11 +535,19 @@ class Api extends Base
 			'page_settings' => array(),
 			'type'          => $type,
 			'license'       => $license,
-			'content'       => $content
+			// The library answers a pro request from an unlicensed site with an
+			// empty body and these two flags. Dropping them left the importer
+			// unable to tell "this needs a licence" from "this template is
+			// missing", which is why an unlicensed import ran the whole way
+			// through and then reported "Template content not found".
+			'is_pro'           => !empty($body['is_pro']),
+			'license_required' => !empty($body['license_required']),
+			'content'          => $content
 		);
 
-		// Cache the successful result
-		if (class_exists('MasterAddons\Inc\Classes\Template_Library_Cache')) {
+		// Cache the successful result. A licence refusal is not one: caching it
+		// would keep the template empty here even after the licence is entered.
+		if (!empty($content) && class_exists('MasterAddons\Inc\Classes\Template_Library_Cache')) {
 			$cache_manager = \MasterAddons\Inc\Classes\Template_Library_Cache::get_instance();
 			$cache_manager->cache_template_data($id, $tab, $result);
 		}

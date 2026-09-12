@@ -97,30 +97,22 @@ class Widget_Admin {
      *
      * @return array
      */
-    public function get_pro_controls_catalog() {
+    public static function get_pro_controls_catalog() {
         return [
-            ['type' => 'number', 'label' => 'Number', 'icon' => 'eicon-number-field', 'category' => 'basic', 'description' => 'Numeric input field', 'isPro' => true],
-            ['type' => 'switcher', 'label' => 'Switcher', 'icon' => 'eicon-toggle', 'category' => 'basic', 'description' => 'Toggle switch (yes/no)', 'isPro' => true],
-            ['type' => 'select', 'label' => 'Select', 'icon' => 'eicon-select', 'category' => 'basic', 'description' => 'Dropdown select field', 'isPro' => true],
             ['type' => 'select2', 'label' => 'Select2', 'icon' => 'eicon-select', 'category' => 'basic', 'description' => 'Advanced select with search', 'isPro' => true],
-            ['type' => 'choose', 'label' => 'Choose', 'icon' => 'eicon-checkbox', 'category' => 'basic', 'description' => 'Icon-based choice control', 'isPro' => true],
-            ['type' => 'wysiwyg', 'label' => 'WYSIWYG', 'icon' => 'eicon-editor-paragraph', 'category' => 'basic', 'description' => 'Rich text editor', 'isPro' => true],
             ['type' => 'code', 'label' => 'Code', 'icon' => 'eicon-code', 'category' => 'basic', 'description' => 'Code editor field', 'isPro' => true],
             ['type' => 'date_time', 'label' => 'Date Time', 'icon' => 'eicon-calendar', 'category' => 'basic', 'description' => 'Date and time picker', 'isPro' => true],
-            ['type' => 'media', 'label' => 'Media', 'icon' => 'eicon-image', 'category' => 'basic', 'description' => 'Image/video uploader', 'isPro' => true],
             ['type' => 'gallery', 'label' => 'Gallery', 'icon' => 'eicon-gallery-grid', 'category' => 'basic', 'description' => 'Image gallery uploader', 'isPro' => true],
             ['type' => 'icons', 'label' => 'Icons', 'icon' => 'eicon-star', 'category' => 'basic', 'description' => 'Icon picker control', 'isPro' => true],
             ['type' => 'slider', 'label' => 'Slider', 'icon' => 'eicon-slider-device', 'category' => 'basic', 'description' => 'Range slider with min/max/step', 'isPro' => true],
             ['type' => 'popover_toggle', 'label' => 'Popover Toggle', 'icon' => 'eicon-edit', 'category' => 'basic', 'description' => 'Popover toggle button', 'isPro' => true],
             ['type' => 'visual_choice', 'label' => 'Visual Choice', 'icon' => 'eicon-photo-library', 'category' => 'basic', 'description' => 'Visual choice with images', 'isPro' => true],
-            ['type' => 'font', 'label' => 'Font', 'icon' => 'eicon-text', 'category' => 'style', 'description' => 'Font selector', 'isPro' => true],
             ['type' => 'typography', 'label' => 'Typography', 'icon' => 'eicon-typography', 'category' => 'style', 'description' => 'Typography group control', 'isPro' => true],
             ['type' => 'dimensions', 'label' => 'Dimensions', 'icon' => 'eicon-cursor-move', 'category' => 'style', 'description' => 'Margin/padding control', 'isPro' => true],
             ['type' => 'box_shadow', 'label' => 'Box Shadow', 'icon' => 'eicon-lightbox', 'category' => 'style', 'description' => 'Box shadow control', 'isPro' => true],
             ['type' => 'background', 'label' => 'Background', 'icon' => 'eicon-paint-brush', 'category' => 'style', 'description' => 'Background control', 'isPro' => true],
-            ['type' => 'border', 'label' => 'Border', 'icon' => 'eicon-border', 'category' => 'style', 'description' => 'Border group control', 'isPro' => true],
+            ['type' => 'border', 'label' => 'Border', 'icon' => 'eicon-layout', 'category' => 'style', 'description' => 'Border group control', 'isPro' => true],
             ['type' => 'text_shadow', 'label' => 'Text Shadow', 'icon' => 'eicon-typography', 'category' => 'style', 'description' => 'Text shadow control', 'isPro' => true],
-            ['type' => 'divider', 'label' => 'Divider', 'icon' => 'eicon-divider', 'category' => 'layout', 'description' => 'Visual divider between controls', 'isPro' => true],
             ['type' => 'repeater', 'label' => 'Repeater', 'icon' => 'eicon-sync', 'category' => 'advanced', 'description' => 'Repeater for multiple items', 'isPro' => true],
             ['type' => 'tabs', 'label' => 'Tabs', 'icon' => 'eicon-tabs', 'category' => 'advanced', 'description' => 'Tabs control', 'isPro' => true],
         ];
@@ -936,23 +928,21 @@ class Widget_Admin {
             }
         }
 
-        // Substitute {{field}} / {{field.prop}} placeholders with the mock default
-        // VALUE (escaped). This is a static render — no PHP is evaluated.
-        $html_code = preg_replace_callback('/\{\{([^}]+)\}\}/', function($matches) use ($settings) {
-            $path = array_filter(array_map('trim', explode('.', trim($matches[1]))), 'strlen');
-            $value = $settings;
-            foreach ($path as $key) {
-                if (is_array($value) && isset($value[$key])) {
-                    $value = $value[$key];
-                } else {
-                    return '';
+        // Render through the same Twig-subset engine the front end uses, so
+        // {% if %} / {% for %} behave here instead of printing as literal text.
+        // Still a static render: the engine evaluates no PHP.
+        $control_types = [];
+        if (!empty($controls) && is_array($controls)) {
+            foreach ($controls as $control) {
+                if (!empty($control['name'])) {
+                    $control_types[$control['name']] = $control['type'] ?? 'text';
                 }
             }
-            if (is_array($value)) {
-                $value = isset($value['url']) ? $value['url'] : '';
-            }
-            return esc_html((string) $value);
-        }, $html_code);
+        }
+
+        $engine     = new Widget_Template_Engine($control_types);
+        $html_code  = $engine->render($html_code, $settings);
+        $css_code   = $engine->render($css_code, $settings);
 
         $rendered_html = wp_kses_post($html_code);
 

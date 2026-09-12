@@ -1,10 +1,11 @@
 <?php
 /**
  * AI Abilities & MCP Config tab.
- *
  */
 
 use PremiumAddons\Admin\Includes\Admin_Helper;
+use PremiumAddons\Admin\Includes\MCP_News;
+use PremiumAddons\Admin\Includes\MCP_Settings;
 use PremiumAddons\Includes\Abilities\Bootstrap;
 use PremiumAddons\Includes\Abilities\Connection_Log;
 use PremiumAddons\Includes\Helper_Functions;
@@ -16,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $enabled_elements = self::get_enabled_elements();
 $is_enabled       = ! empty( $enabled_elements['premium-ai-abilities'] );
 
-// The Abilities API ships with WordPress 6.9. Without it the switcher is locked
+// The Abilities API ships with WordPress 7.0. Without it the switcher is locked
 // (same lock styling as pro features) and a bold note prompts updating WordPress.
 $abilities_ready = function_exists( 'wp_register_ability' );
 
@@ -45,7 +46,20 @@ if ( $abilities_ready ) {
 	$mcp_state     = Connection_Log::get_state();
 	$is_configured = Connection_Log::STATE_NONE !== $mcp_state['state'];
 
-	$pills = array(
+	// Handled here, not in mcp-config.php: that file is included into the panel
+	// body, after the header below has already decided whether it is open.
+	$mcp            = MCP_Settings::get_instance();
+	$password_state = $mcp->maybe_handle_password_forms();
+	$used_password  = $password_state['existing_password'];
+	$used_error     = $password_state['existing_error'];
+
+	$mcp_panel_open = null !== $used_password || null !== $used_error;
+
+	// The refresh (at most once per TTL) rides on the dashboard render; the admin
+	// menu dot never fetches — it reads the cache only.
+	$news_entries = $is_enabled ? MCP_News::get_entries() : array();
+
+	$badges = array(
 		Connection_Log::STATE_ACTIVE    => array(
 			'class' => 'is-active',
 			'label' => __( 'Active now', 'premium-addons-for-elementor' ),
@@ -60,7 +74,7 @@ if ( $abilities_ready ) {
 		),
 	);
 
-	$pill = $pills[ $mcp_state['state'] ];
+	$badge = $badges[ $mcp_state['state'] ];
 }
 
 ?>
@@ -75,7 +89,7 @@ if ( $abilities_ready ) {
 					<p>
 						<?php echo esc_html( $ai_feature['desc'] ); ?>
 						<?php if ( ! $abilities_ready ) : ?>
-							<strong><?php esc_html_e( 'Requires WordPress v6.9+', 'premium-addons-for-elementor' ); ?></strong>
+							<strong><?php esc_html_e( 'Requires WordPress v7.0+', 'premium-addons-for-elementor' ); ?></strong>
 						<?php endif; ?>
 					</p>
 
@@ -105,11 +119,13 @@ if ( $abilities_ready ) {
 		<?php // Kept outside the accordion so save announcements are not trapped in a collapsed panel. ?>
 		<div class="pa-ai-abilities-status" role="status"></div>
 
-		<div class="pa-ai-accordion pa-mcp-config"<?php echo $is_enabled ? '' : ' hidden'; ?>>
+		<div class="pa-ai-layout"<?php echo $is_enabled ? '' : ' hidden'; ?>>
+
+			<div class="pa-ai-accordion pa-mcp-config">
 
 			<div class="pa-ai-accordion-item">
 				<h3 class="pa-ai-accordion-title">
-					<button type="button" class="pa-ai-accordion-toggle" aria-expanded="false" aria-controls="pa-ai-panel-mcp">
+					<button type="button" class="pa-ai-accordion-toggle" aria-expanded="<?php echo $mcp_panel_open ? 'true' : 'false'; ?>" aria-controls="pa-ai-panel-mcp">
 						<span class="pa-ai-accordion-icon" aria-hidden="true"></span>
 						<?php
 						echo $is_configured
@@ -119,10 +135,10 @@ if ( $abilities_ready ) {
 					</button>
 
 					<?php // Kept outside the button: the connection state is a status, not part of the toggle's name. ?>
-					<span class="pa-mcp-status-pill <?php echo esc_attr( $pill['class'] ); ?>"><?php echo esc_html( $pill['label'] ); ?></span>
+					<span class="pa-mcp-status-pill <?php echo esc_attr( $badge['class'] ); ?>"><?php echo esc_html( $badge['label'] ); ?></span>
 				</h3>
 
-				<div id="pa-ai-panel-mcp" class="pa-ai-accordion-body" hidden>
+				<div id="pa-ai-panel-mcp" class="pa-ai-accordion-body"<?php echo $mcp_panel_open ? '' : ' hidden'; ?>>
 					<?php include PREMIUM_ADDONS_PATH . 'admin/includes/templates/mcp/mcp-config.php'; ?>
 				</div>
 			</div>
@@ -287,6 +303,12 @@ if ( $abilities_ready ) {
 
 				</div>
 			</div>
+
+			</div>
+
+			<?php if ( ! empty( $news_entries ) ) : ?>
+				<?php include PREMIUM_ADDONS_PATH . 'admin/includes/templates/mcp/mcp-news.php'; ?>
+			<?php endif; ?>
 
 		</div>
 

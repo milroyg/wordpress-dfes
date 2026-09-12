@@ -40,7 +40,7 @@ class Analytify_License_Sticky_Notice {
 
 		wp_enqueue_style(
 			self::STYLE_HANDLE,
-			plugins_url( 'assets/css/analytify-license-sticky-notice.css', WP_ANALYTIFY_PLUGIN_DIR . '/wp-analytify.php' ),
+			plugins_url( 'assets/css/analytify-license-sticky-notice' . analytify_get_asset_suffix() . '.css', WP_ANALYTIFY_PLUGIN_DIR . '/wp-analytify.php' ),
 			array(),
 			defined( 'ANALYTIFY_VERSION' ) ? ANALYTIFY_VERSION : '1.0.0'
 		);

@@ -608,8 +608,24 @@ class REST_Controller extends WP_REST_Controller {
             update_post_meta($widget_id, '_jltma_widget_sections', $data['sections']);
         }
 
+        // Declaring external CSS/JS libraries is a premium-only capability. The
+        // free build stores nothing (default: an empty set); the Pro build
+        // re-enables saving by returning the candidate on this filter — see
+        // MasterAddons\Pro\Classes\Pro_Modules. The candidate is normalised and
+        // URL-validated before it is offered to the filter.
         if (isset($data['includes'])) {
-            update_post_meta($widget_id, '_jltma_widget_includes', $data['includes']);
+            $includes = apply_filters(
+                'master_addons/widget_builder/persist_includes',
+                Widget_Builder_Init::normalize_includes(null),
+                Widget_Builder_Init::normalize_includes($data['includes']),
+                $data
+            );
+
+            update_post_meta(
+                $widget_id,
+                '_jltma_widget_includes',
+                Widget_Builder_Init::normalize_includes($includes)
+            );
         }
 
         if (isset($data['dependencies'])) {
@@ -657,14 +673,9 @@ class REST_Controller extends WP_REST_Controller {
             $js_code   = '';
         }
 
-        // Persisting custom CSS/JavaScript is a premium-only capability. The free
-        // build drops both (default ''); the Pro build re-enables saving by
-        // returning the candidate value on these filters — see
-        // MasterAddons\Pro\Classes\Pro_Modules. Candidates are already
-        // PHP-/script-stripped above. Custom HTML (an allowlisted content field)
-        // remains available to everyone.
-        $css_code = apply_filters('master_addons/widget_builder/persist_css', '', $css_code, $data);
-        $js_code  = apply_filters('master_addons/widget_builder/persist_js', '', $js_code, $data);
+        // Custom CSS/JavaScript is available to every build. Both values are
+        // already PHP-/script-stripped above, and raw JS is additionally gated on
+        // the unfiltered_html capability.
 
         // Also save data in unified format for widget generator
         $widget_data = [

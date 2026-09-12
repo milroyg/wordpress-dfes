@@ -95,11 +95,30 @@ $jltma_megamenu_pro_features = apply_filters('master_addons/modules/mega_menu/pr
                                 </div>
                                 <div class="jltma-form-group mb-2 jltma-col-5">
                                     <select class="jltma-form-control" id="jltma-megamenu-width-type" style="min-width: 210px; border: 1px solid #e2e8f0; outline: none; font-size: 13px; padding: 8px 10px;">
-                                        <option value="default" selected="selected"><?php esc_html_e('Default Width', 'master-addons' ); ?></option>
-                                        <option value="full_width"><?php esc_html_e('Full Width', 'master-addons' ); ?></option>
+                                        <option value="default"><?php esc_html_e('Default Width', 'master-addons' ); ?></option>
+                                        <option value="full_width" selected="selected"><?php esc_html_e('Full Width', 'master-addons' ); ?></option>
                                         <option value="custom_width"><?php esc_html_e('Custom Width', 'master-addons' ); ?></option>
                                     </select>
                                     <input id="jltma-megamenu-width" class="jltma-form-control hidden" type="text" placeholder="1000px" style="min-width: 210px; border: 1px solid #e2e8f0; outline: none; font-size: 13px; padding: 8px 10px; margin-top: 10px;" />
+                                </div>
+                            </div>
+
+                            <?php // Only a custom width panel is narrower than the row it hangs off, so only it has room to be placed. Default and Full Width fill their own box already; the row is revealed by mega-script.js when Custom Width is picked. ?>
+                            <div class="jltma-row jltma-megamenu-horizontal-position-row hidden">
+
+                                <div class="jltma-form-group mb-2 jltma-col-7">
+                                    <label for="jltma-megamenu-horizontal-position">
+                                        <strong>
+                                            <?php esc_html_e('Horizontal Position', 'master-addons' ); ?>
+                                        </strong>
+                                    </label>
+                                </div>
+                                <div class="jltma-form-group mb-2 jltma-col-5">
+                                    <select class="jltma-form-control" id="jltma-megamenu-horizontal-position" style="min-width: 210px; border: 1px solid #e2e8f0; outline: none; font-size: 13px; padding: 8px 10px;">
+                                        <option value="left" selected="selected"><?php esc_html_e('Left', 'master-addons' ); ?></option>
+                                        <option value="center"><?php esc_html_e('Center', 'master-addons' ); ?></option>
+                                        <option value="right"><?php esc_html_e('Right', 'master-addons' ); ?></option>
+                                    </select>
                                 </div>
                             </div>
 

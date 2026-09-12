@@ -158,6 +158,32 @@ class Popup_Admin {
         ]);
     }
 
+    /**
+     * Resolve a popup post from a request-supplied ID.
+     *
+     * Verifies the ID really points at a popup and that the current user holds
+     * the given meta capability for that specific post. Sends a JSON error and
+     * exits when either check fails, so callers can treat the return value as a
+     * post they are allowed to act on.
+     *
+     * @param int    $popup_id Post ID from the request.
+     * @param string $cap      Meta capability, e.g. 'edit_post' or 'delete_post'.
+     * @return \WP_Post
+     */
+    private function get_authorized_popup($popup_id, $cap) {
+        $popup = get_post($popup_id);
+
+        if (!$popup || $popup->post_type !== $this->popup_cpt->get_post_type()) {
+            wp_send_json_error(['message' => __('Popup not found', 'master-addons')]);
+        }
+
+        if (!current_user_can($cap, $popup_id)) {
+            wp_send_json_error(['message' => __('You are not allowed to manage this popup.', 'master-addons')]);
+        }
+
+        return $popup;
+    }
+
     public function get_popup_data() {
         check_ajax_referer('jltma_popup_nonce', '_nonce');
 
@@ -167,10 +193,7 @@ class Popup_Admin {
             wp_send_json_error(['message' => 'Invalid popup ID']);
         }
 
-        $popup = get_post($popup_id);
-        if (!$popup || $popup->post_type !== $this->popup_cpt->get_post_type()) {
-            wp_send_json_error(['message' => 'Popup not found']);
-        }
+        $popup = $this->get_authorized_popup($popup_id, 'edit_post');
 
         $data = [
             'id' => $popup_id,
@@ -193,13 +216,24 @@ class Popup_Admin {
         $conditions_data = $this->parse_conditions_from_post();
 
         if ($popup_id) {
-            // Update existing popup
+            // Update existing popup. The popup_id comes from the request, so the
+            // post must be proven to be a popup this user may edit before any
+            // write happens - otherwise any nonce holder could rewrite the title
+            // and meta of arbitrary posts.
+            $this->get_authorized_popup($popup_id, 'edit_post');
+
             wp_update_post([
                 'ID' => $popup_id,
                 'post_title' => $title,
             ]);
         } else {
             // Create new popup
+            $post_type_object = get_post_type_object($this->popup_cpt->get_post_type());
+            if (!$post_type_object || !current_user_can($post_type_object->cap->publish_posts)) {
+                wp_send_json_error(['message' => __('You are not allowed to create popups.', 'master-addons')]);
+                return;
+            }
+
             $popup_id = wp_insert_post([
                 'post_title' => $title,
                 'post_type' => $this->popup_cpt->get_post_type(),
@@ -263,6 +297,8 @@ class Popup_Admin {
         if (!$popup_id) {
             wp_send_json_error(['message' => 'Invalid popup ID']);
         }
+
+        $this->get_authorized_popup($popup_id, 'delete_post');
 
         $result = wp_delete_post($popup_id, true);
 
@@ -343,8 +379,16 @@ class Popup_Admin {
             return;
         }
 
+        // The grid measures itself and asks for what fills the window; without
+        // it the API's small default page size left the picker with six cards.
+        $per_page = isset($_POST['per_page']) ? absint($_POST['per_page']) : 24;
+        if ($per_page < 1) {
+            $per_page = 24;
+        }
+        $per_page = min($per_page, 50);
+
         $cache = Template_Library_Cache::get_instance();
-        $templates = $cache->get_cached_templates('master_popups');
+        $templates = $cache->get_cached_templates('master_popups', false, $per_page);
         $categories = $cache->get_cached_categories('master_popups');
 
         if ($templates === false) {

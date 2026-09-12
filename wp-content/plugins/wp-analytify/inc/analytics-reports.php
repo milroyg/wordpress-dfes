@@ -192,6 +192,11 @@ class Analytify_Analytics_Reports {
 		}
 
 		if ( 'true' === $internal_module ) {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				echo esc_html__( 'Failed', 'wp-analytify' );
+				wp_die();
+			}
+
 			// Internal module - update option.
 			if ( ! is_array( $analytify_modules ) ) {
 				$analytify_modules = array();
@@ -220,6 +225,12 @@ class Analytify_Analytics_Reports {
 			update_option( 'wp_analytify_modules', $analytify_modules );
 		} else {
 			// External plugin - activate/deactivate plugin file.
+			// Restore WP core's activate_plugins gate (plugins.php enforces this).
+			if ( ! current_user_can( 'activate_plugins' ) ) {
+				echo esc_html__( 'Failed', 'wp-analytify' );
+				wp_die();
+			}
+
 			// $module_slug should be in format: plugin-folder/plugin-file.php.
 			// Check if plugin exists in installed plugins.
 			if ( ! function_exists( 'get_plugins' ) ) {

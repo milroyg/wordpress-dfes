@@ -85,3 +85,56 @@ if ( is_multisite() ) {
 delete_metadata( 'user', 0, 'she_pro_launch_notice_dismissed', '', true );
 delete_metadata( 'user', 0, 'she_dismissed_notice_plugin', '', true );
 delete_metadata( 'user', 0, 'she_pro_live_notice_dismissed', '', true );
+
+/**
+ * Remove everything the POSIMYTH Analytics SDK stored — including the sharing consent.
+ *
+ * Consent must not survive uninstalling. Left behind, the opt-in option stays in wp_options and
+ * reinstalling silently resumes sending without ever asking again; someone who removes the plugin has
+ * withdrawn from the arrangement, and reinstalling has to start from a clean slate.
+ *
+ * No sibling check, unlike Nexter Extension's and Nexter Blocks' uninstall scripts. Those two share
+ * one consent under `nexter_suite`, so they must not clear it while the other is still installed.
+ * Sticky Header Effects has its OWN key and its own suite (see she_posimyth_analytics_boot() in the
+ * main plugin file) and is the only member, so there is nothing to preserve for anyone else.
+ *
+ * @since 2.2.1
+ */
+$she_sdk_base = __DIR__ . '/includes/posimyth-sdk/class-posimyth-tracker-base.php';
+$she_tracker  = __DIR__ . '/includes/posimyth-sdk/class-posimyth-tracker-she.php';
+
+if ( file_exists( $she_sdk_base ) && file_exists( $she_tracker ) ) {
+	require_once $she_sdk_base;
+	require_once $she_tracker;
+}
+
+// method_exists too, not only class_exists: an active POSIMYTH sibling loads before uninstall.php
+// runs, so an OLDER copy of Posimyth_Tracker_Base may already be defined without purge_state() — our
+// subclass then extends that copy, and calling the missing method would fatal mid-uninstall.
+if ( class_exists( 'Posimyth_Tracker_SHE' ) && method_exists( 'Posimyth_Tracker_SHE', 'purge_state' ) ) {
+	Posimyth_Tracker_SHE::purge_state( true, 'she_suite' );
+} else {
+	// Fall back to clearing by name, so a broken or partial install still cleans up after itself.
+	wp_clear_scheduled_hook( 'posimyth_heartbeat_she' );
+
+	delete_option( 'posimyth_she_install_time' );
+	delete_option( 'posimyth_she_usage' );
+	delete_option( 'posimyth_she_first_use_at' );
+	delete_option( 'posimyth_she_activate_reported' );
+	delete_transient( 'posimyth_she_deact_reported' );
+
+	// Site options first (that is how they are written), then the legacy per-blog shape.
+	delete_site_option( 'posimyth_she_share_analytics' );
+	delete_site_option( 'posi_consent_dismissed_she_suite' );
+	delete_site_option( 'posi_consent_snoozed_until_she_suite' );
+	delete_site_option( 'posi_consent_grace_start_she_suite' );
+	delete_option( 'posimyth_she_share_analytics' );
+	delete_option( 'posi_consent_dismissed_she_suite' );
+	delete_option( 'posi_consent_snoozed_until_she_suite' );
+	delete_option( 'posi_consent_grace_start_she_suite' );
+}
+
+// Left behind by the SDK's cached user count and the heartbeat catch-up lock. Both are transients, so
+// they expire on their own, but an uninstall should not leave rows for a plugin that is gone.
+delete_transient( 'posimyth_she_user_count' );
+delete_transient( 'posimyth_she_hb_catchup' );

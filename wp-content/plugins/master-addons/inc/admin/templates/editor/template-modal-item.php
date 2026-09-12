@@ -19,14 +19,21 @@ if (!defined('ABSPATH')) {
     </div>
 </div>
 <div class="elementor-template-library-template-controls">
-    <# if ( 'valid'===window.MasterAddonsData.license.status || ! pro ) { #>
+    <#
+    /* A status of "valid" with no key behind it is not a licence, and testing
+       the status alone is why a pro template still offered Insert -- which
+       then failed against a library that will not serve it. */
+    var jltmaLicensed = 'valid' === window.MasterAddonsData.license.status
+        && window.MasterAddonsData.license.hasKey;
+    #>
+    <# if ( jltmaLicensed || ! pro ) { #>
         <button class="elementor-template-library-template-action ma-el-template-insert elementor-button elementor-button-success">
             <i class="eicon-file-download"></i>
             <span class="elementor-button-title"><?php echo esc_html__('Insert', 'master-addons' ); ?></span>
         </button>
         <# } else if ( pro ) { #>
             <a class="template-library-activate-license" href="{{{ window.MasterAddonsData.license.activateLink }}}" target="_blank">
-                <i class="fa fa-external-link" aria-hidden="true"></i>
+                <i class="eicon-editor-external-link" aria-hidden="true"></i>
                 {{{ window.MasterAddonsData.license.proMessage }}}
             </a>
             <# } #>

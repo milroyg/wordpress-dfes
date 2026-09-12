@@ -5,6 +5,7 @@ namespace MasterAddons\Modules\DynamicTags\Tags;
 use Elementor\Controls_Manager;
 use Elementor\Core\DynamicTags\Data_Tag;
 use Elementor\Modules\DynamicTags\Module as TagsModule;
+use MasterAddons\Inc\Classes\Helper;
 
 if (!defined('ABSPATH')) {
 	exit; // Exit if accessed directly
@@ -41,6 +42,8 @@ class Author_URL extends Data_Tag
 	public function get_value(array $options = [])
 	{
 		$value = '';
+
+		Helper::jltma_set_global_authordata();
 
 		if ('archive' === $this->get_settings('url')) {
 			global $authordata;

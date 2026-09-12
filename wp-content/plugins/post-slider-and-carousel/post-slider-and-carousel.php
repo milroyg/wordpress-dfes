@@ -7,7 +7,7 @@
  * Text Domain: post-slider-and-carousel
  * Domain Path: /languages/
  * Author: InfornWeb
- * Version: 3.5.7
+ * Version: 3.5.8
  * Requires at least: 6.1
  * Requires PHP: 5.4
  */
@@ -78,7 +78,7 @@ if ( ! class_exists( 'Post_Slider_and_Carousel_Lite' ) )  :
 		 */
 		private function setup_constants() {
 
-			$this->define( 'PSAC_VERSION', '3.5.7' ); // Version of plugin
+			$this->define( 'PSAC_VERSION', '3.5.8' ); // Version of plugin
 			$this->define( 'PSAC_FILE', __FILE__ );
 			$this->define( 'PSAC_DIR', dirname( __FILE__ ) );
 			$this->define( 'PSAC_URL', plugin_dir_url( __FILE__ ) );

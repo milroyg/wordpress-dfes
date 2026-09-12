@@ -4,6 +4,7 @@ namespace ElementorOne\Connect;
 
 use ElementorOne\Connect\Classes\Data;
 use ElementorOne\Connect\Classes\Utils;
+use ElementorOne\Connect\Classes\HomeUrl;
 use ElementorOne\Connect\Classes\Service;
 use ElementorOne\Logger;
 
@@ -43,6 +44,11 @@ class Facade {
 	 * @var Service Service instance
 	 */
 	private Service $service;
+
+	/**
+	 * @var HomeUrl HomeUrl instance
+	 */
+	private HomeUrl $home_url;
 
 	/**
 	 * @var Logger Logger instance
@@ -152,6 +158,23 @@ class Facade {
 	}
 
 	/**
+	 * Get a Facade instance by admin page
+	 *
+	 * @param string $plugin_page The admin page slug
+	 * @return Facade|null The facade instance or null if not found
+	 */
+	public static function get_by_plugin_page( string $plugin_page ): ?Facade {
+		foreach ( self::$instances as $instance ) {
+			$admin_page = $instance->get_config( 'admin_page' );
+			$normalized_plugin_page = explode( 'page=', $admin_page, 2 )[1] ?? $admin_page;
+			if ( $normalized_plugin_page === $plugin_page ) {
+				return $instance;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Get a Facade instance by plugin_slug or throw exception if not found
 	 *
 	 * @param string $plugin_slug The plugin slug
@@ -217,19 +240,22 @@ class Facade {
 		// Create Service instance
 		$this->service = new Service( $this );
 
+		// Create HomeUrl instance
+		$this->home_url = new HomeUrl( $this );
+
 		// Create Logger instance with app name
 		$this->logger = new Logger( $this->config['app_name'] );
 	}
 
 	/**
-	 * Initialize routes and handlers
+	 * Initialize routes and components
 	 * Called automatically by constructor
 	 *
 	 * @return void
 	 */
 	private function init(): void {
 		$this->init_routes();
-		$this->init_handler();
+		$this->init_components();
 	}
 
 	/**
@@ -257,6 +283,15 @@ class Facade {
 	 */
 	public function service(): Service {
 		return $this->service;
+	}
+
+	/**
+	 * Get HomeUrl instance
+	 *
+	 * @return HomeUrl
+	 */
+	public function home_url(): HomeUrl {
+		return $this->home_url;
 	}
 
 	/**
@@ -299,11 +334,12 @@ class Facade {
 	}
 
 	/**
-	 * Initialize auth handler
+	 * Initialize components
 	 *
 	 * @return void
 	 */
-	private function init_handler(): void {
+	private function init_components(): void {
 		new \ElementorOne\Connect\Components\Handler( $this );
+		new \ElementorOne\Connect\Components\License( $this );
 	}
 }

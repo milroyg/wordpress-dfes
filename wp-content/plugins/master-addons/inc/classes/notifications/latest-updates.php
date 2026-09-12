@@ -71,13 +71,7 @@ if (!class_exists('Latest_Updates')) {
 
                 '<h3 class="jltma-update-head">' . JLTMA . ' <span><small><em>v' . esc_html(JLTMA_VER) . '</em></small>' . __(' has some updates..', 'master-addons') . '</span></h3><br>', // %3$s
                 // Changelogs
-                __('<span class="dashicons dashicons-yes"></span> <span class="jltma-changes-list"> Fixed: Blog Posts widget date, author, category, and tag links now open the correct archive, including for custom post types. </span><br>', 'master-addons')
-                . __('<span class="dashicons dashicons-yes"></span> <span class="jltma-changes-list"> Fixed: Blog Posts pagination now counts only the posts the widget queries, and the Next/page links now work on normal pages. </span><br>', 'master-addons')
-                . __('<span class="dashicons dashicons-yes"></span> <span class="jltma-changes-list"> Fixed: Blog Posts responsive Number of Columns for tablet and mobile now applies correctly. </span><br>', 'master-addons')
-                . __('<span class="dashicons dashicons-yes"></span> <span class="jltma-changes-list"> Added: Blog Posts filter tabs and query now support custom taxonomies for custom post types (e.g. from ACF). </span><br>', 'master-addons')
-                . __('<span class="dashicons dashicons-yes"></span> <span class="jltma-changes-list"> Added: Blog Posts now shows custom taxonomy terms in the bottom tag list. </span><br>', 'master-addons')
-                . __('<span class="dashicons dashicons-yes"></span> <span class="jltma-changes-list"> Fixed: Background Slider overlay images now load from the correct assets URL, on both the free and Pro builds. </span><br>', 'master-addons')
-                . __('<span class="dashicons dashicons-yes"></span> <span class="jltma-changes-list"> Maintenance: Updated the Freemius licensing library to 2.13.4. </span><br>', 'master-addons'),
+                __('<span class="dashicons dashicons-yes"></span> <span class="jltma-changes-list">Security: Security update. </span><br>', 'master-addons'),
             );
             printf(wp_kses_post($jltma_changelog_message));
         }

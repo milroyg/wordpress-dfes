@@ -233,12 +233,29 @@ class Blog extends Master_Widget
 		);
 
 		$this->add_control(
+			'ma_el_blog_query_source',
+			[
+				'label' => __('Source', 'master-addons'),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'latest'  => __('Latest Posts', 'master-addons'),
+					'current' => __('Current Query', 'master-addons'),
+				],
+				'default' => 'latest',
+				'description' => __('Current Query follows the archive being viewed — its category, tag, date or author — instead of the settings below. Use it on archive templates.', 'master-addons'),
+			]
+		);
+
+		$this->add_control(
 			'ma_el_post_grid_type',
 			[
 				'label' => __('Post Type', 'master-addons'),
 				'type' => Controls_Manager::SELECT2,
 				'options' => Helper::jltma_el_get_post_types(),
 				'default' => 'post',
+				'condition' => [
+					'ma_el_blog_query_source' => 'latest',
+				],
 
 			]
 		);
@@ -251,6 +268,7 @@ class Blog extends Master_Widget
 				'options' => '',
 				'condition' => [
 					'post_type!' => '',
+					'ma_el_blog_query_source' => 'latest',
 				],
 			]
 		);
@@ -884,6 +902,9 @@ class Blog extends Master_Widget
 				'label_block' => true,
 				'multiple' => true,
 				'options' => Helper::jltma_el_blog_post_type_categories(),
+				'condition' => [
+					'ma_el_blog_query_source' => 'latest',
+				],
 			]
 		);
 
@@ -926,6 +947,9 @@ class Blog extends Master_Widget
 				'label_block' => true,
 				'multiple' => true,
 				'options' => Helper::jltma_el_blog_post_type_tags(),
+				'condition' => [
+					'ma_el_blog_query_source' => 'latest',
+				],
 			]
 		);
 
@@ -938,6 +962,9 @@ class Blog extends Master_Widget
 				'label_block' => true,
 				'multiple' => true,
 				'options' => Helper::jltma_el_blog_post_type_users(),
+				'condition' => [
+					'ma_el_blog_query_source' => 'latest',
+				],
 			]
 		);
 
@@ -950,6 +977,9 @@ class Blog extends Master_Widget
 				'label_block' => true,
 				'multiple' => true,
 				'options' => Helper::jltma_el_blog_posts_list(),
+				'condition' => [
+					'ma_el_blog_query_source' => 'latest',
+				],
 			]
 		);
 
@@ -2077,28 +2107,77 @@ class Blog extends Master_Widget
 		<?php
 	}
 
-	/*
-	 * Renders Post Title
+	/**
+	 * Scopes an archive URL to the current post type.
+	 *
+	 * Date and author archives are built from the core post rewrite rules, so a custom post
+	 * type only stays in the result set when the post_type query var is carried over.
+	 *
+	 * Custom taxonomy archives are deliberately left untouched. WP_Query resolves an is_tax
+	 * request by querying every post type attached to that taxonomy, so the term archive already
+	 * lists the custom post type. Appending post_type there only duplicates the clean term URL
+	 * that redirect_canonical() and SEO plugins canonicalise back to.
+	 *
+	 * The core category and post_tag archives are the exception: they are is_category / is_tag,
+	 * never is_tax, so WordPress falls back to the "post" type alone and a custom post type
+	 * silently drops out of the results unless post_type is carried over.
+	 *
 	 * @since 1.1.5
+	 *
+	 * @param string $archive_url Archive URL to scope.
+	 * @param string $context     Archive being linked: 'date', 'author' or 'term'.
+	 * @param string $taxonomy    Taxonomy the term belongs to, for the 'term' context.
+	 * @return string
 	 */
-	protected function jltma_el_get_archive_link($archive_url)
+	protected function jltma_el_get_archive_link($archive_url, $context = 'date', $taxonomy = '')
 	{
+		if (empty($archive_url) || !is_string($archive_url)) {
+			return '';
+		}
+
 		$post_type = get_post_type();
 
 		// Core posts are the default of every archive query, no query var needed.
-		if ('post' === $post_type || empty($archive_url)) {
+		if (empty($post_type) || 'post' === $post_type) {
 			return $archive_url;
 		}
 
-		// Custom post types keep their archive filtered as long as they are publicly queryable,
-		// since WP only accepts the post_type query var for publicly queryable types.
+		// WP only accepts the post_type query var for publicly queryable types.
 		$post_type_object = get_post_type_object($post_type);
+		$scoped = $post_type_object && !empty($post_type_object->publicly_queryable);
 
-		if ($post_type_object && !empty($post_type_object->publicly_queryable)) {
-			return add_query_arg('post_type', $post_type, $archive_url);
+		if ('term' === $context) {
+			// Only the two core taxonomies query the "post" type alone, see the note above.
+			$scoped = $scoped && in_array($taxonomy, ['category', 'post_tag'], true);
 		}
 
-		return $archive_url;
+		/**
+		 * Filters whether the post_type query var is appended to a Blog widget archive link.
+		 *
+		 * Lets a site force scoping on a shared taxonomy, or drop it for a post type whose
+		 * archives are handled by a custom rewrite rule.
+		 *
+		 * @param bool   $scoped      Whether to append the post_type query var.
+		 * @param string $post_type   Current post type.
+		 * @param string $context     'date', 'author' or 'term'.
+		 * @param string $archive_url Archive URL being filtered.
+		 * @param string $taxonomy    Taxonomy for the 'term' context, empty otherwise.
+		 */
+		$scoped = apply_filters('jltma_blog_archive_link_scoped', $scoped, $post_type, $context, $archive_url, $taxonomy);
+
+		if ($scoped) {
+			$archive_url = add_query_arg('post_type', $post_type, $archive_url);
+		}
+
+		/**
+		 * Filters the final Blog widget archive link.
+		 *
+		 * @param string $archive_url Archive URL.
+		 * @param string $post_type   Current post type.
+		 * @param string $context     'date', 'author' or 'term'.
+		 * @param string $taxonomy    Taxonomy for the 'term' context, empty otherwise.
+		 */
+		return apply_filters('jltma_blog_archive_link', $archive_url, $post_type, $context, $taxonomy);
 	}
 
 	protected function jltma_el_get_post_date_link()
@@ -2119,7 +2198,7 @@ class Blog extends Master_Widget
 			return get_permalink();
 		}
 
-		return $this->jltma_el_get_archive_link(get_day_link($year, $month, $day));
+		return $this->jltma_el_get_archive_link(get_day_link($year, $month, $day), 'date');
 	}
 
 	protected function jltma_el_get_post_author_link()
@@ -2133,7 +2212,7 @@ class Blog extends Master_Widget
 
 		return sprintf(
 			'<a href="%1$s" rel="author">%2$s</a>',
-			esc_url($this->jltma_el_get_archive_link(get_author_posts_url($author_id))),
+			esc_url($this->jltma_el_get_archive_link(get_author_posts_url($author_id), 'author')),
 			esc_html($author_name)
 		);
 	}
@@ -2206,7 +2285,7 @@ class Blog extends Master_Widget
 
 			$links[] = sprintf(
 				'<a href="%1$s" rel="tag">%2$s</a>',
-				esc_url($this->jltma_el_get_archive_link($term_link)),
+				esc_url($this->jltma_el_get_archive_link($term_link, 'term', $taxonomy)),
 				esc_html($term->name)
 			);
 		}

@@ -757,7 +757,7 @@
   border: 4px solid #e0e0e0;
   border-top: 4px solid #6a4bff;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: jltma-spin-in-place 1s linear infinite;
   margin-bottom: 20px;
 }
 .jltma-templates .loading-placeholder p {
@@ -1235,6 +1235,10 @@
   font-size: 18px;
   width: 18px;
   height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 .jltma-templates .template-library-content .content-header .refresh-btn:hover {
   border-color: #6814cd;
@@ -1258,7 +1262,7 @@
   color: #64748b;
 }
 .jltma-templates .template-library-content .content-header .refresh-btn .dashicons.spinning {
-  animation: spin 1s linear infinite;
+  animation: jltma-spin-in-place 1s linear infinite;
 }
 .jltma-templates .template-library-content .content-header .template-library-header .search-container {
   position: relative;
@@ -1311,6 +1315,9 @@
   color: #1d2327;
   letter-spacing: 0;
   line-height: 1;
+}
+.jltma-templates .template-library-content .content-header .template-library-header .template-library-tabs-wrapper .template-library-header-logo.is-widgets::after {
+  content: "Widgets Library";
 }
 .jltma-templates .template-library-content .content-header .template-library-header .template-library-tabs-wrapper.page-importer-mode {
   margin-bottom: 0;
@@ -1648,6 +1655,9 @@
   height: 18px;
   font-size: 18px;
   line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .jltma-templates .template-library-content .content-header .template-kit-header .template-kit-upload-wrapper .search-container {
   position: relative;
@@ -2014,6 +2024,9 @@
 .jltma-templates .template-library-content .templates-grid-container .templates-grid .template-item .template-preview .template-image {
   width: 100%;
   height: auto;
+  min-height: 100%;
+  object-fit: cover;
+  object-position: top center;
   display: block;
   transform: translateY(0);
   transition: transform 4s linear;
@@ -2194,7 +2207,7 @@
   height: 16px;
 }
 .jltma-templates .template-library-content .templates-grid-container .upgrade-to-pro .dashicons.spinning {
-  animation: spin 1s linear infinite;
+  animation: jltma-spin-in-place 1s linear infinite;
 }
 .jltma-templates .template-library-content .templates-grid-container .import-btn.disabled-plugins,
 .jltma-templates .template-library-content .templates-grid-container .insert-all-btn.disabled-plugins {
@@ -2377,7 +2390,7 @@
   color: #6a4bff;
 }
 .jltma-templates .template-library-content .template-pagination .pagination-loading .pagination-spinner .dashicons.spinning {
-  animation: spin 1s linear infinite;
+  animation: jltma-spin-in-place 1s linear infinite;
 }
 .jltma-templates .template-library-content .template-pagination .pagination-loading .pagination-spinner .loading-text {
   color: #333;
@@ -2400,9 +2413,19 @@
   color: #666;
   font-size: 14px;
   font-weight: 500;
+  line-height: 1;
+}
+.jltma-templates .template-library-content .infinite-scroll-sentinel .loading-more-templates img {
+  flex: 0 0 auto;
+  display: block;
+  align-self: center;
+}
+.jltma-templates .template-library-content .infinite-scroll-sentinel .loading-more-templates span {
+  display: inline-block;
+  line-height: 1;
 }
 .jltma-templates .template-library-content .infinite-scroll-sentinel .loading-more-templates .spinning {
-  animation: spin 1s linear infinite;
+  animation: jltma-spin-in-place 1s linear infinite;
 }
 .jltma-templates .template-library-content .kit-template-grid-footer {
   display: flex;
@@ -2444,7 +2467,7 @@
   height: 16px;
 }
 .jltma-templates .template-library-content .kit-template-grid-footer .upgrade-to-pro .dashicons.spinning {
-  animation: spin 1s linear infinite;
+  animation: jltma-spin-in-place 1s linear infinite;
 }
 .jltma-templates .template-library-content .kit-template-grid-footer .template-purchase-btn {
   display: flex;
@@ -2473,7 +2496,7 @@
   height: 16px;
 }
 .jltma-templates .template-library-content .kit-template-grid-footer .template-purchase-btn .dashicons.spinning {
-  animation: spin 1s linear infinite;
+  animation: jltma-spin-in-place 1s linear infinite;
 }
 .jltma-templates .template-library-content .kit-template-grid-footer .insert-all-btn {
   display: flex;
@@ -2503,7 +2526,7 @@
   height: 16px;
 }
 .jltma-templates .template-library-content .kit-template-grid-footer .insert-all-btn .dashicons.spinning {
-  animation: spin 1s linear infinite;
+  animation: jltma-spin-in-place 1s linear infinite;
 }
 .jltma-templates .template-library-content .kit-template-grid-footer {
   /* Disabled state for buttons when plugins are missing */
@@ -3023,31 +3046,38 @@
 }
 
 #jltma-template-kits-app:not(.jltma-page-importer-btn-active .jltma-template-page-importer) .jltma-templates,
+#jltma-widgets-library-app:not(.jltma-page-importer-btn-active .jltma-template-page-importer) .jltma-templates,
 #jltma-template-library-root:not(.jltma-page-importer-btn-active .jltma-template-page-importer) .jltma-templates {
   background: #f1f3f4;
   padding-left: 20px;
 }
 #jltma-template-kits-app:not(.jltma-page-importer-btn-active .jltma-template-page-importer) .jltma-templates .template-library-content,
+#jltma-widgets-library-app:not(.jltma-page-importer-btn-active .jltma-template-page-importer) .jltma-templates .template-library-content,
 #jltma-template-library-root:not(.jltma-page-importer-btn-active .jltma-template-page-importer) .jltma-templates .template-library-content {
   margin: 20px 0;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
   border-radius: 12px;
   overflow: hidden;
+  overflow: clip;
+  overflow-clip-margin: 72px;
   min-height: calc(100vh - 72px);
 }
 #jltma-template-kits-app:not(.jltma-page-importer-btn-active .jltma-template-page-importer) .jltma-templates .template-library-content .content-header,
+#jltma-widgets-library-app:not(.jltma-page-importer-btn-active .jltma-template-page-importer) .jltma-templates .template-library-content .content-header,
 #jltma-template-library-root:not(.jltma-page-importer-btn-active .jltma-template-page-importer) .jltma-templates .template-library-content .content-header {
   padding: 20px;
   border-bottom: 1px solid #f1f1f2;
   background: #fff;
 }
 #jltma-template-kits-app:not(.jltma-page-importer-btn-active .jltma-template-page-importer) .jltma-templates .template-library-content .content-header .template-tabs,
+#jltma-widgets-library-app:not(.jltma-page-importer-btn-active .jltma-template-page-importer) .jltma-templates .template-library-content .content-header .template-tabs,
 #jltma-template-library-root:not(.jltma-page-importer-btn-active .jltma-template-page-importer) .jltma-templates .template-library-content .content-header .template-tabs {
   display: flex;
   gap: 0;
   border-bottom: 1px solid #e0e0e0;
 }
 #jltma-template-kits-app:not(.jltma-page-importer-btn-active .jltma-template-page-importer) .jltma-templates .template-library-content .templates-grid-container,
+#jltma-widgets-library-app:not(.jltma-page-importer-btn-active .jltma-template-page-importer) .jltma-templates .template-library-content .templates-grid-container,
 #jltma-template-library-root:not(.jltma-page-importer-btn-active .jltma-template-page-importer) .jltma-templates .template-library-content .templates-grid-container {
   padding: 20px;
 }
@@ -3191,20 +3221,26 @@
 .master-addons_page_jltma-template-library .notice:not([class*=jltma-]),
 .master-addons_page_jltma-template-library .error:not([class*=jltma-]),
 .master-addons_page_jltma-template-library .updated:not([class*=jltma-]),
+.master-addons_page_jltma-widgets-library .notice:not([class*=jltma-]),
+.master-addons_page_jltma-widgets-library .error:not([class*=jltma-]),
+.master-addons_page_jltma-widgets-library .updated:not([class*=jltma-]),
 .master-addons_page_jltma-template-kits .notice:not([class*=jltma-]),
 .master-addons_page_jltma-template-kits .error:not([class*=jltma-]),
 .master-addons_page_jltma-template-kits .updated:not([class*=jltma-]) {
   display: none !important;
 }
 .master-addons_page_jltma-template-library .wrap,
+.master-addons_page_jltma-widgets-library .wrap,
 .master-addons_page_jltma-template-kits .wrap {
   margin: 0 !important;
 }
 .master-addons_page_jltma-template-library #wpbody-content,
+.master-addons_page_jltma-widgets-library #wpbody-content,
 .master-addons_page_jltma-template-kits #wpbody-content {
   padding-bottom: 0;
 }
 .master-addons_page_jltma-template-library #wpfooter,
+.master-addons_page_jltma-widgets-library #wpfooter,
 .master-addons_page_jltma-template-kits #wpfooter {
   display: none;
 }
@@ -3288,10 +3324,11 @@
 .template-favorite-btn.is-favorite:hover .eicon-heart {
   color: #d00970;
 }
-.template-favorite-btn.has-tooltip {
+
+.has-tooltip {
   position: relative;
 }
-.template-favorite-btn.has-tooltip::after {
+.has-tooltip::after {
   content: attr(data-tooltip);
   position: absolute;
   bottom: 100%;
@@ -3311,7 +3348,7 @@
   z-index: 1000;
   line-height: 1.4;
 }
-.template-favorite-btn.has-tooltip::before {
+.has-tooltip::before {
   content: "";
   position: absolute;
   bottom: 100%;
@@ -3325,15 +3362,27 @@
   transition: all 0.2s ease;
   z-index: 1000;
 }
-.template-favorite-btn.has-tooltip:hover::after, .template-favorite-btn.has-tooltip:hover::before {
+.has-tooltip:hover::after, .has-tooltip:hover::before {
   opacity: 1;
   visibility: visible;
 }
-.template-favorite-btn.has-tooltip:hover::after {
+.has-tooltip:hover::after {
   transform: translateX(50%) translateY(-12px);
 }
-.template-favorite-btn.has-tooltip:hover::before {
+.has-tooltip:hover::before {
   transform: translateX(50%) translateY(-2px);
+}
+
+.content-header .has-tooltip::after {
+  white-space: normal;
+  width: 130px;
+  text-align: center;
+  right: auto;
+  left: 0;
+  transform: translateY(-8px);
+}
+.content-header .has-tooltip:hover::after {
+  transform: translateY(-12px);
 }
 
 .swal2-modal button {
@@ -3369,7 +3418,7 @@
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  animation: spin 1s linear infinite;
+  animation: jltma-spin-in-place 1s linear infinite;
 }
 .swal2-modal .jltma-uploading-wrapper h2 {
   font-size: 32px;
@@ -3394,6 +3443,14 @@
 }
 
 @keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes jltma-spin-in-place {
   0% {
     transform: rotate(0deg);
   }

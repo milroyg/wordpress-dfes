@@ -3,24 +3,13 @@
 namespace MasterAddons\Addons;
 
 // Elementor Classes
-use \Elementor\Utils;
 use MasterAddons\Inc\Classes\Base\Master_Widget;
 use Elementor\Icons_Manager;
-use \Elementor\Controls_Manager;
-use \Elementor\Group_Control_Border;
-use \Elementor\Core\Kits\Documents\Tabs\Global_Typography;
-use Elementor\Group_Control_Text_Shadow;
-use \Elementor\Group_Control_Typography;
-use \Elementor\Group_Control_Background;
-use \Elementor\Group_Control_Box_Shadow;
-
 // Master Addons
-use MasterAddons\Inc\Controls\Group\JLTMA_Button_Background;
-use MasterAddons\Inc\Classes\Helper;
 use MasterAddons\Inc\Classes\Animation;
-use MasterAddons\Inc\Classes\Utils as JLTMA_Utils;
 use MasterAddons\Inc\Admin\Config;
 use MasterAddons\Inc\Admin\Settings\Settings;
+use MasterAddons\Inc\Classes\Upgrades\Control_Key_Migrator;
 
 /**
  * Author Name: Liton Arefin
@@ -41,6 +30,16 @@ class Nav_Menu extends Master_Widget
     use \MasterAddons\Inc\Traits\Widget_Notice;
 	use \MasterAddons\Inc\Traits\Widget_Assets_Trait;
 
+    /**
+     * The id of the <ul> the main nav rendered, so the dropdown can point at it
+     * instead of rendering the whole menu a second time. Empty when there is no
+     * main nav to clone from — the 'dropdown' layout, where the dropdown is the
+     * only menu on the page and still has to be rendered server side.
+     *
+     * @var string
+     */
+    private $main_menu_list_id = '';
+
     public function get_name()
     {
         return 'ma-navmenu';
@@ -59,11 +58,6 @@ class Nav_Menu extends Master_Widget
     {
         return ['nav', 'navigation', 'menu', 'nav menu', 'header', 'footer', 'sidebar'];
     }
-
-    public function get_widget_selector()
-    {
-        return '.' . $this->get_widget_class();
-    }
     
     protected function is_dynamic_content(): bool {
         return true;
@@ -72,6 +66,11 @@ class Nav_Menu extends Master_Widget
     public function get_widget_class()
     {
         return 'jltma-nav-menu';
+    }
+
+    public function get_widget_selector()
+    {
+        return '.' . $this->get_widget_class();
     }
 
     protected $nav_menu_index = 1;
@@ -85,4671 +84,36 @@ class Nav_Menu extends Master_Widget
 
     }
 
-    protected function jltma_nav_menu_general_section()
-    {
-        $widget_selector = $this->get_widget_selector();
-
-        $this->start_controls_section(
-            'jltma_content_tab',
-            array('label' => __('General', 'master-addons' ))
-        );
-
-        $menus = $this->get_available_menus();
-
-        if (!empty($menus)) {
-
-            $ids = array_keys($menus);
-            $default = $ids[0];
-
-            /* translators: Navigation Menu widget Select Menu control description. %s: Menus screen link */
-            $nav_menu_description = sprintf(__('Add or otherwise manage menus in %s.', 'master-addons' ), sprintf(
-                '<a href="%2$s" target="_blank">%1$s</a>',
-                __('Menus screen', 'master-addons' ),
-                admin_url('nav-menus.php')
-            ));
-
-            $this->add_control(
-                'jltma_nav_menu',
-                array(
-                    'label'        => __('Select Menu', 'master-addons' ),
-                    'type'         => Controls_Manager::SELECT,
-                    'options'      => $menus,
-                    'default'      => $default,
-                    'save_default' => true,
-                    'separator'    => 'after',
-                    'description'  => $nav_menu_description,
-                )
-            );
-        } else {
-            /* translators: Navigation Menu widget no menus notice. %s: Menus screen link */
-            $no_menu_message_part = sprintf(__('Go to the %s to create one.', 'master-addons' ), sprintf(
-                '<a href="%2$s" target="_blank">%1$s</a>',
-                __('Menus screen', 'master-addons' ),
-                admin_url('nav-menus.php?action=edit&menu=0')
-            ));
-            $no_menu_message = sprintf(
-                '<strong>%1$s</strong><br>%2$s',
-                __('There are no menus in your site.', 'master-addons' ),
-                $no_menu_message_part
-            );
-
-            $this->add_control(
-                'jltma_nav_menu',
-                array(
-                    'type'            => Controls_Manager::RAW_HTML,
-                    'raw'             => $no_menu_message,
-                    'separator'       => 'after',
-                    'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
-                )
-            );
-        }
-
-        // Define layout options - Pro version overrides via filter
-        $layout_options = apply_filters('master_addons/addons/navmenu/layout', array(
-            'horizontal'       => array('title' => __('Horizontal', 'master-addons')),
-            'vertical'         => array('title' => __('Vertical', 'master-addons')),
-            'jltma-navmenu-pro' => array('title' => __('Dropdown (Pro)', 'master-addons')),
-        ));
-
-        $this->add_control(
-            'layout',
-            array(
-                'label'              => __('Layout', 'master-addons'),
-                'type'               => 'jltma-choose-text',
-                'options'            => $layout_options,
-                'default'            => 'horizontal',
-                'label_block'        => false,
-                'render_type'        => 'template',
-                'toggle'             => false,
-                'frontend_available' => true,
-                'description'        => Helper::upgrade_to_pro('Dropdown Layout available on'),
-            )
-        );
-
-        // Dropdown menu type control - Pro version overrides via filter
-        $dropdown_menu_type_options = apply_filters('master_addons/addons/navmenu/dropdown_type', array(
-            'jltma-dropdown-pro-1' => [
-                'title'       => __('Default (Pro)', 'master-addons'),
-                'description' => 'Default dropdown view',
-            ],
-            'jltma-dropdown-pro-2' => [
-                'title'       => __('Popup (Pro)', 'master-addons'),
-                'description' => 'Dropdown in popup',
-            ],
-            'jltma-dropdown-pro-3' => [
-                'title'       => __('Offcanvas (Pro)', 'master-addons'),
-                'description' => 'Offcanvas type of dropdown menu',
-            ],
-        ));
-
-        $this->add_control(
-            'dropdown_menu_type',
-            [
-                'label'       => __('Type', 'master-addons'),
-                'type'        => 'jltma-choose-text',
-                'options'     => $dropdown_menu_type_options,
-                'default'     => 'default',
-                'toggle'      => false,
-                'label_block' => false,
-                'render_type' => 'template',
-                'condition'   => ['layout' => 'dropdown'],
-                'description' => Helper::upgrade_to_pro('Dropdown Types available on'),
-            ]
-        );
-
-        $this->add_control(
-            'vertical_menu_type',
-            array(
-                'label' => __('Type', 'master-addons' ),
-                'type' => 'jltma-choose-text',
-                'options' => array(
-                    'normal' => array(
-                        'title' => __('Normal', 'master-addons' ),
-                        'description' => 'Dropdown on the side of the menu',
-                    ),
-                    'toggle' => array(
-                        'title' => __('Toggle', 'master-addons' ),
-                        'description' => 'Toggle view menu',
-                    ),
-                    'accordion' => array(
-                        'title' => __('Accordion', 'master-addons' ),
-                        'description' => 'Accordion view menu',
-                    ),
-                    'side' => array(
-                        'title' => __('Side', 'master-addons' ),
-                        'description' => 'Vertical menu on the side of the page. Without dropdown menu',
-                    ),
-                ),
-                'default' => 'normal',
-                'toggle' => false,
-                'render_type' => 'template',
-                'frontend_available' => true,
-                'condition' => array('layout' => 'vertical'),
-            )
-        );
-
-        $this->add_control(
-            'side_description',
-            array(
-                'type' => Controls_Manager::RAW_HTML,
-                'raw' => __('Only the main menu items are displayed, subitems are hidden.', 'master-addons' ),
-                'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
-                'condition' => array(
-                    'layout' => 'vertical',
-                    'vertical_menu_type' => 'side',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'menu_alignment',
-            [
-                'label'        => __('Menu Alignment', 'master-addons' ),
-                'type'         => Controls_Manager::CHOOSE,
-                'options'      => Helper::jltma_content_flex_alignments(),
-                'render_type'  => 'template',
-                'default'      => 'center',
-                'prefix_class' => 'jltma-menu-alignment%s-',
-                'selectors'    => [
-                    '{{WRAPPER}} .jltma-layout-horizontal' . $widget_selector . '__main > ul,
-					{{WRAPPER}} .jltma-layout-vertical.jltma-vertical-type-normal' . $widget_selector . '__main > ul > li > a' => 'justify-content: {{VALUE}}',
-                ],
-                'conditions' => [
-                    'relation' => 'or',
-                    'terms'    => [
-                        [
-                            'name'     => 'layout',
-                            'operator' => '=',
-                            'value'    => 'horizontal',
-                        ],
-                        [
-                            'relation' => 'and',
-                            'terms'    => [
-                                [
-                                    'name'     => 'layout',
-                                    'operator' => '=',
-                                    'value'    => 'vertical',
-                                ],
-                                [
-                                    'name'     => 'vertical_menu_type',
-                                    'operator' => '=',
-                                    'value'    => 'normal',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'side_menu_alignment',
-            [
-                'label'   => __('Alignment', 'master-addons' ),
-                'type'    => Controls_Manager::CHOOSE,
-                'options' => Helper::jltma_content_flex_alignments(),
-                'default'   => 'center',
-                'toggle'    => false,
-                'selectors' => [
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul' => 'justify-content: {{VALUE}};',
-                ],
-                'condition' => [
-                    'layout'             => 'vertical',
-                    'vertical_menu_type' => 'side',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'side_menu_position',
-            array(
-                'label' => __('Position', 'master-addons' ),
-                'type' => Controls_Manager::CHOOSE,
-                'options' => array(
-                    'left' => array(
-                        'title' => __('Left', 'master-addons' ),
-                        'icon' => 'eicon-h-align-left',
-                    ),
-                    'right' => array(
-                        'title' => __('Right', 'master-addons' ),
-                        'icon' => 'eicon-h-align-right',
-                    ),
-                ),
-                'default' => 'left',
-                'toggle' => false,
-                'render_type' => 'template',
-                'prefix_class' => 'jltma-side-position-',
-                'frontend_available' => true,
-                'condition' => array(
-                    'layout' => 'vertical',
-                    'vertical_menu_type' => 'side',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_breakpoints',
-            array(
-                'label' => __('Breakpoint', 'master-addons' ),
-                'type' => Controls_Manager::SELECT,
-                'options' => array(
-                    'none' => __('None', 'master-addons' ),
-                    /* translators: Tablet breakpoint %d: number in pixels. */
-                    'tablet' => sprintf(__('Tablet (< %dpx)', 'master-addons' ), Helper::get_breakpoints('tablet')),
-                    /* translators: Mobile breakpoint %d: number in pixels. */
-                    'mobile' => sprintf(__('Mobile (< %dpx)', 'master-addons' ), Helper::get_breakpoints('mobile')),
-                ),
-                'default' => 'tablet',
-                'frontend_available' => true,
-                'render_type' => 'template',
-                'prefix_class' => 'jltma-dropdown-breakpoints-',
-                'condition' => array('layout!' => 'dropdown'),
-            )
-        );
-
-        $this->add_control(
-            'open_by_click',
-            array(
-                'label' => __('Open link by click (menu item)', 'master-addons' ),
-                'type' => Controls_Manager::SWITCHER,
-                'label_on' => __('Yes', 'master-addons' ),
-                'label_off' => __('No', 'master-addons' ),
-                'return_value' => 'true',
-                'default' => 'false',
-                'description' => sprintf(__('If link # or empty, there will be no link', 'master-addons' )),
-                'condition' => array(
-                    'layout' => 'vertical',
-                    'vertical_menu_type' => array(
-                        'toggle',
-                        'accordion',
-                    ),
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_absolute',
-            array(
-                'label' => __('Overlap Content', 'master-addons' ),
-                'type' => Controls_Manager::SWITCHER,
-                'description' => __('Set Dropdown Menu position to absolute. On desktop, this will affect the Layout: Dropdown. When chosen Breakpoint for Tablet or Mobile this will also affect the Layouts: Dropdown, Horizontal, Vertical (except the Side type).', 'master-addons' ),
-                'separator' => 'before',
-                'render_type' => 'template',
-                'prefix_class' => 'jltma-dropdown-absolute-',
-                'conditions' => array(
-                    'relation' => 'or',
-                    'terms' => array(
-                        array(
-                            'relation' => 'and',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'horizontal',
-                                ),
-                                array(
-                                    'name' => 'dropdown_breakpoints',
-                                    'operator' => '!==',
-                                    'value' => 'none',
-                                ),
-                            ),
-                        ),
-                        array(
-                            'relation' => 'and',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'vertical',
-                                ),
-                                array(
-                                    'name' => 'dropdown_breakpoints',
-                                    'operator' => '!==',
-                                    'value' => 'none',
-                                ),
-                                array(
-                                    'name' => 'vertical_menu_type',
-                                    'operator' => '!==',
-                                    'value' => 'side',
-                                ),
-                            ),
-                        ),
-                        array(
-                            'relation' => 'and',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'dropdown',
-                                ),
-                                array(
-                                    'name' => 'dropdown_menu_type',
-                                    'operator' => '=',
-                                    'value' => 'default',
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_absolute_position',
-            array(
-                'label' => __('Dropdown Position', 'master-addons' ),
-                'type' => Controls_Manager::CHOOSE,
-                'options' => array(
-                    'left' => array(
-                        'title' => __('Left Side', 'master-addons' ),
-                        'icon' => 'eicon-h-align-left',
-                    ),
-                    'right' => array(
-                        'title' => __('Right Side', 'master-addons' ),
-                        'icon' => 'eicon-h-align-right',
-                    ),
-                ),
-                'render_type' => 'template',
-                'prefix_class' => 'jltma-dropdown-absolute%s-position-',
-                'conditions' => array(
-                    'relation' => 'or',
-                    'terms' => array(
-                        array(
-                            'relation' => 'and',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'horizontal',
-                                ),
-                                array(
-                                    'name' => 'dropdown_breakpoints',
-                                    'operator' => '!==',
-                                    'value' => 'none',
-                                ),
-                                array(
-                                    'name' => 'dropdown_absolute',
-                                    'operator' => '=',
-                                    'value' => 'yes',
-                                ),
-                            ),
-                        ),
-                        array(
-                            'relation' => 'and',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'vertical',
-                                ),
-                                array(
-                                    'name' => 'dropdown_breakpoints',
-                                    'operator' => '!==',
-                                    'value' => 'none',
-                                ),
-                                array(
-                                    'name' => 'vertical_menu_type',
-                                    'operator' => '!==',
-                                    'value' => 'side',
-                                ),
-                                array(
-                                    'name' => 'dropdown_absolute',
-                                    'operator' => '=',
-                                    'value' => 'yes',
-                                ),
-                            ),
-                        ),
-                        array(
-                            'relation' => 'and',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'dropdown',
-                                ),
-                                array(
-                                    'name' => 'dropdown_menu_type',
-                                    'operator' => '=',
-                                    'value' => 'default',
-                                ),
-                                array(
-                                    'name' => 'dropdown_absolute',
-                                    'operator' => '=',
-                                    'value' => 'yes',
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'widget_min_width',
-            array(
-                'label' => __('Dropdown Min Width', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'size_units' => array(
-                    'px',
-                    'vw',
-                ),
-                'range' => array(
-                    'px' => array(
-                        'min' => 200,
-                        'max' => 1920,
-                    ),
-                    'vw' => array(
-                        'min' => 10,
-                    ),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}}.jltma-dropdown-absolute-yes  ' . $widget_selector . '__dropdown' => 'width: {{SIZE}}{{UNIT}};',
-                    '{{WRAPPER}}:not(.jltma-dropdown-absolute-yes) ' => 'width: {{SIZE}}{{UNIT}};',
-                ),
-                'conditions' => array(
-                    'relation' => 'or',
-                    'terms' => array(
-                        array(
-                            'relation' => 'and',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'horizontal',
-                                ),
-                                array(
-                                    'name' => 'dropdown_breakpoints',
-                                    'operator' => '!==',
-                                    'value' => 'none',
-                                ),
-                                array(
-                                    'name' => 'dropdown_absolute',
-                                    'operator' => '=',
-                                    'value' => 'yes',
-                                ),
-                            ),
-                        ),
-                        array(
-                            'relation' => 'and',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'vertical',
-                                ),
-                                array(
-                                    'name' => 'dropdown_breakpoints',
-                                    'operator' => '!==',
-                                    'value' => 'none',
-                                ),
-                                array(
-                                    'name' => 'dropdown_absolute',
-                                    'operator' => '=',
-                                    'value' => 'yes',
-                                ),
-                                array(
-                                    'name' => 'vertical_menu_type',
-                                    'operator' => '!==',
-                                    'value' => 'side',
-                                ),
-                            ),
-                        ),
-                        array(
-                            'relation' => 'and',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'dropdown',
-                                ),
-                                array(
-                                    'name' => 'dropdown_menu_type',
-                                    'operator' => '=',
-                                    'value' => 'default',
-                                ),
-                                array(
-                                    'name' => 'dropdown_absolute',
-                                    'operator' => '=',
-                                    'value' => 'yes',
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_position',
-            array(
-                'label' => __('Dropdown Placement', 'master-addons' ),
-                'type' => Controls_Manager::CHOOSE,
-                'options' => array(
-                    'left' => array(
-                        'title' => __('Left Side', 'master-addons' ),
-                        'icon' => 'eicon-h-align-left',
-                    ),
-                    'right' => array(
-                        'title' => __('Right Side', 'master-addons' ),
-                        'icon' => 'eicon-h-align-right',
-                    ),
-                ),
-                'default' => 'right',
-                'toggle' => false,
-                'prefix_class' => 'jltma-dropdown-position-',
-                'condition' => array(
-                    'layout' => 'vertical',
-                    'vertical_menu_type' => 'normal',
-                ),
-            )
-        );
-
-        $this->end_controls_section();
-    }
-
-    /**
-     * Toogle Switch Section
-     */
-
-    protected function jltma_nav_menu_toggle_switch_section()
-    {
-        $widget_selector = $this->get_widget_selector();
-
-        $this->start_controls_section(
-            'section_dropdown_toggle',
-            array(
-                'label' => __('Toggle Switch', 'master-addons' ),
-                'conditions' => array(
-                    'relation' => 'or',
-                    'terms' => array(
-                        array(
-                            'relation' => 'and',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'horizontal',
-                                ),
-                                array(
-                                    'name' => 'dropdown_breakpoints',
-                                    'operator' => '!==',
-                                    'value' => 'none',
-                                ),
-                            ),
-                        ),
-                        array(
-                            'relation' => 'and',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'vertical',
-                                ),
-                                array(
-                                    'name' => 'dropdown_breakpoints',
-                                    'operator' => '!==',
-                                    'value' => 'none',
-                                ),
-                                array(
-                                    'name' => 'vertical_menu_type',
-                                    'operator' => '!==',
-                                    'value' => 'side',
-                                ),
-                            ),
-                        ),
-                        array(
-                            'name' => 'layout',
-                            'operator' => '=',
-                            'value' => 'dropdown',
-                        ),
-                    ),
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_toggle_description',
-            array(
-                'type' => Controls_Manager::RAW_HTML,
-                'raw' => __('This toggle will appear on resolutions below the one defined in Breakpoint settings.', 'master-addons' ),
-                'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
-                'condition' => array(
-                    'layout!' => 'dropdown',
-                    'dropdown_breakpoints!' => 'none',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'toggle_align',
-            array(
-                'label' => __('Alignment', 'master-addons' ),
-                'type' => Controls_Manager::CHOOSE,
-                'options' => array(
-                    'left' => array(
-                        'title' => __('Left', 'master-addons' ),
-                        'icon' => 'fa fa-align-left',
-                    ),
-                    'center' => array(
-                        'title' => __('Center', 'master-addons' ),
-                        'icon' => 'fa fa-align-center',
-                    ),
-                    'right' => array(
-                        'title' => __('Right', 'master-addons' ),
-                        'icon' => 'fa fa-align-right',
-                    ),
-                    'stretch' => array(
-                        'title' => __('Justified', 'master-addons' ),
-                        'icon' => 'fa fa-align-justify',
-                    ),
-                ),
-                'toggle' => true,
-                'label_block' => false,
-                'selectors_dictionary' => array(
-                    'left' => 'flex-start;',
-                    'center' => 'center;',
-                    'right' => 'flex-end;',
-                    'stretch' => 'stretch',
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__toggle-container' => 'align-items: {{VALUE}};',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_toggle_type',
-            array(
-                'label' => __('Type', 'master-addons' ),
-                'type' => 'jltma-choose-text',
-                'options' => array(
-                    'icon' => array(
-                        'title' => __('Icon', 'master-addons' ),
-                        'description' => 'Switch has only icon',
-                    ),
-                    'text' => array(
-                        'title' => __('Text', 'master-addons' ),
-                        'description' => 'Switch has only text',
-                    ),
-                    'both' => array(
-                        'title' => __('Both', 'master-addons' ),
-                        'description' => 'Switch has icon and text',
-                    ),
-                ),
-                'default' => 'icon',
-                'label_block' => false,
-                'separator' => 'before',
-            )
-        );
-
-        $this->add_control(
-            'toggle_view',
-            array(
-                'label' => __('View', 'master-addons' ),
-                'type' => 'jltma-choose-text',
-                'options' => array(
-                    'default' => array('title' => __('Default', 'master-addons' )),
-                    'stacked' => array('title' => __('Stacked', 'master-addons' )),
-                    'framed' => array('title' => __('Framed', 'master-addons' )),
-                ),
-                'default' => 'stacked',
-                'label_block' => false,
-                'prefix_class' => 'jltma-toggle-view-',
-            )
-        );
-
-        $this->add_control(
-            'toggle_shape',
-            array(
-                'label' => __('Shape', 'master-addons' ),
-                'type' => 'jltma-choose-text',
-                'options' => array(
-                    'square' => array('title' => __('Square', 'master-addons' )),
-                    'circle' => array('title' => __('Circle', 'master-addons' )),
-                ),
-                'default' => 'square',
-                'label_block' => false,
-                'prefix_class' => 'jltma-toggle-shape-',
-                'condition' => array(
-                    'toggle_view!' => 'default',
-                    'dropdown_toggle_type' => 'icon',
-                    'toggle_align!' => 'stretch',
-                ),
-            )
-        );
-
-        $this->start_controls_tabs(
-            'tabs_dropdown_toggle_icon',
-            array('condition' => array('dropdown_toggle_type!' => 'text'))
-        );
-
-        $this->start_controls_tab(
-            'tab_dropdown_toggle_icon_normal',
-            array('label' => __('Normal', 'master-addons' ))
-        );
-
-        $this->add_control(
-            'dropdown_toggle_icon',
-            array(
-                'label' => __('Icon', 'master-addons' ),
-                'type' => Controls_Manager::ICONS,
-                'fa4compatibility' => 'icon',
-                'recommended' => array(
-                    'fa-solid' => array(
-                        'align-justify',
-                        'hamburger',
-                        'list',
-                    ),
-                ),
-                'default' => array(
-                    'value' => 'eicon-menu-bar',
-                    'library' => 'eicon',
-                ),
-                'file' => '',
-                'show_label' => false,
-            )
-        );
-
-        $this->end_controls_tab();
-
-        $this->start_controls_tab(
-            'tab_dropdown_toggle_icon_active',
-            array('label' => __('Active', 'master-addons' ))
-        );
-
-        $this->add_control(
-            'dropdown_toggle_icon_active',
-            array(
-                'label' => __('Icon', 'master-addons' ),
-                'type' => Controls_Manager::ICONS,
-                'fa4compatibility' => 'icon',
-                'recommended' => array(
-                    'fa-solid' => array(
-                        'times',
-                        'times-circle',
-                    ),
-                    'fa-regular' => array(
-                        'times-circle',
-                    ),
-                ),
-                'file' => '',
-                'show_label' => false,
-            )
-        );
-
-        $this->end_controls_tab();
-
-        $this->end_controls_tabs();
-
-        $this->add_control(
-            'dropdown_toggle_text',
-            array(
-                'label' => __('Text', 'master-addons' ),
-                'type' => Controls_Manager::TEXT,
-                'placeholder' => __('Menu', 'master-addons' ),
-                'separator' => 'before',
-                'condition' => array('dropdown_toggle_type!' => 'icon'),
-            )
-        );
-
-        $this->add_responsive_control(
-            'toggle_text_icon_position',
-            array(
-                'label' => __('Position', 'master-addons' ),
-                'type' => 'jltma-choose-text',
-                'description' => __('Will be applied only if Justified Alignment is chosen.', 'master-addons' ),
-                'options' => array(
-                    'central' => array(
-                        'title' => __('Central', 'master-addons' ),
-                    ),
-                    'on-sides' => array(
-                        'title' => __('On Sides', 'master-addons' ),
-                    ),
-                ),
-                'default' => 'central',
-                'label_block' => false,
-                'prefix_class' => 'jltma-toggle-text-icon%s-position-',
-                'condition' => array('dropdown_toggle_type' => 'both'),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_toggle_gap',
-            array(
-                'label' => __('Horizontal Gap', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'size_units' => array('px'),
-                'range' => array(
-                    'px' => array(
-                        'min' => 0,
-                    ),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__toggle > span.jltma-toggle-icon-active + span' => 'margin-left: {{SIZE}}{{UNIT}};',
-                ),
-                'condition' => array('dropdown_toggle_type' => 'both'),
-            )
-        );
-
-        $this->end_controls_section();
-    }
-
-    /**
-     * Dropdown Menu
-     */
-    protected function jltma_nav_menu_dropdown_menu_section()
-    {
-        $widget_selector = $this->get_widget_selector();
-
-        $this->start_controls_section(
-            'section_dropdown_menu',
-            array(
-                'label' => __('Dropdown Menu', 'master-addons' ),
-                'conditions' => array(
-                    'relation' => 'or',
-                    'terms' => array(
-                        array(
-                            'name' => 'layout',
-                            'operator' => '=',
-                            'value' => 'horizontal',
-                        ),
-                        array(
-                            'relation' => 'and',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'vertical',
-                                ),
-                                array(
-                                    'name' => 'vertical_menu_type',
-                                    'operator' => '!==',
-                                    'value' => 'side',
-                                ),
-                            ),
-                        ),
-                        array(
-                            'name' => 'layout',
-                            'operator' => '=',
-                            'value' => 'dropdown',
-                        ),
-                    ),
-                ),
-            )
-        );
-
-        // Start of Dropdown Indicator
-        $this->add_control(
-            'indicator_main_popover',
-            array(
-                'label' => esc_html__('Dropdown Indicator', 'master-addons'),
-                'type' => Controls_Manager::CHOOSE,
-                'render_type' => 'template',
-                'separator' => 'before',
-                'options' => array(
-                    'show' => array(
-                        'title' => __('Show', 'master-addons'),
-                        'icon' => 'eicon-check',
-                    ),
-                    'hide' => array(
-                        'title' => __('Hide', 'master-addons'),
-                        'icon' => 'eicon-close',
-                    ),
-                ),
-                'default' => 'show',
-                'toggle' => false,
-                'conditions' => array(
-                    'relation' => 'or',
-                    'terms' => array(
-                        array(
-                            'name' => 'layout',
-                            'operator' => '=',
-                            'value' => 'horizontal',
-                        ),
-                        array(
-                            'relation' => 'and',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'vertical',
-                                ),
-                                array(
-                                    'name' => 'vertical_menu_type',
-                                    'operator' => '=',
-                                    'value' => 'normal',
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            )
-        );
-
-        // Position control (common - outside tabs)
-        $this->add_control(
-            'icon_position',
-            array(
-                'label' => __('Indicator Position', 'master-addons'),
-                'type' => Controls_Manager::CHOOSE,
-                'options' => array(
-                    'left' => array(
-                        'title' => __('Left', 'master-addons'),
-                        'icon' => 'eicon-h-align-left',
-                    ),
-                    'right' => array(
-                        'title' => __('Right', 'master-addons'),
-                        'icon' => 'eicon-h-align-right',
-                    ),
-                ),
-                'default' => 'right',
-                'toggle' => false,
-                'render_type' => 'template',
-                'prefix_class' => 'jltma-icon-position-',
-                'condition' => array(
-                    'indicator_main_popover' => 'show',
-                ),
-            )
-        );
-
-        // Gap Between control (common - outside tabs)
-        $this->add_responsive_control(
-            'indicator_main_gap',
-            array(
-                'label' => __('Gap Between', 'master-addons'),
-                'type' => Controls_Manager::SLIDER,
-                'size_units' => array('px', 'em', 'vw'),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main > ul > li > a > span > span:nth-child(2)' => 'margin-left: {{SIZE}}{{UNIT}}',
-                ),
-                'condition' => array(
-                    'indicator_main_popover' => 'show',
-                ),
-            )
-        );
-
-        // Size control (common - outside tabs)
-        $this->add_responsive_control(
-            'indicator_main_size',
-            array(
-                'label' => __('Icon Size', 'master-addons'),
-                'type' => Controls_Manager::SLIDER,
-                'size_units' => array('px', 'em'),
-                'range' => array(
-                    'px' => array(
-                        'min' => 5,
-                        'max' => 50,
-                    ),
-                    'em' => array(
-                        'min' => 0.5,
-                        'max' => 5,
-                    ),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main > ul > li > a .jltma-nav-menu__arrow' => 'font-size: {{SIZE}}{{UNIT}};',
-                    '{{WRAPPER}} ' . $widget_selector . '__main > ul > li > a .jltma-nav-menu__main-item-text-wrap .jltma-nav-menu__arrow' => 'font-size: {{SIZE}}{{UNIT}};',
-                ),
-                'condition' => array(
-                    'indicator_main_popover' => 'show',
-                ),
-            )
-        );
-
-        // Icon selector (common - outside tabs)
-        $this->add_control(
-            'indicator_main',
-            array(
-                'label' => __('Dropdown Icon', 'master-addons'),
-                'type' => Controls_Manager::ICONS,
-                'render_type' => 'template',
-                'fa4compatibility' => 'icon',
-                'recommended' => array(
-                    'fa-solid' => array(
-                        'angle-down',
-                        'chevron-down',
-                        'caret-down',
-                        'arrow-down',
-                        'circle-chevron-down',
-                        'square-caret-down',
-                    ),
-                    'fa-regular' => array(
-                        'circle-down',
-                        'square-caret-down',
-                    ),
-                ),
-                'default' => array(
-                    'value' => 'fas fa-angle-down',
-                    'library' => 'fa-solid',
-                ),
-                'condition' => array(
-                    'indicator_main_popover' => 'show',
-                ),
-            )
-        );
-
-        // Normal/Hover Tabs
-        $this->start_controls_tabs(
-            'indicator_main_tabs',
-            array(
-                'condition' => array(
-                    'indicator_main_popover' => 'show',
-                ),
-            )
-        );
-
-        // ===== NORMAL TAB =====
-        $this->start_controls_tab(
-            'indicator_main_normal_tab',
-            array(
-                'label' => esc_html__('Normal', 'master-addons'),
-            )
-        );
-
-        $this->add_responsive_control(
-            'indicator_main_rotate',
-            array(
-                'label' => __('Rotate', 'master-addons'),
-                'type' => Controls_Manager::SLIDER,
-                'size_units' => array('deg'),
-                'default' => array(
-                    'unit' => 'deg',
-                    'size' => 0,
-                ),
-                'range' => array(
-                    'deg' => array(
-                        'min' => -360,
-                        'max' => 360,
-                        'step' => 1,
-                    ),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main > ul > li > a .jltma-nav-menu__arrow' => 'transform: rotate({{SIZE}}deg);',
-                    '{{WRAPPER}} ' . $widget_selector . '__main > ul > li > a .jltma-nav-menu__main-item-text-wrap .jltma-nav-menu__arrow' => 'transform: rotate({{SIZE}}deg);',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'indicator_main_color',
-            array(
-                'label' => __('Color', 'master-addons'),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main > ul > li > a .jltma-nav-menu__arrow' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} ' . $widget_selector . '__main > ul > li > a .jltma-nav-menu__main-item-text-wrap .jltma-nav-menu__arrow' => 'color: {{VALUE}};',
-                ),
-            )
-        );
-
-        $this->end_controls_tab();
-
-        // ===== HOVER TAB =====
-        $this->start_controls_tab(
-            'indicator_main_hover_tab',
-            array(
-                'label' => esc_html__('Hover', 'master-addons'),
-            )
-        );
-
-        $this->add_responsive_control(
-            'indicator_main_rotate_hover',
-            array(
-                'label' => __('Rotate', 'master-addons'),
-                'type' => Controls_Manager::SLIDER,
-                'size_units' => array('deg'),
-                'default' => array(
-                    'unit' => 'deg',
-                    'size' => 180,
-                ),
-                'range' => array(
-                    'deg' => array(
-                        'min' => -360,
-                        'max' => 360,
-                        'step' => 1,
-                    ),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main > ul > li:hover > a .jltma-nav-menu__arrow' => 'transform: rotate({{SIZE}}deg);',
-                    '{{WRAPPER}} ' . $widget_selector . '__main > ul > li:hover > a .jltma-nav-menu__main-item-text-wrap .jltma-nav-menu__arrow' => 'transform: rotate({{SIZE}}deg);',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'indicator_main_color_hover',
-            array(
-                'label' => __('Color', 'master-addons'),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main > ul > li:hover > a .jltma-nav-menu__arrow' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} ' . $widget_selector . '__main > ul > li:hover > a .jltma-nav-menu__main-item-text-wrap .jltma-nav-menu__arrow' => 'color: {{VALUE}};',
-                ),
-            )
-        );
-
-        // Transition Duration (inside Hover tab)
-        $this->add_control(
-            'indicator_main_transition_duration',
-            array(
-                'label' => __('Transition Duration', 'master-addons'),
-                'type' => Controls_Manager::SLIDER,
-                'separator' => 'before',
-                'default' => array(
-                    'size' => 0.3,
-                ),
-                'range' => array(
-                    'px' => array(
-                        'min' => 0,
-                        'max' => 2,
-                        'step' => 0.1,
-                    ),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main > ul > li > a .jltma-nav-menu__arrow' => 'transition: transform {{SIZE}}s ease, color {{SIZE}}s ease, font-size {{SIZE}}s ease;',
-                    '{{WRAPPER}} ' . $widget_selector . '__main > ul > li > a .jltma-nav-menu__main-item-text-wrap .jltma-nav-menu__arrow' => 'transition: transform {{SIZE}}s ease, color {{SIZE}}s ease, font-size {{SIZE}}s ease;',
-                ),
-            )
-        );
-
-        $this->end_controls_tab();
-
-        $this->end_controls_tabs();
-        // End of Dropdown Indicator
-
-        $this->add_control(
-            'dropdown_popup_type_width',
-            array(
-                'label' => __('Max Width', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'size_units' => array(
-                    'px',
-                    '%',
-                ),
-                'range' => array(
-                    'px' => array(
-                        'min' => 200,
-                        'max' => 1920,
-                    ),
-                    '%' => array(
-                        'min' => 20,
-                        'max' => 100,
-                    ),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown.jltma-menu-dropdown-type-popup > ul' => 'max-width: {{SIZE}}{{UNIT}}',
-                ),
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type' => 'popup',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'full_width',
-            array(
-                'label' => __('Full Width', 'master-addons' ),
-                'type' => Controls_Manager::SWITCHER,
-                'separator' => 'before',
-                'description' => __('Stretch the dropdown of the menu to full width.', 'master-addons' ),
-                'render_type' => 'template',
-                'prefix_class' => 'jltma-nav-menu-',
-                'return_value' => 'stretch',
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type' => 'default',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_width',
-            array(
-                'label' => __('Dropdown Width', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'separator' => 'before',
-                'size_units' => array('px'),
-                'range' => array(
-                    'px' => array(
-                        'min' => 100,
-                        'max' => 500,
-                    ),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li ul,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li ul' => 'width: {{SIZE}}{{UNIT}};',
-                ),
-                'conditions' => array(
-                    'relation' => 'or',
-                    'terms' => array(
-                        array(
-                            'name' => 'layout',
-                            'operator' => '=',
-                            'value' => 'horizontal',
-                        ),
-                        array(
-                            'relation' => 'and',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'vertical',
-                                ),
-                                array(
-                                    'name' => 'vertical_menu_type',
-                                    'operator' => '=',
-                                    'value' => 'normal',
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_align',
-            [
-                'label'        => __('Alignment', 'master-addons' ),
-                'type'         => Controls_Manager::CHOOSE,
-                'options'      => Helper::jltma_content_flex_alignments(),
-                'default'      => 'flex-start',
-                'prefix_class' => 'jltma-dropdown%s-align-',
-                'conditions'   => [
-                    'relation' => 'or',
-                    'terms'    => [
-                        [
-                            'name'     => 'layout',
-                            'operator' => '=',
-                            'value'    => 'horizontal',
-                        ],
-                        [
-                            'relation' => 'and',
-                            'terms'    => [
-                                [
-                                    'name'     => 'layout',
-                                    'operator' => '=',
-                                    'value'    => 'vertical',
-                                ],
-                                [
-                                    'name'     => 'vertical_menu_type',
-                                    'operator' => '!==',
-                                    'value'    => 'side',
-                                ],
-                            ],
-                        ],
-                        [
-                            'relation' => 'and',
-                            'terms'    => [
-                                [
-                                    'name'     => 'layout',
-                                    'operator' => '=',
-                                    'value'    => 'dropdown',
-                                ],
-                                [
-                                    'name'     => 'dropdown_menu_type',
-                                    'operator' => '!==',
-                                    'value'    => 'popup',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-            ]
-        );
-
-        $this->add_responsive_control(
-            'dropdown_popup_align',
-            [
-                'label'        => __('Alignment', 'master-addons' ),
-                'type'         => Controls_Manager::CHOOSE,
-                'options'      => Helper::jltma_content_flex_alignments(),
-                'default'      => 'center',
-                'toggle'       => false,
-                'prefix_class' => 'jltma-dropdown%s-align-',
-                'condition'    => [
-                    'layout'             => 'dropdown',
-                    'dropdown_menu_type' => 'popup',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'indicator_submenu_popover',
-            array(
-                'label' => esc_html__('Submenu Indicator', 'master-addons' ),
-                'type' => Controls_Manager::POPOVER_TOGGLE,
-                'render_type' => 'template',
-            )
-        );
-
-        $this->start_popover();
-
-        $this->add_control(
-            'indicator_submenu',
-            array(
-                'type' => Controls_Manager::ICONS,
-                'fa4compatibility' => 'icon',
-                'recommended' => array(
-                    'fa-solid' => array(
-                        'angle-down',
-                        'chevron-down',
-                        'caret-down',
-                        'arrow-down',
-                        'long-arrow-alt-down',
-                        'chevron-circle-down',
-                        'arrow-circle-down',
-                        'angle-right',
-                        'chevron-right',
-                        'caret-right',
-                        'arrow-right',
-                        'long-arrow-alt-right',
-                        'chevron-circle-right',
-                        'arrow-circle-right',
-                    ),
-                    'fa-regular' => array(
-                        'arrow-alt-circle-down',
-                        'arrow-alt-circle-right',
-                    ),
-                ),
-                'default' => array(
-                    'value' => 'eicon-sort-down',
-                    'library' => 'eicon',
-                ),
-                'file' => '',
-                'condition' => array('indicator_submenu_popover' => 'yes'),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_icon_position',
-            array(
-                'label' => __('Position', 'master-addons' ),
-                'type' => Controls_Manager::CHOOSE,
-                'options' => array(
-                    'left' => array(
-                        'title' => __('Left', 'master-addons' ),
-                        'icon' => 'eicon-h-align-left',
-                    ),
-                    'right' => array(
-                        'title' => __('Right', 'master-addons' ),
-                        'icon' => 'eicon-h-align-right',
-                    ),
-                ),
-                'default' => 'right',
-                'toggle' => false,
-                'prefix_class' => 'jltma-dropdown-icon-',
-                'conditions' => array(
-                    'relation' => 'and',
-                    'terms' => array(
-                        array(
-                            'relation' => 'or',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'horizontal',
-                                ),
-                                array(
-                                    'relation' => 'and',
-                                    'terms' => array(
-                                        array(
-                                            'name' => 'layout',
-                                            'operator' => '=',
-                                            'value' => 'vertical',
-                                        ),
-                                        array(
-                                            'name' => 'vertical_menu_type',
-                                            'operator' => '!==',
-                                            'value' => 'side',
-                                        ),
-                                    ),
-                                ),
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'dropdown',
-                                ),
-                            ),
-                        ),
-                        array(
-                            'name' => 'indicator_submenu_popover',
-                            'operator' => '=',
-                            'value' => 'yes',
-                        ),
-                    ),
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'indicator_submenu_gap',
-            array(
-                'label' => __('Gap Between', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'size_units' => array(
-                    'px',
-                    'em',
-                    'vw',
-                ),
-                'selectors' => array(
-                    // '{{WRAPPER}}' => '--indicator-submenu-gap: {{SIZE}}{{UNIT}};',
-                    '{{WRAPPER}} ' . $widget_selector . '__main > ul > li ul.dropdown-menu a > span > span:nth-child(2)' => 'margin-left: {{SIZE}}{{UNIT}}',
-                ),
-                'conditions' => array(
-                    'relation' => 'and',
-                    'terms' => array(
-                        array(
-                            'relation' => 'or',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'horizontal',
-                                ),
-                                array(
-                                    'relation' => 'and',
-                                    'terms' => array(
-                                        array(
-                                            'name' => 'layout',
-                                            'operator' => '=',
-                                            'value' => 'vertical',
-                                        ),
-                                        array(
-                                            'name' => 'vertical_menu_type',
-                                            'operator' => '!==',
-                                            'value' => 'side',
-                                        ),
-                                    ),
-                                ),
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'dropdown',
-                                ),
-                            ),
-                        ),
-                        array(
-                            'name' => 'indicator_submenu_popover',
-                            'operator' => '=',
-                            'value' => 'yes',
-                        ),
-                    ),
-                ),
-            )
-        );
-
-        $this->add_control(
-            'indicator_submenu_animation',
-            array(
-                'label' => __('Animation', 'master-addons' ),
-                'type' => Controls_Manager::SELECT,
-                'options' => array(
-                    'none' => __('None', 'master-addons' ),
-                    'rotate-left' => __('Rotate Left', 'master-addons' ),
-                    'rotate-right' => __('Rotate Right', 'master-addons' ),
-                    'rotate-opposite' => __('Rotate Opposite', 'master-addons' ),
-                    'opacity' => __('Opacity', 'master-addons' ),
-                ),
-                'default' => 'none',
-                'condition' => array(
-                    'indicator_submenu[value]!' => '',
-                    'indicator_submenu_popover' => 'yes',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'submenu_hover_transition',
-            array(
-                'label' => __('Transition Duration', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'range' => array(
-                    'px' => array(
-                        'max' => 3,
-                        'step' => 0.1,
-                    ),
-                ),
-                'selectors' => array(
-                    // '{{WRAPPER}} ' . $widget_selector . '__main > ul > li > a > span > span' => 'transition-duration: {{SIZE}}s',
-                    '{{WRAPPER}} ' . $widget_selector . '__main > ul > li ul.dropdown-menu a span span' => 'transition-duration: {{SIZE}}s',
-                    // '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul a > span,
-					// {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul a > span,
-					// {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle a > span,
-					// {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion a > span,
-					// {{WRAPPER}} ' . $widget_selector . '__dropdown a > span' => 'transition-duration: {{SIZE}}s',
-                ),
-                'condition' => array(
-                    'indicator_submenu[value]!' => '',
-                    'indicator_submenu_animation!' => 'none',
-                    'indicator_submenu_popover' => 'yes',
-                ),
-            )
-        );
-
-        $this->end_popover();
-
-        $this->end_controls_section();
-    }
-
-    /**
-     * Popup/Offcanvas  Section
-     */
-    protected function jltma_nav_menu_popup_offcanvas_section()
-    {
-        $widget_selector = $this->get_widget_selector();
-
-        $this->start_controls_section(
-            'section_dropdown_popup_offcanvas',
-            array(
-                'label' => __('Popup / Offcanvas Settings', 'master-addons' ),
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type!' => 'default',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'offcanvas_position',
-            array(
-                'label' => __('Position', 'master-addons' ),
-                'type' => Controls_Manager::CHOOSE,
-                'options' => array(
-                    'left' => array(
-                        'title' => __('Left', 'master-addons' ),
-                        'icon' => 'eicon-h-align-left',
-                    ),
-                    'right' => array(
-                        'title' => __('Right', 'master-addons' ),
-                        'icon' => 'eicon-h-align-right',
-                    ),
-                ),
-                'default' => 'right',
-                'toggle' => false,
-                'prefix_class' => 'jltma-offcanvas-position-',
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type' => 'offcanvas',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_offcanvas_width',
-            array(
-                'label' => __('Canvas Width', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'range' => array(
-                    'px' => array(
-                        'min' => 100,
-                        'max' => 1000,
-                    ),
-                    '%' => array(
-                        'min' => 0,
-                        'max' => 100,
-                    ),
-                    'vw' => array(
-                        'min' => 0,
-                        'max' => 100,
-                    ),
-                    'vh' => array(
-                        'min' => 0,
-                        'max' => 100,
-                    ),
-                ),
-                'size_units' => array(
-                    'px',
-                    '%',
-                    'vw',
-                    'vh',
-                ),
-                'default' => array(
-                    'unit' => 'px',
-                    'size' => 300,
-                ),
-                'tablet_default' => array(
-                    'unit' => '%',
-                    'size' => 40,
-                ),
-                'mobile_default' => array(
-                    'unit' => '%',
-                    'size' => 100,
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} .jltma-menu-dropdown-type-offcanvas' . $widget_selector . '__dropdown' => 'width: {{SIZE}}{{UNIT}};',
-                ),
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type' => 'offcanvas',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_offcanvas_hr',
-            array(
-                'type' => Controls_Manager::DIVIDER,
-                'style' => 'thick',
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type' => 'offcanvas',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'popup_offcanvas_close_heading',
-            array(
-                'label' => __('Close', 'master-addons' ),
-                'type' => Controls_Manager::HEADING,
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type!' => 'default',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'popup_offcanvas_close_type',
-            array(
-                'label' => __('Type', 'master-addons' ),
-                'type' => 'jltma-choose-text',
-                'options' => array(
-                    'icon' => array(
-                        'title' => __('Icon', 'master-addons' ),
-                        'description' => 'Switch has only icon',
-                    ),
-                    'text' => array(
-                        'title' => __('Text', 'master-addons' ),
-                        'description' => 'Switch has only text',
-                    ),
-                    'both' => array(
-                        'title' => __('Both', 'master-addons' ),
-                        'description' => 'Switch has icon and text',
-                    ),
-                ),
-                'default' => 'icon',
-                'label_block' => false,
-                'render_type' => 'template',
-                'prefix_class' => 'jltma-close-type-',
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type!' => 'default',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'popup_close_view',
-            array(
-                'label' => __('View', 'master-addons' ),
-                'type' => 'jltma-choose-text',
-                'options' => array(
-                    'default' => array('title' => __('Default', 'master-addons' )),
-                    'stacked' => array('title' => __('Stacked', 'master-addons' )),
-                    'framed' => array('title' => __('Framed', 'master-addons' )),
-                ),
-                'default' => 'default',
-                'label_block' => false,
-                'prefix_class' => 'jltma-close-view-',
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type!' => 'default',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'popup_close_shape',
-            array(
-                'label' => __('Shape', 'master-addons' ),
-                'type' => 'jltma-choose-text',
-                'options' => array(
-                    'square' => array('title' => __('Square', 'master-addons' )),
-                    'circle' => array('title' => __('Circle', 'master-addons' )),
-                ),
-                'default' => 'square',
-                'label_block' => false,
-                'prefix_class' => 'jltma-close-shape-',
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type!' => 'default',
-                    'popup_offcanvas_close_type' => 'icon',
-                    'popup_close_view!' => 'default',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'close_icon',
-            array(
-                'label' => __('Icon', 'master-addons' ),
-                'type' => Controls_Manager::ICONS,
-                'fa4compatibility' => 'icon',
-                'recommended' => array(
-                    'fa-solid' => array(
-                        'times',
-                        'times-circle',
-                    ),
-                    'fa-regular' => array(
-                        'times-circle',
-                    ),
-                ),
-                'file' => '',
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type!' => 'default',
-                    'popup_offcanvas_close_type!' => 'text',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'close_text',
-            array(
-                'label' => __('Text', 'master-addons' ),
-                'type' => Controls_Manager::TEXT,
-                'placeholder' => __('Close', 'master-addons' ),
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type!' => 'default',
-                    'popup_offcanvas_close_type!' => 'icon',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'popup_close_gap',
-            array(
-                'label' => __('Gap Between', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'size_units' => array('px'),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close i + span' => 'margin-left: {{SIZE}}{{UNIT}};',
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close svg + span' => 'margin-left: {{SIZE}}{{UNIT}};',
-                ),
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type!' => 'default',
-                    'popup_offcanvas_close_type' => 'both',
-                    'close_text!' => '',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'overlay_close',
-            array(
-                'label' => __('Close With Click on Overlay', 'master-addons' ),
-                'type' => Controls_Manager::SWITCHER,
-                'description' => __('Close popup upon click/tap on overlay', 'master-addons' ),
-                'frontend_available' => true,
-                'separator' => 'before',
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type!' => 'default',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'esc_close',
-            array(
-                'label' => __('Close by ESC Button Click', 'master-addons' ),
-                'type' => Controls_Manager::SWITCHER,
-                'default' => 'yes',
-                'frontend_available' => true,
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type!' => 'default',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'disable_scroll',
-            array(
-                'label' => __('Disable scroll', 'master-addons' ),
-                'type' => Controls_Manager::SWITCHER,
-                'default' => 'yes',
-                'frontend_available' => true,
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type!' => 'default',
-                ),
-            )
-        );
-
-        $this->end_controls_section();
-    }
-
-    /**
-     * Main Menu Item  Section
-     */
-    protected function jltma_nav_menu_item_section()
-    {
-        $widget_selector = $this->get_widget_selector();
-
-        $menu_first_level = array(
-            'relation' => 'or',
-            'terms' => array(
-                array(
-                    'name' => 'layout',
-                    'operator' => '=',
-                    'value' => 'horizontal',
-                ),
-                array(
-                    'relation' => 'and',
-                    'terms' => array(
-                        array(
-                            'name' => 'layout',
-                            'operator' => '=',
-                            'value' => 'vertical',
-                        ),
-                        array(
-                            'name' => 'vertical_menu_type',
-                            'operator' => 'in',
-                            'value' => array(
-                                'normal',
-                                'side',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
-
-        $this->start_controls_section(
-            'section_style_main_menu',
-            array(
-                'label' => __('Main Menu Item', 'master-addons' ),
-                'tab' => Controls_Manager::TAB_STYLE,
-                'conditions' => $menu_first_level,
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Typography::get_type(),
-            array(
-                'name' => 'main_menu_typography',
-                'selector' => '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li > a',
-            )
-        );
-
-        $this->start_controls_tabs('tabs_menu_item_style');
-
-        $this->start_controls_tab(
-            'tab_main_menu_item_normal',
-            array('label' => __('Normal', 'master-addons' ))
-        );
-
-        $this->add_control(
-            'main_menu_item_color',
-            array(
-                'label' => __('Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li > a' => 'color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'jltma_menubar_background',
-            array(
-                'label' => __('Item Background Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li > a' => 'background-color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'main_menu_item_border_color',
-            array(
-                'label' => __('Border Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li > a' => 'border-color: {{VALUE}}',
-                ),
-                'condition' => array(
-                    'main_menu_item_border_border' => array(
-                        'solid',
-                        'double',
-                        'dotted',
-                        'dashed',
-                        'groove',
-                    ),
-                ),
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Text_Shadow::get_type(),
-            array(
-                'name' => 'main_menu_item_text_shadow',
-                'fields_options' => array(
-                    'text_shadow_type' => array('label' => __('Text Shadow', 'master-addons' )),
-                ),
-                'selector' => '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li > a',
-            )
-        );
-
-        $this->end_controls_tab();
-
-        $this->start_controls_tab(
-            'tab_main_menu_item_hover',
-            array('label' => __('Hover', 'master-addons' ))
-        );
-
-        $this->add_control(
-            'main_menu_item_color_hover',
-            array(
-                'label' => __('Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li:hover > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li > a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li:hover > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li > a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li > a:focus' => 'color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'main_menu_item_bg_hover',
-            array(
-                'label' => __('Item Background Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li:hover > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li > a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li:hover > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li > a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li > a:focus' => 'background-color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'main_menu_item_border_color_hover',
-            array(
-                'label' => __('Border Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li:hover > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li > a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li:hover > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li > a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li > a:focus' => 'border-color: {{VALUE}}',
-                ),
-                'condition' => array(
-                    'main_menu_item_border_border' => array(
-                        'solid',
-                        'double',
-                        'dotted',
-                        'dashed',
-                        'groove',
-                    ),
-                ),
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Text_Shadow::get_type(),
-            array(
-                'name' => 'main_menu_item_text_shadow_hover',
-                'fields_options' => array(
-                    'text_shadow_type' => array('label' => __('Text Shadow', 'master-addons' )),
-                ),
-                'selector' => '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li:hover > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li > a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li:hover > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li > a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li > a:focus',
-            )
-        );
-
-        $this->end_controls_tab();
-
-        $this->start_controls_tab(
-            'tab_main_menu_item_active',
-            array('label' => __('Active', 'master-addons' ))
-        );
-
-        $this->add_control(
-            'main_menu_item_color_active',
-            array(
-                'label' => __('Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li.current-menu-ancestor > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li.current-menu-ancestor > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li.current-menu-ancestor > a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li.current-menu-ancestor > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li.current-menu-ancestor > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li.current-menu-ancestor > a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li.current-menu-ancestor > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li.current-menu-ancestor > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li.current-menu-ancestor > a:focus' => 'color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'main_menu_item_bg_active',
-            array(
-                'label' => __('Item Background Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li.current-menu-ancestor > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li.current-menu-ancestor > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li.current-menu-ancestor > a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li.current-menu-ancestor > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li.current-menu-ancestor > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li.current-menu-ancestor > a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li.current-menu-ancestor > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li.current-menu-ancestor > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li.current-menu-ancestor > a:focus' => 'background-color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'main_menu_item_border_color_active',
-            array(
-                'label' => __('Border Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li.current-menu-ancestor > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li.current-menu-ancestor > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li.current-menu-ancestor > a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li.current-menu-ancestor > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li.current-menu-ancestor > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li.current-menu-ancestor > a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li.current-menu-ancestor > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li.current-menu-ancestor > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li.current-menu-ancestor > a:focus' => 'border-color: {{VALUE}}',
-                ),
-                'condition' => array(
-                    'main_menu_item_border_border' => array(
-                        'solid',
-                        'double',
-                        'dotted',
-                        'dashed',
-                        'groove',
-                    ),
-                ),
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Text_Shadow::get_type(),
-            array(
-                'name' => 'main_menu_item_text_shadow_active',
-                'fields_options' => array(
-                    'text_shadow_type' => array('label' => __('Text Shadow', 'master-addons' )),
-                ),
-                'selector' => '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li.current-menu-ancestor > a,
-				{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li.current-menu-ancestor > a:hover,
-				{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li.current-menu-ancestor > a:focus,
-				{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li.current-menu-ancestor > a,
-				{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li.current-menu-ancestor > a:hover,
-				{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li.current-menu-ancestor > a:focus,
-				{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li.current-menu-ancestor > a,
-				{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li.current-menu-ancestor > a:hover,
-				{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li.current-menu-ancestor > a:focus',
-            )
-        );
-
-        $this->end_controls_tab();
-
-        $this->end_controls_tabs();
-
-        $this->add_control(
-            'main_menu_hr',
-            array(
-                'type' => Controls_Manager::DIVIDER,
-                'style' => 'thick',
-            )
-        );
-
-        $this->add_responsive_control(
-            'main_menu_item_horizontal_padding',
-            [
-                'label'   => __('Horizontal Padding', 'master-addons' ),
-                'type'    => Controls_Manager::SLIDER,
-                'default' => [
-                    'size' => 10,
-                    'unit' => 'px',
-                ],
-                'range' => [
-                    'px' => ['max' => 50],
-                ],
-                'devices' => [
-                    'desktop',
-                    'tablet',
-                ],
-                'selectors' => [
-                    '{{WRAPPER}} ' . $widget_selector . '__main .jltma-nav-menu__item-link-top' => 'padding-left: {{SIZE}}{{UNIT}}; padding-right: {{SIZE}}{{UNIT}};',
-                ],
-                'condition' => ['side_menu_alignment!' => 'space-between'],
-            ]
-        );
-
-        $this->add_responsive_control(
-            'main_menu_item_vertical_padding',
-            [
-                'label'   => __('Vertical Padding', 'master-addons' ),
-                'type'    => Controls_Manager::SLIDER,
-                'default' => [
-                    'size' => 15,
-                    'unit' => 'px',
-                ],
-                'range' => [
-                    'px' => ['max' => 200],
-                ],
-                'devices' => [
-                    'desktop',
-                    'tablet',
-                ],
-                'selectors' => [
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li > a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li > a' => 'padding-top: {{SIZE}}{{UNIT}}; padding-bottom: {{SIZE}}{{UNIT}}',
-                ],
-                'condition' => ['side_menu_alignment!' => 'space-between'],
-            ]
-        );
-
-        $this->add_responsive_control(
-            'main_menu_item_space_between',
-            array(
-                'label' => __('Space Between', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'range' => array(
-                    'px' => array('max' => 100),
-                ),
-                'devices' => array(
-                    'desktop',
-                    'tablet',
-                ),
-                'selectors' => array(
-                    'body:not(.rtl) {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal ' . $widget_selector . '__container-inner > li:not(:last-child)' => 'margin-right: {{SIZE}}{{UNIT}}',
-                    'body.rtl {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal ' . $widget_selector . '__container-inner > li:not(:last-child)' => 'margin-left: {{SIZE}}{{UNIT}}',
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-vertical-type-normal > ul > li:not(:last-child)' => 'margin-bottom: {{SIZE}}{{UNIT}}',
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-vertical-type-side > ul > li:not(:last-child)' => 'margin-bottom: {{SIZE}}{{UNIT}}',
-                ),
-                'condition' => array('side_menu_alignment!' => 'space-between'),
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Border::get_type(),
-            array(
-                'name' => 'main_menu_item_border',
-                'label' => __('Border', 'master-addons' ),
-                'exclude' => array('color'),
-                'fields_options' => array(
-                    'border' => array(
-                        'options' => array(
-                            'none' => _x('None', 'Border Control', 'master-addons' ),
-                            'default' => _x('Default', 'Border Control', 'master-addons' ),
-                            'solid' => _x('Solid', 'Border Control', 'master-addons' ),
-                            'double' => _x('Double', 'Border Control', 'master-addons' ),
-                            'dotted' => _x('Dotted', 'Border Control', 'master-addons' ),
-                            'dashed' => _x('Dashed', 'Border Control', 'master-addons' ),
-                            'groove' => _x('Groove', 'Border Control', 'master-addons' ),
-                        ),
-                        'default' => 'default',
-                        'prefix_class' => 'jltma-main-menu-item-border-type-',
-                        'selectors' => array(
-                            '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li > a,
-							{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li > a,
-							{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li > a' => 'border-style: {{VALUE}};',
-                        ),
-                    ),
-                    'width' => array(
-                        'label' => _x('Border Width', 'Border Control', 'master-addons' ),
-                        'selectors' => array(
-                            '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li > a,
-							{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul > li > a,
-							{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul > li > a' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                        ),
-                        'condition' => array(
-                            'border!' => array(
-                                'none',
-                                'default',
-                            ),
-                        ),
-                    ),
-                ),
-                'conditions' => $menu_first_level,
-            )
-        );
-
-        $this->add_responsive_control(
-            'main_menu_item_border_radius',
-            array(
-                'label' => __('Border Radius', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'size_units' => array(
-                    'px',
-                    '%',
-                ),
-                'devices' => array(
-                    'desktop',
-                    'tablet',
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main > ul > li > a' => 'border-radius: {{SIZE}}{{UNIT}}',
-                ),
-                'conditions' => $menu_first_level,
-            )
-        );
-
-        $this->end_controls_section();
-    }
-
-    /**
-     * Side Box Section
-     */
-    protected function jltma_nav_menu_side_box_section()
-    {
-        $widget_selector = $this->get_widget_selector();
-
-        $this->start_controls_section(
-            'section_style_side_box',
-            array(
-                'label' => __('Side Box', 'master-addons' ),
-                'tab' => Controls_Manager::TAB_STYLE,
-                'condition' => array(
-                    'layout' => 'vertical',
-                    'vertical_menu_type' => 'side',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'side_box_width',
-            array(
-                'label' => __('Box Width', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'range' => array(
-                    'px' => array(
-                        'min' => 50,
-                        'max' => 500,
-                    ),
-                    '%' => array(
-                        'min' => 1,
-                        'max' => 100,
-                    ),
-                ),
-                'size_units' => array(
-                    'px',
-                    '%',
-                ),
-                'default' => array(
-                    'size' => 100,
-                    'unit' => 'px',
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul' => 'width: {{SIZE}}{{UNIT}};',
-                    'html.jltma-side-position-right' => 'padding-right: {{SIZE}}{{UNIT}};',
-                    'html.jltma-side-position-left' => 'padding-left: {{SIZE}}{{UNIT}};',
-                ),
-                'condition' => array(
-                    'layout' => 'vertical',
-                    'vertical_menu_type' => 'side',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'side_box_bg',
-            array(
-                'label' => __('Background Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '.jltma-side-content-{{ID}}' . $widget_selector . '__main.jltma-vertical-type-side > ul' => 'background-color: {{VALUE}}',
-                ),
-                'condition' => array(
-                    'layout' => 'vertical',
-                    'vertical_menu_type' => 'side',
-                ),
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Border::get_type(),
-            array(
-                'name' => 'side_box_border',
-                'label' => __('Side Border', 'master-addons' ),
-                'fields_options' => array(
-                    'border' => array(
-                        'options' => array(
-                            'none' => _x('None', 'Border Control', 'master-addons' ),
-                            'default' => _x('Default', 'Border Control', 'master-addons' ),
-                            'solid' => _x('Solid', 'Border Control', 'master-addons' ),
-                            'double' => _x('Double', 'Border Control', 'master-addons' ),
-                            'dotted' => _x('Dotted', 'Border Control', 'master-addons' ),
-                            'dashed' => _x('Dashed', 'Border Control', 'master-addons' ),
-                            'groove' => _x('Groove', 'Border Control', 'master-addons' ),
-                        ),
-                        'default' => 'default',
-                        'prefix_class' => 'jltma-side-box-border-type-',
-                    ),
-                    'width' => array(
-                        'label' => _x('Border Width', 'Border Control', 'master-addons' ),
-                        'condition' => array(
-                            'border!' => array(
-                                'none',
-                                'default',
-                            ),
-                        ),
-                    ),
-                    'color' => array(
-                        'label' => _x('Border Color', 'Border Control', 'master-addons' ),
-                        'condition' => array(
-                            'border!' => array(
-                                'none',
-                                'default',
-                            ),
-                        ),
-                    ),
-                ),
-                'selector' => '.jltma-side-content-{{ID}}' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-side > ul',
-                'condition' => array(
-                    'layout' => 'vertical',
-                    'vertical_menu_type' => 'side',
-                ),
-            )
-        );
-
-        $this->end_controls_section();
-
-        $this->start_controls_section(
-            'section_dropdown_toggle_style',
-            [
-                'label'      => __('Toggle Switch', 'master-addons' ),
-                'tab'        => Controls_Manager::TAB_STYLE,
-                'conditions' => [
-                    'relation' => 'or',
-                    'terms'    => [
-                        [
-                            'relation' => 'and',
-                            'terms'    => [
-                                [
-                                    'name'     => 'layout',
-                                    'operator' => '=',
-                                    'value'    => 'horizontal',
-                                ],
-                                [
-                                    'name'     => 'dropdown_breakpoints',
-                                    'operator' => '!==',
-                                    'value'    => 'none',
-                                ],
-                            ],
-                        ],
-                        [
-                            'relation' => 'and',
-                            'terms'    => [
-                                [
-                                    'name'     => 'layout',
-                                    'operator' => '=',
-                                    'value'    => 'vertical',
-                                ],
-                                [
-                                    'name'     => 'dropdown_breakpoints',
-                                    'operator' => '!==',
-                                    'value'    => 'none',
-                                ],
-                                [
-                                    'name'     => 'vertical_menu_type',
-                                    'operator' => '!==',
-                                    'value'    => 'side',
-                                ],
-                            ],
-                        ],
-                        [
-                            'name'     => 'layout',
-                            'operator' => '=',
-                            'value'    => 'dropdown',
-                        ],
-                    ],
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'dropdown_toggle_description_style',
-            [
-                'raw' => __('This toggle will appear on resolutions below the one defined in Breakpoint settings.', 'master-addons' ),
-                'type' => Controls_Manager::RAW_HTML,
-                'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
-                'condition' => [
-                    'layout!' => 'dropdown',
-                    'dropdown_breakpoints!' => 'none',
-                ],
-            ]
-        );
-
-        $this->add_group_control(
-            Group_Control_Typography::get_type(),
-            array(
-                'name' => 'dropdown_toggle_typography',
-                'fields_options' => array(
-                    'text_decoration' => array(
-                        'selectors' => array(
-                            '{{WRAPPER}}' => '--dropdown-toggle-text-decoration: {{VALUE}};',
-                        ),
-                    ),
-                ),
-                'selector' => '{{WRAPPER}} ' . $widget_selector . '__toggle',
-                'condition' => array('dropdown_toggle_type!' => 'icon'),
-            )
-        );
-
-        $this->start_controls_tabs('tabs_toggle_item_style');
-
-        $this->start_controls_tab(
-            'tab_dropdown_toggle_normal',
-            array('label' => __('Normal', 'master-addons' ))
-        );
-
-        $this->add_control(
-            'dropdown_toggle_color',
-            [
-                'label'     => __('Color', 'master-addons' ),
-                'type'      => Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} '                               . $widget_selector . '__toggle' => 'color: {{VALUE}}; fill: {{VALUE}};',
-                    '{{WRAPPER}}.jltma-toggle-view-framed ' . $widget_selector . '__toggle' => 'border-color: {{VALUE}}',
-                ],
-            ]
-        );
-
-        $this->add_group_control(
-            JLTMA_Button_Background::JLTMA_BTN_BG_GROUP,
-            [
-                'name'      => 'dropdown_toggle_bg',
-                'exclude'   => ['color'],
-                'selector'  => '{{WRAPPER}} ' . $widget_selector . '__toggle',
-                'condition' => ['toggle_view!' => 'default'],
-            ]
-        );
-
-        $this->start_injection(array('of' => 'dropdown_toggle_bg_background'));
-
-        $this->add_control(
-            'dropdown_toggle_bg_color',
-            array(
-                'label' => __('Background Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__toggle' => '--button-bg-color: {{VALUE}}; ' .
-                        'background: var( --button-bg-color );',
-                ),
-                'condition' => array(
-                    'dropdown_toggle_bg_background' => array(
-                        'color',
-                        'gradient',
-                    ),
-                    'toggle_view!' => 'default',
-                ),
-            )
-        );
-
-        $this->end_injection();
-
-        $this->add_control(
-            'dropdown_toggle_bd_color',
-            array(
-                'label' => __('Border Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => array(
-                    '{{WRAPPER}}.jltma-toggle-view-framed ' . $widget_selector . '__toggle' => 'border-color: {{VALUE}}',
-                ),
-                'condition' => array(
-                    'toggle_view' => 'framed',
-                    'dropdown_toggle_framed_border_style!' => '',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_toggle_border_radius',
-            array(
-                'label' => __('Border Radius', 'master-addons' ),
-                'type' => Controls_Manager::DIMENSIONS,
-                'size_units' => array(
-                    'px',
-                    '%',
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__toggle' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ),
-                'condition' => array('toggle_view!' => 'default'),
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Text_Shadow::get_type(),
-            array(
-                'name' => 'dropdown_toggle_text_shadow',
-                'selector' => '{{WRAPPER}} ' . $widget_selector . '__toggle-label',
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Box_Shadow::get_type(),
-            array(
-                'name' => 'dropdown_toggle_box_shadow',
-                'selector' => '{{WRAPPER}}.jltma-toggle-view-framed ' . $widget_selector . '__toggle,
-					{{WRAPPER}}.jltma-toggle-view-stacked ' . $widget_selector . '__toggle',
-                'condition' => array('toggle_view!' => 'default'),
-            )
-        );
-
-        $this->end_controls_tab();
-
-        $this->start_controls_tab(
-            'tab_dropdown_toggle_hover',
-            array('label' => __('Hover', 'master-addons' ))
-        );
-
-        $this->add_control(
-            'dropdown_toggle_color_hover',
-            array(
-                'label' => __('Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__toggle:hover' => 'color: {{VALUE}}; fill: {{VALUE}};',
-                    '{{WRAPPER}}.jltma-toggle-view-framed ' . $widget_selector . '__toggle:hover' => 'border-color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_group_control(
-            JLTMA_Button_Background::JLTMA_BTN_BG_GROUP,
-            array(
-                'name' => 'dropdown_toggle_bg_hover',
-                'exclude' => array('color'),
-                'selector' => '{{WRAPPER}} ' . $widget_selector . '__toggle:hover',
-                'condition' => array('toggle_view!' => 'default'),
-            )
-        );
-
-        $this->start_injection(array('of' => 'dropdown_toggle_bg_hover_background'));
-
-        $this->add_control(
-            'dropdown_toggle_bg_color_hover',
-            array(
-                'label' => __('Background Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__toggle:hover' => '--button-bg-color: {{VALUE}}; ' .
-                        'background: var( --button-bg-color );',
-                ),
-                'condition' => array(
-                    'dropdown_toggle_bg_hover_background' => array(
-                        'color',
-                        'gradient',
-                    ),
-                    'toggle_view!' => 'default',
-                ),
-            )
-        );
-
-        $this->end_injection();
-
-        $this->add_control(
-            'dropdown_toggle_bd_color_hover',
-            array(
-                'label' => __('Border Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => array(
-                    '{{WRAPPER}}.jltma-toggle-view-framed ' . $widget_selector . '__toggle:hover' => 'border-color: {{VALUE}}',
-                ),
-                'condition' => array(
-                    'toggle_view' => 'framed',
-                    'dropdown_toggle_framed_border_style!' => '',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_toggle_border_radius_hover',
-            array(
-                'label' => __('Border Radius', 'master-addons' ),
-                'type' => Controls_Manager::DIMENSIONS,
-                'size_units' => array(
-                    'px',
-                    '%',
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}}.jltma-toggle-view-framed ' . $widget_selector . '__toggle:hover,
-					{{WRAPPER}}.jltma-toggle-view-stacked ' . $widget_selector . '__toggle:hover' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ),
-                'condition' => array('toggle_view!' => 'default'),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_toggle_text_decoration_hover',
-            [
-                'label'   => __('Text Decoration', 'master-addons' ),
-                'type'    => Controls_Manager::SELECT,
-                'options' => [
-                    ''             => __('Default', 'master-addons' ),
-                    'none'         => _x('None', 'Typography Control', 'master-addons' ),
-                    'underline'    => _x('Underline', 'Typography Control', 'master-addons' ),
-                    'overline'     => _x('Overline', 'Typography Control', 'master-addons' ),
-                    'line-through' => _x('Line Through', 'Typography Control', 'master-addons' ),
-                ],
-                'selectors' => [
-                    '{{WRAPPER}}' => '--dropdown-toggle-hover-text-decoration: {{VALUE}};',
-                ],
-            ]
-        );
-
-        $this->add_group_control(
-            Group_Control_Text_Shadow::get_type(),
-            [
-                'name' => 'dropdown_toggle_text_shadow_hover',
-                'selector' => '{{WRAPPER}} ' . $widget_selector . '__toggle:hover ' . $widget_selector . '__toggle-label',
-            ]
-        );
-
-        $this->add_group_control(
-            Group_Control_Box_Shadow::get_type(),
-            array(
-                'name' => 'dropdown_toggle_box_shadow_hover',
-                'selector' => '{{WRAPPER}}.jltma-toggle-view-framed ' . $widget_selector . '__toggle:hover,
-					{{WRAPPER}}.jltma-toggle-view-stacked ' . $widget_selector . '__toggle:hover',
-                'condition' => array('toggle_view!' => 'default'),
-            )
-        );
-
-        $this->end_controls_tab();
-
-        $this->start_controls_tab(
-            'tab_dropdown_toggle_active',
-            array('label' => __('Active', 'master-addons' ))
-        );
-
-        $this->add_control(
-            'dropdown_toggle_color_active',
-            array(
-                'label' => __('Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__toggle.active' => 'color: {{VALUE}}; fill: {{VALUE}};',
-                    '{{WRAPPER}}.jltma-toggle-view-framed ' . $widget_selector . '__toggle.active' => 'border-color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_group_control(
-            JLTMA_Button_Background::JLTMA_BTN_BG_GROUP,
-            array(
-                'name' => 'dropdown_toggle_bg_active',
-                'exclude' => array('color'),
-                'selector' => '{{WRAPPER}} ' . $widget_selector . '__toggle.active',
-                'condition' => array('toggle_view!' => 'default'),
-            )
-        );
-
-        $this->start_injection(array('of' => 'dropdown_toggle_bg_active_background'));
-
-        $this->add_control(
-            'dropdown_toggle_bg_color_active',
-            array(
-                'label' => __('Background Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__toggle.active' => '--button-bg-color: {{VALUE}}; ' .
-                        'background: var( --button-bg-color );',
-                ),
-                'condition' => array(
-                    'dropdown_toggle_bg_active_background' => array(
-                        'color',
-                        'gradient',
-                    ),
-                    'toggle_view!' => 'default',
-                ),
-            )
-        );
-
-        $this->end_injection();
-
-        $this->add_control(
-            'dropdown_toggle_bd_color_active',
-            array(
-                'label' => __('Border Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => array(
-                    '{{WRAPPER}}.jltma-toggle-view-framed ' . $widget_selector . '__toggle.active' => 'border-color: {{VALUE}}',
-                ),
-                'condition' => array(
-                    'toggle_view' => 'framed',
-                    'dropdown_toggle_framed_border_style!' => '',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_toggle_border_radius_active',
-            array(
-                'label' => __('Border Radius', 'master-addons' ),
-                'type' => Controls_Manager::DIMENSIONS,
-                'size_units' => array(
-                    'px',
-                    '%',
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}}.jltma-toggle-view-framed ' . $widget_selector . '__toggle.active,
-					{{WRAPPER}}.jltma-toggle-view-stacked ' . $widget_selector . '__toggle.active' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ),
-                'condition' => array('toggle_view!' => 'default'),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_toggle_text_decoration_active',
-            array(
-                'label' => __('Text Decoration', 'master-addons' ),
-                'type' => Controls_Manager::SELECT,
-                'options' => array(
-                    '' => __('Default', 'master-addons' ),
-                    'none' => _x('None', 'Typography Control', 'master-addons' ),
-                    'underline' => _x('Underline', 'Typography Control', 'master-addons' ),
-                    'overline' => _x('Overline', 'Typography Control', 'master-addons' ),
-                    'line-through' => _x('Line Through', 'Typography Control', 'master-addons' ),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}}' => '--dropdown-toggle-active-text-decoration: {{VALUE}};',
-                ),
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Text_Shadow::get_type(),
-            array(
-                'name' => 'dropdown_toggle_text_shadow_active',
-                'selector' => '{{WRAPPER}} ' . $widget_selector . '__toggle.active ' . $widget_selector . '__toggle-label',
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Box_Shadow::get_type(),
-            array(
-                'name' => 'dropdown_toggle_box_shadow_active',
-                'selector' => '{{WRAPPER}}.jltma-toggle-view-framed ' . $widget_selector . '__toggle.active,
-					{{WRAPPER}}.jltma-toggle-view-stacked ' . $widget_selector . '__toggle.active',
-                'condition' => array('toggle_view!' => 'default'),
-            )
-        );
-
-        $this->end_controls_tab();
-
-        $this->end_controls_tabs();
-
-        $this->add_control(
-            'dropdown_toggle_hr',
-            array(
-                'type' => Controls_Manager::DIVIDER,
-                'style' => 'thick',
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_toggle_icon_size',
-            array(
-                'label' => __('Icon Size', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'size_units' => array('px'),
-                'range' => array(
-                    'px' => array(
-                        'min' => 10,
-                        'max' => 100,
-                    ),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__toggle i' => 'font-size: {{SIZE}}{{UNIT}};',
-                    '{{WRAPPER}} ' . $widget_selector . '__toggle svg' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
-                ),
-                'condition' => array('dropdown_toggle_type!' => 'text'),
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_toggle_padding',
-            array(
-                'label' => __('Padding', 'master-addons' ),
-                'type' => Controls_Manager::DIMENSIONS,
-                'size_units' => array('px'),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__toggle' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ),
-                'condition' => array(
-                    'toggle_view!' => 'default',
-                    'toggle_shape' => 'square',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_toggle_icon_padding',
-            array(
-                'label' => __('Padding', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'range' => array(
-                    'px' => array(
-                        'min' => 10,
-                        'max' => 50,
-                    ),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__toggle' => 'padding: {{SIZE}}{{UNIT}}',
-                ),
-                'condition' => array(
-                    'dropdown_toggle_type' => 'icon',
-                    'toggle_view!' => 'default',
-                    'toggle_align!' => 'stretch',
-                    'toggle_shape' => 'circle',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_toggle_framed_border_style',
-            array(
-                'label' => _x('Border Type', 'Border Control', 'master-addons' ),
-                'type' => Controls_Manager::SELECT,
-                'options' => array(
-                    '' => __('None', 'master-addons' ),
-                    'default' => __('Default', 'master-addons' ),
-                    'solid' => _x('Solid', 'Border Control', 'master-addons' ),
-                    'double' => _x('Double', 'Border Control', 'master-addons' ),
-                    'dotted' => _x('Dotted', 'Border Control', 'master-addons' ),
-                    'dashed' => _x('Dashed', 'Border Control', 'master-addons' ),
-                    'groove' => _x('Groove', 'Border Control', 'master-addons' ),
-                ),
-                'default' => 'default',
-                'prefix_class' => 'jltma-dropdown-toggle-border-type-',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__toggle' => 'border-style: {{VALUE}};',
-                ),
-                'condition' => array('toggle_view' => 'framed'),
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_toggle_framed_border_width',
-            array(
-                'label' => __('Border Width', 'master-addons' ),
-                'type' => Controls_Manager::DIMENSIONS,
-                'size_units' => array('px'),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__toggle' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ),
-                'condition' => array(
-                    'toggle_view' => 'framed',
-                    'dropdown_toggle_framed_border_style!' => array(
-                        '',
-                        'default',
-                    ),
-                ),
-            )
-        );
-
-        $this->end_controls_section();
-
-        $this->start_controls_section(
-            'section_style_popup_offcanvas',
-            array(
-                'label' => __('Popup / Offcanvas', 'master-addons' ),
-                'tab' => Controls_Manager::TAB_STYLE,
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type' => array(
-                        'popup',
-                        'offcanvas',
-                    ),
-                ),
-            )
-        );
-
-        $this->add_control(
-            'popup_offcanvas_vertical_alignment',
-            array(
-                'label' => __('Vertical Alignment', 'master-addons' ),
-                'type' => Controls_Manager::CHOOSE,
-                'options' => array(
-                    'flex-start' => array(
-                        'title' => __('Top', 'master-addons' ),
-                        'icon' => 'eicon-v-align-top',
-                    ),
-                    'center' => array(
-                        'title' => __('Middle', 'master-addons' ),
-                        'icon' => 'eicon-v-align-middle',
-                    ),
-                    'flex-end' => array(
-                        'title' => __('Bottom', 'master-addons' ),
-                        'icon' => 'eicon-v-align-bottom',
-                    ),
-                ),
-                'prefix_class' => 'jltma-popup-offcanvas-ver-alignment-',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown.jltma-menu-dropdown-type-popup' => 'align-items: {{VALUE}}',
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown.jltma-menu-dropdown-type-offcanvas' => 'justify-content: {{VALUE}}',
-                ),
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type' => array(
-                        'popup',
-                        'offcanvas',
-                    ),
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'popup_offcanvas_vertical_margin',
-            array(
-                'label' => __('Margin', 'master-addons' ),
-                'type' => Controls_Manager::DIMENSIONS,
-                'size_units' => array('px', '%'),
-                'allowed_dimensions' => 'vertical',
-                'placeholder' => array(
-                    'top' => '',
-                    'right' => 'auto',
-                    'bottom' => '',
-                    'left' => 'auto',
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown.jltma-menu-dropdown-type-popup > ul,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown.jltma-menu-dropdown-type-offcanvas > ul' => 'margin-top: {{TOP}}{{UNIT}}; margin-bottom: {{BOTTOM}}{{UNIT}};',
-                ),
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type' => array(
-                        'popup',
-                        'offcanvas',
-                    ),
-                    'popup_offcanvas_vertical_alignment!' => 'center',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'popup_bg_color',
-            array(
-                'label' => __('Background Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown.jltma-menu-dropdown-type-popup,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown.jltma-menu-dropdown-type-offcanvas' => 'background-color: {{VALUE}}',
-                ),
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type' => array(
-                        'popup',
-                        'offcanvas',
-                    ),
-                ),
-            )
-        );
-
-        $this->add_control(
-            'popup_offcanvas_close_style_heading',
-            array(
-                'label' => __('Close Button', 'master-addons' ),
-                'type' => Controls_Manager::HEADING,
-                'separator' => 'before',
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type' => array(
-                        'popup',
-                        'offcanvas',
-                    ),
-                ),
-            )
-        );
-
-        $this->add_control(
-            'popup_offcanvas_close_align',
-            array(
-                'label' => __('Alignment', 'master-addons' ),
-                'type' => Controls_Manager::CHOOSE,
-                'options' => array(
-                    'flex-start' => array(
-                        'title' => __('Left', 'master-addons' ),
-                        'icon' => 'eicon-h-align-left',
-                    ),
-                    'center' => array(
-                        'title' => __('Center', 'master-addons' ),
-                        'icon' => 'eicon-h-align-center',
-                    ),
-                    'flex-end' => array(
-                        'title' => __('Right', 'master-addons' ),
-                        'icon' => 'eicon-h-align-right',
-                    ),
-                ),
-                'label_block' => false,
-                'default' => 'flex-end',
-                'toggle' => false,
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close-container' => 'justify-content: {{VALUE}}',
-                ),
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type!' => 'default',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'close_top_gap',
-            array(
-                'label' => __('Top Gap', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'size_units' => array('px'),
-                'range' => array(
-                    'px' => array(
-                        'min' => 10,
-                        'max' => 100,
-                    ),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close' => 'margin-top: {{SIZE}}{{UNIT}};',
-                ),
-                'condition' => array('layout' => 'dropdown'),
-            )
-        );
-
-        $this->add_responsive_control(
-            'close_side_gap',
-            array(
-                'label' => __('Side Gap', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'size_units' => array('px'),
-                'range' => array(
-                    'px' => array(
-                        'min' => 10,
-                        'max' => 100,
-                    ),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close' => 'margin-left: {{SIZE}}{{UNIT}}; margin-right: {{SIZE}}{{UNIT}};',
-                ),
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'popup_offcanvas_close_align!' => 'center',
-                ),
-            )
-        );
-
-        $this->start_controls_tabs('tabs_close_style');
-
-        $this->start_controls_tab(
-            'tab_close_normal',
-            array('label' => __('Normal', 'master-addons' ))
-        );
-
-        $this->add_control(
-            'close_color',
-            array(
-                'label' => __('Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close' => 'color: {{VALUE}}',
-                    '{{WRAPPER}}.jltma-close-view-framed ' . $widget_selector . '__dropdown-close' => 'border-color: {{VALUE}}',
-                ),
-                'condition' => array('popup_offcanvas_close_type!' => 'icon'),
-            )
-        );
-
-        $this->add_control(
-            'close_icon_color',
-            array(
-                'label' => __('Icon Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close i' => 'color: {{VALUE}}',
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close svg' => 'fill: {{VALUE}}',
-                    '{{WRAPPER}}.jltma-close-view-framed.jltma-close-type-icon ' . $widget_selector . '__dropdown-close' => 'border-color: {{VALUE}}',
-                ),
-                'condition' => array('popup_offcanvas_close_type!' => 'text'),
-            )
-        );
-
-        $this->add_control(
-            'close_bg_color',
-            array(
-                'label' => __('Background Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close' => 'background-color: {{VALUE}}',
-                ),
-                'condition' => array('popup_close_view!' => 'default'),
-            )
-        );
-
-        $this->end_controls_tab();
-
-        $this->start_controls_tab(
-            'tab_close_hover',
-            array('label' => __('Hover', 'master-addons' ))
-        );
-
-        $this->add_control(
-            'close_color_hover',
-            array(
-                'label' => __('Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close:hover' => 'color: {{VALUE}}',
-                    '{{WRAPPER}}.jltma-close-view-framed ' . $widget_selector . '__dropdown-close:hover' => 'border-color: {{VALUE}}',
-                ),
-                'condition' => array('popup_offcanvas_close_type!' => 'icon'),
-            )
-        );
-
-        $this->add_control(
-            'close_icon_color_hover',
-            array(
-                'label' => __('Icon Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close:hover > i' => 'color: {{VALUE}}',
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close:hover svg' => 'fill: {{VALUE}}',
-                    '{{WRAPPER}}.jltma-close-view-framed.jltma-close-type-icon ' . $widget_selector . '__dropdown-close:hover' => 'border-color: {{VALUE}}',
-                ),
-                'condition' => array('popup_offcanvas_close_type!' => 'text'),
-            )
-        );
-
-        $this->add_control(
-            'close_bg_color_hover',
-            array(
-                'label' => __('Background Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close:hover' => 'background-color: {{VALUE}}',
-                ),
-                'condition' => array('popup_close_view!' => 'default'),
-            )
-        );
-
-        $this->end_controls_tab();
-
-        $this->end_controls_tabs();
-
-        $this->add_control(
-            'close_hr',
-            array(
-                'type' => Controls_Manager::DIVIDER,
-                'style' => 'thick',
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Typography::get_type(),
-            array(
-                'name' => 'close_typography',
-                'selector' => '{{WRAPPER}} ' . $widget_selector . '__dropdown-close ' . $widget_selector . '__dropdown-close-label',
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'popup_offcanvas_close_type!' => 'icon',
-                ),
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Box_Shadow::get_type(),
-            array(
-                'name' => 'close_box_shadow',
-                'selector' => '{{WRAPPER}} ' . $widget_selector . '__dropdown-close',
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type!' => 'default',
-                    'popup_close_view!' => 'default',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'close_icon_size',
-            array(
-                'label' => __('Icon Size', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'size_units' => array('px'),
-                'range' => array(
-                    'px' => array(
-                        'min' => 10,
-                        'max' => 100,
-                    ),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close i' => 'font-size: {{SIZE}}{{UNIT}};',
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close svg' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
-                ),
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'popup_offcanvas_close_type!' => 'text',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'popup_close_padding',
-            array(
-                'label' => __('Padding', 'master-addons' ),
-                'type' => Controls_Manager::DIMENSIONS,
-                'size_units' => array('px'),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ),
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type!' => 'default',
-                    'popup_close_view!' => 'default',
-                    'popup_close_shape!' => 'circle',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'popup_close_icon_padding',
-            array(
-                'label' => __('Padding', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'range' => array(
-                    'px' => array(
-                        'min' => 10,
-                        'max' => 50,
-                    ),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close' => 'padding: {{SIZE}}{{UNIT}}',
-                ),
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type!' => 'default',
-                    'popup_close_view!' => 'default',
-                    'popup_offcanvas_close_type' => 'icon',
-                    'popup_close_shape' => 'circle',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'popup_close_framed_border_width',
-            array(
-                'label' => __('Border Width', 'master-addons' ),
-                'type' => Controls_Manager::DIMENSIONS,
-                'size_units' => array('px'),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ),
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type!' => 'default',
-                    'popup_close_view' => 'framed',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'close_border_radius',
-            array(
-                'label' => __('Border Radius', 'master-addons' ),
-                'type' => Controls_Manager::DIMENSIONS,
-                'size_units' => array(
-                    'px',
-                    '%',
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown-close' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ),
-                'condition' => array(
-                    'layout' => 'dropdown',
-                    'dropdown_menu_type!' => 'default',
-                    'popup_close_view!' => 'default',
-                ),
-            )
-        );
-
-        $this->end_controls_section();
-    }
-
-    /**
-     * Dropdown List Section
-     */
-    protected function jltma_nav_menu_dropdown_list_section()
-    {
-        $widget_selector = $this->get_widget_selector();
-
-        $this->start_controls_section(
-            'section_style_dropdown_list',
-            array(
-                'label' => __('Dropdown List', 'master-addons' ),
-                'tab' => Controls_Manager::TAB_STYLE,
-            )
-        );
-
-        $this->add_control(
-            'dropdown_bg_color',
-            array(
-                'label' => __('Background Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul' => 'background-color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_top_distance',
-            array(
-                'label' => __('Gap from Top', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'range' => array(
-                    'px' => array(
-                        'min' => -30,
-                        'max' => 70,
-                    ),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul > li > ul,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul' => 'margin-top: {{SIZE}}{{UNIT}};',
-
-                    '{{WRAPPER}} ' . $widget_selector . '__main:not(.jltma-layout-dropdown) > ul > li > ul:before' => 'height: {{SIZE}}{{UNIT}}',
-                ),
-                'conditions' => array(
-                    'relation' => 'or',
-                    'terms' => array(
-                        array(
-                            'name' => 'layout',
-                            'operator' => '=',
-                            'value' => 'horizontal',
-                        ),
-                        array(
-                            'name' => 'layout',
-                            'operator' => '=',
-                            'value' => 'vertical',
-                        ),
-                        array(
-                            'relation' => 'and',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'dropdown',
-                                ),
-                                array(
-                                    'name' => 'dropdown_menu_type',
-                                    'operator' => '=',
-                                    'value' => 'default',
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_horizontal_distance',
-            array(
-                'label' => __('Horizontal Gap', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'description' => __('Gap between dropdown list columns.', 'master-addons' ),
-                'range' => array(
-                    'px' => array(
-                        'min' => -30,
-                        'max' => 70,
-                    ),
-                ),
-                'frontend_available' => true,
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__dropdown ul li ul' => 'left : {{SIZE}}{{UNIT}}',
-                ),
-                'conditions' => array(
-                    'relation' => 'or',
-                    'terms' => array(
-                        array(
-                            'name' => 'layout',
-                            'operator' => '!=',
-                            'value' => 'horizontal',
-                        ),
-                        array(
-                            'relation' => 'and',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'vertical',
-                                ),
-                                array(
-                                    'name' => 'vertical_menu_type',
-                                    'operator' => '=',
-                                    'value' => 'normal',
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Border::get_type(),
-            [
-                'name'           => 'dropdown_border',
-                'label'          => __('Border', 'master-addons' ),
-                'fields_options' => [
-                    'border' => [
-                        'options' => [
-                            'none'    => _x('None', 'Border Control', 'master-addons' ),
-                            'default' => _x('Default', 'Border Control', 'master-addons' ),
-                            'solid'   => _x('Solid', 'Border Control', 'master-addons' ),
-                            'double'  => _x('Double', 'Border Control', 'master-addons' ),
-                            'dotted'  => _x('Dotted', 'Border Control', 'master-addons' ),
-                            'dashed'  => _x('Dashed', 'Border Control', 'master-addons' ),
-                            'groove'  => _x('Groove', 'Border Control', 'master-addons' ),
-                        ],
-                        'default'      => 'default',
-                        'prefix_class' => 'jltma-dropdown-border-type-',
-                        'selectors'    => [
-                            '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul,
-                            {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul,
-                            {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul,
-                            {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul,
-                            {{WRAPPER}} ' . $widget_selector . '__dropdown:not(.jltma-menu-dropdown-type-offcanvas) > ul ul,
-                            {{WRAPPER}} ' . $widget_selector . '__dropdown.jltma-menu-dropdown-type-offcanvas ul ul' => 'border-style: {{VALUE}};',
-                        ],
-                    ],
-
-                    'width' => [
-                        'label'     => _x('Border Width', 'Border Control', 'master-addons' ),
-                        'selectors' => array(
-                            '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul,
-                            {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul,
-                            {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul,
-                            {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul,
-                            {{WRAPPER}} ' . $widget_selector . '__dropdown:not(.jltma-menu-dropdown-type-offcanvas) > ul ul,
-                            {{WRAPPER}} ' . $widget_selector . '__dropdown.jltma-menu-dropdown-type-offcanvas ul ul' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                        ),
-                        'condition' => [
-                            'border!' => [
-                                'none',
-                                'default',
-                            ],
-                        ],
-                    ],
-                    'color' => [
-                        'label'     => _x('Border Color', 'Border Control', 'master-addons' ),
-                        'selectors' => array(
-                            '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul,
-        					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul,
-        					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul,
-        					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul,
-        					{{WRAPPER}} ' . $widget_selector . '__dropdown: not(.jltma-menu-dropdown-type-offcanvas) > ul ul,
-        					{{WRAPPER}} ' . $widget_selector . '__dropdown.jltma-menu-dropdown-type-offcanvas ul ul' => 'border-color: {{VALUE}};',
-                        ),
-                        'condition' => [
-                            'border!' => [
-                                'none',
-                                'default',
-                            ],
-                        ],
-                    ],
-                ],
-            ]
-        );
-
-        $this->add_responsive_control(
-            'dropdown_border_radius',
-            array(
-                'label' => __('Border Radius', 'master-addons' ),
-                'type' => Controls_Manager::DIMENSIONS,
-                'size_units' => array(
-                    'px',
-                    '%',
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown:not(.jltma-menu-dropdown-type-offcanvas) > ul ul,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown.jltma-menu-dropdown-type-offcanvas ul ul' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_padding',
-            array(
-                'label' => __('Padding', 'master-addons' ),
-                'type' => Controls_Manager::DIMENSIONS,
-                'size_units' => array('px'),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown:not(.jltma-menu-dropdown-type-offcanvas) > ul ul' => 'padding-top: {{TOP}}{{UNIT}}; padding-right: {{RIGHT}}{{UNIT}}; padding-bottom: {{BOTTOM}}{{UNIT}}; padding-left: {{LEFT}}{{UNIT}};',
-                ),
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Box_Shadow::get_type(),
-            array(
-                'name' => 'dropdown_box_shadow',
-                'exclude' => array('box_shadow_position'),
-                'selector' => '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown:not(.jltma-menu-dropdown-type-offcanvas) > ul ul',
-                'conditions' => array(
-                    'relation' => 'or',
-                    'terms' => array(
-                        array(
-                            'name' => 'layout',
-                            'operator' => '=',
-                            'value' => 'horizontal',
-                        ),
-                        array(
-                            'name' => 'layout',
-                            'operator' => '=',
-                            'value' => 'vertical',
-                        ),
-                        array(
-                            'relation' => 'and',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'dropdown',
-                                ),
-                                array(
-                                    'name' => 'dropdown_menu_type',
-                                    'operator' => '!==',
-                                    'value' => 'offcanvas',
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_sublevel_heading',
-            array(
-                'label' => __('Sublevel', 'master-addons' ),
-                'type' => Controls_Manager::HEADING,
-                'separator' => 'before',
-            )
-        );
-
-        $this->add_control(
-            'dropdown_sublevel_bg',
-            array(
-                'label' => __('Background Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal .sub-menu .sub-menu,
-                    {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu .sub-menu,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu .sub-menu,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu .sub-menu' => 'background-color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_sublevel_gap',
-            array(
-                'label' => __('Sublevel list Gap', 'master-addons' ),
-                'type' => Controls_Manager::DIMENSIONS,
-                'size_units' => array('px'),
-                'default' => array(
-                    'isLinked' => false,
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal .sub-menu .sub-menu,
-                    {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu .sub-menu,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu .sub-menu,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu .sub-menu' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ),
-            )
-        );
-
-        $this->end_controls_section();
-    }
-
-    /**
-     * Dropdown Item Section
-     */
-    protected function jltma_nav_menu_dropdown_item_section()
-    {
-        $widget_selector = $this->get_widget_selector();
-
-        $this->start_controls_section(
-            'section_style_dropdown_item',
-            array(
-                'label' => __('Dropdown Item', 'master-addons' ),
-                'tab' => Controls_Manager::TAB_STYLE,
-            )
-        );
-
-        $dropdown_sublevels_level_conditions = array(
-            'relation' => 'or',
-            'terms' => array(
-                array(
-                    'name' => 'layout',
-                    'operator' => '=',
-                    'value' => 'horizontal',
-                ),
-                array(
-                    'relation' => 'and',
-                    'terms' => array(
-                        array(
-                            'name' => 'layout',
-                            'operator' => '=',
-                            'value' => 'vertical',
-                        ),
-                        array(
-                            'name' => 'vertical_menu_type',
-                            'operator' => '!==',
-                            'value' => 'side',
-                        ),
-                    ),
-                ),
-                array(
-                    'name' => 'layout',
-                    'operator' => '=',
-                    'value' => 'dropdown',
-                ),
-            ),
-        );
-
-        $this->add_control(
-            'dropdown_main_level_heading',
-            array(
-                'label' => __('Main Level', 'master-addons' ),
-                'type' => Controls_Manager::HEADING,
-                'conditions' => $dropdown_sublevels_level_conditions,
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Typography::get_type(),
-            array(
-                'name' => 'dropdown_main_level_typography',
-                'selector' => '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul a',
-            )
-        );
-
-        $this->start_controls_tabs('tabs_dropdown_main_level_style');
-
-        $this->start_controls_tab(
-            'tab_dropdown_main_level_normal',
-            array('label' => __('Normal', 'master-addons' ))
-        );
-
-        $this->add_control(
-            'dropdown_main_level_color',
-            array(
-                'label' => __('Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul a' => 'color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_main_level_bg',
-            array(
-                'label' => __('Item Background Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul a' => 'background-color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_main_level_border_color',
-            array(
-                'label' => __('Border Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul a' => 'border-color: {{VALUE}}',
-                ),
-                'condition' => array(
-                    'dropdown_main_level_border_border!' => array(
-                        'none',
-                        'default',
-                    ),
-                ),
-            )
-        );
-
-        $this->end_controls_tab();
-
-        $this->start_controls_tab(
-            'tab_dropdown_main_level_hover',
-            array('label' => __('Hover', 'master-addons' ))
-        );
-
-        $this->add_control(
-            'dropdown_main_level_color_hover',
-            array(
-                'label' => __('Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul a:focus' => 'color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_main_level_bg_hover',
-            array(
-                'label' => __('Item Background Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul a:focus' => 'background-color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_main_level_border_color_hover',
-            array(
-                'label' => __('Border Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul a:focus' => 'border-color: {{VALUE}}',
-                ),
-                'condition' => array(
-                    'dropdown_main_level_border_border!' => array(
-                        'none',
-                        'default',
-                    ),
-                ),
-            )
-        );
-
-        $this->end_controls_tab();
-
-        $this->start_controls_tab(
-            'tab_dropdown_main_level_active',
-            array('label' => __('Active', 'master-addons' ))
-        );
-
-        $this->add_control(
-            'dropdown_main_level_color_active',
-            array(
-                'label' => __('Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul .current-menu-item a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul .current-menu-item a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul .current-menu-item a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul .current-menu-item a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul .current-menu-item a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul .current-menu-item a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul .current-menu-item a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul .current-menu-item a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul .current-menu-item a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul .current-menu-item a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul .current-menu-item a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul .current-menu-item a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li.current-menu-item > a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li.current-menu-item > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li.current-menu-item > a:focus' => 'color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_main_level_bg_active',
-            array(
-                'label' => __('Item Background Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul .current-menu-item a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul .current-menu-item a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul .current-menu-item a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul .current-menu-item a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul .current-menu-item a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul .current-menu-item a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul .current-menu-item a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul .current-menu-item a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul .current-menu-item a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul .current-menu-item a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul .current-menu-item a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul .current-menu-item a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li.current-menu-item > a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li.current-menu-item > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li.current-menu-item > a:focus' => 'background-color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_main_level_border_color_active',
-            array(
-                'label' => __('Border Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul .current-menu-item a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul .current-menu-item a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul .current-menu-item a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul .current-menu-item a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul .current-menu-item a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul .current-menu-item a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul .current-menu-item a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul .current-menu-item a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul .current-menu-item a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul .current-menu-item a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul .current-menu-item a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul .current-menu-item a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li.current-menu-item > a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li.current-menu-item > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li.current-menu-item > a:focus' => 'border-color: {{VALUE}}',
-                ),
-                'condition' => array(
-                    'dropdown_main_level_border_border!' => array(
-                        'none',
-                        'default',
-                    ),
-                ),
-            )
-        );
-
-        $this->end_controls_tab();
-
-        $this->end_controls_tabs();
-
-        $this->add_control(
-            'dropdown_main_level_hr',
-            array(
-                'type' => Controls_Manager::DIVIDER,
-                'style' => 'thick',
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_item_main_horizontal_padding',
-            array(
-                'label' => __('Horizontal Padding', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'range' => array(
-                    'px' => array('max' => 50),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul a' => 'padding-left: {{SIZE}}{{UNIT}}; padding-right: {{SIZE}}{{UNIT}};',
-                ),
-                'condition' => array('dropdown_align!' => 'center'),
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_item_main_vertical_padding',
-            array(
-                'label' => __('Vertical Padding', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'range' => array(
-                    'px' => array('max' => 50),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul a' => 'padding-top: {{SIZE}}{{UNIT}}; padding-bottom: {{SIZE}}{{UNIT}};',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_item_space_main_between',
-            array(
-                'label' => __('Space Between', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'range' => array(
-                    'px' => array('max' => 50),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul li:not(:first-child),
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul li:not(:first-child),
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul li:not(:first-child),
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul li:not(:first-child),
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li:not(:first-child)' => 'margin-top: calc( {{SIZE}}{{UNIT}} / 2 ); padding-top: calc( {{SIZE}}{{UNIT}} / 2 );',
-                ),
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Border::get_type(),
-            array(
-                'name' => 'dropdown_main_level_border',
-                'label' => __('Border', 'master-addons' ),
-                'exclude' => array('color'),
-                'fields_options' => array(
-                    'border' => array(
-                        'options' => array(
-                            'none' => _x('None', 'Border Control', 'master-addons' ),
-                            'default' => _x('Default', 'Border Control', 'master-addons' ),
-                            'solid' => _x('Solid', 'Border Control', 'master-addons' ),
-                            'double' => _x('Double', 'Border Control', 'master-addons' ),
-                            'dotted' => _x('Dotted', 'Border Control', 'master-addons' ),
-                            'dashed' => _x('Dashed', 'Border Control', 'master-addons' ),
-                            'groove' => _x('Groove', 'Border Control', 'master-addons' ),
-                        ),
-                        'default' => 'default',
-                        'prefix_class' => 'jltma-dropdown-main-level-border-type-',
-                        'selectors' => array(
-                            '{{WRAPPER}} ' . $widget_selector . '__main .sub-menu li a,
-							{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu li a' => 'border-style: {{VALUE}};',
-                        ),
-                    ),
-                    'width' => array(
-                        'label' => _x('Border Width', 'Border Control', 'master-addons' ),
-                        'selectors' => array(
-                            '{{WRAPPER}} ' . $widget_selector . '__main .sub-menu li a,
-							{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu li a' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                        ),
-                        'condition' => array(
-                            'border!' => array(
-                                'none',
-                                'default',
-                            ),
-                        ),
-                    ),
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_main_level_border_radius',
-            array(
-                'label' => __('Border Radius', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'size_units' => array(
-                    'px',
-                    '%',
-                ),
-                'devices' => array(
-                    'desktop',
-                    'tablet',
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main .sub-menu li a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu li a' => 'border-radius: {{SIZE}}{{UNIT}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_sublevels_level_heading',
-            array(
-                'label' => __('Custom Sublevel Styles', 'master-addons' ),
-                'type' => Controls_Manager::HEADING,
-                'separator' => 'before',
-                'conditions' => $dropdown_sublevels_level_conditions,
-            )
-        );
-
-        $this->add_control(
-            'dropdown_sublevels_description',
-            array(
-                'raw' => __('Set these settings if you need to override all or some Main Level settings. If set, these style settings will be applied to all sublevel item display layouts, with the exception of:<br>- Normal and Side Types of Vertical Layout and all Horizontal Layouts for desktop appearance;<br>- Side Type of Vertical Layout for minimized appearance.', 'master-addons' ),
-                'type' => Controls_Manager::RAW_HTML,
-                'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
-                'conditions' => $dropdown_sublevels_level_conditions,
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Typography::get_type(),
-            array(
-                'name' => 'dropdown_typography',
-                'selector' => '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal .sub-menu .sub-menu a,
-                    {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu .sub-menu a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu .sub-menu a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu .sub-menu a',
-                'conditions' => $dropdown_sublevels_level_conditions,
-            )
-        );
-
-        $this->start_controls_tabs(
-            'tabs_dropdown_item_style',
-            array('conditions' => $dropdown_sublevels_level_conditions)
-        );
-
-        $this->start_controls_tab(
-            'tab_dropdown_item_normal',
-            array('label' => __('Normal', 'master-addons' ))
-        );
-
-        $this->add_control(
-            'dropdown_item_color',
-            array(
-                'label' => __('Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal .sub-menu .sub-menu a,
-                    {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu .sub-menu a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu .sub-menu a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu .sub-menu a' => 'color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_item_bg_color',
-            array(
-                'label' => __('Background Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'separator' => 'none',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal .sub-menu .sub-menu a,
-                    {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu .sub-menu a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu .sub-menu a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu .sub-menu a' => 'background-color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_item_border_color',
-            array(
-                'label' => __('Border Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal .sub-menu .sub-menu a,
-                    {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu .sub-menu a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu .sub-menu a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu .sub-menu a' => 'border-color: {{VALUE}}',
-                ),
-                'condition' => array(
-                    'dropdown_item_border_border!' => array(
-                        'none',
-                        'default',
-                    ),
-                ),
-            )
-        );
-
-        $this->end_controls_tab();
-
-        $this->start_controls_tab(
-            'tab_dropdown_item_hover',
-            array('label' => __('Hover', 'master-addons' ))
-        );
-
-        $this->add_control(
-            'dropdown_item_color_hover',
-            array(
-                'label' => __('Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal .sub-menu .sub-menu a:hover,
-                    {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu .sub-menu a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu .sub-menu a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu .sub-menu a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu .sub-menu a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu .sub-menu a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu .sub-menu a:focus' => 'color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_item_bg_color_hover',
-            array(
-                'label' => __('Background Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'separator' => 'none',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal .sub-menu .sub-menu a:hover,
-                    {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu .sub-menu a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu .sub-menu a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu .sub-menu a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu .sub-menu a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu .sub-menu a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu .sub-menu a:focus' => 'background-color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_item_border_color_hover',
-            array(
-                'label' => __('Border Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal .sub-menu .sub-menu a:hover,
-                    {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu .sub-menu a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu .sub-menu a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu .sub-menu a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu .sub-menu a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu .sub-menu a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu .sub-menu a:focus' => 'border-color: {{VALUE}}',
-                ),
-                'condition' => array(
-                    'dropdown_item_border_border!' => array(
-                        'none',
-                        'default',
-                    ),
-                ),
-            )
-        );
-
-        $this->end_controls_tab();
-
-        $this->start_controls_tab(
-            'tab_dropdown_item_active',
-            array(
-                'label' => __('Active', 'master-addons' ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_item_color_active',
-            array(
-                'label' => __('Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul .current-menu-item a,
-                    {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul .current-menu-item a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul .current-menu-item a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul .current-menu-item a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul .current-menu-item a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul .current-menu-item a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul .current-menu-item a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li.current-menu-item > a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li.current-menu-item > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li.current-menu-item > a:focus' => 'color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_item_bg_color_active',
-            array(
-                'label' => __('Background Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'separator' => 'none',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul .current-menu-item a,
-                    {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul .current-menu-item a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul .current-menu-item a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul .current-menu-item a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul .current-menu-item a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul .current-menu-item a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul .current-menu-item a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li.current-menu-item > a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li.current-menu-item > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li.current-menu-item > a:focus' => 'background-color: {{VALUE}}',
-                ),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_item_border_color_active',
-            array(
-                'label' => __('Border Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'default' => '',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul .current-menu-item a,
-                    {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul .current-menu-item a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul .current-menu-item a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle > ul ul .current-menu-item a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul .current-menu-item a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul .current-menu-item a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion > ul ul .current-menu-item a:focus,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li.current-menu-item > a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li.current-menu-item > a:hover,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown > ul ul li.current-menu-item > a:focus' => 'border-color: {{VALUE}}',
-                ),
-                'condition' => array(
-                    'dropdown_item_border_border!' => array(
-                        'none',
-                        'default',
-                    ),
-                ),
-            )
-        );
-
-        $this->end_controls_tab();
-
-        $this->end_controls_tabs();
-
-        $this->add_responsive_control(
-            'dropdown_item_horizontal_padding',
-            array(
-                'label' => __('Horizontal Padding', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'range' => array(
-                    'px' => array('max' => 50),
-                ),
-                'separator' => 'before',
-                'selectors' => array(
-                    '{{WRAPPER}}:not( [class*=" jltma-dropdown-align-"] ) ' . $widget_selector . '__main.jltma-layout-horizontal .sub-menu .sub-menu a,
-                    {{WRAPPER}}:not( [class*=" jltma-dropdown-align-"] ) ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu .sub-menu a,
-					{{WRAPPER}}:not( [class*=" jltma-dropdown-align-"] ) ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu .sub-menu a,
-					{{WRAPPER}}:not( [class*=" jltma-dropdown-align-"] ) ' . $widget_selector . '__dropdown .sub-menu .sub-menu a,
-					{{WRAPPER}}.jltma-dropdown-align-left ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu .sub-menu a,
-					{{WRAPPER}}.jltma-dropdown-align-left ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu .sub-menu a,
-					{{WRAPPER}}.jltma-dropdown-align-left ' . $widget_selector . '__dropdown .sub-menu .sub-menu a,
-					{{WRAPPER}}.jltma-dropdown-align-space-between.jltma-dropdown-icon-right ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu .sub-menu a,
-					{{WRAPPER}}.jltma-dropdown-align-space-between.jltma-dropdown-icon-right ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu .sub-menu a,
-					{{WRAPPER}}.jltma-dropdown-align-space-between.jltma-dropdown-icon-right ' . $widget_selector . '__dropdown .sub-menu .sub-menu a' => 'padding-left: {{SIZE}}{{UNIT}};',
-
-                    '{{WRAPPER}}.jltma-dropdown-align-space-between.jltma-dropdown-icon-left ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu .sub-menu a,
-					{{WRAPPER}}.jltma-dropdown-align-space-between.jltma-dropdown-icon-left ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu .sub-menu a,
-					{{WRAPPER}}.jltma-dropdown-align-space-between.jltma-dropdown-icon-left ' . $widget_selector . '__dropdown .sub-menu .sub-menu a,
-					{{WRAPPER}}.jltma-dropdown-align-right ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu .sub-menu a,
-					{{WRAPPER}}.jltma-dropdown-align-right ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu .sub-menu a,
-					{{WRAPPER}}.jltma-dropdown-align-right ' . $widget_selector . '__dropdown .sub-menu .sub-menu a' => 'padding-right: {{SIZE}}{{UNIT}};',
-                ),
-                'conditions' => array(
-                    'relation' => 'and',
-                    'terms' => array(
-                        array(
-                            'relation' => 'or',
-                            'terms' => array(
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'horizontal',
-                                ),
-                                array(
-                                    'relation' => 'and',
-                                    'terms' => array(
-                                        array(
-                                            'name' => 'layout',
-                                            'operator' => '=',
-                                            'value' => 'vertical',
-                                        ),
-                                        array(
-                                            'name' => 'vertical_menu_type',
-                                            'operator' => '!==',
-                                            'value' => 'side',
-                                        ),
-                                    ),
-                                ),
-                                array(
-                                    'name' => 'layout',
-                                    'operator' => '=',
-                                    'value' => 'dropdown',
-                                ),
-                            ),
-                        ),
-                        array(
-                            'name' => 'dropdown_align',
-                            'operator' => '!==',
-                            'value' => 'center',
-                        ),
-                    ),
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_item_vertical_padding',
-            array(
-                'label' => __('Vertical Padding', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'range' => array(
-                    'px' => array('max' => 50),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal .sub-menu .sub-menu a,
-                    {{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu .sub-menu a,
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu .sub-menu a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu .sub-menu a' => 'padding-top: {{SIZE}}{{UNIT}}; padding-bottom: {{SIZE}}{{UNIT}};',
-                ),
-                'conditions' => $dropdown_sublevels_level_conditions,
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_item_space_between',
-            array(
-                'label' => __('Space Between', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'range' => array(
-                    'px' => array('max' => 50),
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__container.jltma-layout-horizontal .sub-menu li:not(:first-child) > ul,
-					{{WRAPPER}} ' . $widget_selector . '__container.jltma-layout-vertical.jltma-vertical-type-normal .sub-menu li:not(:first-child) > ul' => 'top: calc( {{SIZE}}{{UNIT}} / 2 );',
-
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle .sub-menu li:not(:first-child),
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion .sub-menu li:not(:first-child),
-					{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu li:not(:first-child)' => 'margin-top: calc( {{SIZE}}{{UNIT}} / 2 ); padding-top: calc( {{SIZE}}{{UNIT}} / 2 );',
-                ),
-                'conditions' => $dropdown_sublevels_level_conditions,
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Border::get_type(),
-            array(
-                'name' => 'dropdown_item_border',
-                'label' => __('Border', 'master-addons' ),
-                'exclude' => array('color'),
-                'fields_options' => array(
-                    'border' => array(
-                        'options' => array(
-                            'none' => _x('None', 'Border Control', 'master-addons' ),
-                            'default' => _x('Default', 'Border Control', 'master-addons' ),
-                            'solid' => _x('Solid', 'Border Control', 'master-addons' ),
-                            'double' => _x('Double', 'Border Control', 'master-addons' ),
-                            'dotted' => _x('Dotted', 'Border Control', 'master-addons' ),
-                            'dashed' => _x('Dashed', 'Border Control', 'master-addons' ),
-                            'groove' => _x('Groove', 'Border Control', 'master-addons' ),
-                        ),
-                        'default' => 'default',
-                        'prefix_class' => 'jltma-dropdown-item-border-type-',
-                        'selectors' => array(
-                            '{{WRAPPER}} ' . $widget_selector . '__main .sub-menu .sub-menu a,
-							{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu .sub-menu a' => 'border-style: {{VALUE}};',
-                        ),
-                    ),
-                    'width' => array(
-                        'label' => _x('Border Width', 'Border Control', 'master-addons' ),
-                        'selectors' => array(
-                            '{{WRAPPER}} ' . $widget_selector . '__main .sub-menu .sub-menu a,
-							{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu .sub-menu a' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                        ),
-                        'condition' => array(
-                            'border!' => array(
-                                'none',
-                                'default',
-                            ),
-                        ),
-                    ),
-                ),
-                'conditions' => $dropdown_sublevels_level_conditions,
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_item_border_radius',
-            array(
-                'label' => __('Border Radius', 'master-addons' ),
-                'type' => Controls_Manager::DIMENSIONS,
-                'size_units' => array(
-                    'px',
-                    '%',
-                ),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main .sub-menu .sub-menu a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu .sub-menu a' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ),
-                'conditions' => $dropdown_sublevels_level_conditions,
-            )
-        );
-
-        $this->add_group_control(
-            Group_Control_Box_Shadow::get_type(),
-            array(
-                'name' => 'dropdown_item_box_shadow',
-                'exclude' => array('box_shadow_position'),
-                'selector' => '{{WRAPPER}} ' . $widget_selector . '__main .sub-menu .sub-menu a,
-					{{WRAPPER}} ' . $widget_selector . '__dropdown .sub-menu .sub-menu a',
-                'conditions' => $dropdown_sublevels_level_conditions,
-            )
-        );
-
-        $this->add_control(
-            'heading_dropdown_divider',
-            array(
-                'label' => __('Divider', 'master-addons' ),
-                'type' => Controls_Manager::HEADING,
-                'separator' => 'before',
-            )
-        );
-
-        $this->add_control(
-            'dropdown_divider_type',
-            array(
-                'label' => __('Divider Type', 'master-addons' ),
-                'type' => Controls_Manager::SELECT,
-                'options' => array(
-                    'none' => __('None', 'master-addons' ),
-                    'solid' => __('Solid', 'master-addons' ),
-                    'double' => __('Double', 'master-addons' ),
-                    'doted' => __('Doted', 'master-addons' ),
-                    'dashed' => __('Dashed', 'master-addons' ),
-                    'groove' => __('Groove', 'master-addons' ),
-                ),
-                'default' => 'none',
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul li:not(:first-child),
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul li:not(:first-child),
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle ul ul li:not(:first-child),
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion ul ul li:not(:first-child),
-					{{WRAPPER}} ' . $widget_selector . '__dropdown ul ul li:not(:first-child)' => 'border-top-style: {{VALUE}};',
-                ),
-            )
-        );
-
-        $this->add_responsive_control(
-            'dropdown_divider_size',
-            array(
-                'label' => __('Divider Size', 'master-addons' ),
-                'type' => Controls_Manager::SLIDER,
-                'range' => array(
-                    'px' => array('max' => 15),
-                ),
-                'default' => array('size' => 1),
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul li:not(:first-child),
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul li:not(:first-child),
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle ul ul li:not(:first-child),
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion ul ul li:not(:first-child),
-					{{WRAPPER}} ' . $widget_selector . '__dropdown ul ul li:not(:first-child)' => 'border-top-width: {{SIZE}}{{UNIT}};',
-                ),
-                'condition' => array('dropdown_divider_type!' => 'none'),
-            )
-        );
-
-        $this->add_control(
-            'dropdown_divider_color',
-            array(
-                'label' => __('Divider Color', 'master-addons' ),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => array(
-                    '{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-horizontal > ul ul li:not(:first-child),
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-normal > ul ul li:not(:first-child),
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-toggle ul ul li:not(:first-child),
-					{{WRAPPER}} ' . $widget_selector . '__main.jltma-layout-vertical.jltma-vertical-type-accordion ul ul li:not(:first-child),
-					{{WRAPPER}} ' . $widget_selector . '__dropdown ul ul li:not(:first-child)' => 'border-top-color: {{VALUE}}',
-                ),
-                'condition' => array('dropdown_divider_type!' => 'none'),
-            )
-        );
-
-        $this->end_controls_section();
-    }
-
-    /**
-     * Menu Conditions
-     */
-
-    protected function jltma_nav_menu_condition_section()
-    {
-        $widget_selector = $this->get_widget_selector();
-
-        $conditions = array(
-            'relation' => 'or',
-            'terms' => array(
-                array(
-                    'name' => 'layout',
-                    'operator' => '=',
-                    'value' => 'horizontal',
-                ),
-                array(
-                    'relation' => 'and',
-                    'terms' => array(
-                        array(
-                            'name' => 'layout',
-                            'operator' => '=',
-                            'value' => 'vertical',
-                        ),
-                        array(
-                            'name' => 'vertical_menu_type',
-                            'operator' => '=',
-                            'value' => 'normal',
-                        ),
-                    ),
-                ),
-            ),
-        );
-
-        Animation::register_sections_controls($this, true, $conditions);
-    }
-
     /**
      * Register Nav Menu Controls Section
      */
 
     protected function register_controls()
     {
-        $this->jltma_nav_menu_general_section();
-        $this->jltma_nav_menu_dropdown_menu_section();
-        $this->jltma_nav_menu_toggle_switch_section();
-        $this->jltma_nav_menu_popup_offcanvas_section();
+        $widget_selector = $this->get_widget_selector();
+        $menus = $this->get_available_menus();
 
-        $this->jltma_nav_menu_item_section();
-        $this->jltma_nav_menu_side_box_section();
-        $this->jltma_nav_menu_dropdown_list_section();
-        $this->jltma_nav_menu_dropdown_item_section();
-        $this->jltma_nav_menu_condition_section();
-
+        // Content Tabs
+       $file_path = __DIR__ . '/options/content.php';
+       if (file_exists($file_path)) {
+            require_once $file_path;
+            
+            if (class_exists('\\MasterAddons\\Addons\\Navmenu\\Options\\Content')) {
+                new \MasterAddons\Addons\Navmenu\Options\Content($this, $widget_selector, $menus);
+            }
+        }
+        
         $this->jltma_nav_menu_help_section();
+
+        // Style Tabs
+        $file_path = __DIR__ . '/options/style.php';
+        if (file_exists($file_path)) {
+            require_once $file_path;
+            
+            if (class_exists('\\MasterAddons\\Addons\\Navmenu\\Options\\Content')) {
+                new \MasterAddons\Addons\Navmenu\Options\Style($this, $widget_selector);
+            }
+        }
     }
 
     /**
@@ -4758,7 +122,12 @@ class Nav_Menu extends Master_Widget
      */
     public function get_available_menus()
     {
-        $menus = wp_list_pluck(wp_get_nav_menus(), 'name', 'term_id');
+        // TODO: optimize it later with transient key
+        static $menus = null;
+        
+        if ($menus === null) {
+            $menus = wp_list_pluck(wp_get_nav_menus(), 'name', 'term_id');
+        }
 
         return $menus;
     }
@@ -4774,27 +143,6 @@ class Nav_Menu extends Master_Widget
 
     /**
      *
-     * @return array menus item animation class
-     */
-    public function change_menu_item_css_classes($args, $item, $depth)
-    {
-        $settings = $this->get_active_settings();
-
-        $layout = $settings['layout'];
-
-        if (
-            0 === $depth &&
-            ('horizontal' === $layout || ('vertical' === $layout && 'normal' === $settings['vertical_menu_type'])) &&
-            'text' !== $settings['pointer']
-        ) {
-            $args->link_after = '<span class="' . Animation::get_animation_class() . '"></span>';
-        }
-
-        return $args;
-    }
-
-    /**
-     *
      * @return link classes list
      */
     public function get_link_classes($atts, $item, $args, $depth)
@@ -4802,16 +150,16 @@ class Nav_Menu extends Master_Widget
         $settings = $this->get_active_settings();
 
         $classes = ($depth ? $this->get_widget_class() . '__dropdown-item-sub' : $this->get_widget_class() . '__dropdown-item');
+        $is_hash_anchor = false !== strpos($atts['href'], '#');
 
-        $is_anchor = false !== strpos($atts['href'], '#');
-
-        if (!$is_anchor && in_array('current-menu-item', $item->classes, true)) {
-            $classes .= ' ' . $this->get_widget_class() . '__item-active';
-        }
-
-        if ($is_anchor) {
+        if ( !empty($is_hash_anchor) ) {
             $classes .= ' ' . $this->get_widget_class() . '__item-anchor';
         }
+
+        // FIXME: it will be active menu handle
+        // if (!$is_anchor && in_array('current-menu-item', $item->classes, true)) {
+        //     $classes .= ' ' . $this->get_widget_class() . '__item-active';
+        // }
 
         if (empty($atts['class'])) {
             $atts['class'] = $classes;
@@ -4819,322 +167,450 @@ class Nav_Menu extends Master_Widget
             $atts['class'] .= ' ' . $classes;
         }
 
-        $item->title = $this->added_span_in_link($item, $depth);
-
-        $indicator_main_animation = isset($settings['indicator_main_animation']) ? $settings['indicator_main_animation'] : '';
-        $indicator_submenu_animation = isset($settings['indicator_submenu_animation']) ? $settings['indicator_submenu_animation'] : '';
-        $vertical_menu_type = isset($settings['vertical_menu_type']) ? $settings['vertical_menu_type'] : '';
-
-        if (0 === $depth) {
-            $atts['class'] .= ' ' . $this->get_widget_class() . '__item-link-top';
-
-            if (isset($indicator_main_animation) && 'none' !== $indicator_main_animation) {
-                $atts['class'] .= ' jltma-arrow-animation-' . $indicator_main_animation;
-            }
-
-            if (
-                isset($indicator_submenu_animation) &&
-                'none' !== $indicator_submenu_animation &&
-                'vertical' === $settings['layout'] &&
-                ('toggle' === $vertical_menu_type || 'accordion' === $vertical_menu_type)
-            ) {
-                $atts['class'] .= ' jltma-arrow-animation-' . $indicator_submenu_animation;
-            }
-        } else {
-            $atts['class'] .= ' ' . $this->get_widget_class() . '__item-link-sub';
-
-            if (isset($indicator_submenu_animation) && 'none' !== $indicator_submenu_animation) {
-                $atts['class'] .= ' jltma-arrow-animation-' . $indicator_submenu_animation;
-            }
-        }
-
         return $atts;
     }
 
     /**
-     *
-     * @return added tag span for link
+     * Set Dropdown Icon in menu item
+     * @return void
      */
-    public function added_span_in_link($item, $depth)
+    public function set_menu_dropdown_icon($item_output, $item, $depth, $args) {
+        if (in_array('menu-item-has-children', $item->classes)) {
+            $settings = $this->get_active_settings();
+
+            // Top level and sub levels have their own icon + show/hide toggle.
+            if (0 === $depth) {
+                $is_visible      = !isset($settings['indicator_main_popover']) || 'show' === $settings['indicator_main_popover'];
+                $indicator_icon  = isset($settings['indicator_main']) ? $settings['indicator_main'] : '';
+                $arrow_class     = $this->get_widget_class() . '__arrow';
+            } else {
+                $is_visible      = !isset($settings['jltma_indicator_submenu_icon']) || 'show' === $settings['jltma_indicator_submenu_icon'];
+                $indicator_icon  = isset($settings['indicator_submenu']) ? $settings['indicator_submenu'] : '';
+                $arrow_class     = $this->get_widget_class() . '__arrow ' . $this->get_widget_class() . '__arrow-sub';
+            }
+
+            if (!$is_visible || empty($indicator_icon)) {
+                return $item_output;
+            }
+
+            // render_icon() echoes and returns a bool -- use try_get_icon_html()
+            // so the markup lands inside the item, not at the top of the widget.
+            $icon_html = Icons_Manager::try_get_icon_html($indicator_icon, ['aria-hidden' => 'true']);
+
+            if (!empty($icon_html)) {
+                $icon = '<span class="' . esc_attr($arrow_class) . '">' . $icon_html . '</span>';
+                $item_output = str_replace('</a>', $icon . '</a>', $item_output);
+            }
+        }
+        
+        return $item_output;
+    }
+
+    /**
+     * Settings, with values still saved under a renamed control's old key.
+     *
+     * A control's name is the key its value is saved under, so `layout`
+     * becoming `jltma_nav_layout` leaves every page built before the rename
+     * holding a value the widget no longer asks for. The upgrade routine
+     * rewrites those pages once (see Control_Key_Migrator), and this covers the
+     * ones it has not reached: a page restored from a revision, a template
+     * imported from an older export, a site upgraded with the routine skipped.
+     *
+     * @return array
+     */
+    public function get_active_settings($settings = null, $controls = null)
+    {
+        $active = parent::get_active_settings($settings, $controls);
+
+        // A caller that brought its own settings gets them back untouched.
+        if (null !== $settings || !class_exists('MasterAddons\Inc\Classes\Upgrades\Control_Key_Migrator')) {
+            return $active;
+        }
+
+        return Control_Key_Migrator::restore_from_saved($this->get_name(), $active, $this->get_data('settings'));
+    }
+
+    /**
+     * Renamed controls, as a template built on an older version is imported.
+     *
+     * Elementor hands every widget its own data here before it is saved, which
+     * is the one moment an import can be brought up to date without touching
+     * what is already on the site.
+     *
+     * @param array $element
+     *
+     * @return array
+     */
+    public function on_import($element)
+    {
+        if (class_exists('MasterAddons\Inc\Classes\Upgrades\Control_Key_Migrator')) {
+            $element = Control_Key_Migrator::rename_element($element);
+        }
+
+        return $element;
+    }
+
+    /**
+     * A responsive setting's value on each device.
+     *
+     * A device with nothing of its own inherits from the one above it, the way
+     * Elementor's own responsive settings cascade -- so what comes back here is
+     * always the value actually in force at that width, and ma-navmenu.js can
+     * put the matching class on the nav without repeating the cascade.
+     *
+     * @return array
+     */
+    private function get_device_values($name, $fallback)
     {
         $settings = $this->get_active_settings();
+        $desktop = !empty($settings[$name]) ? $settings[$name] : $fallback;
+        $tablet = !empty($settings[$name . '_tablet']) ? $settings[$name . '_tablet'] : $desktop;
+        $mobile = !empty($settings[$name . '_mobile']) ? $settings[$name . '_mobile'] : $tablet;
 
-        $layout = $settings['layout'];
-        $pointer_animation_effect = '';
-        $vertical_menu_type = $settings['vertical_menu_type'];
-
-        if (
-            0 === $depth &&
-            ('horizontal' === $layout || ('vertical' === $layout && 'normal' === $vertical_menu_type)) &&
-            'text' === $settings['pointer']
-        ) {
-            $pointer_animation_effect = ' ' . Animation::get_animation_class();
-        }
-
-        $new_title = '';
-
-        if ('horizontal' === $layout || ('vertical' === $layout && 'normal' === $vertical_menu_type)) {
-            $new_title .= '<span class="' . $this->get_widget_class() . '__main-item-text-wrap' . esc_attr($pointer_animation_effect) . '">' .
-                '<span class="' . $this->get_widget_class() . '__main-item-text">';
-        }
-
-        $new_title .= $item->title;
-
-        if ('horizontal' === $layout || ('vertical' === $layout && 'normal' === $vertical_menu_type)) {
-            $new_title .= '</span></span>';
-        }
-
-        return $new_title;
+        return array(
+            'desktop' => $desktop,
+            'tablet'  => $tablet,
+            'mobile'  => $mobile,
+        );
     }
 
     /**
+     * The layout for each device, as saved on the responsive Layout control.
      *
-     * @return sub menu classes list
+     * @return array
      */
-    public function get_sub_menu_classes($classes)
+    private function get_device_layouts()
     {
-        $classes[] = $this->get_widget_class() . '__dropdown-submenu';
-
-        return $classes;
+        return $this->get_device_values('jltma_nav_layout', 'horizontal');
     }
 
     /**
-     * Render toggle menu
+     * Whether any width shows the menu as a hamburger.
      *
-     * Written in PHP and used to generate the final HTML.
+     * The toggle, its panel parts and their classes are rendered once, server
+     * side, for every width -- a menu that is horizontal on the desktop and a
+     * hamburger on a phone is one menu, and which of the two is in force is a
+     * class away (see jltmaApplyLayout in ma-navmenu.js).
+     *
+     * @return bool
+     */
+    private function has_hamburger_layout()
+    {
+        return in_array('dropdown', $this->get_device_layouts(), true);
+    }
+
+    /**
+     * The hamburger toggle, as markup.
+     *
+     * Returned rather than echoed: the caller prints it inside the <nav>, so
+     * the toggle and the list it controls stay in one element -- which is what
+     * lets the stylesheet open the list from the toggle's own state, and what
+     * a screen reader needs to follow aria-controls.
+     *
+     * @return string
      */
     public function get_toggle()
     {
         $settings = $this->get_active_settings();
-        if(!isset($settings['dropdown_menu_type'])) $settings['dropdown_menu_type'] = 'icon';
 
-        $dropdown_toggle_type = $settings['dropdown_toggle_type'];
+        // Rendered for any width that shows the menu as a hamburger; the
+        // stylesheet hides it at the widths that do not.
+        if (!$this->has_hamburger_layout()) {
+            return '';
+        }
+
+        $dropdown_type = !empty($settings['jltma_dropdown_menu_type']) ? $settings['jltma_dropdown_menu_type'] : 'default';
 
         $this->add_render_attribute('toggle-container', 'class', array(
             $this->get_widget_class() . '__toggle-container',
-            'jltma-layout-' . esc_attr($settings['layout']),
-            'jltma-menu-dropdown-type-' . esc_attr($settings['dropdown_menu_type']),
+            'jltma-menu-dropdown-type-' . esc_attr($dropdown_type),
         ));
-
-        $dropdown_id = 'jltma-nav-dropdown-' . $this->get_id();
 
         $this->add_render_attribute('toggle-container', array(
             'role'           => 'button',
             'tabindex'       => '0',
-            'aria-controls'  => $dropdown_id,
             'aria-expanded'  => 'false',
             'aria-label'     => __('Toggle menu', 'master-addons'),
         ));
 
-        echo '<div ' . $this->get_render_attribute_string('toggle-container') . '>' . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Elementor safe attribute string
-            '<div class="' . esc_attr( $this->get_widget_class() ) . '__toggle">';
-
-        if ('text' !== $dropdown_toggle_type) {
-            $dropdown_toggle_icon = $settings['dropdown_toggle_icon'];
-
-            echo '<span class="jltma-toggle-icon">';
-
-            if ('' !== $dropdown_toggle_icon['value']) {
-                Icons_Manager::render_icon($dropdown_toggle_icon);
-            } else {
-                echo '<i class="eicon-menu-bar"></i>';
-            }
-
-            echo '</span>';
-
-            $dropdown_toggle_icon_active = $settings['dropdown_toggle_icon_active'];
-
-            echo '<span class="jltma-toggle-icon-active">';
-
-            if ('' !== $dropdown_toggle_icon_active['value']) {
-                Icons_Manager::render_icon($dropdown_toggle_icon_active);
-            } else {
-                echo '<i class="eicon-close"></i>';
-            }
-
-            echo '</span>';
+        // Points at the menu list itself, which is rendered by wp_nav_menu()
+        // under the id render() hands over here.
+        if (!empty($this->main_menu_list_id)) {
+            $this->add_render_attribute('toggle-container', 'aria-controls', $this->main_menu_list_id);
         }
 
-        if ('icon' !== $dropdown_toggle_type) {
-            echo '<span class="' . esc_attr( $this->get_widget_class() ) . '__toggle-label">';
+        $toggle_type = !empty($settings['dropdown_toggle_type']) ? $settings['dropdown_toggle_type'] : 'icon';
+        $toggle_inner = '';
 
-            $dropdown_toggle_text = $settings['dropdown_toggle_text'];
-
-            if ('' !== $dropdown_toggle_text) {
-                echo esc_html($dropdown_toggle_text);
-            } else {
-                echo esc_html__('Menu', 'master-addons' );
-            }
-
-            echo '</span>';
+        // Type decides which halves are rendered; Both keeps the icon first, so
+        // the "Horizontal Gap" control -- which spaces whatever follows the
+        // active icon -- has the label to push away from it.
+        if ('text' !== $toggle_type) {
+            $toggle_inner .= $this->get_toggle_icon($settings);
         }
 
-        echo '</div>' .
-            '</div>';
+        if ('icon' !== $toggle_type) {
+            $toggle_inner .= $this->get_toggle_text($settings);
+        }
+
+        return '<div ' . $this->get_render_attribute_string('toggle-container') . '>' .
+            '<div class="' . esc_attr($this->get_widget_class()) . '__toggle">' .
+            $toggle_inner .
+            '</div>' .
+        '</div>';
     }
 
     /**
-     * Render dropdown type menu
+     * The toggle's label.
      *
-     * Written in PHP and used to generate the final HTML.
+     * @return string
      */
-    public function get_dropdown()
+    private function get_toggle_text($settings = array())
     {
-        $settings = $this->get_active_settings();
-        if(!isset($settings['dropdown_menu_type'])) $settings['dropdown_menu_type'] = 'icon';
+        $label = !empty($settings['dropdown_toggle_text'])
+            ? $settings['dropdown_toggle_text']
+            : __('Menu', 'master-addons');
 
-        $dropdown_menu_type = $settings['dropdown_menu_type'];
-
-        if ('offcanvas' === $dropdown_menu_type) {
-            echo '<div class="' . esc_attr($this->get_widget_class() . '__dropdown-container') . '">';
-            echo '<div class="' . esc_attr($this->get_widget_class() . '__backdrop') . '" aria-hidden="true"></div>';
-        }
-
-        $this->get_dropdown_nav();
-
-        if ('offcanvas' === $dropdown_menu_type) {
-            echo '</div>';
-        }
+        return '<span class="' . esc_attr($this->get_widget_class()) . '__toggle-label">' .
+            esc_html($label) .
+        '</span>';
     }
 
     /**
-     * Render dropdown nav for dropdown type menu
+     * The toggle's two icons: the one shown while the menu is closed, and the
+     * one that replaces it while it is open. Both are always rendered -- the
+     * stylesheet swaps them -- so neither has to be built again on click.
      *
-     * Written in PHP and used to generate the final HTML.
-     *
-     * Fixed the condition for displaying the icon indicator for php 7.4.
+     * @return string
      */
-    public function get_dropdown_nav()
+    private function get_toggle_icon($settings = array())
     {
-        $settings                 = $this->get_active_settings();
-        if(!isset($settings['dropdown_menu_type'])) $settings['dropdown_menu_type'] = 'icon';
-        $jltma_extensions_setting = Settings::get_extensions();
-        if (!is_array($jltma_extensions_setting)) {
-            $jltma_extensions_setting = array();
+        $icon = !empty($settings['dropdown_toggle_icon']) ? $settings['dropdown_toggle_icon'] : array();
+        $active_icon = !empty($settings['dropdown_toggle_icon_active']) ? $settings['dropdown_toggle_icon_active'] : array();
+
+        if (empty($icon['value'])) {
+            $icon = array('value' => 'eicon-menu-bar', 'library' => 'eicon');
         }
 
-        $layout                   = $settings['layout'];
-        $dropdown_menu_type       = $settings['dropdown_menu_type'];
-
-        $this->add_render_attribute('dropdown-menu', 'class', array(
-            $this->get_widget_class() . '__dropdown',
-            $this->get_widget_class() . '__container',
-            'jltma-layout-' . esc_attr($layout),
-            'jltma-menu-dropdown-type-' . esc_attr($dropdown_menu_type),
-        ));
-
-        $dropdown_id = 'jltma-nav-dropdown-' . $this->get_id();
-
-        $this->add_render_attribute('dropdown-menu', array(
-            'id'             => $dropdown_id,
-            'data-menu-type' => esc_attr($dropdown_menu_type),
-        ));
-
-        if ('popup' === $dropdown_menu_type || 'offcanvas' === $dropdown_menu_type) {
-            $this->add_render_attribute('dropdown-menu', array(
-                'role'        => 'dialog',
-                'aria-modal'  => 'true',
-                'aria-hidden' => 'true',
-            ));
+        if (empty($active_icon['value'])) {
+            $active_icon = array('value' => 'eicon-close', 'library' => 'eicon');
         }
 
-        $indicator_submenu_icon = (isset($settings['indicator_submenu']) && '' !== $settings['indicator_submenu']['value'] ? $settings['indicator_submenu']['value'] : '');
-        // eicon-sort-down
-
-        $this->add_render_attribute('dropdown-menu', array('data-icon-sub' => $indicator_submenu_icon));
-
-        $indicator_submenu_animation = $settings['indicator_submenu_animation'];
-
-        if ('none' !== $indicator_submenu_animation) {
-            $this->add_render_attribute('dropdown-menu', 'class', 'jltma-arrow-animation-' . $indicator_submenu_animation);
-        }
-
-        if ('vertical' === $layout) {
-            $this->add_render_attribute('dropdown-menu', 'class', 'jltma-vertical-type-' . esc_attr($settings['vertical_menu_type']));
-        }
-
-        echo '<nav ' . $this->get_render_attribute_string('dropdown-menu') . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Elementor safe attribute string
-
-        if ('offcanvas' === $dropdown_menu_type) {
-            $this->get_dropdown_close();
-        }
-
-        $args = array(
-            'echo'        => false,
-            'menu'        => $settings['jltma_nav_menu'],
-            'menu_class'  => $this->get_widget_class() . '__container-inner',
-            'menu_id'     => 'menu-' . $this->get_nav_menu_index() . '-' . $this->get_id(),
-            'fallback_cb' => '__return_empty_string',
-            'container'   => ''
-        );
-        if (isset($jltma_extensions_setting['mega-menu']) && ($jltma_extensions_setting['mega-menu'] === 1)) {
-            if (class_exists('MasterAddons\Modules\Display\MegaMenu\Megamenu_Nav_Walker')) {
-                $args['walker'] = \MasterAddons\Modules\Display\MegaMenu\Megamenu_Nav_Walker::get_instance();
-            }
-        }
-
-        $args['menu_class'] .= ' jltma-nav-menu-dropdown';
-
-        $args['menu_id'] = 'jltma_menu-' . $this->get_nav_menu_index() . '-' . $this->get_id();
-
-        echo wp_nav_menu($args);
-
-        if ('popup' === $dropdown_menu_type) {
-            $this->get_dropdown_close();
-        }
-
-        echo '</nav>';
+        // try_get_icon_html() returns the markup; render_icon() would echo it
+        // straight out of the widget, ahead of everything built here.
+        return '<span class="jltma-toggle-icon">' .
+            Icons_Manager::try_get_icon_html($icon, array('aria-hidden' => 'true')) .
+        '</span>' .
+        '<span class="jltma-toggle-icon-active">' .
+            Icons_Manager::try_get_icon_html($active_icon, array('aria-hidden' => 'true')) .
+        '</span>';
     }
 
     /**
-     * Render dropdown close button
+     * The close control that sits inside a Popup or Offcanvas panel.
      *
-     * Written in PHP and used to generate the final HTML.
+     * The toggle itself stays where it was rendered, in the page -- behind the
+     * overlay for a popup, off to the side for an offcanvas -- so a panel needs
+     * a way out of its own. Built from the Popup / Offcanvas Settings controls,
+     * whose selectors expect the icon and the label as siblings here.
      *
+     * @return string
      */
-    public function get_dropdown_close()
+    private function get_dropdown_close($settings = array())
     {
-        $settings           = $this->get_active_settings();
-        $dropdown_menu_type = $settings['dropdown_menu_type'];
-        $close_type         = $settings['popup_offcanvas_close_type'];
-        $close_text         = $settings['close_text'];
+        $close_type = !empty($settings['popup_offcanvas_close_type']) ? $settings['popup_offcanvas_close_type'] : 'icon';
+        $icon = !empty($settings['close_icon']) ? $settings['close_icon'] : array();
+        $inner = '';
 
-        if ('text' === $close_type && '' === $close_text) {
-            return;
+        if (empty($icon['value'])) {
+            $icon = array('value' => 'eicon-close', 'library' => 'eicon');
         }
-
-        $this->add_render_attribute('dropdown-close-container', 'class', array(
-            $this->get_widget_class() . '__dropdown-close-container',
-            'jltma-menu-dropdown-type-' . esc_attr($dropdown_menu_type),
-        ));
-
-        echo '<div ' . $this->get_render_attribute_string('dropdown-close-container') . '">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Elementor safe attribute string
-        echo '<div class="' . esc_attr( $this->get_widget_class() ) . '__dropdown-close">';
-
-        $close_icon = $settings['close_icon'];
 
         if ('text' !== $close_type) {
-            if ('' !== $close_icon['value']) {
-                Icons_Manager::render_icon($close_icon);
-            } else {
-                echo '<i class="eicon-close"></i>';
-            }
+            $inner .= Icons_Manager::try_get_icon_html($icon, array('aria-hidden' => 'true'));
         }
 
         if ('icon' !== $close_type) {
-            echo '<span class="' . esc_attr( $this->get_widget_class() ) . '__dropdown-close-label">';
-
-            if ('' !== $close_text) {
-                echo esc_html($close_text);
-            } else {
-                echo esc_html__('Close', 'master-addons' );
-            }
-
-            echo '</span>';
+            $label = !empty($settings['close_text']) ? $settings['close_text'] : __('Close', 'master-addons');
+            $inner .= '<span class="' . esc_attr($this->get_widget_class()) . '__dropdown-close-label">' .
+                esc_html($label) . '</span>';
         }
 
-        echo '</div>';
-        echo '</div>';
+        // The row around it is what the Close Button > Alignment control moves
+        // the button in: the button is sized by its own content, so there is
+        // nothing in it for justify-content to place. The row is what the
+        // stylesheet pins to the screen or to the canvas, and the button is
+        // what carries the look, which keeps every other Close control -- gaps,
+        // colours, padding -- pointed at the button itself.
+        return '<div class="' . esc_attr($this->get_widget_class()) . '__dropdown-close-container">' .
+            '<div class="' . esc_attr($this->get_widget_class()) . '__dropdown-close" role="button" tabindex="0" aria-label="' .
+            esc_attr__('Close menu', 'master-addons') . '">' . $inner . '</div>' .
+        '</div>';
+    }
+
+    /**
+     * The hamburger's menu, with the parts its Type asks for around it.
+     *
+     * Default drops the list in place under the toggle; Popup floats it over the
+     * page and Offcanvas slides it in from the side. The list itself is the
+     * panel in all three -- ma-navmenu.scss reads the type class off the nav --
+     * and the two that cover the page get a close control and an overlay as its
+     * siblings.
+     *
+     * Deliberately no wrapper around the list: every style control in this
+     * widget addresses items as __main > ul > li, so an element between the two
+     * would quietly drop the whole Style tab on the floor.
+     *
+     * @return string
+     */
+    private function get_dropdown_parts($menu_html, $settings, $dropdown_type)
+    {
+        if ('popup' !== $dropdown_type && 'offcanvas' !== $dropdown_type) {
+            return $menu_html;
+        }
+
+        return $this->get_dropdown_close($settings) .
+            $menu_html .
+            '<div class="' . esc_attr($this->get_widget_class()) . '__overlay" aria-hidden="true"></div>';
+    }
+
+    /**
+     * The widths Elementor treats as tablet and mobile.
+     *
+     * Read from Elementor itself so a site that has customised its breakpoints
+     * gets the layout swapped where its own responsive controls swap, and only
+     * falls back to Elementor's defaults when the manager is not there.
+     *
+     * @return array
+     */
+    private function get_layout_breakpoints()
+    {
+        $breakpoints = array(
+            'mobile' => 767,
+            'tablet' => 1024,
+        );
+
+        if (!class_exists('\Elementor\Plugin') || empty(\Elementor\Plugin::$instance->breakpoints)) {
+            return $breakpoints;
+        }
+
+        $active = \Elementor\Plugin::$instance->breakpoints->get_active_breakpoints();
+
+        foreach (array_keys($breakpoints) as $device) {
+            if (isset($active[$device]) && method_exists($active[$device], 'get_value')) {
+                $value = (int) $active[$device]->get_value();
+
+                if ($value > 0) {
+                    $breakpoints[$device] = $value;
+                }
+            }
+        }
+
+        return $breakpoints;
+    }
+
+    /**
+     * Put the layout for the width in view on the nav before the browser paints.
+     *
+     * The nav is rendered with its desktop classes -- one markup for every
+     * width -- and ma-navmenu.js swaps them for the width in view. That swap
+     * runs on Elementor's frontend init, which is after the first paint: a menu
+     * that is a hamburger on a phone is painted as the desktop bar first and
+     * then visibly snaps into the hamburger. That flash is what this removes.
+     *
+     * The script sits right after the </nav> and is not deferred, so it runs
+     * while the parser is still on the element and the first paint is already
+     * the right layout. It makes exactly the swap jltmaApplyLayout() makes and
+     * writes the same data-jltma-active-* markers, so when the widget script
+     * runs it finds the layout already in force and changes nothing.
+     *
+     * @return string
+     */
+    private function get_layout_boot_script()
+    {
+        $breakpoints = $this->get_layout_breakpoints();
+
+        // One line of JavaScript per entry, so the script reads top to bottom
+        // as it runs. Kept out of a heredoc: WordPress's coding standards do
+        // not allow one.
+        $script = array(
+            '(function () {',
+            '    // The nav this script was printed after. An optimiser that has',
+            '    // moved the script, and the editor\'s re-render (jQuery evaluates',
+            '    // the script detached), leave currentScript null: fall back to',
+            '    // the last nav nothing has stamped a layout on yet.',
+            '    var nav = document.currentScript ? document.currentScript.previousElementSibling : null;',
+            '',
+            '    if (!nav || String(nav.className).indexOf("jltma-nav-menu__container") === -1) {',
+            '        var pending = document.querySelectorAll(".jltma-nav-menu__container:not([data-jltma-active-layout])");',
+            '',
+            '        nav = pending.length ? pending[pending.length - 1] : null;',
+            '    }',
+            '',
+            '    if (!nav || !nav.classList) {',
+            '        return;',
+            '    }',
+            '',
+            '    var LAYOUTS = ["horizontal", "vertical", "dropdown"];',
+            '    var VERTICAL_TYPES = ["normal", "toggle", "accordion", "side"];',
+            '    var DROPDOWN_TYPES = ["default", "popup", "offcanvas"];',
+            '',
+            '    var width = document.documentElement.clientWidth;',
+            sprintf(
+                '    var device = width <= %d ? "mobile" : (width <= %d ? "tablet" : "desktop");',
+                (int) $breakpoints['mobile'],
+                (int) $breakpoints['tablet']
+            ),
+            '',
+            '    // The value saved for the device in view. get_device_values() has',
+            '    // already cascaded these, so the device\'s own attribute is the',
+            '    // value in force.',
+            '    function deviceValue(name, allowed, fallback) {',
+            '        var value = nav.getAttribute("data-" + name + "-" + device) ||',
+            '            nav.getAttribute("data-" + name) ||',
+            '            fallback;',
+            '',
+            '        return allowed.indexOf(value) === -1 ? fallback : value;',
+            '    }',
+            '',
+            '    // Each layout, and each of the two types, is a whole open/close',
+            '    // contract of its own, so only the one in force may be on the nav:',
+            '    // swapped, not added to. The marker is what ma-navmenu.js reads to',
+            '    // see the layout is already here.',
+            '    function setActive(prefix, allowed, value) {',
+            '        for (var i = 0; i < allowed.length; i++) {',
+            '            nav.classList.remove("jltma-" + prefix + "-" + allowed[i]);',
+            '        }',
+            '',
+            '        nav.classList.add("jltma-" + prefix + "-" + value);',
+            '        nav.setAttribute("data-jltma-active-" + prefix, value);',
+            '    }',
+            '',
+            '    // The parser paints what it has, so the nav may already be on',
+            '    // screen in the layout it was rendered in. Transitioned, the swap',
+            '    // below plays that as a panel fading out over the page; this turns',
+            '    // the transitions off for it.',
+            '    nav.classList.add("jltma-nav-layout-switching");',
+            '',
+            '    setActive("layout", LAYOUTS, deviceValue("layout", LAYOUTS, "horizontal"));',
+            '    setActive("vertical-type", VERTICAL_TYPES, deviceValue("vertical-type", VERTICAL_TYPES, "normal"));',
+            '    setActive("menu-dropdown-type", DROPDOWN_TYPES, deviceValue("dropdown-type", DROPDOWN_TYPES, "default"));',
+            '',
+            '    // Flushed with the transitions still off, so the layout in force is',
+            '    // what the next transition starts from, and handed back a frame',
+            '    // later -- everything the visitor opens after that animates as it',
+            '    // always did.',
+            '    void nav.offsetWidth;',
+            '',
+            '    (window.requestAnimationFrame || function (callback) {',
+            '        return setTimeout(callback, 16);',
+            '    })(function () {',
+            '        nav.classList.remove("jltma-nav-layout-switching");',
+            '    });',
+            '}());',
+        );
+
+        return wp_get_inline_script_tag(implode("\n", $script));
     }
 
     /**
@@ -5149,28 +625,34 @@ class Nav_Menu extends Master_Widget
 
     protected function render()
     {
+
+        // Get available menus
         $available_menus          = $this->get_available_menus();
+        if ( empty($available_menus) ) return;
+
+        // Extension Settings
         $jltma_extensions_setting = Settings::get_extensions();
         if (!is_array($jltma_extensions_setting)) {
             $jltma_extensions_setting = array();
         }
-
-        if (!$available_menus) {
-            return;
-        }
-
+        
         $settings = $this->get_active_settings();
 
-        $layout = $settings['layout'];
+        $layout = $settings['jltma_nav_layout'];
+
+        $menu_index = $this->get_nav_menu_index();
+
+        $this->main_menu_list_id = 'menu-' . (string)$menu_index . '-' . $this->get_id();
 
         $args = array(
             'echo' => false,
             'menu' => $settings['jltma_nav_menu'],
             'menu_class' => $this->get_widget_class() . '__container-inner',
-            'menu_id' => 'menu-' . $this->get_nav_menu_index() . '-' . $this->get_id(),
+            'menu_id' => $this->main_menu_list_id,
             'fallback_cb' => '__return_empty_string',
             'container' => ''
         );
+
         if (isset($jltma_extensions_setting['mega-menu']) && ($jltma_extensions_setting['mega-menu'] === 1)) {
             if (class_exists('MasterAddons\Modules\Display\MegaMenu\Megamenu_Nav_Walker')) {
                 $args['walker'] = \MasterAddons\Modules\Display\MegaMenu\Megamenu_Nav_Walker::get_instance();
@@ -5178,69 +660,90 @@ class Nav_Menu extends Master_Widget
         }
 
         add_filter('nav_menu_link_attributes', array($this, 'get_link_classes'), 10, 4);
-        add_filter('nav_menu_item_args', array($this, 'change_menu_item_css_classes'), 10, 3);
-        add_filter('nav_menu_submenu_css_class', array($this, 'get_sub_menu_classes'));
+        add_filter('walker_nav_menu_start_el', array($this, 'set_menu_dropdown_icon'), 10, 4);
 
         $menu_html = wp_nav_menu($args);
 
-        if (empty($menu_html)) {
-            return;
+        // Scoped to this widget's menu -- left hooked it would also stamp arrows
+        // on every other nav menu rendered later on the page.
+        remove_filter('walker_nav_menu_start_el', array($this, 'set_menu_dropdown_icon'), 10);
+
+        if( empty($menu_html) ) return;
+
+        $layouts = $this->get_device_layouts();
+
+        // Attributes Inject
+        $menu_classes = array(
+            $this->get_widget_class() . '__main',
+            $this->get_widget_class() . '__container',
+            'jltma-layout-' . esc_attr($layout),
+            // Off until the layout for the width in view is on the nav: the
+            // parser paints what it has, and the boot script's swap would
+            // otherwise be transitioned -- a popup fading out over the page on
+            // every load. Both the boot script and ma-navmenu.js drop it a
+            // frame after the swap, so an optimiser that eats the inline script
+            // still leaves the menu with its transitions.
+            'jltma-nav-layout-switching',
+        );
+
+        // The hamburger's Type (Default / Popup / Offcanvas) decides how the
+        // menu opens, so the class goes on the nav as well as on the panel --
+        // the toggle, the overlay and the open state are all read from here.
+        if ($this->has_hamburger_layout()) {
+            $dropdown_types = $this->get_device_values('jltma_dropdown_menu_type', 'default');
+            $menu_classes[] = 'jltma-menu-dropdown-type-' . esc_attr($dropdown_types['desktop']);
+
+            // The close control and the overlay belong to Popup and Offcanvas.
+            // A menu that is either of them at any width carries them at every
+            // width, since only the class swaps as breakpoints are crossed.
+            $panel_type = in_array('offcanvas', $dropdown_types, true) || in_array('popup', $dropdown_types, true)
+                ? 'popup'
+                : 'default';
+            $menu_html = $this->get_dropdown_parts($menu_html, $settings, $panel_type);
         }
 
-        $args['menu_id'] = ('jltma_menu-' . $this->get_nav_menu_index() . '-' . $this->get_id());
-
-        remove_filter('nav_menu_link_attributes', array($this, 'get_link_classes'));
-        remove_filter('nav_menu_item_args', array($this, 'change_menu_item_css_classes'));
-        remove_filter('nav_menu_submenu_css_class', array($this, 'get_sub_menu_classes'));
-
-        $vertical_menu_type = $settings['vertical_menu_type'];
-
-        $indicator_main_icon = (isset($settings['indicator_main']) && '' !== $settings['indicator_main']['value'] ? $settings['indicator_main']['value'] : '');
-
-        $indicator_default_icon = (isset($settings['indicator_main_popover']) && 'show' === $settings['indicator_main_popover'] ? 'default-main-icon-hide' : '');
-        $indicator_default_submenu_icon = (isset($settings['indicator_submenu_popover']) && '' !== $settings['indicator_submenu_popover'] ? 'default-submenu-icon-hide' : '');
-
-        $indicator_submenu_icon = (isset($settings['indicator_submenu']) && '' !== $settings['indicator_submenu']['value'] ? $settings['indicator_submenu']['value'] : '');
-
-        if ('dropdown' !== $layout) {
-            $this->add_render_attribute('main-menu', 'class', array(
-                $this->get_widget_class() . '__main',
-                $this->get_widget_class() . '__container',
-                $indicator_default_icon,
-                $indicator_default_submenu_icon,
-                'jltma-layout-' . esc_attr($layout),
-            ));
-
-            if ('horizontal' === $layout || ('vertical' === $layout && 'normal' === $vertical_menu_type)) {
-                $this->add_render_attribute('main-menu', 'data-icon-main', $indicator_main_icon);
-            } else {
-                $this->add_render_attribute('main-menu', 'data-icon-main', $indicator_submenu_icon);
-            }
-
-            $this->add_render_attribute('main-menu', 'data-icon-sub', $indicator_submenu_icon);
-
-            if ('vertical' === $layout) {
-                $this->add_render_attribute('main-menu', 'class', 'jltma-vertical-type-' . $vertical_menu_type);
-
-                if ('side' === $vertical_menu_type) {
-                    $this->add_render_attribute('main-menu', 'class', 'jltma-side-content-' . $this->get_id());
-                }
-
-                if ($settings['open_by_click']) {
-                    $this->add_render_attribute('main-menu', 'class', 'jltma-nav-menu-open-link');
-                }
-            }
-
-            echo '<nav ' . $this->get_render_attribute_string('main-menu') . '>' . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Elementor safe attribute string
-                $menu_html . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_nav_menu output
-                '</nav>';
-        } else {
-            $this->add_render_attribute('main-menu', 'data-icon-main', $indicator_submenu_icon);
-            $this->add_render_attribute('main-menu', 'data-icon-sub', $indicator_submenu_icon);
+        // The vertical layout has four sub types (normal / toggle / accordion /
+        // side) and each one gets its own open-close contract in the stylesheet
+        // and its own click behaviour in ma-navmenu.js. Without this class every
+        // sub level of a vertical menu falls back to the absolutely positioned
+        // "always visible" base rule and they all stack on top of each other.
+        // Rendered whenever any width is vertical; the rules that read it are
+        // nested under the vertical layout class, which only one width carries
+        // at a time.
+        if (in_array('vertical', $layouts, true)) {
+            $vertical_types = $this->get_device_values('vertical_menu_type', 'normal');
+            $menu_classes[] = 'jltma-vertical-type-' . esc_attr($vertical_types['desktop']);
         }
 
-        $this->get_toggle();
+        $this->add_render_attribute('main-menu', 'class', $menu_classes);
 
-        $this->get_dropdown();
+        // The layout in force is a class on the nav, and only one of the three
+        // applies at a time -- ma-navmenu.js swaps it as the width crosses a
+        // breakpoint, reading the saved values from here. Which means a menu
+        // still renders as its desktop layout with no script at all.
+        // Both Type controls are responsive too, and each one is its own
+        // behaviour -- an accordion is not a flyout, an offcanvas canvas is not
+        // a list dropping in place -- so they are swapped the same way.
+        $vertical_types = $this->get_device_values('vertical_menu_type', 'normal');
+        $dropdown_types = $this->get_device_values('jltma_dropdown_menu_type', 'default');
+
+        $this->add_render_attribute('main-menu', array(
+            'data-layout'                => $layouts['desktop'],
+            'data-layout-tablet'         => $layouts['tablet'],
+            'data-layout-mobile'         => $layouts['mobile'],
+            'data-vertical-type'         => $vertical_types['desktop'],
+            'data-vertical-type-tablet'  => $vertical_types['tablet'],
+            'data-vertical-type-mobile'  => $vertical_types['mobile'],
+            'data-dropdown-type'         => $dropdown_types['desktop'],
+            'data-dropdown-type-tablet'  => $dropdown_types['tablet'],
+            'data-dropdown-type-mobile'  => $dropdown_types['mobile'],
+        ));
+
+        $hamburger = $this->get_toggle();
+
+        echo '<nav ' . $this->get_render_attribute_string('main-menu') . '>' . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Elementor safe attribute string
+            $hamburger . $menu_html . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_nav_menu output
+        '</nav>' .
+        $this->get_layout_boot_script(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_get_inline_script_tag() output
     }
 }

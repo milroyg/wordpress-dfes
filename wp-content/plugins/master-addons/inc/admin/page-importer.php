@@ -46,6 +46,14 @@ final class Page_Importer {
             return;
         }
 
+        // The Pages list is reachable by any role with edit_pages, but every
+        // handler behind this UI requires manage_options — so for anyone else
+        // it is dead buttons whose only real effect is publishing the template
+        // and kit nonces below to a user who cannot legitimately use them.
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+
         // Enqueue WordPress React (required for template library)
         wp_enqueue_script('wp-element');
         wp_enqueue_script('wp-components');
@@ -66,7 +74,7 @@ final class Page_Importer {
             'restNonce' => wp_create_nonce('wp_rest'),
             'pluginUrl' => $plugin_url,
             'assetsUrl' => $plugin_url . '/assets/',
-            'isProActive' => Helper::jltma_premium(),
+            'isProActive' => Helper::jltma_can_use_pro_templates(),
             'strings' => array(
                 'searchPlaceholder' => __('Search templates...', 'master-addons'),
                 'importTemplate' => __('Import', 'master-addons'),

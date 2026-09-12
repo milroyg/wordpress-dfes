@@ -100,6 +100,8 @@ if (!class_exists(__NAMESPACE__ . '\\Master_Templates')) {
 		 */
 		private function load_template_kits() {
 			Kits\Kits_Loader::get_instance();
+
+			Widgets\Widgets_Loader::get_instance();
 		}
 
 		public static function get_instance()

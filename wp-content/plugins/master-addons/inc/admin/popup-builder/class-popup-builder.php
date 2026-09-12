@@ -507,7 +507,9 @@ class Popup_Builder {
             wp_die( esc_html__('Security check failed', 'master-addons') );
         }
 
-        if (!current_user_can('edit_posts')) {
+        // Popups are site-wide objects with no per-user ownership in this table,
+        // so managing them stays with users who administer the site.
+        if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => esc_html__('Invalid access', 'master-addons')]);
         }
 
@@ -587,7 +589,9 @@ class Popup_Builder {
             wp_die( esc_html__('Security check failed', 'master-addons') );
         }
 
-        if (!current_user_can('edit_posts')) {
+        // Popups are site-wide objects with no per-user ownership in this table,
+        // so managing them stays with users who administer the site.
+        if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => esc_html__('Invalid access', 'master-addons')]);
         }
 
@@ -611,7 +615,9 @@ class Popup_Builder {
             wp_die( esc_html__('Security check failed', 'master-addons') );
         }
 
-        if (!current_user_can('edit_posts')) {
+        // Popups are site-wide objects with no per-user ownership in this table,
+        // so managing them stays with users who administer the site.
+        if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => esc_html__('Invalid access', 'master-addons')]);
         }
 
@@ -651,7 +657,9 @@ class Popup_Builder {
             wp_die( esc_html__('Security check failed', 'master-addons') );
         }
 
-        if (!current_user_can('edit_posts')) {
+        // Popups are site-wide objects with no per-user ownership in this table,
+        // so managing them stays with users who administer the site.
+        if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => esc_html__('Invalid access', 'master-addons')]);
         }
 

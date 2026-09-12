@@ -366,6 +366,7 @@ trait Analytify_Rest_Endpoints_Dimensions {
 	 * Retrieves search keyword data including organic search terms,
 	 * search volume, and associated conversion metrics.
 	 *
+	 * @version 9.1.1
 	 * @return array<string, mixed> Keyword statistics with search performance data
 	 */
 	private function keyword_stats() {
@@ -385,29 +386,41 @@ trait Analytify_Rest_Endpoints_Dimensions {
 				),
 			);
 		}
-		if ( isset( $keyword_stats_raw['response']['rows'] ) && $keyword_stats_raw['response']['rows'] > 0 ) {
+		if ( isset( $keyword_stats_raw['response']['rows'] ) && is_array( $keyword_stats_raw['response']['rows'] ) && ! empty( $keyword_stats_raw['response']['rows'] ) ) {
 			foreach ( $keyword_stats_raw['response']['rows'] as $row ) {
 				$keywords_stats[] = array(
-					'keyword_url' => isset( $row['keys'][0] ) ? sanitize_text_field( (string) $row['keys'][0] ) : '',
-					'impressions' => $row['impressions'],
-					'clicks'      => $row['clicks'],
+					'keyword_url'      => isset( $row['keys'][0] ) ? sanitize_text_field( (string) $row['keys'][0] ) : '',
+					'impressions'      => isset( $row['impressions'] ) ? $row['impressions'] : 0,
+					'clicks'           => isset( $row['clicks'] ) ? $row['clicks'] : 0,
+					'ctr'              => isset( $row['ctr'] ) ? number_format( (float) $row['ctr'] * 100, 1 ) . '%' : '0%',
+					'average_position' => isset( $row['position'] ) ? number_format( (float) $row['position'], 1 ) : 0,
 				);
-				$total_clicks    += $row['clicks'];
+				$total_clicks    += isset( $row['clicks'] ) ? (int) $row['clicks'] : 0;
 			}
 			$success = true;
 			$headers = array(
-				'keyword_url' => array(
+				'keyword_url'      => array(
 					'label'    => esc_html__( 'Keywords', 'wp-analytify' ),
 					'th_class' => 'analytify_txt_left analytify_link_title',
 					'td_class' => '',
 				),
-				'impressions' => array(
+				'impressions'      => array(
 					'label'    => esc_html__( 'Impressions', 'wp-analytify' ),
 					'th_class' => 'analytify_value_row',
 					'td_class' => 'analytify_txt_center analytify_value_row',
 				),
-				'clicks'      => array(
+				'clicks'           => array(
 					'label'    => esc_html__( 'Clicks', 'wp-analytify' ),
+					'th_class' => 'analytify_value_row',
+					'td_class' => 'analytify_txt_center analytify_value_row',
+				),
+				'ctr'              => array(
+					'label'    => esc_html__( 'CTR', 'wp-analytify' ),
+					'th_class' => 'analytify_value_row',
+					'td_class' => 'analytify_txt_center analytify_value_row',
+				),
+				'average_position' => array(
+					'label'    => esc_html__( 'Avg. Position', 'wp-analytify' ),
 					'th_class' => 'analytify_value_row',
 					'td_class' => 'analytify_txt_center analytify_value_row',
 				),

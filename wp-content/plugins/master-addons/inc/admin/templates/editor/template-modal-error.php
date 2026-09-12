@@ -10,7 +10,7 @@ use MasterAddons\Inc\Admin\Templates;
 ?>
 <div class="elementor-library-error">
 	<div class="elementor-library-error-message"><?php
-													echo esc_html__('Template couldn\'t be loaded. Please activate you license key before.', 'master-addons' );
+													echo esc_html__('This is a Pro template. Activate your Master Addons Pro licence to insert it.', 'master-addons' );
 													?></div>
 	<div class="elementor-library-error-link"><?php
 												printf(

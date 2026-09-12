@@ -88,7 +88,7 @@ if ( $show_kpis && ! $show_landing_page ) {
                                 class="w-full text-white bg-green-500 kc-us-primary-button hover:bg-green-400"
                                 title="<?php echo sprintf( /* translators: %s: Human-readable elapsed time since last update */ __( 'Last Updated On: %s', 'url-shortify' ), $elapsed_time ); ?>">
 							<a href="<?php
-                            echo $page_refresh_url; ?>" class="text-white hover:text-white"><?php
+                            echo esc_url( $page_refresh_url ); ?>" class="text-white hover:text-white"><?php
                                 _e( 'Refresh', 'url-shortify' ); ?></a>
 						</button>
 					</span>
@@ -656,7 +656,7 @@ $os_values      = array_map( 'intval', array_values( $os_info ) );
 				var end = $endDate.val().trim();
 
 				if (!start || !end) {
-					alert('<?php echo esc_js( __( 'Please enter both a start date and an end date.', 'url-shortify' ) ); ?>');
+					window.kcUsNotice( '<?php echo esc_js( __( 'Enter both a start date and an end date.', 'url-shortify' ) ); ?>', 'error', $customApply.closest( 'div' ) );
 					return;
 				}
 

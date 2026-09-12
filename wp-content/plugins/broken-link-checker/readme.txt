@@ -2,8 +2,8 @@
 Contributors: managewp, wpmudev
 Tags: links, broken links, internal link, external link, broken images
 Requires at least: 5.2
-Tested up to: 7.0
-Stable tag: 2.4.8
+Tested up to: 7.1
+Stable tag: 2.4.14.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -207,6 +207,52 @@ We take plugin security incredibly seriously; if you have a bug or vulnerability
 6. Local Broken Link Checker engine settings
 
 == Changelog ==
+
+= 2.4.14.1 =
+* Fix: A server-side request vulnerability
+
+= 2.4.14 =
+* Fix: Fixed scheduled scans running more than once and duplicate scan report emails being sent when the site uses a 12-hour time format.
+* Fix: Fixed the scan report email showing an incorrect broken links count when links were ignored after the scan.
+* Fix: Fixed broken links being missing from the scan report email when their source post could not be resolved.
+* Fix: Fixed scheduled scans running at the wrong time or on the wrong day for sites with a timezone other than UTC.
+* Fix: Fixed the scan schedule allowing the same recipient to be added more than once, which resulted in duplicate scan report emails.
+
+= 2.4.13.1 =
+* Fix: Patched a cross-site scripting (XSS) issue.
+
+= 2.4.13 =
+* Fix: Fixed a fatal error that could occur when viewing broken links found in Template Parts and Templates.
+* Fix: Fixed "Look For Links In" checkboxes being unchecked by default, causing some content types to be skipped during scans.
+
+= 2.4.12 =
+* Fix: Fixed an issue with permissions allowing Editors to access Dashboard widget.
+* Fix: Patched a vulnerability issue (Credit: Jakub Herman).
+
+= 2.4.11 =
+* Fix: Fixed daily scan schedule time not being saved correctly in some cases.
+
+= 2.4.10 =
+* Fix: Fixed error ocurred during database schema upgrade.
+
+= 2.4.9 =
+* Fix: Updated links in the footer of the Cloud admin page.
+* Fix: Fixed BLC Cloud link detection in comments.
+* Fix: Resolved BLC Local database error when checking pages.
+* Fix: Fixed BLC Cloud Elementor and SiteOrigin PageBuilder support.
+* Fix: Fixed BLC Cloud recipients counter in the role filter.
+* Fix: Improved BLC Cloud keyboard navigation for the recipients search field.
+* Fix: Fixed BLC Local result status code after request redirection.
+* Fix: Improved BLC Local accessibility.
+* Fix: Optimized BLC Local database.
+* Fix: Resolved PHP compatibility warnings.
+* Fix: Fixed BLC Cloud scheduled reports timezone support.
+* Enhance: Added blc_link_status_changed filter to monitor link status changes.
+* Enhance: Redirected users to the plugin dashboard after activation.
+* Enhance: Added BLC Local support for custom taxonomies.
+* Enhance: Added ability to sort BLC Local records by status code.
+* Enhance: BLC Cloud now automatically highlights broken links on the site.
+* Fix: Miscellaneousness improvements
 
 = 2.4.8 =
 * Fix: Patched a vulnerability issue.

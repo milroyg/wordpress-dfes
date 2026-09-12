@@ -1862,10 +1862,7 @@ class Filterable_Image_Gallery extends Master_Widget
 			$this->add_render_attribute('gallery-wrapper', 'class', 'jltma-tilt-enable');
 		}
 
-		$gallery_categories=[];
-		if (function_exists('ma_el_image_filter_gallery_array_flatten')) {
-			$gallery_categories = JltmaUtils::image_filter_gallery_categories($settings['ma_el_image_gallery_items']);
-		}
+		$gallery_categories = JltmaUtils::image_filter_gallery_categories($settings['ma_el_image_gallery_items']);
 
 		echo '<div ' . $this->get_render_attribute_string('gallery-wrapper') . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Elementor safe attribute string
 
@@ -1998,7 +1995,7 @@ class Filterable_Image_Gallery extends Master_Widget
 							echo '<div class="jltma-image-hover-item-info">';
 
 							if ($settings['ma_el_image_gallery_category'] == "yes") {
-								echo ma_el_image_filter_gallery_categories_parts($item['gallery_category_name']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- function returns safe HTML markup
+								echo JltmaUtils::image_filter_gallery_categories_parts($item['gallery_category_name']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- function returns safe HTML markup
 							}
 
 							if ($item['ma_el_image_gallery_show_ribbon'] == "yes") {

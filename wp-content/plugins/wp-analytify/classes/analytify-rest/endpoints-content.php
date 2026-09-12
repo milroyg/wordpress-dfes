@@ -28,11 +28,16 @@ trait Analytify_Rest_Endpoints_Content {
 	 * Retrieves analytics data for the most visited pages on the website,
 	 * including pageviews, unique pageviews, and bounce rates.
 	 *
+	 * @version 9.1.1
 	 * @return array<string, mixed> Top pages statistics with performance metrics
 	 */
 	private function top_pages_stats() {
-		$api_limit = apply_filters( 'analytify_api_limit_top_pages_stats', 50, 'dashboard' );
+		$api_limit = apply_filters( 'analytify_api_limit_top_pages_stats', 100, 'dashboard' );
 		$site_url  = $this->get_profile_info( 'website_url' );
+		if ( empty( $site_url ) ) {
+			$site_url = home_url();
+		}
+		$site_url  = untrailingslashit( (string) $site_url );
 		$stats     = array();
 		$stats_raw = $this->wp_analytify->get_reports(
 			'show-default-top-pages-dashboard',
@@ -70,9 +75,14 @@ trait Analytify_Rest_Endpoints_Content {
 				$views = $row['screenPageViews'] ? WPANALYTIFY_Utils::pretty_numbers( $row['screenPageViews'] ) : 0;
 				if ( $views < 1 ) {
 					continue; }
-				$stats[] = array(
+				$page_path = isset( $row['pagePath'] ) ? (string) $row['pagePath'] : '';
+				if ( '' !== $page_path && '/' !== $page_path[0] ) {
+					$page_path = '/' . $page_path;
+				}
+				$page_url = esc_url( $site_url . $page_path );
+				$stats[]  = array(
 					'no'                     => null,
-					'pageTitle'              => '<a href="' . $site_url . $row['pagePath'] . '" target="_blank">' . $row['pageTitle'] . '</a>',
+					'pageTitle'              => '<a href="' . $page_url . '" target="_blank" rel="noopener noreferrer">' . esc_html( $row['pageTitle'] ) . '</a>',
 					'screenPageViews'        => $views,
 					'userEngagementDuration' => $row['averageSessionDuration'] ? WPANALYTIFY_Utils::pretty_time( $row['averageSessionDuration'] ) : 0,
 					'bounceRate'             => $row['bounceRate'] ? WPANALYTIFY_Utils::fraction_to_percentage( $row['bounceRate'] ) . '%' : 0,

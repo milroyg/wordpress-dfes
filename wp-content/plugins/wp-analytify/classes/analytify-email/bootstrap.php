@@ -72,7 +72,7 @@ trait Analytify_Email_Bootstrap {
 	 * @since 1.0
 	 */
 	public function analytify_email_scripts() {
-		wp_enqueue_script( 'analytify_email_script', ( defined( 'ANALYTIFY_PLUGIN_URL' ) ? ANALYTIFY_PLUGIN_URL : '' ) . 'assets/js/wp-analytify-email.js', array( 'jquery' ), defined( 'ANALYTIFY_VERSION' ) ? ANALYTIFY_VERSION : '1.0.0', true );
+		wp_enqueue_script( 'analytify_email_script', ( defined( 'ANALYTIFY_PLUGIN_URL' ) ? ANALYTIFY_PLUGIN_URL : '' ) . 'assets/js/wp-analytify-email' . analytify_get_asset_suffix() . '.js', array( 'jquery' ), defined( 'ANALYTIFY_VERSION' ) ? ANALYTIFY_VERSION : '1.0.0', true );
 
 		// Localize nonce data for email script.
 		// Get existing nonces if wpanalytify_data was already localized to wp-analytify-script-js.

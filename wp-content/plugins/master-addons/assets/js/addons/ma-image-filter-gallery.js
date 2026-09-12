@@ -97,24 +97,26 @@ function isEditMode() {
 		getUniqueLoopScopeId($scope);
 		var $galleryWrapper = $scope.find(".jltma-image-filter-gallery");
 		if (!$galleryWrapper.length) return;
-		if (!$galleryWrapper.hasClass("jltma-editor-mode")) {
-			var $filterButtons = $scope.find(".jltma-image-filter-nav li");
-			$galleryWrapper.find(".jltma-image-filter-item");
-			var $isotope = $galleryWrapper.isotope({
+		var isEditorMode = $galleryWrapper.hasClass("jltma-editor-mode");
+		var $filterButtons = $scope.find(".jltma-image-filter-nav li"), $galleryItems = $galleryWrapper.find(".jltma-image-filter-item"), $isotope = null;
+		if (!isEditorMode) {
+			$isotope = $galleryWrapper.isotope({
 				itemSelector: ".jltma-image-filter-item",
 				layoutMode: "fitRows",
 				percentPosition: true
-			});
-			$filterButtons.on("click", function() {
-				var $this = $(this), filterValue = $this.attr("data-filter");
-				$filterButtons.removeClass("active");
-				$this.addClass("active");
-				$isotope.isotope({ filter: filterValue });
 			});
 			$galleryWrapper.imagesLoaded(function() {
 				$isotope.isotope("layout");
 			});
 		}
+		$filterButtons.off("click.jltmaFilter").on("click.jltmaFilter", function() {
+			var $this = $(this), filterValue = $this.attr("data-filter");
+			$filterButtons.removeClass("active");
+			$this.addClass("active");
+			if ($isotope) $isotope.isotope({ filter: filterValue });
+			else if (!filterValue || filterValue === "*") $galleryItems.show();
+			else $galleryItems.hide().filter(filterValue).show();
+		});
 		if ($.isFunction($.fn.fancybox)) $scope.find("[data-fancybox]").fancybox({});
 	};
 	$(window).on("elementor/frontend/init", function() {

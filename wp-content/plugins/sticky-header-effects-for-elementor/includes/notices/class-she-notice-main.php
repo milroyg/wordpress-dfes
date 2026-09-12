@@ -96,7 +96,23 @@ if ( ! class_exists( 'She_Notice_Main' ) ) {
 		 */
 		public function she_load() {
 			if ( is_admin() && current_user_can( 'manage_options' ) ) {
-				include SHE_HEADER_PATH . 'includes/notices/class-she-deactivate-feedback.php';
+				/*
+				 * The legacy deactivation dialog (class-she-deactivate-feedback.php) was deleted in 2.2.1.
+				 *
+				 * Its replacement is the shared SDK's Posimyth_Deactivation_Survey, wired up in
+				 * she_posimyth_analytics_boot() in the main plugin file. Do NOT include a second dialog
+				 * here: both bound the Plugins screen's Deactivate link, so two modals stacked on one
+				 * click — the same bug Nexter Extension and The Plus Addons for Elementor each shipped
+				 * until their legacy popups were deleted.
+				 *
+				 * The old one also found the link by `[data-slug="…"]`, which WordPress derives from the
+				 * TRANSLATED plugin name, so on a non-English locale it silently matched nothing; depended
+				 * on elementorCommon, so it did nothing at all when Elementor was inactive; and posted the
+				 * reason plus the current user's email address to api.posimyth.com/she/v2 with no opt-in
+				 * surface and no white-label suppression. The SDK dialog matches the link by href, needs no
+				 * Elementor, is suppressed on rebranded installs, and only attaches an email address when
+				 * the user ticks the contact box.
+				 */
 				include SHE_HEADER_PATH . 'includes/notices/class-she-pro-launch-notice.php';
 
 				// Join Community notice (30 days after install) — skip once dismissed.

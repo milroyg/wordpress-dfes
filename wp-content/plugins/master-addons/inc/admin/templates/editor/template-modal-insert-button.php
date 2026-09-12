@@ -13,7 +13,14 @@ if (!defined('ABSPATH')) {
         </a>
     <# } #>
 
-    <# if ( 'valid'===window.MasterAddonsData.license.status || ! pro ) { #>
+    <#
+    /* A status of "valid" with no key behind it is not a licence, and testing
+       the status alone is why a pro template still offered Insert -- which
+       then failed against a library that will not serve it. */
+    var jltmaLicensed = 'valid' === window.MasterAddonsData.license.status
+        && window.MasterAddonsData.license.hasKey;
+    #>
+    <# if ( jltmaLicensed || ! pro ) { #>
         <a class="elementor-template-library-template-action ma-el-template-insert elementor-button">
             <i class="eicon-file-download"></i>
             <span class="elementor-button-title">

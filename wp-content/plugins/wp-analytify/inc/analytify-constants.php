@@ -7,7 +7,7 @@
  *
  * @package WP_Analytify
  * @since 8.0.0
- * @version 9.1.0
+ * @version 9.1.2
  */
 
 // Exit if accessed directly.
@@ -20,11 +20,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 // ============================================================================.
 
 if ( ! defined( 'ANALYTIFY_VERSION' ) ) {
-	define( 'ANALYTIFY_VERSION', '9.1.0' );
+	define( 'ANALYTIFY_VERSION', '9.1.2' );
 }
 
 if ( ! defined( 'WP_ANALYTIFY_PLUGIN_VERSION' ) ) {
-	define( 'WP_ANALYTIFY_PLUGIN_VERSION', '9.1.0' );
+	define( 'WP_ANALYTIFY_PLUGIN_VERSION', '9.1.2' );
+}
+
+if ( ! function_exists( 'analytify_get_asset_suffix' ) ) {
+	/**
+	 * Filename suffix for choosing minified vs unminified assets.
+	 *
+	 * @since 9.1.2
+	 * @return string '' when SCRIPT_DEBUG is on, '.min' otherwise.
+	 */
+	function analytify_get_asset_suffix() {
+		return ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+	}
 }
 
 if ( ! defined( 'WP_ANALYTIFY_ID' ) ) {

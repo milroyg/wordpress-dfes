@@ -14,6 +14,8 @@ use Elementor\Icons_Manager;
 use Elementor\Core\Settings\Manager as SettingsManager;
 use Elementor\Plugin;
 use Elementor\Controls_Manager;
+use Elementor\Group_Control_Image_Size;
+use Elementor\Control_Media;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -683,10 +685,11 @@ class Helper_Functions {
 	 * @param string $source source.
 	 * @param string $medium  media.
 	 * @param string $campaign campaign name.
+	 * @param string $content content identifier, becomes utm_content.
 	 *
 	 * @return string $link campaign URL
 	 */
-	public static function get_campaign_link( $link, $source, $medium, $campaign = '' ) {
+	public static function get_campaign_link( $link, $source, $medium, $campaign = '', $content = '' ) {
 
 		if ( null === self::$current_theme ) {
 			self::get_installed_theme();
@@ -697,6 +700,7 @@ class Helper_Functions {
 			'utm_medium'   => $medium,
 			'utm_campaign' => $campaign,
 			'utm_term'     => self::$current_theme,
+			'utm_content'  => $content,
 		);
 
 		$args = array_filter( $args );
@@ -961,6 +965,7 @@ class Helper_Functions {
 	 * Get IP location data.
 	 *
 	 * Uses multi-layered caching (object cache + transients) to optimize performance.
+	 * A failed lookup is cached as an empty array so a down endpoint is not retried on every call.
 	 *
 	 * @access public
 	 * @since 4.11.54
@@ -973,6 +978,12 @@ class Helper_Functions {
 
 		if ( '127.0.0.1' === $ip_address || empty( $ip_address ) ) {
 			return false;
+		}
+
+		static $request_memo = array();
+
+		if ( isset( $request_memo[ $ip_address ] ) ) {
+			return $request_memo[ $ip_address ];
 		}
 
 		$cache_key = 'pa_ip_loc_' . md5( $ip_address );
@@ -988,24 +999,27 @@ class Helper_Functions {
 				$response = wp_remote_get(
 					'https://api.findip.net/' . $ip_address . '/?token=e6624afe9983128700bc94e55d5227cb',
 					array(
-						'timeout'   => 15,
+						'timeout'   => 3,
 						'sslverify' => true,
 					)
 				);
 
 				if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-					return false;
+					$location_data = array();
+
+					set_transient( $cache_key, $location_data, 5 * MINUTE_IN_SECONDS );
+				} else {
+					$location_data = json_decode( wp_remote_retrieve_body( $response ), true );
+
+					set_transient( $cache_key, $location_data, 24 * HOUR_IN_SECONDS );
 				}
-
-				$location_data = json_decode( wp_remote_retrieve_body( $response ), true );
-
-				set_transient( $cache_key, $location_data, 24 * HOUR_IN_SECONDS );
-
 			}
 
 			wp_cache_set( $cache_key, $location_data, 'premium_addons' );
 
 		}
+
+		$request_memo[ $ip_address ] = $location_data;
 
 		return $location_data;
 	}
@@ -2345,5 +2359,115 @@ class Helper_Functions {
 		$names = wp_list_pluck( $terms, 'name' );
 
 		return implode( ', ', $names );
+	}
+
+	/**
+	 * Get attachment image HTML.
+	 *
+	 * A fork of Elementor's `Group_Control_Image_Size::get_attachment_image_html()`
+	 * that accepts a `$classes` argument, so the rendered `<img>` can be targeted by
+	 * a dedicated class instead of a `> img` selector that image-optimization plugins
+	 * break when they rewrite the tag into `<picture><img></picture>`. It also handles
+	 * the `get_image_data()` shape used by repeaters, which carries the size on the
+	 * image array rather than in a sibling `<key>_size` setting.
+	 *
+	 * Note that some widgets use the same key for the media control that allows
+	 * the image selection and for the image size control that allows the user
+	 * to select the image size, in this case the third parameter should be null
+	 * or the same as the second parameter. But when the widget uses different
+	 * keys for the media control and the image size control, when calling this
+	 * method you should pass the keys.
+	 *
+	 * The returned markup is not escaped. Print it through
+	 * `Utils::print_wp_kses_extended( $html, array( 'image' ) )`.
+	 *
+	 * @since 4.11.102
+	 * @access public
+	 * @static
+	 *
+	 * @param array  $settings       Control settings.
+	 * @param string $image_size_key Optional. Settings key for image size.
+	 *                               Default is `image`.
+	 * @param string $image_key      Optional. Settings key for image. Default
+	 *                               is null. If not defined uses image size key
+	 *                               as the image key.
+	 * @param string $classes        Optional. Classes list to be added to the image HTML markup.
+	 *
+	 * @return string Image HTML.
+	 */
+	public static function get_attachment_image_html( $settings, $image_size_key = 'image', $image_key = null, $classes = '' ) {
+
+		if ( ! $image_key ) {
+			$image_key = $image_size_key;
+		}
+
+		$image = $settings[ $image_key ];
+
+		$is_repeater = ! isset( $settings[ $image_size_key . '_size' ] );
+
+		if ( $is_repeater ) {
+			// Used with get_image_data() method which is used with repeaters.
+			$size = isset( $image['image_size'] ) ? $image['image_size'] : 'full';
+		} else {
+			$size = $settings[ $image_size_key . '_size' ];
+		}
+
+		/**
+		 * Performance Optimization: Cache image sizes to avoid redundant
+		 * 'get_intermediate_image_sizes' calls for every image.
+		 */
+		static $image_sizes = null;
+
+		if ( null === $image_sizes ) {
+			$image_sizes   = get_intermediate_image_sizes();
+			$image_sizes[] = 'full';
+		}
+
+		if ( ! empty( $image['id'] ) && ! wp_attachment_is_image( $image['id'] ) ) {
+			$image['id'] = '';
+		}
+
+		$is_lazyload_disabled = apply_filters( 'pa_disable_image_lazyload', false );
+
+		$html = '';
+
+		if ( ! empty( $image['id'] ) && in_array( $size, $image_sizes, true ) ) {
+
+			$image_attr = array(
+				'class' => trim( "attachment-$size size-$size wp-image-{$image['id']} " . $classes ),
+			);
+
+			if ( $is_lazyload_disabled ) {
+				$image_attr['loading'] = false;
+			}
+
+			$html = wp_get_attachment_image( $image['id'], $size, false, $image_attr );
+
+		} else { // Custom size.
+
+			// If repeater, then we should pass the data for the current image, not the settings object.
+			$size_key = $is_repeater ? 'image' : $image_size_key;
+			$source   = $is_repeater ? $image : $settings;
+
+			$image_src = Group_Control_Image_Size::get_attachment_image_src( $image['id'], $size_key, $source );
+
+			if ( ! $image_src && isset( $image['url'] ) ) {
+				$image_src = $image['url'];
+			}
+
+			if ( ! empty( $image_src ) ) {
+
+				$html = sprintf(
+					'<img src="%1$s" title="%2$s" alt="%3$s"%4$s%5$s />',
+					esc_url( $image_src ),
+					esc_attr( Control_Media::get_image_title( $image ) ),
+					esc_attr( Control_Media::get_image_alt( $image ) ),
+					! empty( $classes ) ? ' class="' . esc_attr( $classes ) . '"' : '',
+					$is_lazyload_disabled ? '' : ' loading="lazy"'
+				);
+			}
+		}
+
+		return $html;
 	}
 }

@@ -5,6 +5,10 @@
   margin-right: -15px;
 }
 
+.jltma-row.hidden {
+  display: none;
+}
+
 [class*=jltma-col-] {
   position: relative;
   width: 100%;

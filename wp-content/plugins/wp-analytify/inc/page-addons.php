@@ -347,6 +347,7 @@ if ( ! class_exists( 'WP_Analytify_Addons' ) ) {
 		/**
 		 * Enqueue admin scripts and localize variables.
 		 *
+		 * @version 9.1.1
 		 * @return void
 		 */
 		public function enqueue_admin_scripts() {
@@ -427,7 +428,7 @@ if ( ! class_exists( 'WP_Analytify_Addons' ) ) {
 			// Ensure script is enqueued (should already be done by scripts-styles.php).
 			if ( ! wp_script_is( 'analytify-addons-js', 'enqueued' ) ) {
 				$plugin_file = defined( 'WP_ANALYTIFY_PLUGIN_DIR' ) ? WP_ANALYTIFY_PLUGIN_DIR . '/wp-analytify.php' : dirname( __DIR__ ) . '/wp-analytify.php';
-				wp_enqueue_script( 'analytify-addons-js', plugins_url( 'assets/js/wp-analytify-addons.js', $plugin_file ), array( 'jquery' ), ANALYTIFY_VERSION, false );
+				wp_enqueue_script( 'analytify-addons-js', plugins_url( 'assets/js/wp-analytify-addons' . analytify_get_asset_suffix() . '.js', $plugin_file ), array( 'jquery' ), ANALYTIFY_VERSION, false );
 			}
 
 			// Localize to the correct script handle.
@@ -436,9 +437,17 @@ if ( ! class_exists( 'WP_Analytify_Addons' ) ) {
 				'analytify-addons-js',
 				'analytify_addons',
 				array(
-					'ajaxurl'       => admin_url( 'admin-ajax.php' ),
-					'nonce'         => wp_create_nonce( 'addons' ),
-					'allowed_slugs' => $slugs,
+					'ajaxurl'                  => admin_url( 'admin-ajax.php' ),
+					'nonce'                    => wp_create_nonce( 'addons' ),
+					'install_nonce'            => wp_create_nonce( 'updates' ),
+					'activate_dashboard_nonce' => wp_create_nonce( 'activate-analytify-dashboard' ),
+					'allowed_slugs'            => $slugs,
+					'i18n'                     => array(
+						'installing' => __( 'Installing...', 'wp-analytify' ),
+						'activating' => __( 'Activating...', 'wp-analytify' ),
+						'installed'  => __( 'Installed & Activated', 'wp-analytify' ),
+						'get_addon'  => __( 'Get this add-on', 'wp-analytify' ),
+					),
 				)
 			);
 		}
@@ -482,37 +491,35 @@ if ( ! class_exists( 'WP_Analytify_Addons' ) ) {
 		 *
 		 * @param string $slug Plugin slug.
 		 * @param mixed  $extension Extension data.
+		 * @version 9.1.1
 		 * @return void
 		 */
 		public function addons_status( $slug, $extension ) {
+			$folder_slug = $slug;
 			// Free addon has different filename.
 			$addon_file_name = ( 'analytify-analytics-dashboard-widget' === $slug ) ? 'wp-analytify-dashboard' : $slug;
-			$slug            = $slug . '/' . $addon_file_name . '.php';
+			$plugin_file     = $slug . '/' . $addon_file_name . '.php';
 
-			if ( is_plugin_active( $slug ) ) {
+			if ( is_plugin_active( $plugin_file ) ) {
 				// translators: Deactivate add-on.
-				printf( esc_html__( '%1$s Deactivate add-on %2$s', 'wp-analytify' ), '<button type="button" class="button-primary analytify-module-state analytify-deactivate-module" data-slug="' . esc_attr( $slug ) . '" data-set-state="deactive" data-internal-module="false">', '</button>' );
+				printf( esc_html__( '%1$s Deactivate add-on %2$s', 'wp-analytify' ), '<button type="button" class="button-primary analytify-module-state analytify-deactivate-module" data-slug="' . esc_attr( $plugin_file ) . '" data-set-state="deactive" data-internal-module="false">', '</button>' );
 
-			} elseif ( array_key_exists( $slug, $this->plugins_list ) ) {
-
-				$link = wp_nonce_url(
-					add_query_arg(
-						array(
-							'action' => 'activate',
-							'plugin' => $slug,
-						),
-						admin_url( 'plugins.php' )
-					),
-					'activate-plugin_' . $slug
-				);
+			} elseif ( array_key_exists( $plugin_file, $this->plugins_list ) ) {
 				// translators: Activate add-on.
-				printf( esc_html__( '%1$s Activate add-on %2$s', 'wp-analytify' ), '<a href="' . esc_url( $link ) . '" class="button-primary analytify-module-state analytify-activate-module" data-slug="' . esc_attr( $slug ) . '" data-set-state="active" data-internal-module="false" >', '</a>' );
+				printf( esc_html__( '%1$s Activate add-on %2$s', 'wp-analytify' ), '<button type="button" class="button-primary analytify-module-state analytify-activate-module" data-slug="' . esc_attr( $plugin_file ) . '" data-set-state="active" data-internal-module="false">', '</button>' );
 
-			} elseif ( is_plugin_inactive( $slug ) ) {
+			} elseif ( is_plugin_inactive( $plugin_file ) ) {
 
 				if ( isset( $extension->status ) && '' !== $extension->status ) {
 					// translators: Simple shortcodes.
 					printf( esc_html__( '%1$s Download %2$s', 'wp-analytify' ), '<a target="_blank" href="' . esc_url( isset( $extension->url ) ? $extension->url : '#' ) . '" class="button-primary">', '</a>' );
+				} elseif ( 'analytify-analytics-dashboard-widget' === $folder_slug && current_user_can( 'install_plugins' ) ) {
+					printf(
+						/* translators: 1: opening button tag, 2: closing button tag */
+						esc_html__( '%1$s Get this add-on %2$s', 'wp-analytify' ),
+						'<button type="button" class="button-primary analytify-install-dashboard-addon" data-slug="' . esc_attr( $plugin_file ) . '" data-install-nonce="' . esc_attr( wp_create_nonce( 'updates' ) ) . '" data-activate-nonce="' . esc_attr( wp_create_nonce( 'activate-analytify-dashboard' ) ) . '">',
+						'</button>'
+					);
 				} else {
 					// translators: Get add-on.
 					printf( esc_html__( '%1$s Get this add-on %2$s', 'wp-analytify' ), '<a target="_blank" href="' . esc_url( isset( $extension->url ) ? $extension->url : '#' ) . '" class="button-primary">', '</a>' );

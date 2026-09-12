@@ -19,7 +19,6 @@ if (!class_exists(__NAMESPACE__ . '\\Config')) {
 
 		private static $instance = null;
 		private $config;
-		private $slug = 'master-addons-pro-license';
 		public function __construct()
 		{
 			$this->config = array(
@@ -45,6 +44,8 @@ if (!class_exists(__NAMESPACE__ . '\\Config')) {
 						'categories' => '/categories/',
 						'template'   => '/template/',
 						'info'       => '/info/',
+						'widgets'    => '/widgets',
+						'widget'     => '/widget/',
 					),
 				)
 			);
@@ -62,15 +63,34 @@ if (!class_exists(__NAMESPACE__ . '\\Config')) {
 			return false;
 		}
 
+		/**
+		 * The licence key, for the sites that have one.
+		 *
+		 * This used to return an admin URL when the site was NOT licensed and
+		 * an empty string when it was, which is backwards in both directions:
+		 * the template API reads this value as the licence to send, so every
+		 * licensed site asked for pro templates with no licence at all and was
+		 * refused the content.
+		 */
 		public function get_license_key()
 		{
 			if (!$this->has_active_license()) {
-				$key = add_query_arg(array('page'  => $this->slug,), esc_url(admin_url('admin.php?page=master-addons-account')));
-			} else {
-				$key = "";
+				return '';
 			}
 
-			return $key;
+			if (function_exists('ma_el_fs')) {
+				$fs = ma_el_fs();
+
+				if (method_exists($fs, '_get_license')) {
+					$license = $fs->_get_license();
+
+					if (is_object($license) && !empty($license->secret_key)) {
+						return (string) $license->secret_key;
+					}
+				}
+			}
+
+			return '';
 		}
 
 

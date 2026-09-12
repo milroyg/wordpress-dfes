@@ -1,4 +1,5 @@
 <?php
+
 namespace Elementor;
 
 use Elementor\Core\Admin\Menu\Admin_Menu_Manager;
@@ -38,6 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 class Plugin {
+
 	const ELEMENTOR_DEFAULT_POST_TYPES = [ 'page', 'post' ];
 
 	/**

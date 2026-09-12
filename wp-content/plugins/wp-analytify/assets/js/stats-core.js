@@ -488,7 +488,10 @@ jQuery(function ($) {
 							// Try to find the key by label
 							const key = analytifyGetKeyByLabel(setting_stats, name);
 							if (key && setting_stats[key] && ! isNaN(parseInt(setting_stats[key].number))) {
-								const value = parseInt(setting_stats[key].number);
+								let value = parseInt(setting_stats[key].number);
+								if (value >= 1000) {
+									value = (value / 1000).toFixed(1) + 'k';
+								}
 								return `${name}: ${value}`;
 							}
 							// If not found, log an error and return fallback
@@ -924,7 +927,7 @@ jQuery(function ($) {
 											break;
 									}
 
-									if (Object.keys(response.stats).length > 0) {
+									if ( response.stats && Object.keys( response.stats ).length > 0 ) {
 										const markup = generate_stats_table(response.headers, response.stats, table_classes, table_attr);
 										set_section(element, markup, response.footer, response.pagination);
 										if (element.find('.title-total-wrapper').length && response.title_stats) {

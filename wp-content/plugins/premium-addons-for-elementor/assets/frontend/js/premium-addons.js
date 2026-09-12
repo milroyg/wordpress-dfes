@@ -2107,10 +2107,14 @@
 
 				_this.elements.$bannerImgWrap.hover(
 					function () {
-						_this.elements.$bannerImgWrap.find("> img").addClass("active");
+						_this.elements.$bannerImgWrap
+							.find(".premium-banner-img")
+							.addClass("active");
 					},
 					function () {
-						_this.elements.$bannerImgWrap.find("> img").removeClass("active");
+						_this.elements.$bannerImgWrap
+							.find(".premium-banner-img")
+							.removeClass("active");
 					},
 				);
 
@@ -2568,6 +2572,20 @@
 
 						if ($(this).hasClass("current")) return;
 
+						// The 'Main Query' source has no query context to inherit inside an
+						// admin-ajax.php request, so instead of asking the AJAX handler to
+						// rebuild it, fetch the real (already correctly-scoped) archive page
+						// that paginate_links() linked to, and lift this widget's markup out of it.
+						if (_this.isMainQuery()) {
+							var href = $(this).attr("href");
+
+							if (href) {
+								_this.fetchMainQueryPage(href, _this.settings.scrollAfter);
+							}
+
+							return;
+						}
+
 						var currentPage = parseInt(
 							$scope.find(selectors.currentPage).html(),
 						);
@@ -2583,6 +2601,10 @@
 						_this.getPostsByAjax(_this.settings.scrollAfter);
 					},
 				);
+			},
+
+			isMainQuery: function () {
+				return undefined !== this.elements.$blogElement.attr("data-next-page");
 			},
 
 			forceEqualHeight: function () {
@@ -2768,47 +2790,102 @@
 
 						$blogElement.find(selectors.loading).remove();
 
-						var posts = res.data.posts,
-							paging = res.data.paging;
-
-						if (_this.settings.infinite) {
-							_this.settings.isLoaded = true;
-							if (
-								_this.settings.filterTabs &&
-								_this.settings.pageNumber === 1
-							) {
-								$blogElement.html(posts);
-							} else {
-								$blogElement.append(posts);
-							}
-						} else {
-							//Render the new markup into the widget
-							$blogElement.html(posts);
-
-							_this.$element.find(".premium-blog-footer").html(paging);
-						}
-
-						_this.removeMetaSeparators();
-
-						//Make sure grid option is enabled.
-						if (_this.settings.layout) {
-							if ("even" === _this.settings.layout) {
-								if (_this.settings.equalHeight) _this.forceEqualHeight();
-							} else {
-								$blogElement.imagesLoaded(function () {
-									$blogElement.isotope("reloadItems");
-									$blogElement.isotope({
-										itemSelector: ".premium-blog-post-outer-container",
-										animate: false,
-									});
-								});
-							}
-						}
+						_this.applyPostsResult(res.data.posts, res.data.paging);
 					},
 					error: function (err) {
 						console.log(err);
 					},
 				});
+			},
+
+			//reinitialize newly loaded posts identically.
+			applyPostsResult: function (posts, paging) {
+				var $blogElement = this.elements.$blogElement;
+
+				if (this.settings.infinite) {
+					this.settings.isLoaded = true;
+					if (this.settings.filterTabs && this.settings.pageNumber === 1) {
+						$blogElement.html(posts);
+					} else {
+						$blogElement.append(posts);
+					}
+				} else {
+					//Render the new markup into the widget
+					$blogElement.html(posts);
+
+					this.$element.find(".premium-blog-footer").html(paging);
+				}
+
+				this.removeMetaSeparators();
+
+				//Make sure grid option is enabled.
+				if (this.settings.layout) {
+					if ("even" === this.settings.layout) {
+						if (this.settings.equalHeight) this.forceEqualHeight();
+					} else {
+						$blogElement.imagesLoaded(function () {
+							$blogElement.isotope("reloadItems");
+							$blogElement.isotope({
+								itemSelector: ".premium-blog-post-outer-container",
+								animate: false,
+							});
+						});
+					}
+				}
+			},
+
+			// Fetch this widget's own markup out of the returned page.
+			fetchMainQueryPage: function (url, shouldScroll) {
+				var _this = this,
+					$blogElement = this.elements.$blogElement,
+					selectors = this.getSettings("selectors"),
+					elementId = this.$element.data("id");
+
+				$blogElement.append(
+					'<div class="premium-loading-feed"><div class="premium-loader"></div></div>',
+				);
+
+				var stickyOffset = 0;
+				if ($(".elementor-sticky").length > 0) stickyOffset = 100;
+
+				if (shouldScroll) {
+					$("html, body").animate(
+						{
+							scrollTop: $blogElement.offset().top - 50 - stickyOffset,
+						},
+						"slow",
+					);
+				}
+
+				fetch(url)
+					.then(function (response) {
+						return response.text();
+					})
+					.then(function (html) {
+						var $remote = $(new DOMParser().parseFromString(html, "text/html")),
+							$remoteWidget = $remote.find('[data-id="' + elementId + '"]'),
+							$remoteBlogElement = $remoteWidget.find(selectors.blogElement),
+							posts = $remoteBlogElement.html(),
+							paging = $remoteWidget.find(".premium-blog-footer").html() || "";
+
+						// Sync pagination attributes.
+						$blogElement.attr(
+							"data-next-page",
+							$remoteBlogElement.attr("data-next-page"),
+						);
+						$blogElement.attr(
+							"data-current-page",
+							$remoteBlogElement.attr("data-current-page"),
+						);
+
+						$blogElement.find(selectors.loading).remove();
+
+						_this.applyPostsResult(posts, paging);
+					})
+					.catch(function (err) {
+						$blogElement.find(selectors.loading).remove();
+						console.log(err);
+					});
 			},
 
 			getInfiniteScrollPosts: function () {
@@ -2824,6 +2901,36 @@
 					ticking = true;
 					requestAnimationFrame(function () {
 						ticking = false;
+
+						if (_this.isMainQuery()) {
+							var $blogElement = _this.elements.$blogElement,
+								currentPage =
+									parseInt($blogElement.attr("data-current-page"), 10) || 1,
+								maxPage = parseInt($blogElement.attr("data-max-page"), 10) || 1,
+								nextPageUrl = $blogElement.attr("data-next-page");
+
+							if (currentPage >= maxPage || !nextPageUrl) {
+								return;
+							}
+
+							var mainScrollTop = $(window).scrollTop(),
+								mainLastPost = _this.$element.find(
+									".premium-blog-post-outer-container:last",
+								),
+								mainLastPostTop = mainLastPost.length
+									? mainLastPost.offset().top
+									: 0;
+
+							if (
+								mainScrollTop + windowHeight >= mainLastPostTop &&
+								true == _this.settings.isLoaded
+							) {
+								_this.settings.isLoaded = false;
+								_this.fetchMainQueryPage(nextPageUrl, false);
+							}
+
+							return;
+						}
 
 						if (_this.settings.filterTabs) {
 							$blogPost = _this.elements.$blogElement.find(
@@ -3704,354 +3811,6 @@
 						);
 					}
 				}
-			},
-		});
-
-		var PremiumTermsCloud = ModuleHandler.extend({
-			getDefaultSettings: function () {
-				return {
-					selectors: {
-						container: ".premium-tcloud-container",
-						canvas: ".premium-tcloud-canvas",
-						termWrap: ".premium-tcloud-term",
-					},
-				};
-			},
-
-			getDefaultElements: function () {
-				var selectors = this.getSettings("selectors");
-
-				return {
-					$container: this.$element.find(selectors.container),
-					$canvas: this.$element.find(selectors.canvas),
-					$termWrap: this.$element.find(selectors.termWrap),
-				};
-			},
-
-			bindEvents: function () {
-				this.run();
-			},
-
-			run: function () {
-				var widgetSettings = this.getElementSettings(),
-					$container = this.elements.$container,
-					_this = this,
-					$canvas = this.elements.$canvas;
-
-				if (["shape", "sphere"].includes(widgetSettings.words_order)) {
-					var computedStyle = getComputedStyle($canvas[0]);
-
-					$canvas.attr({
-						width: computedStyle.getPropertyValue("--pa-tcloud-width"),
-						height: computedStyle.getPropertyValue("--pa-tcloud-height"),
-					});
-				}
-
-				setTimeout(function () {
-					if ("shape" === widgetSettings.words_order) {
-						// Using IntersectionObserverAPI.
-						var eleObserver = new IntersectionObserver(function (entries) {
-							entries.forEach(function (entry) {
-								if (entry.isIntersecting) {
-									_this.renderWordCloud();
-									eleObserver.unobserve(entry.target); // to only execute the callback func once.
-								}
-							});
-						});
-
-						eleObserver.observe($canvas[0]);
-					} else if ("sphere" === widgetSettings.words_order) {
-						_this.renderWordSphere();
-					} else {
-						_this.handleTermsGrid();
-					}
-
-					$container.removeClass("premium-tcloud-hidden");
-				}, 500);
-			},
-
-			renderWordSphere: function () {
-				var widgetID = this.getID(),
-					widgetSettings = this.getElementSettings(),
-					$termWrap = this.elements.$termWrap,
-					_this = this;
-
-				var colorScheme = widgetSettings.colors_select;
-
-				if ("custom" === colorScheme && widgetSettings.words_colors) {
-					var colors = widgetSettings.words_colors.split("\n");
-				}
-
-				$termWrap.map(function (index, term) {
-					var generatedColor = null;
-
-					if ("custom" !== colorScheme) {
-						generatedColor = _this.genRandomColor(colorScheme);
-					} else if (widgetSettings.words_colors) {
-						generatedColor = Math.floor(Math.random() * colors.length);
-
-						generatedColor = colors[generatedColor];
-					}
-
-					if (generatedColor) {
-						$(term)
-							.find(".premium-tcloud-term-link")
-							.css(
-								("background" === widgetSettings.colors_target
-									? "background-"
-									: "") + "color",
-								generatedColor,
-							);
-					}
-				});
-
-				setTimeout(function () {
-					$("#premium-tcloud-canvas-" + widgetID).tagcanvas(
-						{
-							decel: "yes" === widgetSettings.stop_onDrag ? 0.95 : 1,
-
-							overlap: false,
-							textColour: null,
-
-							weight: "yes" === widgetSettings.sphere_weight,
-							weightFrom: "data-weight",
-							weightSizeMin:
-								"yes" === widgetSettings.sphere_weight
-									? widgetSettings.weight_min.size
-									: 10,
-							weightSizeMax:
-								"yes" === widgetSettings.sphere_weight
-									? widgetSettings.weight_max.size
-									: 20,
-
-							textHeight: widgetSettings.text_height || 15,
-							textFont: widgetSettings.font_family,
-							textWeight: widgetSettings.font_weight,
-
-							wheelZoom: "yes" === widgetSettings.wheel_zoom,
-							reverse: "yes" === widgetSettings.reverse,
-							dragControl: "yes" === widgetSettings.drag_control,
-							initial: [
-								widgetSettings.start_xspeed.size,
-								widgetSettings.start_yspeed.size,
-							],
-
-							bgColour: "tag",
-
-							padding:
-								"background" === widgetSettings.colors_target
-									? widgetSettings.sphere_term_padding.size
-									: 0,
-							bgRadius:
-								"background" === widgetSettings.colors_target
-									? widgetSettings.sphere_term_radius.size
-									: 0,
-
-							outlineColour: "rgba(2,2,2,0)",
-							maxSpeed: 0.03,
-							depth: 0.75,
-						},
-						"premium-tcloud-terms-container-" + widgetID,
-					);
-				}, 100);
-			},
-
-			handleTermsGrid: function () {
-				var widgetSettings = this.getElementSettings(),
-					$termWrap = this.elements.$termWrap,
-					_this = this;
-
-				var colorScheme = widgetSettings.colors_select;
-
-				if ("custom" === colorScheme && widgetSettings.words_colors) {
-					var colors = widgetSettings.words_colors.split("\n");
-				}
-
-				$termWrap.map(function (index, term) {
-					var generatedColor = null,
-						fontSize = $(term)
-							.find(".premium-tcloud-term-link")
-							.css("font-size")
-							.replace("px", "");
-
-					if (widgetSettings.fsize_scale.size > 0)
-						fontSize =
-							parseFloat(fontSize) +
-							$(term).find(".premium-tcloud-term-link").data("weight") *
-								widgetSettings.fsize_scale.size;
-
-					if ("custom" !== colorScheme) {
-						generatedColor = _this.genRandomColor(colorScheme, "grid");
-
-						var opacities = {
-							original: "random-light" === colorScheme ? "0.15)" : "80%)",
-							replaced: "random-light" === colorScheme ? "0.3)" : "100%)",
-						};
-
-						$(term)
-							.get(0)
-							.style.setProperty(
-								"--tag-hover-color",
-								generatedColor.replace(opacities.original, opacities.replaced),
-							);
-						$(term)
-							.get(0)
-							.style.setProperty(
-								"--tag-text-color",
-								"random-dark" === colorScheme
-									? "#fff"
-									: generatedColor.replace("42%,0.15)", "35%,100%)"),
-							);
-					} else if (widgetSettings.words_colors) {
-						generatedColor = Math.floor(Math.random() * colors.length);
-
-						generatedColor = colors[generatedColor];
-
-						$(term)
-							.get(0)
-							.style.setProperty("--tag-hover-color", generatedColor);
-					}
-
-					$(term).get(0).style.setProperty("--tag-color", generatedColor);
-
-					if (widgetSettings.fsize_scale.size > 0)
-						$(term)
-							.find(".premium-tcloud-term-link")
-							.css("font-size", Math.ceil(fontSize) + "px");
-
-					if ("ribbon" === widgetSettings.words_order) {
-						$(term)
-							.get(0)
-							.style.setProperty(
-								"--tag-ribbon-size",
-								Math.ceil($(term).outerHeight(false)) / 2 + "px",
-							);
-					}
-				});
-			},
-
-			renderWordCloud: function () {
-				var widgetID = this.getID(),
-					widgetSettings = this.getElementSettings(),
-					$container = this.elements.$container,
-					settings = $container.data("chart");
-
-				var wordsArr = settings.wordsArr,
-					colors = [],
-					rotationRatio = (rotationSteps = null),
-					minRot = -90 * (Math.PI / 180),
-					maxRot = 90 * (Math.PI / 180);
-
-				switch (widgetSettings.rotation_select) {
-					case "horizontal":
-						rotationRatio = 0;
-						rotationSteps = 0;
-						break;
-
-					case "vertical":
-						rotationRatio = 1;
-						rotationSteps = 2;
-						break;
-
-					case "hv":
-						rotationRatio = 0.5;
-						rotationSteps = 2;
-						break;
-
-					case "custom":
-						rotationRatio = widgetSettings.rotation.size || 0.3;
-
-						minRot = widgetSettings.degrees.size * (Math.PI / 180) || 45;
-						maxRot = widgetSettings.degrees.size * (Math.PI / 180) || 45;
-
-						break;
-
-					case "random":
-						rotationRatio = Math.random();
-						rotationSteps = 0;
-
-						break;
-
-					default:
-						rotationRatio = 0.3;
-						break;
-				}
-
-				if ("custom" === widgetSettings.colors_select) {
-					colors = widgetSettings.words_colors.split("\n");
-				}
-
-				WordCloud(
-					document.getElementById("premium-tcloud-canvas-" + widgetID),
-					{
-						backgroundColor: "rgba(0, 0, 0, 0)",
-						shuffle: false,
-
-						list: wordsArr,
-						shape: widgetSettings.shape,
-						color: widgetSettings.colors_select,
-						wordsColors: colors,
-
-						wait: widgetSettings.interval.size * 1000 || 0,
-
-						gridSize: widgetSettings.grid_size.size || 8,
-
-						weightFactor: widgetSettings.weight_scale || 5,
-
-						minRotation: minRot,
-						maxRotation: maxRot,
-
-						rotateRatio: rotationRatio,
-						rotationSteps: rotationSteps,
-
-						fontFamily: widgetSettings.font_family || "Arial",
-						fontWeight: widgetSettings.font_weight,
-
-						click: function (item) {
-							if (!elementorFrontend.isEditMode()) {
-								var link = item[2];
-
-								window.open(
-									link,
-									"yes" === widgetSettings.new_tab ? "_blank" : "_top",
-								);
-							}
-						},
-
-						// minSize: 10
-						// rotationSteps: 90
-					},
-				);
-			},
-
-			genRandomColor: function (scheme, shape) {
-				var min = 50,
-					max = 90;
-
-				if ("random-dark" === scheme) {
-					min = 10;
-					max = 50;
-				}
-
-				var lightandOpacity =
-					(Math.random() * (max - min) + min).toFixed() + "%, 100%";
-				if (shape) {
-					lightandOpacity =
-						"42%," + ("random-dark" === scheme ? "80%" : "0.15");
-				}
-
-				return (
-					"hsla(" +
-					(Math.random() * 360).toFixed() +
-					"," +
-					"100%," +
-					lightandOpacity +
-					")"
-				);
-			},
-
-			genRandomRotate: function () {
-				return Math.floor(Math.random() * 361);
 			},
 		});
 
@@ -5036,26 +4795,28 @@
 						: "",
 					nextArrow = settings.arrows
 						? '<a type="button" data-role="none" class="carousel-arrow carousel-next" aria-label="Next" role="button" style=""><i class="fas fa-angle-right" aria-hidden="true"></i></a>'
-						: "";
+						: "",
+					slidesToShow = parseInt(settings.slidesToShow, 10) || 1,
+					slidesToScroll = parseInt(settings.slidesToScroll, 10) || 1;
 
 				return {
 					infinite: true,
 					draggable: true,
 					rows: 0,
-					slidesToShow: settings.slidesToShow,
-					slidesToScroll: settings.slidesToScroll || 1,
+					slidesToShow: slidesToShow,
+					slidesToScroll: slidesToScroll,
 					responsive: [
 						{
 							breakpoint: 1025,
 							settings: {
-								slidesToShow: settings.slidesToShowTab,
+								slidesToShow: parseInt(settings.slidesToShowTab, 10) || 1,
 								slidesToScroll: 1,
 							},
 						},
 						{
 							breakpoint: 768,
 							settings: {
-								slidesToShow: settings.slidesToShowMobile,
+								slidesToShow: parseInt(settings.slidesToShowMobile, 10) || 1,
 								slidesToScroll: 1,
 							},
 						},
@@ -6583,7 +6344,6 @@
 			"premium-img-gallery": PremiumGridWidgetHandler,
 			"premium-addon-banner": PremiumBannerHandler,
 			"premium-svg-drawer": PremiumSVGDrawerHandler,
-			"premium-tcloud": PremiumTermsCloud,
 			"premium-icon-list": PremiumBulletListHandler,
 			"premium-addon-testimonials": PremiumTestimonialsHandler,
 			"premium-mobile-menu": PremiumMobileMenuHandler,
@@ -6605,8 +6365,8 @@
 			}
 		});
 
-		$.each(classHandlers, function (elemName, clas) {
-			elementorFrontend.elementsHandler.attachHandler(elemName, clas);
+		$.each(classHandlers, function (elemName, cls) {
+			elementorFrontend.elementsHandler.attachHandler(elemName, cls);
 		});
 
 		if (elementorFrontend.isEditMode()) {

@@ -93,9 +93,16 @@
 					notice: ".ma-el-item-notice"
 				},
 				onRender: function() {
-					if (null !== this.getOption("notice") && this.getOption("notice").length) {
+					var previewUrl = this.getOption("url") || "";
+					if (previewUrl) this.ui.iframe.attr("src", previewUrl);
+					else {
+						this.ui.iframe.hide();
+						this.$el.find(".ma-el-item-preview-empty").prop("hidden", !1);
+					}
+					var notice = this.getOption("notice");
+					if (notice && notice.length) {
 						var e = "";
-						-1 !== this.getOption("notice").indexOf("facebook") ? e += "<p>Please login with your Facebook account in order to get your Facebook Reviews.</p>" : -1 !== this.getOption("notice").indexOf("google") ? e += "<p>You need to add your Google API key from Dashboard -> Master Addons for Elementor -> Google Maps</p>" : -1 !== this.getOption("notice").indexOf("form") && (e += "<p>You need to have <a href='https://wordpress.org/plugins/contact-form-7/' target='_blank'>Contact Form 7 plugin</a> installed and active.</p>"), this.ui.notice.html("<div><p><strong>Important!</strong></p>" + e + "</div>");
+						-1 !== notice.indexOf("facebook") ? e += "<p>Please login with your Facebook account in order to get your Facebook Reviews.</p>" : -1 !== notice.indexOf("google") ? e += "<p>You need to add your Google API key from Dashboard -> Master Addons for Elementor -> Google Maps</p>" : -1 !== notice.indexOf("form") && (e += "<p>You need to have <a href='https://wordpress.org/plugins/contact-form-7/' target='_blank'>Contact Form 7 plugin</a> installed and active.</p>"), this.ui.notice.html("<div><p><strong>Important!</strong></p>" + e + "</div>");
 					}
 				}
 			}), a.ModalHeaderBack = Marionette.ItemView.extend({
@@ -150,7 +157,7 @@
 							tab: t.getTab()
 						}
 					});
-					"valid" !== i.license.status && n ? t.layout.showLicenseError() : elementor.templates.requestTemplateContent(a.get("source"), a.get("template_id"), {
+					("valid" !== i.license.status || !i.license.hasKey) && n ? t.layout.showLicenseError() : elementor.templates.requestTemplateContent(a.get("source"), a.get("template_id"), {
 						data: {
 							tab: t.getTab(),
 							page_settings: !1
@@ -160,6 +167,11 @@
 							jQuery("body").removeClass("elementor-editor-preview").addClass("elementor-editor-active");
 						},
 						error: function(e) {
+							var payload = e && e.responseJSON ? e.responseJSON : e;
+							if ("license_required" === (payload && payload.data ? payload.data.code : null)) {
+								t.layout.showLicenseError();
+								return;
+							}
 							console.log(e);
 						}
 					});
@@ -176,17 +188,17 @@
 				template: "#views-ma-el-template-modal-item",
 				className: function() {
 					var e = " ma-el-modal-template-has-url", t = "";
-					return "" === this.model.get("preview") && (e = " ma-el-modal-template-no-url"), this.model.get("pro") && "valid" != i.license.status && (t = " ma-el-modal-template-pro"), "elementor-template-library-template elementor-template-library-template-remote" + e + t;
+					return "" === this.model.get("preview") && (e = " ma-el-modal-template-no-url"), this.model.get("pro") && ("valid" != i.license.status || !i.license.hasKey) && (t = " ma-el-modal-template-pro"), "elementor-template-library-template elementor-template-library-template-remote" + e + t;
 				},
 				ui: function() {
 					return { previewButton: ".elementor-template-library-template-preview" };
 				},
 				events: function() {
-					return { "click @ui.previewButton": "onPreviewButtonClick" };
+					return { "click": "onCardClick" };
 				},
-				onPreviewButtonClick: function() {
-					var previewUrl = this.model.get("url");
-					if ("" !== previewUrl) window.open(previewUrl, "_blank", "noopener");
+				onCardClick: function(event) {
+					if (e(event.target).closest(".ma-el-template-insert, .template-library-activate-license").length) return;
+					t.setPreview(this.model);
 				},
 				behaviors: { insertTemplate: { behaviorClass: a.ModalInsertTemplateBehavior } }
 			}), a.FiltersItemView = Marionette.ItemView.extend({
@@ -517,9 +529,24 @@
 			}, 100);
 			this.layout || (this.layout = new a.ModalLayoutView(), this.layout.showLoadingView()), this.setTab(this.defaultTab, !0), this.requestTemplates(this.defaultTab), this.setPreview("initial");
 		},
+		firstPageSize: function() {
+			var CARD_W = 280, CARD_H = 205, MIN = 12, MAX = 48;
+			var $area = jQuery("#ma-el-modal-template .dialog-message, #ma-el-modal-template .dialog-widget-content").first();
+			var width = $area.length ? $area[0].clientWidth : window.innerWidth;
+			var top = $area.length ? $area[0].getBoundingClientRect().top : 200;
+			var height = window.innerHeight - top;
+			var columns = Math.max(1, Math.floor(width / CARD_W));
+			var rows = Math.max(1, Math.ceil(height / CARD_H));
+			return Math.min(MAX, Math.max(MIN, columns * rows));
+		},
+		perPageFor: function(tab) {
+			if (!this._perPage) this._perPage = {};
+			if (!this._perPage[tab]) this._perPage[tab] = this.firstPageSize();
+			return this._perPage[tab];
+		},
 		requestTemplates: function(t) {
 			var o = this, n = o.tabs[t];
-			o.setFilter("category", !1), n.data.templates && n.data.categories ? o.layout.showTemplatesView(n.data.templates, n.data.categories, n.data.keywords) : e.ajax({
+			o.setFilter("category", !1), n.data && n.data.templates && n.data.categories ? o.layout.showTemplatesView(n.data.templates, n.data.categories, n.data.keywords) : e.ajax({
 				url: ajaxurl,
 				type: "get",
 				dataType: "json",
@@ -527,9 +554,15 @@
 					action: "jltma_get_templates",
 					security: MasterAddonsData.get_templates_nonce,
 					tab: t,
-					page: 1
+					page: 1,
+					per_page: o.perPageFor(t)
 				},
 				success: function(e) {
+					if (!e || !e.success || !e.data) {
+						console.error("Master Addons: template request failed", e && e.data ? e.data.message : e);
+						o.layout.showTemplatesView(new a.LibraryCollection([]), new a.CategoriesCollection([]), {});
+						return;
+					}
 					var n = new a.LibraryCollection(e.data.templates), i = new a.CategoriesCollection(e.data.categories);
 					o.tabs[t].data = {
 						templates: n,
@@ -537,7 +570,37 @@
 						keywords: e.data.keywords,
 						pagination: e.data.pagination || null
 					}, o.layout.showTemplatesView(n, i, e.data.keywords);
+					if (e.data.pagination && e.data.pagination.has_more) o.prefetchTemplatePage(t, e.data.pagination.current_page + 1, e.data.pagination);
+				},
+				error: function(xhr, status, error) {
+					console.error("Master Addons: template request error", status, error, xhr && xhr.responseText);
+					o.layout.showTemplatesView(new a.LibraryCollection([]), new a.CategoriesCollection([]), {});
 				}
+			});
+		},
+		fetchTemplatePage: function(tab, page) {
+			return e.ajax({
+				url: ajaxurl,
+				type: "get",
+				dataType: "json",
+				data: {
+					action: "jltma_get_templates",
+					security: MasterAddonsData.get_templates_nonce,
+					tab,
+					page,
+					per_page: this.perPageFor(tab)
+				}
+			});
+		},
+		prefetchTemplatePage: function(tab, page, pagination) {
+			var o = this;
+			if (!tab || !page) return;
+			if (pagination && pagination.total_pages && page > pagination.total_pages) return;
+			if (!o._prefetch) o._prefetch = {};
+			var key = tab + "|" + page;
+			if (o._prefetch[key]) return;
+			o._prefetch[key] = o.fetchTemplatePage(tab, page).fail(function() {
+				delete o._prefetch[key];
 			});
 		},
 		loadMoreTemplates: function() {
@@ -546,29 +609,22 @@
 			o._loadingMore = true;
 			var nextPage = tabData.pagination.current_page + 1;
 			var $loading = e(".ma-el-template-loading-more");
-			if ($loading.length) $loading.show();
-			e.ajax({
-				url: ajaxurl,
-				type: "get",
-				dataType: "json",
-				data: {
-					action: "jltma_get_templates",
-					security: MasterAddonsData.get_templates_nonce,
-					tab,
-					page: nextPage
-				},
-				success: function(response) {
-					if (response.data && response.data.templates && response.data.templates.length > 0) {
-						tabData.templates.add(response.data.templates);
-						tabData.pagination = response.data.pagination;
-					}
-					o._loadingMore = false;
-					if ($loading.length) $loading.hide();
-				},
-				error: function() {
-					o._loadingMore = false;
-					if ($loading.length) $loading.hide();
+			var key = tab + "|" + nextPage;
+			var pending = o._prefetch && o._prefetch[key];
+			if (!pending && $loading.length) $loading.show();
+			var request = pending || o.fetchTemplatePage(tab, nextPage);
+			if (o._prefetch) delete o._prefetch[key];
+			request.done(function(response) {
+				if (response && response.data && response.data.templates && response.data.templates.length > 0) {
+					tabData.templates.add(response.data.templates);
+					tabData.pagination = response.data.pagination;
+					if (tabData.pagination && tabData.pagination.has_more) o.prefetchTemplatePage(tab, tabData.pagination.current_page + 1, tabData.pagination);
 				}
+				o._loadingMore = false;
+				if ($loading.length) $loading.hide();
+			}).fail(function() {
+				o._loadingMore = false;
+				if ($loading.length) $loading.hide();
 			});
 		},
 		closeModal: function() {
@@ -614,14 +670,6 @@
 			success: function(response) {
 				if (response.success) {
 					console.log("Template cache refreshed successfully");
-					var $cacheStatus = e("#ma-el-template-cache-status");
-					if ($cacheStatus.length && response.data.total_templates) {
-						var newCount = response.data.total_templates;
-						$cacheStatus.find(".cache-count").text(newCount);
-						$cacheStatus.attr("title", "Cache Status: " + newCount + " templates cached");
-						if (newCount > 0) $cacheStatus.show();
-						else $cacheStatus.hide();
-					}
 					$button.removeClass("updating");
 					$icon.removeClass("eicon-loading eicon-animation-spin").addClass("eicon-sync");
 					setTimeout(function() {

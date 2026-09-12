@@ -452,6 +452,16 @@ class Popup_CPT {
         }
 
         $post_id = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0;
+        $post    = $post_id ? get_post( $post_id ) : null;
+
+        if ( ! $post || $post->post_type !== $this->post_type ) {
+            wp_send_json_error( [ 'message' => __( 'Popup not found', 'master-addons' ) ] );
+        }
+
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            wp_send_json_error( [ 'message' => __( 'Insufficient permissions', 'master-addons' ) ] );
+        }
+
         $shortcode = '[jltma_popup id="' . $post_id . '"]';
 
         wp_send_json_success(['shortcode' => $shortcode]);
@@ -538,6 +548,14 @@ class Popup_CPT {
      * This prevents WordPress from redirecting when Elementor checks capabilities
      */
     public function grant_elementor_edit_cap($allcaps, $caps, $args, $user) {
+        // Never widen capabilities outside a normal Elementor editor page load.
+        // An admin-ajax or REST request can carry ?action=elementor&post=X in the
+        // query string while its body targets a completely different handler, so
+        // honouring the query var there would hand out edit_post to any caller.
+        if (wp_doing_ajax() || (defined('REST_REQUEST') && REST_REQUEST) || !is_admin()) {
+            return $allcaps;
+        }
+
         // Only apply when editing with Elementor
         if (!isset($_GET['action']) || $_GET['action'] !== 'elementor' || !isset($_GET['post'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only capability check, no form submission
             return $allcaps;
@@ -550,14 +568,15 @@ class Popup_CPT {
             return $allcaps;
         }
 
-        // Security: only grant the cap if the user already has a base editing
-        // capability through their role. Without this guard, any logged-in user
-        // (incl. subscribers) visiting the Elementor edit URL for a popup would be
-        // granted edit_post for that request — a privilege escalation. With
-        // capability_type='post' on the CPT, authors+ already have edit_posts
-        // natively, so the workaround stays a no-op for them and is fully off for
-        // lower-privileged users.
-        if (empty($user->allcaps['edit_posts']) && empty($user->allcaps['edit_pages'])) {
+        // Security: the workaround may only ever confirm access the user already
+        // has. Without an ownership test, any role with edit_posts (Contributor
+        // included) would be granted edit_post on someone else's popup for that
+        // request — a privilege escalation. So restrict it to the popup's own
+        // author, or to users who may edit other people's posts anyway.
+        $can_edit_others = !empty($user->allcaps['edit_others_posts']);
+        $is_own_popup    = ((int) $post->post_author === (int) $user->ID) && !empty($user->allcaps['edit_posts']);
+
+        if (!$can_edit_others && !$is_own_popup) {
             return $allcaps;
         }
 

@@ -429,7 +429,7 @@ text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
 }
 .analytify_main_title_section {
 	border-bottom:1px solid #e2e5e8;
-	margin-bottom:15px;
+	margin-bottom:5px;
 	padding-bottom:7px;
 	padding-top: 30px;
 }
@@ -866,9 +866,34 @@ box-shadow: none;
 	transition: all .7s;
 }
 
+.analytify_status_header h3 img.analytify-export-loader {
+	opacity: 1;
+	margin-left: 5px !important;
+}
+
 .analytify_status_header h3{
     display: flex;
     align-items: center;
+    gap: 8px;
+}
+
+.analytify_status_header h3 .analytify-realtime-refresh-btn {
+	flex-shrink: 0;
+	margin-left: auto;
+}
+
+.analytify_status_header h3 .analytify-realtime-refresh-btn #refresh-realtime-stats {
+	opacity: 1;
+}
+
+.analytify_status_header h3 .analytify-realtime-refresh-btn .analytify_tooltiptext {
+	left: 50%;
+	margin-left: 0;
+	transform: translateX(-50%);
+}
+
+.analytify_status_header h3 .analytify-realtime-refresh-btn .analytify_tooltiptext::after {
+	left: 50%;
 }
 
 .analytify_status_header h3 .analytify-export-data{
@@ -3317,8 +3342,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
 	color: #444444;
 }
 .analytify_wraper .pa_campaigns_statistics{
-	padding-top: 30px;
-	padding-bottom: 30px;
+	padding: 30px 20px;
 	margin-bottom: 0px;
 }
 .analytify_wraper .pa-bigtext .source {
@@ -3428,7 +3452,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
 	background: url(../img/refresh.svg) no-repeat 0 0;
 	height: 30px;
 	width: 30px;
-	top: 2px;
+	top: -4px;
 }
 .analytify_tooltip {
 	position: relative;
@@ -5020,7 +5044,7 @@ div.wp_analytify_pager span.wp_analytify_active, div.wp_analytify_pager span:hov
 .analytify_main_title_section{
 	display: flex;
 	justify-content: space-between;
-	padding-bottom: 30px;
+	padding-bottom: 20px;
 	flex-wrap: wrap;
 }
 .analytify_main_title_section.analytify-dashboard-header-toolbar{

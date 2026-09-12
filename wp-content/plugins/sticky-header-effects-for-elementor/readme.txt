@@ -1,10 +1,10 @@
 === Sticky Header Effects for Elementor ===
-Contributors: posimyththemes, devangvachheta, sagarpatel124, rwattner, dgovea
+Contributors: posimyththemes, parthh2510, adityaarsharma, rwattner, sagarpatel124
 Tags: Elementor, Sticky Header, Fixed Header, Transparent Header, Elementor Header
 Requires at least: 6.3
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.2.0
+Stable tag: 2.2.2
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -207,7 +207,34 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 7. Advanced Branding & Logo Effects – Shrink, Color Swap, Responsive
 8. Smarter Scroll Behaviors – Transparent, Distance Control, Sticky Logic
 
+== External services ==
+
+Sticky Header Effects for Elementor may connect to the external services below only when the related feature is enabled:
+
+* **api.posimyth.com** — usage analytics. Off by default; submitting the deactivation feedback form also sends it, plus your admin email if you tick the contact box. [Terms](https://store.posimyth.com/terms-conditions/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects) · [Privacy](https://store.posimyth.com/privacy-policy/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects) · [what's shared](https://stickyheadereffects.com/docs/data-sharing/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
+
+* **stickyheadereffects.com, posimyth.com** — header template and preset listings, requested by the plugin's dashboard on your behalf. [Terms](https://store.posimyth.com/terms-conditions/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects) · [Privacy](https://store.posimyth.com/privacy-policy/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
+
+* **store.posimyth.com** — newsletter opt-in, only when you submit the Get Updates or dashboard subscribe form. Sends the email address you type, plus the name if you use the dashboard box. [Terms](https://store.posimyth.com/terms-conditions/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects) · [Privacy](https://store.posimyth.com/privacy-policy/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
+
+* **wdesignkit.com** — ready-made header presets and preview images, delivered through the free WDesignKit companion plugin. [Terms](https://wdesignkit.com/terms/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects) · [Privacy](https://wdesignkit.com/privacy-policy/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=StickyHeaderEffects)
+
+* **downloads.wordpress.org** — Rollback Manager downloads of a previous plugin version from the WordPress.org plugin directory, only when you start a rollback. [Privacy](https://wordpress.org/about/privacy/)
+
+
 == Changelog ==
+
+= 2.2.2 =
+- Maintenance: WordPress 7.1 compatibility update
+- Maintenance: Elementor 4.2 and Elementor Pro 4.1 compatibility update
+
+= 2.2.1 =
+- Added: Privacy: Data sharing is off by default. When enabled, shared non-sensitive details help us improve the plugin and build a better experience for users
+- Improvement: Privacy: Nothing is shared until you turn it on, and never any personal data
+- Improvement: Translation - several dashboard strings that were previously hard-coded can now be translated
+- Improvement: Deactivation feedback now works on translated sites, and only sends your email address if you tick the contact box
+- Fix: Resolved a reported WordPress.org support issue where some dashboard strings could not be translated
+- Fix: Minor Bug Fixes & Performance Improvements
 
 = 2.2.0 =
 - Added: WordPress Abilities API support for AI-assisted sticky-header demo creation (WordPress 6.9+)

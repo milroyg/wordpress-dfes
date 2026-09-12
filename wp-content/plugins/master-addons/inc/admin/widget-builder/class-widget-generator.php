@@ -79,16 +79,9 @@ class Widget_Generator {
             $this->widget_data['sections'] = [];
         }
 
-        // Load includes data separately (CSS/JS libraries)
-        $includes = get_post_meta($this->post_id, '_jltma_widget_includes', true);
-        if (!empty($includes) && is_array($includes)) {
-            $this->widget_data['includes'] = $includes;
-        } else {
-            $this->widget_data['includes'] = [
-                'css_libraries' => [],
-                'js_libraries' => []
-            ];
-        }
+        // Load includes data separately (CSS/JS libraries). Premium-gated, so
+        // free builds get an empty set.
+        $this->widget_data['includes'] = Widget_Builder_Init::get_widget_includes($this->post_id);
     }
 
     /**

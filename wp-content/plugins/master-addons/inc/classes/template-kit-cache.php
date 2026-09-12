@@ -52,8 +52,21 @@ class Template_Kit_Cache
     /**
      * Ensure cache directory exists with proper structure for template kits
      */
+    /**
+     * Whether this site may keep a local copy of the remote kit library on disk.
+     * Off by default — see JLTMA\Inc\Classes\Template_Library_Cache for why.
+     */
+    private function local_cache_enabled()
+    {
+        return (bool) apply_filters('jltma_local_template_cache', false);
+    }
+
     private function ensure_cache_directory()
     {
+        if (!$this->local_cache_enabled()) {
+            return false;
+        }
+
         // Check if uploads directory is writable
         if (!$this->is_uploads_writable()) {
             return false;
@@ -318,15 +331,44 @@ class Template_Kit_Cache
         $fresh_data = $this->fetch_remote_kits();
 
         if ($fresh_data !== false) {
-            // Process and cache the data
+            // Writes nothing when the local mirror is switched off, which is the
+            // default on client sites.
             $this->process_and_cache_kits($fresh_data);
-            
-            // After processing, load the cached data
+
+            // Re-read what was just written, but never let a missing file throw
+            // the fetched data away. Without the local mirror there is no file
+            // to read back, so this returned empty and Template Kits rendered
+            // "No Templates Found" even though the fetch had succeeded.
             if ($category !== 'all') {
-                return $this->get_cached_category_kits($category, false);
-            } else {
-                return $this->read_cache_file($this->cache_dir . 'template-kits.json');
+                $cached = $this->get_cached_category_kits($category, false);
+                if (!empty($cached)) {
+                    return $cached;
+                }
+
+                // Fall back to narrowing the response we already hold. It is
+                // grouped by category, so take that bucket, and failing that
+                // match on each kit's own categories.
+                if (isset($fresh_data[$category]) && is_array($fresh_data[$category])) {
+                    return $fresh_data[$category];
+                }
+
+                $filtered = [];
+                foreach ((array) $fresh_data as $kits) {
+                    foreach ((array) $kits as $kit) {
+                        $kit_categories = $kit['categories'] ?? [];
+                        if (is_string($kit_categories)) {
+                            $kit_categories = [$kit_categories];
+                        }
+                        if (in_array($category, (array) $kit_categories, true)) {
+                            $filtered[] = $kit;
+                        }
+                    }
+                }
+                return $filtered;
             }
+
+            $cached = $this->read_cache_file($this->cache_dir . 'template-kits.json');
+            return !empty($cached) ? $cached : $fresh_data;
         }
 
         // Fallback to expired cache if available
@@ -341,8 +383,9 @@ class Template_Kit_Cache
         $category_file = $this->cache_dir . 'categories/' . sanitize_file_name($category) . '.json';
         $category_meta_file = $this->cache_dir . 'categories/' . sanitize_file_name($category) . '_meta.json';
         
-        // Ensure categories directory exists
-        if (!file_exists($this->cache_dir . 'categories/')) {
+        // Only build the directory when this site actually keeps a copy;
+        // otherwise reading the list recreates the tree the cleanup removed.
+        if ($this->local_cache_enabled() && !file_exists($this->cache_dir . 'categories/')) {
             wp_mkdir_p($this->cache_dir . 'categories/');
         }
         
@@ -364,11 +407,16 @@ class Template_Kit_Cache
      */
     private function save_category_cache($category, $kits)
     {
+        if (!$this->local_cache_enabled()) {
+            return;
+        }
+
         $category_file = $this->cache_dir . 'categories/' . sanitize_file_name($category) . '.json';
         $category_meta_file = $this->cache_dir . 'categories/' . sanitize_file_name($category) . '_meta.json';
         
-        // Ensure categories directory exists
-        if (!file_exists($this->cache_dir . 'categories/')) {
+        // Only build the directory when this site actually keeps a copy;
+        // otherwise reading the list recreates the tree the cleanup removed.
+        if ($this->local_cache_enabled() && !file_exists($this->cache_dir . 'categories/')) {
             wp_mkdir_p($this->cache_dir . 'categories/');
         }
         
@@ -588,6 +636,12 @@ class Template_Kit_Cache
      */
     private function cache_image($image_url, $filename, $folder = 'images')
     {
+        // Remote-only sites serve the image straight from the CDN rather than
+        // mirroring every thumbnail into uploads/.
+        if (!$this->local_cache_enabled()) {
+            return $image_url;
+        }
+
         if (empty($image_url)) {
             return false;
         }
@@ -653,7 +707,7 @@ class Template_Kit_Cache
     {
         // Ensure kits directory exists
         $kits_dir = $this->cache_dir . 'kits/';
-        if (!file_exists($kits_dir)) {
+        if ($this->local_cache_enabled() && !file_exists($kits_dir)) {
             wp_mkdir_p($kits_dir);
         }
 
@@ -709,6 +763,10 @@ class Template_Kit_Cache
      */
     private function is_cache_valid($meta_file)
     {
+        if (!$this->local_cache_enabled()) {
+            return false;
+        }
+
         if (!file_exists($meta_file)) {
             return false;
         }
@@ -745,6 +803,10 @@ class Template_Kit_Cache
      */
     private function write_cache_file($file_path, $data)
     {
+        if (!$this->local_cache_enabled()) {
+            return false;
+        }
+
         $dir = dirname($file_path);
         if (!file_exists($dir)) {
             wp_mkdir_p($dir);
@@ -759,6 +821,10 @@ class Template_Kit_Cache
      */
     private function write_cache_meta($meta_file)
     {
+        if (!$this->local_cache_enabled()) {
+            return false;
+        }
+
         $meta = [
             'timestamp' => time(),
             'version' => JLTMA_VER,
@@ -1015,6 +1081,12 @@ class Template_Kit_Cache
             return false;
         }
 
+        // Client sites keep no local mirror: hand back the remote URL so the
+        // content still renders, without downloading a copy into uploads.
+        if (!$this->local_cache_enabled()) {
+            return $image_url;
+        }
+
         // Check if it's already a local URL
         $upload_dir = wp_upload_dir();
         if (strpos($image_url, $upload_dir['baseurl']) === 0) {
@@ -1054,6 +1126,9 @@ class Template_Kit_Cache
 
         // Ensure folder exists
         $folder_path = $cache_base . $folder;
+        if (!$this->local_cache_enabled()) {
+            return $image_url;
+        }
         if (!file_exists($folder_path)) {
             wp_mkdir_p($folder_path);
         }
@@ -1308,8 +1383,12 @@ class Template_Kit_Cache
         foreach ($subdirs as $subdir) {
             $full_dir = $this->cache_dir . $subdir . '/';
             if (!file_exists($full_dir)) {
-                // Create the directory if it doesn't exist
-                wp_mkdir_p($full_dir);
+                // A missing directory is nothing to prune. It used to be created
+                // here, so the routine meant to shrink the cache put the tree
+                // back every time it ran.
+                if ($this->local_cache_enabled()) {
+                    wp_mkdir_p($full_dir);
+                }
                 continue;
             }
 
@@ -2190,6 +2269,13 @@ class Template_Kit_Cache
             return false;
         }
 
+        // As above — no local copy, so the remote URL is what gets used. A
+        // relative screenshots/ path has no remote equivalent, so those still
+        // fall through to the handling below.
+        if (!$this->local_cache_enabled() && strpos($image_url, 'screenshots/') !== 0) {
+            return $image_url;
+        }
+
         // Check if it's a relative path to screenshots folder
         if (strpos($image_url, 'screenshots/') === 0) {
             // It's already a local path in the kit directory
@@ -2592,6 +2678,50 @@ class Template_Kit_Cache
      * @param string $kit_id The kit ID
      * @return array|false Manifest data or false
      */
+    /**
+     * A kit's display name, from the listing the API already returns.
+     *
+     * get_kit_manifest() answers from a manifest.json under uploads, which is
+     * not written any more, so callers that only wanted the name were left
+     * with nothing -- imported pages came out titled "New - Home" instead of
+     * "<Kit> - Home".
+     *
+     * @param string|int $kit_id
+     * @return string Empty when the kit is not in the listing.
+     */
+    public function get_kit_title($kit_id) {
+        $kit_id = (string) $kit_id;
+
+        $manifest = $this->get_kit_manifest($kit_id);
+        if (is_array($manifest)) {
+            $title = $manifest['title'] ?? $manifest['kit_name'] ?? $manifest['name'] ?? '';
+            if (!empty($title)) {
+                return (string) $title;
+            }
+        }
+
+        foreach ((array) $this->get_cached_kits() as $group) {
+            if (!is_array($group)) {
+                continue;
+            }
+
+            foreach ($group as $kit) {
+                if (!is_array($kit)) {
+                    continue;
+                }
+
+                $id = (string) ($kit['kit_id'] ?? $kit['id'] ?? '');
+                if ($id !== $kit_id) {
+                    continue;
+                }
+
+                return (string) ($kit['kit_name'] ?? $kit['title'] ?? $kit['name'] ?? '');
+            }
+        }
+
+        return '';
+    }
+
     public function get_kit_manifest($kit_id) {
         // OPTIMIZATION: Use static cache for manifests
         static $manifest_cache = [];

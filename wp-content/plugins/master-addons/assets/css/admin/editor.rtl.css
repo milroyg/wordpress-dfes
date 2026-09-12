@@ -286,7 +286,6 @@ body.elementor-device-mobile #ma-el-template-modal-header-tabs #views-ma-el-temp
   transform: translateY(-1px);
 }
 
-#ma-el-template-cache-status,
 #ma-el-template-cache-refresh {
   display: flex;
   align-items: center;
@@ -298,16 +297,6 @@ body.elementor-device-mobile #ma-el-template-modal-header-tabs #views-ma-el-temp
   color: #6d7882;
   cursor: pointer;
   transition: all 0.2s ease;
-}
-
-#ma-el-template-cache-status {
-  background: rgba(0, 0, 0, 0.05);
-  cursor: default;
-  display: none;
-}
-#ma-el-template-cache-status i {
-  margin-left: 4px;
-  font-size: 12px;
 }
 
 #ma-el-template-cache-refresh {
@@ -403,6 +392,9 @@ body.elementor-device-mobile #ma-el-template-modal-header-tabs #views-ma-el-temp
   font-weight: 500;
 }
 
+.ma-el-keywords-filters-wrap {
+  position: relative;
+}
 .ma-el-keywords-filters-wrap .ma-el-keywords-filter-action {
   width: 230px;
   padding: 10px 15px;
@@ -425,9 +417,11 @@ body.elementor-device-mobile #ma-el-template-modal-header-tabs #views-ma-el-temp
 }
 .ma-el-keywords-filters-wrap .ma-el-keywords-filters-container {
   position: absolute;
-  top: auto;
-  bottom: auto;
+  top: 100%;
+  left: 0;
+  right: auto;
   width: 700px;
+  max-width: calc(100vw - 40px);
   background: #fff;
   padding: 10px;
   border-radius: 3px;
@@ -816,8 +810,6 @@ body.elementor-device-mobile #ma-el-template-modal-header-tabs #views-ma-el-temp
 #ma-el-modal-templates-container {
   position: relative;
   padding: 20px;
-  column-width: 240px;
-  column-gap: 20px;
 }
 #ma-el-modal-templates-container .elementor-template-library-template {
   position: relative;
@@ -827,12 +819,8 @@ body.elementor-device-mobile #ma-el-template-modal-header-tabs #views-ma-el-temp
   background: #fff;
   transition: box-shadow 0.2s ease, border-color 0.2s ease;
   box-sizing: border-box;
-  display: inline-block;
-  width: 100%;
-  margin: 0 0 20px;
-  break-inside: avoid;
-  -webkit-column-break-inside: avoid;
-  page-break-inside: avoid;
+  cursor: pointer;
+  margin: 0;
 }
 #ma-el-modal-templates-container .elementor-template-library-template:hover {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
@@ -845,7 +833,8 @@ body.elementor-device-mobile #ma-el-template-modal-header-tabs #views-ma-el-temp
   position: relative;
   overflow: hidden;
   background: #f1f3f5;
-  min-height: 80px;
+  min-height: 60px;
+  max-height: 520px;
 }
 #ma-el-modal-templates-container .elementor-template-library-template-screenshot img {
   position: relative;
@@ -1016,15 +1005,34 @@ div.ma-el-modal-template-has-url:hover .ma-el-modal-clone-template {
   display: block;
 }
 
-#ma-el-item-preview-wrap,
-#ma-el-item-preview-wrap .ma-el-item-preview-iframe {
+#ma-el-item-preview-wrap {
   height: 100%;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#ma-el-item-preview-wrap .ma-el-item-preview-iframe {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
 }
 
 #ma-el-item-preview-wrap iframe {
   width: 100%;
   height: 100%;
+  border: 0;
+  display: block;
+}
+
+#ma-el-item-preview-wrap .ma-el-item-preview-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #7a7a7a;
+  font-size: 14px;
 }
 
 .ma-el-item-notice div {
@@ -1336,8 +1344,9 @@ div.ma-el-modal-template-has-url:hover .ma-el-modal-clone-template {
 .ma-el-keywords-filters-container {
   position: absolute !important;
   top: 100% !important;
-  right: 0 !important;
+  right: auto !important;
   left: 0 !important;
+  max-width: calc(100vw - 40px) !important;
   background: #fff !important;
   border: 1px solid #ddd !important;
   border-radius: 4px !important;

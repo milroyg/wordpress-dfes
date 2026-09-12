@@ -51,7 +51,7 @@ class Elementor_One_Menu_Manager {
 		add_action( 'admin_head', [ $this, 'hide_legacy_templates_menu' ] );
 		add_action( 'admin_head', [ $this, 'hide_old_elementor_menu' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_menu_assets' ] );
-		add_action( 'admin_print_scripts-elementor_page_elementor-editor', [ $this, 'enqueue_home_screen_on_editor_page' ] );
+		add_action( 'admin_print_scripts-toplevel_page_elementor', [ $this, 'enqueue_home_screen_on_editor_page' ] );
 	}
 
 	public function check_if_pro_module_is_enabled(): void {
@@ -76,22 +76,35 @@ class Elementor_One_Menu_Manager {
 		do_action( 'elementor/editor-one/menu/register_submenus' );
 	}
 
+	/**
+	 * TODO: This can be removed in v4.1.0 [ED-22806]
+	 */
 	public function register_pro_submenus(): void {
-		if ( ! $this->is_pro_module_enabled &&
-			Utils::has_pro() &&
-			class_exists( '\ElementorPro\License\API' ) &&
-			\ElementorPro\License\API::is_license_active()
-		) {
-			add_submenu_page(
-				Menu_Config::ELEMENTOR_HOME_MENU_SLUG,
-				esc_html__( 'Theme Builder', 'elementor' ),
-				esc_html__( 'Theme Builder', 'elementor' ),
-				Menu_Config::CAPABILITY_EDIT_POSTS,
-				'elementor-theme-builder',
-				'',
-				70
-			);
+		if ( $this->is_pro_module_enabled ) {
+			return;
+		}
 
+		$has_active_pro = Utils::has_pro() &&
+			class_exists( '\ElementorPro\License\API' ) &&
+			\ElementorPro\License\API::is_license_active();
+
+		$is_free = ! Utils::has_pro();
+
+		if ( ! $is_free && ! $has_active_pro ) {
+			return;
+		}
+
+		add_submenu_page(
+			Menu_Config::ELEMENTOR_HOME_MENU_SLUG,
+			esc_html__( 'Theme Builder', 'elementor' ),
+			esc_html__( 'Theme Builder', 'elementor' ),
+			Menu_Config::CAPABILITY_EDIT_POSTS,
+			'elementor-theme-builder',
+			'',
+			70
+		);
+
+		if ( $has_active_pro ) {
 			add_submenu_page(
 				Menu_Config::ELEMENTOR_HOME_MENU_SLUG,
 				esc_html__( 'Submissions', 'elementor' ),
@@ -196,6 +209,7 @@ class Elementor_One_Menu_Manager {
 	}
 
 	public function hide_old_elementor_menu(): void {
+		$this->remove_elementor_separator();
 		?>
 		<style type="text/css">
 			#toplevel_page_elementor {
@@ -203,6 +217,17 @@ class Elementor_One_Menu_Manager {
 			}
 		</style>
 		<?php
+	}
+
+	private function remove_elementor_separator(): void {
+		global $menu;
+
+		foreach ( $menu as $key => $item ) {
+			if ( isset( $item[2] ) && 'separator-elementor' === $item[2] ) {
+				unset( $menu[ $key ] );
+				break;
+			}
+		}
 	}
 
 	public function register_flyout_items_as_hidden_submenus(): void {
@@ -284,6 +309,8 @@ class Elementor_One_Menu_Manager {
 			Menu_Config::EDITOR_MENU_SLUG,
 			'elementor-theme-builder',
 			'e-form-submissions',
+			'elementor-license',
+			'elementor-connect-account',
 		];
 
 		$this->iterate_all_flyout_items( function( string $item_slug, Menu_Item_Interface $item ) use ( $protected_wp_menu_slugs ) {

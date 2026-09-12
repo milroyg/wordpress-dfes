@@ -459,4 +459,32 @@ trait Analytify_Utils_Core {
 		}
 		return $result;
 	}
+
+	/**
+	 * Returns row limit shared by dashboard tables and CSV exports.
+	 *
+	 * Uses the same filter hook and context as the frontend so custom
+	 * limit filters apply consistently to both views.
+	 *
+	 * @since 9.1.1
+	 *
+	 * @param string $filter_name   Filter hook name.
+	 * @param int    $default_limit Default row limit.
+	 * @param mixed  ...$args       Additional filter arguments after context.
+	 * @return int
+	 */
+	public static function wp_analytify_get_api_limit( $filter_name, $default_limit, ...$args ) {
+		$context = 'dashboard';
+
+		// Optional explicit context: 'dashboard' | 'csv_export'. Other first extras
+		// (e.g. 'WC', post ID) stay as additional filter arguments.
+		if ( isset( $args[0] ) && is_string( $args[0] )
+			&& in_array( $args[0], array( 'dashboard', 'csv_export' ), true ) ) {
+			$context = array_shift( $args );
+		}
+
+		$limit = apply_filters( $filter_name, $default_limit, $context, ...$args );
+
+		return max( 0, (int) $limit );
+	}
 }

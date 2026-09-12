@@ -8,6 +8,8 @@
 
 namespace MasterAddons\Inc\Admin\WidgetBuilder;
 
+use MasterAddons\Inc\Admin\Templates\Widgets\Widgets_Ajax;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -36,6 +38,7 @@ class Widget_CPT {
         add_action('save_post', [$this, 'save_meta_data']);
         add_filter('post_row_actions', [$this, 'modify_row_actions'], 10, 2);
         add_action('admin_head', [$this, 'admin_head_css']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_list_assets']);
         add_action('admin_footer', [$this, 'admin_footer_js']);
         add_action('wp_ajax_jltma_widget_get_shortcode', [$this, 'get_shortcode_ajax']);
         add_action('wp_ajax_jltma_add_widget_category', [$this, 'add_widget_category_ajax']);
@@ -77,7 +80,7 @@ class Widget_CPT {
             'label'                 => __('Widget', 'master-addons'),
             'description'           => __('Master Addons Custom Widgets', 'master-addons'),
             'labels'                => $labels,
-            'supports'              => ['title', 'editor'],
+            'supports'              => ['title', 'editor', 'thumbnail'],
             'public'                => false,
             'show_ui'               => true,
             'show_in_menu'          => false, // We'll add it to our custom menu
@@ -96,10 +99,30 @@ class Widget_CPT {
         register_post_type($this->post_type, $args);
     }
 
+    /**
+     * The preview column's icon fallback needs the icon-font stylesheets,
+     * which are not loaded on the list screen by default.
+     */
+    public function enqueue_list_assets($hook) {
+        if ('edit.php' !== $hook) {
+            return;
+        }
+
+        $screen = get_current_screen();
+        if (!$screen || $this->post_type !== $screen->post_type) {
+            return;
+        }
+
+        if (class_exists('MasterAddons\Inc\Admin\WidgetBuilder\Icon_Library_Helper')) {
+            Icon_Library_Helper::get_instance()->enqueue_icon_libraries();
+        }
+    }
+
     public function set_custom_columns($columns) {
         $new_columns = [];
 
         $new_columns['cb'] = $columns['cb'];
+        $new_columns['jltma_widget_preview'] = __('Preview', 'master-addons');
         $new_columns['title'] = __('Widget Name', 'master-addons');
         $new_columns['jltma_widget_category'] = __('Widget Category', 'master-addons');
         $new_columns['author'] = __('Author', 'master-addons');
@@ -110,6 +133,10 @@ class Widget_CPT {
 
     public function custom_column_content($column, $post_id) {
         switch ($column) {
+            case 'jltma_widget_preview':
+                $this->render_preview_column($post_id);
+                break;
+
             case 'jltma_widget_category':
                 $this->render_category_column($post_id);
                 break;
@@ -118,6 +145,142 @@ class Widget_CPT {
                 $this->render_shortcode_column($post_id);
                 break;
         }
+    }
+
+    /**
+     * Preview thumbnail.
+     *
+     * Always renders from the local media library — never hotlinks the remote
+     * catalog. Imports sideload the thumbnail themselves; this backfills the
+     * ones that did not, then falls back to the Elementor panel icon for
+     * locally built widgets, which have no catalog thumbnail anywhere.
+     */
+    private function render_preview_column($post_id) {
+        if (!has_post_thumbnail($post_id)) {
+            $this->backfill_library_thumbnail($post_id);
+        }
+
+        if (has_post_thumbnail($post_id)) {
+            echo '<span class="jltma-widget-preview-thumb">';
+            echo get_the_post_thumbnail($post_id, [120, 68], [
+                'style' => 'width:120px;height:68px;object-fit:cover;border-radius:4px;display:block',
+            ]);
+            echo '</span>';
+            return;
+        }
+
+        $data = $this->read_array_meta($post_id, '_jltma_widget_data');
+        $icon = !empty($data['icon']) ? $data['icon'] : 'eicon-code';
+
+        printf(
+            '<span class="jltma-widget-preview-icon" style="display:flex;align-items:center;justify-content:center;width:120px;height:68px;background:#f0f0f1;border-radius:4px"><i class="%s" style="font-size:24px;color:#50575e"></i></span>',
+            esc_attr($icon)
+        );
+    }
+
+    /**
+     * Sideload a Widgets Library thumbnail into the media library, once.
+     *
+     * Covers widgets imported before the import sideloaded thumbnails, and
+     * imports whose sideload failed. The attempt is recorded either way so a
+     * widget with no reachable thumbnail costs one request, not one per page
+     * load.
+     *
+     * @param int $post_id
+     * @return void
+     */
+    private function backfill_library_thumbnail($post_id) {
+        if (get_post_meta($post_id, '_jltma_library_thumbnail_synced', true)) {
+            return;
+        }
+
+        $url = $this->get_library_thumbnail_url($post_id);
+
+        if (!$url) {
+            return;
+        }
+
+        update_post_meta($post_id, '_jltma_library_thumbnail_synced', time());
+
+        if (!function_exists('media_sideload_image')) {
+            require_once ABSPATH . 'wp-admin/includes/media.php';
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+            require_once ABSPATH . 'wp-admin/includes/image.php';
+        }
+
+        $attachment_id = media_sideload_image($url, $post_id, get_the_title($post_id), 'id');
+
+        if (!is_wp_error($attachment_id)) {
+            set_post_thumbnail($post_id, $attachment_id);
+        }
+    }
+
+    /**
+     * Source URL of a widget's catalog thumbnail.
+     *
+     * Prefers the URL recorded at import. Older imports predate that meta, so
+     * fall back to the catalog transient the library screen populates — read
+     * only, so the list table issues no catalog request of its own.
+     *
+     * @param int $post_id
+     * @return string Empty for locally built widgets.
+     */
+    private function get_library_thumbnail_url($post_id) {
+        $stored = get_post_meta($post_id, '_jltma_library_thumbnail', true);
+
+        if ($stored) {
+            return $stored;
+        }
+
+        $source_id = absint(get_post_meta($post_id, '_jltma_library_source_id', true));
+
+        if (!$source_id) {
+            return '';
+        }
+
+        $catalog = get_transient(Widgets_Ajax::CACHE_KEY);
+
+        if (!is_array($catalog)) {
+            return '';
+        }
+
+        foreach ($catalog as $widget) {
+            if (!is_array($widget) || absint($widget['widget_id'] ?? 0) !== $source_id) {
+                continue;
+            }
+
+            return !empty($widget['thumbnail']) ? $widget['thumbnail'] : '';
+        }
+
+        return '';
+    }
+
+    /**
+     * Read widget meta as an array.
+     *
+     * The REST/admin save paths store arrays, while the demo importer stores the
+     * same keys JSON-encoded — accept either so imported widgets still preview.
+     *
+     * @param int    $post_id
+     * @param string $key
+     * @return array
+     */
+    private function read_array_meta($post_id, $key) {
+        $value = get_post_meta($post_id, $key, true);
+
+        if (is_array($value)) {
+            return $value;
+        }
+
+        if (is_string($value) && '' !== $value) {
+            $decoded = json_decode($value, true);
+
+            if (is_array($decoded)) {
+                return $decoded;
+            }
+        }
+
+        return [];
     }
 
     private function render_category_column($post_id) {
@@ -204,6 +367,9 @@ class Widget_CPT {
 
         ?>
         <style>
+        .column-jltma_widget_preview {
+            width: 140px;
+        }
         .jltma-widget-category {
             padding: 4px 8px;
             border-radius: 3px;

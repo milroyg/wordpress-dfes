@@ -917,14 +917,24 @@ class Premium_Image_Button extends Widget_Base {
 			'premium_image_button_icon_position',
 			array(
 				'label'                => __( 'Icon Position', 'premium-addons-for-elementor' ),
-				'type'                 => Controls_Manager::SELECT,
+				'type'                 => Controls_Manager::CHOOSE,
 				'default'              => 'before',
 				'prefix_class'         => 'pa-icon-pos-',
+				'toggle'               => false,
 				'options'              => array(
-					'before' => __( 'Before', 'premium-addons-for-elementor' ),
-					'after'  => __( 'After', 'premium-addons-for-elementor' ),
+					'before' => array(
+						'title' => __( 'Before', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-order-end' : 'eicon-order-start',
+					),
+					'after'  => array(
+						'title' => __( 'After', 'premium-addons-for-elementor' ),
+						'icon'  => is_rtl() ? 'eicon-order-start' : 'eicon-order-end',
+					),
+					'top'    => array(
+						'title' => __( 'Above', 'premium-addons-for-elementor' ),
+						'icon'  => 'eicon-v-align-top',
+					),
 				),
-				'label_block'          => true,
 				'condition'            => array(
 					'premium_image_button_icon_switcher' => 'yes',
 					'premium_image_button_hover_effect!' => 'style4',
@@ -932,6 +942,7 @@ class Premium_Image_Button extends Widget_Base {
 				'selectors_dictionary' => array(
 					'before' => 'row',
 					'after'  => 'row-reverse',
+					'top'    => 'column',
 				),
 				'selectors'            => array(
 					'{{WRAPPER}} .premium-image-button-text-icon-wrapper' => 'flex-direction: {{VALUE}}',
@@ -1453,7 +1464,7 @@ class Premium_Image_Button extends Widget_Base {
 						// Drawable SVG icons
 						'{{WRAPPER}} .premium-image-button:hover .premium-drawable-icon *' => 'stroke: {{VALUE}};',
 						// Normal SVG icons (exclude Lottie SVGs)
-						'{{WRAPPER}} .premium-image-button:hover svg:not:not(.premium-lottie-animation):not(.premium-lottie-animation svg)' => 'stroke: {{VALUE}};',
+						'{{WRAPPER}} .premium-image-button:hover svg:not(.premium-lottie-animation):not(.premium-lottie-animation svg)' => 'stroke: {{VALUE}};',
 					),
 				)
 			);
@@ -1527,23 +1538,6 @@ class Premium_Image_Button extends Widget_Base {
 							'default' => Global_Colors::COLOR_TEXT,
 						),
 					),
-				),
-			)
-		);
-
-		$this->add_control(
-			'premium_image_button_overlay_color',
-			array(
-				'label'     => __( 'Overlay Color', 'premium-addons-for-elementor' ),
-				'type'      => Controls_Manager::COLOR,
-				'global'    => array(
-					'default' => Global_Colors::COLOR_PRIMARY,
-				),
-				'condition' => array(
-					'premium_image_button_overlay_switcher' => 'yes',
-				),
-				'selectors' => array(
-					'{{WRAPPER}} .premium-image-button-squares-effect:before, {{WRAPPER}} .premium-image-button-squares-effect:after,{{WRAPPER}} .premium-image-button-squares-square-container:before, {{WRAPPER}} .premium-image-button-squares-square-container:after' => 'background-color: {{VALUE}};',
 				),
 			)
 		);

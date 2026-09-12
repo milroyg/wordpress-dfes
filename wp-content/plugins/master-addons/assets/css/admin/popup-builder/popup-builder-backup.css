@@ -173,13 +173,13 @@
   border: 4px solid #f3f3f3;
   border-top: 4px solid #2271b1;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: jltma-spin-centered 1s linear infinite;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease;
   z-index: 10000;
 }
-@keyframes spin {
+@keyframes jltma-spin-centered {
   0% {
     transform: translate(-50%, -50%) rotate(0deg);
   }

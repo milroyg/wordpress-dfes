@@ -49,8 +49,10 @@ class Analytify_Scripts_Styles {
 	 * @return void
 	 */
 	public function admin_styles( $page ) {
+		$suffix = analytify_get_asset_suffix();
+
 		wp_enqueue_style( 'dashicons' );
-		wp_enqueue_style( 'admin-bar-style', plugins_url( 'assets/css/admin_bar_styles.css', $this->plugin_file ), array(), ANALYTIFY_VERSION );
+		wp_enqueue_style( 'admin-bar-style', plugins_url( "assets/css/admin_bar_styles{$suffix}.css", $this->plugin_file ), array(), ANALYTIFY_VERSION );
 
 		// For Settings only.
 		if ( 'analytify_page_analytify-settings' === $page || 'analytify_page_analytify-campaigns' === $page ) {
@@ -63,8 +65,8 @@ class Analytify_Scripts_Styles {
 		}
 
 		if ( false !== strpos( $page, 'analytify' ) || 'post.php' === $page || 'post-new.php' === $page || 'index.php' === $page ) {
-			wp_enqueue_style( 'wp-analytify-style', plugins_url( 'assets/css/wp-analytify-style.css', $this->plugin_file ), array(), ANALYTIFY_VERSION );
-			wp_enqueue_style( 'wp-analytify-default-style', plugins_url( 'assets/css/styles.css', $this->plugin_file ), array(), ANALYTIFY_VERSION );
+			wp_enqueue_style( 'wp-analytify-style', plugins_url( "assets/css/wp-analytify-style{$suffix}.css", $this->plugin_file ), array(), ANALYTIFY_VERSION );
+			wp_enqueue_style( 'wp-analytify-default-style', plugins_url( "assets/css/styles{$suffix}.css", $this->plugin_file ), array(), ANALYTIFY_VERSION );
 
 			$conditional_style = '';
 
@@ -89,7 +91,7 @@ class Analytify_Scripts_Styles {
 			wp_add_inline_style( 'wp-analytify-default-style', $conditional_style );
 		}
 
-		wp_enqueue_style( 'wp-analytify-utils-style', plugins_url( 'assets/css/utils.css', $this->plugin_file ), array(), ANALYTIFY_VERSION );
+		wp_enqueue_style( 'wp-analytify-utils-style', plugins_url( "assets/css/utils{$suffix}.css", $this->plugin_file ), array(), ANALYTIFY_VERSION );
 		// For WP Pointer.
 		if ( 1 !== (int) get_option( 'show_tracking_pointer_1' ) ) {
 			wp_enqueue_style( 'wp-pointer' );
@@ -107,12 +109,13 @@ class Analytify_Scripts_Styles {
 	 * Loading admin scripts JS for the plugin.
 	 *
 	 * @param string $page Current page.
-	 * @version 9.0.0
+	 * @version 9.1.1
 	 * @return void
 	 */
 	public function admin_scripts( $page ) {
+		$suffix = analytify_get_asset_suffix();
 
-		wp_enqueue_script( 'wp-analytify-script-js', plugins_url( 'assets/js/wp-analytify.js', $this->plugin_file ), array( 'jquery' ), ANALYTIFY_VERSION, false ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter -- Script loaded in header intentionally
+		wp_enqueue_script( 'wp-analytify-script-js', plugins_url( "assets/js/wp-analytify{$suffix}.js", $this->plugin_file ), array( 'jquery' ), ANALYTIFY_VERSION, false ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter -- Script loaded in header intentionally
 
 		wp_localize_script(
 			'wp-analytify-script-js',
@@ -170,7 +173,7 @@ class Analytify_Scripts_Styles {
 			// phpcs:enable
 			*/
 
-			wp_enqueue_script( 'pikaday-js', plugins_url( 'assets/js/pikaday.js', $this->plugin_file ), array( 'moment' ), ANALYTIFY_VERSION, false ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter -- Script loaded in header intentionally
+			wp_enqueue_script( 'pikaday-js', plugins_url( "assets/js/pikaday{$suffix}.js", $this->plugin_file ), array( 'moment' ), ANALYTIFY_VERSION, false ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter -- Script loaded in header intentionally
 
 			$analytify_dashboard_js_deps = array( 'pikaday-js' );
 			// jsPDF 4.2.1+ (patched HTML-in-new-window / output options); bundled under assets (see package.json).
@@ -193,7 +196,7 @@ class Analytify_Scripts_Styles {
 					'analytify-xlsx',
 					plugins_url( 'assets/js/xlsx.mini.min.js', $this->plugin_file ),
 					array(),
-					'0.18.5',
+					'0.20.3',
 					false
 				); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter -- Excel export; vendored SheetJS
 				$analytify_dashboard_js_deps[] = 'analytify-jspdf';
@@ -201,7 +204,7 @@ class Analytify_Scripts_Styles {
 				$analytify_dashboard_js_deps[] = 'analytify-xlsx';
 			}
 
-			wp_enqueue_script( 'analytify-dashboard-js', plugins_url( 'assets/js/wp-analytify-dashboard.js', $this->plugin_file ), $analytify_dashboard_js_deps, ANALYTIFY_VERSION, false ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter -- Script loaded in header intentionally
+			wp_enqueue_script( 'analytify-dashboard-js', plugins_url( "assets/js/wp-analytify-dashboard{$suffix}.js", $this->plugin_file ), $analytify_dashboard_js_deps, ANALYTIFY_VERSION, false ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter -- Script loaded in header intentionally
 
 			wp_localize_script(
 				'analytify-dashboard-js',
@@ -267,7 +270,7 @@ class Analytify_Scripts_Styles {
 				$load_via_ajax = false;
 			}
 
-			wp_enqueue_style( 'analytify-dashboard-core', plugins_url( 'assets/css/common-dashboard.css', $this->plugin_file ), array(), ANALYTIFY_VERSION );
+			wp_enqueue_style( 'analytify-dashboard-core', plugins_url( "assets/css/common-dashboard{$suffix}.css", $this->plugin_file ), array(), ANALYTIFY_VERSION );
 			// Code added by jawad for fixing.
 			$rest_url = esc_url_raw( get_rest_url() );
 			$api_url  = $rest_url . 'wp-analytify/v1/get_report/';
@@ -277,10 +280,10 @@ class Analytify_Scripts_Styles {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading URL parameters for display purposes
 			$show = isset( $_GET['show'] ) ? sanitize_text_field( wp_unslash( $_GET['show'] ) ) : '';
 			if ( class_exists( 'WP_Analytify_Pro_Base' ) && version_compare( ANALYTIFY_PRO_VERSION, '5.0.0' ) >= 0 && ! empty( $page ) && empty( $show ) && 'analytify-dashboard' === $page ) {
-				wp_enqueue_script( 'analytify-stats-core', plugins_url( 'assets/js/stats-core.js', $this->plugin_file ), array( 'jquery', 'echarts-js', 'analytify-comp-chart' ), ANALYTIFY_VERSION, true );
+				wp_enqueue_script( 'analytify-stats-core', plugins_url( "assets/js/stats-core{$suffix}.js", $this->plugin_file ), array( 'jquery', 'echarts-js', 'analytify-comp-chart' ), ANALYTIFY_VERSION, true );
 
 			} else {
-				wp_enqueue_script( 'analytify-stats-core', plugins_url( 'assets/js/stats-core.js', $this->plugin_file ), array( 'jquery', 'echarts-js' ), ANALYTIFY_VERSION, true );
+				wp_enqueue_script( 'analytify-stats-core', plugins_url( "assets/js/stats-core{$suffix}.js", $this->plugin_file ), array( 'jquery', 'echarts-js' ), ANALYTIFY_VERSION, true );
 			}
 			// Localize the GeoJSON file URL to use in JavaScript.
 			wp_localize_script(
@@ -311,7 +314,7 @@ class Analytify_Scripts_Styles {
 		// For Settings only.
 		if ( 'analytify_page_analytify-settings' === $page ) {
 			wp_enqueue_script( 'chosen-js', plugins_url( 'assets/js/chosen.jquery.min.js', $this->plugin_file ), array( 'jquery' ), ANALYTIFY_VERSION, false ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter -- Script loaded in header intentionally
-			wp_enqueue_script( 'analytify-settings-js', plugins_url( 'assets/js/wp-analytify-settings.js', $this->plugin_file ), array( 'jquery-ui-tooltip', 'jquery', 'chosen-js' ), ANALYTIFY_VERSION, false ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter -- Script loaded in header intentionally
+			wp_enqueue_script( 'analytify-settings-js', plugins_url( "assets/js/wp-analytify-settings{$suffix}.js", $this->plugin_file ), array( 'jquery-ui-tooltip', 'jquery', 'chosen-js' ), ANALYTIFY_VERSION, false ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter -- Script loaded in header intentionally
 			wp_localize_script(
 				'analytify-settings-js',
 				'analytify_settings',
@@ -415,15 +418,26 @@ class Analytify_Scripts_Styles {
 
 		// Addons page script - Basic localization here, full localization with slugs happens in page-addons.php.
 		if ( 'analytify_page_analytify-addons' === $page ) {
-			wp_enqueue_script( 'analytify-addons-js', plugins_url( 'assets/js/wp-analytify-addons.js', $this->plugin_file ), array( 'jquery' ), ANALYTIFY_VERSION, false ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter -- Script loaded in header intentionally.
+			// Core updates script is required for the install-plugin AJAX action.
+			wp_enqueue_script( 'updates' );
+			wp_enqueue_script( 'analytify-addons-js', plugins_url( "assets/js/wp-analytify-addons{$suffix}.js", $this->plugin_file ), array( 'jquery', 'updates' ), ANALYTIFY_VERSION, false ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter -- Script loaded in header intentionally.
 			// Basic localization - page-addons.php will override with full data including allowed_slugs.
+			// Nonces must live here: page-addons.php loads after admin_enqueue_scripts.
 			wp_localize_script(
 				'analytify-addons-js',
 				'analytify_addons',
 				array(
-					'ajaxurl'       => admin_url( 'admin-ajax.php' ),
-					'nonce'         => wp_create_nonce( 'addons' ),
-					'allowed_slugs' => array(), // Will be populated by page-addons.php.
+					'ajaxurl'                  => admin_url( 'admin-ajax.php' ),
+					'nonce'                    => wp_create_nonce( 'addons' ),
+					'install_nonce'            => wp_create_nonce( 'updates' ),
+					'activate_dashboard_nonce' => wp_create_nonce( 'activate-analytify-dashboard' ),
+					'allowed_slugs'            => array(), // Will be populated by page-addons.php.
+					'i18n'                     => array(
+						'installing' => __( 'Installing...', 'wp-analytify' ),
+						'activating' => __( 'Activating...', 'wp-analytify' ),
+						'installed'  => __( 'Installed & Activated', 'wp-analytify' ),
+						'get_addon'  => __( 'Get this add-on', 'wp-analytify' ),
+					),
 				)
 			);
 		}
@@ -513,6 +527,8 @@ class Analytify_Scripts_Styles {
 			return;
 		}
 
+		$suffix = analytify_get_asset_suffix();
+
 		// Only enqueue if file exists to prevent 404 errors.
 		$front_js_path = plugin_dir_path( $this->plugin_file ) . 'assets/js/front-analytics.js';
 		if ( file_exists( $front_js_path ) ) {
@@ -530,14 +546,14 @@ class Analytify_Scripts_Styles {
 
 		// Enqueue scroll depth script if enabled.
 		if ( 'on' === $this->analytify->settings->get_option( 'depth_percentage', 'wp-analytify-advanced', 'off' ) ) {
-			wp_enqueue_script( 'wp-analytify-scrolldepth', plugins_url( 'assets/js/scrolldepth.js', $this->plugin_file ), array( 'jquery' ), ANALYTIFY_VERSION, true );
+			wp_enqueue_script( 'wp-analytify-scrolldepth', plugins_url( "assets/js/scrolldepth{$suffix}.js", $this->plugin_file ), array( 'jquery' ), ANALYTIFY_VERSION, true );
 
 			$ga_mode       = class_exists( 'WPANALYTIFY_Utils' ) && method_exists( 'WPANALYTIFY_Utils', 'get_ga_mode' ) ? WPANALYTIFY_Utils::get_ga_mode() : 'ga3';
 			$tracking_mode = defined( 'WP_ANALYTIFY_TRACKING_MODE' ) ? WP_ANALYTIFY_TRACKING_MODE : 'gtag';
 
 			// Only enqueue scroll depth for GA4 + gtag to avoid UA incompatibility.
 			if ( 'ga4' === $ga_mode && 'gtag' === $tracking_mode ) {
-				wp_enqueue_script( 'wp-analytify-scrolldepth', plugins_url( 'assets/js/scrolldepth.js', $this->plugin_file ), array( 'jquery' ), ANALYTIFY_VERSION, true );
+				wp_enqueue_script( 'wp-analytify-scrolldepth', plugins_url( "assets/js/scrolldepth{$suffix}.js", $this->plugin_file ), array( 'jquery' ), ANALYTIFY_VERSION, true );
 				wp_localize_script(
 					'wp-analytify-scrolldepth',
 					'analytifyScroll',
@@ -559,7 +575,7 @@ class Analytify_Scripts_Styles {
 			if ( 'ga4' === $ga_mode && 'gtag' === $tracking_mode ) {
 				$video_tracking_path = plugin_dir_path( $this->plugin_file ) . 'assets/js/video_tracking.js';
 				if ( file_exists( $video_tracking_path ) ) {
-					wp_enqueue_script( 'wp-analytify-video-tracking', plugins_url( 'assets/js/video_tracking.js', $this->plugin_file ), array( 'jquery' ), ANALYTIFY_VERSION, true );
+					wp_enqueue_script( 'wp-analytify-video-tracking', plugins_url( "assets/js/video_tracking{$suffix}.js", $this->plugin_file ), array( 'jquery' ), ANALYTIFY_VERSION, true );
 					wp_localize_script(
 						'wp-analytify-video-tracking',
 						'analytifyVideo',
@@ -593,7 +609,7 @@ class Analytify_Scripts_Styles {
 
 					wp_enqueue_script(
 						'wp-analytify-miscellaneous-tracking',
-						plugins_url( 'assets/js/miscellaneous-tracking.js', $this->plugin_file ),
+						plugins_url( "assets/js/miscellaneous-tracking{$suffix}.js", $this->plugin_file ),
 						array( 'jquery' ),
 						ANALYTIFY_VERSION,
 						true

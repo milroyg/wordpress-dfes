@@ -26,7 +26,7 @@ __( 'Pages', 'elementor' );
 __( ', try again and if the problem persists contact ', 'elementor' );
 __( 'Support', 'elementor' );
 __( 'Unable to download the Website Template', 'elementor' );
-__( 'We couldn’t download the Website Template due to technical difficulty on our part. Try again in a few minutes and if the problem persists contact ', 'elementor' );
+__( 'We couldn’t download the Website Template due to technical difficulty on our part. Try again in a few minutes and if the problem persists contact', 'elementor' );
 __( 'Support', 'elementor' );
 __( 'Couldn’t access the file', 'elementor' );
 __( 'Seems like Elementor isn’t authorized to access relevant files for installing this Website Template. Contact your site host to get permission.', 'elementor' );
@@ -89,7 +89,7 @@ __( 'Learn More', 'elementor' );
 __( 'Export a Website Kit', 'elementor' );
 __( 'What’s a Website Kit?', 'elementor' );
 __( 'A Website Kit is a .zip file that contains all the parts of a complete site. It’s an easy way to get a site up and running quickly.', 'elementor' );
-__( ' Learn more about Website Kits', 'elementor' );
+__( 'Learn more about Website Kits', 'elementor' );
 __( 'How does exporting work?', 'elementor' );
 __( 'To turn your site into a Website Kit, select the templates, content, settings and plugins you want to include. Once it’s ready, you’ll get a .zip file that you can import to other sites.', 'elementor' );
 __( 'Learn More', 'elementor' );
@@ -113,9 +113,6 @@ __( 'Version' ) } ${ cellLinkProps.text }` } <Icon className="eicon-editor-exter
 
 		if ( withStatus ) {
 			headers.splice( 1, 0, 'Status' );
-__( 'Importing your content, templates and site settings', 'elementor' );
-__( 'This allows Elementor to scan your SVGs for malicious content. Otherwise, you can skip any SVGs in this import.', 'elementor' );
-__( 'Nothing to worry about, just continue without importing SVGs or go back and start the import again.', 'elementor' );
 __( 'Previous', 'elementor' );
 __( 'Next', 'elementor' );
 __( 'Learn More', 'elementor' );
@@ -124,6 +121,9 @@ __( 'Parts of this kit overlap with your site’s templates, design and settings
 __( 'Note:', 'elementor' );
 __( "Your site's homepage will be determined by the kit. You can change this later.", 'elementor' );
 __( 'Select the items you want to keep and apply:', 'elementor' );
+__( 'Importing your content, templates and site settings', 'elementor' );
+__( 'This allows Elementor to scan your SVGs for malicious content. Otherwise, you can skip any SVGs in this import.', 'elementor' );
+__( 'Nothing to worry about, just continue without importing SVGs or go back and start the import again.', 'elementor' );
 __( 'Activating plugins:', 'elementor' );
 __( 'Select which plugins to include', 'elementor' );
 __( 'All items are already selected by default. Uncheck the ones you don\'t want.', 'elementor' );

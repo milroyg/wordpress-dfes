@@ -696,7 +696,9 @@ class Links_Table extends US_List_Table {
 		$add_where_clause = false;
 
 		if ( ! empty( $search ) ) {
-			$query[] = ' name LIKE %s OR slug LIKE %s OR url LIKE %s OR description LIKE %s';
+			// Parenthesised: these are OR'd together but joined to the other
+			// conditions with AND, which binds tighter without the brackets.
+			$query[] = ' ( name LIKE %s OR slug LIKE %s OR url LIKE %s OR description LIKE %s ) ';
 			$args[]  = '%' . $wpdb->esc_like( $search ) . '%';
 			$args[]  = '%' . $wpdb->esc_like( $search ) . '%';
 			$args[]  = '%' . $wpdb->esc_like( $search ) . '%';
@@ -724,10 +726,10 @@ class Links_Table extends US_List_Table {
 				if ( 'none' == $group_id ) {
 					$query[] = "id NOT IN (SELECT link_id FROM {$links_group_table})";
 				} elseif ( $group_id > 0 ) {
-					$filter_sql = $wpdb->prepare( "SELECT link_id FROM {$links_group_table} WHERE group_id = %d",
-						$group_id );
-
-					$query[] = "id IN ( $filter_sql )";
+					// Placeholder rather than a nested prepare(), so the whole
+					// clause is prepared exactly once at the end.
+					$query[] = "id IN ( SELECT link_id FROM {$links_group_table} WHERE group_id = %d )";
+					$args[]  = $group_id;
 				}
 			} elseif ( strpos( $filter_by, 'tag_id' ) !== false ) { // Filter by tag.
 				$tag_id = str_replace( 'tag_id_', '', $filter_by );
@@ -738,27 +740,30 @@ class Links_Table extends US_List_Table {
 				if ( 'none' == $tag_id ) {
 					$query[] = "id NOT IN (SELECT link_id FROM {$links_tags_table})";
 				} elseif ( $tag_id > 0 ) {
-					$filter_sql = $wpdb->prepare( "SELECT link_id FROM {$links_tags_table} WHERE tag_id = %d",
-						$tag_id );
-
-					$query[] = "id IN ( $filter_sql )";
+					$query[] = "id IN ( SELECT link_id FROM {$links_tags_table} WHERE tag_id = %d )";
+					$args[]  = $tag_id;
 				}
 			} elseif ( strpos( $filter_by, 'redirect_type' ) !== false ) { // Filter by redirect type.
 				$add_where_clause = true;
 				$redirect_type    = str_replace( 'redirect_type_', '', $filter_by );
 
-				$query[] = $wpdb->prepare( 'redirect_type = %s', $redirect_type );
+				$query[] = 'redirect_type = %s';
+				$args[]  = $redirect_type;
 			} elseif ( strpos( $filter_by, 'status_' ) !== false ) { // Filter by status.
 				if ( US()->is_pro() ) {
 					$add_where_clause = true;
 					$status           = absint( str_replace( 'status_', '', $filter_by ) );
 
 					if ( 1 === $status || 0 === $status ) {
-						$query[] = $wpdb->prepare( 'status = %d', $status );
+						$query[] = 'status = %d';
+						$args[]  = $status;
 					}
 				}
 			} else {
+				// This branch discards every condition built above, so the bound
+				// arguments must go with them or the placeholders would desync.
 				$query = [];
+				$args  = [];
 				$query = apply_filters( 'kc_us_links_filter_by_query', $query, $filter_by );
 
 				if ( ! empty( $query ) ) {
@@ -929,6 +934,45 @@ class Links_Table extends US_List_Table {
 
 					$message = __( 'Link stats has been reset successfully!', 'url-shortify' );
 					US()->notices->success( $message );
+				}
+			}
+
+		} elseif ( 'duplicate' === $this->current_action() ) {
+			if ( ! US()->is_pro() ) {
+				US()->notices->error( __( 'This feature is available in the PRO version only.', 'url-shortify' ) );
+
+				return;
+			}
+
+			// In our file that handles the request, verify the nonce.
+			$nonce = Helper::get_request_data( '_wpnonce' );
+
+			if ( ! wp_verify_nonce( $nonce, 'us_action_nonce' ) ) {
+				$message = __( 'You do not have permission to duplicate this link.', 'url-shortify' );
+				US()->notices->error( $message );
+			} else {
+				$link_id = absint( Helper::get_request_data( 'id' ) );
+
+				if ( ! empty( $link_id ) ) {
+					$new_link_id = absint( apply_filters( 'kc_us_duplicate_link', 0, $link_id ) );
+
+					if ( ! empty( $new_link_id ) ) {
+						$value = [
+							'status'  => 'success',
+							'message' => __( 'Link has been duplicated successfully!', 'url-shortify' ),
+						];
+					} else {
+						$value = [
+							'status'  => 'error',
+							'message' => __( 'Link could not be duplicated. Please try again.', 'url-shortify' ),
+						];
+					}
+
+					Cache::set_transient( 'notice', $value );
+
+					// Drop the action from the url so that a page refresh doesn't duplicate the link again.
+					wp_safe_redirect( remove_query_arg( [ 'action', 'action2', 'id', '_wpnonce' ] ) );
+					exit();
 				}
 			}
 
@@ -1113,6 +1157,59 @@ class Links_Table extends US_List_Table {
 				US()->db->links->bulk_add_expiry( $link_ids, $expiry_date );
 
 				$message = __( 'Expiry date has been added to selected links.', 'url-shortify' );
+				US()->notices->success( $message );
+			}
+		} elseif ( ( 'bulk_duplicate' === $action ) || ( 'bulk_duplicate' === $action2 ) ) {
+			if ( ! US()->is_pro() ) {
+				US()->notices->error( __( 'This feature is available in the PRO version only.', 'url-shortify' ) );
+
+				return;
+			}
+
+			$nonce  = Helper::get_request_data( '_wpnonce' );
+			$action = 'bulk-' . Helper::get_data( $this->_args, 'plural', '' );
+
+			if ( ! wp_verify_nonce( $nonce, $action ) ) {
+				$message = __( 'You do not have permission to duplicate link(s).', 'url-shortify' );
+				US()->notices->error( $message );
+			} else {
+				$select_all = Helper::get_request_data( 'select_all_links', '0' );
+
+				if ( '1' === $select_all && US()->is_pro() ) {
+					$link_ids = $this->get_all_link_ids_for_bulk();
+				} else {
+					$link_ids = isset( $_POST['link_ids'] ) ? array_map( 'absint', wp_unslash( $_POST['link_ids'] ) ) : Helper::get_request_data( 'link_ids' );
+					if ( empty( $link_ids ) ) {
+						$link_ids = isset( $_POST['link_ids'] ) ? array_map( 'absint', wp_unslash( $_POST['link_ids'] ) ) : [];
+					}
+				}
+
+				if ( empty( $link_ids ) ) {
+					$message = __( 'Please select link(s) to duplicate.', 'url-shortify' );
+					US()->notices->error( $message );
+
+					return;
+				}
+
+				$duplicated = 0;
+
+				foreach ( (array) $link_ids as $link_id ) {
+					if ( absint( apply_filters( 'kc_us_duplicate_link', 0, absint( $link_id ) ) ) ) {
+						$duplicated ++;
+					}
+				}
+
+				if ( empty( $duplicated ) ) {
+					$message = __( 'Link(s) could not be duplicated. Please try again.', 'url-shortify' );
+					US()->notices->error( $message );
+
+					return;
+				}
+
+				/* translators: %d: number of links which have been duplicated */
+				$message = sprintf( _n( '%d link has been duplicated successfully!',
+					'%d links have been duplicated successfully!', $duplicated, 'url-shortify' ), $duplicated );
+
 				US()->notices->success( $message );
 			}
 		} elseif ( ( 'bulk_enable_links' === $action ) || ( 'bulk_enable_links' === $action2 ) ) {
@@ -1797,11 +1894,24 @@ class Links_Table extends US_List_Table {
 			$slug          = Helper::get_data( $data, 'slug', '' );
 			$existing_slug = Helper::get_data( $data, 'existing_slug', '' );
 
-			$no_equal_slug = $existing_slug != $slug;
+			/*
+			 * Compare and look up the *stored* form of the slug. Links are saved
+			 * with the link prefix applied, so checking the bare value the form
+			 * submits would never match an existing row: with prefix `go`, a new
+			 * link entered as `goose` looked free while `go/goose` already existed,
+			 * and the duplicate was created anyway.
+			 *
+			 * get_slug_with_prefix() is idempotent, so this is also correct when
+			 * the field already carries the prefix, as it does when editing.
+			 */
+			$prefixed_slug          = Helper::get_slug_with_prefix( $slug );
+			$prefixed_existing_slug = Helper::get_slug_with_prefix( $existing_slug );
+
+			$no_equal_slug = $prefixed_existing_slug != $prefixed_slug;
 			if ( US()->is_pro() ) {
 				$settings       = US()->get_settings();
 				$case_sensitive = (boolean) Helper::get_data( $settings, 'general_settings_case_sensitive_slug', 0 );
-				$no_equal_slug  = $case_sensitive ? $existing_slug != $slug : strtolower( $existing_slug ) != strtolower( $slug );
+				$no_equal_slug  = $case_sensitive ? $prefixed_existing_slug != $prefixed_slug : strtolower( $prefixed_existing_slug ) != strtolower( $prefixed_slug );
 			}
 
 			if ( empty( $title ) ) {
@@ -1815,7 +1925,7 @@ class Links_Table extends US_List_Table {
 			} elseif ( ! Utils::validate_url( $target_url, true ) ) {
 				$messages[] = __( 'Please enter valid Target URL', 'url-shortify' );
 				$error      = true;
-			} elseif ( $no_equal_slug && Utils::is_slug_exists( $slug ) ) {
+			} elseif ( $no_equal_slug && Utils::is_slug_exists( $prefixed_slug ) ) {
 				$messages[] = __( 'Short URL already exists. Please use different Short URL.', 'url-shortify' );
 				$error      = true;
 			}

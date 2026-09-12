@@ -47,11 +47,6 @@
                                         'label' => __('Post', 'master-addons'),
                                         'options' => [
                                             'single'   => __('Single (Pro)', 'master-addons'),
-                                            'archive'  => __('Archive (Pro)', 'master-addons'),
-                                            'category' => __('Category (Pro)', 'master-addons'),
-                                            'tag'      => __('Tag (Pro)', 'master-addons'),
-                                            'author'   => __('Author (Pro)', 'master-addons'),
-                                            'date'     => __('Date (Pro)', 'master-addons'),
                                         ],
                                     ],
                                     'page' => [
@@ -60,6 +55,20 @@
                                             'page_single' => __('Single (Pro)', 'master-addons'),
                                             'search'      => __('Search (Pro)', 'master-addons'),
                                             '404'         => __('Error 404 (Pro)', 'master-addons'),
+                                        ],
+                                    ],
+                                    // Archive, Category, Tag, Author and Date are all
+                                    // listings rather than posts, and reading them under
+                                    // "Post" gave no clue where one ended and the next
+                                    // began. They get their own heading, like Page.
+                                    'archive' => [
+                                        'label' => __('Archive', 'master-addons'),
+                                        'options' => [
+                                            'archive'  => __('All Archives (Pro)', 'master-addons'),
+                                            'category' => __('Category (Pro)', 'master-addons'),
+                                            'tag'      => __('Tag (Pro)', 'master-addons'),
+                                            'author'   => __('Author (Pro)', 'master-addons'),
+                                            'date'     => __('Date (Pro)', 'master-addons'),
                                         ],
                                     ],
                                 ]);

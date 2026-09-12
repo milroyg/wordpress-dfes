@@ -3,6 +3,7 @@
 namespace ElementorOne\Admin\Components;
 
 use ElementorOne\Admin\Helpers\Utils;
+use ElementorOne\Connect\Facade;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -108,10 +109,42 @@ class Assets {
 				'elementorNewPostNonce' => wp_create_nonce( 'elementor_action_new_post' ),
 				'elementorSiteSettingsRedirectNonce' => wp_create_nonce( 'elementor_action_site_settings_redirect' ),
 				'elementorEditSiteNonce' => wp_create_nonce( 'elementor_action_edit_website' ),
-				'shareUsageData' => 'yes' === get_option( Onboarding::SETTING_SHARE_USAGE_DATA ),
+				'manageSiteOverviewRedirectNonce' => wp_create_nonce( 'manage_site_overview_redirect' ),
+				'shareUsageData' => $this->should_share_usage_data(),
 				'assetsUIRootUrl' => ELEMENTOR_ONE_UI_ASSETS_ROOT_URL,
 			] ) . ';'
 		);
+	}
+
+	/**
+	 * Should share usage data
+	 * @return bool
+	 */
+	private function should_share_usage_data(): bool {
+		global $plugin_page;
+
+		$sa_app_connect = $plugin_page ? Facade::get_by_plugin_page( $plugin_page ) : null;
+
+		if ( $sa_app_connect && $sa_app_connect->utils()->is_connected() ) {
+			return 'yes' === $sa_app_connect->data()->get_share_usage_data();
+		}
+
+		$is_editor_admin_page = is_callable( '\Elementor\Core\Admin\Admin::is_elementor_admin_page' )
+			&& \Elementor\Core\Admin\Admin::is_elementor_admin_page();
+
+		if ( $is_editor_admin_page && ! $sa_app_connect ) {
+			$editor_tracking_allowed = is_callable( '\Elementor\Tracker::is_allow_track' )
+				&& \Elementor\Tracker::is_allow_track();
+
+			$editor_tracking_updated = is_callable( '\Elementor\Tracker::get_last_update_time' )
+				&& \Elementor\Tracker::get_last_update_time();
+
+			if ( $editor_tracking_updated ) {
+				return $editor_tracking_allowed;
+			}
+		}
+
+		return 'yes' === Utils::get_one_connect()->data()->get_share_usage_data();
 	}
 
 	/**

@@ -38,7 +38,14 @@ class Ajax_Handlers
         $category = isset($_POST['category']) ? sanitize_text_field( wp_unslash( $_POST['category'] ) ) : 'all';
         $search = isset($_POST['search']) ? sanitize_text_field( wp_unslash( $_POST['search'] ) ) : '';
         $page = isset($_POST['page']) ? absint($_POST['page']) : 1;
-        $per_page = 12;
+        // Honour what the grid asked for. This was pinned at 12, so a wide
+        // window drew a short row of cards with empty space beside it however
+        // many the client requested.
+        $per_page = isset($_POST['per_page']) ? absint($_POST['per_page']) : 12;
+        if ($per_page < 1) {
+            $per_page = 12;
+        }
+        $per_page = min($per_page, 100);
 
         $force_refresh = isset($_POST['force_refresh']) && $_POST['force_refresh'] === 'true';
 

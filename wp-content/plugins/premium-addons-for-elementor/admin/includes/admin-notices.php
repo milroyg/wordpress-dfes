@@ -54,13 +54,6 @@ class Admin_Notices {
 	const REVIEW_OPTION = 'pa_review_notice';
 
 	/**
-	 * AI abilities notice state. '1' once dismissed.
-	 *
-	 * @var string
-	 */
-	const ABILITIES_OPTION = 'abilities-not';
-
-	/**
 	 * Dashboard news cache. Deliberately not keyed on the plugin version: the
 	 * feed is not version-specific, and including it invalidated the cache on
 	 * every update, so the first Dashboard load after each one blocked on a
@@ -87,7 +80,8 @@ class Admin_Notices {
 
 		self::$notices = array(
 			'pa-review',
-			'abilities-not',
+			'pa-connect-ai-not',
+			'pa-angie-not',
 		);
 
 		if ( Helper_Functions::check_hide_notifications() ) {
@@ -157,7 +151,11 @@ class Admin_Notices {
 			return;
 		}
 
-		$this->get_abilities_notice();
+		if ( defined( 'ANGIE_VERSION' ) ) {
+			$this->get_angie_notice();
+		} else {
+			$this->get_connect_ai_notice();
+		}
 	}
 
 	/**
@@ -315,29 +313,109 @@ class Admin_Notices {
 		return (string) $state;
 	}
 
-	public function get_abilities_notice() {
+	/**
+	 * Keep the review notice quiet until $seconds from now.
+	 *
+	 * @since 4.11.97
+	 * @access public
+	 *
+	 * @param int $seconds Quiet period length.
+	 * @return void
+	 */
+	public static function snooze_review_notice( $seconds ) {
 
-		$option = self::get_notice_state( self::ABILITIES_OPTION );
+		update_option( self::REVIEW_OPTION, (string) ( time() + $seconds ), true );
+	}
 
-		if ( '1' === $option ) {
+	/**
+	 * Announces the Angie compatibility layer on sites running Angie.
+	 *
+	 * Shown instead of the ChatGPT/Claude notice, never alongside it, so the
+	 * dashboard never carries two AI notices at once.
+	 *
+	 * @since 4.11.102
+	 * @access private
+	 *
+	 * @return void
+	 */
+	private function get_angie_notice() {
+
+		if ( '1' === self::get_notice_state( 'pa-angie-not' ) ) {
 			return;
 		}
 
-		$link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-mcp-and-ai-abilities/', 'abilities-notification', 'wp-dash', 'abilities' );
+		$angie_link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/angie-premium-addons-elementor', 'angie-notification', 'wp-dash', 'angie' );
 
 		?>
 
 		<div class="error pa-notice-wrap pa-new-feature-notice">
 			<div class="pa-img-wrap">
-				<img src="<?php echo PREMIUM_ADDONS_URL . 'admin/images/pa-logo-symbol.png'; ?>">
+				<img src="<?php echo esc_url( PREMIUM_ADDONS_URL . 'admin/images/pa-logo-symbol.png' ); ?>" alt="">
 			</div>
 			<div class="pa-text-wrap">
 				<p>
-					<strong><?php echo __( 'AI Just Landed to Premium Addons for Elementor', 'premium-addons-for-elementor' ); ?></strong>
-					<?php printf( __( '<a href="%s" target="_blank">Watch Use Cases!</a>', 'premium-addons-for-elementor' ), $link ); ?>
+					<strong><?php esc_html_e( 'New:', 'premium-addons-for-elementor' ); ?></strong>
+					<?php
+						printf(
+							/* translators: 1: Angie guide link opening tag, 2: link closing tag. */
+							esc_html__( 'Angie can now browse the Premium Templates library and use Premium Addons widgets to build your Elementor pages. %1$sCheck it Out!%2$s', 'premium-addons-for-elementor' ),
+							'<a href="' . esc_url( $angie_link ) . '" target="_blank">',
+							'</a>'
+						);
+					?>
 				</p>
 			</div>
-			<div class="pa-notice-close" data-notice="abilities-not">
+			<div class="pa-notice-close" data-notice="pa-angie-not">
+				<span class="dashicons dashicons-dismiss"></span>
+			</div>
+		</div>
+
+		<?php
+	}
+
+	/**
+	 * Points users to the ChatGPT/Claude connection guides.
+	 *
+	 * Keyed separately from the older AI notice, so users who dismissed that one
+	 * still get this.
+	 *
+	 * @since 4.11.100
+	 * @access private
+	 *
+	 * @return void
+	 */
+	private function get_connect_ai_notice() {
+
+		if ( '1' === self::get_notice_state( 'pa-connect-ai-not' ) ) {
+			return;
+		}
+
+		$chatgpt_link = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/connect-chatgpt-to-wordpress-elementor-website', 'connect-ai-notification', 'wp-dash', 'connect-ai' );
+		$claude_link  = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/connect-claude-to-build-wordpress-elementor-pages', 'connect-ai-notification', 'wp-dash', 'connect-ai' );
+		$mcp_link     = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-mcp-and-ai-abilities/', 'connect-ai-notification', 'wp-dash', 'connect-ai' );
+
+		?>
+
+		<div class="error pa-notice-wrap pa-new-feature-notice pa-connect-ai-notice">
+			<div class="pa-img-wrap">
+				<img src="<?php echo esc_url( PREMIUM_ADDONS_URL . 'admin/images/pa-logo-symbol.png' ); ?>" alt="">
+			</div>
+			<div class="pa-text-wrap">
+				<p>
+					<strong><?php esc_html_e( 'New:', 'premium-addons-for-elementor' ); ?></strong>
+					<?php
+						printf(
+							/* translators: 1: ChatGPT link opening tag, 2: Claude link opening tag, 3: Elementor MCP page link opening tag, 4: link closing tag. */
+							esc_html__( 'Connect %1$sChatGPT%4$s/%2$sClaude%4$s to your website and make them build Elementor pages for you. %3$sCheck it Out!%4$s', 'premium-addons-for-elementor' ),
+							'<a href="' . esc_url( $chatgpt_link ) . '" target="_blank">',
+							'<a href="' . esc_url( $claude_link ) . '" target="_blank">',
+							'<a href="' . esc_url( $mcp_link ) . '" target="_blank">',
+							'</a>'
+						);
+					?>
+				</p>
+			</div>
+			<div class="pa-notice-close" data-notice="pa-connect-ai-not">
 				<span class="dashicons dashicons-dismiss"></span>
 			</div>
 		</div>
@@ -419,7 +497,7 @@ class Admin_Notices {
 
 		if ( ! empty( $key ) && in_array( $key, self::$notices, true ) ) {
 
-			update_option( self::REVIEW_OPTION, (string) ( time() + WEEK_IN_SECONDS ), true );
+			self::snooze_review_notice( WEEK_IN_SECONDS );
 
 			wp_send_json_success();
 
@@ -456,7 +534,7 @@ class Admin_Notices {
 			} else {
 				// Was set_transient( 'pa-review', ... ), a key nothing ever read —
 				// the review notice reappeared immediately after dismissal.
-				update_option( self::REVIEW_OPTION, (string) ( time() + 20 * DAY_IN_SECONDS ), true );
+				self::snooze_review_notice( 20 * DAY_IN_SECONDS );
 			}
 
 			wp_send_json_success();

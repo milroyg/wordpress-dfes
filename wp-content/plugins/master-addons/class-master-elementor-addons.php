@@ -103,6 +103,11 @@ if (!class_exists('Master_Elementor_Addons')) {
 
 			// Run pending upgrade migrations (e.g. legacy option key migration)
 			add_action('admin_init', [$this, 'jltma_maybe_run_upgrades'], 5);
+
+			// One-time removal of the local template-library mirror under
+			// uploads/master_addons. Self-gates: never runs on the library
+			// server (see Local_Cache_Cleanup::allowed()).
+			\MasterAddons\Inc\Classes\Local_Cache_Cleanup::get_instance();
 		}
 
 		/**
@@ -201,6 +206,15 @@ if (!class_exists('Master_Elementor_Addons')) {
 			self::activated_extensions();
 			self::activated_third_party_plugins();
 			self::activated_icons_library();
+
+			// The template library and kits are served from the remote API, so a
+			// client site has no reason to carry a copy of them on its own disk.
+			// Reactivating is the thing site owners do when they expect the
+			// plugin to tidy up, so the mirror goes now rather than a minute
+			// later on a cron that may never fire.
+			if (class_exists('\\MasterAddons\\Inc\\Classes\\Local_Cache_Cleanup')) {
+				\MasterAddons\Inc\Classes\Local_Cache_Cleanup::purge_now();
+			}
 
 			// Current Master Addons Version
 			$current_version = get_option('_master_addons_version', null);
@@ -399,6 +413,17 @@ if (!class_exists('Master_Elementor_Addons')) {
 					}
 				}
 
+				// Handle Widgets subnamespace (Widgets Library)
+				if (0 === strpos($templates_class, 'Widgets\\')) {
+					$widgets_class = str_replace('Widgets\\', '', $templates_class);
+					$widgets_file_name = strtolower(preg_replace(['/([a-z])([A-Z])/', '/_/'], ['$1-$2', '-'], $widgets_class));
+					$file = JLTMA_PATH . 'inc/admin/templates/widgets/class-' . $widgets_file_name . '.php';
+					if (is_readable($file)) {
+						include_once $file;
+						return;
+					}
+				}
+
 				// Handle Includes subnamespace (types, classes, sources, documents)
 				if (0 === strpos($templates_class, 'Includes\\')) {
 					$includes_class = str_replace('Includes\\', '', $templates_class);
@@ -538,7 +563,9 @@ if (!class_exists('Master_Elementor_Addons')) {
 					'REST_Controller' => 'class-rest-controller.php',
 					'Shortcode_Manager' => 'class-shortcode-manager.php',
 					'Control_Manager' => 'class-control-manager.php',
+					'Widget_Template_Engine' => 'class-widget-template-engine.php',
 					'Icon_Library_Helper' => 'icon-library-helper.php',
+					'Widget_Category_Badge' => 'class-widget-category-badge.php',
 					'Control_Base' => 'controls/class-control-base.php',
 				];
 				if (isset($wb_file_map[$wb_class])) {
@@ -705,6 +732,26 @@ if (!class_exists('Master_Elementor_Addons')) {
 				],
 				1
 			);
+
+			// Home for widgets pulled in from the Widgets Library. Registered
+			// here so the category exists even before the first import;
+			// class-widget-builder-init.php skips slugs already registered.
+			$widgets_category = [
+				'title' => esc_html__('Master Addons Widgets', 'master-addons'),
+				'icon'  => 'font',
+			];
+
+			// Elementor renders `promotion` natively as a crown + link in the
+			// category heading (see its panel-elements.php template). Only show
+			// it to sites without a licence.
+			if (!\MasterAddons\Inc\Classes\Helper::jltma_premium()) {
+				$widgets_category['promotion'] = [
+					'url'  => 'https://master-addons.com/pricing',
+					'text' => esc_html__('PRO', 'master-addons'),
+				];
+			}
+
+			$widgets_manager->add_category('master-addons-widgets', $widgets_category, 2);
 		}
 
 		public function jltma_image_size()

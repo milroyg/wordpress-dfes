@@ -7,6 +7,8 @@
 			window.analytify_addons = {
 				ajaxurl: fallbackAjaxurl,
 				nonce: '',
+				install_nonce: '',
+				activate_dashboard_nonce: '',
 				allowed_slugs: []
 			};
 		}
@@ -58,6 +60,125 @@
 
 		// Ensure all loader states are hidden on page load
 		$('.wp-analytify-addon-enable, .wp-analytify-addon-install, .wp-analytify-addon-uninstalling, .wp-analytify-addon-uninstall, .wp-analytify-addon-wrong').hide();
+
+		var addonI18n = (analytify_addons.i18n && typeof analytify_addons.i18n === 'object') ? analytify_addons.i18n : {};
+		var textInstalling = addonI18n.installing || 'Installing...';
+		var textActivating = addonI18n.activating || 'Activating...';
+		var textInstalled = addonI18n.installed || 'Installed & Activated';
+		var textGetAddon = addonI18n.get_addon || 'Get this add-on';
+
+		function setAddonLoaderVisible(thisContainer, loaderClass) {
+			thisContainer.find('.wp-analytify-addon-enable, .wp-analytify-addon-uninstalling, .wp-analytify-addon-wrong, .wp-analytify-addon-install, .wp-analytify-addon-uninstall')
+				.each(function () {
+					this.style.setProperty('display', 'none', 'important');
+				});
+
+			if (loaderClass) {
+				thisContainer.find(loaderClass).each(function () {
+					this.style.setProperty('display', 'flex', 'important');
+				});
+			}
+		}
+
+		function setProgressLoaderText(thisContainer, text) {
+			thisContainer.find('.wp-analytify-addon-enable p').first().text(text);
+		}
+
+		function setSuccessLoaderText(thisContainer, text) {
+			thisContainer.find('.wp-analytify-addon-install p').first().text(text);
+		}
+
+		function showAddonLoaderError(thisContainer, progressText) {
+			setAddonLoaderVisible(thisContainer, '.wp-analytify-addon-wrong');
+			setProgressLoaderText(thisContainer, progressText || textActivating);
+		}
+
+		function showAddonActivatedState(thisContainer, thisElement, pluginSlug) {
+			setSuccessLoaderText(thisContainer, textInstalled);
+			setAddonLoaderVisible(thisContainer, '.wp-analytify-addon-install');
+			thisElement.parent().html(
+				'<button type="button" class="button-primary analytify-module-state analytify-deactivate-module" data-internal-module="false" data-slug="' + pluginSlug + '" data-set-state="deactive">Deactivate add-on</button>'
+			);
+			setTimeout(function () {
+				setAddonLoaderVisible(thisContainer, null);
+				setProgressLoaderText(thisContainer, textActivating);
+				setSuccessLoaderText(thisContainer, 'Activated');
+			}, 1800);
+		}
+
+		function activateDashboardWidgetAddon(activateNonce) {
+			return $.ajax({
+				url: analytify_addons.ajaxurl,
+				type: 'POST',
+				data: {
+					action: 'activate-analytify-dashboard-free',
+					security: activateNonce
+				}
+			});
+		}
+
+		$(document).on('click', '.analytify-install-dashboard-addon', function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+
+			var thisElement = $(this);
+			var thisContainer = thisElement.closest('.wp-extension');
+			var pluginSlug = thisElement.attr('data-slug');
+			var installNonce = thisElement.attr('data-install-nonce') || analytify_addons.install_nonce || '';
+			var activateNonce = thisElement.attr('data-activate-nonce') || analytify_addons.activate_dashboard_nonce || '';
+			var installAjaxUrl = (typeof ajaxurl !== 'undefined') ? ajaxurl : analytify_addons.ajaxurl;
+
+			if (! pluginSlug || ! installNonce || ! activateNonce) {
+				showAddonLoaderError(thisContainer, textInstalling);
+				return;
+			}
+
+			if (thisElement.prop('disabled')) {
+				return;
+			}
+
+			thisElement.prop('disabled', true).text(textInstalling);
+
+			$.ajax({
+				url: installAjaxUrl,
+				type: 'POST',
+				dataType: 'json',
+				data: {
+					slug: 'analytify-analytics-dashboard-widget',
+					action: 'install-plugin',
+					_ajax_nonce: installNonce
+				},
+				beforeSend: function () {
+					setProgressLoaderText(thisContainer, textInstalling);
+					setAddonLoaderVisible(thisContainer, '.wp-analytify-addon-enable');
+				}
+			}).done(function (response) {
+				if (response && response.success === false) {
+					thisElement.prop('disabled', false).text(textGetAddon);
+					showAddonLoaderError(thisContainer, textInstalling);
+					return;
+				}
+
+				thisElement.text(textActivating);
+				setProgressLoaderText(thisContainer, textActivating);
+
+				activateDashboardWidgetAddon(activateNonce).done(function (activateResponse) {
+					if (activateResponse && activateResponse.success) {
+						showAddonActivatedState(thisContainer, thisElement, pluginSlug);
+						return;
+					}
+
+					thisElement.prop('disabled', false).text(textGetAddon);
+					showAddonLoaderError(thisContainer, textActivating);
+				}).fail(function () {
+					thisElement.prop('disabled', false).text(textGetAddon);
+					showAddonLoaderError(thisContainer, textActivating);
+				});
+			}).fail(function () {
+				thisElement.prop('disabled', false).text(textGetAddon);
+				showAddonLoaderError(thisContainer, textInstalling);
+			});
+		});
 
 		$(document).on('click', '.analytify-module-state', function (e) {
 			e.preventDefault();

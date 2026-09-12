@@ -175,7 +175,6 @@ $report_date_range = WP_ANALYTIFY_FUNCTIONS::get_ga_report_range( $start_date, $
 														<a href="javascript: return false;" data-ga-dashboard-link="<?php echo esc_attr( WPANALYTIFY_Utils::get_all_stats_link( $report_url, 'top_pages', false ) ); ?>" target="_blank" class="analytify_tooltip"><span class="analytify_tooltiptext"><?php esc_html_e( 'View All Top Pages', 'wp-analytify' ); ?></span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>
 														<?php do_action( 'analytify_after_top_page_text' ); ?>
 													</h3>
-													<div class="analytify_top_page_detials analytify_tp_btn"></div>
 												</div>
 												<div class="analytify_status_body">
 													<div class="analytify_top_pages_boxes_wraper stats-wrapper"></div>
@@ -315,7 +314,6 @@ $report_date_range = WP_ANALYTIFY_FUNCTIONS::get_ga_report_range( $start_date, $
 														?>
 													</h3>
 													<div class="analytify_status_header_value keywords_total empty-on-loading title-total-wrapper"></div>
-													<div class="analytify_top_keywords_detials analytify_tp_btn"></div>
 												</div>
 												<div class="analytify_status_body">
 													<div class="analytify_keyword_stats_boxes_wraper stats-wrapper"></div>
@@ -351,7 +349,6 @@ $report_date_range = WP_ANALYTIFY_FUNCTIONS::get_ga_report_range( $start_date, $
 															<?php esc_html_e( 'Social Network', 'wp-analytify' ); ?>
 															<?php do_action( 'analytify_after_top_social_media_text' ); ?>
 														</h3>
-														<div class="analytify_top_keywords_detials analytify_tp_btn"></div>
 														<div class="analytify_status_header_value social_total empty-on-loading title-total-wrapper"></div>
 													</div>
 													<div class="analytify_status_body">
@@ -392,7 +389,6 @@ $report_date_range = WP_ANALYTIFY_FUNCTIONS::get_ga_report_range( $start_date, $
 														<a href="javascript: return false;" data-ga-dashboard-link="<?php echo esc_attr( WPANALYTIFY_Utils::get_all_stats_link( $report_url, 'referer', false ) ); ?>" target="_blank" class="analytify_tooltip"><span class="analytify_tooltiptext"><?php esc_html_e( 'View All Top Referrers', 'wp-analytify' ); ?></span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>
 											<?php do_action( 'analytify_after_top_reffers_text' ); ?>
 													</h3>
-													<div class="analytify_top_keywords_detials analytify_tp_btn"></div>
 													<div class="analytify_status_header_value reffers_total empty-on-loading title-total-wrapper"></div>
 												</div>
 												<div class="analytify_status_body">
@@ -429,7 +425,6 @@ $report_date_range = WP_ANALYTIFY_FUNCTIONS::get_ga_report_range( $start_date, $
 											<div class="analytify_general_status analytify_status_box_wraper analytify_section_whats_happening_stats" data-endpoint="what-is-happening-stats" data-target=".analytify_section_whats_happening_stats">
 												<div class="analytify_status_header">
 													<h3><?php esc_html_e( 'What\'s happening when users come to your site', 'wp-analytify' ); ?> <?php do_action( 'analytify_after_top_page_stats_text' ); ?></h3>
-													<div class="analytify_top_page_detials analytify_tp_btn"></div>
 												</div>
 												<div class="analytify_status_body">
 													<div class="analytify_page_stats_boxes_wraper stats-wrapper"></div>

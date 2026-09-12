@@ -233,6 +233,89 @@ if (typeof window !== "undefined") {
 	window.JLTMA_Dialog.loading = loadingDialog;
 }
 //#endregion
+//#region dev/js/admin/template-library/utils/listCache.js
+/**
+* Last-seen page of a library list, kept in localStorage.
+*
+* Opening a library page showed a full-screen "Loading…" panel on every visit,
+* even though the same first page was almost always coming back. The list is
+* now painted from the previous visit's copy straight away and refreshed in the
+* background, so a revisit has content on screen immediately and only changes
+* if the server actually returns something different.
+*
+* Only the first page is stored: it is what the spinner used to cover, and
+* keeping deeper pages would grow without bound for no visible gain.
+*
+* Every access is wrapped — Safari private mode throws on write, storage can be
+* disabled outright, and a quota error must never take the page down with it.
+*/
+var PREFIX = "jltma:list:";
+var VERSION = "1";
+var MAX_AGE_MS = 1440 * 60 * 1e3;
+var storage = () => {
+	try {
+		return window.localStorage;
+	} catch (e) {
+		return null;
+	}
+};
+/**
+* @param {string} surface  "library" | "kits" | "widgets" | "popups"
+* @param {object} identity Everything that changes which list this is.
+*/
+var listCacheKey = (surface, identity = {}) => {
+	const parts = [
+		surface,
+		identity.tab || "",
+		identity.category || "all",
+		identity.search || "",
+		identity.perPage || ""
+	];
+	return PREFIX + VERSION + ":" + parts.join("|");
+};
+var readList = (key) => {
+	const store = storage();
+	if (!store) return null;
+	try {
+		const raw = store.getItem(key);
+		if (!raw) return null;
+		const entry = JSON.parse(raw);
+		if (!entry || !entry.ts || !Array.isArray(entry.templates)) return null;
+		if (Date.now() - entry.ts > MAX_AGE_MS) {
+			store.removeItem(key);
+			return null;
+		}
+		return entry;
+	} catch (e) {
+		try {
+			store.removeItem(key);
+		} catch (e2) {}
+		return null;
+	}
+};
+/**
+* @param {Array}  templates
+* @param {object} pagination
+* @param {Array}  categories Optional — the popup picker renders its own tabs
+*                            from these, so a cached paint needs them too.
+*/
+var writeList = (key, templates, pagination, categories) => {
+	const store = storage();
+	if (!store || !Array.isArray(templates) || !templates.length) return;
+	try {
+		store.setItem(key, JSON.stringify({
+			ts: Date.now(),
+			templates,
+			pagination: pagination || null,
+			categories: Array.isArray(categories) ? categories : void 0
+		}));
+	} catch (e) {
+		try {
+			Object.keys(store).filter((k) => k.indexOf(PREFIX) === 0).forEach((k) => store.removeItem(k));
+		} catch (e2) {}
+	}
+};
+//#endregion
 //#region dev/js/admin/popup-builder/popup-admin.js
 /**
 * Master Addons Popup Builder Admin Script
@@ -418,16 +501,36 @@ if (typeof window !== "undefined") {
 		},
 		loadTemplates: function() {
 			var self = this;
-			$("#jltma-popup-templates-loading").show();
-			$("#jltma-popup-templates-error").hide();
-			$("#jltma-popup-templates-empty").hide();
-			$("#jltma-popup-templates-grid").hide();
+			var perPage = self.fillPageSize();
+			var cacheKey = listCacheKey("popups", { perPage });
+			var cached = readList(cacheKey);
+			var paintedFromCache = false;
+			if (cached && cached.templates.length) {
+				self._templates = cached.templates;
+				self._categories = cached.categories || self._categories || [];
+				self._activeCategory = "";
+				self._searchTerm = "";
+				self._filteredTemplates = self._templates.slice();
+				self._visibleCount = 0;
+				$("#jltma-popup-templates-loading").hide();
+				$("#jltma-popup-templates-error").hide();
+				$("#jltma-popup-templates-empty").hide();
+				self.renderCategoryTabs();
+				self.renderTemplatesBatch(true);
+				paintedFromCache = true;
+			} else {
+				$("#jltma-popup-templates-loading").show();
+				$("#jltma-popup-templates-error").hide();
+				$("#jltma-popup-templates-empty").hide();
+				$("#jltma-popup-templates-grid").hide();
+			}
 			$.ajax({
 				url: jltmaPopupAdmin.ajax_url,
 				type: "POST",
 				data: {
 					action: "jltma_popup_get_templates",
-					_nonce: jltmaPopupAdmin.popup_nonce
+					_nonce: jltmaPopupAdmin.popup_nonce,
+					per_page: perPage
 				},
 				success: function(response) {
 					$("#jltma-popup-templates-loading").hide();
@@ -442,11 +545,12 @@ if (typeof window !== "undefined") {
 						$("#jltma-popup-template-search").val("");
 						self.renderCategoryTabs();
 						self.renderTemplatesBatch(true);
-					} else $("#jltma-popup-templates-error").show();
+						writeList(cacheKey, self._templates, null, self._categories);
+					} else if (!paintedFromCache) $("#jltma-popup-templates-error").show();
 				},
 				error: function() {
 					$("#jltma-popup-templates-loading").hide();
-					$("#jltma-popup-templates-error").show();
+					if (!paintedFromCache) $("#jltma-popup-templates-error").show();
 				}
 			});
 		},
@@ -467,6 +571,24 @@ if (typeof window !== "undefined") {
 				html += "<button type=\"button\" class=\"jltma-template-category-tab\" data-category=\"" + catSlug + "\">" + catName + "</button>";
 			}
 			container.html(html).show();
+		},
+		/**
+		* How many cards it takes to fill the modal.
+		*
+		* The picker asked for nothing and got the API's default page, so a wide
+		* window showed six templates with empty space below them. Measuring the
+		* grid means the first response covers what is actually visible.
+		*/
+		fillPageSize: function() {
+			var CARD_W = 260;
+			var CARD_H = 300;
+			var MIN = 12, MAX = 50;
+			var grid = document.getElementById("jltma-popup-templates-grid");
+			var width = grid && grid.clientWidth ? grid.clientWidth : Math.min(1600, window.innerWidth * .95);
+			var height = window.innerHeight * .92;
+			var columns = Math.max(1, Math.floor(width / CARD_W));
+			var rows = Math.max(1, Math.ceil(height / CARD_H));
+			return Math.min(MAX, Math.max(MIN, columns * (rows + 1)));
 		},
 		/**
 		* Build HTML for a single template card
@@ -562,12 +684,20 @@ if (typeof window !== "undefined") {
 			this.setupInfiniteScroll();
 		},
 		/**
+		* The element that actually scrolls inside the templates modal.
+		*/
+		getScrollContainer: function() {
+			var modal = document.getElementById("jltma_popup_templates_modal");
+			if (!modal) return null;
+			return modal.querySelector(".jltma-pop-contents-body") || modal.querySelector(".jltma-modal-body");
+		},
+		/**
 		* Set up scroll listener on the templates container for infinite scroll
 		*/
 		setupInfiniteScroll: function() {
 			var self = this;
 			this.teardownInfiniteScroll();
-			var scrollContainer = document.querySelector("#jltma_popup_templates_modal .jltma-modal-body");
+			var scrollContainer = this.getScrollContainer();
 			if (!scrollContainer) return;
 			this._scrollHandler = function() {
 				if (self._loadingMore) return;
@@ -588,7 +718,7 @@ if (typeof window !== "undefined") {
 		*/
 		teardownInfiniteScroll: function() {
 			if (this._scrollHandler) {
-				var scrollContainer = document.querySelector("#jltma_popup_templates_modal .jltma-modal-body");
+				var scrollContainer = this.getScrollContainer();
 				if (scrollContainer) scrollContainer.removeEventListener("scroll", this._scrollHandler);
 				this._scrollHandler = null;
 			}

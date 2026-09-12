@@ -2,9 +2,9 @@
 Contributors: infornweb, aadhya9
 Tags: post slider, post carousel, blog, recent post, vertical post scrolling
 Requires at least: 6.1
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 5.4
-Stable tag: 3.5.7
+Stable tag: 3.5.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -218,7 +218,11 @@ Yes, Post Slider and Carousel will work with any WordPress themes, but may requi
 
 == Changelog ==
 
-= 3.5.7 (12th June, 2026) =
+= 3.5.8 (27 Aug, 2026) =
+* [Update] - Check compatibility with WordPress 7.1
+* [Update] - Update Freemius SDK to latest version 2.13.4
+
+= 3.5.7 (12 June, 2026) =
 * [Fix] - Fixed one typo mistake. Thanks to @nekojonez
 
 = 3.5.6 (05 April, 2026) =

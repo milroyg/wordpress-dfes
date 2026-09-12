@@ -39,6 +39,74 @@ if (!defined('ABSPATH')) {
 class Master_Addons_Comments extends Widget_Base
 {
 
+	/**
+	 * What this widget renders depends on who is looking at it: the form says
+	 * "Logged in as ..." for a signed-in visitor and asks for name and email
+	 * from everyone else, and the list changes whenever someone comments.
+	 * Elementor caches element HTML by default, which served one visitor's
+	 * markup to everyone -- a logged-out reader in a private window was shown
+	 * the admin's name and a log-out link.
+	 */
+	protected function is_dynamic_content(): bool
+	{
+		return true;
+	}
+
+	/**
+	 * Tags a comment form carries that post content does not.
+	 *
+	 * wp_kses_post() drops <input>, so running the form pieces through it
+	 * stripped the submit button and the name/email/website fields while
+	 * leaving their labels behind -- the form looked broken and could not be
+	 * submitted. The markup is built by core and already passed through the
+	 * comment_form_* filters; this allows the form controls it contains and
+	 * nothing more.
+	 */
+	private function jltma_comment_form_allowed_html()
+	{
+		$allowed = wp_kses_allowed_html('post');
+
+		$common = array(
+			'id'           => true,
+			'name'         => true,
+			'class'        => true,
+			'style'        => true,
+			'title'        => true,
+			'value'        => true,
+			'type'         => true,
+			'size'         => true,
+			'maxlength'    => true,
+			'placeholder'  => true,
+			'required'     => true,
+			'aria-required'=> true,
+			'aria-label'   => true,
+			'autocomplete' => true,
+			'disabled'     => true,
+			'readonly'     => true,
+			'checked'      => true,
+			'tabindex'     => true,
+			'data-*'       => true,
+		);
+
+		$allowed['input']    = $common;
+		$allowed['textarea'] = array_merge($common, array('rows' => true, 'cols' => true));
+		$allowed['select']   = array_merge($common, array('multiple' => true));
+		$allowed['option']   = array('value' => true, 'selected' => true, 'class' => true);
+		$allowed['button']   = $common;
+		$allowed['label']    = array('for' => true, 'class' => true, 'id' => true, 'style' => true);
+		$allowed['form']     = array(
+			'action'       => true,
+			'method'       => true,
+			'id'           => true,
+			'class'        => true,
+			'novalidate'   => true,
+			'enctype'      => true,
+			'autocomplete' => true,
+		);
+
+		return $allowed;
+	}
+
 	public function get_name()
 	{
 		return 'jltma-comments';
@@ -2496,7 +2564,7 @@ class Master_Addons_Comments extends Widget_Base
 			echo wp_kses_post($args['title_reply_after']);
 
 			if (get_option('comment_registration') && !is_user_logged_in()) :
-				echo wp_kses_post($args['must_log_in']);
+				echo wp_kses($args['must_log_in'], $this->jltma_comment_form_allowed_html());
 				do_action('comment_form_must_log_in_after');
 			else :
 			?>
@@ -2506,12 +2574,12 @@ class Master_Addons_Comments extends Widget_Base
 
 					if (is_user_logged_in()) :
 
-						echo wp_kses_post( apply_filters('comment_form_logged_in', $args['logged_in_as'], $commenter, $user_identity) );
+						echo wp_kses( apply_filters('comment_form_logged_in', $args['logged_in_as'], $commenter, $user_identity), $this->jltma_comment_form_allowed_html() );
 						do_action('comment_form_logged_in_after', $commenter, $user_identity);
 
 					else :
 
-						echo wp_kses_post($args['comment_notes_before']);
+						echo wp_kses($args['comment_notes_before'], $this->jltma_comment_form_allowed_html());
 
 					endif;
 
@@ -2533,7 +2601,7 @@ class Master_Addons_Comments extends Widget_Base
 								do_action('comment_form_before_fields');
 							}
 
-							echo wp_kses_post( apply_filters("comment_form_field_{$name}", $field) ) . "\n";
+							echo wp_kses( apply_filters("comment_form_field_{$name}", $field), $this->jltma_comment_form_allowed_html() ) . "\n";
 
 							if ($last_field === $name) {
 								do_action('comment_form_after_fields');
@@ -2542,7 +2610,7 @@ class Master_Addons_Comments extends Widget_Base
 
 							do_action('comment_form_before_fields');
 
-							echo wp_kses_post( apply_filters("comment_form_field_{$name}", $field) ) . "\n";
+							echo wp_kses( apply_filters("comment_form_field_{$name}", $field), $this->jltma_comment_form_allowed_html() ) . "\n";
 
 							if ($last_field === $name) {
 								do_action('comment_form_after_fields');
@@ -2553,7 +2621,7 @@ class Master_Addons_Comments extends Widget_Base
 								do_action('comment_form_before_fields');
 							}
 							if ($name != 'name' && $name != 'email' && $name != 'url') {
-								echo wp_kses_post( apply_filters("comment_form_field_{$name}", $field) ) . "\n";
+								echo wp_kses( apply_filters("comment_form_field_{$name}", $field), $this->jltma_comment_form_allowed_html() ) . "\n";
 							}
 
 							if ($last_field === $name) {
@@ -2562,7 +2630,7 @@ class Master_Addons_Comments extends Widget_Base
 						}
 					}
 
-					echo wp_kses_post($args['comment_notes_after']);
+					echo wp_kses($args['comment_notes_after'], $this->jltma_comment_form_allowed_html());
 
 					$submit_button = sprintf(
 						$args['submit_button'],
@@ -2578,7 +2646,7 @@ class Master_Addons_Comments extends Widget_Base
 						$submit_button,
 						get_comment_id_fields($post_id)
 					);
-					echo wp_kses_post( apply_filters('comment_form_submit_field', $submit_field, $args) );
+					echo wp_kses( apply_filters('comment_form_submit_field', $submit_field, $args), $this->jltma_comment_form_allowed_html() );
 					do_action('jltma_comment_form', $post_id);
 					do_action('comment_form', $post_id); // required for _wp_unfiltered_html_comment_disabled nonce
 					?>

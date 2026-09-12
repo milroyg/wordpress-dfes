@@ -688,7 +688,10 @@ if (!class_exists(__NAMESPACE__ . '\Comments_Builder')) {
             <div class="jltma-like-dislike-wrapper clearfix">
                 <div class="jltma-like-wrap  jltma-common-wrap jltma-mt20">
                     <a href="javascript:void(0);" class="jltma-like-trigger jltma-like-dislike-trigger <?php echo esc_attr($liked); ?>" data-comment-id="<?php echo esc_attr($comment_id); ?>" data-trigger-type="like" title="like">
-                        <?php $likeicon = 'fa fa-thumbs-o-up'; ?>
+                        <?php // FA4 class names; nothing renders under the Font Awesome 5 that
+                        // Elementor loads by default, which left the counts sitting on
+                        // their own as bare numbers.
+                        $likeicon = 'far fa-thumbs-up'; ?>
                         <span class="<?php echo esc_attr($likeicon); ?> jltma-liked-wrap"> </span>
                     </a>
                     <div class="jltma-count-wrap  jltma-common-wrap ">
@@ -700,7 +703,7 @@ if (!class_exists(__NAMESPACE__ . '\Comments_Builder')) {
                 </div>
                 <div class="jltma-dislike-wrap  jltma-common-wrap jltma-mt20 jltma-mr20">
                     <a href="javascript:void(0);" class="jltma-dislike-trigger jltma-like-dislike-trigger <?php echo esc_attr($disliked); ?> " data-comment-id="<?php echo esc_attr($comment_id); ?>" data-trigger-type="dislike" title="dislike">
-                        <?php $dislikeicon = 'fa fa-thumbs-o-down'; ?>
+                        <?php $dislikeicon = 'far fa-thumbs-down'; ?>
                         <span class="<?php echo esc_attr($dislikeicon); ?> jltma-disliked-wrap"></span>
                     </a>
                     <div class="jltma-count-wrap  jltma-common-wrap ">

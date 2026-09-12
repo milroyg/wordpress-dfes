@@ -147,7 +147,14 @@ if (!class_exists(__NAMESPACE__ . '\\Manager')) {
 		$search = isset($_POST['search']) ? sanitize_text_field( wp_unslash( $_POST['search'] ) ) : (isset($_GET['search']) ? sanitize_text_field( wp_unslash( $_GET['search'] ) ) : '');
 		$category = isset($_POST['category']) ? sanitize_text_field( wp_unslash( $_POST['category'] ) ) : (isset($_GET['category']) ? sanitize_text_field( wp_unslash( $_GET['category'] ) ) : 'all');
 		$page = isset($_POST['page']) ? absint($_POST['page']) : (isset($_GET['page']) ? absint($_GET['page']) : 1);
-		$per_page = 15; // Templates per page
+		// The library grid asks for as many templates as fit above the fold, so
+		// the page size comes from the request. 15 stays the default for callers
+		// that don't say. The remote clamps it, so a silly value can't ask the
+		// server for the whole table.
+		$per_page = isset($_POST['per_page']) ? absint($_POST['per_page']) : (isset($_GET['per_page']) ? absint($_GET['per_page']) : 0);
+		if ($per_page < 1) {
+			$per_page = 15;
+		}
 
 
 			if (!$tab) {
@@ -177,17 +184,52 @@ if (!class_exists(__NAMESPACE__ . '\\Manager')) {
 				'keywords'   => array(),
 			);
 
-			foreach ($sources as $source_slug) {
+			// Filtering is done by the API now, so a narrowed view pages like
+			// any other. It used to fetch the whole type and cut it down here,
+			// which pulled hundreds of kilobytes to show a handful of cards.
+			$paged = null;
 
+			foreach ($sources as $source_slug) {
 				$source = isset($this->sources[$source_slug]) ? $this->sources[$source_slug] : false;
 
-				if ($source) {
-					// $result['ready_pages']  = array_merge( $result['ready_pages'], $source->get_items( $tab ) );
-					$result['ready_headers']  = array_merge($result['ready_headers'], $source->get_items($tab));
-					$result['ready_footers']  = array_merge($result['ready_footers'], $source->get_items($tab));
-					$result['templates']  = array_merge($result['templates'], $source->get_items($tab));
-					$result['categories'] = array_merge($result['categories'], $source->get_categories($tab));
-					$result['keywords']   = array_merge($result['keywords'], $source->get_keywords($tab));
+				if ($source && method_exists($source, 'get_items_page')) {
+					$paged = $source->get_items_page($tab, $page, $per_page, $category, $search);
+					break;
+				}
+			}
+
+			if (is_array($paged)) {
+				$result['templates'] = $paged['templates'];
+
+				// Categories and keywords describe the whole type, not the page.
+				// The editor keeps them for the life of the popup, so they are
+				// fetched once with the first page instead of on every scroll.
+				if (1 === $page) {
+					foreach ($sources as $source_slug) {
+						$source = isset($this->sources[$source_slug]) ? $this->sources[$source_slug] : false;
+
+						if ($source) {
+							$result['categories'] = array_merge($result['categories'], $source->get_categories($tab));
+							$result['keywords']   = array_merge($result['keywords'], $source->get_keywords($tab));
+						}
+					}
+				}
+			} else {
+				foreach ($sources as $source_slug) {
+
+					$source = isset($this->sources[$source_slug]) ? $this->sources[$source_slug] : false;
+
+					if ($source) {
+						// One call, reused: these three keys were each firing
+						// their own full fetch of the same listing.
+						$items = $source->get_items($tab);
+
+						$result['ready_headers']  = array_merge($result['ready_headers'], $items);
+						$result['ready_footers']  = array_merge($result['ready_footers'], $items);
+						$result['templates']      = array_merge($result['templates'], $items);
+						$result['categories'] = array_merge($result['categories'], $source->get_categories($tab));
+						$result['keywords']   = array_merge($result['keywords'], $source->get_keywords($tab));
+					}
 				}
 			}
 
@@ -204,7 +246,7 @@ if (!class_exists(__NAMESPACE__ . '\\Manager')) {
 			}
 
 		// Filter templates by category
-		if ($category && $category !== 'all' && !empty($result['templates'])) {
+		if (!is_array($paged) && $category && $category !== 'all' && !empty($result['templates'])) {
 			$result['templates'] = array_filter($result['templates'], function($template) use ($category) {
 				if (isset($template['categories'])) {
 					$template_categories = is_array($template['categories']) ? $template['categories'] : array($template['categories']);
@@ -216,7 +258,7 @@ if (!class_exists(__NAMESPACE__ . '\\Manager')) {
 		}
 
 		// Filter templates by search term
-		if (!empty($search) && !empty($result['templates'])) {
+		if (!is_array($paged) && !empty($search) && !empty($result['templates'])) {
 			$search_lower = strtolower($search);
 			$result['templates'] = array_filter($result['templates'], function($template) use ($search_lower) {
 				// Search in title
@@ -244,17 +286,23 @@ if (!class_exists(__NAMESPACE__ . '\\Manager')) {
 			$result['templates'] = array_values($result['templates']); // Re-index array
 		}
 
-		// Calculate pagination
-		$total_templates = count($result['templates']);
-		$total_pages = ceil($total_templates / $per_page);
-		$offset = ($page - 1) * $per_page;
+		// Calculate pagination. The remote already paged the browse case, so
+		// only the filtered/legacy path slices here.
+		if (is_array($paged)) {
+			$total_templates = $paged['pagination']['total_items'];
+			$total_pages     = $paged['pagination']['total_pages'];
+			$per_page        = $paged['pagination']['per_page'];
+		} else {
+			$total_templates = count($result['templates']);
+			$total_pages = ceil($total_templates / $per_page);
+			$offset = ($page - 1) * $per_page;
 
-		// Apply pagination
-		$result['templates'] = array_slice($result['templates'], $offset, $per_page);
+			$result['templates'] = array_slice($result['templates'], $offset, $per_page);
+		}
 
 
 
-			if( $result ){
+			if( $result && apply_filters('jltma_local_template_cache', false) ){
 				$base_url = wp_upload_dir()['baseurl'];
 				$extensions = ['.jpg', '.png', '.svg', '.webp'];
 				foreach($result as $type => $content){
@@ -591,6 +639,17 @@ if (!class_exists(__NAMESPACE__ . '\\Manager')) {
 				if (!$post_id || is_wp_error($post_id)) {
 					wp_send_json_error(array('message' => 'Failed to create template post'));
 				}
+			} else if (is_array($template_data)
+				&& (!empty($template_data['license_required']) || !empty($template_data['is_pro']))) {
+
+				// The library sends no content for a pro template when the site
+				// has no valid licence. "Template content is empty" described
+				// the symptom and hid the cause; the editor shows this message
+				// and offers the upgrade instead.
+				wp_send_json_error(array(
+					'code'    => 'license_required',
+					'message' => esc_html__('This is a Pro template. Activate your Master Addons Pro licence to insert it.', 'master-addons'),
+				));
 			} else {
 				wp_send_json_error(array('message' => 'Template content is empty'));
 			}

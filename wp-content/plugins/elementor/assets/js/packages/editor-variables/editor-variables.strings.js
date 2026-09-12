@@ -1,5 +1,7 @@
 __( 'Unexpected response from server', 'elementor' );
 __( 'Unexpected response from server', 'elementor' );
+__( 'Stop syncing to Global Colors', 'elementor' );
+__( 'Sync to Global Colors', 'elementor' );
 __( 'Give your variable a name.', 'elementor' );
 __( 'Add a value to complete your variable.', 'elementor' );
 __( 'Use letters, numbers, dashes (-), or underscores (_) for the name.', 'elementor' );
@@ -35,6 +37,8 @@ __(
 						'Looks like none of your variables work with this control. Create a new variable to use it here.',
 						'elementor'
 					);
+__( 'Drop shadow:', 'elementor' );
+__( 'Move:', 'elementor' );
 __( 'Restore variable', 'elementor' );
 __( 'Name', 'elementor' );
 __( 'Value', 'elementor' );
@@ -52,8 +56,8 @@ __( 'Value', 'elementor' );
 __( 'Create', 'elementor' );
 __( 'Name', 'elementor' );
 __( 'Value', 'elementor' );
+__( 'Duplicate', 'elementor' );
 __( 'Delete', 'elementor' );
-__( 'Variables Manager', 'elementor' );
 __( 'Search', 'elementor' );
 __( 'Create your first variable', 'elementor' );
 __(
@@ -62,9 +66,18 @@ __(
 							);
 __( 'Save changes', 'elementor' );
 __( 'You have unsaved changes', 'elementor' );
+__( 'You have unsaved changes in the Variables Manager.', 'elementor' );
 __( 'To avoid losing your updates, save your changes before leaving.', 'elementor' );
 __( 'Discard', 'elementor' );
 __( 'Save', 'elementor' );
+__( 'Stop syncing variable color', 'elementor' );
+__(
+						'This will disconnect the variable color from Global Colors. Existing uses on your site will automatically switch to a default color.',
+						'elementor'
+					);
+__( 'Cancel', 'elementor' );
+__( 'Got it', 'elementor' );
+__( "Don't show again", 'elementor' );
 __( 'Add variable', 'elementor' );
 /* translators: %s: Variable Type. */
 __( '%s variables', 'elementor' );

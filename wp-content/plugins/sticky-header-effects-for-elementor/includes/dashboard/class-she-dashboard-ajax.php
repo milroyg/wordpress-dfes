@@ -34,14 +34,6 @@ if ( ! class_exists( 'She_Dashboard_Ajax' ) ) {
 		private static $instance = null;
 
 		/**
-		 *
-		 * Get User Data.
-		 *
-		 * @var instance
-		 * @since 2.0
-		 */
-		public $onbording_api = 'https://api.posimyth.com/wp-json/she/v2/she_store_user_data';
-		/**
 		 * This instance is used to load class
 		 *
 		 * @since 2.0
@@ -124,6 +116,9 @@ if ( ! class_exists( 'She_Dashboard_Ajax' ) ) {
 					break;
 				case 'she_user_meta_data':
 					$response = $this->she_user_meta_data();
+					break;
+				case 'she_analytics_consent':
+					$response = $this->she_analytics_consent();
 					break;
 				default:
 					$response = $this->she_set_response( false, 'Invalid type.', 'Something went wrong.' );
@@ -755,29 +750,175 @@ if ( ! class_exists( 'She_Dashboard_Ajax' ) ) {
 
 
 		/**
-		 * User Meta Data
+		 * User Meta Data — retained as a no-op so the dashboard's existing call still resolves.
+		 *
+		 * The legacy onboarding telemetry this used to perform was removed in 2.2.1. It POSTed the site's
+		 * admin_email to api.posimyth.com/wp-json/she/v2/she_store_user_data on every call, with no opt-in
+		 * surface, no white-label suppression and no way for anyone to decline — an email address is
+		 * personal data, and the consent copy this plugin now shows explicitly promises none is sent.
+		 *
+		 * Reporting is the shared SDK's job now (Posimyth_Tracker_SHE, booted from the main plugin file)
+		 * and is gated on the sharing opt-in. Its payload carries no email at all; the single exception is
+		 * the deactivation dialog's "I agree to be contacted" box, which is off by default.
+		 *
+		 * Consent is deliberately NOT written here either. Nothing in this handler represents the user
+		 * agreeing to anything — the dashboard calls it as part of loading — so treating it as consent
+		 * would switch sharing on for people who were never asked, which is the pattern being removed.
+		 *
+		 * The endpoint keeps answering because build/index.js still calls it and a removed case would
+		 * return "Invalid type" to a dashboard that has no reason to show an error.
 		 *
 		 * @since 2.0
+		 * @version 2.2.1
+		 *
+		 * @return array
 		 */
 		public function she_user_meta_data() {
+			return $this->she_set_response( true, 'success', '', array( 'onBoarding' => true ) );
+		}
 
-			$user_data = array( 'email' => get_option( 'admin_email' ) );
+		/**
+		 * Capability required to answer the analytics sharing question.
+		 *
+		 * On multisite the consent is ONE answer for the whole network — the SDK stores it as a site
+		 * option and Posimyth_Consent_Notice gates its own notice on manage_network_options. This screen
+		 * has to require the same thing, or a subsite administrator could decide for every other blog on
+		 * the network through the dashboard even though the notice refuses to let them.
+		 *
+		 * @since 2.2.1
+		 *
+		 * @return string
+		 */
+		private function she_analytics_capability() {
+			return is_multisite() ? 'manage_network_options' : 'manage_options';
+		}
 
-			$response = wp_remote_post(
-				$this->onbording_api,
-				array(
-					'method' => 'POST',
-					'body'   => wp_json_encode( $user_data ),
-				)
-			);
-
-			if ( is_wp_error( $response ) ) {
-				return $this->she_set_response( false, 'Onboarding request failed.', '' );
+		/**
+		 * Whether the analytics feature exists on this install at all.
+		 *
+		 * A white-labelled install never boots the tracker (see she_posimyth_is_white_labelled() in the
+		 * main plugin file), so the dashboard must not offer a switch that cannot do anything.
+		 *
+		 * @since 2.2.1
+		 *
+		 * @return bool
+		 */
+		private function she_analytics_available() {
+			if ( ! function_exists( 'she_posimyth_is_white_labelled' ) ) {
+				return false;
 			}
 
-			return $this->she_set_response( true, 'Onboarding data sent.', '', array(
-				'code' => wp_remote_retrieve_response_code( $response ),
-			) );
+			return ! she_posimyth_is_white_labelled();
+		}
+
+		/**
+		 * Current analytics state, for the dashboard to render from.
+		 *
+		 * @since 2.2.1
+		 *
+		 * @return array
+		 */
+		public function she_analytics_state() {
+			return array(
+				// False on a rebranded install: hide the control entirely rather than showing a dead one.
+				'available'  => $this->she_analytics_available(),
+				'enabled'    => (bool) get_site_option( 'posimyth_she_share_analytics', false ),
+				// False for a subsite admin on multisite — show the state, but read-only.
+				'can_manage' => current_user_can( $this->she_analytics_capability() ),
+			);
+		}
+
+		/**
+		 * Records an explicit yes/no to analytics sharing.
+		 *
+		 * Three things have to happen together, and each fails silently on its own:
+		 *
+		 * 1. SITE options, not per-blog options. Posimyth_Tracker_Base::has_consent() reads with
+		 *    get_site_option(), so update_option() would write somewhere the SDK never looks — on
+		 *    multisite the switch would appear to work while nothing was ever sent. On single site
+		 *    get_site_option() falls back to the plain option, so this is equivalent there.
+		 *
+		 * 2. The suite-wide "answered" flag is set for BOTH answers. Posimyth_Consent_Notice::
+		 *    should_show() treats "opt-in empty and never dismissed" as unanswered, so switching sharing
+		 *    OFF here without this would bring the admin notice straight back to ask again — immediately
+		 *    after the user deliberately said no.
+		 *
+		 * 3. Turning it on sends something now. Without a ping the hub does not learn about this install
+		 *    until the weekly cron happens to fire.
+		 *
+		 * @since 2.2.1
+		 *
+		 * @param bool $enable Whether sharing is being switched on.
+		 * @return void
+		 */
+		private function she_store_analytics_consent( $enable ) {
+
+			$enable = (bool) $enable;
+
+			update_site_option( 'posimyth_she_share_analytics', $enable ? 1 : 0 );
+			update_site_option( 'posi_consent_dismissed_she_suite', 1 );
+
+			if ( ! $enable || ! class_exists( 'Posimyth_Tracker_SHE' ) ) {
+				return;
+			}
+
+			/*
+			 * report_activation() sends `activate` at most once per active period, so a user who switches
+			 * sharing off and later back on would otherwise send nothing at all and stay invisible until
+			 * the weekly heartbeat. Send the activation on the first opt-in, and a heartbeat on a
+			 * re-opt-in — that reports current state now without inflating the hub's activation count,
+			 * which is exactly what the once-per-period guard exists to protect.
+			 */
+			$already_reported = get_option( 'posimyth_she_activate_reported' );
+
+			Posimyth_Tracker_SHE::send_first_ping();
+
+			if ( $already_reported ) {
+				Posimyth_Tracker_SHE::do_request( 'heartbeat' );
+			}
+		}
+
+		/**
+		 * Read or set the analytics sharing consent from the dashboard.
+		 *
+		 * Nonce and the logged-in manage_options check are already done by she_dashboard_ajax_call();
+		 * this adds the network-scope capability on top — see she_analytics_capability().
+		 *
+		 * Deliberately its own endpoint. Consent has to be written as a site option, has to set the
+		 * suite-wide answered flag and has to ping, none of which a generic option writer does — and a
+		 * consent flag should not be reachable through a general-purpose read/write API in the first
+		 * place.
+		 *
+		 * @since 2.2.1
+		 *
+		 * @return array
+		 */
+		public function she_analytics_consent() {
+
+			if ( ! $this->she_analytics_available() ) {
+				return $this->she_set_response( false, 'Unavailable.', 'Data sharing is not available on this installation.' );
+			}
+
+			if ( ! current_user_can( $this->she_analytics_capability() ) ) {
+				return $this->she_set_response( false, 'Invalid Permission.', 'You do not have permission to change this setting.' );
+			}
+
+			$operation = isset( $_POST['operation'] ) ? strtolower( sanitize_text_field( wp_unslash( $_POST['operation'] ) ) ) : 'get';
+
+			if ( 'set' === $operation ) {
+
+				if ( ! isset( $_POST['share_analytics'] ) ) {
+					return $this->she_set_response( false, 'No data found.', 'Please send valid data.' );
+				}
+
+				// Accept the truthy spellings a JS client may send; anything else — including the strings
+				// "false" and "0", which are both truthy in PHP — counts as off.
+				$raw = strtolower( sanitize_text_field( wp_unslash( $_POST['share_analytics'] ) ) );
+
+				$this->she_store_analytics_consent( in_array( $raw, array( '1', 'true', 'on', 'yes' ), true ) );
+			}
+
+			return $this->she_set_response( true, 'Data Found.', 'Data Found Successfully.', $this->she_analytics_state() );
 		}
 
 		/**

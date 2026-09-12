@@ -178,17 +178,21 @@ jQuery(document).ready(function ($) {
 					$('<span class="rows-per-page page-number" data-rows="' + num + '">' + num + '</span>')
 				);
 			});
-			$pager.prepend('<div class="rows-per-page-heading">Rows per page:</div>');
 
 			// Append buttons to the pager
 			$pager.append($buttons);
 
 			// Append the pager to the pagination container
-			$(this)
-				.closest('.analytify_status_body')
-				.next('.analytify_status_footer')
-				.find('.wp_analytify_pagination')
-				.html($pager);
+			const $pagination = $( this )
+				.closest( '.analytify_status_body' )
+				.next( '.analytify_status_footer' )
+				.find( '.wp_analytify_pagination' );
+
+			if ( ! $pagination.length ) {
+				return;
+			}
+
+			$pagination.html( $pager );
 
 			// Function to update the table based on rows per page
 			function updateTable() {
@@ -591,10 +595,149 @@ jQuery(document).ready(function ($) {
 		};
 	}
 
-	function getCellText( $cell ) {
-		return $cell.clone()
-			.find( '.analytify-export-data, img, .analytify_tooltiptext' ).remove().end()
-			.text().replace( /\s+/g, ' ' ).trim();
+	function getCellExportValue( $cell ) {
+		const $clone = $cell.clone()
+			.find( '.analytify-export-data, img, .analytify_tooltiptext, .analytify_bar_graph' ).remove().end();
+
+		// Skip placeholder / JS-only anchors so Excel does not get Target: "#".
+		const $link = $clone.find( 'a[href]' ).filter( function () {
+			const raw = ( $( this ).attr( 'href' ) || '' ).trim();
+
+			if ( ! raw || raw === '#' ) {
+				return false;
+			}
+
+			// Case-/whitespace-insensitive scheme check (CWE-style javascript: bypasses).
+			const scheme = raw.replace( /[\s\t\r\n\f\v]+/g, '' ).toLowerCase();
+
+			if ( scheme.indexOf( 'javascript:' ) === 0
+				|| scheme.indexOf( 'vbscript:' ) === 0
+				|| scheme.indexOf( 'data:' ) === 0 ) {
+				return false;
+			}
+
+			return true;
+		} ).first();
+
+		if ( $link.length ) {
+			// prop('href') resolves relative paths to absolute URLs (SheetJS needs that).
+			const href = ( $link.prop( 'href' ) || $link.attr( 'href' ) || '' ).trim();
+			const $title = $clone.find( '.analytify_page_name' ).first();
+			let text = $title.length ? $title.text().trim() : $link.text().trim();
+
+			if ( ! text ) {
+				text = $clone.text().replace( /\s+/g, ' ' ).trim();
+			}
+
+			if ( href && text ) {
+				return { text, link: href };
+			}
+		}
+
+		return {
+			text: $clone.text().replace( /\s+/g, ' ' ).trim(),
+			link: ''
+		};
+	}
+
+	function cellHasValue( cell ) {
+		if ( cell == null ) {
+			return false;
+		}
+
+		if ( typeof cell === 'object' ) {
+			return !! ( cell.text || cell.link );
+		}
+
+		return !! String( cell ).trim();
+	}
+
+	function normalizeExportCell( cell ) {
+		if ( cell == null ) {
+			return '';
+		}
+
+		if ( typeof cell === 'object' ) {
+			return cell;
+		}
+
+		return { text: String( cell ), link: '' };
+	}
+
+	function getCellPlainText( cell ) {
+		const normalized = normalizeExportCell( cell );
+
+		return normalized.text || '';
+	}
+
+	function formatCsvCellValue( cell ) {
+		const normalized = normalizeExportCell( cell );
+
+		if ( normalized.link && normalized.text ) {
+			const link = String( normalized.link ).trim();
+
+			// Only emit executable HYPERLINK for http(s) targets.
+			if ( ! /^https?:\/\//i.test( link ) ) {
+				return normalized.text || '';
+			}
+
+			const url = link.replace( /"/g, '""' );
+			const text = String( normalized.text ).replace( /"/g, '""' );
+
+			return `=HYPERLINK("${ url }","${ text }")`;
+		}
+
+		return normalized.text || '';
+	}
+
+	function formatChartExportValue( num ) {
+		const value = parseInt( num, 10 );
+
+		if ( Number.isNaN( value ) ) {
+			return String( num == null ? '' : num );
+		}
+
+		if ( value >= 1000 ) {
+			return ( value / 1000 ).toFixed( 1 ) + 'k';
+		}
+
+		return String( value );
+	}
+
+	function extractChartTableFromElement( $chart, chartTitle ) {
+		const rows = [];
+		let stats = null;
+
+		try {
+			stats = JSON.parse( decodeURIComponent( $chart.attr( 'data-stats' ) || '' ) );
+		} catch ( error ) {
+			return rows;
+		}
+
+		if ( ! stats || typeof stats !== 'object' ) {
+			return rows;
+		}
+
+		rows.push( [ chartTitle ] );
+		rows.push( [ 'Label', 'Value' ] );
+
+		Object.keys( stats ).forEach( ( key ) => {
+			const item = stats[key];
+
+			if ( ! item || item.label == null ) {
+				return;
+			}
+
+			const raw = item.number != null ? item.number : item.sessions;
+
+			if ( raw == null || raw === '' ) {
+				return;
+			}
+
+			rows.push( [ item.label, formatChartExportValue( raw ) ] );
+		} );
+
+		return rows.length > 2 ? rows : [];
 	}
 
 	function extractTableFromElement( $table ) {
@@ -604,10 +747,10 @@ jQuery(document).ready(function ($) {
 			const row = [];
 
 			$( this ).find( 'th, td' ).each( function () {
-				row.push( getCellText( $( this ) ) );
+				row.push( getCellExportValue( $( this ) ) );
 			} );
 
-			if ( row.some( ( cell ) => cell ) ) {
+			if ( row.some( ( cell ) => cellHasValue( cell ) ) ) {
 				rows.push( row );
 			}
 		} );
@@ -616,10 +759,10 @@ jQuery(document).ready(function ($) {
 			const row = [];
 
 			$( this ).find( 'td, th' ).each( function () {
-				row.push( getCellText( $( this ) ) );
+				row.push( getCellExportValue( $( this ) ) );
 			} );
 
-			if ( row.some( ( cell ) => cell ) ) {
+			if ( row.some( ( cell ) => cellHasValue( cell ) ) ) {
 				rows.push( row );
 			}
 		} );
@@ -653,8 +796,23 @@ jQuery(document).ready(function ($) {
 			};
 
 			$section.find( '.analytify_general_status_boxes' ).each( function () {
-				const label = $( this ).find( 'h4' ).first().text().trim();
-				const value = $( this ).find( '.analytify_general_stats_value, .large-count, .count-visits' ).first()
+				const $box = $( this );
+				const label = $box.find( 'h4' ).first().clone()
+					.find( '.analytify_chart_hint' ).remove().end()
+					.text().replace( /\s+/g, ' ' ).trim();
+				const $chart = $box.find( '[id^="analytify_chart_"][data-stats]' );
+
+				if ( $chart.length ) {
+					const chartTable = extractChartTableFromElement( $chart.first(), label );
+
+					if ( chartTable.length ) {
+						section.tables.push( chartTable );
+						return;
+					}
+					// Empty/undecodable data-stats: fall through to label/value text.
+				}
+
+				const value = $box.find( '.analytify_general_stats_value, .large-count, .count-visits' ).first()
 					.text().replace( /\s+/g, ' ' ).trim();
 
 				if ( label && value ) {
@@ -662,7 +820,7 @@ jQuery(document).ready(function ($) {
 				}
 			} );
 
-			$section.find( 'table.analytify_data_tables' ).each( function () {
+			$section.find( '.analytify_status_body .stats-wrapper table.analytify_data_tables, .analytify_status_body .stats-wrapper table.analytify_bar_tables' ).each( function () {
 				const $table = $( this );
 				const $parentTab = $table.closest( '.analytify_visitors, .analytify_views' );
 
@@ -685,8 +843,18 @@ jQuery(document).ready(function ($) {
 		return sections;
 	}
 
-	function escapeCsvField( value ) {
+	function escapeCsvField( value, trustedHyperlink ) {
 		let str = String( value == null ? '' : value );
+
+		// Only trust HYPERLINK formulas we built ourselves — never raw cell text
+		// that merely starts with "=HYPERLINK(" (CWE-1236 bypass).
+		if ( trustedHyperlink && /^=HYPERLINK\(/i.test( str ) ) {
+			if ( /[",\n\r]/.test( str ) ) {
+				return `"${ str.replace( /"/g, '""' ) }"`;
+			}
+
+			return str;
+		}
 
 		// Neutralize formula injection (CWE-1236): a leading =, +, -, @, tab, or CR
 		// makes Excel/Sheets evaluate the cell as a formula when opened from CSV.
@@ -699,6 +867,25 @@ jQuery(document).ready(function ($) {
 		}
 
 		return str;
+	}
+
+	function serializeExportRow( row ) {
+		return row.map( ( cell ) => {
+			if ( typeof cell === 'object' && cell.link && cell.text ) {
+				const formatted = formatCsvCellValue( cell );
+
+				return {
+					value: formatted,
+					trustedHyperlink: /^=HYPERLINK\(/i.test( formatted )
+				};
+			}
+
+			if ( typeof cell === 'object' && ( cell.text || cell.link ) ) {
+				return { value: formatCsvCellValue( cell ), trustedHyperlink: false };
+			}
+
+			return { value: cell == null ? '' : cell, trustedHyperlink: false };
+		} );
 	}
 
 	function buildExportRows( meta, sections ) {
@@ -750,9 +937,44 @@ jQuery(document).ready(function ($) {
 		const meta = getDashboardMeta();
 		const sections = collectDashboardSections();
 		const rows = buildExportRows( meta, sections );
-		const csvContent = '\uFEFF' + rows.map( ( row ) => row.map( escapeCsvField ).join( ',' ) ).join( '\n' );
+		const csvContent = '\uFEFF' + rows.map( ( row ) => serializeExportRow( row ).map( ( field ) => escapeCsvField( field.value, field.trustedHyperlink ) ).join( ',' ) ).join( '\n' );
 
 		downloadBlob( csvContent, getExportFilename( 'csv' ), 'text/csv;charset=utf-8;' );
+	}
+
+	function writeWorksheetRows( worksheet, rows ) {
+		let maxCol = 0;
+
+		rows.forEach( ( row, rowIndex ) => {
+			row.forEach( ( cell, colIndex ) => {
+				const normalized = normalizeExportCell( cell );
+				const cellRef = XLSX.utils.encode_cell( { r: rowIndex, c: colIndex } );
+
+				if ( normalized.link && normalized.text && /^https?:\/\//i.test( String( normalized.link ).trim() ) ) {
+					worksheet[cellRef] = {
+						t: 's',
+						v: normalized.text,
+						l: { Target: normalized.link, Tooltip: normalized.text }
+					};
+				} else {
+					worksheet[cellRef] = {
+						t: 's',
+						v: getCellPlainText( cell )
+					};
+				}
+
+				if ( colIndex > maxCol ) {
+					maxCol = colIndex;
+				}
+			} );
+		} );
+
+		worksheet['!ref'] = XLSX.utils.encode_range( {
+			s: { r: 0, c: 0 },
+			e: { r: Math.max( 0, rows.length - 1 ), c: maxCol }
+		} );
+
+		return worksheet;
 	}
 
 	function exportDashboardToExcel() {
@@ -764,7 +986,7 @@ jQuery(document).ready(function ($) {
 		const sections = collectDashboardSections();
 		const rows = buildExportRows( meta, sections );
 		const workbook = XLSX.utils.book_new();
-		const worksheet = XLSX.utils.aoa_to_sheet( rows );
+		const worksheet = writeWorksheetRows( {}, rows );
 
 		XLSX.utils.book_append_sheet( workbook, worksheet, 'Dashboard' );
 		XLSX.writeFile( workbook, getExportFilename( 'xlsx' ) );
