@@ -33,26 +33,5 @@
 <div class="to-top" id="back-top"><i class="fa fa-chevron-up"></i></div>
 <?php wp_footer(); ?>
 
-<script>
-jQuery(document).ready(function($) {
-    $(document).on('click', 'a', function(e) {
-        var link = $(this);
-        if (link.length && link[0].hostname !== window.location.hostname) {
-            var confirmLeave = confirm('You are about to leave this site. Continue?');
-            if (!confirmLeave) {
-                e.preventDefault();
-            }
-        }
-    });
-});
-</script>
-
-
-
-
-
-
 </body>
-
 </html>
-

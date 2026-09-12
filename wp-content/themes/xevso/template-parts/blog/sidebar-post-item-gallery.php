@@ -46,7 +46,6 @@ $gallery_ids = explode( ',', $postgallerys );
             </div>
             <?php 
         }?>
-	
         <div class="blog-article">
             <div class="xevso-blog-top">
                 <div class="xevso-post-meta">
@@ -72,6 +71,6 @@ $gallery_ids = explode( ',', $postgallerys );
                     </a>
                 </div>
             </div>
-        </div> 
+        </div>
     </div>
 </div>

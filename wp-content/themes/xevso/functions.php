@@ -68,7 +68,3 @@ if( class_exists( 'CSF' ) ) {
 	require_once xevso_FILE_DIR . 'inc/css.php';
 	require_once xevso_FILE_DIR . 'inc/js.php';
 }
-
-
-
-

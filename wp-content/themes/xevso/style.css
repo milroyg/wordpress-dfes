@@ -30,13 +30,6 @@ Text Domain: xevso
 # 404 Page
 # Preloader 
 --------------------------------------------------------------*/
-.snap-scroll{
-	scroll-snap-align:start;
-	
-}
-.elementor-element elementor-element-43353ab e-con-full she-header-yes e-flex e-con e-parent e-lazyloaded she-header{
-	z-index:1;
-}
 .testi-content p {
     text-align: justify;
 }
@@ -680,68 +673,3 @@ textarea.wpcf7-form-control.wpcf7-textarea {
     z-index: 1;
 	cursor: pointer;
 }
-
-/* Header logo */
-.logo-container {
-    display: flex;
-    align-items: center;
-    gap: 20px; /* Adjust spacing between logos */
-}
-
-.logo-container .logo-1 img,
-.logo-container .logo-2 img {
-    max-height: 80px; /* Adjust size */
-    height: auto;
-    width: auto;
-}
-
-.site-header {
-    padding: 20px; /* Adjust padding */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Sitemap */
-.sitemap-wrapper {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
-    background: #f9f9f9;
-    border-radius: 8px;
-    font-family: Arial, sans-serif;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
-.sitemap-menu {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-}
-
-.sitemap-menu > li {
-    margin-bottom: 1rem;
-}
-
-.sitemap-menu li a {
-    color: #2c3e50;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 1rem;
-}
-
-.sitemap-menu li a:hover {
-    text-decoration: underline;
-    color: #0073aa;
-}
-
-.sitemap-menu li ul {
-    margin-top: 0.5rem;
-    padding-left: 1.5rem;
-    border-left: 2px solid #ddd;
-}
-
-.sitemap-menu li ul li {
-    margin: 0.5rem 0;
-}
-

@@ -26,7 +26,6 @@ $xevso_show_category = xevso_options('xevso_show_category', true);
                 <?php xevso_post_thumbnail(); ?>
             </div>
         <?php endif; ?>
-		
         <div class="blog-article">
             <div class="xevso-blog-top">
                 <div class="xevso-post-meta">

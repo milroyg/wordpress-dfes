@@ -1,4 +1,5 @@
 <?php
+
 require_once get_theme_file_path('/inc/class-tgm-plugin-activation.php');
 add_action( 'tgmpa_register', 'xevso_register_required_plugins' );
 
@@ -43,6 +44,11 @@ function xevso_register_required_plugins() {
 		array(
 			'name'      => esc_html__('Contact Form 7','xevso'),
 			'slug'      => 'contact-form-7',
+			'required'  => '',
+		),
+			array(
+			'name'      => esc_html__('ElementsKit Lite','xevso'),
+			'slug'      => 'elementskit-lite',
 			'required'  => '',
 		),
 	);
