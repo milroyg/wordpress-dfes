@@ -531,6 +531,7 @@ add_action('wp_enqueue_scripts', function () {
 
 // Register the shortcode
 add_shortcode('dmrp_map', function () {
+  wp_enqueue_style('dmp-css', plugins_url('assets/css/styles.css', __FILE__));
     ob_start(); ?>
     <div id="map-container" style="display: flex; height: 600px; width: 100%;">
         <div id="filter-container" style="width: 350px; background-color: #f8f9fa; padding: 20px; border-right: 1px solid #ccc; box-shadow: 2px 0 5px rgba(0,0,0,0.1); overflow-y: auto; font-family: Arial, sans-serif;">
