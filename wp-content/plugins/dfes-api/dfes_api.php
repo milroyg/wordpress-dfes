@@ -486,3 +486,29 @@ function dfes_cleanup_old_logs() {
 // =============================
 // Keep all admin UI in admin.php
 require_once plugin_dir_path(__FILE__) . 'admin.php';
+
+// =============================
+// 1️⃣1️⃣ LIVE CALLS CHARTS (SHORTCODES & SCRIPTS)
+// =============================
+// Load Chart.js and live calls charts script only when shortcode is used
+add_action('wp_enqueue_scripts', function () {
+  if (is_singular() && (
+      has_shortcode(get_post()->post_content, 'station_calls_chart') ||
+      has_shortcode(get_post()->post_content, 'taluka_calls_chart') ||
+      has_shortcode(get_post()->post_content, 'category_calls_chart')
+  )) {
+    wp_enqueue_script('chart-js', 'https://cdn.jsdelivr.net/npm/chart.js', [], null, true);
+    wp_enqueue_script('dfes-live-calls-charts', plugin_dir_url(__FILE__) . 'assets/js/live-calls-charts.js', ['chart-js'], null, true);
+  }
+});
+
+// Render the canvases (you can split or show all as needed)
+add_shortcode('station_calls_chart', function () {
+  return '<canvas id="stationChart" width="400" height="500"></canvas>';
+});
+add_shortcode('taluka_calls_chart', function () {
+  return '<canvas id="talukaChart" width="400" height="500"></canvas>';
+});
+add_shortcode('category_calls_chart', function () {
+  return '<canvas id="categoryChart" width="400" height="500"></canvas>';
+});

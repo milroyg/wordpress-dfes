@@ -1,6 +1,4 @@
 <?php
-//Live Calls Chart
-require_once get_template_directory() . '/inc/live-calls-charts.php';
 require_once get_template_directory() . '/inc/dmrp-map.php';
 
 //Live Vehicle
