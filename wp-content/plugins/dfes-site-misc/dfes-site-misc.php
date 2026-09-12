@@ -27,3 +27,15 @@ function strip_urls_from_cf7_email( $components, $contact_form, $submit ) {
 
   return $components;
 }
+
+add_action('wp_enqueue_scripts', 'dfes_site_misc_enqueue_scripts');
+add_action('login_enqueue_scripts', 'dfes_site_misc_enqueue_scripts');
+function dfes_site_misc_enqueue_scripts() {
+  wp_enqueue_script(
+    'dfes-site-misc',
+    plugin_dir_url(__FILE__) . 'assets/js/dfes-site-misc.js',
+    ['jquery'],
+    '1.1',
+    true
+  );
+}

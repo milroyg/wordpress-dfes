@@ -1,9 +1,4 @@
 <?php
-require_once get_template_directory() . '/inc/dmrp-map.php';
-
-//Live Vehicle
-require_once get_template_directory() . '/inc/live-vehicle.php';
-
 add_action('admin_enqueue_scripts', function () {
     // Remove WP's bundled TinyMCE
     wp_deregister_script('tinymce');
