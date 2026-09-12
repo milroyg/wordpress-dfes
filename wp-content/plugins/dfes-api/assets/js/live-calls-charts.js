@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Initialize all counts to 0
                 const categoryCounts = {};
-                predefinedTypes.forEach(type => categoryCounts[type] = 0);
+                predefinedTypes.forEach(type => categoryCounts[call_type] = 0);
 
                 // Only increment counts if type matches one of the predefined
                 data.forEach(call => {
