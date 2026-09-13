@@ -536,6 +536,8 @@ add_action('wp_enqueue_scripts', function () {
 
 // Register the shortcode
 add_shortcode('dmrp_map', function () {
+  wp_enqueue_script('chart-js', 'https://cdn.jsdelivr.net/npm/chart.js', [], null, true);
+  wp_enqueue_script('dfes-live-calls-charts', plugin_dir_url(__FILE__) . 'assets/js/live-calls-charts.js', ['chart-js'], null, true);
   wp_enqueue_style('dmp-css', plugins_url('assets/css/styles.css', __FILE__));
     ob_start(); ?>
     <div id="map-container" style="display: flex; height: 600px; width: 100%;">
