@@ -554,7 +554,7 @@
 
       const rowsHtml = dataToShow.map(item => {
         const timeHtml = `<div><span style="display:block; white-space:nowrap;">${item.date ? formatDisplayDate(item.date) : '-'}</span><span style="display:block;">${item.outtime || '-'}</span></div>`;
-        const description = `${item.description || '-'} near ${item.near || '-'} at ${item.at || '-'}`;
+        const description = `${item.activity_live || '-'} near ${item.near || '-'} at ${item.at || '-'}`;
         return `
           <tr>
             <td>${item.taluka || '-'}</td>
