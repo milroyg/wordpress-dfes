@@ -513,6 +513,10 @@ add_shortcode('taluka_calls_chart', function () {
 add_shortcode('category_calls_chart', function () {
   return '<canvas id="categoryChart" width="400" height="500"></canvas>';
 });
+add_shortcode('live_calls_map', function () {
+  wp_enqueue_style('dmp-css', plugins_url('assets/css/styles.css', __FILE__));
+  return '<div id="map" style="width: 100%; height: 500px;"></div>';
+});
 
 // =============================
 // 1️⃣2️⃣ DMRP MAP (SHORTCODE & ASSETS)
