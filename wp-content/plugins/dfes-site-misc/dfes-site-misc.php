@@ -39,3 +39,32 @@ function dfes_site_misc_enqueue_scripts() {
     true
   );
 }
+
+add_action('wp_footer', function() {
+  ?>
+  <button id="feedback-float-btn" title="Give Feedback Button">Feedback</button>
+  <style>
+    #feedback-float-btn {
+      position: fixed;
+      bottom: 200px;
+      right: 20px;
+      background-color: #D44500;
+      color: #FFFF;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      z-index: 9999;
+      transition: background-color 0.3s ease;
+    }
+
+    #feedback-float-btn:hover {
+      background-color: #191919;
+      float:right;
+    }
+  </style>
+<?php
+});
